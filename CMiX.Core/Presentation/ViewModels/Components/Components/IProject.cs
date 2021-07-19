@@ -5,18 +5,18 @@ using System.Collections.ObjectModel;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentation.ViewModels.Components.Factories;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public interface IProject
+    public interface IProject : IComponent, IGetSetModel
     {
         Communicator Communicator { get; set; }
 
+        //IComponentFactory ComponentFactory { get; set; }
         ObservableCollection<Component> Components { get; set; }
         ObservableCollection<Asset> Assets { get; set; }
         ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
-        void RemoveComponent(Component component);
-        void AddComponent(Component component);
     }
 }

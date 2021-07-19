@@ -17,7 +17,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public ObservableCollection<Component> Components
         {
             get => this.Project.Components;
-            //set => SetAndNotify(ref _outlinerDragDropManager, value);
         }
 
         public IProject Project { get; set; }

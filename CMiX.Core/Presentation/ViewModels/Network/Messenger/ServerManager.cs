@@ -12,8 +12,9 @@ namespace CMiX.Core.Presentation.ViewModels.Network
         public ServerManager(IMessageService messageService, IDialogService dialogService)
         {
             MessageService = messageService;
-            ServerFactory = new ServerFactory();
             DialogService = dialogService;
+
+            ServerFactory = new ServerFactory();
 
             AddServerCommand = new RelayCommand(p => AddServer());
             DeleteServerCommand = new RelayCommand(p => DeleteServer(p as Server));

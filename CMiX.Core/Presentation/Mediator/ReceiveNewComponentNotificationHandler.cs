@@ -9,23 +9,27 @@ using MediatR;
 
 namespace CMiX.Core.Presentation.Mediator
 {
-    public class ReceiveAddNewComponentNotificationHandler : INotificationHandler<ReceiveAddNewComponentNotification>
+    public class ReceiveAddNewComponentNotificationHandler //: INotificationHandler<ReceiveAddNewComponentNotification>
     {
-        public ReceiveAddNewComponentNotificationHandler(IComponentDatabase componentDatabase)
+        public ReceiveAddNewComponentNotificationHandler()
         {
-            _componentDatabase = componentDatabase;
-        }
 
-        private readonly IComponentDatabase _componentDatabase;
-
-        public Task Handle(ReceiveAddNewComponentNotification notification, CancellationToken cancellationToken)
-        {
-            var component = _componentDatabase.GetComponent(notification.ID);
-            var newComponent = component.ComponentFactory.CreateComponent(notification.ComponentModel);
-            component.AddComponent(newComponent);
-            _componentDatabase.AddComponent(newComponent);
-            Console.WriteLine("ReceiveMessageAddComponent Count is " + component.Components.Count);
-            return Task.CompletedTask;
         }
+        //public ReceiveAddNewComponentNotificationHandler(IComponentDatabase componentDatabase)
+        //{
+        //    _componentDatabase = componentDatabase;
+        //}
+
+        //private readonly IComponentDatabase _componentDatabase;
+
+        //public Task Handle(ReceiveAddNewComponentNotification notification, CancellationToken cancellationToken)
+        //{
+        //    //var component = _componentDatabase.GetComponent(notification.ID);
+        //    //var newComponent = component.ComponentFactory.CreateComponent(notification.ComponentModel);
+        //    //component.AddComponent(newComponent);
+        //    //_componentDatabase.AddComponent(newComponent);
+        //    //Console.WriteLine("ReceiveMessageAddComponent Count is " + component.Components.Count);
+        //    //return Task.CompletedTask;
+        //}
     }
 }

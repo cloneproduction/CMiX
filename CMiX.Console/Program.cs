@@ -16,14 +16,14 @@ namespace CMiX.Console
             ConfigureServices(serviceCollection);
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            var componentDatabase = serviceProvider.GetService<IComponentDatabase>();
+            //var componentDatabase = serviceProvider.GetService<IComponentDatabase>();
 
             Settings settings = new Settings("Pouet", "Pouet", "192.168.1.3", 2222);
 
             //var projectModel = new ProjectModel();
             Project Project = serviceProvider.GetRequiredService<Project>();
 
-            componentDatabase.AddComponent(Project);
+            //componentDatabase.AddComponent(Project);
 
             var communicator = new Communicator(Project);
             Project.SetCommunicator(communicator);
@@ -39,7 +39,7 @@ namespace CMiX.Console
 
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IComponentDatabase, ComponentDatabase>();
+            //services.AddSingleton<IComponentDatabase, ComponentDatabase>();
             services.AddSingleton<IMediator, Mediator>();
             services.AddMediatR(typeof(AddNewComponentNotification));
             services.AddSingleton<Project>();

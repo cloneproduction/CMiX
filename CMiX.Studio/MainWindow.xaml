@@ -5,11 +5,13 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
     xmlns:Scheduling="clr-namespace:CMiX.Studio.Views.Scheduler"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     Title="C-MiX Studio"
     Width="1200"
     Height="800"
+    
     Style="{StaticResource MainWindowStyle}"
     mc:Ignorable="d"
     md:DialogServiceViews.IsRegistered="True">
@@ -35,77 +37,8 @@
     </Window.CommandBindings>-->
 
     <DockPanel>
-        <Border 
-            Padding="2"
-            DockPanel.Dock="Top"
-            BorderBrush="{DynamicResource SuperHighDarkerColor}"
-            Margin="0, 0, 0, 2"
-            Background="{DynamicResource HighHighDarkerColor}" >
-            <Menu
-                Height="32"
-                Style="{StaticResource MenuDefault}"
-                Margin="0, 0, 0, 0"
-                HorizontalAlignment="Left"
-                VerticalContentAlignment="Center">
-                <MenuItem
-                    Style="{DynamicResource TopMenuItem}"
-                    Padding="8,0"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="center"
-                    Header="File">
-                    <MenuItem
-                        Header="New"
-                        Padding="0, 0, 64, 0"
-                        Command="{Binding NewProjectCommand}">
-                    </MenuItem>
-                    <MenuItem
-                        Header="Open"
-                        Command="{Binding OpenProjectCommand}"/>
-                    <MenuItem
-                        Header="Save"
-                        Command="{Binding SaveProjectCommand}"/>
-                    <MenuItem
-                        Header="Save As"
-                        Command="{Binding SaveAsProjectCommand}"/>
-                    <MenuItem
-                        Header="Quit"
-                        Command="{Binding CloseWindowCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
-                </MenuItem>
-                <MenuItem
-                        Style="{DynamicResource TopMenuItem}"
-                        Padding="8,0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="center"
-                        Header="Edit">
-                    <MenuItem
-                        Header="Undo    Ctrl + Z"
-                        Command="{Binding UndoCommand}"/>
-                    <MenuItem
-                        Header="Redo    Ctrl + Y"
-                        Command="{Binding RedoCommand}"/>
-                </MenuItem>
-                <MenuItem
-                    Style="{DynamicResource TopMenuItem}"
-                    Padding="8,0"
-                    HorizontalContentAlignment="Stretch"
-                    VerticalContentAlignment="center"
-                    Header="Compo">
-                    <MenuItem
-                        Header="New Composition"
-                        Command="{Binding AddCompositionCommand}"/>
-                    <MenuItem
-                        Header="Delete"/>
-                    <MenuItem
-                        Header="Duplicate"/>
-                    <Separator BorderThickness="0.5" Margin="0, 8, 8, 8" BorderBrush="{StaticResource DarkColor}"/>
-                    <MenuItem
-                        Header="Import"/>
-                    <MenuItem
-                        Header="Export"/>
-                    </MenuItem>
-            </Menu>
-        </Border>
+        <Menus:MainMenu DataContext="{Binding MainMenu}"
+                        DockPanel.Dock="Top"/>
         <Border 
             DockPanel.Dock="Bottom" 
             VerticalAlignment="Center" 

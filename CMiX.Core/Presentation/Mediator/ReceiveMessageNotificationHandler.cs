@@ -13,23 +13,23 @@ namespace CMiX.Core.Presentation.Mediator
 {
     public class ReceiveMessageNotificationHandler : INotificationHandler<ReceiveMessageNotification>
     {
-        public ReceiveMessageNotificationHandler(IMediator mediator, IComponentDatabase componentDatabase)
+        public ReceiveMessageNotificationHandler(IMediator mediator)
         {
-            _componentDatabase = componentDatabase;
+            //_componentDatabase = componentDatabase;
             _mediator = mediator;
         }
 
-        private readonly IComponentDatabase _componentDatabase;
+        //private readonly IComponentDatabase _componentDatabase;
         private readonly IMediator _mediator;
 
         public Task Handle(ReceiveMessageNotification notification, CancellationToken cancellationToken)
         {
             Message message = notification.Message;
             var id = message.IDs.First();
-            var component = _componentDatabase.GetComponent(id);
+            //var component = _componentDatabase.GetComponent(id);
 
-            Console.WriteLine("ReceiveMessageNotification by Component with ID : " + component.ID);
-            component.ReceiveMessage(message);
+            //Console.WriteLine("ReceiveMessageNotification by Component with ID : " + component.ID);
+            //component.ReceiveMessage(message);
             return Task.CompletedTask;
         }
     }

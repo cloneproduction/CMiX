@@ -8,9 +8,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components.Factories
 {
     public class CompositionFactory : IComponentFactory
     {
-        public CompositionFactory(Project parentProject)
+        public CompositionFactory(IProject parentProject)
         {
-            ParentProject = parentProject;
+            ParentProject = parentProject as Project;
         }
 
         private Project ParentProject { get; set; }

@@ -203,6 +203,9 @@
     <Compile Include="Views\Mask\Mask.xaml.cs">
       <DependentUpon>Mask.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Menus\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Outliner\Outliner.xaml.cs">
       <DependentUpon>Outliner.xaml</DependentUpon>
     </Compile>
@@ -395,6 +398,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Mask\Mask.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Menus\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

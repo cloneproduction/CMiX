@@ -5,6 +5,8 @@ using CMiX.Core.Presentation.ViewModels.Network;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
+using MvvmDialogs.DialogFactories;
+using MvvmDialogs.DialogTypeLocators;
 using System;
 using System.Windows;
 
@@ -26,16 +28,18 @@ namespace CMiX
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IComponentDatabase, ComponentDatabase>();
+            services.AddSingleton<IDialogFactory, CustomFrameworkDialogFactory>();
+            services.AddSingleton<IDialogTypeLocator, CustomTypeLocator>();
+            services.AddSingleton<IDialogService, DialogService>();
+
             services.AddSingleton<IMediator, Mediator>();
 
-            services.AddSingleton<IDialogService, DialogService>();
+
             services.AddSingleton<IMessageService, MessageService>();
             services.AddTransient<IProject, Project>();
 
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
-
             services.AddMediatR(typeof(AddNewComponentNotification));
 
             var provider = services.BuildServiceProvider();

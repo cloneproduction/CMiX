@@ -13,7 +13,7 @@ using MediatR;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ViewModel, IControl, IDisposable
+    public abstract class Component : ViewModel, IComponent, IControl, IDisposable
     {
         public Component()
         {
@@ -46,7 +46,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public Visibility Visibility { get; set; }
         public ICommand VisibilityCommand { get; set; }
-        internal IComponentFactory ComponentFactory { get; set; }
+        public IComponentFactory ComponentFactory { get; set; }
 
 
         private Guid _id;

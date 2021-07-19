@@ -4,6 +4,7 @@
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentation.ViewModels.Components.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 using MediatR;
@@ -15,66 +16,57 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class MainViewModel : ViewModel
     {
-        public MainViewModel(IProject project, IMessageService messageService)
+        public MainViewModel(IProject project, IMessageService messageService, IDialogService dialogService)
         {
-            DialogService = new DialogService(new CustomFrameworkDialogFactory(), new CustomTypeLocator());
 
-            var model = new ProjectModel();
             CurrentProject = project as Project;
-
-            ServerManager = new ServerManager(messageService, DialogService);
-
-            AssetManager = new AssetManager(project, DialogService);
+            DialogService = dialogService;
+            ServerManager = new ServerManager(messageService, dialogService);
+            AssetManager = new AssetManager(project, dialogService);
 
             SchedulerManager = new SchedulerManager(project);
+
+            MainMenu = new MainMenu(project, dialogService);
             ComponentManager = new ComponentManager(project);
             Outliner = new Outliner(project);
             PlaylistEditor = new PlaylistEditor(project);
 
             //SchedulerManager.SetCommunicator(componentCommunicator);
 
-            AddCompositionCommand = new RelayCommand(p => AddComposition());
             CloseWindowCommand = new RelayCommand(p => CloseWindow(p));
             MinimizeWindowCommand = new RelayCommand(p => MinimizeWindow(p));
             MaximizeWindowCommand = new RelayCommand(p => MaximizeWindow(p));
 
-            //NewProjectCommand = new RelayCommand(p => NewProject());
-            //OpenProjectCommand = new RelayCommand(p => OpenProject());
-            //SaveProjectCommand = new RelayCommand(p => SaveProject());
-            //SaveAsProjectCommand = new RelayCommand(p => SaveAsProject());
+
 
             //UndoCommand = new RelayCommand(p => Undo());
             //RedoCommand = new RelayCommand(p => Redo());
         }
 
+        //DialogService = dialogService; //new DialogService(new CustomFrameworkDialogFactory(), new CustomTypeLocator());
 
-        public ICommand NewProjectCommand { get; }
-        public ICommand SaveProjectCommand { get; }
-        public ICommand SaveAsProjectCommand { get; }
-        public ICommand OpenProjectCommand { get; }
+
         public ICommand CloseWindowCommand { get; }
         public ICommand MinimizeWindowCommand { get; }
         public ICommand MaximizeWindowCommand { get; }
 
         //public ICommand UndoCommand { get; }
         //public ICommand RedoCommand { get; }
-        public ICommand AddCompositionCommand { get; }
+
 
         //public Mementor Mementor { get; set; }
 
 
         private readonly IDialogService DialogService;
         public Outliner Outliner { get; set; }
-
         public ServerManager ServerManager { get; set; }
         public MessageService MessageService { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
         public ServerManager MessengerManager { get; set; }
-
         public AssetManager AssetManager { get; set; }
         public ComponentManager ComponentManager { get; set; }
+        public MainMenu MainMenu { get; set; } 
         public SchedulerManager SchedulerManager { get; set; }
-
 
 
         private Project _currentProject;
@@ -131,14 +123,9 @@ namespace CMiX.Core.Presentation.ViewModels
             window.Close();
         }
 
-        public void AddComposition()
-        {
-            ComponentManager.CreateComponent(CurrentProject);
-            //CurrentProject.Fa.CreateComposition(CurrentProject);
-        }
 
 
-        //public string FolderPath { get; set; }
+
         //public void Undo()
         //{
         //    //Mementor.Undo();
@@ -150,70 +137,7 @@ namespace CMiX.Core.Presentation.ViewModels
         //}
 
 
-        //private void NewProject()
-        //{
-        //    Project project = new Project(new ProjectModel(), Mediator);
-        //    Projects.Clear();
-        //    Projects.Add(project);
-        //    CurrentProject = project;
-        //    AssetManager = new AssetManager(project);
-        //}
 
-        //private void OpenProject()
-        //{
-        //    OpenFileDialogSettings settings = new OpenFileDialogSettings();
-        //    settings.Filter = "Project (*.cmix)|*.cmix";
-
-        //    bool? success = DialogService.ShowOpenFileDialog(this, settings);
-        //    if (success == true)
-        //    {
-        //        string folderPath = settings.FileName;
-        //        if (settings.FileName.Trim() != string.Empty) // Check if you really have a file name 
-        //        {
-        //            //CurrentProject.ComponentsInEditing.Clear();
-        //            Projects.Clear();
-
-        //            byte[] data = File.ReadAllBytes(folderPath);
-        //            NewProject();
-        //            CurrentProject.SetViewModel(Serializer.Deserialize<ProjectModel>(data));
-        //            FolderPath = folderPath;
-        //        }
-        //    }
-        //}
-
-        //private void SaveProject()
-        //{
-        //    //System.Windows.Forms.SaveFileDialog savedialog = new System.Windows.Forms.SaveFileDialog();
-        //    //if (!string.IsNullOrEmpty(FolderPath))
-        //    //{
-        //    //    var data = Serializer.Serialize(CurrentProject.GetModel());
-        //    //    File.WriteAllBytes(FolderPath, data);
-        //    //}
-        //    //else
-        //    //{
-        //    //    SaveAsProject();
-        //    //}
-        //}
-
-        //private bool SaveAsProject()
-        //{
-        //    SaveFileDialogSettings settings = new SaveFileDialogSettings();
-        //    settings.Filter = "Project (*.cmix)|*.cmix";
-        //    settings.DefaultExt = "cmix";
-        //    settings.AddExtension = true;
-
-        //    bool? success = DialogService.ShowSaveFileDialog(this, settings);
-        //    if (success == true && CurrentProject != null)
-        //    {
-        //        var data = Serializer.Serialize(CurrentProject.GetModel());
-        //        string folderPath = settings.FileName;
-        //        File.WriteAllBytes(folderPath, data);
-        //        FolderPath = folderPath;
-        //        return true;
-        //    }
-        //    else
-        //        return false;
-        //}
 
 
     }

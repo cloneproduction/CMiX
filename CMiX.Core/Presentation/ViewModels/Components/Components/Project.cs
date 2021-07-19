@@ -18,17 +18,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Project()
         {
             ID = new Guid("11223344-5566-7788-99AA-BBCCDDEEFF00");
-
-            //DialogService = new DialogService(new CustomFrameworkDialogFactory(), new CustomTypeLocator());
             Assets = new ObservableCollection<Asset>();
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
-
             Visibility = new Visibility(new VisibilityModel());
             ComponentFactory = new CompositionFactory(this);
             Communicator = new Communicator(this);
         }
 
-        //public IDialogService DialogService { get; set; }
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
 
 
