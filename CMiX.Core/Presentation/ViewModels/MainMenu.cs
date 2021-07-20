@@ -81,7 +81,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void SaveProject()
         {
-            System.Windows.Forms.SaveFileDialog savedialog = new System.Windows.Forms.SaveFileDialog();
             if (!string.IsNullOrEmpty(FolderPath))
             {
                 var data = Serializer.Serialize(Project.GetModel());
@@ -99,7 +98,7 @@ namespace CMiX.Core.Presentation.ViewModels
             settings.AddExtension = true;
 
             bool? success = DialogService.ShowSaveFileDialog(this, settings);
-            if (success == true && Project != null)
+            if (success == true)
             {
                 var data = Serializer.Serialize(Project.GetModel());
                 string folderPath = settings.FileName;

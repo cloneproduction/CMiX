@@ -14,6 +14,7 @@ namespace CMiX.Core.Presentation.ViewModels
         Communicator Communicator { get; set; }
 
         //IComponentFactory ComponentFactory { get; set; }
+        ObservableCollection<Server> Servers { get; set; }
         ObservableCollection<Component> Components { get; set; }
         SortableObservableCollection<Asset> Assets { get; set; }
         ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }

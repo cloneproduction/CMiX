@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Presentation.Views;
 using MvvmDialogs;
@@ -9,9 +10,9 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 {
     public class ServerManager : ViewModel
     {
-        public ServerManager(IMessageService messageService, IDialogService dialogService)
+        public ServerManager(IProject project, IDialogService dialogService)
         {
-            MessageService = messageService;
+            Project = project;
             DialogService = dialogService;
 
             ServerFactory = new ServerFactory();
@@ -30,8 +31,14 @@ namespace CMiX.Core.Presentation.ViewModels.Network
         private IDialogService DialogService { get; set; }
 
 
-        public IMessageService MessageService { get; set; }
+        private IProject Project { get; set; }
         private ServerFactory ServerFactory { get; set; }
+
+
+        public ObservableCollection<Server> Servers
+        {
+            get => Project.Servers;
+        }
 
 
         private Server _selectedServer;
@@ -53,7 +60,7 @@ namespace CMiX.Core.Presentation.ViewModels.Network
         public void AddServer()
         {
             var messenger = ServerFactory.CreateServer();
-            MessageService.Servers.Add(messenger);
+            Project.Servers.Add(messenger);
         }
 
         private void DeleteServer(Server server)
@@ -61,11 +68,11 @@ namespace CMiX.Core.Presentation.ViewModels.Network
             if (server != null)
             {
                 server.Stop();
-                MessageService.Servers.Remove(server);
+                Project.Servers.Remove(server);
 
-                if (MessageService.Servers.Count > 0)
+                if (Project.Servers.Count > 0)
                 {
-                    SelectedServer = MessageService.Servers[0];
+                    SelectedServer = Project.Servers[0];
                     return;
                 }
 

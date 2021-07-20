@@ -8,31 +8,32 @@ using CMiX.Core.Models.Component;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Project : Component, IProject
     {
-        public Project()
+        public Project(IMessageService messageService)
         {
+            MessageService = messageService;
+
             ID = new Guid("11223344-5566-7788-99AA-BBCCDDEEFF00");
             Assets = new SortableObservableCollection<Asset>();
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
+            Servers = new ObservableCollection<Server>();
             Visibility = new Visibility(new VisibilityModel());
             ComponentFactory = new CompositionFactory(this);
             Communicator = new Communicator(this);
         }
 
+
+        public IMessageService MessageService { get; set; }
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
+        public ObservableCollection<Server> Servers { get; set; }
+        public SortableObservableCollection<Asset> Assets { get; set; }
 
-
-        private SortableObservableCollection<Asset> _assets;
-        public SortableObservableCollection<Asset> Assets
-        {
-            get => _assets;
-            set => SetAndNotify(ref _assets, value);
-        }
 
 
         public override void SetCommunicator(Communicator communicator)

@@ -12,9 +12,9 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class MainViewModel
     {
-        public MainViewModel(IProject project, IMessageService messageService, IDialogService dialogService)
+        public MainViewModel(IProject project, IDialogService dialogService)
         {
-            ServerManager = new ServerManager(messageService, dialogService);
+            ServerManager = new ServerManager(project, dialogService);
 
             MainWindowController = new MainWindowController(dialogService);
             MainMenu = new MainMenu(project, dialogService);
@@ -29,9 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Outliner Outliner { get; set; }
         public ServerManager ServerManager { get; set; }
-        public MessageService MessageService { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
-        public ServerManager MessengerManager { get; set; }
         public AssetManager AssetManager { get; set; }
         public ComponentManager ComponentManager { get; set; }
         public MainMenu MainMenu { get; set; }
@@ -39,24 +37,3 @@ namespace CMiX.Core.Presentation.ViewModels
         public MainWindowController MainWindowController { get; set; }
     }
 }
-
-
-//public void Undo()
-//{
-//    //Mementor.Undo();
-//}
-
-//public void Redo()
-//{
-//    //Mementor.Redo();
-//}
-
-
-//UndoCommand = new RelayCommand(p => Undo());
-//RedoCommand = new RelayCommand(p => Redo());
-
-//public ICommand UndoCommand { get; }
-//public ICommand RedoCommand { get; }
-
-
-//public Mementor Mementor { get; set; }

@@ -112,7 +112,7 @@
                     Height="125"
                     DockPanel.Dock="Top"
                     ContextMenu="{DynamicResource MessengerManagerContextMenu}"
-                    ItemsSource="{Binding MessageService.Servers}">
+                    ItemsSource="{Binding Servers}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <DockPanel>
