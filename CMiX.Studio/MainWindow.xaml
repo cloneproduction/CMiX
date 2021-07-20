@@ -7,14 +7,14 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
     xmlns:Scheduling="clr-namespace:CMiX.Studio.Views.Scheduler"
-    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+
+    xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
     Title="C-MiX Studio"
     Width="1200"
     Height="800"
     
     Style="{StaticResource MainWindowStyle}"
-    mc:Ignorable="d"
-    md:DialogServiceViews.IsRegistered="True">
+    mc:Ignorable="d">
 
     <Window.InputBindings>
         <KeyBinding 
@@ -37,8 +37,22 @@
     </Window.CommandBindings>-->
 
     <DockPanel>
-        <Menus:MainMenu DataContext="{Binding MainMenu}"
-                        DockPanel.Dock="Top"/>
+        <Border DockPanel.Dock="Top" Background="{DynamicResource HighHighDarkerColor}">
+            <DockPanel LastChildFill="False">
+                
+                <Windows:MainWindowController 
+                    DataContext="{Binding MainWindowController}"
+                    DockPanel.Dock="Right"/>
+                
+                <Menus:MainMenu 
+                    DataContext="{Binding MainMenu}"
+                    DockPanel.Dock="Left"/>
+                
+            </DockPanel>
+        </Border>
+
+
+
         <Border 
             DockPanel.Dock="Bottom" 
             VerticalAlignment="Center" 

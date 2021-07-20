@@ -9,7 +9,6 @@ using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
-using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -18,7 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Project()
         {
             ID = new Guid("11223344-5566-7788-99AA-BBCCDDEEFF00");
-            Assets = new ObservableCollection<Asset>();
+            Assets = new SortableObservableCollection<Asset>();
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
             Visibility = new Visibility(new VisibilityModel());
             ComponentFactory = new CompositionFactory(this);
@@ -28,8 +27,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
 
 
-        private ObservableCollection<Asset> _assets;
-        public ObservableCollection<Asset> Assets
+        private SortableObservableCollection<Asset> _assets;
+        public SortableObservableCollection<Asset> Assets
         {
             get => _assets;
             set => SetAndNotify(ref _assets, value);

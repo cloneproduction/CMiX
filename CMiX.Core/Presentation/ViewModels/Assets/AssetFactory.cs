@@ -12,9 +12,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public AssetDirectory CreateRootDirectory(string name)
         {
-            AssetDirectory assetDirectory = new AssetDirectory(name);
-            assetDirectory.IsRoot = true;
-            return assetDirectory;
+            return new AssetDirectory(name) { IsRoot = true };
         }
 
         public AssetDirectory CreateDirectory(string name)

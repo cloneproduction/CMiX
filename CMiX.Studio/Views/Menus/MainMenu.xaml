@@ -12,9 +12,10 @@
             DockPanel.Dock="Top"
             BorderBrush="{DynamicResource SuperHighDarkerColor}"
             Margin="0, 0, 0, 2"
-            Background="{DynamicResource HighHighDarkerColor}" >
+            Background="{DynamicResource HighHighDarkerColor}"
+        WindowChrome.IsHitTestVisibleInChrome="True">
         <Menu
-                Height="32"
+                Height="25"
                 Style="{StaticResource MenuDefault}"
                 Margin="0, 0, 0, 0"
                 HorizontalAlignment="Left"
@@ -45,17 +46,17 @@
                         CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
             </MenuItem>
             <MenuItem
-                        Style="{DynamicResource TopMenuItem}"
-                        Padding="8,0"
-                        HorizontalContentAlignment="Stretch"
-                        VerticalContentAlignment="center"
-                        Header="Edit">
+                Style="{DynamicResource TopMenuItem}"
+                Padding="8,0"
+                HorizontalContentAlignment="Stretch"
+                VerticalContentAlignment="center"
+                Header="Edit">
                 <MenuItem
-                        Header="Undo    Ctrl + Z"
-                        Command="{Binding UndoCommand}"/>
+                    Header="Undo    Ctrl + Z"
+                    Command="{Binding UndoCommand}"/>
                 <MenuItem
-                        Header="Redo    Ctrl + Y"
-                        Command="{Binding RedoCommand}"/>
+                    Header="Redo    Ctrl + Y"
+                    Command="{Binding RedoCommand}"/>
             </MenuItem>
             <MenuItem
                     Style="{DynamicResource TopMenuItem}"
@@ -64,17 +65,13 @@
                     VerticalContentAlignment="center"
                     Header="Compo">
                 <MenuItem
-                        Header="New Composition"
-                        Command="{Binding AddCompositionCommand}"/>
-                <MenuItem
-                        Header="Delete"/>
-                <MenuItem
-                        Header="Duplicate"/>
+                    Header="New Composition"
+                    Command="{Binding AddCompositionCommand}"/>
+                <MenuItem Header="Delete"/>
+                <MenuItem Header="Duplicate"/>
                 <Separator BorderThickness="0.5" Margin="0, 8, 8, 8" BorderBrush="{StaticResource DarkColor}"/>
-                <MenuItem
-                        Header="Import"/>
-                <MenuItem
-                        Header="Export"/>
+                <MenuItem Header="Import"/>
+                <MenuItem Header="Export"/>
             </MenuItem>
         </Menu>
     </Border>

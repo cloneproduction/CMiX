@@ -8,7 +8,7 @@
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome 
-                    CaptionHeight="30"
+                    CaptionHeight="25"
                     GlassFrameThickness="0"
                     CornerRadius="0"
                     NonClientFrameEdges="None"
@@ -26,8 +26,7 @@
                         <Grid >
                             <Border 
                                 Background="Transparent"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="0,30,0,0">
+                                BorderThickness="0,0,0,0">
                                 <Border.Style>
                                     <Style TargetType="{x:Type Border}">
                                         <Style.Triggers>
@@ -59,41 +58,6 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <DockPanel 
-                                    Height="30"
-                                    VerticalAlignment="Top"
-                                    LastChildFill="False">
-                                    <TextBlock 
-                                        Margin="10,0,0,0"
-                                        VerticalAlignment="Center"
-                                        DockPanel.Dock="Left"
-                                        FontSize="12"
-                                        Opacity="0.70"
-                                        Foreground="{DynamicResource TextBase}"
-                                        Text="{TemplateBinding Title}" />
-                                    <Button x:Name="btnClose"
-                                        Command="{Binding CloseWindowCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        Style="{DynamicResource ButtonCloseWindowStyle}"
-                                        DockPanel.Dock="Right"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" >
-                                    </Button>
-                                    <Button x:Name="btnRestore"
-                                        Command="{Binding MaximizeWindowCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        Style="{DynamicResource ButtonMaximizeWindowStyle}"
-                                        DockPanel.Dock="Right"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" >
-                                    </Button>
-                                    <Button x:Name="btnMinimize"
-                                        Command="{Binding MinimizeWindowCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        Style="{DynamicResource ButtonMinimizeWindowStyle}"
-                                        VerticalContentAlignment="Bottom"
-                                        DockPanel.Dock="Right"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" >
-                                    </Button>
-                                </DockPanel>
                             </Border>
                         </Grid>
                     </Border>
@@ -116,11 +80,12 @@
                     <Border
                         x:Name="border"
                         Background="Transparent"
-                        CornerRadius="0, 4, 0, 0"
                         SnapsToDevicePixels="True" Padding="8">
-                        <Image x:Name="image" Source="{DynamicResource CloseTab}" Opacity="0.75"/>
+                        <Image x:Name="image" 
+                               Source="{DynamicResource CloseTab}" 
+                               Opacity="0.75"/>
                     </Border>
-                    <ControlTemplate.Triggers>
+                    <!--<ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="Red" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0"/>
@@ -129,7 +94,7 @@
                             <Setter TargetName="border" Property="Background" Value="Maroon" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0"/>
                         </Trigger>
-                    </ControlTemplate.Triggers>
+                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

@@ -4,12 +4,15 @@
 using System.IO;
 using System.Windows.Input;
 using Ceras;
+using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Assets;
+using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
 
-namespace CMiX.Core.Presentation.ViewModels.Components.Components
+namespace CMiX.Core.Presentation.ViewModels
 {
     public class MainMenu : ViewModel
     {
@@ -44,13 +47,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components.Components
 
         public void AddComposition()
         {
-           var composition = ComponentFactory.CreateComponent();
+            var composition = ComponentFactory.CreateComponent();
             Project.AddComponent(composition);
         }
 
         private void NewProject()
         {
-            Project = new Project();
+            var projectModel = new ProjectModel();
+            Project.SetViewModel(projectModel);
+            Project.Assets.Add(new AssetDirectory("RESOURCES") { IsRoot = true });
+            //Project = new Project();
             //AssetManager = new AssetManager(project);
         }
 

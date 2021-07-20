@@ -13,7 +13,6 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using CMiX.Core.Presentation.Extensions;
-using CMiX.Core.Presentation.ViewModels.Components;
 using GongSolutions.Wpf.DragDrop;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
@@ -25,12 +24,9 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public AssetManager(IProject project, IDialogService dialogService)
         {
             AssetFactory = new AssetFactory();
-
             DialogService = dialogService;
             Project = project;
-            //Assets = project.Assets;
 
-            this.Assets.Add(AssetFactory.CreateRootDirectory("RESOURCES"));
 
             AssetsFlatten = new ObservableCollection<Asset>();
             this.AssetsFlatten.CollectionChanged += FlattenAssets_CollectionChanged;
@@ -46,37 +42,64 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             RelinkAssetsCommand = new RelayCommand(p => RelinkAssets());
         }
 
+
         private IProject Project { get; set; }
         private AssetFactory AssetFactory { get; set; }
 
 
-        private ObservableCollection<Asset> _assets;
-        public ObservableCollection<Asset> Assets
+
+        public ICommand RenameAssetCommand { get; set; }
+        public ICommand AddAssetCommand { get; set; }
+        public ICommand DeleteAssetsCommand { get; set; }
+        public ICommand DeleteSelectedItemCommand { get; set; }
+        public ICommand RelinkAssetsCommand { get; set; }
+
+
+        public IDialogService DialogService { get; set; }
+
+
+
+        private ObservableCollection<Asset> _selectedItems;
+        public ObservableCollection<Asset> SelectedItems
+        {
+            get => _selectedItems;
+            set => SetAndNotify(ref _selectedItems, value);
+        }
+
+        private bool _canAddAsset = false;
+        public bool CanAddAsset
+        {
+            get => _canAddAsset;
+            set => SetAndNotify(ref _canAddAsset, value);
+        }
+
+        private bool _canRenameAsset = false;
+        public bool CanRenameAsset
+        {
+            get => _canRenameAsset;
+            set => SetAndNotify(ref _canRenameAsset, value);
+        }
+
+        private bool _canDeleteAsset = false;
+        public bool CanDeleteAsset
+        {
+            get => _canDeleteAsset;
+            set => SetAndNotify(ref _canDeleteAsset, value);
+        }
+
+        private bool _canRelinkAsset = false;
+        public bool CanRelinkAsset
+        {
+            get => _canRelinkAsset;
+            set => SetAndNotify(ref _canRelinkAsset, value);
+        }
+
+
+        public SortableObservableCollection<Asset> Assets
         {
             get => Project.Assets;
-            set => SetAndNotify(ref _assets, value);
         }
 
-        public void InitCollectionView()
-        {
-            GeometryViewSource = new CollectionViewSource();
-            GeometryViewSource.Source = this.AssetsFlatten;
-            GeometryCollectionView = GeometryViewSource.View;
-            GeometryCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetGeometry.Name), ListSortDirection.Ascending));
-            GeometryCollectionView.Filter = FilterGeometry;
-
-            ImageViewSource = new CollectionViewSource();
-            ImageViewSource.Source = this.AssetsFlatten;
-            ImageCollectionView = ImageViewSource.View;
-            ImageCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetTexture.Name), ListSortDirection.Ascending));
-            ImageCollectionView.Filter = FilterImage;
-        }
-
-        private void FlattenAssets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            GeometryCollectionView.Refresh();
-            ImageCollectionView.Refresh();
-        }
 
         public CollectionViewSource GeometryViewSource { get; set; }
         private ICollectionView _geometryCollectionView;
@@ -101,6 +124,29 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             set => SetAndNotify(ref _assetsFlatten, value);
         }
 
+
+        public void InitCollectionView()
+        {
+            GeometryViewSource = new CollectionViewSource();
+            GeometryViewSource.Source = this.AssetsFlatten;
+            GeometryCollectionView = GeometryViewSource.View;
+            GeometryCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetGeometry.Name), ListSortDirection.Ascending));
+            GeometryCollectionView.Filter = FilterGeometry;
+
+            ImageViewSource = new CollectionViewSource();
+            ImageViewSource.Source = this.AssetsFlatten;
+            ImageCollectionView = ImageViewSource.View;
+            ImageCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetTexture.Name), ListSortDirection.Ascending));
+            ImageCollectionView.Filter = FilterImage;
+        }
+
+        private void FlattenAssets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            GeometryCollectionView.Refresh();
+            ImageCollectionView.Refresh();
+        }
+
+
         public void BuildAssetFlattenCollection(ObservableCollection<Asset> assets)
         {
             foreach (Asset asset in assets)
@@ -115,7 +161,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public bool FilterGeometry(object item) => item is AssetGeometry ? true : false;
         public bool FilterImage(object item) => item is AssetTexture ? true : false;
-
 
 
         public void RenameAsset()
@@ -251,52 +296,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             return item;
         }
 
-        public ICommand RenameAssetCommand { get; set; }
-        public ICommand AddAssetCommand { get; set; }
-        public ICommand DeleteAssetsCommand { get; set; }
-        public ICommand DeleteSelectedItemCommand { get; set; }
-        public ICommand RelinkAssetsCommand { get; set; }
 
-
-        public IDialogService DialogService { get; set; }
-
-
-
-        private ObservableCollection<Asset> _selectedItems;
-        public ObservableCollection<Asset> SelectedItems
+        public void SortAssets()
         {
-            get => _selectedItems;
-            set => SetAndNotify(ref _selectedItems, value);
+            Assets.Sort(c => c.Name);
+            Assets.Sort(c => c.Ponderation.ToString());
         }
-
-        private bool _canAddAsset = false;
-        public bool CanAddAsset
-        {
-            get => _canAddAsset;
-            set => SetAndNotify(ref _canAddAsset, value);
-        }
-
-        private bool _canRenameAsset = false;
-        public bool CanRenameAsset
-        {
-            get => _canRenameAsset;
-            set => SetAndNotify(ref _canRenameAsset, value);
-        }
-
-        private bool _canDeleteAsset = false;
-        public bool CanDeleteAsset
-        {
-            get => _canDeleteAsset;
-            set => SetAndNotify(ref _canDeleteAsset, value);
-        }
-
-        private bool _canRelinkAsset = false;
-        public bool CanRelinkAsset
-        {
-            get => _canRelinkAsset;
-            set => SetAndNotify(ref _canRelinkAsset, value);
-        }
-
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -350,12 +355,14 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                             directoryItem.SortAssets();
                             directoryItem.IsExpanded = true;
                         }
-                        else if (this.Assets[0] is AssetDirectory)
+                        else
                         {
                             this.AssetsFlatten.Add(item);
-                            ((AssetDirectory)this.Assets[0]).Assets.Add(item);
-                            ((AssetDirectory)this.Assets[0]).SortAssets();
-                            ((AssetDirectory)this.Assets[0]).IsExpanded = true;
+                            Assets.Add(item);
+                            this.SortAssets();
+                            //((AssetDirectory)this.Assets[0]).Assets.Add(item);
+                            //((AssetDirectory)this.Assets[0]).SortAssets();
+                            //((AssetDirectory)this.Assets[0]).IsExpanded = true;
                         }
                     }
                 }

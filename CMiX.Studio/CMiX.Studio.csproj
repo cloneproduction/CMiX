@@ -302,6 +302,9 @@
     <Compile Include="Views\Geometry\Transform\Transform.xaml.cs">
       <DependentUpon>Transform.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Windows\MainWindowController.xaml.cs">
+      <DependentUpon>MainWindowController.xaml</DependentUpon>
+    </Compile>
     <None Include="packages.config" />
     <Compile Include="Views\Beat\BeatModifier.xaml.cs">
       <DependentUpon>BeatModifier.xaml</DependentUpon>
@@ -600,6 +603,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Texture\Texture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\MainWindowController.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

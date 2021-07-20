@@ -10,7 +10,7 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
              md:DialogServiceViews.IsRegistered="True"
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="551.333" d:DesignWidth="250.667">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -20,7 +20,7 @@
                 <Setter Property="Background" Value="Transparent"/>
                 <Setter Property="Margin" Value="0, 1" />
                 <Style.Triggers>
-                    
+
                     <DataTrigger Binding="{Binding FileExist}" Value="false">
                         <Setter Property="Background" Value="Maroon" />
                     </DataTrigger>
@@ -44,10 +44,10 @@
                             <Setter Property="Background" Value="Maroon" />
                         </MultiDataTrigger.Setters>
                     </MultiDataTrigger>
-                    
+
                 </Style.Triggers>
             </Style>
-            
+
 
             <HierarchicalDataTemplate 
                 x:Key="AssetDirectoryTemplate"
@@ -79,7 +79,7 @@
                 </Border>
             </HierarchicalDataTemplate>
 
-            
+
             <DataTemplate x:Key="AssetTextureTemplate" DataType="{x:Type Assets:AssetTexture}">
                 <Border Style="{StaticResource BaseBorderStyle}">
                     <DockPanel Margin="0, 1">
@@ -110,7 +110,7 @@
                         Command="{Binding AddAssetCommand}"
                         Header="New Folder">
                     <MenuItem.Icon>
-                        <Image Source="{StaticResource Add}" />
+                        <Image Source="{DynamicResource Add}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -118,7 +118,7 @@
                         Command="{Binding RenameAssetCommand}"
                         Header="Rename">
                     <MenuItem.Icon>
-                        <Image Width="10" Height="10" Source="{StaticResource Rename}" />
+                        <Image Width="10" Height="10" Source="{DynamicResource Rename}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -126,7 +126,7 @@
                     Command="{Binding DeleteAssetsCommand}"
                     Header="Delete">
                     <MenuItem.Icon>
-                        <Image Width="10" Height="10" Source="{StaticResource DeleteLayer}" />
+                        <Image Width="10" Height="10" Source="{DynamicResource DeleteLayer}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -138,26 +138,39 @@
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>
-            
+
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Background="{StaticResource HighDarkerColor}">
-        <Controls:MultiSelectTreeView 
-            BorderThickness="0"
-            Style="{DynamicResource TreeViewDefault}"
-            ItemTemplateSelector="{StaticResource AssetTemplateSelector}"
-            ItemContainerStyle="{StaticResource TreeViewMultiSelectItem}"
-            SelectedItems="{Binding SelectedItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-            ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-            Background="Transparent"
-            AllowDrop="True"
-            dd:DragDrop.IsDragSource="True"
-            dd:DragDrop.IsDropTarget="True"
-            dd:DragDrop.DragHandler="{Binding}"
-            dd:DragDrop.DropHandler="{Binding}"
-            ItemsSource="{Binding Assets, Mode=TwoWay}"
-            ContextMenu="{DynamicResource ResourceContextMenu}">
-        </Controls:MultiSelectTreeView>
+    <Border Background="{DynamicResource HighDarkerColor}">
+        <DockPanel>
+            <Border VerticalAlignment="Center"
+                    Padding="8"
+                    DockPanel.Dock="Top"
+                    Height="40">
+                <TextBlock DockPanel.Dock="Left" 
+                           Text="ASSETS" 
+                           FontWeight="SemiBold" 
+                           VerticalAlignment="Center"/>
+            </Border>
+
+            <Controls:MultiSelectTreeView 
+                BorderThickness="0"
+                Style="{StaticResource TreeViewDefault}"
+                ItemTemplateSelector="{StaticResource AssetTemplateSelector}"
+                ItemContainerStyle="{StaticResource TreeViewMultiSelectItem}"
+                SelectedItems="{Binding SelectedItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
+                Background="Transparent"
+                AllowDrop="True"
+                dd:DragDrop.IsDragSource="True"
+                dd:DragDrop.IsDropTarget="True"
+                dd:DragDrop.DragHandler="{Binding}"
+                dd:DragDrop.DropHandler="{Binding}"
+                ItemsSource="{Binding Assets}"
+                ContextMenu="{DynamicResource ResourceContextMenu}">
+            </Controls:MultiSelectTreeView>
+
+        </DockPanel>
     </Border>
 </UserControl>

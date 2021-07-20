@@ -8,7 +8,7 @@
              xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
              xmlns:Network="clr-namespace:CMiX.Core.Presentation.ViewModels.Network;assembly=CMiX.Core"
              xmlns:dd="urn:gong-wpf-dragdrop"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" d:DataContext="{d:DesignInstance Type=Network:ServerManager}"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
              d:DesignHeight="631.333" d:DesignWidth="290.667">
@@ -26,7 +26,7 @@
                     Command="{Binding Data.SelectedServer.StartCommand}"
                     Header="Start">
                     <MenuItem.Icon>
-                        <Image Margin="1" Opacity="0.75" Source="{StaticResource Play}"/>
+                        <Image Margin="1" Opacity="0.75" Source="{DynamicResource Play}"/>
                     </MenuItem.Icon>
                 </MenuItem>
                 
@@ -34,7 +34,7 @@
                           IsEnabled="{Binding Data.SelectedServer.ServerIsRunning}"
                           Header="Stop">
                     <MenuItem.Icon>
-                        <Image Margin="3" Opacity="0.75" Source="{StaticResource Stop}"/>
+                        <Image Margin="3" Opacity="0.75" Source="{DynamicResource Stop}"/>
                     </MenuItem.Icon>
                 </MenuItem>
 
@@ -60,7 +60,7 @@
                     Command="{Binding EditMessengerSettingsCommand}"
                     CommandParameter="{Binding SelectedServer}">
                     <MenuItem.Icon>
-                        <Image Opacity="0.75" Margin="2" Source="{StaticResource Settings}"/>
+                        <Image Opacity="0.75" Margin="2" Source="{DynamicResource Settings}"/>
                     </MenuItem.Icon>
                 </MenuItem>
 
@@ -69,18 +69,9 @@
                     CommandParameter="{Binding Data.SelectedServer, Source={StaticResource serverManager}}"
                     Header="Delete">
                     <MenuItem.Icon>
-                        <Image Source="{StaticResource DeleteLayer}"/>
+                        <Image Source="{DynamicResource DeleteLayer}"/>
                     </MenuItem.Icon>
                 </MenuItem>
-                <!--<Separator BorderThickness="0.5" Margin="4" BorderBrush="{DynamicResource DarkColor}"/>-->
-                <!--<MenuItem 
-                    Header="Delete"
-                    Command="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Views:ServerManager}}, Path=DataContext.DeleteMessengerCommand}"
-                    CommandParameter="{Binding Path=DataContext, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:Server}}}">
-                    <MenuItem.Icon>
-                        <Image Opacity="0.75" Margin="2" Source="{DynamicResource DeleteLayer}"/>
-                    </MenuItem.Icon>
-                </MenuItem>-->
             </ContextMenu>
         </ResourceDictionary>
     </UserControl.Resources>
@@ -88,7 +79,7 @@
 
     <Border
             HorizontalAlignment="Stretch"
-            Background="{StaticResource HighDarkerColor}">
+            Background="{DynamicResource HighDarkerColor}">
         <StackPanel>
             <Border 
                     VerticalAlignment="Center"
@@ -100,9 +91,9 @@
                         Command="{Binding AddServerCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
                         DockPanel.Dock="Right" 
-                        Style="{StaticResource ButtonImage}">
+                        Style="{DynamicResource ButtonImage}">
                         <Button.Content>
-                            <Image Margin="16" Source="{StaticResource Add}"/>
+                            <Image Margin="16" Source="{DynamicResource Add}"/>
                         </Button.Content>
                     </Button>
                     <TextBlock DockPanel.Dock="Left" Text="NETWORK" FontWeight="SemiBold" VerticalAlignment="Center"/>

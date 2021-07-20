@@ -41,8 +41,6 @@ namespace CMiX
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddMediatR(typeof(AddNewComponentNotification));
-
-            var provider = services.BuildServiceProvider();
         }
     }
 }

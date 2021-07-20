@@ -9,9 +9,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class ComponentManager : ViewModel
     {
-        public ComponentManager(IProject project)
+        public ComponentManager(IComponent component)
         {
-            Project = project;
+            Component = component;
 
             CreateComponentCommand = new RelayCommand(p => CreateComponent(p as Component));
             DuplicateComponentCommand = new RelayCommand(p => DuplicateComponent(p as Component));
@@ -26,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ICommand RenameComponentCommand { get; }
 
 
-        private IProject Project { get; set; }
+        private IComponent Component { get; set; }
 
 
         private Component _selectedComponent;
@@ -42,8 +42,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void CreateComponent(Component component)
         {
-            if(component is null)
-                component = this.Project as Component;
+            if (component is null)
+                component = this.Component as Component;
 
             var newComponent = component.ComponentFactory.CreateComponent();
             newComponent.SetCommunicator(component.Communicator);
@@ -56,10 +56,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             component.Dispose();
             if (component is Composition)
             {
-                Project.RemoveComponent(component);
+                Component.RemoveComponent(component);
                 return;
             }
-            var selectedParent = GetParent(Project.Components);
+            var selectedParent = GetParent(Component.Components);
             selectedParent.RemoveComponent(component);
         }
 
