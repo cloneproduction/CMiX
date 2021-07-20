@@ -5,10 +5,11 @@ using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ComboBox<T> : ViewModel, IControl
+    public class ComboBox<T> : ObservableObject, IControl
     {
         public ComboBox(ComboBoxModel<T> comboBoxModel)
         {
@@ -26,7 +27,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _selection;
             set
             {
-                SetAndNotify(ref _selection, value);
+                SetProperty(ref _selection, value);
                 Communicator?.SendMessage(new MessageUpdateViewModel(this));
                 Console.WriteLine("Combobox Selection is " + Selection.ToString());
             }

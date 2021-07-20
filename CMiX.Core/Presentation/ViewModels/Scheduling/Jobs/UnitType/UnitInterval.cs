@@ -1,14 +1,16 @@
 ﻿using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class UnitInterval : ViewModel
+    public class UnitInterval : ObservableObject
     {
         public UnitInterval(int interval)
         {
             Interval = interval;
-            AddCommand = new RelayCommand(p => Add());
-            SubCommand = new RelayCommand(p => Sub());
+            AddCommand = new RelayCommand(Add);
+            SubCommand = new RelayCommand(Sub);
         }
 
         public ICommand AddCommand { get; set; }
@@ -18,7 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public int Interval
         {
             get => _interval;
-            set => SetAndNotify(ref _interval, value);
+            set => SetProperty(ref _interval, value);
         }
 
         private void Add()

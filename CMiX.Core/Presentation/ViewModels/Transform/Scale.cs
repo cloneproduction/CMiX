@@ -1,13 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Scale : ViewModel, IControl
+    public class Scale : ObservableObject, IControl
     {
         public Scale(string name, ScaleModel scaleModel)
         {
@@ -39,7 +40,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool IsUniform
         {
             get => _isUniform;
-            set => SetAndNotify(ref _isUniform, value);
+            set => SetProperty(ref _isUniform, value);
         }
 
 

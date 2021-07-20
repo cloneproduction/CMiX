@@ -7,11 +7,12 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class JobScheduler : ViewModel, IControl
+    public class JobScheduler : ObservableObject, IControl
     {
         public JobScheduler(JobSchedulerModel jobSchedulerModel)
         {

@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class None : ViewModel, IControl, IAnimMode
+    public class None : ObservableObject, IControl, IAnimMode
     {
         public None(AnimParameter animParameter, NoneModel noneModel)
         {
@@ -22,7 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool IsEnabled
         {
             get => _IsEnabled;
-            set => SetAndNotify(ref _IsEnabled, value);
+            set => SetProperty(ref _IsEnabled, value);
         }
 
 

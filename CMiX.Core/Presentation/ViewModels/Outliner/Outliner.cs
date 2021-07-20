@@ -3,10 +3,11 @@
 
 using System.Collections.ObjectModel;
 using CMiX.Core.Presentation.ViewModels.Components;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Outliner : ViewModel
+    public class Outliner : ObservableObject
     {
         public Outliner(IComponent component)
         {
@@ -25,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public OutlinerDragDropManager OutlinerDragDropManager
         {
             get => _outlinerDragDropManager;
-            set => SetAndNotify(ref _outlinerDragDropManager, value);
+            set => SetProperty(ref _outlinerDragDropManager, value);
         }
     }
 }

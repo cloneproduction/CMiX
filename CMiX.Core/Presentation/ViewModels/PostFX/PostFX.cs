@@ -1,13 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class PostFX : ViewModel, IControl
+    public class PostFX : ObservableObject, IControl
     {
         public PostFX(PostFXModel postFXModel)
         {
@@ -31,7 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _transforms;
             set
             {
-                SetAndNotify(ref _transforms, value);
+                SetProperty(ref _transforms, value);
 
             }
         }
@@ -42,7 +43,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _view;
             set
             {
-                SetAndNotify(ref _view, value);
+                SetProperty(ref _view, value);
 
             }
         }

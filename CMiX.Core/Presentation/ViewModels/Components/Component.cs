@@ -9,11 +9,13 @@ using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using MediatR;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ViewModel, IComponent, IControl, IDisposable
+    public abstract class Component : ObservableRecipient, IComponent, IControl, IDisposable
     {
         public Component()
         {
@@ -21,6 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Name = this.GetType().Name;
 
             Components = new ObservableCollection<Component>();
+            WeakReferenceMessenger.Default.Register<Component, MessageAddComponent>(this, (r, m) => r.Receive(m));
             //Communicator = new ComponentCommunicator(this);
         }
 
@@ -30,18 +33,37 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public abstract void UnsetCommunicator(Communicator communicator);
 
 
-        internal void ReceiveMessage(Message message)
+        protected override void OnActivated()
         {
-            Console.WriteLine(this.GetType().Name + "ReceiveMessage of type" + message.GetType().Name);
-
-            if (message is MessageAddComponent)
-            {
-                var messageAddComponent = message as MessageAddComponent;
-                var newComponent = ComponentFactory.CreateComponent(messageAddComponent.ComponentModel);
-                this.AddComponent(newComponent);
-                //_componentDatabase.AddComponent(newComponent);
-            }
+            // Using a method group...
+            WeakReferenceMessenger.Default.Register<Component, MessageAddComponent>(this, (r, m) => r.Receive(m));
+            // ...or a lambda expression
+            //Messenger.Register<MyViewModel, LoggedInUserRequestMessage>(this, (r, m) =>
+            //{
+            //    // Handle the message here
+            //});
         }
+
+        private void Receive(MessageAddComponent message)
+        {
+            Console.WriteLine(this.GetType().Name + " ReceivedMessageAddComponent");
+            //this.Messenger.Send(new MessageAddComponent(this));
+            // Handle the message here
+        }
+
+
+        //internal void ReceiveMessage(Message message)
+        //{
+        //    Console.WriteLine(this.GetType().Name + "ReceiveMessage of type" + message.GetType().Name);
+
+        //    if (message is MessageAddComponent)
+        //    {
+        //        var messageAddComponent = message as MessageAddComponent;
+        //        var newComponent = ComponentFactory.CreateComponent(messageAddComponent.ComponentModel);
+        //        this.AddComponent(newComponent);
+        //        //_componentDatabase.AddComponent(newComponent);
+        //    }
+        //}
 
 
         public Visibility Visibility { get; set; }
@@ -53,57 +75,62 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Guid ID
         {
             get => _id;
-            set => SetAndNotify(ref _id, value);
+            set => SetProperty(ref _id, value);
         }
 
         private string _name;
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private bool _isRenaming;
         public bool IsRenaming
         {
             get => _isRenaming;
-            set => SetAndNotify(ref _isRenaming, value);
+            set => SetProperty(ref _isRenaming, value);
         }
 
         private bool _isSelected;
         public bool IsSelected
         {
             get => _isSelected;
-            set => SetAndNotify(ref _isSelected, value);
+            set => SetProperty(ref _isSelected, value);
         }
 
         private bool _isExpanded;
         public bool IsExpanded
         {
             get => _isExpanded;
-            set => SetAndNotify(ref _isExpanded, value);
+            set => SetProperty(ref _isExpanded, value);
         }
 
         private ObservableCollection<Component> _components;
         public ObservableCollection<Component> Components
         {
             get => _components;
-            set => SetAndNotify(ref _components, value);
+            set => SetProperty(ref _components, value);
         }
 
         public IMediator Mediator { get; set; }
 
         public async void AddComponent(Component component)
         {
+            Console.WriteLine(this.GetType().Name + " SendMessageAddComponent");
+            WeakReferenceMessenger.Default.Send(new MessageAddComponent(this));
+            //Messenger.Send(new MessageAddComponent(this));
+
             component.SetCommunicator(this.Communicator);
             Components.Add(component);
             IsExpanded = true;
+
 
             //if (Mediator != null)
             //{
             //    await Mediator.Publish(new AddNewComponentNotification(this.ID, component));
             //}
-            Communicator?.SendMessage(new MessageAddComponent(component));
+            //Communicator?.SendMessage(new MessageAddComponent(component));
         }
 
         public void RemoveComponent(Component component)

@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Camera : ViewModel, IControl
+    public class Camera : ObservableObject, IControl
     {
         public Camera(MasterBeat beat, CameraModel cameraModel)
         {
@@ -34,21 +35,21 @@ namespace CMiX.Core.Presentation.ViewModels
         public string Rotation
         {
             get => _rotation;
-            set => SetAndNotify(ref _rotation, value);
+            set => SetProperty(ref _rotation, value);
         }
 
         private string _lookAt;
         public string LookAt
         {
             get => _lookAt;
-            set => SetAndNotify(ref _lookAt, value);
+            set => SetProperty(ref _lookAt, value);
         }
 
         private string _view;
         public string View
         {
             get => _view;
-            set => SetAndNotify(ref _view, value);
+            set => SetProperty(ref _view, value);
         }
 
 

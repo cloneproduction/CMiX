@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class ToRunType : ViewModel
+    public class ToRunType : ObservableObject
     {
         public ToRunType()
         {
@@ -26,7 +27,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             {
                 if (SelectedToRunType != null)
                     SetScheduler = SelectedToRunType.SetScheduler;
-                SetAndNotify(ref _selectedToRunType, value);
+                SetProperty(ref _selectedToRunType, value);
             }
         }
 

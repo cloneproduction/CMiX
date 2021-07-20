@@ -2,10 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-
+using CommunityToolkit.Mvvm.ComponentModel;
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class GeometryRotation : ViewModel
+    public class GeometryRotation : ObservableObject
     {
         #region CONSTRUCTORS
         public GeometryRotation()
@@ -26,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 //if (Mementor != null)
                 //    Mementor.PropertyChange(this, nameof(Mode));
-                SetAndNotify(ref _Mode, value);
+                SetProperty(ref _Mode, value);
                 //SendMessages(MessageAddress + nameof(Mode), Mode);
             }
         }
@@ -39,7 +39,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 //if (Mementor != null)
                 //    Mementor.PropertyChange(this, nameof(RotationX));
-                SetAndNotify(ref _RotationX, value);
+                SetProperty(ref _RotationX, value);
                 //SendMessages(MessageAddress + nameof(RotationX), RotationX);
             }
         }
@@ -52,7 +52,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 //if (Mementor != null)
                 //    Mementor.PropertyChange(this, nameof(RotationY));
-                SetAndNotify(ref _RotationY, value);
+                SetProperty(ref _RotationY, value);
                 //SendMessages(MessageAddress + nameof(RotationY), RotationY);
             }
         }
@@ -65,7 +65,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 //if (Mementor != null)
                 //    Mementor.PropertyChange(this, nameof(RotationZ));
-                SetAndNotify(ref _RotationZ, value);
+                SetProperty(ref _RotationZ, value);
                 //SendMessages(MessageAddress + nameof(RotationZ), RotationZ);
             }
         }

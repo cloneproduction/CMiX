@@ -7,23 +7,25 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Visibility : ViewModel, IControl
+    public class Visibility : ObservableObject, IControl
     {
         public Visibility(VisibilityModel visibilityModel)
         {
             IsVisible = true;
             ParentIsVisible = true;
-            SetVisibilityCommand = new RelayCommand(p => SetVisibility(p as Component));
+            SetVisibilityCommand = new RelayCommand<Component>(SetVisibility);
         }
 
         public Visibility(Visibility parentVisibility, VisibilityModel visibilityModel)
         {
             IsVisible = true;
             ParentIsVisible = parentVisibility.ParentIsVisible && parentVisibility.IsVisible;
-            SetVisibilityCommand = new RelayCommand(p => SetVisibility(p as Component));
+            SetVisibilityCommand = new RelayCommand<Component>(SetVisibility);
         }
 
 
@@ -37,7 +39,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             get => _isVisible;
             set
             {
-                SetAndNotify(ref _isVisible, value);
+                SetProperty(ref _isVisible, value);
                 Communicator?.SendMessage(new MessageUpdateViewModel(this));
                 Console.WriteLine("Visibility Is " + IsVisible);
             }
@@ -47,7 +49,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public bool ParentIsVisible
         {
             get => _parentIsVisible;
-            set => SetAndNotify(ref _parentIsVisible, value);
+            set => SetProperty(ref _parentIsVisible, value);
         }
 
 

@@ -1,15 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
-using CMiX.Core.Models.Beat;
-using CMiX.Core.Network.Communicators;
-using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.Controls;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using CMiX.Core.Models;
+using CMiX.Core.Models.Beat;
+using CMiX.Core.Network.Communicators;
+using CMiX.Core.Presentation.Controls;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
@@ -34,7 +34,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             tapPeriods = new List<double>();
             tapTime = new List<double>();
 
-            TapCommand = new RelayCommand(p => Tap());
+            TapCommand = new RelayCommand(Tap);
         }
 
         public Guid ID { get; set; }
@@ -74,21 +74,21 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public override double Period
         {
             get => _period;
-            set => SetAndNotify(ref _period, value);
+            set => SetProperty(ref _period, value);
         }
 
         private double[] _periods;
         public double[] Periods
         {
             get => _periods;
-            set => SetAndNotify(ref _periods, value);
+            set => SetProperty(ref _periods, value);
         }
 
         private AnimatedDouble _animatedDouble;
         public AnimatedDouble AnimatedDouble
         {
             get => _animatedDouble;
-            set => SetAndNotify(ref _animatedDouble, value);
+            set => SetProperty(ref _animatedDouble, value);
         }
 
 
@@ -114,8 +114,8 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Period = Periods[Index + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
             this.NotifyBeatChange(Period);
-            Notify(nameof(BPM));
-            Communicator?.SendMessage(new MessageUpdateViewModel(this));
+            OnPropertyChanged(nameof(BPM));
+            //Communicator?.SendMessage(new MessageUpdateViewModel(this));
         }
 
 

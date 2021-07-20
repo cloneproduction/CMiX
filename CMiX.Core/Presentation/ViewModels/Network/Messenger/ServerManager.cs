@@ -4,11 +4,13 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Presentation.Views;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Network
 {
-    public class ServerManager : ViewModel
+    public class ServerManager : ObservableObject
     {
         public ServerManager(IProject project, IDialogService dialogService)
         {
@@ -17,10 +19,10 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 
             ServerFactory = new ServerFactory();
 
-            AddServerCommand = new RelayCommand(p => AddServer());
-            DeleteServerCommand = new RelayCommand(p => DeleteServer(p as Server));
-            RenameServerCommand = new RelayCommand(p => RenameServer(p as Server));
-            EditMessengerSettingsCommand = new RelayCommand(p => EditMessengerSettings(p as Server));
+            AddServerCommand = new RelayCommand(AddServer);
+            DeleteServerCommand = new RelayCommand<Server>(DeleteServer);
+            RenameServerCommand = new RelayCommand<Server>(RenameServer);
+            EditMessengerSettingsCommand = new RelayCommand<Server>(EditMessengerSettings);
         }
 
 
@@ -45,7 +47,7 @@ namespace CMiX.Core.Presentation.ViewModels.Network
         public Server SelectedServer
         {
             get => _selectedServer;
-            set => SetAndNotify(ref _selectedServer, value);
+            set => SetProperty(ref _selectedServer, value);
         }
 
 

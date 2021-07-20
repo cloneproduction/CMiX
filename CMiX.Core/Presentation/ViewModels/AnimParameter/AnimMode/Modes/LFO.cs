@@ -5,11 +5,12 @@ using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class LFO : ViewModel, IControl, IAnimMode
+    public class LFO : ObservableObject, IControl, IAnimMode
     {
         public LFO(LFOModel lfoModel)
         {

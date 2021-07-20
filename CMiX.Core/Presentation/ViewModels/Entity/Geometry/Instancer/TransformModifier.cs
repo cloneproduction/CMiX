@@ -1,25 +1,28 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using System;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TransformModifier : ViewModel, IControl
+    public class TransformModifier : ObservableObject, IControl
     {
         public TransformModifier(MasterBeat beat)
         {
             //this.ID = instancerModel.ID;
             TransformModifiers = new ObservableCollection<ITransformModifier>();
             Factory = new TransformModifierFactory(beat);
-            CreateTransformModifierCommand = new RelayCommand(p => CreateTransformModifier((TransformModifierNames)p));
-            RemoveTransformModifierCommand = new RelayCommand(p => RemoveTransformModifier(p as ITransformModifier));
+
+            CreateTransformModifierCommand = new RelayCommand<TransformModifierNames>(CreateTransformModifier);
+            RemoveTransformModifierCommand = new RelayCommand<ITransformModifier>(RemoveTransformModifier);
         }
 
 
@@ -33,7 +36,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ObservableCollection<ITransformModifier> TransformModifiers
         {
             get => _transformModifiers;
-            set => SetAndNotify(ref _transformModifiers, value);
+            set => SetProperty(ref _transformModifiers, value);
         }
         public Communicator Communicator { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Guid ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

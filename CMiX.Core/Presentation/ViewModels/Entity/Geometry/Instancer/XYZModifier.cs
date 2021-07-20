@@ -1,17 +1,18 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Collections.Generic;
+using System.Windows.Media.Media3D;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Observer;
-using System;
-using System.Collections.Generic;
-using System.Windows.Media.Media3D;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class XYZModifier : ViewModel, IControl, IModifier, ISubject, IObserver
+    public class XYZModifier : ObservableObject, IControl, IModifier, ISubject, IObserver
     {
         public XYZModifier(string name, Vector3D vector3D, MasterBeat beat, XYZModifierModel xYZModifierModel)
         {
@@ -92,35 +93,35 @@ namespace CMiX.Core.Presentation.ViewModels
         public int IsExpanded
         {
             get => _isExpanded;
-            set => SetAndNotify(ref _isExpanded, value);
+            set => SetProperty(ref _isExpanded, value);
         }
 
         private int _isExpandedX;
         public int IsExpandedX
         {
             get => _isExpandedX;
-            set => SetAndNotify(ref _isExpandedX, value);
+            set => SetProperty(ref _isExpandedX, value);
         }
 
         private int _isExpandedY;
         public int IsExpandedY
         {
             get => _isExpandedY;
-            set => SetAndNotify(ref _isExpandedY, value);
+            set => SetProperty(ref _isExpandedY, value);
         }
 
         private int _isExpandedZ;
         public int IsExpandedZ
         {
             get => _isExpandedZ;
-            set => SetAndNotify(ref _isExpandedZ, value);
+            set => SetProperty(ref _isExpandedZ, value);
         }
 
         private string _name;
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         public AnimParameter X { get; set; }

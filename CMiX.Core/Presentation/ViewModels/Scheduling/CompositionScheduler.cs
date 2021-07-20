@@ -6,10 +6,11 @@ using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Communicators;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class CompositionScheduler : ViewModel, IControl
+    public class CompositionScheduler : ObservableObject, IControl
     {
         public CompositionScheduler(CompositionSchedulerModel compositionSchedulerModel, ObservableCollection<Playlist> playlists)
         {
@@ -28,7 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
 

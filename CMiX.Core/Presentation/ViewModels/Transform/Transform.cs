@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Observer;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Transform : ViewModel, IControl, IObserver
+    public class Transform : ObservableObject, IControl, IObserver
     {
         public Transform(TransformModel transformModel)
         {
@@ -32,7 +33,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _is3D;
             set
             {
-                SetAndNotify(ref _is3D, value);
+                SetProperty(ref _is3D, value);
 
             }
         }

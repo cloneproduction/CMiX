@@ -1,17 +1,19 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using MvvmDialogs;
 using System;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Settings : ViewModel, IModalDialogViewModel
+    public class Settings : ObservableObject, IModalDialogViewModel
     {
         public Settings(string name, string topic, string ip, int port)
         {
@@ -19,14 +21,12 @@ namespace CMiX.Core.Presentation.ViewModels
             Topic = topic;
             IP = ip;
             Port = port;
-
             CanApply = false;
-            ApplyCommand = new RelayCommand(p => Apply());
 
-            OkCommand = new RelayCommand(p => Ok(p as Window));
-            CancelCommand = new RelayCommand(p => Cancel(p as Window));
-            
-            CloseWindowCommand = new RelayCommand(p => Cancel(p as Window));
+            ApplyCommand = new RelayCommand(Apply);
+            OkCommand = new RelayCommand<Window>(Ok);
+            CancelCommand = new RelayCommand<Window>(Cancel);
+            CloseWindowCommand = new RelayCommand<Window>(Cancel);
         }
 
         private bool CanApplySettings()
@@ -49,14 +49,14 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool OkIsFocused
         {
             get => _okIsFocused;
-            set => SetAndNotify(ref _okIsFocused, value);
+            set => SetProperty(ref _okIsFocused, value);
         }
 
         private bool _canApply;
         public bool CanApply
         {
             get => _canApply;
-            set => SetAndNotify(ref _canApply, value);
+            set => SetProperty(ref _canApply, value);
         }
 
         private string _name;
@@ -65,7 +65,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _name;
             set
             {
-                SetAndNotify(ref _name, value);
+                SetProperty(ref _name, value);
                 CanApply = true;
             }
         }
@@ -76,7 +76,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _topic;
             set
             {
-                SetAndNotify(ref _topic, value);
+                SetProperty(ref _topic, value);
                 CanApply = true;
             }
         }
@@ -87,7 +87,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _ip;
             set
             {
-                SetAndNotify(ref _ip, value);
+                SetProperty(ref _ip, value);
                 CanApply = true;
             }
         }
@@ -98,7 +98,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _port;
             set
             {
-                SetAndNotify(ref _port, value);
+                SetProperty(ref _port, value);
                 CanApply = true;
             }
         }
@@ -107,7 +107,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public string ErrorMessage
         {
             get => _errorMessage;
-            set => SetAndNotify(ref _errorMessage, value);
+            set => SetProperty(ref _errorMessage, value);
         }
 
         public void Ok(Window window)

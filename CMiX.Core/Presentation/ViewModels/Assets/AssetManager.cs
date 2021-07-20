@@ -13,13 +13,15 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using CMiX.Core.Presentation.Extensions;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class AssetManager : ViewModel, IDropTarget, IDragSource
+    public class AssetManager : ObservableObject, IDropTarget, IDragSource
     {
         public AssetManager(IProject project, IDialogService dialogService)
         {
@@ -36,10 +38,10 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
             InitCollectionView();
 
-            AddAssetCommand = new RelayCommand(p => AddAsset());
-            DeleteAssetsCommand = new RelayCommand(p => DeleteAssets());
-            RenameAssetCommand = new RelayCommand(p => RenameAsset());
-            RelinkAssetsCommand = new RelayCommand(p => RelinkAssets());
+            AddAssetCommand = new RelayCommand(AddAsset);
+            DeleteAssetsCommand = new RelayCommand(DeleteAssets);
+            RenameAssetCommand = new RelayCommand(RenameAsset);
+            RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
 
@@ -63,35 +65,35 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public ObservableCollection<Asset> SelectedItems
         {
             get => _selectedItems;
-            set => SetAndNotify(ref _selectedItems, value);
+            set => SetProperty(ref _selectedItems, value);
         }
 
         private bool _canAddAsset = false;
         public bool CanAddAsset
         {
             get => _canAddAsset;
-            set => SetAndNotify(ref _canAddAsset, value);
+            set => SetProperty(ref _canAddAsset, value);
         }
 
         private bool _canRenameAsset = false;
         public bool CanRenameAsset
         {
             get => _canRenameAsset;
-            set => SetAndNotify(ref _canRenameAsset, value);
+            set => SetProperty(ref _canRenameAsset, value);
         }
 
         private bool _canDeleteAsset = false;
         public bool CanDeleteAsset
         {
             get => _canDeleteAsset;
-            set => SetAndNotify(ref _canDeleteAsset, value);
+            set => SetProperty(ref _canDeleteAsset, value);
         }
 
         private bool _canRelinkAsset = false;
         public bool CanRelinkAsset
         {
             get => _canRelinkAsset;
-            set => SetAndNotify(ref _canRelinkAsset, value);
+            set => SetProperty(ref _canRelinkAsset, value);
         }
 
 
@@ -106,7 +108,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public ICollectionView GeometryCollectionView
         {
             get => _geometryCollectionView;
-            set => SetAndNotify(ref _geometryCollectionView, value);
+            set => SetProperty(ref _geometryCollectionView, value);
         }
 
         public CollectionViewSource ImageViewSource { get; set; }
@@ -114,14 +116,14 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public ICollectionView ImageCollectionView
         {
             get => _imageCollectionView;
-            set => SetAndNotify(ref _imageCollectionView, value);
+            set => SetProperty(ref _imageCollectionView, value);
         }
 
         private ObservableCollection<Asset> _assetsFlatten;
         public ObservableCollection<Asset> AssetsFlatten
         {
             get => _assetsFlatten;
-            set => SetAndNotify(ref _assetsFlatten, value);
+            set => SetProperty(ref _assetsFlatten, value);
         }
 
 

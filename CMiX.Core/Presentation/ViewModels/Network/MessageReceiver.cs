@@ -7,11 +7,12 @@ using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 using MediatR;
 
 namespace CMiX.Core.MessageService
 {
-    public class MessageReceiver : ViewModel
+    public class MessageReceiver : ObservableObject
     {
         public MessageReceiver(IMediator mediator)
         {
@@ -49,35 +50,35 @@ namespace CMiX.Core.MessageService
         public string IP
         {
             get => _ip;
-            set => SetAndNotify(ref _ip, value);
+            set => SetProperty(ref _ip, value);
         }
 
         private string _topic;
         public string Topic
         {
             get => _topic;
-            set => SetAndNotify(ref _topic, value);
+            set => SetProperty(ref _topic, value);
         }
 
         private int _port;
         public int Port
         {
             get => _port;
-            set => SetAndNotify(ref _port, value);
+            set => SetProperty(ref _port, value);
         }
 
         private string _name;
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private Client _client;
         public Client Client
         {
             get => _client;
-            set => SetAndNotify(ref _client, value);
+            set => SetProperty(ref _client, value);
         }
 
         public Settings GetSettings()

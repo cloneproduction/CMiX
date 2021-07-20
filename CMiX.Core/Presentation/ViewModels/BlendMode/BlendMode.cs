@@ -5,10 +5,11 @@ using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class BlendMode : ViewModel, IControl
+    public class BlendMode : ObservableObject, IControl
     {
         public BlendMode(BlendModeModel blendModeModel)
         {
@@ -25,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get { return _mode; }
             set
             {
-                SetAndNotify(ref _mode, value);
+                SetProperty(ref _mode, value);
                 Communicator?.SendMessage(new MessageUpdateViewModel(this));
                 Console.WriteLine("BlendModel is " + Mode);
             }

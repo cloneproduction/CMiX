@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ToggleButton : ViewModel, IControl
+    public class ToggleButton : ObservableObject, IControl
     {
         public ToggleButton(ToggleButtonModel toggleButtonModel)
         {
@@ -25,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _isChecked;
             set
             {
-                SetAndNotify(ref _isChecked, value);
+                SetProperty(ref _isChecked, value);
                 Communicator?.SendMessage(new MessageUpdateViewModel(this));
             }
         }

@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public Composition CurrentComposition
         {
             get => _currentComposition;
-            set => SetAndNotify(ref _currentComposition, value);
+            set => SetProperty(ref _currentComposition, value);
         }
 
 

@@ -1,19 +1,20 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Mask : ViewModel, IControl
+    public class Mask : ObservableObject, IControl
     {
         public Mask(MaskModel maskModel)
         {
             MaskType = maskModel.MaskType;
             MaskControlType = maskModel.MaskControlType;
-            Enabled = maskModel.Enabled;
+            // Enabled = maskModel.Enabled;
         }
 
 
@@ -27,7 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _IsMask;
             set
             {
-                SetAndNotify(ref _IsMask, value);
+                SetProperty(ref _IsMask, value);
 
             }
         }
@@ -38,7 +39,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _masktype;
             set
             {
-                SetAndNotify(ref _masktype, value);
+                SetProperty(ref _masktype, value);
 
             }
         }
@@ -49,7 +50,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _maskcontroltype;
             set
             {
-                SetAndNotify(ref _maskcontroltype, value);
+                SetProperty(ref _maskcontroltype, value);
 
             }
         }

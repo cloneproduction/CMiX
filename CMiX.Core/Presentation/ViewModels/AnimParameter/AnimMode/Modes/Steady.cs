@@ -1,15 +1,16 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Steady : ViewModel, IControl, IAnimMode
+    public class Steady : ObservableObject, IControl, IAnimMode
     {
         public Steady(SteadyModel steadyModel)
         {
@@ -29,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _seed;
             set
             {
-                SetAndNotify(ref _seed, value);
+                SetProperty(ref _seed, value);
 
             }
         }
@@ -40,7 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _steadyType;
             set
             {
-                SetAndNotify(ref _steadyType, value);
+                SetProperty(ref _steadyType, value);
 
             }
         }
@@ -51,7 +52,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _linearType;
             set
             {
-                SetAndNotify(ref _linearType, value);
+                SetProperty(ref _linearType, value);
 
             }
         }

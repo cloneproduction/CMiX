@@ -7,15 +7,17 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using WatsonTcp;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Server : ViewModel
+    public class Server : ObservableObject
     {
         public Server(int id)
         {
-            Enabled = true;
+            //Enabled = true;
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
@@ -25,11 +27,11 @@ namespace CMiX.Core.Presentation.ViewModels
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
 
-            StartCommand = new RelayCommand(p => Start());
+            StartCommand = new RelayCommand(Start);
             //RequestProjectReSyncCommand = new RelayCommand(p => RequestProjectResync(p as Project));
-            StopCommand = new RelayCommand(p => Stop());
-            RestartCommand = new RelayCommand(p => Restart());
-            RenameCommand = new RelayCommand(p => Rename());
+            StopCommand = new RelayCommand(Stop);
+            RestartCommand = new RelayCommand(Restart);
+            RenameCommand = new RelayCommand(Rename);
         }
 
 
@@ -44,70 +46,70 @@ namespace CMiX.Core.Presentation.ViewModels
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private string _status;
         public string Status
         {
             get => _status;
-            set => SetAndNotify(ref _status, value);
+            set => SetProperty(ref _status, value);
         }
 
         private string _ip;
         public string IP
         {
             get => _ip;
-            set => SetAndNotify(ref _ip, value);
+            set => SetProperty(ref _ip, value);
         }
 
         private string _topic;
         public string Topic
         {
             get => _topic;
-            set => SetAndNotify(ref _topic, value);
+            set => SetProperty(ref _topic, value);
         }
 
         private int _port;
         public int Port
         {
             get => _port;
-            set => SetAndNotify(ref _port, value);
+            set => SetProperty(ref _port, value);
         }
 
         private bool _isRenaming;
         public bool IsRenaming
         {
             get => _isRenaming;
-            set => SetAndNotify(ref _isRenaming, value);
+            set => SetProperty(ref _isRenaming, value);
         }
 
         private bool _clientIsConnected;
         public bool ClientIsConnected
         {
             get => _clientIsConnected;
-            set => SetAndNotify(ref _clientIsConnected, value);
+            set => SetProperty(ref _clientIsConnected, value);
         }
 
         private bool _serverIsRunning;
         public bool ServerIsRunning
         {
             get => _serverIsRunning;
-            set => SetAndNotify(ref _serverIsRunning, value);
+            set => SetProperty(ref _serverIsRunning, value);
         }
 
         private bool _dataSent;
         public bool DataSent
         {
             get => _dataSent;
-            set => SetAndNotify(ref _dataSent, value);
+            set => SetProperty(ref _dataSent, value);
         }
 
         private ObservableCollection<ConnectedClient> _connectedClients;
         public ObservableCollection<ConnectedClient> ConnectedClients
         {
             get => _connectedClients;
-            set => SetAndNotify(ref _connectedClients, value);
+            set => SetProperty(ref _connectedClients, value);
         }
 
 
@@ -193,7 +195,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Send(byte[] data)
         {
-            if (Enabled && WatsonTcpServer != null)
+            if (WatsonTcpServer != null)
             {
                 WatsonTcpServer.Send(this.ipPort, data);
                 Statistics.Update(WatsonTcpServer);
@@ -274,7 +276,7 @@ namespace CMiX.Core.Presentation.ViewModels
         //    get => _isRunning;
         //    set
         //    {
-        //        SetAndNotify(ref _isRunning, value);
+        //        SetProperty(ref _isRunning, value);
         //        Notify(nameof(Status));
         //    }
         //}

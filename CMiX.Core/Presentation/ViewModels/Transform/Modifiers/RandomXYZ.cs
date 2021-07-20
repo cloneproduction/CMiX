@@ -1,17 +1,18 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Collections.ObjectModel;
+using System.Windows.Media.Media3D;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using System;
-using System.Collections.ObjectModel;
-using System.Windows.Media.Media3D;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class RandomXYZ : ViewModel, IControl, ITransformModifier
+    public class RandomXYZ : ObservableObject, IControl, ITransformModifier
     {
         public RandomXYZ(RandomXYZModel randomXYZModel, MasterBeat masterBeat)
         {
@@ -74,35 +75,35 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool IsExpanded
         {
             get => _isExpanded;
-            set => SetAndNotify(ref _isExpanded, value);
+            set => SetProperty(ref _isExpanded, value);
         }
 
         private bool _randomizeLocationIsExpanded;
         public bool RandomizeLocationIsExpanded
         {
             get => _randomizeLocationIsExpanded;
-            set => SetAndNotify(ref _randomizeLocationIsExpanded, value);
+            set => SetProperty(ref _randomizeLocationIsExpanded, value);
         }
 
         private bool _randomizeScaleIsExpanded;
         public bool RandomizeScaleIsExpanded
         {
             get => _randomizeScaleIsExpanded;
-            set => SetAndNotify(ref _randomizeScaleIsExpanded, value);
+            set => SetProperty(ref _randomizeScaleIsExpanded, value);
         }
 
         private bool _randomizeRotationIsExpanded;
         public bool RandomizeRotationIsExpanded
         {
             get => _randomizeRotationIsExpanded;
-            set => SetAndNotify(ref _randomizeRotationIsExpanded, value);
+            set => SetProperty(ref _randomizeRotationIsExpanded, value);
         }
 
         private ModifierType _selectedModifierType;
         public ModifierType SelectedModifierType
         {
             get => _selectedModifierType;
-            set => SetAndNotify(ref _selectedModifierType, value);
+            set => SetProperty(ref _selectedModifierType, value);
         }
 
 

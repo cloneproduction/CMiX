@@ -5,10 +5,11 @@ using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Observer;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class AnimParameter : ViewModel, IControl, IObserver
+    public class AnimParameter : ObservableObject, IControl, IObserver
     {
         public AnimParameter(string name, double[] defaultParameter, MasterBeat beat, AnimParameterModel animParameterModel)
         {
@@ -37,14 +38,14 @@ namespace CMiX.Core.Presentation.ViewModels
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private bool _IsEnabled;
         public bool IsEnabled
         {
             get => _IsEnabled;
-            set => SetAndNotify(ref _IsEnabled, value);
+            set => SetProperty(ref _IsEnabled, value);
         }
 
         private ModeType _selectedModeType;
@@ -53,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _selectedModeType;
             set
             {
-                SetAndNotify(ref _selectedModeType, value);
+                SetProperty(ref _selectedModeType, value);
                 SetAnimMode();
             }
         }
@@ -64,7 +65,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _animMode;
             set
             {
-                SetAndNotify(ref _animMode, value);
+                SetProperty(ref _animMode, value);
             }
         }
 

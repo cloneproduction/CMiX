@@ -1,9 +1,10 @@
 ﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class MinuteUnit : ViewModel, IUnit
+    public class MinuteUnit : ObservableObject, IUnit
     {
         public MinuteUnit()
         {
@@ -15,7 +16,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         public Action<TimeUnit> SetScheduler { get; set; }

@@ -1,13 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Range : ViewModel, IControl, IRange
+    public class Range : ObservableObject, IControl, IRange
     {
         public Range(RangeModel rangeModel)
         {
@@ -24,7 +25,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public double Width
         {
             get => _width;
-            set => SetAndNotify(ref _width, value);
+            set => SetProperty(ref _width, value);
         }
 
         private double _minimum;
@@ -33,7 +34,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _minimum;
             set
             {
-                SetAndNotify(ref _minimum, value);
+                SetProperty(ref _minimum, value);
                 Width = Math.Abs(Maximum - Minimum);
             }
         }
@@ -44,7 +45,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _maximum;
             set
             {
-                SetAndNotify(ref _maximum, value);
+                SetProperty(ref _maximum, value);
                 Width = Math.Abs(Maximum - Minimum);
             }
         }

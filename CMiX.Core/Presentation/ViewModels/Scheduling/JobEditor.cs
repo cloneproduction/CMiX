@@ -4,10 +4,12 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Communicators;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class JobEditor : ViewModel, IControl
+    public class JobEditor : ObservableObject, IControl
     {
         public JobEditor(JobEditorModel jobEditorModel, ObservableCollection<Playlist> playlists, JobScheduler jobScheduler)
         {
@@ -17,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             Playlists = playlists;
             ToRunType = new ToRunType();
 
-            CreateJobCommand = new RelayCommand(p => CreateJob());
+            CreateJobCommand = new RelayCommand(CreateJob);
         }
 
 
@@ -31,21 +33,21 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public Playlist SelectedPlaylist
         {
             get => _selectedplaylist;
-            set => SetAndNotify(ref _selectedplaylist, value);
+            set => SetProperty(ref _selectedplaylist, value);
         }
 
         private ToRunType _toruntype;
         public ToRunType ToRunType
         {
             get => _toruntype;
-            set => SetAndNotify(ref _toruntype, value);
+            set => SetProperty(ref _toruntype, value);
         }
 
         private string _jobName;
         public string JobName
         {
             get => _jobName;
-            set => SetAndNotify(ref _jobName, value);
+            set => SetProperty(ref _jobName, value);
         }
 
 

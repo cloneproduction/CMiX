@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Observer;
 using System.Linq;
 using System.Windows.Media.Media3D;
+using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Observer;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TranslateModifier : ViewModel, IModifier, IObserver
+    public class TranslateModifier : ObservableObject, IModifier, IObserver
     {
         public TranslateModifier(string name, IControl parentSender, MasterBeat beat)
         {
@@ -29,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ModifierType ModifierType
         {
             get => _modifierType;
-            set => SetAndNotify(ref _modifierType, value);
+            set => SetProperty(ref _modifierType, value);
         }
 
 
@@ -37,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public int Count
         {
             get => _count;
-            set => SetAndNotify(ref _count, value);
+            set => SetProperty(ref _count, value);
         }
 
         public void AnimateOnBeatTick()

@@ -1,22 +1,24 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
-using System;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Counter : ViewModel, IControl
+    public class Counter : ObservableObject, IControl
     {
         public Counter(CounterModel counterModel)
         {
             this.ID = counterModel.ID;
             Count = 1;
-            AddCommand = new RelayCommand(p => Add());
-            SubCommand = new RelayCommand(p => Sub());
+            AddCommand = new RelayCommand(Add);
+            SubCommand = new RelayCommand(Sub);
         }
 
 
@@ -36,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _count;
             set
             {
-                SetAndNotify(ref _count, value);
+                SetProperty(ref _count, value);
                 OnCountChange();
                 Communicator?.SendMessage(new MessageUpdateViewModel(this));
             }

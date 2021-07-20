@@ -6,11 +6,12 @@ using System.Windows;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class AssetPathSelector : ViewModel, IControl, IDropTarget
+    public class AssetPathSelector : ObservableObject, IControl, IDropTarget
     {
         public AssetPathSelector(Asset defaultAsset, AssetPathSelectorModel assetPathSelectorModel)
         {
@@ -29,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             get => _selectedAsset;
             set
             {
-                SetAndNotify(ref _selectedAsset, value);
+                SetProperty(ref _selectedAsset, value);
 
                 AssetPathSelectorCommunicator?.SendMessage(new MessageAsset(SelectedAsset));
                 if (value != null)

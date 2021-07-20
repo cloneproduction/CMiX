@@ -8,10 +8,11 @@ using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Services;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MessageService : ViewModel, IMessageService
+    public class MessageService : ObservableObject, IMessageService
     {
         public MessageService()
         {

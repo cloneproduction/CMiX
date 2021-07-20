@@ -8,7 +8,7 @@
 
 //namespace CMiX.Core.Presentation.ViewModels.Network
 //{
-//    public class Messenger : ViewModel
+//    public class Messenger : ObservableObject
 //    {
 //        public Messenger(int id)
 //        {
@@ -44,14 +44,14 @@
 //        public string Name
 //        {
 //            get => _name;
-//            set => SetAndNotify(ref _name, value);
+//            set => SetProperty(ref _name, value);
 //        }
 
 //        private bool _isRenaming;
 //        public bool IsRenaming
 //        {
 //            get => _isRenaming;
-//            set => SetAndNotify(ref _isRenaming, value);
+//            set => SetProperty(ref _isRenaming, value);
 //        }
 
 

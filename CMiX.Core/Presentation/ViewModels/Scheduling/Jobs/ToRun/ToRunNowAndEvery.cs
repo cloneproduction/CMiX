@@ -1,9 +1,10 @@
 ﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class ToRunNowAndEvery : ViewModel, IToRun//, IScheduleInterface<Schedule>
+    public class ToRunNowAndEvery : ObservableObject, IToRun//, IScheduleInterface<Schedule>
     {
         public ToRunNowAndEvery()
         {
@@ -17,21 +18,21 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private UnitInterval _unitinterval;
         public UnitInterval UnitInterval
         {
             get => _unitinterval;
-            set => SetAndNotify(ref _unitinterval, value);
+            set => SetProperty(ref _unitinterval, value);
         }
 
         private UnitType _unittype;
         public UnitType UnitType
         {
             get => _unittype;
-            set => SetAndNotify(ref _unittype, value);
+            set => SetProperty(ref _unittype, value);
         }
 
         public Action<Schedule> SetScheduler { get; set; }

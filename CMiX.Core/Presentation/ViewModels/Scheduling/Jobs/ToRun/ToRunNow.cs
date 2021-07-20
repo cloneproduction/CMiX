@@ -1,11 +1,12 @@
 ﻿using System;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class ToRunNow : ViewModel, IToRun, IGetSetModel//, IScheduleInterface<Schedule>
+    public class ToRunNow : ObservableObject, IToRun, IGetSetModel//, IScheduleInterface<Schedule>
     {
         public ToRunNow()
         {
@@ -17,7 +18,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         public Action<Schedule> SetScheduler { get; set; }

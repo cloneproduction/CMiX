@@ -54,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             SceneModel model = new SceneModel(this.ID);
 
-            model.Enabled = this.Enabled;
+            //model.Enabled = this.Enabled;
             model.Name = this.Name;
 
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();

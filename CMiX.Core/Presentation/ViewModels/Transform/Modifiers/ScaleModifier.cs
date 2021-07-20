@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ScaleModifier : ViewModel, IControl, IModifier
+    public class ScaleModifier : ObservableObject, IControl, IModifier
     {
         public ScaleModifier(string name, Scale scale, MasterBeat beat, ScaleModifierModel scaleModifierModel)
         {
@@ -51,7 +52,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool IsUniform
         {
             get => _isUniform;
-            set => SetAndNotify(ref _isUniform, value);
+            set => SetProperty(ref _isUniform, value);
         }
         public Communicator Communicator { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
         public Guid ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }

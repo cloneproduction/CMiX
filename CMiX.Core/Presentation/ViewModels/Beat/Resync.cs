@@ -1,20 +1,22 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
-using CMiX.Core.Models.Beat;
 using System;
 using System.Windows.Input;
+using CMiX.Core.Models;
+using CMiX.Core.Models.Beat;
+using CMiX.Core.Network.Communicators;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class Resync : ViewModel, IControl
+    public class Resync : ObservableObject, IControl
     {
-        public Resync(BeatAnimations beatAnimations, ResyncModel resyncModel) 
+        public Resync(BeatAnimations beatAnimations, ResyncModel resyncModel)
         {
             BeatAnimations = beatAnimations;
-            ResyncCommand = new RelayCommand(p => DoResync());
+            ResyncCommand = new RelayCommand(DoResync);
         }
 
 

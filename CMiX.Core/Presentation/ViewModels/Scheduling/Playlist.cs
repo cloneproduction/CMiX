@@ -6,11 +6,12 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduler;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Components;
+using CommunityToolkit.Mvvm.ComponentModel;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class Playlist : ViewModel, IControl, IDropTarget
+    public class Playlist : ObservableObject, IControl, IDropTarget
     {
         public Playlist(PlaylistModel playlistModel)
         {
@@ -23,7 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
 

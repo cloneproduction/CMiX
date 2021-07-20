@@ -54,7 +54,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             LayerModel model = new LayerModel(this.ID);
 
-            model.Enabled = this.Enabled;
             model.Name = this.Name;
             //model.Out = this.Out;
 

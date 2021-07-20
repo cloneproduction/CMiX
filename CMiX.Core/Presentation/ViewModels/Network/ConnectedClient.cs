@@ -1,15 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Network
 {
-    public class ConnectedClient : ViewModel
+    public class ConnectedClient : ObservableObject
     {
         public ConnectedClient(string ipPort)
         {
@@ -21,21 +17,21 @@ namespace CMiX.Core.Presentation.ViewModels.Network
         public bool UnSync
         {
             get => _unSync;
-            set => SetAndNotify(ref _unSync, value);
+            set => SetProperty(ref _unSync, value);
         }
 
         private string _port;
         public string Port
         {
             get => _port;
-            set => SetAndNotify(ref _port, value);
+            set => SetProperty(ref _port, value);
         }
 
         private string _ip;
         public string IP
         {
             get => _ip;
-            set => SetAndNotify(ref _ip, value);
+            set => SetProperty(ref _ip, value);
         }
     }
 }

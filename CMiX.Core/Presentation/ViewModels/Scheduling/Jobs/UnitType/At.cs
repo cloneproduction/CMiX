@@ -1,6 +1,8 @@
-﻿namespace CMiX.Core.Presentation.ViewModels.Scheduling
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class At : ViewModel
+    public class At : ObservableObject
     {
         public At()
         {
@@ -11,21 +13,21 @@
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private int _hours;
         public int Hours
         {
             get => _hours;
-            set => SetAndNotify(ref _hours, value);
+            set => SetProperty(ref _hours, value);
         }
 
         private int _minutes;
         public int Minutes
         {
             get => _minutes;
-            set => SetAndNotify(ref _minutes, value);
+            set => SetProperty(ref _minutes, value);
         }
     }
 }

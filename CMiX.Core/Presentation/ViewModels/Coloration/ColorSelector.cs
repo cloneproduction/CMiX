@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using System;
 using System.Windows.Media;
+using CMiX.Core.Models;
+using CMiX.Core.Network.Communicators;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorSelector : ViewModel, IControl
+    public class ColorSelector : ObservableObject, IControl
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
@@ -42,7 +43,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _selectedColor;
             set
             {
-                SetAndNotify(ref _selectedColor, value);
+                SetProperty(ref _selectedColor, value);
             }
         }
 

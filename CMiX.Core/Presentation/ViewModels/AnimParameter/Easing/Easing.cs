@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
-using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Easing : ViewModel, IControl
+    public class Easing : ObservableObject, IControl
     {
         public Easing(EasingModel easingModel)
         {
@@ -28,7 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _isEnabled;
             set
             {
-                SetAndNotify(ref _isEnabled, value);
+                SetProperty(ref _isEnabled, value);
 
             }
         }
@@ -39,7 +40,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _easingFunction;
             set
             {
-                SetAndNotify(ref _easingFunction, value);
+                SetProperty(ref _easingFunction, value);
                 SetEasing();
             }
         }
@@ -50,7 +51,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _easingMode;
             set
             {
-                SetAndNotify(ref _easingMode, value);
+                SetProperty(ref _easingMode, value);
                 SetEasing();
             }
         }

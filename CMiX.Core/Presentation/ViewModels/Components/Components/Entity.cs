@@ -4,7 +4,6 @@
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using MediatR;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -55,7 +54,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             EntityModel model = new EntityModel(this.ID);
 
-            model.Enabled = this.Enabled;
             model.Name = this.Name;
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
             model.TextureModel = (TextureModel)this.Texture.GetModel();

@@ -7,10 +7,12 @@ using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Components;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class PlaylistEditor : ViewModel, IControl
+    public class PlaylistEditor : ObservableObject, IControl
     {
         public PlaylistEditor(IProject project)
         {
@@ -19,12 +21,12 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
             Playlists = new ObservableCollection<Playlist>();
 
-            NewPlaylistCommand = new RelayCommand(p => NewPlaylist());
-            DeletePlaylistCommand = new RelayCommand(p => DeletePlaylist());
+            NewPlaylistCommand = new RelayCommand(NewPlaylist);
+            DeletePlaylistCommand = new RelayCommand(DeletePlaylist);
 
-            DeleteSelectedCompoCommand = new RelayCommand(p => DeleteSelectedCompo());
-            DeleteAllCompoCommand = new RelayCommand(p => DeleteAllCompo());
-            AddCompositionToPlaylistCommand = new RelayCommand(p => AddCompositionToPlaylist(p as Composition));
+            DeleteSelectedCompoCommand = new RelayCommand(DeleteSelectedCompo);
+            DeleteAllCompoCommand = new RelayCommand(DeleteAllCompo);
+            AddCompositionToPlaylistCommand = new RelayCommand<Composition>(AddCompositionToPlaylist);
         }
 
 
@@ -46,21 +48,21 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public bool DropDownOpen
         {
             get => _dropDownOpen;
-            set => SetAndNotify(ref _dropDownOpen, value);
+            set => SetProperty(ref _dropDownOpen, value);
         }
 
         private Playlist _selectedplaylist;
         public Playlist SelectedPlaylist
         {
             get => _selectedplaylist;
-            set => SetAndNotify(ref _selectedplaylist, value);
+            set => SetProperty(ref _selectedplaylist, value);
         }
 
         private Composition _selectedComposition;
         public Composition SelectedComposition
         {
             get => _selectedComposition;
-            set => SetAndNotify(ref _selectedComposition, value);
+            set => SetProperty(ref _selectedComposition, value);
         }
 
 

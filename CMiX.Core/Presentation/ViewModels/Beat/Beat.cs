@@ -1,18 +1,20 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
 using System.Windows.Input;
+using CMiX.Core.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public abstract class Beat : ViewModel
+    public abstract class Beat : ObservableObject
     {
-        public Beat(BeatModel beatModel) 
+        public Beat(BeatModel beatModel)
         {
-            ResetCommand = new RelayCommand(p => Reset());
-            MultiplyCommand = new RelayCommand(p => Multiply());
-            DivideCommand = new RelayCommand(p => Divide());
+            ResetCommand = new RelayCommand(Reset);
+            MultiplyCommand = new RelayCommand(Multiply);
+            DivideCommand = new RelayCommand(Divide);
         }
 
 
@@ -36,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             set
             {
                 Period = 60000 / value;
-                SetAndNotify(ref _bpm, value);
+                SetProperty(ref _bpm, value);
             }
         }
 
@@ -44,7 +46,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public virtual double Multiplier
         {
             get => _multiplier;
-            set =>  SetAndNotify(ref _multiplier, value);
+            set => SetProperty(ref _multiplier, value);
         }
 
         private void Reset() => Multiplier = 1;

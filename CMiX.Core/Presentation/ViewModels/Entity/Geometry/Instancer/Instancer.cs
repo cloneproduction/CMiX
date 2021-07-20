@@ -1,17 +1,19 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using System;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Instancer : ViewModel, IControl
+    public class Instancer : ObservableObject, IControl
     {
         public Instancer(MasterBeat beat, InstancerModel instancerModel)
         {
@@ -23,8 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels
             NoAspectRatio = false;
             TransformModifiers = new ObservableCollection<ITransformModifier>();
             Factory = new TransformModifierFactory(beat);
-            CreateTransformModifierCommand = new RelayCommand(p => CreateTransformModifier((TransformModifierNames)p));
-            RemoveTransformModifierCommand = new RelayCommand(p => RemoveTransformModifier(p as ITransformModifier));
+            CreateTransformModifierCommand = new RelayCommand<TransformModifierNames>(CreateTransformModifier);
+            RemoveTransformModifierCommand = new RelayCommand<ITransformModifier>(RemoveTransformModifier);
         }
 
 
@@ -57,29 +59,29 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool NoAspectRatio
         {
             get => _noAspectRatio;
-            set => SetAndNotify(ref _noAspectRatio, value);
+            set => SetProperty(ref _noAspectRatio, value);
         }
 
         private ObservableCollection<ITransformModifier> _transformModifiers;
         public ObservableCollection<ITransformModifier> TransformModifiers
         {
             get => _transformModifiers;
-            set => SetAndNotify(ref _transformModifiers, value);
+            set => SetProperty(ref _transformModifiers, value);
         }
 
 
-        public ITransformModifier CreateTransformModifier(TransformModifierNames transformModifierNames)
+        public void CreateTransformModifier(TransformModifierNames transformModifierNames)
         {
             ITransformModifier transformModifier = Factory.CreateTransformModifier(transformModifierNames);
             AddTransformModifier(transformModifier);
-            return transformModifier;
+            //return transformModifier;
         }
 
-        public ITransformModifier CreateTransformModifier(ITransformModifierModel transformModifierModel)
+        public void CreateTransformModifier(ITransformModifierModel transformModifierModel)
         {
             ITransformModifier transformModifier = Factory.CreateTransformModifier(transformModifierModel);
             AddTransformModifier(transformModifier);
-            return transformModifier;
+            //return transformModifier;
         }
 
 

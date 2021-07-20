@@ -3,18 +3,20 @@
 
 using System.Windows;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Windows
 {
-    public class MainWindowController : ViewModel
+    public class MainWindowController : ObservableObject
     {
         public MainWindowController(IDialogService dialogService)
         {
             DialogService = dialogService;
-            CloseWindowCommand = new RelayCommand(p => CloseWindow(p));
-            MinimizeWindowCommand = new RelayCommand(p => MinimizeWindow(p));
-            MaximizeWindowCommand = new RelayCommand(p => MaximizeWindow(p));
+            CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
+            MinimizeWindowCommand = new RelayCommand<Window>(MinimizeWindow);
+            MaximizeWindowCommand = new RelayCommand<Window>(MaximizeWindow);
         }
 
 

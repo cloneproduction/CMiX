@@ -1,11 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class GeometryScale : ViewModel
+    public class GeometryScale : ObservableObject
     {
-        public GeometryScale() 
+        public GeometryScale()
         {
             Mode = default;
         }
@@ -18,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 //if(Mementor != null)
                 //    Mementor.PropertyChange(this, nameof(Mode));
-                SetAndNotify(ref _Mode, value);
+                SetProperty(ref _Mode, value);
                 //SendMessages(MessageAddress + nameof(Mode), Mode);
             }
         }

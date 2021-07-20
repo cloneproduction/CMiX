@@ -48,7 +48,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public override double Period
         {
             get => _period;
-            set => SetAndNotify(ref _period, value);
+            set => SetProperty(ref _period, value);
         }
 
         private int _beatIndex;
@@ -62,7 +62,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public AnimatedDouble AnimatedDouble
         {
             get => _animatedDouble;
-            set => SetAndNotify(ref _animatedDouble, value);
+            set => SetProperty(ref _animatedDouble, value);
         }
 
 
@@ -92,7 +92,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             BeatIndex = Index + MasterBeat.BeatIndex;
             Period = MasterBeat.Periods[Index + MasterBeat.BeatIndex];
             AnimatedDouble = MasterBeat.BeatAnimations.AnimatedDoubles[Index + MasterBeat.BeatIndex];
-            Notify(nameof(BPM));
+            //Notify(nameof(BPM));
             Communicator?.SendMessage(new MessageUpdateViewModel(this));
         }
 

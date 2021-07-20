@@ -4,19 +4,21 @@
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ViewModel
+    public class ComponentManager : ObservableObject
     {
         public ComponentManager(IComponent component)
         {
             Component = component;
 
-            CreateComponentCommand = new RelayCommand(p => CreateComponent(p as Component));
-            DuplicateComponentCommand = new RelayCommand(p => DuplicateComponent(p as Component));
-            DeleteComponentCommand = new RelayCommand(p => DeleteComponent(p as Component));
-            RenameComponentCommand = new RelayCommand(p => RenameComponent(p as Component));
+            CreateComponentCommand = new RelayCommand<Component>(CreateComponent);
+            DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
+            DeleteComponentCommand = new RelayCommand<Component>(DeleteComponent);
+            RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
         }
 
 
@@ -33,7 +35,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Component SelectedComponent
         {
             get => _selectedComponent;
-            set => SetAndNotify(ref _selectedComponent, value);
+            set => SetProperty(ref _selectedComponent, value);
         }
 
 
@@ -70,11 +72,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        public Component DuplicateComponent(Component component)
+        public void DuplicateComponent(Component component)
         {
-            Component result = null;
+            //Component result = null;
             // = GetSelectedParent(Components);
-            return result;
+            //return result;
         }
 
 

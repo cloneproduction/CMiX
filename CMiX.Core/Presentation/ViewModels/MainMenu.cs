@@ -5,16 +5,16 @@ using System.IO;
 using System.Windows.Input;
 using Ceras;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Assets;
-using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MainMenu : ViewModel
+    public class MainMenu : ObservableObject
     {
         public MainMenu(IProject project, IDialogService dialogService)
         {
@@ -23,11 +23,11 @@ namespace CMiX.Core.Presentation.ViewModels
             Serializer = new CerasSerializer();
             ComponentFactory = new CompositionFactory(project);
 
-            AddCompositionCommand = new RelayCommand(p => AddComposition());
-            NewProjectCommand = new RelayCommand(p => NewProject());
-            OpenProjectCommand = new RelayCommand(p => OpenProject());
-            SaveProjectCommand = new RelayCommand(p => SaveProject());
-            SaveAsProjectCommand = new RelayCommand(p => SaveAsProject());
+            AddCompositionCommand = new RelayCommand(AddComposition);
+            NewProjectCommand = new RelayCommand(NewProject);
+            OpenProjectCommand = new RelayCommand(OpenProject);
+            SaveProjectCommand = new RelayCommand(SaveProject);
+            SaveAsProjectCommand = new RelayCommand(SaveAsProject);
         }
 
 
@@ -55,7 +55,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             var projectModel = new ProjectModel();
             Project.SetViewModel(projectModel);
-            Project.Assets.Add(new AssetDirectory("RESOURCES") { IsRoot = true });
             //Project = new Project();
             //AssetManager = new AssetManager(project);
         }
@@ -90,7 +89,7 @@ namespace CMiX.Core.Presentation.ViewModels
             SaveAsProject();
         }
 
-        private bool SaveAsProject()
+        private void SaveAsProject()
         {
             SaveFileDialogSettings settings = new SaveFileDialogSettings();
             settings.Filter = "Project (*.cmix)|*.cmix";
@@ -104,10 +103,7 @@ namespace CMiX.Core.Presentation.ViewModels
                 string folderPath = settings.FileName;
                 File.WriteAllBytes(folderPath, data);
                 FolderPath = folderPath;
-                return true;
             }
-            else
-                return false;
         }
     }
 }

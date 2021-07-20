@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class UnitType : ViewModel//, IScheduleInterface<TimeUnit>
+    public class UnitType : ObservableObject//, IScheduleInterface<TimeUnit>
     {
         public UnitType()
         {
@@ -29,14 +30,14 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public UnitInterval UnitInterval
         {
             get => _unitinterval;
-            set => SetAndNotify(ref _unitinterval, value);
+            set => SetProperty(ref _unitinterval, value);
         }
 
         private IUnit _selectedUnitType;
         public IUnit SelectedUnitType
         {
             get => _selectedUnitType;
-            set => SetAndNotify(ref _selectedUnitType, value);
+            set => SetProperty(ref _selectedUnitType, value);
         }
 
         public Action<TimeUnit> SetScheduler { get; set; }

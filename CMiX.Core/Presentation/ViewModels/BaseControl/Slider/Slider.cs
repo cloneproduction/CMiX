@@ -6,10 +6,12 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Slider : ViewModel, IControl
+    public class Slider : ObservableObject, IControl
     {
         public Slider(string name, SliderModel sliderModel)
         {
@@ -17,9 +19,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
-            AddCommand = new RelayCommand(p => Add());
-            SubCommand = new RelayCommand(p => Sub());
-            ResetCommand = new RelayCommand(p => Reset());
+            AddCommand = new RelayCommand(Add);
+            SubCommand = new RelayCommand(Sub);
+            ResetCommand = new RelayCommand(Reset);
         }
 
 
@@ -36,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private double _amount;
@@ -45,7 +47,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _amount;
             set
             {
-                SetAndNotify(ref _amount, value);
+                SetProperty(ref _amount, value);
                 Communicator?.SendMessage(new MessageUpdateViewModel(this));
             }
         }
@@ -54,14 +56,14 @@ namespace CMiX.Core.Presentation.ViewModels
         public double Minimum
         {
             get => _minimum;
-            set => SetAndNotify(ref _minimum, value);
+            set => SetProperty(ref _minimum, value);
         }
 
         private double _maximum = 1.0;
         public double Maximum
         {
             get => _maximum;
-            set => SetAndNotify(ref _maximum, value);
+            set => SetProperty(ref _maximum, value);
         }
 
 

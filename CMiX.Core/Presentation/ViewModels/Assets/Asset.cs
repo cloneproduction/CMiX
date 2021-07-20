@@ -1,18 +1,19 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
 using System.IO;
+using CMiX.Core.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public abstract class Asset : ViewModel
+    public abstract class Asset : ObservableObject
     {
         private string _name;
         public string Name
         {
             get => _name;
-            set => SetAndNotify(ref _name, value);
+            set => SetProperty(ref _name, value);
         }
 
         private string _ponderation = "aa";
@@ -26,14 +27,14 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public bool IsRenaming
         {
             get => _isRenaming;
-            set => SetAndNotify(ref _isRenaming, value);
+            set => SetProperty(ref _isRenaming, value);
         }
 
         private bool _isSelected = false;
         public bool IsSelected
         {
             get => _isSelected;
-            set => SetAndNotify(ref _isSelected, value);
+            set => SetProperty(ref _isSelected, value);
         }
 
         private string _path;
@@ -42,8 +43,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             get => _path;
             set
             {
-                SetAndNotify(ref _path, value);
-                Notify(nameof(FileExist));
+                SetProperty(ref _path, value);
+                OnPropertyChanged(nameof(FileExist));
             }
         }
 
@@ -51,7 +52,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public bool FileExist
         {
             get => File.Exists(Path);
-            set => SetAndNotify(ref _fileExist, value);
+            set => SetProperty(ref _fileExist, value);
         }
 
         public abstract IModel GetModel();

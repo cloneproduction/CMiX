@@ -9,10 +9,12 @@ using CMiX.Core.Models;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using ColorMine.ColorSpaces;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorPicker : ViewModel, IControl
+    public class ColorPicker : ObservableObject, IControl
     {
         public ColorPicker(ColorPickerModel colorPickerModel)
         {
@@ -23,9 +25,9 @@ namespace CMiX.Core.Presentation.ViewModels
             Blue = SelectedColor.B;
             MouseDown = false;
 
-            PreviewMouseDownCommand = new RelayCommand(p => PreviewMouseDown());
-            PreviewMouseUpCommand = new RelayCommand(p => PreviewMouseUp());
-            PreviewMouseLeaveCommand = new RelayCommand(p => PreviewMouseLeave());
+            PreviewMouseDownCommand = new RelayCommand(PreviewMouseDown);
+            PreviewMouseUpCommand = new RelayCommand(PreviewMouseUp);
+            PreviewMouseLeaveCommand = new RelayCommand(PreviewMouseLeave);
         }
 
 
@@ -43,7 +45,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _selectedColor;
             set
             {
-                SetAndNotify(ref _selectedColor, value);
+                SetProperty(ref _selectedColor, value);
                 Communicator?.SendMessage(new MessageUpdateViewModel(this));
             }
         }
@@ -69,16 +71,16 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 if (_red != value)
                 {
-                    SetAndNotify(ref _red, value);
+                    SetProperty(ref _red, value);
 
                     var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
 
                     _hue = hsv.H;
-                    Notify(nameof(Hue));
+                    OnPropertyChanged(nameof(Hue));
                     _sat = hsv.S;
-                    Notify(nameof(Sat));
+                    OnPropertyChanged(nameof(Sat));
                     _val = hsv.V;
-                    Notify(nameof(Val));
+                    OnPropertyChanged(nameof(Val));
 
                     SelectedColor = Color.FromRgb(_red, _green, _blue);
                 }
@@ -94,15 +96,15 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 if (_green != value)
                 {
-                    SetAndNotify(ref _green, value);
+                    SetProperty(ref _green, value);
 
                     var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
                     _hue = hsv.H;
-                    Notify(nameof(Hue));
+                    OnPropertyChanged(nameof(Hue));
                     _sat = hsv.S;
-                    Notify(nameof(Sat));
+                    OnPropertyChanged(nameof(Sat));
                     _val = hsv.V;
-                    Notify(nameof(Val));
+                    OnPropertyChanged(nameof(Val));
 
                     SelectedColor = Color.FromRgb(_red, _green, _blue);
                 }
@@ -118,16 +120,16 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 if (_blue != value)
                 {
-                    SetAndNotify(ref _blue, value);
+                    SetProperty(ref _blue, value);
 
                     var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
 
                     _hue = hsv.H;
-                    Notify(nameof(Hue));
+                    OnPropertyChanged(nameof(Hue));
                     _sat = hsv.S;
-                    Notify(nameof(Sat));
+                    OnPropertyChanged(nameof(Sat));
                     _val = hsv.V;
-                    Notify(nameof(Val));
+                    OnPropertyChanged(nameof(Val));
 
                     SelectedColor = Color.FromRgb(_red, _green, _blue);
                 }
@@ -143,18 +145,18 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 if (_hue != value)
                 {
-                    SetAndNotify(ref _hue, value);
+                    SetProperty(ref _hue, value);
 
                     var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
                     hsv.H = value;
 
                     var rgb = hsv.To<Rgb>();
                     _red = (byte)rgb.R;
-                    Notify(nameof(Red));
+                    OnPropertyChanged(nameof(Red));
                     _green = (byte)rgb.G;
-                    Notify(nameof(Green));
+                    OnPropertyChanged(nameof(Green));
                     _blue = (byte)rgb.B;
-                    Notify(nameof(Blue));
+                    OnPropertyChanged(nameof(Blue));
 
                     SelectedColor = Color.FromRgb(_red, _green, _blue);
                 }
@@ -170,7 +172,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 if (_sat != value)
                 {
-                    SetAndNotify(ref _sat, value);
+                    SetProperty(ref _sat, value);
 
                     var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
                     hsv.V = _val;
@@ -179,11 +181,11 @@ namespace CMiX.Core.Presentation.ViewModels
 
                     var rgb = hsv.To<Rgb>();
                     _red = (byte)rgb.R;
-                    Notify(nameof(Red));
+                    OnPropertyChanged(nameof(Red));
                     _green = (byte)rgb.G;
-                    Notify(nameof(Green));
+                    OnPropertyChanged(nameof(Green));
                     _blue = (byte)rgb.B;
-                    Notify(nameof(Blue));
+                    OnPropertyChanged(nameof(Blue));
 
                     SelectedColor = Color.FromRgb(_red, _green, _blue);
                 }
@@ -199,7 +201,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 if (_val != value)
                 {
-                    SetAndNotify(ref _val, value);
+                    SetProperty(ref _val, value);
 
                     var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
                     hsv.V = value;
@@ -210,11 +212,11 @@ namespace CMiX.Core.Presentation.ViewModels
                     {
                         var rgb = hsv.To<Rgb>();
                         _red = (byte)rgb.R;
-                        Notify(nameof(Red));
+                        OnPropertyChanged(nameof(Red));
                         _green = (byte)rgb.G;
-                        Notify(nameof(Green));
+                        OnPropertyChanged(nameof(Green));
                         _blue = (byte)rgb.B;
-                        Notify(nameof(Blue));
+                        OnPropertyChanged(nameof(Blue));
 
                         SelectedColor = Color.FromRgb(_red, _green, _blue);
                     }

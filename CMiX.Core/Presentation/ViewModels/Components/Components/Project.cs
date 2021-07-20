@@ -53,7 +53,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             ProjectModel model = new ProjectModel();
 
-            model.Enabled = this.Enabled;
             model.Name = this.Name;
             //model.IsVisible = this.IsVisible;
 

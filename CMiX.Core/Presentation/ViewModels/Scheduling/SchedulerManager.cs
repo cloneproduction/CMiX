@@ -7,10 +7,12 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class SchedulerManager : ViewModel, IControl
+    public class SchedulerManager : ObservableObject, IControl
     {
         public SchedulerManager(IProject project)
         {
@@ -18,8 +20,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             Project = project;
             PlaylistEditor = new PlaylistEditor(project);
 
-            CreateSchedulerCommand = new RelayCommand(p => CreateScheduler());
-            DeleteSchedulerCommand = new RelayCommand(p => DeleteScheduler());
+            CreateSchedulerCommand = new RelayCommand(CreateScheduler);
+            DeleteSchedulerCommand = new RelayCommand(DeleteScheduler);
         }
 
 
@@ -35,7 +37,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public CompositionScheduler SelectedScheduler
         {
             get => _selectedScheduler;
-            set => SetAndNotify(ref _selectedScheduler, value);
+            set => SetProperty(ref _selectedScheduler, value);
         }
 
 
@@ -45,7 +47,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             get => _selectedSchedulerIndex;
             set
             {
-                SetAndNotify(ref _selectedSchedulerIndex, value);
+                SetProperty(ref _selectedSchedulerIndex, value);
                 Communicator?.SendMessage(new MessageSelectedSchedulerIndex(value));
                 Console.WriteLine("SelectedSchedulerIndex = " + SelectedSchedulerIndex);
             }

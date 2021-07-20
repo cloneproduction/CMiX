@@ -34,7 +34,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public bool IsRoot
         {
             get => _isRoot;
-            set => SetAndNotify(ref _isRoot, value);
+            set => SetProperty(ref _isRoot, value);
         }
 
 
@@ -42,7 +42,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public bool IsExpanded
         {
             get => _isExpanded;
-            set => SetAndNotify(ref _isExpanded, value);
+            set => SetProperty(ref _isExpanded, value);
         }
 
 
