@@ -30,28 +30,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public GeometryFX GeometryFX { get; set; }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            Instancer.SetCommunicator(Communicator);
-            Transform.SetCommunicator(Communicator);
-            GeometryFX.SetCommunicator(Communicator);
-            AssetPathSelector.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            Instancer.UnsetCommunicator(Communicator);
-            Transform.UnsetCommunicator(Communicator);
-            GeometryFX.UnsetCommunicator(Communicator);
-            AssetPathSelector.UnsetCommunicator(Communicator);
-        }
-
-
         public IModel GetModel()
         {
             GeometryModel model = new GeometryModel();

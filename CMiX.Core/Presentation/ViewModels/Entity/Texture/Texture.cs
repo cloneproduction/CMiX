@@ -48,45 +48,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Inverter Inverter { get; set; }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            AssetPathSelector.SetCommunicator(Communicator);
-
-            Inverter.SetCommunicator(Communicator);
-            Brightness.SetCommunicator(Communicator);
-            Contrast.SetCommunicator(Communicator);
-            Hue.SetCommunicator(Communicator);
-            Saturation.SetCommunicator(Communicator);
-            Luminosity.SetCommunicator(Communicator);
-            Keying.SetCommunicator(Communicator);
-            Scale.SetCommunicator(Communicator);
-            Rotate.SetCommunicator(Communicator);
-            Pan.SetCommunicator(Communicator);
-            Tilt.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            AssetPathSelector.UnsetCommunicator(Communicator);
-
-            Inverter.UnsetCommunicator(Communicator);
-            Brightness.UnsetCommunicator(Communicator);
-            Contrast.UnsetCommunicator(Communicator);
-            Hue.UnsetCommunicator(Communicator);
-            Saturation.UnsetCommunicator(Communicator);
-            Luminosity.UnsetCommunicator(Communicator);
-            Keying.UnsetCommunicator(Communicator);
-            Scale.UnsetCommunicator(Communicator);
-            Rotate.UnsetCommunicator(Communicator);
-            Pan.UnsetCommunicator(Communicator);
-            Tilt.UnsetCommunicator(Communicator);
-        }
-
         public IModel GetModel()
         {
             TextureModel model = new TextureModel();

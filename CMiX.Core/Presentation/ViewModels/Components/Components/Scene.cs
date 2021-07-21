@@ -2,10 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
-using MediatR;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -33,28 +31,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public MasterBeat MasterBeat { get; set; }
 
 
-        public override void SetCommunicator(Communicator communicator)
-        {
-            Communicator.SetCommunicator(communicator);
-
-            Transform.SetCommunicator(Communicator);
-            Mask.SetCommunicator(Communicator);
-            PostFX.SetCommunicator(Communicator);
-            BeatModifier.SetCommunicator(Communicator);
-            MasterBeat.SetCommunicator(Communicator);
-        }
-
-        public override void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
-
-
         public override IModel GetModel()
         {
             SceneModel model = new SceneModel(this.ID);
 
-            //model.Enabled = this.Enabled;
             model.Name = this.Name;
 
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
@@ -81,8 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             foreach (var componentModel in sceneModel.ComponentModels)
             {
                 var newComponent = this.ComponentFactory.CreateComponent(componentModel);
-                //newComponent.SetReceiver(MessageReceiver);
-                //newComponent.SetSender(MessageSender);
                 this.AddComponent(newComponent);
             }
         }

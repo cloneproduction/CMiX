@@ -45,25 +45,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            Translate.SetCommunicator(Communicator);
-            Scale.SetCommunicator(Communicator);
-            Rotation.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            Translate.UnsetCommunicator(Communicator);
-            Scale.UnsetCommunicator(Communicator);
-            Rotation.UnsetCommunicator(Communicator);
-        }
-
 
         public void SetViewModel(IModel model)
         {

@@ -6,37 +6,32 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using MediatR;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ObservableRecipient, IComponent, IControl, IDisposable
+    public abstract class Component : ObservableRecipient, IComponent, IGetSetModel, IDisposable
     {
         public Component()
         {
             IsExpanded = false;
             Name = this.GetType().Name;
+            IsActive = true;
 
             Components = new ObservableCollection<Component>();
-            WeakReferenceMessenger.Default.Register<Component, MessageAddComponent>(this, (r, m) => r.Receive(m));
-            //Communicator = new ComponentCommunicator(this);
+
         }
-
-
-        public Communicator Communicator { get; set; }
-        public abstract void SetCommunicator(Communicator communicator);
-        public abstract void UnsetCommunicator(Communicator communicator);
 
 
         protected override void OnActivated()
         {
+            WeakReferenceMessenger.Default.Register<Component, Message, string>(this, "IN", (r, m) => r.Receive(m));
             // Using a method group...
-            WeakReferenceMessenger.Default.Register<Component, MessageAddComponent>(this, (r, m) => r.Receive(m));
+            //WeakReferenceMessenger.Default.Register<Component, MessageAddComponent>(this, (r, m) => r.Receive(m));
+
             // ...or a lambda expression
             //Messenger.Register<MyViewModel, LoggedInUserRequestMessage>(this, (r, m) =>
             //{
@@ -44,26 +39,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             //});
         }
 
-        private void Receive(MessageAddComponent message)
+        private void Receive(Message message)
         {
-            Console.WriteLine(this.GetType().Name + " ReceivedMessageAddComponent");
-            //this.Messenger.Send(new MessageAddComponent(this));
-            // Handle the message here
+            message.Process(this);
         }
-
-
-        //internal void ReceiveMessage(Message message)
-        //{
-        //    Console.WriteLine(this.GetType().Name + "ReceiveMessage of type" + message.GetType().Name);
-
-        //    if (message is MessageAddComponent)
-        //    {
-        //        var messageAddComponent = message as MessageAddComponent;
-        //        var newComponent = ComponentFactory.CreateComponent(messageAddComponent.ComponentModel);
-        //        this.AddComponent(newComponent);
-        //        //_componentDatabase.AddComponent(newComponent);
-        //    }
-        //}
 
 
         public Visibility Visibility { get; set; }
@@ -113,34 +92,19 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _components, value);
         }
 
-        public IMediator Mediator { get; set; }
-
         public async void AddComponent(Component component)
         {
             Console.WriteLine(this.GetType().Name + " SendMessageAddComponent");
-            WeakReferenceMessenger.Default.Send(new MessageAddComponent(this));
-            //Messenger.Send(new MessageAddComponent(this));
-
-            component.SetCommunicator(this.Communicator);
+            WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageAddComponent(this.ID, component), "OUT");
             Components.Add(component);
             IsExpanded = true;
-
-
-            //if (Mediator != null)
-            //{
-            //    await Mediator.Publish(new AddNewComponentNotification(this.ID, component));
-            //}
-            //Communicator?.SendMessage(new MessageAddComponent(component));
         }
 
         public void RemoveComponent(Component component)
         {
             int index = Components.IndexOf(component);
             component.Dispose();
-            component.UnsetCommunicator(this.Communicator);
             Components.Remove(component);
-
-            Communicator?.SendMessage(new MessageRemoveComponent(index));
         }
 
         public void RemoveComponentAtIndex(int index)

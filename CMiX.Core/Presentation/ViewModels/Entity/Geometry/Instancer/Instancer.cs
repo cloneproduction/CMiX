@@ -34,15 +34,11 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             Communicator = new Communicator(this);
             Communicator.SetCommunicator(communicator);
-
-            Transform.SetCommunicator(Communicator);
         }
 
         public void UnsetCommunicator(Communicator communicator)
         {
             Communicator.UnsetCommunicator(communicator);
-
-            Transform.UnsetCommunicator(Communicator);
         }
 
 
@@ -87,7 +83,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void AddTransformModifier(ITransformModifier transformModifier)
         {
-            transformModifier.SetCommunicator(Communicator);
             TransformModifiers.Add(transformModifier);
             Communicator?.SendMessage(new MessageAddTransformModifier(transformModifier.GetModel() as ITransformModifierModel));
         }

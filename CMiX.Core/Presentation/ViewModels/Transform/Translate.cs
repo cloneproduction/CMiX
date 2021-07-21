@@ -33,26 +33,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            X.SetCommunicator(Communicator);
-            Y.SetCommunicator(Communicator);
-            Z.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            X.UnsetCommunicator(Communicator);
-            Y.UnsetCommunicator(Communicator);
-            Z.UnsetCommunicator(Communicator);
-        }
-
-
         public IModel GetModel()
         {
             TranslateModel model = new TranslateModel();

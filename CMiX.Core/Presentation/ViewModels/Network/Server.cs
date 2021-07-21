@@ -17,7 +17,6 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public Server(int id)
         {
-            //Enabled = true;
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
@@ -235,59 +234,5 @@ namespace CMiX.Core.Presentation.ViewModels
             Stop();
             Start();
         }
-
-
-
-        //public NetMQServer NetMQServer { get; set; }
-
-        //public string Address
-        //{
-        //    get { return String.Format("tcp://{0}:{1}", IP, Port); }
-        //}
-
-        //public void Start()
-        //{
-        //    //if (NetMQServer == null)
-        //    //    NetMQServer = new NetMQServer(Address);
-
-        //    //NetMQServer.Start();
-        //    //IsRunning = true;
-        //}
-
-        //public void Send(byte[] data)
-        //{
-        //    //if (Enabled && NetMQServer != null),
-        //    //{
-        //    //    NetMQServer.SendObject(Topic, data);
-        //    //    Console.WriteLine("NetMQServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length);
-        //    //}
-        //}
-
-        //public void Stop()
-        //{
-        //    //if (NetMQServer != null)
-        //    //    NetMQServer.Stop();
-        //    //IsRunning = false;
-        //}
-
-        //private bool _isRunning;
-        //public bool IsRunning
-        //{
-        //    get => _isRunning;
-        //    set
-        //    {
-        //        SetProperty(ref _isRunning, value);
-        //        Notify(nameof(Status));
-        //    }
-        //}
-        //public string Status
-        //{
-        //    get
-        //    {
-        //        if (IsRunning)
-        //            return "Running...";
-        //        else
-        //            return "Stopped";
-        //    }
     }
 }

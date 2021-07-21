@@ -4,20 +4,34 @@
 using System;
 using System.Collections.ObjectModel;
 using Ceras;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MessageService : ObservableObject, IMessageService
+    public class MessageService : ObservableRecipient, IMessageService
     {
         public MessageService()
         {
             Servers = new ObservableCollection<Server>();
             Serializer = new CerasSerializer();
+            Client = new Client();
+            Client.DataReceived += Client_DataReceived;
+            WeakReferenceMessenger.Default.Register<MessageService, IMessage, string>(this, "OUT", (r, m) => r.Receive(m));
+        }
+
+        private void Client_DataReceived(object sender, DataEventArgs e)
+        {
+            Message message = Serializer.Deserialize<Message>(e.Data);
+            Messenger.Send<Message, string>(message, "IN");
+        }
+
+        private void Receive(IMessage m)
+        {
+            this.SendMessage(m as Message);
         }
 
 
@@ -25,21 +39,11 @@ namespace CMiX.Core.Presentation.ViewModels
         public Client Client { get; set; }
         public ObservableCollection<Server> Servers { get; set; }
 
-
-        public void SetCommunicator(Communicator communicator)
+        public void StartClient(Settings settings)
         {
-            communicator.MessageSent += Communicator_MessageSent;
-        }
-
-        public void UnSetCommunicator(Communicator communicator)
-        {
-            communicator.MessageSent -= Communicator_MessageSent;
-        }
-
-
-        private void Communicator_MessageSent(object sender, MessageEventArgs e)
-        {
-            this.SendMessage(e.Message);
+            Client.IP = settings.IP;
+            Client.Port = settings.Port;
+            Client.Start();
         }
 
         public void SendMessage(Message message)

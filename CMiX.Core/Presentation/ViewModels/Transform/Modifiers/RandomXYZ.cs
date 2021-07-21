@@ -117,54 +117,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            Counter.SetCommunicator(Communicator);
-            BeatModifier.SetCommunicator(Communicator);
-
-            RandomizeLocation.SetCommunicator(Communicator);
-            LocationX.SetCommunicator(Communicator);
-            LocationY.SetCommunicator(Communicator);
-            LocationZ.SetCommunicator(Communicator);
-
-            RandomizeScale.SetCommunicator(Communicator);
-            ScaleX.SetCommunicator(Communicator);
-            ScaleY.SetCommunicator(Communicator);
-            ScaleZ.SetCommunicator(Communicator);
-
-            RandomizeRotation.SetCommunicator(Communicator);
-            RotationX.SetCommunicator(Communicator);
-            RotationY.SetCommunicator(Communicator);
-            RotationZ.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            Counter.UnsetCommunicator(Communicator);
-            BeatModifier.UnsetCommunicator(Communicator);
-
-            RandomizeLocation.UnsetCommunicator(Communicator);
-            LocationX.UnsetCommunicator(Communicator);
-            LocationY.UnsetCommunicator(Communicator);
-            LocationZ.UnsetCommunicator(Communicator);
-
-            RandomizeScale.UnsetCommunicator(Communicator);
-            ScaleX.UnsetCommunicator(Communicator);
-            ScaleY.UnsetCommunicator(Communicator);
-            ScaleZ.UnsetCommunicator(Communicator);
-
-            RandomizeRotation.UnsetCommunicator(Communicator);
-            RotationX.UnsetCommunicator(Communicator);
-            RotationY.UnsetCommunicator(Communicator);
-            RotationZ.UnsetCommunicator(Communicator);
-        }
-
-
         private Vector3D[] PreviousLocation { get; set; }
         private Vector3D[] PreviousScale { get; set; }
         private Vector3D[] PreviousRotation { get; set; }

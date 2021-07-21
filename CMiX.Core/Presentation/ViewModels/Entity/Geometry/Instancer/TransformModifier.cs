@@ -44,7 +44,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public void CreateTransformModifier(TransformModifierNames transformModifierNames)
         {
             ITransformModifier transformModifier = Factory.CreateTransformModifier(transformModifierNames);
-            transformModifier.SetCommunicator(Communicator);
             AddTransformModifier(transformModifier);
         }
 

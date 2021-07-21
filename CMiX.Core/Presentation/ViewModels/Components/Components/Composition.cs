@@ -3,16 +3,14 @@
 
 using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
-using MediatR;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Composition : Component
     {
-        public Composition(Project project, CompositionModel compositionModel, IMediator mediator)
+        public Composition(Project project, CompositionModel compositionModel)
         {
             ID = compositionModel.ID;
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
@@ -27,24 +25,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Camera Camera { get; set; }
         public Slider Transition { get; set; }
         public MasterBeat MasterBeat { get; set; }
-
-
-        public override void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            Transition.SetCommunicator(Communicator);
-            MasterBeat.SetCommunicator(Communicator);
-        }
-
-        public override void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            Transition.UnsetCommunicator(Communicator);
-            MasterBeat.UnsetCommunicator(Communicator);
-        }
 
 
         public override IModel GetModel()

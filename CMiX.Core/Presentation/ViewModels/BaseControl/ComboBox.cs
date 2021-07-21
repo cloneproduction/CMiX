@@ -3,13 +3,12 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ComboBox<T> : ObservableObject, IControl
+    public class ComboBox<T> : ObservableRecipient, IControl
     {
         public ComboBox(ComboBoxModel<T> comboBoxModel)
         {
@@ -18,8 +17,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
-
 
         private T _selection;
         public T Selection
@@ -28,21 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _selection, value);
-                Communicator?.SendMessage(new MessageUpdateViewModel(this));
-                Console.WriteLine("Combobox Selection is " + Selection.ToString());
+                Messenger.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
             }
-        }
-
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
         }
 
 

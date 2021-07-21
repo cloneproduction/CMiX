@@ -49,24 +49,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            Feedback.SetCommunicator(Communicator);
-            Blur.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            Feedback.UnsetCommunicator(Communicator);
-            Blur.UnsetCommunicator(Communicator);
-        }
-
-
         public void SetViewModel(IModel model)
         {
             PostFXModel postFXModel = model as PostFXModel;

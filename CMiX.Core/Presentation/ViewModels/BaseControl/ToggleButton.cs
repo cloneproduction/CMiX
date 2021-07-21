@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ToggleButton : ObservableObject, IControl
+    public class ToggleButton : ObservableRecipient, IControl
     {
         public ToggleButton(ToggleButtonModel toggleButtonModel)
         {
@@ -27,7 +27,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _isChecked, value);
-                Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                Messenger.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
             }
         }
 

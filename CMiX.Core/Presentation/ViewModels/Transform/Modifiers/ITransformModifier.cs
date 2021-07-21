@@ -1,9 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using System.Collections.ObjectModel;
+using CMiX.Core.Models;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -13,7 +12,6 @@ namespace CMiX.Core.Presentation.ViewModels
         ObservableCollection<Transform> Transforms { get; set; }
         ModifierType SelectedModifierType { get; set; }
 
-        void SetCommunicator(Communicator communicator);
 
         void UpdateOnBeatTick(double period);
         void UpdateOnGameLoop(double period);

@@ -24,24 +24,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public ComboBox<TextureInvertMode> InvertMode { get; set; }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            Invert.SetCommunicator(Communicator);
-            InvertMode.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            Invert.UnsetCommunicator(Communicator);
-            InvertMode.UnsetCommunicator(Communicator);
-        }
-
-
         public void SetViewModel(IModel model)
         {
             InverterModel inverterModel = model as InverterModel;

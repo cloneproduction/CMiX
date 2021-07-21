@@ -8,10 +8,11 @@ using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Slider : ObservableObject, IControl
+    public class Slider : ObservableRecipient, IControl
     {
         public Slider(string name, SliderModel sliderModel)
         {
@@ -19,9 +20,28 @@ namespace CMiX.Core.Presentation.ViewModels
 
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
+            this.IsActive = true;
+
+
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
             ResetCommand = new RelayCommand(Reset);
+        }
+
+        protected override void OnActivated()
+        {
+            WeakReferenceMessenger.Default.Register<Slider, Message, string>(this, "IN", (r, m) => r.Receive(m));
+        }
+
+        protected override void OnDeactivated()
+        {
+            base.OnDeactivated();
+            WeakReferenceMessenger.Default.Unregister<Message, string>(this, "IN");
+        }
+
+        public void Receive(Message m)
+        {
+            m.Process(this);
         }
 
 
@@ -48,7 +68,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _amount, value);
-                Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
             }
         }
 
@@ -70,18 +90,6 @@ namespace CMiX.Core.Presentation.ViewModels
         private void Add() => Amount = Amount >= Maximum ? Maximum : Amount += 0.01;
         private void Sub() => Amount = Amount <= Minimum ? Minimum : Amount -= 0.01;
         public void Reset() => Amount = 0.0;
-
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
 
 
         public void SetViewModel(IModel model)

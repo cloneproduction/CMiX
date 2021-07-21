@@ -12,9 +12,9 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class MainViewModel
     {
-        public MainViewModel(IProject project, IDialogService dialogService)
+        public MainViewModel(IProject project, IDialogService dialogService, IMessageService messageService)
         {
-            ServerManager = new ServerManager(project, dialogService);
+            ServerManager = new ServerManager(messageService, dialogService);
 
             MainWindowController = new MainWindowController(dialogService);
             MainMenu = new MainMenu(project, dialogService);

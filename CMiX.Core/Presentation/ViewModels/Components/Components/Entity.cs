@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
@@ -27,27 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Texture Texture { get; set; }
         public Coloration Coloration { get; set; }
         public MasterBeat MasterBeat { get; set; }
-
-
-        public override void SetCommunicator(Communicator communicator)
-        {
-            Communicator.SetCommunicator(communicator);
-
-            BeatModifier.SetCommunicator(Communicator);
-            Geometry.SetCommunicator(Communicator);
-            Texture.SetCommunicator(Communicator);
-            Coloration.SetCommunicator(Communicator);
-        }
-
-        public override void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            BeatModifier.UnsetCommunicator(Communicator);
-            Geometry.UnsetCommunicator(Communicator);
-            Texture.UnsetCommunicator(Communicator);
-            Coloration.UnsetCommunicator(Communicator);
-        }
 
 
         public override IModel GetModel()

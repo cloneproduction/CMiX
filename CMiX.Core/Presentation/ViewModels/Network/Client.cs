@@ -4,11 +4,12 @@
 using System;
 using Ceras;
 using CMiX.Core.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
 
 namespace CMiX.Core.Services
 {
-    public class Client
+    public class Client : ObservableRecipient
     {
         public Client()
         {
@@ -23,8 +24,7 @@ namespace CMiX.Core.Services
         }
 
 
-        public CerasSerializer Serializer { get; set; }
-        public string Topic { get; set; }
+        private CerasSerializer Serializer { get; set; }
         public string IP { get; set; }
         public int Port { get; set; }
         public bool IsRunning { get; private set; }
@@ -62,6 +62,7 @@ namespace CMiX.Core.Services
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
+            Console.WriteLine("Client MessageReceived");
             OnDataReceived(sender, new DataEventArgs(e.Data));
         }
 

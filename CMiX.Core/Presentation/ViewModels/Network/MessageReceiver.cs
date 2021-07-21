@@ -81,10 +81,10 @@ namespace CMiX.Core.MessageService
             set => SetProperty(ref _client, value);
         }
 
-        public Settings GetSettings()
-        {
-            return new Settings(Name, Client.Topic, Client.IP, Client.Port);
-        }
+        //public Settings GetSettings()
+        //{
+        //    return new Settings(Name, Client.Topic, Client.IP, Client.Port);
+        //}
 
         public void SetSettings(Settings settings)
         {
@@ -92,7 +92,7 @@ namespace CMiX.Core.MessageService
                 Client.Stop();
 
             Name = settings.Name;
-            Client.Topic = settings.Topic;
+            //Client.Topic = settings.Topic;
             Client.IP = settings.IP;
             Client.Port = settings.Port;
         }
@@ -103,7 +103,7 @@ namespace CMiX.Core.MessageService
                 return;
 
             Name = settings.Name;
-            Client.Topic = settings.Topic;
+            //Client.Topic = settings.Topic;
             Client.IP = settings.IP;
             Client.Port = settings.Port;
             Client.Start();

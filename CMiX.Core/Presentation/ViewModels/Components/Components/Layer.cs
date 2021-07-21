@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
 
@@ -22,7 +21,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Mask = new Mask(layerModel.MaskModel);
 
             ComponentFactory = new SceneFactory(this);
-            Communicator = new Communicator(this);
         }
 
 
@@ -32,22 +30,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public PostFX PostFX { get; set; }
         public BlendMode BlendMode { get; set; }
         public ToggleButton Out { get; set; }
-
-
-        public override void SetCommunicator(Communicator communicator)
-        {
-            Communicator.SetCommunicator(communicator);
-
-            Fade.SetCommunicator(Communicator);
-            PostFX.SetCommunicator(Communicator);
-            BlendMode.SetCommunicator(Communicator);
-            Mask.SetCommunicator(Communicator);
-        }
-
-        public override void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
 
 
         public override IModel GetModel()
@@ -80,8 +62,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             foreach (var componentModel in layerModel.ComponentModels)
             {
                 var newComponent = this.ComponentFactory.CreateComponent(componentModel);
-                //newComponent.SetReceiver(MessageReceiver);
-                //newComponent.SetSender(MessageSender);
                 this.AddComponent(newComponent);
             }
         }

@@ -12,9 +12,9 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 {
     public class ServerManager : ObservableObject
     {
-        public ServerManager(IProject project, IDialogService dialogService)
+        public ServerManager(IMessageService messageService, IDialogService dialogService)
         {
-            Project = project;
+            MessageService = messageService;
             DialogService = dialogService;
 
             ServerFactory = new ServerFactory();
@@ -33,13 +33,13 @@ namespace CMiX.Core.Presentation.ViewModels.Network
         private IDialogService DialogService { get; set; }
 
 
-        private IProject Project { get; set; }
         private ServerFactory ServerFactory { get; set; }
+        public IMessageService MessageService { get; set; }
 
 
         public ObservableCollection<Server> Servers
         {
-            get => Project.Servers;
+            get => MessageService.Servers;
         }
 
 
@@ -62,7 +62,7 @@ namespace CMiX.Core.Presentation.ViewModels.Network
         public void AddServer()
         {
             var messenger = ServerFactory.CreateServer();
-            Project.Servers.Add(messenger);
+            MessageService.Servers.Add(messenger);
         }
 
         private void DeleteServer(Server server)
@@ -70,11 +70,11 @@ namespace CMiX.Core.Presentation.ViewModels.Network
             if (server != null)
             {
                 server.Stop();
-                Project.Servers.Remove(server);
+                MessageService.Servers.Remove(server);
 
-                if (Project.Servers.Count > 0)
+                if (MessageService.Servers.Count > 0)
                 {
-                    SelectedServer = Project.Servers[0];
+                    SelectedServer = MessageService.Servers[0];
                     return;
                 }
 
