@@ -1,8 +1,7 @@
-﻿using CMiX.Core.Presentation.Mediator;
+﻿
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;
@@ -32,15 +31,11 @@ namespace CMiX
             services.AddSingleton<IDialogTypeLocator, CustomTypeLocator>();
             services.AddSingleton<IDialogService, DialogService>();
 
-            services.AddSingleton<IMediator, Mediator>();
-
-
             services.AddSingleton<IMessageService, MessageService>();
             services.AddTransient<IProject, Project>();
 
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
-            services.AddMediatR(typeof(AddNewComponentNotification));
         }
     }
 }
