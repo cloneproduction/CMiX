@@ -119,13 +119,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Settings GetSettings()
         {
-            return new Settings(Name, Topic, IP, Port);
+            return new Settings(IP, Port);
         }
 
         public void SetSettings(Settings settings)
         {
             Name = settings.Name;
-            Topic = settings.Topic;
             IP = settings.IP;
             Port = settings.Port;
             Start();

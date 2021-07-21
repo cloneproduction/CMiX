@@ -98,22 +98,5 @@ namespace CMiX.Core.Services
         {
             WatsonTcpClient.Disconnect();
         }
-
-
-        //public void Stop()
-        //{
-        //    //if (Poller != null)
-        //    //    Poller.StopAsync();
-        //}
-
-        //public SubscriberSocket SubscriberSocket { get; set; }
-        //public NetMQPoller Poller { get; set; }
-
-        //private void ClientSub_ReceiveReady(object sender, NetMQSocketEventArgs e)
-        //{
-        //    string topic = e.Socket.ReceiveFrameString();
-        //    byte[] data = e.Socket.ReceiveFrameBytes();
-        //    OnDataReceived(sender, new DataEventArgs(data));
-        //}
     }
 }

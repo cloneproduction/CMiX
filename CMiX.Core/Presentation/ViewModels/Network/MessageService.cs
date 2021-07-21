@@ -25,8 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void Client_DataReceived(object sender, DataEventArgs e)
         {
-            Message message = Serializer.Deserialize<Message>(e.Data);
-            Messenger.Send<Message, string>(message, "IN");
+            IMessage message = Serializer.Deserialize<IMessage>(e.Data);
+            Messenger.Send(message, "IN");
         }
 
         private void Receive(IMessage m)

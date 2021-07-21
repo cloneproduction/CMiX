@@ -3,8 +3,7 @@
 
 namespace CMiX.Core.Network.Messages
 {
-    public interface IMessage
+    interface IComponentMessage : IMessage
     {
-        void Process<T>(T receiver);
     }
 }

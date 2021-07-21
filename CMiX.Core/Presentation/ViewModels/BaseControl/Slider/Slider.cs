@@ -4,7 +4,6 @@
 using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -30,7 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         protected override void OnActivated()
         {
-            WeakReferenceMessenger.Default.Register<Slider, Message, string>(this, "IN", (r, m) => r.Receive(m));
+            WeakReferenceMessenger.Default.Register<Slider, IMessage, string>(this, "IN", (r, m) => r.Receive(m));
         }
 
         protected override void OnDeactivated()
@@ -39,15 +38,13 @@ namespace CMiX.Core.Presentation.ViewModels
             WeakReferenceMessenger.Default.Unregister<Message, string>(this, "IN");
         }
 
-        public void Receive(Message m)
+        public void Receive(IMessage m)
         {
             m.Process(this);
         }
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
-
         public ICommand AddCommand { get; }
         public ICommand SubCommand { get; }
         public ICommand ResetCommand { get; }

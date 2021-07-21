@@ -27,7 +27,7 @@ namespace CMiX.Core.Network.Messages
         {
 
             var control = receiver as IControl;
-            if (control!= null && control.ID == this.ID)
+            if (control.ID == this.ID)
             {
                 Console.WriteLine("MessageUpdateViewModel ProcessMessage");
                 control.SetViewModel(Model);

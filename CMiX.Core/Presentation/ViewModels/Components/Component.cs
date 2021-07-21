@@ -28,7 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         protected override void OnActivated()
         {
-            WeakReferenceMessenger.Default.Register<Component, Message, string>(this, "IN", (r, m) => r.Receive(m));
+            WeakReferenceMessenger.Default.Register<Component, IMessage, string>(this, "IN", (r, m) => r.Receive(m));
             // Using a method group...
             //WeakReferenceMessenger.Default.Register<Component, MessageAddComponent>(this, (r, m) => r.Receive(m));
 
@@ -39,9 +39,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             //});
         }
 
-        private void Receive(Message message)
+        private void Receive(IMessage message)
         {
-            message.Process(this);
+            if (message is IComponentMessage)
+                message.Process(this);
         }
 
 
@@ -92,10 +93,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _components, value);
         }
 
-        public async void AddComponent(Component component)
+        public void AddComponent(Component component)
         {
             Console.WriteLine(this.GetType().Name + " SendMessageAddComponent");
             WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageAddComponent(this.ID, component), "OUT");
+
             Components.Add(component);
             IsExpanded = true;
         }

@@ -15,10 +15,8 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Settings : ObservableObject, IModalDialogViewModel
     {
-        public Settings(string name, string topic, string ip, int port)
+        public Settings(string ip, int port)
         {
-            Name = name;
-            Topic = topic;
             IP = ip;
             Port = port;
             CanApply = false;
@@ -70,16 +68,6 @@ namespace CMiX.Core.Presentation.ViewModels
             }
         }
 
-        private string _topic;
-        public string Topic
-        {
-            get => _topic;
-            set
-            {
-                SetProperty(ref _topic, value);
-                CanApply = true;
-            }
-        }
 
         private string _ip;
         public string IP

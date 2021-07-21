@@ -7,7 +7,7 @@ using CMiX.Core.Presentation.ViewModels.Components;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageAddComponent : Message, IMessage
+    public class MessageAddComponent : Message, IComponentMessage
     {
         public MessageAddComponent()
         {

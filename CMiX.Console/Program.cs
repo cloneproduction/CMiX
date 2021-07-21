@@ -12,7 +12,7 @@ namespace CMiX.Console
             ConfigureServices(serviceCollection);
             var serviceProvider = serviceCollection.BuildServiceProvider();
 
-            Settings settings = new Settings("Pouet", "Pouet", "192.168.0.192", 2222);
+            Settings settings = new Settings("192.168.0.192", 2222);
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
             messageService.StartClient(settings);
 
