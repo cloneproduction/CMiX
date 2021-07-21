@@ -8,7 +8,7 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 {
     public interface IMessageService
     {
-        void SendMessage(Message message);
+        void SendMessage(IMessage message);
         ObservableCollection<Server> Servers { get; set; }
     }
 }

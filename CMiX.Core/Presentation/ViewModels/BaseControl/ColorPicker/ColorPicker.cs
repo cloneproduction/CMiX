@@ -32,7 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
+        //public Communicator Communicator { get; set; }
         public ICommand PreviewMouseDownCommand { get; set; }
         public ICommand PreviewMouseUpCommand { get; set; }
         public ICommand PreviewMouseLeaveCommand { get; set; }
@@ -46,21 +46,21 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _selectedColor, value);
-                Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                //Communicator?.SendMessage(new MessageUpdateViewModel(this));
             }
         }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
+        //public void SetCommunicator(Communicator communicator)
+        //{
+        //    Communicator = new Communicator(this);
+        //    Communicator.SetCommunicator(communicator);
+        //}
 
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
+        //public void UnsetCommunicator(Communicator communicator)
+        //{
+        //    Communicator.UnsetCommunicator(communicator);
+        //}
 
 
         private byte _red;

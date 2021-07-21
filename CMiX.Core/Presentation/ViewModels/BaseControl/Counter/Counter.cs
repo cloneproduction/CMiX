@@ -40,7 +40,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _count, value);
                 OnCountChange();
-                Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                //Communicator?.SendMessage(new MessageUpdateViewModel(this));
             }
         }
 

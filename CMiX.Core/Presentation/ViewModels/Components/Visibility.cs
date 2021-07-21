@@ -40,7 +40,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set
             {
                 SetProperty(ref _isVisible, value);
-                Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                //Communicator?.SendMessage(new MessageUpdateViewModel(this));
                 Console.WriteLine("Visibility Is " + IsVisible);
             }
         }

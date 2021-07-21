@@ -7,7 +7,7 @@ using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageUpdateViewModel : Message, IMessage
+    public class MessageUpdateViewModel : IMessage
     {
         public MessageUpdateViewModel()
         {
@@ -23,7 +23,7 @@ namespace CMiX.Core.Network.Messages
         public Guid ID { get; set; }
         public IModel Model { get; set; }
 
-        public override void Process<T>(T receiver)
+        public void Process<T>(T receiver)
         {
 
             var control = receiver as IControl;

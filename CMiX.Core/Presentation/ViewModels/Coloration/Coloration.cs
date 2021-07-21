@@ -18,22 +18,7 @@ namespace CMiX.Core.Presentation.ViewModels
             ColorSelector = new ColorSelector(colorationModel.ColorSelectorModel);
         }
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            ColorSelector.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            ColorSelector.UnsetCommunicator(Communicator);
-        }
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public ColorSelector ColorSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
 

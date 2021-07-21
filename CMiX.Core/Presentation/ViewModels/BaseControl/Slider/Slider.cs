@@ -11,31 +11,20 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Slider : ObservableRecipient, IControl
+    public class Slider : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public Slider(string name, SliderModel sliderModel)
         {
             Name = name;
+            Messenger.RegisterAll(this, "IN");
 
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
             this.IsActive = true;
 
-
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
             ResetCommand = new RelayCommand(Reset);
-        }
-
-        protected override void OnActivated()
-        {
-            WeakReferenceMessenger.Default.Register<Slider, IMessage, string>(this, "IN", (r, m) => r.Receive(m));
-        }
-
-        protected override void OnDeactivated()
-        {
-            base.OnDeactivated();
-            WeakReferenceMessenger.Default.Unregister<Message, string>(this, "IN");
         }
 
         public void Receive(IMessage m)
@@ -43,6 +32,16 @@ namespace CMiX.Core.Presentation.ViewModels
             m.Process(this);
         }
 
+        //protected override void OnActivated()
+        //{
+        //    //WeakReferenceMessenger.Default.Register<Slider, IMessage, string>(this, "IN", (r, m) => r.Receive(m));
+        //}
+
+        //protected override void OnDeactivated()
+        //{
+        //    //base.OnDeactivated();
+        //    //WeakReferenceMessenger.Default.Unregister<Message, string>(this, "IN");
+        //}
 
         public Guid ID { get; set; }
         public ICommand AddCommand { get; }
@@ -94,7 +93,7 @@ namespace CMiX.Core.Presentation.ViewModels
             SliderModel sliderModel = model as SliderModel;
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
-            System.Console.WriteLine("Slider SetViewModel Amount " + Amount);
+            Console.WriteLine("Slider SetViewModel Amount " + Amount);
         }
 
         public IModel GetModel()

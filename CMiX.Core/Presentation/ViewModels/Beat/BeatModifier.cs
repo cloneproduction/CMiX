@@ -93,7 +93,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Period = MasterBeat.Periods[Index + MasterBeat.BeatIndex];
             AnimatedDouble = MasterBeat.BeatAnimations.AnimatedDoubles[Index + MasterBeat.BeatIndex];
             //Notify(nameof(BPM));
-            Communicator?.SendMessage(new MessageUpdateViewModel(this));
+            //Communicator?.SendMessage(new MessageUpdateViewModel(this));
         }
 
         public void SetViewModel(IModel model)

@@ -27,7 +27,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _mode, value);
-                Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                //Communicator?.SendMessage(new MessageUpdateViewModel(this));
                 Console.WriteLine("BlendModel is " + Mode);
             }
         }

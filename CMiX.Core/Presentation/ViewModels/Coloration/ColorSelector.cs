@@ -18,23 +18,23 @@ namespace CMiX.Core.Presentation.ViewModels
             //this.SelectedColor = Utils.HexStringToColor(colorSelectorModel.ColorPickerModel.SelectedColor);
         }
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
+        //public void SetCommunicator(Communicator communicator)
+        //{
+        //    Communicator = new Communicator(this);
+        //    Communicator.SetCommunicator(communicator);
 
-            ColorPicker.SetCommunicator(Communicator);
-        }
+        //    ColorPicker.SetCommunicator(Communicator);
+        //}
 
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
+        //public void UnsetCommunicator(Communicator communicator)
+        //{
+        //    Communicator.UnsetCommunicator(communicator);
 
-            ColorPicker.UnsetCommunicator(Communicator);
-        }
+        //    ColorPicker.UnsetCommunicator(Communicator);
+        //}
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
+        //public Communicator Communicator { get; set; }
         public ColorPicker ColorPicker { get; set; }
 
         private Color _selectedColor;

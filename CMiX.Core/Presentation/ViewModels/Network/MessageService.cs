@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void Receive(IMessage m)
         {
-            this.SendMessage(m as Message);
+            this.SendMessage(m);
         }
 
 
@@ -46,7 +46,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Client.Start();
         }
 
-        public void SendMessage(Message message)
+        public void SendMessage(IMessage message)
         {
             var data = Serializer.Serialize(message);
             foreach (var server in Servers)

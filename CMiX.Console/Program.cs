@@ -8,17 +8,14 @@ namespace CMiX.Console
     {
         static void Main(string[] args)
         {
-            var serviceCollection = new ServiceCollection();
+            ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
-            var serviceProvider = serviceCollection.BuildServiceProvider();
+            ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            Settings settings = new Settings("192.168.0.192", 2222);
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
-            messageService.StartClient(settings);
+            messageService.StartClient(new Settings("192.168.1.3", 2222));
 
             Project Project = serviceProvider.GetRequiredService<Project>();
-
-
 
             System.Console.ReadLine();
         }
