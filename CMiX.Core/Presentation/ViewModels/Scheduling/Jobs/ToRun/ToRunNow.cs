@@ -6,7 +6,7 @@ using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class ToRunNow : ObservableObject, IToRun, IGetSetModel//, IScheduleInterface<Schedule>
+    public class ToRunNow : ObservableObject, IToRun//, IScheduleInterface<Schedule>
     {
         public ToRunNow()
         {

@@ -28,7 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public MasterBeat MasterBeat { get; set; }
 
 
-        public override IModel GetModel()
+        public override IComponentModel GetModel()
         {
             EntityModel model = new EntityModel(this.ID);
 
@@ -41,7 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             return model;
         }
 
-        public override void SetViewModel(IModel model)
+        public override void SetViewModel(IComponentModel model)
         {
             EntityModel entityModel = model as EntityModel;
             this.BeatModifier.SetViewModel(entityModel.BeatModifierModel);

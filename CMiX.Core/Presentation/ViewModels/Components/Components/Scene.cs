@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public MasterBeat MasterBeat { get; set; }
 
 
-        public override IModel GetModel()
+        public override IComponentModel GetModel()
         {
             SceneModel model = new SceneModel(this.ID);
 
@@ -43,12 +43,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.TransformModel = (TransformModel)this.Transform.GetModel();
 
             foreach (Component item in this.Components)
-                model.ComponentModels.Add(item.GetModel() as IComponentModel);
+                model.ComponentModels.Add(item.GetModel());
 
             return model;
         }
 
-        public override void SetViewModel(IModel model)
+        public override void SetViewModel(IComponentModel model)
         {
             SceneModel sceneModel = model as SceneModel;
 

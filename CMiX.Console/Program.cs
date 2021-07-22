@@ -1,4 +1,5 @@
-﻿using CMiX.Core.Presentation.ViewModels;
+﻿using Ceras;
+using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Components;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -10,6 +11,7 @@ namespace CMiX.Console
         {
             ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
+
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
@@ -24,6 +26,7 @@ namespace CMiX.Console
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<Project>();
+            services.AddSingleton(new CerasSerializer());
             services.AddSingleton<MessageService>();
         }
     }

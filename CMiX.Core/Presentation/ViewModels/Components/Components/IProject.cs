@@ -8,7 +8,7 @@ using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public interface IProject : IComponent, IGetSetModel
+    public interface IProject : IComponent
     {
         SortableObservableCollection<Asset> Assets { get; set; }
         ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }

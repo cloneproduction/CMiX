@@ -12,15 +12,15 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MessageService : ObservableRecipient, IMessageService
+    public class MessageService : ObservableRecipient, IRecipient<IMessage>, IMessageService
     {
-        public MessageService()
+        public MessageService(CerasSerializer serializer)
         {
             Servers = new ObservableCollection<Server>();
-            Serializer = new CerasSerializer();
+            Serializer = serializer;
             Client = new Client();
             Client.DataReceived += Client_DataReceived;
-            WeakReferenceMessenger.Default.Register<MessageService, IMessage, string>(this, "OUT", (r, m) => r.Receive(m));
+            Messenger.RegisterAll(this, "OUT");
         }
 
         private void Client_DataReceived(object sender, DataEventArgs e)
@@ -29,10 +29,15 @@ namespace CMiX.Core.Presentation.ViewModels
             Messenger.Send(message, "IN");
         }
 
-        private void Receive(IMessage m)
+        public void Receive(IMessage message)
         {
-            this.SendMessage(m);
+            this.SendMessage(message);
         }
+
+        //private void Receive(IMessage m)
+        //{
+
+        //}
 
 
         private CerasSerializer Serializer { get; set; }

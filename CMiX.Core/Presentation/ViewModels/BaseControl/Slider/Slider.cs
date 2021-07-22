@@ -27,21 +27,6 @@ namespace CMiX.Core.Presentation.ViewModels
             ResetCommand = new RelayCommand(Reset);
         }
 
-        public void Receive(IMessage m)
-        {
-            m.Process(this);
-        }
-
-        //protected override void OnActivated()
-        //{
-        //    //WeakReferenceMessenger.Default.Register<Slider, IMessage, string>(this, "IN", (r, m) => r.Receive(m));
-        //}
-
-        //protected override void OnDeactivated()
-        //{
-        //    //base.OnDeactivated();
-        //    //WeakReferenceMessenger.Default.Unregister<Message, string>(this, "IN");
-        //}
 
         public Guid ID { get; set; }
         public ICommand AddCommand { get; }
@@ -80,6 +65,12 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             get => _maximum;
             set => SetProperty(ref _maximum, value);
+        }
+
+
+        public void Receive(IMessage m)
+        {
+            m.Process(this);
         }
 
 

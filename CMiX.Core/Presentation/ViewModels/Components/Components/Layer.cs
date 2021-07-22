@@ -32,7 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ToggleButton Out { get; set; }
 
 
-        public override IModel GetModel()
+        public override IComponentModel GetModel()
         {
             LayerModel model = new LayerModel(this.ID);
 
@@ -44,12 +44,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.PostFXModel = (PostFXModel)this.PostFX.GetModel();
 
             foreach (Component item in this.Components)
-                model.ComponentModels.Add(item.GetModel() as IComponentModel);
+                model.ComponentModels.Add(item.GetModel());
 
             return model;
         }
 
-        public override void SetViewModel(IModel model)
+        public override void SetViewModel(IComponentModel model)
         {
             LayerModel layerModel = model as LayerModel;
 

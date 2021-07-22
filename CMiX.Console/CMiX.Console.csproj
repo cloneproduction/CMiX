@@ -46,6 +46,9 @@
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Ceras, Version=4.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ceras.4.1.7\lib\net47\Ceras.dll</HintPath>
+    </Reference>
     <Reference Include="CommunityToolkit.Mvvm, Version=7.0.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
       <HintPath>..\packages\CommunityToolkit.Mvvm.7.0.3\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
     </Reference>

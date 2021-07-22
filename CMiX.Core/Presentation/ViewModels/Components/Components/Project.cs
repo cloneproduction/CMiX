@@ -28,7 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public SortableObservableCollection<Asset> Assets { get; set; }
 
 
-        public override IModel GetModel()
+        public override IComponentModel GetModel()
         {
             ProjectModel model = new ProjectModel();
 
@@ -36,7 +36,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             //model.IsVisible = this.IsVisible;
 
             foreach (Component item in this.Components)
-                model.ComponentModels.Add(item.GetModel() as IComponentModel);
+                model.ComponentModels.Add(item.GetModel());
 
             foreach (Asset asset in this.Assets)
                 model.AssetModels.Add((IAssetModel)asset.GetModel());
@@ -44,7 +44,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             return model;
         }
 
-        public override void SetViewModel(IModel componentModel)
+        public override void SetViewModel(IComponentModel componentModel)
         {
             var projectModel = componentModel as ProjectModel;
 

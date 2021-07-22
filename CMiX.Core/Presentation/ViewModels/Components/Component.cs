@@ -13,33 +13,19 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ObservableRecipient, IComponent, IGetSetModel, IDisposable
+    public abstract class Component : ObservableRecipient, IRecipient<IMessage>, IComponent, IDisposable
     {
         public Component()
         {
             IsExpanded = false;
-            Name = this.GetType().Name;
             IsActive = true;
-
+            Name = this.GetType().Name;
+            Messenger.RegisterAll(this, "IN");
             Components = new ObservableCollection<Component>();
-
         }
 
 
-        protected override void OnActivated()
-        {
-            WeakReferenceMessenger.Default.Register<Component, IMessage, string>(this, "IN", (r, m) => r.Receive(m));
-            // Using a method group...
-            //WeakReferenceMessenger.Default.Register<Component, MessageAddComponent>(this, (r, m) => r.Receive(m));
-
-            // ...or a lambda expression
-            //Messenger.Register<MyViewModel, LoggedInUserRequestMessage>(this, (r, m) =>
-            //{
-            //    // Handle the message here
-            //});
-        }
-
-        private void Receive(IMessage message)
+        public void Receive(IMessage message)
         {
             if (message is IComponentMessage)
                 message.Process(this);
@@ -125,8 +111,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Move(oldIndex, newIndex);
         }
 
-        public abstract void SetViewModel(IModel model);
-        public abstract IModel GetModel();
+        public abstract void SetViewModel(IComponentModel model);
+        public abstract IComponentModel GetModel();
 
         public void Dispose()
         {

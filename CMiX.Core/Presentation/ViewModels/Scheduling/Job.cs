@@ -8,7 +8,7 @@ using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public abstract class Job : ObservableObject, IGetSetModel, IJob
+    public abstract class Job : ObservableObject, IJob
     {
         public Action<Schedule> Action { get; set; }
 
