@@ -3,31 +3,20 @@
 
 using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ObservableRecipient, IRecipient<IMessage>, IComponent, IDisposable
+    public abstract class Component : ObservableObject, IComponent, IDisposable
     {
         public Component()
         {
             IsExpanded = false;
-            IsActive = true;
             Name = this.GetType().Name;
-            Messenger.RegisterAll(this, "IN");
             Components = new ObservableCollection<IComponent>();
-        }
-
-
-        public void Receive(IMessage message)
-        {
-
         }
 
 
@@ -86,16 +75,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void RemoveComponent(IComponent component)
         {
-            int index = Components.IndexOf(component);
             component.Dispose();
             Components.Remove(component);
         }
 
-        public void RemoveComponentAtIndex(int index)
-        {
-            IComponent component = Components.ElementAt(index);
-            RemoveComponent(component);
-        }
+        //public void RemoveComponentAtIndex(int index)
+        //{
+        //    IComponent component = Components.ElementAt(index);
+        //    RemoveComponent(component);
+        //}
 
         public void InsertComponent(int index, IComponent component)
         {

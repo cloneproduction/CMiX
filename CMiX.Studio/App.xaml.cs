@@ -33,7 +33,7 @@ namespace CMiX
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<IMessageService, MessageService>();
-            services.AddTransient<IProject, Project>();
+            services.AddSingleton<IProject, Project>();
 
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
