@@ -15,7 +15,7 @@ namespace CMiX.Core.Presentation.ViewModels
             OutlinerDragDropManager = new OutlinerDragDropManager();
         }
 
-        public ObservableCollection<Component> Components
+        public ObservableCollection<IComponent> Components
         {
             get => this.Component.Components;
         }

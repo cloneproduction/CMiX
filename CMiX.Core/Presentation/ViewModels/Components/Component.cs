@@ -21,14 +21,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             IsActive = true;
             Name = this.GetType().Name;
             Messenger.RegisterAll(this, "IN");
-            Components = new ObservableCollection<Component>();
+            Components = new ObservableCollection<IComponent>();
         }
 
 
         public void Receive(IMessage message)
         {
-            if (message is IComponentMessage)
-                message.Process(this);
+
         }
 
 
@@ -72,23 +71,20 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _isExpanded, value);
         }
 
-        private ObservableCollection<Component> _components;
-        public ObservableCollection<Component> Components
+        private ObservableCollection<IComponent> _components;
+        public ObservableCollection<IComponent> Components
         {
             get => _components;
             set => SetProperty(ref _components, value);
         }
 
-        public void AddComponent(Component component)
+        public void AddComponent(IComponent component)
         {
-            Console.WriteLine(this.GetType().Name + " SendMessageAddComponent");
-            WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageAddComponent(this.ID, component), "OUT");
-
             Components.Add(component);
             IsExpanded = true;
         }
 
-        public void RemoveComponent(Component component)
+        public void RemoveComponent(IComponent component)
         {
             int index = Components.IndexOf(component);
             component.Dispose();
@@ -97,11 +93,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void RemoveComponentAtIndex(int index)
         {
-            Component component = Components.ElementAt(index);
+            IComponent component = Components.ElementAt(index);
             RemoveComponent(component);
         }
 
-        public void InsertComponent(int index, Component component)
+        public void InsertComponent(int index, IComponent component)
         {
             Components.Insert(index, component);
         }

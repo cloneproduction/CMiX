@@ -5,7 +5,7 @@ using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageSelectedSchedulerIndex : Message
+    public class MessageSelectedSchedulerIndex : ISchedulerMessage
     {
         public MessageSelectedSchedulerIndex()
         {
@@ -19,7 +19,7 @@ namespace CMiX.Core.Network.Messages
 
 
         public int SelectedIndex { get; set; }
-        public override void Process<T>(T receiver)
+        public void Process<T>(T receiver)
         {
             SchedulerManager schedulerManager = receiver as SchedulerManager;
             //schedulerManager.SelectedSchedulerIndex = SelectedIndex;

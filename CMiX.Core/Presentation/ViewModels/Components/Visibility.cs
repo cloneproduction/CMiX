@@ -53,7 +53,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        public void SetVisibility(Component component)
+        public void SetVisibility(IComponent component)
         {
             if (!IsVisible)
                 IsVisible = true;
@@ -64,7 +64,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 this.SetChildVisibility(component, this.IsVisible);
         }
 
-        public void SetChildVisibility(Component component, bool parentVisibility)
+        public void SetChildVisibility(IComponent component, bool parentVisibility)
         {
             foreach (var childComponent in component.Components)
             {

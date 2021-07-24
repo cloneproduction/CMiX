@@ -1,29 +1,31 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentation.ViewModels.Components;
 using System;
+using CMiX.Core.Presentation.ViewModels.Components;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageRemoveComponent : Message
+    public class MessageRemoveComponent : IComponentMessage
     {
         public MessageRemoveComponent()
         {
 
         }
-        public MessageRemoveComponent(int index)
+
+        public MessageRemoveComponent(Guid parentID, Guid childID)
         {
-            Index = index;
+            ParentID = parentID;
+            ChildID = childID;
         }
 
-        public int Index { get; set; }
+        public Guid ParentID { get; set; }
+        public Guid ChildID { get; set; }
 
-        public override void Process<T>(T receiver)
+        public void Process<T>(T receiver)
         {
-            var component = receiver as Component;
-            component.RemoveComponentAtIndex(Index);
-            Console.WriteLine("ReceiveMessageRemoveComponent Count is " + component.Components.Count);
+            ComponentManager componentManager = receiver as ComponentManager;
+            componentManager.DeleteComponent(ParentID, ChildID);
         }
     }
 }

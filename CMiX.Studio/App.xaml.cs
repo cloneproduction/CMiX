@@ -1,4 +1,5 @@
 ﻿
+using Ceras;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
@@ -8,7 +9,6 @@ using MvvmDialogs.DialogFactories;
 using MvvmDialogs.DialogTypeLocators;
 using System;
 using System.Windows;
-using Ceras;
 
 namespace CMiX
 {
@@ -31,7 +31,7 @@ namespace CMiX
             services.AddSingleton<IDialogFactory, CustomFrameworkDialogFactory>();
             services.AddSingleton<IDialogTypeLocator, CustomTypeLocator>();
             services.AddSingleton<IDialogService, DialogService>();
-            services.AddSingleton(new CerasSerializer());
+            services.AddSingleton<CerasSerializer>();
             services.AddSingleton<IMessageService, MessageService>();
             services.AddTransient<IProject, Project>();
 
@@ -40,3 +40,6 @@ namespace CMiX
         }
     }
 }
+
+
+

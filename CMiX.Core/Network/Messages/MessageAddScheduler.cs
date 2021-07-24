@@ -6,7 +6,7 @@ using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageAddScheduler : Message
+    public class MessageAddScheduler : ISchedulerMessage
     {
         public MessageAddScheduler()
         {
@@ -21,10 +21,11 @@ namespace CMiX.Core.Network.Messages
 
         public CompositionSchedulerModel SchedulerModel { get; set; }
 
-        public override void Process<T>(T receiver)
+        public void Process<T>(T receiver)
         {
+
             SchedulerManager schedulerManager = receiver as SchedulerManager;
-            schedulerManager.CreateScheduler(SchedulerModel);
+            schedulerManager?.CreateScheduler(SchedulerModel);
         }
     }
 }

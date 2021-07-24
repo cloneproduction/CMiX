@@ -5,7 +5,7 @@ using System.IO;
 using System.Windows.Input;
 using Ceras;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Components.Factories;
+using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
@@ -14,14 +14,15 @@ using MvvmDialogs.FrameworkDialogs.SaveFile;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MainMenu : ObservableObject
+    public class MainMenu : ObservableRecipient
     {
         public MainMenu(IProject project, IDialogService dialogService)
         {
             Project = project;
             DialogService = dialogService;
             Serializer = new CerasSerializer();
-            ComponentFactory = new CompositionFactory(project);
+
+            IsActive = true;
 
             AddCompositionCommand = new RelayCommand(AddComposition);
             NewProjectCommand = new RelayCommand(NewProject);
@@ -34,7 +35,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public CerasSerializer Serializer { get; set; }
         public IDialogService DialogService { get; set; }
         public IProject Project { get; set; }
-        public IComponentFactory ComponentFactory { get; set; }
+
 
         public ICommand NewProjectCommand { get; }
         public ICommand SaveProjectCommand { get; }
@@ -47,8 +48,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void AddComposition()
         {
-            var composition = ComponentFactory.CreateComponent();
-            Project.AddComponent(composition);
+            Messenger.Send<IMessage, string>(new MessageAddComposition(Project), "INTERNAL");
         }
 
         private void NewProject()

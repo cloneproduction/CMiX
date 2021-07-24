@@ -17,11 +17,13 @@ namespace CMiX.Core.Presentation.ViewModels
             ServerManager = new ServerManager(messageService, dialogService);
 
             MainWindowController = new MainWindowController(dialogService);
-            MainMenu = new MainMenu(project, dialogService);
+
             AssetManager = new AssetManager(project, dialogService);
 
             ComponentManager = new ComponentManager(project);
             SchedulerManager = new SchedulerManager(project);
+
+            MainMenu = new MainMenu(project, dialogService);
             Outliner = new Outliner(project);
             PlaylistEditor = new PlaylistEditor(project);
         }

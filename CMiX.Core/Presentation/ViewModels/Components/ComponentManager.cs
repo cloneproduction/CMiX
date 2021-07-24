@@ -1,19 +1,30 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
+using CMiX.Core.Models;
+using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableObject
+    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
     {
         public ComponentManager(IComponent component)
         {
+            Components = new Dictionary<Guid, IComponent>();
+            Components.Add(component.ID, component);
             Component = component;
+
+            Messenger.RegisterAll(this, "IN");
+            Messenger.RegisterAll(this, "INTERNAL");
+            IsActive = true;
 
             CreateComponentCommand = new RelayCommand<Component>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
@@ -31,6 +42,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         private IComponent Component { get; set; }
 
 
+        private Dictionary<Guid, IComponent> Components { get; set; }
+
+
         private Component _selectedComponent;
         public Component SelectedComponent
         {
@@ -42,26 +56,53 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public void RenameComponent(Component component) => SelectedComponent.IsRenaming = true;
 
 
-        public void CreateComponent(Component component)
-        {
-            if (component is null)
-                component = this.Component as Component;
 
-            var newComponent = component.ComponentFactory.CreateComponent();
-            component.AddComponent(newComponent);
+        public void CreateComponent(Guid parentID, IComponentModel componentModel)
+        {
+
+            IComponent parentComponent;
+            Components.TryGetValue(parentID, out parentComponent);
+
+            var newComponent = parentComponent.ComponentFactory.CreateComponent(componentModel);
+            parentComponent.AddComponent(newComponent);
+            Components.Add(newComponent.ID, newComponent);
+
+
+            Messenger.Send<IMessage, string>(new MessageAddComponent(parentID, newComponent), "OUT");
+            Console.WriteLine(Component.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+        }
+
+        public void CreateComponent(IComponent parentComponent)
+        {
+            var newComponent = parentComponent.ComponentFactory.CreateComponent();
+            parentComponent.AddComponent(newComponent);
+            Components.Add(newComponent.ID, newComponent);
+
+            Messenger.Send<IMessage, string>(new MessageAddComponent(parentComponent.ID, newComponent), "OUT");
+            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
 
-        public void DeleteComponent(Component component)
+
+        public void DeleteComponent(Guid parentID, Guid childID)
         {
+            IComponent parentComponent;
+            Components.TryGetValue(parentID, out parentComponent);
+
+            parentComponent.Components.ToList().RemoveAll(x => x.ID == childID);
+            Components.Remove(childID);
+            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+        }
+
+        public void DeleteComponent(IComponent component)
+        {
+            var parentComponent = GetParent(Component.Components);
+            parentComponent.RemoveComponent(component);
+            Components.Remove(component.ID);
             component.Dispose();
-            if (component is Composition)
-            {
-                Component.RemoveComponent(component);
-                return;
-            }
-            var selectedParent = GetParent(Component.Components);
-            selectedParent.RemoveComponent(component);
+
+            Messenger.Send<IMessage, string>(new MessageRemoveComponent(parentComponent.ID, component.ID), "OUT");
+            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
 
@@ -79,7 +120,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        private void DeleteSelectedComponent(ObservableCollection<Component> components)
+        private void DeleteSelectedComponent(ObservableCollection<IComponent> components)
         {
             foreach (Component component in components)
             {
@@ -94,10 +135,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
 
 
-        private Component GetParent(ObservableCollection<Component> components)
+        private IComponent GetParent(ObservableCollection<IComponent> components)
         {
-            Component result = null;
-            foreach (Component component in components)
+            IComponent result = null;
+            foreach (IComponent component in components)
             {
                 if (component.Components.Any(c => c.IsSelected))
                 {
@@ -107,6 +148,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 result = GetParent(component.Components);
             }
             return result;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message is IComponentMessage)
+            {
+                Console.WriteLine("ComponentManager ReceiveMessage");
+                message.Process(this);
+                Console.WriteLine("ComponentManager ProcessedMessage");
+            }
         }
     }
 }

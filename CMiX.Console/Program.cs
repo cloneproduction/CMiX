@@ -1,6 +1,7 @@
 ﻿using Ceras;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentation.ViewModels.Scheduling;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Console
@@ -15,9 +16,11 @@ namespace CMiX.Console
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
-            messageService.StartClient(new Settings("192.168.1.3", 2222));
+            messageService.StartClient(new Settings("192.168.0.192", 2222));
 
             Project Project = serviceProvider.GetRequiredService<Project>();
+            SchedulerManager schedulerManager = new SchedulerManager(Project);
+            ComponentManager componentManager = new ComponentManager(Project);
 
             System.Console.ReadLine();
         }
@@ -26,7 +29,7 @@ namespace CMiX.Console
         private static void ConfigureServices(IServiceCollection services)
         {
             services.AddSingleton<Project>();
-            services.AddSingleton(new CerasSerializer());
+            services.AddSingleton<CerasSerializer>();
             services.AddSingleton<MessageService>();
         }
     }

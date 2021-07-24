@@ -5,21 +5,22 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class SchedulerManager : ObservableObject, IControl
+    public class SchedulerManager : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public SchedulerManager(IProject project)
         {
             this.ID = new Guid("22223344-5566-7788-99AA-BBCCDDEEFF00");
             Project = project;
             PlaylistEditor = new PlaylistEditor(project);
-
+            Messenger.Register(this, "IN");
+            IsActive = true;
             CreateSchedulerCommand = new RelayCommand(CreateScheduler);
             DeleteSchedulerCommand = new RelayCommand(DeleteScheduler);
         }
@@ -48,8 +49,9 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             set
             {
                 SetProperty(ref _selectedSchedulerIndex, value);
-                Communicator?.SendMessage(new MessageSelectedSchedulerIndex(value));
                 Console.WriteLine("SelectedSchedulerIndex = " + SelectedSchedulerIndex);
+
+                Messenger.Send<IMessage, string>(new MessageSelectedSchedulerIndex(value), "OUT");
             }
         }
 
@@ -58,42 +60,23 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         {
             CompositionSchedulerModel compositionSchedulerModel = new CompositionSchedulerModel();
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel, PlaylistEditor.Playlists);
-            compositionScheduler.SetCommunicator(Communicator);
             Project.CompositionSchedulers.Add(compositionScheduler);
 
-            Communicator?.SendMessage(new MessageAddScheduler(compositionSchedulerModel));
+            Messenger.Send<IMessage, string>(new MessageAddScheduler(compositionSchedulerModel), "OUT");
+
         }
 
         public void CreateScheduler(CompositionSchedulerModel compositionSchedulerModel)
         {
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel, PlaylistEditor.Playlists);
-            compositionScheduler.SetCommunicator(Communicator);
             Project.CompositionSchedulers.Add(compositionScheduler);
-            Console.WriteLine("Scheduler Created");
+            Console.WriteLine("Scheduler Created, Count is " + Project.CompositionSchedulers.Count);
         }
 
         public void DeleteScheduler()
         {
             Project.CompositionSchedulers.Remove(SelectedScheduler);
-            SelectedScheduler?.UnsetCommunicator(Communicator);
             SelectedScheduler = null;
-        }
-
-
-        public Communicator Communicator { get; set; }
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            PlaylistEditor.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-            PlaylistEditor.UnsetCommunicator(Communicator);
         }
 
 
@@ -108,6 +91,12 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         {
             SchedulerManagerModel schedulerModel = model as SchedulerManagerModel;
             this.ID = schedulerModel.ID;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message is ISchedulerMessage)
+                message.Process(this);
         }
     }
 }

@@ -136,6 +136,9 @@
     <Compile Include="Models\Scheduler\ToRunNowModel.cs" />
     <Compile Include="Network\Messages\IComponentMessage.cs" />
     <Compile Include="Network\Messages\IMessage.cs" />
+    <Compile Include="Network\Messages\IMessageComponent.cs" />
+    <Compile Include="Network\Messages\ISchedulerMessage.cs" />
+    <Compile Include="Network\Messages\MessageAddComposition.cs" />
     <Compile Include="Network\Messages\MessageAddCompositionToPlaylist.cs" />
     <Compile Include="Network\Messages\MessageAddNewPlaylist.cs" />
     <Compile Include="Network\Messages\MessageAddScheduler.cs" />

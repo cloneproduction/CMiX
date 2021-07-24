@@ -23,6 +23,12 @@ namespace CMiX.Core.Presentation.ViewModels
             Messenger.RegisterAll(this, "OUT");
         }
 
+
+        private CerasSerializer Serializer { get; set; }
+        public Client Client { get; set; }
+        public ObservableCollection<Server> Servers { get; set; }
+
+
         private void Client_DataReceived(object sender, DataEventArgs e)
         {
             IMessage message = Serializer.Deserialize<IMessage>(e.Data);
@@ -34,15 +40,6 @@ namespace CMiX.Core.Presentation.ViewModels
             this.SendMessage(message);
         }
 
-        //private void Receive(IMessage m)
-        //{
-
-        //}
-
-
-        private CerasSerializer Serializer { get; set; }
-        public Client Client { get; set; }
-        public ObservableCollection<Server> Servers { get; set; }
 
         public void StartClient(Settings settings)
         {

@@ -16,10 +16,11 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider(string name, SliderModel sliderModel)
         {
             Name = name;
-            Messenger.RegisterAll(this, "IN");
 
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
+
+            Messenger.RegisterAll(this, "IN");
             this.IsActive = true;
 
             AddCommand = new RelayCommand(Add);
