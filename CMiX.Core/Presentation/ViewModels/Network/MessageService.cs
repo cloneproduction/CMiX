@@ -12,7 +12,11 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MessageService : ObservableRecipient, IRecipient<IMessage>, IMessageService
+    public class MessageService : ObservableRecipient, 
+        IRecipient<MessageUpdateViewModel>,
+        IRecipient<MessageAddComponent>,
+        IRecipient<MessageRemoveComponent>,
+        IMessageService
     {
         public MessageService(CerasSerializer serializer)
         {
@@ -32,13 +36,18 @@ namespace CMiX.Core.Presentation.ViewModels
         private void Client_DataReceived(object sender, DataEventArgs e)
         {
             IMessage message = Serializer.Deserialize<IMessage>(e.Data);
-            Messenger.Send(message, "IN");
+
+            if(message is MessageAddComponent)
+                WeakReferenceMessenger.Default.Send((MessageAddComponent)message, "IN");
+
+            if (message is MessageRemoveComponent)
+                WeakReferenceMessenger.Default.Send((MessageRemoveComponent)message, "IN");
+
+            if (message is MessageUpdateViewModel)
+                WeakReferenceMessenger.Default.Send((MessageUpdateViewModel)message, "IN");
         }
 
-        public void Receive(IMessage message)
-        {
-            this.SendMessage(message);
-        }
+
 
 
         public void StartClient(Settings settings)
@@ -56,6 +65,21 @@ namespace CMiX.Core.Presentation.ViewModels
                 server.Send(data);
                 Console.WriteLine("DataSender SendMessage");
             }
+        }
+
+        public void Receive(MessageUpdateViewModel message)
+        {
+            this.SendMessage(message);
+        }
+
+        public void Receive(MessageAddComponent message)
+        {
+            this.SendMessage(message);
+        }
+
+        public void Receive(MessageRemoveComponent message)
+        {
+            this.SendMessage(message);
         }
     }
 }

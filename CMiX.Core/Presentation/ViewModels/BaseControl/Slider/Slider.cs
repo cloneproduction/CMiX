@@ -11,12 +11,12 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Slider : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class Slider : ObservableRecipient, IRecipient<MessageUpdateViewModel>, IControl
     {
         public Slider(string name, SliderModel sliderModel)
         {
             Name = name;
-
+            this.IsActive = false;
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
 
@@ -50,7 +50,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _amount, value);
-                WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
+                WeakReferenceMessenger.Default.Send<MessageUpdateViewModel, string>(new MessageUpdateViewModel(this), "OUT");
             }
         }
 
@@ -69,9 +69,9 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void Receive(IMessage m)
+        public void Receive(MessageUpdateViewModel m)
         {
-            m.Process(this);
+           m.Process(this);
         }
 
 

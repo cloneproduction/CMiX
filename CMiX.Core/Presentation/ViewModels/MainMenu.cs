@@ -6,8 +6,10 @@ using System.Windows.Input;
 using Ceras;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
@@ -35,20 +37,17 @@ namespace CMiX.Core.Presentation.ViewModels
         public CerasSerializer Serializer { get; set; }
         public IDialogService DialogService { get; set; }
         public IProject Project { get; set; }
-
-
         public ICommand NewProjectCommand { get; }
         public ICommand SaveProjectCommand { get; }
         public ICommand SaveAsProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
         public ICommand AddCompositionCommand { get; }
-
         public string FolderPath { get; set; }
 
 
         public void AddComposition()
         {
-            Messenger.Send<IMessage, string>(new MessageAddComposition(Project), "INTERNAL");
+            Messenger.Send(new MessageAddComposition(Project), "INTERNAL");
         }
 
         private void NewProject()

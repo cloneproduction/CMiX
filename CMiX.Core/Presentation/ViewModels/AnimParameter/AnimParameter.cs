@@ -24,7 +24,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public IRange Range { get; set; }

@@ -12,7 +12,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
     {
         Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }
+
         bool IsSelected { get; set; }
+        bool IsRenaming { get; set; }
+
         IComponentFactory ComponentFactory { get; set; }
         void AddComponent(IComponent component);
         void RemoveComponent(IComponent component);

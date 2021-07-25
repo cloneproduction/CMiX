@@ -14,21 +14,24 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
+    public class ComponentManager : ObservableRecipient, 
+        IRecipient<MessageAddComposition>,
+        IRecipient<MessageAddComponent>,
+        IRecipient<MessageRemoveComponent>
     {
-        public ComponentManager(IComponent component)
+        public ComponentManager(IComponent rootComponent)
         {
             Components = new Dictionary<Guid, IComponent>();
-            Components.Add(component.ID, component);
-            Component = component;
+            Components.Add(rootComponent.ID, rootComponent);
+            RootComponent = rootComponent;
 
-            Messenger.RegisterAll(this, "IN");
-            Messenger.RegisterAll(this, "INTERNAL");
-            IsActive = true;
+            WeakReferenceMessenger.Default.Register<MessageAddComposition, string>(this, "INTERNAL");
+            WeakReferenceMessenger.Default.RegisterAll(this, "IN");
+
 
             CreateComponentCommand = new RelayCommand<Component>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
-            DeleteComponentCommand = new RelayCommand<Component>(DeleteComponent);
+            DeleteComponentCommand = new RelayCommand<Component>(RemoveComponent);
             RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
         }
 
@@ -39,19 +42,25 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ICommand RenameComponentCommand { get; }
 
 
-        private IComponent Component { get; set; }
+        private IComponent RootComponent { get; set; }
         private Dictionary<Guid, IComponent> Components { get; set; }
 
 
-        private Component _selectedComponent;
-        public Component SelectedComponent
+        private IComponent _selectedComponent;
+        public IComponent SelectedComponent
         {
             get => _selectedComponent;
             set => SetProperty(ref _selectedComponent, value);
         }
 
+        private IComponent _selectedParent;
+        public IComponent SelectedParent
+        {
+            get => _selectedParent;
+            set => SetProperty(ref _selectedParent, value);
+        }
 
-        public void RenameComponent(Component component) => SelectedComponent.IsRenaming = true;
+        public void RenameComponent(IComponent component) => SelectedComponent.IsRenaming = true;
 
 
         public void CreateComponent(Guid parentID, IComponentModel componentModel)
@@ -63,8 +72,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            Messenger.Send<IMessage, string>(new MessageAddComponent(parentID, newComponent), "OUT");
-            Console.WriteLine(Component.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+            Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentID, newComponent), "OUT");
+            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
         public void CreateComponent(IComponent parentComponent)
@@ -73,7 +82,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            Messenger.Send<IMessage, string>(new MessageAddComponent(parentComponent.ID, newComponent), "OUT");
+            Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentComponent.ID, newComponent), "OUT");
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
@@ -86,22 +95,19 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             RemoveComponent(component);
         }
 
-        public void DeleteComponent(IComponent component)
-        {
-            RemoveComponent(component);
-        }
-
 
         private void RemoveComponent(IComponent component)
         {
-            var parentComponent = GetParent(Component, component.ID);
-            parentComponent.RemoveComponent(component);
+            IComponent parent = ((Component)component).GetParent(RootComponent, x => x.ID == component.ID);
+
+            parent.Components.Remove(component);
             Components.Remove(component.ID);
             component.Dispose();
 
-            Messenger.Send<IMessage, string>(new MessageRemoveComponent(component), "OUT");
-            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+            Messenger.Send<MessageRemoveComponent, string>(new MessageRemoveComponent(component), "OUT");
+            Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
         }
+
 
         public void InsertComponent(int index, Component parentComponent, Component componentToInsert)
         {
@@ -116,45 +122,24 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             //return result;
         }
 
+        public void Receive(MessageAddComposition message)
+        {
+            this.CreateComponent(RootComponent);
+        }
 
-        //private void DeleteSelectedComponent(ObservableCollection<IComponent> components)
+        public void Receive(MessageAddComponent message)
+        {
+            message.Process(this);
+        }
+
+        public void Receive(MessageRemoveComponent message)
+        {
+            message.Process(this);
+        }
+        //public void Receive(IMessage message)
         //{
-        //    foreach (Component component in components)
-        //    {
-        //        if (component.IsSelected)
-        //        {
-        //            components.Remove(component);
-        //            break;
-        //        }
-        //        DeleteSelectedComponent(component.Components);
-        //    }
+        //    if(message is IComponentMessage)
+        //        message.Process(this);
         //}
-
-
-        private IComponent GetParent(IComponent component, Guid childID)
-        {
-            IComponent result = null;
-            foreach (IComponent child in component.Components)
-            {
-                if (child.ID == childID)
-                {
-                    result = component;
-                    break;
-                }
-                result = GetParent(child, childID);
-            }
-            return result;
-        }
-
-
-        public void Receive(IMessage message)
-        {
-            if (message is IComponentMessage)
-            {
-                Console.WriteLine("ComponentManager ReceiveMessage");
-                message.Process(this);
-                Console.WriteLine("ComponentManager ProcessedMessage");
-            }
-        }
     }
 }

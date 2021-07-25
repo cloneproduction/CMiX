@@ -166,6 +166,7 @@
                             Padding="4" 
                             IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                             Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
                 </HierarchicalDataTemplate>
 
                 <HierarchicalDataTemplate DataType="{x:Type Components:Composition}" ItemsSource="{Binding Components}">
@@ -237,11 +238,13 @@
             </Controls:TreeViewSelect.Resources>
             
             <i:Interaction.Behaviors>
-                <Behaviors:BindableSelectedItemBehavior SelectedItem="{Binding Data.ComponentManager.SelectedComponent, Source={StaticResource RootProxy}, Mode=TwoWay}"/>
+                <Behaviors:BindableSelectedItemBehavior 
+                    SelectedParent="{Binding Data.ComponentManager.SelectedParent, Source={StaticResource RootProxy}, Mode=TwoWay}"
+                    SelectedItem="{Binding Data.ComponentManager.SelectedComponent, Source={StaticResource RootProxy}, Mode=TwoWay}"/>
             </i:Interaction.Behaviors>
 
             <TreeView.ItemContainerStyle>
-                <Style TargetType="TreeViewItem" BasedOn="{StaticResource TreeViewItemDefault}">
+                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemDefault}">
                     <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
                     <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
                 </Style>

@@ -3,12 +3,28 @@
 
 using System.Collections.Generic;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Extensions
 {
     public static class DependencyObjectExtensions
     {
+        public static TreeViewItem ContainerFromItemRecursive(this ItemContainerGenerator root, object item)
+        {
+            var treeViewItem = root.ContainerFromItem(item) as TreeViewItem;
+            if (treeViewItem != null)
+                return treeViewItem;
+            foreach (var subItem in root.Items)
+            {
+                treeViewItem = root.ContainerFromItem(subItem) as TreeViewItem;
+                var search = treeViewItem?.ItemContainerGenerator.ContainerFromItemRecursive(item);
+                if (search != null)
+                    return search;
+            }
+            return null;
+        }
+
         public static T FindParent<T>(this DependencyObject dependencyObject) where T : DependencyObject
         {
             if (dependencyObject != null)

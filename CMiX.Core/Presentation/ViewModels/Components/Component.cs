@@ -2,7 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Components.Factories;
@@ -84,6 +86,20 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         //    IComponent component = Components.ElementAt(index);
         //    RemoveComponent(component);
         //}
+
+        public IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)
+        {
+            var descendants = rootNodes.SelectMany(_ => GetAllDescendants(_.Components));
+            return rootNodes.Concat(descendants);
+        }
+
+        public IComponent GetParent(IComponent rootNode, Func<IComponent, bool> childSelector)
+        {
+            var allNodes = GetAllDescendants(new[] { rootNode });
+            var parentsOfSelectedChildren = allNodes.Where(node => node.Components.Any(childSelector));
+
+            return parentsOfSelectedChildren.Single();
+        }
 
         public void InsertComponent(int index, IComponent component)
         {
