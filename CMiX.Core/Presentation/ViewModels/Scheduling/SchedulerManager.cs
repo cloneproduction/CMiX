@@ -12,7 +12,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class SchedulerManager : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class SchedulerManager : ObservableRecipient, IRecipient<ISchedulerMessage>, IControl
     {
         public SchedulerManager(IProject project)
         {
@@ -93,10 +93,9 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             this.ID = schedulerModel.ID;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(ISchedulerMessage message)
         {
-            if (message is ISchedulerMessage)
-                message.Process(this);
+
         }
     }
 }

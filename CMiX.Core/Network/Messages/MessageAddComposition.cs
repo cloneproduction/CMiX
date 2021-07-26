@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Components;
 
 namespace CMiX.Core.Network.Messages
 {
@@ -20,14 +19,5 @@ namespace CMiX.Core.Network.Messages
         }
 
         public Guid ID { get; set; }
-
-        public void Process<T>(T receiver)
-        {
-            //ComponentManager componentManager = receiver as ComponentManager;
-            //if (componentManager != null)
-            //{
-            //    componentManager.CreateComponent(ID);
-            //}
-        }
     }
 }

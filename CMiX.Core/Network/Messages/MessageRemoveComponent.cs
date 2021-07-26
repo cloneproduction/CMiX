@@ -22,8 +22,8 @@ namespace CMiX.Core.Network.Messages
 
         public void Process<T>(T receiver)
         {
-            ComponentManager componentManager = receiver as ComponentManager;
-            componentManager?.DeleteComponent(ComponentID);
+            //ComponentManager componentManager = receiver as ComponentManager;
+            //componentManager?.DeleteComponent(ComponentID);
         }
     }
 }

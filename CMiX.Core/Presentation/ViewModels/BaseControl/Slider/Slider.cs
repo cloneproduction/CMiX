@@ -69,9 +69,10 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void Receive(MessageUpdateViewModel m)
+        public void Receive(MessageUpdateViewModel message)
         {
-           m.Process(this);
+            if (message.ID == this.ID)
+                this.SetViewModel(message.Model);
         }
 
 

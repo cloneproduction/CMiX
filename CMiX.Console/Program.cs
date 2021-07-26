@@ -16,11 +16,11 @@ namespace CMiX.Console
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
-            messageService.StartClient(new Settings("192.168.1.3", 2222));
+            messageService.StartClient(new Settings("192.168.1.4", 2222));
 
             Project Project = serviceProvider.GetRequiredService<Project>();
             SchedulerManager schedulerManager = new SchedulerManager(Project);
-            ComponentManager componentManager = new ComponentManager(Project);
+            ComponentManager componentManager = new ComponentManager(messageService, Project);
 
             System.Console.ReadLine();
         }

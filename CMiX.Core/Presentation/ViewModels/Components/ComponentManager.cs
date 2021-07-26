@@ -8,6 +8,7 @@ using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -19,15 +20,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         IRecipient<MessageAddComponent>,
         IRecipient<MessageRemoveComponent>
     {
-        public ComponentManager(IComponent rootComponent)
+        public ComponentManager(IMessageService messageService, IComponent rootComponent)
         {
+            MessageService = messageService;
+            IsActive = false;
             Components = new Dictionary<Guid, IComponent>();
             Components.Add(rootComponent.ID, rootComponent);
             RootComponent = rootComponent;
 
-            WeakReferenceMessenger.Default.Register<MessageAddComposition, string>(this, "INTERNAL");
+            WeakReferenceMessenger.Default.RegisterAll(this, "INTERNAL");
             WeakReferenceMessenger.Default.RegisterAll(this, "IN");
-
 
             CreateComponentCommand = new RelayCommand<Component>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
@@ -41,7 +43,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ICommand DeleteComponentCommand { get; }
         public ICommand RenameComponentCommand { get; }
 
-
+        private IMessageService MessageService { get; set; }
         private IComponent RootComponent { get; set; }
         private Dictionary<Guid, IComponent> Components { get; set; }
 
@@ -72,7 +74,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentID, newComponent), "OUT");
+            MessageService.SendMessage(new MessageAddComponent(parentID, newComponent));
+            //Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentID, newComponent), "OUT");
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
@@ -82,7 +85,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentComponent.ID, newComponent), "OUT");
+            MessageService.SendMessage(new MessageAddComponent(parentComponent.ID, newComponent));
+            //Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentComponent.ID, newComponent), "OUT");
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
@@ -104,7 +108,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Remove(component.ID);
             component.Dispose();
 
-            Messenger.Send<MessageRemoveComponent, string>(new MessageRemoveComponent(component), "OUT");
+            MessageService.SendMessage(new MessageRemoveComponent(component));
+            //Messenger.Send<MessageRemoveComponent, string>(new MessageRemoveComponent(component), "OUT");
             Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
         }
 
@@ -129,17 +134,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void Receive(MessageAddComponent message)
         {
-            message.Process(this);
+            this.CreateComponent(message.ParentID, message.ComponentModel);
         }
 
         public void Receive(MessageRemoveComponent message)
         {
-            message.Process(this);
+            this.DeleteComponent(message.ComponentID);
         }
-        //public void Receive(IMessage message)
-        //{
-        //    if(message is IComponentMessage)
-        //        message.Process(this);
-        //}
     }
 }

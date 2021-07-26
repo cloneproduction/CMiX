@@ -5,6 +5,6 @@ namespace CMiX.Core.Network.Messages
 {
     public interface IMessage
     {
-        void Process<T>(T receiver);
+        //void Process<T>(T receiver);
     }
 }

@@ -23,11 +23,5 @@ namespace CMiX.Core.Network.Messages
 
         public IComponentModel ComponentModel { get; set; }
         public Guid ParentID { get; set; }
-
-        public void Process<T>(T receiver)
-        {
-            ComponentManager componentManager = receiver as ComponentManager;
-            componentManager?.CreateComponent(ParentID, ComponentModel);
-        }
     }
 }
