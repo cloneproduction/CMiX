@@ -21,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
 
-            Messenger.RegisterAll(this, MessageType.In);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             this.IsActive = true;
 
             AddCommand = new RelayCommand(Add);
