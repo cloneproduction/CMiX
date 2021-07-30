@@ -3,8 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
@@ -15,21 +13,21 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableRecipient, 
-        IRecipient<MessageAddComposition>,
-        IRecipient<MessageAddComponent>,
-        IRecipient<MessageRemoveComponent>
+    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
     {
         public ComponentManager(IMessageService messageService, IComponent rootComponent)
         {
+            IsActive = true;
+
+            Messenger.RegisterAll(this, MessageType.Internal);
+            Messenger.RegisterAll(this, MessageType.In);
+
+
             MessageService = messageService;
-            IsActive = false;
+
             Components = new Dictionary<Guid, IComponent>();
             Components.Add(rootComponent.ID, rootComponent);
             RootComponent = rootComponent;
-
-            WeakReferenceMessenger.Default.RegisterAll(this, "INTERNAL");
-            WeakReferenceMessenger.Default.RegisterAll(this, "IN");
 
             CreateComponentCommand = new RelayCommand<Component>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
@@ -46,6 +44,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         private IMessageService MessageService { get; set; }
         private IComponent RootComponent { get; set; }
         private Dictionary<Guid, IComponent> Components { get; set; }
+
 
 
         private IComponent _selectedComponent;
@@ -74,8 +73,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            MessageService.SendMessage(new MessageAddComponent(parentID, newComponent));
-            //Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentID, newComponent), "OUT");
+            //MessageService.SendMessage(new MessageAddComponent(parentID, newComponent));
+            Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
@@ -85,8 +84,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            MessageService.SendMessage(new MessageAddComponent(parentComponent.ID, newComponent));
-            //Messenger.Send<MessageAddComponent, string>(new MessageAddComponent(parentComponent.ID, newComponent), "OUT");
+            //MessageService.SendMessage(new MessageAddComponent(parentComponent.ID, newComponent));
+
+            Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
@@ -108,8 +108,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Remove(component.ID);
             component.Dispose();
 
-            MessageService.SendMessage(new MessageRemoveComponent(component));
-            //Messenger.Send<MessageRemoveComponent, string>(new MessageRemoveComponent(component), "OUT");
+            //MessageService.SendMessage(new MessageRemoveComponent(component));
+            Messenger.Send<IMessage, int>(new MessageRemoveComponent(component), MessageType.Out);
             Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
         }
 
@@ -127,19 +127,22 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             //return result;
         }
 
-        public void Receive(MessageAddComposition message)
+        public void Receive(IMessage message)
         {
-            this.CreateComponent(RootComponent);
-        }
+            switch (message)
+            {
+                case MessageAddComposition _:
+                    this.CreateComponent(RootComponent);
+                    break;
 
-        public void Receive(MessageAddComponent message)
-        {
-            this.CreateComponent(message.ParentID, message.ComponentModel);
-        }
+                case MessageAddComponent add:
+                    this.CreateComponent(add.ParentID, add.ComponentModel);
+                    break;
 
-        public void Receive(MessageRemoveComponent message)
-        {
-            this.DeleteComponent(message.ComponentID);
+                case MessageRemoveComponent remove:
+                    this.DeleteComponent(remove.ComponentID);
+                    break;
+            }
         }
     }
 }

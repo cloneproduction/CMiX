@@ -5,13 +5,14 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Slider : ObservableRecipient, IRecipient<MessageUpdateViewModel>, IControl
+    public class Slider : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public Slider(string name, SliderModel sliderModel)
         {
@@ -20,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
 
-            Messenger.RegisterAll(this, "IN");
+            Messenger.RegisterAll(this, MessageType.In);
             this.IsActive = true;
 
             AddCommand = new RelayCommand(Add);
@@ -50,7 +51,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _amount, value);
-                WeakReferenceMessenger.Default.Send<MessageUpdateViewModel, string>(new MessageUpdateViewModel(this), "OUT");
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
@@ -69,10 +70,13 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void Receive(MessageUpdateViewModel message)
+        public void Receive(IMessage message)
         {
-            if (message.ID == this.ID)
-                this.SetViewModel(message.Model);
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+            }
         }
 
 

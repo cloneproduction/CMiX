@@ -5,8 +5,6 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
-using CMiX.Core.Network.Communicators;
-using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -30,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public ICommand SetVisibilityCommand { get; set; }
 
         private bool _isVisible;
@@ -40,7 +37,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set
             {
                 SetProperty(ref _isVisible, value);
-                //Communicator?.SendMessage(new MessageUpdateViewModel(this));
                 Console.WriteLine("Visibility Is " + IsVisible);
             }
         }
@@ -74,18 +70,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 }
                 childComponent.Visibility.ParentIsVisible = parentVisibility;
             }
-        }
-
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
         }
 
 

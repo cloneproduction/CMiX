@@ -12,19 +12,22 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MessageService : ObservableRecipient, 
-        IRecipient<MessageUpdateViewModel>,
-        IRecipient<MessageAddComponent>,
-        IRecipient<MessageRemoveComponent>,
-        IMessageService
+    public class MessageService : ObservableRecipient, IMessageService
     {
         public MessageService(CerasSerializer serializer)
         {
             Servers = new ObservableCollection<Server>();
             Serializer = serializer;
+
             Client = new Client();
             Client.DataReceived += Client_DataReceived;
-            Messenger.RegisterAll(this, "OUT");
+            IsActive = true;
+        }
+
+
+        protected override void OnActivated()
+        {
+            Messenger.Register<IMessage, int>(this, MessageType.Out, (r, m) => SendMessage(m));
         }
 
 
@@ -36,18 +39,8 @@ namespace CMiX.Core.Presentation.ViewModels
         private void Client_DataReceived(object sender, DataEventArgs e)
         {
             IMessage message = Serializer.Deserialize<IMessage>(e.Data);
-
-            if(message is MessageAddComponent)
-                WeakReferenceMessenger.Default.Send((MessageAddComponent)message, "IN");
-
-            if (message is MessageRemoveComponent)
-                WeakReferenceMessenger.Default.Send((MessageRemoveComponent)message, "IN");
-
-            if (message is MessageUpdateViewModel)
-                WeakReferenceMessenger.Default.Send((MessageUpdateViewModel)message, "IN");
+            Messenger.Send(message, MessageType.In);
         }
-
-
 
 
         public void StartClient(Settings settings)
@@ -59,27 +52,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void SendMessage(IMessage message)
         {
+            Console.WriteLine("MessageService SendMessage");
             var data = Serializer.Serialize(message);
             foreach (var server in Servers)
             {
                 server.Send(data);
-                Console.WriteLine("DataSender SendMessage");
             }
-        }
-
-        public void Receive(MessageUpdateViewModel message)
-        {
-            this.SendMessage(message);
-        }
-
-        public void Receive(MessageAddComponent message)
-        {
-            this.SendMessage(message);
-        }
-
-        public void Receive(MessageRemoveComponent message)
-        {
-            this.SendMessage(message);
         }
     }
 }

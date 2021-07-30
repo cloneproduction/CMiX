@@ -4,10 +4,11 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageUpdateViewModel : IMessage
+    public class MessageUpdateViewModel : IMessage//, IMessage
     {
         public MessageUpdateViewModel()
         {
@@ -22,16 +23,5 @@ namespace CMiX.Core.Network.Messages
 
         public Guid ID { get; set; }
         public IModel Model { get; set; }
-
-        public void Process<T>(T receiver)
-        {
-
-            var control = receiver as IControl;
-            if (control.ID == this.ID)
-            {
-                Console.WriteLine("MessageUpdateViewModel ProcessMessage");
-                control.SetViewModel(Model);
-            }
-        }
     }
 }

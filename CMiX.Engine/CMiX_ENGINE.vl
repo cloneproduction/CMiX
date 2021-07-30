@@ -24,6 +24,7 @@
               <Pin Id="Cww2FryGdUtPpBgVMciOey" Name="Break" Kind="OutputPin" />
               <ControlPoint Id="EZJyr6x2XxyQAhH9nZSvKt" Bounds="438,690" Alignment="Bottom" />
               <ControlPoint Id="SdlJIYFBcY9QJ5OS4O9klo" Bounds="563,690" Alignment="Bottom" />
+              <ControlPoint Id="BHYclhIh6TqPT0bVzfBo3U" Bounds="440,479" Alignment="Top" />
               <Patch Id="BNiUvFwYcKHOyixrNjjxt2" ManuallySortedPins="true">
                 <Patch Id="Uqf423GnvgIQCrxglnSszq" Name="Create" ManuallySortedPins="true" />
                 <Patch Id="A4NTrsPKQjnQDLjiNDCUPl" Name="Update" ManuallySortedPins="true" />
@@ -57,7 +58,7 @@
                   <Pin Id="NM6TvjFdpmrQVe7tZRo0Ls" Name="Amount" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="672,596,66,26" Id="HKrA2JMKKeEP272gjdQGPx">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Composition" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Composition" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="MasterBeat" />
                     <CategoryReference Kind="AssemblyCategory" Name="Composition" NeedsToBeDirectParent="true" />
@@ -67,7 +68,7 @@
                   <Pin Id="FtLRNdA93E2L2K8qAqGHvU" Name="Master Beat" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="733,645,56,26" Id="GXhzpH49n6vMfJNpB5fLq4">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Beat.MasterBeat" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Beat.MasterBeat" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Period" />
                     <CategoryReference Kind="AssemblyCategory" Name="MasterBeat" NeedsToBeDirectParent="true" />
@@ -78,10 +79,9 @@
                 </Node>
                 <Pad Id="U8aZUOZU7jrOklAZiUAZUy" Comment="Period" Bounds="786,707,47,15" ShowValueBox="true" isIOBox="true" />
               </Patch>
-              <ControlPoint Id="BHYclhIh6TqPT0bVzfBo3U" Bounds="440,479" Alignment="Top" />
             </Node>
             <Node Bounds="370,319,74,26" Id="Qqh9OH7j70QM86OsYKQEqG">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Component" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Component" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Components" />
                 <CategoryReference Kind="AssemblyCategory" Name="Component" NeedsToBeDirectParent="true">
@@ -164,7 +164,7 @@
         <Patch Id="Ge2WrSuELLwLb8JBBIgJqC">
           <Canvas Id="DRRoOv3vECpPeDdZlqPQyt" CanvasType="Group">
             <Node Bounds="346,388,74,26" Id="Vb0emVfBXpuPue5AuNUPvm">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Component" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Component" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Components" />
                 <CategoryReference Kind="AssemblyCategory" Name="Component" NeedsToBeDirectParent="true">
@@ -289,6 +289,7 @@
               </p:NodeReference>
               <Pin Id="H09YWFcZAekMONHRxiVHQj" Name="Break" Kind="OutputPin" />
               <ControlPoint Id="Hz457kZkBAMPaPyW25GRDL" Bounds="363,350" Alignment="Top" />
+              <ControlPoint Id="NVwsTph9PuhM7krv0AOCt1" Bounds="597,637" Alignment="Bottom" />
               <Patch Id="LlKuZkcRPInNGLjFo7d7xh" ManuallySortedPins="true">
                 <Patch Id="B2rIG0s2PxlP5T6Xcid5KO" Name="Create" ManuallySortedPins="true" />
                 <Patch Id="BAbTPVE8KIvPuXt5logY1n" Name="Update" ManuallySortedPins="true" />
@@ -304,7 +305,7 @@
                   <Pin Id="N59lEhD1FVzOaH4D19j4DV" Name="Success" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="361,465,46,26" Id="DCc8Wsd3dkFQSTqyHvs2cj">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Scene" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Scene" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="Scene" />
                     <Choice Kind="OperationCallFlag" Name="PostFX" />
@@ -314,7 +315,7 @@
                   <Pin Id="C5cp2MtcFb0QTvtxbP6Czl" Name="Post FX" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="402,522,40,26" Id="KxGSz8FklmJMG21LekXmjB">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.PostFX" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.PostFX" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="PostFX" />
                     <Choice Kind="OperationCallFlag" Name="Blur" />
@@ -324,7 +325,7 @@
                   <Pin Id="BCyU5aRbH5mNUoLkxATylV" Name="Blur" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="437,572,52,26" Id="Dl0qoPIcpURLB9AUAuWaRi">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Amount" />
                     <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -356,10 +357,9 @@
                   <Pin Id="GCBsOH20L8yNJjEnPstIQf" Name="Output" Kind="OutputPin" />
                 </Node>
               </Patch>
-              <ControlPoint Id="NVwsTph9PuhM7krv0AOCt1" Bounds="597,637" Alignment="Bottom" />
             </Node>
             <Node Bounds="292,290,74,26" Id="Kh73oJLezWIL2JwkpE8f89">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Component" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Component" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Components" />
                 <CategoryReference Kind="AssemblyCategory" Name="Component" NeedsToBeDirectParent="true">
@@ -549,7 +549,7 @@
         <Patch Id="U7sqLDGnIbRPcfKFiXp3Rl">
           <Canvas Id="GypuckblFVWPvaAVnOI9QW" CanvasType="Group">
             <Node Bounds="386,374,74,26" Id="PawDkkbYPElQNGXdKR7r8E">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Component" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Component" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Components" />
                 <CategoryReference Kind="AssemblyCategory" Name="Component" NeedsToBeDirectParent="true">
@@ -751,7 +751,7 @@
         <Patch Id="BG25cKYjeRONa8U5vzdLsc">
           <Canvas Id="GPu6nnLaCSiMiPALuOSz5b" CanvasType="Group">
             <Node Bounds="317,370,54,26" Id="OqXe5IUodCbNtCLzYlMgPq">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Transform" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Transform" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <CategoryReference Kind="AssemblyCategory" Name="Transform" />
@@ -762,7 +762,7 @@
               <Pin Id="JbfQnrg5wgyPwup6az0gQi" Name="Scale" Kind="OutputPin" />
             </Node>
             <Node Bounds="298,437,34,26" Id="OR9kdlZnI2VLvWfd2Yq97t">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Scale" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Scale" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="X" />
@@ -773,7 +773,7 @@
               <Pin Id="Ny1g9Kli4ZULnu1FtjZ8Gp" Name="X" Kind="OutputPin" />
             </Node>
             <Node Bounds="366,437,34,26" Id="TE9fkeeEVKFNCuEI69PeDa">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Scale" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Scale" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Y" />
                 <CategoryReference Kind="AssemblyCategory" Name="Scale" NeedsToBeDirectParent="true" />
@@ -783,7 +783,7 @@
               <Pin Id="Mfsutvn6X5cPkJt1NQnQHE" Name="Y" Kind="OutputPin" />
             </Node>
             <Node Bounds="432,437,34,26" Id="GgkNGcwNeG8QLwvm1wduOC">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Scale" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Scale" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Z" />
                 <CategoryReference Kind="AssemblyCategory" Name="Scale" NeedsToBeDirectParent="true" />
@@ -793,7 +793,7 @@
               <Pin Id="Ahd379ivbrlLgzvcCemVZ3" Name="Z" Kind="OutputPin" />
             </Node>
             <Node Bounds="260,537,52,26" Id="RIy6nFK7PRMOTqkgPmrYTc">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -824,7 +824,7 @@
               <Pin Id="Vt38pIoSUsiOVC5WC9ZHko" Name="Result" Kind="OutputPin" />
             </Node>
             <Node Bounds="348,537,52,26" Id="HebpnVMWedUPjA8EAKINID">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -836,7 +836,7 @@
               <Pin Id="NJyWT9eAhHML1lEbfJDPNV" Name="Amount" Kind="OutputPin" />
             </Node>
             <Node Bounds="433,537,52,26" Id="SLZEiYVMkNcOhnSLYtLY6B">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -906,7 +906,7 @@
         <Patch Id="OjQMvvQRSK2NZZBjToEL2x">
           <Canvas Id="EQQzF9UM27iN9ntjQ9kTuC" CanvasType="Group">
             <Node Bounds="377,387,54,26" Id="EE3a56W7cNjLGPdif6SntG">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Transform" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Transform" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <CategoryReference Kind="AssemblyCategory" Name="Transform" />
@@ -917,7 +917,7 @@
               <Pin Id="Drni73HLYxTNuw2dqrnWB5" Name="Rotation" Kind="OutputPin" />
             </Node>
             <Node Bounds="342,537,46,26" Id="RDBjitGcqHOODSL1yrf8gW">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Rotation" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Rotation" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="X" />
@@ -930,7 +930,7 @@
               <Pin Id="JNDUdoondaAOEnjK18zyE6" Name="X" Kind="OutputPin" />
             </Node>
             <Node Bounds="425,539,46,26" Id="JTTZEzzRESOOnNbkPSkXOC">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Rotation" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Rotation" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Y" />
                 <CategoryReference Kind="AssemblyCategory" Name="Rotation" NeedsToBeDirectParent="true">
@@ -942,7 +942,7 @@
               <Pin Id="Ia1QKIgqsehLWirKchv7Hn" Name="Y" Kind="OutputPin" />
             </Node>
             <Node Bounds="513,540,46,26" Id="MGCLNDv7gukOD6DsmFYZ9q">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Rotation" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Rotation" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Z" />
                 <CategoryReference Kind="AssemblyCategory" Name="Rotation" NeedsToBeDirectParent="true">
@@ -954,7 +954,7 @@
               <Pin Id="BHnfXhO3e37LfJdXwoWqPp" Name="Z" Kind="OutputPin" />
             </Node>
             <Node Bounds="332,628,52,26" Id="CkwUy31Y6uTMiAfGOTWqR4">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -985,7 +985,7 @@
               <Pin Id="Aov52ZjRnVHOCkFSTE9Pe2" Name="Result" Kind="OutputPin" />
             </Node>
             <Node Bounds="420,628,52,26" Id="OIPASzbww6kLPsthFmEiAe">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -997,7 +997,7 @@
               <Pin Id="QPabSbfRqjZNG5ktKAF15f" Name="Amount" Kind="OutputPin" />
             </Node>
             <Node Bounds="505,628,52,26" Id="SUSZMdWJGRUMf0gUqtKoDM">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -1087,7 +1087,7 @@
         <Patch Id="PHmsnJOxdgjPKDoBP578kh">
           <Canvas Id="S9nqtwReAMBQIkDHfQ6q5g" CanvasType="Group">
             <Node Bounds="348,422,58,26" Id="PN3vcrDLoXWPS2znE6eYK0">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Transform" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Transform" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <CategoryReference Kind="AssemblyCategory" Name="Transform" />
@@ -1098,7 +1098,7 @@
               <Pin Id="IK3FpWPyKoMNcIvv5XMTE7" Name="Translate" Kind="OutputPin" />
             </Node>
             <Node Bounds="318,588,49,26" Id="Tyro2Fq5Jm2LRELhkc4bFy">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Translate" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Translate" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="X" />
                 <CategoryReference Kind="AssemblyCategory" Name="Translate" NeedsToBeDirectParent="true" />
@@ -1108,7 +1108,7 @@
               <Pin Id="EvANU7BYDYCM7jDPr8Havt" Name="X" Kind="OutputPin" />
             </Node>
             <Node Bounds="405,585,49,26" Id="OCIIqOLLPYeQP5rwNWiK9V">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Translate" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Translate" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Y" />
                 <CategoryReference Kind="AssemblyCategory" Name="Translate" NeedsToBeDirectParent="true" />
@@ -1118,7 +1118,7 @@
               <Pin Id="SilaFmiTSD5Lk1rMhm3fks" Name="Y" Kind="OutputPin" />
             </Node>
             <Node Bounds="493,585,49,26" Id="HohqsScl6teMR0VsGSJiCI">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Translate" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Translate" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Z" />
                 <CategoryReference Kind="AssemblyCategory" Name="Translate" NeedsToBeDirectParent="true" />
@@ -1128,7 +1128,7 @@
               <Pin Id="R2gcUk4mp49OJfB3eEmJpN" Name="Z" Kind="OutputPin" />
             </Node>
             <Node Bounds="313,651,52,26" Id="Mpg6FfE1m8xNoG1f7IHGLo">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -1159,7 +1159,7 @@
               <Pin Id="OMNO4FFFPvoPH9qW665Pi1" Name="Result" Kind="OutputPin" />
             </Node>
             <Node Bounds="401,651,52,26" Id="Dh9QHqdYoplLux2KO8vRO0">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -1171,7 +1171,7 @@
               <Pin Id="AGJpBkxjRDWQVxchPHFCCY" Name="Amount" Kind="OutputPin" />
             </Node>
             <Node Bounds="486,651,52,26" Id="CfKh9U6WNo1LPNkrbiA8vx">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -1241,7 +1241,7 @@
         <Patch Id="TKcn7Sgr7LKMeTnPleaTUZ">
           <Canvas Id="Nm5dKcpsjIgMAZktna61Rb" CanvasType="Group">
             <Node Bounds="315,416,64,26" Id="ShtUg7llbdUP7bKvANmTEJ">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Geometry" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Geometry" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="Transform" />
@@ -1324,83 +1324,7 @@
         </p:NodeReference>
         <Patch Id="Fh031LfEfGmLy9SHnB294s">
           <Canvas Id="G65qUOtL5LGOHrPufeQdSP" CanvasType="Group">
-            <Node Bounds="367,601,46,26" Id="LTvknQDYGIVLsI5kMHOynJ">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Project" LastSymbolSource="CMiX.MVVM.dll">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
-                <CategoryReference Kind="AssemblyCategory" Name="MVVM" />
-                <CategoryReference Kind="AssemblyCategory" Name="ViewModels" />
-                <CategoryReference Kind="AssemblyCategory" Name="Project" />
-                <Choice Kind="OperationCallFlag" Name="Create" />
-              </p:NodeReference>
-              <Pin Id="GCEaMi5Tt1JLVzMO8G5LCS" Name="Project Model" Kind="InputPin" />
-              <Pin Id="Sdss3aWwHPoOl39cpwWgTQ" Name="Output" Kind="StateOutputPin" />
-            </Node>
-            <Node Bounds="369,459,63,26" Id="FAW1hyhD6MCOCCkirYYamJ">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.Models.ProjectModel" LastSymbolSource="CMiX.MVVM.dll">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="AssemblyCategory" Name="ProjectModel" />
-                <Choice Kind="OperationCallFlag" Name="Create" />
-              </p:NodeReference>
-              <Pin Id="PblN4xv8FsWNaSUOWUagN0" Name="Id" Kind="InputPin" />
-              <Pin Id="GJxkhIrqhM1NxdTTxhz9Yc" Name="Output" Kind="StateOutputPin" />
-            </Node>
-            <Node Bounds="319,412,55,19" Id="E9AuLFdGs5GNCavdywdRpS">
-              <p:NodeReference LastCategoryFullName="System.GUID" LastSymbolSource="CoreLibBasics.vl">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="RecordType" Name="GUID" />
-                <Choice Kind="OperationCallFlag" Name="TryParse" />
-              </p:NodeReference>
-              <Pin Id="D9Y4N9n2VW6LUQFUQy2mnO" Name="Input" Kind="InputPin" />
-              <Pin Id="GAMbxRkARVSPDP7Sxxkjb3" Name="Result (return)" Kind="OutputPin" />
-              <Pin Id="MogK4yWmDNnOGsTd18o79o" Name="Result" Kind="OutputPin" />
-            </Node>
-            <Pad Id="FdBlYx5rXR6O6QIHk3VsHo" Comment="" Bounds="321,368,267,15" ShowValueBox="true" isIOBox="true" Value="11223344-5566-7788-99AA-BBCCDDEEFF00">
-              <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
-                <Choice Kind="TypeFlag" Name="String" />
-              </p:TypeAnnotation>
-            </Pad>
-            <Node Bounds="546,420,62,26" Id="VmfkIo3r5yyPM6uUnSnaeS">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.MessageService.DataReceiver" LastSymbolSource="CMiX.MVVM.dll">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="AssemblyCategory" Name="DataReceiver" />
-                <Choice Kind="OperationCallFlag" Name="Create" />
-              </p:NodeReference>
-              <Pin Id="UCTSBx5dLqhL2LL1e6TRT8" Name="Output" Kind="StateOutputPin" />
-            </Node>
-            <Node Bounds="541,690,91,26" Id="GewNKTQBb66NB4GwKQhO0E">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.MessageService.DataReceiver" LastSymbolSource="CMiX.MVVM.dll">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <Choice Kind="OperationCallFlag" Name="RegisterReceiver" />
-                <CategoryReference Kind="AssemblyCategory" Name="DataReceiver" NeedsToBeDirectParent="true" />
-              </p:NodeReference>
-              <Pin Id="BORqOvgcrkoMSg7uBFTZHn" Name="Input" Kind="StateInputPin" />
-              <Pin Id="KW4vggRykwVMSdG3XEjEfT" Name="Communicator" Kind="InputPin" />
-              <Pin Id="Uw53HWPMb5ELbIQhd6k5C6" Name="Output" Kind="StateOutputPin" />
-            </Node>
-            <Node Bounds="591,740,62,26" Id="E1JqMi1yTjGQVQOsm8Sxhp">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.MessageService.DataReceiver" LastSymbolSource="CMiX.MVVM.dll">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="AssemblyCategory" Name="DataReceiver" />
-                <Choice Kind="OperationCallFlag" Name="Start" />
-              </p:NodeReference>
-              <Pin Id="H4nQ31OuVacQJFsLVusH55" Name="Input" Kind="StateInputPin" />
-              <Pin Id="SJRHh5iJHDAPKwJY7d2x8Q" Name="Settings" Kind="InputPin" />
-              <Pin Id="QrUm8RZqJIMOt9yCzkPHLM" Name="Output" Kind="StateOutputPin" />
-            </Node>
-            <Node Bounds="820,584,65,26" Id="CdI1jzL7FSYMhpehvAQ07d">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Settings" LastSymbolSource="CMiX.MVVM.dll">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="AssemblyCategory" Name="Settings" />
-                <Choice Kind="OperationCallFlag" Name="Create" />
-              </p:NodeReference>
-              <Pin Id="GLbPETkrif7NF2BfA4oktR" Name="Name" Kind="InputPin" />
-              <Pin Id="PjWnhgaELDhPy1R4TS2llo" Name="Topic" Kind="InputPin" />
-              <Pin Id="KSx0BhKlXaOLGcdXL1a8oI" Name="Ip" Kind="InputPin" />
-              <Pin Id="A0OyqSUuhLQOs8rIX9TNY4" Name="Port" Kind="InputPin" />
-              <Pin Id="Q2htvNwNmvOPw2gd6E8GRt" Name="Output" Kind="StateOutputPin" />
-            </Node>
-            <Node Bounds="861,424,65,19" Id="PmqFe9RSDmtPMhSB2eDhMq">
+            <Node Bounds="642,531,65,19" Id="PmqFe9RSDmtPMhSB2eDhMq">
               <p:NodeReference LastCategoryFullName="IO.Net" LastSymbolSource="VL.CoreLib.IO.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="ProcessAppFlag" Name="IPs (Wifi)" />
@@ -1411,7 +1335,7 @@
               <Pin Id="M84EHFJt02WMQbH9e6oyfj" Name="Description" Kind="OutputPin" />
               <Pin Id="ERLpN1d3Ko9NiVcO9dVjM7" Name="Is Up" Kind="OutputPin" />
             </Node>
-            <Node Bounds="861,470,52,26" Id="T57pLMFrRuuNSoMP6plra1">
+            <Node Bounds="642,577,52,26" Id="T57pLMFrRuuNSoMP6plra1">
               <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="GetSlice" />
@@ -1422,34 +1346,82 @@
               <Pin Id="JgBaY33hBC5PzNsNO8c41U" Name="Index" Kind="InputPin" />
               <Pin Id="QhTm6kQJ3DALaYKGfreonG" Name="Result" Kind="OutputPin" />
             </Node>
-            <ControlPoint Id="SZDltCgEYa0OFV9ZuhFwjY" Bounds="369,768" />
-            <ControlPoint Id="EN8albj111uMAs5zri2tl3" Bounds="795,316" />
-            <ControlPoint Id="KYfhShfbKRDNUFIIlWE9JP" Bounds="865,336" />
-            <ControlPoint Id="Tm4tRIzI5G7MfyqxMDYOQQ" Bounds="941,359" />
-            <Node Bounds="458,626,111,26" Id="RPhXxRGfPc0O494XGsSQX9">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.ComponentCommunicator" LastSymbolSource="CMiX.MVVM.dll">
+            <ControlPoint Id="SZDltCgEYa0OFV9ZuhFwjY" Bounds="314,741" />
+            <ControlPoint Id="Tm4tRIzI5G7MfyqxMDYOQQ" Bounds="765,543" />
+            <Node Bounds="464,502,72,26" Id="Q5ObBODpLRTPRYq9zFVuTh">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.MessageService" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="AssemblyCategory" Name="ComponentCommunicator" />
+                <AssemblyReference ID="CMiX.Core.dll" />
+                <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
+                <CategoryReference Kind="AssemblyCategory" Name="Core" />
+                <CategoryReference Kind="AssemblyCategory" Name="MessageService" />
                 <Choice Kind="OperationCallFlag" Name="Create" />
               </p:NodeReference>
-              <Pin Id="RtD6jK2o5TnMWyKoqXKLEN" Name="Component" Kind="InputPin" />
-              <Pin Id="LudPgGU2iKLN2uLv9oN53C" Name="Output" Kind="StateOutputPin" />
+              <Pin Id="Cxcgk2RueMONWEPKAv5Scc" Name="Serializer" Kind="InputPin" />
+              <Pin Id="B75iPw0Ni6aM8y0KlLDp1F" Name="Output" Kind="StateOutputPin" />
             </Node>
-            <Node Bounds="367,701,97,26" Id="JAcZw3eDLXgMkDSxydq1iw">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Project" LastSymbolSource="CMiX.MVVM.dll">
+            <Node Bounds="312,630,46,26" Id="BG7Jl8cpcQ4OClznh2Ee6A">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Project" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <Choice Kind="OperationCallFlag" Name="SetCommunicator" />
-                <CategoryReference Kind="AssemblyCategory" Name="Project" NeedsToBeDirectParent="true" />
+                <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
+                <CategoryReference Kind="AssemblyCategory" Name="Core" />
+                <CategoryReference Kind="AssemblyCategory" Name="Project" />
+                <Choice Kind="OperationCallFlag" Name="Create" />
               </p:NodeReference>
-              <Pin Id="IOLhwxuuDvRPOcbeqwAk8y" Name="Input" Kind="StateInputPin" />
-              <Pin Id="N0RqY0W1VsaLRLqdJwQDzv" Name="Communicator" Kind="InputPin" />
-              <Pin Id="NYRAhEqYG8EQQp36EGJxVG" Name="Output" Kind="StateOutputPin" />
+              <Pin Id="JnlEJkCjwTqPo1Xhxnh8sj" Name="Output" Kind="StateOutputPin" />
+            </Node>
+            <Pad Id="MWEsHZeAF8wONvLIJSzrfj" Comment="" Bounds="466,804" isIOBox="true" />
+            <Node Bounds="501,587,72,26" Id="Q7hxZnWXrQ7NKYQeyG4jBD">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.MessageService" LastSymbolSource="CMiX.Core.dll">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <CategoryReference Kind="AssemblyCategory" Name="MessageService" />
+                <Choice Kind="OperationCallFlag" Name="Client" />
+              </p:NodeReference>
+              <Pin Id="NiDuNRNYifMOODWhd6LPcx" Name="Input" Kind="StateInputPin" />
+              <Pin Id="Sk7Lh6df1hdMksSgFZplPk" Name="Output" Kind="StateOutputPin" />
+              <Pin Id="ApLG01IuYarNERlts1BBxo" Name="Client" Kind="OutputPin" />
+            </Node>
+            <Node Bounds="568,649,37,26" Id="OeRgSD5o8k2Lp6dgyqVd0S">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Services.Client" LastSymbolSource="CMiX.Core.dll">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <CategoryReference Kind="AssemblyCategory" Name="Client" />
+                <Choice Kind="OperationCallFlag" Name="Start" />
+              </p:NodeReference>
+              <Pin Id="F5EtTrzG8WpMPsE8AZpu3H" Name="Input" Kind="StateInputPin" />
+              <Pin Id="HfofanfGE3MPBCgKSF9YDs" Name="Output" Kind="StateOutputPin" />
+            </Node>
+            <Node Bounds="464,730,72,26" Id="Ezxhjl3SxYtQKLOAoUDqCi">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.MessageService" LastSymbolSource="CMiX.Core.dll">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <Choice Kind="OperationCallFlag" Name="StartClient" />
+              </p:NodeReference>
+              <Pin Id="EaS1KfZJr2kLNfL9jF7mEw" Name="Input" Kind="StateInputPin" />
+              <Pin Id="O0mgoWu6H5VLG2ri9c1V0o" Name="Settings" Kind="InputPin" />
+              <Pin Id="NOq5i3g9ML3OSC2hXXXRIe" Name="Output" Kind="StateOutputPin" />
+            </Node>
+            <Node Bounds="641,648,46,26" Id="PhOjILiK6q8PMN4qhlHoEq">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Settings" LastSymbolSource="CMiX.Core.dll">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <CategoryReference Kind="AssemblyCategory" Name="Settings" />
+                <Choice Kind="OperationCallFlag" Name="Create" />
+              </p:NodeReference>
+              <Pin Id="IIXjgLcuAP3OqdLLgN2Rbd" Name="Ip" Kind="InputPin" />
+              <Pin Id="LVUgnn5K6yqMtRU07lNM55" Name="Port" Kind="InputPin" />
+              <Pin Id="JfIeyyqxj3TLBcnsvovmIj" Name="Output" Kind="StateOutputPin" />
+            </Node>
+            <Node Bounds="521,816,89,26" Id="FkKm8ZXqq8cNfyJwEdX7GR">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.ComponentManager" LastSymbolSource="CMiX.Core.dll">
+                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                <CategoryReference Kind="AssemblyCategory" Name="ComponentManager" />
+                <Choice Kind="OperationCallFlag" Name="Create" />
+              </p:NodeReference>
+              <Pin Id="EkweWXadOsRPJGib0owFSI" Name="Message Service" Kind="InputPin" />
+              <Pin Id="DrzAhMTSWjUPVUluvotksP" Name="Root Component" Kind="InputPin" />
+              <Pin Id="VIsWsn6nUq9LkcwNRc0H7b" Name="Output" Kind="StateOutputPin" />
             </Node>
           </Canvas>
-          <Patch Id="KdozIZvsIyVNJMTyXtvBVH" Name="Create" ParticipatingElements="LTvknQDYGIVLsI5kMHOynJ,FAW1hyhD6MCOCCkirYYamJ,VmfkIo3r5yyPM6uUnSnaeS,GewNKTQBb66NB4GwKQhO0E,E1JqMi1yTjGQVQOsm8Sxhp">
+          <Patch Id="KdozIZvsIyVNJMTyXtvBVH" Name="Create">
             <Pin Id="OEo5UHC7btIO47WwIOLejx" Name="Output" Kind="OutputPin" Bounds="368,752" />
-            <Pin Id="OvKiI4dZsCQNLHjskcIWk1" Name="Name" Kind="InputPin" Bounds="800,365" />
-            <Pin Id="ImWTiCLGV8nOFTtJFGMqk6" Name="Topic" Kind="InputPin" Bounds="870,385" />
             <Pin Id="JKzGYyo2QvPNoozzOxWGbe" Name="Port" Kind="InputPin" Bounds="946,406" />
           </Patch>
           <Patch Id="CkU0nPh20qIMmoFdEWnxtQ" Name="Update" />
@@ -1457,26 +1429,19 @@
             <Fragment Id="K9v2IqjBYc8L90F6opO9Ex" Patch="KdozIZvsIyVNJMTyXtvBVH" Enabled="true" />
             <Fragment Id="Ic9EvwimayNOTLfvjx8yIe" Patch="CkU0nPh20qIMmoFdEWnxtQ" Enabled="true" />
           </ProcessDefinition>
-          <Link Id="HOI2SosTHKbLZBPCxOn0X5" Ids="GJxkhIrqhM1NxdTTxhz9Yc,GCEaMi5Tt1JLVzMO8G5LCS" />
-          <Link Id="FhEHYLcW7RPN6fC1RaZD7V" Ids="MogK4yWmDNnOGsTd18o79o,PblN4xv8FsWNaSUOWUagN0" />
-          <Link Id="JxqLYomIB8ZMUqFymWrKOB" Ids="FdBlYx5rXR6O6QIHk3VsHo,D9Y4N9n2VW6LUQFUQy2mnO" />
-          <Link Id="D0tOd4Kvk3DN0A6fLe1NTn" Ids="UCTSBx5dLqhL2LL1e6TRT8,BORqOvgcrkoMSg7uBFTZHn" />
-          <Link Id="RaOI6ESM3fuNKEd1mbnn2E" Ids="Uw53HWPMb5ELbIQhd6k5C6,H4nQ31OuVacQJFsLVusH55" />
           <Link Id="P3oexPc60AqPTGwH9HOIDC" Ids="B85uS9iUGgWMqPAHPcB1RD,OY3joKc4vZ5OQfjw5WC5an" />
-          <Link Id="UlwOJ7svFlOMVzSAM3cGSl" Ids="QhTm6kQJ3DALaYKGfreonG,KSx0BhKlXaOLGcdXL1a8oI" />
-          <Link Id="UnLVQt4WMBjOo6SvG2dETC" Ids="Q2htvNwNmvOPw2gd6E8GRt,SJRHh5iJHDAPKwJY7d2x8Q" />
           <Link Id="O4WgLmBD77cMoxKl5hqoal" Ids="SZDltCgEYa0OFV9ZuhFwjY,OEo5UHC7btIO47WwIOLejx" IsHidden="true" />
-          <Link Id="RGaketmICZ0NoIszlwAQQb" Ids="EN8albj111uMAs5zri2tl3,GLbPETkrif7NF2BfA4oktR" />
-          <Link Id="MoxcZFNOhwcNVDIyuSdKUT" Ids="OvKiI4dZsCQNLHjskcIWk1,EN8albj111uMAs5zri2tl3" IsHidden="true" />
-          <Link Id="IaDZzN7ZXemLuTH4cTGOtx" Ids="KYfhShfbKRDNUFIIlWE9JP,PjWnhgaELDhPy1R4TS2llo" />
-          <Link Id="ND3iokDlHG1QHm3C0Pc1eH" Ids="ImWTiCLGV8nOFTtJFGMqk6,KYfhShfbKRDNUFIIlWE9JP" IsHidden="true" />
-          <Link Id="TUo0QJ5I7M9Lpgr6yMtwDx" Ids="Tm4tRIzI5G7MfyqxMDYOQQ,A0OyqSUuhLQOs8rIX9TNY4" />
           <Link Id="ArT1a6ztUBzPpgDgNRA2o8" Ids="JKzGYyo2QvPNoozzOxWGbe,Tm4tRIzI5G7MfyqxMDYOQQ" IsHidden="true" />
-          <Link Id="DO27nNmkQyFP9VABCwrVHF" Ids="Sdss3aWwHPoOl39cpwWgTQ,RtD6jK2o5TnMWyKoqXKLEN" />
-          <Link Id="QGpnwKgaHLXNP5ZO4nc7ig" Ids="Sdss3aWwHPoOl39cpwWgTQ,IOLhwxuuDvRPOcbeqwAk8y" />
-          <Link Id="LPQ2qZ1HdR9PUiD4EKyVjE" Ids="LudPgGU2iKLN2uLv9oN53C,N0RqY0W1VsaLRLqdJwQDzv" />
-          <Link Id="Vbuw50WxJa4LKm57QVBJr5" Ids="NYRAhEqYG8EQQp36EGJxVG,SZDltCgEYa0OFV9ZuhFwjY" />
-          <Link Id="EDVcZbJPu8PPZ25lb1q9WT" Ids="LudPgGU2iKLN2uLv9oN53C,KW4vggRykwVMSdG3XEjEfT" />
+          <Link Id="Mmw20yzwxAZPTDHQWQ5PkH" Ids="JnlEJkCjwTqPo1Xhxnh8sj,SZDltCgEYa0OFV9ZuhFwjY" />
+          <Link Id="UWVkjVRIT6DPAuGbgnuc67" Ids="B75iPw0Ni6aM8y0KlLDp1F,NiDuNRNYifMOODWhd6LPcx" />
+          <Link Id="JYymIz0cENONRG1TESVRd0" Ids="ApLG01IuYarNERlts1BBxo,F5EtTrzG8WpMPsE8AZpu3H" />
+          <Link Id="STc2nmDhQowP27hg4cFpPi" Ids="B75iPw0Ni6aM8y0KlLDp1F,EaS1KfZJr2kLNfL9jF7mEw" />
+          <Link Id="Uow9rhw73EwOhwX3Sdeqn2" Ids="JfIeyyqxj3TLBcnsvovmIj,O0mgoWu6H5VLG2ri9c1V0o" />
+          <Link Id="V1VqggjTCTLNls75qvpFfY" Ids="QhTm6kQJ3DALaYKGfreonG,IIXjgLcuAP3OqdLLgN2Rbd" />
+          <Link Id="N255F1TPz8jMT1MQw29ekD" Ids="Tm4tRIzI5G7MfyqxMDYOQQ,LVUgnn5K6yqMtRU07lNM55" />
+          <Link Id="IcDxqGbQ3ABPJgbPQD4eJc" Ids="NOq5i3g9ML3OSC2hXXXRIe,MWEsHZeAF8wONvLIJSzrfj" />
+          <Link Id="CvtvWppG8VJLgcJmoAJ9Zu" Ids="NOq5i3g9ML3OSC2hXXXRIe,EkweWXadOsRPJGib0owFSI" />
+          <Link Id="EoBJeSeHGPjNvy42N3GgGx" Ids="JnlEJkCjwTqPo1Xhxnh8sj,DrzAhMTSWjUPVUluvotksP" />
         </Patch>
       </Node>
       <!--
@@ -1492,7 +1457,7 @@
         <Patch Id="OsQQ9nD7apyNYIAQaIVxHQ">
           <Canvas Id="BUprnWXaxF1Mrbk4ifKcj3" CanvasType="Group">
             <Node Bounds="300,330,52,26" Id="UR1ijfKi31lOEX2pWEUe3x">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Entity" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Entity" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <CategoryReference Kind="AssemblyCategory" Name="Entity" />
@@ -1503,7 +1468,7 @@
               <Pin Id="VMhNtqJw9oSP1YikD39su0" Name="Texture" Kind="OutputPin" />
             </Node>
             <Node Bounds="300,402,97,26" Id="BEX2LFVIBx3NefHujQ4i5w">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Texture" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Texture" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="AssetPathSelector" />
@@ -1514,7 +1479,7 @@
               <Pin Id="SW3KnfY0kg1MxT7tEiJE9g" Name="Asset Path Selector" Kind="OutputPin" />
             </Node>
             <Node Bounds="300,464,80,26" Id="IWNqf2HvmLKNFKDrnQANMd">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Assets.AssetPathSelector" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Assets.AssetPathSelector" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="SelectedAsset" />
                 <CategoryReference Kind="AssemblyCategory" Name="AssetPathSelector" NeedsToBeDirectParent="true" />
@@ -1524,7 +1489,7 @@
               <Pin Id="P0MZ3wQiFIXPodP7xRMI86" Name="Selected Asset" Kind="OutputPin" />
             </Node>
             <Node Bounds="300,530,36,26" Id="QKb7eo5pOHOPyf2YzjM4yS">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Assets.Asset" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Assets.Asset" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="Path" />
@@ -1545,7 +1510,7 @@
             <ControlPoint Id="OkWkm7sa6FfM1oALn79VAS" Bounds="302,268" />
             <ControlPoint Id="FcCWEHfJfYwMdAhChiMpa5" Bounds="302,795" />
             <Node Bounds="532,402,51,26" Id="V0Yy5HBJx7QNkGy6bRLtTW">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Texture" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Texture" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="Inverter" />
@@ -1554,20 +1519,8 @@
               <Pin Id="MBOLNooGpW5LO3pB5wt75c" Name="Output" Kind="StateOutputPin" />
               <Pin Id="FQolOkmjaMzNwaLYbsX3Fl" Name="Inverter" Kind="OutputPin" />
             </Node>
-            <Node Bounds="532,464,44,26" Id="ItPXSKdmazsNr2D9aoJBHQ">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Inverter" LastSymbolSource="CMiX.MVVM.dll">
-                <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
-                <CategoryReference Kind="AssemblyCategory" Name="MVVM" />
-                <Choice Kind="OperationCallFlag" Name="Invert" />
-                <CategoryReference Kind="AssemblyCategory" Name="Inverter" NeedsToBeDirectParent="true" />
-              </p:NodeReference>
-              <Pin Id="JVNOkeop7s9NLR7aKJV0xK" Name="Input" Kind="StateInputPin" />
-              <Pin Id="TbuVqBrqW8rLdWeF90UO6g" Name="Output" Kind="StateOutputPin" />
-              <Pin Id="KGul3rQGDKiMochv48tSJ4" Name="Invert" Kind="OutputPin" />
-            </Node>
             <Node Bounds="532,530,52,26" Id="TmVpWPl2WqHLtq8VgidysA">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
@@ -1696,8 +1649,6 @@
           <Link Id="Ie5D7ytVyFnP0ApSKjp4a5" Ids="JfKCRU4XP30LTiEg8H0CYP,OkWkm7sa6FfM1oALn79VAS" IsHidden="true" />
           <Link Id="FhtwNUhUEY7O7sRGcXyedw" Ids="FcCWEHfJfYwMdAhChiMpa5,LeCTiO8s3kRLGn5h0qHpba" IsHidden="true" />
           <Link Id="On4FsxhMPABLmg4CxKTso8" Ids="VMhNtqJw9oSP1YikD39su0,C4xEShe3DXmLpxYDusiFgS" />
-          <Link Id="NdpRJ99JlEMNxKPMSTCzSf" Ids="FQolOkmjaMzNwaLYbsX3Fl,JVNOkeop7s9NLR7aKJV0xK" />
-          <Link Id="KDgdXK5d5bqOONzFt2VJ1g" Ids="KGul3rQGDKiMochv48tSJ4,EBHUlJqS8VQLpmbt5zlM6K" />
           <Link Id="Ts0K1zF5119PlhnutVUU3Q" Ids="LSCcbA3vUJYLSjSPsqZOQp,VybXrPKwJv8PAUk061Blg7" IsHidden="true" />
           <Link Id="UymzNv6pneyPgQKxSFPYoi" Ids="I0DUS6aPhBkLRIFjvVudH7,LyciRFQfWFLMJU2K8b4zp7" />
           <Link Id="MgWFN5u38fTQNbK0ENy1fK" Ids="Kkh2SShiPDKMvR0fKdZzcX,LSCcbA3vUJYLSjSPsqZOQp" />
@@ -1725,7 +1676,7 @@
         <Patch Id="T6R8CP6KBR5QBMGGOyH80m">
           <Canvas Id="VKvdT7EQEOxQGX2e0aecpi" CanvasType="Group">
             <Node Bounds="232,309,60,26" Id="OaVrifgZfjAOWz7xcup17h">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Entity" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Entity" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <CategoryReference Kind="AssemblyCategory" Name="Entity" />
@@ -1736,7 +1687,7 @@
               <Pin Id="BjCUBnjzXQYQDqK8z3idc0" Name="Geometry" Kind="OutputPin" />
             </Node>
             <Node Bounds="418,399,97,26" Id="ECuCXvQT16lMW2LhrGgmTX">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Geometry" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Geometry" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <CategoryReference Kind="AssemblyCategory" Name="Geometry" />
@@ -1747,7 +1698,7 @@
               <Pin Id="EuQfe09LhgRO4z1WPlpTsS" Name="Asset Path Selector" Kind="OutputPin" />
             </Node>
             <Node Bounds="418,457,80,26" Id="Mt68fqivDZCM6SJHu4r2uF">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Assets.AssetPathSelector" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Assets.AssetPathSelector" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="SelectedAsset" />
                 <CategoryReference Kind="AssemblyCategory" Name="AssetPathSelector" NeedsToBeDirectParent="true" />
@@ -1766,7 +1717,7 @@
               <Pin Id="GhFewh6L1FRQIEvdk1Afb3" Name="Output" Kind="OutputPin" />
             </Node>
             <Node Bounds="418,519,36,26" Id="KIHbUj1UrcFM5DzdGeg16B">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Assets.Asset" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Assets.Asset" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="Path" />
@@ -1813,7 +1764,7 @@
             </Node>
             <ControlPoint Id="ERacLVXF81fP4HrXPgn6Ho" Bounds="451,759" />
             <Node Bounds="674,328,58,26" Id="HHd51bOmHt3NiZSzVNuJw4">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Geometry" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Geometry" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Instancer" />
               </p:NodeReference>
@@ -1828,6 +1779,8 @@
                 <CategoryReference Kind="Category" Name="Primitive" />
               </p:NodeReference>
               <Pin Id="FhQCBhpOzqTLo3xNrihK4x" Name="Break" Kind="OutputPin" />
+              <ControlPoint Id="SL9WxJHvqWvPTSVDnCE2Qj" Bounds="737,507" Alignment="Top" />
+              <ControlPoint Id="GgvdYdJxb1gOFs8e24MOcZ" Bounds="821,1589" Alignment="Bottom" />
               <Patch Id="V3PE2hjxLxwPo0d60mPkp5" ManuallySortedPins="true">
                 <Patch Id="K8MfKIxUWvZP42ODPG27lv" Name="Create" ManuallySortedPins="true" />
                 <Patch Id="IoAqkLLVgluPFXlzvy2CD2" Name="Update" ManuallySortedPins="true" />
@@ -1843,7 +1796,7 @@
                   <Pin Id="QpOuYfIGSa9Moy4GvnelaS" Name="Success" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1331,602,59,26" Id="Ka7NGBmurkRODCobO5hRqA">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" />
                     <Choice Kind="OperationCallFlag" Name="Counter" />
@@ -1853,7 +1806,7 @@
                   <Pin Id="Dqz0SjHTTxsPwFallWnKnL" Name="Counter" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1338,655,45,26" Id="PmsmOSXt6pqLH7rNxUtfuG">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Counter" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Counter" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Count" />
                     <CategoryReference Kind="AssemblyCategory" Name="Counter" NeedsToBeDirectParent="true">
@@ -1943,7 +1896,7 @@
                   <ControlPoint Id="RkJtNxrjzFKL3OpFkDtUwj" Bounds="919,1245" Alignment="Top" />
                 </Node>
                 <Node Bounds="1052,601,61,26" Id="C9lWP9XrHgwL72Ww95cHPt">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="LocationX" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" NeedsToBeDirectParent="true" />
@@ -1953,7 +1906,7 @@
                   <Pin Id="O1gT0XnFDWELziobBXHnws" Name="Location X" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1145,601,61,26" Id="QDAhD5rHICbNUvral74UUd">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="LocationY" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" NeedsToBeDirectParent="true" />
@@ -1963,7 +1916,7 @@
                   <Pin Id="OVttyNHCz8tLpQgMfZUQnB" Name="Location Y" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1237,601,61,26" Id="Fo3uAWiExynMAe1vNevrhB">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="LocationZ" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" NeedsToBeDirectParent="true" />
@@ -1984,7 +1937,7 @@
                   <Pin Id="PLD2NBMvN0YLln3Jwzeufy" Name="Output" Kind="StateOutputPin" />
                 </Node>
                 <Node Bounds="1052,655,52,26" Id="Vjx9nrsIUGeLjywlW2I24Y">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Amount" />
                     <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -1996,7 +1949,7 @@
                   <Pin Id="TpPtXmZJRduQS9ho1mAb79" Name="Amount" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1145,655,52,26" Id="DPw1L5eYsaMPhZrhhH2zts">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Amount" />
                     <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -2008,7 +1961,7 @@
                   <Pin Id="TEy8gMRoCUSOrNvqVNfyiw" Name="Amount" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1237,655,52,26" Id="RiwbIHG9eDENYBqa262me1">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Amount" />
                     <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -2049,7 +2002,7 @@
                   </p:TypeAnnotation>
                 </Pad>
                 <Node Bounds="683,624,73,26" Id="UAXrW9xvOQ6MT3coDBsURq">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="BeatModifier" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" NeedsToBeDirectParent="true" />
@@ -2059,7 +2012,7 @@
                   <Pin Id="VIabh9nwgLJPiJWCdghOe9" Name="Beat Modifier" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="689,689,61,26" Id="LD0PeFuBW4gNHFB8T68i6C">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Beat.BeatModifier" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Beat.BeatModifier" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Period" />
                     <CategoryReference Kind="AssemblyCategory" Name="BeatModifier" NeedsToBeDirectParent="true" />
@@ -2111,11 +2064,12 @@
                   <Pin Id="DBl8s0H6RYWNiNBB9qIn6n" Name="Force" Kind="InputPin" />
                   <Pin Id="SFxjEMUJfoqP9BJ8IMlnRM" Name="Dispose Cached Outputs" Kind="InputPin" />
                   <Pin Id="ARPvxfU7oFsMevvdNiZuaz" Name="Has Changed" Kind="OutputPin" />
+                  <ControlPoint Id="F2L86hFCWJaPldZakx1Rvu" Bounds="686,1033" Alignment="Bottom" />
                   <Patch Id="R19TuKoiiOvM9rfpEcmmum" ManuallySortedPins="true">
                     <Patch Id="F7413KFBEtCPHkas52G1qA" Name="Create" ManuallySortedPins="true" />
                     <Patch Id="TpxEt9tsHyAP2aARleQSTP" Name="Then" ManuallySortedPins="true" />
                     <Node Bounds="684,984,66,19" Id="C2ZijIABAKfNRQc0bDhB7F">
-                      <p:NodeReference LastCategoryFullName="CMiX.MVVM.Resources.RandomNumbers" LastSymbolSource="CMiX.MVVM.dll">
+                      <p:NodeReference LastCategoryFullName="CMiX.Core.Mathematics.MathUtils" LastSymbolSource="CMiX.Core.dll">
                         <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                         <Choice Kind="OperationCallFlag" Name="RandomInt" />
                         <PinReference Kind="InputPin" Name="Min" />
@@ -2129,10 +2083,9 @@
                       <Pin Id="GZL8ATq6fzBLsIhlFwGrXp" Name="Output" Kind="OutputPin" />
                     </Node>
                   </Patch>
-                  <ControlPoint Id="F2L86hFCWJaPldZakx1Rvu" Bounds="686,1033" Alignment="Bottom" />
                 </Node>
                 <Node Bounds="897,759,61,26" Id="PUXVE8jTACtNYBnbXnHIf9">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Beat.BeatModifier" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Beat.BeatModifier" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <CategoryReference Kind="AssemblyCategory" Name="BeatModifier" />
                     <Choice Kind="OperationCallFlag" Name="Index" />
@@ -2143,7 +2096,7 @@
                 </Node>
                 <Pad Id="H6G6tWCN9yDMnhqkaA8hGB" Comment="Index" Bounds="955,817,35,15" ShowValueBox="true" isIOBox="true" />
                 <Node Bounds="1499,608,59,26" Id="Q78r7HxR5OROJRXfxRjru2">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="ScaleX" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" NeedsToBeDirectParent="true" />
@@ -2153,7 +2106,7 @@
                   <Pin Id="VAyvmmCJKlTP17GpY4w8Ke" Name="Scale X" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1594,609,59,26" Id="HDfiUNFxTYKNDmQwyTyyVZ">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="ScaleY" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" NeedsToBeDirectParent="true" />
@@ -2163,7 +2116,7 @@
                   <Pin Id="UJn6JYMKRieOWUNskrDN9c" Name="Scale Y" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1696,602,59,26" Id="TZqDy29eyFnQZF21pPCrAF">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.RandomXYZ" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.RandomXYZ" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="ScaleZ" />
                     <CategoryReference Kind="AssemblyCategory" Name="RandomXYZ" NeedsToBeDirectParent="true" />
@@ -2184,7 +2137,7 @@
                   <Pin Id="A4QEr80X14VPa1EBj7iVAV" Name="Output" Kind="StateOutputPin" />
                 </Node>
                 <Node Bounds="1506,663,52,26" Id="KjP5jYQJNhaOewFKKJWtUk">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Amount" />
                     <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -2196,7 +2149,7 @@
                   <Pin Id="RfgfHVcXrMLNnjrIFyK9Ia" Name="Amount" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1599,663,52,26" Id="P13EHwmNPibQMeOI0RMKKZ">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Amount" />
                     <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -2208,7 +2161,7 @@
                   <Pin Id="U8tZNdE6vYqMNlEs44k9TT" Name="Amount" Kind="OutputPin" />
                 </Node>
                 <Node Bounds="1691,663,52,26" Id="JcmDVtgEBmKOL3PWBOE9N9">
-                  <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="OperationCallFlag" Name="Amount" />
                     <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -2252,11 +2205,12 @@
                   <Pin Id="Spz8ehyuOlDM1b0FB02YQk" Name="Force" Kind="InputPin" />
                   <Pin Id="NPYWRNqcxpzMavRyllFAOP" Name="Dispose Cached Outputs" Kind="InputPin" />
                   <Pin Id="HWU0dAlqBxiLmk8fVlmu6W" Name="Has Changed" Kind="OutputPin" />
+                  <ControlPoint Id="A9P1HMQN7tYOBpeGxYXFiL" Bounds="861,1023" Alignment="Bottom" />
                   <Patch Id="E9CU7hoeawTP51hIWnkAjb" ManuallySortedPins="true">
                     <Patch Id="P2kFbjoXbh6P1BaxTY1Fe7" Name="Create" ManuallySortedPins="true" />
                     <Patch Id="EimMfyvOLZKNWx7eelF0He" Name="Then" ManuallySortedPins="true" />
                     <Node Bounds="859,974,66,19" Id="K530Yknq4X2MW3yvuWrXlc">
-                      <p:NodeReference LastCategoryFullName="CMiX.MVVM.Resources.RandomNumbers" LastSymbolSource="CMiX.MVVM.dll">
+                      <p:NodeReference LastCategoryFullName="CMiX.Core.Mathematics.MathUtils" LastSymbolSource="CMiX.Core.dll">
                         <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                         <Choice Kind="OperationCallFlag" Name="RandomInt" />
                         <PinReference Kind="InputPin" Name="Min" />
@@ -2270,7 +2224,6 @@
                       <Pin Id="JKDuSS7cHMtMIW3JDHPzYb" Name="Output" Kind="OutputPin" />
                     </Node>
                   </Patch>
-                  <ControlPoint Id="A9P1HMQN7tYOBpeGxYXFiL" Bounds="861,1023" Alignment="Bottom" />
                 </Node>
                 <Node Bounds="917,1180,85,19" Id="LBo6zgY46kqN1rOB7a2XXR">
                   <p:NodeReference LastCategoryFullName="Collections.Spread" LastSymbolSource="VL.Collections.vl">
@@ -2284,11 +2237,9 @@
                   <Pin Id="BaI1bkvOl7mLEspis9u8Wz" Name="Output" Kind="OutputPin" />
                 </Node>
               </Patch>
-              <ControlPoint Id="SL9WxJHvqWvPTSVDnCE2Qj" Bounds="737,507" Alignment="Top" />
-              <ControlPoint Id="GgvdYdJxb1gOFs8e24MOcZ" Bounds="821,1589" Alignment="Bottom" />
             </Node>
             <Node Bounds="672,383,106,26" Id="NsDJc67onYlOBIG6WSoJtG">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Instancer" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Instancer" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="Instancer" />
                 <Choice Kind="OperationCallFlag" Name="TransformModifiers" />
@@ -2468,7 +2419,7 @@
         <Patch Id="SFa1q1VjuUgOcspVfxmAP6">
           <Canvas Id="G8SNPpsQVOtO7ZA2wRrmZk" CanvasType="Group">
             <Node Bounds="230,207,66,26" Id="NByDJJrOQZULSpZehTVx2C">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Layer" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Layer" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="Layer" />
                 <Choice Kind="OperationCallFlag" Name="BlendMode" />
@@ -2478,7 +2429,7 @@
               <Pin Id="PrlAW2tClZkM0124kwQMq2" Name="Blend Mode" Kind="OutputPin" />
             </Node>
             <Node Bounds="233,285,56,26" Id="CXEVnSIhYvKLBgST0Uvm5I">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.BlendMode" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.BlendMode" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="BlendMode" />
                 <Choice Kind="OperationCallFlag" Name="Mode" />
@@ -2519,7 +2470,7 @@
         <Patch Id="QcARAVUW5tUPPt6TGBJJnk">
           <Canvas Id="QAzbkD4C9oUMQxVAXGiQdW" CanvasType="Group">
             <Node Bounds="250,283,62,26" Id="OEdqytIpwrBLpHlAzZemOu">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Composition" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Composition" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="Composition" />
                 <Choice Kind="OperationCallFlag" Name="Transition" />
@@ -2529,7 +2480,7 @@
               <Pin Id="IRGMvY9ez1DLMZeK1FtSjM" Name="Transition" Kind="OutputPin" />
             </Node>
             <Node Bounds="307,341,52,26" Id="Cpgy7AsLb8tNvYbdGYymG1">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
@@ -2590,7 +2541,7 @@
         <Patch Id="Uvg9aUMinKLLrpDlvglkoo">
           <Canvas Id="ALilty0erLeM0Q9ZOosGRj" CanvasType="Group">
             <Node Bounds="222,298,38,26" Id="JttOVAv5SS1QWpH5G1YIOX">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Layer" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Layer" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Fade" />
                 <CategoryReference Kind="AssemblyCategory" Name="Layer" NeedsToBeDirectParent="true" />
@@ -2600,7 +2551,7 @@
               <Pin Id="S90DoujImxgMlNQTjcLYjB" Name="Fade" Kind="OutputPin" />
             </Node>
             <Node Bounds="219,357,52,26" Id="HUv8XHpyaYsLqV3nDLlQWb">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Slider" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Slider" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="Amount" />
                 <CategoryReference Kind="AssemblyCategory" Name="Slider" NeedsToBeDirectParent="true">
@@ -2643,7 +2594,7 @@
         <Patch Id="VuWfKtpT16SO23YvwLTjnR">
           <Canvas Id="Ll68CowkbvWOqMgAjpFzgs" CanvasType="Group">
             <Node Bounds="351,385,64,26" Id="DKQwPYg4qO6OEEwk6Q2hVs">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Components.Entity" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Components.Entity" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <CategoryReference Kind="AssemblyCategory" Name="CMiX" />
                 <Choice Kind="OperationCallFlag" Name="Coloration" />
@@ -2653,7 +2604,7 @@
               <Pin Id="I1OQXxnlPEzOZsvaetrBJS" Name="Coloration" Kind="OutputPin" />
             </Node>
             <Node Bounds="346,440,77,26" Id="VZjkR5kN3GEO14DF3NeNAv">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.Coloration" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Coloration" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="ColorSelector" />
               </p:NodeReference>
@@ -2662,7 +2613,7 @@
               <Pin Id="AE6FAHAf2HWQNdqc1OCC1c" Name="Color Selector" Kind="OutputPin" />
             </Node>
             <Node Bounds="348,496,68,26" Id="MT8RF0qdecNMOyBxLYLVTc">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.ColorSelector" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.ColorSelector" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="ColorPicker" />
               </p:NodeReference>
@@ -2671,7 +2622,7 @@
               <Pin Id="Mt4JT4mFgysMmshz720irW" Name="Color Picker" Kind="OutputPin" />
             </Node>
             <Node Bounds="343,549,78,26" Id="F5ZWN7ikQZgLrkCTkxNaSi">
-              <p:NodeReference LastCategoryFullName="CMiX.MVVM.ViewModels.ColorPicker" LastSymbolSource="CMiX.MVVM.dll">
+              <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.ColorPicker" LastSymbolSource="CMiX.Core.dll">
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="OperationCallFlag" Name="SelectedColor" />
                 <CategoryReference Kind="AssemblyCategory" Name="ColorPicker" NeedsToBeDirectParent="true">
@@ -2926,23 +2877,11 @@
             <p:NodeReference LastCategoryFullName="CMiX.Engine" LastSymbolSource="CMiX_ENGINE.vl">
               <Choice Kind="ProcessNode" Name="Init" />
             </p:NodeReference>
-            <Pin Id="NTj3m2oYbkiQUdMEkHwqx2" Name="Name" Kind="InputPin" />
-            <Pin Id="D5uOjFnarHvPChFYrUjNoB" Name="Topic" Kind="InputPin" />
             <Pin Id="NDZoQA7vrqxLC2OLAY1WmM" Name="Port" Kind="InputPin" />
             <Pin Id="LFv7dn6xfkVM9Yxl29KETF" Name="Update" Kind="ApplyPin" />
             <Pin Id="Uxli0fq0WDSQVU3FGxuj9q" Name="Output" Kind="OutputPin" />
           </Node>
-          <Pad Id="O75QwwUxmk9M8qMGizHEZc" Comment="Topic" Bounds="353,292,35,15" ShowValueBox="true" isIOBox="true" Value="Pouet">
-            <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
-              <Choice Kind="TypeFlag" Name="String" />
-            </p:TypeAnnotation>
-          </Pad>
-          <Pad Id="TS5ENGJ9ir1NG65Rmh8IUN" Comment="Name" Bounds="262,292,35,15" ShowValueBox="true" isIOBox="true" Value="Pouet">
-            <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
-              <Choice Kind="TypeFlag" Name="String" />
-            </p:TypeAnnotation>
-          </Pad>
-          <Pad Id="KR4V49jwkVNN25FTtaDu5n" Comment="Port" Bounds="443,292,35,15" ShowValueBox="true" isIOBox="true" Value="2222">
+          <Pad Id="KR4V49jwkVNN25FTtaDu5n" Comment="Port" Bounds="334,294,35,15" ShowValueBox="true" isIOBox="true" Value="2222">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="Integer32" />
             </p:TypeAnnotation>
@@ -2952,7 +2891,7 @@
               <Choice Kind="TypeFlag" Name="String" />
             </p:TypeAnnotation>
           </Pad>
-          <Node Bounds="886,419,125,19" Id="PIPCKqf6xEuNjefcpyTJtL">
+          <Node Bounds="633,442,125,19" Id="PIPCKqf6xEuNjefcpyTJtL">
             <p:NodeReference LastCategoryFullName="Stride.Assets" LastSymbolSource="VL.Stride.Assets.Windows.vl">
               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
               <Choice Kind="ProcessAppFlag" Name="FileTexture" />
@@ -2968,7 +2907,7 @@
             <Pin Id="T8YwSg3cNMhPC0iSiMmQgb" Name="Is Loading" Kind="OutputPin" />
             <Pin Id="TjpC2ByIxubLRaHlZLlL3U" Name="Already Loaded" Kind="OutputPin" />
           </Node>
-          <Pad Id="Kv8XmvgHV58PKdO5nM1bza" Comment="Path" Bounds="888,392,35,15" ShowValueBox="true" isIOBox="true" Value="..\..\..\..\Desktop\CloneProduction-MediaSpace-Restaurant.jpg-4.jpg">
+          <Pad Id="Kv8XmvgHV58PKdO5nM1bza" Comment="Path" Bounds="635,414,35,15" ShowValueBox="true" isIOBox="true" Value="..\..\..\..\Desktop\CloneProduction-MediaSpace-Restaurant.jpg-4.jpg">
             <p:TypeAnnotation LastCategoryFullName="IO" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="Path" />
             </p:TypeAnnotation>
@@ -2995,7 +2934,7 @@
             <Pin Id="SVCEw4e3q3oQGNAETTY3dB" Name="Input 2" Kind="InputPin" />
             <Pin Id="JqY5ftm1VjhNq8INtordCp" Name="Output" Kind="OutputPin" />
           </Node>
-          <Pad Id="EEmEmKs93NwNoQqH21f9Gw" Comment="Texture" Bounds="879,501,220,220" ShowValueBox="true" isIOBox="true" />
+          <Pad Id="EEmEmKs93NwNoQqH21f9Gw" Comment="Texture" Bounds="635,489,220,220" ShowValueBox="true" isIOBox="true" />
           <Pad Id="HSP6L73v4VBQMp8VehF1eV" Comment="Index" Bounds="452,388,35,15" ShowValueBox="true" isIOBox="true" Value="1">
             <p:TypeAnnotation LastCategoryFullName="Primitive" LastSymbolSource="CoreLibBasics.vl">
               <Choice Kind="TypeFlag" Name="Integer32" />
@@ -3011,8 +2950,6 @@
         <Link Id="CRBDLdzmsQbLHO1logFp2A" Ids="Gp5N36w2O4uNkfhc6enp74,PqsSgcMIFZnNH75nAOwDEQ" />
         <Link Id="QzSLfjCPeufPzEsPWePLcS" Ids="PEuYupyzoXxNX4FWQmNKwn,ROK0zzAyysJNBrTknxQmbN" />
         <Link Id="HFfx0EZ4NZ0NkBVndrUyll" Ids="Uxli0fq0WDSQVU3FGxuj9q,Gp5N36w2O4uNkfhc6enp74" />
-        <Link Id="Etmhgf5vkc9NutE2heZfxJ" Ids="TS5ENGJ9ir1NG65Rmh8IUN,NTj3m2oYbkiQUdMEkHwqx2" />
-        <Link Id="HN3BIHvNb0bOD089RUna09" Ids="O75QwwUxmk9M8qMGizHEZc,D5uOjFnarHvPChFYrUjNoB" />
         <Link Id="Ec0BEM5EiyvM3R4xKE7NpV" Ids="KR4V49jwkVNN25FTtaDu5n,NDZoQA7vrqxLC2OLAY1WmM" />
         <Link Id="AvSgwlyTg5UM64e1Pi1oW4" Ids="F9cLfWggjZmOdSKBmJIXOK,V41zxxXrjY1MaiqCgyTsWp" />
         <Link Id="UDuoXfCeEp0OsU0CkIiZor" Ids="Kv8XmvgHV58PKdO5nM1bza,QyAUssvUqDdONEIf8evqJZ" />
@@ -3025,11 +2962,11 @@
     </Node>
   </Patch>
   <NugetDependency Id="K3Z6DkVi4tCN2aikfu2hwt" Location="VL.CoreLib" Version="2021.3.1" />
-  <PlatformDependency Id="IeGGFhFoD15OvRZrdBOyVY" Location="../CMiX_UserControl/bin/Debug/CMiX.MVVM.dll" />
   <PlatformDependency Id="OZPYhcyfbtLNRZZlo5l6AW" Location="PresentationCore" />
   <NugetDependency Id="PzwsZA9aWTOOaUQurvfdPb" Location="VL.Stride" Version="0.9.90-g7445968757" />
   <NugetDependency Id="Jh9gy2xisT9MspbEzw8ngx" Location="VL.CoreLib.Windows" Version="2021.3.1" />
   <NugetDependency Id="CrgL92B7DtXQLcszhOZHRu" Location="VL.Stride.Windows" Version="0.9.90-g7445968757" />
   <DocumentDependency Id="RFBI4AzTQB4NJb84KfwuQR" Location="./VL.Stride.Extensions.vl" />
   <PlatformDependency Id="BRpQWimNovTLbI8Vj9KtRS" Location="System.Windows.Presentation" />
+  <PlatformDependency Id="VRkCyELzQ5jNfcd5PWDBcB" Location="../CMiX.Core/bin/Debug/CMiX.Core.dll" />
 </Document>
