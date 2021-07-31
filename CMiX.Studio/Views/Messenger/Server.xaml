@@ -145,7 +145,7 @@
         <Expander Header="Clients" Style="{DynamicResource InnerExpander}">
             <ItemsControl Margin="0, 8" 
                                 MinHeight="50" 
-                                ItemsSource="{Binding Server.ConnectedClients}">
+                                ItemsSource="{Binding ConnectedClients}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
@@ -177,7 +177,7 @@
                     <TextBlock
                             Padding="4"
                             HorizontalAlignment="Right"
-                            Text="{Binding Server.Statistics.SentMessagesAverageSize}"
+                            Text="{Binding Statistics.SentMessagesAverageSize}"
                             Grid.Column="1"
                             Foreground="{DynamicResource TextBase}"/>
                 </Grid>
@@ -196,7 +196,7 @@
                     <TextBlock
                         Padding="4"
                         HorizontalAlignment="Right"
-                        Text="{Binding Server.Statistics.SentMessages}"
+                        Text="{Binding Statistics.SentMessages}"
                         Grid.Column="1"
                         Foreground="{DynamicResource TextBase}"/>
                 </Grid>

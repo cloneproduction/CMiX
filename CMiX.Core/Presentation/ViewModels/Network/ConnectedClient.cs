@@ -9,8 +9,16 @@ namespace CMiX.Core.Presentation.ViewModels.Network
     {
         public ConnectedClient(string ipPort)
         {
+            IPPORT = ipPort;
             IP = ipPort.Split(':')[0];
             Port = ipPort.Split(':')[1];
+        }
+
+        private string _ipPort;
+        public string IPPORT
+        {
+            get => _ipPort;
+            set => SetProperty(ref _ipPort, value);
         }
 
         private bool _unSync;

@@ -4,6 +4,7 @@
 using System;
 using Ceras;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
 
@@ -14,6 +15,7 @@ namespace CMiX.Core.Services
         public Client()
         {
             Serializer = new CerasSerializer();
+            ServerIsConnected = false;
         }
 
 
@@ -28,7 +30,8 @@ namespace CMiX.Core.Services
         public string IP { get; set; }
         public int Port { get; set; }
         public bool IsRunning { get; private set; }
-
+        public bool ServerIsConnected { get; set; }
+        public string DeconnectionReason { get; set; }
 
         public string Address
         {
@@ -37,18 +40,22 @@ namespace CMiX.Core.Services
 
 
         public WatsonTcpClient WatsonTcpClient { get; set; }
-        public void Start()
+        public void Start(Settings settings)
         {
-            WatsonTcpClient = new WatsonTcpClient(IP, Port);
-            WatsonTcpClient.Events.ServerConnected += ServerConnected;
-            WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
-            WatsonTcpClient.Events.MessageReceived += MessageReceived;
-            WatsonTcpClient.Callbacks.SyncRequestReceived = SyncRequestReceived;
-            WatsonTcpClient.Settings.ConnectTimeoutSeconds = 5;
+            if (WatsonTcpClient == null)
+            {
+                WatsonTcpClient = new WatsonTcpClient(settings.IP, settings.Port);
+                WatsonTcpClient.Events.ServerConnected += ServerConnected;
+                WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
+                WatsonTcpClient.Events.MessageReceived += MessageReceived;
+                //WatsonTcpClient.Callbacks.SyncRequestReceived = SyncRequestReceived;
+                WatsonTcpClient.Settings.ConnectTimeoutSeconds = 5;
 
-            TryToConnect(WatsonTcpClient);
+                TryToConnect(WatsonTcpClient);
 
-            Console.WriteLine($"WatsonTcp Started with Address " + Address);
+                Console.WriteLine($"WatsonTcp Started with Address " + Address);
+            }
+
         }
 
         private SyncResponse SyncRequestReceived(SyncRequest arg)
@@ -69,29 +76,52 @@ namespace CMiX.Core.Services
         private void ServerDisconnected(object sender, DisconnectionEventArgs e)
         {
             Console.WriteLine("Server " + e.IpPort + " disconnected");
-            TryToConnect(WatsonTcpClient);
+            DeconnectionReason = e.Reason.ToString();
+            ServerIsConnected = false;
         }
 
         private void ServerConnected(object sender, ConnectionEventArgs e)
         {
             Console.WriteLine("Server " + e.IpPort + " connected");
+            ServerIsConnected = true;
         }
 
 
         private void TryToConnect(WatsonTcpClient watsonTcpClient)
         {
-            while (!watsonTcpClient.Connected)
+            //bool success = false;
+
+            if (WatsonTcpClient != null)
             {
-                try
+                while (!this.WatsonTcpClient.Connected)
                 {
-                    Console.WriteLine("Connecting...");
-                    watsonTcpClient.Connect();
-                }
-                catch (Exception)
-                {
-                    Console.WriteLine("Can't Connect");
+                    try
+                    {
+                        watsonTcpClient.Connect();
+                    }
+                    catch (Exception)
+                    {
+
+                        Console.WriteLine("Can't Connect");
+                    }
                 }
             }
+
+            //while (!success)
+            //{
+            //    try
+            //    {
+            //        Console.WriteLine("Connecting...");
+            //        watsonTcpClient.Connect();
+            //        success = watsonTcpClient.Connected;
+            //        await Task.Delay(1000);
+            //    }
+            //    catch (Exception)
+            //    {
+            //        Console.WriteLine("Can't Connect");
+            //    }
+            //}
+            //return success;
         }
 
         public void Stop()

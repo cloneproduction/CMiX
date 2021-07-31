@@ -45,9 +45,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void StartClient(Settings settings)
         {
-            Client.IP = settings.IP;
-            Client.Port = settings.Port;
-            Client.Start();
+            Client.Start(settings);
         }
 
         public void SendMessage(IMessage message)

@@ -16,7 +16,7 @@ namespace CMiX.Console
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
-            messageService.StartClient(new Settings("192.168.0.192", 2222));
+            messageService.StartClient(new Settings("192.168.0.192", 4444));
 
             Project Project = serviceProvider.GetRequiredService<Project>();
             SchedulerManager schedulerManager = new SchedulerManager(Project);
