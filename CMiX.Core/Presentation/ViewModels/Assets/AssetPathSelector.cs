@@ -4,24 +4,25 @@
 using System;
 using System.Windows;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class AssetPathSelector : ObservableObject, IControl, IDropTarget
+    public class AssetPathSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
     {
         public AssetPathSelector(Asset defaultAsset, AssetPathSelectorModel assetPathSelectorModel)
         {
             this.ID = assetPathSelectorModel.ID;
             SelectedAsset = defaultAsset;
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
 
         public Guid ID { get; set; }
-        public Communicator AssetPathSelectorCommunicator { get; set; }
 
 
         private Asset _selectedAsset;
@@ -31,24 +32,13 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             set
             {
                 SetProperty(ref _selectedAsset, value);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAsset(SelectedAsset), MessageType.Out);
 
-                AssetPathSelectorCommunicator?.SendMessage(new MessageAsset(SelectedAsset));
                 if (value != null)
                     System.Console.WriteLine("SelectedAsset Name is " + SelectedAsset.Name);
             }
         }
 
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            AssetPathSelectorCommunicator = new Communicator(this);
-            AssetPathSelectorCommunicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            AssetPathSelectorCommunicator.UnsetCommunicator(communicator);
-        }
 
 
         public void DragOver(IDropInfo dropInfo)
@@ -86,6 +76,30 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             if (this.SelectedAsset != null)
                 model.SelectedAsset = (IAssetModel)this.SelectedAsset.GetModel();
             return model;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message is MessageAsset messageAsset)
+            {
+                var assetModel = messageAsset.AssetModel;
+
+                if (assetModel is AssetGeometryModel assetGeometryModel)
+                {
+                    var asset = new AssetGeometry();
+                    asset.SetViewModel(assetGeometryModel);
+                    this.SelectedAsset = asset;
+                    Console.WriteLine(this.SelectedAsset.Path);
+                }
+
+                if (assetModel is AssetTextureModel assetTextureModel)
+                {
+                    var asset = new AssetTexture();
+                    asset.SetViewModel(assetTextureModel);
+                    this.SelectedAsset = asset;
+                    Console.WriteLine(this.SelectedAsset.Path);
+                }
+            }
         }
     }
 }

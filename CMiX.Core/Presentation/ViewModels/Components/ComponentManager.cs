@@ -73,7 +73,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            //MessageService.SendMessage(new MessageAddComponent(parentID, newComponent));
             Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
@@ -83,8 +82,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             var newComponent = parentComponent.ComponentFactory.CreateComponent();
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
-
-            //MessageService.SendMessage(new MessageAddComponent(parentComponent.ID, newComponent));
 
             Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);

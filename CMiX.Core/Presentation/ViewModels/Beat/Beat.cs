@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public abstract class Beat : ObservableObject
+    public abstract class Beat : ObservableRecipient
     {
         public Beat(BeatModel beatModel)
         {

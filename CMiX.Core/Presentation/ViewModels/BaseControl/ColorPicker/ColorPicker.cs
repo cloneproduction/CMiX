@@ -6,19 +6,22 @@ using System.Windows.Input;
 using System.Windows.Media;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using ColorMine.ColorSpaces;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorPicker : ObservableObject, IControl
+    public class ColorPicker : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public ColorPicker(ColorPickerModel colorPickerModel)
         {
             SelectedColor = ColorExtensions.HexStringToColor(colorPickerModel.SelectedColor);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
             this.ID = colorPickerModel.ID;
             Red = SelectedColor.R;
             Green = SelectedColor.G;
@@ -32,7 +35,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        //public Communicator Communicator { get; set; }
         public ICommand PreviewMouseDownCommand { get; set; }
         public ICommand PreviewMouseUpCommand { get; set; }
         public ICommand PreviewMouseLeaveCommand { get; set; }
@@ -46,21 +48,9 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _selectedColor, value);
-                //Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
-
-
-        //public void SetCommunicator(Communicator communicator)
-        //{
-        //    Communicator = new Communicator(this);
-        //    Communicator.SetCommunicator(communicator);
-        //}
-
-        //public void UnsetCommunicator(Communicator communicator)
-        //{
-        //    Communicator.UnsetCommunicator(communicator);
-        //}
 
 
         private byte _red;
@@ -250,7 +240,7 @@ namespace CMiX.Core.Presentation.ViewModels
             ColorPickerModel colorPickerModel = model as ColorPickerModel;
             this.ID = colorPickerModel.ID;
             this.SelectedColor = colorPickerModel.SelectedColor.HexStringToColor();
-            System.Console.WriteLine("ColorPicker SetViewModel Color " + SelectedColor);
+            Console.WriteLine("ColorPicker SetViewModel Color " + SelectedColor);
         }
 
         public IModel GetModel()
@@ -259,6 +249,15 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.SelectedColor = this.SelectedColor.ColorToHexString();
             return model;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+            }
         }
     }
 }

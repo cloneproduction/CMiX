@@ -4,12 +4,13 @@
 using System;
 using System.Windows.Media;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
+using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorSelector : ObservableObject, IControl
+    public class ColorSelector : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
@@ -18,23 +19,9 @@ namespace CMiX.Core.Presentation.ViewModels
             //this.SelectedColor = Utils.HexStringToColor(colorSelectorModel.ColorPickerModel.SelectedColor);
         }
 
-        //public void SetCommunicator(Communicator communicator)
-        //{
-        //    Communicator = new Communicator(this);
-        //    Communicator.SetCommunicator(communicator);
-
-        //    ColorPicker.SetCommunicator(Communicator);
-        //}
-
-        //public void UnsetCommunicator(Communicator communicator)
-        //{
-        //    Communicator.UnsetCommunicator(communicator);
-
-        //    ColorPicker.UnsetCommunicator(Communicator);
-        //}
 
         public Guid ID { get; set; }
-        //public Communicator Communicator { get; set; }
+
         public ColorPicker ColorPicker { get; set; }
 
         private Color _selectedColor;
@@ -60,6 +47,15 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.ColorPickerModel = (ColorPickerModel)ColorPicker.GetModel();
             return model;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+            }
         }
     }
 }

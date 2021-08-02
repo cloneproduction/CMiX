@@ -210,8 +210,8 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 foreach (var connectedClient in ConnectedClients)
                 {
-                    var success = WatsonTcpServer.SendAsync(connectedClient.IPPORT, data);
-                    if (success.IsCompleted)
+                    var success = WatsonTcpServer.Send(connectedClient.IPPORT, data);
+                    if (success)
                         Console.WriteLine("WatsonTcpServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length + "to address : " + $"{IP}:{Port}");
                 }
                 Statistics.Update(WatsonTcpServer);
