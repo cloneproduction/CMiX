@@ -12,7 +12,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Slider : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class Slider : ObservableRecipient,  IRecipient<IMessage>, IControl
     {
         public Slider(string name, SliderModel sliderModel)
         {

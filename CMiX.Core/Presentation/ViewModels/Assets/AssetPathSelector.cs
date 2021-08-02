@@ -89,7 +89,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                     var asset = new AssetGeometry();
                     asset.SetViewModel(assetGeometryModel);
                     this.SelectedAsset = asset;
-                    Console.WriteLine(this.SelectedAsset.Path);
+                    return;
+
                 }
 
                 if (assetModel is AssetTextureModel assetTextureModel)
@@ -97,8 +98,9 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                     var asset = new AssetTexture();
                     asset.SetViewModel(assetTextureModel);
                     this.SelectedAsset = asset;
-                    Console.WriteLine(this.SelectedAsset.Path);
+                    return;
                 }
+                Console.WriteLine(this.SelectedAsset.Path);
             }
         }
     }
