@@ -10,7 +10,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface IProject : IComponent
     {
-        SortableObservableCollection<Asset> Assets { get; set; }
+        SortableObservableCollection<IAsset> Assets { get; set; }
         ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
     public class AssetFactory
@@ -20,28 +22,32 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             return new AssetDirectory(name);
         }
 
-        public AssetTexture CreateAssetTexture(string name, string path)
+        private AssetTexture CreateAssetTexture(string name, string path)
         {
             return new AssetTexture(name, path);
         }
 
-        public AssetGeometry CreateAssetGeometry(string name, string path)
+        private AssetGeometry CreateAssetGeometry(string name, string path)
         {
             return new AssetGeometry(name, path);
         }
 
-        //public Asset CreateAsset(Type type, string name)
-        //{
-        //    Asset asset = null;
 
-        //    if (type == typeof(AssetDirectory))
-        //        asset = new AssetDirectory();
-        //    else if (type == typeof(AssetTexture))
-        //        asset = new AssetTexture();
-        //    else if (type == typeof(AssetGeometry))
-        //        asset = new AssetGeometry();
+        public IAsset CreateAsset(string fileType, string fileName, string filePath)
+        {
+            IAsset asset = null;
 
-        //    return asset;
-        //}
+            if (Enum.IsDefined(typeof(TextureFileType), fileType))
+            {
+                return CreateAssetTexture(fileName, filePath);
+            }
+
+            if (Enum.IsDefined(typeof(GeometryFileType), fileType))
+            {
+                return CreateAssetGeometry(fileName, filePath);
+            }
+
+            return asset;
+        }
     }
 }

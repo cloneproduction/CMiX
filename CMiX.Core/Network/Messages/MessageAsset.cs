@@ -13,7 +13,7 @@ namespace CMiX.Core.Network.Messages
 
         }
 
-        public MessageAsset(Asset asset)
+        public MessageAsset(IAsset asset)
         {
             AssetModel = asset.GetModel() as IAssetModel;
         }

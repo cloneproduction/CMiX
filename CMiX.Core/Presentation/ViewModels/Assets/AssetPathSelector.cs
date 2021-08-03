@@ -14,7 +14,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 {
     public class AssetPathSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
     {
-        public AssetPathSelector(Asset defaultAsset, AssetPathSelectorModel assetPathSelectorModel)
+        public AssetPathSelector(IAsset defaultAsset, AssetPathSelectorModel assetPathSelectorModel)
         {
             this.ID = assetPathSelectorModel.ID;
             SelectedAsset = defaultAsset;
@@ -25,8 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public Guid ID { get; set; }
 
 
-        private Asset _selectedAsset;
-        public Asset SelectedAsset
+        private IAsset _selectedAsset;
+        public IAsset SelectedAsset
         {
             get => _selectedAsset;
             set

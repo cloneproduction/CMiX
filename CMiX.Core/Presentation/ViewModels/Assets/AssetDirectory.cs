@@ -5,14 +5,15 @@ using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using CMiX.Core.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class AssetDirectory : Asset, IDisposable
+    public class AssetDirectory : ObservableObject, IAsset, IDisposable
     {
         public AssetDirectory()
         {
-            Assets = new SortableObservableCollection<Asset>();
+            Assets = new SortableObservableCollection<IAsset>();
             Assets.CollectionChanged += CollectionChanged;
             IsExpanded = false;
             IsSelected = false;
@@ -21,14 +22,54 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public AssetDirectory(string name)
         {
             Name = name;
-            Assets = new SortableObservableCollection<Asset>();
+            Assets = new SortableObservableCollection<IAsset>();
             Assets.CollectionChanged += CollectionChanged;
             IsExpanded = false;
             IsSelected = false;
         }
 
-        public SortableObservableCollection<Asset> Assets { get; set; }
 
+        private bool _fileExist;
+        public bool FileExist
+        {
+            get => _fileExist;
+            set => SetProperty(ref _fileExist, value);
+        }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        private string _ponderation = "a";
+        public string Ponderation
+        {
+            get => _ponderation;
+            set => SetProperty(ref _ponderation, value);
+        }
+
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get => _isRenaming;
+            set => SetProperty(ref _isRenaming, value);
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
+        private string _path;
+        public string Path
+        {
+            get => _path;
+            set => SetProperty(ref _path, value);
+        }
 
         private bool _isRoot = false;
         public bool IsRoot
@@ -46,14 +87,20 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         }
 
 
-        public void AddAsset(Asset asset)
+        public SortableObservableCollection<IAsset> Assets { get; set; }
+
+
+
+
+
+        public void AddAsset(IAsset asset)
         {
             Assets.Add(asset);
             SortAssets();
         }
 
 
-        public void RemoveAsset(Asset asset)
+        public void RemoveAsset(IAsset asset)
         {
             if (Assets.Contains(asset))
                 Assets.Remove(asset);
@@ -88,30 +135,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         }
 
 
-        //public void SetViewModel(IAssetModel model)
-        //{
-        //    Name = model.Name;
-        //    Assets.Clear();
-        //    foreach (var assetModel in model.AssetModels)
-        //    {
-        //        Asset asset = null;
-
-        //        if(assetModel is AssetDirectoryModel)
-        //            asset = new AssetDirectory();
-        //        else if(assetModel is AssetGeometryModel)
-        //            asset = new AssetGeometry();
-        //        else if(assetModel is AssetTextureModel)
-        //            asset = new AssetTexture();
-
-        //        if(asset != null)
-        //        {
-        //            asset.SetViewModel(assetModel);
-        //            Assets.Add(asset);
-        //        }
-        //    }
-        //    SortAssets();
-        //}
-
         public void Dispose()
         {
             foreach (var asset in this.Assets)
@@ -122,7 +145,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             this.Assets.Clear();
         }
 
-        public override IModel GetModel()
+        public IModel GetModel()
         {
             IAssetModel directoryAssetModel = new AssetDirectoryModel() as IAssetModel;
 
@@ -134,7 +157,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             return directoryAssetModel as IModel;
         }
 
-        public override void SetViewModel(IModel model)
+        public void SetViewModel(IModel model)
         {
             AssetDirectoryModel assetDirectoryModel = model as AssetDirectoryModel;
             this.Name = assetDirectoryModel.Name;
@@ -142,7 +165,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             this.Assets.Clear();
             foreach (var assetModel in assetDirectoryModel.AssetModels)
             {
-                Asset asset = null;
+                IAsset asset = null;
 
                 if (assetModel is AssetDirectoryModel)
                     asset = new AssetDirectory();

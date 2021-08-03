@@ -16,7 +16,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Project()
         {
             ID = new Guid("11223344-5566-7788-99AA-BBCCDDEEFF00");
-            Assets = new SortableObservableCollection<Asset>();
+            Assets = new SortableObservableCollection<IAsset>();
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
 
             Visibility = new Visibility(new VisibilityModel());
@@ -25,7 +25,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
 
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
-        public SortableObservableCollection<Asset> Assets { get; set; }
+        public SortableObservableCollection<IAsset> Assets { get; set; }
 
 
         public override IComponentModel GetModel()
@@ -38,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             foreach (Component item in this.Components)
                 model.ComponentModels.Add(item.GetModel());
 
-            foreach (Asset asset in this.Assets)
+            foreach (IAsset asset in this.Assets)
                 model.AssetModels.Add((IAssetModel)asset.GetModel());
 
             return model;
@@ -60,7 +60,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.Assets.Clear();
             foreach (IAssetModel assetModel in projectModel.AssetModels)
             {
-                Asset asset = null;
+                IAsset asset = null;
                 if (assetModel is AssetDirectoryModel)
                     asset = new AssetDirectory();
                 else if (assetModel is AssetTextureModel)

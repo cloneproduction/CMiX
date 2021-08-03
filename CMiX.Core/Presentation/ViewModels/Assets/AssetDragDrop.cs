@@ -9,10 +9,10 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
     {
         public AssetDragDrop()
         {
-            SourceCollection = new ObservableCollection<Asset>();
+            SourceCollection = new ObservableCollection<IAsset>();
         }
 
-        public Asset DragObject { get; set; }
-        public ObservableCollection<Asset> SourceCollection { get; set; }
+        public IAsset DragObject { get; set; }
+        public ObservableCollection<IAsset> SourceCollection { get; set; }
     }
 }
