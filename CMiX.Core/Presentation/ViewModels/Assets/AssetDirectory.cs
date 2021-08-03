@@ -19,15 +19,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             IsSelected = false;
         }
 
-        public AssetDirectory(string name)
+        public AssetDirectory(string name) : this()
         {
             Name = name;
-            Assets = new SortableObservableCollection<IAsset>();
-            Assets.CollectionChanged += CollectionChanged;
-            IsExpanded = false;
-            IsSelected = false;
         }
 
+        public SortableObservableCollection<IAsset> Assets { get; set; }
 
         private bool _fileExist;
         public bool FileExist
@@ -87,18 +84,11 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         }
 
 
-        public SortableObservableCollection<IAsset> Assets { get; set; }
-
-
-
-
-
         public void AddAsset(IAsset asset)
         {
             Assets.Add(asset);
             SortAssets();
         }
-
 
         public void RemoveAsset(IAsset asset)
         {

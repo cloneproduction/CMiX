@@ -21,21 +21,17 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 {
     public class AssetManager : ObservableRecipient, IDropTarget, IDragSource
     {
-        public AssetManager(IProject project, IDialogService dialogService)
+        public AssetManager(IDialogService dialogService)
         {
             AssetFactory = new AssetFactory();
             DialogService = dialogService;
-            Project = project;
 
-
-            AssetsFlatten = new ObservableCollection<IAsset>();
-            this.AssetsFlatten.CollectionChanged += FlattenAssets_CollectionChanged;
+            Assets = new SortableObservableCollection<IAsset>();
+            AssetTextures = new SortableObservableCollection<AssetTexture>();
+            AssetGeometry = new SortableObservableCollection<AssetGeometry>();
 
             SelectedItems = new ObservableCollection<IAsset>();
             SelectedItems.CollectionChanged += CollectionChanged;
-
-            //InitCollectionView();
-
 
             AddAssetCommand = new RelayCommand(AddAsset);
             DeleteAssetsCommand = new RelayCommand(DeleteAssets);
@@ -43,11 +39,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
-
-        private IProject Project { get; set; }
         private AssetFactory AssetFactory { get; set; }
-
-
+        public IDialogService DialogService { get; set; }
 
         public ICommand RenameAssetCommand { get; set; }
         public ICommand AddAssetCommand { get; set; }
@@ -56,17 +49,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public ICommand RelinkAssetsCommand { get; set; }
 
 
-        public IDialogService DialogService { get; set; }
-
-
-
         private ObservableCollection<IAsset> _selectedItems;
         public ObservableCollection<IAsset> SelectedItems
         {
             get => _selectedItems;
             set => SetProperty(ref _selectedItems, value);
         }
-
 
         private bool _canAddAsset = false;
         public bool CanAddAsset
@@ -97,94 +85,26 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         }
 
 
-        public SortableObservableCollection<IAsset> Assets
-        {
-            get => Project.Assets;
-        }
+        public SortableObservableCollection<IAsset> Assets { get; set; }
 
         public SortableObservableCollection<AssetTexture> AssetTextures { get; set; }
         public SortableObservableCollection<AssetGeometry> AssetGeometry { get; set; }
 
 
-        private ObservableCollection<IAsset> _assetsFlatten;
-        public ObservableCollection<IAsset> AssetsFlatten
-        {
-            get => _assetsFlatten;
-            set => SetProperty(ref _assetsFlatten, value);
-        }
-
-        //public CollectionViewSource GeometryViewSource { get; set; }
-        //private ICollectionView _geometryCollectionView;
-        //public ICollectionView GeometryCollectionView
-        //{
-        //    get => _geometryCollectionView;
-        //    set => SetProperty(ref _geometryCollectionView, value);
-        //}
-
-        //public CollectionViewSource ImageViewSource { get; set; }
-        //private ICollectionView _imageCollectionView;
-        //public ICollectionView ImageCollectionView
-        //{
-        //    get => _imageCollectionView;
-        //    set => SetProperty(ref _imageCollectionView, value);
-        //}
-
-
-
-
-        //public void InitCollectionView()
-        //{
-        //    GeometryViewSource = new CollectionViewSource();
-        //    GeometryViewSource.Source = this.AssetsFlatten;
-        //    GeometryCollectionView = GeometryViewSource.View;
-        //    GeometryCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetGeometry.Name), ListSortDirection.Ascending));
-        //    GeometryCollectionView.Filter = FilterGeometry;
-
-        //    ImageViewSource = new CollectionViewSource();
-        //    ImageViewSource.Source = this.AssetsFlatten;
-        //    ImageCollectionView = ImageViewSource.View;
-        //    ImageCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetTexture.Name), ListSortDirection.Ascending));
-        //    ImageCollectionView.Filter = FilterImage;
-        //}
-
-        private void FlattenAssets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            Console.WriteLine("POUETPOUET");
-            //GeometryCollectionView.Refresh();
-            //ImageCollectionView.Refresh();
-        }
-
-
-        //public void BuildAssetFlattenCollection(ObservableCollection<Asset> assets)
-        //{
-        //    foreach (Asset asset in assets)
-        //    {
-        //        if (asset is AssetDirectory)
-        //            BuildAssetFlattenCollection(((AssetDirectory)asset).Assets);
-        //        else
-        //            AssetsFlatten.Add(asset);
-        //    }
-        //}
-
-
-        //public bool FilterGeometry(object item) => item is AssetGeometry ? true : false;
-        //public bool FilterImage(object item) => item is AssetTexture ? true : false;
-
-
         public void RenameAsset()
         {
-            if (SelectedItems.Count == 1)
+            if (SelectedItems.Take(2).Count() == 1)
             {
-                if (SelectedItems[0] is AssetDirectory assetDirectory)
+                if (SelectedItems.First() is AssetDirectory assetDirectory)
                     assetDirectory.Rename();
             }
         }
 
         public void RelinkAssets()
         {
-            if (SelectedItems.Count == 1)
+            if (SelectedItems.Take(2).Count() == 1)
             {
-                IAsset asset = SelectedItems[0];
+                IAsset asset = SelectedItems.First();
                 OpenFileDialogSettings settings = new OpenFileDialogSettings();
 
                 if (asset is AssetTexture)
@@ -203,21 +123,17 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public void AddAsset()
         {
-            if (SelectedItems.Count == 1)
+            if(SelectedItems.Take(2).Count() == 1 && SelectedItems.FirstOrDefault() is AssetDirectory assetDirectory)
             {
-                if (SelectedItems[0] is AssetDirectory assetDirectory)
-                {
-                    assetDirectory.IsExpanded = true;
-                    assetDirectory.AddAsset(new AssetDirectory("New Folder"));
-                }
+                assetDirectory.IsExpanded = true;
+                assetDirectory.AddAsset(new AssetDirectory("New Folder"));
             }
         }
 
 
         private void DeleteAssets()
         {
-            if (SelectedItems != null && this.Assets != null)
-                DeleteSelectedAssets(this.Assets);
+            DeleteSelectedAssets(this.Assets);
         }
 
 
@@ -236,7 +152,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             {
                 directory.Assets.Remove(item);
                 this.Assets.Remove(item);
-                this.AssetsFlatten.Remove(item);
             }
         }
 
@@ -247,39 +162,42 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
             foreach (var asset in assets)
             {
-                if (asset.IsSelected)
+                if(asset is AssetDirectory assetDirectory)
                 {
-                    toBeRemoved.Add(asset);
-                    if (asset is AssetDirectory)
-                        RemoveItemFromDirectory(asset as AssetDirectory);
+                    if (assetDirectory.IsSelected)
+                    {
+                        toBeRemoved.Add(asset);
+                        RemoveItemFromDirectory(assetDirectory);
+                        return;
+                    }
+
+                    DeleteSelectedAssets(assetDirectory.Assets);
                 }
-                else if (!asset.IsSelected && asset is AssetDirectory)
-                    DeleteSelectedAssets(((AssetDirectory)asset).Assets);
             }
 
             foreach (var item in toBeRemoved)
             {
                 assets.Remove(item);
-                this.Assets.Remove(item);
-                this.AssetsFlatten.Remove(item);
             }
 
             SelectedItems.Clear();
         }
 
 
-        private IAsset GetItemFromDirectory(DirectoryInfo directoryInfo)
+        private IAsset CreateAssetFromDirectory(DirectoryInfo directoryInfo)
         {
             AssetDirectory directoryItem = new AssetDirectory(directoryInfo.Name);
 
             foreach (var directory in directoryInfo.GetDirectories())
             {
-                directoryItem.Assets.Add(GetItemFromDirectory(directory));
+                IAsset asset = CreateAssetFromDirectory(directory);
+                if (asset != null)
+                    directoryItem.Assets.Add(asset);
             }
 
             foreach (var file in directoryInfo.GetFiles())
             {
-                IAsset asset = GetFileItem(file.FullName);
+                IAsset asset = CreateAssetFromPath(file.FullName);
                 if (asset != null)
                     directoryItem.Assets.Add(asset);
             }
@@ -288,17 +206,13 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         }
 
 
-        private IAsset GetFileItem(string filePath)
+        private IAsset CreateAssetFromPath(string path)
         {
+            string filePath = Path.GetFullPath(path);
             string fileType = Path.GetExtension(filePath).ToUpper().TrimStart('.');
             string fileName = Path.GetFileName(filePath);
 
-            IAsset item = AssetFactory.CreateAsset(fileType, fileName, filePath);
-
-            if (item != null)
-                this.AssetsFlatten.Add(item);
-
-            return item;
+            return AssetFactory.CreateAsset(fileType, fileName, filePath);
         }
 
 
@@ -312,6 +226,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public void DragOver(IDropInfo dropInfo)
         {
             var dataObject = dropInfo.Data as DataObject;
+            var dragInfo = dropInfo.DragInfo;
 
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
@@ -319,17 +234,17 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                 dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
             }
 
-            if (dropInfo.DragInfo != null && dropInfo.DragInfo.SourceItem is IAsset)
+            if (dragInfo != null && dragInfo.SourceItem is IAsset)
             {
                 var targetItem = dropInfo.TargetItem;
                 var vSourceItem = dropInfo.DragInfo.VisualSourceItem as TreeViewItem;
                 var vSourceChild = vSourceItem.FindVisualChildren<TreeViewItem>();// Utils.FindVisualChildren<TreeViewItem>(vSourceItem);
-                var vTargetItem = dropInfo.VisualTargetItem as TreeViewItem;
+                var visualTargetItem = dropInfo.VisualTargetItem as TreeViewItem;
 
                 if (targetItem is AssetDirectory)
                     dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
 
-                if (vSourceItem == vTargetItem || vSourceChild.ToList().Contains(vTargetItem) || vTargetItem == null)
+                if (vSourceItem == visualTargetItem || vSourceChild.ToList().Contains(visualTargetItem) || visualTargetItem == null)
                     dropInfo.Effects = DragDropEffects.None;
                 else
                     dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
@@ -348,10 +263,10 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                     IAsset item = null;
 
                     if (File.Exists(str))
-                        item = GetFileItem(str);
+                        item = CreateAssetFromPath(str);
 
                     if (Directory.Exists(str))
-                        item = GetItemFromDirectory(new DirectoryInfo(str));
+                        item = CreateAssetFromDirectory(new DirectoryInfo(str));
 
                     if (item != null)
                     {
@@ -363,7 +278,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                             return;
                         }
 
-                        this.AssetsFlatten.Add(item);
                         Assets.Add(item);
                         this.SortAssets();
                     }
@@ -420,7 +334,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             List<AssetDragDrop> dragList = new List<AssetDragDrop>();
             GetDragDropObjects(dragList, this.Assets);
 
-            if (dragList.Count > 0)
+            if (dragList.Any())
             {
                 dragInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
                 dragInfo.Data = dragList;
@@ -470,5 +384,71 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                 CanRelinkAsset = false;
             }
         }
+
+
     }
 }
+
+
+
+//private ObservableCollection<IAsset> _assetsFlatten;
+//public ObservableCollection<IAsset> AssetsFlatten
+//{
+//    get => _assetsFlatten;
+//    set => SetProperty(ref _assetsFlatten, value);
+//}
+
+//public CollectionViewSource GeometryViewSource { get; set; }
+//private ICollectionView _geometryCollectionView;
+//public ICollectionView GeometryCollectionView
+//{
+//    get => _geometryCollectionView;
+//    set => SetProperty(ref _geometryCollectionView, value);
+//}
+
+//public CollectionViewSource ImageViewSource { get; set; }
+//private ICollectionView _imageCollectionView;
+//public ICollectionView ImageCollectionView
+//{
+//    get => _imageCollectionView;
+//    set => SetProperty(ref _imageCollectionView, value);
+//}
+
+//public void InitCollectionView()
+//{
+//    GeometryViewSource = new CollectionViewSource();
+//    GeometryViewSource.Source = this.AssetsFlatten;
+//    GeometryCollectionView = GeometryViewSource.View;
+//    GeometryCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetGeometry.Name), ListSortDirection.Ascending));
+//    GeometryCollectionView.Filter = FilterGeometry;
+
+//    ImageViewSource = new CollectionViewSource();
+//    ImageViewSource.Source = this.AssetsFlatten;
+//    ImageCollectionView = ImageViewSource.View;
+//    ImageCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetTexture.Name), ListSortDirection.Ascending));
+//    ImageCollectionView.Filter = FilterImage;
+//}
+
+//private void FlattenAssets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+//{
+//    Console.WriteLine("POUETPOUET");
+//    //GeometryCollectionView.Refresh();
+//    //ImageCollectionView.Refresh();
+//}
+
+
+//public void BuildAssetFlattenCollection(ObservableCollection<Asset> assets)
+//{
+//    foreach (Asset asset in assets)
+//    {
+//        if (asset is AssetDirectory)
+//            BuildAssetFlattenCollection(((AssetDirectory)asset).Assets);
+//        else
+//            AssetsFlatten.Add(asset);
+//    }
+//}
+
+
+//public bool FilterGeometry(object item) => item is AssetGeometry ? true : false;
+//public bool FilterImage(object item) => item is AssetTexture ? true : false;
+
