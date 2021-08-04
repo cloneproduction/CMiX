@@ -89,7 +89,7 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
                                 <Button 
-                                    Command="{Binding CreateTransformModifierCommand}" 
+                                    Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
                                     CommandParameter="{x:Static ViewModels:TransformModifierNames.TranslateXYZ}" 
                                     Grid.Column="0"
                                     VerticalAlignment="Center" 
@@ -97,7 +97,7 @@
                                     Height="20" 
                                     Content="TranslateXYZ"/>
                                 <Button 
-                                    Command="{Binding CreateTransformModifierCommand}" 
+                                    Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
                                     CommandParameter="{x:Static ViewModels:TransformModifierNames.Randomized}" 
                                     Grid.Column="1"
                                     VerticalAlignment="Center" 
@@ -105,7 +105,7 @@
                                     Height="20" 
                                     Content="Randomized"/>
                                 <Button                         
-                                    Command="{Binding CreateTransformModifierCommand}" 
+                                    Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
                                     CommandParameter="{x:Static ViewModels:TransformModifierNames.Randomized}"
                                     Grid.Column="2"
                                     VerticalAlignment="Center" 
@@ -119,7 +119,7 @@
                 </Controls:CMiXPopup>
 
 
-                <ItemsControl ItemTemplateSelector="{StaticResource TemplateSelector }" ItemsSource="{Binding TransformModifiers}"/>
+                <ItemsControl ItemTemplateSelector="{StaticResource TemplateSelector }" ItemsSource="{Binding TransformModifier.Modifiers}"/>
             </StackPanel>
         </Border>
 

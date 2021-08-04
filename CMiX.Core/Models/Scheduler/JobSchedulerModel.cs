@@ -5,11 +5,14 @@ using System;
 
 namespace CMiX.Core.Models.Scheduling
 {
-    public sealed class JobSchedulerModel : Model
+    public sealed class JobSchedulerModel : IModel
     {
         public JobSchedulerModel()
         {
             this.ID = Guid.NewGuid();
         }
+
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
     }
 }

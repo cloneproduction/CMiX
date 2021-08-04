@@ -2,21 +2,19 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMiX.Core.Models
 {
-    public class AssetGeometryModel : Model, IAssetModel
+    public class AssetGeometryModel : IAssetModel
     {
         public AssetGeometryModel()
         {
-
+            this.ID = Guid.NewGuid();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public string Path { get; set; }
         public string Name { get; set; }
         public bool IsSelected { get; set; }

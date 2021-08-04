@@ -126,6 +126,8 @@
   <ItemGroup>
     <Compile Include="Mathematics\ColorExtensions.cs" />
     <Compile Include="Mathematics\MathUtils.cs" />
+    <Compile Include="Models\Assets\TextureSelectorModel.cs" />
+    <Compile Include="Models\Geometry\Modifier\TransformModifierModel.cs" />
     <Compile Include="Models\Scheduler\CompositionSchedulerModel.cs" />
     <Compile Include="Models\Scheduler\JobEditorModel.cs" />
     <Compile Include="Models\Scheduler\JobModel.cs" />
@@ -247,6 +249,8 @@
     <Compile Include="Presentation\ValueConverters\RangeValueToStringConverter.cs" />
     <Compile Include="Presentation\ValueConverters\ValToColorConverter.cs" />
     <Compile Include="Presentation\ValueConverters\ValueAngleConverter.cs" />
+    <Compile Include="Presentation\ViewModels\Assets\AssetTypes.cs" />
+    <Compile Include="Presentation\ViewModels\Assets\TextureSelector.cs" />
     <Compile Include="Presentation\ViewModels\Components\IComponent.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\IProject.cs" />
     <Compile Include="Presentation\ViewModels\MainMenu.cs" />
@@ -361,7 +365,7 @@
     <Compile Include="Presentation\Controls\TreeView\TreeViewMultiSelect.cs" />
     <Compile Include="Presentation\Controls\TreeView\TreeViewSelect.cs" />
     <Compile Include="Models\Assets\AssetModel.cs" />
-    <Compile Include="Models\Assets\AssetPathSelectorModel.cs" />
+    <Compile Include="Models\Assets\GeometrySelectorModel.cs" />
     <Compile Include="Models\Assets\AssetManagerModel.cs" />
     <Compile Include="Models\Assets\AssetDirectoryModel.cs" />
     <Compile Include="Models\Assets\AssetGeometryModel.cs" />
@@ -383,7 +387,7 @@
     <Compile Include="Presentation\ViewModels\Assets\AssetDragDrop.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetGeometry.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetManager.cs" />
-    <Compile Include="Presentation\ViewModels\Assets\AssetPathSelector.cs" />
+    <Compile Include="Presentation\ViewModels\Assets\GeometrySelector.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetTexture.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetFileType.cs" />
     <Compile Include="Presentation\ViewModels\Beat\Beat.cs" />
@@ -470,7 +474,6 @@
     <Compile Include="Models\Component\LayerModel.cs" />
     <Compile Include="Models\MaskModel.cs" />
     <Compile Include="Models\Beat\BeatModel.cs" />
-    <Compile Include="Models\Model.cs" />
     <Compile Include="Models\PostFXModel.cs" />
     <Compile Include="Models\Component\ProjectModel.cs" />
     <Compile Include="Models\RangeControlModel.cs" />

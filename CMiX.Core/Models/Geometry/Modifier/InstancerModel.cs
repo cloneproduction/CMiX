@@ -1,31 +1,27 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
 using System;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
-    public class InstancerModel : Model, IModel
+    public class InstancerModel : IModel
     {
         public InstancerModel()
         {
             ID = Guid.NewGuid();
             Transform = new TransformModel();
             Counter = new CounterModel();
-            TranslateModifierModel = new XYZModifierModel();
-            ScaleModifierModel = new XYZModifierModel();
-            RotationModifierModel = new XYZModifierModel();
+            TransformModifierModel = new TransformModifierModel();
             UniformScale = new AnimParameterModel();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
+        public TransformModifierModel TransformModifierModel { get; set; }
         public AnimParameterModel UniformScale { get; set; }
         public TransformModel Transform { get; set; }
         public CounterModel Counter { get; set; }
-        public XYZModifierModel TranslateModifierModel { get; set; }
-        public XYZModifierModel ScaleModifierModel { get; set; }
-        public XYZModifierModel RotationModifierModel { get; set; }
         public bool NoAspectRatio { get; set; }
     }
 }

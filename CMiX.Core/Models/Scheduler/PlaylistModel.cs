@@ -5,13 +5,15 @@ using System;
 
 namespace CMiX.Core.Models.Scheduler
 {
-    public class PlaylistModel : Model
+    public class PlaylistModel : IModel
     {
         public PlaylistModel()
         {
             this.ID = Guid.NewGuid();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public string Name { get; set; }
     }
 }

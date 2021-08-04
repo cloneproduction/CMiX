@@ -5,14 +5,15 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
-    public class CounterModel : Model
+    public class CounterModel : IModel
     {
         public CounterModel()
         {
             this.ID = Guid.NewGuid();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public int Count { get; set; }
     }
 }

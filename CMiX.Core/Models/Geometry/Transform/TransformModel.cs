@@ -1,12 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
 using System;
 
 namespace CMiX.Core.Models
 {
-    public class TransformModel : Model, IModel
+    public class TransformModel : IModel
     {
         public TransformModel()
         {
@@ -20,6 +19,8 @@ namespace CMiX.Core.Models
             RotationModel = new RotationModel();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public TranslateModel TranslateModel { get; set; }
         public ScaleModel ScaleModel { get; set; }
         public RotationModel RotationModel { get; set; }

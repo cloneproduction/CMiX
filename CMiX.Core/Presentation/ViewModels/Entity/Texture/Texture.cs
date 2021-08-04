@@ -28,13 +28,13 @@ namespace CMiX.Core.Presentation.ViewModels
             Rotate = new Slider(nameof(Rotate), textureModel.Rotate) { Minimum = -1.0, Maximum = 1.0 };
             Pan = new Slider(nameof(Pan), textureModel.Pan) { Minimum = -1.0, Maximum = 1.0 };
             Tilt = new Slider(nameof(Tilt), textureModel.Tilt) { Minimum = -1.0, Maximum = 1.0 };
-            AssetPathSelector = new AssetPathSelector(new AssetTexture(), textureModel.AssetPathSelectorModel);
+            TextureSelector = new TextureSelector(new AssetTexture(), textureModel.TextureSelectorModel);
         }
 
 
         public Guid ID { get; set; }
         public Communicator Communicator { get; set; }
-        public AssetPathSelector AssetPathSelector { get; set; }
+        public TextureSelector TextureSelector { get; set; }
         public Slider Brightness { get; set; }
         public Slider Contrast { get; set; }
         public Slider Hue { get; set; }
@@ -53,7 +53,7 @@ namespace CMiX.Core.Presentation.ViewModels
             TextureModel model = new TextureModel();
 
             model.ID = this.ID;
-            model.AssetPathSelectorModel = (AssetPathSelectorModel)this.AssetPathSelector.GetModel();
+            model.TextureSelectorModel = (TextureSelectorModel)this.TextureSelector.GetModel();
             model.InverterModel = (InverterModel)this.Inverter.GetModel();
             model.Brightness = (SliderModel)this.Brightness.GetModel();
             model.Contrast = (SliderModel)this.Contrast.GetModel();
@@ -75,7 +75,7 @@ namespace CMiX.Core.Presentation.ViewModels
             TextureModel textureModel = model as TextureModel;
 
             this.ID = textureModel.ID;
-            this.AssetPathSelector.SetViewModel(textureModel.AssetPathSelectorModel);
+            this.TextureSelector.SetViewModel(textureModel.TextureSelectorModel);
             this.Inverter.SetViewModel(textureModel.InverterModel);
             this.Brightness.SetViewModel(textureModel.Brightness);
             this.Contrast.SetViewModel(textureModel.Contrast);

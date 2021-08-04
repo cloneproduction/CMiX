@@ -5,12 +5,15 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class ComboBoxModel<T> : Model
+    public class ComboBoxModel<T> : IModel
     {
         public ComboBoxModel()
         {
             this.ID = Guid.NewGuid();
         }
+
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public T Selection { get; set; }
     }
 }

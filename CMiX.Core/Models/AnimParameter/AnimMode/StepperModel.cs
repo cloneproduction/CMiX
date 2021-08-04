@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class StepperModel : Model, IAnimModeModel
+    public class StepperModel : IAnimModeModel
     {
         public StepperModel()
         {
@@ -14,5 +14,7 @@ namespace CMiX.Core.Models
 
         public double Width { get; set; }
         public int StepCount { get; set; }
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
     }
 }

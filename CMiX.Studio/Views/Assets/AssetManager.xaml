@@ -6,6 +6,7 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Assets="clr-namespace:CMiX.Core.Presentation.ViewModels.Assets;assembly=CMiX.Core"
              xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
@@ -13,7 +14,15 @@
              d:DesignHeight="551.333" d:DesignWidth="250.667">
 
     <UserControl.Resources>
+
+
         <ResourceDictionary>
+
+            <ObjectDataProvider x:Key="assetTypes" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Assets:AssetTypes"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
 
             <Style x:Key="BaseBorderStyle" TargetType="{x:Type Border}">
                 <Setter Property="Height" Value="30" />
@@ -154,7 +163,47 @@
                            VerticalAlignment="Center"/>
             </Border>
 
-            <Controls:MultiSelectTreeView 
+            <ComboBox DockPanel.Dock="Top"
+                      Height="25"
+                      SelectedItem="{Binding SelectedAssetType}"
+                      ItemsSource="{Binding Source={StaticResource assetTypes}}"/>
+
+            <ListBox DockPanel.Dock="Top"
+                     SelectionMode="Extended"
+
+                     dd:DragDrop.IsDropTarget="True"
+                     dd:DragDrop.DropHandler="{Binding}">
+                
+                <ListBox.Resources>
+                    <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource {x:Type ListBox}}">
+                        <Setter Property="ItemsSource" Value="{Binding TextureAssets}"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding SelectedAssetType}" Value="{x:Static Assets:AssetTypes.Geometry}">
+                                <Setter Property="ItemsSource" Value="{Binding GeometryAssets}"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding SelectedAssetType}" Value="{x:Static Assets:AssetTypes.Texture}">
+                                <Setter Property="ItemsSource" Value="{Binding TextureAssets}"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ListBox.Resources>
+
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border VerticalAlignment="Center">
+                            <TextBlock Height="30" VerticalAlignment="Center" Padding="4" Text="{Binding Name}"/>
+                        </Border>
+
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                        <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+            </ListBox>
+            
+            <!--<Controls:MultiSelectTreeView 
                 BorderThickness="0"
                 Style="{StaticResource TreeViewDefault}"
                 ItemTemplateSelector="{StaticResource AssetTemplateSelector}"
@@ -169,7 +218,7 @@
                 dd:DragDrop.DropHandler="{Binding}"
                 ItemsSource="{Binding Assets}"
                 ContextMenu="{DynamicResource ResourceContextMenu}">
-            </Controls:MultiSelectTreeView>
+            </Controls:MultiSelectTreeView>-->
 
         </DockPanel>
     </Border>

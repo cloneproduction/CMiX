@@ -2,22 +2,21 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMiX.Core.Models
 {
-    public class AssetManagerModel : Model
+    public class AssetManagerModel : IModel
     {
         public AssetManagerModel()
         {
+            this.ID = Guid.NewGuid();
             AssetModels = new ObservableCollection<IAssetModel>();
             FlattenAssetModels = new ObservableCollection<IAssetModel>();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public ObservableCollection<IAssetModel> AssetModels { get; set; }
         public ObservableCollection<IAssetModel> FlattenAssetModels { get; set; }
     }

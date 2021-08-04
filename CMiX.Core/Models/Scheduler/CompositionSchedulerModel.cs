@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Models.Scheduling
 {
-    public class CompositionSchedulerModel : Model
+    public class CompositionSchedulerModel : IModel
     {
         public CompositionSchedulerModel()
         {
@@ -15,6 +15,8 @@ namespace CMiX.Core.Models.Scheduling
             JobEditorModel = new JobEditorModel();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public string Name { get; set; }
         public JobSchedulerModel JobSchedulerModel { get; set; }
         public JobEditorModel JobEditorModel { get; set; }

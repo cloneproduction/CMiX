@@ -5,16 +5,14 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class GeometryFXModel : IModel
+    public class GeometrySelectorModel : IModel
     {
-        public GeometryFXModel()
+        public GeometrySelectorModel()
         {
             this.ID = Guid.NewGuid();
-            Explode = new SliderModel();
         }
-
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public SliderModel Explode { get; set; }
+        public IAssetModel SelectedAsset { get; set; }
     }
 }

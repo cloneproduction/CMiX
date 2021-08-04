@@ -23,5 +23,6 @@ namespace CMiX.Core.Network.Messages
 
         public IComponentModel ComponentModel { get; set; }
         public Guid ParentID { get; set; }
+        public Guid ID { get; set; }
     }
 }

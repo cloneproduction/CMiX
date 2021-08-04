@@ -2,20 +2,18 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMiX.Core.Models
 {
-    public class LFOModel : Model, IAnimModeModel
+    public class LFOModel : IAnimModeModel
     {
         public LFOModel()
         {
-
+            this.ID = Guid.NewGuid();
         }
 
         public bool Invert { get; set; }
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
     }
 }

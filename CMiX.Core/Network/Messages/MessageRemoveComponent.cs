@@ -19,11 +19,7 @@ namespace CMiX.Core.Network.Messages
         }
 
         public Guid ComponentID { get; set; }
+        public Guid ID { get; set; }
 
-        public void Process<T>(T receiver)
-        {
-            //ComponentManager componentManager = receiver as ComponentManager;
-            //componentManager?.DeleteComponent(ComponentID);
-        }
     }
 }

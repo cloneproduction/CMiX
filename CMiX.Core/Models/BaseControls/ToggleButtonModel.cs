@@ -5,13 +5,14 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class ToggleButtonModel : Model
+    public class ToggleButtonModel : IModel
     {
         public ToggleButtonModel()
         {
             this.ID = Guid.NewGuid();
         }
-
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public bool IsChecked { get; set; }
     }
 }

@@ -18,13 +18,13 @@ namespace CMiX.Core.Presentation.ViewModels
             Instancer = new Instancer(beat, geometryModel.InstancerModel);
             Transform = new Transform(geometryModel.TransformModel);
             GeometryFX = new GeometryFX(geometryModel.GeometryFXModel);
-            AssetPathSelector = new AssetPathSelector(new AssetGeometry(), geometryModel.AssetPathSelectorModel);
+            GeometrySelector = new GeometrySelector(new AssetGeometry(), geometryModel.AssetPathSelectorModel);
         }
 
 
         public Guid ID { get; set; }
         public Communicator Communicator { get; set; }
-        public AssetPathSelector AssetPathSelector { get; set; }
+        public GeometrySelector GeometrySelector { get; set; }
         public Transform Transform { get; set; }
         public Instancer Instancer { get; set; }
         public GeometryFX GeometryFX { get; set; }
@@ -37,7 +37,7 @@ namespace CMiX.Core.Presentation.ViewModels
             model.TransformModel = (TransformModel)this.Transform.GetModel();
             model.GeometryFXModel = (GeometryFXModel)this.GeometryFX.GetModel();
             model.InstancerModel = (InstancerModel)this.Instancer.GetModel();
-            model.AssetPathSelectorModel = (AssetPathSelectorModel)this.AssetPathSelector.GetModel();
+            model.AssetPathSelectorModel = (GeometrySelectorModel)this.GeometrySelector.GetModel();
             return model;
         }
 
@@ -48,7 +48,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Transform.SetViewModel(geometryModel.TransformModel);
             this.GeometryFX.SetViewModel(geometryModel.GeometryFXModel);
             this.Instancer.SetViewModel(geometryModel.InstancerModel);
-            this.AssetPathSelector.SetViewModel(geometryModel.AssetPathSelectorModel);
+            this.GeometrySelector.SetViewModel(geometryModel.AssetPathSelectorModel);
         }
     }
 }

@@ -1,19 +1,17 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
 using System;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
-    public class TextureModel : Model, IModel
+    public class TextureModel : IModel
     {
         public TextureModel()
         {
             this.ID = Guid.NewGuid();
 
-            AssetPathSelectorModel = new AssetPathSelectorModel();
+            TextureSelectorModel = new TextureSelectorModel();
             InverterModel = new InverterModel();
             Brightness = new SliderModel();
             Contrast = new SliderModel();
@@ -27,7 +25,9 @@ namespace CMiX.Core.Models
             Rotate = new SliderModel();
         }
 
-        public AssetPathSelectorModel AssetPathSelectorModel { get; set; }
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
+        public TextureSelectorModel TextureSelectorModel { get; set; }
         public InverterModel InverterModel { get; set; }
 
         public SliderModel Brightness { get; set; }

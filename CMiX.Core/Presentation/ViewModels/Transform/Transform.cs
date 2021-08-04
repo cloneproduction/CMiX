@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Observer;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -22,7 +21,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public Translate Translate { get; set; }
         public Scale Scale { get; set; }
         public Rotation Rotation { get; set; }
@@ -31,11 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool Is3D
         {
             get => _is3D;
-            set
-            {
-                SetProperty(ref _is3D, value);
-
-            }
+            set => SetProperty(ref _is3D, value);
         }
 
 

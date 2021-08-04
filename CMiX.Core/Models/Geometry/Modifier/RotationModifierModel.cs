@@ -5,8 +5,7 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
-    public class RotationModifierModel : Model
+    public class RotationModifierModel : IModel
     {
         public RotationModifierModel()
         {
@@ -15,6 +14,9 @@ namespace CMiX.Core.Models
             RotationY = new AnimParameterModel();
             RotationZ = new AnimParameterModel();
         }
+
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
 
         public AnimParameterModel Rotation { get; set; }
         public AnimParameterModel RotationX { get; set; }

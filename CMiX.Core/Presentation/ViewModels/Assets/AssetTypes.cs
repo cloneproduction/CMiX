@@ -1,13 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-
-namespace CMiX.Core.Models
+namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public interface IModel
+    public enum AssetTypes
     {
-        bool Enabled { get; set; }
-        Guid ID { get; set; }
+        Geometry,
+        Texture,
+        Video
     }
 }

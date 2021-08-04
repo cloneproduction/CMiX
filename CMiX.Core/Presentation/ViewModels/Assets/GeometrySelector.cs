@@ -12,11 +12,11 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class AssetPathSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
+    public class GeometrySelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
     {
-        public AssetPathSelector(IAsset defaultAsset, AssetPathSelectorModel assetPathSelectorModel)
+        public GeometrySelector(AssetGeometry defaultAsset, GeometrySelectorModel geometrySelectorModel)
         {
-            this.ID = assetPathSelectorModel.ID;
+            this.ID = geometrySelectorModel.ID;
             SelectedAsset = defaultAsset;
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
@@ -25,17 +25,16 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public Guid ID { get; set; }
 
 
-        private IAsset _selectedAsset;
-        public IAsset SelectedAsset
+        private AssetGeometry _selectedAsset;
+        public AssetGeometry SelectedAsset
         {
             get => _selectedAsset;
             set
             {
                 SetProperty(ref _selectedAsset, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAsset(SelectedAsset), MessageType.Out);
-
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAsset(this, SelectedAsset), MessageType.Out);
                 if (value != null)
-                    System.Console.WriteLine("SelectedAsset Name is " + SelectedAsset.Name);
+                    Console.WriteLine("SelectedAsset Name is " + SelectedAsset.Name);
             }
         }
 
@@ -54,15 +53,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public void SetViewModel(IModel model)
         {
-            AssetPathSelectorModel assetPathSelectorModel = model as AssetPathSelectorModel;
+            GeometrySelectorModel assetPathSelectorModel = model as GeometrySelectorModel;
             assetPathSelectorModel.ID = this.ID;
 
             if (this.SelectedAsset == null)
             {
-                if (model is AssetTextureModel)
-                    this.SelectedAsset = new AssetTexture();
-                else if (model is AssetGeometryModel)
-                    this.SelectedAsset = new AssetGeometry();
+                this.SelectedAsset = new AssetGeometry();
             }
 
             if (assetPathSelectorModel.SelectedAsset != null)
@@ -71,7 +67,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public IModel GetModel()
         {
-            AssetPathSelectorModel model = new AssetPathSelectorModel();
+            GeometrySelectorModel model = new GeometrySelectorModel();
             model.ID = this.ID;
             if (this.SelectedAsset != null)
                 model.SelectedAsset = (IAssetModel)this.SelectedAsset.GetModel();
@@ -80,27 +76,18 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public void Receive(IMessage message)
         {
-            if (message is MessageAsset messageAsset)
+            if (message is MessageAsset messageAsset && message.ID == this.ID)
             {
                 var assetModel = messageAsset.AssetModel;
 
-                if (assetModel is AssetGeometryModel assetGeometryModel)
+                if (assetModel is AssetGeometryModel model)
                 {
                     var asset = new AssetGeometry();
-                    asset.SetViewModel(assetGeometryModel);
+                    asset.SetViewModel(model);
                     this.SelectedAsset = asset;
                     return;
 
                 }
-
-                if (assetModel is AssetTextureModel assetTextureModel)
-                {
-                    var asset = new AssetTexture();
-                    asset.SetViewModel(assetTextureModel);
-                    this.SelectedAsset = asset;
-                    return;
-                }
-                Console.WriteLine(this.SelectedAsset.Path);
             }
         }
     }

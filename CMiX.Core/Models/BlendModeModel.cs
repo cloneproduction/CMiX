@@ -1,13 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels;
 using System;
+using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    public class BlendModeModel : Model, IModel
+    public class BlendModeModel : IModel
     {
         public BlendModeModel()
         {
@@ -16,5 +15,7 @@ namespace CMiX.Core.Models
         }
 
         public string Mode { get; set; }
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
     }
 }

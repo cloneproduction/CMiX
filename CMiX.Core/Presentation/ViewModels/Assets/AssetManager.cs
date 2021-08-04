@@ -27,8 +27,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             DialogService = dialogService;
 
             Assets = new SortableObservableCollection<IAsset>();
-            AssetTextures = new SortableObservableCollection<AssetTexture>();
-            AssetGeometry = new SortableObservableCollection<AssetGeometry>();
+            TextureAssets = new SortableObservableCollection<AssetTexture>();
+            GeometryAssets = new SortableObservableCollection<AssetGeometry>();
 
             SelectedItems = new ObservableCollection<IAsset>();
             SelectedItems.CollectionChanged += CollectionChanged;
@@ -54,6 +54,13 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         {
             get => _selectedItems;
             set => SetProperty(ref _selectedItems, value);
+        }
+
+        private AssetTypes _selectedAssetType = AssetTypes.Texture;
+        public AssetTypes SelectedAssetType
+        {
+            get => _selectedAssetType;
+            set => SetProperty(ref _selectedAssetType, value);
         }
 
         private bool _canAddAsset = false;
@@ -87,8 +94,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public SortableObservableCollection<IAsset> Assets { get; set; }
 
-        public SortableObservableCollection<AssetTexture> AssetTextures { get; set; }
-        public SortableObservableCollection<AssetGeometry> AssetGeometry { get; set; }
+        public SortableObservableCollection<AssetTexture> TextureAssets { get; set; }
+        public SortableObservableCollection<AssetGeometry> GeometryAssets { get; set; }
 
 
         public void RenameAsset()
@@ -123,7 +130,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public void AddAsset()
         {
-            if(SelectedItems.Take(2).Count() == 1 && SelectedItems.FirstOrDefault() is AssetDirectory assetDirectory)
+            if (SelectedItems.Take(2).Count() == 1 && SelectedItems.FirstOrDefault() is AssetDirectory assetDirectory)
             {
                 assetDirectory.IsExpanded = true;
                 assetDirectory.AddAsset(new AssetDirectory("New Folder"));
@@ -162,7 +169,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
             foreach (var asset in assets)
             {
-                if(asset is AssetDirectory assetDirectory)
+                if (asset is AssetDirectory assetDirectory)
                 {
                     if (assetDirectory.IsSelected)
                     {
@@ -184,35 +191,51 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         }
 
 
-        private IAsset CreateAssetFromDirectory(DirectoryInfo directoryInfo)
+        private void CreateAssetFromDirectory(DirectoryInfo directoryInfo)
         {
-            AssetDirectory directoryItem = new AssetDirectory(directoryInfo.Name);
-
             foreach (var directory in directoryInfo.GetDirectories())
             {
-                IAsset asset = CreateAssetFromDirectory(directory);
-                if (asset != null)
-                    directoryItem.Assets.Add(asset);
+                CreateAssetFromDirectory(directory);
             }
 
             foreach (var file in directoryInfo.GetFiles())
             {
-                IAsset asset = CreateAssetFromPath(file.FullName);
-                if (asset != null)
-                    directoryItem.Assets.Add(asset);
+                CreateAssetFromPath(file.FullName);
             }
-
-            return directoryItem;
         }
 
 
-        private IAsset CreateAssetFromPath(string path)
+        private void CreateAssetFromPath(string path)
         {
-            string filePath = Path.GetFullPath(path);
-            string fileType = Path.GetExtension(filePath).ToUpper().TrimStart('.');
-            string fileName = Path.GetFileName(filePath);
 
-            return AssetFactory.CreateAsset(fileType, fileName, filePath);
+            if (File.Exists(path))
+            {
+                string filePath = Path.GetFullPath(path);
+                string fileType = Path.GetExtension(filePath).ToUpper().TrimStart('.');
+                string fileName = Path.GetFileName(filePath);
+                var asset = AssetFactory.CreateAsset(fileType, fileName, filePath);
+                LoadAsset(asset);
+            }
+
+            if (Directory.Exists(path))
+            {
+                var directoryInfo = new DirectoryInfo(path);
+                CreateAssetFromDirectory(directoryInfo);
+            }
+        }
+
+
+        private void LoadAsset(IAsset asset)
+        {
+            switch (asset)
+            {
+                case AssetGeometry assetGeometry:
+                    GeometryAssets.Add(assetGeometry);
+                    break;
+                case AssetTexture assetTexture:
+                    TextureAssets.Add(assetTexture);
+                    break;
+            }
         }
 
 
@@ -231,24 +254,24 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             if (dataObject != null && dataObject.ContainsFileDropList())
             {
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-                dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+                //dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
             }
 
-            if (dragInfo != null && dragInfo.SourceItem is IAsset)
-            {
-                var targetItem = dropInfo.TargetItem;
-                var vSourceItem = dropInfo.DragInfo.VisualSourceItem as TreeViewItem;
-                var vSourceChild = vSourceItem.FindVisualChildren<TreeViewItem>();// Utils.FindVisualChildren<TreeViewItem>(vSourceItem);
-                var visualTargetItem = dropInfo.VisualTargetItem as TreeViewItem;
+            //if (dragInfo != null && dragInfo.SourceItem is IAsset)
+            //{
+            //    var targetItem = dropInfo.TargetItem;
+            //    var vSourceItem = dropInfo.DragInfo.VisualSourceItem as TreeViewItem;
+            //    var vSourceChild = vSourceItem.FindVisualChildren<TreeViewItem>();// Utils.FindVisualChildren<TreeViewItem>(vSourceItem);
+            //    var visualTargetItem = dropInfo.VisualTargetItem as TreeViewItem;
 
-                if (targetItem is AssetDirectory)
-                    dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
+            //    if (targetItem is AssetDirectory)
+            //        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
 
-                if (vSourceItem == visualTargetItem || vSourceChild.ToList().Contains(visualTargetItem) || visualTargetItem == null)
-                    dropInfo.Effects = DragDropEffects.None;
-                else
-                    dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-            }
+            //    if (vSourceItem == visualTargetItem || vSourceChild.ToList().Contains(visualTargetItem) || visualTargetItem == null)
+            //        dropInfo.Effects = DragDropEffects.None;
+            //    else
+            //        dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
+            //}
         }
 
 
@@ -260,50 +283,35 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             {
                 foreach (string str in dataObject.GetFileDropList())
                 {
-                    IAsset item = null;
 
                     if (File.Exists(str))
-                        item = CreateAssetFromPath(str);
+                        CreateAssetFromPath(str);
 
                     if (Directory.Exists(str))
-                        item = CreateAssetFromDirectory(new DirectoryInfo(str));
-
-                    if (item != null)
-                    {
-                        if (dropInfo.TargetItem is AssetDirectory assetDirectory)
-                        {
-                            assetDirectory.Assets.Add(item);
-                            assetDirectory.SortAssets();
-                            assetDirectory.IsExpanded = true;
-                            return;
-                        }
-
-                        Assets.Add(item);
-                        this.SortAssets();
-                    }
+                        CreateAssetFromDirectory(new DirectoryInfo(str));
                 }
             }
 
-            else if (dropInfo.DragInfo.Data is List<AssetDragDrop> && dropInfo.TargetCollection is ObservableCollection<IAsset>)
-            {
-                var targetCollection = dropInfo.TargetCollection as ObservableCollection<IAsset>;
-                if (targetCollection is ObservableCollection<IAsset>)
-                {
-                    var targetItem = dropInfo.TargetItem;
-                    if (targetItem is AssetDirectory)
-                    {
-                        var data = dropInfo.DragInfo.Data as List<AssetDragDrop>;
-                        foreach (AssetDragDrop item in data)
-                        {
-                            item.DragObject.IsSelected = false;
-                            targetCollection.Add(item.DragObject);
-                            item.SourceCollection.Remove(item.DragObject);
-                        }
-                        ((AssetDirectory)targetItem).IsExpanded = true;
-                        ((AssetDirectory)targetItem).SortAssets();
-                    }
-                }
-            }
+            //else if (dropInfo.DragInfo.Data is List<AssetDragDrop> && dropInfo.TargetCollection is ObservableCollection<IAsset>)
+            //{
+            //    var targetCollection = dropInfo.TargetCollection as ObservableCollection<IAsset>;
+            //    if (targetCollection is ObservableCollection<IAsset>)
+            //    {
+            //        var targetItem = dropInfo.TargetItem;
+            //        if (targetItem is AssetDirectory)
+            //        {
+            //            var data = dropInfo.DragInfo.Data as List<AssetDragDrop>;
+            //            foreach (AssetDragDrop item in data)
+            //            {
+            //                item.DragObject.IsSelected = false;
+            //                targetCollection.Add(item.DragObject);
+            //                item.SourceCollection.Remove(item.DragObject);
+            //            }
+            //            ((AssetDirectory)targetItem).IsExpanded = true;
+            //            ((AssetDirectory)targetItem).SortAssets();
+            //        }
+            //    }
+            //}
         }
 
         public void RemoveAssets(List<IAsset> assetsToRemove, List<IAsset> assets)

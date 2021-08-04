@@ -5,8 +5,7 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
-    public class ColorPickerModel : Model
+    public class ColorPickerModel : IModel
     {
         public ColorPickerModel()
         {
@@ -14,6 +13,8 @@ namespace CMiX.Core.Models
             SelectedColor = "#ff00ff";
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public string SelectedColor { get; set; }
     }
 }

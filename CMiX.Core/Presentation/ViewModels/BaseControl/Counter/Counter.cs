@@ -4,18 +4,21 @@
 using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Counter : ObservableObject, IControl
+    public class Counter : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public Counter(CounterModel counterModel)
         {
             this.ID = counterModel.ID;
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
             Count = 1;
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
@@ -40,12 +43,11 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _count, value);
                 OnCountChange();
-                //Communicator?.SendMessage(new MessageUpdateViewModel(this));
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
 
         private void Add() => Count += 1;
 
@@ -70,15 +72,14 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
 
-        public void UnsetCommunicator(Communicator communicator)
+        public void Receive(IMessage message)
         {
-            Communicator.UnsetCommunicator(communicator);
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+            }
         }
     }
 }

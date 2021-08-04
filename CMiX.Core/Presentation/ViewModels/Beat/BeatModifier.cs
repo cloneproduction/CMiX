@@ -4,18 +4,20 @@
 using System;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.Controls;
+using CMiX.Core.Presentation.ViewModels.Network;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class BeatModifier : Beat, IControl, IBeatObserver
+    public class BeatModifier : Beat, IRecipient<IMessage>, IControl, IBeatObserver
     {
         public BeatModifier(MasterBeat masterBeat, BeatModifierModel beatModifierModel)
             : base(beatModifierModel)
         {
             this.ID = beatModifierModel.ID;
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
 
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
@@ -29,7 +31,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public MasterBeat MasterBeat { get; set; }
         public Slider ChanceToHit { get; set; }
 
@@ -92,8 +93,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             BeatIndex = Index + MasterBeat.BeatIndex;
             Period = MasterBeat.Periods[Index + MasterBeat.BeatIndex];
             AnimatedDouble = MasterBeat.BeatAnimations.AnimatedDoubles[Index + MasterBeat.BeatIndex];
-            //Notify(nameof(BPM));
-            //Communicator?.SendMessage(new MessageUpdateViewModel(this));
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
 
         public void SetViewModel(IModel model)
@@ -123,15 +123,13 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             SetAnimatedDouble();
         }
 
-        public void SetCommunicator(Communicator communicator)
+        public void Receive(IMessage message)
         {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+            }
         }
     }
 }

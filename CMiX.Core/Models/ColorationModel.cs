@@ -1,13 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
 using System;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
-    public class ColorationModel : Model, IModel
+    public class ColorationModel : IModel
     {
         public ColorationModel()
         {
@@ -19,6 +17,8 @@ namespace CMiX.Core.Models
             ValModel = new RangeControlModel();
         }
 
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public ColorSelectorModel ColorSelectorModel { get; set; }
         public BeatModifierModel BeatModifierModel { get; set; }
         public RangeControlModel HueModel { get; set; }

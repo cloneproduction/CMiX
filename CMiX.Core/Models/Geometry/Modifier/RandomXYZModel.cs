@@ -1,12 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentation.ViewModels;
 using System;
+using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    public class RandomXYZModel : Model, ITransformModifierModel
+    public class RandomXYZModel : ITransformModifierModel
     {
         public RandomXYZModel()
         {
@@ -33,6 +33,9 @@ namespace CMiX.Core.Models
             RotationY = new SliderModel();
             RotationZ = new SliderModel();
         }
+
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
 
         public EasingModel EasingModel { get; set; }
         public CounterModel CounterModel { get; set; }

@@ -1,13 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentation.ViewModels;
 using System;
+using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
-    public class MaskModel : Model
+    public class MaskModel : IModel
     {
         public MaskModel()
         {
@@ -16,6 +15,9 @@ namespace CMiX.Core.Models
             MaskControlType = ((MaskControlType)1).ToString();
             Enabled = false;
         }
+
+        public bool Enabled { get; set; }
+        public Guid ID { get; set; }
         public bool IsMask { get; set; }
         public bool KeepOriginal { get; set; }
         public string MaskType { get; set; }
