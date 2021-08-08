@@ -20,7 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             AssetManager = new AssetManager(dialogService);
 
-            ComponentManager = new ComponentManager(messageService, project);
+            ComponentManager = new ComponentManager(project);
             SchedulerManager = new SchedulerManager(project);
 
             MainMenu = new MainMenu(project, dialogService);

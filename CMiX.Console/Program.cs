@@ -20,7 +20,7 @@ namespace CMiX.Console
 
             Project Project = serviceProvider.GetRequiredService<Project>();
             SchedulerManager schedulerManager = new SchedulerManager(Project);
-            ComponentManager componentManager = new ComponentManager(messageService, Project);
+            ComponentManager componentManager = new ComponentManager(Project);
 
             System.Console.ReadLine();
         }
