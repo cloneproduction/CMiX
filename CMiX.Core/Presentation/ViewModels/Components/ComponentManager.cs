@@ -57,8 +57,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _selectedComponent, value);
         }
 
-        public void RenameComponent(IComponent component) => SelectedComponent.IsRenaming = true;
 
+        public void RenameComponent(IComponent component) => SelectedComponent.IsRenaming = true;
 
         public void CreateComponent(Guid parentID, IComponentModel componentModel)
         {
@@ -95,7 +95,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
-
         public void DeleteComponent(Guid componentID)
         {
             IComponent component;
@@ -103,7 +102,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             RemoveComponent(component);
         }
-
 
         private void RemoveComponent(IComponent component)
         {
