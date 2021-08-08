@@ -20,7 +20,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
 
             Visibility = new Visibility(new VisibilityModel());
-            ComponentFactory = new CompositionFactory(this);
         }
 
 
@@ -51,10 +50,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.Components.Clear();
             foreach (CompositionModel compositionModel in projectModel.ComponentModels)
             {
-                var newComponent = this.ComponentFactory.CreateComponent(compositionModel);
-                //newComponent.SetReceiver(MessageReceiver);
-                //newComponent.SetSender(MessageSender);
-                this.AddComponent(newComponent);
+                //var newComponent = this.ComponentFactory.CreateComponent(compositionModel);
+                ////newComponent.SetReceiver(MessageReceiver);
+                ////newComponent.SetSender(MessageSender);
+                //this.AddComponent(newComponent);
             }
 
             this.Assets.Clear();

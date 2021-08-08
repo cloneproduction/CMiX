@@ -18,13 +18,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components.Factories
         public Component CreateComponent()
         {
             var model = new CompositionModel(Guid.NewGuid());
-            var component = new Composition(ParentProject, model);
+            var component = new Composition(model);
             return component;
         }
 
         public Component CreateComponent(IComponentModel model)
         {
-            var component = new Composition(ParentProject, model as CompositionModel);
+            var component = new Composition(model as CompositionModel);
             return component;
         }
     }

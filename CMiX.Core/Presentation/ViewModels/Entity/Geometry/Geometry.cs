@@ -12,10 +12,10 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Geometry : ObservableObject, IControl, ITransform
     {
-        public Geometry(MasterBeat beat, GeometryModel geometryModel)
+        public Geometry(GeometryModel geometryModel)
         {
             this.ID = geometryModel.ID;
-            Instancer = new Instancer(beat, geometryModel.InstancerModel);
+            Instancer = new Instancer(geometryModel.InstancerModel);
             Transform = new Transform(geometryModel.TransformModel);
             GeometryFX = new GeometryFX(geometryModel.GeometryFXModel);
             GeometrySelector = new GeometrySelector(new AssetGeometry(), geometryModel.AssetPathSelectorModel);

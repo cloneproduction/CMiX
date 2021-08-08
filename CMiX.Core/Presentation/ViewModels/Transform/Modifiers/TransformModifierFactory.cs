@@ -8,9 +8,9 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class TransformModifierFactory
     {
-        public TransformModifierFactory(MasterBeat masterBeat)
+        public TransformModifierFactory()
         {
-            this.MasterBeat = masterBeat;
+
         }
 
         public MasterBeat MasterBeat { get; set; }

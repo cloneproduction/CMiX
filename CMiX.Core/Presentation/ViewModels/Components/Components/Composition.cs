@@ -10,15 +10,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Composition : Component
     {
-        public Composition(Project project, CompositionModel compositionModel)
+        public Composition(CompositionModel compositionModel)
         {
             ID = compositionModel.ID;
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
 
             MasterBeat = new MasterBeat(compositionModel.MasterBeatModel);
-            Camera = new Camera(MasterBeat, compositionModel.CameraModel);
-            Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
-            ComponentFactory = new LayerFactory(this);
+            //Camera = new Camera(MasterBeat, compositionModel.CameraModel);
+            //Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
         }
 
 
@@ -34,7 +33,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Name = this.Name;
             //model.IsVisible = this.IsVisible;
             model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
-            model.CameraModel = (CameraModel)this.Camera.GetModel();
+            //model.CameraModel = (CameraModel)this.Camera.GetModel();
             model.TransitionModel = (SliderModel)this.Transition.GetModel();
 
             foreach (Component item in this.Components)
@@ -48,14 +47,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             CompositionModel compositionModel = model as CompositionModel;
 
             this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
-            this.Camera.SetViewModel(compositionModel.CameraModel);
+            //this.Camera.SetViewModel(compositionModel.CameraModel);
             this.Transition.SetViewModel(compositionModel.TransitionModel);
 
             this.Components.Clear();
             foreach (var componentModel in compositionModel.ComponentModels)
             {
-                var newComponent = this.ComponentFactory.CreateComponent(compositionModel);
-                this.AddComponent(newComponent);
+                //var newComponent = this.ComponentFactory.CreateComponent(compositionModel);
+                //this.AddComponent(newComponent);
             }
         }
     }

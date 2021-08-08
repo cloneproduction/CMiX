@@ -9,22 +9,17 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Layer : Component
     {
-        public Layer(Composition composition, LayerModel layerModel)
+        public Layer(LayerModel layerModel)
         {
             ID = layerModel.ID;
             Fade = new Slider(nameof(Fade), layerModel.Fade);
-
-            MasterBeat = composition.MasterBeat;
-            Visibility = new Visibility(composition.Visibility, layerModel.VisibilityModel);
+            //Visibility = new Visibility(composition.Visibility, layerModel.VisibilityModel);
             PostFX = new PostFX(layerModel.PostFXModel);
             BlendMode = new BlendMode(layerModel.BlendMode);
             Mask = new Mask(layerModel.MaskModel);
-
-            ComponentFactory = new SceneFactory(this);
         }
 
 
-        public MasterBeat MasterBeat { get; set; }
         public Slider Fade { get; set; }
         public Mask Mask { get; set; }
         public PostFX PostFX { get; set; }
@@ -61,8 +56,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.Components.Clear();
             foreach (var componentModel in layerModel.ComponentModels)
             {
-                var newComponent = this.ComponentFactory.CreateComponent(componentModel);
-                this.AddComponent(newComponent);
+                //var newComponent = this.ComponentFactory.CreateComponent(componentModel);
+                //this.AddComponent(newComponent);
             }
         }
     }

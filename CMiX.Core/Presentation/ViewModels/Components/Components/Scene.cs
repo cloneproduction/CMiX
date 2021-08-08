@@ -9,18 +9,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Scene : Component
     {
-        public Scene(Layer layer, SceneModel sceneModel)
+        public Scene(SceneModel sceneModel)
         {
             ID = sceneModel.ID;
-            MasterBeat = layer.MasterBeat;
-
-            Visibility = new Visibility(layer.Visibility, sceneModel.VisibilityModel);
-            BeatModifier = new BeatModifier(layer.MasterBeat, sceneModel.BeatModifierModel);
+           // Visibility = new Visibility(layer.Visibility, sceneModel.VisibilityModel);
+            BeatModifier = new BeatModifier(sceneModel.BeatModifierModel);
             PostFX = new PostFX(sceneModel.PostFXModel);
             Mask = new Mask(sceneModel.MaskModel);
             Transform = new Transform(sceneModel.TransformModel);
-
-            ComponentFactory = new EntityFactory(this);
         }
 
 
@@ -60,8 +56,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.Components.Clear();
             foreach (var componentModel in sceneModel.ComponentModels)
             {
-                var newComponent = this.ComponentFactory.CreateComponent(componentModel);
-                this.AddComponent(newComponent);
+                //var newComponent = this.ComponentFactory.CreateComponent(componentModel);
+                //this.AddComponent(newComponent);
             }
         }
     }

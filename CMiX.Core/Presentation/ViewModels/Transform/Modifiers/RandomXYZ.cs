@@ -23,7 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Counter.CounterChangeEvent += Counter_CounterChangeEvent;
 
             Easing = new Easing(randomXYZModel.EasingModel);
-            BeatModifier = new BeatModifier(masterBeat, randomXYZModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(randomXYZModel.BeatModifierModel);
             Transforms = new ObservableCollection<Transform>();
 
             SelectedModifierType = ModifierType.OBJECT;

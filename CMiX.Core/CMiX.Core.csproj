@@ -145,6 +145,8 @@
     <Compile Include="Network\Messages\MessageAddNewPlaylist.cs" />
     <Compile Include="Network\Messages\MessageAddScheduler.cs" />
     <Compile Include="Network\Messages\MessageEventArgs.cs" />
+    <Compile Include="Network\Messages\MessageMasterBeat.cs" />
+    <Compile Include="Network\Messages\MessageRequestMasterBeat.cs" />
     <Compile Include="Network\Messages\MessageSchedulerJob.cs" />
     <Compile Include="Network\Messages\MessageSelectedSchedulerIndex.cs" />
     <Compile Include="Presentation\Behaviors\BindableTreeViewSelectedItemBehavior.cs" />
@@ -251,6 +253,8 @@
     <Compile Include="Presentation\ValueConverters\ValueAngleConverter.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetTypes.cs" />
     <Compile Include="Presentation\ViewModels\Assets\TextureSelector.cs" />
+    <Compile Include="Presentation\ViewModels\Components\ComponentType.cs" />
+    <Compile Include="Presentation\ViewModels\Components\ComponentFactory.cs" />
     <Compile Include="Presentation\ViewModels\Components\IComponent.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\IProject.cs" />
     <Compile Include="Presentation\ViewModels\MainMenu.cs" />
@@ -261,8 +265,6 @@
     <Compile Include="Network\Messages\MessageAsset.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\ToggleButton.cs" />
     <Compile Include="Presentation\ViewModels\Beat\IBeat.cs" />
-    <Compile Include="Presentation\ViewModels\Beat\IBeatObserver.cs" />
-    <Compile Include="Presentation\ViewModels\Beat\IBeatSubject.cs" />
     <Compile Include="Presentation\ViewModels\Components\ComponentStyleSelector.cs" />
     <Compile Include="Network\Messages\IIDIterator.cs" />
     <Compile Include="Network\Messages\Message.cs" />

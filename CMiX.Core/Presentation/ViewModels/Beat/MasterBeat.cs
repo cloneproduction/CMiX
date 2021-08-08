@@ -15,14 +15,14 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class MasterBeat : Beat, IRecipient<IMessage>, IControl, IBeatSubject
+    public class MasterBeat : Beat, IRecipient<IMessage>, IRecipient<MessageRequestMasterBeat>, IControl
     {
         public MasterBeat(MasterBeatModel masterBeatModel) : base(masterBeatModel)
         {
             this.ID = masterBeatModel.ID;
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
 
-            BeatObservers = new List<IBeatObserver>();
             Index = 0;
             Period = 1000;
             Multiplier = 1;
@@ -106,6 +106,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
             this.NotifyBeatChange(Period);
             OnPropertyChanged(nameof(BPM));
+
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
 
@@ -168,24 +169,9 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
-        private List<IBeatObserver> BeatObservers { get; set; }
-
-        public void Attach(IBeatObserver observer)
-        {
-            BeatObservers.Add(observer);
-        }
-
-        public void Detach(IBeatObserver observer)
-        {
-            BeatObservers.Remove(observer);
-        }
-
         public void NotifyBeatChange(double period)
         {
-            foreach (var observer in BeatObservers)
-            {
-                observer.UpdatePeriod(period);
-            }
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeat(this), MessageType.Internal);
         }
 
         public void SetViewModel(IModel model)
@@ -213,7 +199,13 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             {
                 if (msg.ID == this.ID)
                     this.SetViewModel(msg.Model);
+                return;
             }
+        }
+
+        public void Receive(MessageRequestMasterBeat message)
+        {
+            message.Reply(this);
         }
     }
 }

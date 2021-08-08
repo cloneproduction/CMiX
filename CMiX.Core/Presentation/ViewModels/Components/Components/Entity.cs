@@ -8,16 +8,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Entity : Component
     {
-        public Entity(Scene scene, EntityModel entityModel) : base()
+        public Entity(EntityModel entityModel) : base()
         {
             ID = entityModel.ID;
-            MasterBeat = scene.MasterBeat;
 
-            BeatModifier = new BeatModifier(scene.MasterBeat, entityModel.BeatModifierModel);
-            Geometry = new Geometry(scene.MasterBeat, entityModel.GeometryModel);
-            Texture = new Texture(scene.MasterBeat, entityModel.TextureModel);
-            Coloration = new Coloration(scene.MasterBeat, entityModel.ColorationModel);
-            Visibility = new Visibility(scene.Visibility, entityModel.VisibilityModel);
+            BeatModifier = new BeatModifier(entityModel.BeatModifierModel);
+            Geometry = new Geometry(entityModel.GeometryModel);
+            Texture = new Texture(entityModel.TextureModel);
+            Coloration = new Coloration(entityModel.ColorationModel);
+            Visibility = new Visibility(entityModel.VisibilityModel);
         }
 
 

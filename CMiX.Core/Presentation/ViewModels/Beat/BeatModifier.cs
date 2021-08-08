@@ -11,27 +11,23 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class BeatModifier : Beat, IRecipient<IMessage>, IControl, IBeatObserver
+    public class BeatModifier : Beat, IRecipient<IMessage>, IControl
     {
-        public BeatModifier(MasterBeat masterBeat, BeatModifierModel beatModifierModel)
-            : base(beatModifierModel)
+        public BeatModifier(BeatModifierModel beatModifierModel) : base(beatModifierModel)
         {
             this.ID = beatModifierModel.ID;
+
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
 
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
-
-            MasterBeat = masterBeat;
-            MasterBeat.Attach(this);
-            Period = masterBeat.Period;
 
             SetAnimatedDouble();
         }
 
 
         public Guid ID { get; set; }
-        public MasterBeat MasterBeat { get; set; }
         public Slider ChanceToHit { get; set; }
 
 
@@ -49,7 +45,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public override double Period
         {
             get => _period;
-            set => SetProperty(ref _period, value);
+            set
+            {
+                SetProperty(ref _period, value);
+                OnPropertyChanged(nameof(BPM));
+            }
         }
 
         private int _beatIndex;
@@ -90,9 +90,12 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         private void SetAnimatedDouble()
         {
-            BeatIndex = Index + MasterBeat.BeatIndex;
-            Period = MasterBeat.Periods[Index + MasterBeat.BeatIndex];
-            AnimatedDouble = MasterBeat.BeatAnimations.AnimatedDoubles[Index + MasterBeat.BeatIndex];
+            var masterBeat = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), MessageType.Internal).Response;
+
+            BeatIndex = Index + masterBeat.BeatIndex;
+            Period = masterBeat.Periods[Index + masterBeat.BeatIndex];
+            AnimatedDouble = masterBeat.BeatAnimations.AnimatedDoubles[Index + masterBeat.BeatIndex];
+
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
 
@@ -118,17 +121,19 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             return model;
         }
 
-        public void UpdatePeriod(double period)
-        {
-            SetAnimatedDouble();
-        }
-
         public void Receive(IMessage message)
         {
             if (message is MessageUpdateViewModel msg)
             {
                 if (msg.ID == this.ID)
                     this.SetViewModel(msg.Model);
+                return;
+            }
+
+            if(message is MessageMasterBeat)
+            {
+                SetAnimatedDouble();
+                return;
             }
         }
     }

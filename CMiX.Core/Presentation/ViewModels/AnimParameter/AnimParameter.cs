@@ -17,7 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Range = new Range(animParameterModel.RangeModel);
             Easing = new Easing(animParameterModel.EasingModel);
             Width = new Slider(nameof(Width), animParameterModel.Width);
-            BeatModifier = new BeatModifier(beat, animParameterModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(animParameterModel.BeatModifierModel);
             Parameters = defaultParameter;
             Name = name;
             SelectedModeType = ModeType.None;

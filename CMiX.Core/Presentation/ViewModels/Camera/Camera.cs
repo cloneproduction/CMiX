@@ -18,7 +18,7 @@ namespace CMiX.Core.Presentation.ViewModels
             LookAt = ((CameraLookAt)0).ToString();
             View = ((CameraView)0).ToString();
 
-            BeatModifier = new BeatModifier(beat, new BeatModifierModel());
+            BeatModifier = new BeatModifier(new BeatModifierModel());
             FOV = new Slider(nameof(FOV), cameraModel.FOV);
             Zoom = new Slider(nameof(Zoom), cameraModel.Zoom);
         }

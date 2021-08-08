@@ -18,13 +18,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components.Factories
         public Component CreateComponent()
         {
             EntityModel entityModel = new EntityModel(Guid.NewGuid());
-            Component component = new Entity(ParentScene, entityModel);
+            Component component = new Entity(entityModel);
             return component;
         }
 
         public Component CreateComponent(IComponentModel model)
         {
-            var component = new Entity(ParentScene, model as EntityModel);
+            var component = new Entity(model as EntityModel);
             return component;
         }
     }

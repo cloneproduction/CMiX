@@ -10,12 +10,12 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Instancer : ObservableObject, IControl
     {
-        public Instancer(MasterBeat beat, InstancerModel instancerModel)
+        public Instancer(InstancerModel instancerModel)
         {
             this.ID = instancerModel.ID;
 
             Transform = new Transform(instancerModel.Transform);
-            TransformModifier = new TransformModifier(beat, instancerModel.TransformModifierModel);
+            TransformModifier = new TransformModifier(instancerModel.TransformModifierModel);
 
             NoAspectRatio = false;
         }

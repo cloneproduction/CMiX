@@ -11,10 +11,10 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Coloration : ObservableObject, IControl
     {
-        public Coloration(MasterBeat masterBeat, ColorationModel colorationModel)
+        public Coloration(ColorationModel colorationModel)
         {
             this.ID = colorationModel.ID;
-            //BeatModifier = new BeatModifier(masterBeat, colorationModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(colorationModel.BeatModifierModel);
             ColorSelector = new ColorSelector(colorationModel.ColorSelectorModel);
         }
 

@@ -20,14 +20,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components.Factories
         public Component CreateComponent()
         {
             var model = new SceneModel(Guid.NewGuid());
-            var component = new Scene(ParentLayer, model);
+            var component = new Scene(model);
             ID++;
             return component;
         }
 
         public Component CreateComponent(IComponentModel model)
         {
-            var component = new Scene(ParentLayer, model as SceneModel);
+            var component = new Scene(model as SceneModel);
             return component;
         }
     }

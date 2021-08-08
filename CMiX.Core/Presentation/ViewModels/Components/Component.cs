@@ -24,7 +24,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public Visibility Visibility { get; set; }
         public ICommand VisibilityCommand { get; set; }
-        public IComponentFactory ComponentFactory { get; set; }
 
 
         private Guid _id;

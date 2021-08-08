@@ -17,11 +17,11 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class TransformModifier : ObservableRecipient, IRecipient<IMessage>, IControl
     {
-        public TransformModifier(MasterBeat beat, TransformModifierModel transformModifierModel)
+        public TransformModifier(TransformModifierModel transformModifierModel)
         {
             this.ID = transformModifierModel.ID;
             Modifiers = new ObservableCollection<ITransformModifier>();
-            Factory = new TransformModifierFactory(beat);
+            Factory = new TransformModifierFactory();
             WeakReferenceMessenger.Default.Register(this, MessageType.In);
 
             CreateTransformModifierCommand = new RelayCommand<TransformModifierNames>(CreateTransformModifier);
