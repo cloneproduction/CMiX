@@ -5,7 +5,6 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
-using CMiX.Core.Network.Communicators;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -21,7 +20,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public BeatAnimations BeatAnimations { get; set; }
         public ICommand ResyncCommand { get; }
 
@@ -46,19 +44,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             EventHandler handler = BeatResync;
             if (null != handler) handler(this, EventArgs.Empty);
         }
-
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
-
 
         public void SetViewModel(IModel model)
         {

@@ -40,10 +40,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             TapCommand = new RelayCommand(Tap);
         }
 
+
         public Guid ID { get; set; }
+        public ICommand TapCommand { get; }
         public BeatAnimations BeatAnimations { get; set; }
         public Resync Resync { get; set; }
-        public ICommand TapCommand { get; }
 
 
         private readonly List<double> tapPeriods;
@@ -92,11 +93,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             get => _animatedDouble;
             set => SetProperty(ref _animatedDouble, value);
         }
-
-
-        public event EventHandler IndexChanged;
-        protected void OnIndexChanged() => IndexChanged?.Invoke(this, null);
-
 
 
         private void SetAnimatedDouble()
@@ -169,9 +165,9 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
-        public void NotifyBeatChange(double period)
+        private void NotifyBeatChange(double period)
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeat(this), MessageType.Internal);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(this), MessageType.Internal);
         }
 
         public void SetViewModel(IModel model)

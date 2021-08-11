@@ -90,13 +90,18 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         private void SetAnimatedDouble()
         {
-            var masterBeat = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), MessageType.Internal).Response;
+            MessageRequestMasterBeat messageRequest = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), MessageType.Internal);
 
-            BeatIndex = Index + masterBeat.BeatIndex;
-            Period = masterBeat.Periods[Index + masterBeat.BeatIndex];
-            AnimatedDouble = masterBeat.BeatAnimations.AnimatedDoubles[Index + masterBeat.BeatIndex];
+            if(messageRequest != null)
+            {
+                MasterBeat masterBeat = messageRequest.Response;
 
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                BeatIndex = Index + masterBeat.BeatIndex;
+                Period = masterBeat.Periods[Index + masterBeat.BeatIndex];
+                AnimatedDouble = masterBeat.BeatAnimations.AnimatedDoubles[Index + masterBeat.BeatIndex];
+
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            }
         }
 
         public void SetViewModel(IModel model)
@@ -130,7 +135,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
                 return;
             }
 
-            if(message is MessageMasterBeat)
+            if(message is MessageMasterBeatChange)
             {
                 SetAnimatedDouble();
                 return;

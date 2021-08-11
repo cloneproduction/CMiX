@@ -89,9 +89,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             var newComponent = ComponentFactory.CreateComponent(componentType);
 
             parentComponent.AddComponent(newComponent);
+            Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
+
             Components.Add(newComponent.ID, newComponent);
 
-            Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
@@ -105,14 +106,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         private void RemoveComponent(IComponent component)
         {
+            Messenger.Send<IMessage, int>(new MessageRemoveComponent(component), MessageType.Out);
+
             IComponent parent = ((Component)component).GetParent(RootComponent, x => x.ID == component.ID);
 
             parent.Components.Remove(component);
             Components.Remove(component.ID);
             component.Dispose();
-
-            Messenger.Send<IMessage, int>(new MessageRemoveComponent(component), MessageType.Out);
             Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
+
         }
 
 
