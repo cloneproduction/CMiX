@@ -2,11 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Windows.Input;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.Controls;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
@@ -16,17 +18,19 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public BeatModifier(BeatModifierModel beatModifierModel) : base(beatModifierModel)
         {
             this.ID = beatModifierModel.ID;
-
+            
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
 
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
 
-            SetAnimatedDouble();
+            LoadedCommand = new RelayCommand<MasterBeat>(Loaded);
+            //SetAnimatedDouble();
         }
 
 
+        public ICommand LoadedCommand { get; set; }
         public Guid ID { get; set; }
         public Slider ChanceToHit { get; set; }
 
@@ -66,42 +70,37 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             set => SetProperty(ref _animatedDouble, value);
         }
 
+        public void Loaded(MasterBeat masterBeat)
+        {
+            SetAnimatedDouble(masterBeat);
+        }
 
         public bool CheckHitOnBeatTick()
         {
             return (MathUtils.RandomDouble(0.0, 1.0) <= this.ChanceToHit.Amount / this.ChanceToHit.Maximum) ? true : false;
         }
 
-        protected override void Multiply()
+        protected override void Multiply(MasterBeat masterBeat)
         {
             if (Index <= minIndex)
                 return;
             Index--;
-            SetAnimatedDouble();
+            SetAnimatedDouble(masterBeat);
         }
 
-        protected override void Divide()
+        protected override void Divide(MasterBeat masterBeat)
         {
             if (Index >= maxIndex)
                 return;
             Index++;
-            SetAnimatedDouble();
+            SetAnimatedDouble(masterBeat);
         }
 
-        private void SetAnimatedDouble()
+        private void SetAnimatedDouble(MasterBeat masterBeat)
         {
-            MessageRequestMasterBeat messageRequest = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), MessageType.Internal);
-
-            if(messageRequest != null)
-            {
-                MasterBeat masterBeat = messageRequest.Response;
-
-                BeatIndex = Index + masterBeat.BeatIndex;
-                Period = masterBeat.Periods[Index + masterBeat.BeatIndex];
-                AnimatedDouble = masterBeat.BeatAnimations.AnimatedDoubles[Index + masterBeat.BeatIndex];
-
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
-            }
+            BeatIndex = Index + masterBeat.BeatIndex;
+            Period = masterBeat.Periods[Index + masterBeat.BeatIndex];
+            AnimatedDouble = masterBeat.BeatAnimations.AnimatedDoubles[Index + masterBeat.BeatIndex];
         }
 
         public void SetViewModel(IModel model)
@@ -132,12 +131,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             {
                 if (msg.ID == this.ID)
                     this.SetViewModel(msg.Model);
-                return;
-            }
-
-            if(message is MessageMasterBeatChange)
-            {
-                SetAnimatedDouble();
                 return;
             }
         }

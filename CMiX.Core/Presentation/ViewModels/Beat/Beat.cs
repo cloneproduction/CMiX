@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -13,8 +14,8 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public Beat(BeatModel beatModel)
         {
             ResetCommand = new RelayCommand(Reset);
-            MultiplyCommand = new RelayCommand(Multiply);
-            DivideCommand = new RelayCommand(Divide);
+            MultiplyCommand = new RelayCommand<MasterBeat>(Multiply);
+            DivideCommand = new RelayCommand<MasterBeat>(Divide);
         }
 
 
@@ -50,7 +51,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
         private void Reset() => Multiplier = 1;
-        protected abstract void Multiply();
-        protected abstract void Divide();
+        protected abstract void Multiply(MasterBeat masterBeat);
+        protected abstract void Divide(MasterBeat masterBeat);
     }
 }

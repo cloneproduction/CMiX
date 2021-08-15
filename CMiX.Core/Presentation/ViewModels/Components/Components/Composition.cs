@@ -4,7 +4,6 @@
 using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Components.Factories;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -14,8 +13,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             ID = compositionModel.ID;
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
-
-            MasterBeat = new MasterBeat(compositionModel.MasterBeatModel);
+            
             //Camera = new Camera(MasterBeat, compositionModel.CameraModel);
             //Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
         }
@@ -23,8 +21,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public Camera Camera { get; set; }
         public Slider Transition { get; set; }
-        public MasterBeat MasterBeat { get; set; }
 
+
+        private MasterBeat _masterBeat;
+        public MasterBeat MasterBeat
+        {
+            get => _masterBeat;
+            set => SetProperty(ref _masterBeat, value);
+        }
 
         public override IComponentModel GetModel()
         {
@@ -32,7 +36,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             model.Name = this.Name;
             //model.IsVisible = this.IsVisible;
-            model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
+            //model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
             //model.CameraModel = (CameraModel)this.Camera.GetModel();
             model.TransitionModel = (SliderModel)this.Transition.GetModel();
 
@@ -46,7 +50,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             CompositionModel compositionModel = model as CompositionModel;
 
-            this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
+            //this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
             //this.Camera.SetViewModel(compositionModel.CameraModel);
             this.Transition.SetViewModel(compositionModel.TransitionModel);
 

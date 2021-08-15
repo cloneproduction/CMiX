@@ -142,6 +142,7 @@
     <Compile Include="Network\Messages\ISchedulerMessage.cs" />
     <Compile Include="Network\Messages\MessageAddComposition.cs" />
     <Compile Include="Network\Messages\MessageAddCompositionToPlaylist.cs" />
+    <Compile Include="Network\Messages\MessageAddLayer.cs" />
     <Compile Include="Network\Messages\MessageAddNewPlaylist.cs" />
     <Compile Include="Network\Messages\MessageAddScheduler.cs" />
     <Compile Include="Network\Messages\MessageEventArgs.cs" />
@@ -289,10 +290,6 @@
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\Steady.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\Stepper.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\ModeTypeTemplateSelector.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Factory\CompositionFactory.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Factory\EntityFactory.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Factory\LayerFactory.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Factory\SceneFactory.cs" />
     <Compile Include="Network\Messages\MessageIDIterator.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Geometry\Instancer\TransformModifier.cs" />
     <Compile Include="Presentation\ViewModels\IIDObject.cs" />
@@ -344,7 +341,6 @@
     <Compile Include="Presentation\ViewModels\Beat\Resync.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\ColorPicker\ColorPicker.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\ComboBox.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Factory\IComponentFactory.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Counter\CounterEventArgs.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Geometry\Instancer\IModifier.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Geometry\Instancer\XYZModifier.cs" />

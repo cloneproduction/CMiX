@@ -1,9 +1,11 @@
 ﻿<UserControl
-    x:Class="CMiX.MasterBeatControl"
+    x:Class="CMiX.Studio.Views.Beat.MasterBeatControl"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:CMiX="clr-namespace:CMiX"
     d:DesignHeight="289.777"
     d:DesignWidth="252.667"
     mc:Ignorable="d">
@@ -12,6 +14,7 @@
         Padding="8"
         Background="{StaticResource HighDarkerColor}">
         <StackPanel>
+
             <Border Margin="0, 4" CornerRadius="{DynamicResource CornerRadiusDefaultLarge}" Height="21" Background="{DynamicResource LightColor}" Opacity="{Binding Path=AnimatedDouble.AnimationPosition}"/>
             <DockPanel Height="30">
                 <Button
@@ -33,7 +36,7 @@
                     Grid.Column="1"
                     Style="{StaticResource ButtonRounded}"
                     Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                    Command="{Binding Path=DivideCommand}"
+                    Command="{Binding DivideCommand}"
                     Content="-"
                     DockPanel.Dock="Right"/>
                 <Border 
@@ -59,7 +62,6 @@
                 HorizontalAlignment="Stretch"
                 Command="{Binding TapCommand}"
                 Content="TAP"/>
-            <TextBlock Text="{Binding BeatTick}" Height="20"/>
         </StackPanel>
     </Border>
 </UserControl>

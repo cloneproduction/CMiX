@@ -3,7 +3,6 @@
 
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Components.Factories;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {

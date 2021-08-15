@@ -148,15 +148,28 @@
     </UserControl.Resources>
 
     <DockPanel Background="{StaticResource HighDarkerColor}">
-        
         <Border 
             VerticalAlignment="Center"
-            Padding="8"
+            Padding="4"
             DockPanel.Dock="Top"
             BorderBrush="{StaticResource SuperHighDarkerColor}"
-            BorderThickness="0, 0, 0, 1"
-            Height="40">
-            <TextBlock Text="OUTLINER" FontWeight="SemiBold" VerticalAlignment="Center"/>
+            BorderThickness="0, 0, 0, 1">
+            <DockPanel Height="25">
+                <TextBlock Text="OUTLINER" Margin="8" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                <ComboBox 
+                        DockPanel.Dock="Right" 
+                        Margin="4, 0, 0, 0" 
+                        ItemsSource="{Binding Project.Components}" 
+                        SelectedItem="{Binding SelectedComposition}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+            </DockPanel>
+
         </Border>
 
         <Controls:TreeViewSelect 
@@ -167,10 +180,10 @@
             dd:DragDrop.DragHandler="{Binding OutlinerDragDropManager}"
             dd:DragDrop.DropHandler="{Binding OutlinerDragDropManager}"
             ContextMenu="{DynamicResource OutlinerContextMenu}"
-            ItemsSource="{Binding Components}">
+            ItemsSource="{Binding SelectedComposition.Components}">
             <Controls:TreeViewSelect.Resources>
 
-                <HierarchicalDataTemplate DataType="{x:Type Components:Project}" ItemsSource="{Binding Components}">
+                <!--<HierarchicalDataTemplate DataType="{x:Type Components:Project}" ItemsSource="{Binding Components}">
                     <Controls:EditableTextBox 
                             Padding="4" 
                             IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
@@ -188,7 +201,7 @@
                                 IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </DockPanel>
-                </HierarchicalDataTemplate>
+                </HierarchicalDataTemplate>-->
 
                 <HierarchicalDataTemplate DataType="{x:Type Components:Scene}" ItemsSource="{Binding Components}">
                     <DockPanel>

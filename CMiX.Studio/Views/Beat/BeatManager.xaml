@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.Beat.BeatManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+             mc:Ignorable="d" 
+             d:DesignHeight="714" d:DesignWidth="236">
+    <StackPanel>
+        <Button Content="Add Beat" Margin="2" Command="{Binding AddBeatCommand}"/>
+        <Button Content="Delete Beat"  Margin="2" Command="{Binding DeleteBeatCommand}"/>
+        <ListBox MinHeight="100"
+                 ItemsSource="{Binding MasterBeats}" 
+                 SelectedItem="{Binding SelectedMasterBeat}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border VerticalAlignment="Center">
+                        <TextBlock Height="30" VerticalAlignment="Center" Padding="4" Text="{Binding BPM}"/>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+
+        </ListBox>
+        <Beat:MasterBeatControl DataContext="{Binding SelectedMasterBeat}"/>
+    </StackPanel>
+</UserControl>

@@ -7,8 +7,8 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
     xmlns:Scheduling="clr-namespace:CMiX.Studio.Views.Scheduler"
-
-    xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
+    xmlns:Components="clr-namespace:CMiX.Studio.Views.Component"
+    xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows" xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
     Title="C-MiX Studio"
     Width="1200"
     Height="800"
@@ -89,6 +89,9 @@
                         <TabItem Style="{StaticResource TabItemVerticalPanel}">
                             <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>
                         </TabItem>
+                        <TabItem Style="{StaticResource TabItemVerticalPanel}">
+                            <Beat:BeatManager DataContext="{Binding BeatManager}"/>
+                        </TabItem>
                     </TabControl>
                 </Border>
             </Border>
@@ -113,11 +116,18 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="1*"/>
+                        <RowDefinition Height="3*"/>
                     </Grid.RowDefinitions>
-                    <Views:Outliner Grid.Row="0" DataContext="{Binding Outliner}"/>
+                    <DockPanel Grid.Row="0">
+                        <Views:Outliner DataContext="{Binding ComponentManager}"/>
+                    </DockPanel>
+
                     <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="4, 0" Background="{DynamicResource DarkColor}" Height="1"/>
-                    <Views:ComponentPanel Padding="8" Background="{StaticResource HighDarkerColor}" Grid.Row="2" DataContext="{Binding ComponentManager}"/>
+                    <StackPanel Grid.Row="2"  Margin="8"  >
+                        <Views:ComponentPanel Background="{StaticResource HighDarkerColor}" DataContext="{Binding ComponentManager}"/>
+                        <Views:CompositionPanel Margin="0, 4" DataContext="{Binding ComponentManager.SelectedComposition}"/>
+                    </StackPanel>
+
                 </Grid>
             </Border>
             

@@ -1,5 +1,6 @@
 ﻿using Ceras;
 using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 using Microsoft.Extensions.DependencyInjection;
@@ -21,7 +22,7 @@ namespace CMiX.Console
             Project Project = serviceProvider.GetRequiredService<Project>();
             SchedulerManager schedulerManager = new SchedulerManager(Project);
             ComponentManager componentManager = new ComponentManager(Project);
-
+            BeatManager beatManager = new BeatManager(Project);
             System.Console.ReadLine();
         }
 

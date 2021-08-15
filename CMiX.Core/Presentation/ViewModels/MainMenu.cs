@@ -25,6 +25,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             IsActive = true;
 
+            AddLayerCommand = new RelayCommand(AddLayer);
             AddCompositionCommand = new RelayCommand(AddComposition);
             NewProjectCommand = new RelayCommand(NewProject);
             OpenProjectCommand = new RelayCommand(OpenProject);
@@ -41,8 +42,14 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand SaveAsProjectCommand { get; }
         public ICommand OpenProjectCommand { get; }
         public ICommand AddCompositionCommand { get; }
+        public ICommand AddLayerCommand { get; }
+
         public string FolderPath { get; set; }
 
+        public void AddLayer()
+        {
+            Messenger.Send<IMessage, int>(new MessageAddLayer(Project), MessageType.Internal);
+        }
 
         public void AddComposition()
         {

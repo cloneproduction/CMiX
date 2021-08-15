@@ -4,7 +4,7 @@
 using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Components.Factories;
+using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -12,7 +12,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
     {
         Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }
-
         bool IsSelected { get; set; }
         bool IsRenaming { get; set; }
 

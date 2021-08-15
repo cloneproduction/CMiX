@@ -73,6 +73,18 @@
                 <MenuItem Header="Import"/>
                 <MenuItem Header="Export"/>
             </MenuItem>
+            <MenuItem
+                    Style="{DynamicResource TopMenuItem}"
+                    Padding="8,0"
+                    HorizontalContentAlignment="Stretch"
+                    VerticalContentAlignment="center"
+                    Header="Layer">
+                <MenuItem
+                    Header="New Layer"
+                    Command="{Binding AddLayerCommand}"/>
+                <MenuItem Header="Delete"/>
+                <MenuItem Header="Duplicate"/>
+            </MenuItem>
         </Menu>
     </Border>
 </UserControl>

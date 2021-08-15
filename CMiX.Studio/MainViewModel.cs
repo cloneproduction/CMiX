@@ -15,6 +15,7 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public MainViewModel(IProject project, IDialogService dialogService, IMessageService messageService)
         {
+            Project = project;
             ServerManager = new ServerManager(messageService, dialogService);
 
             MainWindowController = new MainWindowController(dialogService);
@@ -30,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels
             PlaylistEditor = new PlaylistEditor(project);
         }
 
-
+        public IProject Project { get; set; }
         public Outliner Outliner { get; set; }
         public BeatManager BeatManager { get; set; }
         public ServerManager ServerManager { get; set; }

@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Components.Factories;
+using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
@@ -20,6 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Name = this.GetType().Name;
             Components = new ObservableCollection<IComponent>();
         }
+
 
 
         public Visibility Visibility { get; set; }

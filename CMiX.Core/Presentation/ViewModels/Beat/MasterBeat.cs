@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
@@ -107,7 +108,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
-        protected override void Multiply()
+        protected override void Multiply(MasterBeat masterBeat)
         {
             if (Index <= minIndex)
                 return;
@@ -115,7 +116,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             SetAnimatedDouble();
         }
 
-        protected override void Divide()
+        protected override void Divide(MasterBeat masterBeat)
         {
             if (Index >= maxIndex)
                 return;

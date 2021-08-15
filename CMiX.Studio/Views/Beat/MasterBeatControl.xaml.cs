@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX
+namespace CMiX.Studio.Views.Beat
 {
     public partial class MasterBeatControl : UserControl
     {
@@ -8,6 +8,5 @@ namespace CMiX
         {
             InitializeComponent();
         }
-
     }
 }

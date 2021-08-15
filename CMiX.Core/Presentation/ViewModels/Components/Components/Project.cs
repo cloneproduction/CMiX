@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels.Assets;
-using CMiX.Core.Presentation.ViewModels.Components.Factories;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
@@ -25,6 +24,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
         public SortableObservableCollection<IAsset> Assets { get; set; }
+
+
+        private Composition _selectedComposition;
+        public Composition SelectedComposition
+        {
+            get => _selectedComposition;
+            set => SetProperty(ref _selectedComposition, value);
+        }
 
 
         public override IComponentModel GetModel()
