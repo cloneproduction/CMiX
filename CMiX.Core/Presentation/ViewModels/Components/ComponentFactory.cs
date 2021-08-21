@@ -4,8 +4,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -18,7 +16,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         private readonly Dictionary<ComponentType, Func<Component>> components;
 
-        public Component this [ComponentType componentType] => CreateComponent(componentType);
+        public Component this[ComponentType componentType] => CreateComponent(componentType);
 
         public Component CreateComponent(ComponentType componentType) => components[componentType]();
 

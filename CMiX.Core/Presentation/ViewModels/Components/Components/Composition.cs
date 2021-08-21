@@ -2,8 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Models.Beat;
+using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Network;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -13,22 +15,27 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             ID = compositionModel.ID;
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
-            
+
             //Camera = new Camera(MasterBeat, compositionModel.CameraModel);
             //Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
         }
-
-
-        public Camera Camera { get; set; }
-        public Slider Transition { get; set; }
 
 
         private MasterBeat _masterBeat;
         public MasterBeat MasterBeat
         {
             get => _masterBeat;
-            set => SetProperty(ref _masterBeat, value);
+            set
+            {
+                WeakReferenceMessenger.Default.Send(new MessageSelectedMasterBeatChange(MasterBeat, value), MessageType.Internal);
+                SetProperty(ref _masterBeat, value);
+            }
         }
+
+        public Camera Camera { get; set; }
+        public Slider Transition { get; set; }
+
+
 
         public override IComponentModel GetModel()
         {
@@ -61,5 +68,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 //this.AddComponent(newComponent);
             }
         }
+
+
     }
 }

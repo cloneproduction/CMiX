@@ -8,19 +8,21 @@ using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ObservableObject, IComponent, IDisposable
+    public abstract class Component : ObservableRecipient, IComponent, IDisposable
     {
         public Component()
         {
             IsExpanded = false;
             Name = this.GetType().Name;
             Components = new ObservableCollection<IComponent>();
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
         }
-
 
 
         public Visibility Visibility { get; set; }
@@ -81,11 +83,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Remove(component);
         }
 
-        //public void RemoveComponentAtIndex(int index)
-        //{
-        //    IComponent component = Components.ElementAt(index);
-        //    RemoveComponent(component);
-        //}
+        public void ChangeChildMasterBeat(MasterBeat masterBeat)
+        {
+            foreach (Component component in Components)
+            {
+                component.ChangeChildMasterBeat(masterBeat);
+            }
+        }
+
 
         public IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)
         {

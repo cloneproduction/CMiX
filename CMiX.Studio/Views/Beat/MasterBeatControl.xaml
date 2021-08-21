@@ -15,7 +15,10 @@
         Background="{StaticResource HighDarkerColor}">
         <StackPanel>
 
-            <Border Margin="0, 4" CornerRadius="{DynamicResource CornerRadiusDefaultLarge}" Height="21" Background="{DynamicResource LightColor}" Opacity="{Binding Path=AnimatedDouble.AnimationPosition}"/>
+            <Border Margin="0, 4" 
+                    CornerRadius="{DynamicResource CornerRadiusDefaultLarge}" 
+                    Height="21" Background="{DynamicResource LightColor}" 
+                    Opacity="{Binding Path=AnimatedDouble.AnimationPosition}"/>
             <DockPanel Height="30">
                 <Button
                     Grid.Column="3"

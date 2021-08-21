@@ -4,7 +4,6 @@
 using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {

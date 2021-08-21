@@ -6,19 +6,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Beat="clr-namespace:CMiX.Core.Presentation.ViewModels.Beat;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    d:DataContext="{d:DesignInstance Type={x:Type Beat:BeatModifier}, IsDesignTimeCreatable=False}"
+    xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
+
     d:DesignHeight="46.5"
     d:DesignWidth="226.667"
     mc:Ignorable="d">
-
-    <i:Interaction.Triggers>
-        <i:EventTrigger EventName="Loaded">
-            <i:InvokeCommandAction Command="{Binding LoadedCommand}"
-                                   CommandParameter="{Binding Path=DataContext.SelectedComponent.MasterBeat, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ComponentEditor}}}"/>
-        </i:EventTrigger>
-    </i:Interaction.Triggers>
-    
+    <!--d:DataContext="{d:DesignInstance Type={x:Type Beat:BeatModifier}, IsDesignTimeCreatable=False}"-->
     <Border x:Name="MainBorder" Background="Transparent">
         <Grid>
             <Border x:Name="borderMask" 
@@ -41,7 +34,6 @@
                         DockPanel.Dock="Left"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                         Command="{Binding DivideCommand}"
-                        CommandParameter="{Binding Path=DataContext.SelectedComposition.MasterBeat, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ComponentEditor}}}"
                         Content="-"
                         IsDefault="True">
                         <Button.Style>
@@ -59,7 +51,6 @@
                         HorizontalAlignment="Right"
                         Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                         Command="{Binding MultiplyCommand}"
-                        CommandParameter="{Binding Path=DataContext.SelectedComposition.MasterBeat, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:ComponentEditor}}}"
                         Content="+"
                         DockPanel.Dock="Right"
                         IsDefault="True">

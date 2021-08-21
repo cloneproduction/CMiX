@@ -3,11 +3,10 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Models.Beat;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,14 +14,13 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
+    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>, IRecipient<MessageRequestMasterBeat>
     {
         public ComponentManager(IProject project)
         {
             ComponentFactory = new ComponentFactory();
 
-            var masterBeat = new MasterBeat(new MasterBeatModel());
-            ComponentFactory.RegisterComponentType(ComponentType.Entity, () => new Entity(new EntityModel(Guid.NewGuid()), masterBeat));
+            ComponentFactory.RegisterComponentType(ComponentType.Entity, () => new Entity(new EntityModel(Guid.NewGuid())));
             ComponentFactory.RegisterComponentType(ComponentType.Composition, () => new Composition(new CompositionModel(Guid.NewGuid())));
             ComponentFactory.RegisterComponentType(ComponentType.Layer, () => new Layer(new LayerModel(Guid.NewGuid())));
             ComponentFactory.RegisterComponentType(ComponentType.Scene, () => new Scene(new SceneModel(Guid.NewGuid())));
@@ -35,6 +33,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components = new Dictionary<Guid, IComponent>();
             Components.Add(project.ID, project);
             Project = project;
+            Project.Components.CollectionChanged += Components_CollectionChanged;
+
 
             CreateComponentCommand = new RelayCommand<ComponentType>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
@@ -42,6 +42,21 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
         }
 
+
+
+
+        private void Components_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            List<Composition> comp = new List<Composition>();
+
+            if (SelectedComposition == null && e.NewItems.Count == 1)
+            {
+                if (e.NewItems[0] is Composition composition)
+                {
+                    SelectedComposition = composition;
+                }
+            }
+        }
 
         public ICommand CreateComponentCommand { get; }
         public ICommand DuplicateComponentCommand { get; }
@@ -58,7 +73,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Composition SelectedComposition
         {
             get => _selectedComposition;
-            set => SetProperty(ref _selectedComposition, value);
+            set
+            {
+                SelectedComponent = null;
+                SetProperty(ref _selectedComposition, value);
+            }
         }
 
         private IComponent _selectedComponent;
@@ -71,19 +90,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void RenameComponent(IComponent component) => SelectedComponent.IsRenaming = true;
 
-        public void CreateComponent(Guid parentID, IComponentModel componentModel)
-        {
-            //IComponent parentComponent;
-            //Components.TryGetValue(parentID, out parentComponent);
 
-
-            //var newComponent = ComponentFactory.CreateComponent(componentModel);
-            //parentComponent.AddComponent(newComponent);
-            //Components.Add(newComponent.ID, newComponent);
-
-            //Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
-            //Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
-        }
 
         public void CreateLayer()
         {
@@ -110,6 +117,20 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Add(newComponent.ID, newComponent);
 
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+        }
+
+        public void CreateComponent(Guid parentID, IComponentModel componentModel)
+        {
+            //IComponent parentComponent;
+            //Components.TryGetValue(parentID, out parentComponent);
+
+
+            //var newComponent = ComponentFactory.CreateComponent(componentModel);
+            //parentComponent.AddComponent(newComponent);
+            //Components.Add(newComponent.ID, newComponent);
+
+            //Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
+            //Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
         public void DeleteComponent(Guid componentID)
@@ -166,6 +187,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                     this.DeleteComponent(remove.ComponentID);
                     break;
             }
+        }
+
+        public void Receive(MessageRequestMasterBeat message)
+        {
+            message.Reply(SelectedComposition.MasterBeat);
         }
     }
 }

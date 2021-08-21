@@ -8,11 +8,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Entity : Component
     {
-        public Entity(EntityModel entityModel, MasterBeat masterBeat) : base()
+        public Entity(EntityModel entityModel) : base()
         {
             ID = entityModel.ID;
 
-            MasterBeat = masterBeat;
             BeatModifier = new BeatModifier(entityModel.BeatModifierModel);
             Geometry = new Geometry(entityModel.GeometryModel);
             Texture = new Texture(entityModel.TextureModel);
@@ -25,7 +24,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Geometry Geometry { get; set; }
         public Texture Texture { get; set; }
         public Coloration Coloration { get; set; }
-        public MasterBeat MasterBeat { get; set; }
 
 
         public override IComponentModel GetModel()

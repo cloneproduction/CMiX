@@ -11,7 +11,7 @@
              xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
              xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             
+             xmlns:ViewComponent="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
@@ -29,7 +29,7 @@
             </ObjectDataProvider>
 
             <Tools:BindingProxy x:Key="ProjectProxy" Data="{Binding}" />
-            <Tools:BindingProxy x:Key="CompositionProxy" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type Views:Composition}}}"/>
+            <Tools:BindingProxy x:Key="CompositionProxy" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ViewComponent:Composition}}}"/>
             <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
             <Converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
 

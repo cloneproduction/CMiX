@@ -7,45 +7,57 @@
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="500">
 
+    <StackPanel>
+        <Border VerticalAlignment="Center"
+                    Padding="8"
+                    DockPanel.Dock="Top"
+                    Height="40">
+            <TextBlock DockPanel.Dock="Left" 
+                           Text="SCHEDULER" 
+                           FontWeight="SemiBold" 
+                           VerticalAlignment="Center"/>
+        </Border>
         <Grid DockPanel.Dock="Top">
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <DockPanel HorizontalAlignment="Stretch">
-            <Grid DockPanel.Dock="Top">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button Height="20" 
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <DockPanel HorizontalAlignment="Stretch">
+                <Grid DockPanel.Dock="Top">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Button Height="20" 
                         DockPanel.Dock="Top"
                         Margin="2"
                         Content="Add New Scheduler" 
                         Command="{Binding CreateSchedulerCommand}"/>
-                <Button Height="20"
+                    <Button Height="20"
                         Grid.Column="1"
                         DockPanel.Dock="Top"
                         Margin="2"
                         Content="Delete Scheduler"
                         Command="{Binding DeleteSchedulerCommand}"/>
-            </Grid>
+                </Grid>
 
-            <ListBox Margin="2"
+                <ListBox Margin="2"
                     ItemsSource="{Binding Project.CompositionSchedulers}"
                     SelectedItem="{Binding SelectedScheduler}"
                     SelectedIndex="{Binding SelectedSchedulerIndex}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Height="30" >
-                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </DockPanel>
-        <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2" Margin="2" DataContext="{Binding PlaylistEditor}"/>
-    </Grid>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="30" >
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </DockPanel>
+            <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2" Margin="2" DataContext="{Binding PlaylistEditor}"/>
+        </Grid>
+    </StackPanel>
+
         <!--<Border Grid.Column="2" Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}">
             <local:CompositionScheduler DataContext="{Binding SelectedScheduler}"/>
         </Border>-->

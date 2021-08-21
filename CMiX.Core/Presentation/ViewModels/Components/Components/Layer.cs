@@ -19,6 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
+        public MasterBeat MasterBeat { get; set; }
         public Slider Fade { get; set; }
         public Mask Mask { get; set; }
         public PostFX PostFX { get; set; }

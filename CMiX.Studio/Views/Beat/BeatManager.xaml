@@ -4,23 +4,150 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+             xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="714" d:DesignWidth="236">
-    <StackPanel>
-        <Button Content="Add Beat" Margin="2" Command="{Binding AddBeatCommand}"/>
-        <Button Content="Delete Beat"  Margin="2" Command="{Binding DeleteBeatCommand}"/>
-        <ListBox MinHeight="100"
+    
+    <UserControl.Resources>
+        <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <Border Padding="8, 0">
+        <StackPanel>
+            <Border VerticalAlignment="Center"
+                    Padding="8"
+                    DockPanel.Dock="Top"
+                    Height="40">
+                <TextBlock DockPanel.Dock="Left" 
+                           Text="BEATS" 
+                           FontWeight="SemiBold" 
+                           VerticalAlignment="Center"/>
+            </Border>
+            <!--<ItemsControl Margin="0, 0, 0, 8" MinHeight="100"
+                 ItemsSource="{Binding Components}" >
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Height="30">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.9*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="4" Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
+                                <ComboBox 
+                                    Grid.Column="1"
+                                    ItemsSource="{Binding Path=DataContext.MasterBeats, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Beat:BeatManager}}}"
+                                    SelectedItem="{Binding MasterBeat}">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+
+
+                            </Grid>
+
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>-->
+            <Grid Margin="0, 0, 0, 4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Button Height="25" Content="Add Beat"                 Margin="0, 0, 1, 0"  Command="{Binding AddBeatCommand}"/>
+                <Button Height="25" 
+                        Grid.Column="1"
+                        Content="Delete Beat"  
+                        Margin="0, 0, 1, 0" 
+                        Command="{Binding DeleteBeatCommand}"
+                        CommandParameter="{Binding SelectedMasterBeat}"/>
+            </Grid>
+
+            <ListBox MinHeight="100"
                  ItemsSource="{Binding MasterBeats}" 
                  SelectedItem="{Binding SelectedMasterBeat}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border VerticalAlignment="Center">
-                        <TextBlock Height="30" VerticalAlignment="Center" Padding="4" Text="{Binding BPM}"/>
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Height="30">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="4" Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
-        </ListBox>
-        <Beat:MasterBeatControl DataContext="{Binding SelectedMasterBeat}"/>
-    </StackPanel>
+            <Border 
+                Background="{StaticResource HighDarkerColor}"
+                Visibility="{Binding SelectedMasterBeat,  Converter={StaticResource NullToVisibilityConverter}, ConverterParameter={x:Static Visibility.Collapsed}}">
+
+                <StackPanel>
+
+                    <!--<Border Margin="0, 4" 
+                            CornerRadius="{DynamicResource CornerRadiusDefaultLarge}" 
+                            Height="21" Background="{DynamicResource LightColor}" 
+                            Opacity="{Binding Path=SelectedMasterBeat.AnimatedDouble.AnimationPosition}"/>-->
+                    <DockPanel Height="30">
+                        <Button
+                            Grid.Column="3"
+                            Style="{StaticResource ButtonRounded}"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            Command="{Binding ResyncCommand}"
+                            Content="Rc"
+                            DockPanel.Dock="Right"/>
+                        <Button
+                            Grid.Column="2"
+                            Style="{StaticResource ButtonRounded}"
+                            Margin="4, 0"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            Command="{Binding MultiplyCommand}"
+                            Content="+"
+                            DockPanel.Dock="Right"/>
+                        <Button
+                            Grid.Column="1"
+                            Style="{StaticResource ButtonRounded}"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            Command="{Binding DivideCommand}"
+                            Content="-"
+                            DockPanel.Dock="Right"/>
+                        <Border 
+                            Background="{StaticResource HighDarkerColor}" 
+                            Margin="0, 0, 4, 0" DockPanel.Dock="Right" >
+                            <Grid>
+                                <Border Background="{DynamicResource LightColor}" Opacity="{Binding Path=SelectedMasterBeat.AnimatedDouble.AnimationPosition}"/>
+                                <TextBlock 
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource TextBase}" 
+                            Text="{Binding Path=SelectedMasterBeat.BPM, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
+                            </Grid>
+
+                            <!--<TextBox 
+                                Foreground="{StaticResource TextBase}" 
+                                Background="{StaticResource SuperHighDarkerColor}"
+                                BorderThickness="0"
+                                BorderBrush="{StaticResource SuperHighDarkerColor}"
+                                HorizontalContentAlignment="Center"
+                                VerticalContentAlignment="Center"
+                                VerticalAlignment="Stretch"
+                                HorizontalAlignment="Stretch"
+                                Text="{Binding Path=SelectedMasterBeat.BPM, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />-->
+                        </Border>
+                    </DockPanel>
+                    <Button
+                        Height="30"
+                        Margin="0, 4, 0, 0"
+                        Style="{StaticResource ButtonRounded}"
+                        VerticalAlignment="Stretch"
+                        HorizontalAlignment="Stretch"
+                        Command="{Binding TapCommand}"
+                        Content="TAP"/>
+                </StackPanel>
+                <!--<Beat:MasterBeatControl DataContext="{Binding SelectedMasterBeat}"/>-->
+            </Border>
+
+        </StackPanel>
+    </Border>
+
 </UserControl>

@@ -10,6 +10,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:MVVM.Views="clr-namespace:CMiX.Core.Presentation.Views;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+    xmlns:ViewComponent="clr-namespace:CMiX.Studio.Views.Component"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
     d:DesignHeight="61.455"
@@ -23,7 +24,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
         <Tools:BindingProxy x:Key="LayerProxy" Data="{Binding}"/>
-        <Tools:BindingProxy x:Key="CompositionProxy" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type Views:Composition}}}"/>
+        <Tools:BindingProxy x:Key="CompositionProxy" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ViewComponent:Composition}}}"/>
         <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
 
@@ -175,7 +176,7 @@
                             <Grid.InputBindings>
                                 <MouseBinding 
                                     Gesture="LeftDoubleClick" 
-                                    Command="{Binding DataContext.EntityEditor.EditEntityCommand, RelativeSource={RelativeSource AncestorType={x:Type Views:Composition}}}"
+                                    Command="{Binding DataContext.EntityEditor.EditEntityCommand, RelativeSource={RelativeSource AncestorType={x:Type ViewComponent:Composition}}}"
                                     CommandParameter="{Binding}"/>
                             </Grid.InputBindings>
                             <DockPanel Height="25">

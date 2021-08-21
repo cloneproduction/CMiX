@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX.Studio.Views
+namespace CMiX.Studio.Views.Component
 {
     public partial class Composition : UserControl
     {

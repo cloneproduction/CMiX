@@ -5,9 +5,9 @@ using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageMasterBeatChange
+    public class MessageCompositionMasterBeatChange
     {
-        public MessageMasterBeatChange(MasterBeat masterBeat)
+        public MessageCompositionMasterBeatChange(MasterBeat masterBeat)
         {
             MasterBeat = masterBeat;
         }

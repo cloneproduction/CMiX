@@ -166,6 +166,11 @@
                             <TextBlock Text="{Binding Name}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
+                    <!--<ComboBox.ItemContainerStyle>
+                        <Style TargetType="ComboBoxItem" >
+                            <Setter Property="IsSelected" Value="{Binding IsEditing}" />
+                        </Style>
+                    </ComboBox.ItemContainerStyle>-->
                 </ComboBox>
 
             </DockPanel>
@@ -183,25 +188,6 @@
             ItemsSource="{Binding SelectedComposition.Components}">
             <Controls:TreeViewSelect.Resources>
 
-                <!--<HierarchicalDataTemplate DataType="{x:Type Components:Project}" ItemsSource="{Binding Components}">
-                    <Controls:EditableTextBox 
-                            Padding="4" 
-                            IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                            Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type Components:Composition}"
-                                          ItemsSource="{Binding Components}">
-                    <DockPanel>
-                        <Image Margin="8" Opacity="0.75" Source="{StaticResource Composition}"/>
-                        <Controls:EditableTextBox 
-                                Padding="0, 4" 
-                                VerticalAlignment="Center" 
-                                IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </DockPanel>
-                </HierarchicalDataTemplate>-->
 
                 <HierarchicalDataTemplate DataType="{x:Type Components:Scene}" ItemsSource="{Binding Components}">
                     <DockPanel>

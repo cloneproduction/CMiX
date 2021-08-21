@@ -4,19 +4,16 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Windows;
-using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.Controls;
 using CMiX.Core.Presentation.ViewModels.Network;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class MasterBeat : Beat, IRecipient<IMessage>, IRecipient<MessageRequestMasterBeat>, IControl
+    public class MasterBeat : Beat, IRecipient<IMessage>,  IControl
     {
         public MasterBeat(MasterBeatModel masterBeatModel) : base(masterBeatModel)
         {
@@ -37,13 +34,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             tapPeriods = new List<double>();
             tapTime = new List<double>();
-
-            TapCommand = new RelayCommand(Tap);
         }
 
 
         public Guid ID { get; set; }
-        public ICommand TapCommand { get; }
+
         public BeatAnimations BeatAnimations { get; set; }
         public Resync Resync { get; set; }
 
@@ -108,7 +103,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
-        protected override void Multiply(MasterBeat masterBeat)
+        public override void Multiply()
         {
             if (Index <= minIndex)
                 return;
@@ -116,7 +111,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             SetAnimatedDouble();
         }
 
-        protected override void Divide(MasterBeat masterBeat)
+        public override void Divide()
         {
             if (Index >= maxIndex)
                 return;
@@ -124,7 +119,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             SetAnimatedDouble();
         }
 
-        private void Tap()
+        public void Tap()
         {
             UpdatePeriods(GetMasterPeriod());
             Index = 0;
@@ -168,7 +163,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         private void NotifyBeatChange(double period)
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(this), MessageType.Internal);
+            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(this), MessageType.Internal);
         }
 
         public void SetViewModel(IModel model)
@@ -198,11 +193,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
                     this.SetViewModel(msg.Model);
                 return;
             }
-        }
-
-        public void Receive(MessageRequestMasterBeat message)
-        {
-            message.Reply(this);
         }
     }
 }

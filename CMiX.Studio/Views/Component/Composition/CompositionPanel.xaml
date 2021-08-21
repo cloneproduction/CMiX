@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
              xmlns:CMiX="clr-namespace:CMiX"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="525" d:DesignWidth="293">
 
@@ -28,7 +29,7 @@
             ItemsSource="{Binding Path=DataContext.BeatManager.MasterBeats, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type CMiX:MainWindow}}}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding BPM}"/>
+                    <TextBlock Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
         </ComboBox>

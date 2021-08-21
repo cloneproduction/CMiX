@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:ViewComponent="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
              xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
@@ -14,7 +15,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <Tools:BindingProxy x:Key="ProjectProxy" Data="{Binding}"/>
-            <Tools:BindingProxy x:Key="CompositionProxy" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type Views:Composition}}}"/>
+            <Tools:BindingProxy x:Key="CompositionProxy" Data="{Binding DataContext, RelativeSource={RelativeSource AncestorType={x:Type ViewComponent:Composition}}}"/>
             <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>

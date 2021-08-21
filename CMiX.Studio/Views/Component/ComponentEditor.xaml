@@ -3,35 +3,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Components="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
+             xmlns:ViewModelComponents="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
+             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              mc:Ignorable="d" 
              d:DesignHeight="572.667" 
              d:DesignWidth="773.333">
 
     <UserControl.Resources>
-        <DataTemplate x:Key="ProjectTemplate" DataType="{x:Type Components:Project}">
-            <Views:Project DataContext="{Binding}"/>
-        </DataTemplate>
-        
-        <DataTemplate x:Key="CompositionTemplate" DataType="{x:Type Components:Composition}">
-            <Views:Composition DataContext="{Binding}"/>
+        <DataTemplate x:Key="CompositionTemplate" DataType="{x:Type ViewModelComponents:Composition}">
+            <ViewComponents:Composition DataContext="{Binding}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="EntityTemplate" DataType="{x:Type Components:Entity}">
-            <Views:Entity DataContext="{Binding}"/>
+        <DataTemplate x:Key="EntityTemplate" DataType="{x:Type ViewModelComponents:Entity}">
+            <ViewComponents:Entity DataContext="{Binding}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="LayerTemplate" DataType="{x:Type Components:Layer}">
-            <Views:Layer DataContext="{Binding}"/>
+        <DataTemplate x:Key="LayerTemplate" DataType="{x:Type ViewModelComponents:Layer}">
+            <ViewComponents:Layer DataContext="{Binding}"/>
         </DataTemplate>
 
-        <Components:ComponentTemplateSelector 
+        <ViewModelComponents:ComponentTemplateSelector 
             x:Key="ComponentTemplateSelector" 
             EntityTemplate="{StaticResource EntityTemplate}"
             LayerTemplate="{StaticResource LayerTemplate}" 
-            CompositionTemplate="{StaticResource CompositionTemplate}"
-            ProjectTemplate="{StaticResource ProjectTemplate}"/>
+            CompositionTemplate="{StaticResource CompositionTemplate}"/>
     </UserControl.Resources>
 
     <ContentPresenter 
