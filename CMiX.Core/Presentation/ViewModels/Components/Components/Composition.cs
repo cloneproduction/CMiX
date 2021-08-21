@@ -27,7 +27,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             get => _masterBeat;
             set
             {
-                WeakReferenceMessenger.Default.Send(new MessageSelectedMasterBeatChange(MasterBeat, value), MessageType.Internal);
+                WeakReferenceMessenger.Default.Send<MessageSelectedMasterBeatChange, int>(new MessageSelectedMasterBeatChange(_masterBeat, value), MessageType.Internal);
                 SetProperty(ref _masterBeat, value);
             }
         }

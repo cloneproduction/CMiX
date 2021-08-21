@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -12,15 +11,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             ID = entityModel.ID;
 
-            BeatModifier = new BeatModifier(entityModel.BeatModifierModel);
             Geometry = new Geometry(entityModel.GeometryModel);
             Texture = new Texture(entityModel.TextureModel);
             Coloration = new Coloration(entityModel.ColorationModel);
-            Visibility = new Visibility(entityModel.VisibilityModel);
+            //Visibility = new Visibility(entityModel.VisibilityModel);
         }
 
 
-        public BeatModifier BeatModifier { get; set; }
         public Geometry Geometry { get; set; }
         public Texture Texture { get; set; }
         public Coloration Coloration { get; set; }
@@ -31,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             EntityModel model = new EntityModel(this.ID);
 
             model.Name = this.Name;
-            model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
             model.TextureModel = (TextureModel)this.Texture.GetModel();
             model.GeometryModel = (GeometryModel)this.Geometry.GetModel();
             model.ColorationModel = (ColorationModel)this.Coloration.GetModel();
@@ -42,7 +38,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public override void SetViewModel(IComponentModel model)
         {
             EntityModel entityModel = model as EntityModel;
-            this.BeatModifier.SetViewModel(entityModel.BeatModifierModel);
             this.Texture.SetViewModel(entityModel.TextureModel);
             this.Geometry.SetViewModel(entityModel.GeometryModel);
             this.Coloration.SetViewModel(entityModel.ColorationModel);

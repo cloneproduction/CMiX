@@ -29,7 +29,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
 
         public Guid ID { get; set; }
-        public Guid ParentComponentID { get; set; }
         public Slider ChanceToHit { get; set; }
         public MasterBeat MasterBeat { get; set; }
 
@@ -147,7 +146,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         public void Receive(MessageSelectedMasterBeatChange message)
         {
-            if (MasterBeat == null || message.OldMasterBeat == null)
+            if (MasterBeat == null)
             {
                 this.MasterBeat = message.NewMasterBeat;
                 SetAnimatedDouble();
@@ -155,11 +154,17 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
 
 
-            if (this.MasterBeat.ID == message.OldMasterBeat.ID)
+            if (message.OldMasterBeat != null)
             {
-                this.MasterBeat = message.NewMasterBeat;
-                SetAnimatedDouble();
+                if (this.MasterBeat.ID == message.OldMasterBeat.ID)
+                {
+                    this.MasterBeat = message.NewMasterBeat;
+                    SetAnimatedDouble();
+
+                }
             }
+
+
         }
     }
 }
