@@ -5,8 +5,8 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 {
     public static class MessageType
     {
-        public const int In = 0;
-        public const int Out = 1;
-        public const int Internal = 2;
+        public const string In = "In";
+        public const string Out = "Out";
+        public const string Internal = "Internal";
     }
 }

@@ -3,16 +3,14 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Assets;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class Geometry : ObservableObject, IControl, ITransform
     {
-        public Geometry(GeometryModel geometryModel)
+        public Geometry(GeometryModel geometryModel, Guid componentID)
         {
             this.ID = geometryModel.ID;
             Instancer = new Instancer(geometryModel.InstancerModel);
@@ -23,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
+
         public GeometrySelector GeometrySelector { get; set; }
         public Transform Transform { get; set; }
         public Instancer Instancer { get; set; }

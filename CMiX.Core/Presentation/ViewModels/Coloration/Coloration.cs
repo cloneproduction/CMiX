@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -11,12 +10,13 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Coloration : ObservableObject, IControl
     {
-        public Coloration(ColorationModel colorationModel)
+        public Coloration(ColorationModel colorationModel, Guid componentID)
         {
             this.ID = colorationModel.ID;
-            BeatModifier = new BeatModifier(colorationModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(colorationModel.BeatModifierModel, componentID);
             ColorSelector = new ColorSelector(colorationModel.ColorSelectorModel);
         }
+
 
         public Guid ID { get; set; }
         public ColorSelector ColorSelector { get; set; }

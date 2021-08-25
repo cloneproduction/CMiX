@@ -23,10 +23,14 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
 
-            MasterBeat = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), MessageType.Internal).Response;
-            SetAnimatedDouble();
+            //MasterBeat = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), MessageType.Internal).Response;
+            //SetAnimatedDouble();
         }
 
+        public BeatModifier(BeatModifierModel beatModifierModel, Guid componentID) : this(beatModifierModel)
+        {
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal + componentID.ToString());
+        }
 
         public Guid ID { get; set; }
         public Slider ChanceToHit { get; set; }
