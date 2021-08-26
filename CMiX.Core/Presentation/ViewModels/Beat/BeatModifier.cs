@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class BeatModifier : Beat, IRecipient<IMessage>, IRecipient<MessageMasterBeatChange>, IRecipient<MessageSelectedMasterBeatChange>, IControl
+    public class BeatModifier : Beat, IRecipient<IMessage>, IRecipient<MessageSelectedMasterBeatChange>, IControl
     {
         public BeatModifier(BeatModifierModel beatModifierModel) : base(beatModifierModel)
         {
@@ -23,14 +23,16 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
 
-            //MasterBeat = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), MessageType.Internal).Response;
-            //SetAnimatedDouble();
+
         }
 
         public BeatModifier(BeatModifierModel beatModifierModel, Guid componentID) : this(beatModifierModel)
         {
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal + componentID.ToString());
+            WeakReferenceMessenger.Default.RegisterAll(this, componentID);
+            MasterBeat = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeat(), componentID).Response;
+            SetAnimatedDouble();
         }
+
 
         public Guid ID { get; set; }
         public Slider ChanceToHit { get; set; }
@@ -39,6 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         private int maxIndex = 4;
         private int minIndex = -4;
+
 
         private int _index = 0;
         public int Index
@@ -136,39 +139,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
-        public void Receive(MessageMasterBeatChange message)
-        {
-            if (MasterBeat == null)
-                return;
-
-            if (this.MasterBeat.ID == message.MasterBeat.ID)
-            {
-                this.MasterBeat = message.MasterBeat;
-                SetAnimatedDouble();
-            }
-        }
 
         public void Receive(MessageSelectedMasterBeatChange message)
         {
-            if (MasterBeat == null)
-            {
-                this.MasterBeat = message.NewMasterBeat;
-                SetAnimatedDouble();
-                return;
-            }
-
-
-            if (message.OldMasterBeat != null)
-            {
-                if (this.MasterBeat.ID == message.OldMasterBeat.ID)
-                {
-                    this.MasterBeat = message.NewMasterBeat;
-                    SetAnimatedDouble();
-
-                }
-            }
-
-
+            this.MasterBeat = message.MasterBeat;
+            SetAnimatedDouble();
         }
     }
 }

@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -34,16 +33,6 @@ namespace CMiX.Core.Presentation.ViewModels
             throw new NotImplementedException();
         }
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
-        }
-
         public AnimParameter X { get; set; }
         public AnimParameter Y { get; set; }
         public AnimParameter Z { get; set; }
@@ -54,7 +43,7 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _isUniform;
             set => SetProperty(ref _isUniform, value);
         }
-        public Communicator Communicator { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
-        public Guid ID { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
+
+        public Guid ID { get; set; }
     }
 }

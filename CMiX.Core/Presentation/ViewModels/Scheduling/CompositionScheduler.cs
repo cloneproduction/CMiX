@@ -5,7 +5,6 @@ using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
-using CMiX.Core.Network.Communicators;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
@@ -34,30 +33,11 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
 
 
         public JobScheduler JobScheduler { get; set; }
         public JobEditor JobEditor { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
-
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-
-            JobEditor.SetCommunicator(Communicator);
-            JobScheduler.SetCommunicator(Communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-
-            JobEditor.UnsetCommunicator(Communicator);
-            JobScheduler.UnsetCommunicator(Communicator);
-        }
 
 
         public IModel GetModel()

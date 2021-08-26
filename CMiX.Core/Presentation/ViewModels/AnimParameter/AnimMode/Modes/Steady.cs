@@ -4,7 +4,6 @@
 using System;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -21,7 +20,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public Communicator Communicator { get; set; }
         public Guid ID { get; set; }
 
         private int _seed;
@@ -109,17 +107,6 @@ namespace CMiX.Core.Presentation.ViewModels
             }
         }
 
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
 
 
         public void SetViewModel(IModel model)

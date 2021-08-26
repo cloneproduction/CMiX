@@ -3,11 +3,9 @@
 
 using System;
 using System.Collections.ObjectModel;
-
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -17,11 +15,11 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class TransformModifier : ObservableRecipient, IRecipient<IMessage>, IControl
     {
-        public TransformModifier(TransformModifierModel transformModifierModel)
+        public TransformModifier(TransformModifierModel transformModifierModel, Guid componentID)
         {
             this.ID = transformModifierModel.ID;
             Modifiers = new ObservableCollection<ITransformModifier>();
-            Factory = new TransformModifierFactory();
+            Factory = new TransformModifierFactory(componentID);
             WeakReferenceMessenger.Default.Register(this, MessageType.In);
 
             CreateTransformModifierCommand = new RelayCommand<TransformModifierNames>(CreateTransformModifier);

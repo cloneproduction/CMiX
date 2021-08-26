@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -19,19 +18,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Guid ID { get; set; }
         public Slider Explode { get; set; }
-        public Communicator Communicator { get; set; }
 
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
 
 
         public void SetViewModel(IModel model)

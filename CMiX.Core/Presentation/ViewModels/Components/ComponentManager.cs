@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Messenger.RegisterAll(this, MessageType.In);
 
             Components = new Dictionary<Guid, IComponent>();
-            Components.Add(project.ID, project);
+            //Components.Add(project.ID, project);
             Project = project;
             Project.Components.CollectionChanged += Components_CollectionChanged;
 
@@ -107,12 +107,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void CreateComponent(ComponentType componentType)
         {
-            IComponent parentComponent = SelectedComponent is null ? Project : SelectedComponent;
 
+            IComponent parentComponent = SelectedComponent;
             var newComponent = ComponentFactory.CreateComponent(componentType);
+            //newComponent.MasterBeat = parentComponent.MasterBeat;
+            newComponent.UpdateChildMasterBeat(parentComponent.MasterBeat);
 
             parentComponent.AddComponent(newComponent);
             Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
+
+
 
             Components.Add(newComponent.ID, newComponent);
 
@@ -145,7 +149,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             Messenger.Send<IMessage, int>(new MessageRemoveComponent(component), MessageType.Out);
 
-            IComponent parent = ((Component)component).GetParent(Project, x => x.ID == component.ID);
+            IComponent parent = ((Component)component).GetParent(SelectedComposition, x => x.ID == component.ID);
 
             parent.Components.Remove(component);
             Components.Remove(component.ID);

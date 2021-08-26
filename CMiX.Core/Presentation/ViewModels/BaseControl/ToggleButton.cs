@@ -3,8 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
-using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -18,7 +16,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
 
         private bool _isChecked;
         public bool IsChecked
@@ -29,18 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels
                 SetProperty(ref _isChecked, value);
                 //Messenger.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
             }
-        }
-
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
         }
 
 

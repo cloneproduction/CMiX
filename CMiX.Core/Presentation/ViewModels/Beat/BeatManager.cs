@@ -30,6 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             ResyncCommand = new RelayCommand(Resync);
         }
 
+
         public IProject Project { get; set; }
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }

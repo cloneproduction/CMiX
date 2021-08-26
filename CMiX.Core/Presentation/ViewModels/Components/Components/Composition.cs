@@ -1,40 +1,49 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Network;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Composition : Component
+    public class Composition : Component, IRecipient<MessageMasterBeatChange>
     {
         public Composition(CompositionModel compositionModel)
         {
             ID = compositionModel.ID;
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
-
             //Camera = new Camera(MasterBeat, compositionModel.CameraModel);
             //Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
+            SelectedBeatChangedCommand = new RelayCommand(SelectedBeatChanged);
         }
 
+        public ICommand SelectedBeatChangedCommand { get; set; }
 
-        private MasterBeat _masterBeat;
-        public MasterBeat MasterBeat
-        {
-            get => _masterBeat;
-            set
-            {
-                WeakReferenceMessenger.Default.Send<MessageSelectedMasterBeatChange, int>(new MessageSelectedMasterBeatChange(_masterBeat, value), MessageType.Internal);
-                SetProperty(ref _masterBeat, value);
-            }
-        }
+
 
         public Camera Camera { get; set; }
         public Slider Transition { get; set; }
 
+        public void SelectedBeatChanged()
+        {
+            this.UpdateChildMasterBeat(MasterBeat);
+        }
+
+        public void Receive(MessageMasterBeatChange message)
+        {
+            if (MasterBeat == null)
+                return;
+
+            if (MasterBeat.Equals(message.MasterBeat))
+            {
+                MasterBeat = message.MasterBeat;
+                this.UpdateChildMasterBeat(MasterBeat);
+            }
+        }
 
 
         public override IComponentModel GetModel()
@@ -68,7 +77,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 //this.AddComponent(newComponent);
             }
         }
-
-
     }
 }

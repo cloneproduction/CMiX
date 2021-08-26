@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -20,21 +19,11 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public AnimParameter X { get; set; }
         public AnimParameter Y { get; set; }
         public AnimParameter Z { get; set; }
 
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
-        }
 
         public void SetViewModel(IModel model)
         {

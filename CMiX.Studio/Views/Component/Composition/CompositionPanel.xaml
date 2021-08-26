@@ -32,6 +32,12 @@
                     <TextBlock Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
                 </DataTemplate>
             </ComboBox.ItemTemplate>
+            
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedBeatChangedCommand}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
         </ComboBox>
     </Grid>
 

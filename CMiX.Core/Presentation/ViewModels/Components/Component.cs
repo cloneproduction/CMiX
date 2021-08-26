@@ -7,6 +7,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
+using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -24,6 +25,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
         }
 
+
+        private MasterBeat _masterBeat;
+        public MasterBeat MasterBeat
+        {
+            get => _masterBeat;
+            set => SetProperty(ref _masterBeat, value);
+        }
 
         public Visibility Visibility { get; set; }
         public ICommand VisibilityCommand { get; set; }
@@ -83,13 +91,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Remove(component);
         }
 
-        public void ChangeChildMasterBeat(MasterBeat masterBeat)
-        {
-            foreach (Component component in Components)
-            {
-                component.ChangeChildMasterBeat(masterBeat);
-            }
-        }
 
 
         public IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)
@@ -118,6 +119,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public abstract void SetViewModel(IComponentModel model);
         public abstract IComponentModel GetModel();
+
+        public void UpdateChildMasterBeat(MasterBeat masterBeat)
+        {
+            WeakReferenceMessenger.Default.Send<MessageSelectedMasterBeatChange, Guid>(new MessageSelectedMasterBeatChange(masterBeat), this.ID);
+            MasterBeat = masterBeat;
+            foreach (IComponent cp in this.Components)
+            {
+                cp.UpdateChildMasterBeat(masterBeat);
+            }
+        }
 
         public void Dispose()
         {

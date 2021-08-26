@@ -4,11 +4,14 @@
 using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public interface IComponent : IIDObject, IDisposable
     {
+        void UpdateChildMasterBeat(MasterBeat masterBeat);
+        MasterBeat MasterBeat { get; set; }
         Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }
         bool IsSelected { get; set; }

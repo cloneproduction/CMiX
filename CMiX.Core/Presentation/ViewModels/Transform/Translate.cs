@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Observer;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -21,7 +20,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public Slider X { get; set; }
         public Slider Y { get; set; }
         public Slider Z { get; set; }

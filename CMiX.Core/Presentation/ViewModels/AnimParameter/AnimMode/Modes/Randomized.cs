@@ -5,7 +5,6 @@ using System;
 using System.Windows.Media.Media3D;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -27,7 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Vector3D[] Location { get; set; }
         public Vector3D[] Scale { get; set; }
         public Vector3D[] Rotation { get; set; }
-        public Communicator Communicator { get => throw new NotImplementedException(); set => throw new NotImplementedException(); }
 
         private double[] oldRandom;
         private double[] newRandom;
@@ -78,16 +76,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             RandomizedModel model = new RandomizedModel();
             return model;
-        }
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
         }
     }
 }

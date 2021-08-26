@@ -4,7 +4,6 @@
 using System;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -21,7 +20,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
 
         private double nextStep;
 
@@ -72,17 +70,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
                 position += stepDistance;
             }
-        }
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
         }
 
 

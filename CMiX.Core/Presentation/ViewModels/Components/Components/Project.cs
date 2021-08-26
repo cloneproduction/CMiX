@@ -26,13 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public SortableObservableCollection<IAsset> Assets { get; set; }
 
 
-        private Composition _selectedComposition;
-        public Composition SelectedComposition
-        {
-            get => _selectedComposition;
-            set => SetProperty(ref _selectedComposition, value);
-        }
-
 
         public override IComponentModel GetModel()
         {

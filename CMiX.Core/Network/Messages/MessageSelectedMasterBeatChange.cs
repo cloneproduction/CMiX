@@ -7,13 +7,11 @@ namespace CMiX.Core.Network.Messages
 {
     public class MessageSelectedMasterBeatChange
     {
-        public MessageSelectedMasterBeatChange(MasterBeat oldMasterBeat, MasterBeat newMasterBeat)
+        public MessageSelectedMasterBeatChange(MasterBeat masterBeat)
         {
-            OldMasterBeat = oldMasterBeat;
-            NewMasterBeat = newMasterBeat;
+            MasterBeat = masterBeat;
         }
 
-        public MasterBeat OldMasterBeat { get; set; }
-        public MasterBeat NewMasterBeat { get; set; }
+        public MasterBeat MasterBeat { get; set; }
     }
 }

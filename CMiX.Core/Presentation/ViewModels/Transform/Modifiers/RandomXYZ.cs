@@ -6,7 +6,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Media.Media3D;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -14,7 +13,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class RandomXYZ : ObservableObject, IControl, ITransformModifier
     {
-        public RandomXYZ(RandomXYZModel randomXYZModel, MasterBeat masterBeat)
+        public RandomXYZ(RandomXYZModel randomXYZModel, Guid componentID)
         {
             this.ID = randomXYZModel.ID;
             this.Name = randomXYZModel.Name;
@@ -23,7 +22,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Counter.CounterChangeEvent += Counter_CounterChangeEvent;
 
             Easing = new Easing(randomXYZModel.EasingModel);
-            BeatModifier = new BeatModifier(randomXYZModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(randomXYZModel.BeatModifierModel, componentID);
             Transforms = new ObservableCollection<Transform>();
 
             SelectedModifierType = ModifierType.OBJECT;
@@ -49,7 +48,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public Communicator Communicator { get; set; }
         public TransformModifierNames Name { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }

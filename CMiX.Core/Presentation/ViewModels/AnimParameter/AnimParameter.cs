@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Observer;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -68,7 +67,7 @@ namespace CMiX.Core.Presentation.ViewModels
             }
         }
 
-        public Communicator Communicator { get; set; }
+
         public System.Guid ID { get; set; }
 
         private void SetAnimMode()
@@ -131,16 +130,6 @@ namespace CMiX.Core.Presentation.ViewModels
             model.AnimModeModel = (AnimModeModel)this.AnimMode.GetModel();
 
             return model;
-        }
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            throw new System.NotImplementedException();
         }
     }
 }

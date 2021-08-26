@@ -11,7 +11,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Scene(SceneModel sceneModel)
         {
             ID = sceneModel.ID;
-           // Visibility = new Visibility(layer.Visibility, sceneModel.VisibilityModel);
+            // Visibility = new Visibility(layer.Visibility, sceneModel.VisibilityModel);
             BeatModifier = new BeatModifier(sceneModel.BeatModifierModel);
             PostFX = new PostFX(sceneModel.PostFXModel);
             Mask = new Mask(sceneModel.MaskModel);

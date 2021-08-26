@@ -5,8 +5,6 @@ using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
-using CMiX.Core.Network.Communicators;
-using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
@@ -29,28 +27,12 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         {
             JobManager.AddJob(job, job.Action);
             Schedules.Add(job);
-
-            Communicator?.SendMessage(new MessageSchedulerJob(job.GetModel() as JobModel));
         }
 
         public void RemoveJob(Job job)
         {
             JobManager.RemoveJob(job.Name);
             Schedules.Remove(job);
-        }
-
-
-        private Communicator Communicator { get; set; }
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
         }
 
 

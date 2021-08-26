@@ -3,7 +3,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
-using CMiX.Core.Network.Communicators;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -58,19 +57,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
                 var job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
                 JobScheduler.AddJob(job);
             }
-        }
-
-
-        public Communicator Communicator { get; set; }
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
         }
 
 

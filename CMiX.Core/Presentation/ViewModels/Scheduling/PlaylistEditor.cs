@@ -4,8 +4,6 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduler;
 using CMiX.Core.Models.Scheduling;
-using CMiX.Core.Network.Communicators;
-using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -72,7 +70,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             {
                 SelectedPlaylist.Compositions.Add(composition);
                 DropDownOpen = false;
-                Communicator?.SendMessage(new MessageAddCompositionToPlaylist(composition));
                 Console.WriteLine("Composition added to playlist " + SelectedPlaylist.Name);
             }
         }
@@ -99,7 +96,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             Playlists.Add(playlist);
             SelectedPlaylist = playlist;
 
-            Communicator?.SendMessage(new MessageAddNewPlaylist(playlist));
             Console.WriteLine("New Playlist Created");
         }
 
@@ -109,22 +105,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             if (Playlists.Count == 0)
                 plCreateIndex = 0;
         }
-
-
-
-        public Communicator Communicator { get; set; }
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
-        }
-
 
 
         public void SetViewModel(IModel model)

@@ -3,19 +3,18 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class Instancer : ObservableObject, IControl
     {
-        public Instancer(InstancerModel instancerModel)
+        public Instancer(InstancerModel instancerModel, Guid componentID)
         {
             this.ID = instancerModel.ID;
 
             Transform = new Transform(instancerModel.Transform);
-            TransformModifier = new TransformModifier(instancerModel.TransformModifierModel);
+            TransformModifier = new TransformModifier(instancerModel.TransformModifierModel, componentID);
 
             NoAspectRatio = false;
         }
@@ -24,6 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Guid ID { get; set; }
         public Transform Transform { get; set; }
         public TransformModifier TransformModifier { get; set; }
+
 
         private bool _noAspectRatio;
         public bool NoAspectRatio

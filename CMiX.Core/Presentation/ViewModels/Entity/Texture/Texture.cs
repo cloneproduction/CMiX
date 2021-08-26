@@ -10,7 +10,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Texture : ObservableObject, IControl
     {
-        public Texture(TextureModel textureModel)
+        public Texture(TextureModel textureModel, Guid componentID)
         {
             this.ID = textureModel.ID;
 

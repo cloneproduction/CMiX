@@ -4,7 +4,6 @@ using System.IO;
 using System.Windows;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduler;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GongSolutions.Wpf.DragDrop;
@@ -30,8 +29,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public Guid ID { get; set; }
         public ObservableCollection<Composition> Compositions { get; set; }
-        public Communicator Communicator { get; set; }
-
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -62,18 +59,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
                     }
                 }
             }
-        }
-
-
-        public void SetCommunicator(Communicator communicator)
-        {
-            Communicator = new Communicator(this);
-            Communicator.SetCommunicator(communicator);
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            Communicator.UnsetCommunicator(communicator);
         }
 
 

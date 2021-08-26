@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Windows.Media.Media3D;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Communicators;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Observer;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -79,15 +78,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void SetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void UnsetCommunicator(Communicator communicator)
-        {
-            throw new NotImplementedException();
-        }
 
         private int _isExpanded;
         public int IsExpanded
@@ -127,7 +117,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public AnimParameter X { get; set; }
         public AnimParameter Y { get; set; }
         public AnimParameter Z { get; set; }
-        public Communicator Communicator { get; set; }
         public Guid ID { get; set; }
     }
 }

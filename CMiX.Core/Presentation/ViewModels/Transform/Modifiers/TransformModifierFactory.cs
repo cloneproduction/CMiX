@@ -1,19 +1,21 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class TransformModifierFactory
     {
-        public TransformModifierFactory()
+        public TransformModifierFactory(Guid componentID)
         {
-
+            ComponentID = componentID;
         }
 
-        public MasterBeat MasterBeat { get; set; }
+
+        private Guid ComponentID { get; set; }
+
 
         public ITransformModifier CreateTransformModifier(TransformModifierNames transformModifierNames)
         {
@@ -46,13 +48,13 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private RandomXYZ CreateRandomized()
         {
-            var randomized = new RandomXYZ(new RandomXYZModel(), this.MasterBeat);
+            var randomized = new RandomXYZ(new RandomXYZModel(), this.ComponentID);
             return randomized;
         }
 
         private RandomXYZ CreateRandomized(RandomXYZModel randomXYZModel)
         {
-            var randomized = new RandomXYZ(randomXYZModel, this.MasterBeat);
+            var randomized = new RandomXYZ(randomXYZModel, this.ComponentID);
             return randomized;
         }
     }

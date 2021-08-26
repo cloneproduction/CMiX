@@ -13,7 +13,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Geometry(GeometryModel geometryModel, Guid componentID)
         {
             this.ID = geometryModel.ID;
-            Instancer = new Instancer(geometryModel.InstancerModel);
+            Instancer = new Instancer(geometryModel.InstancerModel, componentID);
             Transform = new Transform(geometryModel.TransformModel);
             GeometryFX = new GeometryFX(geometryModel.GeometryFXModel);
             GeometrySelector = new GeometrySelector(new AssetGeometry(), geometryModel.AssetPathSelectorModel);

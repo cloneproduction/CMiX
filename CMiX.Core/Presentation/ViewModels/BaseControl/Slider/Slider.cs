@@ -51,7 +51,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _amount, value);
-                WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageUpdateViewModel(this), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
