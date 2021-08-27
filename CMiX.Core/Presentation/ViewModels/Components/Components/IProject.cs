@@ -17,6 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels
         //bool IsSelected { get; set; }
         //bool IsRenaming { get; set; }
 
+        Composition ActiveComposition { get; set; }
         void AddComponent(IComponent component);
         void RemoveComponent(IComponent component);
 
@@ -25,6 +26,5 @@ namespace CMiX.Core.Presentation.ViewModels
 
         SortableObservableCollection<IAsset> Assets { get; set; }
         ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
-        //Composition SelectedComposition { get; set; }
     }
 }

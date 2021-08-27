@@ -23,7 +23,7 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <DockPanel HorizontalAlignment="Stretch">
-                <Grid DockPanel.Dock="Top">
+                <Grid Margin="4" DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -54,8 +54,12 @@
                     </ListBox.ItemTemplate>
                 </ListBox>
             </DockPanel>
-            <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2" Margin="2" DataContext="{Binding PlaylistEditor}"/>
+
+
         </Grid>
+        <local:JobEditor DataContext="{Binding SelectedScheduler}" Margin="8"/>
+        <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2" Margin="8" DataContext="{Binding PlaylistEditor}"/>
+
     </StackPanel>
 
         <!--<Border Grid.Column="2" Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}">

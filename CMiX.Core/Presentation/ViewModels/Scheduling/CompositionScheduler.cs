@@ -17,7 +17,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             this.Name = $"Scheduler({SchedulerID})";
             SchedulerID++;
 
-
             JobScheduler = new JobScheduler(compositionSchedulerModel.JobSchedulerModel);
             JobEditor = new JobEditor(compositionSchedulerModel.JobEditorModel, playlists, JobScheduler);
         }
@@ -37,7 +36,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public JobScheduler JobScheduler { get; set; }
         public JobEditor JobEditor { get; set; }
-        public PlaylistEditor PlaylistEditor { get; set; }
 
 
         public IModel GetModel()

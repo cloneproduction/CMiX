@@ -24,7 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
         public SortableObservableCollection<IAsset> Assets { get; set; }
-
+        public Composition ActiveComposition { get; set; }
 
 
         public override IComponentModel GetModel()

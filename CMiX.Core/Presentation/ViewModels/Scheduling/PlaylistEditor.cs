@@ -10,11 +10,11 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class PlaylistEditor : ObservableObject, IControl
+    public class PlaylistEditor : ObservableObject
     {
         public PlaylistEditor(IProject project)
         {
-            this.ID = new Guid("33223344-5566-7788-99AA-BBCCDDEEFF00");
+            //this.ID = new Guid("33223344-5566-7788-99AA-BBCCDDEEFF00");
             Project = project;
 
             Playlists = new ObservableCollection<Playlist>();
@@ -29,7 +29,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
 
         int plCreateIndex = 0;
-        public Guid ID { get; set; }
+
+
         public ICommand AddCompositionToPlaylistCommand { get; set; }
         public ICommand NewPlaylistCommand { get; set; }
         public ICommand DeletePlaylistCommand { get; set; }
@@ -110,13 +111,13 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public void SetViewModel(IModel model)
         {
             PlaylistEditorModel playlistEditorModel = model as PlaylistEditorModel;
-            this.ID = playlistEditorModel.ID;
+            //this.ID = playlistEditorModel.ID;
         }
 
         public IModel GetModel()
         {
             PlaylistEditorModel playlistEditorModel = new PlaylistEditorModel();
-            playlistEditorModel.ID = this.ID;
+            //playlistEditorModel.ID = this.ID;
             return playlistEditorModel;
         }
     }

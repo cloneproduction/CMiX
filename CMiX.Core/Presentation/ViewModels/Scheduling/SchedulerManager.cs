@@ -6,29 +6,30 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class SchedulerManager : ObservableRecipient, IRecipient<ISchedulerMessage>, IControl
+    public class SchedulerManager : ObservableRecipient, IRecipient<ISchedulerMessage>
     {
         public SchedulerManager(IProject project)
         {
-            this.ID = new Guid("22223344-5566-7788-99AA-BBCCDDEEFF00");
             Project = project;
             PlaylistEditor = new PlaylistEditor(project);
-            Messenger.Register(this, "IN");
+            Messenger.Register(this, MessageType.In);
+
             IsActive = true;
             CreateSchedulerCommand = new RelayCommand(CreateScheduler);
             DeleteSchedulerCommand = new RelayCommand(DeleteScheduler);
         }
 
-
-        public Guid ID { get; set; }
         public ICommand CreateSchedulerCommand { get; set; }
         public ICommand DeleteSchedulerCommand { get; set; }
+
 
         public IProject Project { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
@@ -83,14 +84,12 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public IModel GetModel()
         {
             SchedulerManagerModel schedulerModel = new SchedulerManagerModel();
-            schedulerModel.ID = this.ID;
             return schedulerModel;
         }
 
         public void SetViewModel(IModel model)
         {
             SchedulerManagerModel schedulerModel = model as SchedulerManagerModel;
-            this.ID = schedulerModel.ID;
         }
 
         public void Receive(ISchedulerMessage message)
