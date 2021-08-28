@@ -54,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             if (SelectedPlaylist != null)
             {
                 var job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
-                //JobScheduler.AddJob(job);
+                JobScheduler.AddJob(job);
             }
         }
 
