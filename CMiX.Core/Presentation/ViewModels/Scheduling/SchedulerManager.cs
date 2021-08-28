@@ -6,7 +6,6 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -20,6 +19,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         {
             Project = project;
             PlaylistEditor = new PlaylistEditor(project);
+            JobEditor = new JobEditor(new JobEditorModel());
+
             Messenger.Register(this, MessageType.In);
 
             IsActive = true;
@@ -27,12 +28,14 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             DeleteSchedulerCommand = new RelayCommand(DeleteScheduler);
         }
 
+
         public ICommand CreateSchedulerCommand { get; set; }
         public ICommand DeleteSchedulerCommand { get; set; }
 
 
         public IProject Project { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
+        public JobEditor JobEditor { get; set; }
 
 
         private CompositionScheduler _selectedScheduler;
@@ -52,7 +55,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
                 SetProperty(ref _selectedSchedulerIndex, value);
                 Console.WriteLine("SelectedSchedulerIndex = " + SelectedSchedulerIndex);
 
-                Messenger.Send<IMessage, string>(new MessageSelectedSchedulerIndex(value), "OUT");
+                Messenger.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
             }
         }
 
@@ -63,7 +66,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel, PlaylistEditor.Playlists);
             Project.CompositionSchedulers.Add(compositionScheduler);
 
-            Messenger.Send<IMessage, string>(new MessageAddScheduler(compositionSchedulerModel), "OUT");
+            Messenger.Send<IMessage, int>(new MessageAddScheduler(compositionSchedulerModel), MessageType.Out);
 
         }
 

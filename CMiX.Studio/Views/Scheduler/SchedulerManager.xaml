@@ -57,7 +57,7 @@
 
 
         </Grid>
-        <local:JobEditor DataContext="{Binding SelectedScheduler}" Margin="8"/>
+        <local:JobEditor DataContext="{Binding JobEditor}" Margin="8"/>
         <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2" Margin="8" DataContext="{Binding PlaylistEditor}"/>
 
     </StackPanel>

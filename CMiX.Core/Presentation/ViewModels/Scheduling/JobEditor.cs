@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
@@ -10,12 +9,12 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class JobEditor : ObservableObject, IControl
     {
-        public JobEditor(JobEditorModel jobEditorModel, ObservableCollection<Playlist> playlists, JobScheduler jobScheduler)
+        public JobEditor(JobEditorModel jobEditorModel)
         {
             this.ID = jobEditorModel.ID;
 
-            JobScheduler = jobScheduler;
-            Playlists = playlists;
+            //JobScheduler = jobScheduler;
+            //Playlists = playlists;
             ToRunType = new ToRunType();
 
             CreateJobCommand = new RelayCommand(CreateJob);
@@ -24,8 +23,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public Guid ID { get; set; }
         public ICommand CreateJobCommand { get; set; }
-        public JobScheduler JobScheduler { get; set; }
-        public ObservableCollection<Playlist> Playlists { get; set; }
+        //public JobScheduler JobScheduler { get; set; }
+        //public ObservableCollection<Playlist> Playlists { get; set; }
 
 
         private Playlist _selectedplaylist;
@@ -55,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             if (SelectedPlaylist != null)
             {
                 var job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
-                JobScheduler.AddJob(job);
+                //JobScheduler.AddJob(job);
             }
         }
 

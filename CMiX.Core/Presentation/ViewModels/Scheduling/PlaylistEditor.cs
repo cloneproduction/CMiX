@@ -14,7 +14,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
     {
         public PlaylistEditor(IProject project)
         {
-            //this.ID = new Guid("33223344-5566-7788-99AA-BBCCDDEEFF00");
             Project = project;
 
             Playlists = new ObservableCollection<Playlist>();
