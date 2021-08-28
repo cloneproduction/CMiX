@@ -32,8 +32,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
 
         public Guid ID { get; set; }
-
-
         public JobScheduler JobScheduler { get; set; }
         public JobEditor JobEditor { get; set; }
 
