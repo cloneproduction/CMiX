@@ -7,61 +7,107 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Expander Header="Task" IsExpanded="True" Style="{StaticResource ExpanderBase}">
-        <DataGrid 
-            ItemsSource="{Binding Schedules}" 
+    <Expander Header="Running Jobs" IsExpanded="True" Style="{StaticResource ExpanderBase}">
+        <StackPanel>
+            <ItemsControl ItemsSource="{Binding JobScheduler.Schedules}">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Expander Header="{Binding Name}" IsExpanded="True" Style="{StaticResource InnerExpanderLevel2}">
+                            <StackPanel>
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" HorizontalAlignment="Right" Padding="4" Text="Playlist"/>
+                                    <Border Grid.Column="1" Height="25">
+                                        <TextBlock Padding="4" VerticalAlignment="Center" Text="{Binding Playlist.Name}"/>
+                                    </Border>
+                                </Grid>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" HorizontalAlignment="Right" Padding="4" Text="Running"/>
+                                    <Border Grid.Column="1" Height="25">
+                                        <TextBlock Padding="4" VerticalAlignment="Center" Text="{Binding CurrentComposition.Name}"/>
+                                    </Border>
+                                </Grid>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="1.5*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Grid.Column="0" HorizontalAlignment="Right" Padding="4" Text="Next"/>
+                                    <Border Grid.Column="1" Height="25">
+                                        <TextBlock Padding="4" VerticalAlignment="Center" Text="{Binding NextRun}"/>
+                                    </Border>
+                                </Grid>
+                            </StackPanel>
+
+                        </Expander>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            <!--<DataGrid 
+            ItemsSource="{Binding JobScheduler.Schedules}" 
             Background="Transparent"
             AutoGenerateColumns="False">
-            <DataGrid.Columns>
+                <DataGrid.Columns>
 
-                <DataGridTemplateColumn Header="Name" Width="150" >
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <TextBlock 
+                    <DataGridTemplateColumn Header="Name" Width="150" >
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <TextBlock 
                                     HorizontalAlignment="Center"
                                     Foreground="{StaticResource TextBase}"
                                     Text="{Binding Name}"/>
-                            </DockPanel>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                                </DockPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
 
-                <DataGridTemplateColumn Header="Playlist" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock 
+                    <DataGridTemplateColumn Header="Playlist" Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
                                 HorizontalAlignment="Center"
                                 Foreground="{StaticResource TextBase}"
                                 Text="{Binding Playlist.Name}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn Header="Current Composition" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock 
+                    <DataGridTemplateColumn Header="Current Composition" Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
                                 HorizontalAlignment="Center"
                                 Foreground="{StaticResource TextBase}"
                                 Text="{Binding CurrentComposition.Name}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            
-                <DataGridTemplateColumn Header="Next Run" Width="150">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <TextBlock 
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn Header="Next Run" Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock 
                                 HorizontalAlignment="Center"
                                 Foreground="{StaticResource TextBase}"
                                 Text="{Binding NextRun}"/>
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
 
-            </DataGrid.Columns>
-        </DataGrid>
+                </DataGrid.Columns>
+            </DataGrid>-->
+        </StackPanel>
+
     </Expander>
 </UserControl>

@@ -1,30 +1,26 @@
-﻿using System;
-using System.Windows.Input;
-using CMiX.Core.Models;
-using CMiX.Core.Models.Scheduling;
+﻿using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class JobEditor : ObservableObject, IControl
+    public class JobEditor : ObservableObject
     {
-        public JobEditor(JobEditorModel jobEditorModel)
+        public JobEditor()
         {
-            this.ID = jobEditorModel.ID;
+            PopupIsOpen = false;
 
-            //JobScheduler = jobScheduler;
-            //Playlists = playlists;
             ToRunType = new ToRunType();
 
-            CreateJobCommand = new RelayCommand(CreateJob);
+            OpenPopupCommand = new RelayCommand(OpenPopup);
+            ClosePopupCommand = new RelayCommand(ClosePopup);
+            AddJobToSchedulerCommand = new RelayCommand<CompositionScheduler>(AddJobToScheduler);
         }
 
 
-        public Guid ID { get; set; }
-        public ICommand CreateJobCommand { get; set; }
-        //public JobScheduler JobScheduler { get; set; }
-        //public ObservableCollection<Playlist> Playlists { get; set; }
+        public ICommand ClosePopupCommand { get; set; }
+        public ICommand OpenPopupCommand { get; set; }
+        public ICommand AddJobToSchedulerCommand { get; set; }
 
 
         private Playlist _selectedplaylist;
@@ -48,27 +44,31 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             set => SetProperty(ref _jobName, value);
         }
 
+        private bool _popupIsOpen;
+        public bool PopupIsOpen
+        {
+            get => _popupIsOpen;
+            set => SetProperty(ref _popupIsOpen, value);
+        }
 
-        private void CreateJob()
+
+        public void AddJobToScheduler(CompositionScheduler compositionScheduler)
         {
             if (SelectedPlaylist != null)
             {
-                var job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
-                JobScheduler.AddJob(job);
+                Job job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
+                compositionScheduler.JobScheduler.AddJob(job);
             }
         }
 
-
-        public void SetViewModel(IModel model)
+        public void ClosePopup()
         {
-            JobEditorModel jobEditorModel = model as JobEditorModel;
-            this.ID = jobEditorModel.ID;
+            PopupIsOpen = false;
         }
 
-        public IModel GetModel()
+        public void OpenPopup()
         {
-            JobEditorModel jobEditorModel = new JobEditorModel();
-            return jobEditorModel;
+            PopupIsOpen = true;
         }
     }
 }

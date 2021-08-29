@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
@@ -17,9 +18,9 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
     {
         public SchedulerManager(IProject project)
         {
-            Project = project;
-            PlaylistEditor = new PlaylistEditor(project);
-            JobEditor = new JobEditor(new JobEditorModel());
+            CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
+            PlaylistEditor = new PlaylistEditor();
+            JobEditor = new JobEditor();
 
             Messenger.Register(this, MessageType.In);
 
@@ -33,7 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public ICommand DeleteSchedulerCommand { get; set; }
 
 
-        public IProject Project { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
         public JobEditor JobEditor { get; set; }
 
@@ -44,6 +44,15 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             get => _selectedScheduler;
             set => SetProperty(ref _selectedScheduler, value);
         }
+
+
+        public ObservableCollection<Playlist> Playlists
+        {
+            get => PlaylistEditor.Playlists;
+        }
+
+        public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
+
 
 
         private int _selectedSchedulerIndex;
@@ -64,7 +73,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         {
             CompositionSchedulerModel compositionSchedulerModel = new CompositionSchedulerModel();
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel, PlaylistEditor.Playlists);
-            Project.CompositionSchedulers.Add(compositionScheduler);
+            CompositionSchedulers.Add(compositionScheduler);
 
             Messenger.Send<IMessage, int>(new MessageAddScheduler(compositionSchedulerModel), MessageType.Out);
 
@@ -73,13 +82,13 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public void CreateScheduler(CompositionSchedulerModel compositionSchedulerModel)
         {
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel, PlaylistEditor.Playlists);
-            Project.CompositionSchedulers.Add(compositionScheduler);
-            Console.WriteLine("Scheduler Created, Count is " + Project.CompositionSchedulers.Count);
+            CompositionSchedulers.Add(compositionScheduler);
+            Console.WriteLine("Scheduler Created, Count is " + CompositionSchedulers.Count);
         }
 
         public void DeleteScheduler()
         {
-            Project.CompositionSchedulers.Remove(SelectedScheduler);
+            CompositionSchedulers.Remove(SelectedScheduler);
             SelectedScheduler = null;
         }
 

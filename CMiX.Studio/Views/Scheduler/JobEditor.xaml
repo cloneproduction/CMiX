@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Views="clr-namespace:CMiX.Studio.Views.Scheduler"
+    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     mc:Ignorable="d" 
     d:DesignHeight="375.668" d:DesignWidth="528.666">
 
@@ -17,7 +19,7 @@
                 Margin="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="0.7*"/>
+                        <ColumnDefinition Width="1.5*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
                         VerticalAlignment="Center"
@@ -42,7 +44,7 @@
                     DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="0.7*"/>
+                        <ColumnDefinition Width="1.5*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock 
                         VerticalAlignment="Center"
@@ -54,7 +56,7 @@
                     <ComboBox
                         Grid.Column="1"
 
-                        ItemsSource="{Binding Playlists}"
+                        ItemsSource="{Binding Path=DataContext.Playlists, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Views:SchedulerManager}}}"
                         SelectedItem="{Binding SelectedPlaylist}">
                         <ComboBox.ItemTemplate>
                             <DataTemplate>
@@ -73,7 +75,7 @@
                     DockPanel.Dock="Top">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="0.7*"/>
+                        <ColumnDefinition Width="1.5*"/>
                     </Grid.ColumnDefinitions>
                     <Button 
                         Grid.Column="1"
@@ -81,7 +83,28 @@
                         VerticalAlignment="Stretch"
                         Style="{StaticResource ButtonRounded}"
                         Content="Add To Scheduler"
-                        Command="{Binding CreateJobCommand}"/>
+                        Command="{Binding OpenPopupCommand}"/>
+                    <Controls:CMiXPopup IsOpen="{Binding PopupIsOpen}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseLeave">
+                                <i:InvokeCommandAction Command="{Binding ClosePopupCommand}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <Border CornerRadius="{DynamicResource CornerRadiusDefault}" 
+                                Height="100" 
+                                Width="200">
+                            <ListBox ItemsSource="{Binding Path=DataContext.CompositionSchedulers, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Views:SchedulerManager}}}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Height="25" 
+                                                Content="{Binding Name}"
+                                                Command="{Binding DataContext.AddJobToSchedulerCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Views:JobEditor}}}"
+                                                CommandParameter="{Binding DataContext, RelativeSource={RelativeSource Self}}"/>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                    </Controls:CMiXPopup>
                 </Grid>
             </StackPanel>
         </Border>

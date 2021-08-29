@@ -87,6 +87,9 @@
                             <Views:ServerManager DataContext="{Binding ServerManager}"/>
                         </TabItem>
                         <TabItem Style="{StaticResource TabItemVerticalPanel}">
+                            <TabItem.Header>
+                                <Image Margin="3" Source="{StaticResource Scheduler}"/>
+                            </TabItem.Header>
                             <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>
                         </TabItem>
                         <TabItem Style="{StaticResource TabItemVerticalPanel}">

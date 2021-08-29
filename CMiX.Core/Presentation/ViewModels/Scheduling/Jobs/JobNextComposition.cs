@@ -8,16 +8,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class JobNextComposition : Job
     {
-        //public JobNextComposition()
-        //{
-
-        //}
-
-        //public JobNextComposition(JobModel jobModel)
-        //{
-        //    Name = jobModel.Name;
-        //}
-
         public JobNextComposition(string name, Playlist playlist, Action<Schedule> action)
         {
             this.Name = name;

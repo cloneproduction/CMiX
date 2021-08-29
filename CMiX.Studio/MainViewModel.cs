@@ -28,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
             MainMenu = new MainMenu(project, dialogService);
             Outliner = new Outliner(project);
-            PlaylistEditor = new PlaylistEditor(project);
         }
 
         public IProject Project { get; set; }

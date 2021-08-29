@@ -26,45 +26,52 @@
                         <RowDefinition Height="0.5*"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
-                    <DockPanel>
-                        <DockPanel DockPanel.Dock="Top" 
-                                   Height="20" 
-                                   Margin="0, 0, 0, 8">
-                            <Button Command="{Binding NewPlaylistCommand}"
-                                    DockPanel.Dock="Right" 
-                                    Style="{StaticResource ButtonImage}">
-                                <Button.Content>
-                                    <Image Margin="16" Source="{StaticResource Add}"/>
-                                </Button.Content>
-                            </Button>
-                            <TextBlock HorizontalAlignment="Right" 
-                                       Padding="4" 
-                                       DockPanel.Dock="Left" 
-                                       Text="Add New" 
-                                       VerticalAlignment="Center"/>
+
+                    <DockPanel HorizontalAlignment="Stretch">
+                            <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
+                                <Button 
+                                    Style="{StaticResource ButtonRoundedTop}"
+                                    Height="20" 
+                                    Width="20"
+                                    Margin="0, 0, 0, 1"
+                                    Content="+" 
+                                    Command="{Binding NewPlaylistCommand}"/>
+                                <Button 
+                                    Style="{StaticResource ButtonRoundedBottom}"
+                                    Height="20"
+                                    Width="20"
+                                    Margin="0, 1, 0, 0"
+                                    Content="-"
+                                    Command="{Binding DeletePlaylistCommand}"/>
+                            </StackPanel>
+                            <Border >
+                                <ListBox
+                                    BorderBrush="{DynamicResource DarkerColor}"
+                                    MaxHeight="100"
+                                    Background="{DynamicResource HighHighDarkerColor}"
+                                    ItemsSource="{Binding Playlists}"
+                                    SelectedItem="{Binding SelectedPlaylist}"
+                                    SelectedIndex="{Binding SelectedSchedulerIndex}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Height="25" >
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
                         </DockPanel>
 
-                        <ListBox ItemsSource="{Binding Playlists}"
-                                 SelectedItem="{Binding SelectedPlaylist}"
-                                 Background="{StaticResource HighDarkerColor}"
-                                 Foreground="{StaticResource TextBase}">
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Height="30" >
-                                        <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-                        </ListBox>
-                    </DockPanel>
+                    
                     
                     <Border Visibility="{Binding SelectedPlaylist, Converter={StaticResource NullToVisibility}}" 
                             HorizontalAlignment="Stretch" 
                             Margin="0, 8" 
                             Grid.Row="1" >
-                        <Grid>
-
-                            <ToggleButton x:Name="PopUpToggle" 
+                        <StackPanel>
+                            <Grid>
+                                <ToggleButton x:Name="PopUpToggle" 
                                           Content="Add Composition"
                                           Height="25" 
                                           Margin="0, 4"
@@ -72,104 +79,110 @@
                                           VerticalAlignment="Center"
                                           Style="{StaticResource ToggleTransformModifierMenu}"/>
 
-                            <Controls:CMiXPopup AllowsTransparency="True"
+                                <Controls:CMiXPopup AllowsTransparency="True"
                                                 Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=playlistEditor}"
                                                 Width="{Binding ActualWidth, ElementName=PopUpToggle}"
                                                 Placement="Custom"
                                                 PlacementTarget="{Binding ElementName=PopUpToggle}"
                                                 FlowDirection="LeftToRight"
                                                 IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
-                                
-                                <Border Background="Transparent" 
+
+                                    <Border Background="Transparent" 
                                         CornerRadius="{DynamicResource CornerRadiusBottom}" 
                                         Padding="2, 0, 2, 2">
-                                    
-                                    <Border.Effect>
-                                        <DropShadowEffect BlurRadius="15" 
+
+                                        <Border.Effect>
+                                            <DropShadowEffect BlurRadius="15" 
                                                           Opacity="0.8"  
                                                           ShadowDepth="2" 
                                                           Direction="-90" 
                                                           RenderingBias="Performance"/>
-                                    </Border.Effect>
-                                    
-                                    <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
+                                        </Border.Effect>
+
+                                        <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
                                             Opacity="0.75" 
                                             Background="{DynamicResource HighDarkerColor}">
-                                        <ItemsControl ItemsSource="{Binding Path=Project.Components}">
-                                            <ItemsControl.ItemTemplate>
-                                                <DataTemplate>
-                                                    <Button Height="20"
+                                            <ItemsControl ItemsSource="{Binding Path=DataContext.Project.Components, RelativeSource={RelativeSource AncestorType={x:Type Window}}}">
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Button Height="20"
                                                             Margin="2"
                                                             Command="{Binding Path=DataContext.AddCompositionToPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
                                                             CommandParameter="{Binding }"
                                                             VerticalAlignment="Center" 
                                                             Content="{Binding Name}"/>
-                                                </DataTemplate>
-                                            </ItemsControl.ItemTemplate>
-                                        </ItemsControl>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Border>
                                     </Border>
-                                </Border>
-                            </Controls:CMiXPopup>
+                                </Controls:CMiXPopup>
 
-                        </Grid>
-                    </Border>
-                </Grid>
-
-                <ListBox 
-                    Margin="0, 4, 0, 0"
-                    AllowDrop="True"
-                    dd:DragDrop.IsDragSource="True"
-                    dd:DragDrop.IsDropTarget="True"
-                    dd:DragDrop.DragHandler="{Binding}"
-                    dd:DragDrop.DropHandler="{Binding}"
-                    ItemsSource="{Binding SelectedPlaylist.Compositions}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Height="30" >
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    <ListBox.ContextMenu>
-                        <ContextMenu>
-                            <MenuItem
-                                Padding="8, 4"
-                                Foreground="{StaticResource TextBase}"
-                                Command="{Binding Data.DeleteSelectedCompoCommand, Source={StaticResource proxy}}">
-                                <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="10" Height="10" Source="{StaticResource DeleteLayer}" />
-                                        <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <TextBlock Text="Delete"/>
-                                    </StackPanel>
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem Command="{Binding Data.DuplicateSelectedCompoCommand, Source={StaticResource proxy}}"
+                            </Grid>
+                            <ListBox 
+                                MinHeight="100"
+                                Background="{DynamicResource HighDarkerColor}"
+                                BorderBrush="{DynamicResource DarkerColor}"
+                                Margin="0, 4, 0, 0"
+                                AllowDrop="True"
+                                dd:DragDrop.IsDragSource="True"
+                                dd:DragDrop.IsDropTarget="True"
+                                dd:DragDrop.DragHandler="{Binding}"
+                                dd:DragDrop.DropHandler="{Binding}"
+                                ItemsSource="{Binding SelectedPlaylist.Compositions}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Height="30" >
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                                <ListBox.ContextMenu>
+                                    <ContextMenu>
+                                        <MenuItem
+                                            Padding="8, 4"
+                                            Foreground="{StaticResource TextBase}"
+                                            Command="{Binding Data.DeleteSelectedCompoCommand, Source={StaticResource proxy}}">
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="10" Height="10" Source="{StaticResource DeleteLayer}" />
+                                                    <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                    <TextBlock Text="Delete"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem Command="{Binding Data.DuplicateSelectedCompoCommand, Source={StaticResource proxy}}"
                                         Padding="8, 4"
                                         Foreground="{StaticResource TextBase}">
-                                <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="10" Height="10" Source="{StaticResource Copy}" />
-                                        <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <TextBlock Text="Duplicate"/>
-                                    </StackPanel>
-                                </MenuItem.Header>
-                            </MenuItem>
-                            <MenuItem
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="10" Height="10" Source="{StaticResource Copy}" />
+                                                    <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                    <TextBlock Text="Duplicate"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                        <MenuItem
                                 Padding="8, 4"
                                 Foreground="{StaticResource TextBase}"
                                 Command="{Binding Data.DeleteAllCompoCommand, Source={StaticResource proxy}}">
-                                <MenuItem.Header>
-                                    <StackPanel Orientation="Horizontal">
-                                        <Image Width="10" Height="10"/>
-                                        <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                        <TextBlock Text="Delete All"/>
-                                    </StackPanel>
-                                </MenuItem.Header>
-                            </MenuItem>
-                        </ContextMenu>
-                    </ListBox.ContextMenu>
-                </ListBox>
+                                            <MenuItem.Header>
+                                                <StackPanel Orientation="Horizontal">
+                                                    <Image Width="10" Height="10"/>
+                                                    <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
+                                                    <TextBlock Text="Delete All"/>
+                                                </StackPanel>
+                                            </MenuItem.Header>
+                                        </MenuItem>
+                                    </ContextMenu>
+                                </ListBox.ContextMenu>
+                            </ListBox>
+                        </StackPanel>
+
+                    </Border>
+                </Grid>
+
+
             </StackPanel>
 
         </Border>

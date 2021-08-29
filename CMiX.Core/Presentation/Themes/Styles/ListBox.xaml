@@ -7,12 +7,16 @@
                 <ControlTemplate  TargetType="{x:Type ListBox}">
                     <Border
                         x:Name="Bd"
-                        Background="{DynamicResource HighDarkerColor}"
-                        Padding="2"
+                        CornerRadius="4"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="1"
+                        Padding="0"
+                        Background="{TemplateBinding Background}"
                         SnapsToDevicePixels="True">
-                        <ScrollViewer Padding="{TemplateBinding Padding}" Focusable="False">
-                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        <ScrollViewer Margin="0, 4, 0, 4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                            <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
+
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
@@ -41,7 +45,7 @@
                         <Setter.Value>
                             <ControlTemplate>
                                 <Rectangle
-                                    Margin="2"
+                                    Margin="0"
                                     SnapsToDevicePixels="True"
                                     Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
                                     StrokeDashArray="1 2"
@@ -59,9 +63,10 @@
                         x:Name="Bd"
                         Background="{TemplateBinding Background}"
                         BorderBrush="{DynamicResource HighHighDarkerColor}"
-                        BorderThickness="0, 0, 0, 1"
+                        BorderThickness="4, 0, 4, 1"
+                        CornerRadius="2"
                         SnapsToDevicePixels="True"
-                        Padding="4, 0"
+                        Padding="8, 0, 0, 0"
                         TextBlock.Foreground="{DynamicResource TextBase}">
                         <ContentPresenter
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -78,7 +83,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -86,7 +91,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>

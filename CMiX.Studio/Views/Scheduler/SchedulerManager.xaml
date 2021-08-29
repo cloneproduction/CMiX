@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="500">
 
-    <StackPanel>
+    <StackPanel >
         <Border VerticalAlignment="Center"
                     Padding="8"
                     DockPanel.Dock="Top"
@@ -17,49 +17,47 @@
                            FontWeight="SemiBold" 
                            VerticalAlignment="Center"/>
         </Border>
-        <Grid DockPanel.Dock="Top">
-            <Grid.RowDefinitions>
-                <RowDefinition/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
+
+        <Border Margin="4, 0, 4, 4">
             <DockPanel HorizontalAlignment="Stretch">
-                <Grid Margin="4" DockPanel.Dock="Top">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button Height="20" 
-                        DockPanel.Dock="Top"
-                        Margin="2"
-                        Content="Add New Scheduler" 
+                <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
+                    <Button 
+                        Style="{StaticResource ButtonRoundedTop}"
+                        Height="20" 
+                        Width="20"
+                        Margin="0, 0, 0, 1"
+                        Content="+" 
                         Command="{Binding CreateSchedulerCommand}"/>
-                    <Button Height="20"
-                        Grid.Column="1"
-                        DockPanel.Dock="Top"
-                        Margin="2"
-                        Content="Delete Scheduler"
+                    <Button 
+                        Style="{StaticResource ButtonRoundedBottom}"
+                        Height="20"
+                        Width="20"
+                        Margin="0, 1, 0, 0"
+                        Content="-"
                         Command="{Binding DeleteSchedulerCommand}"/>
-                </Grid>
-
-                <ListBox Margin="2"
-                    ItemsSource="{Binding Project.CompositionSchedulers}"
-                    SelectedItem="{Binding SelectedScheduler}"
-                    SelectedIndex="{Binding SelectedSchedulerIndex}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Height="30" >
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
+                </StackPanel>
+                <Border >
+                    <ListBox
+                        BorderBrush="{DynamicResource DarkerColor}"
+                        MaxHeight="100"
+                        Background="{DynamicResource HighHighDarkerColor}"
+                            ItemsSource="{Binding CompositionSchedulers}"
+                            SelectedItem="{Binding SelectedScheduler}"
+                            SelectedIndex="{Binding SelectedSchedulerIndex}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Height="25" >
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
             </DockPanel>
-
-
-        </Grid>
-        <local:JobEditor DataContext="{Binding JobEditor}" Margin="8"/>
-        <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2" Margin="8" DataContext="{Binding PlaylistEditor}"/>
-
+        </Border>
+        <local:JobEditor DataContext="{Binding JobEditor}" />
+        <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding PlaylistEditor}"/>
+        <local:Overview Grid.Row="1"  DataContext="{Binding SelectedScheduler}"/>
     </StackPanel>
 
         <!--<Border Grid.Column="2" Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}">

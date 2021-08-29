@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduler;
-using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -12,15 +10,13 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class PlaylistEditor : ObservableObject
     {
-        public PlaylistEditor(IProject project)
+        public PlaylistEditor()
         {
-            Project = project;
 
             Playlists = new ObservableCollection<Playlist>();
 
             NewPlaylistCommand = new RelayCommand(NewPlaylist);
             DeletePlaylistCommand = new RelayCommand(DeletePlaylist);
-
             DeleteSelectedCompoCommand = new RelayCommand(DeleteSelectedCompo);
             DeleteAllCompoCommand = new RelayCommand(DeleteAllCompo);
             AddCompositionToPlaylistCommand = new RelayCommand<Composition>(AddCompositionToPlaylist);
@@ -38,7 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public ICommand DeleteAllCompoCommand { get; set; }
 
 
-        public IProject Project { get; set; }
         public ObservableCollection<Playlist> Playlists { get; set; }
 
 
@@ -104,20 +99,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             Playlists.Remove(SelectedPlaylist);
             if (Playlists.Count == 0)
                 plCreateIndex = 0;
-        }
-
-
-        public void SetViewModel(IModel model)
-        {
-            PlaylistEditorModel playlistEditorModel = model as PlaylistEditorModel;
-            //this.ID = playlistEditorModel.ID;
-        }
-
-        public IModel GetModel()
-        {
-            PlaylistEditorModel playlistEditorModel = new PlaylistEditorModel();
-            //playlistEditorModel.ID = this.ID;
-            return playlistEditorModel;
         }
     }
 }
