@@ -342,7 +342,7 @@
                         x:Name="mainBorder"
                         Height="25"
                         Background="{DynamicResource HighDarkerColor}" >
-                        <Grid SnapsToDevicePixels="False">
+                        <Grid Margin="16, 0, 0, 0" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="19"/>
                                 <ColumnDefinition Width="*"/>
@@ -374,7 +374,7 @@
         </Setter>
     </Style>
     
-    <Style x:Key="ExpanderBase" TargetType="{x:Type Expander}">
+    <Style TargetType="{x:Type Expander}">
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>

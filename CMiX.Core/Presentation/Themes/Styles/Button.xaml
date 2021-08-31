@@ -56,6 +56,38 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ButtonListBoxItem" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="border"
+                        Margin="0"
+                        Opacity="0.6"
+                        Padding="1"
+                        Background="Transparent"
+                        SnapsToDevicePixels="True">
+                        <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+                            <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
+                        </Viewbox>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="1.0"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="1.0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="ButtonImage" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Template">
             <Setter.Value>

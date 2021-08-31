@@ -41,9 +41,9 @@
                         BorderBrush="{DynamicResource DarkerColor}"
                         MaxHeight="100"
                         Background="{DynamicResource HighHighDarkerColor}"
-                            ItemsSource="{Binding CompositionSchedulers}"
-                            SelectedItem="{Binding SelectedScheduler}"
-                            SelectedIndex="{Binding SelectedSchedulerIndex}">
+                        ItemsSource="{Binding CompositionSchedulers}"
+                        SelectedItem="{Binding SelectedScheduler}"
+                        SelectedIndex="{Binding SelectedSchedulerIndex}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Height="25" >
@@ -59,10 +59,4 @@
         <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding PlaylistEditor}"/>
         <local:Overview Grid.Row="1"  DataContext="{Binding SelectedScheduler}"/>
     </StackPanel>
-
-        <!--<Border Grid.Column="2" Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}">
-            <local:CompositionScheduler DataContext="{Binding SelectedScheduler}"/>
-        </Border>-->
-
-
 </UserControl>

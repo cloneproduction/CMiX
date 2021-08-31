@@ -20,6 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             DeleteSelectedCompoCommand = new RelayCommand(DeleteSelectedCompo);
             DeleteAllCompoCommand = new RelayCommand(DeleteAllCompo);
             AddCompositionToPlaylistCommand = new RelayCommand<Composition>(AddCompositionToPlaylist);
+            RemoveCompositionFromPlaylistCommand = new RelayCommand<Composition>(RemoveCompositionFromPlaylist);
         }
 
 
@@ -27,6 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
 
         public ICommand AddCompositionToPlaylistCommand { get; set; }
+        public ICommand RemoveCompositionFromPlaylistCommand { get; set; }
         public ICommand NewPlaylistCommand { get; set; }
         public ICommand DeletePlaylistCommand { get; set; }
         public ICommand DeleteSelectedCompoCommand { get; set; }
@@ -66,6 +68,14 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
                 SelectedPlaylist.Compositions.Add(composition);
                 DropDownOpen = false;
                 Console.WriteLine("Composition added to playlist " + SelectedPlaylist.Name);
+            }
+        }
+
+        public void RemoveCompositionFromPlaylist(Composition composition)
+        {
+            if (composition != null)
+            {
+                SelectedPlaylist.Compositions.Remove(composition);
             }
         }
 

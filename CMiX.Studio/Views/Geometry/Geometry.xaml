@@ -48,7 +48,7 @@
 
             <Views:GeometryPathSelector DataContext="{Binding GeometrySelector}"/>
 
-            <Expander Margin="0, 2" IsExpanded="True" Header="Transform" Style="{StaticResource ExpanderBase}">
+            <Expander Margin="0, 2" IsExpanded="True" Header="Transform" >
                 <Views:Transform 
                     Margin="0, 2" 
                     DockPanel.Dock="Bottom" 

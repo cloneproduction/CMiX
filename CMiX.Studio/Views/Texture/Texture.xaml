@@ -81,7 +81,7 @@
             </Border>
             <!-- DataContext="{Binding Path=DataContext.CurrentProject, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"-->
             <Views:TexturePathSelector DataContext="{Binding TextureSelector}"/>
-            <Expander IsExpanded="True" Margin="0, 2" Header="Transform" Style="{StaticResource ExpanderBase}">
+            <Expander IsExpanded="True" Margin="0, 2" Header="Transform">
                 <StackPanel>
                     <Border Margin="0, 4" Style="{StaticResource BorderContainer}">
                         <StackPanel>
@@ -161,7 +161,7 @@
                     </Border>
                 </StackPanel>
             </Expander>
-            <Expander IsExpanded="True" Margin="0, 2" Padding="8" Header="Color" Style="{StaticResource ExpanderBase}">
+            <Expander IsExpanded="True" Margin="0, 2" Padding="8" Header="Color">
                 <StackPanel>
 
                     <Border

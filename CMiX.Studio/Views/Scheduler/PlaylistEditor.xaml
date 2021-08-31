@@ -18,7 +18,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Expander Header="Playlists" IsExpanded="True" Style="{StaticResource ExpanderBase}">
+    <Expander Header="Playlists" IsExpanded="True">
         <Border Padding="4">
             <StackPanel>
                 <Grid>
@@ -28,47 +28,45 @@
                     </Grid.RowDefinitions>
 
                     <DockPanel HorizontalAlignment="Stretch">
-                            <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
-                                <Button 
+                        <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
+                            <Button 
                                     Style="{StaticResource ButtonRoundedTop}"
                                     Height="20" 
                                     Width="20"
                                     Margin="0, 0, 0, 1"
                                     Content="+" 
                                     Command="{Binding NewPlaylistCommand}"/>
-                                <Button 
+                            <Button 
                                     Style="{StaticResource ButtonRoundedBottom}"
                                     Height="20"
                                     Width="20"
                                     Margin="0, 1, 0, 0"
                                     Content="-"
                                     Command="{Binding DeletePlaylistCommand}"/>
-                            </StackPanel>
-                            <Border >
-                                <ListBox
+                        </StackPanel>
+                        <Border >
+                            <ListBox
                                     BorderBrush="{DynamicResource DarkerColor}"
                                     MaxHeight="100"
                                     Background="{DynamicResource HighHighDarkerColor}"
                                     ItemsSource="{Binding Playlists}"
                                     SelectedItem="{Binding SelectedPlaylist}"
                                     SelectedIndex="{Binding SelectedSchedulerIndex}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Height="25" >
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </Border>
-                        </DockPanel>
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Height="25" >
+                                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </Border>
+                    </DockPanel>
 
-                    
-                    
                     <Border Visibility="{Binding SelectedPlaylist, Converter={StaticResource NullToVisibility}}" 
                             HorizontalAlignment="Stretch" 
                             Margin="0, 8" 
-                            Grid.Row="1" >
+                            Grid.Row="1">
                         <StackPanel>
                             <Grid>
                                 <ToggleButton x:Name="PopUpToggle" 
@@ -132,8 +130,17 @@
                                 ItemsSource="{Binding SelectedPlaylist.Compositions}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Height="30" >
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                        <Border Height="25" >
+                                            <DockPanel>
+                                                <Button 
+                                                    DockPanel.Dock="Right" 
+                                                    Content="✕" 
+                                                    Width="30" 
+                                                    Style="{StaticResource ButtonListBoxItem}"
+                                                    Command="{Binding Path=DataContext.RemoveCompositionFromPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
+                                                    CommandParameter="{Binding}"/>
+                                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                            </DockPanel>
                                         </Border>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>

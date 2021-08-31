@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Expander Header="Running Jobs" IsExpanded="True" Style="{StaticResource ExpanderBase}">
+    <Expander Header="Running Jobs" IsExpanded="True">
         <StackPanel>
             <ItemsControl ItemsSource="{Binding JobScheduler.Schedules}">
                 <ItemsControl.ItemTemplate>
