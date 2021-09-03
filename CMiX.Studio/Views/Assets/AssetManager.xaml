@@ -153,14 +153,16 @@
 
     <Border Background="{DynamicResource HighDarkerColor}">
         <DockPanel>
-            <Border VerticalAlignment="Center"
-                    Padding="8"
-                    DockPanel.Dock="Top"
-                    Height="40">
-                <TextBlock DockPanel.Dock="Left" 
-                           Text="ASSETS" 
-                           FontWeight="SemiBold" 
-                           VerticalAlignment="Center"/>
+            <Border 
+                VerticalAlignment="Center"
+                Padding="8"
+                DockPanel.Dock="Top"
+                Height="40">
+                <TextBlock 
+                    DockPanel.Dock="Left" 
+                    Text="ASSETS" 
+                    FontWeight="SemiBold" 
+                    VerticalAlignment="Center"/>
             </Border>
 
             <ComboBox DockPanel.Dock="Top"
@@ -168,12 +170,13 @@
                       SelectedItem="{Binding SelectedAssetType}"
                       ItemsSource="{Binding Source={StaticResource assetTypes}}"/>
 
-            <ListBox DockPanel.Dock="Top"
-                     SelectionMode="Extended"
+            <ListBox 
+                DockPanel.Dock="Top"
+                Background="{DynamicResource HighDarkerColor}"
+                SelectionMode="Extended"
+                dd:DragDrop.IsDropTarget="True"
+                dd:DragDrop.DropHandler="{Binding}">
 
-                     dd:DragDrop.IsDropTarget="True"
-                     dd:DragDrop.DropHandler="{Binding}">
-                
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource {x:Type ListBox}}">
                         <Setter Property="ItemsSource" Value="{Binding TextureAssets}"/>
@@ -190,36 +193,19 @@
 
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border VerticalAlignment="Center">
-                            <TextBlock Height="30" VerticalAlignment="Center" Padding="4" Text="{Binding Name}"/>
+                        <Border Height="25" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                            <TextBlock  Text="{Binding Name}"/>
                         </Border>
-
                     </DataTemplate>
                 </ListBox.ItemTemplate>
+                
                 <ListBox.ItemContainerStyle>
                     <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
                         <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
                     </Style>
                 </ListBox.ItemContainerStyle>
+                
             </ListBox>
-            
-            <!--<Controls:MultiSelectTreeView 
-                BorderThickness="0"
-                Style="{StaticResource TreeViewDefault}"
-                ItemTemplateSelector="{StaticResource AssetTemplateSelector}"
-                ItemContainerStyle="{StaticResource TreeViewMultiSelectItem}"
-                SelectedItems="{Binding SelectedItems, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                ScrollViewer.HorizontalScrollBarVisibility="Hidden"
-                Background="Transparent"
-                AllowDrop="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DragHandler="{Binding}"
-                dd:DragDrop.DropHandler="{Binding}"
-                ItemsSource="{Binding Assets}"
-                ContextMenu="{DynamicResource ResourceContextMenu}">
-            </Controls:MultiSelectTreeView>-->
-
         </DockPanel>
     </Border>
 </UserControl>

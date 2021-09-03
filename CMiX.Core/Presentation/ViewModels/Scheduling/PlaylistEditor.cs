@@ -12,25 +12,23 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
     {
         public PlaylistEditor()
         {
-
             Playlists = new ObservableCollection<Playlist>();
 
-            NewPlaylistCommand = new RelayCommand(NewPlaylist);
-            DeletePlaylistCommand = new RelayCommand(DeletePlaylist);
+            AddItemCommand = new RelayCommand(NewPlaylist);
+            DeleteItemCommand = new RelayCommand(DeletePlaylist);
+
             DeleteSelectedCompoCommand = new RelayCommand(DeleteSelectedCompo);
             DeleteAllCompoCommand = new RelayCommand(DeleteAllCompo);
             AddCompositionToPlaylistCommand = new RelayCommand<Composition>(AddCompositionToPlaylist);
             RemoveCompositionFromPlaylistCommand = new RelayCommand<Composition>(RemoveCompositionFromPlaylist);
         }
 
-
         int plCreateIndex = 0;
-
 
         public ICommand AddCompositionToPlaylistCommand { get; set; }
         public ICommand RemoveCompositionFromPlaylistCommand { get; set; }
-        public ICommand NewPlaylistCommand { get; set; }
-        public ICommand DeletePlaylistCommand { get; set; }
+        public ICommand AddItemCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
         public ICommand DeleteSelectedCompoCommand { get; set; }
         public ICommand DuplicateSelectedCompoCommand { get; set; }
         public ICommand DeleteAllCompoCommand { get; set; }
@@ -106,7 +104,23 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public void DeletePlaylist()
         {
-            Playlists.Remove(SelectedPlaylist);
+            int index = Playlists.IndexOf(SelectedPlaylist);
+
+            if (SelectedPlaylist != null)
+                Playlists.Remove(SelectedPlaylist);
+
+            if (index > 0)
+            {
+                SelectedPlaylist = Playlists[index - 1];
+                return;
+            }
+
+            if (index == 0 && Playlists.Count > 0)
+            {
+                SelectedPlaylist = Playlists[0];
+                return;
+            }
+
             if (Playlists.Count == 0)
                 plCreateIndex = 0;
         }

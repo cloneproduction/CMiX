@@ -21,7 +21,6 @@
                          Visibility="{Binding Data.SelectedServer, Converter={StaticResource NullToVisibility}, Source={StaticResource serverManager}}" 
                          Style="{StaticResource ContextMenuDefault}" 
                          Width="175">
-
                 <MenuItem 
                     Command="{Binding Data.SelectedServer.StartCommand}"
                     Header="Start">
@@ -86,18 +85,7 @@
                     Padding="8"
                     DockPanel.Dock="Top"
                     Height="40">
-                <DockPanel>
-                    <Button 
-                        Command="{Binding AddServerCommand}"
-                        CommandParameter="{Binding RelativeSource={RelativeSource Self}, Path=DataContext}"
-                        DockPanel.Dock="Right" 
-                        Style="{DynamicResource ButtonImage}">
-                        <Button.Content>
-                            <Image Margin="16" Source="{DynamicResource Add}"/>
-                        </Button.Content>
-                    </Button>
-                    <TextBlock DockPanel.Dock="Left" Text="NETWORK" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                </DockPanel>
+                <TextBlock DockPanel.Dock="Left" Text="NETWORK" FontWeight="SemiBold" VerticalAlignment="Center"/>
             </Border>
             
             <Grid>
@@ -105,53 +93,51 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-
-                <ListBox 
-                    Grid.Row="0"
-                    SelectedItem="{Binding SelectedServer}"
-                    Height="125"
-                    DockPanel.Dock="Top"
-                    ContextMenu="{DynamicResource MessengerManagerContextMenu}"
-                    ItemsSource="{Binding Servers}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <DockPanel>
-                                <Border DockPanel.Dock="Right">
-                                    <Ellipse 
-                                         Margin="4" 
-                                         Width="8" 
-                                         Height="8">
-                                        <Ellipse.Style>
-                                            <Style TargetType="{x:Type Ellipse}">
-                                                <Setter Property="Fill" Value="Red"/>
-                                                <Setter Property="Opacity" Value="0.7"/>
-                                                <Style.Triggers>
-                                                    <DataTrigger  Binding="{Binding ClientIsConnected}" Value="True">
-                                                        <Setter Property="Fill" Value="Green"/>
-                                                        <Setter Property="Opacity" Value="1.0"/>
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Ellipse.Style>
-                                    </Ellipse>
-                                </Border>
-                                <Border>
-                                    <Grid>
-
+                <Border Margin="4, 0, 4, 4">
+                    <ListBox 
+                            Grid.Row="0"
+                            SelectedItem="{Binding SelectedServer}"
+                            Height="125"
+                            DockPanel.Dock="Top"
+                            Style="{StaticResource ListBoxWithButton}"
+                            ContextMenu="{DynamicResource MessengerManagerContextMenu}"
+                            ItemsSource="{Binding Servers}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <DockPanel>
+                                    <Border DockPanel.Dock="Left">
+                                        <Ellipse 
+                                                 Margin="0, 4, 4, 4" 
+                                                 Width="8" 
+                                                 Height="8">
+                                            <Ellipse.Style>
+                                                <Style TargetType="{x:Type Ellipse}">
+                                                    <Setter Property="Fill" Value="Red"/>
+                                                    <Setter Property="Opacity" Value="0.7"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger  Binding="{Binding ClientIsConnected}" Value="True">
+                                                            <Setter Property="Fill" Value="Green"/>
+                                                            <Setter Property="Opacity" Value="1.0"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Ellipse.Style>
+                                        </Ellipse>
+                                    </Border>
+                                    <Border>
                                         <Controls:EditableTextBox   
                                             IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                             Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             DockPanel.Dock="Left" 
-                                            Height="30" 
+                                            Height="25" 
                                             Padding="4" 
                                             VerticalAlignment="Center" />
-                                    </Grid>
-                                </Border>
-                            </DockPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
+                                    </Border>
+                                </DockPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
 
                 <Border Grid.Row="1" Visibility="{Binding SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
                     <Views:Server DataContext="{Binding SelectedServer}" Margin="4"/>

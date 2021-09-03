@@ -19,41 +19,20 @@
         </Border>
 
         <Border Margin="4, 0, 4, 4">
-            <DockPanel HorizontalAlignment="Stretch">
-                <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
-                    <Button 
-                        Style="{StaticResource ButtonRoundedTop}"
-                        Height="20" 
-                        Width="20"
-                        Margin="0, 0, 0, 1"
-                        Content="+" 
-                        Command="{Binding CreateSchedulerCommand}"/>
-                    <Button 
-                        Style="{StaticResource ButtonRoundedBottom}"
-                        Height="20"
-                        Width="20"
-                        Margin="0, 1, 0, 0"
-                        Content="-"
-                        Command="{Binding DeleteSchedulerCommand}"/>
-                </StackPanel>
-                <Border >
-                    <ListBox
-                        BorderBrush="{DynamicResource DarkerColor}"
-                        MaxHeight="100"
-                        Background="{DynamicResource HighHighDarkerColor}"
-                        ItemsSource="{Binding CompositionSchedulers}"
-                        SelectedItem="{Binding SelectedScheduler}"
-                        SelectedIndex="{Binding SelectedSchedulerIndex}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Height="25" >
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Border>
-            </DockPanel>
+            <ListBox
+                MaxHeight="100"
+                Style="{StaticResource ListBoxWithButton}"
+                ItemsSource="{Binding CompositionSchedulers}"
+                SelectedItem="{Binding SelectedScheduler}"
+                SelectedIndex="{Binding SelectedSchedulerIndex}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border Height="25" >
+                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
         </Border>
         <local:JobEditor DataContext="{Binding JobEditor}" />
         <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding PlaylistEditor}"/>

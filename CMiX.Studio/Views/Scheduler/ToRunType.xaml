@@ -21,7 +21,6 @@
                 Foreground="{DynamicResource TextBase}"
                 Text="Run Type"/>
             <ComboBox 
-                
                 Grid.Column="1"
                 ItemsSource="{Binding ToRunTypes}"
                 SelectedItem="{Binding SelectedToRunType}">

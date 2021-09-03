@@ -23,62 +23,21 @@
                            FontWeight="SemiBold" 
                            VerticalAlignment="Center"/>
             </Border>
-            <!--<ItemsControl Margin="0, 0, 0, 8" MinHeight="100"
-                 ItemsSource="{Binding Components}" >
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Border Height="30">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.9*"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="4" Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
-                                <ComboBox 
-                                    Grid.Column="1"
-                                    ItemsSource="{Binding Path=DataContext.MasterBeats, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Beat:BeatManager}}}"
-                                    SelectedItem="{Binding MasterBeat}">
-                                    <ComboBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <TextBlock Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
-                                        </DataTemplate>
-                                    </ComboBox.ItemTemplate>
-                                </ComboBox>
-
-
-                            </Grid>
-
-                        </Border>
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>-->
-            <Grid Margin="0, 0, 0, 4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Button Height="25" Content="Add Beat"                 Margin="0, 0, 1, 0"  Command="{Binding AddBeatCommand}"/>
-                <Button Height="25" 
-                        Grid.Column="1"
-                        Content="Delete Beat"  
-                        Margin="0, 0, 1, 0" 
-                        Command="{Binding DeleteBeatCommand}"
-                        CommandParameter="{Binding SelectedMasterBeat}"/>
-            </Grid>
-
             <ListBox MinHeight="100"
-                 ItemsSource="{Binding MasterBeats}" 
-                 SelectedItem="{Binding SelectedMasterBeat}">
+                     Style="{StaticResource ListBoxWithButton}"
+                     ItemsSource="{Binding MasterBeats}" 
+                     SelectedItem="{Binding SelectedMasterBeat}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Height="30">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Center" Padding="4" Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
+                        <Border Height="25">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Padding="4" Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
 
             <Border 
+                Margin="0, 8"
                 Background="{StaticResource HighDarkerColor}"
                 Visibility="{Binding SelectedMasterBeat,  Converter={StaticResource NullToVisibilityConverter}, ConverterParameter={x:Static Visibility.Collapsed}}">
 

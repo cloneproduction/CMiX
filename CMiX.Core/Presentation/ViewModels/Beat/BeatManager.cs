@@ -20,8 +20,8 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Project = project;
             MasterBeats = new ObservableCollection<MasterBeat>();
 
-            AddBeatCommand = new RelayCommand(CreateBeat);
-            DeleteBeatCommand = new RelayCommand<MasterBeat>(DeleteBeat);
+            AddItemCommand = new RelayCommand(CreateBeat);
+            DeleteItemCommand = new RelayCommand(DeleteBeat);
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -38,8 +38,8 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public ICommand TapCommand { get; }
         public ICommand ResyncCommand { get; }
 
-        public ICommand AddBeatCommand { get; set; }
-        public ICommand DeleteBeatCommand { get; set; }
+        public ICommand AddItemCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
 
 
         public ObservableCollection<MasterBeat> MasterBeats { get; set; }
@@ -64,9 +64,24 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             MasterBeats.Add(masterBeat);
         }
 
-        public void DeleteBeat(MasterBeat masterBeat)
+        public void DeleteBeat()
         {
-            MasterBeats.Remove(masterBeat);
+            int index = MasterBeats.IndexOf(SelectedMasterBeat);
+
+            if(SelectedMasterBeat != null)
+                MasterBeats.Remove(SelectedMasterBeat);
+
+            if (index > 0)
+            {
+                SelectedMasterBeat = MasterBeats[index - 1];
+                return;
+            }
+
+            if (index == 0 && MasterBeats.Count > 0)
+            {
+                SelectedMasterBeat = MasterBeats[0];
+                return;
+            }
         }
 
 

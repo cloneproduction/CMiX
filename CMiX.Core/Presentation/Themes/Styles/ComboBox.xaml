@@ -34,13 +34,14 @@
                                     x:Name="DropDownBorder"
                                     Padding="0, 4"
                                     CornerRadius="{DynamicResource CornerRadiusDefault}"
-                                    Background="{DynamicResource DarkerColor}">
+
+                                    Background="{DynamicResource HighDarkerColor}">
                                     <Border.Effect>
                                         <DropShadowEffect BlurRadius="8" Direction="-90" Opacity="1.0" RenderingBias="Performance" ShadowDepth="0"/>
                                     </Border.Effect>
                                     <ScrollViewer 
-                                    x:Name="DropDownScrollViewer"
-                                    VerticalScrollBarVisibility="Auto">
+                                        x:Name="DropDownScrollViewer"
+                                        VerticalScrollBarVisibility="Auto">
                                         <Grid x:Name="grid" 
                                           RenderOptions.ClearTypeHint="Enabled">
                                             <Canvas
@@ -101,6 +102,8 @@
                                                     x:Name="templateRoot"
                                                     Margin="0"
                                                     Background="{DynamicResource DarkColor}"
+                                                    BorderThickness="0, 0, 1, 1"
+                                                    BorderBrush="{DynamicResource HighDarkerColor}"
                                                     SnapsToDevicePixels="True">
                                                     <Path
                                                         x:Name="Arrow"

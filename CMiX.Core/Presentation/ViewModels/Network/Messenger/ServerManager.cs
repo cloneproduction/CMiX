@@ -19,16 +19,16 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 
             ServerFactory = new ServerFactory();
 
-            AddServerCommand = new RelayCommand(AddServer);
-            DeleteServerCommand = new RelayCommand<Server>(DeleteServer);
+            AddItemCommand = new RelayCommand(AddServer);
+            DeleteItemCommand = new RelayCommand(DeleteServer);
             RenameServerCommand = new RelayCommand<Server>(RenameServer);
             EditMessengerSettingsCommand = new RelayCommand<Server>(EditMessengerSettings);
         }
 
 
         public ICommand EditMessengerSettingsCommand { get; }
-        public ICommand AddServerCommand { get; set; }
-        public ICommand DeleteServerCommand { get; set; }
+        public ICommand AddItemCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
         public ICommand RenameServerCommand { get; set; }
         private IDialogService DialogService { get; set; }
 
@@ -65,12 +65,12 @@ namespace CMiX.Core.Presentation.ViewModels.Network
             MessageService.Servers.Add(messenger);
         }
 
-        private void DeleteServer(Server server)
+        private void DeleteServer()
         {
-            if (server != null)
+            if (SelectedServer != null)
             {
-                server.Stop();
-                MessageService.Servers.Remove(server);
+                SelectedServer.Stop();
+                MessageService.Servers.Remove(SelectedServer);
 
                 if (MessageService.Servers.Count > 0)
                 {

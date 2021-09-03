@@ -2,7 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle">
+        <!--<Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>
                     <Setter Property="Control.Template">
@@ -18,7 +18,7 @@
                     </Setter>
                 </Style>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         <Setter Property="Background" Value="{DynamicResource DarkColor}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -186,6 +186,8 @@
                         CornerRadius="2"
                         x:Name="border"
                         Margin="0"
+                        BorderBrush="{DynamicResource HighDarkerColor}"
+                        BorderThickness="0, 0, 1, 1"
                         Background="{DynamicResource Color}"
                         SnapsToDevicePixels="True">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">

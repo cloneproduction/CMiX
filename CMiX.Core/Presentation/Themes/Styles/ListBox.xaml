@@ -1,15 +1,20 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Basic/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Button.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+    
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
                     <Border
                         x:Name="Bd"
-                        CornerRadius="4"
+                        CornerRadius="0"
                         BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="1"
+                        BorderThickness="0"
                         Padding="0"
                         Background="{TemplateBinding Background}"
                         SnapsToDevicePixels="True">
@@ -111,6 +116,56 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ListBoxWithButton" TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="{DynamicResource HighHighDarkerColor}"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource DarkerColor}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate  TargetType="{x:Type ListBox}">
+                    <DockPanel HorizontalAlignment="Stretch">
+                        <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
+                            <Button 
+                                Style="{StaticResource ButtonRoundedTop}"
+                                Height="20" 
+                                Width="20"
+                                Margin="0, 0, 0, 1"
+                                Content="+" 
+                                Command="{Binding AddItemCommand}"/>
+                            <Button 
+                                Style="{StaticResource ButtonRoundedBottom}"
+                                Height="20"
+                                Width="20"
+                                Margin="0, 1, 0, 0"
+                                Content="-"
+                                Command="{Binding DeleteItemCommand}"/>
+                        </StackPanel>
+                        <Border
+                            x:Name="Bd"
+                            CornerRadius="4"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="1"
+                            Padding="0"
+                            Background="{TemplateBinding Background}"
+                            SnapsToDevicePixels="True">
+                            <ScrollViewer Margin="0, 4, 0, 4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                                <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
+                        </Border>
+                    </DockPanel>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Background" Value="White" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD9D9D9" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style x:Key="LayerListBox" TargetType="{x:Type ListBox}">
         <Setter Property="Template">
             <Setter.Value>

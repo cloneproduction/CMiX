@@ -25,13 +25,13 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             Messenger.Register(this, MessageType.In);
 
             IsActive = true;
-            CreateSchedulerCommand = new RelayCommand(CreateScheduler);
-            DeleteSchedulerCommand = new RelayCommand(DeleteScheduler);
+            AddItemCommand = new RelayCommand(CreateScheduler);
+            DeleteItemCommand = new RelayCommand(DeleteScheduler);
         }
 
 
-        public ICommand CreateSchedulerCommand { get; set; }
-        public ICommand DeleteSchedulerCommand { get; set; }
+        public ICommand AddItemCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
 
 
         public PlaylistEditor PlaylistEditor { get; set; }
@@ -88,8 +88,22 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public void DeleteScheduler()
         {
-            CompositionSchedulers.Remove(SelectedScheduler);
-            SelectedScheduler = null;
+            int index = CompositionSchedulers.IndexOf(SelectedScheduler);
+
+            if (SelectedScheduler != null)
+                CompositionSchedulers.Remove(SelectedScheduler);
+
+            if (index > 0)
+            {
+                SelectedScheduler = CompositionSchedulers[index - 1];
+                return;
+            }
+
+            if (index == 0 && CompositionSchedulers.Count > 0)
+            {
+                SelectedScheduler = CompositionSchedulers[0];
+                return;
+            }
         }
 
 

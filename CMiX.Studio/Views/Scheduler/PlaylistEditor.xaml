@@ -27,41 +27,20 @@
                         <RowDefinition/>
                     </Grid.RowDefinitions>
 
-                    <DockPanel HorizontalAlignment="Stretch">
-                        <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
-                            <Button 
-                                    Style="{StaticResource ButtonRoundedTop}"
-                                    Height="20" 
-                                    Width="20"
-                                    Margin="0, 0, 0, 1"
-                                    Content="+" 
-                                    Command="{Binding NewPlaylistCommand}"/>
-                            <Button 
-                                    Style="{StaticResource ButtonRoundedBottom}"
-                                    Height="20"
-                                    Width="20"
-                                    Margin="0, 1, 0, 0"
-                                    Content="-"
-                                    Command="{Binding DeletePlaylistCommand}"/>
-                        </StackPanel>
-                        <Border >
-                            <ListBox
-                                    BorderBrush="{DynamicResource DarkerColor}"
-                                    MaxHeight="100"
-                                    Background="{DynamicResource HighHighDarkerColor}"
-                                    ItemsSource="{Binding Playlists}"
-                                    SelectedItem="{Binding SelectedPlaylist}"
-                                    SelectedIndex="{Binding SelectedSchedulerIndex}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Height="25" >
-                                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                                        </Border>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Border>
-                    </DockPanel>
+                    <ListBox
+                        Style="{StaticResource ListBoxWithButton}"
+                        MaxHeight="100"
+                        ItemsSource="{Binding Playlists}"
+                        SelectedItem="{Binding SelectedPlaylist}"
+                        SelectedIndex="{Binding SelectedSchedulerIndex}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Height="25" >
+                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
                     <Border Visibility="{Binding SelectedPlaylist, Converter={StaticResource NullToVisibility}}" 
                             HorizontalAlignment="Stretch" 
