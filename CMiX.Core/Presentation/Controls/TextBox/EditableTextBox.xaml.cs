@@ -63,14 +63,6 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-        public static readonly DependencyProperty CanEditProperty =
-        DependencyProperty.Register("CanEdit", typeof(bool), typeof(EditableTextBox), new UIPropertyMetadata(false));
-        public bool CanEdit
-        {
-            get { return (bool)GetValue(CanEditProperty); }
-            set { SetValue(CanEditProperty, value); }
-        }
-
 
         [Bindable(true)]
         public static readonly DependencyProperty TextProperty =

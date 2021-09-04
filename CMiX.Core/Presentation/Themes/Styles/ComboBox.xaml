@@ -34,7 +34,6 @@
                                     x:Name="DropDownBorder"
                                     Padding="0, 4"
                                     CornerRadius="{DynamicResource CornerRadiusDefault}"
-
                                     Background="{DynamicResource HighDarkerColor}">
                                     <Border.Effect>
                                         <DropShadowEffect BlurRadius="8" Direction="-90" Opacity="1.0" RenderingBias="Performance" ShadowDepth="0"/>
@@ -43,13 +42,13 @@
                                         x:Name="DropDownScrollViewer"
                                         VerticalScrollBarVisibility="Auto">
                                         <Grid x:Name="grid" 
-                                          RenderOptions.ClearTypeHint="Enabled">
+                                                RenderOptions.ClearTypeHint="Enabled">
                                             <Canvas
-                                            x:Name="canvas"
-                                            Width="0"
-                                            Height="0"
-                                            HorizontalAlignment="Left"
-                                            VerticalAlignment="Top">
+                                                x:Name="canvas"
+                                                Width="0"
+                                                Height="0"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Top">
                                                 <Rectangle
                                                 x:Name="OpaqueRect"
                                                 Width="{Binding ActualWidth, ElementName=DropDownBorder}"
@@ -57,9 +56,9 @@
                                                 Fill="{Binding Background, ElementName=DropDownBorder}"/>
                                             </Canvas>
                                             <ItemsPresenter
-                                            x:Name="ItemsPresenter"
-                                            KeyboardNavigation.DirectionalNavigation="Contained"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                                x:Name="ItemsPresenter"
+                                                KeyboardNavigation.DirectionalNavigation="Contained"
+                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                         </Grid>
                                     </ScrollViewer>
                                 </Border>

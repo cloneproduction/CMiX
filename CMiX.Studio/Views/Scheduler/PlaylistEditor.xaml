@@ -8,6 +8,7 @@
              xmlns:local ="clr-namespace:CMiX.Studio.Views.Scheduler"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              x:Name="playlistEditor"
              xmlns:dd="urn:gong-wpf-dragdrop" d:DesignWidth="310.667" d:DesignHeight="228">
@@ -35,8 +36,20 @@
                         SelectedIndex="{Binding SelectedSchedulerIndex}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Border Height="25" >
-                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                <Border Height="25">
+                                    <Controls:EditableTextBox 
+                                        x:Name="editableTextBox"
+                                        IsEditing="{Binding IsRenaming}"
+                                        VerticalAlignment="Center" 
+                                        Text="{Binding Name}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDoubleClick">
+                                                <i:InvokeCommandAction 
+                                                    Command="{Binding RenameCommand}"
+                                                    CommandParameter="{Binding}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Controls:EditableTextBox>
                                 </Border>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

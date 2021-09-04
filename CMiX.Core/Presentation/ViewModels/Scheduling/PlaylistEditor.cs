@@ -25,6 +25,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         int plCreateIndex = 0;
 
+
         public ICommand AddCompositionToPlaylistCommand { get; set; }
         public ICommand RemoveCompositionFromPlaylistCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
@@ -32,7 +33,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public ICommand DeleteSelectedCompoCommand { get; set; }
         public ICommand DuplicateSelectedCompoCommand { get; set; }
         public ICommand DeleteAllCompoCommand { get; set; }
-
 
         public ObservableCollection<Playlist> Playlists { get; set; }
 
@@ -88,8 +88,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             if (SelectedPlaylist != null)
                 SelectedPlaylist.Compositions.Clear();
         }
-
-
 
         public void NewPlaylist()
         {

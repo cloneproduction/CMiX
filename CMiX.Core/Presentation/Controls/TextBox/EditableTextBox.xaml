@@ -12,7 +12,7 @@
             x:Name="TextDisplay" 
             VerticalAlignment="Center"
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}" />
-            
+
         <TextBox
             x:Name="InputValue" 
             SelectionBrush="{StaticResource SuperHighLightColor}"
