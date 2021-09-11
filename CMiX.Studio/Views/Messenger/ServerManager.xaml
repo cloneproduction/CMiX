@@ -94,15 +94,16 @@
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Border Margin="4, 0, 4, 4">
-                    <ListBox 
+                    <Controls:CMiXListBox 
                             Grid.Row="0"
                             SelectedItem="{Binding SelectedServer}"
                             Height="125"
                             DockPanel.Dock="Top"
                             Style="{StaticResource ListBoxWithButton}"
                             ContextMenu="{DynamicResource MessengerManagerContextMenu}"
-                            ItemsSource="{Binding Servers}">
-                        <ListBox.ItemTemplate>
+                            ItemsSource="{Binding Servers}"
+                            ItemContainerStyle="{StaticResource CMiXListBoxItemStyle}">
+                        <!--<ListBox.ItemTemplate>
                             <DataTemplate>
                                 <DockPanel>
                                     <Border DockPanel.Dock="Left">
@@ -125,18 +126,20 @@
                                         </Ellipse>
                                     </Border>
                                     <Border>
-                                        <Controls:EditableTextBox   
+                                        <Controls:CMiXListBoxItem 
+                                            Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        --><!--<Controls:EditableTextBox   
                                             IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
                                             Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                                             DockPanel.Dock="Left" 
                                             Height="25" 
                                             Padding="4" 
-                                            VerticalAlignment="Center" />
+                                            VerticalAlignment="Center" />--><!--
                                     </Border>
                                 </DockPanel>
                             </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                        </ListBox.ItemTemplate>-->
+                    </Controls:CMiXListBox>
                 </Border>
 
                 <Border Grid.Row="1" Visibility="{Binding SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">

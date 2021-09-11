@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -17,22 +16,14 @@ namespace CMiX.Core.Presentation.Controls
             InitializeComponent();
             InputValue.Visibility = Visibility.Hidden;
             TextDisplay.Visibility = Visibility.Visible;
+            this.MouseDoubleClick += EditableTextBox_MouseDoubleClick;
         }
 
-        public event EventHandler MyCustomClickEvent;
-
-
-        //This method is used to raise the event, when the event should be raised, 
-        //this method will check to see if there are any subscribers, if there are, 
-        //it raises the event
-        protected virtual void OnMyCustomClickEvent(EventArgs e)
+        private void EditableTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            // Here, you use the "this" so it's your own control. You can also
-            // customize the EventArgs to pass something you'd like.
-
-            if (MyCustomClickEvent != null)
-                MyCustomClickEvent(this, e);
+            this.OnSwitchToEditingMode();
         }
+
 
         #region PROPERTIES
         public static readonly DependencyProperty IsEditingProperty =
@@ -64,7 +55,6 @@ namespace CMiX.Core.Presentation.Controls
 
 
 
-        [Bindable(true)]
         public static readonly DependencyProperty TextProperty =
         DependencyProperty.Register("Text", typeof(string), typeof(EditableTextBox), new UIPropertyMetadata(new PropertyChangedCallback(TextProperty_PropertyChanged)));
         public string Text
@@ -90,7 +80,6 @@ namespace CMiX.Core.Presentation.Controls
         {
             if (e.Key == Key.Escape || e.Key == Key.Enter)
             {
-                Console.WriteLine("KeyDown");
                 OnSwitchToNormalMode();
                 e.Handled = true;
                 return;
@@ -112,7 +101,7 @@ namespace CMiX.Core.Presentation.Controls
         public void OnMouseDownOutsideElement(object sender, MouseButtonEventArgs e)
         { 
             OnSwitchToNormalMode();
-            e.Handled = true;
+            //e.Handled = true;
         }
         #endregion
 
@@ -120,8 +109,7 @@ namespace CMiX.Core.Presentation.Controls
         private void OnSwitchToEditingMode()
         {
             Mouse.Capture(this, CaptureMode.SubTree);
-            //AddHandler();
-            
+            //AddHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement), true);
             TextDisplay.Visibility = Visibility.Hidden;
             InputValue.Visibility = Visibility.Visible;
             HookItemsControlEvents();
@@ -134,42 +122,24 @@ namespace CMiX.Core.Presentation.Controls
             TextDisplay.Text = InputValue.Text;
             TextDisplay.Visibility = Visibility.Visible;
             InputValue.Visibility = Visibility.Hidden;
-            Mouse.RemovePreviewMouseDownOutsideCapturedElementHandler(this, OnMouseDownOutsideElement);
+            //RemoveHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement));
             Mouse.Capture(null);
             Keyboard.ClearFocus();
         }
 
         private void HookItemsControlEvents()
         {
-            //CaptureMouse();
-            Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnMouseDownOutsideElement);
+            //this.AddHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new RoutedEventHandler((s, e) => this.OnSwitchToNormalMode()));
+            //Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnMouseDownOutsideElement);
             _ParentItemsControl = this.GetDpObjectFromVisualTree(this, typeof(Window)) as Window;
             if (_ParentItemsControl != null)
             {
-                // Handle events on parent control and determine whether to switch to Normal mode or stay in editing mode
-                //_ParentItemsControl.AddHandler(ScrollViewer.ScrollChangedEvent, new RoutedEventHandler(this.OnScrollViewerChanged));
                 _ParentItemsControl.AddHandler(ScrollViewer.MouseWheelEvent, new RoutedEventHandler((s, e) => this.OnSwitchToNormalMode()), true);
-
-                _ParentItemsControl.MouseDown += new MouseButtonEventHandler((s, e) => this.OnSwitchToNormalMode());
+                //_ParentItemsControl.MouseDown += new MouseButtonEventHandler((s, e) => this.OnSwitchToNormalMode());
                 _ParentItemsControl.SizeChanged += new SizeChangedEventHandler((s, e) => this.OnSwitchToNormalMode());
-
-                // Restrict text box to visible area of scrollviewer
-                //this.ParentScrollViewer = this.GetDpObjectFromVisualTree(_ParentItemsControl, typeof(ScrollViewer)) as ScrollViewer;
-
-                //if (this.ParentScrollViewer == null)
-                //    this.ParentScrollViewer = FindVisualChild<ScrollViewer>(_ParentItemsControl);
-
-                //Debug.Assert(this.ParentScrollViewer != null, "DEBUG ISSUE: No ScrollViewer found.");
-
-                //if (this.ParentScrollViewer != null)
-                //    _TextBox.MaxWidth = this.ParentScrollViewer.ViewportWidth;
             }
         }
 
-        private void AddHandler()
-        {
-            AddHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement), true);
-        }
 
         private DependencyObject GetDpObjectFromVisualTree(DependencyObject startObject, Type type)
         {

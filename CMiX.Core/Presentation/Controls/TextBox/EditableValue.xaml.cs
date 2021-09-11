@@ -18,22 +18,6 @@ namespace CMiX.Core.Presentation.Controls
             TextDisplay.Visibility = Visibility.Visible;
         }
 
-        //public event EventHandler MyCustomClickEvent;
-
-
-        ////This method is used to raise the event, when the event should be raised, 
-        ////this method will check to see if there are any subscribers, if there are, 
-        ////it raises the event
-        //protected virtual void OnMyCustomClickEvent(EventArgs e)
-        //{
-        //    // Here, you use the "this" so it's your own control. You can also
-        //    // customize the EventArgs to pass something you'd like.
-
-        //    if (MyCustomClickEvent != null)
-        //        MyCustomClickEvent(this, e);
-        //}
-
-        #region PROPERTIES
         public static readonly DependencyProperty IsEditingProperty =
         DependencyProperty.Register("IsEditing", typeof(bool), typeof(EditableValue), new UIPropertyMetadata(false, new PropertyChangedCallback(IsEditing_PropertyChanged)));
         public bool IsEditing
@@ -66,10 +50,6 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-        public Window _ParentItemsControl { get; set; }
-        #endregion
-
-        #region EVENTS
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Escape || e.Key == Key.Enter)
@@ -97,9 +77,9 @@ namespace CMiX.Core.Presentation.Controls
             OnSwitchToNormalMode();
             e.Handled = true;
         }
-        #endregion
 
-        #region PRIVATE METHODS
+
+
         private void OnSwitchToEditingMode()
         {
             this.CaptureMouse();
@@ -109,7 +89,6 @@ namespace CMiX.Core.Presentation.Controls
             InputValue.Visibility = Visibility.Visible;
             InputValue.Focus();
             InputValue.SelectAll();
-            HookItemsControlEvents();
             Text = InputValue.Text;
         }
 
@@ -124,35 +103,9 @@ namespace CMiX.Core.Presentation.Controls
             Keyboard.ClearFocus();
         }
 
-        private void HookItemsControlEvents()
-        {
-            //CaptureMouse();
-            Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnMouseDownOutsideElement);
-            //_ParentItemsControl = this.GetDpObjectFromVisualTree(this, typeof(Window)) as Window;
-            //if (_ParentItemsControl != null)
-            //{
-            //    // Handle events on parent control and determine whether to switch to Normal mode or stay in editing mode
-            //    //_ParentItemsControl.AddHandler(ScrollViewer.ScrollChangedEvent, new RoutedEventHandler(this.OnScrollViewerChanged));
-            //    _ParentItemsControl.AddHandler(ScrollViewer.MouseWheelEvent, new RoutedEventHandler((s, e) => this.OnSwitchToNormalMode()), true);
-
-            //    _ParentItemsControl.MouseDown += new MouseButtonEventHandler((s, e) => this.OnSwitchToNormalMode());
-            //    _ParentItemsControl.SizeChanged += new SizeChangedEventHandler((s, e) => this.OnSwitchToNormalMode());
-
-            //    // Restrict text box to visible area of scrollviewer
-            //    //this.ParentScrollViewer = this.GetDpObjectFromVisualTree(_ParentItemsControl, typeof(ScrollViewer)) as ScrollViewer;
-
-            //    //if (this.ParentScrollViewer == null)
-            //    //    this.ParentScrollViewer = FindVisualChild<ScrollViewer>(_ParentItemsControl);
-
-            //    //Debug.Assert(this.ParentScrollViewer != null, "DEBUG ISSUE: No ScrollViewer found.");
-
-            //    //if (this.ParentScrollViewer != null)
-            //    //    _TextBox.MaxWidth = this.ParentScrollViewer.ViewportWidth;
-            //}
-        }
-
         private void AddHandler()
         {
+            Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnMouseDownOutsideElement);
             AddHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement), true);
         }
 
@@ -174,7 +127,7 @@ namespace CMiX.Core.Presentation.Controls
         {
             return !_regex.IsMatch(text);
         }
-        #endregion
+
 
         private void TextInput_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
