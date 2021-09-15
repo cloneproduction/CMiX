@@ -153,15 +153,66 @@
                         SnapsToDevicePixels="True"
                         Padding="8, 0, 0, 0"
                         TextBlock.Foreground="{DynamicResource TextBase}">
-                        <ContentPresenter
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Content="{TemplateBinding Content}"
-                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                        <Grid Height="25">
+                            <TextBlock 
+                                x:Name="TextDisplay" 
+                                VerticalAlignment="Center"
+                                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBlock.Style>
+                                    <Style>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                            <TextBox
+                                x:Name="TextInput" 
+                                SelectionBrush="{DynamicResource SuperHighLightColor}"
+                                CaretBrush="{DynamicResource SuperHighLightColor}"
+                                Padding="2"
+                                BorderThickness="0"
+                                VerticalAlignment="Center"
+                                Visibility="Collapsed"
+                                Background="{DynamicResource HighDarkerColor}" 
+                                Foreground="{DynamicResource ActiveTextBase}" 
+                                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                <TextBox.Style>
+                                    <Style>
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBox.Style>
+                            </TextBox>
+                        </Grid>
+                        
                     </Border>
                     <ControlTemplate.Triggers>
+                        <!--<DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                            <Setter TargetName="TextDisplay" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="TextInput" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                            <Setter TargetName="TextDisplay" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="TextInput" Property="Visibility" Value="Visible"/>
+                        </DataTrigger>-->
+                        <!--<Trigger Property="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                            <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>-->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Selector.IsSelectionActive" Value="False" />
@@ -195,10 +246,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-
-
 
 
 

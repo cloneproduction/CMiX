@@ -63,6 +63,10 @@ namespace CMiX.Core.Presentation.Controls
             set { SetValue(TextProperty, value); }
         }
 
+
+
+
+
         private static void TextProperty_PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
         {
             EditableTextBox textbox = obj as EditableTextBox;

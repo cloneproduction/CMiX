@@ -103,42 +103,6 @@
                             ContextMenu="{DynamicResource MessengerManagerContextMenu}"
                             ItemsSource="{Binding Servers}"
                             ItemContainerStyle="{StaticResource CMiXListBoxItemStyle}">
-                        <!--<ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <DockPanel>
-                                    <Border DockPanel.Dock="Left">
-                                        <Ellipse 
-                                                 Margin="0, 4, 4, 4" 
-                                                 Width="8" 
-                                                 Height="8">
-                                            <Ellipse.Style>
-                                                <Style TargetType="{x:Type Ellipse}">
-                                                    <Setter Property="Fill" Value="Red"/>
-                                                    <Setter Property="Opacity" Value="0.7"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger  Binding="{Binding ClientIsConnected}" Value="True">
-                                                            <Setter Property="Fill" Value="Green"/>
-                                                            <Setter Property="Opacity" Value="1.0"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Ellipse.Style>
-                                        </Ellipse>
-                                    </Border>
-                                    <Border>
-                                        <Controls:CMiXListBoxItem 
-                                            Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                        --><!--<Controls:EditableTextBox   
-                                            IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                            Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                                            DockPanel.Dock="Left" 
-                                            Height="25" 
-                                            Padding="4" 
-                                            VerticalAlignment="Center" />--><!--
-                                    </Border>
-                                </DockPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>-->
                     </Controls:CMiXListBox>
                 </Border>
 

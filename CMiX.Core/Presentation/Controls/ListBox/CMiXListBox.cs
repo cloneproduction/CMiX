@@ -25,6 +25,7 @@ namespace CMiX.Core.Presentation.Controls
             this.SelectionChanged += CMiXListBox_SelectionChanged;
         }
 
+
         protected override DependencyObject GetContainerForItemOverride()
         {
             return new CMiXListBoxItem();

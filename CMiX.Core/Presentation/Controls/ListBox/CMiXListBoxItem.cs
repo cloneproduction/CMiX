@@ -70,15 +70,41 @@ namespace CMiX.Core.Presentation.Controls
         private void CMiXListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             Mouse.Capture(this, CaptureMode.SubTree);
-            this.IsEditing = true;
-            HookItemsControlEvents();
+
+
+            //listBoxItem.SetCurrentValue(InputVisibilityProperty, Visibility.Collapsed);
+            //listBoxItem.SetCurrentValue(DisplayVisibilityProperty, Visibility.Collapsed);
+            //this.IsEditing = true;
+            //HookItemsControlEvents();
         }
 
 
+        public static readonly DependencyProperty TextProperty =
+        DependencyProperty.Register("Text", typeof(string), typeof(CMiXListBoxItem), new FrameworkPropertyMetadata(String.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
         public static readonly DependencyProperty IsEditingProperty =
-        DependencyProperty.Register("IsEditing", typeof(bool), typeof(CMiXListBoxItem), new UIPropertyMetadata(false, new PropertyChangedCallback(IsEditing_PropertyChanged)));
+        DependencyProperty.Register("IsEditing", typeof(bool), typeof(CMiXListBoxItem), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+
+
+        public static readonly DependencyProperty InputVisibilityProperty =
+        DependencyProperty.Register("InputVisibility", typeof(Visibility), typeof(EditableTextBox), new FrameworkPropertyMetadata(Visibility.Collapsed, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public Visibility InputVisibility
+        {
+            get { return (Visibility)GetValue(InputVisibilityProperty); }
+            set { SetValue(InputVisibilityProperty, value); }
+        }
+
+        public static readonly DependencyProperty DisplayVisibilityProperty =
+        DependencyProperty.Register("DisplayVisibility", typeof(Visibility), typeof(EditableTextBox), new FrameworkPropertyMetadata(Visibility.Visible, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public Visibility DisplayVisibility
+        {
+            get { return (Visibility)GetValue(DisplayVisibilityProperty); }
+            set { SetValue(DisplayVisibilityProperty, value); }
+        }
+
+
 
         private static void IsEditing_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
