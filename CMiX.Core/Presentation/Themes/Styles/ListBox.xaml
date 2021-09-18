@@ -6,7 +6,7 @@
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Basic/Converters.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Button.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="Template">
             <Setter.Value>
@@ -155,53 +155,48 @@
                         TextBlock.Foreground="{DynamicResource TextBase}">
 
                         <Grid Height="25">
-                            <TextBlock 
-                                x:Name="TextDisplay" 
-                                VerticalAlignment="Center"
-                                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <TextBlock.Style>
-                                    <Style>
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBlock.Style>
-                            </TextBlock>
-                            <TextBox
-                                x:Name="TextInput" 
-                                SelectionBrush="{DynamicResource SuperHighLightColor}"
-                                CaretBrush="{DynamicResource SuperHighLightColor}"
-                                Padding="2"
-                                BorderThickness="0"
-                                VerticalAlignment="Center"
-                                Visibility="Collapsed"
-                                Background="{DynamicResource HighDarkerColor}" 
-                                Foreground="{DynamicResource ActiveTextBase}" 
-                                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                                <TextBox.Style>
-                                    <Style>
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </TextBox.Style>
-                            </TextBox>
+                            <Controls:EditableTextBox Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <!--<Border x:Name="displayBorder">
+                                <TextBlock 
+                                    x:Name="TextDisplay" 
+                                    VerticalAlignment="Center"
+                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                </TextBlock>
+                                <Border.InputBindings>
+                                    <MouseBinding MouseAction="LeftDoubleClick"
+                                                  Command="{Binding RenameCommand}"
+                                                  CommandParameter="{Binding MySourceItemId}" />
+                                </Border.InputBindings>
+                            </Border>
+
+                            <Border x:Name="inputBorder">
+                                <TextBox
+                                    x:Name="TextInput" 
+                                    SelectionBrush="{DynamicResource SuperHighLightColor}"
+                                    CaretBrush="{DynamicResource SuperHighLightColor}"
+                                    Padding="2"
+                                    BorderThickness="0"
+                                    VerticalAlignment="Center"
+                                    Visibility="Collapsed"
+                                    Background="{DynamicResource HighDarkerColor}" 
+                                    Foreground="{DynamicResource ActiveTextBase}" 
+                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                                </TextBox>
+                            </Border>-->
+
                         </Grid>
                         
                     </Border>
                     <ControlTemplate.Triggers>
+                        <!--<DataTrigger Binding="{Binding Path=IsRenaming}" Value="False">
+                            <Setter TargetName="displayBorder" Property="Visibility" Value="Visible"/>
+                            <Setter TargetName="inputBorder" Property="Visibility" Value="Collapsed"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding Path=IsRenaming}" Value="True">
+                            <Setter TargetName="displayBorder" Property="Visibility" Value="Collapsed"/>
+                            <Setter TargetName="inputBorder" Property="Visibility" Value="Visible"/>
+                            --><!--<Setter TargetName="intputBorder" Property="Visibility" Value="Visible"/>--><!--
+                        </DataTrigger>-->
                         <!--<DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
                             <Setter TargetName="TextDisplay" Property="Visibility" Value="Visible"/>
                             <Setter TargetName="TextInput" Property="Visibility" Value="Collapsed"/>

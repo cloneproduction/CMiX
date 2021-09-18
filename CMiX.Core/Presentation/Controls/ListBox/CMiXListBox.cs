@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace CMiX.Core.Presentation.Controls
 {
@@ -23,8 +24,13 @@ namespace CMiX.Core.Presentation.Controls
         {
             base.OnApplyTemplate();
             this.SelectionChanged += CMiXListBox_SelectionChanged;
+            //AddDoubleClickEventStyle(this, new MouseButtonEventHandler(listView1_MouseDoubleClick));
         }
 
+        private void listBoxItem_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            Console.WriteLine("DoubleClickListBox");
+        }
 
         protected override DependencyObject GetContainerForItemOverride()
         {
@@ -40,5 +46,19 @@ namespace CMiX.Core.Presentation.Controls
         {
             //Console.WriteLine("POEUT");
         }
+
+        //private void AddDoubleClickEventStyle(ListBox listBox, MouseButtonEventHandler mouseButtonEventHandler)
+        //{
+        //    if (listBox.ItemContainerStyle == null)
+        //    {
+        //        listBox.ItemContainerStyle = new Style(typeof(ListBoxItem));
+        //    }
+
+        //    listBox.ItemContainerStyle.Setters.Add(new EventSetter()
+        //    {
+        //        Event = MouseDoubleClickEvent,
+        //        Handler = mouseButtonEventHandler
+        //    });
+        //}
     }
 }

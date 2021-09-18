@@ -21,6 +21,12 @@ namespace CMiX.Core.Presentation.Controls
             this.MouseDoubleClick += CMiXListBoxItem_MouseDoubleClick;
             this.PreviewMouseLeftButtonDown += CMiXListBoxItem_MouseDown;
         }
+
+        private void CMiXListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            //throw new NotImplementedException();
+        }
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -63,20 +69,10 @@ namespace CMiX.Core.Presentation.Controls
 
         private void CMiXListBoxItem_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            Mouse.Capture(null);
-            this.IsEditing = false;
+            //Mouse.Capture(null);
+            //this.IsEditing = false;
         }
 
-        private void CMiXListBoxItem_MouseDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            Mouse.Capture(this, CaptureMode.SubTree);
-
-
-            //listBoxItem.SetCurrentValue(InputVisibilityProperty, Visibility.Collapsed);
-            //listBoxItem.SetCurrentValue(DisplayVisibilityProperty, Visibility.Collapsed);
-            //this.IsEditing = true;
-            //HookItemsControlEvents();
-        }
 
 
         public static readonly DependencyProperty TextProperty =
@@ -84,7 +80,7 @@ namespace CMiX.Core.Presentation.Controls
 
 
         public static readonly DependencyProperty IsEditingProperty =
-        DependencyProperty.Register("IsEditing", typeof(bool), typeof(CMiXListBoxItem), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("IsEditing", typeof(bool), typeof(CMiXListBoxItem), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
 
 

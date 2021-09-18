@@ -16,12 +16,24 @@ namespace CMiX.Core.Presentation.Controls
             InitializeComponent();
             InputValue.Visibility = Visibility.Hidden;
             TextDisplay.Visibility = Visibility.Visible;
-            this.MouseDoubleClick += EditableTextBox_MouseDoubleClick;
+            this.PreviewMouseDoubleClick += EditableTextBox_MouseDoubleClick;
+            this.PreviewMouseLeftButtonDown += EditableTextBox_PreviewMouseDown;
+        }
+
+        private void EditableTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            var poeut = Mouse.DirectlyOver;
+            Console.WriteLine(poeut); ;
+            Console.WriteLine("PreviewMouseDown IsEditing " + IsEditing);
+            //e.Handled = true;
         }
 
         private void EditableTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
+            //((IInputElement)sender).CaptureMouse();
             this.OnSwitchToEditingMode();
+            //this.InputValue.CaptureMouse();
+            e.Handled = true;
         }
 
 
@@ -103,31 +115,39 @@ namespace CMiX.Core.Presentation.Controls
         }
 
         public void OnMouseDownOutsideElement(object sender, MouseButtonEventArgs e)
-        { 
+        {
+
             OnSwitchToNormalMode();
-            //e.Handled = true;
+
+            e.Handled = true;
+            ((IInputElement)sender).ReleaseMouseCapture();
         }
         #endregion
 
         #region PRIVATE METHODS
         private void OnSwitchToEditingMode()
         {
-            Mouse.Capture(this, CaptureMode.SubTree);
-            //AddHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement), true);
-            TextDisplay.Visibility = Visibility.Hidden;
+            TextDisplay.Visibility = Visibility.Collapsed;
             InputValue.Visibility = Visibility.Visible;
             HookItemsControlEvents();
+            InputValue.CaptureMouse();
+
             Text = InputValue.Text;
+            InputValue.Focus();
+            InputValue.SelectAll();
         }
+
+
 
         private void OnSwitchToNormalMode(bool bCancelEdit = true)
         {
-            IsEditing = false;
+            //RemoveHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement));
+            //IsEditing = false;
             TextDisplay.Text = InputValue.Text;
             TextDisplay.Visibility = Visibility.Visible;
             InputValue.Visibility = Visibility.Hidden;
-            //RemoveHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement));
-            Mouse.Capture(null);
+
+
             Keyboard.ClearFocus();
         }
 
@@ -138,12 +158,20 @@ namespace CMiX.Core.Presentation.Controls
             _ParentItemsControl = this.GetDpObjectFromVisualTree(this, typeof(Window)) as Window;
             if (_ParentItemsControl != null)
             {
+                //_ParentItemsControl.Cursor = Cursors.IBeam;
                 _ParentItemsControl.AddHandler(ScrollViewer.MouseWheelEvent, new RoutedEventHandler((s, e) => this.OnSwitchToNormalMode()), true);
                 //_ParentItemsControl.MouseDown += new MouseButtonEventHandler((s, e) => this.OnSwitchToNormalMode());
+                _ParentItemsControl.MouseDown += _ParentItemsControl_MouseDown;
                 _ParentItemsControl.SizeChanged += new SizeChangedEventHandler((s, e) => this.OnSwitchToNormalMode());
             }
         }
 
+        private void _ParentItemsControl_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            OnSwitchToNormalMode();
+            e.Handled = true;
+            //((FrameworkElement)sender).Cursor = Cursors.Arrow;
+        }
 
         private DependencyObject GetDpObjectFromVisualTree(DependencyObject startObject, Type type)
         {
