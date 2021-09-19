@@ -215,23 +215,23 @@
 
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <Border Padding="16" Background="Transparent">
-                        <Border.Effect>
+                    <Border Padding="0" Background="Transparent">
+                        <!--<Border.Effect>
                             <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.75" Color="Black"/>
-                        </Border.Effect>
+                        </Border.Effect>-->
 
                             <Grid >
                                 <Border 
                                     CornerRadius="4"
-                                    Background="{DynamicResource DarkColor}"
-                                    Padding="0, 30, 0, 0">
+                                    Background="{DynamicResource HighDarkerColor}"
+                                    Padding="0, 25, 0, 0">
                                     <AdornerDecorator>
                                         <ContentPresenter />
                                     </AdornerDecorator>
                                 </Border>
                                 <Border>
                                     <DockPanel 
-                                        Height="30"
+                                        Height="25"
                                         VerticalAlignment="Top"
                                         LastChildFill="False">
                                         <TextBlock 
@@ -242,13 +242,13 @@
                                         Opacity="1.0"
                                         Foreground="{DynamicResource TextBase}"
                                         Text="{TemplateBinding Title}" />
-                                        <Button x:Name="btnClose"
+                                        <!--<Button x:Name="btnClose"
                                         Command="{Binding CloseWindowCommand}"
                                         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                                         Style="{DynamicResource ButtonCloseWindowStyle}"
                                         DockPanel.Dock="Right"
                                         WindowChrome.IsHitTestVisibleInChrome="True" >
-                                        </Button>
+                                        </Button>-->
                                     </DockPanel>
                                 </Border>
                             </Grid>

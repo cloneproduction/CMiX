@@ -9,9 +9,10 @@
         ResizeMode="NoResize"
         WindowStyle="None"
         Style="{StaticResource MessengerSettingsWindowStyle}"
-        WindowStartupLocation="CenterOwner"
+
+        Loaded="Window_Loaded"
         SizeToContent="Height"
-        Title="Messenger Settings" Width="300" >
+        Title="Edit Messenger Settings" Width="300" >
     
     <Window.InputBindings>
         <KeyBinding 
@@ -74,27 +75,7 @@
                         Foreground="{StaticResource TextBase}"
                         Background="{StaticResource HighHighDarkerColor}"/>
                 </Grid>
-                <!--<Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Engine" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{StaticResource TextBase}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
-                    <TextBox
-                        TabIndex="1"
-                        Padding="4"
-                        Text="{Binding Topic, UpdateSourceTrigger=PropertyChanged}"
-                        Grid.Column="1"
-                        BorderThickness="0"
-                        BorderBrush="{StaticResource DarkColor}"
-                        Foreground="{StaticResource TextBase}"
-                        Background="{StaticResource HighHighDarkerColor}"/>
-                </Grid>-->
+
                 <Grid Height="25" Margin="0, 1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.4*"/>

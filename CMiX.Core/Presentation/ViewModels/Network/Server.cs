@@ -3,20 +3,25 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Net;
+using System.Net.Sockets;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MvvmDialogs;
 using WatsonTcp;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class Server : ObservableObject
     {
-        public Server(int id)
+        public Server(int id, IDialogService dialogService)
         {
+            DialogService = dialogService;
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
@@ -26,19 +31,16 @@ namespace CMiX.Core.Presentation.ViewModels
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
 
-            StartCommand = new RelayCommand(Start);
-            //RequestProjectReSyncCommand = new RelayCommand(p => RequestProjectResync(p as Project));
-            StopCommand = new RelayCommand(Stop);
-            RestartCommand = new RelayCommand(Restart);
-            RenameCommand = new RelayCommand(Rename);
+            PauseCommand = new RelayCommand(Pause);
+            EditSettingsCommand = new RelayCommand(EditSettings);
+            ApplySettingsCommand = new RelayCommand(Apply);
         }
 
 
-        public ICommand RenameCommand { get; }
-        public ICommand RequestProjectReSyncCommand { get; }
-        public ICommand StartCommand { get; }
-        public ICommand StopCommand { get; }
-        public ICommand RestartCommand { get; }
+        public ICommand ApplySettingsCommand { get; }
+        public ICommand PauseCommand { get; }
+        public ICommand EditSettingsCommand { get; }
+        private IDialogService DialogService { get; set; }
 
 
         private string _name;
@@ -69,6 +71,13 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _topic, value);
         }
 
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
         private int _port;
         public int Port
         {
@@ -95,6 +104,13 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             get => _serverIsRunning;
             set => SetProperty(ref _serverIsRunning, value);
+        }
+
+        private bool _isSettingsOpen;
+        public bool IsSettingsOpen
+        {
+            get => _isSettingsOpen;
+            set => SetProperty(ref _isSettingsOpen, value);
         }
 
         private bool _dataSent;
@@ -130,12 +146,6 @@ namespace CMiX.Core.Presentation.ViewModels
             Start();
         }
 
-
-        public void Rename()
-        {
-            IsRenaming = true;
-            System.Console.WriteLine("DOUBLE CLICK !!");
-        }
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
@@ -218,11 +228,20 @@ namespace CMiX.Core.Presentation.ViewModels
             }
         }
 
+        public void EditSettings()
+        {
+            IsSettingsOpen = true;
+            //Settings settings = this.GetSettings();
+            //bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
+            //if (success == true)
+            //    this.SetSettings(settings);
+        }
 
         public void Start()
         {
             ipPort = $"{IP}:{Port}";
             WatsonTcpServer = new WatsonTcpServer(IP, Port);
+
             WatsonTcpServer.Events.ClientConnected += ClientConnected;
             WatsonTcpServer.Events.ClientDisconnected += ClientDisconnected;
             WatsonTcpServer.Events.MessageReceived += MessageReceived;
@@ -242,13 +261,79 @@ namespace CMiX.Core.Presentation.ViewModels
                 WatsonTcpServer.Events.MessageReceived -= MessageReceived;
                 ClientIsConnected = false;
                 ServerIsRunning = false;
+                WatsonTcpServer.Dispose();
             }
         }
 
-        public void Restart()
+        public void Pause()
         {
-            Stop();
-            Start();
+
+        }
+
+
+        public void Apply()
+        {
+            if (ValidateIPv4(IP) && ValidatePort(IP, Port))
+            {
+                ErrorMessage = "Settings applied succefully !";
+                IsSettingsOpen = false;
+                //CanApply = false;
+                //DialogResult = true;
+                //OkIsFocused = true;
+            }
+        }
+
+
+        public bool ValidatePort(string host, int port)
+        {
+            IPAddress ipa = Dns.GetHostAddresses(host)[0];
+            try
+            {
+                Socket sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sock.Connect(ipa, port);
+                if (sock.Connected == true)  // Port is in use and connection is successful
+                {
+                    ErrorMessage = "Port already in use";
+                    return false;
+                }
+                sock.Close();
+
+            }
+            catch (SocketException ex)
+            {
+                if (ex.ErrorCode == 10061)  // Port is unused and could not establish connection 
+                {
+                    ErrorMessage = String.Empty;
+                    return true;
+                }
+                else
+                    ErrorMessage = ex.Message;
+            }
+            if (port == 0)
+                return false;
+
+            return false;
+        }
+
+        public bool ValidateIPv4(string ipString)
+        {
+            ErrorMessage = String.Empty;
+            if (String.IsNullOrWhiteSpace(ipString))
+            {
+                ErrorMessage = "IP Address is not valid";
+                return false;
+            }
+
+            string[] splitValues = ipString.Split('.');
+            if (splitValues.Length != 4)
+            {
+                ErrorMessage = "IP Address is not valid";
+                return false;
+            }
+
+            byte tempForParsing;
+
+            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
     }
 }

@@ -247,6 +247,7 @@
     <Compile Include="Presentation\ValueConverters\IntToStringWithMaxConverter.cs" />
     <Compile Include="Presentation\ValueConverters\ItemToParentConverter.cs" />
     <Compile Include="Presentation\ValueConverters\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="Presentation\ValueConverters\MultiplyConverter.cs" />
     <Compile Include="Presentation\ValueConverters\NullToVisibilityConverter.cs" />
     <Compile Include="Presentation\ValueConverters\PathToFilenameConverter.cs" />
     <Compile Include="Presentation\ValueConverters\RadioButtonCheckedConverter.cs" />
@@ -582,6 +583,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Themes\Styles\Sliders\XYController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Themes\Styles\Popup.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

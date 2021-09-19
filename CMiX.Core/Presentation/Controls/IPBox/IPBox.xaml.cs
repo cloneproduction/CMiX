@@ -31,12 +31,16 @@ namespace CMiX.Core.Presentation.Controls
         {
             IPBox userControl = ((IPBox)dependencyObject);
             var val = (string)args.NewValue;
-            string[] splitValues = val.Split('.');
-            userControl.txtboxFirstPart.Text = splitValues[0];
-            userControl.txtboxSecondPart.Text = splitValues[1];
-            userControl.txtboxThridPart.Text = splitValues[2];
-            userControl.txtboxFourthPart.Text = splitValues[3];
-            userControl.IPAddress = val;
+            if (val != null)
+            {
+                string[] splitValues = val.Split('.');
+                userControl.txtboxFirstPart.Text = splitValues[0];
+                userControl.txtboxSecondPart.Text = splitValues[1];
+                userControl.txtboxThridPart.Text = splitValues[2];
+                userControl.txtboxFourthPart.Text = splitValues[3];
+                userControl.IPAddress = val;
+            }
+
         }
 
         private bool focusMoved = false;
@@ -127,7 +131,7 @@ namespace CMiX.Core.Presentation.Controls
             {
                 txtboxFourthPart.Focus();
                 txtboxFourthPart.Text = String.Empty;
-            } 
+            }
         }
         #endregion
     }

@@ -5,49 +5,108 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              mc:Ignorable="d" 
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             md:DialogServiceViews.IsRegistered="True"
              d:DesignHeight="502.789" d:DesignWidth="325.076">
 
     <StackPanel HorizontalAlignment="Stretch">
 
         <Expander Header="Settings" Style="{DynamicResource InnerExpander}">
             <StackPanel Margin="0, 8">
-                
-                <!--<Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Engine" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{StaticResource TextBase}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
-                    <TextBlock
-                        Padding="4"
-                        Text="{Binding Topic}"
-                        Grid.Column="1"
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>-->
 
-                <Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                <Border Height="25" 
+                        Margin="0, 0, 0, 8"
+                    BorderBrush="{DynamicResource HighDarkerColor}"
+                        BorderThickness="0, 0, 1, 1">
+                    <Button 
 
-                    <TextBlock 
-                        Text="Resync" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{StaticResource TextBase}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
+                        Content="Edit"
+                        Style="{StaticResource ButtonRounded}"
+                        Command="{Binding EditSettingsCommand}"/>
+                </Border>
+                <Controls:CMiXPopup 
+                    StaysOpen="False" 
+                    AllowsTransparency="True" 
+                    HorizontalOffset="-100" 
+                    VerticalOffset="-12" 
+                    IsOpen="{Binding IsSettingsOpen}" 
+                    Placement="MousePoint">
+                    <ContentControl >
+                        <Grid Width="220" Background="Transparent">
+                        <Border Opacity="0.70" 
+                                Margin="4" 
+                                CornerRadius="4" 
+                                Background="{DynamicResource HighHighDarkerColor}">
+                            <Border.Effect>
+                                <DropShadowEffect BlurRadius="4" ShadowDepth="0" Opacity="1.0" Color="Black"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border Padding="12, 4, 12, 12"  Background="Transparent">
+                            <StackPanel DockPanel.Dock="Top">
+                                <Border x:Name="dragBar" 
+                                        Background="Transparent" 
+                                        VerticalAlignment="Stretch" 
+                                        Height="25"
+                                        Margin="0, 4, 0, 4">
+                                    <TextBlock Padding="4" Text="Edit Settings" VerticalAlignment="Center" />
+                                </Border>
+
+
+                                <Grid Height="25" Margin="0, 1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock 
+                                        Text="IP" 
+                                        Foreground="{StaticResource TextBase}"
+                                        HorizontalAlignment="Right"
+                                        Margin="0, 0, 8, 0"
+                                        VerticalAlignment="Center"/>
+                                    <Controls:IPBox 
+                                        TabIndex="3"
+                                        Grid.Column="1" 
+                                        IPAddress="{Binding IP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                </Grid>
+                                <Grid Height="25" Margin="0, 1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.3*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock 
+                                        Text="Port" 
+                                        Margin="0, 0, 8, 0"
+                                        Foreground="{StaticResource TextBase}"
+                                        HorizontalAlignment="Right"
+                                        VerticalAlignment="Center"/>
+                                    <TextBox
+                                        Style="{DynamicResource TextBoxNumbersOnly}"
+                                        TabIndex="4"
+                                        Padding="4"
+                                        Text="{Binding Port, UpdateSourceTrigger=PropertyChanged}"
+                                        Grid.Column="1"
+                                        BorderThickness="0"
+                                        BorderBrush="{StaticResource DarkColor}"
+                                        Foreground="{StaticResource TextBase}"
+                                        Background="{StaticResource HighHighDarkerColor}"/>
+                                </Grid>
+
+                                <Button 
+                                    Height="25"
+                                    DockPanel.Dock="Bottom"
+                                    Margin="0, 8, 0, 0"
+                                    Grid.Column="0"
+                                    Content="OK"
+                                    Style="{StaticResource ButtonRounded}"
+                                    Command="{Binding ApplySettingsCommand}"
+                                    CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                    </ContentControl>
                     
-                    <Button Grid.Column="1"
-                            Command="{Binding RequestProjectReSyncCommand}"
-                            CommandParameter="{Binding DataContext.CurrentProject, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                            Style="{DynamicResource ButtonRounded}"/>
-                </Grid>
+
+                </Controls:CMiXPopup>
 
 
                 <Grid Height="25" Margin="0, 1">
@@ -80,23 +139,7 @@
                         Grid.Column="1"
                         Foreground="{StaticResource TextBase}"/>
                 </Grid>
-                <!--<Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Status" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{StaticResource TextBase}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
-                    <TextBlock
-                        Padding="4"
-                        Text="{Binding Server.Status}"
-                        Grid.Column="1"
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>-->
+
                 <Grid Height="25" Margin="0, 1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.4*"/>
@@ -114,6 +157,14 @@
                         Grid.Column="1"
                         Foreground="{DynamicResource TextBase}"/>
                 </Grid>
+
+                <Button 
+                    Margin="0, 4, 0, 0"
+                    Height="25"
+                    Content =" Resync"
+                    Command="{Binding RequestProjectReSyncCommand}"
+                    CommandParameter="{Binding DataContext.CurrentProject, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                    Style="{DynamicResource ButtonRounded}"/>
             </StackPanel>
         </Expander>
 
@@ -138,7 +189,6 @@
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
-
             </Grid>
         </Expander>
 

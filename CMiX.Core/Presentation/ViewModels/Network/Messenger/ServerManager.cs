@@ -61,7 +61,7 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 
         public void AddServer()
         {
-            var messenger = ServerFactory.CreateServer();
+            var messenger = ServerFactory.CreateServer(this.DialogService);
             MessageService.Servers.Add(messenger);
         }
 

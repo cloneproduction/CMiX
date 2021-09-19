@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows;
-using System;
+using System.Windows.Input;
 
 namespace CMiX.Core.Presentation.Views
 {
@@ -11,6 +11,12 @@ namespace CMiX.Core.Presentation.Views
         public MessengerSettingsWindow()
         {
             InitializeComponent();
+        }
+
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            this.Top = Mouse.GetPosition(null).Y;
+            this.Left = Mouse.GetPosition(null).X;
         }
     }
 }

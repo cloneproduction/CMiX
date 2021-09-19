@@ -17,7 +17,7 @@
         <ResourceDictionary>
             <Tools:BindingProxy x:Key="serverManager" Data="{Binding}"/>
 
-            <ContextMenu x:Key="MessengerManagerContextMenu" 
+            <!--<ContextMenu x:Key="MessengerManagerContextMenu" 
                          Visibility="{Binding Data.SelectedServer, Converter={StaticResource NullToVisibility}, Source={StaticResource serverManager}}" 
                          Style="{StaticResource ContextMenuDefault}" 
                          Width="175">
@@ -46,13 +46,13 @@
                     </MenuItem.Icon>
                 </MenuItem>
                 
-                <!--<MenuItem IsEnabled="False" 
+                --><!--<MenuItem IsEnabled="False" 
                           Command="{Binding Data.SelectedServer.RestartCommand}"
                           Header="Restart">
                     <MenuItem.Icon>
                         <Image Opacity="0.75" Margin="2" Source="{StaticResource Reset}"/>
                     </MenuItem.Icon>
-                </MenuItem>-->
+                </MenuItem>--><!--
                 
                 <MenuItem 
                     Header="Edit"
@@ -71,7 +71,7 @@
                         <Image Source="{DynamicResource DeleteLayer}"/>
                     </MenuItem.Icon>
                 </MenuItem>
-            </ContextMenu>
+            </ContextMenu>-->
         </ResourceDictionary>
     </UserControl.Resources>
 

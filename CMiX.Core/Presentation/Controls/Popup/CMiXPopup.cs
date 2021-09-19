@@ -1,9 +1,13 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+
+using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
-using System.Windows.Media;
+using System.Windows.Input;
+
 
 namespace CMiX.Core.Presentation.Controls
 {
@@ -11,25 +15,73 @@ namespace CMiX.Core.Presentation.Controls
     {
         public CMiXPopup()
         {
-            translateTransform = new TranslateTransform();
-            this.RenderTransform = translateTransform;
-            OnApplyTemplate();
-            //Loaded += new RoutedEventHandler(ExceptionPopup_Loaded);
 
-            this.CustomPopupPlacementCallback = (popupSize, targetSize, offset) => new[]
-                {
-                    new CustomPopupPlacement
-                    {
-                        Point = new Point(targetSize.Width - popupSize.Width, targetSize.Height)
-                    }
-                };
+            OnApplyTemplate();
         }
 
-        public TranslateTransform translateTransform;
 
-        public override void OnApplyTemplate()
+        Point _initialMousePosition;
+        bool _isDragging;
+        double actualWidth;
+        double actualHeight;
+
+        protected override void OnInitialized(EventArgs e)
         {
-            base.OnApplyTemplate();
+            var contents = Child as FrameworkElement;
+            var border = contents.FindName("dragBar") as Border;
+            //Debug.Assert(contents != null, "DraggablePopup either has no content if content that " +
+            // "does not derive from FrameworkElement. Must be fixed for dragging to work.");
+            if (border != null)
+            {
+                border.MouseLeftButtonDown += Child_MouseLeftButtonDown;
+                border.MouseLeftButtonUp += Child_MouseLeftButtonUp;
+                border.MouseMove += Child_MouseMove;
+
+            }
+
+
+        }
+
+
+
+        private void Child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            var element = sender as FrameworkElement;
+            actualWidth = element.ActualWidth;
+            actualHeight = element.ActualHeight;
+            _initialMousePosition = e.GetPosition(null);
+            element.CaptureMouse();
+            _isDragging = true;
+            e.Handled = true;
+        }
+
+        private void Child_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_isDragging)
+            {
+                var currentPoint = e.GetPosition(null);
+                HorizontalOffset = HorizontalOffset + (currentPoint.X - _initialMousePosition.X);
+                VerticalOffset = VerticalOffset + (currentPoint.Y - _initialMousePosition.Y);
+            }
+        }
+
+        private void Child_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (_isDragging)
+            {
+                var element = sender as FrameworkElement;
+                element.ReleaseMouseCapture();
+                _isDragging = false;
+
+                e.Handled = true;
+            }
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            base.OnClosed(e);
+            HorizontalOffset = -actualWidth * 0.5;
+            VerticalOffset = -actualHeight * 0.5;
         }
     }
 }
