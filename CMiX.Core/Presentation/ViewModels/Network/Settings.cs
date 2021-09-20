@@ -22,19 +22,13 @@ namespace CMiX.Core.Presentation.ViewModels
             CanApply = false;
 
             ApplyCommand = new RelayCommand(Apply);
-            OkCommand = new RelayCommand<Window>(Ok);
             CancelCommand = new RelayCommand<Window>(Cancel);
             CloseWindowCommand = new RelayCommand<Window>(Cancel);
         }
 
-        private bool CanApplySettings()
-        {
-            Console.WriteLine("CanApply = " + CanApply);
-            return CanApply;
-        }
 
 
-        public ICommand OkCommand { get; set; }
+        public ICommand OnDeactivatedCommand { get; set; }
         public ICommand CancelCommand { get; set; }
         public ICommand ApplyCommand { get; set; }
         public ICommand CloseWindowCommand { get; set; }
@@ -57,16 +51,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _canApply, value);
         }
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set
-            {
-                SetProperty(ref _name, value);
-                CanApply = true;
-            }
-        }
 
 
         private string _ip;
@@ -98,10 +82,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _errorMessage, value);
         }
 
-        public void Ok(Window window)
-        {
-            window.Close();
-        }
 
         public void Cancel(Window window)
         {

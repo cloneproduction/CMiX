@@ -411,6 +411,10 @@
     <Compile Include="Presentation\ViewModels\Components\Components\Project.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Scene.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Counter\Counter.cs" />
+    <Compile Include="Presentation\Views\Dialogs\TaskEditor.xaml.cs">
+      <DependentUpon>TaskEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\Views\Dialogs\TaskEditorDialog.cs" />
     <Compile Include="Presentation\Windows\CustomDialog.cs" />
     <Compile Include="Presentation\Windows\CustomFrameworkDialogFactory.cs" />
     <Compile Include="Presentation\Windows\CustomTypeLocator.cs" />
@@ -735,6 +739,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\Dialogs\MessengerSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\Dialogs\TaskEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

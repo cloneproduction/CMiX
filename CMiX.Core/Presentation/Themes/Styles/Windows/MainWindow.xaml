@@ -67,7 +67,6 @@
     </Style>
 
     <Style x:Key="ButtonCloseWindowStyle" TargetType="{x:Type Button}">
-        <!--<EventSetter Event="Click" Handler="CloseClick"/>-->
         <Setter Property="Height" Value="30"/>
         <Setter Property="Width" Value="30"/>
         <Setter Property="Background" Value="{DynamicResource DarkColor}" />
@@ -85,16 +84,6 @@
                                Source="{DynamicResource CloseTab}" 
                                Opacity="0.75"/>
                     </Border>
-                    <!--<ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="Red" />
-                            <Setter TargetName="image" Property="Opacity" Value="1.0"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="Maroon" />
-                            <Setter TargetName="image" Property="Opacity" Value="1.0"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -209,48 +198,48 @@
                     UseAeroCaptionButtons="False" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="{DynamicResource DarkerColor}" />
+        <!--<Setter Property="BorderBrush" Value="{DynamicResource DarkerColor}" />-->
+        <Setter Property="AllowsTransparency" Value="True"/>
         <Setter Property="Background" Value="Red" />
+        <Setter Property="Width" Value="210"/>
+        
         <Setter Property="Template">
-
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
-                    <Border Padding="0" Background="Transparent">
-                        <!--<Border.Effect>
-                            <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.75" Color="Black"/>
-                        </Border.Effect>-->
+                    <Border Padding="8" Background="Transparent">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="8" ShadowDepth="0" Opacity="0.5" Color="Black"/>
+                        </Border.Effect>
 
-                            <Grid >
-                                <Border 
-                                    CornerRadius="4"
-                                    Background="{DynamicResource HighDarkerColor}"
-                                    Padding="0, 25, 0, 0">
-                                    <AdornerDecorator>
-                                        <ContentPresenter />
-                                    </AdornerDecorator>
-                                </Border>
-                                <Border>
-                                    <DockPanel 
-                                        Height="25"
-                                        VerticalAlignment="Top"
-                                        LastChildFill="False">
-                                        <TextBlock 
-                                        Margin="10,0,0,0"
+                            <Grid>
+                            <Border 
+                                CornerRadius="4"
+                                Background="{DynamicResource HighHighDarkerColor}"
+                                Opacity="0.8"
+                                Padding="0">
+                            </Border>
+
+
+                            <StackPanel>
+                                <Border
+                                    Height="25"
+                                    VerticalAlignment="Center">
+
+                                    <TextBlock 
+                                        Margin="8,0,0,0"
                                         VerticalAlignment="Center"
-                                        DockPanel.Dock="Left"
                                         FontSize="12"
                                         Opacity="1.0"
                                         Foreground="{DynamicResource TextBase}"
                                         Text="{TemplateBinding Title}" />
-                                        <!--<Button x:Name="btnClose"
-                                        Command="{Binding CloseWindowCommand}"
-                                        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
-                                        Style="{DynamicResource ButtonCloseWindowStyle}"
-                                        DockPanel.Dock="Right"
-                                        WindowChrome.IsHitTestVisibleInChrome="True" >
-                                        </Button>-->
-                                    </DockPanel>
                                 </Border>
+                                <Border Padding="8">
+                                    <AdornerDecorator>
+                                        <ContentPresenter />
+                                    </AdornerDecorator>
+                                </Border>
+                            </StackPanel>
+
                             </Grid>
 
 

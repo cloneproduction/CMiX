@@ -7,18 +7,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="500">
 
-    <StackPanel >
+    <StackPanel>
         <Border VerticalAlignment="Center"
                     Padding="8"
                     DockPanel.Dock="Top"
                     Height="40">
             <TextBlock DockPanel.Dock="Left" 
-                           Text="SCHEDULER" 
-                           FontWeight="SemiBold" 
-                           VerticalAlignment="Center"/>
+                        Text="SCHEDULER" 
+                        FontWeight="SemiBold" 
+                        VerticalAlignment="Center"/>
         </Border>
 
-        <Border Margin="4, 0, 4, 4">
+        <Border Margin="4, 0, 4, 8">
             <ListBox
                 MaxHeight="100"
                 Style="{StaticResource ListBoxWithButton}"
@@ -36,6 +36,6 @@
         </Border>
         <local:JobEditor DataContext="{Binding JobEditor}" />
         <local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding PlaylistEditor}"/>
-        <local:Overview Grid.Row="1"  DataContext="{Binding SelectedScheduler}"/>
+
     </StackPanel>
 </UserControl>

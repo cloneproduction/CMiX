@@ -36,23 +36,20 @@ namespace CMiX.Core.Presentation.Controls
                 border.MouseLeftButtonDown += Child_MouseLeftButtonDown;
                 border.MouseLeftButtonUp += Child_MouseLeftButtonUp;
                 border.MouseMove += Child_MouseMove;
-
+                border.PreviewMouseLeftButtonDown += Child_MouseLeftButtonDown;
+                Mouse.Capture(border, CaptureMode.SubTree);
             }
-
-
         }
-
 
 
         private void Child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            e.Handled = true;
             var element = sender as FrameworkElement;
             actualWidth = element.ActualWidth;
             actualHeight = element.ActualHeight;
             _initialMousePosition = e.GetPosition(null);
-            element.CaptureMouse();
             _isDragging = true;
-            e.Handled = true;
         }
 
         private void Child_MouseMove(object sender, MouseEventArgs e)
@@ -70,7 +67,7 @@ namespace CMiX.Core.Presentation.Controls
             if (_isDragging)
             {
                 var element = sender as FrameworkElement;
-                element.ReleaseMouseCapture();
+                //element.ReleaseMouseCapture();
                 _isDragging = false;
 
                 e.Handled = true;

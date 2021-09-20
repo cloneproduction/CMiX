@@ -1,13 +1,16 @@
 ﻿using System.Windows.Input;
+using CMiX.Core.Presentation.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class JobEditor : ObservableObject
     {
-        public JobEditor()
+        public JobEditor(IDialogService dialogService)
         {
+            DialogService = dialogService;
             PopupIsOpen = false;
 
             ToRunType = new ToRunType();
@@ -15,9 +18,28 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             OpenPopupCommand = new RelayCommand(OpenPopup);
             ClosePopupCommand = new RelayCommand(ClosePopup);
             AddJobToSchedulerCommand = new RelayCommand<CompositionScheduler>(AddJobToScheduler);
+            AddTaskCommand = new RelayCommand(AddTask);
         }
 
+        private void AddTask()
+        {
+            Settings settings = new Settings("192.168.0.192", 2222);
+            bool? success = DialogService.ShowDialog<TaskEditor>(this, settings);
+            //if (success == true)
+            //this.SetSettings(settings);
+        }
 
+        public void AddJobToScheduler(CompositionScheduler compositionScheduler)
+        {
+            if (SelectedPlaylist != null)
+            {
+                Job job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
+                compositionScheduler.JobScheduler.AddJob(job);
+            }
+        }
+
+        public IDialogService DialogService { get; set; }
+        public ICommand AddTaskCommand { get; }
         public ICommand ClosePopupCommand { get; set; }
         public ICommand OpenPopupCommand { get; set; }
         public ICommand AddJobToSchedulerCommand { get; set; }
@@ -52,14 +74,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         }
 
 
-        public void AddJobToScheduler(CompositionScheduler compositionScheduler)
-        {
-            if (SelectedPlaylist != null)
-            {
-                Job job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
-                compositionScheduler.JobScheduler.AddJob(job);
-            }
-        }
+
 
         public void ClosePopup()
         {

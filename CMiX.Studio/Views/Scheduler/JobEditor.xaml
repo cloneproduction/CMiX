@@ -7,16 +7,24 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views.Scheduler"
     xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
+    md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d" 
     d:DesignHeight="375.668" d:DesignWidth="528.666">
 
     <Expander Header="Tasks" IsExpanded="True" >
         <Border Padding="4">
             <StackPanel Margin="4" Grid.Column="0">
-                <Grid 
-                DockPanel.Dock="Top" 
-                Height="20"
-                Margin="4">
+                <Button Content="Add" 
+                        Style="{StaticResource ButtonRounded}"
+                        Margin="0, 0, 0, 4"
+                        Height="20"
+                        Command="{Binding AddTaskCommand}"/>
+                <Views:Overview Grid.Row="1"  DataContext="{Binding SelectedScheduler}"/>
+                <!--<Grid 
+                    DockPanel.Dock="Top" 
+                    Height="20"
+                    Margin="4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition Width="1.5*"/>
@@ -105,7 +113,7 @@
                             </ListBox>
                         </Border>
                     </Controls:CMiXPopup>
-                </Grid>
+                </Grid>-->
             </StackPanel>
         </Border>
     </Expander>

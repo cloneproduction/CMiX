@@ -7,16 +7,15 @@ using System.Windows.Input;
 
 namespace CMiX.Core.Presentation.Views
 {
-    public partial class MessengerSettingsWindow : Window
+    public partial class TaskEditor : Window
     {
-        public MessengerSettingsWindow()
+        public TaskEditor()
         {
             InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ipBox.txtboxFirstPart.Focus();
             MoveBottomRightEdgeOfWindowToMousePosition();
         }
 

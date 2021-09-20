@@ -24,7 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             BeatManager = new BeatManager(project);
             ComponentManager = new ComponentManager(project);
-            SchedulerManager = new SchedulerManager(project);
+            SchedulerManager = new SchedulerManager(project, dialogService);
 
             MainMenu = new MainMenu(project, dialogService);
             Outliner = new Outliner(project);

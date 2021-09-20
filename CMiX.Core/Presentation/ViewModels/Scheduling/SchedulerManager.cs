@@ -11,16 +11,17 @@ using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class SchedulerManager : ObservableRecipient, IRecipient<ISchedulerMessage>
     {
-        public SchedulerManager(IProject project)
+        public SchedulerManager(IProject project, IDialogService dialogService)
         {
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
             PlaylistEditor = new PlaylistEditor();
-            JobEditor = new JobEditor();
+            JobEditor = new JobEditor(dialogService);
 
             Messenger.Register(this, MessageType.In);
 

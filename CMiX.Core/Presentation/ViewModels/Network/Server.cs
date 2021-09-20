@@ -10,6 +10,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
@@ -106,12 +107,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _serverIsRunning, value);
         }
 
-        private bool _isSettingsOpen;
-        public bool IsSettingsOpen
-        {
-            get => _isSettingsOpen;
-            set => SetProperty(ref _isSettingsOpen, value);
-        }
 
         private bool _dataSent;
         public bool DataSent
@@ -140,7 +135,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void SetSettings(Settings settings)
         {
-            Name = settings.Name;
             IP = settings.IP;
             Port = settings.Port;
             Start();
@@ -230,11 +224,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void EditSettings()
         {
-            IsSettingsOpen = true;
-            //Settings settings = this.GetSettings();
-            //bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
-            //if (success == true)
-            //    this.SetSettings(settings);
+            Settings settings = this.GetSettings();
+            bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
+            if (success == true)
+                this.SetSettings(settings);
         }
 
         public void Start()
@@ -276,7 +269,6 @@ namespace CMiX.Core.Presentation.ViewModels
             if (ValidateIPv4(IP) && ValidatePort(IP, Port))
             {
                 ErrorMessage = "Settings applied succefully !";
-                IsSettingsOpen = false;
                 //CanApply = false;
                 //DialogResult = true;
                 //OkIsFocused = true;
