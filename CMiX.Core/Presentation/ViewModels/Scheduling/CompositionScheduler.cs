@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,7 +10,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class CompositionScheduler : ObservableObject, IControl
     {
-        public CompositionScheduler(CompositionSchedulerModel compositionSchedulerModel, ObservableCollection<Playlist> playlists)
+        public CompositionScheduler(CompositionSchedulerModel compositionSchedulerModel)
         {
             this.ID = compositionSchedulerModel.ID;
             this.Name = $"Scheduler({SchedulerID})";
@@ -32,8 +31,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public Guid ID { get; set; }
         public JobScheduler JobScheduler { get; set; }
-
-
 
 
         public IModel GetModel()

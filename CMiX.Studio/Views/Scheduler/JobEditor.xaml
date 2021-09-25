@@ -15,12 +15,8 @@
     <Expander Header="Tasks" IsExpanded="True" >
         <Border Padding="4">
             <StackPanel Margin="4" Grid.Column="0">
-                <Button Content="Add" 
-                        Style="{StaticResource ButtonRounded}"
-                        Margin="0, 0, 0, 4"
-                        Height="20"
-                        Command="{Binding AddTaskCommand}"/>
-                <Views:Overview Grid.Row="1"  DataContext="{Binding SelectedScheduler}"/>
+
+
                 <!--<Grid 
                     DockPanel.Dock="Top" 
                     Height="20"

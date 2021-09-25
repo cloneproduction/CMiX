@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Scheduler="clr-namespace:CMiX.Core.Presentation.ViewModels.Scheduling;assembly=CMiX.Core"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views.Scheduler"
+
              mc:Ignorable="d" 
              d:DesignHeight="364.11" d:DesignWidth="509.543">
     
@@ -37,10 +37,10 @@
 
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type Scheduler:ToRunNowAndEvery}">
-                    <Views:ToRunEvery DataContext="{Binding}"/>
+                    <!--<Views:ToRunEvery DataContext="{Binding}"/>-->
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type Scheduler:ToRunEvery}">
-                    <Views:ToRunEvery DataContext="{Binding}" />
+                    <!--<Views:ToRunEvery DataContext="{Binding}" />-->
                 </DataTemplate>
             </ContentControl.Resources>
         </ContentControl>
