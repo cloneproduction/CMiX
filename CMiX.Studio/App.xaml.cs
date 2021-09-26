@@ -28,7 +28,7 @@ namespace CMiX
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDialogFactory, CustomFrameworkDialogFactory>();
+            services.AddSingleton<IDialogFactory, DialogFactory>();
             services.AddSingleton<IDialogTypeLocator, CustomTypeLocator>();
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<CerasSerializer>();

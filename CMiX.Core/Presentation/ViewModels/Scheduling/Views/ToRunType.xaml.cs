@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX.Studio.Views.Scheduler
+namespace CMiX.Core.Presentation.Views.Scheduling
 {
     public partial class ToRunType : UserControl
     {

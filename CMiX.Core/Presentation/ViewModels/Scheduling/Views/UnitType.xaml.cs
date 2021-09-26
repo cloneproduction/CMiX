@@ -1,10 +1,7 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX.Studio.Views.Scheduler
+namespace CMiX.Core.Presentation.Views.Scheduling
 {
-    /// <summary>
-    /// Interaction logic for UnitType.xaml
-    /// </summary>
     public partial class UnitType : UserControl
     {
         public UnitType()

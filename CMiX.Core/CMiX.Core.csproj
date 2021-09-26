@@ -320,6 +320,21 @@
     <Compile Include="Presentation\ViewModels\Scheduling\Playlist.cs" />
     <Compile Include="Presentation\ViewModels\Scheduling\PlaylistEditor.cs" />
     <Compile Include="Presentation\ViewModels\Scheduling\SchedulerManager.cs" />
+    <Compile Include="Presentation\ViewModels\Scheduling\Views\At.xaml.cs">
+      <DependentUpon>At.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\ViewModels\Scheduling\Views\ToRunEvery.xaml.cs">
+      <DependentUpon>ToRunEvery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\ViewModels\Scheduling\Views\ToRunType.xaml.cs">
+      <DependentUpon>ToRunType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\ViewModels\Scheduling\Views\UnitInterval.xaml.cs">
+      <DependentUpon>UnitInterval.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Presentation\ViewModels\Scheduling\Views\UnitType.xaml.cs">
+      <DependentUpon>UnitType.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\IModifier.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\RandomXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierFactory.cs" />
@@ -411,12 +426,12 @@
     <Compile Include="Presentation\ViewModels\Components\Components\Project.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Scene.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Counter\Counter.cs" />
-    <Compile Include="Presentation\Views\Dialogs\TaskEditor.xaml.cs">
+    <Compile Include="Presentation\ViewModels\Scheduling\Views\TaskEditor.xaml.cs">
       <DependentUpon>TaskEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Presentation\Views\Dialogs\TaskEditorDialog.cs" />
+    <Compile Include="Presentation\ViewModels\Scheduling\TaskEditorDialog.cs" />
     <Compile Include="Presentation\Windows\CustomDialog.cs" />
-    <Compile Include="Presentation\Windows\CustomFrameworkDialogFactory.cs" />
+    <Compile Include="Presentation\Windows\DialogFactory.cs" />
     <Compile Include="Presentation\Windows\CustomTypeLocator.cs" />
     <Compile Include="Presentation\Windows\MessengerSettingsDialog.cs" />
     <Compile Include="Presentation\ViewModels\Dialogs\ModalDialog.cs" />
@@ -602,6 +617,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Presentation\ViewModels\Scheduling\Views\At.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\ViewModels\Scheduling\Views\ToRunEvery.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\ViewModels\Scheduling\Views\ToRunType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\ViewModels\Scheduling\Views\UnitInterval.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\ViewModels\Scheduling\Views\UnitType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Presentation\Views\ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -742,7 +777,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\Views\Dialogs\TaskEditor.xaml">
+    <Page Include="Presentation\ViewModels\Scheduling\Views\TaskEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,10 +1,10 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.Scheduler.UnitType"
+﻿<UserControl x:Class="CMiX.Core.Presentation.Views.Scheduling.UnitType"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Scheduler="clr-namespace:CMiX.Core.Presentation.ViewModels.Scheduling;assembly=CMiX.Core"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views.Scheduler"
+             xmlns:Scheduler="clr-namespace:CMiX.Core.Presentation.ViewModels.Scheduling"
+             xmlns:Views="clr-namespace:CMiX.Core.Presentation.Views.Scheduling"
              mc:Ignorable="d" 
              d:DesignHeight="65.958" d:DesignWidth="413.172">
     
@@ -15,7 +15,7 @@
                 <ColumnDefinition Width="1.5*"/>
             </Grid.ColumnDefinitions>
             <TextBlock
-                Foreground="{StaticResource TextBase}"
+                Foreground="{DynamicResource TextBase}"
                 Text="Unit Type"
                 VerticalAlignment="Center"
                 HorizontalAlignment="Right"

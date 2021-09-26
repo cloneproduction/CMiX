@@ -8,6 +8,7 @@ using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.Views;
+using CMiX.Core.Presentation.Views.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -17,9 +18,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class SchedulerManager : ObservableRecipient, IRecipient<ISchedulerMessage>
     {
-        public SchedulerManager(IProject project, IDialogService dialogService)
+        public SchedulerManager(IProject project)
         {
-            DialogService = dialogService;
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
             PlaylistEditor = new PlaylistEditor();
             JobEditor = new JobEditor();
@@ -32,11 +32,16 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             DeleteItemCommand = new RelayCommand(DeleteScheduler);
         }
 
+        public SchedulerManager(IProject project, IDialogService dialogService) : this(project)
+        {
+            DialogService = dialogService;
+        }
 
         private void AddJob()
         {
             JobEditor jobEditor = new JobEditor();
             bool? success = DialogService.ShowDialog<TaskEditor>(this, jobEditor);
+
             //if (success == true)
             //this.SetSettings(settings);
         }

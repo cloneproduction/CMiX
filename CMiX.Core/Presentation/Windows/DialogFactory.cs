@@ -3,13 +3,14 @@
 
 using System;
 using CMiX.Core.Presentation.Views;
+using CMiX.Core.Presentation.Views.Scheduling;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;
 using MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class CustomFrameworkDialogFactory : DefaultFrameworkDialogFactory, IDialogFactory
+    public class DialogFactory : DefaultFrameworkDialogFactory, IDialogFactory
     {
         public IWindow Create(Type dialogType)
         {
