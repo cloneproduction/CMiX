@@ -7,7 +7,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="75" d:DesignWidth="375.333">
     
-    <StackPanel>
         <Grid Height="20">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -27,5 +26,4 @@
                         HorizontalAlignment="Stretch"
                         Value="{Binding Interval, Mode=TwoWay}"/>
         </Grid>
-    </StackPanel>
 </UserControl>

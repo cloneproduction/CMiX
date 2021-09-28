@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="65.958" d:DesignWidth="413.172">
     
-    <StackPanel Margin="0, 4">
+    <StackPanel>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -35,7 +35,7 @@
             </ComboBox>
         </Grid>
         <ContentControl 
-            Margin="0, 8" 
+            Margin="0, 4" 
             Grid.Row="1" 
             Content="{Binding SelectedUnitType}">
             <ContentControl.Resources>
