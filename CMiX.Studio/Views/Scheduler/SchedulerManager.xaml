@@ -36,19 +36,17 @@
                 </ListBox.ItemTemplate>
             </ListBox>
         </Border>
-        <Expander Header="Tasks" IsExpanded="True" >
+        <Expander Header="Tasks" IsExpanded="True">
             <Border Padding="4">
                 <StackPanel>
-                    <Button Content="Add" 
-                        Style="{StaticResource ButtonRounded}"
-                        Margin="0, 0, 0, 4"
-                        Height="20"
-                        Command="{Binding AddJobCommand}"/>
-                    <local:Overview Grid.Row="1"  DataContext="{Binding SelectedScheduler}"/>
+                    <Button Content="Add"
+                            Style="{StaticResource ButtonRounded}"
+                            Margin="0, 0, 0, 4"
+                            Height="20"
+                            Command="{Binding AddJobCommand}"/>
+                    <local:Overview Grid.Row="1" DataContext="{Binding SelectedScheduler}"/>
                 </StackPanel>
             </Border>
         </Expander>
-        <!--<local:PlaylistEditor Grid.Row="1" Grid.ColumnSpan="2"  DataContext="{Binding PlaylistEditor}"/>-->
-
     </StackPanel>
 </UserControl>

@@ -21,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public SchedulerManager(IProject project)
         {
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
-            PlaylistEditor = new PlaylistEditor();
+            PlaylistEditor = new PlaylistEditor(project);
             JobEditor = new JobEditor();
 
             Messenger.Register(this, MessageType.In);

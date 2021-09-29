@@ -92,6 +92,9 @@
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <Beat:BeatManager DataContext="{Binding BeatManager}"/>
                             </TabItem>
+                            <TabItem Style="{StaticResource TabItemVerticalPanel}">
+                                <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
+                            </TabItem>
                         </TabControl>
                     </Border>
                 </Border>

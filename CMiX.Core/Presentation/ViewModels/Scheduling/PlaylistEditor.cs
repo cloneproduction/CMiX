@@ -10,8 +10,9 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
     public class PlaylistEditor : ObservableObject
     {
-        public PlaylistEditor()
+        public PlaylistEditor(IProject project)
         {
+            Project = project;
             Playlists = new ObservableCollection<Playlist>();
 
             AddItemCommand = new RelayCommand(NewPlaylist);
@@ -25,6 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         int plCreateIndex = 0;
 
+        public IProject Project { get; set; }
 
         public ICommand AddCompositionToPlaylistCommand { get; set; }
         public ICommand RemoveCompositionFromPlaylistCommand { get; set; }
