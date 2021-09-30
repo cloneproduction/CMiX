@@ -57,19 +57,18 @@
     </Style>
 
     <Style x:Key="ButtonListBoxItem" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border
                         x:Name="border"
                         Margin="0"
-                        Opacity="0.6"
+                        Opacity="0.8"
                         Padding="1"
                         Background="Transparent"
                         SnapsToDevicePixels="True">
-                        <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
-                            <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
-                        </Viewbox>
+                        <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

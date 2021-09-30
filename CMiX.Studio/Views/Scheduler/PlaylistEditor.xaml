@@ -30,6 +30,7 @@
                 <ListBox
                     Style="{StaticResource ListBoxWithButton}"
                     MaxHeight="100"
+                    MinHeight="100"
                     ItemsSource="{Binding Playlists}"
                     SelectedItem="{Binding SelectedPlaylist}"
                     SelectedIndex="{Binding SelectedSchedulerIndex}">
@@ -59,10 +60,10 @@
                         Margin="0, 8" 
                         Grid.Row="1">
                     <StackPanel>
-                        <Border BorderBrush="{DynamicResource DarkerColor}"
-                                BorderThickness="1">
+                        <Border >
                             <ListBox 
                                 MinHeight="100"
+                                Style="{StaticResource ListBoxRounded}"
                                 Background="{DynamicResource HighHighDarkerColor}"
                                 Margin="0, 0, 0, 0"
                                 AllowDrop="True"
@@ -103,14 +104,15 @@
                             <Popup AllowsTransparency="True"
                                     Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=playlistEditor}"
                                     Width="{Binding ActualWidth, ElementName=PopUpToggle}"
+
                                     Placement="Bottom"
                                     PlacementTarget="{Binding ElementName=PopUpToggle}"
                                     FlowDirection="LeftToRight"
                                     IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
 
                                 <Border Background="Transparent"
-                                    CornerRadius="{DynamicResource CornerRadiusBottom}"
-                                    Padding="2, 0, 2, 2">
+                                        CornerRadius="{DynamicResource CornerRadiusBottom}"
+                                        Margin="4, 0, 4, 4">
                                     <Border.Effect>
                                         <DropShadowEffect BlurRadius="15"
                                                         Opacity="0.8"
@@ -120,18 +122,29 @@
                                     </Border.Effect>
                                     <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}"  
                                             MaxHeight="145"
+                                            Padding="8"
+                                            HorizontalAlignment="Stretch"
                                             Background="{DynamicResource HighDarkerColor}">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                             <ItemsControl ItemsSource="{Binding Path=Project.Components}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
-                                                        <Button 
-                                                        Height="20"
-                                                        Margin="2"
-                                                        Command="{Binding Path=DataContext.AddCompositionToPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
-                                                        CommandParameter="{Binding }"
-                                                        VerticalAlignment="Center" 
-                                                        Content="{Binding Name}"/>
+                                                        <Border  HorizontalAlignment="Stretch">
+                                                            <Button 
+                                                                Style="{StaticResource ButtonListBoxItem}"
+                                                                HorizontalAlignment="Stretch"
+                                                                Background="Red"
+                                                                Height="20"
+                                                                Margin="2"
+                                                                Command="{Binding Path=DataContext.AddCompositionToPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
+                                                                CommandParameter="{Binding }"
+                                                                VerticalAlignment="Center">
+                                                                <Button.Content>
+                                                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}"/>
+                                                                </Button.Content>
+                                                            </Button>
+                                                        </Border>
+
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>

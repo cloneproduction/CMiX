@@ -38,6 +38,37 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ListBoxRounded" TargetType="{x:Type ListBox}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate  TargetType="{x:Type ListBox}">
+                    <Border
+                        x:Name="Bd"
+                        BorderBrush="{DynamicResource DarkerColor}"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="0"
+                        Background="{TemplateBinding Background}"
+                        SnapsToDevicePixels="True">
+                        <ScrollViewer Margin="0, 4, 0, 4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                            <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </ScrollViewer>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="Background" Value="White" />
+                            <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD9D9D9" />
+                        </Trigger>
+                        <MultiTrigger>
+                            <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
     <Style TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
