@@ -19,123 +19,131 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Padding="4">
+
+    <Border>
         <StackPanel>
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="0.5*"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
+            <Border VerticalAlignment="Center"
+                    Padding="8"
+                    DockPanel.Dock="Top"
+                    Height="40">
+                <TextBlock DockPanel.Dock="Left" 
+                        Text="PLAYLISTS" 
+                        FontWeight="SemiBold" 
+                        VerticalAlignment="Center"/>
+            </Border>
+            <Border Margin="4, 0, 4, 8">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="0.5*"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <ListBox
+                        Style="{StaticResource ListBoxWithButton}"
+                        MaxHeight="100"
+                        MinHeight="100"
+                        ItemsSource="{Binding Playlists}"
+                        SelectedItem="{Binding SelectedPlaylist}"
+                        SelectedIndex="{Binding SelectedSchedulerIndex}">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Height="25">
+                                    <Controls:EditableTextBox 
+                                        x:Name="editableTextBox"
+                                        IsEditing="{Binding IsRenaming}"
+                                        VerticalAlignment="Center" 
+                                        Text="{Binding Name}">
+                                        <i:Interaction.Triggers>
+                                            <i:EventTrigger EventName="MouseDoubleClick">
+                                                <i:InvokeCommandAction 
+                                                    Command="{Binding RenameCommand}"
+                                                    CommandParameter="{Binding}" />
+                                            </i:EventTrigger>
+                                        </i:Interaction.Triggers>
+                                    </Controls:EditableTextBox>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
 
-                <ListBox
-                    Style="{StaticResource ListBoxWithButton}"
-                    MaxHeight="100"
-                    MinHeight="100"
-                    ItemsSource="{Binding Playlists}"
-                    SelectedItem="{Binding SelectedPlaylist}"
-                    SelectedIndex="{Binding SelectedSchedulerIndex}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border Height="25">
-                                <Controls:EditableTextBox 
-                                    x:Name="editableTextBox"
-                                    IsEditing="{Binding IsRenaming}"
-                                    VerticalAlignment="Center" 
-                                    Text="{Binding Name}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDoubleClick">
-                                            <i:InvokeCommandAction 
-                                                Command="{Binding RenameCommand}"
-                                                CommandParameter="{Binding}" />
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Controls:EditableTextBox>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-
-                <Border Visibility="{Binding SelectedPlaylist, Converter={StaticResource NullToVisibility}}" 
+                    <Border Visibility="{Binding SelectedPlaylist, Converter={StaticResource NullToVisibility}}" 
                         HorizontalAlignment="Stretch" 
                         Margin="0, 8" 
                         Grid.Row="1">
-                    <StackPanel>
-                        <Border >
-                            <ListBox 
-                                MinHeight="100"
-                                Style="{StaticResource ListBoxRounded}"
-                                Background="{DynamicResource HighHighDarkerColor}"
-                                Margin="0, 0, 0, 0"
-                                AllowDrop="True"
-                                Height="125"
-                                dd:DragDrop.IsDragSource="True"
-                                dd:DragDrop.IsDropTarget="True"
-                                dd:DragDrop.DragHandler="{Binding}"
-                                dd:DragDrop.DropHandler="{Binding}"
-                                ItemsSource="{Binding SelectedPlaylist.Compositions}">
-                                <ListBox.ItemTemplate>
-                                    <DataTemplate>
-                                        <Border Height="25" >
-                                            <DockPanel>
-                                                <Button 
-                                                DockPanel.Dock="Right" 
-                                                Content="✕" 
-                                                Width="30" 
-                                                Style="{StaticResource ButtonListBoxItem}"
-                                                Command="{Binding Path=DataContext.RemoveCompositionFromPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
-                                                CommandParameter="{Binding}"/>
-                                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                                            </DockPanel>
-                                        </Border>
-                                    </DataTemplate>
-                                </ListBox.ItemTemplate>
-                            </ListBox>
-                        </Border>
+                        <StackPanel>
+                            <Border >
+                                <ListBox 
+                                    MinHeight="100"
+                                    Style="{StaticResource ListBoxRounded}"
+                                    Background="{DynamicResource HighHighDarkerColor}"
+                                    Margin="0, 0, 0, 0"
+                                    AllowDrop="True"
+                                    Height="125"
+                                    dd:DragDrop.IsDragSource="True"
+                                    dd:DragDrop.IsDropTarget="True"
+                                    dd:DragDrop.DragHandler="{Binding}"
+                                    dd:DragDrop.DropHandler="{Binding}"
+                                    ItemsSource="{Binding SelectedPlaylist.Compositions}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Height="25" >
+                                                <DockPanel>
+                                                    <Button 
+                                                    DockPanel.Dock="Right" 
+                                                    Content="✕" 
+                                                    Width="30" 
+                                                    Style="{StaticResource ButtonListBoxItem}"
+                                                    Command="{Binding Path=DataContext.RemoveCompositionFromPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
+                                                    CommandParameter="{Binding}"/>
+                                                    <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                                                </DockPanel>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </Border>
 
-                        <Grid>
-                            <ToggleButton x:Name="PopUpToggle" 
-                                        Content="Add Composition"
-                                        Height="25" 
-                                        Margin="0, 4"
-                                        HorizontalAlignment="Stretch"
-                                        VerticalAlignment="Center"
-                                        Style="{StaticResource ToggleTransformModifierMenu}"/>
 
-                            <Popup AllowsTransparency="True"
+                            <StackPanel>
+                                <ToggleButton 
+                                    x:Name="PopUpToggle" 
+                                    Content="Add Composition"
+                                    Height="25" 
+                                    Margin="0, 4"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Center"
+                                    Style="{StaticResource ToggleTransformModifierMenu}"/>
+
+                                <Controls:CMiXPopup 
+                                    AllowsTransparency="True"
                                     Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=playlistEditor}"
                                     Width="{Binding ActualWidth, ElementName=PopUpToggle}"
-
-                                    Placement="Bottom"
+                                    IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
                                     PlacementTarget="{Binding ElementName=PopUpToggle}"
-                                    FlowDirection="LeftToRight"
-                                    IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+                                    Placement="Bottom"
+                                    FlowDirection="LeftToRight">
 
-                                <Border Background="Transparent"
-                                        CornerRadius="{DynamicResource CornerRadiusBottom}"
-                                        Margin="4, 0, 4, 4">
-                                    <Border.Effect>
-                                        <DropShadowEffect BlurRadius="15"
-                                                        Opacity="0.8"
-                                                        ShadowDepth="2"
-                                                        Direction="-90" 
-                                                        RenderingBias="Performance"/>
-                                    </Border.Effect>
-                                    <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}"  
-                                            MaxHeight="145"
-                                            Padding="8"
-                                            HorizontalAlignment="Stretch"
-                                            Background="{DynamicResource HighDarkerColor}">
+                                    <!--<Border.Effect>
+                                        <DropShadowEffect BlurRadius="15" Opacity="0.8"  ShadowDepth="2" Direction="-90" RenderingBias="Performance" />
+                                    </Border.Effect>-->
+                                    <Border   
+                                        CornerRadius="0, 0, 4, 4"
+                                        BorderThickness="1"
+                                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                                        MaxHeight="145"
+                                        Padding="4, 4, 0, 4"
+                                        HorizontalAlignment="Stretch"
+                                        Background="{DynamicResource HighHighDarkerColor}">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">
                                             <ItemsControl ItemsSource="{Binding Path=Project.Components}">
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Border  HorizontalAlignment="Stretch">
                                                             <Button 
-                                                                Style="{StaticResource ButtonListBoxItem}"
+                                                                Style="{StaticResource ButtonItemControl}"
                                                                 HorizontalAlignment="Stretch"
                                                                 Background="Red"
-                                                                Height="20"
-                                                                Margin="2"
+                                                                Height="25"
+                                                                Margin="0"
                                                                 Command="{Binding Path=DataContext.AddCompositionToPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
                                                                 CommandParameter="{Binding }"
                                                                 VerticalAlignment="Center">
@@ -144,18 +152,21 @@
                                                                 </Button.Content>
                                                             </Button>
                                                         </Border>
-
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
                                             </ItemsControl>
                                         </ScrollViewer>
                                     </Border>
-                                </Border>
-                            </Popup>
-                        </Grid>
-                    </StackPanel>
-                </Border>
-            </Grid>
+
+                                </Controls:CMiXPopup>
+                            </StackPanel>
+
+
+                        </StackPanel>
+                    </Border>
+                </Grid>
+            </Border>
         </StackPanel>
     </Border>
+
 </UserControl>

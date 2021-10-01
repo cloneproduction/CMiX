@@ -9,44 +9,50 @@
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="500">
 
-    <StackPanel>
-        <Border VerticalAlignment="Center"
+    <Border>
+        <StackPanel>
+            <Border VerticalAlignment="Center"
                     Padding="8"
                     DockPanel.Dock="Top"
                     Height="40">
-            <TextBlock DockPanel.Dock="Left" 
+                <TextBlock DockPanel.Dock="Left" 
                         Text="SCHEDULER" 
                         FontWeight="SemiBold" 
                         VerticalAlignment="Center"/>
-        </Border>
+            </Border>
 
-        <Border Margin="4, 0, 4, 8">
-            <ListBox
+            <Border Margin="4, 0, 4, 8">
+                <ListBox
                 MaxHeight="100"
                 Style="{StaticResource ListBoxWithButton}"
                 ItemsSource="{Binding CompositionSchedulers}"
                 SelectedItem="{Binding SelectedScheduler}"
                 SelectedIndex="{Binding SelectedSchedulerIndex}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Height="25" >
-                            <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Border>
-        <Expander Header="Tasks" IsExpanded="True">
-            <Border Padding="4">
-                <StackPanel>
-                    <Button Content="Add"
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="25" >
+                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
+
+            <Expander 
+            Header="Tasks" 
+            IsExpanded="True">
+                <Border Padding="4">
+                    <StackPanel>
+                        <Button Content="Add"
                             Style="{StaticResource ButtonRounded}"
-                            Margin="0, 0, 0, 4"
+                            Margin="4"
                             Height="20"
                             Command="{Binding AddJobCommand}"/>
-                    <local:Overview Grid.Row="1" DataContext="{Binding SelectedScheduler}"/>
-                </StackPanel>
-            </Border>
-        </Expander>
-    </StackPanel>
+                        <local:Overview Grid.Row="1" DataContext="{Binding SelectedScheduler}"/>
+                    </StackPanel>
+                </Border>
+            </Expander>
+        </StackPanel>
+    </Border>
+
 </UserControl>

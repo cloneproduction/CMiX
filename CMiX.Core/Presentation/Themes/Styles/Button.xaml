@@ -57,15 +57,17 @@
     </Style>
 
     <Style x:Key="ButtonListBoxItem" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border
                         x:Name="border"
+                        HorizontalAlignment="Right"
                         Margin="0"
+                        Padding="0, 0, 8, 0"
                         Opacity="0.8"
-                        Padding="1"
                         Background="Transparent"
                         SnapsToDevicePixels="True">
                         <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
@@ -73,6 +75,40 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="1.0"/>
+                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="1.0"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonItemControl" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="border"
+                        HorizontalAlignment="Stretch"
+                        Margin="0"
+                        Padding="8, 4, 4, 4"
+                        Opacity="0.8"
+                        Background="Transparent"
+                        SnapsToDevicePixels="True">
+                        <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="1.0"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
@@ -185,7 +221,7 @@
                         CornerRadius="2"
                         x:Name="border"
                         Margin="0"
-                        BorderBrush="{DynamicResource HighDarkerColor}"
+                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
                         BorderThickness="0, 0, 1, 1"
                         Background="{DynamicResource Color}"
                         SnapsToDevicePixels="True">

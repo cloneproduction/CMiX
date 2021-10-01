@@ -326,7 +326,9 @@
                         x:Name="border"
                         CornerRadius="2"
                         Padding="{TemplateBinding Padding}"
-                        Background="{DynamicResource Color}"
+                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                        BorderThickness="0, 0, 1, 1"
+                        Background="{DynamicResource DarkColor}"
                         SnapsToDevicePixels="True">
                         <DockPanel>
                             <Path 
@@ -359,6 +361,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
                             </MultiTrigger.Conditions>
+                            <Setter TargetName="border" Property="CornerRadius" Value="2, 2, 0, 0"/>
                         </MultiTrigger>
 
                         <MultiTrigger>

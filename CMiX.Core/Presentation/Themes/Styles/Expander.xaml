@@ -206,8 +206,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border 
                         Height="25"
-                        x:Name="mainBorder"
-                        CornerRadius="{DynamicResource CornerRadiusDefault}" 
+                        x:Name="mainBorder" 
                         Padding="4"
                         Background="{DynamicResource DarkColor}">
                         <Grid 
@@ -236,10 +235,10 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
-                            <Setter Property="CornerRadius" TargetName="mainBorder" Value="{DynamicResource CornerRadiusTop}"/>
+                            <!--<Setter Property="CornerRadius" TargetName="mainBorder" Value="{DynamicResource CornerRadiusTop}"/>-->
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="mainBorder" Value="{DynamicResource Color}"/>
+                            <!--<Setter Property="Background" TargetName="mainBorder" Value="{DynamicResource Color}"/>-->
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.Pressed.Arrow.Stroke}"/>
