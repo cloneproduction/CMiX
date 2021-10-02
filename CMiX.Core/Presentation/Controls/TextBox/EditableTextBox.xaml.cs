@@ -23,8 +23,6 @@ namespace CMiX.Core.Presentation.Controls
         private void EditableTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
             var poeut = Mouse.DirectlyOver;
-            Console.WriteLine(poeut); ;
-            Console.WriteLine("PreviewMouseDown IsEditing " + IsEditing);
             //e.Handled = true;
         }
 
@@ -146,8 +144,7 @@ namespace CMiX.Core.Presentation.Controls
             TextDisplay.Text = InputValue.Text;
             TextDisplay.Visibility = Visibility.Visible;
             InputValue.Visibility = Visibility.Hidden;
-
-
+            FocusManager.SetFocusedElement(FocusManager.GetFocusScope(InputValue), null);
             Keyboard.ClearFocus();
         }
 

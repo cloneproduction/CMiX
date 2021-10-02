@@ -17,11 +17,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             ID = new Guid("11223344-5566-7788-99AA-BBCCDDEEFF00");
             Assets = new SortableObservableCollection<IAsset>();
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
-
+            Playlists = new ObservableCollection<Playlist>();
             Visibility = new Visibility(new VisibilityModel());
         }
 
 
+        public ObservableCollection<Playlist> Playlists { get; set; }
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
         public SortableObservableCollection<IAsset> Assets { get; set; }
         public Composition ActiveComposition { get; set; }

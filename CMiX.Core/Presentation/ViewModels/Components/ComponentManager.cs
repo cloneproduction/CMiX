@@ -64,7 +64,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ICommand RenameComponentCommand { get; }
 
 
-        public IProject Project { get; set; }
+        private IProject _project;
+        public IProject Project
+        {
+            get => _project;
+            set => SetProperty(ref _project, value);
+        }
         private Dictionary<Guid, IComponent> Components { get; set; }
         public ComponentFactory ComponentFactory { get; set; }
 

@@ -41,7 +41,7 @@
                         Style="{StaticResource ListBoxWithButton}"
                         MaxHeight="100"
                         MinHeight="100"
-                        ItemsSource="{Binding Playlists}"
+                        ItemsSource="{Binding Path=Project.Playlists}"
                         SelectedItem="{Binding SelectedPlaylist}"
                         SelectedIndex="{Binding SelectedSchedulerIndex}">
                         <ListBox.ItemTemplate>

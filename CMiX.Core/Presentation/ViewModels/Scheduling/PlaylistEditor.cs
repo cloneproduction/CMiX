@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Models.Scheduler;
 using CMiX.Core.Presentation.ViewModels.Components;
@@ -13,7 +12,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public PlaylistEditor(IProject project)
         {
             Project = project;
-            Playlists = new ObservableCollection<Playlist>();
 
             AddItemCommand = new RelayCommand(NewPlaylist);
             DeleteItemCommand = new RelayCommand(DeletePlaylist);
@@ -24,10 +22,11 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             RemoveCompositionFromPlaylistCommand = new RelayCommand<Composition>(RemoveCompositionFromPlaylist);
         }
 
+
         int plCreateIndex = 0;
 
-        public IProject Project { get; set; }
 
+        public IProject Project { get; set; }
         public ICommand AddCompositionToPlaylistCommand { get; set; }
         public ICommand RemoveCompositionFromPlaylistCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
@@ -35,8 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public ICommand DeleteSelectedCompoCommand { get; set; }
         public ICommand DuplicateSelectedCompoCommand { get; set; }
         public ICommand DeleteAllCompoCommand { get; set; }
-
-        public ObservableCollection<Playlist> Playlists { get; set; }
 
 
         private bool _dropDownOpen;
@@ -67,7 +64,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             {
                 SelectedPlaylist.Compositions.Add(composition);
                 DropDownOpen = false;
-                Console.WriteLine("Composition added to playlist " + SelectedPlaylist.Name);
             }
         }
 
@@ -96,7 +92,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             plCreateIndex++;
             Playlist playlist = new Playlist(new PlaylistModel());
             playlist.Name = $"Playlist ({plCreateIndex})";
-            Playlists.Add(playlist);
+            Project.Playlists.Add(playlist);
             SelectedPlaylist = playlist;
 
             Console.WriteLine("New Playlist Created");
@@ -104,24 +100,24 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public void DeletePlaylist()
         {
-            int index = Playlists.IndexOf(SelectedPlaylist);
+            int index = Project.Playlists.IndexOf(SelectedPlaylist);
 
             if (SelectedPlaylist != null)
-                Playlists.Remove(SelectedPlaylist);
+                Project.Playlists.Remove(SelectedPlaylist);
 
             if (index > 0)
             {
-                SelectedPlaylist = Playlists[index - 1];
+                SelectedPlaylist = Project.Playlists[index - 1];
                 return;
             }
 
-            if (index == 0 && Playlists.Count > 0)
+            if (index == 0 && Project.Playlists.Count > 0)
             {
-                SelectedPlaylist = Playlists[0];
+                SelectedPlaylist = Project.Playlists[0];
                 return;
             }
 
-            if (Playlists.Count == 0)
+            if (Project.Playlists.Count == 0)
                 plCreateIndex = 0;
         }
     }

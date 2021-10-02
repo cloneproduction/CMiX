@@ -82,11 +82,19 @@
 
     <ControlTemplate x:Key="CMiXToggleButtonTemplate" TargetType="{x:Type Controls:CMiXToggleButton}">
         <DockPanel>
-            <Border SnapsToDevicePixels="True" Height="16" Width="16" x:Name="border" Grid.Column="1">
+            <Border x:Name="border"
+                    Height="14" Width="14"
+                    CornerRadius="2"
+                    Padding="2"
+                    Background="{DynamicResource Color}"
+                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                    BorderThickness="0, 0, 1, 1"
+                    SnapsToDevicePixels="True">
                 <Border.Style>
                     <Style BasedOn="{StaticResource BorderShadow}" TargetType="{x:Type Border}">
                         <Setter Property="DockPanel.Dock" Value="Right"/>
                         <Style.Triggers>
+
                             <DataTrigger Binding="{Binding Path=Dock, RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
                                 <Setter Property="DockPanel.Dock" Value="Left"/>
                             </DataTrigger>
@@ -94,22 +102,19 @@
                             <DataTrigger Binding="{Binding Path=Dock, RelativeSource={RelativeSource TemplatedParent}}" Value="Right">
                                 <Setter Property="DockPanel.Dock" Value="Right"/>
                             </DataTrigger>
+
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
-                <Border
-                    Height="14" Width="14"
-                    CornerRadius="2"
-                    Padding="2"
-                    Background="{TemplateBinding Background}"
-                    SnapsToDevicePixels="True">
-                    <Image x:Name="Path" Opacity="0.75" Source="{DynamicResource IsChecked}"/>
-                </Border>
+                <Image x:Name="Path" 
+                       Opacity="0.75" 
+                       Source="{DynamicResource IsChecked}"/>
             </Border>
 
             <TextBlock x:Name="textBlock"
                        Foreground="{DynamicResource TextBase}" 
-                       Padding="4" 
+                       Padding="4"
+                       Margin="4, 0"
                        VerticalAlignment="Center"
                        Text="{Binding Path=Caption, RelativeSource={RelativeSource TemplatedParent}}"/>
         </DockPanel>
@@ -121,7 +126,7 @@
                     <Condition Property="IsChecked" Value="true" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource Accent}" />
+                    <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}"/>
                     <Setter TargetName="Path" Property="Visibility" Value="Visible"/>
                     <Setter TargetName="textBlock" Property="Opacity" Value="1.0"/>
                 </MultiTrigger.Setters>
@@ -134,7 +139,7 @@
                 <MultiTrigger.Setters>
                     <Setter Property="Background" Value="{DynamicResource DarkColor}" />
                     <Setter TargetName="Path" Property="Visibility" Value="Hidden"/>
-                    <Setter TargetName="textBlock" Property="Opacity" Value="0.50"/>
+                    <Setter TargetName="textBlock" Property="Opacity" Value="0.9"/>
                 </MultiTrigger.Setters>
             </MultiTrigger>
 
@@ -156,7 +161,7 @@
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
                     <Setter Property="Background" Value="{DynamicResource Color}" />
-                    <Setter TargetName="textBlock" Property="Opacity" Value="0.75"/>
+                    <Setter TargetName="textBlock" Property="Opacity" Value="0.9"/>
                 </MultiTrigger.Setters>
             </MultiTrigger>
 
@@ -226,8 +231,7 @@
                 </Style>
             </Setter.Value>
         </Setter>
-        <Setter Property="Background" Value="{DynamicResource Color}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
+
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template" Value="{StaticResource CMiXToggleButtonTemplate }"/>

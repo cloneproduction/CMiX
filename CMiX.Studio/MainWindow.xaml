@@ -75,7 +75,7 @@
                                 <TabItem.Header>
                                     <Image Margin="4" Source="{StaticResource Resources}" />
                                 </TabItem.Header>
-                                <Views:AssetManager DataContext="{Binding AssetManager}" Grid.RowSpan="2"/>
+                                <Views:AssetManager DataContext="{Binding AssetManager}"/>
                             </TabItem>
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
@@ -102,7 +102,7 @@
                                 <TabItem.Header>
                                     <Image Margin="3" Source="{StaticResource Composition}"/>
                                 </TabItem.Header>
-                                <Components:CompositionManager DataContext="{Binding CompositionManager}"/>
+                                <Components:CompositionManager Margin="4, 0" DataContext="{Binding CompositionManager}"/>
                             </TabItem>
                         </TabControl>
                     </Border>
@@ -137,16 +137,10 @@
                         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="4, 0" Background="{DynamicResource DarkColor}" Height="1"/>
                         <StackPanel Grid.Row="2"  Margin="8"  >
                             <Views:ComponentPanel Background="{StaticResource HighDarkerColor}" DataContext="{Binding ComponentManager}"/>
-                            <Views:CompositionPanel Margin="0, 4" DataContext="{Binding ComponentManager.SelectedComposition}"/>
                         </StackPanel>
-
                     </Grid>
                 </Border>
-
             </Grid>
         </DockPanel>
-        <!--<Border Visibility="Visible" Background="red" Opacity="0"/>-->
     </Grid>
-
-
 </Window>

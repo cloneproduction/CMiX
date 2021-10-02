@@ -24,7 +24,7 @@ namespace CMiX.Core.Network.Messages
         {
             PlaylistEditor playlistEditor = receiver as PlaylistEditor;
             Playlist playlist = new Playlist(PlaylistModel);
-            playlistEditor.Playlists.Add(playlist);
+            playlistEditor.Project.Playlists.Add(playlist);
             playlistEditor.SelectedPlaylist = playlist;
         }
     }

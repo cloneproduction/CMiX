@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CMiX.Studio.Views.Component"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
@@ -20,7 +21,7 @@
                         VerticalAlignment="Center"/>
             </Border>
 
-            <Border Margin="4, 0, 4, 8">
+            <Border Margin="0, 0, 0, 8">
                 <ListBox
                     MaxHeight="100"
                     Style="{StaticResource ListBoxWithButton}"
@@ -47,6 +48,8 @@
                 </ListBox.ItemTemplate>
                 </ListBox>
             </Border>
-        </StackPanel>
+
+        <Views:CompositionPanel Margin="0, 4" DataContext="{Binding SelectedComposition}"/>
+    </StackPanel>
 
 </UserControl>

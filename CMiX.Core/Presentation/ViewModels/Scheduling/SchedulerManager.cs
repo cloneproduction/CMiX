@@ -1,13 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentation.Views;
 using CMiX.Core.Presentation.Views.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -20,9 +18,10 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
     {
         public SchedulerManager(IProject project)
         {
+            Project = project;
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
             PlaylistEditor = new PlaylistEditor(project);
-            JobEditor = new JobEditor();
+            JobEditor = new JobEditor(project);
 
             Messenger.Register(this, MessageType.In);
 
@@ -32,6 +31,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             DeleteItemCommand = new RelayCommand(DeleteScheduler);
         }
 
+        public IProject Project { get; set; }
+
         public SchedulerManager(IProject project, IDialogService dialogService) : this(project)
         {
             DialogService = dialogService;
@@ -39,9 +40,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         private void AddJob()
         {
-            JobEditor jobEditor = new JobEditor();
+            JobEditor jobEditor = new JobEditor(Project);
             bool? success = DialogService.ShowDialog<TaskEditor>(this, jobEditor);
-
             //if (success == true)
             //this.SetSettings(settings);
         }
@@ -49,6 +49,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public ICommand AddJobCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
+
 
         public IDialogService DialogService { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
@@ -65,7 +66,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public ObservableCollection<Playlist> Playlists
         {
-            get => PlaylistEditor.Playlists;
+            get => PlaylistEditor.Project.Playlists;
         }
 
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }

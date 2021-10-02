@@ -337,6 +337,8 @@
                         CornerRadius="2, 2, 0, 0"
                         x:Name="border"
                         Margin="0"
+                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                        BorderThickness="0, 0, 1, 0"
                         Background="{DynamicResource Color}"
                         SnapsToDevicePixels="True">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
@@ -394,6 +396,8 @@
                         CornerRadius="0, 0, 2, 2"
                         x:Name="border"
                         Margin="0"
+                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                        BorderThickness="0, 0, 1, 1"
                         Background="{DynamicResource Color}"
                         SnapsToDevicePixels="True">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">

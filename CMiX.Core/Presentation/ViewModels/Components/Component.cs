@@ -43,6 +43,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ICommand VisibilityCommand { get; set; }
         public ICommand RenameCommand { get; set; }
 
+
         private Guid _id;
         public Guid ID
         {

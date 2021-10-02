@@ -17,6 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         bool IsSelected { get; set; }
         bool IsRenaming { get; set; }
 
+        string Name { get; set; }
         void AddComponent(IComponent component);
         void RemoveComponent(IComponent component);
 
