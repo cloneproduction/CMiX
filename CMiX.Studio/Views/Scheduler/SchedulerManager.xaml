@@ -23,11 +23,11 @@
 
             <Border Margin="4, 0, 4, 8">
                 <ListBox
-                MaxHeight="100"
-                Style="{StaticResource ListBoxWithButton}"
-                ItemsSource="{Binding CompositionSchedulers}"
-                SelectedItem="{Binding SelectedScheduler}"
-                SelectedIndex="{Binding SelectedSchedulerIndex}">
+                    MaxHeight="100"
+                    Style="{StaticResource ListBoxWithButton}"
+                    ItemsSource="{Binding CompositionSchedulers}"
+                    SelectedItem="{Binding SelectedScheduler}"
+                    SelectedIndex="{Binding SelectedSchedulerIndex}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
                             <Border Height="25" >

@@ -79,8 +79,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             set
             {
                 SetProperty(ref _selectedSchedulerIndex, value);
-                Console.WriteLine("SelectedSchedulerIndex = " + SelectedSchedulerIndex);
-
                 Messenger.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
             }
         }

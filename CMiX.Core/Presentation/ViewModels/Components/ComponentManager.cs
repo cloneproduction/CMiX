@@ -91,7 +91,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public void RenameComponent(IComponent component) => SelectedComponent.IsRenaming = true;
 
 
-
         public void CreateLayer()
         {
             var layer = ComponentFactory.CreateComponent(ComponentType.Layer);

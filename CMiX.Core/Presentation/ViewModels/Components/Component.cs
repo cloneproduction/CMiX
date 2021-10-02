@@ -11,6 +11,7 @@ using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
@@ -21,10 +22,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             IsExpanded = false;
             Name = this.GetType().Name;
+            RenameCommand = new RelayCommand(Rename);
             Components = new ObservableCollection<IComponent>();
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
         }
 
+        private void Rename()
+        {
+            this.IsRenaming = true;
+        }
 
         private MasterBeat _masterBeat;
         public MasterBeat MasterBeat
@@ -35,7 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public Visibility Visibility { get; set; }
         public ICommand VisibilityCommand { get; set; }
-
+        public ICommand RenameCommand { get; set; }
 
         private Guid _id;
         public Guid ID

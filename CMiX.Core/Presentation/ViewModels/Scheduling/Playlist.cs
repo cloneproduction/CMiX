@@ -46,7 +46,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         public void Rename()
         {
             this.IsRenaming = true;
-            Console.WriteLine("IsRenaming" + IsRenaming);
         }
 
         public void DragOver(IDropInfo dropInfo)

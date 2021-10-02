@@ -24,6 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             BeatManager = new BeatManager(project);
             ComponentManager = new ComponentManager(project);
+            CompositionManager = new CompositionManager(project);
             SchedulerManager = new SchedulerManager(project, dialogService);
             PlaylistEditor = new PlaylistEditor(project);
             MainMenu = new MainMenu(project, dialogService);
@@ -41,5 +42,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public MainMenu MainMenu { get; set; }
         public SchedulerManager SchedulerManager { get; set; }
         public MainWindowController MainWindowController { get; set; }
+
+        public CompositionManager CompositionManager { get; set; }
+
     }
 }
