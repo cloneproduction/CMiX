@@ -219,7 +219,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Slider}">
-                    <Border x:Name="mainBorder" SnapsToDevicePixels="True">
+                    <Border x:Name="mainBorder" SnapsToDevicePixels="True" BorderBrush="{DynamicResource SuperHighDarkerColor}" BorderThickness="0, 0, 1, 1">
                         <Grid>
                             <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
                             <Border x:Name="sliderBorder" Background="Transparent">

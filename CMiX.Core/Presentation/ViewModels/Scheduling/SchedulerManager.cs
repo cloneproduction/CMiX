@@ -42,7 +42,11 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         {
             JobEditor jobEditor = new JobEditor(Project);
             bool? success = DialogService.ShowDialog<TaskEditor>(this, jobEditor);
-            //if (success == true)
+            if (success == true)
+            {
+                Job job = new JobNextComposition(jobEditor.JobName, jobEditor.SelectedPlaylist, (s) => jobEditor.ToRunType.SetRunType(s.WithName(jobEditor.JobName)));
+                SelectedScheduler.AddJob(job);
+            }
             //this.SetSettings(settings);
         }
 
@@ -83,6 +87,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
                 Messenger.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
             }
         }
+
 
 
         public void CreateScheduler()

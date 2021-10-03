@@ -2,9 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
@@ -15,10 +19,12 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             this.ID = compositionSchedulerModel.ID;
             this.Name = $"Scheduler({SchedulerID})";
             SchedulerID++;
-
-            JobScheduler = new JobScheduler(compositionSchedulerModel.JobSchedulerModel);
+            Schedules = new ObservableCollection<Job>();
+            RemoveJobCommand = new RelayCommand<Job>(RemoveJob);
         }
 
+
+        public ICommand RemoveJobCommand { get; set; }
         public static int SchedulerID = -1;
 
         private string _name;
@@ -30,14 +36,26 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
 
         public Guid ID { get; set; }
-        public JobScheduler JobScheduler { get; set; }
+        public ObservableCollection<Job> Schedules { get; set; }
+
+
+        public void AddJob(Job job)
+        {
+            JobManager.AddJob(job, job.Action);
+            Schedules.Add(job);
+        }
+
+        public void RemoveJob(Job job)
+        {
+            JobManager.RemoveJob(job.Name);
+            Schedules.Remove(job);
+        }
 
 
         public IModel GetModel()
         {
             CompositionSchedulerModel compositionSchedulerModel = new CompositionSchedulerModel();
             compositionSchedulerModel.ID = this.ID;
-            compositionSchedulerModel.JobSchedulerModel = (JobSchedulerModel)this.JobScheduler.GetModel();
             return compositionSchedulerModel;
         }
 
@@ -45,7 +63,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         {
             CompositionSchedulerModel compositionSchedulerModel = model as CompositionSchedulerModel;
             this.ID = compositionSchedulerModel.ID;
-            this.JobScheduler.SetViewModel(compositionSchedulerModel.JobSchedulerModel);
         }
     }
 }

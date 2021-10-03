@@ -5,15 +5,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views.Scheduler"
              mc:Ignorable="d" 
+             x:Name="overView"
              d:DesignHeight="450" d:DesignWidth="800">
 
 
 
-    <ItemsControl ItemsSource="{Binding JobScheduler.Schedules}">
+    <ItemsControl ItemsSource="{Binding Schedules}">
         <ItemsControl.ItemTemplate>
             <DataTemplate>
-                <Expander Header="{Binding Name}" IsExpanded="True" Style="{StaticResource InnerExpanderLevel2}">
-                    <StackPanel>
+                <Expander Margin="0, 4" IsExpanded="True" Style="{StaticResource ItemControlExpander}">
+                    <Expander.Header>
+                        <DockPanel HorizontalAlignment="Stretch">
+                            <Button Content="✕" 
+                                    DockPanel.Dock="Right"
+                                    Margin="4" 
+                                    Width="15"
+                                    Command="{Binding DataContext.RemoveJobCommand, ElementName=overView}"
+                                    CommandParameter="{Binding}"/>
+                            <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" DockPanel.Dock="Left"/>
+                        </DockPanel>
+                    </Expander.Header>
+                    <StackPanel Margin="0, 4">
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
@@ -30,7 +42,7 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="1.5*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" HorizontalAlignment="Right" Padding="4" Text="Running"/>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Right" Padding="4" Text="Now Playing"/>
                             <Border Grid.Column="1" Height="25">
                                 <TextBlock Padding="4" VerticalAlignment="Center" Text="{Binding CurrentComposition.Name}"/>
                             </Border>
@@ -41,13 +53,14 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition Width="1.5*"/>
                             </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" HorizontalAlignment="Right" Padding="4" Text="Next"/>
+                            <TextBlock Grid.Column="0" HorizontalAlignment="Right" Padding="4" Text="Up Next"/>
                             <Border Grid.Column="1" Height="25">
                                 <TextBlock Padding="4" VerticalAlignment="Center" Text="{Binding NextRun}"/>
                             </Border>
                         </Grid>
                     </StackPanel>
                 </Expander>
+
             </DataTemplate>
         </ItemsControl.ItemTemplate>
     </ItemsControl>

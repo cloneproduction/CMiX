@@ -81,7 +81,7 @@
             Content="OK"
             Style="{StaticResource ButtonRounded}"
             Click="Button_Click"
-            Command="{Binding ApplyCommand}"
-            CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+            Command="{Binding ApplyCommand}"/>
+            <!--CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"-->
         </StackPanel>
 </Window>
