@@ -206,9 +206,6 @@
     <Compile Include="Views\Component\ComponentPanel.xaml.cs">
       <DependentUpon>ComponentPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\CompositionManager.xaml.cs">
-      <DependentUpon>CompositionManager.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml.cs">
       <DependentUpon>RandomXYZ.xaml</DependentUpon>
     </Compile>
@@ -388,10 +385,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Component\ComponentPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Component\CompositionManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

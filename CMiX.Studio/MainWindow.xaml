@@ -98,12 +98,6 @@
                                 </TabItem.Header>
                                 <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
                             </TabItem>
-                            <TabItem Style="{StaticResource TabItemVerticalPanel}">
-                                <TabItem.Header>
-                                    <Image Margin="3" Source="{StaticResource Composition}"/>
-                                </TabItem.Header>
-                                <Components:CompositionManager Margin="4, 0" DataContext="{Binding CompositionManager}"/>
-                            </TabItem>
                         </TabControl>
                     </Border>
                 </Border>

@@ -12,6 +12,7 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
              mc:Ignorable="d" 
+             x:Name="outliner"
              d:DesignHeight="450.191" d:DesignWidth="300.596">
 
     <UserControl.Resources>
@@ -156,10 +157,77 @@
             BorderThickness="0, 0, 0, 1">
             <DockPanel Height="25">
                 <TextBlock Text="OUTLINER" Margin="8" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                <ComboBox 
+
+                <Button 
+                    DockPanel.Dock="Right" 
+                    Width="25" 
+                    Command="{Binding DeleteCompositionCommand}"
+                    Style="{StaticResource ButtonRoundedRight}"
+                    Content="-">
+                </Button>
+                <Border DockPanel.Dock="Right" BorderBrush="{DynamicResource SuperHighDarkerColor}" BorderThickness="0, 0, 0, 1">
+                    <Button 
+                        Width="25" 
+                        Margin="1, 0"
+                        Command="{Binding CreateCompositionCommand}"
+                        Content="+">
+                    </Button>
+                </Border>
+                
+                <ToggleButton x:Name="PopUpToggle" 
+                              Content="Add Modifier"
+                              Width="25" 
+                              Background="{DynamicResource DarkerColor}" 
+                              Style="{StaticResource ToggleTransformModifierMenu}">
+                </ToggleButton>
+
+                <Controls:CMiXPopup 
+                        AllowsTransparency="True"
+                        Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=outliner}"
+                        Placement="Bottom"
+                        Width="250"
+                        PlacementTarget="{Binding ElementName=PopUpToggle}"
+                        FlowDirection="RightToLeft"
+                        IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+                    
+                    <Border Background="Transparent" 
+                            CornerRadius="{DynamicResource CornerRadiusBottom}" 
+                            Padding="2, 0, 2, 2">
+                        <Border.Effect>
+                            <DropShadowEffect BlurRadius="15" Opacity="0.8"  ShadowDepth="2" Direction="-90" RenderingBias="Performance" />
+                        </Border.Effect>
+                        <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
+                                Opacity="0.75" 
+                                Background="{DynamicResource HighDarkerColor}">
+                            <ItemsControl ItemsSource="{Binding Project.Components}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border>
+                                            <Button 
+
+                                                HorizontalContentAlignment="Stretch"
+                                                Command="{Binding DataContext.SelectCompositionCommand, ElementName=outliner}"
+                                                CommandParameter="{Binding}"
+                                                Height="25"
+                                                Content="{Binding Name}" 
+                                                Style="{StaticResource ButtonListBoxItem}"/>
+                                        </Border>
+
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Border>
+                    </Border>
+                </Controls:CMiXPopup>
+
+                <Border Background="{DynamicResource DarkerColor}" BorderBrush="{DynamicResource SuperHighDarkerColor}" BorderThickness="0, 0, 0, 1" >
+                    <Controls:EditableTextBox Padding="4, 0, 0, 0" Text="{Binding SelectedComposition.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                </Border>
+
+                <!--<ComboBox 
                     IsSynchronizedWithCurrentItem ="True"
                     DockPanel.Dock="Right" 
-                    Margin="4, 0, 0, 0" 
+                    Margin="0, 0, 0, 0" 
                     ItemsSource="{Binding Project.Components}" 
                     SelectedItem="{Binding SelectedComposition}">
                     <ComboBox.ItemTemplate>
@@ -167,7 +235,8 @@
                             <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
-                </ComboBox>
+                </ComboBox>-->
+
             </DockPanel>
         </Border>
 

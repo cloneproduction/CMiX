@@ -11,7 +11,7 @@
         <DockPanel>
             <Border x:Name="border"
                     DockPanel.Dock="Right"
-                    CornerRadius="2"
+                    CornerRadius="4"
                     Padding="2"
                     Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                     Background="{TemplateBinding Background}"

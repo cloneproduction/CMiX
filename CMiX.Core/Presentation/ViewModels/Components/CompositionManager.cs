@@ -25,6 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public IProject Project { get; set; }
         private ComponentFactory ComponentFactory { get; set; }
+
+
         private void DeleteComposition()
         {
             var components = Project.Components;

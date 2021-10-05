@@ -36,6 +36,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Project.Components.CollectionChanged += Components_CollectionChanged;
 
 
+            SelectCompositionCommand = new RelayCommand<Composition>(SelectComposition);
+            CreateCompositionCommand = new RelayCommand(CreateComposition);
+            DeleteCompositionCommand = new RelayCommand(DeleteComposition);
+
             CreateComponentCommand = new RelayCommand<ComponentType>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
             DeleteComponentCommand = new RelayCommand<Component>(RemoveComponent);
@@ -57,6 +61,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 }
             }
         }
+
+
+        public ICommand SelectCompositionCommand { get; set; }
+        public ICommand CreateCompositionCommand { get; set; }
+        public ICommand DeleteCompositionCommand { get; set; }
 
         public ICommand CreateComponentCommand { get; }
         public ICommand DuplicateComponentCommand { get; }
@@ -96,6 +105,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public void RenameComponent(IComponent component) => SelectedComponent.IsRenaming = true;
 
 
+        public void SelectComposition(Composition composition)
+        {
+            SelectedComposition = composition;
+        }
+
         public void CreateLayer()
         {
             var layer = ComponentFactory.CreateComponent(ComponentType.Layer);
@@ -108,6 +122,33 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Project.AddComponent(composition);
             Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
         }
+
+
+        private void DeleteComposition()
+        {
+            var components = Project.Components;
+            int index = components.IndexOf(SelectedComposition);
+
+            if (SelectedComposition != null)
+                components.Remove(SelectedComposition);
+
+            if (index > 0)
+            {
+                SelectedComposition = components[index - 1] as Composition;
+                return;
+            }
+
+            if (index == 0 && components.Count > 0)
+            {
+                SelectedComposition = components[0] as Composition;
+                return;
+            }
+
+            if (Project.Components.Count == 0)
+                SelectedComposition = null;
+        }
+
+
 
         public void CreateComponent(ComponentType componentType)
         {
