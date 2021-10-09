@@ -34,8 +34,8 @@
                                 Background="{DynamicResource HighHighDarkerColor}"
                                 BorderBrush="{DynamicResource SuperHighDarkerColor}"
                                 BorderThickness="1, 0, 1, 1"
-                                Padding="0, 1, 0, 1"
-                                CornerRadius="{DynamicResource CornerRadiusBottomLarge}">
+                                CornerRadius="{DynamicResource CornerRadiusBottomLarge}"
+                                Padding="0, 1, 0, 1">
                                 <ScrollViewer 
                                     x:Name="DropDownScrollViewer"
                                     VerticalScrollBarVisibility="Auto">
@@ -92,6 +92,7 @@
                                                     BorderThickness="0, 0, 1, 1"
                                                     BorderBrush="{DynamicResource SuperHighDarkerColor}"
                                                     SnapsToDevicePixels="True">
+                                                    <!---->
                                                     <Path
                                                         x:Name="Arrow"
                                                         Margin="5"
@@ -128,7 +129,7 @@
                                                     <Trigger Property="IsPressed" Value="True">
                                                         <Setter TargetName="Arrow" Property="Fill" Value="White" />
                                                         <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource HighLightColor}"/>
-                                                        <Setter TargetName="templateRoot" Property="CornerRadius" Value="{StaticResource CornerRadiusBottom}"/>
+                                                        <Setter TargetName="templateRoot" Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}"/>
                                                     </Trigger>
                                                     
                                                     <MultiDataTrigger>

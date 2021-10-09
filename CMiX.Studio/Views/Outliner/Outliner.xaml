@@ -250,8 +250,6 @@
             ContextMenu="{DynamicResource OutlinerContextMenu}"
             ItemsSource="{Binding SelectedComposition.Components}">
             <Controls:TreeViewSelect.Resources>
-
-
                 <HierarchicalDataTemplate DataType="{x:Type Components:Scene}" ItemsSource="{Binding Components}">
                     <DockPanel>
                         <Image Margin="8" Opacity="0.75">

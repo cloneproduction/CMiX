@@ -24,7 +24,8 @@
                 Height="20"
                 Grid.Column="1"
                 ItemsSource="{Binding UnitTypes}"
-                SelectedItem="{Binding SelectedUnitType}">
+                SelectedItem="{Binding SelectedUnitType}"
+                IsSynchronizedWithCurrentItem="True">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel>

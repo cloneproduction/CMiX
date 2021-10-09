@@ -39,8 +39,9 @@
             </Border>
 
             <Expander 
-            Header="Tasks" 
-            IsExpanded="True">
+                Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}"
+                Header="Tasks" 
+                IsExpanded="True">
                 <Border Padding="4">
                     <StackPanel>
                         <Button Content="Add"

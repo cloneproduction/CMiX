@@ -23,7 +23,9 @@
             <ComboBox 
                 Grid.Column="1"
                 ItemsSource="{Binding ToRunTypes}"
-                SelectedItem="{Binding SelectedToRunType}">
+                SelectedItem="{Binding SelectedToRunType}"
+                IsSynchronizedWithCurrentItem="True">
+                <!--SelectedItem="{Binding SelectedToRunType}">-->
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Name}"/>

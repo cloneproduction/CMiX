@@ -14,7 +14,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             ToRunTypes.Add(new ToRunEvery());
             ToRunTypes.Add(new ToRunNowAndEvery());
 
-            SelectedToRunType = new ToRunEvery();
+            SelectedToRunType = new ToRunNow();
         }
 
         public ObservableCollection<IToRun> ToRunTypes { get; set; }

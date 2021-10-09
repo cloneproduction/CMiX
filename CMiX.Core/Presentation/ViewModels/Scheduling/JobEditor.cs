@@ -24,13 +24,8 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         public void Apply()
         {
-
             if (SelectedPlaylist != null)
-            {
-                //Job job = new JobNextComposition(JobName, SelectedPlaylist, (s) => ToRunType.SetRunType(s.WithName(JobName)));
-                //compositionScheduler.JobScheduler.AddJob(job);
                 DialogResult = true;
-            }
         }
 
 

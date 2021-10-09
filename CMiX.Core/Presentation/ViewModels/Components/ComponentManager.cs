@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Messenger.RegisterAll(this, MessageType.In);
 
             Components = new Dictionary<Guid, IComponent>();
-            //Components.Add(project.ID, project);
+
             Project = project;
             Project.Components.CollectionChanged += Components_CollectionChanged;
 
@@ -112,8 +112,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void CreateLayer()
         {
-            var layer = ComponentFactory.CreateComponent(ComponentType.Layer);
-            SelectedComposition?.AddComponent(layer);
+            if(SelectedComposition != null)
+            {
+                var layer = ComponentFactory.CreateComponent(ComponentType.Layer);
+                SelectedComposition?.AddComponent(layer);
+                Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, layer), MessageType.Out);
+            }
         }
 
         public void CreateComposition()
@@ -224,6 +228,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 case MessageAddLayer _:
                     this.CreateLayer();
                     break;
+
                 case MessageAddComposition _:
                     this.CreateComposition();
                     break;

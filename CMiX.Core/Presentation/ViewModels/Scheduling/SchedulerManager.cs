@@ -47,7 +47,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
                 Job job = new JobNextComposition(jobEditor.JobName, jobEditor.SelectedPlaylist, (s) => jobEditor.ToRunType.SetRunType(s.WithName(jobEditor.JobName)));
                 SelectedScheduler.AddJob(job);
             }
-            //this.SetSettings(settings);
         }
 
         public ICommand AddJobCommand { get; set; }
