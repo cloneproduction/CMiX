@@ -87,16 +87,15 @@
                                 <TabItem.Header>
                                     <Image Margin="3" Source="{StaticResource Scheduler}"/>
                                 </TabItem.Header>
-                                <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>
+                                <Border Background="{DynamicResource DarkColor}">
+                                    <StackPanel>
+                                        <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
+                                        <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>
+                                    </StackPanel>
+                                </Border>
                             </TabItem>
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <Beat:BeatManager DataContext="{Binding BeatManager}"/>
-                            </TabItem>
-                            <TabItem Style="{StaticResource TabItemVerticalPanel}">
-                                <TabItem.Header>
-                                    <Image Margin="3" Source="{StaticResource Playlist}"/>
-                                </TabItem.Header>
-                                <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
                             </TabItem>
                         </TabControl>
                     </Border>

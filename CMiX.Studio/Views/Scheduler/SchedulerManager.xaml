@@ -9,19 +9,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="500">
 
-    <Border>
+    <Expander Header="Scheduler">
         <StackPanel>
-            <Border VerticalAlignment="Center"
-                    Padding="8"
-                    DockPanel.Dock="Top"
-                    Height="40">
+            <!--<Border VerticalAlignment="Center"
+                Padding="8"
+                DockPanel.Dock="Top"
+                Height="40">
                 <TextBlock DockPanel.Dock="Left" 
-                        Text="SCHEDULER" 
-                        FontWeight="SemiBold" 
-                        VerticalAlignment="Center"/>
-            </Border>
+                    Text="SCHEDULER" 
+                    FontWeight="SemiBold" 
+                    VerticalAlignment="Center"/>
+            </Border>-->
 
-            <Border Margin="4, 0, 4, 8">
+            <Border Margin="8">
                 <ListBox
                     MaxHeight="100"
                     Style="{StaticResource ListBoxWithButton}"
@@ -41,19 +41,25 @@
             <Expander 
                 Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}"
                 Header="Tasks" 
-                IsExpanded="True">
-                <Border Padding="4">
+                IsExpanded="True"
+                Style="{StaticResource InnerExpanderLevel1}">
+                <Border Padding="8">
                     <StackPanel>
                         <Button Content="Add"
-                            Style="{StaticResource ButtonRounded}"
-                            Margin="0, 4, 0, 2"
-                            Height="20"
-                            Command="{Binding AddJobCommand}"/>
+                        Style="{StaticResource ButtonRounded}"
+                        Margin="0, 4, 0, 2"
+                        Height="20"
+                        Command="{Binding AddJobCommand}"/>
                         <local:Overview  Margin="0, 0" DataContext="{Binding SelectedScheduler}"/>
                     </StackPanel>
                 </Border>
             </Expander>
         </StackPanel>
-    </Border>
+    </Expander>
+
+
+
+ 
+
 
 </UserControl>

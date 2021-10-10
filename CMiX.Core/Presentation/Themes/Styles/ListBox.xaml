@@ -298,18 +298,23 @@
                                 Content="-"
                                 Command="{Binding DeleteItemCommand}"/>
                         </StackPanel>
-                        <Border
-                            x:Name="Bd"
-                            CornerRadius="4"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="1"
-                            Padding="0"
-                            Background="{TemplateBinding Background}"
-                            SnapsToDevicePixels="True">
-                            <ScrollViewer Margin="0, 4, 0, 4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
-                                <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                            </ScrollViewer>
+                        <Border BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                                BorderThickness="0, 0, 1, 1"
+                                CornerRadius="4">
+                            <Border
+                                x:Name="Bd"
+                                CornerRadius="4"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="1"
+                                Padding="0"
+                                Background="{TemplateBinding Background}"
+                                SnapsToDevicePixels="True">
+                                <ScrollViewer Margin="0, 4, 0, 4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                                    <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </ScrollViewer>
+                            </Border>
                         </Border>
+
                     </DockPanel>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">

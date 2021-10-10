@@ -505,7 +505,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Expander}">
                     <Border 
-                        Background="{DynamicResource HighHighDarkerColor}"
+                        Background="{DynamicResource HighDarkerColor}"
                         SnapsToDevicePixels="true">
                         <DockPanel>
                             <ToggleButton 
@@ -616,7 +616,9 @@
                     <Border 
                         x:Name="mainBorder"
                         Height="25"
-                        Background="{DynamicResource HighDarkerColor}" 
+                        Background="{DynamicResource HighHighDarkerColor}" 
+                        BorderBrush="{DynamicResource DarkerColor}"
+                        BorderThickness="0, 0, 0, 1"
                         CornerRadius="4">
                         <Grid Margin="4, 0, 0, 0" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
@@ -644,6 +646,9 @@
                         <Trigger Property="IsChecked" Value="true">
                             <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
                             <Setter Property="CornerRadius" TargetName="mainBorder" Value="4, 4, 0, 0"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter Property="BorderThickness" TargetName="mainBorder" Value="0"/>
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

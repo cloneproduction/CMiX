@@ -18,14 +18,15 @@
                         <DockPanel HorizontalAlignment="Stretch">
                             <Button Content="✕" 
                                     DockPanel.Dock="Right"
-                                    Margin="4" 
-                                    Width="15"
+                                    Margin="0, 0, 4, 0"
+                                    Style="{StaticResource ButtonItemControl}"
                                     Command="{Binding DataContext.RemoveJobCommand, ElementName=overView}"
                                     CommandParameter="{Binding}"/>
                             <TextBlock HorizontalAlignment="Stretch" Text="{Binding Name}" DockPanel.Dock="Left"/>
                         </DockPanel>
                     </Expander.Header>
                     <StackPanel Margin="0, 4">
+                        
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
