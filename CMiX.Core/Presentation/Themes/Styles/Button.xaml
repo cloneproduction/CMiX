@@ -195,7 +195,7 @@
     </Style>
 
     <Style x:Key="ButtonRounded" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle">
+        <!--<Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>
                     <Setter Property="Control.Template">
@@ -211,7 +211,7 @@
                     </Setter>
                 </Style>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
@@ -224,10 +224,13 @@
                         CornerRadius="2"
                         x:Name="border"
                         Margin="0"
-                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0, 0, 1, 1"
+                        BorderBrush="{DynamicResource Shadow}"
+                        BorderThickness="0, 0, 0, 2"
                         Background="{DynamicResource Color}"
-                        SnapsToDevicePixels="True">
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True"
+                        TextOptions.TextFormattingMode="Display">
+
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
                             <TextBlock
                                 x:Name="textBlock"
@@ -242,7 +245,7 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
@@ -299,7 +302,7 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
@@ -311,23 +314,6 @@
     </Style>
 
     <Style x:Key="ButtonRoundedTop" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="0"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="White"
-                                    StrokeThickness="1"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
@@ -340,10 +326,11 @@
                         CornerRadius="2, 2, 0, 0"
                         x:Name="border"
                         Margin="0"
-                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0, 0, 1, 0"
+                        BorderBrush="{DynamicResource Shadow}"
+                        BorderThickness="0, 0, 0, 0"
                         Background="{DynamicResource Color}"
-                        SnapsToDevicePixels="True">
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
                             <TextBlock
                                 x:Name="textBlock"
@@ -358,7 +345,7 @@
                             <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
@@ -370,23 +357,7 @@
     </Style>
 
     <Style x:Key="ButtonRoundedBottom" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="0"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="White"
-                                    StrokeThickness="1"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
+
         <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
@@ -399,10 +370,11 @@
                         CornerRadius="0, 0, 2, 2"
                         x:Name="border"
                         Margin="0"
-                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0, 0, 1, 1"
+                        BorderBrush="{DynamicResource Shadow}"
+                        BorderThickness="0, 0, 0, 2"
                         Background="{DynamicResource Color}"
-                        SnapsToDevicePixels="True">
+                        SnapsToDevicePixels="True"
+                        UseLayoutRounding="True">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
                             <TextBlock
                                 x:Name="textBlock"

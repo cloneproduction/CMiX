@@ -1,6 +1,18 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
+    <SolidColorBrush x:Key="Shadow" Color="Black" Opacity="0.2"/>
+    <SolidColorBrush x:Key="HighLighting" Color="White" Opacity="0.05"/>
+
+    <SolidColorBrush x:Key="Accent" Color="#FF5680C2"/>
+    
+    
+    <SolidColorBrush x:Key="PanelBackground" Color="Black" Opacity="0.15" />
+    <SolidColorBrush x:Key="ListBoxBackground" Color="Black" Opacity="0.15" />
+
+    <SolidColorBrush x:Key="ListBoxOutline" Color="#FF444444"/>
+
+
 
     <SolidColorBrush x:Key="SuperHighDarkerColor" Color="{DynamicResource SuperHighDarker}" />
     <SolidColorBrush x:Key="HighHighDarkerColor" Color="{DynamicResource HighHighDarker}" />
@@ -19,6 +31,5 @@
     <SolidColorBrush x:Key="ActiveTextBase" Color="{DynamicResource ActiveText}" />
 
     <SolidColorBrush x:Key="AccentLight1" Color="{DynamicResource AccentColorLight1}" />
-    <SolidColorBrush x:Key="Accent" Color="{DynamicResource AccentColor}" />
     <SolidColorBrush x:Key="AccentDark" Color="{DynamicResource AccentColorDark1}" />
 </ResourceDictionary>

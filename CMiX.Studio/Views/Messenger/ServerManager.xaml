@@ -16,69 +16,13 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <Tools:BindingProxy x:Key="serverManager" Data="{Binding}"/>
-
-            <!--<ContextMenu x:Key="MessengerManagerContextMenu" 
-                         Visibility="{Binding Data.SelectedServer, Converter={StaticResource NullToVisibility}, Source={StaticResource serverManager}}" 
-                         Style="{StaticResource ContextMenuDefault}" 
-                         Width="175">
-                <MenuItem 
-                    Command="{Binding Data.SelectedServer.StartCommand}"
-                    Header="Start">
-                    <MenuItem.Icon>
-                        <Image Margin="1" Opacity="0.75" Source="{DynamicResource Play}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                
-                <MenuItem Command="{Binding Data.SelectedServer.StopCommand}"
-                          IsEnabled="{Binding Data.SelectedServer.ServerIsRunning}"
-                          Header="Stop">
-                    <MenuItem.Icon>
-                        <Image Margin="3" Opacity="0.75" Source="{DynamicResource Stop}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
-                <MenuItem
-                        Command="{Binding Data.SelectedServer.RenameCommand, Source={StaticResource serverManager}}"
-                        CommandParameter="{Binding Data.SelectedServer, Source={StaticResource serverManager}}"
-                        Header="Rename">
-                    <MenuItem.Icon>
-                        <Image Source="{StaticResource Rename}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-                
-                --><!--<MenuItem IsEnabled="False" 
-                          Command="{Binding Data.SelectedServer.RestartCommand}"
-                          Header="Restart">
-                    <MenuItem.Icon>
-                        <Image Opacity="0.75" Margin="2" Source="{StaticResource Reset}"/>
-                    </MenuItem.Icon>
-                </MenuItem>--><!--
-                
-                <MenuItem 
-                    Header="Edit"
-                    Command="{Binding EditMessengerSettingsCommand}"
-                    CommandParameter="{Binding SelectedServer}">
-                    <MenuItem.Icon>
-                        <Image Opacity="0.75" Margin="2" Source="{DynamicResource Settings}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
-                <MenuItem
-                    Command="{Binding Data.DeleteServerCommand, Source={StaticResource serverManager}}"
-                    CommandParameter="{Binding Data.SelectedServer, Source={StaticResource serverManager}}"
-                    Header="Delete">
-                    <MenuItem.Icon>
-                        <Image Source="{DynamicResource DeleteLayer}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-            </ContextMenu>-->
         </ResourceDictionary>
     </UserControl.Resources>
 
 
     <Border
             HorizontalAlignment="Stretch"
-            Background="{DynamicResource HighDarkerColor}">
+            Background="{DynamicResource DarkColor}">
         <StackPanel>
             <Border 
                     VerticalAlignment="Center"
@@ -100,14 +44,13 @@
                             Height="125"
                             DockPanel.Dock="Top"
                             Style="{StaticResource ListBoxWithButton}"
-                            ContextMenu="{DynamicResource MessengerManagerContextMenu}"
                             ItemsSource="{Binding Servers}"
                             ItemContainerStyle="{StaticResource CMiXListBoxItemStyle}">
                     </Controls:CMiXListBox>
                 </Border>
 
                 <Border Grid.Row="1" Visibility="{Binding SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                    <Views:Server DataContext="{Binding SelectedServer}" Margin="4"/>
+                    <Views:Server DataContext="{Binding SelectedServer}" Margin="0"/>
                 </Border>
             </Grid>
 

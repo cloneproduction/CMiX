@@ -10,6 +10,19 @@
         </Style.Triggers>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+        <Setter Property="Effect">
+            <Setter.Value>
+                <DropShadowEffect
+                  ShadowDepth="2"
+                  Direction="330"
+                  Color="Black"
+                  Opacity="0.4"
+                  BlurRadius="2"/>
+            </Setter.Value>
+        </Setter>
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>

@@ -87,7 +87,7 @@
                                 <TabItem.Header>
                                     <Image Margin="3" Source="{StaticResource Scheduler}"/>
                                 </TabItem.Header>
-                                <Border Background="{DynamicResource DarkColor}">
+                                <Border Background="{DynamicResource Color}">
                                     <StackPanel>
                                         <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
                                         <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>

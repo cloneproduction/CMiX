@@ -11,19 +11,14 @@
 
     <StackPanel HorizontalAlignment="Stretch">
 
-        <Expander Header="Settings" Style="{DynamicResource InnerExpander}">
-            <StackPanel Margin="0, 8">
+        <Expander Header="Settings" >
+            <StackPanel Margin="8">
 
-                <Border Height="25" 
-                        Margin="0, 0, 0, 8"
-                    BorderBrush="{DynamicResource HighDarkerColor}"
-                        BorderThickness="0, 0, 1, 1">
                     <Button 
-
+                        Height="25"
                         Content="Edit"
                         Style="{StaticResource ButtonRounded}"
                         Command="{Binding EditSettingsCommand}"/>
-                </Border>
                 
 
 
@@ -86,8 +81,8 @@
             </StackPanel>
         </Expander>
 
-        <Expander Header="Scheduler" Style="{DynamicResource InnerExpander}">
-            <Grid Margin="0, 8" Height="25">
+        <Expander Header="Scheduler">
+            <Grid Margin="8" Height="25">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition/>
@@ -110,8 +105,8 @@
             </Grid>
         </Expander>
 
-        <Expander Header="Clients" Style="{DynamicResource InnerExpander}">
-            <ItemsControl Margin="0, 8" 
+        <Expander Header="Clients">
+            <ItemsControl Margin="8" 
                                 MinHeight="50" 
                                 ItemsSource="{Binding ConnectedClients}">
                 <ItemsControl.ItemTemplate>
@@ -129,8 +124,8 @@
             </ItemsControl>
         </Expander>
 
-        <Expander Header="Statistics" Style="{DynamicResource InnerExpander}">
-            <StackPanel>
+        <Expander Header="Statistics">
+            <StackPanel Margin="8">
                 <Grid Height="25" Margin="0, 1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
