@@ -29,8 +29,8 @@
                      SelectedItem="{Binding SelectedMasterBeat}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border Height="25">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Padding="4" Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
+                        <Border Height="20">
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Padding="4, 0, 0, 0" Text="{Binding BPM, StringFormat={}{0:#,#} BPM}"/>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
@@ -76,22 +76,11 @@
                             <Grid>
                                 <Border Background="{DynamicResource LightColor}" Opacity="{Binding Path=SelectedMasterBeat.AnimatedDouble.AnimationPosition}"/>
                                 <TextBlock 
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center"
-                            Foreground="{DynamicResource TextBase}" 
-                            Text="{Binding Path=SelectedMasterBeat.BPM, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center"
+                                    Foreground="{DynamicResource TextBase}" 
+                                    Text="{Binding Path=SelectedMasterBeat.BPM, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
                             </Grid>
-
-                            <!--<TextBox 
-                                Foreground="{StaticResource TextBase}" 
-                                Background="{StaticResource SuperHighDarkerColor}"
-                                BorderThickness="0"
-                                BorderBrush="{StaticResource SuperHighDarkerColor}"
-                                HorizontalContentAlignment="Center"
-                                VerticalContentAlignment="Center"
-                                VerticalAlignment="Stretch"
-                                HorizontalAlignment="Stretch"
-                                Text="{Binding Path=SelectedMasterBeat.BPM, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />-->
                         </Border>
                     </DockPanel>
                     <Button

@@ -11,6 +11,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
+                    
                     <Border
                         x:Name="Bd"
                         CornerRadius="0"
@@ -22,17 +23,21 @@
                         <ScrollViewer Margin="0, 4, 0, 4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
                             <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
-
                     </Border>
+                    
                     <ControlTemplate.Triggers>
+                        
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd" Property="Background" Value="White" />
                             <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD9D9D9" />
                         </Trigger>
+                        
                         <MultiTrigger>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
                         </MultiTrigger>
+                        
                     </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -42,68 +47,58 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
+                    
                     <Border
                         x:Name="Bd"
-                        BorderBrush="{DynamicResource DarkerColor}"
-                        BorderThickness="1"
+                        BorderBrush="{DynamicResource Shadow}"
+                        BorderThickness="0, 2, 0, 0"
                         CornerRadius="4"
                         Padding="0"
-                        Background="{TemplateBinding Background}"
+                        Background="{DynamicResource ListBoxBackground}"
                         SnapsToDevicePixels="True">
-                        <ScrollViewer Margin="0, 4, 0, 4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
+                        <ScrollViewer Margin="4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
                             <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
-
                     </Border>
+                    
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
+                        
+                        <!--<Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd" Property="Background" Value="White" />
                             <Setter TargetName="Bd" Property="BorderBrush" Value="#FFD9D9D9" />
-                        </Trigger>
-                        <MultiTrigger>
+                        </Trigger>-->
+                        
+                        <!--<MultiTrigger>
                             <Setter Property="ScrollViewer.CanContentScroll" Value="False" />
-                        </MultiTrigger>
+                        </MultiTrigger>-->
+                        
                     </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
+
+
+
+
     <Style TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="0"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                    StrokeDashArray="1 2"
-                                    StrokeThickness="1"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
                     <Border
                         x:Name="Bd"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{DynamicResource HighHighDarkerColor}"
-                        BorderThickness="4, 0, 4, 1"
+                        Background="Transparent"
                         CornerRadius="2"
                         SnapsToDevicePixels="True"
-                        Padding="8, 0, 0, 0"
+                        Margin="2"
+                        Padding="4, 0, 0, 0"
                         TextBlock.Foreground="{DynamicResource TextBase}">
                         <ContentPresenter
                             HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
@@ -111,33 +106,15 @@
                             Content="{TemplateBinding Content}"
                             ContentStringFormat="{TemplateBinding ContentStringFormat}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="Selector.IsSelectionActive" Value="False" />
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="Selector.IsSelectionActive" Value="True" />
-                                <Condition Property="IsSelected" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
-                        </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <!--<Condition Property="Selector.IsSelectionActive" Value="True" />-->
-                                <Condition Property="IsSelected" Value="False" />
-                                <Condition Property="IsMouseOver" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HighLightColor}" />
                         </MultiTrigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
@@ -154,24 +131,6 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Margin" Value="0" />
-        <!--<Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="0"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                    StrokeDashArray="1 2"
-                                    StrokeThickness="1"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -181,9 +140,11 @@
                         CornerRadius="2"
                         SnapsToDevicePixels="True"
                         Margin="2"
-                        Padding="8, 0, 0, 0"
+                        Padding="4, 0, 0, 0"
                         TextBlock.Foreground="{DynamicResource TextBase}">
-                        <Controls:EditableTextBox Height="20" Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        <Controls:EditableTextBox 
+                            Height="20" 
+                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
@@ -211,36 +172,67 @@
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
                     <DockPanel HorizontalAlignment="Stretch">
-                        <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right" >
+                        <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right">
+                            
                             <Button 
                                 Style="{StaticResource ButtonRoundedTop}"
                                 Height="20" 
                                 Width="21"
-                                Margin="0, 0, 0, 1"
                                 Content="+" 
                                 Command="{Binding AddItemCommand}"/>
+                            
                             <Button 
+                                x:Name="deleteItemButton"
                                 Style="{StaticResource ButtonRoundedBottom}"
                                 Height="20"
                                 Width="21"
-                                Margin="0, 1, 0, 0"
                                 Content="-"
                                 Command="{Binding DeleteItemCommand}"/>
+                            
                         </StackPanel>
+
                         <Border BorderBrush="{DynamicResource Shadow}"
                                 BorderThickness="0, 2, 0, 0"
                                 CornerRadius="4">
+
                             <Border
                                 x:Name="Bd"
                                 CornerRadius="4"
                                 Background="{DynamicResource ListBoxBackground}"
                                 SnapsToDevicePixels="True">
-                                <ScrollViewer Margin="4" Focusable="False" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" >
-                                    <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
+                                <ScrollViewer Margin="4" 
+                                              Focusable="False" 
+                                              VerticalScrollBarVisibility="Auto" 
+                                              HorizontalScrollBarVisibility="Disabled" >
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </ScrollViewer>
+
                             </Border>
                         </Border>
                     </DockPanel>
+
+                    <ControlTemplate.Triggers>
+
+                        <DataTrigger
+                            Binding="{Binding HasItems,RelativeSource={RelativeSource Self},UpdateSourceTrigger=PropertyChanged}"
+                            Value="False">
+                            <Setter TargetName="deleteItemButton" Property="IsEnabled" Value="False"/>
+                        </DataTrigger>
+                        
+                        
+                        <!--<MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HighLightColor}" />
+                        </MultiTrigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
+                        </Trigger>-->
+                    </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

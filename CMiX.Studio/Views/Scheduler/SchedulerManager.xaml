@@ -30,7 +30,7 @@
                     SelectedIndex="{Binding SelectedSchedulerIndex}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Height="25" >
+                            <Border Height="20" >
                                 <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
                             </Border>
                         </DataTemplate>

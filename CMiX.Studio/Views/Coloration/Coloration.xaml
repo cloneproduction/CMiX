@@ -16,21 +16,22 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel>
-        <Border Height="25" Margin="0, 0, 0, 2" Padding="4">
-            <TextBlock
-                Margin="4, 0, 0, 0"
-                Text="COLORATION"
-                Foreground="{StaticResource TextBase}"/>
-        </Border>
-
-        <Views:ColorSelector DataContext="{Binding ColorSelector}"/>
-
-        <Expander IsExpanded="True" Header="Modifiers" Margin="0, 2">
-            <Border Grid.Row="1" Style="{StaticResource BorderContainer}" Margin="0, 4, 0, 8">
-                <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
+    <Border Background="{DynamicResource DarkColor}">
+        <StackPanel>
+            <Border Height="25" Margin="0, 0, 0, 2" Padding="4">
+                <TextBlock
+                    Margin="4, 0, 0, 0"
+                    Text="COLORATION"
+                    Foreground="{StaticResource TextBase}"/>
             </Border>
-        </Expander>
-        
-    </StackPanel>
+
+            <Views:ColorSelector DataContext="{Binding ColorSelector}"/>
+
+            <Expander IsExpanded="True" Header="Modifiers" Margin="0, 2">
+                <Border Grid.Row="1" Style="{StaticResource BorderContainer}" Margin="0, 4, 0, 8">
+                    <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
+                </Border>
+            </Expander>
+        </StackPanel>
+    </Border>
 </UserControl>

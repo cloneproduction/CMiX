@@ -24,20 +24,20 @@
             HorizontalAlignment="Stretch"
             Background="{DynamicResource DarkColor}">
         <StackPanel>
-            <Border 
+            <!--<Border 
                     VerticalAlignment="Center"
                     Padding="8"
                     DockPanel.Dock="Top"
                     Height="40">
                 <TextBlock DockPanel.Dock="Left" Text="NETWORK" FontWeight="SemiBold" VerticalAlignment="Center"/>
-            </Border>
+            </Border>-->
             
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border Margin="4, 0, 4, 4">
+                <Border Margin="8">
                     <Controls:CMiXListBox 
                             Grid.Row="0"
                             SelectedItem="{Binding SelectedServer}"

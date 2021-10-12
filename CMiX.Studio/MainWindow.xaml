@@ -70,7 +70,9 @@
                         <Border.OpacityMask>
                             <VisualBrush Visual="{Binding ElementName=borderMaskGridColumn0}"/>
                         </Border.OpacityMask>
-                        <TabControl TabStripPlacement="Left" Background="{DynamicResource HighHighDarkerColor}" Style="{StaticResource TabControlVerticalPanel}" >
+                        <TabControl TabStripPlacement="Left" 
+                                    Background="{DynamicResource HighHighDarkerColor}" 
+                                    Style="{StaticResource TabControlVerticalPanel}" >
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
                                     <Image Margin="4" Source="{StaticResource Resources}" />
@@ -87,7 +89,7 @@
                                 <TabItem.Header>
                                     <Image Margin="3" Source="{StaticResource Scheduler}"/>
                                 </TabItem.Header>
-                                <Border Background="{DynamicResource Color}">
+                                <Border Background="{DynamicResource DarkColor}">
                                     <StackPanel>
                                         <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
                                         <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>

@@ -13,33 +13,5 @@
         <Setter Property="SnapsToDevicePixels" Value="True"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect
-                  ShadowDepth="2"
-                  Direction="330"
-                  Color="Black"
-                  Opacity="0.4"
-                  BlurRadius="2"/>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="2"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                    StrokeDashArray="1 2"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
     </Style>
 </ResourceDictionary>

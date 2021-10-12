@@ -29,7 +29,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border>
+    <Border Background="{DynamicResource DarkColor}">
         <StackPanel>
             <Border
                 Height="25"
@@ -46,7 +46,7 @@
                 </DockPanel>
             </Border>
 
-            <Views:GeometryPathSelector DataContext="{Binding GeometrySelector}"/>
+            <Views:GeometryPathSelector Margin="8, 0" DataContext="{Binding GeometrySelector}"/>
 
             <Expander Margin="0, 2" IsExpanded="True" Header="Transform" >
                 <Views:Transform 

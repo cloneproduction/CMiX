@@ -4,7 +4,7 @@
 
     <Style TargetType="{x:Type TextBox}">
         
-        <Setter Property="FocusVisualStyle">
+        <!--<Setter Property="FocusVisualStyle">
             <Setter.Value>
                 <Style>
                     <Setter Property="Control.Template">
@@ -21,7 +21,7 @@
                     </Setter>
                 </Style>
             </Setter.Value>
-        </Setter>
+        </Setter>-->
         
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="Background" Value="{DynamicResource SuperHighDarkerColor}" />

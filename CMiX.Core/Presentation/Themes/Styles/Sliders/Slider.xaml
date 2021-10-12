@@ -405,7 +405,7 @@
     
     
     <Style x:Key="distanceSliderBorder" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
+        <Setter Property="Background" Value="{DynamicResource Color}"/>
         <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
         <Style.Triggers>
 
@@ -433,30 +433,37 @@
                                 <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                             </Border.OpacityMask>
                             <Grid>
-                                <TextBox x:Name="valueInput" 
+                                <TextBox 
+                                    x:Name="valueInput" 
                                     Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                     Style="{StaticResource SliderTextBox}"
                                     Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=LostFocus, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 <DockPanel>
-                                    <Button x:Name="SubButton" 
-                                            HorizontalAlignment="Left"
-                                            DockPanel.Dock="Left"
-                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                            Style="{DynamicResource SliderButtonImage}">
+                                    
+                                    <Button 
+                                        x:Name="SubButton" 
+                                        HorizontalAlignment="Left"
+                                        DockPanel.Dock="Left"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Style="{DynamicResource SliderButtonImage}">
                                         <Button.Content>
                                             <Image Margin="42" Source="{DynamicResource Sub}"/>
                                         </Button.Content>
                                     </Button>
-                                    <Button x:Name="AddButton" 
-                                            HorizontalAlignment="Right"
-                                            DockPanel.Dock="Right"
-                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                            Style="{DynamicResource SliderButtonImage}">
+                                    
+                                    <Button 
+                                        x:Name="AddButton" 
+                                        HorizontalAlignment="Right"
+                                        DockPanel.Dock="Right"
+                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                        Style="{DynamicResource SliderButtonImage}">
                                         <Button.Content>
                                             <Image Margin="42" Source="{DynamicResource Add}"/>
                                         </Button.Content>
                                     </Button>
-                                    <Border x:Name="borderValueDisplay" 
+                                    
+                                    <Border 
+                                        x:Name="borderValueDisplay" 
                                         Background="Transparent">
                                         <Border.Style>
                                             <Style TargetType="Border">
@@ -470,11 +477,11 @@
                                             </Style>
                                         </Border.Style>
                                         <Label x:Name="valueDisplay" 
-                                        Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Padding="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}">
+                                                Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Padding="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Content="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}">
                                         </Label>
                                     </Border>
                                 </DockPanel>

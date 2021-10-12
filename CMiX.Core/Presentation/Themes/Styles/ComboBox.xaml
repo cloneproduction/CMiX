@@ -8,11 +8,12 @@
     
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="OverridesDefaultStyle" Value="True" />
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <!--<Setter Property="OverridesDefaultStyle" Value="True" />-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ComboBox}">
-                    <Grid x:Name="templateRoot" SnapsToDevicePixels="True">
+                    <Grid x:Name="templateRoot" SnapsToDevicePixels="True" UseLayoutRounding="True">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="0" MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" />
@@ -56,27 +57,9 @@
                         <ToggleButton
                             x:Name="toggleButton"
                             Grid.ColumnSpan="2"
-                            Background="{TemplateBinding Background}"
                             IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <ToggleButton.Style>
                                 <Style TargetType="{x:Type ToggleButton}">
-                                    <Setter Property="FocusVisualStyle">
-                                        <Setter.Value>
-                                            <Style>
-                                                <Setter Property="Control.Template">
-                                                    <Setter.Value>
-                                                        <ControlTemplate>
-                                                            <Rectangle
-                                                                Margin="0"
-                                                                SnapsToDevicePixels="True"
-                                                                Stroke="White"
-                                                                StrokeThickness="1" />
-                                                        </ControlTemplate>
-                                                    </Setter.Value>
-                                                </Setter>
-                                            </Style>
-                                        </Setter.Value>
-                                    </Setter>
                                     <Setter Property="OverridesDefaultStyle" Value="True" />
                                     <Setter Property="IsTabStop" Value="False" />
                                     <Setter Property="Focusable" Value="True" />
@@ -85,96 +68,40 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="{x:Type ToggleButton}">
                                                 <Border
-                                                    CornerRadius="{DynamicResource CornerRadiusDefault}"
                                                     x:Name="templateRoot"
-                                                    Margin="0"
-                                                    Background="{DynamicResource DarkColor}"
-                                                    BorderThickness="0, 0, 1, 1"
-                                                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                                                    CornerRadius="{DynamicResource CornerRadiusDefault}"
+                                                    Background="{DynamicResource Color}"
+                                                    BorderThickness="0, 0, 0, 1"
+                                                    BorderBrush="{DynamicResource Shadow}"
+                                                    UseLayoutRounding="True"
                                                     SnapsToDevicePixels="True">
-                                                    <!---->
                                                     <Path
                                                         x:Name="Arrow"
-                                                        Margin="5"
+                                                        Margin="8, 0"
                                                         HorizontalAlignment="Right"
                                                         VerticalAlignment="Center"
                                                         Data="F1M0,0L2.667,2.66665 5.3334,0 5.3334,-1.78168 2.6667,0.88501 0,-1.78168 0,0z"
-                                                        Fill="{DynamicResource HighLightColor}"/>
+                                                        Fill="{DynamicResource TextBase}"/>
                                                 </Border>
+                                                
                                                 <ControlTemplate.Triggers>
-                                                    
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true" />
-                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false" />
-                                                            <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="false" />
-                                                            <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="true" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter TargetName="templateRoot" Property="Background" Value="White" />
-                                                        <Setter TargetName="templateRoot" Property="BorderBrush" Value="#FFABADB3" />
-                                                    </MultiDataTrigger>
-                                                    
+
                                                     <Trigger Property="IsMouseOver" Value="True">
-                                                        <Setter TargetName="Arrow" Property="Fill" Value="{DynamicResource TextBase}" />
+                                                        <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource LightColor}"/>
                                                     </Trigger>
 
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Color}"/>
-                                                    </MultiDataTrigger>
-
                                                     <Trigger Property="IsPressed" Value="True">
-                                                        <Setter TargetName="Arrow" Property="Fill" Value="White" />
                                                         <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource HighLightColor}"/>
                                                         <Setter TargetName="templateRoot" Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}"/>
                                                     </Trigger>
                                                     
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource HighLightColor}" />
-                                                    </MultiDataTrigger>
-                                                    
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsPressed, RelativeSource={RelativeSource Self}}" Value="true" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource HighLightColor}" />
-
-                                                    </MultiDataTrigger>
-                                                    
-                                                    <Trigger Property="IsEnabled" Value="False">
-                                                        <Setter TargetName="Arrow" Property="Fill" Value="#FFBFBFBF" />
-                                                    </Trigger>
-                                                    
                                                     <Trigger Property="IsChecked" Value="True">
                                                         <Setter TargetName="templateRoot" Property="CornerRadius" Value="2, 2, 0, 0"/>
-                                                        <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Color}" />
+                                                        <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource HighLightColor}" />
                                                     </Trigger>
                                                     
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="false" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter TargetName="templateRoot" Property="Opacity" Value="0.5"/>
-                                                    </MultiDataTrigger>
-                                                    
-                                                    <MultiDataTrigger>
-                                                        <MultiDataTrigger.Conditions>
-                                                            <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
-                                                            <Condition Binding="{Binding IsEditable, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ComboBox}}}" Value="true" />
-                                                        </MultiDataTrigger.Conditions>
-                                                        <Setter TargetName="templateRoot" Property="Opacity" Value="0.5"/>
-                                                    </MultiDataTrigger>
-                                                    
                                                 </ControlTemplate.Triggers>
+                                                
                                             </ControlTemplate>
                                         </Setter.Value>
                                     </Setter>
@@ -220,24 +147,7 @@
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Width" Value="Auto" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="2"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="{DynamicResource LightColor}"
-                                    StrokeDashArray="1 2"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
+        
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
@@ -259,52 +169,44 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
-                        <MultiTrigger>
+                        <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsKeyboardFocused" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
-                        </MultiTrigger>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
+                        </MultiTrigger>-->
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="False" />
-                                <Condition Property="IsKeyboardFocused" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
                         </MultiTrigger>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="True" />
-                                <Condition Property="IsMouseOver" Value="False" />
-                                <Condition Property="IsKeyboardFocused" Value="False" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
-                        </MultiTrigger>
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
                         </MultiTrigger>
+                        
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="False" />
-                                <Condition Property="IsKeyboardFocused" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="BorderBrush" Value="{DynamicResource Color}" />
                         </MultiTrigger>
+                        
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
-                                <Condition Property="IsKeyboardFocused" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
