@@ -73,9 +73,7 @@
                             HorizontalAlignment="Stretch" 
                             Margin="0, 8, 0, 0" 
                             Grid.Row="1">
-                            <StackPanel>
-
-
+                        <StackPanel>
                             <ListBox 
                                 MinHeight="100"
                                 Style="{StaticResource ListBoxRounded}"
@@ -92,12 +90,12 @@
                                         <Border Height="20" >
                                             <DockPanel>
                                                 <Button 
-                                                            DockPanel.Dock="Right" 
-                                                            Content="✕" 
-                                                            Width="30" 
-                                                            Style="{StaticResource ButtonListBoxItem}"
-                                                            Command="{Binding Path=DataContext.RemoveCompositionFromPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
-                                                            CommandParameter="{Binding}"/>
+                                                    DockPanel.Dock="Right" 
+                                                    Content="✕" 
+                                                    Width="30" 
+                                                    Style="{StaticResource ButtonListBoxItem}"
+                                                    Command="{Binding Path=DataContext.RemoveCompositionFromPlaylistCommand, RelativeSource={RelativeSource AncestorType={x:Type local:PlaylistEditor}}}"
+                                                    CommandParameter="{Binding}"/>
                                                 <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
                                             </DockPanel>
                                         </Border>
@@ -132,7 +130,7 @@
                                         BorderThickness="1"
                                         BorderBrush="{DynamicResource SuperHighDarkerColor}"
                                         MaxHeight="145"
-                                        Padding="4, 4, 0, 4"
+                                        Padding="4, 4, 4, 4"
                                         HorizontalAlignment="Stretch"
                                         Background="{DynamicResource HighHighDarkerColor}">
                                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled">

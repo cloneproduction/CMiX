@@ -40,7 +40,7 @@
     </Style>
 
     
-    <Style x:Key="ButtonListBoxItem" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+    <Style x:Key="ButtonListBoxItem" TargetType="{x:Type Button}" >
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
@@ -59,8 +59,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="1.0"/>
-                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}"/>
+                            <Setter Property="Foreground" Value="Red" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="1.0"/>
