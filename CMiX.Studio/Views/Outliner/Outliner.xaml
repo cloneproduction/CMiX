@@ -18,16 +18,13 @@
     <UserControl.Resources>
         <ResourceDictionary>
 
-            <!--<ObjectDataProvider x:Key="assetTypes" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="Components:ComponentType"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>-->
             <Tools:BindingProxy x:Key="ComponentManagerProxy" Data="{Binding Path=DataContext.ComponentManager, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
             <Tools:BindingProxy x:Key="RootProxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
             <Tools:BindingProxy x:Key="OutlinerProxy" Data="{Binding Path=DataContext}"/>
+            
             <DataTemplate x:Key="projectComponent" DataType="{x:Type Components:Project}">
                 <DockPanel>
+                    
                     <Border 
                         DockPanel.Dock="Left" 
                         Height="30" 
@@ -35,6 +32,7 @@
                         BorderBrush="{DynamicResource SuperHighDarkerColor}" 
                         BorderThickness="0, 0, 1, 0">
                     </Border>
+                    
                     <Grid Grid.Column="1" Margin="{Binding Converter={StaticResource LeftMarginMultiplier}, RelativeSource={RelativeSource TemplatedParent}}">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="19" />
@@ -47,6 +45,7 @@
                                 ClickMode="Press"/>
                         </Border>
                     </Grid>
+                    
                 </DockPanel>
             </DataTemplate>
             <DataTemplate x:Key="componentTemplate" DataType="{x:Type Components:Component}">
