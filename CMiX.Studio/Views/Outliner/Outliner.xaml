@@ -159,12 +159,14 @@
                 <TextBlock Text="OUTLINER" Margin="8" FontWeight="SemiBold" VerticalAlignment="Center"/>
 
                 <Button 
+                    x:Name="deleteItemButton"
                     DockPanel.Dock="Right" 
                     Width="25" 
                     Command="{Binding DeleteCompositionCommand}"
                     Style="{StaticResource ButtonRoundedRight}"
                     Content="-">
                 </Button>
+                
                 <Border DockPanel.Dock="Right" BorderBrush="{DynamicResource SuperHighDarkerColor}" BorderThickness="0, 0, 0, 1">
                     <Button 
                         Width="25" 
@@ -212,7 +214,6 @@
                                                 Content="{Binding Name}" 
                                                 Style="{StaticResource ButtonListBoxItem}"/>
                                         </Border>
-
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
@@ -223,20 +224,7 @@
                 <Border Background="{DynamicResource DarkerColor}" BorderBrush="{DynamicResource SuperHighDarkerColor}" BorderThickness="0, 0, 0, 1" >
                     <Controls:EditableTextBox Padding="4, 0, 0, 0" Text="{Binding SelectedComposition.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                 </Border>
-
-                <!--<ComboBox 
-                    IsSynchronizedWithCurrentItem ="True"
-                    DockPanel.Dock="Right" 
-                    Margin="0, 0, 0, 0" 
-                    ItemsSource="{Binding Project.Components}" 
-                    SelectedItem="{Binding SelectedComposition}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>-->
-
+                
             </DockPanel>
         </Border>
 

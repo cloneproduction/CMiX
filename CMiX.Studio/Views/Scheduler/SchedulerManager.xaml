@@ -5,22 +5,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:CMiX.Studio.Views.Scheduler"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
+             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="500">
 
     <Expander Header="Scheduler">
         <StackPanel>
-            <!--<Border VerticalAlignment="Center"
-                Padding="8"
-                DockPanel.Dock="Top"
-                Height="40">
-                <TextBlock DockPanel.Dock="Left" 
-                    Text="SCHEDULER" 
-                    FontWeight="SemiBold" 
-                    VerticalAlignment="Center"/>
-            </Border>-->
-
             <Border Margin="8">
                 <ListBox
                     MaxHeight="100"
@@ -30,8 +22,20 @@
                     SelectedIndex="{Binding SelectedSchedulerIndex}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Height="20" >
-                                <TextBlock VerticalAlignment="Center" Text="{Binding Name}"/>
+                            <Border>
+                                <Controls:EditableTextBox 
+                                        x:Name="editableTextBox"
+                                        IsEditing="{Binding IsRenaming}"
+                                        VerticalAlignment="Center" 
+                                        Text="{Binding Name}">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="MouseDoubleClick">
+                                            <i:InvokeCommandAction 
+                                                    Command="{Binding RenameCommand}"
+                                                    CommandParameter="{Binding}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </Controls:EditableTextBox>
                             </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -45,20 +49,15 @@
                 <Border Padding="8">
                     <StackPanel>
                         <Button Content="Add"
-                        Style="{StaticResource ButtonRounded}"
-                        Margin="0, 4, 0, 2"
-                        Height="20"
-                        Command="{Binding AddJobCommand}"/>
+                            Style="{StaticResource ButtonRounded}"
+                            Margin="0, 4, 0, 2"
+                            Height="20"
+                            Command="{Binding AddJobCommand}"/>
                         <local:Overview  Margin="0, 0" DataContext="{Binding SelectedScheduler}"/>
                     </StackPanel>
                 </Border>
             </Expander>
         </StackPanel>
     </Expander>
-
-
-
- 
-
 
 </UserControl>

@@ -22,17 +22,7 @@
 
     <Border>
         <Expander Header="Playlist">
-
-                <!--<Border VerticalAlignment="Center"
-                    Padding="8"
-                    DockPanel.Dock="Top"
-                    Height="40">
-                    <TextBlock DockPanel.Dock="Left" 
-                        Text="PLAYLISTS" 
-                        FontWeight="SemiBold" 
-                        VerticalAlignment="Center"/>
-                </Border>-->
-                <Border Margin="8">
+            <Border Margin="8">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="0.5*"/>
@@ -76,7 +66,6 @@
                         <StackPanel>
                             <ListBox 
                                 MinHeight="100"
-                                Style="{StaticResource ListBoxRounded}"
                                 Margin="0, 0, 0, 0"
                                 AllowDrop="True"
                                 Height="125"
