@@ -35,28 +35,25 @@
         <CommandBinding Command="ApplicationCommands.Redo" Executed="RedoCommand_Executed" CanExecute="RedoCommand_CanExecute" />
     </Window.CommandBindings>-->
 
-    <Grid>
+
         <DockPanel>
             <Border DockPanel.Dock="Top" Background="{DynamicResource HighHighDarkerColor}">
                 <DockPanel LastChildFill="False">
-
                     <Windows:MainWindowController 
-                    DataContext="{Binding MainWindowController}"
-                    DockPanel.Dock="Right"/>
-
+                        DataContext="{Binding MainWindowController}"
+                        DockPanel.Dock="Right"/>
                     <Menus:MainMenu 
-                    DataContext="{Binding MainMenu}"
-                    DockPanel.Dock="Left"/>
-
+                        DataContext="{Binding MainMenu}"
+                        DockPanel.Dock="Left"/>
                 </DockPanel>
             </Border>
             <Border 
-            DockPanel.Dock="Bottom" 
-            VerticalAlignment="Center" 
-            BorderBrush="{StaticResource SuperHighDarkerColor}"
-            BorderThickness="0, 2, 0, 0"
-            Background="{StaticResource DarkerColor}" 
-            Height="20"/>
+                DockPanel.Dock="Bottom" 
+                VerticalAlignment="Center" 
+                BorderBrush="{StaticResource SuperHighDarkerColor}"
+                BorderThickness="0, 2, 0, 0"
+                Background="{StaticResource DarkerColor}" 
+                Height="20"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="1*"/>
@@ -137,5 +134,5 @@
                 </Border>
             </Grid>
         </DockPanel>
-    </Grid>
+
 </Window>

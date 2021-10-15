@@ -19,12 +19,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             ComponentFactory = new ComponentFactory();
             ComponentFactory.RegisterComponentType(ComponentType.Composition, () => new Composition(new CompositionModel(Guid.NewGuid())));
 
+            //SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
             AddItemCommand = new RelayCommand(AddComposition);
             DeleteItemCommand = new RelayCommand(DeleteComposition);
         }
 
+        public ICommand SelectItemCommand { get; set; }
         public IProject Project { get; set; }
         private ComponentFactory ComponentFactory { get; set; }
+
+
 
 
         private void DeleteComposition()

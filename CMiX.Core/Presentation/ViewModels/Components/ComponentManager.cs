@@ -35,18 +35,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Project = project;
             Project.Components.CollectionChanged += Components_CollectionChanged;
 
-
-            SelectCompositionCommand = new RelayCommand<Composition>(SelectComposition);
-            CreateCompositionCommand = new RelayCommand(CreateComposition);
-            DeleteCompositionCommand = new RelayCommand(DeleteComposition);
+            SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
+            AddItemCommand = new RelayCommand(CreateComposition);
+            DeleteItemCommand = new RelayCommand(DeleteComposition);
 
             CreateComponentCommand = new RelayCommand<ComponentType>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
             DeleteComponentCommand = new RelayCommand<Component>(RemoveComponent);
             RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
         }
-
-
 
 
         private void Components_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -63,9 +60,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        public ICommand SelectCompositionCommand { get; set; }
-        public ICommand CreateCompositionCommand { get; set; }
-        public ICommand DeleteCompositionCommand { get; set; }
+        public ICommand SelectItemCommand { get; set; }
+        public ICommand AddItemCommand { get; set; }
+        public ICommand DeleteItemCommand { get; set; }
 
         public ICommand CreateComponentCommand { get; }
         public ICommand DuplicateComponentCommand { get; }

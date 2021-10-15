@@ -28,12 +28,10 @@ namespace CMiX.Core.Presentation.ViewModels
             SchedulerManager = new SchedulerManager(project, dialogService);
             PlaylistEditor = new PlaylistEditor(project);
             MainMenu = new MainMenu(project, dialogService);
-            //Outliner = new Outliner(project);
         }
 
 
         public IProject Project { get; set; }
-        public Outliner Outliner { get; set; }
         public BeatManager BeatManager { get; set; }
         public ServerManager ServerManager { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }

@@ -44,8 +44,7 @@
                             Height="125"
                             DockPanel.Dock="Top"
                             Style="{StaticResource ListBoxWithButton}"
-                            ItemsSource="{Binding Servers}"
-                            ItemContainerStyle="{StaticResource CMiXListBoxItemStyle}">
+                            ItemsSource="{Binding Servers}">
                     </Controls:CMiXListBox>
                 </Border>
 

@@ -12,17 +12,8 @@
         <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
 
-    <Border Padding="8, 0">
+    <Expander Header="Beat" Padding="8, 0">
         <StackPanel>
-            <Border VerticalAlignment="Center"
-                    Padding="8"
-                    DockPanel.Dock="Top"
-                    Height="40">
-                <TextBlock DockPanel.Dock="Left" 
-                           Text="BEATS" 
-                           FontWeight="SemiBold" 
-                           VerticalAlignment="Center"/>
-            </Border>
             <ListBox MinHeight="100"
                      Style="{StaticResource ListBoxWithButton}"
                      ItemsSource="{Binding MasterBeats}" 
@@ -35,7 +26,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
             <Border 
                 Margin="0, 8"
                 Background="{StaticResource HighDarkerColor}"
@@ -94,8 +84,7 @@
                 </StackPanel>
                 <!--<Beat:MasterBeatControl DataContext="{Binding SelectedMasterBeat}"/>-->
             </Border>
-
         </StackPanel>
-    </Border>
+    </Expander>
 
 </UserControl>

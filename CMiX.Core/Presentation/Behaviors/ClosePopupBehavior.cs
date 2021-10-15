@@ -26,9 +26,8 @@ namespace CMiX.Core.Presentation.Behaviors
         }
 
         public static readonly DependencyProperty PopupContainerProperty =
-            DependencyProperty.RegisterAttached("PopupContainer",
-                typeof(ContentControl), typeof(ClosePopupBehavior)
-            , new PropertyMetadata(OnPopupContainerChanged));
+            DependencyProperty.RegisterAttached("PopupContainer", typeof(ContentControl), typeof(ClosePopupBehavior), 
+                new PropertyMetadata(OnPopupContainerChanged));
 
         private static void OnPopupContainerChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {

@@ -41,25 +41,26 @@
 
     
     <Style x:Key="ButtonListBoxItem" TargetType="{x:Type Button}" >
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <!--<Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>-->
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border
                         x:Name="border"
-                        HorizontalAlignment="Right"
+                        HorizontalAlignment="Stretch"
                         Margin="0"
                         Padding="0, 0, 8, 0"
-                        Opacity="0.8"
+                        Opacity="1.0"
                         Background="Transparent"
                         SnapsToDevicePixels="True">
-                        <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
+                        <ContentPresenter ContentTemplate="{TemplateBinding Content}" 
+                                          HorizontalAlignment="Right"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="1.0"/>
-                            <Setter Property="Foreground" Value="Red" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="1.0"/>
@@ -75,7 +76,7 @@
 
     
     <Style x:Key="ButtonItemControl" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
         <Setter Property="Template">
             <Setter.Value>
