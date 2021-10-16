@@ -34,86 +34,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ListBoxWithSelector" TargetType="{x:Type ListBox}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxWithSelectorItem}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBox}">
-                    <DockPanel>
-                        <Button 
-                            x:Name="deleteItemButton"
-                            DockPanel.Dock="Right" 
-                            Width="25" 
-                            Command="{Binding DeleteItemCommand}"
-                            Style="{StaticResource ButtonRoundedRight}"
-                            Content="-">
-                        </Button>
-                        <Border 
-                            DockPanel.Dock="Right" 
-                            BorderBrush="{DynamicResource SuperHighDarkerColor}" 
-                            BorderThickness="0, 0, 0, 1">
-                            <Button 
-                                Width="25" 
-                                Margin="1, 0"
-                                Command="{Binding AddItemCommand}"
-                                Content="+">
-                            </Button>
-                        </Border>
-                        <ToggleButton x:Name="PopUpToggle" 
-                            Width="25"
-                            Style="{StaticResource ToggleTransformModifierMenu}"
-                            Background="{DynamicResource DarkerColor}" />
-                        <Controls:CMiXPopup 
-                            AllowsTransparency="True"
-                            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=PopUpToggle}"
-                            Placement="Bottom"
-                            Width="250"
-                            PlacementTarget="{Binding ElementName=PopUpToggle}"
-                            FlowDirection="RightToLeft"
-                            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
-                            <Border Background="Transparent" 
-                                    CornerRadius="{DynamicResource CornerRadiusBottom}" 
-                                    Padding="2, 0, 2, 2">
-                                <Border.Effect>
-                                    <DropShadowEffect 
-                                        BlurRadius="15" 
-                                        Opacity="0.8"  
-                                        ShadowDepth="2" 
-                                        Direction="-90" 
-                                        RenderingBias="Performance" />
-                                </Border.Effect>
-                                <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
-                                        Background="{DynamicResource HighDarkerColor}">
-                                    <ScrollViewer Margin="4, 4, 4, 6" 
-                                              Focusable="False" 
-                                              VerticalScrollBarVisibility="Auto" 
-                                              HorizontalScrollBarVisibility="Disabled" >
-                                        <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </ScrollViewer>
-                                </Border>
-                            </Border>
-                        </Controls:CMiXPopup>
-                        <Border Background="{DynamicResource DarkerColor}" 
-                                BorderBrush="{DynamicResource SuperHighDarkerColor}" 
-                                BorderThickness="0, 0, 0, 1">
-                            <Controls:EditableTextBox 
-                                Padding="4, 0, 0, 0" 
-                                Text="{Binding SelectedComposition.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </Border>
-                    </DockPanel>
-
-                    <ControlTemplate.Triggers>
-                        <DataTrigger
-                            Binding="{Binding HasItems,RelativeSource={RelativeSource Self},UpdateSourceTrigger=PropertyChanged}"
-                            Value="False">
-                            <Setter TargetName="deleteItemButton" Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
     <Style x:Key="ListBoxWithButton" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}"/>
         <Setter Property="Background" Value="{DynamicResource ListBoxBackground}"/>
@@ -209,6 +129,42 @@
                         Margin="2"
                         Padding="4, 0, 0, 0"
                         TextBlock.Foreground="{DynamicResource TextBase}">
+                        
+                        <ContentPresenter/>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HighLightColor}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="EditableListBoxItem" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border
+                        x:Name="Bd"
+                        Background="Transparent"
+                        CornerRadius="2"
+                        SnapsToDevicePixels="True"
+                        Margin="2"
+                        Padding="4, 0, 0, 0"
+                        TextBlock.Foreground="{DynamicResource TextBase}">
                         <Controls:EditableTextBox 
                             Height="20" 
                             Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
@@ -226,5 +182,4 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 </ResourceDictionary>

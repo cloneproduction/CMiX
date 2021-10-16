@@ -156,8 +156,16 @@
             BorderThickness="0, 0, 0, 1">
             <DockPanel Height="25">
                 <TextBlock Text="OUTLINER" Margin="8" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                <ListBox Style="{StaticResource ListBoxWithSelector}" 
-                         ItemsSource="{Binding Project.Components}"/>
+                <ComboBox 
+                    Style="{StaticResource ComboBoxWithButton}"
+                    SelectedItem="{Binding SelectedComposition}"
+                    ItemsSource="{Binding Project.Components}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
             </DockPanel>
         </Border>
 

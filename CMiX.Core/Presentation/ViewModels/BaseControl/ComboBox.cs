@@ -18,6 +18,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Guid ID { get; set; }
 
+
         private T _selection;
         public T Selection
         {

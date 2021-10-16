@@ -188,24 +188,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    
     <Style TargetType="{x:Type ToggleButton}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    SnapsToDevicePixels="True"
-                                    Stroke="White"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Background" Value="{DynamicResource Color}" />
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -213,48 +196,13 @@
         <Setter Property="Template" Value="{StaticResource DefaultToggleButtonTemplate }"/>
     </Style>
 
-    
     <Style x:Key="CMiXToggleButtonStyle" TargetType="{x:Type Controls:CMiXToggleButton}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    SnapsToDevicePixels="True"
-                                    Stroke="White"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template" Value="{StaticResource CMiXToggleButtonTemplate }"/>
     </Style>
 
-
     <Style x:Key="ToggleVisibility" TargetType="{x:Type ToggleButton}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    SnapsToDevicePixels="True"
-                                    Stroke="White"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -314,9 +262,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-
 
     <Style x:Key="ToggleTransformModifierMenu" TargetType="{x:Type ToggleButton}">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -381,4 +326,5 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
 </ResourceDictionary>

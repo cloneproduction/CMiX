@@ -60,7 +60,7 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="1.0"/>
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            <!--<Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />-->
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Opacity" Value="1.0"/>
