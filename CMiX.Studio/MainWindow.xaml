@@ -72,21 +72,21 @@
                                     Style="{StaticResource TabControlVerticalPanel}" >
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
-                                    <Image Margin="4" Source="{StaticResource Resources}" />
+                                    <Image Margin="4" ToolTip="Assets" Source="{StaticResource Resources}" />
                                 </TabItem.Header>
                                 <Views:AssetManager DataContext="{Binding AssetManager}"/>
                             </TabItem>
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
-                                    <Image Margin="2" Source="{StaticResource Network}"/>
+                                    <Image Margin="2" ToolTip="Servers" Source="{StaticResource Network}"/>
                                 </TabItem.Header>
                                 <Views:ServerManager DataContext="{Binding ServerManager}"/>
                             </TabItem>
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
-                                    <Image Margin="3" Source="{StaticResource Scheduler}"/>
+                                    <Image Margin="3" ToolTip="Scheduler" Source="{StaticResource Scheduler}"/>
                                 </TabItem.Header>
-                                <Border Background="{DynamicResource DarkColor}">
+                                <Border Background="{DynamicResource DarkerColor}">
                                     <StackPanel>
                                         <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
                                         <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>

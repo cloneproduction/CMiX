@@ -20,50 +20,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ComboBox}">
-                    <Grid x:Name="templateRoot" SnapsToDevicePixels="True" UseLayoutRounding="True">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="0" MinWidth="{DynamicResource {x:Static SystemParameters.VerticalScrollBarWidthKey}}" />
-                        </Grid.ColumnDefinitions>
-                        <Popup
-                            x:Name="PART_Popup"
-                            MinWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"
-                            MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"
-                            MaxHeight="204"
-                            Grid.ColumnSpan="2"
-                            AllowsTransparency="True"
-                            IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                            Placement="Bottom"
-                            VerticalOffset="0"
-                            PopupAnimation="None">
-
-                            <Border 
-                                x:Name="DropDownBorder"
-                                Background="{DynamicResource HighHighDarkerColor}"
-                                BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                                BorderThickness="1, 0, 1, 1"
-                                CornerRadius="{DynamicResource CornerRadiusBottomLarge}"
-                                Padding="0, 1, 0, 1">
-                                <ScrollViewer 
-                                    x:Name="DropDownScrollViewer"
-                                    VerticalScrollBarVisibility="Auto">
-                                    <Grid x:Name="grid" 
-                                            RenderOptions.ClearTypeHint="Enabled">
-                                        <Border
-                                            Opacity="0.97"
-                                            Background="{DynamicResource HighHighDarkerColor}"/>
-                                        <ItemsPresenter
-                                            x:Name="ItemsPresenter"
-                                            KeyboardNavigation.DirectionalNavigation="Contained"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </Grid>
-                                </ScrollViewer>
-                            </Border>
-                        </Popup>
+                    <Grid SnapsToDevicePixels="True" UseLayoutRounding="True">
 
                         <ToggleButton
                             x:Name="toggleButton"
-                            Grid.ColumnSpan="2"
                             IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <ToggleButton.Style>
                                 <Style TargetType="{x:Type ToggleButton}">
@@ -116,23 +76,57 @@
                             </ToggleButton.Style>
                         </ToggleButton>
 
-                        <Border Padding="8, 0">
-                            <ContentPresenter
-                                x:Name="contentPresenter"
-                                HorizontalAlignment="Left"
-                                VerticalAlignment="Center"
-                                Content="{TemplateBinding SelectionBoxItem}"
-                                ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
-                                ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                IsHitTestVisible="False"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                TextElement.Foreground="{DynamicResource TextBase}" />
-                        </Border>
+                        <ContentPresenter
+                                    x:Name="contentPresenter"
+                                    Margin="8, 0, 0, 0"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    IsHitTestVisible="False"
+                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                                    TextElement.Foreground="{DynamicResource TextBase}" />
+
+                        <Popup
+                            x:Name="PART_Popup"
+                            Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                            MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ComboBox}}"
+                            MaxHeight="204"
+                            AllowsTransparency="True"
+                            IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            Placement="Bottom"
+                            PopupAnimation="None">
+
+                            <Border 
+                                x:Name="DropDownBorder"
+                                Background="Transparent"
+                                CornerRadius="0, 0, 4, 4"
+                                BorderThickness="0, 0, 0, 2"
+                                BorderBrush="{DynamicResource Shadow}"
+                                HorizontalAlignment="Stretch">
+                                <Grid HorizontalAlignment="Stretch">
+                                    <Border CornerRadius="0, 0, 4, 4" Background="{DynamicResource ComboboxBackground}"/>
+                                    <ScrollViewer 
+                                        x:Name="DropDownScrollViewer"
+                                        HorizontalScrollBarVisibility="Hidden"
+                                        VerticalScrollBarVisibility="Auto"
+                                        Padding="4">
+                                        <ItemsPresenter
+                                            RenderOptions.ClearTypeHint="Enabled"
+                                            x:Name="ItemsPresenter"
+                                            KeyboardNavigation.DirectionalNavigation="Contained"
+                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                    </ScrollViewer>
+                                </Grid>
+
+                            </Border>
+                        </Popup>
                     </Grid>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="HasItems" Value="False">
-                            <Setter TargetName="DropDownBorder" Property="Height" Value="95" />
+                            <Setter TargetName="DropDownBorder" Property="Height" Value="0" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -146,6 +140,7 @@
         </Setter>
     </Style>
 
+    
     <Style TargetType="{x:Type ComboBoxItem}">
         <Setter Property="Height" Value="25"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -207,7 +202,7 @@
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
                         </MultiTrigger>
 
                     </ControlTemplate.Triggers>
@@ -247,7 +242,6 @@
 
                         <ToggleButton
                             x:Name="toggleButton"
-                            Grid.ColumnSpan="2"
                             IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
                             <ToggleButton.Style>
                                 <Style TargetType="{x:Type ToggleButton}">
@@ -300,35 +294,35 @@
                             Width="200"
                             MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"
                             MaxHeight="204"
-                            Grid.ColumnSpan="2"
                             AllowsTransparency="True"
                             IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Placement="Bottom"
-                            VerticalOffset="0"
+                            VerticalOffset="-4"
+                            HorizontalOffset="-4"
                             PopupAnimation="None">
 
                             <Border 
                                 x:Name="DropDownBorder"
-                                Background="{DynamicResource HighHighDarkerColor}"
-                                BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                                BorderThickness="1, 0, 1, 1"
-                                CornerRadius="{DynamicResource CornerRadiusBottomLarge}"
-                                Padding="0, 1, 0, 1">
-                                <ScrollViewer 
-                                    x:Name="DropDownScrollViewer"
-                                    HorizontalScrollBarVisibility="Hidden"
-                                    VerticalScrollBarVisibility="Auto">
-                                    <Grid x:Name="grid" 
-                                            RenderOptions.ClearTypeHint="Enabled">
-                                        <Border
-                                            Opacity="0.97"
-                                            Background="{DynamicResource HighHighDarkerColor}"/>
+                                Background="Transparent"
+                                CornerRadius="0, 0, 4, 4">
+                                <Grid Margin="4">
+                                    <Border CornerRadius="0, 4, 4, 4"
+                                            BorderThickness="0, 0, 0, 2"
+                                            BorderBrush="{DynamicResource Shadow}"
+                                            Background="{DynamicResource ComboboxBackground}"/>
+                                    <ScrollViewer 
+                                        x:Name="DropDownScrollViewer"
+                                        HorizontalScrollBarVisibility="Hidden"
+                                        VerticalScrollBarVisibility="Auto"
+                                        Padding="4">
                                         <ItemsPresenter
+                                            RenderOptions.ClearTypeHint="Enabled"
                                             x:Name="ItemsPresenter"
                                             KeyboardNavigation.DirectionalNavigation="Contained"
                                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </Grid>
-                                </ScrollViewer>
+                                    </ScrollViewer>
+                                </Grid>
+
                             </Border>
                         </Popup>
 

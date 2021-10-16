@@ -22,30 +22,30 @@
 
     <Border
             HorizontalAlignment="Stretch"
-            Background="{DynamicResource DarkColor}">
+            Background="{DynamicResource DarkerColor}">
         <StackPanel>
-            <!--<Border 
-                    VerticalAlignment="Center"
-                    Padding="8"
-                    DockPanel.Dock="Top"
-                    Height="40">
-                <TextBlock DockPanel.Dock="Left" Text="NETWORK" FontWeight="SemiBold" VerticalAlignment="Center"/>
-            </Border>-->
-            
+
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
                 <Border Margin="8">
-                    <Controls:CMiXListBox 
+                    <ListBox
                             Grid.Row="0"
                             SelectedItem="{Binding SelectedServer}"
                             Height="125"
                             DockPanel.Dock="Top"
                             Style="{StaticResource ListBoxWithButton}"
                             ItemsSource="{Binding Servers}">
-                    </Controls:CMiXListBox>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Height="20">
+                                    <TextBlock Text="{Binding Name}"  />
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
                 </Border>
 
                 <Border Grid.Row="1" Visibility="{Binding SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">

@@ -3,21 +3,33 @@
     
     <Style x:Key="{x:Type ToolTip}" TargetType="ToolTip">
         <Setter Property="OverridesDefaultStyle" Value="true" />
-        <Setter Property="Placement" Value="Mouse"/>
+        <Setter Property="Placement" Value="MousePoint"/>
+        <Setter Property="VerticalOffset" Value="10"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
-                    <Border Name="Border"
-                        Background="{DynamicResource LightColor}"
-                        Width="{TemplateBinding Width}"
-                        Margin="0, 8, 0, 0"
-                        CornerRadius="1"
-                        Height="{TemplateBinding Height}">
-                        <ContentPresenter 
-                            Margin="8, 4, 8, 4"     
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Top" />
-                    </Border>
+                    <Grid>
+                        <Border
+                            Background="{DynamicResource HighDarkerColor}"
+                            Margin="8"
+                            CornerRadius="2">
+                            <Border.Effect>
+                                <DropShadowEffect 
+                                    BlurRadius="8" 
+                                    Direction="0" 
+                                    Opacity="0.5" 
+                                    RenderingBias="Performance" 
+                                    ShadowDepth="2"/>
+                            </Border.Effect>
+                        </Border>
+                        <Border Margin="8" Padding="8">
+                            <ContentPresenter  
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
+                        </Border>
+
+                    </Grid>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
