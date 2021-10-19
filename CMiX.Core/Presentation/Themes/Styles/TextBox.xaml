@@ -3,26 +3,7 @@
                     xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls">
 
     <Style TargetType="{x:Type TextBox}">
-        
-        <!--<Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="2"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                    StrokeDashArray="1 2"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>-->
-        
+
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="Background" Value="{DynamicResource SuperHighDarkerColor}" />
         <Setter Property="BorderBrush" Value="Transparent" />

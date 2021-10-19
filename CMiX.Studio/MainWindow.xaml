@@ -129,7 +129,8 @@
                         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="4, 0" Background="{DynamicResource DarkColor}" Height="1"/>
                         <StackPanel Grid.Row="2"  Margin="8"  >
                             <Views:ComponentPanel Background="{StaticResource HighDarkerColor}" DataContext="{Binding ComponentManager}"/>
-                        </StackPanel>
+                        <Views:CompositionPanel DataContext="{Binding CompositionManager.SelectedComposition}"/>
+                    </StackPanel>
                     </Grid>
                 </Border>
             </Grid>
