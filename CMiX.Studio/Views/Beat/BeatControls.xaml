@@ -28,7 +28,7 @@
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource TextBase}" 
-                        Text="{Binding BPM, Mode=OneWay, StringFormat=0 BPM}" />
+                        Text="{Binding Period, Converter={StaticResource PeriodToBPM}, Mode=OneWay, StringFormat=0 BPM}" />
                     <Button
                         HorizontalAlignment="Left"
                         DockPanel.Dock="Left"

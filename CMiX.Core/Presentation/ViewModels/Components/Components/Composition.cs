@@ -21,12 +21,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             SelectedBeatChangedCommand = new RelayCommand(SelectedBeatChanged);
         }
 
+
         public ICommand SelectedBeatChangedCommand { get; set; }
-
-
-
         public Camera Camera { get; set; }
         public Slider Transition { get; set; }
+
 
         public void SelectedBeatChanged()
         {

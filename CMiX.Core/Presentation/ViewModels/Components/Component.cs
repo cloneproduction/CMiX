@@ -27,10 +27,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
         }
 
-        private void Rename()
-        {
-            this.IsRenaming = true;
-        }
+        public Visibility Visibility { get; set; }
+        public ICommand VisibilityCommand { get; set; }
+        public ICommand RenameCommand { get; set; }
+
 
         private MasterBeat _masterBeat;
         public MasterBeat MasterBeat
@@ -38,11 +38,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             get => _masterBeat;
             set => SetProperty(ref _masterBeat, value);
         }
-
-        public Visibility Visibility { get; set; }
-        public ICommand VisibilityCommand { get; set; }
-        public ICommand RenameCommand { get; set; }
-
 
         private Guid _id;
         public Guid ID
@@ -86,6 +81,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _components, value);
         }
 
+
+
+
         public void AddComponent(IComponent component)
         {
             Components.Add(component);
@@ -98,6 +96,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Remove(component);
         }
 
+
+        private void Rename()
+        {
+            this.IsRenaming = true;
+        }
 
 
         public IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)

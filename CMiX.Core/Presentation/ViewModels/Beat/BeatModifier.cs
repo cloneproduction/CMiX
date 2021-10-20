@@ -5,13 +5,12 @@ using System;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.Controls;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class BeatModifier : Beat, IRecipient<IMessage>, IRecipient<MessageSelectedMasterBeatChange>, IControl
+    public class BeatModifier : Beat, IRecipient<MessageSelectedMasterBeatChange>, IControl
     {
         public BeatModifier(BeatModifierModel beatModifierModel) : base(beatModifierModel)
         {
@@ -22,8 +21,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
-
-
         }
 
         public BeatModifier(BeatModifierModel beatModifierModel, Guid componentID) : this(beatModifierModel)
@@ -34,7 +31,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
-        public Guid ID { get; set; }
         public Slider ChanceToHit { get; set; }
         public MasterBeat MasterBeat { get; set; }
 
@@ -54,11 +50,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public override double Period
         {
             get => _period;
-            set
-            {
-                SetProperty(ref _period, value);
-                OnPropertyChanged(nameof(BPM));
-            }
+            set => SetProperty(ref _period, value);
         }
 
         private int _beatIndex;
@@ -66,13 +58,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         {
             get => _beatIndex;
             set => _beatIndex = value;
-        }
-
-        private AnimatedDouble _animatedDouble;
-        public AnimatedDouble AnimatedDouble
-        {
-            get => _animatedDouble;
-            set => SetProperty(ref _animatedDouble, value);
         }
 
 
@@ -107,7 +92,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
-        public void SetViewModel(IModel model)
+        public override void SetViewModel(IModel model)
         {
             BeatModifierModel beatModifierModel = model as BeatModifierModel;
             this.ID = beatModifierModel.ID;
@@ -117,7 +102,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             this.ChanceToHit.SetViewModel(beatModifierModel.ChanceToHit);
         }
 
-        public IModel GetModel()
+        public override IModel GetModel()
         {
             BeatModifierModel model = new BeatModifierModel();
             model.ID = this.ID;
@@ -128,17 +113,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.Multiplier = this.Multiplier;
             return model;
         }
-
-        public void Receive(IMessage message)
-        {
-            if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-                return;
-            }
-        }
-
 
         public void Receive(MessageSelectedMasterBeatChange message)
         {

@@ -7,13 +7,12 @@ using System.Linq;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.Controls;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class MasterBeat : Beat, IRecipient<IMessage>,  IControl
+    public class MasterBeat : Beat, IRecipient<IMessage>
     {
         public MasterBeat(MasterBeatModel masterBeatModel) : base(masterBeatModel)
         {
@@ -35,9 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             tapPeriods = new List<double>();
             tapTime = new List<double>();
         }
-
-
-        public Guid ID { get; set; }
 
         public BeatAnimations BeatAnimations { get; set; }
         public Resync Resync { get; set; }
@@ -83,12 +79,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             set => SetProperty(ref _periods, value);
         }
 
-        private AnimatedDouble _animatedDouble;
-        public AnimatedDouble AnimatedDouble
-        {
-            get => _animatedDouble;
-            set => SetProperty(ref _animatedDouble, value);
-        }
 
 
         private void SetAnimatedDouble()
@@ -97,7 +87,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Period = Periods[Index + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
             this.NotifyBeatChange(Period);
-            OnPropertyChanged(nameof(BPM));
 
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
@@ -166,7 +155,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(this), MessageType.Internal);
         }
 
-        public void SetViewModel(IModel model)
+        public override void SetViewModel(IModel model)
         {
             MasterBeatModel masterBeatModel = model as MasterBeatModel;
             this.ID = masterBeatModel.ID;
@@ -175,7 +164,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             this.Multiplier = masterBeatModel.Multiplier;
         }
 
-        public IModel GetModel()
+        public override IModel GetModel()
         {
             MasterBeatModel model = new MasterBeatModel();
             model.ID = this.ID;
@@ -183,16 +172,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.Periods = this.Periods;
             model.Multiplier = this.Multiplier;
             return model;
-        }
-
-        public void Receive(IMessage message)
-        {
-            if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-                return;
-            }
         }
     }
 }

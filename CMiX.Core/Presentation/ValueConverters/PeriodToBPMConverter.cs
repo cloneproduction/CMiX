@@ -3,27 +3,27 @@
 
 using System;
 using System.Globalization;
-using System.IO;
 using System.Windows.Data;
 
 namespace CMiX.Core.Presentation.ValueConverters
 {
-    public class PathToFilenameConverter : IValueConverter
+    public class PeriodToBPMConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            string result = null;
-            if (value != null)
-            {
-                //if (string.IsNullOrWhiteSpace(path) == false)
-                result = Path.GetFileNameWithoutExtension(value.ToString());
-            }
-            return result;
+            double Period = (double)value;
+
+            double BPM = 60000 / Period;
+
+            if (double.IsInfinity(BPM) || double.IsNaN(BPM))
+                return 0;
+
+            return BPM;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value;
+            return 60000 / (double)value;
         }
     }
 }

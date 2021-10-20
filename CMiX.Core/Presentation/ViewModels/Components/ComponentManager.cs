@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
@@ -33,7 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components = new Dictionary<Guid, IComponent>();
 
             Project = project;
-            Project.Components.CollectionChanged += Components_CollectionChanged;
+
 
             SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
             AddItemCommand = new RelayCommand(CreateComposition);
@@ -45,19 +44,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
         }
 
-
-        private void Components_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            List<Composition> comp = new List<Composition>();
-
-            if (SelectedComposition == null && e.NewItems.Count == 1)
-            {
-                if (e.NewItems[0] is Composition composition)
-                {
-                    SelectedComposition = composition;
-                }
-            }
-        }
 
 
         public ICommand SelectItemCommand { get; set; }
@@ -109,7 +95,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void CreateLayer()
         {
-            if(SelectedComposition != null)
+            if (SelectedComposition != null)
             {
                 var layer = ComponentFactory.CreateComponent(ComponentType.Layer);
                 SelectedComposition?.AddComponent(layer);
@@ -119,8 +105,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void CreateComposition()
         {
-            var composition = ComponentFactory.CreateComponent(ComponentType.Composition);
+            Composition composition = ComponentFactory.CreateComponent(ComponentType.Composition) as Composition;
             Project.AddComponent(composition);
+            SelectedComposition = composition;
             Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
         }
 
