@@ -32,7 +32,7 @@
                     Style="{StaticResource ButtonRounded}"
                     Margin="4, 0"
                     Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                    Command="{Binding Path=MultiplyCommand}"
+                    Command="{Binding MultiplyCommand}"
                     Content="+"
                     DockPanel.Dock="Right"/>
                 <Button
@@ -54,7 +54,7 @@
                         VerticalContentAlignment="Center"
                         VerticalAlignment="Stretch"
                         HorizontalAlignment="Stretch"
-                        Text="{Binding Path=BPM, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
+                        Text="{Binding Period, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
                 </Border>
             </DockPanel>
             <Button

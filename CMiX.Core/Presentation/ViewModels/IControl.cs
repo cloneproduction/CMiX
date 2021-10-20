@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
+using CMiX.Core.Network.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -9,5 +10,7 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         void SetViewModel(IModel model);
         IModel GetModel();
+
+        //void Receive(IMessage message);
     }
 }

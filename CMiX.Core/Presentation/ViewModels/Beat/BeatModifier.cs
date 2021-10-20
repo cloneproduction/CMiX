@@ -2,17 +2,21 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Windows.Input;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.Controls;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class BeatModifier : Beat, IRecipient<MessageSelectedMasterBeatChange>, IControl
+    public class BeatModifier : ObservableRecipient, IBeat, IRecipient<MessageSelectedMasterBeatChange>, IControl
     {
-        public BeatModifier(BeatModifierModel beatModifierModel) : base(beatModifierModel)
+        public BeatModifier(BeatModifierModel beatModifierModel)
         {
             this.ID = beatModifierModel.ID;
 
@@ -21,6 +25,10 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
+
+            ResetCommand = new RelayCommand(Reset);
+            MultiplyCommand = new RelayCommand(Multiply);
+            DivideCommand = new RelayCommand(Divide);
         }
 
         public BeatModifier(BeatModifierModel beatModifierModel, Guid componentID) : this(beatModifierModel)
@@ -31,23 +39,32 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
+        public ICommand ResetCommand { get; set; }
+        public ICommand MultiplyCommand { get; set; }
+        public ICommand DivideCommand { get; set; }
+        public double Multiplier { get; set; }
+
+        public Guid ID { get; set; }
         public Slider ChanceToHit { get; set; }
         public MasterBeat MasterBeat { get; set; }
+
+
+        private AnimatedDouble _animatedDouble;
+        public AnimatedDouble AnimatedDouble
+        {
+            get => _animatedDouble;
+            set => SetProperty(ref _animatedDouble, value);
+        }
 
 
         private int maxIndex = 4;
         private int minIndex = -4;
 
-
-        private int _index = 0;
-        public int Index
-        {
-            get => _index;
-            set => _index = value;
-        }
+        public int Index { get; set; }
+    
 
         private double _period;
-        public override double Period
+        public double Period
         {
             get => _period;
             set => SetProperty(ref _period, value);
@@ -66,7 +83,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             return (MathUtils.RandomDouble(0.0, 1.0) <= this.ChanceToHit.Amount / this.ChanceToHit.Maximum) ? true : false;
         }
 
-        public override void Multiply()
+
+        public void Reset() => Multiplier = 1;
+
+
+        public void Multiply()
         {
             if (Index <= minIndex)
                 return;
@@ -74,13 +95,14 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             SetAnimatedDouble();
         }
 
-        public override void Divide()
+        public void Divide()
         {
             if (Index >= maxIndex)
                 return;
             Index++;
             SetAnimatedDouble();
         }
+
 
         private void SetAnimatedDouble()
         {
@@ -92,7 +114,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
-        public override void SetViewModel(IModel model)
+        public void SetViewModel(IModel model)
         {
             BeatModifierModel beatModifierModel = model as BeatModifierModel;
             this.ID = beatModifierModel.ID;
@@ -102,7 +124,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             this.ChanceToHit.SetViewModel(beatModifierModel.ChanceToHit);
         }
 
-        public override IModel GetModel()
+        public IModel GetModel()
         {
             BeatModifierModel model = new BeatModifierModel();
             model.ID = this.ID;
@@ -118,6 +140,16 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         {
             this.MasterBeat = message.MasterBeat;
             SetAnimatedDouble();
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+                return;
+            }
         }
     }
 }
