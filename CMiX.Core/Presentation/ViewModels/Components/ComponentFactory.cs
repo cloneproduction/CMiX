@@ -11,18 +11,18 @@ namespace CMiX.Core.Presentation.ViewModels.Components
     {
         public ComponentFactory()
         {
-            components = new Dictionary<ComponentType, Func<Component>>();
+            components = new Dictionary<Type, Func<Component>>();
         }
 
-        private readonly Dictionary<ComponentType, Func<Component>> components;
+        private readonly Dictionary<Type, Func<Component>> components;
 
-        public Component this[ComponentType componentType] => CreateComponent(componentType);
+        public Component this[Type componentType] => CreateComponent(componentType);
 
-        public Component CreateComponent(ComponentType componentType) => components[componentType]();
+        public Component CreateComponent(Type componentType) => components[componentType]();
 
-        public ComponentType[] RegisteredTypes => components.Keys.ToArray();
+        public Type[] RegisteredTypes => components.Keys.ToArray();
 
-        public void RegisterComponentType(ComponentType componentType, Func<Component> factoryMethod)
+        public void RegisterComponentType(Type componentType, Func<Component> factoryMethod)
         {
             //if (string.IsNullOrEmpty(componentType)) return;
             if (factoryMethod is null) return;

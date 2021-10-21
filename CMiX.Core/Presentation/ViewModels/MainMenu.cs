@@ -48,12 +48,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void AddLayer()
         {
-            Messenger.Send<IMessage, int>(new MessageAddLayer(Project), MessageType.Internal);
+            Messenger.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
         }
 
         public void AddComposition()
         {
-            Messenger.Send<IComponentMessage, int>(new MessageAddComposition(Project), MessageType.Internal);
+            Messenger.Send<IMessage, int>(new MessageAddComposition(), MessageType.Internal);
         }
 
         private void NewProject()

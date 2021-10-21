@@ -39,7 +39,7 @@ namespace CMiX.Core.Presentation.ViewModels
         private void Client_DataReceived(object sender, DataEventArgs e)
         {
             IMessage message = Serializer.Deserialize<IMessage>(e.Data);
-            Messenger.Send(message, MessageType.In);
+            Messenger.Send<IMessage, int>(message, MessageType.In);
         }
 
 

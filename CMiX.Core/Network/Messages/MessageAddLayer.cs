@@ -14,11 +14,6 @@ namespace CMiX.Core.Network.Messages
 
         }
 
-        public MessageAddLayer(IProject project)
-        {
-            ID = project.ID;
-        }
-
         public Guid ID { get; set; }
     }
 }

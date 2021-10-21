@@ -46,21 +46,30 @@
                             <Setter Property="Header" Value="Add"/>
                             <Setter Property="Command" Value="{Binding Data.CreateComponentCommand, Source={StaticResource ComponentManagerProxy}}"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" Value="{x:Type Components:Composition}">
+                                
+                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" 
+                                             Value="{x:Type Components:Composition}">
                                     <Setter Property="Header" Value="Add Layer"/>
-                                    <Setter Property="CommandParameter" Value="{x:Static Components:ComponentType.Layer}"/>
+                                    <Setter Property="CommandParameter" Value="{x:Type Components:Layer}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" Value="{x:Type Components:Layer}">
+                                
+                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" 
+                                             Value="{x:Type Components:Layer}">
                                     <Setter Property="Header" Value="Add Scene"/>
-                                    <Setter Property="CommandParameter" Value="{x:Static Components:ComponentType.Scene}"/>
+                                    <Setter Property="CommandParameter" Value="{x:Type Components:Scene}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" Value="{x:Type Components:Scene}">
+                                
+                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" 
+                                             Value="{x:Type Components:Scene}">
                                     <Setter Property="Header" Value="Add Entity"/>
-                                    <Setter Property="CommandParameter" Value="{x:Static Components:ComponentType.Entity}"/>
+                                    <Setter Property="CommandParameter" Value="{x:Type Components:Entity}"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" Value="{x:Type Components:Entity}">
+                                
+                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}"
+                                             Value="{x:Type Components:Entity}">
                                     <Setter Property="IsEnabled" Value="False"/>
                                 </DataTrigger>
+                                
                             </Style.Triggers>
                         </Style>
                     </MenuItem.Style>

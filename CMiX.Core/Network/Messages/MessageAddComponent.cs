@@ -16,12 +16,13 @@ namespace CMiX.Core.Network.Messages
 
         public MessageAddComponent(Guid parentID, Component component)
         {
+            ComponentType = component.GetType();
             ComponentModel = component.GetModel();
             ID = component.ID;
             ParentID = parentID;
         }
 
-
+        public Type ComponentType { get; set; }
         public IComponentModel ComponentModel { get; set; }
         public Guid ParentID { get; set; }
         public Guid ID { get; set; }

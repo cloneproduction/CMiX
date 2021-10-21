@@ -10,7 +10,7 @@ using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public interface IProject : IIDObject, IDisposable
+    public interface IProject : IIDObject, IDisposable, IComponent
     {
         Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }

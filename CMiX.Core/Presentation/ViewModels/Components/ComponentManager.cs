@@ -13,31 +13,34 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableRecipient, IRecipient<IComponentMessage>//, IRecipient<MessageRequestMasterBeat>
+    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
     {
         public ComponentManager(IProject project)
         {
+
             Project = project;
+            Components = new Dictionary<Guid, IComponent>();
+            Components.Add(project.ID, project);
 
             ComponentFactory = new ComponentFactory();
 
-            ComponentFactory.RegisterComponentType(ComponentType.Entity, () => new Entity(new EntityModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(ComponentType.Composition, () => new Composition(new CompositionModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(ComponentType.Layer, () => new Layer(new LayerModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(ComponentType.Scene, () => new Scene(new SceneModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(Entity), () => new Entity(new EntityModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(Composition), () => new Composition(new CompositionModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(Layer), () => new Layer(new LayerModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(Scene), () => new Scene(new SceneModel(Guid.NewGuid())));
 
             IsActive = true;
 
             Messenger.RegisterAll(this, MessageType.Internal);
             Messenger.RegisterAll(this, MessageType.In);
 
-            Components = new Dictionary<Guid, IComponent>();
+
 
             SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
             AddItemCommand = new RelayCommand(CreateComposition);
             DeleteItemCommand = new RelayCommand(DeleteComposition);
 
-            CreateComponentCommand = new RelayCommand<ComponentType>(CreateComponent);
+            CreateComponentCommand = new RelayCommand<Type>(CreateComponent);
             DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
             DeleteComponentCommand = new RelayCommand<Component>(RemoveComponent);
             RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
@@ -95,19 +98,20 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             if (SelectedComposition != null)
             {
-                var layer = ComponentFactory.CreateComponent(ComponentType.Layer);
-                SelectedComposition?.AddComponent(layer);
-                Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, layer), MessageType.Out);
+                Component layer = ComponentFactory.CreateComponent(typeof(Layer));
+                SelectedComposition.AddComponent(layer);
+                Components.Add(layer.ID, layer);
+                Messenger.Send<IMessage, int>(new MessageAddComponent(SelectedComposition.ID, layer), MessageType.Out);
             }
         }
 
         public void CreateComposition()
         {
-            Composition composition = ComponentFactory.CreateComponent(ComponentType.Composition) as Composition;
+            var composition = ComponentFactory.CreateComponent(typeof(Composition));
             Project.AddComponent(composition);
-            SelectedComposition = composition;
+            SelectedComposition = composition as Composition;
+            Components.Add(composition.ID, composition);
             Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
-            Console.WriteLine("Composition Created");
         }
 
 
@@ -137,36 +141,34 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
 
 
-        public void CreateComponent(ComponentType componentType)
+        public void CreateComponent(Type componentType)
         {
-
             IComponent parentComponent = SelectedComponent;
             var newComponent = ComponentFactory.CreateComponent(componentType);
             //newComponent.MasterBeat = parentComponent.MasterBeat;
             newComponent.UpdateChildMasterBeat(parentComponent.MasterBeat);
-
             parentComponent.AddComponent(newComponent);
             Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
-
-
 
             Components.Add(newComponent.ID, newComponent);
 
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
-        public void CreateComponent(Guid parentID, IComponentModel componentModel)
+        public void CreateComponent(Type componentType, Guid parentID, IComponentModel componentModel)
         {
-            //IComponent parentComponent;
-            //Components.TryGetValue(parentID, out parentComponent);
+            IComponent parentComponent;
+            Components.TryGetValue(parentID, out parentComponent);
 
+            if(parentComponent != null)
+            {
+                var newComponent = ComponentFactory.CreateComponent(componentType);
+                parentComponent.AddComponent(newComponent);
+                Components.Add(newComponent.ID, newComponent);
 
-            //var newComponent = ComponentFactory.CreateComponent(componentModel);
-            //parentComponent.AddComponent(newComponent);
-            //Components.Add(newComponent.ID, newComponent);
-
-            //Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
-            //Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+                Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
+                Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+            }
         }
 
         public void DeleteComponent(Guid componentID)
@@ -187,7 +189,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Remove(component.ID);
             component.Dispose();
             Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
-
         }
 
 
@@ -204,7 +205,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             //return result;
         }
 
-        public void Receive(IComponentMessage message)
+        public void Receive(IMessage message)
         {
             switch (message)
             {
@@ -217,7 +218,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                     break;
 
                 case MessageAddComponent add:
-                    this.CreateComponent(add.ParentID, add.ComponentModel);
+                    this.CreateComponent(add.ComponentType, add.ParentID, add.ComponentModel);
                     break;
 
                 case MessageRemoveComponent remove:

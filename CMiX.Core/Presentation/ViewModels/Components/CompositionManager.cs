@@ -17,7 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             Project = project;
             ComponentFactory = new ComponentFactory();
-            ComponentFactory.RegisterComponentType(ComponentType.Composition, () => new Composition(new CompositionModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(Composition), () => new Composition(new CompositionModel(Guid.NewGuid())));
 
             //SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
             AddItemCommand = new RelayCommand(AddComposition);
@@ -54,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         private void AddComposition()
         {
-            var composition = ComponentFactory.CreateComponent(ComponentType.Composition);
+            var composition = ComponentFactory.CreateComponent(typeof(Composition));
             Project.AddComponent(composition);
             Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
         }
