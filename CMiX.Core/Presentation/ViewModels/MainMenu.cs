@@ -53,7 +53,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void AddComposition()
         {
-            Messenger.Send<IMessage, int>(new MessageAddComposition(Project), MessageType.Internal);
+            Messenger.Send<IComponentMessage, int>(new MessageAddComposition(Project), MessageType.Internal);
         }
 
         private void NewProject()

@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Network.Messages
 {
-    interface IComponentMessage : IMessage
+    public interface IComponentMessage : IMessage
     {
     }
 }

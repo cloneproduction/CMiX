@@ -17,6 +17,7 @@ namespace CMiX.Core.Network.Messages
         public MessageAddComponent(Guid parentID, Component component)
         {
             ComponentModel = component.GetModel();
+            ID = component.ID;
             ParentID = parentID;
         }
 

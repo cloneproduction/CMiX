@@ -13,10 +13,12 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>, IRecipient<MessageRequestMasterBeat>
+    public class ComponentManager : ObservableRecipient, IRecipient<IComponentMessage>//, IRecipient<MessageRequestMasterBeat>
     {
         public ComponentManager(IProject project)
         {
+            Project = project;
+
             ComponentFactory = new ComponentFactory();
 
             ComponentFactory.RegisterComponentType(ComponentType.Entity, () => new Entity(new EntityModel(Guid.NewGuid())));
@@ -31,9 +33,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             Components = new Dictionary<Guid, IComponent>();
 
-            Project = project;
-
-
             SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
             AddItemCommand = new RelayCommand(CreateComposition);
             DeleteItemCommand = new RelayCommand(DeleteComposition);
@@ -43,7 +42,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             DeleteComponentCommand = new RelayCommand<Component>(RemoveComponent);
             RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
         }
-
 
 
         public ICommand SelectItemCommand { get; set; }
@@ -109,6 +107,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Project.AddComponent(composition);
             SelectedComposition = composition;
             Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
+            Console.WriteLine("Composition Created");
         }
 
 
@@ -205,7 +204,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             //return result;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(IComponentMessage message)
         {
             switch (message)
             {
@@ -227,9 +226,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
         }
 
-        public void Receive(MessageRequestMasterBeat message)
-        {
-            message.Reply(SelectedComposition.MasterBeat);
-        }
+        //public void Receive(MessageRequestMasterBeat message)
+        //{
+        //    message.Reply(SelectedComposition.MasterBeat);
+        //}
     }
 }

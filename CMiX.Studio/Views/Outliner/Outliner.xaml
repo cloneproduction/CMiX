@@ -21,49 +21,22 @@
             <Tools:BindingProxy x:Key="ComponentManagerProxy" Data="{Binding Path=DataContext.ComponentManager, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
             <Tools:BindingProxy x:Key="RootProxy" Data="{Binding Path=DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
             <Tools:BindingProxy x:Key="OutlinerProxy" Data="{Binding Path=DataContext}"/>
-            
-            <DataTemplate x:Key="projectComponent" DataType="{x:Type Components:Project}">
-                <DockPanel>
-                    
-                    <Border 
-                        DockPanel.Dock="Left" 
-                        Height="30" 
-                        Width="30" 
-                        BorderBrush="{DynamicResource SuperHighDarkerColor}" 
-                        BorderThickness="0, 0, 1, 0">
-                    </Border>
-                    
-                    <Grid Grid.Column="1" Margin="{Binding Converter={StaticResource LeftMarginMultiplier}, RelativeSource={RelativeSource TemplatedParent}}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="19" />
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Border x:Name="toggleBorder">
-                            <ToggleButton x:Name="Expander"
-                                Style="{DynamicResource ExpandCollapseToggleStyle}"
-                                IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                ClickMode="Press"/>
-                        </Border>
-                    </Grid>
-                    
-                </DockPanel>
-            </DataTemplate>
+
             <DataTemplate x:Key="componentTemplate" DataType="{x:Type Components:Component}">
 
             </DataTemplate>
+            
             <Components:ComponentTemplateSelector
                 x:Key="componentTemplateSelector"
-                ProjectTemplate="{StaticResource projectComponent}"
-                CompositionTemplate="{StaticResource componentTemplate}"
                 LayerTemplate="{StaticResource componentTemplate}"
                 SceneTemplate="{StaticResource componentTemplate}"
                 EntityTemplate="{StaticResource componentTemplate}"/>
             
             <ContextMenu x:Key="OutlinerContextMenu"
                      Style="{StaticResource ContextMenuDefault}"
-                     Visibility="{Binding Data.ComponentManager.SelectedComponent, Converter={StaticResource NullToVisibility}, Source={StaticResource RootProxy}}"
-                     Width="175">
 
+                     Width="175">
+                <!--Visibility="{Binding Data.ComponentManager.SelectedComponent, Converter={StaticResource NullToVisibility}, Source={StaticResource RootProxy}}"-->
                 <MenuItem
 >
                     <MenuItem.Style>

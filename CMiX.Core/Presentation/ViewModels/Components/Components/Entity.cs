@@ -51,7 +51,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Name = this.Name;
             model.TextureModel = (TextureModel)this.Texture.GetModel();
             model.GeometryModel = (GeometryModel)this.Geometry.GetModel();
-            model.ColorationModel = (ColorationModel)this.Coloration.GetModel();
+            //model.ColorationModel = (ColorationModel)this.Coloration.GetModel();
 
             return model;
         }
@@ -61,7 +61,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             EntityModel entityModel = model as EntityModel;
             this.Texture.SetViewModel(entityModel.TextureModel);
             this.Geometry.SetViewModel(entityModel.GeometryModel);
-            this.Coloration.SetViewModel(entityModel.ColorationModel);
+            //this.Coloration.SetViewModel(entityModel.ColorationModel);
         }
     }
 }
