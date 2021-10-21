@@ -16,7 +16,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class MasterBeat : ObservableRecipient, IBeat, IRecipient<IMessage>, IControl
+    public class MasterBeat : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public MasterBeat(MasterBeatModel masterBeatModel)
         {

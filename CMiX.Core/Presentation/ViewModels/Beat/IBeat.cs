@@ -8,15 +8,15 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 {
     public interface IBeat
     {
-        ICommand ResetCommand { get; set; }
-        ICommand MultiplyCommand { get; set; }
-        ICommand DivideCommand { get; set; }
-        double Period { get; set; }
-        AnimatedDouble AnimatedDouble { get; set; }
-        double Multiplier { get; set; }
+        //ICommand ResetCommand { get; set; }
+        //ICommand MultiplyCommand { get; set; }
+        //ICommand DivideCommand { get; set; }
+        //double Period { get; set; }
+        //AnimatedDouble AnimatedDouble { get; set; }
+        //double Multiplier { get; set; }
 
-        void Reset();
-        void Multiply();
-        void Divide();
+        //void Reset();
+        //void Multiply();
+        //void Divide();
     }
 }
