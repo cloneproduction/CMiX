@@ -50,6 +50,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             CompositionModel model = new CompositionModel(this.ID);
 
             model.Name = this.Name;
+            model.ID = this.ID;
             //model.IsVisible = this.IsVisible;
             //model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
             //model.CameraModel = (CameraModel)this.Camera.GetModel();
@@ -64,7 +65,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public override void SetViewModel(IComponentModel model)
         {
             CompositionModel compositionModel = model as CompositionModel;
-
+            this.ID = compositionModel.ID;
             //this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
             //this.Camera.SetViewModel(compositionModel.CameraModel);
             this.Transition.SetViewModel(compositionModel.TransitionModel);

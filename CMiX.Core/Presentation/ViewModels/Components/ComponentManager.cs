@@ -34,8 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Messenger.RegisterAll(this, MessageType.Internal);
             Messenger.RegisterAll(this, MessageType.In);
 
-
-
             SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
             AddItemCommand = new RelayCommand(CreateComposition);
             DeleteItemCommand = new RelayCommand(DeleteComposition);
@@ -63,6 +61,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             get => _project;
             set => SetProperty(ref _project, value);
         }
+
+
         private Dictionary<Guid, IComponent> Components { get; set; }
         public ComponentFactory ComponentFactory { get; set; }
 
@@ -107,11 +107,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void CreateComposition()
         {
-            var composition = ComponentFactory.CreateComponent(typeof(Composition));
+            Component composition = ComponentFactory.CreateComponent(typeof(Composition));
             Project.AddComponent(composition);
-            SelectedComposition = composition as Composition;
             Components.Add(composition.ID, composition);
             Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
+
+            SelectedComposition = composition as Composition;
         }
 
 
@@ -160,15 +161,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             IComponent parentComponent;
             Components.TryGetValue(parentID, out parentComponent);
 
-            if(parentComponent != null)
-            {
-                var newComponent = ComponentFactory.CreateComponent(componentType);
-                parentComponent.AddComponent(newComponent);
-                Components.Add(newComponent.ID, newComponent);
 
-                Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
-                Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
-            }
+            var newComponent = ComponentFactory.CreateComponent(componentType);
+            newComponent.SetViewModel(componentModel);
+            parentComponent.AddComponent(newComponent);
+            Components.Add(newComponent.ID, newComponent);
+
+            Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
+            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
         public void DeleteComponent(Guid componentID)
@@ -226,10 +226,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                     break;
             }
         }
-
-        //public void Receive(MessageRequestMasterBeat message)
-        //{
-        //    message.Reply(SelectedComposition.MasterBeat);
-        //}
     }
 }

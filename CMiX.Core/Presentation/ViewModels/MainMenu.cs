@@ -58,10 +58,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void NewProject()
         {
-            var projectModel = new ProjectModel();
+            ProjectModel projectModel = new ProjectModel();
             Project.SetViewModel(projectModel);
-            //Project = new Project();
-            //AssetManager = new AssetManager(project);
         }
 
         private void OpenProject()
