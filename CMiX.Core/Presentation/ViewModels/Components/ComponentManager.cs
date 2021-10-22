@@ -17,12 +17,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
     {
         public ComponentManager(IProject project)
         {
-
             Project = project;
             Components = new Dictionary<Guid, IComponent>();
             Components.Add(project.ID, project);
 
             ComponentFactory = new ComponentFactory();
+
+            ComponentFactory.RegisterComponentType(typeof(EntityModel), () => new Entity(new EntityModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(CompositionModel), () => new Composition(new CompositionModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(LayerModel), () => new Layer(new LayerModel(Guid.NewGuid())));
+            ComponentFactory.RegisterComponentType(typeof(SceneModel), () => new Scene(new SceneModel(Guid.NewGuid())));
 
             ComponentFactory.RegisterComponentType(typeof(Entity), () => new Entity(new EntityModel(Guid.NewGuid())));
             ComponentFactory.RegisterComponentType(typeof(Composition), () => new Composition(new CompositionModel(Guid.NewGuid())));
@@ -141,18 +145,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-
         public void CreateComponent(Type componentType)
         {
             IComponent parentComponent = SelectedComponent;
-            var newComponent = ComponentFactory.CreateComponent(componentType);
-            //newComponent.MasterBeat = parentComponent.MasterBeat;
+            Component newComponent = ComponentFactory.CreateComponent(componentType);
+
             newComponent.UpdateChildMasterBeat(parentComponent.MasterBeat);
             parentComponent.AddComponent(newComponent);
-            Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
-
             Components.Add(newComponent.ID, newComponent);
 
+            Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
@@ -161,15 +163,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             IComponent parentComponent;
             Components.TryGetValue(parentID, out parentComponent);
 
-
-            var newComponent = ComponentFactory.CreateComponent(componentType);
-            newComponent.SetViewModel(componentModel);
+            Component newComponent = ComponentFactory.CreateComponent(componentModel);
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
             Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
+
 
         public void DeleteComponent(Guid componentID)
         {

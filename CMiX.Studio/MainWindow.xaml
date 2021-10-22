@@ -94,7 +94,9 @@
                                 </Border>
                             </TabItem>
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
-                                <Beat:BeatManager DataContext="{Binding BeatManager}"/>
+                                <Border Background="{DynamicResource DarkerColor}">
+                                    <Beat:BeatManager DataContext="{Binding BeatManager}"/>
+                                </Border>
                             </TabItem>
                         </TabControl>
                     </Border>

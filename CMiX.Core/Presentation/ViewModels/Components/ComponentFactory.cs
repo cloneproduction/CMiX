@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using CMiX.Core.Models;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -18,13 +19,22 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public Component this[Type componentType] => CreateComponent(componentType);
 
-        public Component CreateComponent(Type componentType) => components[componentType]();
+        public Component CreateComponent(Type componentType)
+        {
+            return components[componentType]();
+        }
+
+        public Component CreateComponent(IComponentModel componentModel)
+        {
+            Component component = components[componentModel.GetType()]();
+            component.SetViewModel(componentModel);
+            return component;
+        }
 
         public Type[] RegisteredTypes => components.Keys.ToArray();
 
         public void RegisterComponentType(Type componentType, Func<Component> factoryMethod)
         {
-            //if (string.IsNullOrEmpty(componentType)) return;
             if (factoryMethod is null) return;
 
             components[componentType] = factoryMethod;
