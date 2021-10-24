@@ -22,7 +22,7 @@
                         Background="{DynamicResource ListBoxBackground}"
                         SnapsToDevicePixels="True">
                         <ScrollViewer 
-                            Margin="4, 4, 4, 6" 
+  
                             Focusable="False" 
                             VerticalScrollBarVisibility="Auto" 
                             HorizontalScrollBarVisibility="Disabled">
@@ -147,6 +147,50 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ListBoxItemAlternationStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border x:Name="MainContainer" Padding="2">
+                        <Border
+                            x:Name="Bd"
+                            Background="Transparent"
+                            SnapsToDevicePixels="True"
+                            Padding="4, 0, 0, 0"
+                            TextBlock.Foreground="{DynamicResource TextBase}">
+
+                            <ContentPresenter/>
+
+                        </Border>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        
+                        <Trigger Property="ItemsControl.AlternationIndex" Value="0">
+                            <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource ListBoxBackground}"/>
+                        </Trigger>
+                        
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource DarkColor}"/>
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
+                            <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource AccentInactive}" />
+                        </MultiTrigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
     <Style x:Key="EditableListBoxItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />

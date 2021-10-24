@@ -149,29 +149,17 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Background="{DynamicResource HighDarkerColor}">
+    <Border Background="{DynamicResource DarkerColor}">
         <DockPanel>
-            <!--<Border 
-                VerticalAlignment="Center"
-                Padding="8"
-                DockPanel.Dock="Top"
-                Height="40">
-                <TextBlock 
-                    DockPanel.Dock="Left" 
-                    Text="ASSETS" 
-                    FontWeight="SemiBold" 
-                    VerticalAlignment="Center"/>
-            </Border>-->
-
             <ComboBox DockPanel.Dock="Top"
                       Height="25"
                       SelectedItem="{Binding SelectedAssetType}"
                       ItemsSource="{Binding Source={StaticResource assetTypes}}"/>
-
             <ListBox 
                 DockPanel.Dock="Top"
-                Background="{DynamicResource HighDarkerColor}"
+                Background="Transparent"
                 SelectionMode="Extended"
+                AlternationCount="2"
                 dd:DragDrop.IsDropTarget="True"
                 dd:DragDrop.DropHandler="{Binding}">
 
@@ -198,7 +186,7 @@
                 </ListBox.ItemTemplate>
                 
                 <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemAlternationStyle}">
                         <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
                     </Style>
                 </ListBox.ItemContainerStyle>

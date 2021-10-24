@@ -24,7 +24,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Separator}">
-                    <Border HorizontalAlignment="Stretch" Height="1" Margin="4" Background="{DynamicResource HighDarkerColor}"/>
+                    <Border HorizontalAlignment="Stretch" 
+                            Height="1" Margin="4" 
+                            Background="{DynamicResource HighDarkerColor}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -55,14 +57,6 @@
                                 Content="{TemplateBinding Icon}"
                                 ContentSource="Icon"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            <!--<Path
-                                x:Name="GlyphPanel"
-                                Margin="3"
-                                VerticalAlignment="Center"
-                                Data="F1M10,1.2L4.7,9.1 4.5,9.1 0,5.2 1.3,3.5 4.3,6.1 8.3,0 10,1.2z"
-                                Fill="{TemplateBinding Foreground}"
-                                FlowDirection="LeftToRight"
-                                Visibility="Collapsed" />-->
                             <ContentPresenter
                                 Grid.Column="1"
                                 Margin="4, 0, 0, 0"
@@ -105,10 +99,8 @@
                                                     Height="{Binding ActualHeight, ElementName=SubMenuBorder}"
                                                     Fill="{Binding Background, ElementName=SubMenuBorder}" />
                                             </Canvas>
-                                            <!--<Rectangle Fill="#FFD7D7D7" HorizontalAlignment="Left" Margin="29,2,0,2" Width="1"/>-->
                                             <ItemsPresenter
                                                 x:Name="ItemsPresenter"
-
                                                 Grid.IsSharedSizeScope="True"
                                                 KeyboardNavigation.DirectionalNavigation="Cycle"
                                                 KeyboardNavigation.TabNavigation="Cycle"
@@ -124,16 +116,14 @@
                             <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <!--<Setter TargetName="GlyphPanel" Property="Visibility" Value="Visible" />-->
                             <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Accent}" />
                             <Setter TargetName="Icon" Property="Opacity" Value="1.0"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="templateRoot" Property="Opacity" Value="0.5" />
-                            <!--<Setter TargetName="GlyphPanel" Property="Fill" Value="#FF707070" />-->
                         </Trigger>
                         <Trigger SourceName="SubMenuScrollViewer" Property="CanContentScroll" Value="False">
                             <Setter TargetName="OpaqueRect" Property="Canvas.Top" Value="{Binding VerticalOffset, ElementName=SubMenuScrollViewer}" />
@@ -228,7 +218,7 @@
                             <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Accent}" />
                             <Setter TargetName="Icon" Property="Opacity" Value="1.0"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

@@ -13,7 +13,7 @@
             BorderBrush="{DynamicResource SuperHighDarkerColor}"
             Margin="0, 0, 0, 2"
             Background="{DynamicResource HighHighDarkerColor}"
-        WindowChrome.IsHitTestVisibleInChrome="True">
+            WindowChrome.IsHitTestVisibleInChrome="True">
         <Menu
                 Height="25"
                 Style="{StaticResource MenuDefault}"
@@ -49,7 +49,7 @@
                 Style="{DynamicResource TopMenuItem}"
                 Padding="8,0"
                 HorizontalContentAlignment="Stretch"
-                VerticalContentAlignment="center"
+                VerticalContentAlignment="Center"
                 Header="Edit">
                 <MenuItem
                     Header="Undo    Ctrl + Z"

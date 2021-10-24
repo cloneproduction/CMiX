@@ -39,12 +39,12 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Border  Grid.Column="1" Style="{DynamicResource BorderShadow}">
-                <ComboBox
-                    ItemsSource="{Binding Source={StaticResource InvertMode}}"
-                    SelectedItem="{Binding InvertMode.Selection}"
-                    SelectedIndex="0"/>
-            </Border>
+            <ComboBox
+                Grid.Column="1"
+                ItemsSource="{Binding Source={StaticResource InvertMode}}"
+                SelectedItem="{Binding InvertMode.Selection}"
+                SelectedIndex="0"/>
+
             <TextBlock 
                 VerticalAlignment="Center" 
                 HorizontalAlignment="Right" 

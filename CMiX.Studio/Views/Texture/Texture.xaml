@@ -79,44 +79,48 @@
                         Foreground="{StaticResource TextBase}"/>
                 </DockPanel>
             </Border>
-            <!-- DataContext="{Binding Path=DataContext.CurrentProject, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"-->
             <Views:TexturePathSelector DataContext="{Binding TextureSelector}"/>
             <Expander IsExpanded="True" Margin="0, 2" Header="Transform">
                 <StackPanel>
                     <Border Margin="0, 4" Style="{StaticResource BorderContainer}">
                         <StackPanel>
-                            
-                            <Grid Height="20" Margin="0, 4, 0 ,0">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.9*"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Controls:DistanceSlider Grid.Column="1" Position="Top" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Pan.Amount}" />
-                                <TextBlock 
-                                    Grid.Column="0" 
-                                    Padding="8, 0" 
-                                    HorizontalAlignment="Right" 
-                                    Text="Translate U" 
-                                    Foreground="{StaticResource TextBase}"/>
-                            </Grid>
-                            
-                            <Grid Height="20" Margin="0, 1, 0, 4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="0.9*"/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Border Grid.Column="1" Style="{DynamicResource BorderShadow}">
-                                    <Controls:DistanceSlider Position="Bottom" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Tilt.Amount}" />
+
+
+                                <Grid Height="20" Margin="0, 4, 0 ,0">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.9*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" CornerRadius="2" BorderThickness="1, 0, 1, 1">
+                                    <Controls:DistanceSlider Position="Top" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Pan.Amount}" />
                                 </Border>
                                 <TextBlock 
-                                    Grid.Column="0" 
-                                    Padding="8, 0" 
-                                    HorizontalAlignment="Right" 
-                                    Text="V" 
-                                    Foreground="{StaticResource TextBase}"/>
-                            </Grid>
+                                        Grid.Column="0" 
+                                        Padding="8, 0" 
+                                        HorizontalAlignment="Right" 
+                                        Text="Translate U" 
+                                        Foreground="{StaticResource TextBase}"/>
+                                </Grid>
 
-                            <Grid Height="20" Margin="0, 4, 0 ,0">
+                            
+                                <Grid Height="20" Margin="0, 0, 0, 4">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="0.9*"/>
+                                        <ColumnDefinition/>
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" CornerRadius="2" BorderThickness="1, 0, 1, 2">
+                                        <Controls:DistanceSlider Position="Bottom" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Tilt.Amount}" />
+                                    </Border>
+                                    <TextBlock 
+                                        Grid.Column="0" 
+                                        Padding="8, 0" 
+                                        HorizontalAlignment="Right" 
+                                        Text="V" 
+                                        Foreground="{StaticResource TextBase}"/>
+                                </Grid>
+
+
+                                <Grid Height="20" Margin="0, 4, 0 ,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.9*"/>
                                     <ColumnDefinition/>
@@ -198,14 +202,15 @@
                     </Border>
                 </StackPanel>
             </Expander>
-            <Expander IsExpanded="True" Margin="0, 2" Padding="8" Header="Color">
+            
+            <Expander IsExpanded="True" 
+                      Margin="0, 2" 
+                      Padding="8" 
+                      Header="Color">
                 <StackPanel>
 
-                    <Border
-                        Margin="0, 1, 0, 16" 
-                        Style="{DynamicResource BorderShadow}">
+                    <Border Style="{DynamicResource BorderShadow}">
                         <StackPanel>
-                            
                             <Controls:CMiXSlider
                                 Style="{StaticResource CMiXSliderStyle}"
                                 Position="Top"
@@ -213,7 +218,7 @@
                                 Maximum="1"
                                 Caption="Brightness"
                                 Value="{Binding Brightness.Amount}"/>
-                            
+
                             <Controls:CMiXSlider
                                 Style="{StaticResource CMiXSliderStyle}"
                                 Position="Bottom"
@@ -223,11 +228,11 @@
                                 Caption="Contrast"
                                 DockPanel.Dock="Bottom"
                                 Value="{Binding Contrast.Amount}"/>
-                            
                         </StackPanel>
                     </Border>
 
-                    <Views:Inverter DataContext="{Binding Inverter}"/>
+                    
+                    <Views:Inverter Margin="0, 4" DataContext="{Binding Inverter}"/>
 
                     <Border Style="{DynamicResource BorderShadow}">
                         <StackPanel>
@@ -261,13 +266,13 @@
                     </Border>
 
 
-                    <Border Style="{DynamicResource BorderShadow}">
+                    <Border Margin="0, 8, 0, 0" Style="{DynamicResource BorderShadow}">
                         <Controls:CMiXSlider
                             Style="{StaticResource CMiXSliderStyle}"
                             Minimum="0"
                             Maximum="1.0"
                             Height="20"
-                            Margin="0, 8, 0, 0"
+
                             Caption="Keying"
                             Value="{Binding Keying.Amount}"/>
                     </Border>

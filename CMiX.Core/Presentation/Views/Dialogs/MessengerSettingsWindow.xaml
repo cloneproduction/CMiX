@@ -61,7 +61,7 @@
                 Margin="0, 8, 0, 0"
                 Grid.Column="0"
                 Content="OK"
-                Style="{StaticResource ButtonRounded}"
+                Style="{StaticResource ButtonValidation}"
                 Click="Button_Click"
                 Command="{Binding ApplyCommand}"
                 CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>

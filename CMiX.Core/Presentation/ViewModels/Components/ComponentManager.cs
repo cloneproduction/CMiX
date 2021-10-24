@@ -23,16 +23,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             ComponentFactory = new ComponentFactory();
 
-            ComponentFactory.RegisterComponentType(typeof(EntityModel), () => new Entity(new EntityModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(typeof(CompositionModel), () => new Composition(new CompositionModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(typeof(LayerModel), () => new Layer(new LayerModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(typeof(SceneModel), () => new Scene(new SceneModel(Guid.NewGuid())));
-
-            ComponentFactory.RegisterComponentType(typeof(Entity), () => new Entity(new EntityModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(typeof(Composition), () => new Composition(new CompositionModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(typeof(Layer), () => new Layer(new LayerModel(Guid.NewGuid())));
-            ComponentFactory.RegisterComponentType(typeof(Scene), () => new Scene(new SceneModel(Guid.NewGuid())));
-
             IsActive = true;
 
             Messenger.RegisterAll(this, MessageType.Internal);
@@ -150,7 +140,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             IComponent parentComponent = SelectedComponent;
             Component newComponent = ComponentFactory.CreateComponent(componentType);
 
-            newComponent.UpdateChildMasterBeat(parentComponent.MasterBeat);
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
@@ -158,12 +147,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
-        public void CreateComponent(Type componentType, Guid parentID, IComponentModel componentModel)
+        public void CreateComponent(Guid parentID, IComponentModel componentModel)
         {
             IComponent parentComponent;
             Components.TryGetValue(parentID, out parentComponent);
 
             Component newComponent = ComponentFactory.CreateComponent(componentModel);
+
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
@@ -219,7 +209,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                     break;
 
                 case MessageAddComponent add:
-                    this.CreateComponent(add.ComponentType, add.ParentID, add.ComponentModel);
+                    this.CreateComponent(add.ParentID, add.ComponentModel);
                     break;
 
                 case MessageRemoveComponent remove:
