@@ -23,53 +23,13 @@
         </ObjectDataProvider>
     </UserControl.Resources>
 
-    <Border Background="{DynamicResource DarkColor}">
+    <Border Background="{DynamicResource DarkerColor}">
         <StackPanel>
             <Border
                 Height="25"
                 Margin="0, 0, 0, 2"
                 Padding="4"
                 DockPanel.Dock="Top">
-                <!--<Border.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem
-                            Padding="8, 4"
-                            Foreground="{StaticResource TextBase}"
-                            Command="{Binding Data.CopyTextureCommand, Source={StaticResource ProjectProxy}}">
-                            <MenuItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="10" Height="10" Source="{StaticResource Copy}" />
-                                    <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                    <TextBlock Text="Copy Texture"/>
-                                </StackPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem
-                            Padding="8, 4"
-                            Foreground="{StaticResource TextBase}"
-                            Command="{Binding Data.PasteTextureCommand, Source={StaticResource ProjectProxy}}">
-                            <MenuItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="10" Height="10" Source="{StaticResource Paste}" />
-                                    <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                    <TextBlock Text="Paste Texture"/>
-                                </StackPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                        <MenuItem
-                            Padding="8, 4"
-                            Foreground="{StaticResource TextBase}"
-                            Command="{Binding Data.ResetTextureCommand, Source={StaticResource ProjectProxy}}">
-                            <MenuItem.Header>
-                                <StackPanel Orientation="Horizontal">
-                                    <Image Width="10" Height="10" Source="{StaticResource Reset}" />
-                                    <Separator Margin="8, 0" Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" />
-                                    <TextBlock Text="Reset Texture"/>
-                                </StackPanel>
-                            </MenuItem.Header>
-                        </MenuItem>
-                    </ContextMenu>
-                </Border.ContextMenu>-->
                 <DockPanel 
                     VerticalAlignment="Center" 
                     LastChildFill="False">
@@ -84,9 +44,8 @@
                 <StackPanel>
                     <Border Margin="0, 4" Style="{StaticResource BorderContainer}">
                         <StackPanel>
-
-
-                                <Grid Height="20" Margin="0, 4, 0 ,0">
+                            
+                            <Grid Height="20" Margin="0, 4, 0 ,0">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="0.9*"/>
                                         <ColumnDefinition/>
@@ -100,27 +59,25 @@
                                         HorizontalAlignment="Right" 
                                         Text="Translate U" 
                                         Foreground="{StaticResource TextBase}"/>
-                                </Grid>
+                            </Grid>
 
-                            
-                                <Grid Height="20" Margin="0, 0, 0, 4">
-                                    <Grid.ColumnDefinitions>
-                                        <ColumnDefinition Width="0.9*"/>
-                                        <ColumnDefinition/>
-                                    </Grid.ColumnDefinitions>
-                                    <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" CornerRadius="2" BorderThickness="1, 0, 1, 2">
-                                        <Controls:DistanceSlider Position="Bottom" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Tilt.Amount}" />
-                                    </Border>
-                                    <TextBlock 
-                                        Grid.Column="0" 
-                                        Padding="8, 0" 
-                                        HorizontalAlignment="Right" 
-                                        Text="V" 
-                                        Foreground="{StaticResource TextBase}"/>
-                                </Grid>
+                            <Grid Height="20" Margin="0, 0, 0, 4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="0.9*"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" CornerRadius="2" BorderThickness="1, 0, 1, 2">
+                                    <Controls:DistanceSlider Position="Bottom" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Tilt.Amount}" />
+                                </Border>
+                                <TextBlock 
+                                    Grid.Column="0" 
+                                    Padding="8, 0" 
+                                    HorizontalAlignment="Right" 
+                                    Text="V" 
+                                    Foreground="{StaticResource TextBase}"/>
+                            </Grid>
 
-
-                                <Grid Height="20" Margin="0, 4, 0 ,0">
+                            <Grid Height="20" Margin="0, 4, 0 ,0">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="0.9*"/>
                                     <ColumnDefinition/>
@@ -265,14 +222,12 @@
                         </StackPanel>
                     </Border>
 
-
                     <Border Margin="0, 8, 0, 0" Style="{DynamicResource BorderShadow}">
                         <Controls:CMiXSlider
                             Style="{StaticResource CMiXSliderStyle}"
                             Minimum="0"
                             Maximum="1.0"
                             Height="20"
-
                             Caption="Keying"
                             Value="{Binding Keying.Amount}"/>
                     </Border>

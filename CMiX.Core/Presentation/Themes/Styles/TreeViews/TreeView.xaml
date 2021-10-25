@@ -9,23 +9,6 @@
     <Converters:ComponentVisibilityConverter x:Key="ComponentVisibility"/>
     <PathGeometry x:Key="TreeArrow" Figures="M0,0 L0,6 L6,0 z"/>
 
-    <Style x:Key="TreeViewItemFocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border>
-                        <Rectangle 
-                            Margin="0,0,0,0"
-                            StrokeThickness="5"
-                            Stroke="Black"
-                            StrokeDashArray="1 2"
-                            Opacity="0"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="ExpandCollapseToggleStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="Template">
@@ -79,8 +62,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeView}">
-                    <Border Name="Border" Background="{DynamicResource HighDarkerColor}">
-                        <ScrollViewer Focusable="False" CanContentScroll="False" Padding="4">
+                    <Border Name="Border" Background="Transparent">
+                        <ScrollViewer Focusable="False" CanContentScroll="False" Padding="0">
                             <ItemsPresenter />
                         </ScrollViewer>
                     </Border>
@@ -94,14 +77,13 @@
         </Setter>
     </Style>
 
-    
+
     <Style x:Key="TreeViewItemDefault" TargetType="{x:Type TreeViewItem}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="1,0,0,0" />
+        <Setter Property="Padding" Value="1, 0, 0, 0" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="FocusVisualStyle" Value="{DynamicResource TreeViewItemFocusVisual}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -110,20 +92,20 @@
                     </ControlTemplate.Resources>
                     <StackPanel>
                         <Border Name="Bd">
-                            
+
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">
                                     <Setter Property="BorderThickness" Value="0, 0, 0, 1"/>
-                                    <Setter Property="BorderBrush" Value="{DynamicResource SuperHighDarkerColor}"/>
+                                    <Setter Property="BorderBrush" Value="{DynamicResource Shadow}"/>
                                     <Setter Property="Background" Value="Transparent"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource DarkerColor}" />
+                                            <Setter Property="Background" Value="{DynamicResource DarkColor}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
-                            
+
                             <i:Interaction.Triggers>
                                 <i:EventTrigger EventName="PreviewMouseRightButtonDown">
                                     <ei:ChangePropertyAction PropertyName="IsSelected" Value="true" TargetObject="{Binding}"/>
@@ -131,15 +113,13 @@
                             </i:Interaction.Triggers>
 
                             <DockPanel>
-                                
+
                                 <Border 
                                     DockPanel.Dock="Left" 
-                                    Height="30" 
+                                    Height="25" 
                                     Width="30" 
-                                    BorderBrush="{DynamicResource SuperHighDarkerColor}" 
-                                    
+                                    BorderBrush="{DynamicResource Shadow}"                                 
                                     BorderThickness="0, 0, 1, 0">
-                                    <!--IsChecked="{Binding Path=DataContext.IsVisible, RelativeSource={RelativeSource TemplatedParent}}"-->
                                     <Button 
                                         Padding="4" 
                                         Margin="4"
@@ -161,6 +141,7 @@
                                                             </Border>
                                                             <ControlTemplate.Triggers>
 
+                                                                
                                                                 <MultiDataTrigger>
                                                                     <MultiDataTrigger.Conditions>
                                                                         <Condition Binding="{Binding Path=DataContext.Visibility.ParentIsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
@@ -191,7 +172,7 @@
                                                                         <Setter TargetName="image" Property="Opacity" Value="0.5"/>
                                                                     </MultiDataTrigger.Setters>
                                                                 </MultiDataTrigger>
-                                                                
+
                                                                 <MultiDataTrigger>
                                                                     <MultiDataTrigger.Conditions>
                                                                         <Condition Binding="{Binding Path=DataContext.Visibility.ParentIsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
@@ -218,33 +199,18 @@
                                                 </Setter>
                                             </Style>
                                         </Button.Style>
-                                        <!--<Button.Content>
-                                            <Image Source="{DynamicResource Visible}"/>
-                                        </Button.Content>-->
                                     </Button>
-
-                                    <!--<ToggleButton 
-                                        Style="{DynamicResource ToggleVisibility}"
-                                        IsChecked="{Binding Path=DataContext.IsVisible, RelativeSource={RelativeSource TemplatedParent}}"
-                                        VerticalAlignment="Center">
-                                        --><!--<ToggleButton.IsChecked>
-                                            <MultiBinding Converter="{StaticResource ComponentVisibility}">
-                                                <Binding Path="DataContext.IsVisible" Mode="OneWay" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource AncestorLevel=2, AncestorType={x:Type TreeViewItem}}"/>
-                                                <Binding Path="DataContext.IsVisible" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" RelativeSource="{RelativeSource TemplatedParent}"/>
-                                            </MultiBinding>
-                                        </ToggleButton.IsChecked>--><!--
-                                    </ToggleButton>-->
                                 </Border>
-                                
-                                <Grid Height="30" Grid.Column="1" Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+
+                                <Grid Height="25" Grid.Column="1" Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="19" />
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
                                     <ToggleButton x:Name="Expander"
-                                            Style="{DynamicResource ExpandCollapseToggleStyle}"
-                                            IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
-                                            ClickMode="Press"/>
+                                        Style="{DynamicResource ExpandCollapseToggleStyle}"
+                                        IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
+                                        ClickMode="Press"/>
                                     <ContentPresenter x:Name="PART_Header"
                                         Grid.Column="1"
                                         ContentSource="Header"
@@ -259,15 +225,15 @@
                     </StackPanel>
 
                     <ControlTemplate.Triggers>
-                        
+
                         <Trigger Property="IsExpanded" Value="false">
                             <Setter TargetName="ItemsHost" Property="Visibility" Value="Collapsed"/>
                         </Trigger>
-                        
+
                         <Trigger Property="HasItems" Value="false">
                             <Setter TargetName="Expander" Property="Visibility" Value="Hidden"/>
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="HasHeader" Value="false"/>
@@ -275,7 +241,7 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="PART_Header" Property="MinWidth" Value="75"/>
                         </MultiTrigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="HasHeader" Value="false"/>
@@ -283,7 +249,7 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="PART_Header" Property="MinHeight" Value="19"/>
                         </MultiTrigger>
-                        
+
                         <Trigger Property="IsSelected" Value="true">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}"/>
                             <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}"/>
@@ -293,7 +259,7 @@
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}"/>
                             <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}"/>
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="Controls:MultiSelectTreeView.IsItemSelected" Value="true"/>
@@ -307,18 +273,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-        <!--<Style.Triggers>
-                <Trigger Property="VirtualizingPanel.IsVirtualizing" Value="true">
-                    <Setter Property="ItemsPanel">
-                        <Setter.Value>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel/>
-                            </ItemsPanelTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Trigger>
-            </Style.Triggers>-->
     </Style>
-
-    
 </ResourceDictionary>

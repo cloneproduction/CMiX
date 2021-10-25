@@ -10,18 +10,20 @@
     <Grid>
         <TextBlock 
             x:Name="TextDisplay" 
+            Padding="4, 0, 0, 0"
             VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}" />
 
         <TextBox
             x:Name="InputValue" 
-            SelectionBrush="{StaticResource SuperHighLightColor}"
-            CaretBrush="{StaticResource SuperHighLightColor}"
+            SelectionBrush="{DynamicResource SuperHighLightColor}"
+            CaretBrush="{DynamicResource AccentInactive}"
             Padding="0"
             BorderThickness="0"
             VerticalAlignment="Center"
-            Background="{StaticResource HighDarkerColor}" 
-            Foreground="{StaticResource ActiveTextBase}" 
+            Background="{DynamicResource HighDarkerColor}" 
+            Foreground="{DynamicResource ActiveTextBase}" 
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}" />
     </Grid>
 

@@ -217,7 +217,8 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <DockPanel>
+                    <Border BorderBrush="{DynamicResource Shadow}" CornerRadius="4" BorderThickness="1, 0, 1, 2">
+                        <DockPanel>
 
                         <Button 
                             x:Name="deleteItemButton"
@@ -228,17 +229,13 @@
                             Content="-">
                         </Button>
 
-                        <Border 
+                        <Button 
                             DockPanel.Dock="Right" 
-                            BorderBrush="{DynamicResource SuperHighDarkerColor}" 
-                            BorderThickness="0, 0, 0, 1">
-                            <Button 
-                                Width="25" 
-                                Margin="1, 0"
-                                Command="{Binding AddItemCommand}"
-                                Content="+">
-                            </Button>
-                        </Border>
+                            Width="25" 
+                            Margin="1, 0"
+                            Command="{Binding AddItemCommand}"
+                            Content="+">
+                        </Button>
 
                         <ToggleButton
                             x:Name="toggleButton"
@@ -257,8 +254,6 @@
                                                     x:Name="templateRoot"
                                                     CornerRadius="{DynamicResource CornerRadiusDefault}"
                                                     Background="{DynamicResource Color}"
-                                                    BorderThickness="0, 0, 0, 1"
-                                                    BorderBrush="{DynamicResource Shadow}"
                                                     UseLayoutRounding="True"
                                                     SnapsToDevicePixels="True">
                                                     <Image Source="{DynamicResource Copy}" Margin="6" Opacity="0.9"/>
@@ -301,47 +296,42 @@
                             HorizontalOffset="-4"
                             PopupAnimation="None">
 
-                            <Border 
-                                x:Name="DropDownBorder"
-                                Background="Transparent"
-                                CornerRadius="0, 0, 4, 4">
-                                <Grid Margin="4">
-                                    <Border CornerRadius="0, 4, 4, 4"
-                                            BorderThickness="0, 0, 0, 2"
-                                            BorderBrush="{DynamicResource Shadow}"
-                                            Background="{DynamicResource ComboboxBackground}"/>
-                                    <ScrollViewer 
-                                        x:Name="DropDownScrollViewer"
-                                        HorizontalScrollBarVisibility="Hidden"
-                                        VerticalScrollBarVisibility="Auto"
-                                        Padding="4">
-                                        <ItemsPresenter
-                                            RenderOptions.ClearTypeHint="Enabled"
-                                            x:Name="ItemsPresenter"
-                                            KeyboardNavigation.DirectionalNavigation="Contained"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                                    </ScrollViewer>
-                                </Grid>
-
-                            </Border>
-                        </Popup>
-
-                        <Border Background="{DynamicResource DarkerColor}" 
-                                BorderBrush="{DynamicResource SuperHighDarkerColor}" 
-                                BorderThickness="0, 0, 0, 1">
-
-                            <Controls:EditableTextBox 
-                                Padding="4, 0, 0, 0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                TextElement.Foreground="{DynamicResource TextBase}"
-                                Text="{Binding SelectedItem.Name, Mode=TwoWay,  RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/>
+                        <Border 
+                            x:Name="DropDownBorder"
+                            Background="Transparent"
+                            CornerRadius="0, 0, 4, 4">
+                            <Grid Margin="4">
+                                <Border CornerRadius="0, 4, 4, 4"
+                                        BorderThickness="0, 0, 0, 2"
+                                        BorderBrush="{DynamicResource Shadow}"
+                                        Background="{DynamicResource ComboboxBackground}"/>
+                                <ScrollViewer 
+                                    x:Name="DropDownScrollViewer"
+                                    HorizontalScrollBarVisibility="Hidden"
+                                    VerticalScrollBarVisibility="Auto"
+                                    Padding="4">
+                                    <ItemsPresenter
+                                        RenderOptions.ClearTypeHint="Enabled"
+                                        x:Name="ItemsPresenter"
+                                        KeyboardNavigation.DirectionalNavigation="Contained"
+                                        SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                </ScrollViewer>
+                            </Grid>
 
                         </Border>
+                    </Popup>
 
-                    </DockPanel>
-
+                        <Controls:EditableTextBox 
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            VerticalContentAlignment="Stretch"
+                            Background="{DynamicResource HighDarkerColor}"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            TextElement.Foreground="{DynamicResource TextBase}"
+                            Text="{Binding SelectedItem.Name, Mode=TwoWay,  RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/>
+                            
+                        </DockPanel>
+                    </Border>
                     <ControlTemplate.Triggers>
                         <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <Setter TargetName="deleteItemButton" Property="IsEnabled" Value="False"/>

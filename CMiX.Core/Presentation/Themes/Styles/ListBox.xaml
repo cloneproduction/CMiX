@@ -17,12 +17,11 @@
                     <Border
                         x:Name="Bd"
                         BorderBrush="{DynamicResource Shadow}"
-                        BorderThickness="0, 2, 0, 0"
+                        BorderThickness="1, 2, 1, 0"
                         CornerRadius="4"
                         Background="{DynamicResource ListBoxBackground}"
                         SnapsToDevicePixels="True">
                         <ScrollViewer 
-  
                             Focusable="False" 
                             VerticalScrollBarVisibility="Auto" 
                             HorizontalScrollBarVisibility="Disabled">
@@ -139,7 +138,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

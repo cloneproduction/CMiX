@@ -11,7 +11,6 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border
                         x:Name="border"
-                        Margin="0"
                         Background="{DynamicResource Color}"
                         SnapsToDevicePixels="True">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
@@ -220,23 +219,6 @@
     </Style>
 
     <Style x:Key="ButtonSquare" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="0"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="White"
-                                    StrokeThickness="1"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
@@ -532,25 +514,8 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ButtonRoundedRight" TargetType="{x:Type Button}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="0"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="White"
-                                    StrokeThickness="1"/>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
         <Setter Property="IsEnabled" Value="True"/>
         <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
@@ -564,8 +529,6 @@
                         x:Name="border"
                         Margin="0"
                         Background="{DynamicResource Color}"
-                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0, 0, 1, 1"
                         SnapsToDevicePixels="True">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
                             <TextBlock
