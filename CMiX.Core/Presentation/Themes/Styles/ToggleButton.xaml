@@ -83,12 +83,12 @@
     <ControlTemplate x:Key="CMiXToggleButtonTemplate" TargetType="{x:Type Controls:CMiXToggleButton}">
         <DockPanel>
             <Border x:Name="border"
-                    Height="14" Width="14"
+                    Height="15" Width="15"
                     CornerRadius="2"
                     Padding="2"
-                    Background="{DynamicResource Color}"
-                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                    BorderThickness="0, 0, 1, 1"
+                    Background="{DynamicResource DarkColor}"
+                    BorderBrush="{DynamicResource Shadow}"
+                    BorderThickness="1, 0, 1, 2"
                     SnapsToDevicePixels="True">
                 <Border.Style>
                     <Style BasedOn="{StaticResource BorderShadow}" TargetType="{x:Type Border}">
@@ -126,7 +126,7 @@
                     <Condition Property="IsChecked" Value="true" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}"/>
+                    <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}"/>
                     <Setter TargetName="Path" Property="Visibility" Value="Visible"/>
                     <Setter TargetName="textBlock" Property="Opacity" Value="1.0"/>
                 </MultiTrigger.Setters>
@@ -149,7 +149,7 @@
                     <Condition Property="IsMouseOver" Value="true" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource AccentLight1}" />
+                    <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
                     <Setter TargetName="textBlock" Property="Opacity" Value="1.0"/>
                 </MultiTrigger.Setters>
             </MultiTrigger>
@@ -160,7 +160,7 @@
                     <Condition Property="IsMouseOver" Value="true" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource Color}" />
+                    <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
                     <Setter TargetName="textBlock" Property="Opacity" Value="0.9"/>
                 </MultiTrigger.Setters>
             </MultiTrigger>
@@ -171,7 +171,7 @@
                     <Condition Property="IsChecked" Value="true" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource HighLightColor}" />
+                    <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
             
@@ -181,7 +181,7 @@
                     <Condition Property="IsChecked" Value="false" />
                 </MultiTrigger.Conditions>
                 <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource HighLightColor}" />
+                    <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
                 </MultiTrigger.Setters>
             </MultiTrigger>
             

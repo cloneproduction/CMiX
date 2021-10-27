@@ -223,9 +223,11 @@
                         <Grid>
                             <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
                             <Border x:Name="sliderBorder" Background="Transparent">
+                                
                                 <Border.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                                 </Border.OpacityMask>
+                                
                                 <Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Visibility" Value="Visible"/>
@@ -236,6 +238,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
+                                
                                 <Track>
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton
@@ -250,6 +253,7 @@
                                             Style="{StaticResource RepeatButtonIncrease}" />
                                     </Track.IncreaseRepeatButton>
                                 </Track>
+                                
                             </Border>
 
                             <TextBlock x:Name="sliderName"
@@ -403,7 +407,7 @@
     
     
     <Style x:Key="distanceSliderBorder" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource Color}"/>
+        <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
         <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
         <Style.Triggers>
 

@@ -205,8 +205,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="mainBorder"
-                            Height="25"
-                            Padding="4"
+                            Height="20"
+                            Padding="4, 0, 0, 4"
+                            VerticalAlignment="Center"
                             Background="Transparent">
                         <Grid SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>

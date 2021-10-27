@@ -11,7 +11,7 @@
     d:DesignWidth="226.667"
     mc:Ignorable="d">
 
-    <Border x:Name="MainBorder" Background="Transparent">
+    <Border x:Name="MainBorder">
         <Grid>
             <Border x:Name="borderMask" 
                 Grid.Column="1" 
@@ -21,8 +21,10 @@
                 <Border.OpacityMask>
                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                 </Border.OpacityMask>
-                <Grid Grid.Column="1">
-                    <Border Background="{DynamicResource LightColor}" Opacity="{Binding Path=AnimatedDouble.AnimationPosition}"/>
+                <Grid>
+                    <Border 
+                        Background="{DynamicResource DarkColor}" 
+                        Opacity="{Binding Path=AnimatedDouble.AnimationPosition}"/>
                     <TextBlock 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"

@@ -1,33 +1,13 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.Geometry"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
-    xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
-    xmlns:Views = "clr-namespace:CMiX.Studio.Views"
-    xmlns:MVVM.Views="clr-namespace:CMiX.Core.Presentation.Views;assembly=CMiX.Core"
-    xmlns:MVVM.ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-    xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     d:DesignHeight="1507.577"
     d:DesignWidth="415.712"
     mc:Ignorable="d">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Tools:BindingProxy x:Key="ProjectProxy" Data="{Binding}" />
-            <ObjectDataProvider x:Key="FileMask" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="MVVM.ViewModels:GeometryFileMask"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-            <Converters:BoolInverterConverter x:Key="BoolInverter" />
-            <Converters:EnumToStringConverter x:Key="EnumToString" />
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <Border Background="{DynamicResource DarkerColor}">
         <StackPanel>

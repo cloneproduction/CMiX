@@ -15,11 +15,13 @@
                 <ColumnDefinition Width="0.9*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Controls:DistanceSlider 
-                Grid.Column="1" 
-                Position="Top" 
-                Style="{StaticResource DistanceSliderStyle}" 
-                Value="{Binding Path=X.Amount}"/>
+            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
+                <Controls:DistanceSlider 
+                    Position="Top" 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Value="{Binding Path=X.Amount}"/>
+            </Border>
+
             <TextBlock Grid.Column="0" Padding="8, 0" Text="Scale X" HorizontalAlignment="Right" Foreground="{StaticResource TextBase}"/>
         </Grid>
 
@@ -28,11 +30,12 @@
                 <ColumnDefinition Width="0.9*"/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Controls:DistanceSlider 
-                Grid.Column="1" 
-                Style="{StaticResource DistanceSliderStyle}" 
-                Position="Middle"  
-                Value="{Binding Path=Y.Amount}"/>
+            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
+                <Controls:DistanceSlider 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Position="Middle"  
+                    Value="{Binding Path=Y.Amount}"/>
+            </Border>
             <TextBlock Grid.Column="0" Padding="8, 0" HorizontalAlignment="Right" Text="Y" Foreground="{StaticResource TextBase}"/>
         </Grid>
         
@@ -43,19 +46,21 @@
             </Grid.ColumnDefinitions>
             <Grid.Style>
                 <Style TargetType="{x:Type Grid}">
-                    <Setter Property="Visibility" Value="Collapsed"/>
+                    <Setter Property="IsEnabled" Value="False"/>
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Studio.Views:Transform}}, Path=DataContext.Is3D}" Value="True">
-                            <Setter Property="Visibility" Value="Visible"/>
+                            <Setter Property="IsEnabled" Value="True"/>
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
             </Grid.Style>
-            <Controls:DistanceSlider 
-                Grid.Column="1" 
-                Position="Bottom" 
-                Style="{StaticResource DistanceSliderStyle}" 
-                Value="{Binding Path=Z.Amount}"/>
+            <Border Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
+                <Controls:DistanceSlider 
+                    Grid.Column="1" 
+                    Position="Bottom" 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Value="{Binding Path=Z.Amount}"/>
+            </Border>
             <TextBlock Grid.Column="0" Padding="8, 0" HorizontalAlignment="Right" Text="Z" Foreground="{StaticResource TextBase}"/>
         </Grid>
 
