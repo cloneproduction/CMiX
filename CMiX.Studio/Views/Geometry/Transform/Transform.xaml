@@ -18,8 +18,8 @@
             Margin="4"
             Caption="3D Space"
             IsChecked="{Binding Is3D}"/>
-        <Views:Translate Padding="4" Margin="0, 2" DataContext="{Binding Translate}"/>
-        <Views:Scale Padding="4" Margin="0, 2" DataContext="{Binding Scale}"/>
-        <Views:Rotation Padding="4" Margin="0, 2, 0, 8" DataContext="{Binding Rotation}"/>
+        <Views:Translate  Margin="0, 2" DataContext="{Binding Translate}"/>
+        <Views:Scale Margin="0, 2" DataContext="{Binding Scale}"/>
+        <Views:Rotation Margin="0, 2" DataContext="{Binding Rotation}"/>
     </StackPanel>
 </UserControl>

@@ -28,22 +28,13 @@
 
             <Views:GeometryPathSelector Margin="8, 0" DataContext="{Binding GeometrySelector}"/>
 
-            <Expander Margin="0, 2" IsExpanded="True" Header="Transform" >
-                <Views:Transform 
-                    Margin="0, 2" 
-                    DockPanel.Dock="Bottom" 
-                    DataContext="{Binding Transform}"/>
+            <Expander IsExpanded="True" Header="Transform" >
+                <Views:Transform DataContext="{Binding Transform}"/>
             </Expander>
             
-            <Views:Instancer 
-                DockPanel.Dock="Bottom" 
-                Margin="0, 2" 
-                DataContext="{Binding Instancer}"/>
+            <Views:Instancer DataContext="{Binding Instancer}"/>
             
-            <Views:GeometryFX  
-                Margin="0, 2"
-                DockPanel.Dock="Bottom" 
-                DataContext="{Binding GeometryFX}"/>
+            <Views:GeometryFX DataContext="{Binding GeometryFX}"/>
             
         </StackPanel>
     </Border>

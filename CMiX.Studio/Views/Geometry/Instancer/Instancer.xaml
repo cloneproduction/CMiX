@@ -9,7 +9,8 @@
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
     xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views" 
+    d:DataContext="{d:DesignInstance Type=ViewModels:Instancer}"
     d:DesignHeight="764"
     d:DesignWidth="341.667"
     mc:Ignorable="d"
@@ -26,7 +27,7 @@
                     Header="TranslateXYZ" 
                     Margin="4, 2" 
                     Template="{StaticResource ModifierExpanderTemplate}">
-                    <StackPanel Margin="8">
+                    <StackPanel>
                         <Views:Range Margin="0, 0, 0, 8"  DataContext="{Binding Range}"/>
                         <ComboBox />
                     </StackPanel>
@@ -49,79 +50,89 @@
                 RandomXYZTemplate="{StaticResource RandomXYZTemplate}"/>
         </ResourceDictionary>
 
-
-
     </UserControl.Resources>
 
     <Expander Header="Instancer" IsExpanded="True">
-        <Border Padding="4">
-            <StackPanel>
+        <StackPanel>
 
-                <ToggleButton x:Name="PopUpToggle" 
-                              Content="Add Modifier"
-                              Height="20" 
-                              Margin="0, 4"
-                              Background="{DynamicResource DarkerColor}" 
-                              Style="{StaticResource ToggleTransformModifierMenu}">
-                </ToggleButton>
-                
-                <Controls:CMiXPopup 
-                        AllowsTransparency="True"
-                        Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=InstancerPouet}"
-                        Placement="Custom"
-                        PlacementTarget="{Binding ElementName=PopUpToggle}"
-                        FlowDirection="RightToLeft"
-                        IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
-                    <Border Background="Transparent" CornerRadius="{DynamicResource CornerRadiusBottom}" Padding="2, 0, 2, 2">
-                        <Border.Effect>
-                            <DropShadowEffect BlurRadius="15" Opacity="0.8"  ShadowDepth="2" Direction="-90" RenderingBias="Performance" />
-                        </Border.Effect>
-                        <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}" Opacity="0.75" Background="{DynamicResource HighDarkerColor}">
-                            <Grid Margin="8" Background="{DynamicResource HighDarkerColor}">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                    <ColumnDefinition/>
-                                </Grid.ColumnDefinitions>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                    <RowDefinition/>
-                                </Grid.RowDefinitions>
-                                <Button 
-                                    Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
-                                    CommandParameter="{x:Static ViewModels:TransformModifierNames.TranslateXYZ}" 
-                                    Grid.Column="0"
-                                    VerticalAlignment="Center" 
-                                    Width="100" 
-                                    Height="20" 
-                                    Content="TranslateXYZ"/>
-                                <Button 
-                                    Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
-                                    CommandParameter="{x:Static ViewModels:TransformModifierNames.Randomized}" 
-                                    Grid.Column="1"
-                                    VerticalAlignment="Center" 
-                                    Width="100" 
-                                    Height="20" 
-                                    Content="Randomized"/>
-                                <Button                         
-                                    Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
-                                    CommandParameter="{x:Static ViewModels:TransformModifierNames.Randomized}"
-                                    Grid.Column="2"
-                                    VerticalAlignment="Center" 
-                                    Width="100" 
-                                    Height="20" 
-                                    Content="RotateXYZ"/>
-                            </Grid>
-                        </Border>
+            <ToggleButton 
+                x:Name="PopUpToggle" 
+                Content="Add Modifier"
+                Height="20" 
+                Margin="0, 4"
+                Background="{DynamicResource DarkerColor}" 
+                Style="{StaticResource ToggleTransformModifierMenu}"/>
+
+            <Popup
+                AllowsTransparency="True"
+                Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=InstancerPouet}"
+                Placement="Bottom"
+                PlacementTarget="{Binding ElementName=PopUpToggle}"
+                FlowDirection="RightToLeft"
+                IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+                <Border Background="Transparent" CornerRadius="{DynamicResource CornerRadiusBottom}" Padding="2, 0, 2, 2">
+                    <Border.Effect>
+                        <DropShadowEffect 
+                            BlurRadius="15" 
+                            Opacity="0.8"  
+                            ShadowDepth="2" 
+                            Direction="-90" 
+                            RenderingBias="Performance"/>
+                    </Border.Effect>
+                    <Border 
+                        CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
+                        Opacity="0.75" 
+                        Background="{DynamicResource HighDarkerColor}">
+                        
+                        <Grid Margin="8" Background="{DynamicResource HighDarkerColor}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            
+                            <Button 
+                                Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
+                                CommandParameter="{x:Static ViewModels:TransformModifierNames.TranslateXYZ}" 
+                                Grid.Column="0"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="TranslateXYZ"/>
+                            
+                            <Button 
+                                Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
+                                CommandParameter="{x:Static ViewModels:TransformModifierNames.Randomized}" 
+                                Grid.Column="1"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="Randomized"/>
+                            
+                            <Button                         
+                                Command="{Binding TransformModifier.CreateTransformModifierCommand}" 
+                                CommandParameter="{x:Static ViewModels:TransformModifierNames.Randomized}"
+                                Grid.Column="2"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="RotateXYZ"/>
+                            
+                        </Grid>
                     </Border>
-                </Controls:CMiXPopup>
+                </Border>
+            </Popup>
 
 
-                <ItemsControl ItemTemplateSelector="{StaticResource TemplateSelector }" ItemsSource="{Binding TransformModifier.Modifiers}"/>
-            </StackPanel>
-        </Border>
-
-        </Expander>
+            <ItemsControl 
+                ItemTemplateSelector="{StaticResource TemplateSelector }" 
+                ItemsSource="{Binding TransformModifier.Modifiers}"/>
+        </StackPanel>
+    </Expander>
 
 </UserControl>

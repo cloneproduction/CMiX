@@ -16,7 +16,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Background="{DynamicResource DarkColor}">
+    <Border Background="{DynamicResource DarkerColor}">
         <StackPanel>
             <Border Height="25" Margin="0, 0, 0, 2" Padding="4">
                 <TextBlock
@@ -27,11 +27,11 @@
 
             <Views:ColorSelector DataContext="{Binding ColorSelector}"/>
 
-            <Expander IsExpanded="True" Header="Modifiers" Margin="0, 2">
-                <Border Grid.Row="1" Style="{StaticResource BorderContainer}" Margin="0, 4, 0, 8">
+            <Border Background="{StaticResource DarkerColor}">
+                <Expander IsExpanded="True" Header="Modifiers">
                     <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
-                </Border>
-            </Expander>
+                </Expander>
+            </Border>
         </StackPanel>
     </Border>
 </UserControl>

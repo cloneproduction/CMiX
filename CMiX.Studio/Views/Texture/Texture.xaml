@@ -14,14 +14,14 @@
     d:DesignWidth="316.667"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <Tools:BindingProxy x:Key="ProjectProxy" Data="{Binding}" />
         <ObjectDataProvider x:Key="InvertMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="ViewModels:TextureInvertMode"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
 
     <Border Background="{DynamicResource DarkerColor}">
@@ -44,8 +44,10 @@
 
             <Views:TexturePathSelector DataContext="{Binding TextureSelector}"/>
 
-            <Expander IsExpanded="True" Margin="0, 2" Header="Transform">
-                <StackPanel Margin="4">
+            <Expander 
+                IsExpanded="True" 
+                Header="Transform">
+                <StackPanel>
 
                     <Grid Height="20" Margin="0, 4, 0 ,0">
                         <Grid.ColumnDefinitions>
@@ -56,11 +58,11 @@
                             <Controls:DistanceSlider Position="Top" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Pan.Amount}" />
                         </Border>
                         <TextBlock 
-                                Grid.Column="0" 
-                                Padding="8, 0" 
-                                HorizontalAlignment="Right" 
-                                Text="Translate U" 
-                                Foreground="{StaticResource TextBase}"/>
+                            Grid.Column="0" 
+                            Padding="8, 0" 
+                            HorizontalAlignment="Right" 
+                            Text="Translate U" 
+                            Foreground="{StaticResource TextBase}"/>
                     </Grid>
 
                     <Grid Height="20" Margin="0, 0, 0, 4">
@@ -164,31 +166,33 @@
 
             </Expander>
 
-            <Expander IsExpanded="True" 
-                    Margin="0, 2" 
-                    Padding="8" 
-                    Header="Color">
+            <Expander 
+                IsExpanded="True" 
+                Padding="8" 
+                Header="Color">
                 <StackPanel>
 
                     <Border Style="{DynamicResource BorderShadow}">
                         <StackPanel>
+                            
                             <Controls:CMiXSlider
-                            Style="{StaticResource CMiXSliderStyle}"
-                            Position="Top"
-                            Minimum="0"
-                            Maximum="1"
-                            Caption="Brightness"
-                            Value="{Binding Brightness.Amount}"/>
+                                Style="{StaticResource CMiXSliderStyle}"
+                                Position="Top"
+                                Minimum="0"
+                                Maximum="1"
+                                Caption="Brightness"
+                                Value="{Binding Brightness.Amount}"/>
 
                             <Controls:CMiXSlider
-                            Style="{StaticResource CMiXSliderStyle}"
-                            Position="Bottom"
-                            Minimum="0"
-                            Maximum="1"
-                            Margin="0, 1, 0, 0"
-                            Caption="Contrast"
-                            DockPanel.Dock="Bottom"
-                            Value="{Binding Contrast.Amount}"/>
+                                Style="{StaticResource CMiXSliderStyle}"
+                                Position="Bottom"
+                                Minimum="0"
+                                Maximum="1"
+                                Margin="0, 1, 0, 0"
+                                Caption="Contrast"
+                                DockPanel.Dock="Bottom"
+                                Value="{Binding Contrast.Amount}"/>
+                            
                         </StackPanel>
                     </Border>
 
@@ -199,41 +203,41 @@
                         <StackPanel>
 
                             <Controls:CMiXSlider
-                            Style="{StaticResource CMiXSliderStyle}"
-                            Minimum="-1.0"
-                            Maximum="1.0"
-                            Caption="Hue"
-                            Position="Top"
-                            Value="{Binding Hue.Amount}"/>
+                                Style="{StaticResource CMiXSliderStyle}"
+                                Minimum="-1.0"
+                                Maximum="1.0"
+                                Caption="Hue"
+                                Position="Top"
+                                Value="{Binding Hue.Amount}"/>
 
                             <Controls:CMiXSlider
-                            Style="{StaticResource CMiXSliderStyle}"
-                            Minimum="-1.0"
-                            Maximum="1.0"
-                            Margin="0, 1"
-                            Caption="Saturation"
-                            Position="Middle"
-                            Value="{Binding Saturation.Amount}"/>
+                                Style="{StaticResource CMiXSliderStyle}"
+                                Minimum="-1.0"
+                                Maximum="1.0"
+                                Margin="0, 1"
+                                Caption="Saturation"
+                                Position="Middle"
+                                Value="{Binding Saturation.Amount}"/>
 
                             <Controls:CMiXSlider
-                            Style="{StaticResource CMiXSliderStyle}"
-                            Minimum="-1.0"
-                            Maximum="1.0"
-                            Caption="Luminosity"
-                            Position="Bottom"
-                            Value="{Binding Luminosity.Amount}"/>
+                                Style="{StaticResource CMiXSliderStyle}"
+                                Minimum="-1.0"
+                                Maximum="1.0"
+                                Caption="Luminosity"
+                                Position="Bottom"
+                                Value="{Binding Luminosity.Amount}"/>
 
                         </StackPanel>
                     </Border>
 
                     <Border Margin="0, 8, 0, 0" Style="{DynamicResource BorderShadow}">
                         <Controls:CMiXSlider
-                        Style="{StaticResource CMiXSliderStyle}"
-                        Minimum="0"
-                        Maximum="1.0"
-                        Height="20"
-                        Caption="Keying"
-                        Value="{Binding Keying.Amount}"/>
+                            Style="{StaticResource CMiXSliderStyle}"
+                            Minimum="0"
+                            Maximum="1.0"
+                            Height="20"
+                            Caption="Keying"
+                            Value="{Binding Keying.Amount}"/>
                     </Border>
                 </StackPanel>
             </Expander>

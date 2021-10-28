@@ -10,29 +10,8 @@
              d:DesignHeight="462.78" 
              d:DesignWidth="255.06">
 
-    <!--<UserControl.Resources>
-        <ResourceDictionary>
-            <Tools:BindingProxy x:Key="ProjectProxy" Data="{Binding}" />
-        </ResourceDictionary>
-    </UserControl.Resources>-->
+    <Expander IsExpanded="True" Header="Color" >
+        <MVVM.Views:ColorPicker DataContext="{Binding ColorPicker}"/>
+    </Expander>
 
-    <StackPanel Background="{StaticResource HighDarkerColor}">
-        <Expander IsExpanded="True" Margin="0, 2" Header="Color" >
-            <Border 
-                Margin="0, 4" 
-                Padding="8" 
-                Style="{StaticResource BorderContainer}">
-                <!--<Controls:ColorPicker 
-                    Style="{StaticResource ColorPickerStyle}"
-                    Hue="{Binding Path=ColorPicker.Hue}"
-                    Saturation="{Binding Path=ColorPicker.Sat}"
-                    Value="{Binding Path=ColorPicker.Val}"
-                    Red="{Binding Path=ColorPicker.Red}"
-                    Green="{Binding Path=ColorPicker.Green}"
-                    Blue="{Binding Path=ColorPicker.Blue}"
-                    SelectedColor="{Binding Path=ColorPicker.SelectedColor}" />-->
-                <MVVM.Views:ColorPicker DataContext="{Binding ColorPicker}"/>
-            </Border>
-        </Expander>
-    </StackPanel>
 </UserControl>

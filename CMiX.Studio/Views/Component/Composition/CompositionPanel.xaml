@@ -9,16 +9,16 @@
              mc:Ignorable="d" 
              d:DesignHeight="525" d:DesignWidth="293">
 
-    <Grid>
+    <Grid Visibility="{Binding MasterBeat, Converter={StaticResource NullToVisibility}}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0.9*"/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
         <TextBlock 
-                Grid.Column="0" 
-                Padding="8, 0" 
-                HorizontalAlignment="Right" 
-                Text="Master Beat" />
+            Grid.Column="0" 
+            Padding="8, 0" 
+            HorizontalAlignment="Right" 
+            Text="Master Beat" />
         <ComboBox 
             Grid.Column="1"
             Height="25"
