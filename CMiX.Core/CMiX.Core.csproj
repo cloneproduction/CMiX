@@ -96,6 +96,7 @@
       <HintPath>..\packages\System.ComponentModel.Annotations.6.0.0-preview.4.21253.7\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
@@ -118,6 +119,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
     <Reference Include="WatsonTcp, Version=4.8.10.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\WatsonTcp.4.8.10\lib\net461\WatsonTcp.dll</HintPath>
     </Reference>
@@ -144,6 +146,7 @@
     <Compile Include="Network\Messages\MessageAddLayer.cs" />
     <Compile Include="Network\Messages\MessageAddNewPlaylist.cs" />
     <Compile Include="Network\Messages\MessageAddScheduler.cs" />
+    <Compile Include="Network\Messages\MessageRequestDialogService.cs" />
     <Compile Include="Network\Messages\MessageSelectedMasterBeatChange.cs" />
     <Compile Include="Network\Messages\MessageEventArgs.cs" />
     <Compile Include="Network\Messages\MessageMasterBeatChange.cs" />
@@ -429,6 +432,9 @@
       <DependentUpon>TaskEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\ViewModels\Scheduling\TaskEditorDialog.cs" />
+    <Compile Include="Presentation\Views\Dialogs\ColorSelectorWindow.xaml.cs">
+      <DependentUpon>ColorSelectorWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Presentation\Windows\CustomDialog.cs" />
     <Compile Include="Presentation\Windows\DialogFactory.cs" />
     <Compile Include="Presentation\Windows\CustomTypeLocator.cs" />
@@ -769,6 +775,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Views\Dialogs\CustomWindowDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Views\Dialogs\ColorSelectorWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

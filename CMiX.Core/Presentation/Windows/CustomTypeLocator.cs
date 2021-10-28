@@ -14,10 +14,10 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             if (viewModel is Server)
                 return typeof(MessengerSettingsWindow);
-
             else if (viewModel is ModalDialog)
                 return typeof(CustomWindowDialog);
-
+            else if (viewModel is Coloration)
+                return typeof(ColorSelectorWindow);
             else
                 throw new Exception("Dialog type is not defined.");
         }

@@ -38,7 +38,38 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ButtonColorStyle" TargetType="{x:Type Button}">
+        <!--<Setter Property="Background" Value="{DynamicResource DarkColor}" />-->
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border
+                        x:Name="border"
+                        CornerRadius="2"
+                        Background="{TemplateBinding Background}"
+                        SnapsToDevicePixels="True"/>
 
+                    <ControlTemplate.Triggers>
+                        <!--<Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                        </Trigger>-->
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    
     <Style x:Key="ButtonListBoxItem" TargetType="{x:Type Button}" >
         <Setter Property="Template">
             <Setter.Value>

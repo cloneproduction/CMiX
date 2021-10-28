@@ -7,10 +7,11 @@ using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorSelector : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class ColorSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IModalDialogViewModel
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
@@ -33,6 +34,8 @@ namespace CMiX.Core.Presentation.ViewModels
                 SetProperty(ref _selectedColor, value);
             }
         }
+
+        public bool? DialogResult => throw new NotImplementedException();
 
         public void SetViewModel(IModel model)
         {

@@ -7,16 +7,16 @@ using System.Windows.Input;
 
 namespace CMiX.Core.Presentation.Views
 {
-    public partial class MessengerSettingsWindow : Window
+    public partial class ColorSelectorWindow : Window
     {
-        public MessengerSettingsWindow()
+        public ColorSelectorWindow()
         {
             InitializeComponent();
         }
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            ipBox.txtboxFirstPart.Focus();
+            //ipBox.txtboxFirstPart.Focus();
             MoveBottomRightEdgeOfWindowToMousePosition();
         }
 

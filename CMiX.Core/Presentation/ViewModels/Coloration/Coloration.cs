@@ -2,42 +2,53 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Windows.Input;
+using System.Windows.Media;
 using CMiX.Core.Models;
+using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Scheduling;
+using CMiX.Core.Presentation.Views;
+using CMiX.Core.Presentation.Views.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
+using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Coloration : ObservableObject//, IControl
+    public class Coloration : ObservableObject, IModalDialogViewModel
     {
         public Coloration(ColorationModel colorationModel, Guid componentID)
         {
-            //this.ID = colorationModel.ID;
             BeatModifier = new BeatModifier(colorationModel.BeatModifierModel, componentID);
             ColorSelector = new ColorSelector(colorationModel.ColorSelectorModel);
+
+            OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
         }
 
-
-        //public Guid ID { get; set; }
+        public ICommand OpenColorSelectorCommand { get; set; }
+        public Color Color { get; set; }
         public ColorSelector ColorSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
 
+        public bool? DialogResult => throw new NotImplementedException();
 
-        //public void SetViewModel(IModel model)
-        //{
-        //    ColorationModel colorationModel = model as ColorationModel;
-        //    colorationModel.ID = this.ID;
-        //    this.ColorSelector.SetViewModel(colorationModel.ColorSelectorModel);
-        //    this.BeatModifier.SetViewModel(colorationModel.BeatModifierModel);
-        //}
+        public void OpenColorSelector()
+        {
+            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
+            bool? success = dialogService.ShowDialog<ColorSelectorWindow>(this, ColorSelector);
 
-        //public IModel GetModel()
-        //{
-        //    ColorationModel model = new ColorationModel();
-        //    model.ID = this.ID;
-        //    model.ColorSelectorModel = (ColorSelectorModel)this.ColorSelector.GetModel();
-        //    model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
-        //    return model;
-        //}
+            //JobEditor jobEditor = new JobEditor(new Project());
+            //bool? success = dialogService.ShowDialog<TaskEditor>(this, jobEditor);
+
+            if (success == true)
+            {
+                
+            }
+                //server.SetSettings(settings);
+        }
     }
 }
