@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace CMiX.Core.Presentation.Views
+namespace CMiX.Core.Presentation.Views.Dialogs
 {
     public partial class ColorSelectorWindow : Window
     {
@@ -16,7 +16,6 @@ namespace CMiX.Core.Presentation.Views
 
         private void Window_Loaded(object sender, RoutedEventArgs e)
         {
-            //ipBox.txtboxFirstPart.Focus();
             MoveBottomRightEdgeOfWindowToMousePosition();
         }
 
@@ -25,7 +24,7 @@ namespace CMiX.Core.Presentation.Views
             var transform = PresentationSource.FromVisual(this).CompositionTarget.TransformFromDevice;
             var mouse = transform.Transform(GetMousePosition());
             Left = mouse.X - ActualWidth * 0.5;
-            Top = mouse.Y - 25;
+            Top = mouse.Y + 25;
         }
 
         public Point GetMousePosition()

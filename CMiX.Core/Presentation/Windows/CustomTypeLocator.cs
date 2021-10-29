@@ -4,6 +4,7 @@
 using System;
 using System.ComponentModel;
 using CMiX.Core.Presentation.Views;
+using CMiX.Core.Presentation.Views.Dialogs;
 using MvvmDialogs.DialogTypeLocators;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -17,7 +18,7 @@ namespace CMiX.Core.Presentation.ViewModels
             else if (viewModel is ModalDialog)
                 return typeof(CustomWindowDialog);
             else if (viewModel is Coloration)
-                return typeof(ColorSelectorWindow);
+                return typeof(ColorSelectorDialog);
             else
                 throw new Exception("Dialog type is not defined.");
         }

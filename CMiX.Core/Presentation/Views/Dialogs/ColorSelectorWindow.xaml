@@ -1,27 +1,18 @@
-﻿<Window x:Class="CMiX.Core.Presentation.Views.ColorSelectorWindow"
+﻿<Window x:Class="CMiX.Core.Presentation.Views.Dialogs.ColorSelectorWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls"
-        mc:Ignorable="d"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+        xmlns:MVVM="clr-namespace:CMiX.Core.Presentation.Views"
+        Style="{StaticResource PopupWindowNoTitleStyle}"
+        Width="200"
+        Height="450"
         ResizeMode="NoResize"
+        AllowsTransparency="True"
+        mc:Ignorable="d"
         WindowStyle="None"
-        Style="{StaticResource MessengerSettingsWindowStyle}"
-        ShowInTaskbar="False"
         Loaded="Window_Loaded"
-        SizeToContent="Height"
-        Background="Transparent"
-        Title="Edit Messenger Settings" d:DesignHeight="168.167" >
+        ShowInTaskbar="False">
 
-    <Button 
-        Height="25"
-        DockPanel.Dock="Bottom"
-        Margin="0, 8, 0, 0"
-        Grid.Column="0"
-        Content="OK"
-        Style="{StaticResource ButtonValidation}"
-        Click="Button_Click"
-        Command="{Binding ApplyCommand}"
-        CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
+    <MVVM:ColorPicker Width="200" DataContext="{Binding ColorPicker}"/>
 </Window>

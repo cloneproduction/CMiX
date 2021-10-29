@@ -29,12 +29,11 @@
 
             <Button Height="25"
                     Margin="4"
-                    Background="Red"
-
+                    Background="{Binding ColorSelector.ColorPicker.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
                     Command="{Binding OpenColorSelectorCommand}"
                     Style="{StaticResource ButtonColorStyle}"/>
-            <!--Background="{Binding Color, Converter={StaticResource ColorToBrush}}"-->
-            <Views:ColorSelector DataContext="{Binding ColorSelector}"/>
+
+            <!--<Views:ColorSelector DataContext="{Binding ColorSelector}"/>-->
 
             <Border Background="{StaticResource DarkerColor}">
                 <Expander IsExpanded="True" Header="Modifiers">

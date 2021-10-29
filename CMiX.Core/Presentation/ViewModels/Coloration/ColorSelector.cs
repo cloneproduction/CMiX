@@ -17,6 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = colorSelectorModel.ID;
             ColorPicker = new ColorPicker(colorSelectorModel.ColorPickerModel);
+            SelectedColor = new Color() { R = 255, G = 0, B = 255 };
             //this.SelectedColor = Utils.HexStringToColor(colorSelectorModel.ColorPickerModel.SelectedColor);
         }
 
@@ -25,17 +26,15 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public ColorPicker ColorPicker { get; set; }
 
+
         private Color _selectedColor;
         public Color SelectedColor
         {
             get => _selectedColor;
-            set
-            {
-                SetProperty(ref _selectedColor, value);
-            }
+            set => SetProperty(ref _selectedColor, value);
         }
 
-        public bool? DialogResult => throw new NotImplementedException();
+        public bool? DialogResult { get; set; }
 
         public void SetViewModel(IModel model)
         {

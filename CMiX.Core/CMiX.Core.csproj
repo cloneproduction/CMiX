@@ -438,6 +438,7 @@
     <Compile Include="Presentation\Windows\CustomDialog.cs" />
     <Compile Include="Presentation\Windows\DialogFactory.cs" />
     <Compile Include="Presentation\Windows\CustomTypeLocator.cs" />
+    <Compile Include="Presentation\Windows\ColorSelectorDialog.cs" />
     <Compile Include="Presentation\Windows\MessengerSettingsDialog.cs" />
     <Compile Include="Presentation\ViewModels\Dialogs\ModalDialog.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Geometry\Geometry.cs" />
@@ -774,11 +775,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\Views\Dialogs\CustomWindowDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Presentation\Views\Dialogs\ColorSelectorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Presentation\Views\Dialogs\CustomWindowDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

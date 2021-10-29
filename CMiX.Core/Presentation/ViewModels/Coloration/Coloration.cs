@@ -7,11 +7,8 @@ using System.Windows.Media;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentation.ViewModels.Scheduling;
-using CMiX.Core.Presentation.Views;
-using CMiX.Core.Presentation.Views.Scheduling;
+using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -34,21 +31,18 @@ namespace CMiX.Core.Presentation.ViewModels
         public ColorSelector ColorSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
 
-        public bool? DialogResult => throw new NotImplementedException();
+        public bool? DialogResult { get; set; }
 
         public void OpenColorSelector()
         {
             IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
             bool? success = dialogService.ShowDialog<ColorSelectorWindow>(this, ColorSelector);
 
-            //JobEditor jobEditor = new JobEditor(new Project());
-            //bool? success = dialogService.ShowDialog<TaskEditor>(this, jobEditor);
-
             if (success == true)
             {
-                
+
             }
-                //server.SetSettings(settings);
+            //server.SetSettings(settings);
         }
     }
 }

@@ -8,7 +8,9 @@
              xmlns:MVVM.Views="clr-namespace:CMiX.Core.Presentation.Views;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="462.78" 
-             d:DesignWidth="255.06">
+             d:DesignWidth="255.06"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             md:DialogServiceViews.IsRegistered="True">
 
     <Expander IsExpanded="True" Header="Color" >
         <MVVM.Views:ColorPicker DataContext="{Binding ColorPicker}"/>

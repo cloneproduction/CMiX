@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Presentation.Views;
+using CMiX.Core.Presentation.Views.Dialogs;
 using CMiX.Core.Presentation.Views.Scheduling;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;
@@ -18,6 +19,8 @@ namespace CMiX.Core.Presentation.ViewModels
                 return new MessageSettingsDialog();
             else if (dialogType == typeof(TaskEditor))
                 return new TaskEditorDialog();
+            else if (dialogType == typeof(ColorSelectorWindow))
+                return new ColorSelectorDialog();
             else
                 return new CustomDialog();
 
