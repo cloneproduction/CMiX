@@ -21,8 +21,8 @@
             <Converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    
-    
+
+
     <i:Interaction.Triggers>
         <i:EventTrigger EventName="PreviewMouseDown">
             <i:InvokeCommandAction Command="{Binding PreviewMouseDownCommand}"/>
@@ -34,10 +34,6 @@
             <i:InvokeCommandAction Command="{Binding PreviewMouseLeaveCommand}"/>
         </i:EventTrigger>
     </i:Interaction.Triggers>
-
-    <!--<StackPanel>
-        <local:ColorPicker Style="{StaticResource ColorPickerStyle}"/>
-    </StackPanel>-->
 
     <StackPanel>
         <DockPanel Visibility="{Binding Path=IsChecked, ElementName=HueRadio, Converter={StaticResource BoolToVisibility}}">
@@ -191,8 +187,21 @@
                 />
         </DockPanel>
 
+        <Border Margin="0, 8" Height="20" BorderThickness="1, 0, 1, 2" CornerRadius="4" BorderBrush="{DynamicResource Shadow}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <RadioButton Grid.Column="0" Content="HSV" Style="{StaticResource InlineRadioButtonLeft}"/>
+                <RadioButton Grid.Column="1" Content="RGB" Style="{StaticResource InlineRadioButtonCenter}"/>
+                <RadioButton Grid.Column="2" Content="HEX" Style="{StaticResource InlineRadioButtonRight}"/>
+            </Grid>
+        </Border>
 
-        <Separator Background="{DynamicResource DarkColor}" Opacity="0.25" Margin="0, 8"/>
+
+        <Separator Background="{DynamicResource DarkColor}" Opacity="0.25" />
         <Grid 
             Margin="0, 0, 0, 1"
             Height="20" >
