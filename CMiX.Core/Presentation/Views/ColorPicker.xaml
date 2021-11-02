@@ -7,7 +7,6 @@
              xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters"
              xmlns:local="clr-namespace:CMiX.Core.Presentation.Controls" xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d"
-             d:DesignHeight="4145.5"
              d:DesignWidth="566.5"
              Background="Transparent">
     
@@ -194,287 +193,319 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <RadioButton Grid.Column="0" Content="HSV" Style="{StaticResource InlineRadioButtonLeft}"/>
-                <RadioButton Grid.Column="1" Content="RGB" Style="{StaticResource InlineRadioButtonCenter}"/>
-                <RadioButton Grid.Column="2" Content="HEX" Style="{StaticResource InlineRadioButtonRight}"/>
+                <RadioButton x:Name="HSV" Grid.Column="0" IsChecked="True" Content="HSV" Style="{StaticResource InlineRadioButtonLeft}"/>
+                <RadioButton x:Name="RGB" Grid.Column="1" Content="RGB" Style="{StaticResource InlineRadioButtonCenter}"/>
+                <RadioButton x:Name="HEX" Grid.Column="2" Content="HEX" Style="{StaticResource InlineRadioButtonRight}"/>
             </Grid>
         </Border>
 
 
-        <Separator Background="{DynamicResource DarkColor}" Opacity="0.25" />
-        <Grid 
-            Margin="0, 0, 0, 1"
-            Height="20" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.15*"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
+        <Grid>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=RGB, Path=IsChecked}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <StackPanel>
+                    <Grid Margin="0, 0, 0, 1" Height="20" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.15*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
 
-            <RadioButton 
-                GroupName="SliderRadio"
-                x:Name="RedRadio"
-                Grid.Column="0" />
-            <TextBlock 
-                Grid.Column="1"
-                Text="R"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center" 
-                Foreground="{DynamicResource TextBase}"/>
-            <TextBox 
-                Grid.Column="3"
-                BorderThickness="0" 
-                Margin="2, 0"
-                Background="{DynamicResource HighDarkerColor}"
-                Foreground="{DynamicResource TextBase}"
-                Text="{Binding Red, Converter={StaticResource ByteToString}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" />
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="255"
-                Value="{Binding Red, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Grid.Column="2"
-                Height="20"
-                LeftColor="{Binding SelectedColor, ConverterParameter='RedLeft', Converter={StaticResource ColorToSliderBgColor}}"
-                RightColor="{Binding SelectedColor, ConverterParameter='RedRight', Converter={StaticResource ColorToSliderBgColor}}"/>
+                        <RadioButton 
+                        GroupName="SliderRadio"
+                        x:Name="RedRadio"
+                        Grid.Column="0" />
+                        <TextBlock 
+                        Grid.Column="1"
+                        Text="R"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Foreground="{DynamicResource TextBase}"/>
+                        <TextBox 
+                        Grid.Column="3"
+                        BorderThickness="0" 
+                        Margin="2, 0"
+                        Background="{DynamicResource HighDarkerColor}"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Red, Converter={StaticResource ByteToString}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" />
+                        <local:ColorSlider
+                        Minimum="0"
+                        Maximum="255"
+                        Value="{Binding Red, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Grid.Column="2"
+                        Height="20"
+                        LeftColor="{Binding SelectedColor, ConverterParameter='RedLeft', Converter={StaticResource ColorToSliderBgColor}}"
+                        RightColor="{Binding SelectedColor, ConverterParameter='RedRight', Converter={StaticResource ColorToSliderBgColor}}"/>
+                    </Grid>
+                    <Grid Margin="0, 1" Height="20" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.15*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton     
+                        GroupName="SliderRadio"
+                        x:Name="GreenRadio"
+                        Grid.Column="0" />
+                        <TextBlock 
+                        Grid.Column="1"
+                        Text="G"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Foreground="{DynamicResource TextBase}"/>
+                        <TextBox 
+                        Grid.Column="3"
+                        BorderThickness="0" 
+                        Margin="2, 0"
+                        Background="{DynamicResource SuperHighDarkerColor}"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Green, Converter={StaticResource ByteToString}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" />
+                        <local:ColorSlider
+                        Minimum="0"
+                        Maximum="255"
+                        Value="{Binding Green}"
+                        Grid.Column="2"
+                        Height="20"
+                        LeftColor="{Binding SelectedColor, ConverterParameter='GreenLeft', Converter={StaticResource ColorToSliderBgColor}}"
+                        RightColor="{Binding SelectedColor, ConverterParameter='GreenRight', Converter={StaticResource ColorToSliderBgColor}}"/>
+                    </Grid>
+
+                    <Grid Margin="0, 1" Height="20" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.15*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton 
+                        x:Name="BlueRadio"
+                        GroupName="SliderRadio"
+                        Grid.Column="0"/>
+                        <TextBlock 
+                        Grid.Column="1"
+                        Text="B"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Foreground="{DynamicResource TextBase}"/>
+                        <TextBox 
+                        Grid.Column="3"
+                        BorderThickness="0" 
+                        Margin="2, 0"
+                        Background="{DynamicResource SuperHighDarkerColor}"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Blue, Converter={StaticResource ByteToString}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" />
+                        <local:ColorSlider
+                        Minimum="0"
+                        Maximum="255"
+                        Value="{Binding Blue}"
+                        Grid.Column="2"
+                        Height="20"
+                        LeftColor="{Binding SelectedColor, ConverterParameter='BlueLeft', Converter={StaticResource ColorToSliderBgColor}}"
+                        RightColor="{Binding SelectedColor, ConverterParameter='BlueRight', Converter={StaticResource ColorToSliderBgColor}}"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=HSV, Path=IsChecked}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <StackPanel>
+                    <Grid Margin="0, 1" Height="20" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.15*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton 
+                        x:Name="HueRadio"
+                        IsChecked="True"
+                        GroupName="SliderRadio"
+                        Grid.Column="0"/>
+                        <TextBlock 
+                        Grid.Column="1"
+                        Text="H"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Foreground="{DynamicResource TextBase}"/>
+                        <TextBox 
+                        Grid.Column="3"
+                        BorderThickness="0" 
+                        Margin="2, 0"
+                        Background="{DynamicResource SuperHighDarkerColor}"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Hue, StringFormat=N0, Converter={StaticResource IntToStringWithMax}, ConverterParameter='360'}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" />
+                        <local:ColorSlider
+                        Minimum="0"
+                        Maximum="360"
+                        Style="{DynamicResource HueSliderHorizontal}"
+                        Value="{Binding Hue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        Grid.Column="2"
+                        Height="20"/>
+                    </Grid>
+                    <Grid  Margin="0, 1" Height="20" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.15*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton
+                        Grid.Column="0"
+                        x:Name="SatRadio"
+                        GroupName="SliderRadio"/>
+                        <TextBlock 
+                        Grid.Column="1"
+                        Text="S"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Foreground="{DynamicResource TextBase}"/>
+                        <TextBox 
+                        Grid.Column="3"
+                        BorderThickness="0" 
+                        Margin="2, 0"
+                        Background="{DynamicResource SuperHighDarkerColor}"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Sat, Converter={StaticResource DoubleToString}, ConverterParameter='1.0'}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" />
+                        <local:ColorSlider
+                        Minimum="0"
+                        Maximum="1"
+                        Value="{Binding Sat}"
+                        Grid.Column="2"
+                        Height="20"
+                        LeftColor="{Binding Val, Converter={StaticResource ValToColor}}">
+                            <local:ColorSlider.RightColor>
+                                <MultiBinding Converter="{StaticResource ColorToHueValueOnly}">
+                                    <Binding Path= "Hue" />
+                                    <Binding Path="Val" />
+                                </MultiBinding>
+                            </local:ColorSlider.RightColor>
+                        </local:ColorSlider>
+                    </Grid>
+                    <Grid Margin="0, 1" Height="20" >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="0.2*"/>
+                            <ColumnDefinition Width="0.15*"/>
+                            <ColumnDefinition />
+                            <ColumnDefinition Width="0.25*"/>
+                        </Grid.ColumnDefinitions>
+                        <RadioButton
+                        x:Name="ValRadio"
+                        Grid.Column="0"
+                        GroupName="SliderRadio"/>
+                        <TextBlock 
+                        Grid.Column="1"
+                        Text="V"
+                        HorizontalAlignment="Left" 
+                        VerticalAlignment="Center" 
+                        Foreground="{DynamicResource TextBase}"/>
+                        <TextBox 
+                        Grid.Column="3"
+                        BorderThickness="0" 
+                        Margin="2, 0"
+                        Background="{DynamicResource SuperHighDarkerColor}"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Val, StringFormat=N2, Converter={StaticResource DoubleToString}, ConverterParameter='1.0'}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch" />
+                        <local:ColorSlider
+                        Minimum="0"
+                        Maximum="1"
+                        Value="{Binding Val}"
+                        Grid.Column="2"
+                        Height="20"
+                        LeftColor="Black">
+                            <local:ColorSlider.RightColor>
+                                <MultiBinding Converter="{StaticResource ColorToHueSatOnly}">
+                                    <Binding Path= "Hue" />
+                                    <Binding Path="Sat" />
+                                </MultiBinding>
+                            </local:ColorSlider.RightColor>
+                        </local:ColorSlider>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <Border>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Visibility" Value="Visible"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ElementName=HEX, Path=IsChecked}" Value="False">
+                                <Setter Property="Visibility" Value="Hidden"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Grid Height="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.2*"/>
+                        <ColumnDefinition Width="0.15*"/>
+                        <ColumnDefinition />
+                        <ColumnDefinition Width="0.25*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                    Grid.ColumnSpan="2"
+                    TextTrimming="CharacterEllipsis" 
+                    Text="Hex"  
+                    FontSize="10" 
+                    Margin="4, 0"
+                    HorizontalAlignment="Right" 
+                    VerticalAlignment="Center" 
+                    Foreground="{DynamicResource TextBase}"/>
+                    <TextBox 
+                    Grid.Column="2"
+                    Margin="2, 0, 0, 0"
+                    VerticalContentAlignment="Center"
+                    BorderThickness="0"
+                    Background="{StaticResource HighDarkerColor}"
+                    Foreground="{StaticResource TextBase}"
+                    Text="{Binding SelectedColor, Converter={StaticResource ColorToHex}}"/>
+                </Grid>
+            </Border>
         </Grid>
-        <Grid 
-            Margin="0, 1"
-            Height="20" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.15*"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton     
-                GroupName="SliderRadio"
-                x:Name="GreenRadio"
-                Grid.Column="0" />
-            <TextBlock 
-                Grid.Column="1"
-                Text="G"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center" 
-                Foreground="{DynamicResource TextBase}"/>
-            <TextBox 
-                Grid.Column="3"
-                BorderThickness="0" 
-                Margin="2, 0"
-                Background="{DynamicResource SuperHighDarkerColor}"
-                Foreground="{DynamicResource TextBase}"
-                Text="{Binding Green, Converter={StaticResource ByteToString}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" />
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="255"
-                Value="{Binding Green}"
-                Grid.Column="2"
-                Height="20"
-                LeftColor="{Binding SelectedColor, ConverterParameter='GreenLeft', Converter={StaticResource ColorToSliderBgColor}}"
-                RightColor="{Binding SelectedColor, ConverterParameter='GreenRight', Converter={StaticResource ColorToSliderBgColor}}"/>
-        </Grid>
-        <Grid 
-            Margin="0, 1"
-            Height="20" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.15*"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton 
-                x:Name="BlueRadio"
-                GroupName="SliderRadio"
-                Grid.Column="0"/>
-            <TextBlock 
-                Grid.Column="1"
-                Text="B"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center" 
-                Foreground="{DynamicResource TextBase}"/>
-            <TextBox 
-                Grid.Column="3"
-                BorderThickness="0" 
-                Margin="2, 0"
-                Background="{DynamicResource SuperHighDarkerColor}"
-                Foreground="{DynamicResource TextBase}"
-                Text="{Binding Blue, Converter={StaticResource ByteToString}, UpdateSourceTrigger=LostFocus, Mode=TwoWay}" 
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" />
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="255"
-                Value="{Binding Blue}"
-                Grid.Column="2"
-                Height="20"
-                LeftColor="{Binding SelectedColor, ConverterParameter='BlueLeft', Converter={StaticResource ColorToSliderBgColor}}"
-                RightColor="{Binding SelectedColor, ConverterParameter='BlueRight', Converter={StaticResource ColorToSliderBgColor}}"/>
-        </Grid>
-        <Separator Background="{StaticResource DarkColor}" Opacity="0.25" Margin="0, 8"/>
-        <Grid 
-            Margin="0, 1"
-            Height="20" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.15*"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton 
-                x:Name="HueRadio"
-                IsChecked="True"
-                GroupName="SliderRadio"
-                Grid.Column="0"/>
-            <TextBlock 
-                Grid.Column="1"
-                Text="H"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center" 
-                Foreground="{DynamicResource TextBase}"/>
-            <TextBox 
-                Grid.Column="3"
-                BorderThickness="0" 
-                Margin="2, 0"
-                Background="{DynamicResource SuperHighDarkerColor}"
-                Foreground="{DynamicResource TextBase}"
-                Text="{Binding Hue, StringFormat=N0, Converter={StaticResource IntToStringWithMax}, ConverterParameter='360'}"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" />
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="360"
-                Style="{DynamicResource HueSliderHorizontal}"
-                Value="{Binding Hue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Grid.Column="2"
-                Height="20"/>
-        </Grid>
-        <Grid 
-            Margin="0, 1"
-            Height="20" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.15*"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton
-                Grid.Column="0"
-                x:Name="SatRadio"
-                GroupName="SliderRadio"/>
-            <TextBlock 
-                Grid.Column="1"
-                Text="S"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center" 
-                Foreground="{DynamicResource TextBase}"/>
-            <TextBox 
-                Grid.Column="3"
-                BorderThickness="0" 
-                Margin="2, 0"
-                Background="{DynamicResource SuperHighDarkerColor}"
-                Foreground="{DynamicResource TextBase}"
-                Text="{Binding Sat, Converter={StaticResource DoubleToString}, ConverterParameter='1.0'}"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" />
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="1"
-                Value="{Binding Sat}"
-                Grid.Column="2"
-                Height="20"
-                LeftColor="{Binding Val, Converter={StaticResource ValToColor}}">
-                <local:ColorSlider.RightColor>
-                    <MultiBinding Converter="{StaticResource ColorToHueValueOnly}">
-                        <Binding Path= "Hue" />
-                        <Binding Path="Val" />
-                    </MultiBinding>
-                </local:ColorSlider.RightColor>
-            </local:ColorSlider>
-        </Grid>
-        <Grid 
-            Margin="0, 1"
-            Height="20" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.15*"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
-            <RadioButton
-                x:Name="ValRadio"
-                Grid.Column="0"
-                GroupName="SliderRadio"/>
-            <TextBlock 
-                Grid.Column="1"
-                Text="V"
-                HorizontalAlignment="Left" 
-                VerticalAlignment="Center" 
-                Foreground="{DynamicResource TextBase}"/>
-            <TextBox 
-                Grid.Column="3"
-                BorderThickness="0" 
-                Margin="2, 0"
-                Background="{DynamicResource SuperHighDarkerColor}"
-                Foreground="{DynamicResource TextBase}"
-                Text="{Binding Val, StringFormat=N2, Converter={StaticResource DoubleToString}, ConverterParameter='1.0'}"
-                HorizontalContentAlignment="Center"
-                VerticalContentAlignment="Center"
-                HorizontalAlignment="Stretch" 
-                VerticalAlignment="Stretch" />
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="1"
-                Value="{Binding Val}"
-                Grid.Column="2"
-                Height="20"
-                LeftColor="Black">
-                <local:ColorSlider.RightColor>
-                    <MultiBinding Converter="{StaticResource ColorToHueSatOnly}">
-                        <Binding Path= "Hue" />
-                        <Binding Path="Sat" />
-                    </MultiBinding>
-                </local:ColorSlider.RightColor>
-            </local:ColorSlider>
-        </Grid>
-        <Separator Background="{StaticResource DarkColor}" Opacity="0.25" Margin="0, 8"/>
-        <Grid Height="20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.2*"/>
-                <ColumnDefinition Width="0.15*"/>
-                <ColumnDefinition />
-                <ColumnDefinition Width="0.25*"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                Grid.ColumnSpan="2"
-                TextTrimming="CharacterEllipsis" 
-                Text="Hex"  
-                FontSize="10" 
-                Margin="4, 0"
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Center" 
-                Foreground="{DynamicResource TextBase}"/>
-            <TextBox 
-                Grid.Column="2"
-                Margin="2, 0, 0, 0"
-                VerticalContentAlignment="Center"
-                BorderThickness="0"
-                Background="{StaticResource HighDarkerColor}"
-                Foreground="{StaticResource TextBase}"
-                Text="{Binding SelectedColor, Converter={StaticResource ColorToHex}}"/>
-        </Grid>
+
+
     </StackPanel>
 </UserControl>
