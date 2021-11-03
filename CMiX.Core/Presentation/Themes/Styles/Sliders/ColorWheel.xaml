@@ -1,0 +1,102 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters"
+                    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls"
+                    xmlns:sys="clr-namespace:System;assembly=mscorlib">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Basic/Converters.xaml"/>
+    </ResourceDictionary.MergedDictionaries>
+
+    <Style x:Key="ColorWheelStyle" TargetType="{x:Type Controls:ColorWheel}">
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls:ColorWheel}">
+                    <Grid>
+                        <Grid Margin="5">
+                            <Ellipse Name="PART_SpectrumEllipse"
+                                     StrokeThickness="0"
+                                     HorizontalAlignment="Stretch"
+                                     VerticalAlignment="Stretch"
+                                     Fill="Beige"/>
+                        </Grid>
+
+                        <Canvas>
+                            <Ellipse Name="PART_CursorEllipse"
+                                     Width="12" Height="12"
+                                     Stroke="{Binding Foreground, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
+                                     Fill="DeepSkyBlue"
+                                     StrokeThickness="1"
+                                     Opacity="0.8" />
+                        </Canvas>
+                    </Grid>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+
+    </Style>
+
+    <!--<Style x:Key="ColorPickerRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
+        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="false" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="Transparent" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    --><!-- IsHitTestVisible False or the XYControlle will not receive mousedown if mouse is on the thumb--><!--
+    <Style x:Key="ColorWheelThumbStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="True" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Border Background="Transparent">
+                        <Ellipse Width="15" Height="15" Fill="Red"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+    <Style x:Key="ColorWheelStyle" TargetType="{x:Type Controls:ColorWheel}">
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls:ColorWheel}">
+                    <Grid>
+                        <Ellipse Fill="Blue"/>
+                        <Thumb x:Name="PART_Thumb" Style="{DynamicResource ColorWheelThumbStyle}"/>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Cursor" Value="Cross"/>
+                        </Trigger>
+                        
+                        <Trigger Property="IsMouseDown" Value="True">
+                            <Setter Property="Cursor" Value="None"/>
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>-->
+
+
+
+    
+</ResourceDictionary>

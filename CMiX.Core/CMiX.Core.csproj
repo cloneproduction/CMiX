@@ -167,6 +167,7 @@
     <Compile Include="Presentation\Controls\Beat\BeatMasterController.cs" />
     <Compile Include="Presentation\Controls\Beat\AnimatedDouble.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorPicker.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\ColorWheel.cs" />
     <Compile Include="Presentation\Controls\ListBox\CMiXListBox.cs" />
     <Compile Include="Presentation\Controls\ListBox\CMiXListBoxItem.cs" />
     <Compile Include="Presentation\Controls\Popup\CMiXPopup.cs" />
@@ -604,6 +605,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Themes\Styles\Sliders\SliderThumb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Themes\Styles\Sliders\ColorWheel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

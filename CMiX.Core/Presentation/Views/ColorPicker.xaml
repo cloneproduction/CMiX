@@ -35,156 +35,9 @@
     </i:Interaction.Triggers>
 
     <StackPanel>
-        <DockPanel Visibility="{Binding Path=IsChecked, ElementName=HueRadio, Converter={StaticResource BoolToVisibility}}">
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="360"
-                Orientation="Vertical"
-                Style="{DynamicResource HueSliderVertical}"
-                Value="{Binding Hue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Margin="0, 4, 8, 4"/>
-            <local:XYController x:Name="HueColorControl"
-                Style="{StaticResource HueController}"
-                SelectedColor="{Binding Hue, Converter={StaticResource ColorToHueOnly}}"
-                ValueX="{Binding Sat}"
-                ValueY="{Binding Val}"
-                Height="200"/>
-        </DockPanel>
-        <DockPanel
-            Visibility="{Binding Path=IsChecked, ElementName=SatRadio, Converter={StaticResource BoolToVisibility}}">
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="1"
-                Orientation="Vertical"
-                Margin="0, 4, 8, 4"
-                Style="{StaticResource HSVSliderVertical}"
-                Value="{Binding Sat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Width="20"
-                RightColor="White"
-                LeftColor="{Binding Hue, Converter={StaticResource HueToColor}}">
-            </local:ColorSlider>
-            <local:XYController
-                x:Name="SatColorControl"
-                Style="{StaticResource SatController}"
-                SelectedColor="{Binding SelectedColor}"
-                ValueX="{Binding Val}"
-                Margin="0, 4" 
-                Height="200">
-                <local:XYController.ValueY>
-                    <Binding Path="Hue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource DoubleToDivided}">
-                        <Binding.ConverterParameter>
-                            <sys:Double>360</sys:Double>
-                        </Binding.ConverterParameter>
-                    </Binding>
-                </local:XYController.ValueY>
-            </local:XYController>
-        </DockPanel>
-        <DockPanel Visibility="{Binding Path=IsChecked, ElementName=ValRadio, Converter={StaticResource BoolToVisibility}}">
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="1"
-                Orientation="Vertical"
-                Margin="0, 4, 8, 4"
-                Style="{StaticResource HSVSliderVertical}"
-                Value="{Binding Val, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                Width="20"
-                RightColor="Black"
-                LeftColor="White">
-            </local:ColorSlider>
-            <local:XYController x:Name="ValColorControl"
-                    Style="{StaticResource ValController}"
-                    SelectedColor="{Binding SelectedColor}"
-                    ValueX="{Binding Sat}"
-                    Margin="0, 4"
-                    Height="200">
-                <local:XYController.ValueY>
-                    <Binding Path="Hue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource DoubleToDivided}">
-                        <Binding.ConverterParameter>
-                            <sys:Double>360</sys:Double>
-                        </Binding.ConverterParameter>
-                    </Binding>
-                </local:XYController.ValueY>
-            </local:XYController>
-        </DockPanel>
-        <DockPanel Visibility="{Binding Path=IsChecked, ElementName=RedRadio, Converter={StaticResource BoolToVisibility}}">
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="255"
-                Orientation="Vertical"
-                Margin="0, 4, 8, 4"
-                Style="{StaticResource HSVSliderVertical}"
-                Value="{Binding Red}"
-                Width="20"
-                RightColor="Black"
-                LeftColor="#FFFF0000">
-            </local:ColorSlider>
-            <local:XYController
-                x:Name="RedColorControl"
-                Style="{StaticResource RedController}"
-                SelectedColor="{Binding SelectedColor}"
-                Margin="0, 4" 
-                Height="200" 
-                Visibility="{Binding Path=IsChecked, ElementName=RedRadio, Converter={StaticResource BoolToVisibility}}">
-                <local:XYController.ValueX>
-                    <Binding Path="Blue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
-                </local:XYController.ValueX>
-                <local:XYController.ValueY>
-                    <Binding Path="Green" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
-                </local:XYController.ValueY>
-            </local:XYController>
-        </DockPanel>
-        <DockPanel
-            Visibility="{Binding Path=IsChecked, ElementName=GreenRadio, Converter={StaticResource BoolToVisibility}}">
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="255"
-                Orientation="Vertical"
-                Margin="0, 4, 8, 4"
-                Style="{StaticResource HSVSliderVertical}"
-                Value="{Binding Green}"
-                Width="20"
-                RightColor="Black"
-                LeftColor="#FF00FF00">
-            </local:ColorSlider>
-            <local:XYController
-                x:Name="GreenColorControl"
-                Style="{StaticResource GreenController}"
-                SelectedColor="{Binding SelectedColor}"
-                Margin="0, 4" 
-                Height="200" 
-                Visibility="{Binding Path=IsChecked, ElementName=GreenRadio, Converter={StaticResource BoolToVisibility}}">
-                <local:XYController.ValueX>
-                    <Binding Path="Blue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
-                </local:XYController.ValueX>
-                <local:XYController.ValueY>
-                    <Binding Path="Red" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
-                </local:XYController.ValueY>
-            </local:XYController>
-        </DockPanel>
-        <DockPanel
-            Visibility="{Binding Path=IsChecked, ElementName=BlueRadio, Converter={StaticResource BoolToVisibility}}">
-            <local:ColorSlider
-                Minimum="0"
-                Maximum="255"
-                Orientation="Vertical"
-                Margin="0, 4, 8, 4"
-                Style="{StaticResource HSVSliderVertical}"
-                Value="{Binding Blue}"
-                Width="20"
-                RightColor="Black"
-                LeftColor="#FF0000FF">
-            </local:ColorSlider>
-            <local:XYController
-                x:Name="BlueColorControl"
-                Style="{StaticResource BlueController}"
-                SelectedColor="{Binding SelectedColor}"
-                ValueX="{Binding Green, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ByteToNormalizedDouble}}"
-                ValueY="{Binding Red, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ByteToNormalizedDouble}}"
-                Margin="0, 4" 
-                Height="200" 
-                Visibility="{Binding Path=IsChecked, ElementName=BlueRadio, Converter={StaticResource BoolToVisibility}}"
-                />
-        </DockPanel>
+        
+        <local:ColorWheel Height="200" Width="200" Background="Red" Style="{StaticResource ColorWheelStyle}"/>
+
 
         <Border Margin="0, 8" Height="20" BorderThickness="1, 0, 1, 2" CornerRadius="4" BorderBrush="{DynamicResource Shadow}">
             <Grid>
@@ -509,3 +362,155 @@
 
     </StackPanel>
 </UserControl>
+
+
+<!--<DockPanel Visibility="{Binding Path=IsChecked, ElementName=HueRadio, Converter={StaticResource BoolToVisibility}}">
+    <local:ColorSlider
+                Minimum="0"
+                Maximum="360"
+                Orientation="Vertical"
+                Style="{DynamicResource HueSliderVertical}"
+                Value="{Binding Hue, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Margin="0, 4, 8, 4"/>
+    <local:XYController x:Name="HueColorControl"
+                Style="{StaticResource HueController}"
+                SelectedColor="{Binding Hue, Converter={StaticResource ColorToHueOnly}}"
+                ValueX="{Binding Sat}"
+                ValueY="{Binding Val}"
+                Height="200"/>
+</DockPanel>
+<DockPanel
+            Visibility="{Binding Path=IsChecked, ElementName=SatRadio, Converter={StaticResource BoolToVisibility}}">
+    <local:ColorSlider
+                Minimum="0"
+                Maximum="1"
+                Orientation="Vertical"
+                Margin="0, 4, 8, 4"
+                Style="{StaticResource HSVSliderVertical}"
+                Value="{Binding Sat, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Width="20"
+                RightColor="White"
+                LeftColor="{Binding Hue, Converter={StaticResource HueToColor}}">
+    </local:ColorSlider>
+    <local:XYController
+                x:Name="SatColorControl"
+                Style="{StaticResource SatController}"
+                SelectedColor="{Binding SelectedColor}"
+                ValueX="{Binding Val}"
+                Margin="0, 4" 
+                Height="200">
+        <local:XYController.ValueY>
+            <Binding Path="Hue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource DoubleToDivided}">
+                <Binding.ConverterParameter>
+                    <sys:Double>360</sys:Double>
+                </Binding.ConverterParameter>
+            </Binding>
+        </local:XYController.ValueY>
+    </local:XYController>
+</DockPanel>
+<DockPanel Visibility="{Binding Path=IsChecked, ElementName=ValRadio, Converter={StaticResource BoolToVisibility}}">
+    <local:ColorSlider
+                Minimum="0"
+                Maximum="1"
+                Orientation="Vertical"
+                Margin="0, 4, 8, 4"
+                Style="{StaticResource HSVSliderVertical}"
+                Value="{Binding Val, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Width="20"
+                RightColor="Black"
+                LeftColor="White">
+    </local:ColorSlider>
+    <local:XYController x:Name="ValColorControl"
+                    Style="{StaticResource ValController}"
+                    SelectedColor="{Binding SelectedColor}"
+                    ValueX="{Binding Sat}"
+                    Margin="0, 4"
+                    Height="200">
+        <local:XYController.ValueY>
+            <Binding Path="Hue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource DoubleToDivided}">
+                <Binding.ConverterParameter>
+                    <sys:Double>360</sys:Double>
+                </Binding.ConverterParameter>
+            </Binding>
+        </local:XYController.ValueY>
+    </local:XYController>
+</DockPanel>
+<DockPanel Visibility="{Binding Path=IsChecked, ElementName=RedRadio, Converter={StaticResource BoolToVisibility}}">
+    <local:ColorSlider
+                Minimum="0"
+                Maximum="255"
+                Orientation="Vertical"
+                Margin="0, 4, 8, 4"
+                Style="{StaticResource HSVSliderVertical}"
+                Value="{Binding Red}"
+                Width="20"
+                RightColor="Black"
+                LeftColor="#FFFF0000">
+    </local:ColorSlider>
+    <local:XYController
+                x:Name="RedColorControl"
+                Style="{StaticResource RedController}"
+                SelectedColor="{Binding SelectedColor}"
+                Margin="0, 4" 
+                Height="200" 
+                Visibility="{Binding Path=IsChecked, ElementName=RedRadio, Converter={StaticResource BoolToVisibility}}">
+        <local:XYController.ValueX>
+            <Binding Path="Blue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
+        </local:XYController.ValueX>
+        <local:XYController.ValueY>
+            <Binding Path="Green" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
+        </local:XYController.ValueY>
+    </local:XYController>
+</DockPanel>
+<DockPanel
+            Visibility="{Binding Path=IsChecked, ElementName=GreenRadio, Converter={StaticResource BoolToVisibility}}">
+    <local:ColorSlider
+                Minimum="0"
+                Maximum="255"
+                Orientation="Vertical"
+                Margin="0, 4, 8, 4"
+                Style="{StaticResource HSVSliderVertical}"
+                Value="{Binding Green}"
+                Width="20"
+                RightColor="Black"
+                LeftColor="#FF00FF00">
+    </local:ColorSlider>
+    <local:XYController
+                x:Name="GreenColorControl"
+                Style="{StaticResource GreenController}"
+                SelectedColor="{Binding SelectedColor}"
+                Margin="0, 4" 
+                Height="200" 
+                Visibility="{Binding Path=IsChecked, ElementName=GreenRadio, Converter={StaticResource BoolToVisibility}}">
+        <local:XYController.ValueX>
+            <Binding Path="Blue" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
+        </local:XYController.ValueX>
+        <local:XYController.ValueY>
+            <Binding Path="Red" Mode="TwoWay" UpdateSourceTrigger="PropertyChanged" Converter="{StaticResource ByteToNormalizedDouble}"/>
+        </local:XYController.ValueY>
+    </local:XYController>
+</DockPanel>
+<DockPanel
+            Visibility="{Binding Path=IsChecked, ElementName=BlueRadio, Converter={StaticResource BoolToVisibility}}">
+    <local:ColorSlider
+                Minimum="0"
+                Maximum="255"
+                Orientation="Vertical"
+                Margin="0, 4, 8, 4"
+                Style="{StaticResource HSVSliderVertical}"
+                Value="{Binding Blue}"
+                Width="20"
+                RightColor="Black"
+                LeftColor="#FF0000FF">
+    </local:ColorSlider>
+    <local:XYController
+                x:Name="BlueColorControl"
+                Style="{StaticResource BlueController}"
+                SelectedColor="{Binding SelectedColor}"
+                ValueX="{Binding Green, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ByteToNormalizedDouble}}"
+                ValueY="{Binding Red, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ByteToNormalizedDouble}}"
+                Margin="0, 4" 
+                Height="200" 
+                Visibility="{Binding Path=IsChecked, ElementName=BlueRadio, Converter={StaticResource BoolToVisibility}}"
+                />
+</DockPanel>-->
