@@ -166,8 +166,19 @@
     <Compile Include="Presentation\Controls\Beat\BeatAnimations.cs" />
     <Compile Include="Presentation\Controls\Beat\BeatMasterController.cs" />
     <Compile Include="Presentation\Controls\Beat\AnimatedDouble.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\ColorConvertExtension.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\ColorManager.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorPicker.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorWheel.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\HslColor.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\HsvColor.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\ValueColorSlider.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\SaturationColorSlider.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\RgbaChannel.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\RgbaColorSlider.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\HueColorSlider.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\IColorClient.cs" />
+    <Compile Include="Presentation\Controls\ColorPicker\IColorManager.cs" />
     <Compile Include="Presentation\Controls\ListBox\CMiXListBox.cs" />
     <Compile Include="Presentation\Controls\ListBox\CMiXListBoxItem.cs" />
     <Compile Include="Presentation\Controls\Popup\CMiXPopup.cs" />
@@ -923,6 +934,7 @@
     <Resource Include="Presentation\Themes\Assets\Sub.png" />
     <Resource Include="Presentation\Themes\Assets\Scheduler.png" />
     <Resource Include="Presentation\Themes\Assets\Playlist.png" />
+    <Resource Include="Presentation\Themes\Assets\ColorWheel.png" />
     <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>

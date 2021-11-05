@@ -4,6 +4,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
         xmlns:MVVM="clr-namespace:CMiX.Core.Presentation.Views"
+        xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls"
         Style="{StaticResource PopupWindowNoTitleStyle}"
         SizeToContent="Height"
         ResizeMode="NoResize"
@@ -13,5 +14,6 @@
         Loaded="Window_Loaded"
         ShowInTaskbar="False">
 
-    <MVVM:ColorPicker DataContext="{Binding ColorPicker}"/>
+    <Controls:ColorPicker SelectedColor="{Binding ColorPicker.SelectedColor}"/>
+    <!--<MVVM:ColorPicker DataContext="{Binding ColorPicker}"/>-->
 </Window>

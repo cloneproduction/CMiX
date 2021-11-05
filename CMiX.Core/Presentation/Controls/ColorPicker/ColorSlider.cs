@@ -8,13 +8,17 @@ using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Controls
 {
-    public class ColorSlider : Slider
+    public class ColorSlider : Slider, IColorClient
     {
         static ColorSlider()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorSlider), new FrameworkPropertyMetadata(typeof(ColorSlider)));
         }
 
+        protected ColorSlider()
+        {
+            ValueChanged += ColorSlider_ValueChanged;
+        }
 
         public Color LeftColor
         {
@@ -104,6 +108,42 @@ namespace CMiX.Core.Presentation.Controls
         {
             base.OnPreviewMouseLeftButtonUp(e);
             _isPressed = false;
+        }
+
+
+
+
+
+        protected bool UpdateBackgroundWhenColorUpdated = true;
+        protected IColorManager ColorManager { get; private set; }
+
+        public virtual void ColorUpdated(System.Drawing.Color color, IColorClient client)
+        {
+            ValueChanged -= ColorSlider_ValueChanged;
+
+            UpdateColor(color);
+
+            //if (UpdateBackgroundWhenColorUpdated)
+            //    Background = CreateBackgroundBrush(color);
+
+            ValueChanged += ColorSlider_ValueChanged;
+        }
+
+        public void Init(IColorManager colorManager)
+        {
+            ColorManager = colorManager;
+        }
+        private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            OnValueChanged();
+        }
+
+        protected virtual void OnValueChanged()
+        {
+        }
+
+        protected virtual void UpdateColor(in System.Drawing.Color color)
+        {
         }
     }
 }

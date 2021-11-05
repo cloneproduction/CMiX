@@ -13,7 +13,7 @@ namespace CMiX.Core.Presentation.Controls
 {
     [TemplatePart(Name = PART_CursorEllipse, Type = typeof(Ellipse))]
     [TemplatePart(Name = PART_SpectrumEllipse, Type = typeof(Ellipse))]
-    public class ColorWheel : Control
+    public class ColorWheel : Control, IColorClient
     {
         static ColorWheel()
         {
@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.Controls
         private Ellipse _spectrumEllipse;
         private bool _isDragging;
 
-
+        private IColorManager _colorManager;
 
         public override void OnApplyTemplate()
         {
@@ -44,7 +44,8 @@ namespace CMiX.Core.Presentation.Controls
             MouseMove += OnMouseMove;
             MouseLeftButtonUp += OnMouseLeftButtonUp;
 
-            //SetCursor(_colorManager.CurrentColor);
+            if (_colorManager != null)
+                SetCursor(_colorManager.CurrentColor);
         }
 
 
@@ -102,7 +103,7 @@ namespace CMiX.Core.Presentation.Controls
             if (mousePosition.Y > centerPoint.Y)
                 angle = 360 - angle;
 
-            //_colorManager.SetColorFromHsl(angle, saturation, 0.5);
+            _colorManager.SetColorFromHsl(angle, saturation, 0.5);
         }
 
         private Point GetColorLocation(in Color color)
@@ -117,6 +118,16 @@ namespace CMiX.Core.Presentation.Controls
             var y = centerPoint.Y - Math.Sin(angle) * radius;
 
             return new Point(x, y);
+        }
+
+        public void ColorUpdated(Color color, IColorClient client)
+        {
+            SetCursor(color);
+        }
+
+        public void Init(IColorManager colorManager)
+        {
+            _colorManager = colorManager;
         }
     }
 }

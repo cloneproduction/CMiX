@@ -3,7 +3,7 @@
                     xmlns:local="clr-namespace:CMiX.Core.Presentation.Controls">
 
 
-    <Style TargetType="{x:Type local:ColorSlider}">
+    <Style x:Key="RGBSliderStyle" TargetType="{x:Type local:ColorSlider}">
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
             <Setter.Value>

@@ -23,9 +23,9 @@ namespace CMiX.Core.Presentation.ViewModels
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
 
             this.ID = colorPickerModel.ID;
-            Red = SelectedColor.R;
-            Green = SelectedColor.G;
-            Blue = SelectedColor.B;
+            //Red = SelectedColor.R;
+            //Green = SelectedColor.G;
+            //Blue = SelectedColor.B;
             MouseDown = false;
 
             PreviewMouseDownCommand = new RelayCommand(PreviewMouseDown);
@@ -53,170 +53,170 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        private byte _red;
-        public byte Red
-        {
-            get => _red;
-            set
-            {
-                if (_red != value)
-                {
-                    SetProperty(ref _red, value);
+        //private byte _red;
+        //public byte Red
+        //{
+        //    get => _red;
+        //    set
+        //    {
+        //        if (_red != value)
+        //        {
+        //            SetProperty(ref _red, value);
 
-                    var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
+        //            var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
 
-                    _hue = hsv.H;
-                    OnPropertyChanged(nameof(Hue));
-                    _sat = hsv.S;
-                    OnPropertyChanged(nameof(Sat));
-                    _val = hsv.V;
-                    OnPropertyChanged(nameof(Val));
+        //            _hue = hsv.H;
+        //            OnPropertyChanged(nameof(Hue));
+        //            _sat = hsv.S;
+        //            OnPropertyChanged(nameof(Sat));
+        //            _val = hsv.V;
+        //            OnPropertyChanged(nameof(Val));
 
-                    SelectedColor = Color.FromRgb(_red, _green, _blue);
-                }
-            }
-        }
-
-
-        private byte _green;
-        public byte Green
-        {
-            get => _green;
-            set
-            {
-                if (_green != value)
-                {
-                    SetProperty(ref _green, value);
-
-                    var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
-                    _hue = hsv.H;
-                    OnPropertyChanged(nameof(Hue));
-                    _sat = hsv.S;
-                    OnPropertyChanged(nameof(Sat));
-                    _val = hsv.V;
-                    OnPropertyChanged(nameof(Val));
-
-                    SelectedColor = Color.FromRgb(_red, _green, _blue);
-                }
-            }
-        }
+        //            SelectedColor = Color.FromRgb(_red, _green, _blue);
+        //        }
+        //    }
+        //}
 
 
-        private byte _blue;
-        public byte Blue
-        {
-            get => _blue;
-            set
-            {
-                if (_blue != value)
-                {
-                    SetProperty(ref _blue, value);
+        //private byte _green;
+        //public byte Green
+        //{
+        //    get => _green;
+        //    set
+        //    {
+        //        if (_green != value)
+        //        {
+        //            SetProperty(ref _green, value);
 
-                    var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
+        //            var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
+        //            _hue = hsv.H;
+        //            OnPropertyChanged(nameof(Hue));
+        //            _sat = hsv.S;
+        //            OnPropertyChanged(nameof(Sat));
+        //            _val = hsv.V;
+        //            OnPropertyChanged(nameof(Val));
 
-                    _hue = hsv.H;
-                    OnPropertyChanged(nameof(Hue));
-                    _sat = hsv.S;
-                    OnPropertyChanged(nameof(Sat));
-                    _val = hsv.V;
-                    OnPropertyChanged(nameof(Val));
-
-                    SelectedColor = Color.FromRgb(_red, _green, _blue);
-                }
-            }
-        }
-
-
-        private double _hue;
-        public double Hue
-        {
-            get => _hue;
-            set
-            {
-                if (_hue != value)
-                {
-                    SetProperty(ref _hue, value);
-
-                    var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
-                    hsv.H = value;
-
-                    var rgb = hsv.To<Rgb>();
-                    _red = (byte)rgb.R;
-                    OnPropertyChanged(nameof(Red));
-                    _green = (byte)rgb.G;
-                    OnPropertyChanged(nameof(Green));
-                    _blue = (byte)rgb.B;
-                    OnPropertyChanged(nameof(Blue));
-
-                    SelectedColor = Color.FromRgb(_red, _green, _blue);
-                }
-            }
-        }
+        //            SelectedColor = Color.FromRgb(_red, _green, _blue);
+        //        }
+        //    }
+        //}
 
 
-        private double _sat;
-        public double Sat
-        {
-            get => _sat;
-            set
-            {
-                if (_sat != value)
-                {
-                    SetProperty(ref _sat, value);
+        //private byte _blue;
+        //public byte Blue
+        //{
+        //    get => _blue;
+        //    set
+        //    {
+        //        if (_blue != value)
+        //        {
+        //            SetProperty(ref _blue, value);
 
-                    var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
-                    hsv.V = _val;
-                    hsv.S = value;
-                    hsv.H = _hue;
+        //            var hsv = new Rgb() { R = _selectedColor.R, G = _selectedColor.G, B = _selectedColor.B }.To<Hsv>();
 
-                    var rgb = hsv.To<Rgb>();
-                    _red = (byte)rgb.R;
-                    OnPropertyChanged(nameof(Red));
-                    _green = (byte)rgb.G;
-                    OnPropertyChanged(nameof(Green));
-                    _blue = (byte)rgb.B;
-                    OnPropertyChanged(nameof(Blue));
+        //            _hue = hsv.H;
+        //            OnPropertyChanged(nameof(Hue));
+        //            _sat = hsv.S;
+        //            OnPropertyChanged(nameof(Sat));
+        //            _val = hsv.V;
+        //            OnPropertyChanged(nameof(Val));
 
-                    SelectedColor = Color.FromRgb(_red, _green, _blue);
-                }
-            }
-        }
+        //            SelectedColor = Color.FromRgb(_red, _green, _blue);
+        //        }
+        //    }
+        //}
 
 
-        private double _val;
-        public double Val
-        {
-            get => _val;
-            set
-            {
-                if (_val != value)
-                {
-                    SetProperty(ref _val, value);
+        //private double _hue;
+        //public double Hue
+        //{
+        //    get => _hue;
+        //    set
+        //    {
+        //        if (_hue != value)
+        //        {
+        //            SetProperty(ref _hue, value);
 
-                    var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
-                    hsv.V = value;
-                    hsv.S = _sat;
-                    hsv.H = _hue;
+        //            var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
+        //            hsv.H = value;
 
-                    if (value > 0)
-                    {
-                        var rgb = hsv.To<Rgb>();
-                        _red = (byte)rgb.R;
-                        OnPropertyChanged(nameof(Red));
-                        _green = (byte)rgb.G;
-                        OnPropertyChanged(nameof(Green));
-                        _blue = (byte)rgb.B;
-                        OnPropertyChanged(nameof(Blue));
+        //            var rgb = hsv.To<Rgb>();
+        //            _red = (byte)rgb.R;
+        //            OnPropertyChanged(nameof(Red));
+        //            _green = (byte)rgb.G;
+        //            OnPropertyChanged(nameof(Green));
+        //            _blue = (byte)rgb.B;
+        //            OnPropertyChanged(nameof(Blue));
 
-                        SelectedColor = Color.FromRgb(_red, _green, _blue);
-                    }
-                    else
-                    {
-                        SelectedColor = Color.FromRgb(0, 0, 0);
-                    }
-                }
-            }
-        }
+        //            SelectedColor = Color.FromRgb(_red, _green, _blue);
+        //        }
+        //    }
+        //}
+
+
+        //private double _sat;
+        //public double Sat
+        //{
+        //    get => _sat;
+        //    set
+        //    {
+        //        if (_sat != value)
+        //        {
+        //            SetProperty(ref _sat, value);
+
+        //            var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
+        //            hsv.V = _val;
+        //            hsv.S = value;
+        //            hsv.H = _hue;
+
+        //            var rgb = hsv.To<Rgb>();
+        //            _red = (byte)rgb.R;
+        //            OnPropertyChanged(nameof(Red));
+        //            _green = (byte)rgb.G;
+        //            OnPropertyChanged(nameof(Green));
+        //            _blue = (byte)rgb.B;
+        //            OnPropertyChanged(nameof(Blue));
+
+        //            SelectedColor = Color.FromRgb(_red, _green, _blue);
+        //        }
+        //    }
+        //}
+
+
+        //private double _val;
+        //public double Val
+        //{
+        //    get => _val;
+        //    set
+        //    {
+        //        if (_val != value)
+        //        {
+        //            SetProperty(ref _val, value);
+
+        //            var hsv = new Rgb() { R = SelectedColor.R, G = SelectedColor.G, B = SelectedColor.B }.To<Hsv>();
+        //            hsv.V = value;
+        //            hsv.S = _sat;
+        //            hsv.H = _hue;
+
+        //            if (value > 0)
+        //            {
+        //                var rgb = hsv.To<Rgb>();
+        //                _red = (byte)rgb.R;
+        //                OnPropertyChanged(nameof(Red));
+        //                _green = (byte)rgb.G;
+        //                OnPropertyChanged(nameof(Green));
+        //                _blue = (byte)rgb.B;
+        //                OnPropertyChanged(nameof(Blue));
+
+        //                SelectedColor = Color.FromRgb(_red, _green, _blue);
+        //            }
+        //            else
+        //            {
+        //                SelectedColor = Color.FromRgb(0, 0, 0);
+        //            }
+        //        }
+        //    }
+        //}
 
 
         public void PreviewMouseDown()

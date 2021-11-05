@@ -13,7 +13,8 @@
              md:DialogServiceViews.IsRegistered="True">
 
     <Expander IsExpanded="True" Header="Color" >
-        <MVVM.Views:ColorPicker DataContext="{Binding ColorPicker}"/>
+        <Controls:ColorPicker SelectedColor="Red"/>
+        <!--<MVVM.Views:ColorPicker DataContext="{Binding ColorPicker}"/>-->
     </Expander>
 
 </UserControl>
