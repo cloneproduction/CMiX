@@ -10,7 +10,7 @@ namespace CMiX.Core.Presentation.Controls
         public SaturationColorSlider()
         {
             Minimum = 0;
-            Maximum = 100;
+            Maximum = 1;
         }
 
 
@@ -20,7 +20,7 @@ namespace CMiX.Core.Presentation.Controls
 
             var hsv = new HsvColor(color);
 
-            Value = hsv.S * 100;
+            Value = hsv.S * 1;
         }
 
         protected override void OnValueChanged()
@@ -29,7 +29,7 @@ namespace CMiX.Core.Presentation.Controls
 
             var hsv = new HsvColor(ColorManager.CurrentColor)
             {
-                S = Value / 100.0
+                S = Value / 1.0
             };
 
             ColorManager.CurrentColor = hsv.ToRgbColor();
