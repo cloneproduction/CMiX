@@ -2,18 +2,19 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Drawing;
 
 namespace CMiX.Core.Presentation.Controls
 {
     public interface IColorManager
     {
-        event Action<Color> ColorChanged;
+        event Action<System.Windows.Media.Color> ColorChanged;
 
-        Color CurrentColor { get; set; }
+        System.Windows.Media.Color CurrentColor { get; set; }
+        ColorState ColorState { get; set; }
 
+        NotifyableColor Color { get; set; }
         void AddClient(params IColorClient[] clients);
 
-        void SetColorFromHsl(double hue, double saturation, double lightness);
+        //void SetColorFromHsl(double hue, double saturation, double lightness);
     }
 }

@@ -97,15 +97,28 @@ namespace CMiX.Core.Presentation.Controls
 
         public Color ToRgbColor(int alpha)
         {
-            int hi = Convert.ToInt32(Math.Floor(_hue / 60)) % 6;
-            double f = _hue / 60 - Math.Floor(_hue / 60);
+            if (this.S == 0)
+            {
+                var br = (byte)this.V * 255;
+                return Color.FromArgb(alpha, br, br, br);
+            }
 
-            double value = _brightness * 255;
+            var h = this.H / 60;
+            int hi = (int)h;
+            double f = h - hi;
+            //int hi = Convert.ToInt32(Math.Floor(_hue / 60)) % 6;
+            //double f = _hue / 60 - Math.Floor(_hue / 60);
+
+            double value = this.V * 255;
             byte v = Convert.ToByte(value);
-            byte p = Convert.ToByte(value * (1 - _saturation));
-            byte q = Convert.ToByte(value * (1 - f * _saturation));
-            byte t = Convert.ToByte(value * (1 - (1 - f) * _saturation));
+            byte p = Convert.ToByte(value * (1 - this.S));
+            byte q = Convert.ToByte(value * (1 - this.S * f));
+            byte t = Convert.ToByte(value * (1 - this.S * (1 - f)));
 
+            Console.WriteLine("Hue = " + this.H);
+            Console.WriteLine("Sat = " + this.S);
+            Console.WriteLine("Val = " + this.V);
+                
             if (hi == 0)
                 return Color.FromArgb(255, v, t, p);
             else if (hi == 1)

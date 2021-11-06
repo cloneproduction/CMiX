@@ -6,7 +6,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Shapes;
-using Color = System.Drawing.Color;
+using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
 
 namespace CMiX.Core.Presentation.Controls
@@ -18,11 +18,7 @@ namespace CMiX.Core.Presentation.Controls
         static ColorWheel()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorWheel), new FrameworkPropertyMetadata(typeof(ColorWheel)));
-            //UIElement.VisibilityProperty.OverrideMetadata(typeof(ColorWheel), new PropertyMetadata(Visibility.Visible));
-            //DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorWheel), new FrameworkPropertyMetadata(typeof(ColorWheel)));
-            //EventManager.RegisterClassHandler(typeof(ColorWheel), Thumb.DragDeltaEvent, new DragDeltaEventHandler(ColorWheel.OnThumbDragDelta));
         }
-
 
         private const string PART_CursorEllipse = "PART_CursorEllipse";
         private const string PART_SpectrumEllipse = "PART_SpectrumEllipse";
@@ -63,7 +59,11 @@ namespace CMiX.Core.Presentation.Controls
         private void OnMouseMove(object sender, MouseEventArgs e)
         {
             if (_isDragging)
+            {
                 SetColor(e.GetPosition(this));
+                SetCursor(_colorManager.CurrentColor);
+            }
+
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -103,14 +103,14 @@ namespace CMiX.Core.Presentation.Controls
             if (mousePosition.Y > centerPoint.Y)
                 angle = 360 - angle;
 
-            _colorManager.SetColorFromHsl(angle, saturation, 0.5);
+            _colorManager.Color.HSV_H = angle;
+            _colorManager.Color.HSV_S = saturation;
         }
 
         private Point GetColorLocation(in Color color)
         {
-            var angle = color.GetHue() * Math.PI / 180;
-
-            var radius = (Height - _cursorEllipse.Height) / 2 * color.GetSaturation();
+            var angle = this._colorManager.ColorState.HSV_H * Math.PI / 180;
+            var radius = (Height - _cursorEllipse.Height) / 2 * this._colorManager.ColorState.HSV_S ;
 
             var centerPoint = new Point(Width / 2, Height / 2);
 
@@ -120,14 +120,20 @@ namespace CMiX.Core.Presentation.Controls
             return new Point(x, y);
         }
 
-        public void ColorUpdated(Color color, IColorClient client)
-        {
-            SetCursor(color);
-        }
+        //public void ColorUpdated(Color color, IColorClient client)
+        //{
+        //    //SetCursor(color);
+        //}
 
         public void Init(IColorManager colorManager)
         {
             _colorManager = colorManager;
+            _colorManager.ColorChanged += _colorManager_ColorChanged; ;
+        }
+
+        private void _colorManager_ColorChanged(Color obj)
+        {
+            SetCursor(obj);
         }
     }
 }

@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Drawing;
-
 namespace CMiX.Core.Presentation.Controls
 {
     public class ValueColorSlider : ColorSlider
@@ -13,26 +11,16 @@ namespace CMiX.Core.Presentation.Controls
             Maximum = 100;
         }
 
-
-        protected override void UpdateColor(in Color color)
-        {
-            base.UpdateColor(in color);
-
-            var hsv = new HsvColor(color);
-
-            Value = hsv.V * 100;
-        }
-
         protected override void OnValueChanged()
         {
             base.OnValueChanged();
+            ColorManager.Color.HSV_V = Value;
+        }
 
-            var hsv = new HsvColor(ColorManager.CurrentColor)
-            {
-                V = Value / 100.0
-            };
-
-            ColorManager.CurrentColor = hsv.ToRgbColor();
+        protected override void ColorManager_ColorChanged(System.Windows.Media.Color obj)
+        {
+            base.ColorManager_ColorChanged(obj);
+            Value = ColorManager.Color.HSV_V;
         }
 
 

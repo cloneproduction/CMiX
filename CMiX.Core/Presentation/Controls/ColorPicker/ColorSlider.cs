@@ -117,7 +117,7 @@ namespace CMiX.Core.Presentation.Controls
         protected bool UpdateBackgroundWhenColorUpdated = true;
         protected IColorManager ColorManager { get; private set; }
 
-        public virtual void ColorUpdated(System.Drawing.Color color, IColorClient client)
+        public virtual void ColorUpdated(Color color, IColorClient client)
         {
             ValueChanged -= ColorSlider_ValueChanged;
 
@@ -132,7 +132,14 @@ namespace CMiX.Core.Presentation.Controls
         public void Init(IColorManager colorManager)
         {
             ColorManager = colorManager;
+            ColorManager.ColorChanged += ColorManager_ColorChanged;
         }
+
+        protected virtual void ColorManager_ColorChanged(Color obj)
+        {
+            //System.Console.WriteLine("ColorManager_ColorChanged");
+        }
+
         private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             OnValueChanged();
@@ -142,7 +149,7 @@ namespace CMiX.Core.Presentation.Controls
         {
         }
 
-        protected virtual void UpdateColor(in System.Drawing.Color color)
+        protected virtual void UpdateColor(in Color color)
         {
         }
     }

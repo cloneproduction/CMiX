@@ -1,8 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Drawing;
 using System.Windows;
+using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Controls
 {
@@ -21,26 +21,16 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-
-        protected override void UpdateColor(in Color color)
-        {
-            base.UpdateColor(in color);
-
-            var hsv = new HsvColor(color);
-
-            Value = hsv.H;
-        }
-
         protected override void OnValueChanged()
         {
             base.OnValueChanged();
+            ColorManager.Color.HSV_H = Value;
+        }
 
-            var hsv = new HsvColor(ColorManager.CurrentColor)
-            {
-                H = Value
-            };
-
-            ColorManager.CurrentColor = hsv.ToRgbColor();
+        protected override void ColorManager_ColorChanged(Color obj)
+        {
+            base.ColorManager_ColorChanged(obj);
+            Value = ColorManager.Color.HSV_H;
         }
 
         //private bool _isPressed = false;

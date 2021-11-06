@@ -1,8 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Drawing;
 using System.Windows;
+using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Controls
 {
@@ -32,65 +32,54 @@ namespace CMiX.Core.Presentation.Controls
             Maximum = 255;
         }
 
-        protected override void UpdateColor(in Color color)
+        protected override void ColorManager_ColorChanged(Color obj)
         {
-            base.UpdateColor(in color);
-
+            base.ColorManager_ColorChanged(obj);
             switch (Channel)
             {
                 case RgbaChannel.Red:
-                    Value = color.R;
+                    Value = ColorManager.Color.RGB_R;
                     break;
                 case RgbaChannel.Green:
-                    Value = color.G;
+                    Value = ColorManager.Color.RGB_G;
                     break;
                 case RgbaChannel.Blue:
-                    Value = color.B;
+                    Value = ColorManager.Color.RGB_B;
                     break;
                 case RgbaChannel.Alpha:
-                    Value = color.A;
+                    Value = ColorManager.Color.A;
                     break;
                 default:
-                    Value = 0;
                     break;
             }
         }
 
+
         protected override void OnValueChanged()
         {
             base.OnValueChanged();
-
-            var color = ColorManager.CurrentColor;
-
-            var r = color.R;
-            var g = color.G;
-            var b = color.B;
-            var a = color.A;
-
             switch (Channel)
             {
                 case RgbaChannel.Red:
-                    r = (byte)Value;
+                    ColorManager.Color.RGB_R = Value;
                     break;
                 case RgbaChannel.Green:
-                    g = (byte)Value;
+                    ColorManager.Color.RGB_G = Value;
                     break;
                 case RgbaChannel.Blue:
-                    b = (byte)Value;
+                    ColorManager.Color.RGB_B = Value;
                     break;
                 case RgbaChannel.Alpha:
-                    a = (byte)Value;
+                    ColorManager.Color.A = Value;
                     break;
             }
-
-            ColorManager.CurrentColor = Color.FromArgb(a, r, g, b);
         }
 
 
         private void ChannelChanged()
         {
-            if (ColorManager != null)
-                UpdateColor(ColorManager.CurrentColor);
+            //if (ColorManager != null)
+            //    UpdateColor(ColorManager.CurrentColor);
         }
 
 

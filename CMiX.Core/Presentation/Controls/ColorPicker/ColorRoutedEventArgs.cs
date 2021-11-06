@@ -1,16 +1,18 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-
-
+using System.Windows;
 using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Controls
 {
-    public interface IColorClient
+    public class ColorRoutedEventArgs : RoutedEventArgs
     {
-        //void ColorUpdated(Color color, IColorClient client);
+        public ColorRoutedEventArgs(RoutedEvent routedEvent, Color color) : base(routedEvent)
+        {
+            Color = color;
+        }
 
-        void Init(IColorManager colorManager);
+        public Color Color { get; private set; }
     }
 }
