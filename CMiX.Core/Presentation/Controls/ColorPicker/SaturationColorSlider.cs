@@ -8,14 +8,16 @@ namespace CMiX.Core.Presentation.Controls
         public SaturationColorSlider()
         {
             Minimum = 0;
-            Maximum = 1;
+            Maximum = 100;
         }
+
 
         protected override void OnValueChanged()
         {
             base.OnValueChanged();
             ColorManager.Color.HSV_S = Value;
         }
+
 
         protected override void ColorManager_ColorChanged(System.Windows.Media.Color obj)
         {
