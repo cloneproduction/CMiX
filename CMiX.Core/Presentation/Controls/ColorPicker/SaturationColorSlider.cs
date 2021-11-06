@@ -8,7 +8,7 @@ namespace CMiX.Core.Presentation.Controls
         public SaturationColorSlider()
         {
             Minimum = 0;
-            Maximum = 100;
+            Maximum = 1;
         }
 
         protected override void OnValueChanged()
