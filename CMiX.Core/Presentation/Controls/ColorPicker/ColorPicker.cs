@@ -91,11 +91,11 @@ namespace CMiX.Core.Presentation.Controls
             _colorManager.ColorChanged += Manager_ColorChanged;
         }
 
-        private void Manager_ColorChanged(System.Windows.Media.Color color)
+        private void Manager_ColorChanged(Color color)
         {
             _lock = true;
 
-            //SelectedColor = color.ToColor();
+            SelectedColor = color;
 
             _lock = false;
         }

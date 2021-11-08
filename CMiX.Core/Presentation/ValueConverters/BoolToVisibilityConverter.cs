@@ -14,12 +14,25 @@ namespace CMiX.Core.Presentation.ValueConverters
         {
             if (!(value is bool))
                 return Visibility.Collapsed;
+
             bool objValue = (bool)value;
+
             if (objValue)
             {
                 return Visibility.Visible;
             }
-            return Visibility.Collapsed;
+            else
+            {
+                if (parameter is Visibility.Collapsed)
+                {
+                    return Visibility.Collapsed;
+                }
+                else
+                    return Visibility.Hidden;
+            }
+            //return Visibility.Collapsed;
+
+
         }
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {

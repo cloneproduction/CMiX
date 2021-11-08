@@ -101,11 +101,11 @@ namespace CMiX.Core.Presentation.Controls
 
         public double HSV_S
         {
-            get => storage.ColorState.HSV_S * 100;
+            get => storage.ColorState.HSV_S;
             set
             {
                 var state = storage.ColorState;
-                state.HSV_S = value / 100;
+                state.HSV_S = value;
                 storage.ColorState = state;
                 OnPropertyChanged();
                 System.Console.WriteLine("NotifyableColor S" + HSV_S);

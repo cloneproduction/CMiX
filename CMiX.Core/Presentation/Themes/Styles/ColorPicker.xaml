@@ -10,6 +10,7 @@
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Sliders/HSVSlider.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Sliders/RGBSlider.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Sliders/ColorWheel.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/RadioButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
     <!-- STYLE FOR COLORPICKER -->
@@ -152,39 +153,102 @@
                             Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                             Height="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{StaticResource ColorWheelStyle}"/>
-                        
-                        <local:RgbaColorSlider 
-                            x:Name="PART_RSlider"
-                            Channel="Red"
-                            Style="{StaticResource RGBSliderStyle}"/>
 
-                        <local:RgbaColorSlider 
-                            x:Name="PART_GSlider"
-                            Channel="Green"
-                            Style="{StaticResource RGBSliderStyle}"/>
+                        <Border Margin="0, 8" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <RadioButton x:Name="HSVRadio" IsChecked="True" Content="HSV" Grid.Column="0" Style="{StaticResource InlineRadioButtonLeft}"/>
+                                <RadioButton x:Name="RGBRadio" Content="RGB" Grid.Column="1" Style="{StaticResource InlineRadioButtonCenter}"/>
+                                <RadioButton x:Name="HEXRadio" Content="HEX" Grid.Column="2" Style="{StaticResource InlineRadioButtonRight}"/>
+                            </Grid>
+                        </Border>
 
-                        <local:RgbaColorSlider 
-                            x:Name="PART_BSlider"
-                            Channel="Blue"
-                            Style="{StaticResource RGBSliderStyle}"/>
+                        <Grid VerticalAlignment="Top">
+                            <Border 
+                                Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}"
+                                BorderBrush="{DynamicResource Shadow}" 
+                                BorderThickness="1, 0, 1, 2">
+                                <StackPanel>
+                                    <local:RgbaColorSlider 
+                                        x:Name="PART_RSlider"
+                                        Channel="Red"
+                                        Position="Top"
+                                        Caption="R"
+                                        Style="{StaticResource CMiXSliderStyle}"/>
 
-                        <local:HueColorSlider 
-                            x:Name="PART_HSlider"
-                            Style="{StaticResource ColorSliderStyle}"/>
+                                    <local:RgbaColorSlider 
+                                        x:Name="PART_GSlider"
+                                        Channel="Green"
+                                        Caption="G"
+                                        Position="Middle"
+                                        Margin="0, 1"
+                                        Style="{StaticResource CMiXSliderStyle}"/>
 
-                        <local:SaturationColorSlider 
-                            x:Name="PART_SSlider"
-                            Style="{StaticResource ColorSliderStyle}"/>
+                                    <local:RgbaColorSlider 
+                                        x:Name="PART_BSlider"
+                                        Channel="Blue"
+                                        Caption="B"
+                                        Position="Bottom"
+                                        Style="{StaticResource CMiXSliderStyle}"/>
+                                </StackPanel>
+                            </Border>
 
-                        <local:ValueColorSlider
-                            x:Name="PART_VSlider"
-                            Style="{StaticResource ColorSliderStyle}"/>
+                            <Border 
+                                Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}"
+                                BorderBrush="{DynamicResource Shadow}" 
+                                BorderThickness="1, 0, 1, 2">
+                                <StackPanel>
+                                    <local:HueColorSlider 
+                                        x:Name="PART_HSlider"
+                                        Position="Top"
+                                        Caption="H"
+                                        Style="{StaticResource CMiXSliderStyle}"/>
 
-                        <local:RgbaColorSlider 
-                            x:Name="PART_AlphaSlider"
-                            Channel="Alpha"
-                            Style="{StaticResource ColorSliderStyle}"/>
-                        
+                                    <local:SaturationColorSlider 
+                                        x:Name="PART_SSlider"
+                                        Position="Middle"
+                                        Margin="0, 1"
+                                        Caption="S"
+                                        Style="{StaticResource CMiXSliderStyle}"/>
+
+                                    <local:ValueColorSlider
+                                        x:Name="PART_VSlider"
+                                        Position="Bottom"
+                                        Caption="V"
+                                        Style="{StaticResource CMiXSliderStyle}"/>
+
+                                </StackPanel>
+                            </Border>
+
+                            <Border 
+                                Height="20"
+                                VerticalAlignment="Top"
+                                Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}"
+                                BorderBrush="{DynamicResource Shadow}" 
+                                BorderThickness="1, 0, 1, 2">
+                                <TextBox 
+                                    VerticalContentAlignment="Center"
+                                    Background="{DynamicResource HighDarkerColor}"
+                                    Foreground="{DynamicResource TextBase}"
+                                    Text="{Binding SelectedColor,  RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToHex}}"/>
+                            </Border>
+                        </Grid>
+
+                        <Border 
+                            VerticalAlignment="Top"
+                            Margin="0, 4, 0, 0"
+                            BorderBrush="{DynamicResource Shadow}" 
+                            BorderThickness="1, 0, 1, 2">
+                            <local:RgbaColorSlider 
+                                x:Name="PART_AlphaSlider"
+                                Caption="Alpha"
+                                Channel="Alpha"
+                                Style="{StaticResource CMiXSliderStyle}"/>
+                        </Border>
                     </StackPanel>
                 </ControlTemplate>
             </Setter.Value>

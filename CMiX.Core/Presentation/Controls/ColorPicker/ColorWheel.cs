@@ -79,8 +79,8 @@ namespace CMiX.Core.Presentation.Controls
         {
             var location = GetColorLocation(color);
 
-            Canvas.SetLeft(_cursorEllipse, location.X - _cursorEllipse.Width / 2);
-            Canvas.SetTop(_cursorEllipse, location.Y - _cursorEllipse.Height / 2);
+            Canvas.SetLeft(_cursorEllipse, (location.X - _cursorEllipse.Width / 2));
+            Canvas.SetTop(_cursorEllipse, (location.Y - _cursorEllipse.Height / 2));
         }
 
 
@@ -105,12 +105,14 @@ namespace CMiX.Core.Presentation.Controls
 
             _colorManager.Color.HSV_H = angle;
             _colorManager.Color.HSV_S = saturation;
+            if (saturation > 1.0)
+                _colorManager.Color.HSV_S = 1.0;
         }
 
         private Point GetColorLocation(in Color color)
         {
             var angle = this._colorManager.ColorState.HSV_H * Math.PI / 180;
-            var radius = (Height - _cursorEllipse.Height) / 2 * this._colorManager.ColorState.HSV_S ;
+            var radius = (Height - _cursorEllipse.Height) / 2 * this._colorManager.ColorState.HSV_S;
 
             var centerPoint = new Point(Width / 2, Height / 2);
 

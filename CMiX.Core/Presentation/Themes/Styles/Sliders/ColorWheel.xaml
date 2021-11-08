@@ -10,7 +10,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ColorWheelStyle" TargetType="{x:Type Controls:ColorWheel}">
-
+        <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Controls:ColorWheel}">
@@ -34,6 +34,12 @@
                                      StrokeThickness="1"/>
                         </Canvas>
                     </Grid>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Controls:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
+                            <Setter Property="Cursor" Value="None"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

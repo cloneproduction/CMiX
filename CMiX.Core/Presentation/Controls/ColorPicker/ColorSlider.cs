@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Controls
 {
-    public class ColorSlider : Slider, IColorClient
+    public class ColorSlider : CMiXSlider, IColorClient
     {
         static ColorSlider()
         {
@@ -38,77 +38,77 @@ namespace CMiX.Core.Presentation.Controls
         DependencyProperty.Register("RightColor", typeof(Color), typeof(ColorSlider), new UIPropertyMetadata(Colors.White));
 
 
-        private bool _isPressed = false;
+        //private bool _isPressed = false;
 
 
-        protected override void OnMouseLeave(MouseEventArgs e)
-        {
-            base.OnMouseLeave(e);
-            _isPressed = false;
-        }
+        //protected override void OnMouseLeave(MouseEventArgs e)
+        //{
+        //    base.OnMouseLeave(e);
+        //    _isPressed = false;
+        //}
 
-        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            Mouse.Capture(this);
-            AddHandler();
+        //protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        //{
+        //    Mouse.Capture(this);
+        //    AddHandler();
 
-            _isPressed = true;
-            if (_isPressed)
-            {
-                Point position = e.GetPosition(this);
-                double d = 0.0;
-                if (this.Orientation == Orientation.Horizontal)
-                    d = 1.0d / this.ActualWidth * position.X;
+        //    _isPressed = true;
+        //    if (_isPressed)
+        //    {
+        //        Point position = e.GetPosition(this);
+        //        double d = 0.0;
+        //        if (this.Orientation == Orientation.Horizontal)
+        //            d = 1.0d / this.ActualWidth * position.X;
 
-                else if (this.Orientation == Orientation.Vertical)
-                    d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
+        //        else if (this.Orientation == Orientation.Vertical)
+        //            d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
 
-                var p = this.Maximum * d;
-                this.Value = p;
-            }
-            e.Handled = true;
-            base.OnPreviewMouseLeftButtonDown(e);
-        }
+        //        var p = this.Maximum * d;
+        //        this.Value = p;
+        //    }
+        //    e.Handled = true;
+        //    base.OnPreviewMouseLeftButtonDown(e);
+        //}
 
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            if (_isPressed)
-            {
-                Point position = e.GetPosition(this);
-                double d = 0.0;
-                if (this.Orientation == Orientation.Horizontal)
-                    d = 1.0d / this.ActualWidth * position.X;
+        //protected override void OnMouseMove(MouseEventArgs e)
+        //{
+        //    if (_isPressed)
+        //    {
+        //        Point position = e.GetPosition(this);
+        //        double d = 0.0;
+        //        if (this.Orientation == Orientation.Horizontal)
+        //            d = 1.0d / this.ActualWidth * position.X;
 
-                else if (this.Orientation == Orientation.Vertical)
-                    d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
+        //        else if (this.Orientation == Orientation.Vertical)
+        //            d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
 
-                var p = this.Maximum * d;
+        //        var p = this.Maximum * d;
 
-                if (p >= this.Maximum)
-                    p = this.Maximum;
-                if (p <= this.Minimum)
-                    p = this.Minimum;
+        //        if (p >= this.Maximum)
+        //            p = this.Maximum;
+        //        if (p <= this.Minimum)
+        //            p = this.Minimum;
 
-                this.Value = p;
-            }
-        }
+        //        this.Value = p;
+        //    }
+        //}
 
-        private void AddHandler()
-        {
-            AddHandler(Mouse.PreviewMouseUpOutsideCapturedElementEvent, new MouseButtonEventHandler(HandleClickOutsideOfControl), true);
-        }
+        //private void AddHandler()
+        //{
+        //    AddHandler(Mouse.PreviewMouseUpOutsideCapturedElementEvent, new MouseButtonEventHandler(HandleClickOutsideOfControl), true);
+        //}
 
-        private void HandleClickOutsideOfControl(object sender, MouseButtonEventArgs e)
-        {
-            _isPressed = false;
-            ReleaseMouseCapture();
-        }
+        //private void HandleClickOutsideOfControl(object sender, MouseButtonEventArgs e)
+        //{
+        //    _isPressed = false;
+        //    ReleaseMouseCapture();
+        //}
 
-        protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            base.OnPreviewMouseLeftButtonUp(e);
-            _isPressed = false;
-        }
+        //protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
+        //{
+        //    base.OnPreviewMouseLeftButtonUp(e);
+        //    _isPressed = false;
+        //}
 
 
 
