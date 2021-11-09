@@ -14,6 +14,6 @@
         Loaded="Window_Loaded"
         ShowInTaskbar="False">
 
-    <Controls:ColorPicker SelectedColor="{Binding ColorPicker.SelectedColor}"/>
+    <Controls:ColorPicker SelectedColor="{Binding ColorPicker.SelectedColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
     <!--<MVVM:ColorPicker DataContext="{Binding ColorPicker}"/>-->
 </Window>

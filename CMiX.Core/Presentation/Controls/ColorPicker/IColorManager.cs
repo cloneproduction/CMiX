@@ -2,14 +2,14 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-
+using System.Windows.Media;
 namespace CMiX.Core.Presentation.Controls
 {
     public interface IColorManager
     {
         event Action<System.Windows.Media.Color> ColorChanged;
 
-        System.Windows.Media.Color CurrentColor { get; set; }
+        Color CurrentColor { get; set; }
         ColorState ColorState { get; set; }
 
         NotifyableColor Color { get; set; }

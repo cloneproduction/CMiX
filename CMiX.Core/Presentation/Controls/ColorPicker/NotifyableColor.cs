@@ -42,7 +42,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.A = value / 255;
                 storage.ColorState = state;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(A));
             }
         }
 
@@ -54,9 +54,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.RGB_R = value / 255;
                 storage.ColorState = state;
-                OnPropertyChanged();
-                System.Console.WriteLine("NotifyableColor R" + RGB_R);
-
+                OnPropertyChanged(nameof(RGB_R));
             }
         }
 
@@ -68,8 +66,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.RGB_G = value / 255;
                 storage.ColorState = state;
-                OnPropertyChanged();
-                System.Console.WriteLine("NotifyableColor G" + RGB_G);
+                OnPropertyChanged(nameof(RGB_G));
             }
         }
 
@@ -81,8 +78,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.RGB_B = value / 255;
                 storage.ColorState = state;
-                OnPropertyChanged();
-                System.Console.WriteLine("NotifyableColor B" + RGB_B);
+                OnPropertyChanged(nameof(RGB_B));
             }
         }
 
@@ -94,8 +90,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.HSV_H = value;
                 storage.ColorState = state;
-                OnPropertyChanged();
-                System.Console.WriteLine("NotifyableColor H" + HSV_H);
+                OnPropertyChanged(nameof(HSV_H));
             }
         }
 
@@ -107,8 +102,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.HSV_S = value;
                 storage.ColorState = state;
-                OnPropertyChanged();
-                System.Console.WriteLine("NotifyableColor S" + HSV_S);
+                OnPropertyChanged(nameof(HSV_S));
             }
         }
 
@@ -121,7 +115,6 @@ namespace CMiX.Core.Presentation.Controls
                 state.HSV_V = value / 100;
                 storage.ColorState = state;
                 OnPropertyChanged(nameof(HSV_V));
-                System.Console.WriteLine("NotifyableColor V" + HSV_V);
             }
         }
         public double HSL_H
@@ -132,7 +125,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.HSL_H = value;
                 storage.ColorState = state;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(HSL_H));
             }
         }
 
@@ -144,7 +137,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.HSL_S = value / 100;
                 storage.ColorState = state;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(HSL_S));
             }
         }
 
@@ -156,7 +149,7 @@ namespace CMiX.Core.Presentation.Controls
                 var state = storage.ColorState;
                 state.HSL_L = value / 100;
                 storage.ColorState = state;
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(HSL_L));
             }
         }
     }

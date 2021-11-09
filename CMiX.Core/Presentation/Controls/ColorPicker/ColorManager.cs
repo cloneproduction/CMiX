@@ -4,13 +4,13 @@
 using System;
 using System.Collections.Generic;
 using System.Windows.Media;
+
 namespace CMiX.Core.Presentation.Controls
 {
     public class ColorManager : IColorManager, IColorStateStorage
     {
         private readonly List<IColorClient> _colorClients = new List<IColorClient>();
         public event Action<Color> ColorChanged;
-
 
 
         private ColorState _colorState;
@@ -21,27 +21,19 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-
         private Color _currentColor;
         public Color CurrentColor
         {
             get => _currentColor;
             set => _currentColor = value;
-            //set => UpdateClients(value);
         }
 
-
-        //private Color previousColor = Color.FromArgb(5, 5, 5, 5);
-        //private bool ignoreColorPropertyChange = false;
-        //private bool ignoreColorChange = false;
 
         public NotifyableColor Color
         {
             get;
             set;
         }
-
-
 
 
         public void AddClient(params IColorClient[] clients)
@@ -56,58 +48,15 @@ namespace CMiX.Core.Presentation.Controls
             }
             Color = new NotifyableColor(this);
             Color.PropertyChanged += Color_PropertyChanged;
-            //this.ColorChanged += ColorManager_ColorChanged;
         }
-
 
 
         private void Color_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             var newColor = System.Windows.Media.Color.FromArgb((byte)Color.A, (byte)Color.RGB_R, (byte)Color.RGB_G, (byte)Color.RGB_B);
             ColorChanged?.Invoke(newColor);
+
             CurrentColor = newColor;
-
-            //if (newColor != previousColor)
-            //{
-            //    ColorChanged?.Invoke(newColor);
-            //    //RaiseEvent(new ColorRoutedEventArgs(ColorChangedEvent, newColor));
-            //    //previousColor = newColor;
-            //    CurrentColor = newColor;
-            //}
         }
-
-
-        //private void ColorManager_ColorChanged(System.Windows.Media.Color obj)
-        //{
-        //    if (!ignoreColorChange)
-        //    {
-        //        ignoreColorPropertyChange = true;
-        //        CurrentColor = obj; 
-        //        ignoreColorPropertyChange = false;
-        //    }
-        //}
-
-
-        //public void SetColorFromHsl(double hue, double saturation, double lightness)
-        //{
-        //    var alpha = CurrentColor.A;
-
-        //    var hsl = new HslColor(alpha, hue, saturation, lightness);
-
-
-        //    //CurrentColor = hsl.ToRgbColor(); TO MODIFY
-        //}
-
-
-
-        //private void UpdateClients(System.Windows.Media.Color color)
-        //{
-        //    _currentColor = color;
-
-        //    //foreach (var colorClient in _colorClients)
-        //    //    colorClient.ColorUpdated(color, colorClient);
-
-        //    ColorChanged?.Invoke(color);
-        //}
     }
 }

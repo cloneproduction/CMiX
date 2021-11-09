@@ -122,11 +122,6 @@ namespace CMiX.Core.Presentation.Controls
             return new Point(x, y);
         }
 
-        //public void ColorUpdated(Color color, IColorClient client)
-        //{
-        //    //SetCursor(color);
-        //}
-
         public void Init(IColorManager colorManager)
         {
             _colorManager = colorManager;

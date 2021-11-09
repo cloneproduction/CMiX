@@ -16,7 +16,7 @@ namespace CMiX.Core.Presentation.Controls
     [TemplatePart(Name = PART_SSlider, Type = typeof(SaturationColorSlider))]
     [TemplatePart(Name = PART_VSlider, Type = typeof(ValueColorSlider))]
 
-    public class ColorPicker : Control//, IColorClient
+    public class ColorPicker : Control
     {
 
         static ColorPicker()
@@ -62,10 +62,10 @@ namespace CMiX.Core.Presentation.Controls
         private IColorManager _colorManager = new ColorManager();
         private bool _lock;
 
+
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
-
 
             var alphaSlider = GetTemplateChild(PART_AlphaSlider) as RgbaColorSlider;
 
@@ -89,7 +89,12 @@ namespace CMiX.Core.Presentation.Controls
                 _vSlider);
 
             _colorManager.ColorChanged += Manager_ColorChanged;
+
+            ColorState colorState = new ColorState();
+            colorState.SetARGB(SelectedColor.A, SelectedColor.R, SelectedColor.G, SelectedColor.B);
+            _colorManager.ColorState = colorState;
         }
+
 
         private void Manager_ColorChanged(Color color)
         {
@@ -100,17 +105,23 @@ namespace CMiX.Core.Presentation.Controls
             _lock = false;
         }
 
+
         private void ColorChanged(Color color)
         {
             if (_lock)
                 return;
 
-            _colorManager.ColorChanged -= Manager_ColorChanged;
+            //ColorState colorState = new ColorState();
+            //colorState.SetARGB(color.A, color.R, color.G, color.B);
+            //_colorManager.Color.UpdateEverything(colorState);
 
-            //_colorManager.CurrentColor = color.ToColor();
+            //_colorManager.ColorChanged -= Manager_ColorChanged;
 
-            _colorManager.ColorChanged += Manager_ColorChanged;
+            //SelectedColor = color;
+
+            //_colorManager.ColorChanged += Manager_ColorChanged;
         }
+
 
         private static void OnSelectedColorChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
