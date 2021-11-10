@@ -16,15 +16,12 @@ namespace CMiX.Core.Presentation.ViewModels
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
             this.ID = colorSelectorModel.ID;
-            ColorPicker = new ColorPicker(colorSelectorModel.ColorPickerModel);
-            SelectedColor = new Color() { R = 255, G = 0, B = 255 };
+            SelectedColor = new Color() { A = 255, R = 255, G = 0, B = 255 };
             //this.SelectedColor = Utils.HexStringToColor(colorSelectorModel.ColorPickerModel.SelectedColor);
         }
 
 
         public Guid ID { get; set; }
-
-        public ColorPicker ColorPicker { get; set; }
 
 
         private Color _selectedColor;
@@ -40,14 +37,12 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ColorSelectorModel colorSelectorModel = model as ColorSelectorModel;
             this.ID = colorSelectorModel.ID;
-            this.ColorPicker.SetViewModel(colorSelectorModel.ColorPickerModel);
         }
 
         public IModel GetModel()
         {
             ColorSelectorModel model = new ColorSelectorModel();
             model.ID = this.ID;
-            model.ColorPickerModel = (ColorPickerModel)ColorPicker.GetModel();
             return model;
         }
 

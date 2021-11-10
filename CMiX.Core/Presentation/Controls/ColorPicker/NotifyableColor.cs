@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.Controls
@@ -29,9 +30,25 @@ namespace CMiX.Core.Presentation.Controls
             if (currentValue.HSL_H != oldValue.HSL_H) OnPropertyChanged(nameof(HSL_H));
             if (currentValue.HSL_S != oldValue.HSL_S) OnPropertyChanged(nameof(HSL_S));
             if (currentValue.HSL_L != oldValue.HSL_L) OnPropertyChanged(nameof(HSL_L));
+        }
 
 
+        public void UpdateARGB(Color color)
+        {
+            if (RGB_R != color.R)
+                RGB_R = color.R;
+            if (RGB_G != color.G)
+                RGB_G = color.G;
+            if (RGB_B != color.B)
+                RGB_B = color.B;
+            if (A != color.A)
+                A = color.A;
+        }
 
+
+        public Color GetColor()
+        {
+            return Color.FromArgb((byte)A, (byte)RGB_R, (byte)RGB_G, (byte)RGB_B);
         }
 
         public double A

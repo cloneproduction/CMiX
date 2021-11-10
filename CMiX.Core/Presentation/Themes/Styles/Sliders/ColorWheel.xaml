@@ -14,17 +14,27 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Controls:ColorWheel}">
-                    <Grid>
-                        <Grid Margin="5">
-                            <Ellipse Name="PART_SpectrumEllipse"
-                                     StrokeThickness="0"
-                                     HorizontalAlignment="Stretch"
-                                     VerticalAlignment="Stretch">
-                                <Ellipse.Fill>
-                                    <ImageBrush ImageSource="{StaticResource ColorWheel}"/>
-                                </Ellipse.Fill>
-                            </Ellipse>
-                        </Grid>
+                    
+                    <Grid Margin="5">
+
+                        <Ellipse
+                            x:Name="PART_BlackEllipse"
+                            StrokeThickness="0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Stretch"
+                            Margin="-4"
+                            Fill="Black">
+                        </Ellipse>
+
+                        <Ellipse Name="PART_SpectrumEllipse"
+                                    Margin="-5"
+                                    StrokeThickness="0"
+                                    HorizontalAlignment="Stretch"
+                                    VerticalAlignment="Stretch">
+                            <Ellipse.Fill>
+                                <ImageBrush ImageSource="{StaticResource ColorWheel}"/>
+                            </Ellipse.Fill>
+                        </Ellipse>
 
                         <Canvas>
                             <Ellipse Name="PART_CursorEllipse"
@@ -33,6 +43,7 @@
                                      Fill="White"
                                      StrokeThickness="1"/>
                         </Canvas>
+                        
                     </Grid>
 
                     <ControlTemplate.Triggers>

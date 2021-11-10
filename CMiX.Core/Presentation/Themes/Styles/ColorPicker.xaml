@@ -173,6 +173,7 @@
                                 BorderBrush="{DynamicResource Shadow}" 
                                 BorderThickness="1, 0, 1, 2">
                                 <StackPanel>
+                                    
                                     <local:RgbaColorSlider 
                                         x:Name="PART_RSlider"
                                         Channel="Red"
@@ -194,6 +195,7 @@
                                         Caption="B"
                                         Position="Bottom"
                                         Style="{StaticResource CMiXSliderStyle}"/>
+                                    
                                 </StackPanel>
                             </Border>
 

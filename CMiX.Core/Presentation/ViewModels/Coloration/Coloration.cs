@@ -3,7 +3,6 @@
 
 using System;
 using System.Windows.Input;
-using System.Windows.Media;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
@@ -27,7 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
         public ICommand OpenColorSelectorCommand { get; set; }
-        public Color Color { get; set; }
         public ColorSelector ColorSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
 

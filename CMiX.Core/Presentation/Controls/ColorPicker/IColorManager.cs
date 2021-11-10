@@ -7,14 +7,12 @@ namespace CMiX.Core.Presentation.Controls
 {
     public interface IColorManager
     {
-        event Action<System.Windows.Media.Color> ColorChanged;
+        event Action<Color> ColorChanged;
 
         Color CurrentColor { get; set; }
         ColorState ColorState { get; set; }
 
         NotifyableColor Color { get; set; }
         void AddClient(params IColorClient[] clients);
-
-        //void SetColorFromHsl(double hue, double saturation, double lightness);
     }
 }

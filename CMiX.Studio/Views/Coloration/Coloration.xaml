@@ -6,6 +6,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
     d:DesignHeight="1870.805"
     d:DesignWidth="349.875"
     mc:Ignorable="d"
@@ -20,6 +21,7 @@
 
     <Border Background="{DynamicResource DarkerColor}">
         <StackPanel>
+            
             <Border Height="25" Margin="0, 0, 0, 2" Padding="4">
                 <TextBlock
                     Margin="4, 0, 0, 0"
@@ -29,17 +31,16 @@
 
             <Button Height="25"
                     Margin="4"
-                    Background="{Binding ColorSelector.ColorPicker.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+                    Background="{Binding ColorSelector.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
                     Command="{Binding OpenColorSelectorCommand}"
                     Style="{StaticResource ButtonColorStyle}"/>
-
-            <!--<Views:ColorSelector DataContext="{Binding ColorSelector}"/>-->
-
+            
             <Border Background="{StaticResource DarkerColor}">
                 <Expander IsExpanded="True" Header="Modifiers">
                     <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
                 </Expander>
             </Border>
+            
         </StackPanel>
     </Border>
 </UserControl>

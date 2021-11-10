@@ -41,7 +41,7 @@ namespace CMiX.Core.Presentation.Controls
             MouseLeftButtonUp += OnMouseLeftButtonUp;
 
             if (_colorManager != null)
-                SetCursor(_colorManager.CurrentColor);
+                SetCursor(_colorManager.Color.GetColor());
         }
 
 
@@ -79,8 +79,8 @@ namespace CMiX.Core.Presentation.Controls
         {
             var location = GetColorLocation(color);
 
-            Canvas.SetLeft(_cursorEllipse, (location.X - _cursorEllipse.Width / 2));
-            Canvas.SetTop(_cursorEllipse, (location.Y - _cursorEllipse.Height / 2));
+            Canvas.SetLeft(_cursorEllipse, location.X - _cursorEllipse.Width / 2);
+            Canvas.SetTop(_cursorEllipse, location.Y - _cursorEllipse.Height / 2);
         }
 
 
@@ -131,6 +131,7 @@ namespace CMiX.Core.Presentation.Controls
         private void _colorManager_ColorChanged(Color obj)
         {
             SetCursor(obj);
+            _spectrumEllipse.Opacity = _colorManager.Color.HSV_V / 100;
         }
     }
 }
