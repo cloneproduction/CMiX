@@ -18,7 +18,6 @@ namespace CMiX.Core.Presentation.Controls
 
     public class ColorPicker : Control
     {
-
         static ColorPicker()
         {
             DefaultStyleKeyProperty.OverrideMetadata(typeof(ColorPicker), new FrameworkPropertyMetadata(typeof(ColorPicker)));
