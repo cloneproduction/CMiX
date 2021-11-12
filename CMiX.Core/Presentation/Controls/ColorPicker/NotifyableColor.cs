@@ -14,23 +14,23 @@ namespace CMiX.Core.Presentation.Controls
             storage = colorStateStorage;
         }
 
-        public void UpdateEverything(ColorState oldValue)
-        {
-            ColorState currentValue = storage.ColorState;
-            if (currentValue.A != oldValue.A) OnPropertyChanged(nameof(A));
+        //public void UpdateEverything(ColorState oldValue)
+        //{
+        //    ColorState currentValue = storage.ColorState;
+        //    if (currentValue.A != oldValue.A) OnPropertyChanged(nameof(A));
 
-            if (currentValue.RGB_R != oldValue.RGB_R) OnPropertyChanged(nameof(RGB_R));
-            if (currentValue.RGB_G != oldValue.RGB_G) OnPropertyChanged(nameof(RGB_G));
-            if (currentValue.RGB_B != oldValue.RGB_B) OnPropertyChanged(nameof(RGB_B));
+        //    if (currentValue.RGB_R != oldValue.RGB_R) OnPropertyChanged(nameof(RGB_R));
+        //    if (currentValue.RGB_G != oldValue.RGB_G) OnPropertyChanged(nameof(RGB_G));
+        //    if (currentValue.RGB_B != oldValue.RGB_B) OnPropertyChanged(nameof(RGB_B));
 
-            if (currentValue.HSV_H != oldValue.HSV_H) OnPropertyChanged(nameof(HSV_H));
-            if (currentValue.HSV_S != oldValue.HSV_S) OnPropertyChanged(nameof(HSV_S));
-            if (currentValue.HSV_V != oldValue.HSV_V) OnPropertyChanged(nameof(HSV_V));
+        //    if (currentValue.HSV_H != oldValue.HSV_H) OnPropertyChanged(nameof(HSV_H));
+        //    if (currentValue.HSV_S != oldValue.HSV_S) OnPropertyChanged(nameof(HSV_S));
+        //    if (currentValue.HSV_V != oldValue.HSV_V) OnPropertyChanged(nameof(HSV_V));
 
-            if (currentValue.HSL_H != oldValue.HSL_H) OnPropertyChanged(nameof(HSL_H));
-            if (currentValue.HSL_S != oldValue.HSL_S) OnPropertyChanged(nameof(HSL_S));
-            if (currentValue.HSL_L != oldValue.HSL_L) OnPropertyChanged(nameof(HSL_L));
-        }
+        //    if (currentValue.HSL_H != oldValue.HSL_H) OnPropertyChanged(nameof(HSL_H));
+        //    if (currentValue.HSL_S != oldValue.HSL_S) OnPropertyChanged(nameof(HSL_S));
+        //    if (currentValue.HSL_L != oldValue.HSL_L) OnPropertyChanged(nameof(HSL_L));
+        //}
 
 
         public void UpdateARGB(Color color)
