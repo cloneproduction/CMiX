@@ -147,14 +147,29 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
                     <StackPanel>
-                        
-                        <Controls:ColorWheel
-                            x:Name="PART_ColorWheel"
-                            Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                            Height="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                            Style="{StaticResource ColorWheelStyle}"/>
+                        <DockPanel>
+                            <Controls:ColorWheelValueSlider 
+                                    x:Name="PART_ColorWheelValue"
+                                    Orientation="Vertical"
+                                    DockPanel.Dock="Right" 
+                                    Margin="4, 0, 0, 0"
+                                    Width="12" 
+                                    Style="{StaticResource ValueSliderVertical}"/>
 
-                        <Border Margin="0, 8" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
+                            <Border x:Name="border" DockPanel.Dock="Left">
+                                <Controls:ColorWheel 
+                                            x:Name="PART_ColorWheel"
+                                            Style="{StaticResource ColorWheelStyle}"
+                                            Width="{Binding ActualWidth, ElementName=border}"
+                                            Height="{Binding ActualWidth, ElementName=border}"/>
+                            </Border>
+
+                        </DockPanel>
+
+                        <Border 
+                            Margin="0, 8" 
+                            BorderBrush="{DynamicResource Shadow}" 
+                            BorderThickness="1, 0, 1, 2">
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition/>

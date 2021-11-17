@@ -20,17 +20,17 @@
                         <Ellipse
                             x:Name="PART_BlackEllipse"
                             StrokeThickness="0"
+                            Stretch="Uniform"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
-                            Margin="-4"
                             Fill="Black">
                         </Ellipse>
 
                         <Ellipse Name="PART_SpectrumEllipse"
-                                    Margin="-5"
-                                    StrokeThickness="0"
-                                    HorizontalAlignment="Stretch"
-                                    VerticalAlignment="Stretch">
+                                Stretch="Uniform"
+                                StrokeThickness="0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch">
                             <Ellipse.Fill>
                                 <ImageBrush ImageSource="{StaticResource ColorWheel}"/>
                             </Ellipse.Fill>
@@ -41,7 +41,11 @@
                                      Width="6" Height="6"
                                      Stroke="Black"
                                      Fill="White"
-                                     StrokeThickness="1"/>
+                                     StrokeThickness="1">
+                                <Ellipse.RenderTransform>
+                                    <TranslateTransform X="-5" Y="-4"/>
+                                </Ellipse.RenderTransform>
+                            </Ellipse>
                         </Canvas>
                         
                     </Grid>
@@ -57,6 +61,59 @@
 
     </Style>
 
+
+    <Style x:Key="ValueSliderVertical" TargetType="{x:Type Controls:ColorWheelValueSlider}">
+        <Setter Property="Maximum" Value="255" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Orientation" Value="Vertical"/>
+        <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls:ColorWheelValueSlider}">
+                    <Border x:Name="sliderBorder" CornerRadius="2" BorderThickness="1" BorderBrush="Black">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                <GradientStop Offset="0" Color="White"/>
+                                <GradientStop Offset="1" Color="Black" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Track x:Name="PART_Track" Grid.Row="1" Margin="0">
+                            <Track.DecreaseRepeatButton>
+                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{DynamicResource SliderRepeatButtonStyle}" />
+                            </Track.DecreaseRepeatButton>
+                            <Track.IncreaseRepeatButton>
+                                <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{DynamicResource SliderRepeatButtonStyle}" />
+                            </Track.IncreaseRepeatButton>
+                            <Track.Thumb>
+                                <Thumb x:Name="Part_Thumb" Style="{DynamicResource ValueSliderVerticalThumbStyle}" />
+                            </Track.Thumb>
+                        </Track>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="Controls:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
+                            <Setter Property="Cursor" Value="None"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ValueSliderVerticalThumbStyle" TargetType="{x:Type Thumb}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Ellipse Name="PART_CursorEllipse"
+                                     Width="6" Height="6"
+                                     Stroke="Black"
+                                     Fill="White"
+                                     StrokeThickness="1"/>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
     <!--<Style x:Key="ColorPickerRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Focusable" Value="false" />

@@ -8,6 +8,7 @@ using System.Windows.Media;
 namespace CMiX.Core.Presentation.Controls
 {
     [TemplatePart(Name = PART_ColorWheel, Type = typeof(ColorWheel))]
+    [TemplatePart(Name = PART_ColorWheelValue, Type = typeof(ColorWheelValueSlider))]
     [TemplatePart(Name = PART_AlphaSlider, Type = typeof(RgbaColorSlider))]
     [TemplatePart(Name = PART_RSlider, Type = typeof(RgbaColorSlider))]
     [TemplatePart(Name = PART_GSlider, Type = typeof(RgbaColorSlider))]
@@ -24,7 +25,7 @@ namespace CMiX.Core.Presentation.Controls
         }
 
         private const string PART_ColorWheel = "PART_ColorWheel";
-
+        private const string PART_ColorWheelValue = "PART_ColorWheelValue";
         private const string PART_AlphaSlider = "PART_AlphaSlider";
 
         private const string PART_RSlider = "PART_RSlider";
@@ -36,7 +37,7 @@ namespace CMiX.Core.Presentation.Controls
         private const string PART_VSlider = "PART_VSlider";
 
         private ColorWheel _colorWheel;
-
+        private ColorWheelValueSlider _colorWheelValueSlider;
         private RgbaColorSlider _rSlider;
         private RgbaColorSlider _gSlider;
         private RgbaColorSlider _bSlider;
@@ -68,6 +69,7 @@ namespace CMiX.Core.Presentation.Controls
             var alphaSlider = GetTemplateChild(PART_AlphaSlider) as RgbaColorSlider;
 
             _colorWheel = GetTemplateChild(PART_ColorWheel) as ColorWheel;
+            _colorWheelValueSlider = GetTemplateChild(PART_ColorWheelValue) as ColorWheelValueSlider;
             _rSlider = GetTemplateChild(PART_RSlider) as RgbaColorSlider;
             _gSlider = GetTemplateChild(PART_GSlider) as RgbaColorSlider;
             _bSlider = GetTemplateChild(PART_BSlider) as RgbaColorSlider;
@@ -78,6 +80,7 @@ namespace CMiX.Core.Presentation.Controls
 
             _colorManager?.AddClient(
                 alphaSlider,
+                _colorWheelValueSlider,
                 _colorWheel,
                 _rSlider,
                 _gSlider,

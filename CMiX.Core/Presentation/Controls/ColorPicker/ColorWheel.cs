@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -72,8 +73,19 @@ namespace CMiX.Core.Presentation.Controls
             {
                 _isDragging = false;
                 Mouse.Capture(null);
+
+                Control control = sender as Control;
+                Point pointFromColor = this.GetColorLocation(((ColorWheel)sender)._colorManager.CurrentColor);
+                Point pointToScreen = control.PointToScreen(pointFromColor);
+
+                SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
             }
         }
+
+
+
+        [DllImport("User32.dll")]
+        private static extern bool SetCursorPos(int X, int Y);
 
         private void SetCursor(Color color)
         {

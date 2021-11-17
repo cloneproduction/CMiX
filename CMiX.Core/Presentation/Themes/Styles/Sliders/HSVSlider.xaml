@@ -173,6 +173,7 @@
                                 <GradientStop Offset="1" Color="{Binding RightColor, RelativeSource={RelativeSource TemplatedParent}}" />
                             </LinearGradientBrush>
                         </Border.Background>
+                        
                         <Track x:Name="PART_Track" Grid.Row="1" Margin="0">
                             <Track.DecreaseRepeatButton>
                                 <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{DynamicResource SliderRepeatButtonStyle}" />
@@ -189,6 +190,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
-    
+
+
 </ResourceDictionary>
