@@ -324,6 +324,7 @@
                             <Border x:Name="borderMask" 
                                     Style="{DynamicResource BorderMask}"/>
                             <Border x:Name="sliderBorder" Background="Transparent">
+                                
                                 <Border.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                                 </Border.OpacityMask>
@@ -342,6 +343,7 @@
                                         Style="{StaticResource RepeatButtonIncrease}" />
                                     </Track.IncreaseRepeatButton>
                                 </Track>
+                                
                             </Border>
 
                             <TextBlock x:Name="sliderName"
