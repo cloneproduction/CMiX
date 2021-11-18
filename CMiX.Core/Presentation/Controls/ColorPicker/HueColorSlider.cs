@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Controls
 {
-    public class HueColorSlider : ColorSlider
+    public class HueColorSlider : CMiXSlider, IColorClient
     {
         static HueColorSlider()
         {
@@ -18,78 +18,33 @@ namespace CMiX.Core.Presentation.Controls
             Minimum = 0;
             Maximum = 359;
             UpdateBackgroundWhenColorUpdated = false;
+            ValueChanged += ColorSlider_ValueChanged;
         }
 
 
-        protected override void OnValueChanged()
+        private void OnValueChanged()
         {
-            base.OnValueChanged();
             ColorManager.Color.HSV_H = Value;
         }
 
-        protected override void ColorManager_ColorChanged(Color obj)
+        private void ColorManager_ColorChanged(Color obj)
         {
-            base.ColorManager_ColorChanged(obj);
             Value = ColorManager.Color.HSV_H;
         }
 
-        //private bool _isPressed = false;
+        protected bool UpdateBackgroundWhenColorUpdated = true;
+        protected IColorManager ColorManager { get; private set; }
 
-        //protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        //{
-        //    Mouse.Capture(this);
-        //    AddHandler();
 
-        //    _isPressed = true;
-        //    if (_isPressed)
-        //    {
-        //        System.Windows.Point position = e.GetPosition(this);
-        //        double d = 0.0;
-        //        if (this.Orientation == Orientation.Horizontal)
-        //            d = 1.0d / this.ActualWidth * position.X;
+        public void Init(IColorManager colorManager)
+        {
+            ColorManager = colorManager;
+            ColorManager.ColorChanged += ColorManager_ColorChanged;
+        }
 
-        //        else if (this.Orientation == Orientation.Vertical)
-        //            d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
-
-        //        var p = this.Maximum * d;
-        //        this.Value = p;
-        //    }
-        //    e.Handled = true;
-        //    base.OnPreviewMouseLeftButtonDown(e);
-        //}
-
-        //protected override void OnMouseMove(MouseEventArgs e)
-        //{
-        //    if (_isPressed)
-        //    {
-        //        System.Windows.Point position = e.GetPosition(this);
-        //        double d = 0.0;
-        //        if (this.Orientation == Orientation.Horizontal)
-        //            d = 1.0d / this.ActualWidth * position.X;
-
-        //        else if (this.Orientation == Orientation.Vertical)
-        //            d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
-
-        //        var p = this.Maximum * d;
-        //        this.Value = p;
-        //    }
-        //}
-
-        //private void AddHandler()
-        //{
-        //    AddHandler(Mouse.PreviewMouseUpOutsideCapturedElementEvent, new MouseButtonEventHandler(HandleClickOutsideOfControl), true);
-        //}
-
-        //private void HandleClickOutsideOfControl(object sender, MouseButtonEventArgs e)
-        //{
-        //    _isPressed = false;
-        //    ReleaseMouseCapture();
-        //}
-
-        //protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
-        //{
-        //    base.OnPreviewMouseLeftButtonUp(e);
-        //    _isPressed = false;
-        //}
+        private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            OnValueChanged();
+        }
     }
 }

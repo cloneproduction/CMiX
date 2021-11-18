@@ -21,7 +21,7 @@ namespace CMiX.Core.Presentation.Controls
         TextBox InputValue { get; set; }
         Border Border { get; set; }
 
-        private int ScreenHeight;
+        //private int ScreenHeight;
         private int ScreenWidth;
 
         public override void OnApplyTemplate()
@@ -34,7 +34,7 @@ namespace CMiX.Core.Presentation.Controls
                 InputValue.MouseLeave += View_OnMouseLeave;
                 InputValue.MouseEnter += View_OnMouseEnter;
             }
-            ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
+            //ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
             ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
             base.OnApplyTemplate();
         }
@@ -118,22 +118,36 @@ namespace CMiX.Core.Presentation.Controls
                 else if (currentPoint.X <= 0)
                     SetCursorPos(ScreenWidth - 1, Convert.ToInt32(currentPoint.Y));
 
-                var offset = currentPoint - _lastPoint.Value;
+                var newValue = SmoothValue(currentPoint);
+                this.Value = ClampMinMax(newValue);
 
-                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
-                    newValue = this.Value + offset.X * ((Math.Abs(this.Minimum) + Math.Abs(this.Maximum)) / ActualWidth) * 0.01;
-                else
-                    newValue = this.Value + offset.X * ((Math.Abs(this.Minimum) + Math.Abs(this.Maximum)) / ActualWidth);
-
-                if (newValue >= this.Maximum)
-                    newValue = this.Maximum;
-                else if (newValue <= this.Minimum)
-                    newValue = this.Minimum;
-
-                this.Value = newValue;
                 _lastPoint = GetMousePosition();
             }
         }
+
+        private double SmoothValue(Point currentPoint)
+        {
+            Vector offset = currentPoint - _lastPoint.Value;
+            double newValue;
+
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                newValue = this.Value + offset.X * ((Math.Abs(this.Minimum) + Math.Abs(this.Maximum)) / ActualWidth) * 0.01;
+            else
+                newValue = this.Value + offset.X * ((Math.Abs(this.Minimum) + Math.Abs(this.Maximum)) / ActualWidth);
+
+            return newValue;
+        }
+
+        private double ClampMinMax(double newValue)
+        {
+            if (newValue >= this.Maximum)
+                newValue = this.Maximum;
+            else if (newValue <= this.Minimum)
+                newValue = this.Minimum;
+
+            return newValue;
+        }
+
 
         protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
         {
@@ -161,7 +175,6 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
@@ -184,13 +197,11 @@ namespace CMiX.Core.Presentation.Controls
             return new Point(w32Mouse.X, w32Mouse.Y);
         }
 
+
         private Point? _mouseDownPos;
         private Point? _lastPoint;
-        private double newValue;
 
 
-
-        #region EVENTS
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -210,7 +221,7 @@ namespace CMiX.Core.Presentation.Controls
         {
             e.Handled = !IsTextAllowed(InputValue.Text);
         }
-        #endregion
+
 
         private void OnSwitchToEditingMode()
         {
@@ -250,7 +261,6 @@ namespace CMiX.Core.Presentation.Controls
 
         public void UpdateValue()
         {
-            var result = IsTextAllowed(InputValue.Text);
             if (IsTextAllowed(InputValue.Text))
                 this.Value = Double.Parse(InputValue.Text);
         }
@@ -258,9 +268,10 @@ namespace CMiX.Core.Presentation.Controls
         public void CancelUpdateValue()
         {
             double oldValue = this.Value;
-            var result = IsTextAllowed(InputValue.Text);
+
             if (IsTextAllowed(InputValue.Text))
                 this.Value = oldValue;
+
             InputValue.Text = oldValue.ToString();
         }
 
@@ -279,14 +290,6 @@ namespace CMiX.Core.Presentation.Controls
         {
             get { return (ControlPosition)GetValue(PositionProperty); }
             set { SetValue(PositionProperty, value); }
-        }
-
-        public static readonly DependencyProperty DislayAsPercentProperty =
-        DependencyProperty.Register("DislayAsPercent", typeof(bool), typeof(CMiXSlider), new UIPropertyMetadata(false));
-        public bool DislayAsPercent
-        {
-            get { return (bool)GetValue(DislayAsPercentProperty); }
-            set { SetValue(DislayAsPercentProperty, value); }
         }
 
         public static readonly DependencyProperty CaptionProperty =

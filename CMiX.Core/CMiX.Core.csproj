@@ -166,17 +166,13 @@
     <Compile Include="Presentation\Controls\Beat\BeatAnimations.cs" />
     <Compile Include="Presentation\Controls\Beat\BeatMasterController.cs" />
     <Compile Include="Presentation\Controls\Beat\AnimatedDouble.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorRoutedEventArgs.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\IColorStateStorage.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\NotifyableColor.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorConvertExtension.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorManager.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorPicker.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorSpaceHelper.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorState.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorWheel.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\HslColor.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\HsvColor.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ColorWheelValueSlider.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\ValueColorSlider.cs" />
     <Compile Include="Presentation\Controls\ColorPicker\SaturationColorSlider.cs" />
@@ -192,13 +188,6 @@
       <DependentUpon>CMiXRangeSlider.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\Controls\Slider\CMiXSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorHex.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\HsvSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\HueSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\HueWheel.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\XYColorControl.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\XYController.cs" />
     <Compile Include="Presentation\Controls\Counter\Counter.cs" />
     <Compile Include="Presentation\Controls\TextBox\InputNumbersOnly.cs" />
     <Compile Include="Presentation\Controls\TextBox\SelectTextOnFocus.cs" />
@@ -276,7 +265,6 @@
     <Compile Include="Presentation\ValueConverters\RadioButtonSelectionConverter.cs" />
     <Compile Include="Presentation\ValueConverters\RangeValueToStringConverter.cs" />
     <Compile Include="Presentation\ValueConverters\ValToColorConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ValueAngleConverter.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetTypes.cs" />
     <Compile Include="Presentation\ViewModels\Assets\TextureSelector.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatManager.cs" />
@@ -388,9 +376,6 @@
     <Compile Include="Presentation\ViewModels\Entity\Texture\Inverter.cs" />
     <Compile Include="Presentation\ViewModels\Outliner\OutlinerDragDropManager.cs" />
     <Compile Include="Presentation\ViewModels\Windows\MainWindowController.cs" />
-    <Compile Include="Presentation\Views\ColorPicker.xaml.cs">
-      <DependentUpon>ColorPicker.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\Controls\Slider\DistanceSlider.cs" />
     <Compile Include="Presentation\Controls\MouseDownAttachedProperty.cs" />
     <Compile Include="Presentation\Controls\TextBox\EditableTextBox.xaml.cs">
@@ -610,27 +595,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Presentation\Themes\Styles\Sliders\HSVSlider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Sliders\HueWheel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Sliders\RGBSlider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Presentation\Themes\Styles\Sliders\SliderThumb.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Themes\Styles\Sliders\ColorWheel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Sliders\XYController.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -663,10 +632,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\ViewModels\Scheduling\Views\UnitType.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\ColorPicker.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -934,10 +899,6 @@
     <Resource Include="Presentation\Themes\Assets\Menu.png" />
     <Resource Include="Presentation\Themes\Assets\Play.png" />
     <Resource Include="Presentation\Themes\Assets\Stop.png" />
-    <Resource Include="Presentation\Controls\ColorPicker\Assets\HueCircle.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Presentation\Controls\ColorPicker\Assets\RedControllerBg.png" />
     <Resource Include="Presentation\Themes\Assets\Sub.png" />
     <Resource Include="Presentation\Themes\Assets\Scheduler.png" />
     <Resource Include="Presentation\Themes\Assets\Playlist.png" />

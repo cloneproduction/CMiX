@@ -6,17 +6,25 @@ using System.Windows.Media;
 
 namespace CMiX.Core.Presentation.Controls
 {
-    public class RgbaColorSlider : ColorSlider
+    public class RgbaColorSlider : CMiXSlider, IColorClient
     {
+        static RgbaColorSlider()
+        {
+            DefaultStyleKeyProperty.OverrideMetadata(typeof(RgbaColorSlider), new FrameworkPropertyMetadata(typeof(RgbaColorSlider)));
+        }
+
+
+        public RgbaColorSlider()
+        {
+            Minimum = 0;
+            Maximum = 255;
+            ValueChanged += ColorSlider_ValueChanged;
+        }
+
+
         public static readonly DependencyProperty ChannelProperty = DependencyProperty.Register(
            nameof(Channel), typeof(RgbaChannel), typeof(RgbaColorSlider),
-           new PropertyMetadata(default(RgbaChannel), ChannelChanged));
-
-        private static void ChannelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
-        {
-            if (d is RgbaColorSlider colorSlider)
-                colorSlider.ChannelChanged();
-        }
+           new PropertyMetadata(default(RgbaChannel)));
 
 
         public RgbaChannel Channel
@@ -26,15 +34,25 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-        public RgbaColorSlider()
+        protected bool UpdateBackgroundWhenColorUpdated = true;
+        protected IColorManager ColorManager { get; private set; }
+
+
+        public void Init(IColorManager colorManager)
         {
-            Minimum = 0;
-            Maximum = 255;
+            ColorManager = colorManager;
+            ColorManager.ColorChanged += ColorManager_ColorChanged;
         }
 
-        protected override void ColorManager_ColorChanged(Color obj)
+
+        private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            base.ColorManager_ColorChanged(obj);
+            OnValueChanged();
+        }
+
+
+        private void ColorManager_ColorChanged(Color obj)
+        {
             switch (Channel)
             {
                 case RgbaChannel.Red:
@@ -55,9 +73,8 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-        protected override void OnValueChanged()
+        private void OnValueChanged()
         {
-            base.OnValueChanged();
             switch (Channel)
             {
                 case RgbaChannel.Red:
@@ -74,74 +91,5 @@ namespace CMiX.Core.Presentation.Controls
                     break;
             }
         }
-
-
-        private void ChannelChanged()
-        {
-            //if (ColorManager != null)
-            //    UpdateColor(ColorManager.CurrentColor);
-        }
-
-
-
-
-        //private bool _isPressed = false;
-
-        //protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        //{
-        //    Mouse.Capture(this);
-        //    AddHandler();
-
-        //    _isPressed = true;
-        //    if (_isPressed)
-        //    {
-        //        System.Windows.Point position = e.GetPosition(this);
-        //        double d = 0.0;
-        //        if (this.Orientation == Orientation.Horizontal)
-        //            d = 1.0d / this.ActualWidth * position.X;
-
-        //        else if (this.Orientation == Orientation.Vertical)
-        //            d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
-
-        //        var p = this.Maximum * d;
-        //        this.Value = p;
-        //    }
-        //    e.Handled = true;
-        //    base.OnPreviewMouseLeftButtonDown(e);
-        //}
-
-        //protected override void OnMouseMove(MouseEventArgs e)
-        //{
-        //    if (_isPressed)
-        //    {
-        //        System.Windows.Point position = e.GetPosition(this);
-        //        double d = 0.0;
-        //        if (this.Orientation == Orientation.Horizontal)
-        //            d = 1.0d / this.ActualWidth * position.X;
-
-        //        else if (this.Orientation == Orientation.Vertical)
-        //            d = -(1.0d / this.ActualHeight * position.Y) + 1.0;
-
-        //        var p = this.Maximum * d;
-        //        this.Value = p;
-        //    }
-        //}
-
-        //private void AddHandler()
-        //{
-        //    AddHandler(Mouse.PreviewMouseUpOutsideCapturedElementEvent, new MouseButtonEventHandler(HandleClickOutsideOfControl), true);
-        //}
-
-        //private void HandleClickOutsideOfControl(object sender, MouseButtonEventArgs e)
-        //{
-        //    _isPressed = false;
-        //    ReleaseMouseCapture();
-        //}
-
-        //protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
-        //{
-        //    base.OnPreviewMouseLeftButtonUp(e);
-        //    _isPressed = false;
-        //}
     }
 }

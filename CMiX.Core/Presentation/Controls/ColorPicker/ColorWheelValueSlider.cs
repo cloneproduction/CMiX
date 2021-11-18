@@ -24,13 +24,13 @@ namespace CMiX.Core.Presentation.Controls
         Border Border { get; set; }
 
         private int ScreenHeight;
-        private int ScreenWidth;
+        //private int ScreenWidth;
 
         public override void OnApplyTemplate()
         {
             Border = GetTemplateChild("sliderBorder") as Border;
             ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-            ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
+            //ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
             base.OnApplyTemplate();
         }
 
@@ -67,9 +67,12 @@ namespace CMiX.Core.Presentation.Controls
 
                 this.Value = newValue;
                 _lastPoint = GetMousePosition();
-
             }
         }
+
+
+
+
 
         protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
         {
@@ -103,8 +106,8 @@ namespace CMiX.Core.Presentation.Controls
         [StructLayout(LayoutKind.Sequential)]
         internal struct Win32Point
         {
-            public Int32 X;
-            public Int32 Y;
+            public int X;
+            public int Y;
         };
 
 
@@ -121,23 +124,9 @@ namespace CMiX.Core.Presentation.Controls
         private double newValue;
 
 
-
-
         protected bool UpdateBackgroundWhenColorUpdated = true;
         protected IColorManager ColorManager { get; private set; }
 
-
-        public void ColorUpdated(Color color, IColorClient client)
-        {
-            ValueChanged -= ColorSlider_ValueChanged;
-
-            UpdateColor(color);
-
-            //if (UpdateBackgroundWhenColorUpdated)
-            //    Background = CreateBackgroundBrush(color);
-
-            ValueChanged += ColorSlider_ValueChanged;
-        }
 
         public void Init(IColorManager colorManager)
         {
@@ -158,10 +147,6 @@ namespace CMiX.Core.Presentation.Controls
         public void OnValueChanged()
         {
             ColorManager.Color.HSV_V = Value;
-        }
-
-        public void UpdateColor(in Color color)
-        {
         }
     }
 }

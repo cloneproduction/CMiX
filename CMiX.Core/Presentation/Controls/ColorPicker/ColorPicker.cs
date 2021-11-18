@@ -58,7 +58,7 @@ namespace CMiX.Core.Presentation.Controls
         }
 
 
-        private IColorManager _colorManager = new ColorManager();
+        private readonly IColorManager _colorManager = new ColorManager();
         private bool _lock;
 
 

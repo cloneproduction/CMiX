@@ -52,6 +52,7 @@
         </Setter>
     </Style>
 
+    
     <Style x:Key="RepeatButtonDecreaseOver" TargetType="{x:Type RepeatButton}"
         BasedOn="{StaticResource RepeatButtonDecrease}">
         <Setter Property="Template">
@@ -63,6 +64,7 @@
         </Setter>
     </Style>
 
+    
     <Style x:Key="RepeatButtonIncrease" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="Transparent" />
@@ -77,6 +79,7 @@
         </Setter>
     </Style>
 
+    
     <Style x:Key="RepeatButtonIncreaseOver" TargetType="{x:Type RepeatButton}"
            BasedOn="{StaticResource RepeatButtonIncrease}" >
         <Setter Property="Template">
@@ -132,6 +135,7 @@
         </Setter>
     </Style>
     
+    
     <Style x:Key="SliderButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsEnabled" Value="True"/>
@@ -177,6 +181,7 @@
         </Setter>
     </Style>
     
+    
     <Style x:Key="SliderTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Visibility" Value="Hidden"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -211,7 +216,6 @@
     </Style>
 
 
-
     <Style x:Key="CMiXSliderStyle" TargetType="{x:Type Controls:CMiXSlider}">
         <Setter Property="Height" Value="20"/>
         <Setter Property="Focusable" Value="False" />
@@ -223,22 +227,11 @@
                         <Grid>
                             <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
                             <Border x:Name="sliderBorder" Background="Transparent">
-                                
+
                                 <Border.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                                 </Border.OpacityMask>
-                                
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                <Setter Property="Visibility" Value="Hidden"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                
+
                                 <Track>
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton
@@ -280,13 +273,14 @@
 
                         </Grid>
                     </Border>
+                    
                     <ControlTemplate.Triggers>
 
-                        <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
+                        <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource Self}}" Value="False">
                             <Setter TargetName="sliderName" Property="Visibility" Value="Visible"/>
                         </DataTrigger>
 
-                        <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+                        <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource Self}}" Value="True">
                             <Setter TargetName="sliderName" Property="Visibility" Value="Hidden"/>
                         </DataTrigger>
 
@@ -304,11 +298,13 @@
                         </Trigger>
 
                     </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+    
     <Style x:Key="CMiXSliderPercentStyle" TargetType="{x:Type Controls:CMiXSlider}">
         <Setter Property="Height" Value="20"/>
         <Setter Property="Focusable" Value="False" />
@@ -324,18 +320,16 @@
                                 <Border.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                                 </Border.OpacityMask>
-                                <Border.Style>
+                                <!--<Border.Style>
                                     <Style TargetType="Border">
                                         <Setter Property="Visibility" Value="Visible"/>
-                                        <!--<Setter Property="BorderThickness" Value="0, 0, 0, 1"/>
-                                        <Setter Property="BorderBrush" Value="{DynamicResource HighHighDarkerColor}"/>-->
                                         <Style.Triggers>
                                             <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
                                                 <Setter Property="Visibility" Value="Hidden"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
-                                </Border.Style>
+                                </Border.Style>-->
                                 <Track>
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton
