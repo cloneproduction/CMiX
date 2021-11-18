@@ -125,10 +125,12 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
                         </Trigger>
+                        
                         <StaticResource ResourceKey="Trigger0" />
                         <StaticResource ResourceKey="Trigger1" />
                         <StaticResource ResourceKey="Trigger2" />
                         <StaticResource ResourceKey="Trigger3" />
+                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -169,7 +171,6 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
                         </Trigger>
 
-
                         <StaticResource ResourceKey="Trigger0" />
                         <StaticResource ResourceKey="Trigger1" />
                         <StaticResource ResourceKey="Trigger2" />
@@ -194,6 +195,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
+                    
                     <Border x:Name="border" CornerRadius="0" Background="{DynamicResource SuperHighDarkerColor}">
                         <ScrollViewer x:Name="PART_ContentHost"
                             Focusable="False"
@@ -202,14 +204,19 @@
                             HorizontalScrollBarVisibility="Hidden"
                             VerticalScrollBarVisibility="Hidden" />
                     </Border>
+                    
                     <ControlTemplate.Triggers>
+                        
                         <Trigger Property="IsFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource SuperHighDarkerColor}" />
                         </Trigger>
+                        
                         <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
                             <Setter Property="Visibility" Value="Visible"/>
                         </DataTrigger>
+                        
                     </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -320,16 +327,7 @@
                                 <Border.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                                 </Border.OpacityMask>
-                                <!--<Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                <Setter Property="Visibility" Value="Hidden"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>-->
+
                                 <Track>
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton
@@ -435,7 +433,7 @@
                                     Style="{StaticResource SliderTextBox}"
                                     Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=LostFocus, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 <DockPanel>
-                                    
+
                                     <Button 
                                         x:Name="SubButton" 
                                         HorizontalAlignment="Left"
@@ -446,7 +444,7 @@
                                             <Image Margin="42" Source="{DynamicResource Sub}"/>
                                         </Button.Content>
                                     </Button>
-                                    
+
                                     <Button 
                                         x:Name="AddButton" 
                                         HorizontalAlignment="Right"
@@ -457,7 +455,7 @@
                                             <Image Margin="42" Source="{DynamicResource Add}"/>
                                         </Button.Content>
                                     </Button>
-                                    
+
                                     <Border 
                                         x:Name="borderValueDisplay" 
                                         Background="Transparent">
@@ -490,5 +488,4 @@
         </Setter>
     </Style>
 
-    
 </ResourceDictionary>
