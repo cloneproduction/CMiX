@@ -67,21 +67,25 @@
                         <Border.OpacityMask>
                             <VisualBrush Visual="{Binding ElementName=borderMaskGridColumn0}"/>
                         </Border.OpacityMask>
+                        
                         <TabControl TabStripPlacement="Left" 
                                     Background="{DynamicResource HighHighDarkerColor}" 
                                     Style="{StaticResource TabControlVerticalPanel}" >
+                            
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
                                     <Image Margin="4" ToolTip="Assets" Source="{StaticResource Resources}" />
                                 </TabItem.Header>
                                 <Views:AssetManager DataContext="{Binding AssetManager}"/>
                             </TabItem>
+                            
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
                                     <Image Margin="2" ToolTip="Servers" Source="{StaticResource Network}"/>
                                 </TabItem.Header>
                                 <Views:ServerManager DataContext="{Binding ServerManager}"/>
                             </TabItem>
+                            
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <TabItem.Header>
                                     <Image Margin="3" ToolTip="Scheduler" Source="{StaticResource Scheduler}"/>
@@ -93,11 +97,13 @@
                                     </StackPanel>
                                 </Border>
                             </TabItem>
+                            
                             <TabItem Style="{StaticResource TabItemVerticalPanel}">
                                 <Border Background="{DynamicResource DarkerColor}">
                                     <Beat:BeatManager DataContext="{Binding BeatManager}"/>
                                 </Border>
                             </TabItem>
+                            
                         </TabControl>
                     </Border>
                 </Border>
@@ -130,8 +136,9 @@
 
                         <GridSplitter Grid.Row="1" HorizontalAlignment="Stretch" Margin="4, 0" Background="{DynamicResource DarkColor}" Height="1"/>
                         <StackPanel Grid.Row="2"  Margin="8"  >
+                            <Views:CompositionPanel Margin="0, 8" DataContext="{Binding ComponentManager.SelectedComposition}"/>
                             <Views:ComponentPanel Background="{StaticResource HighDarkerColor}" DataContext="{Binding ComponentManager}"/>
-                            <Views:CompositionPanel DataContext="{Binding ComponentManager.SelectedComposition}"/>
+
                     </StackPanel>
                     </Grid>
                 </Border>

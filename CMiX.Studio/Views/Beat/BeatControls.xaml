@@ -13,17 +13,18 @@
 
     <Border x:Name="MainBorder">
         <Grid>
-            <Border x:Name="borderMask" 
+            <Border 
+                x:Name="borderMask" 
                 Grid.Column="1" 
                 Background="{DynamicResource DarkColor}" 
                 CornerRadius="{DynamicResource CornerRadiusDefault}"/>
-            <Border Background="{DynamicResource DarkColor}">
-                <Border.OpacityMask>
+                <Border Background="{DynamicResource DarkColor}">
+                    <Border.OpacityMask>
                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                 </Border.OpacityMask>
-                <Grid>
+                    <Grid>
                     <Border 
-                        Background="{DynamicResource DarkColor}" 
+                        Background="{DynamicResource LightColor}" 
                         Opacity="{Binding Path=AnimatedDouble.AnimationPosition}"/>
                     <TextBlock 
                         HorizontalAlignment="Center" 

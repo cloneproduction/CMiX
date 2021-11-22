@@ -13,50 +13,50 @@
 
     <Expander Header="Scheduler">
         <StackPanel>
-            <Border Margin="8">
-                <ListBox
-                    MaxHeight="100"
-                    Style="{StaticResource ListBoxWithButton}"
-                    ItemsSource="{Binding CompositionSchedulers}"
-                    SelectedItem="{Binding SelectedScheduler}"
-                    SelectedIndex="{Binding SelectedSchedulerIndex}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Border>
-                                <Controls:EditableTextBox 
-                                        x:Name="editableTextBox"
-                                        IsEditing="{Binding IsRenaming}"
-                                        VerticalAlignment="Center" 
-                                        Text="{Binding Name}">
-                                    <i:Interaction.Triggers>
-                                        <i:EventTrigger EventName="MouseDoubleClick">
-                                            <i:InvokeCommandAction 
-                                                    Command="{Binding RenameCommand}"
-                                                    CommandParameter="{Binding}"/>
-                                        </i:EventTrigger>
-                                    </i:Interaction.Triggers>
-                                </Controls:EditableTextBox>
-                            </Border>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Border>
 
+            <ListBox
+                MaxHeight="100"
+                Style="{StaticResource ListBoxWithButton}"
+                ItemsSource="{Binding CompositionSchedulers}"
+                SelectedItem="{Binding SelectedScheduler}"
+                SelectedIndex="{Binding SelectedSchedulerIndex}">
+                <ListBox.ItemTemplate>
+
+                    <DataTemplate>
+                        <Controls:EditableTextBox 
+                            x:Name="editableTextBox"
+                            IsEditing="{Binding IsRenaming}"
+                            VerticalAlignment="Center" 
+                            Text="{Binding Name}">
+                            
+                            <i:Interaction.Triggers>
+                                <i:EventTrigger EventName="MouseDoubleClick">
+                                    <i:InvokeCommandAction Command="{Binding RenameCommand}" CommandParameter="{Binding}"/>
+                                </i:EventTrigger>
+                            </i:Interaction.Triggers>
+                            
+                        </Controls:EditableTextBox>
+                    </DataTemplate>
+                    
+                </ListBox.ItemTemplate>
+            </ListBox>
+            
             <Expander 
                 Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}"
                 Header="Tasks" 
                 IsExpanded="True">
-                <Border Padding="8">
-                    <StackPanel>
-                        <Button Content="Add"
-                            Style="{StaticResource ButtonRounded}"
-                            Margin="0, 4, 0, 2"
-                            Height="20"
-                            Command="{Binding AddJobCommand}"/>
-                        <local:Overview  Margin="0, 0" DataContext="{Binding SelectedScheduler}"/>
-                    </StackPanel>
-                </Border>
+
+                <StackPanel>
+                    <Button Content="Add"
+                        Style="{StaticResource ButtonRounded}"
+                        Margin="0, 4, 0, 2"
+                        Height="20"
+                        Command="{Binding AddJobCommand}"/>
+                    <local:Overview  Margin="0, 0" DataContext="{Binding SelectedScheduler}"/>
+                </StackPanel>
+
             </Expander>
+            
         </StackPanel>
     </Expander>
 
