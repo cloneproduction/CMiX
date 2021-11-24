@@ -13,7 +13,7 @@
     </UserControl.Resources>
 
     <Expander Header="Beat" Padding="8, 0">
-        <StackPanel>
+        <StackPanel Margin="8">
             <ListBox MinHeight="100"
                      Style="{StaticResource ListBoxWithButton}"
                      ItemsSource="{Binding MasterBeats}" 

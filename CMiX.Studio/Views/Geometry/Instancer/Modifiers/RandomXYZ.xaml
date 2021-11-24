@@ -69,7 +69,7 @@
         
         <Views:Easing DataContext="{Binding Easing}"/>
 
-        <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}" Style="{StaticResource InnerExpanderLevel2}">
+        <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}">
             <Expander.Header>
                 <DockPanel>
                     <Controls:CMiXToggleButton
@@ -95,11 +95,11 @@
                             Style="{StaticResource DistanceSliderStyle}" 
                             Value="{Binding LocationX.Amount}"/>
                         <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Location X" 
-                    Foreground="{StaticResource TextBase}"/>
+                            Grid.Column="0" 
+                            Padding="4" 
+                            HorizontalAlignment="Right" 
+                            Text="Location X" 
+                            Foreground="{StaticResource TextBase}"/>
                     </Grid>
                     <Grid Height="20" Margin="0, 1">
                         <Grid.ColumnDefinitions>
@@ -112,11 +112,11 @@
                             Style="{StaticResource DistanceSliderStyle}" 
                             Value="{Binding LocationY.Amount}"/>
                         <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Y" 
-                    Foreground="{StaticResource TextBase}"/>
+                            Grid.Column="0" 
+                            Padding="4" 
+                            HorizontalAlignment="Right" 
+                            Text="Y" 
+                            Foreground="{StaticResource TextBase}"/>
                     </Grid>
                     <Grid Height="20">
                         <Grid.ColumnDefinitions>
@@ -140,8 +140,9 @@
 
         </Expander>
 
-        <Expander IsExpanded="{Binding RandomizeScaleIsExpanded}" Style="{StaticResource InnerExpanderLevel2}">
+        <Expander IsExpanded="{Binding RandomizeScaleIsExpanded}">
             <Expander.Header>
+                
                 <DockPanel>
                     <Controls:CMiXToggleButton
                         Style="{DynamicResource CMiXToggleButtonStyle}"
@@ -151,6 +152,7 @@
                         IsChecked="{Binding RandomizeScale.IsChecked}"/>
                     <TextBlock Text="Randomize Scale" Foreground="{DynamicResource TextBase}"/>
                 </DockPanel>
+                
             </Expander.Header>
             <Border Margin="8" IsEnabled="{Binding RandomizeScale.IsChecked}">
                 <StackPanel>
@@ -209,16 +211,20 @@
             </Border>
         </Expander>
 
-        <Expander IsExpanded="{Binding RandomizeRotationIsExpanded}" Style="{StaticResource InnerExpanderLevel2}">
+        <Expander IsExpanded="{Binding RandomizeRotationIsExpanded}">
             <Expander.Header>
+                
                 <DockPanel>
+                    
                     <Controls:CMiXToggleButton
                         Style="{DynamicResource CMiXToggleButtonStyle}"
                         Dock="Left"
                         VerticalAlignment="Center"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding Path=RandomizeRotation.IsChecked}"/>
+                    
                     <TextBlock Text="Randomize Rotation" Foreground="{DynamicResource TextBase}"/>
+                    
                 </DockPanel>
 
             </Expander.Header>

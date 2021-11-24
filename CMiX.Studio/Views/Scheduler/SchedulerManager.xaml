@@ -11,10 +11,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="510" d:DesignWidth="500">
 
+    
     <Expander Header="Scheduler">
         <StackPanel>
 
             <ListBox
+                Margin="8"
                 MaxHeight="100"
                 Style="{StaticResource ListBoxWithButton}"
                 ItemsSource="{Binding CompositionSchedulers}"
@@ -42,17 +44,22 @@
             </ListBox>
             
             <Expander 
-                Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}}"
-                Header="Tasks" 
+                Visibility="{Binding SelectedScheduler, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}"
+                Header="Tasks"
                 IsExpanded="True">
 
-                <StackPanel>
+                <StackPanel Margin="8">
+                    
                     <Button Content="Add"
                         Style="{StaticResource ButtonRounded}"
                         Margin="0, 4, 0, 2"
                         Height="20"
                         Command="{Binding AddJobCommand}"/>
-                    <local:Overview  Margin="0, 0" DataContext="{Binding SelectedScheduler}"/>
+                    
+                    <local:Overview  
+                        Margin="0, 0" 
+                        DataContext="{Binding SelectedScheduler}"/>
+                    
                 </StackPanel>
 
             </Expander>

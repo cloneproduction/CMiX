@@ -12,7 +12,7 @@
     <StackPanel HorizontalAlignment="Stretch">
 
         <Expander Header="Settings" >
-            <StackPanel>
+            <StackPanel Margin="8">
                 <Button 
                         Height="25"
                         Content="Edit"
@@ -76,7 +76,7 @@
         </Expander>
 
         <Expander Header="Scheduler">
-            <Grid Height="25">
+            <Grid Height="25" Margin="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition/>
@@ -101,6 +101,7 @@
 
         <Expander Header="Clients">
             <ItemsControl
+                Margin="8"
                 MinHeight="50" 
                 ItemsSource="{Binding ConnectedClients}">
                 <ItemsControl.ItemTemplate>
@@ -119,7 +120,7 @@
         </Expander>
 
         <Expander Header="Statistics">
-            <StackPanel>
+            <StackPanel Margin="8">
                 <Grid Height="25" Margin="0, 1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>

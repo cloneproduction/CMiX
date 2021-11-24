@@ -3,17 +3,20 @@
                     xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls"
                     xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors">
 
+    
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Basic/Converters.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Button.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/ToggleButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
+                    
                     <Border
                         x:Name="Bd"
                         BorderBrush="{DynamicResource Shadow}"
@@ -21,18 +24,23 @@
                         CornerRadius="4"
                         Background="{DynamicResource ListBoxBackground}"
                         SnapsToDevicePixels="True">
+                        
                         <ScrollViewer 
                             Focusable="False" 
+                            Margin="2, 1, 2, 2" 
                             VerticalScrollBarVisibility="Auto" 
                             HorizontalScrollBarVisibility="Disabled">
                             <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
+                        
                     </Border>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
+    
     <Style x:Key="ListBoxWithButton" TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}"/>
         <Setter Property="Background" Value="{DynamicResource ListBoxBackground}"/>
@@ -40,7 +48,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
-                    <DockPanel HorizontalAlignment="Stretch">
+                    
+                    <DockPanel 
+                        HorizontalAlignment="Stretch">
+                        
                         <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right">
 
                             <Button 
@@ -69,15 +80,19 @@
                                 CornerRadius="4"
                                 Background="{DynamicResource ListBoxBackground}"
                                 SnapsToDevicePixels="True">
-                                <ScrollViewer Margin="4, 4, 4, 6" 
-                                              Focusable="False" 
-                                              VerticalScrollBarVisibility="Auto" 
-                                              HorizontalScrollBarVisibility="Disabled" >
+                                
+                                <ScrollViewer 
+                                    Margin="2, 1, 2, 2" 
+                                    Focusable="False" 
+                                    VerticalScrollBarVisibility="Auto" 
+                                    HorizontalScrollBarVisibility="Disabled">
                                     <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                                 </ScrollViewer>
+                                
                             </Border>
                             
                         </Border>
+                        
                     </DockPanel>
 
                     <ControlTemplate.Triggers>
@@ -93,6 +108,7 @@
         </Setter>
     </Style>
 
+    
     <Style x:Key="ListBoxWithSelectorItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
@@ -110,6 +126,7 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
     
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />

@@ -29,6 +29,7 @@
             
             <ListBox
                 Style="{StaticResource ListBoxWithButton}"
+                Margin="8, 8, 8, 8"
                 MaxHeight="100"
                 MinHeight="100"
                 ItemsSource="{Binding Path=Project.Playlists}"
@@ -60,12 +61,11 @@
 
             <Border Visibility="{Binding SelectedPlaylist, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" 
                     HorizontalAlignment="Stretch" 
-                    Margin="0, 8, 0, 0" 
                     Grid.Row="1">
                 <StackPanel>
-                    <ListBox 
+                    <ListBox
                         MinHeight="100"
-                        Margin="0, 0, 0, 0"
+                        Margin="8, 0, 8, 8"
                         AllowDrop="True"
                         Height="125"
                         dd:DragDrop.IsDragSource="True"
@@ -91,12 +91,11 @@
                         </ListBox.ItemTemplate>
                     </ListBox>
 
-                    <StackPanel>
+                    <StackPanel Margin="8, 0, 8, 8">
                         <ToggleButton 
                             x:Name="PopUpToggle" 
                             Content="Add Composition"
                             Height="25" 
-                            Margin="0, 4"
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Center"
                             Style="{StaticResource ToggleTransformModifierMenu}"/>

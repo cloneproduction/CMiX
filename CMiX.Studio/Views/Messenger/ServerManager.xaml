@@ -21,8 +21,8 @@
 
 
     <Border
-            HorizontalAlignment="Stretch"
-            Background="{DynamicResource DarkerColor}">
+        HorizontalAlignment="Stretch"
+        Background="{DynamicResource DarkerColor}">
         <StackPanel>
 
             <Grid>
@@ -30,14 +30,15 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border Margin="8">
-                    <ListBox
-                            Grid.Row="0"
-                            SelectedItem="{Binding SelectedServer}"
-                            Height="125"
-                            DockPanel.Dock="Top"
-                            Style="{StaticResource ListBoxWithButton}"
-                            ItemsSource="{Binding Servers}">
+
+                <ListBox
+                    Grid.Row="0"
+                    Margin="8"
+                    SelectedItem="{Binding SelectedServer}"
+                    Height="125"
+                    DockPanel.Dock="Top"
+                    Style="{StaticResource ListBoxWithButton}"
+                    ItemsSource="{Binding Servers}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <Border Height="20">
@@ -46,7 +47,7 @@
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                </Border>
+
 
                 <Border Grid.Row="1" Visibility="{Binding SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
                     <Views:Server DataContext="{Binding SelectedServer}" Margin="0"/>
