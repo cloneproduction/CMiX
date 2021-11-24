@@ -21,26 +21,26 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public MasterBeat(MasterBeatModel masterBeatModel)
         {
             this.ID = masterBeatModel.ID;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
 
             Index = 0;
             Period = 1000;
             Multiplier = 1;
             Periods = new double[15];
+            tapPeriods = new List<double>();
+            tapTime = new List<double>();
 
             BeatAnimations = new BeatAnimations();
             Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
 
             UpdatePeriods(Period);
-            SetAnimatedDouble();
-
-            tapPeriods = new List<double>();
-            tapTime = new List<double>();
+            //SetAnimatedDouble();
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
+
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
         }
 
 

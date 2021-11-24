@@ -5,6 +5,7 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -30,7 +31,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public void SelectedBeatChanged()
         {
             this.UpdateChildMasterBeat(MasterBeat);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(MasterBeat, this.ID), MessageType.Out);
         }
+
 
         public void Receive(MessageMasterBeatChange message)
         {

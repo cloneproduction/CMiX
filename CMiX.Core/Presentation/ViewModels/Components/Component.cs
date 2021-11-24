@@ -24,6 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Name = this.GetType().Name;
             RenameCommand = new RelayCommand(Rename);
             Components = new ObservableCollection<IComponent>();
+
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
         }
 
