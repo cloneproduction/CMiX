@@ -28,6 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
         }
 
+
         public Visibility Visibility { get; set; }
         public ICommand VisibilityCommand { get; set; }
         public ICommand RenameCommand { get; set; }
@@ -140,12 +141,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
         }
 
-
         public void Receive(MessageRequestMasterBeat message)
         {
             message.Reply(MasterBeat);
         }
-
 
         public void Dispose()
         {

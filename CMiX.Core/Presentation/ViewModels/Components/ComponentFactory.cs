@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -13,39 +14,37 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ComponentFactory()
         {
             components = new Dictionary<Type, Func<Component>>();
-            componentsModel = new Dictionary<Type, Func<IComponentModel, Component>>();
+            componentsModel = new Dictionary<Type, Func<IComponentModel, MasterBeat, Component>>();
 
-            this.RegisterComponentType(typeof(EntityModel), (p) => new Entity(p as EntityModel));
-            this.RegisterComponentType(typeof(CompositionModel), (p) => new Composition(p as CompositionModel));
-            this.RegisterComponentType(typeof(LayerModel), (p) => new Layer(p as LayerModel));
-            this.RegisterComponentType(typeof(SceneModel), (p) => new Scene(p as SceneModel));
+            this.RegisterComponentType(typeof(CompositionModel), (p, m) => new Composition(p as CompositionModel));
+            this.RegisterComponentType(typeof(LayerModel), (p, m) => new Layer(p as LayerModel));
+            this.RegisterComponentType(typeof(SceneModel), (p, m) => new Scene(p as SceneModel));
+            this.RegisterComponentType(typeof(EntityModel), (p, m) => new Entity(p as EntityModel));
 
-            this.RegisterComponentType(typeof(Entity), () => new Entity(new EntityModel(Guid.NewGuid())));
             this.RegisterComponentType(typeof(Composition), () => new Composition(new CompositionModel(Guid.NewGuid())));
             this.RegisterComponentType(typeof(Layer), () => new Layer(new LayerModel(Guid.NewGuid())));
             this.RegisterComponentType(typeof(Scene), () => new Scene(new SceneModel(Guid.NewGuid())));
+            this.RegisterComponentType(typeof(Entity), () => new Entity(new EntityModel(Guid.NewGuid())));
         }
 
         private readonly Dictionary<Type, Func<Component>> components;
-        private readonly Dictionary<Type, Func<IComponentModel, Component>> componentsModel;
+        private readonly Dictionary<Type, Func<IComponentModel, MasterBeat, Component>> componentsModel;
 
-        public Component this[Type componentType] => CreateComponent(componentType);
+        public Component this[Type componentType, MasterBeat masterBeat] => CreateComponent(componentType, masterBeat);
 
-        public Component CreateComponent(Type componentType)
+        public Component CreateComponent(Type componentType, MasterBeat masterBeat = null)
         {
             if(componentType == null)
             {
                 return components[typeof(Composition)]();
             }
-            
             return components[componentType]();
         }
 
-        public Component CreateComponent(IComponentModel componentModel)
+        public Component CreateComponent(IComponentModel componentModel, MasterBeat masterBeat = null)
         {
-            return componentsModel[componentModel.GetType()](componentModel);
+            return componentsModel[componentModel.GetType()](componentModel, masterBeat);
         }
-
 
         public Type[] RegisteredTypes => components.Keys.ToArray();
 
@@ -56,7 +55,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             components[componentType] = factoryMethod;
         }
 
-        public void RegisterComponentType(Type componentType, Func<IComponentModel, Component> factoryMethod)
+        public void RegisterComponentType(Type componentType, Func<IComponentModel, MasterBeat, Component> factoryMethod)
         {
             if (factoryMethod is null) return;
 
