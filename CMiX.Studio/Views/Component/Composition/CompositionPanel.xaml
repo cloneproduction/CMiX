@@ -21,6 +21,7 @@
             Text="Master Beat" />
         
         <ComboBox 
+            x:Name="MasterBeatSelector"
             Grid.Column="1"
             Height="25"
             SelectedItem="{Binding MasterBeat}"
@@ -34,7 +35,7 @@
             
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedBeatChangedCommand}"/>
+                    <i:InvokeCommandAction Command="{Binding SelectedBeatChangedCommand}" CommandParameter="{Binding SelectedItem, ElementName=MasterBeatSelector}"/>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
             

@@ -20,6 +20,8 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Project = project;
             MasterBeats = new ObservableCollection<MasterBeat>();
 
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
             AddItemCommand = new RelayCommand(CreateBeat);
             DeleteItemCommand = new RelayCommand(DeleteBeat);
 
@@ -62,13 +64,14 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             var masterBeatModel = new MasterBeatModel();
             MasterBeat masterBeat = new MasterBeat(masterBeatModel);
             MasterBeats.Add(masterBeat);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddBeat(), MessageType.Out);
         }
 
         public void DeleteBeat()
         {
             int index = MasterBeats.IndexOf(SelectedMasterBeat);
 
-            if(SelectedMasterBeat != null)
+            if (SelectedMasterBeat != null)
                 MasterBeats.Remove(SelectedMasterBeat);
 
             if (index > 0)
@@ -87,31 +90,51 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         public void Receive(IMessage message)
         {
+            if (message is MessageAddBeat messageAddBeat)
+            {
+                var masterBeatModel = new MasterBeatModel();
+                masterBeatModel.ID = message.ID;
+                MasterBeat masterBeat = new MasterBeat(masterBeatModel);
+                MasterBeats.Add(masterBeat);
+                System.Console.WriteLine("MasterBeats.Count" + MasterBeats.Count);
+                return;
+            }
 
+            if (message is MessageMasterBeatChange messageMasterBeatChange)
+            {
+                WeakReferenceMessenger.Default.Send(messageMasterBeatChange, MessageType.Internal);
+                System.Console.WriteLine("messageMasterBeatChange");
+            }
+        }
+
+        private void SendMessage()
+        {
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Internal);
+            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Out);
         }
 
         public void Reset()
         {
             SelectedMasterBeat.Reset();
-            WeakReferenceMessenger.Default.Send(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Internal);
+            SendMessage();
         }
 
         public void Multiply()
         {
             SelectedMasterBeat.Multiply();
-            WeakReferenceMessenger.Default.Send(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Internal);
+            SendMessage();
         }
 
         public void Divide()
         {
             SelectedMasterBeat.Divide();
-            WeakReferenceMessenger.Default.Send(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Internal);
+            SendMessage();
         }
 
         public void Tap()
         {
             SelectedMasterBeat?.Tap();
-            WeakReferenceMessenger.Default.Send(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Internal);
+            SendMessage();
         }
 
         public void Resync()

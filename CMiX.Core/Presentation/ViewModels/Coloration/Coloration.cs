@@ -34,13 +34,14 @@ namespace CMiX.Core.Presentation.ViewModels
         public void OpenColorSelector()
         {
             IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            bool? success = dialogService.ShowDialog<ColorSelectorWindow>(this, ColorSelector);
+            dialogService?.ShowDialog<ColorSelectorWindow>(this, ColorSelector);
+            //bool? success = dialogService.ShowDialog<ColorSelectorWindow>(this, ColorSelector);
 
-            if (success == true)
-            {
+            //if (success == true)
+            //{
 
-            }
-            //server.SetSettings(settings);
+            //}
+            ////server.SetSettings(settings);
         }
     }
 }

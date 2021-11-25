@@ -10,7 +10,6 @@ using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {

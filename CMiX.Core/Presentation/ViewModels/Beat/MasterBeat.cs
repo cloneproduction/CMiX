@@ -33,7 +33,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
 
             UpdatePeriods(Period);
-            //SetAnimatedDouble();
+            SetAnimatedDouble();
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -96,8 +96,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             BeatIndex = Index + (Periods.Length - 1) / 2;
             Period = Periods[Index + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
-
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
 
 
@@ -159,6 +157,16 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
+        public void Receive(IMessage message)
+        {
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+                return;
+            }
+        }
+
 
         public void SetViewModel(IModel model)
         {
@@ -177,16 +185,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.Periods = this.Periods;
             model.Multiplier = this.Multiplier;
             return model;
-        }
-
-        public void Receive(IMessage message)
-        {
-            if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-                return;
-            }
         }
     }
 }

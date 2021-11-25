@@ -2,13 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Entity : Component, IRecipient<MessageRequestMasterBeat>
+    public class Entity : Component
     {
         public Entity(EntityModel entityModel) : base()
         {
@@ -26,23 +24,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Texture Texture { get; set; }
         public Coloration Coloration { get; set; }
 
-
-        public void Receive(MessageRequestMasterBeat message)
-        {
-            message.Reply(MasterBeat);
-        }
-
-        public void Receive(MessageMasterBeatChange message)
-        {
-            if (MasterBeat == null)
-                return;
-
-            if (MasterBeat.Equals(message.MasterBeat))
-            {
-                MasterBeat = message.MasterBeat;
-                this.UpdateChildMasterBeat(MasterBeat);
-            }
-        }
 
         public override IComponentModel GetModel()
         {

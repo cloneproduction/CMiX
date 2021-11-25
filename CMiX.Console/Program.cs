@@ -17,12 +17,13 @@ namespace CMiX.Console
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
-            messageService.StartClient(new Settings("192.168.1.7", 8080));
+            messageService.StartClient(new Settings("192.168.0.192", 8080));
 
             Project Project = serviceProvider.GetRequiredService<Project>();
             SchedulerManager schedulerManager = new SchedulerManager(Project);
             ComponentManager componentManager = new ComponentManager(Project);
             BeatManager beatManager = new BeatManager(Project);
+
             System.Console.ReadLine();
         }
 

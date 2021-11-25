@@ -2,18 +2,20 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageSelectedMasterBeatChange : IMessage
+    public class MessageAddBeat : IMessage
     {
-        public MessageSelectedMasterBeatChange(MasterBeat masterBeat)
+        public MessageAddBeat()
         {
-            MasterBeat = masterBeat;
+
         }
 
-        public MasterBeat MasterBeat { get; set; }
+        public MessageAddBeat(Guid id)
+        {
+            ID = id;
+        }
         public Guid ID { get; set; }
     }
 }

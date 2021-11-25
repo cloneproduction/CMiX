@@ -16,7 +16,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ObservableRecipient, IComponent, IDisposable
+    public abstract class Component : ObservableRecipient, IRecipient<MessageRequestMasterBeat>, IComponent, IDisposable
     {
         public Component()
         {
@@ -83,8 +83,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-
-
         public void AddComponent(IComponent component)
         {
             Components.Add(component);
@@ -131,15 +129,23 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public abstract void SetViewModel(IComponentModel model);
         public abstract IComponentModel GetModel();
 
-        public void UpdateChildMasterBeat(MasterBeat masterBeat)
+
+        public void SelectMasterBeat(MasterBeat masterBeat)
         {
-            WeakReferenceMessenger.Default.Send<MessageSelectedMasterBeatChange, Guid>(new MessageSelectedMasterBeatChange(masterBeat), this.ID);
+            WeakReferenceMessenger.Default.Send<IMessage, Guid>(new MessageSelectedMasterBeatChange(masterBeat), this.ID);
             MasterBeat = masterBeat;
             foreach (IComponent cp in this.Components)
             {
-                cp.UpdateChildMasterBeat(masterBeat);
+                cp.SelectMasterBeat(masterBeat);
             }
         }
+
+
+        public void Receive(MessageRequestMasterBeat message)
+        {
+            message.Reply(MasterBeat);
+        }
+
 
         public void Dispose()
         {

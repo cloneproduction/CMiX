@@ -5,13 +5,12 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Composition : Component, IRecipient<MessageMasterBeatChange>
+    public class Composition : Component
     {
         public Composition(CompositionModel compositionModel)
         {
@@ -19,33 +18,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
             //Camera = new Camera(MasterBeat, compositionModel.CameraModel);
             //Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
-            SelectedBeatChangedCommand = new RelayCommand(SelectedBeatChanged);
+            SelectedBeatChangedCommand = new RelayCommand<MasterBeat>(SelectMasterBeat);
         }
 
 
         public ICommand SelectedBeatChangedCommand { get; set; }
         public Camera Camera { get; set; }
         public Slider Transition { get; set; }
-
-
-        public void SelectedBeatChanged()
-        {
-            this.UpdateChildMasterBeat(MasterBeat);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(MasterBeat, this.ID), MessageType.Out);
-        }
-
-
-        public void Receive(MessageMasterBeatChange message)
-        {
-            if (MasterBeat == null)
-                return;
-
-            if (MasterBeat.Equals(message.MasterBeat))
-            {
-                MasterBeat = message.MasterBeat;
-                this.UpdateChildMasterBeat(MasterBeat);
-            }
-        }
 
 
         public override IComponentModel GetModel()
@@ -69,7 +48,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             CompositionModel compositionModel = model as CompositionModel;
             this.ID = compositionModel.ID;
-            //this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
             //this.Camera.SetViewModel(compositionModel.CameraModel);
             this.Transition.SetViewModel(compositionModel.TransitionModel);
 

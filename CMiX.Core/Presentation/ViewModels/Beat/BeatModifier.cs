@@ -14,7 +14,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class BeatModifier : ObservableRecipient, IRecipient<MessageSelectedMasterBeatChange>, IControl
+    public class BeatModifier : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public BeatModifier(BeatModifierModel beatModifierModel)
         {
@@ -61,7 +61,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         private int minIndex = -4;
 
         public int Index { get; set; }
-    
+
 
         private double _period;
         public double Period
@@ -136,12 +136,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             return model;
         }
 
-        public void Receive(MessageSelectedMasterBeatChange message)
-        {
-            this.MasterBeat = message.MasterBeat;
-            SetAnimatedDouble();
-        }
-
         public void Receive(IMessage message)
         {
             if (message is MessageUpdateViewModel msg)
@@ -149,6 +143,24 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
                 if (msg.ID == this.ID)
                     this.SetViewModel(msg.Model);
                 return;
+            }
+
+            if (message is MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
+            {
+                this.MasterBeat = messageSelectedMasterBeatChange.MasterBeat;
+                SetAnimatedDouble();
+                return;
+            }
+
+            if (message is MessageMasterBeatChange messageMasterBeatChange && MasterBeat != null)
+            {
+                if (messageMasterBeatChange.ID == this.MasterBeat.ID)
+                {
+                    this.MasterBeat.SetViewModel(messageMasterBeatChange.MasterBeatModel);
+                    //this.MasterBeat = messageMasterBeatChange.MasterBeat;
+                    SetAnimatedDouble();
+                    return;
+                }
             }
         }
     }

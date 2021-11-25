@@ -10,7 +10,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public interface IComponent : IIDObject, IDisposable
     {
-        void UpdateChildMasterBeat(MasterBeat masterBeat);
+        void SelectMasterBeat(MasterBeat masterBeat);
         MasterBeat MasterBeat { get; set; }
         Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }

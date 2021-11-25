@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.Beat;
 using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Network.Messages
@@ -15,15 +16,13 @@ namespace CMiX.Core.Network.Messages
 
         public MessageMasterBeatChange(MasterBeat masterBeat)
         {
-            MasterBeat = masterBeat;
+            ID = masterBeat.ID;
+            //MasterBeat = masterBeat;
+            MasterBeatModel = masterBeat.GetModel() as MasterBeatModel;
         }
 
-        public MessageMasterBeatChange(MasterBeat masterBeat, Guid componentId) : this(masterBeat)
-        {
-            ID = componentId;
-        }
-
-        public MasterBeat MasterBeat { get; set; }
+        //public MasterBeat MasterBeat { get; set; }
+        public MasterBeatModel MasterBeatModel { get; set; }
         public Guid ID { get; set; }
     }
 }
