@@ -87,6 +87,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public void AddComponent(IComponent component)
         {
             Components.Add(component);
+            component.SelectMasterBeat(this.MasterBeat);
             IsExpanded = true;
         }
 

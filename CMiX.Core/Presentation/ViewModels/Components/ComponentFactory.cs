@@ -14,12 +14,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ComponentFactory()
         {
             components = new Dictionary<Type, Func<Component>>();
-            componentsModel = new Dictionary<Type, Func<IComponentModel, MasterBeat, Component>>();
-
-            this.RegisterComponentType(typeof(CompositionModel), (p, m) => new Composition(p as CompositionModel));
-            this.RegisterComponentType(typeof(LayerModel), (p, m) => new Layer(p as LayerModel));
-            this.RegisterComponentType(typeof(SceneModel), (p, m) => new Scene(p as SceneModel));
-            this.RegisterComponentType(typeof(EntityModel), (p, m) => new Entity(p as EntityModel));
+            componentsModel = new Dictionary<Type, Func<IComponentModel, Component>>();
 
             this.RegisterComponentType(typeof(Composition), () => new Composition(new CompositionModel(Guid.NewGuid())));
             this.RegisterComponentType(typeof(Layer), () => new Layer(new LayerModel(Guid.NewGuid())));
@@ -28,7 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
         private readonly Dictionary<Type, Func<Component>> components;
-        private readonly Dictionary<Type, Func<IComponentModel, MasterBeat, Component>> componentsModel;
+        private readonly Dictionary<Type, Func<IComponentModel, Component>> componentsModel;
 
         public Component this[Type componentType, MasterBeat masterBeat] => CreateComponent(componentType, masterBeat);
 
@@ -41,9 +36,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             return components[componentType]();
         }
 
-        public Component CreateComponent(IComponentModel componentModel, MasterBeat masterBeat = null)
+        public Component CreateComponent(IComponentModel componentModel)
         {
-            return componentsModel[componentModel.GetType()](componentModel, masterBeat);
+            return componentsModel[componentModel.GetType()](componentModel);
         }
 
         public Type[] RegisteredTypes => components.Keys.ToArray();
@@ -53,13 +48,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             if (factoryMethod is null) return;
 
             components[componentType] = factoryMethod;
-        }
-
-        public void RegisterComponentType(Type componentType, Func<IComponentModel, MasterBeat, Component> factoryMethod)
-        {
-            if (factoryMethod is null) return;
-
-            componentsModel[componentType] = factoryMethod;
         }
     }
 }
