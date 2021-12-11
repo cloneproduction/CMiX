@@ -9,6 +9,7 @@ using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
@@ -48,12 +49,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void AddLayer()
         {
-            Messenger.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
         }
 
         public void AddComposition()
         {
-            Messenger.Send<IMessage, int>(new MessageAddComposition(), MessageType.Internal);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComposition(), MessageType.Internal);
         }
 
         private void NewProject()

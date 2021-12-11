@@ -83,7 +83,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             set
             {
                 SetProperty(ref _selectedSchedulerIndex, value);
-                Messenger.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
             }
         }
 
@@ -95,7 +95,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel);
             CompositionSchedulers.Add(compositionScheduler);
 
-            Messenger.Send<IMessage, int>(new MessageAddScheduler(compositionSchedulerModel), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddScheduler(compositionSchedulerModel), MessageType.Out);
         }
 
         public void CreateScheduler(CompositionSchedulerModel compositionSchedulerModel)

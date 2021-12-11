@@ -24,7 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _isChecked, value);
-                //Messenger.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
+                //WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
             }
         }
 

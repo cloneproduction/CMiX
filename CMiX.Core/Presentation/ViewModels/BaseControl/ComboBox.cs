@@ -5,6 +5,7 @@ using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -26,7 +27,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _selection, value);
-                Messenger.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
+                WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
             }
         }
 

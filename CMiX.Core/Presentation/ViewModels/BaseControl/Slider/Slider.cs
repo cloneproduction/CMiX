@@ -24,6 +24,8 @@ namespace CMiX.Core.Presentation.ViewModels
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             this.IsActive = true;
 
+            //CanSend = true;
+
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
             ResetCommand = new RelayCommand(Reset);
@@ -51,7 +53,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _amount, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                Send(new MessageUpdateViewModel(this));
             }
         }
 
@@ -69,6 +71,13 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _maximum, value);
         }
 
+        private bool CanSend = false;
+
+        public void Send(IMessage message)
+        {
+            if(CanSend)
+                WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.Out);
+        }
 
         public void Receive(IMessage message)
         {

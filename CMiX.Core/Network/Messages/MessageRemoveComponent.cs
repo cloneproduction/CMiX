@@ -13,13 +13,13 @@ namespace CMiX.Core.Network.Messages
 
         }
 
-        public MessageRemoveComponent(IComponent component)
+        public MessageRemoveComponent(Guid parentID, IComponent component)
         {
-            ComponentID = component.ID;
+            ParentID = parentID;
+            ID = component.ID;
         }
 
-        public Guid ComponentID { get; set; }
+        public Guid ParentID { get; set; }
         public Guid ID { get; set; }
-
     }
 }

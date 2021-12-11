@@ -46,7 +46,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public override void SetViewModel(IComponentModel model)
         {
             SceneModel sceneModel = model as SceneModel;
-
+            this.ID = sceneModel.ID;
             this.BeatModifier.SetViewModel(sceneModel.BeatModifierModel);
             this.PostFX.SetViewModel(sceneModel.PostFXModel);
             this.Mask.SetViewModel(sceneModel.MaskModel);

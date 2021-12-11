@@ -20,6 +20,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         string Name { get; set; }
         void AddComponent(IComponent component);
         void RemoveComponent(IComponent component);
+        void RemoveComponent(Guid componentID);
+
+        IComponent GetComponent(Guid childID);
+        //IComponent FindParentByID(Guid componentID, IComponent parentComponent);
 
         void SetViewModel(IComponentModel model);
         IComponentModel GetModel();

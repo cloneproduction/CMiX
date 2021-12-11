@@ -47,7 +47,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public override void SetViewModel(IComponentModel model)
         {
             LayerModel layerModel = model as LayerModel;
-
+            this.ID = layerModel.ID;
             //this.Out = layerModel.Out;
             this.Fade.SetViewModel(layerModel.Fade);
             this.BlendMode.SetViewModel(layerModel.BlendMode);

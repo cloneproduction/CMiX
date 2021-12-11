@@ -18,9 +18,11 @@ namespace CMiX.Core.Network.Messages
         {
             ComponentModel = component.GetModel();
             ID = component.ID;
+            ComponentType = component.GetType();
             ParentID = parentID;
         }
 
+        public Type ComponentType { get; set; }
         public IComponentModel ComponentModel { get; set; }
         public Guid ParentID { get; set; }
         public Guid ID { get; set; }

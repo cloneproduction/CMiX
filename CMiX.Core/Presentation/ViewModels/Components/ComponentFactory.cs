@@ -36,10 +36,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             return components[componentType]();
         }
 
-        public Component CreateComponent(IComponentModel componentModel)
-        {
-            return componentsModel[componentModel.GetType()](componentModel);
-        }
+        //public Component CreateComponent(IComponentModel componentModel)
+        //{
+        //    return componentsModel[componentModel.GetType()](componentModel);
+        //}
 
         public Type[] RegisteredTypes => components.Keys.ToArray();
 

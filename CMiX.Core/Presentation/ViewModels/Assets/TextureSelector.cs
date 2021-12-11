@@ -53,13 +53,11 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public void SetViewModel(IModel model)
         {
-            GeometrySelectorModel assetPathSelectorModel = model as GeometrySelectorModel;
+            TextureSelectorModel assetPathSelectorModel = model as TextureSelectorModel;
             assetPathSelectorModel.ID = this.ID;
 
             if (this.SelectedAsset == null)
-            {
                 this.SelectedAsset = new AssetTexture();
-            }
 
             if (assetPathSelectorModel.SelectedAsset != null)
                 this.SelectedAsset.SetViewModel(assetPathSelectorModel.SelectedAsset);

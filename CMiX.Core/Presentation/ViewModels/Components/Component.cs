@@ -93,16 +93,40 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void RemoveComponent(IComponent component)
         {
-            component.Dispose();
-            Components.Remove(component);
+            if(component != null)
+            {
+                component.Dispose();
+                Components.Remove(component);
+            }
         }
 
+        public void RemoveComponent(Guid id)
+        {
+            var component = Components.FirstOrDefault(x => x.ID == id);
+            Components.Remove(component);
+        }
 
         private void Rename()
         {
             this.IsRenaming = true;
         }
 
+
+
+
+
+        public IComponent GetComponent(Guid childID)
+        {
+            IComponent component = null;
+            foreach (var child in Components)
+            {
+                if (child.ID == childID)
+                    component = child;
+                else
+                    component = child.GetComponent(childID);
+            }
+            return component;
+        }
 
         public IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)
         {
@@ -127,6 +151,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             Components.Move(oldIndex, newIndex);
         }
+
 
         public abstract void SetViewModel(IComponentModel model);
         public abstract IComponentModel GetModel();

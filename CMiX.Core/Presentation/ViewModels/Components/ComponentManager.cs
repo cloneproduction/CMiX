@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
@@ -25,8 +26,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             IsActive = true;
 
-            Messenger.RegisterAll(this, MessageType.Internal);
-            Messenger.RegisterAll(this, MessageType.In);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
 
             SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
             AddItemCommand = new RelayCommand(CreateComposition);
@@ -95,7 +96,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 Component layer = ComponentFactory.CreateComponent(typeof(Layer));
                 SelectedComposition.AddComponent(layer);
                 Components.Add(layer.ID, layer);
-                Messenger.Send<IMessage, int>(new MessageAddComponent(SelectedComposition.ID, layer), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(SelectedComposition.ID, layer), MessageType.Out);
             }
         }
 
@@ -104,9 +105,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Component composition = ComponentFactory.CreateComponent(typeof(Composition));
             Project.AddComponent(composition);
             Components.Add(composition.ID, composition);
-            Messenger.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
 
             SelectedComposition = composition as Composition;
+
+            Console.WriteLine(SelectedComposition.GetType().Name + "'s Components Count is " + SelectedComposition.Components.Count);
         }
 
 
@@ -116,7 +119,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             int index = components.IndexOf(SelectedComposition);
 
             if (SelectedComposition != null)
-                components.Remove(SelectedComposition);
+            {
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(Project.ID, SelectedComposition), MessageType.Out);
+                Project.RemoveComponent(SelectedComposition);
+            }
+
+
 
             if (index > 0)
             {
@@ -143,40 +151,44 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            Messenger.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
-        public void CreateComponent(Guid parentID, IComponentModel componentModel)
+        public void CreateComponent(MessageAddComponent messageAddComponent)
         {
             IComponent parentComponent;
-            Components.TryGetValue(parentID, out parentComponent);
+            Components.TryGetValue(messageAddComponent.ParentID, out parentComponent);
 
-            Component newComponent = ComponentFactory.CreateComponent(componentModel);
+            Component newComponent = ComponentFactory.CreateComponent(messageAddComponent.ComponentType);
+            newComponent.SetViewModel(messageAddComponent.ComponentModel);
 
             parentComponent.AddComponent(newComponent);
             Components.Add(newComponent.ID, newComponent);
 
-            Messenger.Send<IMessage, int>(new MessageAddComponent(parentID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
 
 
-        public void DeleteComponent(Guid componentID)
+        public void DeleteComponent(MessageRemoveComponent messageRemoveComponent)
         {
             IComponent component;
-            Components.TryGetValue(componentID, out component);
 
-            RemoveComponent(component);
+            Components.TryGetValue(messageRemoveComponent.ID, out component);
+
+            IComponent parent = ((Component)component).GetParent(Project, x => x.ID == component.ID);
+            parent?.RemoveComponent(messageRemoveComponent.ID);
+
+            Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
         }
 
         private void RemoveComponent(IComponent component)
         {
-            Messenger.Send<IMessage, int>(new MessageRemoveComponent(component), MessageType.Out);
+            IComponent parent = ((Component)component).GetParent(Project, x => x.ID == component.ID);
 
-            IComponent parent = ((Component)component).GetParent(SelectedComposition, x => x.ID == component.ID);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(parent.ID, component), MessageType.Out);
 
-            parent.Components.Remove(component);
+            parent?.RemoveComponent(component);
             Components.Remove(component.ID);
             component.Dispose();
             Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
@@ -209,11 +221,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                     break;
 
                 case MessageAddComponent add:
-                    this.CreateComponent(add.ParentID, add.ComponentModel);
+                    this.CreateComponent(add);
                     break;
 
                 case MessageRemoveComponent remove:
-                    this.DeleteComponent(remove.ComponentID);
+                    this.DeleteComponent(remove);
                     break;
             }
         }

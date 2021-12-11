@@ -40,6 +40,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public override void SetViewModel(IComponentModel model)
         {
             EntityModel entityModel = model as EntityModel;
+            this.ID = entityModel.ID;
             this.Texture.SetViewModel(entityModel.TextureModel);
             this.Geometry.SetViewModel(entityModel.GeometryModel);
             //this.Coloration.SetViewModel(entityModel.ColorationModel);
