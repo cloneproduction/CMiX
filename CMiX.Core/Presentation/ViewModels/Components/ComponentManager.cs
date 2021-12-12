@@ -5,7 +5,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
-using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -14,13 +13,12 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
+    public class ComponentManager : ObservableRecipient, 
+        IRecipient<IMessage>
     {
         public ComponentManager(IProject project)
         {
             Project = project;
-            Components = new Dictionary<Guid, IComponent>();
-            Components.Add(project.ID, project);
 
             ComponentFactory = new ComponentFactory();
 
@@ -57,8 +55,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _project, value);
         }
 
-
-        private Dictionary<Guid, IComponent> Components { get; set; }
         public ComponentFactory ComponentFactory { get; set; }
 
 
@@ -95,7 +91,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             {
                 Component layer = ComponentFactory.CreateComponent(typeof(Layer));
                 SelectedComposition.AddComponent(layer);
-                Components.Add(layer.ID, layer);
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(SelectedComposition.ID, layer), MessageType.Out);
             }
         }
@@ -104,11 +99,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             Component composition = ComponentFactory.CreateComponent(typeof(Composition));
             Project.AddComponent(composition);
-            Components.Add(composition.ID, composition);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
 
             SelectedComposition = composition as Composition;
 
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
             Console.WriteLine(SelectedComposition.GetType().Name + "'s Components Count is " + SelectedComposition.Components.Count);
         }
 
@@ -123,7 +117,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(Project.ID, SelectedComposition), MessageType.Out);
                 Project.RemoveComponent(SelectedComposition);
             }
-
 
 
             if (index > 0)
@@ -146,25 +139,33 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public void CreateComponent(Type componentType)
         {
             IComponent parentComponent = SelectedComponent;
+
             Component newComponent = ComponentFactory.CreateComponent(componentType);
 
             parentComponent.AddComponent(newComponent);
-            Components.Add(newComponent.ID, newComponent);
 
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
         }
 
         public void CreateComponent(MessageAddComponent messageAddComponent)
         {
-            IComponent parentComponent;
-            Components.TryGetValue(messageAddComponent.ParentID, out parentComponent);
+            var descendants = GetAllDescendants(new[] { Project });
+            IComponent parentComponent = Project;
+
+            foreach (var descendant in descendants)
+            {
+                if(descendant.ID == messageAddComponent.ParentID)
+                {
+                    parentComponent = descendant;
+                    break;
+                }
+            }
 
             Component newComponent = ComponentFactory.CreateComponent(messageAddComponent.ComponentType);
             newComponent.SetViewModel(messageAddComponent.ComponentModel);
 
             parentComponent.AddComponent(newComponent);
-            Components.Add(newComponent.ID, newComponent);
 
             Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
         }
@@ -172,26 +173,39 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void DeleteComponent(MessageRemoveComponent messageRemoveComponent)
         {
-            IComponent component;
-
-            Components.TryGetValue(messageRemoveComponent.ID, out component);
-
-            IComponent parent = ((Component)component).GetParent(Project, x => x.ID == component.ID);
+            IComponent parent = GetParent(Project, x => x.ID == messageRemoveComponent.ID);
             parent?.RemoveComponent(messageRemoveComponent.ID);
 
             Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
         }
 
+
+        private IComponent GetParent(IComponent rootNode, Func<IComponent, bool> childSelector)
+        {
+            var allNodes = GetAllDescendants(new[] { rootNode });
+
+            IEnumerable<IComponent> parentsOfSelectedChildren = allNodes.Where(node => node.Components.Any(childSelector));
+
+            if (parentsOfSelectedChildren.Count() == 0)
+                return rootNode;
+
+            return parentsOfSelectedChildren.Single();
+        }
+
+        private IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)
+        {
+            var descendants = rootNodes.SelectMany(_ => GetAllDescendants(_.Components));
+            return rootNodes.Concat(descendants);
+        }
+
+
         private void RemoveComponent(IComponent component)
         {
-            IComponent parent = ((Component)component).GetParent(Project, x => x.ID == component.ID);
-
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(parent.ID, component), MessageType.Out);
-
+            IComponent parent = GetParent(Project, x => x.ID == component.ID);
             parent?.RemoveComponent(component);
-            Components.Remove(component.ID);
-            component.Dispose();
+
             Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(parent.ID, component), MessageType.Out);
         }
 
 
@@ -228,6 +242,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                     this.DeleteComponent(remove);
                     break;
             }
+        }
+
+        public void Receive(MessageAddComponent message)
+        {
+            this.CreateComponent(message);
         }
     }
 }

@@ -112,9 +112,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-
-
-
         public IComponent GetComponent(Guid childID)
         {
             IComponent component = null;
@@ -128,19 +125,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             return component;
         }
 
-        public IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)
-        {
-            var descendants = rootNodes.SelectMany(_ => GetAllDescendants(_.Components));
-            return rootNodes.Concat(descendants);
-        }
-
-        public IComponent GetParent(IComponent rootNode, Func<IComponent, bool> childSelector)
-        {
-            var allNodes = GetAllDescendants(new[] { rootNode });
-            var parentsOfSelectedChildren = allNodes.Where(node => node.Components.Any(childSelector));
-
-            return parentsOfSelectedChildren.Single();
-        }
 
         public void InsertComponent(int index, IComponent component)
         {

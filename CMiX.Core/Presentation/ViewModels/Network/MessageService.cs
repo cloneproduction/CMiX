@@ -40,6 +40,7 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             IMessage message = Serializer.Deserialize<IMessage>(e.Data);
             WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.In);
+            Console.WriteLine("MessageType.In Sent of type " + message.GetType());
         }
 
 

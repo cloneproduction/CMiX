@@ -99,5 +99,15 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             playlistModel.Name = this.Name;
             return playlistModel;
         }
+
+        public void DragEnter(IDropInfo dropInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DragLeave(IDropInfo dropInfo)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

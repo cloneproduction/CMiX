@@ -24,7 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             this.IsActive = true;
 
-            //CanSend = true;
+            CanSend = true;
 
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
@@ -76,7 +76,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public void Send(IMessage message)
         {
             if(CanSend)
-                WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.Out);
+                WeakReferenceMessenger.Default.Send(message, MessageType.Out);
         }
 
         public void Receive(IMessage message)

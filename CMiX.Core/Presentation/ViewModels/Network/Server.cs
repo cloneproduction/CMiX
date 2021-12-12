@@ -208,15 +208,16 @@ namespace CMiX.Core.Presentation.ViewModels
         //}
 
 
-        public void Send(byte[] data)
+        public async void Send(byte[] data)
         {
             if (WatsonTcpServer != null)
             {
                 foreach (var connectedClient in ConnectedClients)
                 {
-                    var success = WatsonTcpServer.Send(connectedClient.IPPORT, data);
-                    if (success)
-                        Console.WriteLine("WatsonTcpServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length + "to address : " + $"{IP}:{Port}");
+                    await WatsonTcpServer.SendAsync(connectedClient.IPPORT, data);
+                //    var success = WatsonTcpServer.Send(connectedClient.IPPORT, data);
+                //    if (success)
+                //        Console.WriteLine("WatsonTcpServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length + "to address : " + $"{IP}:{Port}");
                 }
                 Statistics.Update(WatsonTcpServer);
             }

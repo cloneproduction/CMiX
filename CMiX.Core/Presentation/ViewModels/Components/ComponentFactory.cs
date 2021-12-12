@@ -25,9 +25,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         private readonly Dictionary<Type, Func<Component>> components;
         private readonly Dictionary<Type, Func<IComponentModel, Component>> componentsModel;
 
-        public Component this[Type componentType, MasterBeat masterBeat] => CreateComponent(componentType, masterBeat);
+        public Component this[Type componentType, MasterBeat masterBeat] => CreateComponent(componentType);
 
-        public Component CreateComponent(Type componentType, MasterBeat masterBeat = null)
+        public Component CreateComponent(Type componentType)
         {
             if(componentType == null)
             {
@@ -35,11 +35,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
             return components[componentType]();
         }
-
-        //public Component CreateComponent(IComponentModel componentModel)
-        //{
-        //    return componentsModel[componentModel.GetType()](componentModel);
-        //}
 
         public Type[] RegisteredTypes => components.Keys.ToArray();
 

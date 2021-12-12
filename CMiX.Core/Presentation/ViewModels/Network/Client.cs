@@ -69,7 +69,7 @@ namespace CMiX.Core.Services
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            Console.WriteLine("Client MessageReceived");
+            Console.WriteLine("Message Data Received by Clients");
             OnDataReceived(sender, new DataEventArgs(e.Data));
         }
 
@@ -101,27 +101,10 @@ namespace CMiX.Core.Services
                     }
                     catch (Exception)
                     {
-
                         Console.WriteLine("Can't Connect");
                     }
                 }
             }
-
-            //while (!success)
-            //{
-            //    try
-            //    {
-            //        Console.WriteLine("Connecting...");
-            //        watsonTcpClient.Connect();
-            //        success = watsonTcpClient.Connected;
-            //        await Task.Delay(1000);
-            //    }
-            //    catch (Exception)
-            //    {
-            //        Console.WriteLine("Can't Connect");
-            //    }
-            //}
-            //return success;
         }
 
         public void Stop()
