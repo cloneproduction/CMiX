@@ -13,9 +13,9 @@ namespace CMiX.Core.Presentation.ViewModels
         public Transform(TransformModel transformModel)
         {
             this.ID = transformModel.ID;
-            Translate = new Translate(nameof(Translate), transformModel.TranslateModel);
-            Scale = new Scale(nameof(Scale), transformModel.ScaleModel);
-            Rotation = new Rotation(nameof(Rotation), transformModel.RotationModel);
+            Translate = new Translate(transformModel.TranslateModel);
+            Scale = new Scale(transformModel.ScaleModel);
+            Rotation = new Rotation(transformModel.RotationModel);
             Is3D = false;
         }
 

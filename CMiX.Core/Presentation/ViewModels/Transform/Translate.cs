@@ -10,7 +10,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Translate : ObservableObject, IControl, IObserver
     {
-        public Translate(string name, TranslateModel translateModel)
+        public Translate(TranslateModel translateModel)
         {
             this.ID = translateModel.ID;
             X = new Slider(nameof(X), translateModel.X);

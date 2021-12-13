@@ -13,8 +13,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class ComponentManager : ObservableRecipient, 
-        IRecipient<IMessage>
+    public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
     {
         public ComponentManager(IProject project)
         {
@@ -47,6 +46,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ICommand DeleteComponentCommand { get; }
         public ICommand RenameComponentCommand { get; }
 
+        private ComponentFactory ComponentFactory { get; }
+
 
         private IProject _project;
         public IProject Project
@@ -54,8 +55,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             get => _project;
             set => SetProperty(ref _project, value);
         }
-
-        public ComponentFactory ComponentFactory { get; set; }
 
 
         private Composition _selectedComposition;
@@ -117,7 +116,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(Project.ID, SelectedComposition), MessageType.Out);
                 Project.RemoveComponent(SelectedComposition);
             }
-
 
             if (index > 0)
             {
@@ -242,11 +240,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                     this.DeleteComponent(remove);
                     break;
             }
-        }
-
-        public void Receive(MessageAddComponent message)
-        {
-            this.CreateComponent(message);
         }
     }
 }

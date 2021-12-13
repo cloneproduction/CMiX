@@ -9,20 +9,14 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Scale : ObservableObject, IControl
     {
-        public Scale(string name, ScaleModel scaleModel)
+        public Scale(ScaleModel scaleModel)
         {
             this.ID = scaleModel.ID;
-            Uniform = new Slider(nameof(Uniform), scaleModel.Uniform);
-            Uniform.Amount = 1.0;
 
-            X = new Slider(nameof(X), scaleModel.X);
-            X.Amount = 1.0;
-
-            Y = new Slider(nameof(Y), scaleModel.Y);
-            Y.Amount = 1.0;
-
-            Z = new Slider(nameof(Z), scaleModel.Z);
-            Z.Amount = 1.0;
+            Uniform = new Slider(nameof(Uniform), scaleModel.Uniform) { Amount = 1.0 }; ;
+            X = new Slider(nameof(X), scaleModel.X) { Amount = 1.0 };
+            Y = new Slider(nameof(Y), scaleModel.Y) { Amount = 1.0 }; ;
+            Z = new Slider(nameof(Z), scaleModel.Z) { Amount = 1.0 }; ;
 
             IsUniform = true;
         }
@@ -34,22 +28,12 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider Z { get; set; }
         public Slider Uniform { get; set; }
 
+
         private bool _isUniform;
         public bool IsUniform
         {
             get => _isUniform;
             set => SetProperty(ref _isUniform, value);
-        }
-
-
-        public void SetViewModel(IModel model)
-        {
-            ScaleModel scaleModel = new ScaleModel();
-            this.ID = scaleModel.ID;
-            this.X.SetViewModel(scaleModel.X);
-            this.Y.SetViewModel(scaleModel.Y);
-            this.Z.SetViewModel(scaleModel.Z);
-            this.Uniform.SetViewModel(scaleModel.Uniform);
         }
 
         public IModel GetModel()
@@ -61,6 +45,16 @@ namespace CMiX.Core.Presentation.ViewModels
             model.Z = (SliderModel)this.Z.GetModel();
             model.Uniform = (SliderModel)this.Uniform.GetModel();
             return model;
+        }
+
+        public void SetViewModel(IModel model)
+        {
+            ScaleModel scaleModel = model as ScaleModel;
+            this.ID = scaleModel.ID;
+            this.X.SetViewModel(scaleModel.X);
+            this.Y.SetViewModel(scaleModel.Y);
+            this.Z.SetViewModel(scaleModel.Z);
+            this.Uniform.SetViewModel(scaleModel.Uniform);
         }
     }
 }

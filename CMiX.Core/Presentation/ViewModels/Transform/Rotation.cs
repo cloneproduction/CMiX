@@ -9,7 +9,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Rotation : ObservableObject, IControl
     {
-        public Rotation(string name, RotationModel rotationModel)
+        public Rotation(RotationModel rotationModel)
         {
             this.ID = rotationModel.ID;
             X = new Slider(nameof(X), rotationModel.X);

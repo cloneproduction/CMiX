@@ -17,11 +17,9 @@ namespace CMiX.Core.Network.Messages
         public MessageMasterBeatChange(MasterBeat masterBeat)
         {
             ID = masterBeat.ID;
-            //MasterBeat = masterBeat;
             MasterBeatModel = masterBeat.GetModel() as MasterBeatModel;
         }
 
-        //public MasterBeat MasterBeat { get; set; }
         public MasterBeatModel MasterBeatModel { get; set; }
         public Guid ID { get; set; }
     }
