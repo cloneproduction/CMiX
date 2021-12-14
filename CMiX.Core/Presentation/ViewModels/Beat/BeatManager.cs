@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Models.Beat;
 using CMiX.Core.Network.Messages;
@@ -10,6 +11,7 @@ using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
@@ -19,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         {
             Project = project;
             MasterBeats = new ObservableCollection<MasterBeat>();
-
+            MasterBeats.CollectionChanged += MasterBeats_CollectionChanged;
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
 
             AddItemCommand = new RelayCommand(CreateBeat);
@@ -33,6 +35,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
+        private void MasterBeats_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Broadcast<ObservableCollection<MasterBeat>>(e.OldItems as ObservableCollection<MasterBeat>, e.NewItems as ObservableCollection<MasterBeat>, nameof(MasterBeats));
+        }
+
         public IProject Project { get; set; }
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
@@ -44,7 +51,18 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public ICommand DeleteItemCommand { get; set; }
 
 
-        public ObservableCollection<MasterBeat> MasterBeats { get; set; }
+
+        private ObservableCollection<MasterBeat> _masterBeats;
+        public ObservableCollection<MasterBeat> MasterBeats
+        {
+            get => _masterBeats;
+            set
+            {
+                SetProperty(ref _masterBeats, value, true);
+                Debug.WriteLine("POUETPOUET");
+                System.Console.WriteLine("POUET");
+            }
+        }
 
 
         public ObservableCollection<IComponent> Components

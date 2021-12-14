@@ -13,10 +13,15 @@ using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public abstract class Component : ObservableRecipient, IRecipient<MessageRequestMasterBeat>, IComponent, IDisposable
+    public abstract class Component : ObservableRecipient, 
+        IRecipient<MessageRequestMasterBeat>,
+        IRecipient<PropertyChangedMessage<ObservableCollection<MasterBeat>>>,
+        IComponent, 
+        IDisposable
     {
         public Component()
         {
@@ -26,6 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components = new ObservableCollection<IComponent>();
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
+            WeakReferenceMessenger.Default.RegisterAll(this);
         }
 
 
@@ -161,6 +167,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             foreach (var component in Components)
             {
                 component.Dispose();
+            }
+        }
+
+        public void Receive(PropertyChangedMessage<ObservableCollection<MasterBeat>> message)
+        {
+            if(message.Sender.GetType() == typeof(BeatManager))
+            {
+                Console.WriteLine("POUETPOEUTPOUETPOUETPOUET");
             }
         }
     }
