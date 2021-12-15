@@ -2,7 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
+using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Network;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -16,6 +19,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             PostFX = new PostFX(sceneModel.PostFXModel);
             Mask = new Mask(sceneModel.MaskModel);
             Transform = new Transform(sceneModel.TransformModel);
+
+            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
         }
 
 
@@ -23,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Mask Mask { get; set; }
         public PostFX PostFX { get; set; }
         public BeatModifier BeatModifier { get; set; }
-        public MasterBeat MasterBeat { get; set; }
 
 
         public override IComponentModel GetModel()

@@ -1,11 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
-using CommunityToolkit.Mvvm.Input;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
@@ -16,13 +14,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             ID = compositionModel.ID;
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
+            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
             //Camera = new Camera(MasterBeat, compositionModel.CameraModel);
             //Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
-            SelectedBeatChangedCommand = new RelayCommand<MasterBeat>(SelectMasterBeat);
         }
 
 
-        public ICommand SelectedBeatChangedCommand { get; set; }
         public Camera Camera { get; set; }
         public Slider Transition { get; set; }
 
@@ -34,7 +31,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Name = this.Name;
             model.ID = this.ID;
             //model.IsVisible = this.IsVisible;
-            //model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
             //model.CameraModel = (CameraModel)this.Camera.GetModel();
             model.TransitionModel = (SliderModel)this.Transition.GetModel();
 

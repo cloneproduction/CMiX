@@ -24,8 +24,8 @@
             x:Name="MasterBeatSelector"
             Grid.Column="1"
             Height="25"
-            SelectedItem="{Binding MasterBeat}"
-            ItemsSource="{Binding Path=DataContext.BeatManager.MasterBeats, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type CMiX:MainWindow}}}">
+            SelectedItem="{Binding SelectedMasterBeat}"
+            ItemsSource="{Binding MasterBeats}">
             
             <ComboBox.ItemTemplate>
                 <DataTemplate>

@@ -2,7 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Diagnostics;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models.Beat;
 using CMiX.Core.Network.Messages;
@@ -11,18 +12,21 @@ using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class BeatManager : ObservableRecipient, IRecipient<IMessage>
+    public class BeatManager : ObservableRecipient, 
+        IRecipient<IMessage>,
+        IRecipient<MessageRequestMasterBeats>
     {
         public BeatManager(IProject project)
         {
             Project = project;
             MasterBeats = new ObservableCollection<MasterBeat>();
             MasterBeats.CollectionChanged += MasterBeats_CollectionChanged;
+
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
 
             AddItemCommand = new RelayCommand(CreateBeat);
             DeleteItemCommand = new RelayCommand(DeleteBeat);
@@ -35,10 +39,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
-        private void MasterBeats_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            Broadcast<ObservableCollection<MasterBeat>>(e.OldItems as ObservableCollection<MasterBeat>, e.NewItems as ObservableCollection<MasterBeat>, nameof(MasterBeats));
-        }
 
         public IProject Project { get; set; }
         public ICommand ResetCommand { get; set; }
@@ -56,12 +56,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public ObservableCollection<MasterBeat> MasterBeats
         {
             get => _masterBeats;
-            set
-            {
-                SetProperty(ref _masterBeats, value, true);
-                Debug.WriteLine("POUETPOUET");
-                System.Console.WriteLine("POUET");
-            }
+            set => SetProperty(ref _masterBeats, value, true);
+        }
+        private void MasterBeats_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            WeakReferenceMessenger.Default.Send(new MessageMasterBeatCollectionChanged(this.MasterBeats), MessageType.Internal);
         }
 
 
@@ -82,7 +81,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             var masterBeatModel = new MasterBeatModel();
             MasterBeat masterBeat = new MasterBeat(masterBeatModel);
             MasterBeats.Add(masterBeat);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddBeat(), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddBeat(masterBeat), MessageType.Out);
         }
 
         public void DeleteBeat()
@@ -121,13 +120,17 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if (message is MessageMasterBeatChange messageMasterBeatChange)
             {
                 WeakReferenceMessenger.Default.Send(messageMasterBeatChange, MessageType.Internal);
-                System.Console.WriteLine("messageMasterBeatChange");
+                var masterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageMasterBeatChange.ID);
+                if(masterBeat != null)
+                {
+                    masterBeat.SetViewModel(messageMasterBeatChange.MasterBeatModel);
+                    System.Console.WriteLine("messageMasterBeatChange period is " + masterBeat.Period);
+                }
             }
         }
 
         private void SendMessage()
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Internal);
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Out);
         }
 
@@ -158,6 +161,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public void Resync()
         {
             SelectedMasterBeat?.Resync.DoResync();
+        }
+
+        public void Receive(MessageRequestMasterBeats message)
+        {
+            message.Reply(this.MasterBeats);
         }
     }
 }

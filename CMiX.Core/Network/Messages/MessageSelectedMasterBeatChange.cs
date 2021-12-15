@@ -8,12 +8,18 @@ namespace CMiX.Core.Network.Messages
 {
     public class MessageSelectedMasterBeatChange : IMessage
     {
-        public MessageSelectedMasterBeatChange(MasterBeat masterBeat)
+        public MessageSelectedMasterBeatChange()
         {
-            MasterBeat = masterBeat;
+
         }
 
-        public MasterBeat MasterBeat { get; set; }
+        public MessageSelectedMasterBeatChange(Guid componentID, MasterBeat masterBeat)
+        {
+            ID = componentID;
+            MasterBeatID = masterBeat.ID;
+        }
+
         public Guid ID { get; set; }
+        public Guid MasterBeatID { get; set; }
     }
 }

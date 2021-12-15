@@ -2,6 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
+using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
@@ -17,6 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Texture = new Texture(entityModel.TextureModel, ID);
             Coloration = new Coloration(entityModel.ColorationModel, ID);
             //Visibility = new Visibility(entityModel.VisibilityModel);
+            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
         }
 
 
