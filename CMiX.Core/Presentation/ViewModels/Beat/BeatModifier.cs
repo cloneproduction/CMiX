@@ -19,6 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
     public class BeatModifier : ObservableRecipient, 
         IRecipient<IMessage>,
         IRecipient<MessageMasterBeatCollectionChanged>,
+        IRecipient<MessageSelectedMasterBeatChange>,
         IControl
     {
         public BeatModifier(BeatModifierModel beatModifierModel)
@@ -172,6 +173,13 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
+        public void Receive(MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
+        {
+            this.SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID);
+            SetAnimatedDouble();
+            return;
+        }
+
 
         public void Receive(IMessage message)
         {
@@ -183,13 +191,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
                     SetAnimatedDouble();
                     return;
                 }
-            }
-
-            if (message is MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
-            {
-                this.SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.ID);
-                SetAnimatedDouble();
-                return;
             }
         }
     }

@@ -122,18 +122,31 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
         }
 
+        public void Receive(IMessage message)
+        {
+            if (message is MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
+            {
+                if (messageSelectedMasterBeatChange.ID == this.ID)
+                {
+                    SelectMasterBeat(MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID));
+                    Console.WriteLine(this.GetType() + this.Name + " SelectedMasterBeatChange with period " + SelectedMasterBeat.Period);
+                }
+            }
+        }
+
+
         public void SelectMasterBeat(MasterBeat masterBeat)
         {
-            if(masterBeat != null)
-            {
-                WeakReferenceMessenger.Default.Send<IMessage, Guid>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), this.ID);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), MessageType.Out);
-            }
-
             SelectedMasterBeat = masterBeat;
             foreach (IComponent cp in this.Components)
             {
                 cp.SelectMasterBeat(masterBeat);
+            }
+
+            if (masterBeat != null)
+            {
+                WeakReferenceMessenger.Default.Send<MessageSelectedMasterBeatChange, Guid>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), this.ID);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), MessageType.Out);
             }
         }
 
@@ -200,19 +213,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             foreach (var component in Components)
             {
                 component.Dispose();
-            }
-        }
-
-        public void Receive(IMessage message)
-        {
-            if(message is MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
-            {
-                if(messageSelectedMasterBeatChange.ID == this.ID)
-                {
-                    SelectMasterBeat(MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.ID));
-                    //SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.ID);
-                    Console.WriteLine(this.GetType() + this.Name + " SelectedMasterBeatChange with period " + SelectedMasterBeat.Period);
-                }
             }
         }
     }
