@@ -145,7 +145,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             if (masterBeat != null)
             {
-                WeakReferenceMessenger.Default.Send<MessageSelectedMasterBeatChange, Guid>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), this.ID);
+                WeakReferenceMessenger.Default.Send(new MessageSelectedMasterBeatChange(this.ID, masterBeat), this.ID);
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), MessageType.Out);
             }
         }
