@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" Id="RluDKLnnEijN55muv44UsZ" LanguageVersion="2021.3.1.89" Version="0.128">
-  <NugetDependency Id="Q17KbXI0mcuMV42CAG18Pr" Location="VL.CoreLib" Version="2021.3.1" />
+<Document xmlns:p="property" Id="RluDKLnnEijN55muv44UsZ" LanguageVersion="2021.4.3.736" Version="0.128">
+  <NugetDependency Id="Q17KbXI0mcuMV42CAG18Pr" Location="VL.CoreLib" Version="2021.4.3" />
   <Patch Id="S25Gr1WMWcMQSRiHRWO4uq">
     <Canvas Id="GH8DZEWEW7hN2B8H0Xzxf8" DefaultCategory="Stride" CanvasType="FullCategory">
       <Canvas Id="EH92AcSj9gHLPwCnVNMYpW" Name="Graphics" Position="92,121">
@@ -22,7 +22,7 @@
               </p:NodeReference>
               <Pin Id="BsuYXOjwZJEMxekEEjTwNx" Name="Input" Kind="StateInputPin" />
               <Pin Id="C5ZvaYrqrFALZ8NGORrh9x" Name="Value" Kind="InputPin" DefaultValue="R8G8B8A8_UNorm">
-                <p:TypeAnnotation LastCategoryFullName="Stride.API.Graphics" LastSymbolSource="VL.Stride.Graphics.vl">
+                <p:TypeAnnotation LastCategoryFullName="Stride.API.Graphics" LastSymbolSource="VL.Stride.Runtime.TypeForwards.vl">
                   <Choice Kind="TypeFlag" Name="PixelFormat" />
                 </p:TypeAnnotation>
               </Pin>
@@ -101,10 +101,8 @@
             <Link Id="RjhuSH3HJJWQMXoxmGmEWd" Ids="IB5A29aI0RdOdIZfeKVUlH,BsuYXOjwZJEMxekEEjTwNx" />
             <Link Id="MgcpbIfQHvSNNdXM3n2KGQ" Ids="VfofoFofUfPO9AsRtfTsQT,SK68hVfNhnpN3fsIwyfoBs" />
             <Link Id="FHavGXWBOryMqtQWyjtpaB" Ids="CfYrZWWpQxPOWsHXl6jbkg,BF7oXYOYhkzQNAsDkRIbmV" />
-            <Pin Id="QGZ1fEDS8D2MV8VKbCzSyG" Name="Array Size" Kind="InputPin" Bounds="421,220" />
             <ControlPoint Id="DNR1rKB4lzCLO2BGWr3hO0" Bounds="158,903" />
             <Link Id="NoNuyUtKcRyPJwwOicMllX" Ids="DNR1rKB4lzCLO2BGWr3hO0,GNsrapNxDdMPE94S8U4Gxa" />
-            <Pin Id="Qgufh73QYnoLOgBugBRimw" Name="Depth" Kind="InputPin" Bounds="476,232" Visibility="Optional" />
             <Link Id="Tbg5j8gRYwWNzuEmYQ7cxf" Ids="Qgufh73QYnoLOgBugBRimw,DNR1rKB4lzCLO2BGWr3hO0" IsHidden="true" />
             <Pad Id="Qlsptc28UZkLtb5ZmR0gNv" Comment="" Bounds="142,860,87,15" ShowValueBox="true" isIOBox="true" Value="Texture2D">
               <p:TypeAnnotation LastCategoryFullName="Stride.Graphics" LastSymbolSource="Stride.dll">
@@ -125,24 +123,16 @@
             </Node>
             <ControlPoint Id="L3c94cEr7ajNtA1u6AxZQM" Bounds="173,944" />
             <Link Id="Nse2ym0pAjXQSUzr6g0Uqd" Ids="L3c94cEr7ajNtA1u6AxZQM,UDbIIkpQvQUOSPYcDddxgx" />
-            <Pin Id="BIno1snCRw9LPEXvk8Jj5g" Name="Size" Kind="InputPin" Bounds="537,225" DefaultValue="512, 512">
-              <p:TypeAnnotation LastCategoryFullName="Stride.API.Core.Mathematics" LastSymbolSource="VL.Stride.Core.vl">
-                <Choice Kind="TypeFlag" Name="Int2" />
-              </p:TypeAnnotation>
-            </Pin>
             <Link Id="FrY86lMKzI0OeUHgQBnDo1" Ids="BIno1snCRw9LPEXvk8Jj5g,L3c94cEr7ajNtA1u6AxZQM" IsHidden="true" />
             <Link Id="PJDbZsj5HviPlvGjKXbudU" Ids="RsiWjvtcaxxPA92TyQu2oL,A7fkzNp0JZNOekDrbinjGD" />
             <Link Id="L0uBkr6jR3QO7estGOj6SD" Ids="Uf34e8B2D5POntxCGBv5hm,QIFEjqnOhqWNPwZl6FCUGv" />
             <ControlPoint Id="CRDi3xVDDBhPWQrDrFJuSp" Bounds="233,1006" />
             <Link Id="EoJ6T2xdri9QPMn995mfVn" Ids="CRDi3xVDDBhPWQrDrFJuSp,C5ZvaYrqrFALZ8NGORrh9x" />
-            <Pin Id="TskdjcwHkduMh1C3TaftOo" Name="Pixel Format" Kind="InputPin" Bounds="481,425" />
             <Link Id="Llce1utEHg3PgTzHQj2uDt" Ids="TskdjcwHkduMh1C3TaftOo,CRDi3xVDDBhPWQrDrFJuSp" IsHidden="true" />
             <ControlPoint Id="CN3FsFxKWyvOqve9m8J9vE" Bounds="255,1055" />
             <Link Id="AejSnkQgrJmN3wdahfMcRo" Ids="CN3FsFxKWyvOqve9m8J9vE,Tcw2moVNmymP7ajufKbzt6" />
-            <Pin Id="Q5XpylY7hLRMlBddVXc1ut" Name="Mip Levels" Kind="InputPin" Bounds="512,477" />
             <Link Id="OBJHUr7LHXlMOIEyfVIyzr" Ids="Q5XpylY7hLRMlBddVXc1ut,CN3FsFxKWyvOqve9m8J9vE" IsHidden="true" />
             <ControlPoint Id="QNR2I1W3iG8MmuPtW073sN" Bounds="67,1303" />
-            <Pin Id="URzVJR7fTXUOWTVeMBham1" Name="Output" Kind="OutputPin" Bounds="317,729" />
             <Link Id="DlzZ0l5Rx0DQRyyUGVGBq1" Ids="QNR2I1W3iG8MmuPtW073sN,URzVJR7fTXUOWTVeMBham1" IsHidden="true" />
             <Node Bounds="65,1251,80,26" Id="LP2tWhjRfNaLRNwj2JAjVo">
               <p:NodeReference LastCategoryFullName="Stride.Graphics.ImageDescription" LastSymbolSource="Stride.dll">
@@ -164,6 +154,16 @@
             <Link Id="SIDYHRVGRRqNMKBsowr6gT" Ids="QsmhY9VYpRVNjmO12DNa88,H5VxogF0mrdN4XGPVSdOpG" />
             <Link Id="UeI7R4CMX3gLcidDvjxs7a" Ids="AywfhcSmU0xLM4253wKDyc,QNR2I1W3iG8MmuPtW073sN" />
             <Link Id="Fbx2jJ97eNVQG4GjfShUeQ" Ids="J9hosUOfAHoMOseGeU31yx,OnN2BtpbN8tLzypSay4zsZ" />
+            <Pin Id="Qgufh73QYnoLOgBugBRimw" Name="Depth" Kind="InputPin" Bounds="476,232" Visibility="Optional" />
+            <Pin Id="BIno1snCRw9LPEXvk8Jj5g" Name="Size" Kind="InputPin" Bounds="537,225" DefaultValue="512, 512">
+              <p:TypeAnnotation LastCategoryFullName="Stride.API.Core.Mathematics" LastSymbolSource="VL.Stride.Core.vl">
+                <Choice Kind="TypeFlag" Name="Int2" />
+              </p:TypeAnnotation>
+            </Pin>
+            <Pin Id="TskdjcwHkduMh1C3TaftOo" Name="Pixel Format" Kind="InputPin" Bounds="481,425" />
+            <Pin Id="QGZ1fEDS8D2MV8VKbCzSyG" Name="Array Size" Kind="InputPin" Bounds="421,220" />
+            <Pin Id="Q5XpylY7hLRMlBddVXc1ut" Name="Mip Levels" Kind="InputPin" Bounds="512,477" />
+            <Pin Id="URzVJR7fTXUOWTVeMBham1" Name="Output" Kind="OutputPin" Bounds="317,729" />
           </Patch>
         </Node>
         <!--
@@ -582,13 +582,6 @@
               <ControlPoint Id="MKAPwgPukHLP5p89RUDIgm" Bounds="188,83" />
               <ControlPoint Id="HUSrJxqoh0xQCFOu8aPJvI" Bounds="133,62" />
             </Canvas>
-            <Patch Id="JCMCrVziY4XNbXThiPPXSA" Name="Create" />
-            <Patch Id="PtbgWqIyYj4LIJQL27bewS" Name="Update">
-              <Pin Id="Qj7RPmwexMSPEtb7bH1nxB" Name="Load" Kind="InputPin" Bounds="270,771" />
-              <Pin Id="Bz8tfK37bRsQaJEKqUv3DT" Name="Output" Kind="OutputPin" Bounds="685,2300" />
-              <Pin Id="RXo2tUXHBVvOderyIuxUUu" Name="File Paths" Kind="InputPin" Bounds="245,125" />
-              <Pin Id="VgurqeGu2uXO9kTXb9QrnI" Name="Load As SRGB" Kind="InputPin" Bounds="179,107" />
-            </Patch>
             <ProcessDefinition Id="JQqFm53YS7gNSq2yubcp24">
               <Fragment Id="F9yTcr3sCx3Ov14Ivcohtq" Patch="JCMCrVziY4XNbXThiPPXSA" Enabled="true" />
               <Fragment Id="Jotv3vXKUWmOVg8ZFrh4dB" Patch="PtbgWqIyYj4LIJQL27bewS" Enabled="true" />
@@ -603,6 +596,13 @@
             <Link Id="NRjwMKPvRkaLkf6Q4l0eEe" Ids="HUSrJxqoh0xQCFOu8aPJvI,J2d8tSLuyeDP1Lmd7Bixv8" />
             <Link Id="KBWXfGER0NWLWNyavVjuqw" Ids="VgurqeGu2uXO9kTXb9QrnI,HUSrJxqoh0xQCFOu8aPJvI" IsHidden="true" />
             <Link Id="Kvrm112M5XsMYThyoYijHC" Ids="MbKKJ6StFKMOckV3L6O3V0,FXb6cBVgXkFNx6qC0FBPoi" />
+            <Patch Id="JCMCrVziY4XNbXThiPPXSA" Name="Create" />
+            <Patch Id="PtbgWqIyYj4LIJQL27bewS" Name="Update">
+              <Pin Id="Qj7RPmwexMSPEtb7bH1nxB" Name="Load" Kind="InputPin" Bounds="270,771" />
+              <Pin Id="VgurqeGu2uXO9kTXb9QrnI" Name="Load As SRGB" Kind="InputPin" Bounds="179,107" />
+              <Pin Id="RXo2tUXHBVvOderyIuxUUu" Name="File Paths" Kind="InputPin" Bounds="245,125" />
+              <Pin Id="Bz8tfK37bRsQaJEKqUv3DT" Name="Output" Kind="OutputPin" Bounds="685,2300" />
+            </Patch>
           </Patch>
         </Node>
         <!--
@@ -1044,12 +1044,6 @@
               <ControlPoint Id="QztL8ZiKApnP03h3hR2wys" Bounds="94,95" />
               <ControlPoint Id="RQ6o1t20VXJOhzgLV1FRh3" Bounds="513,1610" />
             </Canvas>
-            <Patch Id="QgNuI00347WOB2k35Fmutk" Name="Create" />
-            <Patch Id="TTeX31KNfk5Ou94AIFGF62" Name="Update">
-              <Pin Id="F8Cqrn7pAENNcG0LENTJwI" Name="Input" Kind="InputPin" Bounds="121,-42" />
-              <Pin Id="PY2CDkQJ6aZMmY2yqaZAPg" Name="Output" Kind="OutputPin" Bounds="123,780" />
-              <Pin Id="GYJTMV4Iz3IMq96wFq9piM" Name="Load" Kind="InputPin" Bounds="270,771" />
-            </Patch>
             <ProcessDefinition Id="AaoF93Gt1rxOQEUatdU2AZ">
               <Fragment Id="NrploBF6skAN6nMtqnsldm" Patch="QgNuI00347WOB2k35Fmutk" Enabled="true" />
               <Fragment Id="IFadnqhPmt3L2VP3tkgXAf" Patch="TTeX31KNfk5Ou94AIFGF62" Enabled="true" />
@@ -1138,6 +1132,12 @@
             <Link Id="MlI2hZlpFU3ORxlc62HVmT" Ids="MCV6nhEOimdPzGlZ7lTGQP,FdfZFSc6YvOOYALQYOLG4e" />
             <Link Id="IG5exdnw0YSLK6TabXKsUN" Ids="VsJje3J18aCLoAVsxRbU3i,MwFAq2WW2YwM3DvrOexPp9" />
             <Link Id="TmwihsxlFz2OzrD2JIWkdU" Ids="QztL8ZiKApnP03h3hR2wys,MhYyYS6JTkoQYGmLBZQyH3" />
+            <Patch Id="QgNuI00347WOB2k35Fmutk" Name="Create" />
+            <Patch Id="TTeX31KNfk5Ou94AIFGF62" Name="Update">
+              <Pin Id="GYJTMV4Iz3IMq96wFq9piM" Name="Load" Kind="InputPin" Bounds="270,771" />
+              <Pin Id="F8Cqrn7pAENNcG0LENTJwI" Name="Input" Kind="InputPin" Bounds="121,-42" />
+              <Pin Id="PY2CDkQJ6aZMmY2yqaZAPg" Name="Output" Kind="OutputPin" Bounds="123,780" />
+            </Patch>
           </Patch>
         </Node>
         <!--
@@ -1202,14 +1202,6 @@
               <ControlPoint Id="CNP3CYUHTQZLD3z5bxHMhk" Bounds="163,284" />
               <ControlPoint Id="Iin84DRu62KLcwZPUJRiAE" Bounds="103,288" />
             </Canvas>
-            <Patch Id="Bgo8HRy4pPIQUcOEYOnnvl" Name="Create" />
-            <Patch Id="Mk6dhQi0lBwOaSQEvujm1i" Name="Update">
-              <Pin Id="TwhCMoW44whMNZYSHeDQw5" Name="File Paths" Kind="InputPin" Bounds="375,106" />
-              <Pin Id="MyI69t6HEyQOV9py1t8Zsn" Name="Load As SRGB" Kind="InputPin" Bounds="414,141" />
-              <Pin Id="MUOsEtYmqo5OwYMh3W5l5w" Name="Load" Kind="InputPin" Bounds="169,63" />
-              <Pin Id="HCYq4TN8NvfMYhIzdyWFjs" Name="On Data" Kind="OutputPin" Bounds="244,469" />
-              <Pin Id="QGO9X0J4EXZPHOyr3U6QZu" Name="Output" Kind="OutputPin" Bounds="317,866" />
-            </Patch>
             <ProcessDefinition Id="JxaaUfi2fynMoGAw429j8P">
               <Fragment Id="LVw7WMORDzJOGVPHKq726B" Patch="Bgo8HRy4pPIQUcOEYOnnvl" Enabled="true" />
               <Fragment Id="Htdyr7Ean5IN4wa4Vxjf0U" Patch="Mk6dhQi0lBwOaSQEvujm1i" Enabled="true" />
@@ -1229,6 +1221,14 @@
             <Link Id="EJaabAqa409PNeuH6rUtj9" Ids="CNP3CYUHTQZLD3z5bxHMhk,HCYq4TN8NvfMYhIzdyWFjs" IsHidden="true" />
             <Link Id="KHgbGbzHHz2P50qZQsagyM" Ids="Iin84DRu62KLcwZPUJRiAE,QGO9X0J4EXZPHOyr3U6QZu" IsHidden="true" />
             <Link Id="NxNairzhqFiPOiNP2S0XhC" Ids="IX8HleuyVPJPxER2H3HaAx,Iin84DRu62KLcwZPUJRiAE" />
+            <Patch Id="Bgo8HRy4pPIQUcOEYOnnvl" Name="Create" />
+            <Patch Id="Mk6dhQi0lBwOaSQEvujm1i" Name="Update">
+              <Pin Id="MUOsEtYmqo5OwYMh3W5l5w" Name="Load" Kind="InputPin" Bounds="169,63" />
+              <Pin Id="MyI69t6HEyQOV9py1t8Zsn" Name="Load As SRGB" Kind="InputPin" Bounds="414,141" />
+              <Pin Id="TwhCMoW44whMNZYSHeDQw5" Name="File Paths" Kind="InputPin" Bounds="375,106" />
+              <Pin Id="QGO9X0J4EXZPHOyr3U6QZu" Name="Output" Kind="OutputPin" Bounds="317,866" />
+              <Pin Id="HCYq4TN8NvfMYhIzdyWFjs" Name="On Data" Kind="OutputPin" Bounds="244,469" />
+            </Patch>
           </Patch>
         </Node>
         <!--
@@ -1629,12 +1629,6 @@
               <ControlPoint Id="GWpwTM0adyMNt9zsyqQF4Q" Bounds="873,229" />
               <ControlPoint Id="QwqwzayKdGVOesGRDk7Uno" Bounds="1292,1744" />
             </Canvas>
-            <Patch Id="L1lmMPvkhwyN1MnI5Fl9ZX" Name="Create" />
-            <Patch Id="O6iOGqme7TQPd5DMXUPBIn" Name="Update">
-              <Pin Id="I305qFw1hY6N2IeivEOR0Q" Name="Input" Kind="InputPin" Bounds="121,-42" />
-              <Pin Id="IQvY4kgw0GLNB9rNox7bP0" Name="Output" Kind="OutputPin" Bounds="123,780" />
-              <Pin Id="Lg0ryegVTSKN8gW4taSIuR" Name="Load" Kind="InputPin" Bounds="270,771" />
-            </Patch>
             <ProcessDefinition Id="GN2cMEeC85yMO6jWRNKo5k">
               <Fragment Id="NtatZp9uTxjPtFpRZveGe3" Patch="L1lmMPvkhwyN1MnI5Fl9ZX" Enabled="true" />
               <Fragment Id="Fdtn2fvAqGiMhpCFOTGhyx" Patch="O6iOGqme7TQPd5DMXUPBIn" Enabled="true" />
@@ -1718,6 +1712,12 @@
             <Link Id="IyjNOMa8hW1MMYReFFBINR" Ids="GWpwTM0adyMNt9zsyqQF4Q,TSDfwuxDGB9OVmeIH3Ico5" />
             <Link Id="ODURVcS5FfgL2JlG7saeNE" Ids="J8ANfsYGMUsOXPU8wVyfRr,AD4NMO8Ojn3OYsCp0FuKW3,FtcSEgmqRpLMz6Mwus8mxS" />
             <Link Id="QEwEGTbMGPkPpfi2HNI6AP" Ids="B845Gmn4UteLJAtituxJG6,PXw6ZL155tYQU7j29udKow" />
+            <Patch Id="L1lmMPvkhwyN1MnI5Fl9ZX" Name="Create" />
+            <Patch Id="O6iOGqme7TQPd5DMXUPBIn" Name="Update">
+              <Pin Id="Lg0ryegVTSKN8gW4taSIuR" Name="Load" Kind="InputPin" Bounds="270,771" />
+              <Pin Id="I305qFw1hY6N2IeivEOR0Q" Name="Input" Kind="InputPin" Bounds="121,-42" />
+              <Pin Id="IQvY4kgw0GLNB9rNox7bP0" Name="Output" Kind="OutputPin" Bounds="123,780" />
+            </Patch>
           </Patch>
         </Node>
         <!--
@@ -2335,11 +2335,6 @@
               <ControlPoint Id="IfRRTkubArdNWmwU3OU41n" Bounds="350,29" />
               <ControlPoint Id="NOyACQkKdvIMaOkaFeJPSP" Bounds="141,63" />
             </Canvas>
-            <Patch Id="BQndSiGyO3nPe72C9MUiO3" Name="Create" />
-            <Patch Id="UgJEj8BKb9OP2tqgSARodf" Name="Update">
-              <Pin Id="RLAzCcrsWdhPgdQtz0UUAe" Name="Input" Kind="InputPin" Bounds="350,29" />
-              <Pin Id="F7tJlehRe2yPYaNMibSxNJ" Name="Load" Kind="InputPin" Bounds="144,68" />
-            </Patch>
             <ProcessDefinition Id="QxvWoYPYKk3OVCZbpyRG9W">
               <Fragment Id="AKGICj1Ag7SQRkpNLynGmM" Patch="BQndSiGyO3nPe72C9MUiO3" Enabled="true" />
               <Fragment Id="HRqsFymxw8sNzIOh39KIWN" Patch="UgJEj8BKb9OP2tqgSARodf" Enabled="true" />
@@ -2460,6 +2455,11 @@
             <Link Id="Pe8OEOR3tEEPmpixlt584l" Ids="IfRRTkubArdNWmwU3OU41n,TtVov6obpWrMWPOQORaF8d" />
             <Link Id="MaLv3wnVNpcPkAdftFH8oO" Ids="NOyACQkKdvIMaOkaFeJPSP,IjoHLzKh7UJLbBfX3sDZiK" />
             <Link Id="OBhWRtCRs7QP14DfgrS5pX" Ids="F7tJlehRe2yPYaNMibSxNJ,NOyACQkKdvIMaOkaFeJPSP" IsHidden="true" />
+            <Patch Id="BQndSiGyO3nPe72C9MUiO3" Name="Create" />
+            <Patch Id="UgJEj8BKb9OP2tqgSARodf" Name="Update">
+              <Pin Id="F7tJlehRe2yPYaNMibSxNJ" Name="Load" Kind="InputPin" Bounds="144,68" />
+              <Pin Id="RLAzCcrsWdhPgdQtz0UUAe" Name="Input" Kind="InputPin" Bounds="350,29" />
+            </Patch>
           </Patch>
         </Node>
         <Pad Id="RScZMeawxjxNIGFGOcmsVJ" Bounds="-589,272,263,19" ShowValueBox="true" isIOBox="true" Value="using staging texture and mapsubresource">
@@ -2525,12 +2525,6 @@
               <ControlPoint Id="DlUBOs5yNrnOKlxsRP6cD6" Bounds="85,237" />
               <ControlPoint Id="P2YQ0ZbsMUUQRkeSTfEDc1" Bounds="15,41" />
             </Canvas>
-            <Patch Id="JCE5krztSAZLXkMP2cYcvG" Name="Create" />
-            <Patch Id="M2QGF6TgvFfOVxWTnfUNNi" Name="Update">
-              <Pin Id="MZeIqmHIrXSLujjGnWolfv" Name="Load" Kind="InputPin" Bounds="299,290" />
-              <Pin Id="O8rRb1UCRRPQCSYP1zl8M0" Name="Output" Kind="OutputPin" Bounds="742,1655" />
-              <Pin Id="Jn54SOFIPmGO31ZhE5ZWSJ" Name="Input" Kind="InputPin" Bounds="149,50" />
-            </Patch>
             <ProcessDefinition Id="JGzSGNHxfdELMrZ8vuy3RU">
               <Fragment Id="R32SYN68J57MlDqYTSl2ul" Patch="JCE5krztSAZLXkMP2cYcvG" Enabled="true" />
               <Fragment Id="Portp2J2MA5M7JFxufBlEQ" Patch="M2QGF6TgvFfOVxWTnfUNNi" Enabled="true" />
@@ -2543,6 +2537,12 @@
             <Link Id="Nr7NwvB0fTeMBNMe1bLhjY" Ids="E9XzQYhmPwQPzKndHmnvre,UkClF5MAP8dLmfDNSMef8l" />
             <Link Id="JkVX2pXt2fAOtyK2PzhN4h" Ids="P2YQ0ZbsMUUQRkeSTfEDc1,Pr0e8ttPUJVNpTLMudGWRG" />
             <Link Id="MiNqpdU1WsOPTnZeuBVyBe" Ids="Jn54SOFIPmGO31ZhE5ZWSJ,P2YQ0ZbsMUUQRkeSTfEDc1" IsHidden="true" />
+            <Patch Id="JCE5krztSAZLXkMP2cYcvG" Name="Create" />
+            <Patch Id="M2QGF6TgvFfOVxWTnfUNNi" Name="Update">
+              <Pin Id="Jn54SOFIPmGO31ZhE5ZWSJ" Name="Input" Kind="InputPin" Bounds="149,50" />
+              <Pin Id="MZeIqmHIrXSLujjGnWolfv" Name="Load" Kind="InputPin" Bounds="299,290" />
+              <Pin Id="O8rRb1UCRRPQCSYP1zl8M0" Name="Output" Kind="OutputPin" Bounds="742,1655" />
+            </Patch>
           </Patch>
         </Node>
         <!--
@@ -2640,13 +2640,6 @@
                 </p:ValueBoxSettings>
               </Pad>
             </Canvas>
-            <Patch Id="GNS5WNaavimL9jzaMpDb4q" Name="Create" />
-            <Patch Id="AnB1rWoJSRxLwpAaXNpFHm" Name="Update">
-              <Pin Id="PJM4qNz3sZ1NOHSkYVtwf1" Name="Input" Kind="InputPin" Bounds="439,163" />
-              <Pin Id="VMROAwk10YTLorJlI0OVw5" Name="Load" Kind="InputPin" Bounds="189,55" />
-              <Pin Id="SPNAm7ug73FNbWBwPuiACz" Name="Output" Kind="OutputPin" Bounds="187,386" />
-              <Pin Id="KSBl62J89aeOue89UKpnZs" Name="On Data" Kind="OutputPin" Bounds="258,387" />
-            </Patch>
             <ProcessDefinition Id="GY88LOOHYNdLM0C5ZDoCtj">
               <Fragment Id="MXFSwQSGfUBOLHa9XOzocC" Patch="GNS5WNaavimL9jzaMpDb4q" Enabled="true" />
               <Fragment Id="F74EcERfHjVO04V54Vmv1p" Patch="AnB1rWoJSRxLwpAaXNpFHm" Enabled="true" />
@@ -2668,6 +2661,13 @@
             <Link Id="MC6PLcKMpGwMWcdLtF27Nr" Ids="JJKcUyz2sFhOIT0uQroMKM,UdsX04MU29OL3xzJVku9qJ" />
             <Link Id="VdoRI9F9JDkOsYs705TOxm" Ids="UdsX04MU29OL3xzJVku9qJ,T2iSuL4loAvOUfGUJGnBdI" />
             <Link Id="Vj2AEf8BQuMOQMH5mYGycv" Ids="PNhlfWsdwRKPPPuX0E41ve,FyjRHU8vff8Lb9AEXnrryV" />
+            <Patch Id="GNS5WNaavimL9jzaMpDb4q" Name="Create" />
+            <Patch Id="AnB1rWoJSRxLwpAaXNpFHm" Name="Update">
+              <Pin Id="VMROAwk10YTLorJlI0OVw5" Name="Load" Kind="InputPin" Bounds="189,55" />
+              <Pin Id="PJM4qNz3sZ1NOHSkYVtwf1" Name="Input" Kind="InputPin" Bounds="439,163" />
+              <Pin Id="SPNAm7ug73FNbWBwPuiACz" Name="Output" Kind="OutputPin" Bounds="187,386" />
+              <Pin Id="KSBl62J89aeOue89UKpnZs" Name="On Data" Kind="OutputPin" Bounds="258,387" />
+            </Patch>
           </Patch>
         </Node>
         <!--
@@ -3500,12 +3500,6 @@
               </Node>
               <ControlPoint Id="In87RoLbKz0N6UKhupjCgl" Bounds="448,1395" />
             </Canvas>
-            <Patch Id="QdCwkYA8nnTOlIcLJQHeS6" Name="Create" />
-            <Patch Id="NaRpciNkeDqMlo0llIRfdy" Name="Update">
-              <Pin Id="Ji4ZrNxiyL3O42soQDUG8J" Name="File Paths" Kind="InputPin" Bounds="468,777" />
-              <Pin Id="VNInUxQlMcaL5nUp1riejo" Name="Load As SRGB" Kind="InputPin" Bounds="526,804" />
-              <Pin Id="IqUTivm8rxkNZYMDI2xDH0" Name="Output" Kind="OutputPin" Bounds="447,1468" />
-            </Patch>
             <ProcessDefinition Id="K4uNe07e06xL0ipHfueigb">
               <Fragment Id="HrzVi5RVjB4Qcj26v88kZa" Patch="QdCwkYA8nnTOlIcLJQHeS6" Enabled="true" />
               <Fragment Id="Soy9vjTB9JjMozzf9T0bvP" Patch="NaRpciNkeDqMlo0llIRfdy" Enabled="true" />
@@ -3585,6 +3579,12 @@
             <Link Id="AlSIpWi2DaGPe9FVZOvDnU" Ids="Bs3QBIrgl42NrpOr1bzz7v,LCsHon8vokAOwPs7Fb2SSH" />
             <Link Id="H4335YznBvwQTRNe4TePIP" Ids="C6nYlMdJkvGMj9I6QHkGcu,In87RoLbKz0N6UKhupjCgl" />
             <Link Id="NTdMSbCBuWGLBFFlyA5q5L" Ids="In87RoLbKz0N6UKhupjCgl,IqUTivm8rxkNZYMDI2xDH0" IsHidden="true" />
+            <Patch Id="QdCwkYA8nnTOlIcLJQHeS6" Name="Create" />
+            <Patch Id="NaRpciNkeDqMlo0llIRfdy" Name="Update">
+              <Pin Id="VNInUxQlMcaL5nUp1riejo" Name="Load As SRGB" Kind="InputPin" Bounds="526,804" />
+              <Pin Id="Ji4ZrNxiyL3O42soQDUG8J" Name="File Paths" Kind="InputPin" Bounds="468,777" />
+              <Pin Id="IqUTivm8rxkNZYMDI2xDH0" Name="Output" Kind="OutputPin" Bounds="447,1468" />
+            </Patch>
           </Patch>
         </Node>
       </Canvas>
@@ -3610,7 +3610,7 @@
       </Patch>
     </Node>
   </Patch>
-  <NugetDependency Id="JGeaopK3ASqLipgvfkzoPS" Location="VL.Stride" Version="0.9.90-g7445968757" />
+  <NugetDependency Id="JGeaopK3ASqLipgvfkzoPS" Location="VL.Stride" Version="2021.4.3" />
   <PlatformDependency Id="TgPMbLRt6BXNZl5NNYn31n" Location="../../../../_vvvv/vvvv_gamma_2020.3.0-0056-gdf685c9d05/lib/Stride.Core.Serialization.dll" />
   <PlatformDependency Id="IlOsaYtqcsrPoVbZi8Q7y9" Location="../../../../_vvvv/vvvv_gamma_2020.3.0-0056-gdf685c9d05/lib/Stride.Graphics.dll" />
   <PlatformDependency Id="P9jqRnfGgCqLFTnVctlsSK" Location="mscorlib" />
