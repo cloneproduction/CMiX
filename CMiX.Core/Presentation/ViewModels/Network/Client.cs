@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Threading.Tasks;
 using Ceras;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels;
@@ -42,8 +43,11 @@ namespace CMiX.Core.Services
         public WatsonTcpClient WatsonTcpClient { get; set; }
         public void Start(Settings settings)
         {
-            if (WatsonTcpClient == null)
-            {
+            if(WatsonTcpClient != null)
+                WatsonTcpClient.Dispose();
+
+            //if (WatsonTcpClient == null)
+            //{
                 WatsonTcpClient = new WatsonTcpClient(settings.IP, settings.Port);
                 WatsonTcpClient.Events.ServerConnected += ServerConnected;
                 WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
@@ -51,10 +55,10 @@ namespace CMiX.Core.Services
                 //WatsonTcpClient.Callbacks.SyncRequestReceived = SyncRequestReceived;
                 WatsonTcpClient.Settings.ConnectTimeoutSeconds = 5;
 
-                TryToConnect(WatsonTcpClient);
+                _ = TryToConnect(WatsonTcpClient);
 
                 Console.WriteLine($"WatsonTcp Started with Address " + Address);
-            }
+            //}
 
         }
 
@@ -78,6 +82,7 @@ namespace CMiX.Core.Services
             Console.WriteLine("Server " + e.IpPort + " disconnected");
             DeconnectionReason = e.Reason.ToString();
             ServerIsConnected = false;
+            _ = TryToConnect(this.WatsonTcpClient);
         }
 
         private void ServerConnected(object sender, ConnectionEventArgs e)
@@ -87,23 +92,22 @@ namespace CMiX.Core.Services
         }
 
 
-        private void TryToConnect(WatsonTcpClient watsonTcpClient)
+        private async Task TryToConnect(WatsonTcpClient watsonTcpClient)
         {
-            //bool success = false;
-
-            if (WatsonTcpClient != null)
+            while (!watsonTcpClient.Connected)
             {
-                while (!this.WatsonTcpClient.Connected)
-                {
-                    try
-                    {
-                        watsonTcpClient.Connect();
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Can't Connect");
-                    }
-                }
+                _ = Task.Run(() =>
+                  {
+                      try
+                      {
+                          watsonTcpClient.Connect();
+                      }
+                      catch (Exception)
+                      {
+                          Console.WriteLine("Trying to connect to server");
+                      }
+                  });
+                await Task.Delay(TimeSpan.FromSeconds(5));
             }
         }
 

@@ -36,5 +36,3 @@ namespace CMiX.Console
         }
     }
 }
-s
-s
