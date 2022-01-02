@@ -5,6 +5,7 @@ using System;
 using System.Windows.Media;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 using MvvmDialogs;
@@ -28,7 +29,12 @@ namespace CMiX.Core.Presentation.ViewModels
         public Color SelectedColor
         {
             get => _selectedColor;
-            set => SetProperty(ref _selectedColor, value);
+            set
+            {
+                SetProperty(ref _selectedColor, value);
+                MessageUpdateViewModel pouet = new MessageUpdateViewModel(this);
+                WeakReferenceMessenger.Default.Send(pouet, MessageType.Out);
+            }
         }
 
         public bool? DialogResult { get; set; }
@@ -37,12 +43,14 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ColorSelectorModel colorSelectorModel = model as ColorSelectorModel;
             this.ID = colorSelectorModel.ID;
+            this.SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
         }
 
         public IModel GetModel()
         {
             ColorSelectorModel model = new ColorSelectorModel();
             model.ID = this.ID;
+            model.SelectedColor = this.SelectedColor.ToString();
             return model;
         }
 

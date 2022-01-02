@@ -395,76 +395,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public void DragEnter(IDropInfo dropInfo)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void DragLeave(IDropInfo dropInfo)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }
-
-
-
-//private ObservableCollection<IAsset> _assetsFlatten;
-//public ObservableCollection<IAsset> AssetsFlatten
-//{
-//    get => _assetsFlatten;
-//    set => SetProperty(ref _assetsFlatten, value);
-//}
-
-//public CollectionViewSource GeometryViewSource { get; set; }
-//private ICollectionView _geometryCollectionView;
-//public ICollectionView GeometryCollectionView
-//{
-//    get => _geometryCollectionView;
-//    set => SetProperty(ref _geometryCollectionView, value);
-//}
-
-//public CollectionViewSource ImageViewSource { get; set; }
-//private ICollectionView _imageCollectionView;
-//public ICollectionView ImageCollectionView
-//{
-//    get => _imageCollectionView;
-//    set => SetProperty(ref _imageCollectionView, value);
-//}
-
-//public void InitCollectionView()
-//{
-//    GeometryViewSource = new CollectionViewSource();
-//    GeometryViewSource.Source = this.AssetsFlatten;
-//    GeometryCollectionView = GeometryViewSource.View;
-//    GeometryCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetGeometry.Name), ListSortDirection.Ascending));
-//    GeometryCollectionView.Filter = FilterGeometry;
-
-//    ImageViewSource = new CollectionViewSource();
-//    ImageViewSource.Source = this.AssetsFlatten;
-//    ImageCollectionView = ImageViewSource.View;
-//    ImageCollectionView.SortDescriptions.Add(new SortDescription(nameof(AssetTexture.Name), ListSortDirection.Ascending));
-//    ImageCollectionView.Filter = FilterImage;
-//}
-
-//private void FlattenAssets_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-//{
-//    Console.WriteLine("POUETPOUET");
-//    //GeometryCollectionView.Refresh();
-//    //ImageCollectionView.Refresh();
-//}
-
-
-//public void BuildAssetFlattenCollection(ObservableCollection<Asset> assets)
-//{
-//    foreach (Asset asset in assets)
-//    {
-//        if (asset is AssetDirectory)
-//            BuildAssetFlattenCollection(((AssetDirectory)asset).Assets);
-//        else
-//            AssetsFlatten.Add(asset);
-//    }
-//}
-
-
-//public bool FilterGeometry(object item) => item is AssetGeometry ? true : false;
-//public bool FilterImage(object item) => item is AssetTexture ? true : false;
-

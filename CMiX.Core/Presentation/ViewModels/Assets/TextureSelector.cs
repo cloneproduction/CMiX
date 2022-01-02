@@ -32,7 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             set
             {
                 SetProperty(ref _selectedAsset, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAsset(this, SelectedAsset), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAsset(this, value), MessageType.Out);
                 if (value != null)
                     Console.WriteLine("SelectedAsset Name is " + SelectedAsset.Name);
             }
@@ -54,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public void SetViewModel(IModel model)
         {
             TextureSelectorModel assetPathSelectorModel = model as TextureSelectorModel;
-            assetPathSelectorModel.ID = this.ID;
+            this.ID = assetPathSelectorModel.ID;
 
             if (this.SelectedAsset == null)
                 this.SelectedAsset = new AssetTexture();

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Windows.Media;
 
 namespace CMiX.Core.Models
 {
@@ -11,11 +12,12 @@ namespace CMiX.Core.Models
         public ColorSelectorModel()
         {
             ID = Guid.NewGuid();
-            ColorPickerModel = new ColorPickerModel();
+            //ColorPickerModel = new ColorPickerModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public ColorPickerModel ColorPickerModel { get; set; }
+        public string SelectedColor { get; set; }
+        //public ColorPickerModel ColorPickerModel { get; set; }
     }
 }

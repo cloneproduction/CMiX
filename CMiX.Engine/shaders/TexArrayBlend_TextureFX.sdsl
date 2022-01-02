@@ -1,0 +1,29 @@
+shader TexArrayBlend_TextureFX : TextureFX
+{
+    Texture2DArray ArrayTexture;
+
+    [Default(0)]
+    compose ComputeFloat ArraySize;
+
+    rgroup PerUpdate
+    {
+	    Buffer<float> Alpha;
+    }
+
+    stage override float4 Shading()
+    {
+        float2 uv = streams.TexCoord;
+        float4 color = float4(0.0, 0.0, 0.0, 1.0);
+
+        for(int i = ArraySize.Compute(); i >= 0; i--)
+        {
+            float pouet = Alpha[i];
+            float4 col = ArrayTexture.Sample(LinearSampler, float3(uv, i));
+
+            color = color + col;
+            color *= Alpha[i];
+        }
+
+        return float4(color.rgb, color.a);
+    }
+};
