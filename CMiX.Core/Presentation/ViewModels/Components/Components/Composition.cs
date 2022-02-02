@@ -1,8 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -14,7 +16,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             ID = compositionModel.ID;
             Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
-            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
+
+            //MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
+
+
             //Camera = new Camera(MasterBeat, compositionModel.CameraModel);
             //Visibility = new Visibility(project.Visibility, compositionModel.VisibilityModel);
         }

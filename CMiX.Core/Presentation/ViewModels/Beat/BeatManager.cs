@@ -132,6 +132,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         private void SendMessage()
         {
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatChange(SelectedMasterBeat), MessageType.Internal);
         }
 
         public void Reset()

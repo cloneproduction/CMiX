@@ -20,7 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Mask = new Mask(sceneModel.MaskModel);
             Transform = new Transform(sceneModel.TransformModel);
 
-            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
+            //MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
         }
 
 

@@ -20,6 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         IRecipient<IMessage>,
         IRecipient<MessageMasterBeatCollectionChanged>,
         IRecipient<MessageSelectedMasterBeatChange>,
+        IRecipient<MessageMasterBeatChange>,
         IControl
     {
         public BeatModifier(BeatModifierModel beatModifierModel)
@@ -32,7 +33,9 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
             Multiplier = beatModifierModel.Multiplier;
 
-            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
+            MasterBeats = new ObservableCollection<MasterBeat>();
+            //NOT A GOOD IDEA
+            //MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -169,6 +172,18 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
                 }
 
                 SelectedMasterBeat = null;
+                SetAnimatedDouble();
+            }
+        }
+
+        public void Receive(MessageMasterBeatChange message)
+        {
+            if (SelectedMasterBeat == null)
+                return;
+
+            if(SelectedMasterBeat.ID == message.ID)
+            {
+                SelectedMasterBeat.SetViewModel(message.MasterBeatModel);
                 SetAnimatedDouble();
             }
         }

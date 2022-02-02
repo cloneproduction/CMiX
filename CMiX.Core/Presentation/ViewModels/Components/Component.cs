@@ -19,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         ObservableRecipient,
         IRecipient<MessageMasterBeatCollectionChanged>,
         IRecipient<MessageRequestMasterBeat>,
-        IRecipient<IMessage>,
+        //IRecipient<IMessage>,
         IComponent, 
         IDisposable
     {
@@ -29,6 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Name = this.GetType().Name;
             RenameCommand = new RelayCommand(Rename);
             Components = new ObservableCollection<IComponent>();
+            MasterBeats = new ObservableCollection<MasterBeat>();
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
@@ -122,17 +123,17 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
         }
 
-        public void Receive(IMessage message)
-        {
-            if (message is MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
-            {
-                if (messageSelectedMasterBeatChange.ID == this.ID)
-                {
-                    SelectMasterBeat(MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID));
-                    Console.WriteLine(this.GetType() + this.Name + " SelectedMasterBeatChange with period " + SelectedMasterBeat.Period);
-                }
-            }
-        }
+        //public void Receive(IMessage message)
+        //{
+        //    if (message is MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
+        //    {
+        //        if (messageSelectedMasterBeatChange.ID == this.ID)
+        //        {
+        //            SelectMasterBeat(MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID));
+        //            Console.WriteLine(this.GetType() + this.Name + " SelectedMasterBeatChange with period " + SelectedMasterBeat.Period);
+        //        }
+        //    }
+        //}
 
 
         public void SelectMasterBeat(MasterBeat masterBeat)
@@ -154,6 +155,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public void AddComponent(IComponent component)
         {
             Components.Add(component);
+            component.MasterBeats = this.MasterBeats;
             component.SelectMasterBeat(this.SelectedMasterBeat);
             IsExpanded = true;
         }

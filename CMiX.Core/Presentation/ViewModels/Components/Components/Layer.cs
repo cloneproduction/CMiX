@@ -18,8 +18,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             PostFX = new PostFX(layerModel.PostFXModel);
             BlendMode = new BlendMode(layerModel.BlendMode);
             Mask = new Mask(layerModel.MaskModel);
-
-            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
         }
 
 

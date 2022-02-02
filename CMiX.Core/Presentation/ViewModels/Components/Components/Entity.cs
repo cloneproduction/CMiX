@@ -19,7 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Texture = new Texture(entityModel.TextureModel, ID);
             Coloration = new Coloration(entityModel.ColorationModel, ID);
             //Visibility = new Visibility(entityModel.VisibilityModel);
-            MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
         }
 
 
