@@ -3,6 +3,7 @@
 
 using System;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using Ceras;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels;
@@ -15,6 +16,7 @@ namespace CMiX.Core.Services
     {
         public Client()
         {
+            var config = new SerializerConfig();
             Serializer = new CerasSerializer();
             ServerIsConnected = false;
         }

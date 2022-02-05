@@ -15,7 +15,7 @@ using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Coloration : ObservableObject, IModalDialogViewModel
+    public class Coloration : ObservableObject, IControl, IModalDialogViewModel
     {
         public Coloration(ColorationModel colorationModel, Guid componentID)
         {
@@ -30,6 +30,30 @@ namespace CMiX.Core.Presentation.ViewModels
         public BeatModifier BeatModifier { get; set; }
 
         public bool? DialogResult { get; set; }
+        public Guid ID { get; set; }
+
+
+
+
+
+        public IModel GetModel()
+        {
+            ColorationModel model = new ColorationModel(this.ID);
+
+            model.ID = this.ID;
+            model.ColorSelectorModel = (ColorSelectorModel)this.ColorSelector.GetModel();
+            model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
+
+            return model;
+        }
+
+        public void SetViewModel(IModel model)
+        {
+            ColorationModel colorationModel = model as ColorationModel;
+            this.ID = colorationModel.ID;
+            this.ColorSelector.SetViewModel(colorationModel.ColorSelectorModel);
+            this.BeatModifier.SetViewModel(colorationModel.BeatModifierModel);
+        }
 
         public void OpenColorSelector()
         {
@@ -43,5 +67,7 @@ namespace CMiX.Core.Presentation.ViewModels
             //}
             ////server.SetSettings(settings);
         }
+
+
     }
 }

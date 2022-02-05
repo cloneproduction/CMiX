@@ -6,18 +6,16 @@ using System.Windows.Media;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
     public class ColorSelectorModel : IModel
     {
         public ColorSelectorModel()
         {
             ID = Guid.NewGuid();
-            //ColorPickerModel = new ColorPickerModel();
+            SelectedColor = "#FFFF00FF";
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public string SelectedColor { get; set; }
-        //public ColorPickerModel ColorPickerModel { get; set; }
     }
 }

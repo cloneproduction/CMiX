@@ -18,6 +18,8 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = colorSelectorModel.ID;
             SelectedColor = new Color() { A = 255, R = 255, G = 0, B = 255 };
+
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             //this.SelectedColor = Utils.HexStringToColor(colorSelectorModel.ColorPickerModel.SelectedColor);
         }
 
@@ -32,8 +34,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _selectedColor, value);
-                MessageUpdateViewModel pouet = new MessageUpdateViewModel(this);
-                WeakReferenceMessenger.Default.Send(pouet, MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 

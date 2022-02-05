@@ -17,6 +17,11 @@ namespace CMiX.Core.Models
             ValModel = new RangeControlModel();
         }
 
+        public ColorationModel(Guid ID) :this()
+        {
+            this.ID = ID;
+        }
+
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public ColorSelectorModel ColorSelectorModel { get; set; }

@@ -16,6 +16,7 @@ namespace CMiX.Core.Models
             GeometryModel = new GeometryModel();
             TextureModel = new TextureModel();
             ColorationModel = new ColorationModel();
+
             VisibilityModel = new VisibilityModel();
         }
 

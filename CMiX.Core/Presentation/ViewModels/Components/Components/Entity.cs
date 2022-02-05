@@ -18,6 +18,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Geometry = new Geometry(entityModel.GeometryModel, ID);
             Texture = new Texture(entityModel.TextureModel, ID);
             Coloration = new Coloration(entityModel.ColorationModel, ID);
+
             //Visibility = new Visibility(entityModel.VisibilityModel);
         }
 
@@ -34,7 +35,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Name = this.Name;
             model.TextureModel = (TextureModel)this.Texture.GetModel();
             model.GeometryModel = (GeometryModel)this.Geometry.GetModel();
-            //model.ColorationModel = (ColorationModel)this.Coloration.GetModel();
+            model.ColorationModel = (ColorationModel)this.Coloration.GetModel();
 
             return model;
         }
@@ -45,7 +46,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.ID = entityModel.ID;
             this.Texture.SetViewModel(entityModel.TextureModel);
             this.Geometry.SetViewModel(entityModel.GeometryModel);
-            //this.Coloration.SetViewModel(entityModel.ColorationModel);
+            this.Coloration.SetViewModel(entityModel.ColorationModel);
         }
     }
 }
