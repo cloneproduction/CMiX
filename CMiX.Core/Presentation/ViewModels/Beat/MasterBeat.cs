@@ -54,6 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public Resync Resync { get; set; }
 
 
+
         private readonly List<double> tapPeriods;
         private readonly List<double> tapTime;
 
@@ -175,6 +176,8 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             this.Period = masterBeatModel.Period;
             this.Periods = masterBeatModel.Periods;
             this.Multiplier = masterBeatModel.Multiplier;
+
+            Resync.SetViewModel(masterBeatModel.ResyncModel);
         }
 
         public IModel GetModel()
@@ -184,6 +187,9 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.Period = this.Period;
             model.Periods = this.Periods;
             model.Multiplier = this.Multiplier;
+
+            model.ResyncModel = (ResyncModel)this.Resync.GetModel();
+
             return model;
         }
     }

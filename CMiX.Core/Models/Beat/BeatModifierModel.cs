@@ -12,6 +12,7 @@ namespace CMiX.Core.Models
         {
             this.ID = Guid.NewGuid();
             ChanceToHit = new SliderModel { Amount = 100.0 };
+            BeatIndex = 0;
         }
 
         public int BeatIndex { get; set; }

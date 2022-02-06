@@ -20,7 +20,6 @@ namespace CMiX.Core.Presentation.ViewModels
             SelectedColor = new Color() { A = 255, R = 255, G = 0, B = 255 };
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-            //this.SelectedColor = Utils.HexStringToColor(colorSelectorModel.ColorPickerModel.SelectedColor);
         }
 
 

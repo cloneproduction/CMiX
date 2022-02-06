@@ -34,8 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Multiplier = beatModifierModel.Multiplier;
 
             MasterBeats = new ObservableCollection<MasterBeat>();
-            //NOT A GOOD IDEA
-            //MasterBeats = WeakReferenceMessenger.Default.Send(new MessageRequestMasterBeats(), MessageType.Internal).Response;
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -60,6 +58,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public MasterBeat SelectedMasterBeat { get; set; }
 
 
+
         private AnimatedDouble _animatedDouble;
         public AnimatedDouble AnimatedDouble
         {
@@ -70,8 +69,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         private int maxIndex = 4;
         private int minIndex = -4;
-
-        private int Index { get; set; }
 
 
         private double _period;
@@ -95,23 +92,30 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
-        public void Reset() => Multiplier = 1;
+        public void Reset()
+        {
+            BeatIndex = 0;
+            SetAnimatedDouble();
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+        }
 
 
         public void Multiply()
         {
-            if (Index <= minIndex)
+            if (BeatIndex <= minIndex)
                 return;
-            Index--;
+            BeatIndex--;
             SetAnimatedDouble();
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
 
         public void Divide()
         {
-            if (Index >= maxIndex)
+            if (BeatIndex >= maxIndex)
                 return;
-            Index++;
+            BeatIndex++;
             SetAnimatedDouble();
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
 
 
@@ -119,15 +123,13 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         {
             if (SelectedMasterBeat != null)
             {
-                BeatIndex = Index + SelectedMasterBeat.BeatIndex;
-                Period = SelectedMasterBeat.Periods[Index + SelectedMasterBeat.BeatIndex];
-                AnimatedDouble = SelectedMasterBeat.BeatAnimations.AnimatedDoubles[Index + SelectedMasterBeat.BeatIndex];
+                Period = SelectedMasterBeat.Periods[BeatIndex + SelectedMasterBeat.BeatIndex];
+                AnimatedDouble = SelectedMasterBeat.BeatAnimations.AnimatedDoubles[BeatIndex + SelectedMasterBeat.BeatIndex];
                 return;
             }
 
-            BeatIndex = 0;
             Period = 0;
-            AnimatedDouble = null; 
+            AnimatedDouble = null;
         }
 
         public void SetViewModel(IModel model)
@@ -160,20 +162,18 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         {
             MasterBeats = message.MasterBeats;
 
-            if (SelectedMasterBeat == null)
-                return;
+            if(MasterBeats.Count == 0)
+                SelectedMasterBeat = null;
 
-            if (!this.MasterBeats.Any(x => x.ID == this.SelectedMasterBeat.ID))
+            if(SelectedMasterBeat != null)
             {
-                if (MasterBeats.Count > 0)
+                if (!this.MasterBeats.Any(x => x.ID == this.SelectedMasterBeat.ID))
                 {
                     SelectedMasterBeat = MasterBeats[0];
-                    return;
                 }
-
-                SelectedMasterBeat = null;
-                SetAnimatedDouble();
             }
+
+            SetAnimatedDouble();
         }
 
         public void Receive(MessageMasterBeatChange message)
@@ -181,32 +181,46 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if (SelectedMasterBeat == null)
                 return;
 
-            if(SelectedMasterBeat.ID == message.ID)
+            if(SelectedMasterBeat != null)
             {
-                SelectedMasterBeat.SetViewModel(message.MasterBeatModel);
-                SetAnimatedDouble();
+                if (SelectedMasterBeat.ID == message.ID)
+                {
+                    SelectedMasterBeat.SetViewModel(message.MasterBeatModel);
+                }
             }
+
+            SetAnimatedDouble();
         }
 
         public void Receive(MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
         {
-            this.SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID);
-            SetAnimatedDouble();
-            return;
+            //this.SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID);
+            //SetAnimatedDouble();
         }
 
 
         public void Receive(IMessage message)
         {
+            if (message is MessageMasterBeatChange messageMasterBeatChange)
+            {
+                this.Receive(messageMasterBeatChange);
+            }
+
+            //if (message.ID != this.ID)
+            //    return;
+
             if (message is MessageUpdateViewModel msg)
             {
-                if (msg.ID == this.ID)
-                {
-                    this.SetViewModel(msg.Model);
-                    SetAnimatedDouble();
-                    return;
-                }
+                this.SetViewModel(msg.Model);
+                SetAnimatedDouble();
             }
+
+            if(message is MessageSelectedMasterBeatChange msgSelectedMasterBeatChange)
+            {
+                this.SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == msgSelectedMasterBeatChange.MasterBeatID);
+                SetAnimatedDouble();
+            }
+
         }
     }
 }

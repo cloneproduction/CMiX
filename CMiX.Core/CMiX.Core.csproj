@@ -148,6 +148,7 @@
     <Compile Include="Network\Messages\MessageAddNewPlaylist.cs" />
     <Compile Include="Network\Messages\MessageAddScheduler.cs" />
     <Compile Include="Network\Messages\MessageMasterBeatCollectionChanged.cs" />
+    <Compile Include="Network\Messages\MessageMasterBeatResync.cs" />
     <Compile Include="Network\Messages\MessageRequestDialogService.cs" />
     <Compile Include="Network\Messages\MessageRequestMasterBeats.cs" />
     <Compile Include="Network\Messages\MessageSelectedMasterBeatChange.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Presentation\ViewModels\Assets\AssetTypes.cs" />
     <Compile Include="Presentation\ViewModels\Assets\TextureSelector.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatManager.cs" />
+    <Compile Include="Presentation\ViewModels\Beat\BeatResyncEventArgs.cs" />
     <Compile Include="Presentation\ViewModels\Components\ComponentFactory.cs" />
     <Compile Include="Presentation\ViewModels\Components\IComponent.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\IProject.cs" />

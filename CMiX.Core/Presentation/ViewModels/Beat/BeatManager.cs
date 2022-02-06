@@ -26,7 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             MasterBeats.CollectionChanged += MasterBeats_CollectionChanged;
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
 
             AddItemCommand = new RelayCommand(CreateBeat);
             DeleteItemCommand = new RelayCommand(DeleteBeat);
@@ -119,13 +118,23 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             if (message is MessageMasterBeatChange messageMasterBeatChange)
             {
-                WeakReferenceMessenger.Default.Send(messageMasterBeatChange, MessageType.Internal);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(messageMasterBeatChange, MessageType.Internal);
+
                 var masterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageMasterBeatChange.ID);
                 if(masterBeat != null)
                 {
                     masterBeat.SetViewModel(messageMasterBeatChange.MasterBeatModel);
                     System.Console.WriteLine("messageMasterBeatChange period is " + masterBeat.Period);
                 }
+
+                return;
+            }
+
+            if(message is MessageMasterBeatResync messageMasterBeatResync)
+            {
+                SelectedMasterBeat?.Resync.DoResync();
+                WeakReferenceMessenger.Default.Send<IMessage, int>(messageMasterBeatResync, MessageType.Internal);
+                return;
             }
         }
 
@@ -162,6 +171,8 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public void Resync()
         {
             SelectedMasterBeat?.Resync.DoResync();
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMasterBeatResync(SelectedMasterBeat), MessageType.Out);
+            SendMessage();
         }
 
         public void Receive(MessageRequestMasterBeats message)

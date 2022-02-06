@@ -19,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         ObservableRecipient,
         IRecipient<MessageMasterBeatCollectionChanged>,
         IRecipient<MessageRequestMasterBeat>,
-        //IRecipient<IMessage>,
+        IRecipient<MessageSelectedMasterBeatChange>,
         IComponent, 
         IDisposable
     {
@@ -123,22 +123,17 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
         }
 
-        //public void Receive(IMessage message)
-        //{
-        //    if (message is MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
-        //    {
-        //        if (messageSelectedMasterBeatChange.ID == this.ID)
-        //        {
-        //            SelectMasterBeat(MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID));
-        //            Console.WriteLine(this.GetType() + this.Name + " SelectedMasterBeatChange with period " + SelectedMasterBeat.Period);
-        //        }
-        //    }
-        //}
+        public void Receive(MessageSelectedMasterBeatChange message)
+        {
+            var masterBeat = MasterBeats.FirstOrDefault(x => x.ID == message.MasterBeatID);
+            SelectMasterBeat(masterBeat);
+        }
 
 
         public void SelectMasterBeat(MasterBeat masterBeat)
         {
             SelectedMasterBeat = masterBeat;
+
             foreach (IComponent cp in this.Components)
             {
                 cp.SelectMasterBeat(masterBeat);
@@ -146,7 +141,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             if (masterBeat != null)
             {
-                WeakReferenceMessenger.Default.Send(new MessageSelectedMasterBeatChange(this.ID, masterBeat), this.ID);
+                WeakReferenceMessenger.Default.Send<IMessage, Guid>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), this.ID);
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), MessageType.Out);
             }
         }
@@ -217,5 +212,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 component.Dispose();
             }
         }
+
+
     }
 }

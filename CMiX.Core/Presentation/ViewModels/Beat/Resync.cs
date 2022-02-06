@@ -5,16 +5,21 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
+using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class Resync : ObservableObject, IControl
+    public class Resync : ObservableObject, IControl, IRecipient<IMessage>
     {
         public Resync(BeatAnimations beatAnimations, ResyncModel resyncModel)
         {
+            this.ID = resyncModel.ID;
             BeatAnimations = beatAnimations;
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             ResyncCommand = new RelayCommand(DoResync);
         }
 
@@ -56,6 +61,14 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             ResyncModel model = new ResyncModel();
             model.ID = this.ID;
             return model;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if(this.ID != message.ID)
+            {
+                OnBeatResync();
+            }
         }
     }
 }
