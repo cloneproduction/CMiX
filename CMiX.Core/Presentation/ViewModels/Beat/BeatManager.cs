@@ -60,6 +60,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         private void MasterBeats_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             WeakReferenceMessenger.Default.Send(new MessageMasterBeatCollectionChanged(this.MasterBeats), MessageType.Internal);
+            System.Console.WriteLine("MasterBeats_CollectionChanged");
         }
 
 

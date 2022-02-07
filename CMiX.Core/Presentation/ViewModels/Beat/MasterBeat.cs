@@ -176,7 +176,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             this.Period = masterBeatModel.Period;
             this.Periods = masterBeatModel.Periods;
             this.Multiplier = masterBeatModel.Multiplier;
-
+            this.BeatIndex = masterBeatModel.BeatIndex;
             Resync.SetViewModel(masterBeatModel.ResyncModel);
         }
 
@@ -187,7 +187,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.Period = this.Period;
             model.Periods = this.Periods;
             model.Multiplier = this.Multiplier;
-
+            model.BeatIndex = this.BeatIndex; 
             model.ResyncModel = (ResyncModel)this.Resync.GetModel();
 
             return model;

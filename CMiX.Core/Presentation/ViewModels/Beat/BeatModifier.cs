@@ -19,8 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
     public class BeatModifier : ObservableRecipient, 
         IRecipient<IMessage>,
         IRecipient<MessageMasterBeatCollectionChanged>,
-        IRecipient<MessageSelectedMasterBeatChange>,
-        IRecipient<MessageMasterBeatChange>,
         IControl
     {
         public BeatModifier(BeatModifierModel beatModifierModel)
@@ -135,11 +133,14 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public void SetViewModel(IModel model)
         {
             BeatModifierModel beatModifierModel = model as BeatModifierModel;
-            this.ID = beatModifierModel.ID;
-            this.BeatIndex = beatModifierModel.BeatIndex;
-            this.Multiplier = beatModifierModel.Multiplier;
-            this.Period = beatModifierModel.Period;
-            this.ChanceToHit.SetViewModel(beatModifierModel.ChanceToHit);
+            if(beatModifierModel != null)
+            {
+                this.ID = beatModifierModel.ID;
+                this.BeatIndex = beatModifierModel.BeatIndex;
+                this.Multiplier = beatModifierModel.Multiplier;
+                this.Period = beatModifierModel.Period;
+                this.ChanceToHit.SetViewModel(beatModifierModel.ChanceToHit);
+            }
         }
 
         public IModel GetModel()
@@ -165,49 +166,29 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if(MasterBeats.Count == 0)
                 SelectedMasterBeat = null;
 
-            if(SelectedMasterBeat != null)
-            {
-                if (!this.MasterBeats.Any(x => x.ID == this.SelectedMasterBeat.ID))
-                {
-                    SelectedMasterBeat = MasterBeats[0];
-                }
-            }
-
             SetAnimatedDouble();
+            Console.WriteLine("MessageMasterBeatCollectionChanged Count is " + MasterBeats.Count);
         }
 
-        public void Receive(MessageMasterBeatChange message)
-        {
-            if (SelectedMasterBeat == null)
-                return;
-
-            if(SelectedMasterBeat != null)
-            {
-                if (SelectedMasterBeat.ID == message.ID)
-                {
-                    SelectedMasterBeat.SetViewModel(message.MasterBeatModel);
-                }
-            }
-
-            SetAnimatedDouble();
-        }
-
-        public void Receive(MessageSelectedMasterBeatChange messageSelectedMasterBeatChange)
-        {
-            //this.SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == messageSelectedMasterBeatChange.MasterBeatID);
-            //SetAnimatedDouble();
-        }
 
 
         public void Receive(IMessage message)
         {
             if (message is MessageMasterBeatChange messageMasterBeatChange)
             {
-                this.Receive(messageMasterBeatChange);
-            }
+                if (SelectedMasterBeat == null)
+                    return;
 
-            //if (message.ID != this.ID)
-            //    return;
+                if (SelectedMasterBeat != null)
+                {
+                    if (SelectedMasterBeat.ID == messageMasterBeatChange.ID)
+                    {
+                        SelectedMasterBeat.SetViewModel(messageMasterBeatChange.MasterBeatModel);
+                    }
+                }
+
+                SetAnimatedDouble();
+            }
 
             if (message is MessageUpdateViewModel msg)
             {
@@ -220,7 +201,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
                 this.SelectedMasterBeat = MasterBeats.FirstOrDefault(x => x.ID == msgSelectedMasterBeatChange.MasterBeatID);
                 SetAnimatedDouble();
             }
-
         }
     }
 }

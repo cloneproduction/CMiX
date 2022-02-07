@@ -15,5 +15,6 @@ namespace CMiX.Core.Models.Beat
 
 
         public ResyncModel ResyncModel { get; set; }
+        public int BeatIndex { get; set; }
     }
 }
