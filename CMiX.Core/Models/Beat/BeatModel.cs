@@ -14,8 +14,7 @@ namespace CMiX.Core.Models
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public double[] Periods { get; set; }
-        public double Period { get; set; }
-        public double Multiplier { get; set; }
+        public float[] Periods { get; set; }
+        public float Period { get; set; }
     }
 }

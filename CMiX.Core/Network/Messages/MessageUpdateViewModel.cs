@@ -4,11 +4,10 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels;
-using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Network.Messages
 {
-    public class MessageUpdateViewModel : IMessage//, IMessage
+    public class MessageUpdateViewModel : IMessage
     {
         public MessageUpdateViewModel()
         {

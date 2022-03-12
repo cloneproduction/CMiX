@@ -11,14 +11,20 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public DataTemplate AssetTextureTemplate { get; set; }
         public DataTemplate AssetGeometryTemplate { get; set; }
         public DataTemplate AssetDirectoryTemplate { get; set; }
+        public DataTemplate AssetVideoTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
-            if (item != null && item is AssetTexture)
+            if(item == null)
+                return null;
+
+            if (item is AssetTexture)
                 return AssetTextureTemplate;
-            else if (item != null && item is AssetGeometry)
+            else if (item is AssetGeometry)
                 return AssetGeometryTemplate;
-            else if (item != null && item is AssetDirectory)
+            else if (item is AssetVideo)
+                return AssetVideoTemplate;
+            else if (item is AssetDirectory)
                 return AssetDirectoryTemplate;
             else
                 return null;

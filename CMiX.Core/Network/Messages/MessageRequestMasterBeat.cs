@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Components;
 using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Network.Messages

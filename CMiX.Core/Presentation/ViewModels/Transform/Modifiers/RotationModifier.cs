@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class RotationModifier : ObservableObject, IControl, IModifier
+    public class RotationModifier : ObservableObject, IControl
     {
         public RotationModifier(string name, Rotation rotation, MasterBeat beat, RotationModifierModel rotationModifierModel)
         {

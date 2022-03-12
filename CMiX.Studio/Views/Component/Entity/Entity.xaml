@@ -28,7 +28,7 @@
                 </Grid.ColumnDefinitions>
                 <Views:Geometry DataContext="{Binding Geometry}" Margin="2, 0" Grid.Column="0"/>
                 <Views:Texture DataContext="{Binding Texture}" Margin="4, 0" Grid.Column="1"/>
-                <Views:Coloration DataContext="{Binding Coloration}" Margin="2, 0" Grid.Column="2"/>
+                <Views:Material DataContext="{Binding Material}" Margin="2, 0" Grid.Column="2"/>
             </Grid>
         </StackPanel>
 

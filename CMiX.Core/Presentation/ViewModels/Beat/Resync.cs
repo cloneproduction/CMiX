@@ -28,6 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public BeatAnimations BeatAnimations { get; set; }
         public ICommand ResyncCommand { get; }
 
+
         private bool _resynced;
         public bool Resynced
         {
@@ -40,6 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         {
             BeatAnimations.ResetAnimation();
             OnBeatResync();
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
         }
 
 
@@ -65,8 +67,12 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         public void Receive(IMessage message)
         {
-            if(this.ID != message.ID)
+            if (message.ID != this.ID)
+                return;
+
+            if(message is MessageUpdateViewModel messageUpdateViewModel)
             {
+                this.SetViewModel(messageUpdateViewModel.Model);
                 OnBeatResync();
             }
         }

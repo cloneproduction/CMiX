@@ -10,7 +10,7 @@
     <ComboBox 
         Margin="0, 2"
         Height="25" 
-        ItemsSource="{Binding Path=DataContext.AssetManager.TextureAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+        ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
         AllowDrop="True"
         IsSynchronizedWithCurrentItem="False"
         SelectedItem="{Binding SelectedAsset}"

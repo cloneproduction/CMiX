@@ -27,8 +27,9 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             DialogService = dialogService;
 
             Assets = new SortableObservableCollection<IAsset>();
-            TextureAssets = new SortableObservableCollection<AssetTexture>();
+            ImageAssets = new SortableObservableCollection<IAssetImage>();
             GeometryAssets = new SortableObservableCollection<AssetGeometry>();
+
 
             SelectedItems = new ObservableCollection<IAsset>();
             SelectedItems.CollectionChanged += CollectionChanged;
@@ -56,12 +57,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             set => SetProperty(ref _selectedItems, value);
         }
 
-        private AssetTypes _selectedAssetType = AssetTypes.Texture;
-        public AssetTypes SelectedAssetType
-        {
-            get => _selectedAssetType;
-            set => SetProperty(ref _selectedAssetType, value);
-        }
+        //private AssetTypes _selectedAssetType = AssetTypes.Images;
+        //public AssetTypes SelectedAssetType
+        //{
+        //    get => _selectedAssetType;
+        //    set => SetProperty(ref _selectedAssetType, value);
+        //}
 
         private bool _canAddAsset = false;
         public bool CanAddAsset
@@ -94,9 +95,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public SortableObservableCollection<IAsset> Assets { get; set; }
 
-        public SortableObservableCollection<AssetTexture> TextureAssets { get; set; }
+        public SortableObservableCollection<IAssetImage> ImageAssets { get; set; }
         public SortableObservableCollection<AssetGeometry> GeometryAssets { get; set; }
-
 
         public void RenameAsset()
         {
@@ -116,8 +116,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
                 if (asset is AssetTexture)
                     settings.Filter = "Image |*.jpg;*.jpeg;*.png;*.dds";
-                else if (asset is AssetGeometry)
+
+                if (asset is AssetGeometry)
                     settings.Filter = "Geometry |*.fbx; *.obj";
+
+                if (asset is AssetVideo)
+                    settings.Filter = "Video |*.mov";
 
                 bool? success = DialogService.ShowOpenFileDialog(this, settings);
                 if (success == true)
@@ -232,8 +236,13 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                 case AssetGeometry assetGeometry:
                     GeometryAssets.Add(assetGeometry);
                     break;
+
                 case AssetTexture assetTexture:
-                    TextureAssets.Add(assetTexture);
+                    ImageAssets.Add(assetTexture);
+                    break;
+
+                case AssetVideo assetVideo:
+                    ImageAssets.Add(assetVideo);
                     break;
             }
         }

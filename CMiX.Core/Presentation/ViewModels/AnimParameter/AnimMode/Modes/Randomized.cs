@@ -43,9 +43,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void UpdateOnBeatTick(double[] doubleToAnimate, double period, IRange range, Easing easing, BeatModifier beatModifier)
         {
-            oldRandom = newRandom;
-            if (beatModifier.CheckHitOnBeatTick())
-                newRandom = GetNewRandoms(doubleToAnimate.Length);
+            //oldRandom = newRandom;
+            //if (beatModifier.CheckHitOnBeatTick())
+            //    newRandom = GetNewRandoms(doubleToAnimate.Length);
         }
 
         public void UpdateOnGameLoop(double[] doubleToAnimate, double period, IRange range, Easing easing, BeatModifier beatModifier)

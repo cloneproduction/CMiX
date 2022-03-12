@@ -6,7 +6,8 @@ namespace CMiX.Core.Presentation.ViewModels
     public enum TransformModifierNames
     {
         TranslateXYZ,
-        Randomized,
+        RandomXYZ,
+        LinearXYZ,
         RotateXYZ
     }
 }

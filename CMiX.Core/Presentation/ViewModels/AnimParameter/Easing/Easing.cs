@@ -4,17 +4,22 @@
 using System;
 using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
+using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Easing : ObservableObject, IControl
+    public class Easing : ObservableObject, IControl, IRecipient<IMessage>
     {
         public Easing(EasingModel easingModel)
         {
             this.ID = easingModel.ID;
-            EasingMode = EasingMode.EaseIn;
-            EasingFunction = EasingFunction.None;
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
+            EasingMode = EasingMode.In;
+            EasingFunction = EasingFunction.Linear;
         }
 
 
@@ -28,7 +33,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _isEnabled, value);
-
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
@@ -40,6 +45,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _easingFunction, value);
                 SetEasing();
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
@@ -51,6 +57,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _easingMode, value);
                 SetEasing();
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
@@ -64,14 +71,14 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void SetEasing()
         {
-            Easings.Functions myStatus;
+            //Easings.Functions myStatus;
 
-            if (EasingFunction == EasingFunction.None)
-                Enum.TryParse(EasingFunction.ToString(), out myStatus);
-            else
-                Enum.TryParse(EasingFunction.ToString() + EasingMode.ToString(), out myStatus);
+            //if (EasingFunction == EasingFunction.None)
+            //    Enum.TryParse(EasingFunction.ToString(), out myStatus);
+            //else
+            //    Enum.TryParse(EasingFunction.ToString() + EasingMode.ToString(), out myStatus);
 
-            SelectedEasing = myStatus;
+            //SelectedEasing = myStatus;
 
         }
 
@@ -95,6 +102,18 @@ namespace CMiX.Core.Presentation.ViewModels
             model.EasingMode = this.EasingMode;
             model.SelectedEasing = this.SelectedEasing;
             return model;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message.ID != this.ID)
+                return;
+
+            if (message is MessageUpdateViewModel msg)
+            {
+                if (msg.ID == this.ID)
+                    this.SetViewModel(msg.Model);
+            }
         }
     }
 }

@@ -11,11 +11,11 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public DataTemplate TranslateXYZTemplate { get; set; }
         public DataTemplate RandomXYZTemplate { get; set; }
+        public DataTemplate LinearXYZTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             DataTemplate dataTemplate = null;
-            //var animParameter = item as AnimParameter;
 
             if (item != null)
             {
@@ -23,6 +23,8 @@ namespace CMiX.Core.Presentation.ViewModels
                     dataTemplate = TranslateXYZTemplate;
                 else if (item is RandomXYZ)
                     dataTemplate = RandomXYZTemplate;
+                else if (item is LinearXYZ)
+                    dataTemplate = LinearXYZTemplate;
             }
 
             return dataTemplate;

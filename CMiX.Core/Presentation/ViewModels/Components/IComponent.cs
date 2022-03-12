@@ -10,9 +10,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public interface IComponent : IIDObject, IDisposable
     {
-        void SelectMasterBeat(MasterBeat masterBeat);
-        ObservableCollection<MasterBeat> MasterBeats { get; set; }
-        MasterBeat SelectedMasterBeat { get; set; }
+        //void SelectMasterBeat(MasterBeat masterBeat);
+        //ObservableCollection<MasterBeat> MasterBeats { get; set; }
+
+        MasterBeat MasterBeat { get; set; }
         Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }
         bool IsSelected { get; set; }
@@ -24,7 +25,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         void RemoveComponent(Guid componentID);
 
         IComponent GetComponent(Guid childID);
-        //IComponent FindParentByID(Guid componentID, IComponent parentComponent);
 
         void SetViewModel(IComponentModel model);
         IComponentModel GetModel();

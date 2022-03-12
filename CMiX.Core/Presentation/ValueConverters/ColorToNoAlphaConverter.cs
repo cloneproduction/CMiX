@@ -10,18 +10,11 @@ namespace CMiX.Core.Presentation.ValueConverters
 {
     public class ColorToNoAlphaConverter : IValueConverter
     {
-        SolidColorBrush outputBrush = new SolidColorBrush();
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value != null)
-            {
-                var inputBrush = (Color)value;
+            if (value is Color color)
+                return new SolidColorBrush(Color.FromArgb(255, color.R, color.G, color.B));
 
-                outputBrush.Color = Color.FromArgb(255, inputBrush.R, inputBrush.G, inputBrush.B);
-
-                return outputBrush;
-            }
             return Binding.DoNothing;
         }
 

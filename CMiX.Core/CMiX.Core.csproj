@@ -128,8 +128,13 @@
   <ItemGroup>
     <Compile Include="Mathematics\ColorExtensions.cs" />
     <Compile Include="Mathematics\MathUtils.cs" />
-    <Compile Include="Models\Assets\TextureSelectorModel.cs" />
+    <Compile Include="Models\Assets\AssetVideoModel.cs" />
+    <Compile Include="Models\Assets\ImageSelectorModel.cs" />
+    <Compile Include="Models\BaseControls\ButtonModel.cs" />
+    <Compile Include="Models\BaseControls\DirectionXYZModel.cs" />
+    <Compile Include="Models\Geometry\Modifier\LinearXYZModel.cs" />
     <Compile Include="Models\Geometry\Modifier\TransformModifierModel.cs" />
+    <Compile Include="Models\SamplerStateModel.cs" />
     <Compile Include="Models\Scheduler\CompositionSchedulerModel.cs" />
     <Compile Include="Models\Scheduler\JobEditorModel.cs" />
     <Compile Include="Models\Scheduler\JobModel.cs" />
@@ -138,6 +143,13 @@
     <Compile Include="Models\Scheduler\PlaylistModel.cs" />
     <Compile Include="Models\Scheduler\SchedulerManagerModel.cs" />
     <Compile Include="Models\Scheduler\ToRunNowModel.cs" />
+    <Compile Include="Models\Texture\BlurModel.cs" />
+    <Compile Include="Models\Texture\EdgeModel.cs" />
+    <Compile Include="Models\Texture\HSCBModel.cs" />
+    <Compile Include="Models\Texture\ITextureFilterModel.cs" />
+    <Compile Include="Models\Texture\TextureFilterManagerModel.cs" />
+    <Compile Include="Models\Texture\TransformTextureModel.cs" />
+    <Compile Include="Models\VideoPlayerModel.cs" />
     <Compile Include="Network\Messages\IComponentMessage.cs" />
     <Compile Include="Network\Messages\IMessage.cs" />
     <Compile Include="Network\Messages\ISchedulerMessage.cs" />
@@ -147,8 +159,12 @@
     <Compile Include="Network\Messages\MessageAddLayer.cs" />
     <Compile Include="Network\Messages\MessageAddNewPlaylist.cs" />
     <Compile Include="Network\Messages\MessageAddScheduler.cs" />
+    <Compile Include="Network\Messages\MessageAddTextureFilter.cs" />
+    <Compile Include="Network\Messages\MessageButtonClicked.cs" />
     <Compile Include="Network\Messages\MessageMasterBeatCollectionChanged.cs" />
     <Compile Include="Network\Messages\MessageMasterBeatResync.cs" />
+    <Compile Include="Network\Messages\MessageModifierMove.cs" />
+    <Compile Include="Network\Messages\MessageRemoveTextureFilter.cs" />
     <Compile Include="Network\Messages\MessageRequestDialogService.cs" />
     <Compile Include="Network\Messages\MessageRequestMasterBeats.cs" />
     <Compile Include="Network\Messages\MessageSelectedMasterBeatChange.cs" />
@@ -157,6 +173,7 @@
     <Compile Include="Network\Messages\MessageRequestMasterBeat.cs" />
     <Compile Include="Network\Messages\MessageSchedulerJob.cs" />
     <Compile Include="Network\Messages\MessageSelectedSchedulerIndex.cs" />
+    <Compile Include="Network\Messages\MessageSelectMasterBeat.cs" />
     <Compile Include="Presentation\Behaviors\BindableTreeViewSelectedItemBehavior.cs" />
     <Compile Include="Presentation\Behaviors\ClickBehavior.cs" />
     <Compile Include="Presentation\Behaviors\ContextMenuMouseDownBehavior.cs" />
@@ -268,14 +285,40 @@
     <Compile Include="Presentation\ValueConverters\RadioButtonCheckedConverter.cs" />
     <Compile Include="Presentation\ValueConverters\RadioButtonSelectionConverter.cs" />
     <Compile Include="Presentation\ValueConverters\RangeValueToStringConverter.cs" />
+    <Compile Include="Presentation\ValueConverters\TypeToVisibilityConverter.cs" />
     <Compile Include="Presentation\ValueConverters\ValToColorConverter.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetTypes.cs" />
-    <Compile Include="Presentation\ViewModels\Assets\TextureSelector.cs" />
+    <Compile Include="Presentation\ViewModels\Assets\AssetVideo.cs" />
+    <Compile Include="Presentation\ViewModels\Assets\IAssetImage.cs" />
+    <Compile Include="Presentation\ViewModels\Assets\ImageSelector.cs" />
+    <Compile Include="Presentation\ViewModels\BaseControl\Button.cs" />
+    <Compile Include="Presentation\ViewModels\BaseControl\DirectionXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatManager.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatResyncEventArgs.cs" />
+    <Compile Include="Presentation\ViewModels\Beat\IBeatable.cs" />
+    <Compile Include="Presentation\ViewModels\Beat\MasterBeatContainer.cs" />
     <Compile Include="Presentation\ViewModels\Components\ComponentFactory.cs" />
     <Compile Include="Presentation\ViewModels\Components\IComponent.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\IProject.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\IModifier.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\IModifierFactory.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\IModifierModel.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\MessageAddModifier.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\MessageRemoveModifier.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\ModifierManager.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\ModifierManagerModel.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Blur.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Edge.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\HSCB.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilterName.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Invert.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\ITextureFilter.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilterFactory.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilterTemplateSelector.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TransformTexture.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\VideoPlayer.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\SamplerState.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureAddressMode.cs" />
     <Compile Include="Presentation\ViewModels\MainMenu.cs" />
     <Compile Include="Presentation\ViewModels\Network\ConnectedClient.cs" />
     <Compile Include="Presentation\ViewModels\Network\DataEventArgs.cs" />
@@ -308,7 +351,6 @@
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\Stepper.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\ModeTypeTemplateSelector.cs" />
     <Compile Include="Network\Messages\MessageIDIterator.cs" />
-    <Compile Include="Presentation\ViewModels\Entity\Geometry\Instancer\TransformModifier.cs" />
     <Compile Include="Presentation\ViewModels\IIDObject.cs" />
     <Compile Include="Presentation\ViewModels\Network\ServerStatistics.cs" />
     <Compile Include="Presentation\ViewModels\Scheduling\CompositionScheduler.cs" />
@@ -350,6 +392,7 @@
       <DependentUpon>UnitType.xaml</DependentUpon>
     </Compile>
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\IModifier.cs" />
+    <Compile Include="Presentation\ViewModels\Transform\Modifiers\LinearXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\RandomXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierFactory.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierNames.cs" />
@@ -368,16 +411,15 @@
     <Compile Include="Presentation\ViewModels\Observer\ISubject.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Range\IRange.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Range\Range.cs" />
-    <Compile Include="Models\InverterModel.cs" />
+    <Compile Include="Models\Texture\InvertModel.cs" />
     <Compile Include="Mathematics\Easings.cs" />
     <Compile Include="Presentation\ViewModels\Beat\Resync.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\ColorPicker\ColorPicker.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\ComboBox.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Counter\CounterEventArgs.cs" />
-    <Compile Include="Presentation\ViewModels\Entity\Geometry\Instancer\IModifier.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Geometry\Instancer\XYZModifier.cs" />
     <Compile Include="Presentation\ViewModels\Transform\ITransform.cs" />
-    <Compile Include="Presentation\ViewModels\Entity\Texture\Inverter.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\Inverter.cs" />
     <Compile Include="Presentation\ViewModels\Outliner\OutlinerDragDropManager.cs" />
     <Compile Include="Presentation\ViewModels\Windows\MainWindowController.cs" />
     <Compile Include="Presentation\Controls\Slider\DistanceSlider.cs" />
@@ -422,7 +464,7 @@
     <Compile Include="Presentation\ViewModels\Beat\MasterBeat.cs" />
     <Compile Include="Presentation\ViewModels\BlendMode\BlendMode.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Camera.cs" />
-    <Compile Include="Presentation\ViewModels\Coloration\Coloration.cs" />
+    <Compile Include="Presentation\ViewModels\Coloration\Material.cs" />
     <Compile Include="Presentation\ViewModels\Coloration\ColorSelector.cs" />
     <Compile Include="Presentation\ViewModels\Components\Component.cs" />
     <Compile Include="Presentation\ViewModels\Components\ComponentManager.cs" />
@@ -460,7 +502,7 @@
     <Compile Include="Presentation\ViewModels\Transform\Scale.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Transform.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Translate.cs" />
-    <Compile Include="Presentation\ViewModels\Entity\Texture\Texture.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\Texture.cs" />
     <Compile Include="Models\AnimParameter\AnimParameterModel.cs" />
     <Compile Include="Models\Geometry\Modifier\InstancerModel.cs" />
     <Compile Include="Models\Geometry\Modifier\ScaleModifierModel.cs" />
@@ -494,7 +536,7 @@
     <Compile Include="Presentation\Controls\Slider\RangeSlider.cs" />
     <Compile Include="Models\Beat\BeatModifierModel.cs" />
     <Compile Include="Models\CameraModel.cs" />
-    <Compile Include="Models\ColorationModel.cs" />
+    <Compile Include="Models\MaterialModel.cs" />
     <Compile Include="Models\ColorPickerModel.cs" />
     <Compile Include="Models\ColorSelectorModel.cs" />
     <Compile Include="Models\Component\CompositionModel.cs" />
@@ -543,7 +585,7 @@
     <Compile Include="Presentation\ViewModels\Entity\Geometry\GeometryTranslateMode.cs" />
     <Compile Include="Presentation\ViewModels\PostFX\PostFXTransforms.cs" />
     <Compile Include="Presentation\ViewModels\PostFX\PostFXView.cs" />
-    <Compile Include="Presentation\ViewModels\Entity\Texture\TextureInvertMode.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureInvertMode.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -596,6 +638,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Presentation\Themes\Styles\Counter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Presentation\Themes\Styles\Modifiers\Modifier.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -908,6 +954,7 @@
     <Resource Include="Presentation\Themes\Assets\Playlist.png" />
     <Resource Include="Presentation\Themes\Assets\ColorWheel.png" />
     <Resource Include="Presentation\Themes\Assets\Transparent_Bg.png" />
+    <Resource Include="Presentation\Themes\Assets\DragHandler.png" />
     <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>

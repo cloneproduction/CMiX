@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class AssetTexture : ObservableObject, IAsset
+    public class AssetTexture : ObservableObject, IAssetImage
     {
         public AssetTexture()
         {

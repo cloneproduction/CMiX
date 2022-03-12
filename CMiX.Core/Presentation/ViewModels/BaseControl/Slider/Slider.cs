@@ -46,8 +46,8 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _name, value);
         }
 
-        private double _amount;
-        public double Amount
+        private float _amount;
+        public float Amount
         {
             get => _amount;
             set
@@ -57,15 +57,15 @@ namespace CMiX.Core.Presentation.ViewModels
             }
         }
 
-        private double _minimum = 0.0;
-        public double Minimum
+        private float _minimum = 0.0f;
+        public float Minimum
         {
             get => _minimum;
             set => SetProperty(ref _minimum, value);
         }
 
-        private double _maximum = 1.0;
-        public double Maximum
+        private float _maximum = 1.0f;
+        public float Maximum
         {
             get => _maximum;
             set => SetProperty(ref _maximum, value);
@@ -81,17 +81,17 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Receive(IMessage message)
         {
+            if (message.ID != this.ID)
+                return;
+
             if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-            }
+                this.SetViewModel(msg.Model);
         }
 
 
-        private void Add() => Amount = Amount >= Maximum ? Maximum : Amount += 0.01;
-        private void Sub() => Amount = Amount <= Minimum ? Minimum : Amount -= 0.01;
-        public void Reset() => Amount = 0.0;
+        private void Add() => Amount = Amount >= Maximum ? Maximum : Amount += 0.01f;
+        private void Sub() => Amount = Amount <= Minimum ? Minimum : Amount -= 0.01f;
+        public void Reset() => Amount = 0.0f;
 
 
         public void SetViewModel(IModel model)

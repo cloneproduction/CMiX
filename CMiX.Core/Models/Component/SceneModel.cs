@@ -3,12 +3,10 @@
 
 using System;
 using System.Collections.ObjectModel;
-using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
 
 namespace CMiX.Core.Models
 {
-    [Serializable]
     public class SceneModel : IComponentModel
     {
         public SceneModel()
@@ -19,6 +17,8 @@ namespace CMiX.Core.Models
             PostFXModel = new PostFXModel();
             MaskModel = new MaskModel();
             BeatModifierModel = new BeatModifierModel();
+            BackgroundColorSelectorModel = new ColorSelectorModel();
+            CameraModel = new CameraModel();
 
             ComponentModels = new ObservableCollection<IComponentModel>();
         }
@@ -31,6 +31,7 @@ namespace CMiX.Core.Models
         public bool Enabled { get; set; }
         public bool IsVisible { get; set; }
 
+        public ColorSelectorModel BackgroundColorSelectorModel { get; set; }
         public VisibilityModel VisibilityModel { get; set; }
         public TransformModel TransformModel { get; set; }
         public MaskModel MaskModel { get; set; }
@@ -38,6 +39,7 @@ namespace CMiX.Core.Models
         public TextureModel TextureModel { get; set; }
         public GeometryModel GeometryModel { get; set; }
         public PostFXModel PostFXModel { get; set; }
+        public CameraModel CameraModel { get; set; }
 
         public Guid ID { get; set; }
         public string Name { get; set; }

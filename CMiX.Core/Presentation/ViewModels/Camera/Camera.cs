@@ -10,66 +10,63 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Camera : ObservableObject, IControl
     {
-        public Camera(MasterBeat beat, CameraModel cameraModel)
+        public Camera(CameraModel cameraModel)
         {
             this.ID = cameraModel.ID;
-            Rotation = ((CameraRotation)0).ToString();
-            LookAt = ((CameraLookAt)0).ToString();
-            View = ((CameraView)0).ToString();
 
-            BeatModifier = new BeatModifier(new BeatModifierModel());
             FOV = new Slider(nameof(FOV), cameraModel.FOV);
-            Zoom = new Slider(nameof(Zoom), cameraModel.Zoom);
+            Distance = new Slider(nameof(Distance), cameraModel.Distance);
+
+            Yaw = new Slider(nameof(Yaw), cameraModel.Yaw);
+            Pitch = new Slider(nameof(Pitch), cameraModel.Pitch);
+
+            TargetX = new Slider(nameof(TargetX), cameraModel.TargetX);
+            TargetY = new Slider(nameof(TargetY), cameraModel.TargetY);
+            TargetZ = new Slider(nameof(TargetZ), cameraModel.TargetZ);
         }
 
 
         public Guid ID { get; set; }
-        public BeatModifier BeatModifier { get; set; }
+
         public Slider FOV { get; set; }
-        public Slider Zoom { get; set; }
-
-
-        private string _rotation;
-        public string Rotation
-        {
-            get => _rotation;
-            set => SetProperty(ref _rotation, value);
-        }
-
-        private string _lookAt;
-        public string LookAt
-        {
-            get => _lookAt;
-            set => SetProperty(ref _lookAt, value);
-        }
-
-        private string _view;
-        public string View
-        {
-            get => _view;
-            set => SetProperty(ref _view, value);
-        }
+        public Slider Distance { get; set; }
+        public Slider Yaw { get; set; }
+        public Slider Pitch { get; set; }
+        public Slider TargetX { get; set; }
+        public Slider TargetY { get; set; }
+        public Slider TargetZ { get; set; }
 
 
         public void SetViewModel(IModel model)
         {
             CameraModel cameraModel = model as CameraModel;
             this.ID = cameraModel.ID;
-            this.Rotation = cameraModel.Rotation;
-            this.LookAt = cameraModel.LookAt;
-            this.View = cameraModel.View;
-            this.BeatModifier.SetViewModel(cameraModel.BeatModifierModel);
+
             this.FOV.SetViewModel(cameraModel.FOV);
-            this.Zoom.SetViewModel(cameraModel.Zoom);
+            this.Distance.SetViewModel(cameraModel.Distance);
+
+            this.Yaw.SetViewModel(cameraModel.Yaw);
+            this.Pitch.SetViewModel(cameraModel.Pitch);
+
+            this.TargetX.SetViewModel(cameraModel.TargetX);
+            this.TargetY.SetViewModel(cameraModel.TargetY);
+            this.TargetZ.SetViewModel(cameraModel.TargetZ);
         }
 
         public IModel GetModel()
         {
             CameraModel cameraModel = new CameraModel();
             cameraModel.ID = this.ID;
-            cameraModel.Rotation = this.Rotation;
-            cameraModel.LookAt = this.LookAt;
-            cameraModel.View = this.View;
+
+            cameraModel.FOV = (SliderModel)FOV.GetModel();
+            cameraModel.Distance = (SliderModel)Distance.GetModel();
+
+            cameraModel.Yaw = (SliderModel)Yaw.GetModel();
+            cameraModel.Pitch = (SliderModel)Pitch.GetModel();
+
+            cameraModel.TargetX = (SliderModel)TargetX.GetModel();
+            cameraModel.TargetY = (SliderModel)TargetY.GetModel();
+            cameraModel.TargetZ = (SliderModel)TargetZ.GetModel();
             return cameraModel;
         }
     }

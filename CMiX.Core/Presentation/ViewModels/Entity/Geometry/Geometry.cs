@@ -4,16 +4,18 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Assets;
+using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Geometry : ObservableObject, IControl, ITransform
+    public class Geometry : ObservableObject, IControl, IBeatable, ITransform
     {
-        public Geometry(GeometryModel geometryModel, Guid componentID)
+        public Geometry(GeometryModel geometryModel)
         {
             this.ID = geometryModel.ID;
-            Instancer = new Instancer(geometryModel.InstancerModel, componentID);
+            ModifierManager = new ModifierManager(geometryModel.ModifierManagerModel, new TransformModifierFactory());
             Transform = new Transform(geometryModel.TransformModel);
             GeometryFX = new GeometryFX(geometryModel.GeometryFXModel);
             GeometrySelector = new GeometrySelector(new AssetGeometry(), geometryModel.AssetPathSelectorModel);
@@ -25,8 +27,13 @@ namespace CMiX.Core.Presentation.ViewModels
         public GeometrySelector GeometrySelector { get; set; }
         public Transform Transform { get; set; }
         public Instancer Instancer { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public GeometryFX GeometryFX { get; set; }
 
+        public void SetMasterBeat(MasterBeat masterBeat)
+        {
+            ModifierManager.SetMasterBeat(masterBeat);
+        }
 
         public IModel GetModel()
         {
@@ -34,10 +41,13 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.TransformModel = (TransformModel)this.Transform.GetModel();
             model.GeometryFXModel = (GeometryFXModel)this.GeometryFX.GetModel();
-            model.InstancerModel = (InstancerModel)this.Instancer.GetModel();
+            model.ModifierManagerModel = (ModifierManagerModel)this.ModifierManager.GetModel();
+            //model.InstancerModel = (InstancerModel)this.Instancer.GetModel();
             model.AssetPathSelectorModel = (GeometrySelectorModel)this.GeometrySelector.GetModel();
             return model;
         }
+
+
 
         public void SetViewModel(IModel model)
         {
@@ -45,7 +55,8 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = geometryModel.ID;
             this.Transform.SetViewModel(geometryModel.TransformModel);
             this.GeometryFX.SetViewModel(geometryModel.GeometryFXModel);
-            this.Instancer.SetViewModel(geometryModel.InstancerModel);
+            this.ModifierManager.SetViewModel(geometryModel.ModifierManagerModel);
+            //this.Instancer.SetViewModel(geometryModel.InstancerModel);
             this.GeometrySelector.SetViewModel(geometryModel.AssetPathSelectorModel);
         }
     }

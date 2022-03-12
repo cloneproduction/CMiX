@@ -17,9 +17,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public abstract class Component : 
         ObservableRecipient,
-        IRecipient<MessageMasterBeatCollectionChanged>,
-        IRecipient<MessageRequestMasterBeat>,
-        IRecipient<MessageSelectedMasterBeatChange>,
         IComponent, 
         IDisposable
     {
@@ -29,19 +26,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Name = this.GetType().Name;
             RenameCommand = new RelayCommand(Rename);
             Components = new ObservableCollection<IComponent>();
-            MasterBeats = new ObservableCollection<MasterBeat>();
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-
-            SelectedBeatChangedCommand = new RelayCommand<MasterBeat>(SelectMasterBeat);
         }
 
 
         public Visibility Visibility { get; set; }
         public ICommand VisibilityCommand { get; set; }
         public ICommand RenameCommand { get; set; }
-        public ICommand SelectedBeatChangedCommand { get; set; }
 
 
         private Guid _id;
@@ -86,72 +79,41 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _components, value);
         }
 
-        private MasterBeat _selectedMasterBeat;
-        public MasterBeat SelectedMasterBeat
+        private MasterBeat _masterBeat;
+        public MasterBeat MasterBeat
         {
-            get => _selectedMasterBeat;
-            set => SetProperty(ref _selectedMasterBeat, value);
+            get => _masterBeat;
+            set => SetProperty(ref _masterBeat, value);
         }
 
-        private ObservableCollection<MasterBeat> _masterBeats;
-        public ObservableCollection<MasterBeat> MasterBeats
+        public MasterBeatContainer MasterBeatContainer
         {
-            get => _masterBeats;
-            set => SetProperty(ref _masterBeats, value);
+            get { return MasterBeatContainer.Instance; }
         }
 
 
         public void Receive(MessageRequestMasterBeat message)
         {
-            message.Reply(SelectedMasterBeat);
+            var pouet = this.GetType();
+            if(MasterBeat != null)
+                message.Reply(MasterBeat);
         }
 
-        public void Receive(MessageMasterBeatCollectionChanged message)
-        {
-            MasterBeats = message.MasterBeats;
-
-            if (SelectedMasterBeat == null)
-                return;
-
-            if (!this.MasterBeats.Any(x => x.ID == this.SelectedMasterBeat.ID))
-            {
-                if (MasterBeats.Count > 0)
-                {
-                    SelectMasterBeat(MasterBeats[0]);
-                    return;
-                }
-            }
-        }
 
         public void Receive(MessageSelectedMasterBeatChange message)
         {
-            var masterBeat = MasterBeats.FirstOrDefault(x => x.ID == message.MasterBeatID);
-            SelectMasterBeat(masterBeat);
+            if(MasterBeat != null)
+                MasterBeat.SetViewModel(message.MasterBeatModel);
         }
 
 
-        public void SelectMasterBeat(MasterBeat masterBeat)
-        {
-            SelectedMasterBeat = masterBeat;
-
-            foreach (IComponent cp in this.Components)
-            {
-                cp.SelectMasterBeat(masterBeat);
-            }
-
-            if (masterBeat != null)
-            {
-                WeakReferenceMessenger.Default.Send<IMessage, Guid>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), this.ID);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedMasterBeatChange(this.ID, masterBeat), MessageType.Out);
-            }
-        }
-
-
-        public void AddComponent(IComponent component)
+        public virtual void AddComponent(IComponent component)
         {
             Components.Add(component);
-            component.MasterBeats = this.MasterBeats;
-            component.SelectMasterBeat(this.SelectedMasterBeat);
+
+            if (component is IBeatable beatable)
+                beatable.SetMasterBeat(this.MasterBeat);
+
             IsExpanded = true;
         }
 
@@ -205,14 +167,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public abstract IComponentModel GetModel();
 
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             foreach (var component in Components)
             {
                 component.Dispose();
             }
         }
-
-
     }
 }

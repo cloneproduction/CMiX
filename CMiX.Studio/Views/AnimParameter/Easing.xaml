@@ -26,9 +26,9 @@
         <Expander.Header>
             <DockPanel>
                 <Controls:CMiXToggleButton 
-                                            Dock="Left"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Right"
+                    Dock="Left"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Right"
                     IsChecked="{Binding IsEnabled}" 
                     Style="{StaticResource CMiXToggleButtonStyle}"/>
                 <TextBlock Margin="4, 0" Text="Easing"/>
@@ -46,7 +46,7 @@
                     Text="Function" 
                     Padding="4, 0" 
                     Foreground="{DynamicResource TextBase}"/>
-                <Border Grid.Column="1" Style="{StaticResource BorderShadow}">
+                <Border Grid.Column="1">
                     <ComboBox 
                     ItemsSource="{Binding Source={StaticResource EasingFunction}}"
                     SelectedItem="{Binding EasingFunction}"/>
@@ -71,17 +71,15 @@
                     <ColumnDefinition />
                 </Grid.ColumnDefinitions>
                 <TextBlock 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Right" 
-                Text="Mode" 
-                Padding="4, 0" 
-                Foreground="{DynamicResource TextBase}"/>
-                <Border 
-                Grid.Column="1" 
-                Style="{DynamicResource BorderShadow}">
+                    VerticalAlignment="Center" 
+                    HorizontalAlignment="Right" 
+                    Text="Mode" 
+                    Padding="4, 0" 
+                    Foreground="{DynamicResource TextBase}"/>
+                <Border Grid.Column="1">
                     <ComboBox
-                    ItemsSource="{Binding Source={StaticResource EasingMode}}"
-                    SelectedItem="{Binding EasingMode}"/>
+                        ItemsSource="{Binding Source={StaticResource EasingMode}}"
+                        SelectedItem="{Binding EasingMode}"/>
                 </Border>
             </Grid>
         </StackPanel>

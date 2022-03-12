@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX
+namespace CMiX.Studio.Views
 {
     public partial class Camera : UserControl
     {

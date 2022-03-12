@@ -95,7 +95,16 @@
                     </DockPanel>
                 </Border>
             </DataTemplate>
-
+            
+            <DataTemplate x:Key="AssetVideoTemplate" DataType="{x:Type Assets:AssetVideo}">
+                <Border Style="{StaticResource BaseBorderStyle}">
+                    <DockPanel Margin="0, 1">
+                        <Image Margin="8" Opacity="0.9" DockPanel.Dock="Left" Source="{StaticResource Texture}"/>
+                        <TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
+                    </DockPanel>
+                </Border>
+            </DataTemplate>
+            
             <DataTemplate x:Key="AssetGeometryTemplate"  DataType="{x:Type Assets:AssetGeometry}">
                 <Border Style="{StaticResource BaseBorderStyle}">
                     <DockPanel Margin="0, 1">
@@ -109,7 +118,8 @@
                 x:Key="AssetTemplateSelector" 
                 AssetTextureTemplate="{StaticResource AssetTextureTemplate}"
                 AssetGeometryTemplate="{StaticResource AssetGeometryTemplate}" 
-                AssetDirectoryTemplate="{StaticResource AssetDirectoryTemplate}"/>
+                AssetDirectoryTemplate="{StaticResource AssetDirectoryTemplate}"
+                AssetVideoTemplate="{StaticResource AssetVideoTemplate}"/>
 
             <ContextMenu x:Key="ResourceContextMenu" Style="{StaticResource ContextMenuDefault}" Width="175">
                 <MenuItem
@@ -165,13 +175,13 @@
 
                 <ListBox.Resources>
                     <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource {x:Type ListBox}}">
-                        <Setter Property="ItemsSource" Value="{Binding TextureAssets}"/>
+                        <Setter Property="ItemsSource" Value="{Binding ImageAssets}"/>
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding SelectedAssetType}" Value="{x:Static Assets:AssetTypes.Geometry}">
                                 <Setter Property="ItemsSource" Value="{Binding GeometryAssets}"/>
                             </DataTrigger>
-                            <DataTrigger Binding="{Binding SelectedAssetType}" Value="{x:Static Assets:AssetTypes.Texture}">
-                                <Setter Property="ItemsSource" Value="{Binding TextureAssets}"/>
+                            <DataTrigger Binding="{Binding SelectedAssetType}" Value="{x:Static Assets:AssetTypes.Images}">
+                                <Setter Property="ItemsSource" Value="{Binding ImageAssets}"/>
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>

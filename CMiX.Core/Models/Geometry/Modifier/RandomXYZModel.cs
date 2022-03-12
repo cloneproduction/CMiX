@@ -3,16 +3,17 @@
 
 using System;
 using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
 {
-    public class RandomXYZModel : ITransformModifierModel
+    public class RandomXYZModel : IModifierModel
     {
         public RandomXYZModel()
         {
             this.ID = Guid.NewGuid();
-            Name = TransformModifierNames.Randomized;
-
+            Name = TransformModifierNames.RandomXYZ;
+            Visible = new ToggleButtonModel(true);
 
             BeatModifierModel = new BeatModifierModel();
             CounterModel = new CounterModel();
@@ -37,6 +38,9 @@ namespace CMiX.Core.Models
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
+
+        public ToggleButtonModel Visible { get; set; }
+
         public EasingModel EasingModel { get; set; }
         public CounterModel CounterModel { get; set; }
 
@@ -59,5 +63,6 @@ namespace CMiX.Core.Models
         public BeatModifierModel BeatModifierModel { get; set; }
         public TransformModifierNames Name { get; set; }
         public int Count { get; set; }
+
     }
 }

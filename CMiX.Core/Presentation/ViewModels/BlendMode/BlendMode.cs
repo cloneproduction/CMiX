@@ -19,9 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Mode = blendModeModel.Mode;
         }
 
-
         public Guid ID { get; set; }
-
 
         private string _mode;
         public string Mode
@@ -31,7 +29,6 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _mode, value);
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
-                Console.WriteLine("BlendModel is " + Mode);
             }
         }
 
@@ -39,6 +36,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public void SetViewModel(IModel model)
         {
             BlendModeModel blendModeModel = model as BlendModeModel;
+            this.ID = blendModeModel.ID;
             this.Mode = blendModeModel.Mode;
         }
 
@@ -53,11 +51,11 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Receive(IMessage message)
         {
+            if (message.ID != this.ID)
+                return;
+
             if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
                     this.SetViewModel(msg.Model);
-            }
         }
     }
 }

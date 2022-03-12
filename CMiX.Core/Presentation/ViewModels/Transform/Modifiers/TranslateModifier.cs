@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TranslateModifier : ObservableObject, IModifier, IObserver
+    public class TranslateModifier : ObservableObject, IObserver
     {
         public TranslateModifier(string name, IControl parentSender, MasterBeat beat)
         {

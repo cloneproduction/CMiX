@@ -10,6 +10,8 @@
              xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             md:DialogServiceViews.IsRegistered="True"
              d:DesignHeight="478" d:DesignWidth="279">
 
     <UserControl.Resources>
@@ -30,6 +32,7 @@
 
     <ScrollViewer>
         <StackPanel>
+            <Views:Camera DataContext="{Binding Camera}"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -38,19 +41,30 @@
                 <Label Margin="0, 0, 2, 0" HorizontalAlignment="Right" Grid.Column="0" Content="ID"/>
                 <TextBlock Margin="2, 0, 0, 0" HorizontalAlignment="Right" Grid.Column="1" Text="{Binding ID}"/>
             </Grid>
+            
+            <Button Height="25"
+                    Margin="4"
+                    Background="{Binding ColorSelector.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+                    Command="{Binding OpenColorSelectorCommand}"
+                    Style="{StaticResource ButtonColorStyle}"/>
+            
             <Border  Margin="0, 4"  Background="{DynamicResource HighHighDarkerColor}" Height="1"/>
+            
             <Controls:CMiXToggleButton
-            Style="{StaticResource CMiXToggleButtonStyle}"
-            Margin="0, 4"
-            IsChecked="{Binding Mask.IsMask}"
-            HorizontalAlignment="Right"  
-            Grid.Column="2" 
-            Caption="Mask" 
-            Height="15"/>
+                Style="{StaticResource CMiXToggleButtonStyle}"
+                Margin="0, 4"
+                IsChecked="{Binding Mask.IsMask}"
+                HorizontalAlignment="Right"  
+                Grid.Column="2" 
+                Caption="Mask" 
+                Height="15"/>
+            
             <Border Visibility="{Binding Mask.IsMask, Converter={StaticResource BoolToVisibility}}">
                 <Views:Mask DataContext="{Binding Mask}" />
             </Border>
+
             <Views:Transform DataContext="{Binding Transform}"/>
+
         </StackPanel>
     </ScrollViewer>
     

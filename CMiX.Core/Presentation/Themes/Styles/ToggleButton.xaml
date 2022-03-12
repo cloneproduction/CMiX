@@ -11,7 +11,9 @@
         <DockPanel>
             <Border x:Name="border"
                     DockPanel.Dock="Right"
-                    CornerRadius="4"
+                    BorderBrush="{DynamicResource HighDarkerColor}"
+                    BorderThickness="1, 0, 1, 2"
+                    CornerRadius="2"
                     Padding="2"
                     Width="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                     Background="{TemplateBinding Background}"
@@ -273,8 +275,8 @@
                         x:Name="border"
                         CornerRadius="2"
                         BorderBrush="{DynamicResource Shadow}"
-                        BorderThickness="0, 0, 0, 2"
-                        Background="{DynamicResource Color}"
+                        BorderThickness="1, 0, 1, 2"
+                        Background="{DynamicResource HighDarkerColor}"
                         SnapsToDevicePixels="True">
                         <DockPanel>
                             <Path 
@@ -298,7 +300,7 @@
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter Property="Background" TargetName="border" Value="{DynamicResource LightColor}"/>
+                                <Setter Property="Background" TargetName="border" Value="{DynamicResource DarkColor}"/>
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -326,5 +328,73 @@
             </Setter.Value>
         </Setter>
     </Style>
+
     
+    <Style x:Key="ToggleModifierVisibility" TargetType="{x:Type ToggleButton}">
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Border
+                        x:Name="border"
+                        Padding="5"
+                        Background="Transparent"
+                        CornerRadius="0, 2, 2, 0"
+                        SnapsToDevicePixels="True">
+                        <Image x:Name="icon" Source="{DynamicResource NotVisible}"/>
+                    </Border>
+
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsMouseOver" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="true" />
+                                <Condition Property="IsMouseOver" Value="false" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="icon" Property="Opacity" Value="0.5"/>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource Visible}"/>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="false" />
+                                <Condition Property="IsMouseOver" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource NotVisible}"/>
+                            <Setter TargetName="icon" Property="Opacity" Value="1.0"/>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="false" />
+                                <Condition Property="IsMouseOver" Value="false" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource NotVisible}"/>
+                            <Setter TargetName="icon" Property="Opacity" Value="0.7"/>
+                        </MultiTrigger>
+                        
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="true" />
+                                <Condition Property="IsMouseOver" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="icon" Property="Opacity" Value="1.0"/>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource Visible}"/>
+
+                        </MultiTrigger>
+                        
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 </ResourceDictionary>

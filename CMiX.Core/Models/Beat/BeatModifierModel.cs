@@ -11,7 +11,7 @@ namespace CMiX.Core.Models
         public BeatModifierModel()
         {
             this.ID = Guid.NewGuid();
-            ChanceToHit = new SliderModel { Amount = 100.0 };
+            ChanceToHit = new SliderModel { Amount = 100.0f };
             BeatIndex = 0;
         }
 

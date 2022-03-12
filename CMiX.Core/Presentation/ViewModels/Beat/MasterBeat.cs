@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
@@ -24,18 +25,17 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             Index = 0;
             Period = 1000;
-            Multiplier = 1;
-            Periods = new double[15];
-            tapPeriods = new List<double>();
-            tapTime = new List<double>();
+            Periods = new float[15];
+            tapPeriods = new List<float>();
+            tapTime = new List<float>();
 
             BeatAnimations = new BeatAnimations();
             Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
+            BeatModifiers = new List<BeatModifier>();
 
             UpdatePeriods(Period);
             SetAnimatedDouble();
 
-            ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
 
@@ -48,18 +48,12 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }
-        public double Multiplier { get; set; }
 
         public BeatAnimations BeatAnimations { get; set; }
         public Resync Resync { get; set; }
 
-
-
-        private readonly List<double> tapPeriods;
-        private readonly List<double> tapTime;
-
-
-        private double CurrentTime => (DateTime.UtcNow - DateTime.MinValue).TotalMilliseconds;
+        private readonly List<float> tapPeriods;
+        private readonly List<float> tapTime;
 
         private int maxIndex = 3;
         private int minIndex = -3;
@@ -76,27 +70,23 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public int BeatIndex { get; set; }
 
 
-        private double _period;
-        public double Period
+        private float _period;
+        public float Period
         {
             get => _period;
             set => SetProperty(ref _period, value);
         }
 
-        private double[] _periods;
-        public double[] Periods
-        {
-            get => _periods;
-            set => SetProperty(ref _periods, value);
-        }
 
-        public void Reset() => Multiplier = 1;
+        public float[] Periods { get; set; }
 
         private void SetAnimatedDouble()
         {
             BeatIndex = Index + (Periods.Length - 1) / 2;
             Period = Periods[Index + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            UpdateBeatModifiers();
         }
 
 
@@ -123,13 +113,23 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             SetAnimatedDouble();
         }
 
+        Stopwatch sw = new Stopwatch();
+        float ms = 0;
 
-        private double GetMasterPeriod()
+        private float GetMasterPeriod()
         {
-            double ms = CurrentTime;
+            if (!sw.IsRunning)
+                sw.Start();
+
+            ms = sw.ElapsedMilliseconds;
 
             if (tapTime.Count > 1 && ms - tapTime[tapTime.Count - 1] > 5000)
+            {
                 tapTime.Clear();
+                sw.Reset();
+                sw.Start();
+                return tapPeriods.Sum() / tapPeriods.Count;
+            }
 
             tapTime.Add(ms);
 
@@ -139,16 +139,17 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
                 for (int i = 1; i < tapTime.Count; i++)
                     tapPeriods.Add(tapTime[i] - tapTime[i - 1]);
             }
+
             return tapPeriods.Sum() / tapPeriods.Count;
         }
 
 
-        private void UpdatePeriods(double period)
+        private void UpdatePeriods(float period)
         {
             Period = period;
             if (period > 0)
             {
-                double Multiplier = 1.0 / 128.0;
+                float Multiplier = 1.0f / 128.0f;
                 for (int i = 0; i < Periods.Length; i++)
                 {
                     Periods[i] = Multiplier * Period;
@@ -160,11 +161,13 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         public void Receive(IMessage message)
         {
+            if (message.ID != this.ID)
+                return;
+
             if (message is MessageUpdateViewModel msg)
             {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-                return;
+                this.SetViewModel(msg.Model);
+                UpdateBeatModifiers();
             }
         }
 
@@ -175,7 +178,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             this.ID = masterBeatModel.ID;
             this.Period = masterBeatModel.Period;
             this.Periods = masterBeatModel.Periods;
-            this.Multiplier = masterBeatModel.Multiplier;
             this.BeatIndex = masterBeatModel.BeatIndex;
             Resync.SetViewModel(masterBeatModel.ResyncModel);
         }
@@ -186,11 +188,31 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.ID = this.ID;
             model.Period = this.Period;
             model.Periods = this.Periods;
-            model.Multiplier = this.Multiplier;
-            model.BeatIndex = this.BeatIndex; 
+            model.BeatIndex = this.BeatIndex;
             model.ResyncModel = (ResyncModel)this.Resync.GetModel();
 
             return model;
+        }
+
+        public List<BeatModifier> BeatModifiers {get; set;}
+
+        public void RegisterBeatModifier(BeatModifier beatModifier)
+        {
+            BeatModifiers.Add(beatModifier);
+        }
+
+        public void UnregisterBeatModifier(BeatModifier beatModifier)
+        {
+            BeatModifiers.Remove(beatModifier);
+        }
+
+        public void UpdateBeatModifiers()
+        {
+
+            foreach (var beatModifier in BeatModifiers)
+            {
+                beatModifier.SetAnimatedDouble();
+            }
         }
     }
 }

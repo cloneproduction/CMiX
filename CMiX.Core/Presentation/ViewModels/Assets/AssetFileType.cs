@@ -20,6 +20,10 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         JPG,
         JPEG,
         PNG,
+
+    }
+    public enum VideoFileType
+    {
         MOV,
     }
 }

@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ScaleModifier : ObservableObject, IControl, IModifier
+    public class ScaleModifier : ObservableObject, IControl
     {
         public ScaleModifier(string name, Scale scale, MasterBeat beat, ScaleModifierModel scaleModifierModel)
         {

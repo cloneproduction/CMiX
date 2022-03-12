@@ -3,12 +3,13 @@
 
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Layer : Component
+    public class Layer : Component, IBeatable
     {
         public Layer(LayerModel layerModel)
         {
@@ -27,6 +28,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public BlendMode BlendMode { get; set; }
         public ToggleButton Out { get; set; }
 
+        public override void AddComponent(IComponent component)
+        {
+            base.AddComponent(component);
+            component.MasterBeat = this.MasterBeat;
+        }
 
         public override IComponentModel GetModel()
         {
@@ -43,6 +49,11 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 model.ComponentModels.Add(item.GetModel());
 
             return model;
+        }
+
+        public void SetMasterBeat(MasterBeat masterBeat)
+        {
+            this.MasterBeat = masterBeat;
         }
 
         public override void SetViewModel(IComponentModel model)

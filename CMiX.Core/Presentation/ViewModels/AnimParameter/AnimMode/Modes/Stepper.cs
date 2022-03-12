@@ -49,11 +49,11 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void UpdateOnBeatTick(double[] doubleToAnimate, double period, IRange range, Easing easing, BeatModifier beatModifier)
         {
-            if (beatModifier.CheckHitOnBeatTick())
-                nextStep += 1.0;
+            //if (beatModifier.CheckHitOnBeatTick())
+            //    nextStep += 1.0;
 
-            if (nextStep >= StepCount)
-                nextStep = 0.0;
+            //if (nextStep >= StepCount)
+            //    nextStep = 0.0;
         }
 
         private double stepDistance = 0.0;

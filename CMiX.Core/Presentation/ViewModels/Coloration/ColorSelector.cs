@@ -8,23 +8,20 @@ using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
-using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IModalDialogViewModel
+    public class ColorSelector : ObservableRecipient, IRecipient<IMessage>, IControl
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
             this.ID = colorSelectorModel.ID;
-            SelectedColor = new Color() { A = 255, R = 255, G = 0, B = 255 };
+            SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
-
         public Guid ID { get; set; }
-
 
         private Color _selectedColor;
         public Color SelectedColor
@@ -34,10 +31,9 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _selectedColor, value);
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                Console.WriteLine("ColorSelector ID= " + this.ID.ToString() + " ColorChanged = " + this.SelectedColor);
             }
         }
-
-        public bool? DialogResult { get; set; }
 
         public void SetViewModel(IModel model)
         {
@@ -56,11 +52,11 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Receive(IMessage message)
         {
+            if (message.ID != this.ID)
+                return;
+
             if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-            }
+                this.SetViewModel(msg.Model);
         }
     }
 }

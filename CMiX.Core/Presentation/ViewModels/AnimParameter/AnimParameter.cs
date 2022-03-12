@@ -10,7 +10,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class AnimParameter : ObservableObject, IControl, IObserver
     {
-        public AnimParameter(string name, double[] defaultParameter, MasterBeat beat, AnimParameterModel animParameterModel)
+        public AnimParameter(string name, double[] defaultParameter, MasterBeat masterBeat, AnimParameterModel animParameterModel)
         {
             Period = new double[0];
             Range = new Range(animParameterModel.RangeModel);
@@ -28,9 +28,11 @@ namespace CMiX.Core.Presentation.ViewModels
         public IRange Range { get; set; }
         public Slider Width { get; set; }
 
+
         public double[] Parameters { get; set; }
         public double[] Period { get; set; }
         public double DefaultValue { get; set; }
+
 
         private string _name;
         public string Name

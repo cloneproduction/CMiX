@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class XYZModifier : ObservableObject, IControl, IModifier, ISubject, IObserver
+    public class XYZModifier : ObservableObject, IControl, ISubject, IObserver
     {
         public XYZModifier(string name, Vector3D vector3D, MasterBeat beat, XYZModifierModel xYZModifierModel)
         {

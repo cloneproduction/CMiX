@@ -11,18 +11,38 @@ namespace CMiX.Core.Models
         {
             this.ID = Guid.NewGuid();
             BeatModifierModel = new BeatModifierModel();
+
             FOV = new SliderModel();
-            Zoom = new SliderModel();
+            FOV.Amount = 0.09f;
+
+            Distance = new SliderModel();
+            Distance.Amount = -10f;
+
+            Yaw = new SliderModel();
+            Yaw.Amount = 0.15f;
+
+            Pitch = new SliderModel();
+            Pitch.Amount = -0.08f;
+
+            TargetX = new SliderModel();
+            TargetY = new SliderModel();
+            TargetZ = new SliderModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public string Rotation { get; set; }
-        public string LookAt { get; set; }
-        public string View { get; set; }
+
 
         public BeatModifierModel BeatModifierModel { get; set; }
+
         public SliderModel FOV { get; set; }
-        public SliderModel Zoom { get; set; }
+        public SliderModel Distance { get; set; }
+
+        public SliderModel Yaw { get; set; }
+        public SliderModel Pitch { get; set; }
+
+        public SliderModel TargetX { get; set; }
+        public SliderModel TargetY { get; set; }
+        public SliderModel TargetZ { get; set; }
     }
 }

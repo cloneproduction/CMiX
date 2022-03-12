@@ -1,0 +1,167 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.TextureFilterManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
+    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+    xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+    xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
+    xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:dd="urn:gong-wpf-dragdrop" 
+    xmlns:Filters="clr-namespace:CMiX.Studio.Views"
+    d:DataContext="{d:DesignInstance Type=ViewModels:Instancer}"
+    d:DesignHeight="252.789"
+    d:DesignWidth="289.56"
+    mc:Ignorable="d"
+    x:Name="textureFilterManager">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <Tools:BindingProxy x:Key="ProjectProxy" Data="{Binding}" />
+            <Converters:BoolInverterConverter x:Key="BoolInverter" />
+            <Converters:EnumToStringConverter x:Key="EnumToString" />
+
+            <DataTemplate x:Key="HSCBTemplate" DataType="{x:Type ViewModels:HSCB}">
+                <Filters:HSCB Margin="0, 2" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="InvertTemplate" DataType="{x:Type ViewModels:HSCB}">
+                <Filters:Invert Margin="0, 2" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="BlurTemplate" DataType="{x:Type ViewModels:HSCB}">
+                <Filters:Blur Margin="0, 2" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="EdgeTemplate" DataType="{x:Type ViewModels:Edge}">
+                <Filters:Edge Margin="0, 2" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TransformTextureTemplate" DataType="{x:Type ViewModels:TransformTexture}">
+                <Filters:TransformTexture Margin="0, 2" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <ViewModels:TextureFilterTemplateSelector 
+                x:Key="TemplateSelector" 
+                BlurTemplate="{StaticResource BlurTemplate}"
+                InvertTemplate="{StaticResource InvertTemplate}"
+                HSCBTemplate="{StaticResource HSCBTemplate}"
+                EdgeTemplate="{StaticResource EdgeTemplate}"
+                TransformTextureTemplate="{StaticResource TransformTextureTemplate}"/>
+
+        </ResourceDictionary>
+
+    </UserControl.Resources>
+
+    
+    <StackPanel Margin="8">
+
+        <ToggleButton 
+            x:Name="PopUpToggle" 
+            Content="Add Filter"
+            Height="22" 
+            Margin="0, 0, 0, 4"
+            Background="{DynamicResource DarkerColor}" 
+            Style="{StaticResource ToggleTransformModifierMenu}"/>
+
+        <Popup
+            AllowsTransparency="True"
+            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=textureFilterManager}"
+            Placement="Bottom"
+            PlacementTarget="{Binding ElementName=PopUpToggle}"
+            FlowDirection="RightToLeft"
+            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+            
+            <Border Background="Transparent" CornerRadius="{DynamicResource CornerRadiusBottom}" Padding="2, 0, 2, 2">
+                <Border.Effect>
+                    <DropShadowEffect 
+                        BlurRadius="15" 
+                        Opacity="0.8"  
+                        ShadowDepth="2" 
+                        Direction="-90" 
+                        RenderingBias="Performance"/>
+                </Border.Effect>
+                <Border 
+                    CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
+                    Opacity="0.75" 
+                    Background="{DynamicResource HighDarkerColor}">
+
+                    <Grid Margin="8" Background="{DynamicResource HighDarkerColor}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                            <RowDefinition/>
+                        </Grid.RowDefinitions>
+
+                        <Button 
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:HSCB}" 
+                            Grid.Column="0"
+                            VerticalAlignment="Center" 
+                            Width="100" 
+                            Height="20" 
+                            Content="HSCB"/>
+
+                        <Button 
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Invert}" 
+                            Grid.Column="1"
+                            VerticalAlignment="Center" 
+                            Width="100" 
+                            Height="20" 
+                            Content="Invert"/>
+
+                        <Button 
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Blur}" 
+                            Grid.Column="2"
+                            VerticalAlignment="Center" 
+                            Width="100" 
+                            Height="20" 
+                            Content="Blur"/>
+
+                        <Button 
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Edge}" 
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            VerticalAlignment="Center" 
+                            Width="100" 
+                            Height="20" 
+                            Content="Edge"/>
+
+                        <Button 
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:TransformTexture}" 
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            VerticalAlignment="Center" 
+                            Width="100" 
+                            Height="20" 
+                            Content="TransformTexture"/>
+                        
+                    </Grid>
+                </Border>
+            </Border>
+        </Popup>
+
+        <ItemsControl 
+            AllowDrop="True"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
+            dd:DragDrop.DragHandler="{Binding}"
+            dd:DragDrop.DropHandler="{Binding}"
+            ItemTemplateSelector="{StaticResource TemplateSelector }" 
+            ItemsSource="{Binding Modifiers}"/>
+
+    </StackPanel>
+
+</UserControl>

@@ -11,6 +11,7 @@
 
     <Border Background="{DynamicResource DarkerColor}">
         <StackPanel>
+            
             <Border
                 Height="25"
                 Margin="0, 0, 0, 2"
@@ -31,8 +32,8 @@
             <Expander IsExpanded="True" Header="Transform" >
                 <Views:Transform DataContext="{Binding Transform}"/>
             </Expander>
-            
-            <Views:Instancer DataContext="{Binding Instancer}"/>
+
+            <Views:TransformModifierManager DataContext="{Binding ModifierManager}"/>
             
             <Views:GeometryFX DataContext="{Binding GeometryFX}"/>
             

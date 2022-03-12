@@ -3,59 +3,76 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TransformModifierFactory
+    public class TransformModifierFactory : IBeatable, IModifierFactory
     {
-        public TransformModifierFactory(Guid componentID)
+        public TransformModifierFactory()
         {
-            ComponentID = componentID;
+
+        }
+
+        private MasterBeat MasterBeat { get; set; }
+
+        public IModifier Create(Type modifierType)
+        {
+            if (modifierType == typeof(RandomXYZ))
+                return CreateRandomXYZ();
+
+            if (modifierType == typeof(LinearXYZ))
+                return CreateLinearXYZ();
+
+            return null;
+        }
+
+        public IModifier Create(IModifierModel modifierModel)
+        {
+            if(modifierModel is RandomXYZModel randomXYZModel)
+                return CreateRandomXYZ(randomXYZModel);
+
+            if (modifierModel is LinearXYZModel linearXYZModel)
+                return CreateLinearXYZ(linearXYZModel);
+
+            return null;
         }
 
 
-        private Guid ComponentID { get; set; }
 
-
-        public ITransformModifier CreateTransformModifier(TransformModifierNames transformModifierNames)
+        public void SetMasterBeat(MasterBeat masterBeat)
         {
-            ITransformModifier transformModifier = null;
-
-            switch (transformModifierNames)
-            {
-                case TransformModifierNames.Randomized:
-                    transformModifier = CreateRandomized();
-                    break;
-            }
-
-            return transformModifier;
-        }
-
-        public ITransformModifier CreateTransformModifier(ITransformModifierModel transformModifierModel)
-        {
-            ITransformModifier transformModifier = null;
-
-            switch (transformModifierModel.Name)
-            {
-                case TransformModifierNames.Randomized:
-                    transformModifier = CreateRandomized(transformModifierModel as RandomXYZModel);
-                    break;
-            }
-
-            return transformModifier;
+            MasterBeat = masterBeat;
         }
 
 
-        private RandomXYZ CreateRandomized()
+        private RandomXYZ CreateRandomXYZ()
         {
-            var randomized = new RandomXYZ(new RandomXYZModel(), this.ComponentID);
+            var randomized = new RandomXYZ(new RandomXYZModel());
+            randomized.SetMasterBeat(MasterBeat);
             return randomized;
         }
 
-        private RandomXYZ CreateRandomized(RandomXYZModel randomXYZModel)
+        private RandomXYZ CreateRandomXYZ(RandomXYZModel randomXYZModel)
         {
-            var randomized = new RandomXYZ(randomXYZModel, this.ComponentID);
+            var randomized = new RandomXYZ(randomXYZModel);
+            randomized.SetMasterBeat(MasterBeat);
             return randomized;
+        }
+
+        private LinearXYZ CreateLinearXYZ()
+        {
+            var linear = new LinearXYZ(new LinearXYZModel());
+            linear.SetMasterBeat(MasterBeat);
+            return linear;
+        }
+
+        private LinearXYZ CreateLinearXYZ(LinearXYZModel linearXYZModel)
+        {
+            var linear = new LinearXYZ(linearXYZModel);
+            linear.SetMasterBeat(MasterBeat);
+            return linear;
         }
     }
 }

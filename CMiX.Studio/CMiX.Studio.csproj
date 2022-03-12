@@ -203,8 +203,14 @@
     <Compile Include="Views\Beat\BeatManager.xaml.cs">
       <DependentUpon>BeatManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\ColorSelector.xaml.cs">
+      <DependentUpon>ColorSelector.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Component\ComponentPanel.xaml.cs">
       <DependentUpon>ComponentPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml.cs">
+      <DependentUpon>LinearXYZ.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml.cs">
       <DependentUpon>RandomXYZ.xaml</DependentUpon>
@@ -263,9 +269,6 @@
     <Compile Include="Views\Component\ComponentEditor.xaml.cs">
       <DependentUpon>ComponentEditor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Coloration\ColorSelector.xaml.cs">
-      <DependentUpon>ColorSelector.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Component\Composition\CompositionPanel.xaml.cs">
       <DependentUpon>CompositionPanel.xaml</DependentUpon>
     </Compile>
@@ -287,8 +290,8 @@
     <Compile Include="Views\Assets\AssetManager.xaml.cs">
       <DependentUpon>AssetManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Instancer.xaml.cs">
-      <DependentUpon>Instancer.xaml</DependentUpon>
+    <Compile Include="Views\Geometry\Instancer\TransformModifierManager.xaml.cs">
+      <DependentUpon>TransformModifierManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Geometry\Transform\Translate.xaml.cs">
       <DependentUpon>Translate.xaml</DependentUpon>
@@ -301,6 +304,30 @@
     </Compile>
     <Compile Include="Views\Geometry\Transform\Transform.xaml.cs">
       <DependentUpon>Transform.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Blur.xaml.cs">
+      <DependentUpon>Blur.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Edge.xaml.cs">
+      <DependentUpon>Edge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\HSCB.xaml.cs">
+      <DependentUpon>HSCB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Invert.xaml.cs">
+      <DependentUpon>Invert.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TextureFilterManager.xaml.cs">
+      <DependentUpon>TextureFilterManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\SamplerState.xaml.cs">
+      <DependentUpon>SamplerState.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TransformTexture.xaml.cs">
+      <DependentUpon>TransformTexture.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\VideoPlayer.xaml.cs">
+      <DependentUpon>VideoPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\MainWindowController.xaml.cs">
       <DependentUpon>MainWindowController.xaml</DependentUpon>
@@ -315,8 +342,8 @@
     <Compile Include="Views\Camera\Camera.xaml.cs">
       <DependentUpon>Camera.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Coloration\Coloration.xaml.cs">
-      <DependentUpon>Coloration.xaml</DependentUpon>
+    <Compile Include="Views\Material\Material.xaml.cs">
+      <DependentUpon>Material.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\Project\Project.xaml.cs">
       <DependentUpon>Project.xaml</DependentUpon>
@@ -384,7 +411,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\ColorSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Component\ComponentPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -456,10 +491,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Coloration\ColorSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Component\Composition\CompositionPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -492,7 +523,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Instancer\Instancer.xaml">
+    <Page Include="Views\Geometry\Instancer\TransformModifierManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -524,7 +555,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Coloration\Coloration.xaml">
+    <Page Include="Views\Material\Material.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -578,11 +609,43 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Texture\Blur.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\Edge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\HSCB.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\Invert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\TextureFilterManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Texture\Inverter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Texture\SamplerState.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Texture\Texture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\TransformTexture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\VideoPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

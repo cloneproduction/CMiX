@@ -15,7 +15,7 @@ namespace CMiX.Core.Models
             BeatModifierModel = new BeatModifierModel();
             GeometryModel = new GeometryModel();
             TextureModel = new TextureModel();
-            ColorationModel = new ColorationModel();
+            ColorationModel = new MaterialModel();
 
             VisibilityModel = new VisibilityModel();
         }
@@ -32,7 +32,7 @@ namespace CMiX.Core.Models
         public BeatModifierModel BeatModifierModel { get; set; }
         public GeometryModel GeometryModel { get; set; }
         public TextureModel TextureModel { get; set; }
-        public ColorationModel ColorationModel { get; set; }
+        public MaterialModel ColorationModel { get; set; }
         public VisibilityModel VisibilityModel { get; set; }
 
         public string Address { get; set; }

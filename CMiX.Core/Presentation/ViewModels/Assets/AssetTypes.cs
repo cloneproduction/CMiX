@@ -6,7 +6,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
     public enum AssetTypes
     {
         Geometry,
-        Texture,
-        Video
+        Images
     }
 }

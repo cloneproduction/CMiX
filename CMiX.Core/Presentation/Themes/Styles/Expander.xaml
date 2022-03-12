@@ -1,7 +1,16 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls">
-
+                    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls"
+                    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity">
+    
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/ToggleButton.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Button.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Basic/Icons.xaml"/>
+        
+    </ResourceDictionary.MergedDictionaries>
+    
+    
     <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke" Color="{DynamicResource Normal}"/>
     <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill" Color="{DynamicResource Normal}"/>
     <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke" Color="{DynamicResource HighLight}"/>
@@ -15,6 +24,8 @@
     <SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="{DynamicResource HighDarker}"/>
     <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="{DynamicResource Light}"/>
 
+
+    
     <Style x:Key="ExpanderHeaderFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -421,133 +432,10 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+ 
 
-    <Style x:Key="ModifierExpanderToggleStyle" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border 
-                        x:Name="mainBorder"
-                        Height="25"
-                        Background="{DynamicResource HighDarkerColor}" >
-                        <Grid SnapsToDevicePixels="False">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="19"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Path 
-                                x:Name="arrow" 
-                                Data="M 1,1.5 L 4.5,5 L 8,1.5" 
-                                HorizontalAlignment="Center" 
-                                SnapsToDevicePixels="false" 
-                                Stroke="{DynamicResource HighLightColor}" 
-                                StrokeThickness="2" 
-                                VerticalAlignment="Center"/>
-                            <ContentPresenter 
-                                Grid.Column="1" 
-                                HorizontalAlignment="Left" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="True" 
-                                VerticalAlignment="Center"/>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
-                            <Setter Property="CornerRadius" TargetName="mainBorder" Value="{DynamicResource CornerRadiusTop}"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
-    <Style x:Key="ModifierCloseButtonStyle" TargetType="{x:Type Button}">
-        <!--<EventSetter Event="Click" Handler="CloseClick"/>-->
-        <Setter Property="Height" Value="30"/>
-        <Setter Property="Width" Value="30"/>
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Background="Transparent"
-                        CornerRadius="0, 4, 0, 0"
-                        SnapsToDevicePixels="True" Padding="8">
-                        <Image x:Name="image" Source="{DynamicResource CloseTab}" Opacity="0.50"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="image" Property="Opacity" Value="0.75"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="image" Property="Opacity" Value="1.0"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
 
-    <ControlTemplate x:Key="ModifierExpanderTemplate" TargetType="{x:Type Expander}">
-        <Border 
-            CornerRadius="4"
-            Background="{DynamicResource HighDarkerColor}"
-            SnapsToDevicePixels="true">
-            <DockPanel>
 
-                <DockPanel DockPanel.Dock="Top">
-                    <Button 
-                        DockPanel.Dock="Right" 
-                        Height="25" 
-                        Width="25"
-                        Command="{Binding RelativeSource={RelativeSource AncestorType=ItemsControl}, Path=DataContext.RemoveTransformModifierCommand}"
-                        CommandParameter="{Binding}"
-                        Style="{DynamicResource ModifierCloseButtonStyle}"/>
-                    <ToggleButton 
-                        x:Name="HeaderSite" 
-                        DockPanel.Dock="Left"
-                        Content="{TemplateBinding Header}"
-                        ContentTemplate="{TemplateBinding HeaderTemplate}" 
-                        ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
-                        Foreground="{DynamicResource TextBase}"
-                        HorizontalContentAlignment="Left" 
-                        IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                        MinWidth="0" 
-                        MinHeight="0" 
-                        Style="{DynamicResource ModifierExpanderToggleStyle}" />
-                </DockPanel>
 
-                <Border x:Name="PresenterBorder"
-                    BorderBrush="{DynamicResource DarkColor}"
-                    DockPanel.Dock="Top">
-                    <ContentPresenter 
-                        x:Name="ExpandSite" 
-                        DockPanel.Dock="Bottom" 
-                        Focusable="false" 
-                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                        Margin="{TemplateBinding Padding}" 
-                        Visibility="Collapsed" 
-                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                </Border>
-            </DockPanel>
-        </Border>
-        <ControlTemplate.Triggers>
-            <Trigger Property="IsExpanded" Value="true">
-                <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
-                <Setter Property="BorderThickness" TargetName="PresenterBorder" Value="0, 1, 0, 0"/>
-            </Trigger>
-            <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
-            </Trigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
-
-    
-    
 </ResourceDictionary>

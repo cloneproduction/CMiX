@@ -13,10 +13,10 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = scaleModel.ID;
 
-            Uniform = new Slider(nameof(Uniform), scaleModel.Uniform) { Amount = 1.0 }; ;
-            X = new Slider(nameof(X), scaleModel.X) { Amount = 1.0 };
-            Y = new Slider(nameof(Y), scaleModel.Y) { Amount = 1.0 }; ;
-            Z = new Slider(nameof(Z), scaleModel.Z) { Amount = 1.0 }; ;
+            Uniform = new Slider(nameof(Uniform), scaleModel.Uniform) { Amount = 1.0f }; ;
+            X = new Slider(nameof(X), scaleModel.X) { Amount = 1.0f };
+            Y = new Slider(nameof(Y), scaleModel.Y) { Amount = 1.0f }; ;
+            Z = new Slider(nameof(Z), scaleModel.Z) { Amount = 1.0f }; ;
 
             IsUniform = true;
         }

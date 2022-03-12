@@ -1,0 +1,204 @@
+shader BlendLayer_TextureFX : MixerBase
+{
+    int Type;
+
+    float colorCompositing (float as, float ab, float ar, float Cs, float Cb, float Bbs)
+    {
+        return (1 - (as / ar)) * Cb + (as / ar) * (1 - ab) * Cs + ab * Bbs;
+    }
+
+    float4 ComputeAlpha(float4 c0, float4 c1, float4 composite)
+    {
+        float4 col;
+
+        float resultingAlpha = (c1.a + c0.a * (1 - c1.a));
+
+        col.r = colorCompositing(c1.a, c0.a, resultingAlpha, c1.r, c0.r, composite.r);
+        col.g = colorCompositing(c1.a, c0.a, resultingAlpha, c1.g, c0.g, composite.g);
+        col.b = colorCompositing(c1.a, c0.a, resultingAlpha, c1.b, c0.b, composite.b);
+
+        return float4(col.r, col.g, col.b, resultingAlpha);
+    }
+
+    float4 Normal(float4 c0, float4 c1)
+    {
+        return c1;
+    }
+    
+    float4 Add(float4 c0, float4 c1)
+    {
+        return c0 + c1;
+    }
+
+    float4 Multiply(float4 c0, float4 c1)
+    {
+        return c0 * c1;
+    }
+
+    float4 Average(float4 c0, float4 c1)
+    {
+        return (c0 + c1) / 2.0;
+    }
+
+    float4 Reflect(float4 c0, float4 c1)
+    {
+        return (c1 == 1.0) ? c1 : min(c0*c0/(1.0-c1), 1.0);
+    }
+
+    float4 Screen(float4 c0, float4 c1)
+    {
+        return 1.0-((1.0-c0)*(1.0-c1));
+    }
+
+    float4 Subtract(float4 c0, float4 c1)
+    {
+        return c0 - c1;
+    }
+
+    float4 Darken(float4 c0, float4 c1)
+    {
+        return min(c0,c1);
+    }
+
+    float4 Lighten(float4 c0, float4 c1)
+    {
+        return max(c0,c1);
+    }
+
+    float4 Difference(float4 c0, float4 c1)
+    {
+        return abs(c0-c1);
+    }
+
+    float4 Exclusion(float4 c0, float4 c1)
+    {
+        return c0+c1-2.0*c0*c1;
+    }
+
+    float4 Overlay(float4 c0, float4 c1)
+    {
+        return (c0 < 0.5)?(2.0*c0*c1):1-2*(1-c0)*(1-c1);
+    }
+
+    float4 Negation(float4 c0, float4 c1)
+    {
+        float3 rgb = (1.0)-abs((1.0)-c0-c1);
+        return float4(rgb, 1.0);
+    }
+
+    float4 Divide(float4 c0, float4 c1)
+    {
+        return saturate(c0/c1);  //not correct
+    }
+
+    float4 Dodge(float4 c0, float4 c1)
+    {
+        return min(c0+c1,1.0);
+    }
+
+    float4 ColorDodge(float4 c0, float4 c1)
+    {
+        return (c1 == 1.0) ? c1 : min(c0/(1.0-c1), 1.0);
+    }
+
+    float4 Hardlight(float4 c0, float4 c1)
+    {
+        return (c1<.5)?(2.0*c0*c1):1-2*(1-c0)*(1-c1);
+    }
+
+    float4 Glow(float4 c0, float4 c1)
+    {
+        return Reflect(c1, c0);
+    }
+
+    float4 Pinlight(float4 c0, float4 c1)
+    {
+        return (c1 < 0.5) ? Darken(c0, (2.0 * c1)) : Lighten(c0, (2.0*(c1 - 0.5)));
+    }
+        
+    float4 Softlight(float4 c0, float4 c1)
+    {
+        return 2*c0*c1+c0*c0-2*c0*c0*c1;
+    }
+
+    float4 Burn(float4 c0, float4 c1)
+    {
+        return (c1 == 0) ? 0 : 1 - (1-c0) / c1;
+    }
+
+    float4 ColorBurn(float4 c0, float4 c1)
+    {
+        return (c1 == 0.0) ? c1 : max((1.0-((1.0-c0)/c1)), 0.0);
+    }
+
+    float4 Heat(float4 c0, float4 c1)
+    {
+        return saturate((c0==0)?0:1-pow(1-c1,2)/c0); //not correct
+    }
+
+    float4 Freeze(float4 c0, float4 c1)
+    {
+        return (c1==0)?0:1-pow(1-c0,2)/c1;
+    }
+
+    float4 VividLight(float4 c0, float4 c1)
+    {
+        return (c1 < 0.5) ? ColorBurn(c0, 2.0*c1) : ColorDodge(c0, (2.0*(c1-0.5)));
+    }
+
+    float4 LinearLight(float4 c0, float4 c1)
+    {
+        return (c1 < 0.5) ? Burn(c0, (2.0*c1)) : Dodge(c0, (2.0*(c1-0.5)));
+    }
+    
+    float4 Phoenix(float4 c0, float4 c1)
+    {
+        return min(c0, c1) - max(c0, c1) + float4(1.0, 1.0, 1.0, 1.0);
+    }
+
+    float4 Mix(float4 c0, float4 c1, float fader)
+    {
+        float4 col;
+
+        switch(Type)
+        {
+            case 0 : col = Normal(c0, c1); break;
+            case 1 : col = Add(c0, c1); break;
+            case 2 : col = Subtract(c0, c1); break;
+            case 3 : col = Screen(c0, c1); break;
+            case 4 : col = Multiply(c0, c1); break;
+            case 5 : col = Darken(c0, c1); break;
+            case 6 : col = Lighten(c0, c1); break;
+            case 7 : col = Difference(c0, c1); break;
+            case 8 : col = Exclusion(c0, c1); break;
+            case 9 : col = Overlay(c0, c1); break;
+            case 10 : col = Hardlight(c0, c1); break;
+            case 11 : col = Softlight(c0, c1); break;
+            case 12 : col = Dodge(c0, c1); break;
+            case 13 : col = Burn(c0, c1); break;
+            case 14 : col = Reflect(c0, c1); break;
+            case 15 : col = Glow(c0, c1); break;
+            case 16 : col = Freeze(c0, c1); break;
+            case 17 : col = Heat(c0, c1); break;
+            case 18 : col = Divide(c0, c1); break;
+            case 19 : col = Average(c0, c1); break;
+            case 20 : col = Negation(c0, c1); break;
+            case 21 : col = Pinlight(c0, c1); break;
+            case 22 : col = VividLight(c0, c1); break;
+            case 23 : col = LinearLight(c0, c1); break;
+            case 24 : col = ColorBurn(c0, c1); break;
+            case 25 : col = ColorDodge(c0, c1); break;
+            case 26 : col = Phoenix(c0, c1); break;
+        }
+
+
+        float4 result = ComputeAlpha(c1, c0, col);
+        return lerp(c0, result, fader);
+    }
+
+
+
+};
+
+
+

@@ -31,6 +31,7 @@ namespace CMiX.Core.Models
         public CameraModel CameraModel { get; set; }
         public SliderModel TransitionModel { get; set; }
 
+
         public bool Enabled { get; set; }
         public string Name { get; set; }
         public Guid ID { get; set; }

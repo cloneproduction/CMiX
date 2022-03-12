@@ -5,6 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
              xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
+             xmlns:BeatViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels.Beat;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="714" d:DesignWidth="236">
     
@@ -16,20 +17,22 @@
         <StackPanel Margin="8">
             <ListBox MinHeight="100"
                      Style="{StaticResource ListBoxWithButton}"
-                     ItemsSource="{Binding MasterBeats}" 
-                     SelectedItem="{Binding SelectedMasterBeat}">
+                     ItemsSource="{Binding Project.Components}"
+                     SelectedItem="{Binding SelectedComponent}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <Border Height="20">
-                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Padding="4, 0, 0, 0" Text="{Binding Period, Converter={StaticResource PeriodToBPM}, StringFormat={}{0:#,#} BPM}"/>
+                            <TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Padding="4, 0, 0, 0" Text="{Binding Name}"/>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
+            <!--<TextBlock VerticalAlignment="Center" HorizontalAlignment="Left" Padding="4, 0, 0, 0" Text="{Binding Name, Converter={StaticResource PeriodToBPM}, StringFormat={}{0:#,#} BPM}"/>-->
+
             <Border 
                 Margin="0, 8"
-                Background="{StaticResource HighDarkerColor}"
-                Visibility="{Binding SelectedMasterBeat,  Converter={StaticResource NullToVisibilityConverter}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                Background="{StaticResource HighDarkerColor}">
+                <!--Visibility="{Binding SelectedMasterBeat,  Converter={StaticResource NullToVisibilityConverter}, ConverterParameter={x:Static Visibility.Collapsed}}">-->
 
                 <StackPanel>
 
@@ -65,7 +68,7 @@
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center"
                                     Foreground="{DynamicResource TextBase}" 
-                                    Text="{Binding Path=SelectedMasterBeat.Period, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
+                                    Text="{Binding Path=SelectedComponent.MasterBeat.Period, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
                             </Grid>
                         </Border>
                     </DockPanel>
@@ -78,7 +81,6 @@
                         Command="{Binding TapCommand}"
                         Content="TAP"/>
                 </StackPanel>
-                <!--<Beat:MasterBeatControl DataContext="{Binding SelectedMasterBeat}"/>-->
             </Border>
         </StackPanel>
     </Expander>

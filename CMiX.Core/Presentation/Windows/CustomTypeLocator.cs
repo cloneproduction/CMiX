@@ -17,7 +17,9 @@ namespace CMiX.Core.Presentation.ViewModels
                 return typeof(MessengerSettingsWindow);
             else if (viewModel is ModalDialog)
                 return typeof(CustomWindowDialog);
-            else if (viewModel is Coloration)
+            else if (viewModel is Material)
+                return typeof(ColorSelectorDialog);
+            else if (viewModel is SamplerState)
                 return typeof(ColorSelectorDialog);
             else
                 throw new Exception("Dialog type is not defined.");

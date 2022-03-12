@@ -160,7 +160,11 @@
                 <ControlTemplate TargetType="Controls:Counter">
                     <Grid>
                         <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
-                        <Border x:Name="mainBorder" Style="{StaticResource distanceSliderBorder}">
+                        <Border x:Name="mainBorder" 
+                                CornerRadius="2"
+                                BorderThickness="1, 0, 1, 2"
+                                BorderBrush="{DynamicResource HighDarkerColor}" 
+                                Style="{StaticResource distanceSliderBorder}">
                             <Border.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                             </Border.OpacityMask>

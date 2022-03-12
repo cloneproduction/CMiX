@@ -27,6 +27,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public SortableObservableCollection<IAsset> Assets { get; set; }
         public Composition ActiveComposition { get; set; }
 
+        public override void AddComponent(IComponent component)
+        {
+            this.Components.Add(component);
+        }
 
         public override IComponentModel GetModel()
         {

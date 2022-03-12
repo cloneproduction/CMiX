@@ -27,6 +27,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             return new AssetTexture(name, path);
         }
 
+        private AssetVideo CreateAssetVideo(string name, string path)
+        {
+            return new AssetVideo(name, path);
+        }
+
+
         private AssetGeometry CreateAssetGeometry(string name, string path)
         {
             return new AssetGeometry(name, path);
@@ -45,6 +51,11 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             if (Enum.IsDefined(typeof(GeometryFileType), fileType))
             {
                 return CreateAssetGeometry(fileName, filePath);
+            }
+
+            if(Enum.IsDefined(typeof(VideoFileType), fileType))
+            {
+                return CreateAssetVideo(fileName, filePath);
             }
 
             return asset;

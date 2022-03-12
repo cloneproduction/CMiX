@@ -43,10 +43,10 @@
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
                 <Controls:DistanceSlider 
-                Grid.Column="1" 
-                Position="Middle" 
-                Style="{StaticResource DistanceSliderStyle}" 
-                Value="{Binding Path=Y.Amount}"/>
+                    Grid.Column="1" 
+                    Position="Middle" 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Value="{Binding Path=Y.Amount}"/>
             </Border>
             <TextBlock 
                 Grid.Column="0" 
@@ -56,8 +56,7 @@
                 Foreground="{StaticResource TextBase}"/>
         </Grid>
 
-
-            <Grid Height="20">
+        <Grid Height="20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.9*"/>
                     <ColumnDefinition/>
@@ -88,7 +87,6 @@
                     Text="Z" 
                     Foreground="{StaticResource TextBase}"/>
             </Grid>
-
 
     </StackPanel>
 </UserControl>

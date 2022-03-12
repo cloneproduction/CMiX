@@ -18,6 +18,9 @@ namespace CMiX.Core.Presentation.ValueConverters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
+            if(value == null)
+                return Binding.DoNothing;
+
             var color = (Color)value;
             switch ((string)parameter)
             {
@@ -35,8 +38,7 @@ namespace CMiX.Core.Presentation.ValueConverters
                     128, 128, 128);
                     return _alpha;
                 case "all":
-                    _all.Color = Color.FromArgb(color.A, color.R, color.G, color.B);
-                    return _all;
+                    return new SolidColorBrush(Color.FromArgb(color.A, color.R, color.G, color.B));
 
             }
             return Binding.DoNothing;

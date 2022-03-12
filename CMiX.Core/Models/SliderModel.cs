@@ -10,13 +10,13 @@ namespace CMiX.Core.Models
         public SliderModel()
         {
             ID = Guid.NewGuid();
-            Amount = 0.0;
+            Amount = 0.0f;
             Enabled = true;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public double Amount { get; set; }
+        public float Amount { get; set; }
         public string Address { get; set; }
     }
 }

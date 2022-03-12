@@ -15,7 +15,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             AnimatedDoubles = new ObservableCollection<AnimatedDouble>();
             Storyboard = new Storyboard();
-            //MakeStoryBoard(periods);
         }
 
         private ObservableCollection<AnimatedDouble> _animatedDoubles;
@@ -27,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private Storyboard Storyboard { get; set; }
 
-        public void MakeStoryBoard(double[] periods)
+        public void MakeStoryBoard(float[] periods)
         {
             Storyboard.Children.Clear();
             AnimatedDoubles.Clear();

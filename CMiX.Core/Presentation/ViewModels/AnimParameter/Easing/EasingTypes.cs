@@ -5,15 +5,16 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public enum EasingFunction
     {
-        None,
+        //None,
+        Linear,
         Square,
-        Quadratic,
+        Quad, //Quadratic,
         Cubic,
-        Quartic,
-        Quintic,
+        Quart, //Quartic,
+        Quint, //Quintic,
         Sine,
         Circular,
-        Exponential,
+        Expo, //Exponential,
         Elastic,
         Back,
         Bounce
@@ -21,8 +22,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
     public enum EasingMode
     {
-        EaseIn,
-        EaseOut,
-        EaseInOut
+        In,
+        Out,
+        InOut
     }
 }

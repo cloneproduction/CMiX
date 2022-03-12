@@ -11,11 +11,11 @@ namespace CMiX.Core.Presentation.ValueConverters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double Period = (double)value;
+            float Period = (float)value;
 
-            double BPM = 60000 / Period;
+            float BPM = 60000 / Period;
 
-            if (double.IsInfinity(BPM) || double.IsNaN(BPM))
+            if (float.IsInfinity(BPM) || float.IsNaN(BPM))
                 return 0;
 
             return BPM;
@@ -23,7 +23,7 @@ namespace CMiX.Core.Presentation.ValueConverters
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return 60000 / (double)value;
+            return 60000 / (float)value;
         }
     }
 }
