@@ -4,12 +4,11 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class RandomXYZ : ObservableObject, IControl, IBeatable, IModifier, ITransformModifier
+    public class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier
     {
         public RandomXYZ(RandomXYZModel randomXYZModel)
         {
@@ -21,12 +20,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Easing = new Easing(randomXYZModel.EasingModel);
             BeatModifier = new BeatModifier(randomXYZModel.BeatModifierModel);
-
-            SelectedModifierType = ModifierType.OBJECT;
+            Mode = new ComboBox<ModifierMode>(randomXYZModel.Mode);
 
             RandomizeLocation = new ToggleButton(randomXYZModel.RandomizeLocation);
             RandomizeLocation.IsChecked = true;
-
             LocationX = new Slider(nameof(LocationX), randomXYZModel.LocationX);
             LocationY = new Slider(nameof(LocationY), randomXYZModel.LocationY);
             LocationZ = new Slider(nameof(LocationZ), randomXYZModel.LocationZ);
@@ -42,6 +39,8 @@ namespace CMiX.Core.Presentation.ViewModels
             RotationX = new Slider(nameof(RotationX), randomXYZModel.RotationX);
             RotationY = new Slider(nameof(RotationY), randomXYZModel.RotationY);
             RotationZ = new Slider(nameof(RotationZ), randomXYZModel.RotationZ);
+
+            Spread = new ToggleButton(randomXYZModel.Spread);
         }
 
 
@@ -51,9 +50,13 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Guid ID { get; set; }
         public TransformModifierNames Name { get; set; }
+        public ComboBox<ModifierMode> Mode { get; set; }
+
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public Counter Counter { get; set; }
+        public ToggleButton Spread { get; set; }
+
 
         public ToggleButton RandomizeLocation { get; set; }
         public Slider LocationX { get; set; }
@@ -69,6 +72,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider RotationX { get; set; }
         public Slider RotationY { get; set; }
         public Slider RotationZ { get; set; }
+
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -98,11 +102,22 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _randomizeRotationIsExpanded, value);
         }
 
-        private ModifierType _selectedModifierType;
-        public ModifierType SelectedModifierType
+        private ModifierMode _selectedModifierType;
+        public ModifierMode SelectedModifierType
         {
             get => _selectedModifierType;
             set => SetProperty(ref _selectedModifierType, value);
+        }
+
+
+        public void SetMasterBeat(MasterBeat masterBeat)
+        {
+            BeatModifier.SetMasterBeat(masterBeat);
+        }
+
+        public void Dispose()
+        {
+            BeatModifier.Dispose();
         }
 
 
@@ -111,8 +126,11 @@ namespace CMiX.Core.Presentation.ViewModels
             RandomXYZModel randomXYZModel = model as RandomXYZModel;
             this.ID = randomXYZModel.ID;
             this.Name = randomXYZModel.Name;
+            //this.SelectedModifierType = ModifierMode.AsGroup;
 
+            this.Mode.SetViewModel(randomXYZModel.Mode);
             this.Visible.SetViewModel(randomXYZModel.Visible);
+            this.Spread.SetViewModel(randomXYZModel.Spread);
 
             this.BeatModifier.SetViewModel(randomXYZModel.BeatModifierModel);
             this.Counter.SetViewModel(randomXYZModel.CounterModel);
@@ -140,7 +158,10 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.Name = this.Name;
 
+            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+
             model.Visible = (ToggleButtonModel)this.Visible.GetModel();
+            model.Spread = (ToggleButtonModel)this.Spread.GetModel();
 
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
             model.CounterModel = (CounterModel)this.Counter.GetModel();
@@ -161,16 +182,6 @@ namespace CMiX.Core.Presentation.ViewModels
             model.RotationZ = (SliderModel)this.RotationZ.GetModel();
             model.RandomizeRotation = (ToggleButtonModel)this.RandomizeLocation.GetModel();
             return model;
-        }
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            BeatModifier.SetMasterBeat(masterBeat);
-        }
-
-        public void Dispose()
-        {
-            BeatModifier.Dispose();
         }
     }
 }

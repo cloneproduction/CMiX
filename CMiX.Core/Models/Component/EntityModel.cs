@@ -3,19 +3,20 @@
 
 using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
+using CMiX.Core.Presentation.ViewModels;
 using System;
 using System.Collections.ObjectModel;
 
 namespace CMiX.Core.Models
 {
-    public class EntityModel : IComponentModel
+    public class EntityModel : IComponentModel, IPrefabModel
     {
         public EntityModel()
         {
             BeatModifierModel = new BeatModifierModel();
             GeometryModel = new GeometryModel();
             TextureModel = new TextureModel();
-            ColorationModel = new MaterialModel();
+            ColorationModel = new TextureModel();
 
             VisibilityModel = new VisibilityModel();
         }
@@ -32,7 +33,7 @@ namespace CMiX.Core.Models
         public BeatModifierModel BeatModifierModel { get; set; }
         public GeometryModel GeometryModel { get; set; }
         public TextureModel TextureModel { get; set; }
-        public MaterialModel ColorationModel { get; set; }
+        public TextureModel ColorationModel { get; set; }
         public VisibilityModel VisibilityModel { get; set; }
 
         public string Address { get; set; }

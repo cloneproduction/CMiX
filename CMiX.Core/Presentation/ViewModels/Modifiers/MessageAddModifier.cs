@@ -2,9 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 
-namespace CMiX.Core.Presentation.ViewModels.Modifiers
+namespace CMiX.Core.Presentation.ViewModels
 {
     public class MessageAddModifier : IMessage
     {
@@ -13,10 +14,10 @@ namespace CMiX.Core.Presentation.ViewModels.Modifiers
 
         }
 
-        public MessageAddModifier(Guid parentID, IModifier textureFilter)
+        public MessageAddModifier(Guid parentID, IModifier modifier)
         {
             ID = parentID;
-            ModifierModel = (IModifierModel)textureFilter.GetModel();
+            ModifierModel = (IModifierModel)modifier.GetModel();
         }
 
 

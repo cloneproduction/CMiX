@@ -206,12 +206,13 @@ namespace CMiX.Core.Presentation.Controls
                 CancelUpdateValue();
                 OnSwitchToNormalMode();
             }
-            e.Handled = !IsTextAllowed(ValueInput.Text);
+
+            //e.Handled = true;// !IsTextAllowed(ValueInput.Text);
         }
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
-            e.Handled = !IsTextAllowed(ValueInput.Text);
+            //e.Handled = !IsTextAllowed(ValueInput.Text);
         }
 
         private void OnSwitchToEditingMode()
@@ -229,28 +230,50 @@ namespace CMiX.Core.Presentation.Controls
             _mouseDownPos = null;
         }
 
-        private readonly Regex _regex = new Regex(@"[^0-9.-]+"); //regex that matches disallowed text
+        private readonly Regex _regex = new Regex(@"/^-?(0|[1-9]\d*)(\.\d+)?$/"); //regex that matches disallowed text
+
         private bool IsTextAllowed(string text)
         {
-            double num;
-            if (double.TryParse(text, out num))
-                return !_regex.IsMatch(text);
-            else
-                return false;
+            bool result = !_regex.IsMatch(text);
+            return result;
         }
 
         public void UpdateValue()
         {
-            if (IsTextAllowed(ValueInput.Text))
-                this.Value = Double.Parse(ValueInput.Text);
+            if (!IsTextAllowed(ValueInput.Text))
+            {
+                ValueInput.Text = this.Value.ToString();
+                return;
+            }
+
+            double result;
+            var b = Double.TryParse(ValueInput.Text, out result);
+            if (!b)
+            {
+                ValueInput.Text = this.Value.ToString();
+                return;
+            }
+
+            this.Value = Double.Parse(ValueInput.Text);
         }
 
         public void CancelUpdateValue()
         {
-            double oldValue = this.Value;
-            if (IsTextAllowed(ValueInput.Text))
-                this.Value = oldValue;
-            ValueInput.Text = oldValue.ToString();
+            if (!IsTextAllowed(ValueInput.Text))
+            {
+                ValueInput.Text = this.Value.ToString();
+                return;
+            }
+
+            double result;
+            var b = Double.TryParse(ValueInput.Text, out result);
+            if (!b)
+            {
+                ValueInput.Text = this.Value.ToString();
+                return;
+            }
+
+            ValueInput.Text = this.Value.ToString();
         }
 
         public static readonly DependencyProperty IsEditingProperty =

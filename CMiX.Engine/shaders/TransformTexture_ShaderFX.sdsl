@@ -1,0 +1,22 @@
+shader TransformTexture_ShaderFX : ComputeFloat4, Texturing
+{
+    cbuffer PerMaterial
+    {
+        stage float4x4 tTex;
+    }
+
+    rgroup PerMaterial 
+    {
+        stage Texture2D Texture;
+        stage SamplerState CustomSampler;
+    }
+
+    override float4 Compute()
+    {
+        float2 x = streams.TexCoord;
+
+        float2 x0 = mul(float4((x.xy*2-1)*float2(1,-1) * 0.5, 0, 1), tTex).xy * float2(1, -1) + 0.5;
+
+        return Texture.SampleLevel(CustomSampler, x0, 0);
+    }
+};

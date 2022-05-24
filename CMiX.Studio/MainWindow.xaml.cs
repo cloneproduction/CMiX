@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace CMiX
+namespace CMiX.Studio.Views
 {
     public partial class MainWindow : Window
     {

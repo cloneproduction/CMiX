@@ -1,0 +1,24 @@
+[Summary("TEST")]
+
+shader Instancing_DrawFX : VS_PS_Base, Texturing, InstanceWorldBuffer  
+{
+    [Color]
+    float4 Color = float4(1, 0, 0, 1);
+
+    stage StructuredBuffer<float4> Colors;
+
+
+    override stage void VSMain()
+    {
+        float4x4 w = InstanceWorld[streams.InstanceID].Matrix;
+        w = mul(w, World);
+        streams.ShadingPosition = mul(streams.Position, mul(w, ViewProjection));
+    }
+
+    override stage void PSMain() 
+    {
+        float4 texcol = Texture0.Sample(LinearSampler, streams.TexCoord);
+        texcol.rgb *= texcol.a;
+        streams.ColorTarget = Colors[streams.InstanceID] * texcol;
+    }
+};

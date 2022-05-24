@@ -10,7 +10,5 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         void SetViewModel(IModel model);
         IModel GetModel();
-
-        //void Receive(IMessage message);
     }
 }

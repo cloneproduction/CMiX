@@ -1,0 +1,14 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Component.CompositionService"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:av="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    mc:Ignorable="av"
+    av:DesignHeight="545.422" 
+    av:DesignWidth="346.747" >
+
+    <Views:EntityPanel DataContext="{Binding}"/>
+
+</UserControl>

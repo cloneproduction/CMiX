@@ -4,23 +4,39 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             mc:Ignorable="d" 
-             d:DesignHeight="529" d:DesignWidth="821">
+             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
+             mc:Ignorable="d" d:DesignHeight="693.333" d:DesignWidth="310">
 
-    
-    <Grid Background="{DynamicResource HighDarkerColor}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
-        <Views:PostFX 
-            Grid.Column="0" 
-            Margin="0, 0, 4, 0" 
-            DataContext="{Binding PostFX}"/>
-        <Views:Mask 
-            Grid.Column="1" 
-            Margin="4, 0, 0, 0" 
-            DataContext="{Binding Mask}"/>
+    <Border Background="{DynamicResource DarkerColor}">
+        <TabControl  
+            SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" 
+            Style="{StaticResource TabControlLayerPanel}">
 
-    </Grid>
+            <TabItem IsEnabled="{Binding LayerMask, Converter={StaticResource NullToBool}}">
+                <TabItem.Header>
+                    <Image Source="{DynamicResource Mask}"/>
+                </TabItem.Header>
+                <StackPanel>
+                    <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8" />
+                    <ViewComponents:LayerContent DataContext="{Binding LayerMask}"/>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <Image Source="{DynamicResource LayerScene}"/>
+                </TabItem.Header>
+                <Border
+                    Background="{DynamicResource DarkerColor}"
+                    IsEnabled="{Binding Converter={StaticResource NullToBool}}">
+                    <StackPanel>
+                        <Views:LayerBlendController DataContext="{Binding LayerScene}" Margin="8" />
+                        <ViewComponents:LayerContent DataContext="{Binding LayerScene}"/>
+                    </StackPanel>
+                </Border>
+            </TabItem>
+
+        </TabControl>
+    </Border>
+
 </UserControl>

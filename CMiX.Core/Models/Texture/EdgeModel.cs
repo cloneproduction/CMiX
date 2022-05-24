@@ -11,9 +11,11 @@ namespace CMiX.Core.Models
         public EdgeModel()
         {
             ID = Guid.NewGuid();
-            Radius = new SliderModel();
-            Brightness = new SliderModel();
+            Name = TextureFilterName.Edge;
+            Radius = new SliderModel(1.0f);
+            Brightness = new SliderModel(1.0f);
             Visible = new ToggleButtonModel(true);
+            Control = new SliderModel(1.0f);
             Enabled = true;
         }
 
@@ -23,5 +25,7 @@ namespace CMiX.Core.Models
         public ToggleButtonModel Visible { get; set; }
         public SliderModel Radius { get; set; }
         public SliderModel Brightness { get; set; }
+        public SliderModel Control { get; set; }
+        public TextureFilterName Name { get; internal set; }
     }
 }

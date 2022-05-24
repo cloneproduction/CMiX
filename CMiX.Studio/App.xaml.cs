@@ -3,6 +3,7 @@ using Ceras;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Studio.Views;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;

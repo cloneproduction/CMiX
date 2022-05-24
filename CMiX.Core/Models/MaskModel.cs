@@ -2,7 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Models.Assets;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
 {
@@ -10,17 +11,41 @@ namespace CMiX.Core.Models
     {
         public MaskModel()
         {
-            KeepOriginal = true;
-            MaskType = ((MaskType)2).ToString();
-            MaskControlType = ((MaskControlType)1).ToString();
-            Enabled = false;
+            this.ID = Guid.NewGuid();
+
+            TextureSelectorModel = new ImageSelectorModel();
+            VideoSelectorModel = new VideoSelectorModel();
+
+            VideoPlayerModel = new VideoPlayerModel();
+
+            ModifierManagerModel = new ModifierManagerModel();
+            TextureTransformModifierManager = new ModifierManagerModel();
+            SamplerState = new SamplerStateModel();
+            VideoIn = new VideoInModel();
+            Invert = new ToggleButtonModel();
+
+            IsEnabled = new ToggleButtonModel();
+
+            SelectedAssetType = new ComboBoxModel<int>(0);
+
+            TypeWriter = new TypeWriterModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public bool IsMask { get; set; }
-        public bool KeepOriginal { get; set; }
-        public string MaskType { get; set; }
-        public string MaskControlType { get; set; }
+
+        public ModifierManagerModel ModifierManagerModel { get; set; }
+        public ModifierManagerModel TextureTransformModifierManager { get; set; }
+
+        public ImageSelectorModel TextureSelectorModel { get; set; }
+
+        public ToggleButtonModel IsEnabled { get; internal set; }
+        public VideoSelectorModel VideoSelectorModel { get; internal set; }
+        public VideoPlayerModel VideoPlayerModel { get; set; }
+        public VideoInModel VideoIn { get; internal set; }
+        public ComboBoxModel<int> SelectedAssetType { get; internal set; }
+        public TypeWriterModel TypeWriter { get; internal set; }
+        public SamplerStateModel SamplerState { get; internal set; }
+        public ToggleButtonModel Invert { get; internal set; }
     }
 }

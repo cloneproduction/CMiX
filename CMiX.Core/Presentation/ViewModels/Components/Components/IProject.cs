@@ -12,16 +12,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface IProject : IIDObject, IDisposable, IComponent
     {
-        Visibility Visibility { get; set; }
-        ObservableCollection<IComponent> Components { get; set; }
-
         Composition ActiveComposition { get; set; }
-
-        void AddComponent(IComponent component);
-        void RemoveComponent(IComponent component);
-
-        void SetViewModel(IComponentModel model);
-        IComponentModel GetModel();
 
         SortableObservableCollection<IAsset> Assets { get; set; }
         ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }

@@ -28,6 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Modifiers = new ObservableCollection<IModifier>();
             Factory = modifierFactory;
+            Visibility = new ToggleButton(modifierManagerModel.Visibility);
 
             WeakReferenceMessenger.Default.Register(this, MessageType.In);
 
@@ -43,6 +44,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand RemoveCommand { get; set; }
         public ICommand DragHandlerDownCommand { get; set; }
         public ICommand DragHandlerUpCommand { get; set; }
+        public ToggleButton Visibility { get; set; }
 
 
         private ObservableCollection<IModifier> _modifiers;
@@ -82,7 +84,7 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             Modifiers.Remove(modifier);
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveModifier(this.ID, modifier), MessageType.Out);
-            ((IDisposable)modifier).Dispose();
+            modifier.Dispose();
         }
 
         public void Remove(Guid textureFilterID)
@@ -97,12 +99,16 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ModifierManagerModel modifierManagerModel = model as ModifierManagerModel;
             ID = modifierManagerModel.ID;
+            Visibility.SetViewModel(modifierManagerModel.Visibility);
         }
 
         public IModel GetModel()
         {
             ModifierManagerModel modifierManagerModel = new ModifierManagerModel();
+
             modifierManagerModel.ID = this.ID;
+            modifierManagerModel.Visibility = (ToggleButtonModel)Visibility.GetModel();
+
             return modifierManagerModel;
         }
 

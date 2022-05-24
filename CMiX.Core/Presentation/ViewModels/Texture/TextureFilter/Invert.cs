@@ -17,7 +17,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Factor = new Slider(nameof(Factor), invertModel.Factor);
             Visible = new ToggleButton(invertModel.Visible);
-
+            InvertAlpha = new ToggleButton(invertModel.InvertAlpha);
+            InvertChannelSelector = new ComboBox<InvertChannel>(invertModel.InvertChannelSelector);
             IsExpanded = true;
         }
 
@@ -25,6 +26,9 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider Factor { get; set; }
         public TextureFilterName Name { get; set; }
         public ToggleButton Visible { get; set; }
+        public ToggleButton InvertAlpha { get; set; }
+        public ComboBox<InvertChannel> InvertChannelSelector { get; set; }
+        public Slider Control { get; set; }
 
 
         private bool _enabled;
@@ -45,25 +49,30 @@ namespace CMiX.Core.Presentation.ViewModels
         public IModel GetModel()
         {
             InvertModel invertModel = new InvertModel();
+
             invertModel.ID = ID;
             invertModel.Name = Name;
             invertModel.Enabled = Enabled;
 
             invertModel.Factor = (SliderModel)Factor.GetModel();
             invertModel.Visible = (ToggleButtonModel)Visible.GetModel();
-
+            invertModel.InvertAlpha = (ToggleButtonModel)InvertAlpha.GetModel();
+            invertModel.InvertChannelSelector = (ComboBoxModel<InvertChannel>)InvertChannelSelector.GetModel();
             return invertModel;
         }
 
         public void SetViewModel(IModel model)
         {
             InvertModel invertModel = model as InvertModel;
+
             this.ID = invertModel.ID;
             this.Name = invertModel.Name;
             this.Enabled = invertModel.Enabled;
 
             this.Factor.SetViewModel(invertModel.Factor);
             this.Visible.SetViewModel(invertModel.Visible);
+            this.InvertAlpha.SetViewModel(invertModel.InvertAlpha);
+            this.InvertChannelSelector.SetViewModel(invertModel.InvertChannelSelector);
         }
 
         public void Dispose()

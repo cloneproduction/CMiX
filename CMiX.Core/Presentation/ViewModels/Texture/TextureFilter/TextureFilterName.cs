@@ -9,6 +9,10 @@ namespace CMiX.Core.Presentation.ViewModels
         Invert,
         Blur,
         Edge,
-        TransformTexture
+        TriColor,
+        TransformTexture,
+        Pixelate,
+        Echo,
+        Feedback
     }
 }

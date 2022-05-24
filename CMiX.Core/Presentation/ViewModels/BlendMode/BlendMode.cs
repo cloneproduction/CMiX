@@ -55,7 +55,7 @@ namespace CMiX.Core.Presentation.ViewModels
                 return;
 
             if (message is MessageUpdateViewModel msg)
-                    this.SetViewModel(msg.Model);
+                this.SetViewModel(msg.Model);
         }
     }
 }

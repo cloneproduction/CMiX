@@ -3,7 +3,6 @@
 
 using System;
 using System.Threading.Tasks;
-using System.Windows.Media;
 using Ceras;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels;
@@ -16,7 +15,6 @@ namespace CMiX.Core.Services
     {
         public Client()
         {
-            var config = new SerializerConfig();
             Serializer = new CerasSerializer();
             ServerIsConnected = false;
         }
@@ -48,20 +46,13 @@ namespace CMiX.Core.Services
             if(WatsonTcpClient != null)
                 WatsonTcpClient.Dispose();
 
-            //if (WatsonTcpClient == null)
-            //{
                 WatsonTcpClient = new WatsonTcpClient(settings.IP, settings.Port);
                 WatsonTcpClient.Events.ServerConnected += ServerConnected;
                 WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
                 WatsonTcpClient.Events.MessageReceived += MessageReceived;
-                //WatsonTcpClient.Callbacks.SyncRequestReceived = SyncRequestReceived;
                 WatsonTcpClient.Settings.ConnectTimeoutSeconds = 5;
 
                 _ = TryToConnect(WatsonTcpClient);
-
-                Console.WriteLine($"WatsonTcp Started with Address " + Address);
-            //}
-
         }
 
         private SyncResponse SyncRequestReceived(SyncRequest arg)

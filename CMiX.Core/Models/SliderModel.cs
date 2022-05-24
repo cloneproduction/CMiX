@@ -14,9 +14,13 @@ namespace CMiX.Core.Models
             Enabled = true;
         }
 
+        public SliderModel(float value) : this()
+        {
+            Amount = value;
+        }
+
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public float Amount { get; set; }
-        public string Address { get; set; }
     }
 }

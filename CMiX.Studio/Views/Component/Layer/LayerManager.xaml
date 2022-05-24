@@ -1,0 +1,79 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.LayerManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Components="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
+             xmlns:dd="urn:gong-wpf-dragdrop"
+             mc:Ignorable="d" 
+             d:DesignHeight="233.333" d:DesignWidth="235">
+
+
+    <Border Background="{DynamicResource SuperHighDarkerColor}">
+        <StackPanel Grid.Row="0">
+
+            <Border Background="{DynamicResource DarkerColor}">
+                <ListBox 
+                    Height="200"
+                    DockPanel.Dock="Top"
+                    AllowDrop="True"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.DragHandler="{Binding}"
+                    dd:DragDrop.DropHandler="{Binding}"
+                    Grid.Row="3" 
+                    Style="{StaticResource LayerListBoxStyle}"
+                    SelectedItem="{Binding SelectedLayer}"
+                    VirtualizingStackPanel.IsVirtualizing="False"
+                    ItemsSource="{Binding Composition.Components}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource LayerListBoxItemStyle}">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Border>
+            
+            <Border Margin="0, 0, 0, 4" Height="25" DockPanel.Dock="Bottom" Background="{DynamicResource DarkerColor}" >
+                <DockPanel LastChildFill="False">
+
+                    <Button 
+                        Command="{Binding CreateCommand}"
+                        CommandParameter="{x:Type Components:Layer}"
+                        Margin="2"
+                        Style="{StaticResource ButtonImage}">
+                        <Button.Content>
+                            <Image Margin="16" Source="{DynamicResource Add}"/>
+                        </Button.Content>
+                    </Button>
+
+                    <Button 
+                        IsEnabled="{Binding SelectedLayer.LayerMask, Converter={StaticResource NotNullToBool}}"
+                        Grid.Column="2" 
+                        Margin="0, 2" 
+                        Command="{Binding CreateMaskCommand}"
+                        Style="{StaticResource ButtonImage}">
+                        <Button.Content>
+                            <Image Margin="16" Source="{DynamicResource Mask}"/>
+                        </Button.Content>
+                    </Button>
+
+                    <Button Grid.Column="1" 
+                        DockPanel.Dock="Right"
+                        Margin="2" 
+                        Command="{Binding DeleteCommand}"
+                        Style="{StaticResource ButtonImage}">
+                        <Button.Content>
+                            <Image Margin="16" Source="{DynamicResource DeleteLayer}"/>
+                        </Button.Content>
+                    </Button>
+
+                </DockPanel>
+            </Border>
+
+        </StackPanel>
+    </Border>
+
+</UserControl>
+
+

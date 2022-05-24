@@ -4,15 +4,43 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="254" d:DesignWidth="348">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="InvertChannel" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ViewModels:InvertChannel"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Expander
         Header="Invert" 
         Template="{StaticResource ModifierPanelTemplate}"
-        IsExpanded="{Binding IsExpanded}">
+        IsExpanded="True">
         <StackPanel Margin="8">
-            <Controls:CMiXSlider Caption="Factor" Minimum="0.0" Maximum="1.0" Value="{Binding Factor.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
+            <Controls:CMiXSlider Height="22" Caption="Factor" Minimum="0.0" Maximum="1.0" Value="{Binding Factor.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
+            <Grid Height="22" Margin="0, 8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Channel" HorizontalAlignment="Right" Padding="4, 0"/>
+                <ComboBox Grid.Column="1" ItemsSource="{Binding Source={StaticResource InvertChannel}}" SelectedItem="{Binding InvertChannelSelector.Selection}"/>
+            </Grid>
+            <Grid Height="22">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Invert Alpha" HorizontalAlignment="Right" Padding="4, 0"/>
+                <ToggleButton IsChecked="{Binding InvertAlpha.IsChecked}" Grid.Column="1" HorizontalAlignment="Left"/>
+            </Grid>
         </StackPanel>
     </Expander>
     

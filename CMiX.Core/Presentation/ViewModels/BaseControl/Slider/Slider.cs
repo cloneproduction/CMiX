@@ -31,6 +31,16 @@ namespace CMiX.Core.Presentation.ViewModels
             ResetCommand = new RelayCommand(Reset);
         }
 
+        public Slider(string v, string from)
+        {
+            this.v = v;
+            this.from = from;
+        }
+
+        public Slider(CounterModel positionX)
+        {
+            this.positionX = positionX;
+        }
 
         public Guid ID { get; set; }
         public ICommand AddCommand { get; }
@@ -72,6 +82,9 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
         private bool CanSend = false;
+        private string v;
+        private string from;
+        private CounterModel positionX;
 
         public void Send(IMessage message)
         {

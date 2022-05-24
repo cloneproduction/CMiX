@@ -16,8 +16,7 @@ namespace CMiX.Core.Presentation.ValueConverters
             {
                 return value == null ? Visibility.Collapsed : Visibility.Visible;
             }
-            else
-                return value == null ? Visibility.Hidden : Visibility.Visible;
+            return value == null ? Visibility.Hidden : Visibility.Visible;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

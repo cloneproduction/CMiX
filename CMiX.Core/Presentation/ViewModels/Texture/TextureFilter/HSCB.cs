@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider Contrast { get; set; }
         public Slider Brightness { get; set; }
         public TextureFilterName Name { get; set; }
-
+        public Slider Control { get; set; }
 
         private bool _enabled;
         public bool Enabled

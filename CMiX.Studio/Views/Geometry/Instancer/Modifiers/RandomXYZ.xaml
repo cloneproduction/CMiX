@@ -10,58 +10,55 @@
              d:DesignHeight="548" d:DesignWidth="461.333">
 
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="ModifierType" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierType}">
+        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
             <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:ModifierType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="TransformType" MethodName="GetValues" ObjectType="{x:Type ViewModels:TransformType}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:TransformType"/>
+                <x:Type TypeName="ViewModels:ModifierMode"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
+    
     <Expander
             IsExpanded="{Binding IsExpanded}"
             Header="RandomXYZ" 
             Template="{StaticResource ModifierPanelTemplate}">
         <StackPanel>
-            <StackPanel Margin="8">
+            <StackPanel Margin="8, 16">
                 <Grid Height="20" Margin="0, 0, 0, 4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Type" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
+                    <!--<Controls:CMiXToggleButton HorizontalAlignment="Left" Caption="Spread" Style="{StaticResource CMiXToggleButtonStyle}" Grid.Column="1" IsChecked="{Binding Spread.IsChecked}"/>-->
                     <ComboBox 
-                    Grid.Column="1" 
-                    SelectedItem="{Binding SelectedModifierType}"
-                    ItemsSource="{Binding Source={StaticResource ModifierType}}"/>
+                        Grid.Column="1" 
+                        SelectedItem="{Binding Mode.Selection}"
+                        ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
                 </Grid>
                 <Border Margin="0, 0, 0, 16">
                     <Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="IsEnabled" Value="False"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedModifierType}"  Value="{x:Static ViewModels:ModifierType.GROUP}">
+                                <DataTrigger Binding="{Binding Mode.Selection}" Value="{x:Static ViewModels:ModifierMode.ToSpread}">
                                     <Setter Property="IsEnabled" Value="True"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
-                    <Grid Height="20">
+                    <Grid Height="22">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="Count" HorizontalAlignment="Right" Padding="4"/>
                         <Controls:Counter
-                        Style="{DynamicResource CMiXCounterStyle}"
-                        StepValue="1"
-                        Grid.Column="1"
-                        Height="20"
-                        HorizontalAlignment="Stretch"
-                        Value="{Binding Counter.Count, Mode=TwoWay}"/>
+                            Style="{DynamicResource CMiXCounterStyle}"
+                            StepValue="1"
+                            Grid.Column="1"
+                            Height="20"
+                            HorizontalAlignment="Stretch"
+                            Value="{Binding Counter.Count, Mode=TwoWay}"/>
                     </Grid>
                 </Border>
 
@@ -80,7 +77,7 @@
                         HorizontalAlignment="Left"
                         VerticalAlignment="Center"
                         IsChecked="{Binding RandomizeLocation.IsChecked}"/>
-                        <TextBlock Text="Randomize Location" Foreground="{DynamicResource TextBase}"/>
+                        <TextBlock Text="Location" Foreground="{DynamicResource TextBase}"/>
                     </DockPanel>
                 </Expander.Header>
 
@@ -92,16 +89,16 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding LocationX.Amount}"/>
+                                Grid.Column="2" 
+                                Position="Top" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding LocationX.Amount}"/>
                             <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Location X" 
-                            Foreground="{StaticResource TextBase}"/>
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Location X" 
+                                Foreground="{StaticResource TextBase}"/>
                         </Grid>
                         <Grid Height="20" Margin="0, 1">
                             <Grid.ColumnDefinitions>
@@ -109,16 +106,16 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Middle" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding LocationY.Amount}"/>
+                                Grid.Column="2" 
+                                Position="Middle" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding LocationY.Amount}"/>
                             <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Y" 
-                            Foreground="{StaticResource TextBase}"/>
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Y" 
+                                Foreground="{StaticResource TextBase}"/>
                         </Grid>
                         <Grid Height="20">
                             <Grid.ColumnDefinitions>
@@ -126,16 +123,16 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Bottom" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding LocationZ.Amount}"/>
+                                Grid.Column="2" 
+                                Position="Bottom" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding LocationZ.Amount}"/>
                             <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Z" 
-                    Foreground="{StaticResource TextBase}"/>
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Z" 
+                                Foreground="{StaticResource TextBase}"/>
                         </Grid>
                     </StackPanel>
                 </Border>
@@ -147,12 +144,12 @@
 
                     <DockPanel>
                         <Controls:CMiXToggleButton
-                        Style="{DynamicResource CMiXToggleButtonStyle}"
-                        Dock="Left"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Right"
-                        IsChecked="{Binding RandomizeScale.IsChecked}"/>
-                        <TextBlock Text="Randomize Scale" Foreground="{DynamicResource TextBase}"/>
+                            Style="{DynamicResource CMiXToggleButtonStyle}"
+                            Dock="Left"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            IsChecked="{Binding RandomizeScale.IsChecked}"/>
+                        <TextBlock Text="Scale" Foreground="{DynamicResource TextBase}"/>
                     </DockPanel>
 
                 </Expander.Header>
@@ -164,16 +161,16 @@
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding ScaleX.Amount}"/>
+                                Grid.Column="2" 
+                                Position="Top" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding ScaleX.Amount}"/>
                             <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Scale X" 
-                            Foreground="{StaticResource TextBase}"/>
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Scale X" 
+                                Foreground="{StaticResource TextBase}"/>
                         </Grid>
                         <Grid Height="20" Margin="0, 1">
                             <Grid.ColumnDefinitions>
@@ -219,13 +216,13 @@
                     <DockPanel>
 
                         <Controls:CMiXToggleButton
-                        Style="{DynamicResource CMiXToggleButtonStyle}"
-                        Dock="Left"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Left"
-                        IsChecked="{Binding Path=RandomizeRotation.IsChecked}"/>
+                            Style="{DynamicResource CMiXToggleButtonStyle}"
+                            Dock="Left"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            IsChecked="{Binding Path=RandomizeRotation.IsChecked}"/>
 
-                        <TextBlock Text="Randomize Rotation" Foreground="{DynamicResource TextBase}"/>
+                        <TextBlock Text="Rotation" Foreground="{DynamicResource TextBase}"/>
 
                     </DockPanel>
 

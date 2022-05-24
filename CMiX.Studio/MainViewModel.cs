@@ -10,10 +10,12 @@ using CMiX.Core.Presentation.ViewModels.Windows;
 using CMiX.Core.Network.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 using MvvmDialogs;
+using System.Windows.Input;
+using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MainViewModel : IRecipient<MessageRequestDialogService>
+    public class MainViewModel : IRecipient<MessageRequestDialogService>, IRecipient<IMessage>
     {
         public MainViewModel(IProject project, IDialogService dialogService, IMessageService messageService)
         {
@@ -26,13 +28,24 @@ namespace CMiX.Core.Presentation.ViewModels
             AssetManager = new AssetManager(dialogService);
 
             BeatManager = new BeatManager(project);
-            ComponentManager = new ComponentManager(project);
             SchedulerManager = new SchedulerManager(project, dialogService);
             PlaylistEditor = new PlaylistEditor(project);
             MainMenu = new MainMenu(project, dialogService);
 
+            KeyPressedCommand = new RelayCommand<Key>(KeyPressed);
+            //OpenProjectCommand = new RelayCommand(FocusMeshEntity);
+
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
+
+        public Key MyKey
+        {
+            get => Key.D1;
+        }
+
+        public ICommand KeyPressedCommand { get; set; }
+        public ICommand OpenProjectCommand { get; set; }
 
         public IDialogService DialogService { get; set; }
         public IProject Project { get; set; }
@@ -40,14 +53,31 @@ namespace CMiX.Core.Presentation.ViewModels
         public ServerManager ServerManager { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
         public AssetManager AssetManager { get; set; }
-        public ComponentManager ComponentManager { get; set; }
         public MainMenu MainMenu { get; set; }
         public SchedulerManager SchedulerManager { get; set; }
         public MainWindowController MainWindowController { get; set; }
 
+        public bool TextInputFocusState { get; private set; }
+
+
+
+        public void KeyPressed(Key key)
+        {
+            if(!TextInputFocusState)
+                WeakReferenceMessenger.Default.Send(new MessageKeyPressed(key), MessageType.In);
+        }
+
         public void Receive(MessageRequestDialogService message)
         {
             message.Reply(DialogService);
+        }
+
+        public void Receive(IMessage message)
+        {
+            if(message is MessageTextInputFocusState messageTextInputFocusState)
+            {
+                this.TextInputFocusState = messageTextInputFocusState.FocusState;
+            }
         }
     }
 }

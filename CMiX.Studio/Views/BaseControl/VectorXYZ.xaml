@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.VectorXYZ"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
+             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             mc:Ignorable="d" d:DesignHeight="118" d:DesignWidth="251.667" >
+
+    <StackPanel>
+        <Grid Height="20">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
+                <Controls:DistanceSlider 
+                            Position="Top" 
+                            Style="{StaticResource DistanceSliderStyle}" 
+                            Value="{Binding Path=X.Amount}">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ContextMenuMouseDownBehavior/>
+                    </i:Interaction.Behaviors>
+                </Controls:DistanceSlider>
+            </Border>
+            <DockPanel Grid.Column="0" >
+                <TextBlock 
+                    Padding="8, 0" 
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right" 
+                    Text="X" 
+                    Foreground="{DynamicResource TextBase}"/>
+
+                <TextBlock
+                    DockPanel.Dock="Right"
+                    HorizontalAlignment="Right" 
+                    Text="{Binding Name}"/>
+            </DockPanel>
+
+        </Grid>
+
+        <Grid Height="20" Margin="0, 1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
+                <Controls:DistanceSlider 
+                    Grid.Column="1" 
+                    Position="Middle" 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Value="{Binding Path=Y.Amount}"/>
+            </Border>
+            <TextBlock 
+                Grid.Column="0" 
+                Padding="8, 0" 
+                HorizontalAlignment="Right" 
+                Text="Y" 
+                Foreground="{StaticResource TextBase}"/>
+        </Grid>
+
+        <Grid Height="22">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
+                <Controls:DistanceSlider 
+                    Grid.Column="2" 
+                    Position="Bottom" 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Value="{Binding Path=Z.Amount}"/>
+            </Border>
+            <TextBlock 
+                Grid.Column="0" 
+                Padding="8, 0" 
+                HorizontalAlignment="Right" 
+                Text="Z" 
+                Foreground="{StaticResource TextBase}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

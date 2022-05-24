@@ -29,49 +29,45 @@
 
     
     <Style TargetType="{x:Type RadioButton}">
-        <!--<Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>-->
+        <Setter Property="Height" Value="20"/>
+        <Setter Property="Width" Value="20"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
         <Setter Property="Background" Value="Transparent" />
-
-        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Border x:Name="radioButtonBorder" Background="{TemplateBinding Background}">
-                        <Grid>
-                            <Ellipse 
-                                x:Name="outerCircle"
-                                StrokeThickness="2"
-                                Stroke="{DynamicResource Color}"
-                                Fill="Transparent" 
-                                Stretch="Uniform"/>
-                            <Ellipse 
-                                x:Name="innerCircle"
-                                Margin="4"
-                                StrokeThickness="1"
-                                Stroke="Transparent"
-                                Fill="Transparent" 
-                                Stretch="Uniform"/>
-                        </Grid>
+                    <Border x:Name="radioButtonBorder" 
+                            Background="{DynamicResource DarkColor}"
+                            CornerRadius="2">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
+
                     <ControlTemplate.Triggers>
-                        <Trigger Property="HasContent" Value="true">
-                            <Setter Property="FocusVisualStyle" Value="{DynamicResource OptionMarkFocusVisual}" />
-                            <Setter Property="Padding" Value="0,0,0,0" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Stroke" TargetName="outerCircle" Value="{DynamicResource HighLightColor}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-                        </Trigger>
+
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.5"/>
                         </Trigger>
-                        <Trigger Property="IsPressed" Value="true">
-                            
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Stroke" TargetName="innerCircle" Value="{DynamicResource HighLightColor}"/>
-                            <Setter Property="Fill" TargetName="innerCircle" Value="{DynamicResource HighLightColor}"/>
-                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False"/>
+                                <Condition Property="IsMouseOver" Value="True"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Color}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True"/>
+                                <Condition Property="IsMouseOver" Value="False"/>
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -79,14 +75,10 @@
                                 <Condition Property="IsMouseOver" Value="True"/>
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter Property="Stroke" TargetName="outerCircle" Value="{DynamicResource HighHighLightColor}"/>
-                                <Setter Property="Fill" TargetName="innerCircle" Value="{DynamicResource HighHighLightColor}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
                             </MultiTrigger.Setters>
-
                         </MultiTrigger>
-                        <!--<Trigger Property="IsChecked" Value="{x:Null}">
-                            <Setter TargetName="radioButtonBorder" Property="Opacity" Value="0.56" />
-                        </Trigger>-->
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

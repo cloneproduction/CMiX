@@ -4,23 +4,23 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class LinearXYZ : ObservableObject, IControl, IModifier, IBeatable, IDisposable
+    public class LinearXYZ : ObservableObject, IControl, ITransformModifier, IBeatable, IDisposable
     {
         public LinearXYZ(LinearXYZModel linearXYZModel)
         {
             this.ID = linearXYZModel.ID;
             this.Name = linearXYZModel.Name;
-            SelectedModifierType = ModifierType.OBJECT;
+            Mode = new ComboBox<ModifierMode>(linearXYZModel.Mode);
 
             Visible = new ToggleButton(linearXYZModel.Visible);
             Width = new Slider(nameof(Width), linearXYZModel.Width);
             Phase = new Slider(name: nameof(Phase), linearXYZModel.Phase);
             Counter = new Counter(linearXYZModel.CounterModel);
+            TransformTypeSelector = new ComboBox<TransformType>(linearXYZModel.TransformTypeSelector);
             DirectionXYZ = new DirectionXYZ(linearXYZModel.DirectionXYZModel);
             BeatModifier = new BeatModifier(linearXYZModel.BeatModifierModel);
         }
@@ -30,6 +30,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Guid ID { get; set; }
         public TransformModifierNames Name { get; set; }
+        public ComboBox<ModifierMode> Mode { get; set; }
+        public ComboBox<TransformType> TransformTypeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Counter Counter { get; set; }
         public Slider Width { get; set; }
@@ -37,8 +39,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public DirectionXYZ DirectionXYZ { get; set; }
 
 
-        private ModifierType _selectedModifierType;
-        public ModifierType SelectedModifierType
+        private ModifierMode _selectedModifierType;
+        public ModifierMode SelectedModifierType
         {
             get => _selectedModifierType;
             set => SetProperty(ref _selectedModifierType, value);
@@ -65,6 +67,8 @@ namespace CMiX.Core.Presentation.ViewModels
             linearXYZModel.BeatModifierModel = (BeatModifierModel)BeatModifier.GetModel();
             linearXYZModel.DirectionXYZModel = (DirectionXYZModel)DirectionXYZ.GetModel();
             linearXYZModel.Phase = (SliderModel)Phase.GetModel();
+            linearXYZModel.Mode =(ComboBoxModel<ModifierMode>)Mode.GetModel();
+            linearXYZModel.TransformTypeSelector = (ComboBoxModel<TransformType>)TransformTypeSelector.GetModel();
 
             return linearXYZModel;
         }
@@ -82,6 +86,8 @@ namespace CMiX.Core.Presentation.ViewModels
             this.BeatModifier.SetViewModel(linearXYZModel.BeatModifierModel);
             this.DirectionXYZ.SetViewModel(linearXYZModel.DirectionXYZModel);
             this.Phase.SetViewModel(linearXYZModel.Phase);
+            this.Mode.SetViewModel(linearXYZModel.Mode);
+            this.TransformTypeSelector.SetViewModel(linearXYZModel.TransformTypeSelector);
         }
 
         public void SetMasterBeat(MasterBeat masterBeat)

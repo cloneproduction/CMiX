@@ -24,7 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider Strength { get; set; }
         public TextureFilterName Name { get; set; }
         public ToggleButton Visible { get; set; }
-
+        public Slider Control { get; set; }
 
         private bool _enabled;
         public bool Enabled

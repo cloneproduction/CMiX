@@ -4,7 +4,6 @@
 using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models;
-using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 
@@ -18,7 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Assets = new SortableObservableCollection<IAsset>();
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
             Playlists = new ObservableCollection<Playlist>();
-            Visibility = new Visibility(new VisibilityModel());
+            CompositionManager = new CompositionManager(this);
         }
 
 
@@ -26,6 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
         public SortableObservableCollection<IAsset> Assets { get; set; }
         public Composition ActiveComposition { get; set; }
+        public CompositionManager CompositionManager { get; set; }
+
 
         public override void AddComponent(IComponent component)
         {
@@ -37,7 +38,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             ProjectModel model = new ProjectModel();
 
             model.Name = this.Name;
-            //model.IsVisible = this.IsVisible;
 
             foreach (Component item in this.Components)
                 model.ComponentModels.Add(item.GetModel());
@@ -67,8 +67,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
                 IAsset asset = null;
                 if (assetModel is AssetDirectoryModel)
                     asset = new AssetDirectory();
-                else if (assetModel is AssetTextureModel)
-                    asset = new AssetTexture();
+                else if (assetModel is AssetImageModel)
+                    asset = new AssetImage();
                 else if (assetModel is AssetGeometryModel)
                     asset = new AssetGeometry();
 

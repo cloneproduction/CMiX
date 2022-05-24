@@ -195,9 +195,6 @@ shader BlendLayer_TextureFX : MixerBase
         float4 result = ComputeAlpha(c1, c0, col);
         return lerp(c0, result, fader);
     }
-
-
-
 };
 
 

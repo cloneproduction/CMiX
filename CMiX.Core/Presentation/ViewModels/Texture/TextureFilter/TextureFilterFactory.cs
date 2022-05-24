@@ -32,6 +32,18 @@ namespace CMiX.Core.Presentation.ViewModels
             if(modifierType == typeof(TransformTexture))
                 return new TransformTexture(new TransformTextureModel());
 
+            if (modifierType == typeof(Pixelate))
+                return new Pixelate(new PixelateModel());
+
+            if (modifierType == typeof(Echo))
+                return new Echo(new EchoModel());
+
+            if (modifierType == typeof(Feedback))
+                return new Feedback(new FeedbackModel());
+
+            if (modifierType == typeof(TriColor))
+                return new TriColor(new TriColorModel());
+
             return null;
         }
 
@@ -51,6 +63,18 @@ namespace CMiX.Core.Presentation.ViewModels
 
             if (modifierModel is TransformTextureModel modelTexture)
                 return new TransformTexture(modelTexture);
+
+            if (modifierModel is PixelateModel pixelateModel)
+                return new Pixelate(pixelateModel);
+
+            if (modifierModel is EchoModel echoModel)
+                return new Echo(echoModel);
+
+            if (modifierModel is FeedbackModel feedbackModel)
+                return new Feedback(feedbackModel);
+
+            if (modifierModel is TriColorModel triColorModel)
+                return new TriColor(triColorModel);
 
             return null;
         }

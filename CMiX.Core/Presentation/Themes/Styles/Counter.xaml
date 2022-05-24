@@ -152,6 +152,8 @@
         </Style.Triggers>
     </Style>
 
+    
+    
     <Style x:Key="CMiXCounterStyle" TargetType="Controls:Counter">
         <Setter Property="Focusable" Value="True" />
         <Setter Property="Height" Value="21"/>
@@ -160,14 +162,13 @@
                 <ControlTemplate TargetType="Controls:Counter">
                     <Grid>
                         <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
+                        
                         <Border x:Name="mainBorder" 
-                                CornerRadius="2"
-                                BorderThickness="1, 0, 1, 2"
-                                BorderBrush="{DynamicResource HighDarkerColor}" 
                                 Style="{StaticResource distanceSliderBorder}">
                             <Border.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                             </Border.OpacityMask>
+                            
                             <Grid>
                                 <TextBox x:Name="valueInput" 
                                     Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
@@ -176,17 +177,17 @@
                                 <DockPanel>
                                     <Button x:Name="SubButton" 
                                             HorizontalAlignment="Left"
-                                        Content="-" 
-                                        DockPanel.Dock="Left"
-                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Style="{DynamicResource SliderButton}">
+                                            Content="-" 
+                                            DockPanel.Dock="Left"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Style="{DynamicResource SliderButton}">
                                     </Button>
                                     <Button x:Name="AddButton" 
                                             HorizontalAlignment="Right"
-                                        Content="+" 
-                                        DockPanel.Dock="Right"
-                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Style="{DynamicResource SliderButton}">
+                                            Content="+" 
+                                            DockPanel.Dock="Right"
+                                            Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                            Style="{DynamicResource SliderButton}">
                                     </Button>
                                     <Border x:Name="borderValueDisplay" 
                                         Background="Transparent">
@@ -202,11 +203,11 @@
                                             </Style>
                                         </Border.Style>
                                         <Label x:Name="valueDisplay" 
-                                        Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Padding="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource IntToString}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}">
+                                                Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                                Padding="0"
+                                                HorizontalAlignment="Center"
+                                                VerticalAlignment="Center"
+                                                Content="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource IntToString}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}">
                                         </Label>
                                     </Border>
                                 </DockPanel>

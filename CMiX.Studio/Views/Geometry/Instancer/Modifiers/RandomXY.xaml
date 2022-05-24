@@ -1,0 +1,240 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.RandomXY"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             mc:Ignorable="d" 
+             d:DesignHeight="548" d:DesignWidth="461.333">
+
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ViewModels:ModifierMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    
+    <Expander
+            IsExpanded="{Binding IsExpanded}"
+            Header="RandomXY" 
+            Template="{StaticResource ModifierPanelTemplate}">
+        <StackPanel>
+            <StackPanel Margin="8, 16">
+                <Grid Height="20" Margin="0, 0, 0, 4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Type" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
+                    <!--<Controls:CMiXToggleButton HorizontalAlignment="Left" Caption="Spread" Style="{StaticResource CMiXToggleButtonStyle}" Grid.Column="1" IsChecked="{Binding Spread.IsChecked}"/>-->
+                    <ComboBox 
+                        Grid.Column="1" 
+                        SelectedItem="{Binding Mode.Selection}"
+                        ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
+                </Grid>
+                <Border Margin="0, 0, 0, 16">
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="IsEnabled" Value="False"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Mode.Selection}" Value="{x:Static ViewModels:ModifierMode.ToSpread}">
+                                    <Setter Property="IsEnabled" Value="True"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Grid Height="22">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Count" HorizontalAlignment="Right" Padding="4"/>
+                        <Controls:Counter
+                            Style="{DynamicResource CMiXCounterStyle}"
+                            StepValue="1"
+                            Grid.Column="1"
+                            Height="20"
+                            HorizontalAlignment="Stretch"
+                            Value="{Binding Counter.Count, Mode=TwoWay}"/>
+                    </Grid>
+                </Border>
+
+                <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
+            </StackPanel>
+
+
+            <Views:Easing DataContext="{Binding Easing}"/>
+
+            <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}">
+                <Expander.Header>
+                    <DockPanel>
+                        <Controls:CMiXToggleButton
+                            Style="{DynamicResource CMiXToggleButtonStyle}"
+                            Dock="Left"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding RandomizeLocation.IsChecked}"/>
+                        <TextBlock Text="Location" Foreground="{DynamicResource TextBase}"/>
+                    </DockPanel>
+                </Expander.Header>
+
+                <Border Margin="8" IsEnabled="{Binding RandomizeLocation.IsChecked}">
+                    <StackPanel>
+                        <Grid Height="20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Controls:DistanceSlider 
+                                Grid.Column="2" 
+                                Position="Top" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding LocationX.Amount}"/>
+                            <TextBlock 
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Location X" 
+                                Foreground="{StaticResource TextBase}"/>
+                        </Grid>
+                        <Grid Height="20" Margin="0, 1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Controls:DistanceSlider 
+                                Grid.Column="2" 
+                                Position="Bottom" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding LocationY.Amount}"/>
+                            <TextBlock 
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Y" 
+                                Foreground="{StaticResource TextBase}"/>
+                        </Grid>
+
+                    </StackPanel>
+                </Border>
+
+            </Expander>
+
+            <Expander IsExpanded="{Binding RandomizeScaleIsExpanded}">
+                <Expander.Header>
+
+                    <DockPanel>
+                        <Controls:CMiXToggleButton
+                            Style="{DynamicResource CMiXToggleButtonStyle}"
+                            Dock="Left"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Right"
+                            IsChecked="{Binding RandomizeScale.IsChecked}"/>
+                        <TextBlock Text="Scale" Foreground="{DynamicResource TextBase}"/>
+                    </DockPanel>
+
+                </Expander.Header>
+                <Border Margin="8" IsEnabled="{Binding RandomizeScale.IsChecked}">
+                    <StackPanel>
+                        <Grid Margin="0, 0, 0, 8" Height="20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Controls:DistanceSlider 
+                                Grid.Column="2" 
+                                Position="Top" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding Uniform.Amount}"/>
+                            <TextBlock 
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Uniform" 
+                                Foreground="{StaticResource TextBase}"/>
+                        </Grid>
+                        
+                        <Grid Height="20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Controls:DistanceSlider 
+                                Grid.Column="2" 
+                                Position="Top" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding ScaleX.Amount}"/>
+                            <TextBlock 
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Scale X" 
+                                Foreground="{StaticResource TextBase}"/>
+                        </Grid>
+                        <Grid Height="20" Margin="0, 1">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Controls:DistanceSlider 
+                                Grid.Column="2" 
+                                Position="Bottom" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding ScaleY.Amount}"/>
+                                <TextBlock 
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Y" 
+                                Foreground="{StaticResource TextBase}"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+            </Expander>
+
+            <Expander IsExpanded="{Binding RandomizeRotationIsExpanded}">
+                <Expander.Header>
+
+                    <DockPanel>
+
+                        <Controls:CMiXToggleButton
+                            Style="{DynamicResource CMiXToggleButtonStyle}"
+                            Dock="Left"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            IsChecked="{Binding Path=RandomizeRotation.IsChecked}"/>
+
+                        <TextBlock Text="Rotation" Foreground="{DynamicResource TextBase}"/>
+
+                    </DockPanel>
+
+                </Expander.Header>
+
+                <Border Margin="8" IsEnabled="{Binding RandomizeRotation.IsChecked}">
+                    <Grid Height="20" >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Controls:DistanceSlider 
+                                Grid.Column="2" 
+                                Position="Top" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding Rotation.Amount}"/>
+                            <TextBlock 
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Rotate" 
+                                Foreground="{StaticResource TextBase}"/>
+                        </Grid>
+                </Border>
+            </Expander>
+
+        </StackPanel>
+    </Expander>
+
+</UserControl>

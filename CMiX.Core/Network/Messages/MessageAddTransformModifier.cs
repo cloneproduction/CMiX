@@ -17,11 +17,11 @@ namespace CMiX.Core.Network.Messages
         public MessageAddTransformModifier(Guid parentID, ITransformModifier transformModifier)
         {
             ID = parentID;
-            TransformModifierModel = transformModifier.GetModel() as ITransformModifierModel;
+            TransformModifierModel = transformModifier.GetModel() as IModifierModel;
         }
 
 
-        public ITransformModifierModel TransformModifierModel { get; set; }
+        public IModifierModel TransformModifierModel { get; set; }
         public Guid ID { get; set; }
     }
 }

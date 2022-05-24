@@ -3,20 +3,22 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Observer;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Transform : ObservableObject, IControl, IObserver
+    public class Transform : ObservableObject, IControl, ITransformModifier
     {
         public Transform(TransformModel transformModel)
         {
+            this.IsExpanded = true;
             this.ID = transformModel.ID;
+            this.Enabled = transformModel.Enabled;
+            this.Visible = new ToggleButton(transformModel.Visible);
             Translate = new Translate(transformModel.TranslateModel);
             Scale = new Scale(transformModel.ScaleModel);
             Rotation = new Rotation(transformModel.RotationModel);
-            Is3D = false;
+            Mode = new ComboBox<ModifierMode>(transformModel.Mode);
         }
 
 
@@ -24,40 +26,46 @@ namespace CMiX.Core.Presentation.ViewModels
         public Translate Translate { get; set; }
         public Scale Scale { get; set; }
         public Rotation Rotation { get; set; }
+        public bool Enabled { get; set; }
+        public ToggleButton Visible { get; set; }
+        public ComboBox<ModifierMode> Mode { get; set; }
 
-        private bool _is3D;
-        public bool Is3D
+
+        private bool _isExpanded;
+        public bool IsExpanded
         {
-            get => _is3D;
-            set => SetProperty(ref _is3D, value);
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
         }
-
-
-        public void Update(int count)
-        {
-            //this.Count = count;
-        }
-
 
 
         public void SetViewModel(IModel model)
         {
             TransformModel transformModel = model as TransformModel;
+
             this.ID = transformModel.ID;
             this.Translate.SetViewModel(transformModel.TranslateModel);
             this.Scale.SetViewModel(transformModel.ScaleModel);
             this.Rotation.SetViewModel(transformModel.RotationModel);
+            this.Mode.SetViewModel(transformModel.Mode);
         }
 
         public IModel GetModel()
         {
             TransformModel model = new TransformModel();
+
             model.ID = this.ID;
             model.TranslateModel = (TranslateModel)this.Translate.GetModel();
             model.ScaleModel = (ScaleModel)this.Scale.GetModel();
             model.RotationModel = (RotationModel)this.Rotation.GetModel();
-            model.Is3D = this.Is3D;
+            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+
             return model;
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

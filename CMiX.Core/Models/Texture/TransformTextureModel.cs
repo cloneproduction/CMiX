@@ -18,9 +18,10 @@ namespace CMiX.Core.Models
             SamplerStateModel = new SamplerStateModel();
             TranslateXModel = new SliderModel();
             TranslateYModel = new SliderModel();
-            ScaleXModel = new SliderModel();
-            ScaleYModel = new SliderModel();
+            ScaleXModel = new SliderModel(1.0f);
+            ScaleYModel = new SliderModel(1.0f);
             RotateModel = new SliderModel();
+            Control = new SliderModel();
         }
 
         public TextureFilterName Name { get; set; }
@@ -33,6 +34,6 @@ namespace CMiX.Core.Models
         public SliderModel ScaleXModel { get; set; }
         public SliderModel ScaleYModel { get; set; }
         public SliderModel RotateModel { get; set; }
-
+        public SliderModel Control { get; set; }
     }
 }

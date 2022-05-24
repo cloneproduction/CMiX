@@ -42,6 +42,8 @@
 
     <Converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
     <Converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+    <Converters:NotNullToBoolConverter x:Key="NotNullToBool"/>
+    <Converters:NullToBoolConverter x:Key="NullToBool"/>
     <Converters:PathToFilenameConverter x:Key="PathToFileName" />
     <Converters:ColorToHSVControledConverter x:Key="ColorToHSVControled"/>
 
@@ -53,5 +55,8 @@
 
     <Converters:ColorToNoAlphaConverter x:Key="ColorToNoAlpha"/>
     <Converters:TypeToVisibilityConverter x:Key="TypeToVisibility"/>
+    <Converters:ValueDataTemplateConverter x:Key="ValueDataTemplate"/>
+
+    <Converters:FontFamilyToStringConverter x:Key="FontFamilyToString"/>
     <!--<Converters:ComponentVisibilityConverter x:Key="ComponentVisibility"/>-->
 </ResourceDictionary>

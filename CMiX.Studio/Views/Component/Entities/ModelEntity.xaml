@@ -1,0 +1,91 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.ModelEntity"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="486" d:DesignWidth="322.667">
+
+    <StackPanel>
+
+        <Grid Margin="8, 0, 8, 8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Mesh" HorizontalAlignment="Right" Padding="4, 0"/>
+            <ComboBox Grid.Column="1" DockPanel.Dock="Bottom" 
+                  SelectedItem="{Binding Mesh}"
+                  ItemsSource="{Binding Path=DataContext.MeshManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+                <ComboBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+        
+        <Grid Margin="8, 0, 8, 8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Coloration" HorizontalAlignment="Right" Padding="4, 0"/>
+            <ComboBox Grid.Column="1" DockPanel.Dock="Bottom" 
+                  SelectedItem="{Binding Coloration}"
+                  ItemsSource="{Binding Path=DataContext.ColorationManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+                <ComboBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
+        <Grid Margin="8, 0, 8, 8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Material" HorizontalAlignment="Right" Padding="4, 0"/>
+            <ComboBox 
+                    DockPanel.Dock="Bottom" Grid.Column="1" 
+                    SelectedItem="{Binding Material}"
+                    ItemsSource="{Binding Path=DataContext.MaterialManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+                <ComboBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
+        <Grid Margin="8, 0, 8, 8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Transform" HorizontalAlignment="Right" Padding="4, 0"/>
+            <ComboBox 
+                    DockPanel.Dock="Bottom" Grid.Column="1" 
+                    SelectedItem="{Binding Transform}"
+                    ItemsSource="{Binding Path=DataContext.TransformManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+                <ComboBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+        
+    </StackPanel>
+</UserControl>

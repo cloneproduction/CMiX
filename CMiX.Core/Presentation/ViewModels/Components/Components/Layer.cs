@@ -2,75 +2,106 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Network.Messages;
+using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Network;
-using CommunityToolkit.Mvvm.Messaging;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentation.ViewModels.Services;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class Layer : Component, IBeatable
     {
-        public Layer(LayerModel layerModel)
+        public Layer(LayerModel layerModel, CompositionService compositionService)
         {
             ID = layerModel.ID;
-            Fade = new Slider(nameof(Fade), layerModel.Fade);
-            //Visibility = new Visibility(composition.Visibility, layerModel.VisibilityModel);
-            PostFX = new PostFX(layerModel.PostFXModel);
+            Name = layerModel.Name;
+
+            CompositionService = compositionService;
+
+            Opacity = new Slider(nameof(Opacity), layerModel.Opacity);
             BlendMode = new BlendMode(layerModel.BlendMode);
-            Mask = new Mask(layerModel.MaskModel);
+            Visibility = new ToggleButton(layerModel.Visibility);
+
+            LayerScene = new LayerScene(layerModel.LayerScene, compositionService);
+
+            EntityManager = new ModelEntityManager(layerModel.EntityManager);
+
+            TextureFilterModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
+
+            SelectedIndex = 1;
         }
 
 
-        public Slider Fade { get; set; }
-        public Mask Mask { get; set; }
-        public PostFX PostFX { get; set; }
+        public Slider Opacity { get; set; }
         public BlendMode BlendMode { get; set; }
-        public ToggleButton Out { get; set; }
+        public ToggleButton Visibility { get; set; }
+        public ModifierManager TextureFilterModifierManager { get; set; }
+        public CompositionService CompositionService { get; set; }
+        public ModelEntityManager EntityManager { get; set; }
 
-        public override void AddComponent(IComponent component)
+
+        private int _selectedIndex;
+        public int SelectedIndex
         {
-            base.AddComponent(component);
-            component.MasterBeat = this.MasterBeat;
+            get => _selectedIndex;
+            set => SetProperty(ref _selectedIndex, value);
         }
 
-        public override IComponentModel GetModel()
+        private LayerScene _layerScene;
+        public LayerScene LayerScene
         {
-            LayerModel model = new LayerModel(this.ID);
-
-            model.Name = this.Name;
-            //model.Out = this.Out;
-
-            model.Fade = (SliderModel)this.Fade.GetModel();
-            model.BlendMode = (BlendModeModel)this.BlendMode.GetModel();
-            model.PostFXModel = (PostFXModel)this.PostFX.GetModel();
-
-            foreach (Component item in this.Components)
-                model.ComponentModels.Add(item.GetModel());
-
-            return model;
+            get => _layerScene;
+            set => SetProperty(ref _layerScene, value);
         }
+
+        private LayerMask _layerMask;
+        public LayerMask LayerMask
+        {
+            get => _layerMask;
+            set => SetProperty(ref _layerMask, value);
+        }
+
 
         public void SetMasterBeat(MasterBeat masterBeat)
         {
             this.MasterBeat = masterBeat;
+            this.LayerScene.MasterBeat = masterBeat;
+        }
+
+
+        public override IComponentModel GetModel()
+        {
+            LayerModel model = new LayerModel();
+
+            model.ID = this.ID;
+            model.Name = this.Name;
+            model.Opacity = (SliderModel)Opacity.GetModel();
+            model.BlendMode =(BlendModeModel)BlendMode.GetModel();
+            model.Visibility = (ToggleButtonModel)Visibility.GetModel();
+
+            model.ModifierManager = (ModifierManagerModel)this.TextureFilterModifierManager.GetModel();
+
+            model.LayerScene = (LayerSceneModel)LayerScene.GetModel();
+            model.LayerMask = (LayerMaskModel)this.LayerMask?.GetModel();
+
+            return model;
         }
 
         public override void SetViewModel(IComponentModel model)
         {
             LayerModel layerModel = model as LayerModel;
-            this.ID = layerModel.ID;
-            //this.Out = layerModel.Out;
-            this.Fade.SetViewModel(layerModel.Fade);
-            this.BlendMode.SetViewModel(layerModel.BlendMode);
-            this.PostFX.SetViewModel(layerModel.PostFXModel);
 
-            this.Components.Clear();
-            foreach (var componentModel in layerModel.ComponentModels)
-            {
-                //var newComponent = this.ComponentFactory.CreateComponent(componentModel);
-                //this.AddComponent(newComponent);
-            }
+            this.ID = layerModel.ID;
+            this.Name = layerModel.Name;
+            this.Opacity.SetViewModel(layerModel.Opacity);
+            this.BlendMode.SetViewModel(layerModel.BlendMode);
+            this.Visibility.SetViewModel(layerModel.Visibility);
+
+            this.TextureFilterModifierManager.SetViewModel(layerModel.ModifierManager);
+
+            this.LayerScene.SetViewModel(layerModel.LayerScene);
+            this.LayerMask?.SetViewModel(layerModel.LayerMask);
         }
     }
 }

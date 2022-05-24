@@ -4,7 +4,6 @@ shader CMiXColor_DrawFX : VS_PS_Base, Texturing, TransformationInstancing
 {
     [Color]
     float4 Color = float4(1, 0, 0, 1);
-    float Invert;
 
 
     override stage void VSMain()
@@ -16,8 +15,6 @@ shader CMiXColor_DrawFX : VS_PS_Base, Texturing, TransformationInstancing
 
     override stage void PSMain() 
     {
-        float4 texColor = Texture0.Sample(LinearSampler, streams.TexCoord); 
-        float3 inverted = lerp(1 - texColor, texColor, Invert).rgb;
-        streams.ColorTarget = Color * float4(inverted, texColor.a);
+        streams.ColorTarget = Color;
     }
 };

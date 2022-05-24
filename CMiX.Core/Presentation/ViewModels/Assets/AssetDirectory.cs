@@ -161,8 +161,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                     asset = new AssetDirectory();
                 else if (assetModel is AssetGeometryModel)
                     asset = new AssetGeometry();
-                else if (assetModel is AssetTextureModel)
-                    asset = new AssetTexture();
+                else if (assetModel is AssetImageModel)
+                    asset = new AssetImage();
 
                 if (asset != null)
                 {

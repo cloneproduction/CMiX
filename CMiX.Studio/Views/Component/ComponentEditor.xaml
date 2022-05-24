@@ -3,37 +3,49 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ViewModelComponents="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
-             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
+             xmlns:converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
              mc:Ignorable="d" 
-             d:DesignHeight="572.667" 
-             d:DesignWidth="773.333">
+             d:DesignHeight="576.667" 
+             d:DesignWidth="295.333">
 
+    
     <UserControl.Resources>
-        <DataTemplate x:Key="CompositionTemplate" DataType="{x:Type ViewModelComponents:Composition}">
-            <ViewComponents:Composition DataContext="{Binding}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="EntityTemplate" DataType="{x:Type ViewModelComponents:Entity}">
-            <ViewComponents:Entity DataContext="{Binding}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="LayerTemplate" DataType="{x:Type ViewModelComponents:Layer}">
-            <ViewComponents:Layer DataContext="{Binding}"/>
-        </DataTemplate>
-
-        <ViewModelComponents:ComponentTemplateSelector 
-            x:Key="ComponentTemplateSelector" 
-            EntityTemplate="{StaticResource EntityTemplate}"
-            LayerTemplate="{StaticResource LayerTemplate}" 
-            CompositionTemplate="{StaticResource CompositionTemplate}"/>
+        <converters:ValueDataTemplateConverter x:Key="DataConverter">
+            <converters:ValueDataTemplateConverter.LightEntityTemplate>
+                <DataTemplate>
+                    <Views:LightEntity DataContext="{Binding}"/>
+                </DataTemplate>
+            </converters:ValueDataTemplateConverter.LightEntityTemplate>
+            <converters:ValueDataTemplateConverter.MeshEntityTemplate>
+                <DataTemplate>
+                    <ViewComponents:Mesh DataContext="{Binding }"/>
+                </DataTemplate>
+            </converters:ValueDataTemplateConverter.MeshEntityTemplate>
+        </converters:ValueDataTemplateConverter>
     </UserControl.Resources>
 
-    <ContentPresenter 
-        DataContext="{Binding SelectedComponent}"
-        Content="{Binding SelectedComponent}"
-        ContentTemplateSelector="{StaticResource ComponentTemplateSelector}">
-    </ContentPresenter>
+    <ContentControl 
+        ContentTemplate="{Binding Converter={StaticResource DataConverter}}" 
+        Content="{Binding}"/>
+
+
+
+    <!--<ContentControl Content="{Binding}"
+                    ContentTemplate="{Binding Converter={StaticResource DataTypeConverter}}">
+        --><!--<ContentControl.Resources>
+            
+            <DataTemplate DataType="{x:Type ViewModels:MeshEntity}">
+                <ViewComponents:MeshEntity DataContext="{Binding }"/>
+            </DataTemplate>
+
+            <DataTemplate DataType="{x:Type ViewModels:LightEntity}">
+                <Views:LightEntity DataContext="{Binding}"/>
+            </DataTemplate>
+            
+        </ContentControl.Resources>--><!--
+        
+    </ContentControl>-->
 
 </UserControl>

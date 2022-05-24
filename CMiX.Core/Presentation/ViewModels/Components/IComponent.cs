@@ -14,7 +14,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         //ObservableCollection<MasterBeat> MasterBeats { get; set; }
 
         MasterBeat MasterBeat { get; set; }
-        Visibility Visibility { get; set; }
+        //Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }
         bool IsSelected { get; set; }
         bool IsRenaming { get; set; }

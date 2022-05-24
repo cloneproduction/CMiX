@@ -16,11 +16,11 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <ObjectDataProvider x:Key="MaskType" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
+            <!--<ObjectDataProvider x:Key="MaskType" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="ViewModels:MaskType"/>
                 </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
+            </ObjectDataProvider>-->
             <ObjectDataProvider x:Key="MaskControlType" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="ViewModels:MaskControlType"/>
@@ -60,7 +60,7 @@
                 Height="15"/>
             
             <Border Visibility="{Binding Mask.IsMask, Converter={StaticResource BoolToVisibility}}">
-                <Views:Mask DataContext="{Binding Mask}" />
+                <!--<Views:Mask DataContext="{Binding Mask}" />-->
             </Border>
 
             <Views:Transform DataContext="{Binding Transform}"/>

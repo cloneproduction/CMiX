@@ -4,16 +4,18 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Camera : ObservableObject, IControl
+    public class Camera : ObservableObject, IPrefab, IBeatable, IControl
     {
         public Camera(CameraModel cameraModel)
         {
             this.ID = cameraModel.ID;
 
+            Name = cameraModel.Name;
             FOV = new Slider(nameof(FOV), cameraModel.FOV);
             Distance = new Slider(nameof(Distance), cameraModel.Distance);
 
@@ -23,10 +25,45 @@ namespace CMiX.Core.Presentation.ViewModels
             TargetX = new Slider(nameof(TargetX), cameraModel.TargetX);
             TargetY = new Slider(nameof(TargetY), cameraModel.TargetY);
             TargetZ = new Slider(nameof(TargetZ), cameraModel.TargetZ);
+
+            NearClip = new Slider(nameof(NearClip), cameraModel.NearClip);
+            FarClip = new Slider(nameof(FarClip), cameraModel.FarClip);
+
+            Projection = new ToggleButton(cameraModel.Projection);
         }
 
 
         public Guid ID { get; set; }
+
+
+        private Camera _selectedCamera;
+        public Camera SelectedCamera
+        {
+            get => _selectedCamera;
+            set => SetProperty(ref _selectedCamera, value);
+        }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get => _isRenaming;
+            set => SetProperty(ref _isRenaming, value);
+        }
+
 
         public Slider FOV { get; set; }
         public Slider Distance { get; set; }
@@ -35,7 +72,14 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider TargetX { get; set; }
         public Slider TargetY { get; set; }
         public Slider TargetZ { get; set; }
+        public Slider NearClip { get; set; }
+        public Slider FarClip { get; set; }
+        public ToggleButton Projection { get; set; }
 
+        public void SetMasterBeat(MasterBeat masterBeat)
+        {
+            //throw new NotImplementedException();
+        }
 
         public void SetViewModel(IModel model)
         {
@@ -51,6 +95,11 @@ namespace CMiX.Core.Presentation.ViewModels
             this.TargetX.SetViewModel(cameraModel.TargetX);
             this.TargetY.SetViewModel(cameraModel.TargetY);
             this.TargetZ.SetViewModel(cameraModel.TargetZ);
+
+            NearClip.SetViewModel(cameraModel.NearClip);
+            FarClip.SetViewModel(cameraModel.FarClip);
+
+            Projection.SetViewModel(cameraModel.Projection);
         }
 
         public IModel GetModel()
@@ -67,6 +116,12 @@ namespace CMiX.Core.Presentation.ViewModels
             cameraModel.TargetX = (SliderModel)TargetX.GetModel();
             cameraModel.TargetY = (SliderModel)TargetY.GetModel();
             cameraModel.TargetZ = (SliderModel)TargetZ.GetModel();
+
+            cameraModel.NearClip = (SliderModel)NearClip.GetModel();
+            cameraModel.FarClip = (SliderModel)FarClip.GetModel();
+
+            cameraModel.Projection = (ToggleButtonModel)Projection.GetModel();
+
             return cameraModel;
         }
     }

@@ -3,65 +3,88 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.Assets;
 using CMiX.Core.Presentation.ViewModels.Assets;
+using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Texture : ObservableObject, IControl
+    public class Texture : ObservableObject, IBeatable, ITexture, IPrefab
     {
         public Texture(TextureModel textureModel)
         {
             this.ID = textureModel.ID;
+            Name = this.GetType().Name;
 
+            IsEnabled = new ToggleButton(textureModel.IsEnabled);
             ModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory());
+            TextureTransformModifierManager = new ModifierManager(textureModel.TransformModifierManager, new TransformModifierFactory());
+            SamplerState = new SamplerState(textureModel.SamplerState);
 
-            Inverter = new Inverter(nameof(Inverter), textureModel.InverterModel);
+            ImageSelector = new ImageSelector(new AssetImage(), textureModel.TextureSelectorModel);
+            VideoSelector = new VideoSelector(new AssetVideo(), textureModel.VideoSelectorModel);
 
-            Brightness = new Slider(nameof(Brightness), textureModel.Brightness) { Minimum = -1.0f, Maximum = 1.0f };
-            Contrast = new Slider(nameof(Contrast), textureModel.Contrast) { Minimum = -1.0f, Maximum = 1.0f };
-            Hue = new Slider(nameof(Hue), textureModel.Hue) { Minimum = -1.0f, Maximum = 1.0f };
-            Saturation = new Slider(nameof(Saturation), textureModel.Saturation) { Minimum = -1.0f, Maximum = 1.0f };
-            Luminosity = new Slider(nameof(Luminosity), textureModel.Luminosity) { Minimum = -1.0f, Maximum = 1.0f };
-            Keying = new Slider(nameof(Keying), textureModel.Keying);
-
-            TranslateU = new Slider(nameof(TranslateU), textureModel.TranslateU) { Minimum = -1.0f, Maximum = 1.0f };
-            TranslateV = new Slider(nameof(TranslateV), textureModel.TranslateV) { Minimum = -1.0f, Maximum = 1.0f };
-
-            ScaleU = new Slider(nameof(Scale), textureModel.ScaleU) { Minimum = -1.0f, Maximum = 1.0f };
-            ScaleV = new Slider(nameof(Scale), textureModel.ScaleV) { Minimum = -1.0f, Maximum = 1.0f };
-
-            Rotate = new Slider(nameof(Rotate), textureModel.Rotate) { Minimum = -1.0f, Maximum = 1.0f };
-
-            ImageSelector = new ImageSelector(new AssetTexture(), textureModel.TextureSelectorModel);
-
+            VideoIn = new VideoIn(textureModel.VideoIn);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
+            SelectedAssetType = new ComboBox<int>(textureModel.SelectedAssetType);
+            TypeWriter = new TypeWriter(textureModel.TypeWriter);
         }
 
 
         public Guid ID { get; set; }
         public ModifierManager ModifierManager { get; set; }
+        public ModifierManager TextureTransformModifierManager { get; set; }
+
+        public ToggleButton IsEnabled { get; set; }
+        public SamplerState SamplerState { get; set; }
 
 
+
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get => _isRenaming;
+            set => SetProperty(ref _isRenaming, value);
+        }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        public ComboBox<int> SelectedAssetType { get; set; }
+
+
+        public TypeWriter TypeWriter { get; set; }
+        public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
+
         public ImageSelector ImageSelector { get; set; }
-        public Slider Brightness { get; set; }
-        public Slider Contrast { get; set; }
-        public Slider Hue { get; set; }
-        public Slider Saturation { get; set; }
-        public Slider Luminosity { get; set; }
-        public Slider Keying { get; set; }
+        public VideoSelector VideoSelector { get; set; }
 
-        public Slider TranslateU { get; set; }
-        public Slider TranslateV { get; set; }
-
-        public Slider ScaleU { get; set; }
-        public Slider ScaleV { get; set; }
-
-        public Slider Rotate { get; set; }
-        public Inverter Inverter { get; set; }
-
+        public void SetMasterBeat(MasterBeat masterBeat)
+        {
+            TextureTransformModifierManager.SetMasterBeat(masterBeat);
+        }
 
         public IModel GetModel()
         {
@@ -69,25 +92,15 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.ID = this.ID;
 
+            model.IsEnabled = (ToggleButtonModel)this.IsEnabled.GetModel();
             model.ModifierManagerModel = (ModifierManagerModel)this.ModifierManager.GetModel();
-
+            model.TransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
             model.TextureSelectorModel = (ImageSelectorModel)this.ImageSelector.GetModel();
-            model.InverterModel = (InvertModel)this.Inverter.GetModel();
-            model.Brightness = (SliderModel)this.Brightness.GetModel();
-            model.Contrast = (SliderModel)this.Contrast.GetModel();
-            model.Saturation = (SliderModel)this.Saturation.GetModel();
-            model.Luminosity = (SliderModel)this.Luminosity.GetModel();
-            model.Hue = (SliderModel)this.Hue.GetModel();
-
-            model.TranslateU = (SliderModel)this.TranslateU.GetModel();
-            model.TranslateV = (SliderModel)this.TranslateV.GetModel();
-
-            model.ScaleU = (SliderModel)this.ScaleU.GetModel();
-            model.ScaleV = (SliderModel)this.ScaleV.GetModel();
-
-            model.Rotate = (SliderModel)this.Rotate.GetModel();
-            model.Keying = (SliderModel)this.Keying.GetModel();
+            model.VideoSelectorModel = (VideoSelectorModel)this.VideoSelector.GetModel();
             model.VideoPlayerModel = (VideoPlayerModel)this.VideoPlayer.GetModel();
+            model.SelectedAssetType = (ComboBoxModel<int>)this.SelectedAssetType.GetModel();
+            model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
+            model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
 
             return model;
         }
@@ -98,26 +111,15 @@ namespace CMiX.Core.Presentation.ViewModels
 
             this.ID = textureModel.ID;
 
+            this.IsEnabled.SetViewModel(textureModel.IsEnabled);
             this.ModifierManager.SetViewModel(textureModel.ModifierManagerModel);
-
+            this.TextureTransformModifierManager.SetViewModel(textureModel.TransformModifierManager);
             this.ImageSelector.SetViewModel(textureModel.TextureSelectorModel);
-
-            this.Inverter.SetViewModel(textureModel.InverterModel);
-            this.Brightness.SetViewModel(textureModel.Brightness);
-            this.Contrast.SetViewModel(textureModel.Contrast);
-            this.Saturation.SetViewModel(textureModel.Saturation);
-            this.Luminosity.SetViewModel(textureModel.Luminosity);
-            this.Hue.SetViewModel(textureModel.Hue);
-
-            this.TranslateU.SetViewModel(textureModel.TranslateU);
-            this.TranslateV.SetViewModel(textureModel.TranslateV);
-
-            this.ScaleU.SetViewModel(textureModel.ScaleU);
-            this.ScaleV.SetViewModel(textureModel.ScaleV);
-
-            this.Rotate.SetViewModel(textureModel.Rotate);
-            this.Keying.SetViewModel(textureModel.Keying);
+            this.VideoSelector.SetViewModel(textureModel.VideoSelectorModel);
             this.VideoPlayer.SetViewModel(textureModel.VideoPlayerModel);
+            this.SelectedAssetType.SetViewModel(textureModel.SelectedAssetType);
+            this.TypeWriter.SetViewModel(textureModel.TypeWriter);
+            this.SamplerState.SetViewModel(textureModel.SamplerState);
         }
     }
 }

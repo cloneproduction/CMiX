@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
 {
@@ -12,11 +11,13 @@ namespace CMiX.Core.Models
         public RandomXYZModel()
         {
             this.ID = Guid.NewGuid();
-            Name = TransformModifierNames.RandomXYZ;
+            Name = TransformModifierNames.RandomXY;
+            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
+
             Visible = new ToggleButtonModel(true);
 
             BeatModifierModel = new BeatModifierModel();
-            CounterModel = new CounterModel();
+            CounterModel = new CounterModel(1);
             EasingModel = new EasingModel();
 
             RandomizeLocation = new ToggleButtonModel();
@@ -25,6 +26,7 @@ namespace CMiX.Core.Models
             LocationZ = new SliderModel();
 
             RandomizeScale = new ToggleButtonModel();
+            Uniform = new SliderModel();
             ScaleX = new SliderModel();
             ScaleY = new SliderModel();
             ScaleZ = new SliderModel();
@@ -33,12 +35,15 @@ namespace CMiX.Core.Models
             RotationX = new SliderModel();
             RotationY = new SliderModel();
             RotationZ = new SliderModel();
+
+            Spread = new ToggleButtonModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
 
+        public ComboBoxModel<ModifierMode> Mode { get; set; }
         public ToggleButtonModel Visible { get; set; }
 
         public EasingModel EasingModel { get; set; }
@@ -62,7 +67,9 @@ namespace CMiX.Core.Models
 
         public BeatModifierModel BeatModifierModel { get; set; }
         public TransformModifierNames Name { get; set; }
-        public int Count { get; set; }
 
+        public int Count { get; set; }
+        public ToggleButtonModel Spread { get; internal set; }
+        public SliderModel Uniform { get; internal set; }
     }
 }

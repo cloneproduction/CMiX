@@ -21,7 +21,6 @@ namespace CMiX.Console
 
             Project Project = serviceProvider.GetRequiredService<Project>();
             SchedulerManager schedulerManager = new SchedulerManager(Project);
-            ComponentManager componentManager = new ComponentManager(Project);
             BeatManager beatManager = new BeatManager(Project);
 
             System.Console.ReadLine();

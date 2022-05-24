@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentation.ViewModels;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,9 +8,14 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class TransformModifierTemplateSelector : DataTemplateSelector
     {
-        public DataTemplate TranslateXYZTemplate { get; set; }
         public DataTemplate RandomXYZTemplate { get; set; }
         public DataTemplate LinearXYZTemplate { get; set; }
+        public DataTemplate LFOTemplate { get; set; }
+        public DataTemplate RandomScaleTemplate { get; set; }
+        public DataTemplate TransformTemplate { get; set; }
+        public DataTemplate TranslateTemplate{ get; set; }
+        public DataTemplate ScaleTemplate { get; set; }
+        public DataTemplate RotationTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -19,12 +23,23 @@ namespace CMiX.Core.Presentation.ViewModels
 
             if (item != null)
             {
-                if (item is TranslateModifier)
-                    dataTemplate = TranslateXYZTemplate;
-                else if (item is RandomXYZ)
+                if (item is RandomXYZ)
                     dataTemplate = RandomXYZTemplate;
                 else if (item is LinearXYZ)
                     dataTemplate = LinearXYZTemplate;
+                else if (item is LFO)
+                    dataTemplate = LFOTemplate;
+                else if (item is RandomScale)
+                    dataTemplate = RandomScaleTemplate;
+                else if (item is Transform)
+                    dataTemplate = TransformTemplate;
+
+                else if (item is Translate)
+                    dataTemplate = TranslateTemplate;
+                else if (item is Scale)
+                    dataTemplate = ScaleTemplate;
+                else if (item is Rotation)
+                    dataTemplate = RotationTemplate;
             }
 
             return dataTemplate;

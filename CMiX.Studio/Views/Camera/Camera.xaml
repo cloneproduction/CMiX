@@ -1,58 +1,18 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.Camera"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-    xmlns:MVVM.Views="clr-namespace:CMiX.Core.Presentation.Views;assembly=CMiX.Core"
-    xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
     x:Name="CameraControl"
     d:DesignHeight="294.297"
     d:DesignWidth="260.578"
     mc:Ignorable="d">
 
-    <UserControl.Resources>
-        <ObjectDataProvider x:Key="CameraView" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:CameraView"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="CameraRotation" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:CameraRotation"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider x:Key="CameraLookAt" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:CameraLookAt"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </UserControl.Resources>
 
-    <StackPanel>
-        <Border
-            Height="25"
-            Margin="0, 0, 0, 2"
-            Padding="4"
-            DockPanel.Dock="Top">
-            <TextBlock
-                Margin="4, 0, 0, 0"
-                Text="CAMERA"
-                Foreground="{StaticResource TextBase}"/>
-        </Border>
-
-        <StackPanel Margin="8">
-            <Border             
-                Grid.Column="1"
-                Style="{StaticResource BorderContainer}">
-                <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
-            </Border>
-
-            <!-- Distance and FOV -->
-            <Grid Height="20" Margin="0, 8, 0, 2">
+    <StackPanel Margin="8">
+        <Grid Height="20" Margin="0, 0, 0, 2">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.9*"/>
                     <ColumnDefinition/>
@@ -215,8 +175,71 @@
                 </Grid>
 
             </StackPanel>
-        </StackPanel>
 
+        <StackPanel Margin="0, 8">
+            
+            <Grid Height="20" Margin="0, 8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.9*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="1" 
+                        BorderBrush="{DynamicResource Shadow}" 
+                        BorderThickness="1, 0, 1, 0">
+                    <Controls:CMiXToggleButton 
+                        Caption="Orthographic" 
+                        Style="{StaticResource CMiXToggleButtonStyle}" 
+                        IsChecked="{Binding Projection.IsChecked}"/>
+                </Border>
+
+            </Grid>
+            
+            <Grid Height="20" Margin="0, 0, 0, 1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.9*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border Grid.Column="1" 
+                            BorderBrush="{DynamicResource Shadow}" 
+                            BorderThickness="1, 0, 1, 0">
+                    <Controls:DistanceSlider 
+                            Position="Top" 
+                            Style="{StaticResource DistanceSliderStyle}" 
+                            Value="{Binding Path=NearClip.Amount}" />
+                </Border>
+                <TextBlock 
+                        Grid.Column="0" 
+                        Padding="8, 0" 
+                        HorizontalAlignment="Right" 
+                        Text="Near Clip" 
+                        Foreground="{DynamicResource TextBase}"/>
+            </Grid>
+
+            <Grid Height="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.9*"/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Border 
+                        Grid.Column="1" 
+                        CornerRadius="4" 
+                        BorderBrush="{DynamicResource Shadow}" 
+                        BorderThickness="1, 0, 1, 2">
+                    <Controls:DistanceSlider 
+                            Grid.Column="2" 
+                            Position="Bottom" 
+                            Style="{StaticResource DistanceSliderStyle}" 
+                            Value="{Binding Path=FarClip.Amount}"/>
+                </Border>
+                <TextBlock 
+                        Grid.Column="0" 
+                        Padding="8, 0" 
+                        HorizontalAlignment="Right" 
+                        Text="Far Clip" 
+                        Foreground="{StaticResource TextBase}"/>
+            </Grid>
+
+        </StackPanel>
     </StackPanel>
 
 </UserControl>

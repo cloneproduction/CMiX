@@ -4,7 +4,6 @@
 using System;
 using System.Windows;
 using CMiX.Core.Models;
-using CMiX.Core.Models.Assets;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -15,7 +14,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 {
     public class ImageSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
     {
-        public ImageSelector(AssetTexture defaultAsset, ImageSelectorModel geometrySelectorModel)
+        public ImageSelector(AssetImage defaultAsset, ImageSelectorModel geometrySelectorModel)
         {
             this.ID = geometrySelectorModel.ID;
             SelectedAsset = defaultAsset;
@@ -26,8 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         public Guid ID { get; set; }
 
 
-        private IAssetImage _selectedAsset;
-        public IAssetImage SelectedAsset
+        private AssetImage _selectedAsset;
+        public AssetImage SelectedAsset
         {
             get => _selectedAsset;
             set
@@ -55,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             this.ID = assetPathSelectorModel.ID;
 
             if (this.SelectedAsset == null)
-                this.SelectedAsset = new AssetTexture();
+                this.SelectedAsset = new AssetImage();
 
             if (assetPathSelectorModel.SelectedAsset != null)
                 this.SelectedAsset.SetViewModel(assetPathSelectorModel.SelectedAsset);
@@ -79,18 +78,10 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             {
                 var assetModel = messageAsset.AssetModel;
 
-                if (assetModel is AssetTextureModel textureModel)
+                if(assetModel is AssetImageModel imageModel)
                 {
-                    var asset = new AssetTexture();
-                    asset.SetViewModel(textureModel);
-                    this.SelectedAsset = asset;
-                    return;
-                }
-
-                if(assetModel is AssetVideoModel videoModel)
-                {
-                    var asset = new AssetVideo();
-                    asset.SetViewModel(videoModel);
+                    var asset = new AssetImage();
+                    asset.SetViewModel(imageModel);
                     this.SelectedAsset = asset;
                     return;
                 }

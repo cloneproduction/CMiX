@@ -23,5 +23,6 @@ namespace CMiX.Core.Models
         public SliderModel Strength { get; set; }
         public ToggleButtonModel Visible { get; set; }
         public TextureFilterName Name { get; set; }
+        public SliderModel Control { get; set; }
     }
 }

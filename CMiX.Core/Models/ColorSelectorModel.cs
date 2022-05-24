@@ -11,7 +11,12 @@ namespace CMiX.Core.Models
         public ColorSelectorModel()
         {
             ID = Guid.NewGuid();
-            SelectedColor = "#FFFF00FF";
+            SelectedColor = "#FFFFFFFF";
+        }
+
+        public ColorSelectorModel(string ColorHEX) : this()
+        {
+            SelectedColor = ColorHEX;
         }
 
         public bool Enabled { get; set; }

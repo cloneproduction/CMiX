@@ -15,14 +15,14 @@
         
         <Grid Height="20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
                 <Controls:DistanceSlider 
                     Position="Top" 
                     Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding Path=X.Amount}" >
+                    Value="{Binding XYZ.X.Amount}" >
                     <i:Interaction.Behaviors>
                         <Behaviors:ContextMenuMouseDownBehavior/>
                     </i:Interaction.Behaviors>
@@ -38,7 +38,7 @@
         
         <Grid Height="20" Margin="0, 1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
@@ -46,7 +46,7 @@
                     Grid.Column="1" 
                     Position="Middle" 
                     Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding Path=Y.Amount}"/>
+                    Value="{Binding XYZ.Y.Amount}"/>
             </Border>
             <TextBlock 
                 Grid.Column="0" 
@@ -56,29 +56,17 @@
                 Foreground="{StaticResource TextBase}"/>
         </Grid>
 
-        <Grid Height="20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Grid.Style>
-                    <Style TargetType="{x:Type Grid}">
-                        <Setter Property="IsEnabled" Value="False"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor,
-                                                             AncestorType={x:Type Studio.Views:Transform}},
-                                                             Path=DataContext.Is3D}" Value="True">
-                                <Setter Property="IsEnabled" Value="True"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Grid.Style>
+        <Grid Height="22">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
             <Border Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
                 <Controls:DistanceSlider 
                     Grid.Column="2" 
                     Position="Bottom" 
                     Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding Path=Z.Amount}"/>
+                    Value="{Binding XYZ.Z.Amount}"/>
             </Border>
             <TextBlock 
                     Grid.Column="0" 
@@ -86,7 +74,7 @@
                     HorizontalAlignment="Right" 
                     Text="Z" 
                     Foreground="{StaticResource TextBase}"/>
-            </Grid>
+        </Grid>
 
     </StackPanel>
 </UserControl>

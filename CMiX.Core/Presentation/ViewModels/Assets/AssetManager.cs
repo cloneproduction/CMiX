@@ -26,8 +26,9 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             AssetFactory = new AssetFactory();
             DialogService = dialogService;
 
-            Assets = new SortableObservableCollection<IAsset>();
-            ImageAssets = new SortableObservableCollection<IAssetImage>();
+            //Assets = new SortableObservableCollection<IAsset>();
+            VideoAssets = new SortableObservableCollection<AssetVideo>();
+            ImageAssets = new SortableObservableCollection<AssetImage>();
             GeometryAssets = new SortableObservableCollection<AssetGeometry>();
 
 
@@ -93,10 +94,12 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         }
 
 
-        public SortableObservableCollection<IAsset> Assets { get; set; }
+        //public SortableObservableCollection<IAsset> Assets { get; set; }
 
-        public SortableObservableCollection<IAssetImage> ImageAssets { get; set; }
+        public SortableObservableCollection<AssetVideo> VideoAssets { get; set; }
+        public SortableObservableCollection<AssetImage> ImageAssets { get; set; }
         public SortableObservableCollection<AssetGeometry> GeometryAssets { get; set; }
+
 
         public void RenameAsset()
         {
@@ -114,7 +117,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                 IAsset asset = SelectedItems.First();
                 OpenFileDialogSettings settings = new OpenFileDialogSettings();
 
-                if (asset is AssetTexture)
+                if (asset is AssetImage)
                     settings.Filter = "Image |*.jpg;*.jpeg;*.png;*.dds";
 
                 if (asset is AssetGeometry)
@@ -144,7 +147,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         private void DeleteAssets()
         {
-            DeleteSelectedAssets(this.Assets);
+            //DeleteSelectedAssets(this.Assets);
         }
 
 
@@ -162,7 +165,7 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             foreach (var item in toBeRemoved)
             {
                 directory.Assets.Remove(item);
-                this.Assets.Remove(item);
+                //this.Assets.Remove(item);
             }
         }
 
@@ -237,22 +240,22 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
                     GeometryAssets.Add(assetGeometry);
                     break;
 
-                case AssetTexture assetTexture:
+                case AssetImage assetTexture:
                     ImageAssets.Add(assetTexture);
                     break;
 
                 case AssetVideo assetVideo:
-                    ImageAssets.Add(assetVideo);
+                    VideoAssets.Add(assetVideo);
                     break;
             }
         }
 
 
-        public void SortAssets()
-        {
-            Assets.Sort(c => c.Name);
-            Assets.Sort(c => c.Ponderation.ToString());
-        }
+        //public void SortAssets()
+        //{
+        //    Assets.Sort(c => c.Name);
+        //    Assets.Sort(c => c.Ponderation.ToString());
+        //}
 
 
         public void DragOver(IDropInfo dropInfo)
@@ -348,14 +351,14 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
         public void StartDrag(IDragInfo dragInfo)
         {
-            List<AssetDragDrop> dragList = new List<AssetDragDrop>();
-            GetDragDropObjects(dragList, this.Assets);
+            //List<AssetDragDrop> dragList = new List<AssetDragDrop>();
+            //GetDragDropObjects(dragList, this.Assets);
 
-            if (dragList.Any())
-            {
-                dragInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-                dragInfo.Data = dragList;
-            }
+            //if (dragList.Any())
+            //{
+            //    dragInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
+            //    dragInfo.Data = dragList;
+            //}
         }
 
         public bool CanStartDrag(IDragInfo dragInfo)

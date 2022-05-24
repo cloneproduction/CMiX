@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
 {
@@ -16,10 +15,13 @@ namespace CMiX.Core.Models
 
             Visible = new ToggleButtonModel(true);
             BeatModifierModel = new BeatModifierModel();
-            CounterModel = new CounterModel();
+            CounterModel = new CounterModel(1);
             Width = new SliderModel();
             Phase = new SliderModel();
             DirectionXYZModel = new DirectionXYZModel();
+            Mode = new ComboBoxModel<ModifierMode>();
+            Mode.Selection = ModifierMode.ToSpread;
+            TransformTypeSelector = new ComboBoxModel<TransformType>(TransformType.Translate);
         }
 
         public TransformModifierNames Name { get; set; }
@@ -33,6 +35,7 @@ namespace CMiX.Core.Models
         public SliderModel Width { get; set; }
         public DirectionXYZModel DirectionXYZModel { get; set; }
         public SliderModel Phase { get; set; }
-
+        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
+        public ComboBoxModel<TransformType> TransformTypeSelector { get; internal set; }
     }
 }

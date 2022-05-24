@@ -4,18 +4,17 @@
 using System.Linq;
 using System.Windows.Media.Media3D;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Observer;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TranslateModifier : ObservableObject, IObserver
+    public class TranslateModifier : ObservableObject
     {
         public TranslateModifier(string name, IControl parentSender, MasterBeat beat)
         {
             Count = 1;
 
-            ModifierType = ModifierType.GROUP;
+            ModifierType = ModifierMode.ToSpread;
 
             Location = new Vector3D[1] { new Vector3D(0.0, 0.0, 0.0) };
             Scale = new Vector3D[1] { new Vector3D(1.0, 1.0, 1.0) };
@@ -26,8 +25,8 @@ namespace CMiX.Core.Presentation.ViewModels
             //Z = new AnimParameter(nameof(Z), this, translate.Z.Amount, beat);
         }
 
-        private ModifierType _modifierType;
-        public ModifierType ModifierType
+        private ModifierMode _modifierType;
+        public ModifierMode ModifierType
         {
             get => _modifierType;
             set => SetProperty(ref _modifierType, value);
@@ -49,7 +48,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public void AnimateOnGameLoop(int objectCount)
         {
             int modifierCount = 0;
-            if (ModifierType == ModifierType.OBJECT)
+            if (ModifierType == ModifierMode.ToSpread)
             {
                 modifierCount = objectCount;
                 if (objectCount != Location.Length)
@@ -59,7 +58,7 @@ namespace CMiX.Core.Presentation.ViewModels
                     Rotation = new Vector3D[objectCount];
                 }
             }
-            else if (ModifierType == ModifierType.GROUP)
+            else if (ModifierType == ModifierMode.ToSpread)
             {
                 modifierCount = Count;
             }

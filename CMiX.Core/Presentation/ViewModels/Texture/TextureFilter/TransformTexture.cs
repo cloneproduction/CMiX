@@ -33,6 +33,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider Rotate { get; set; }
         public ToggleButton Visible { get; set; }
 
+
         private bool _enabled;
         public bool Enabled
         {

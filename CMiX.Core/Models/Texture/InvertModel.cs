@@ -13,9 +13,12 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
 
             Name = TextureFilterName.Invert;
-            Factor = new SliderModel();
-            InvertMode = new ComboBoxModel<TextureInvertMode>();
+            Factor = new SliderModel(1.0f);
+            InvertChannelSelector = new ComboBoxModel<InvertChannel>();
+            InvertAlpha = new ToggleButtonModel();
             Visible = new ToggleButtonModel(true);
+            Control = new SliderModel();
+
             Enabled = true;
         }
 
@@ -23,7 +26,9 @@ namespace CMiX.Core.Models
         public Guid ID { get; set; }
         public SliderModel Factor { get; set; }
         public ToggleButtonModel Visible { get; set; }
-        public ComboBoxModel<TextureInvertMode> InvertMode { get; set; }
+        public ComboBoxModel<InvertChannel> InvertChannelSelector { get; set; }
         public TextureFilterName Name { get; set; }
+        public ToggleButtonModel InvertAlpha { get; internal set; }
+        public SliderModel Control { get; set; }
     }
 }

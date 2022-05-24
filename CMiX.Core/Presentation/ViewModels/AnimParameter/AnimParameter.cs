@@ -3,12 +3,11 @@
 
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Observer;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class AnimParameter : ObservableObject, IControl, IObserver
+    public class AnimParameter : ObservableObject, IControl
     {
         public AnimParameter(string name, double[] defaultParameter, MasterBeat masterBeat, AnimParameterModel animParameterModel)
         {
@@ -77,7 +76,7 @@ namespace CMiX.Core.Presentation.ViewModels
             ParametersToDefault();
             //if (this.AnimMode != null)
             //    this.AnimMode.Dispose();
-            this.AnimMode = ModesFactory.CreateMode(SelectedModeType, this);
+            //this.AnimMode = ModesFactory.CreateMode(SelectedModeType, this);
         }
 
         public void AnimateOnBeatTick()

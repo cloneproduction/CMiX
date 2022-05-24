@@ -13,9 +13,9 @@
              xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
              mc:Ignorable="d" 
              x:Name="outliner"
-             d:DesignHeight="450.191" d:DesignWidth="300.596">
+             d:DesignHeight="222.346" d:DesignWidth="306.881">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <ResourceDictionary>
 
             <Tools:BindingProxy x:Key="ComponentManagerProxy" Data="{Binding Path=DataContext.ComponentManager, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"/>
@@ -25,206 +25,32 @@
             <DataTemplate x:Key="componentTemplate" DataType="{x:Type Components:Component}">
 
             </DataTemplate>
-            
+
             <Components:ComponentTemplateSelector
                 x:Key="componentTemplateSelector"
                 LayerTemplate="{StaticResource componentTemplate}"
-                SceneTemplate="{StaticResource componentTemplate}"
-                EntityTemplate="{StaticResource componentTemplate}"/>
-            
-            <ContextMenu x:Key="OutlinerContextMenu"
-                     Style="{StaticResource ContextMenuDefault}"
-
-                     Width="175">
-                <!--Visibility="{Binding Data.ComponentManager.SelectedComponent, Converter={StaticResource NullToVisibility}, Source={StaticResource RootProxy}}"-->
-                <MenuItem
->
-                    <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}" 
-                               BasedOn="{StaticResource ContextMenuSubItem}">
-                            <Setter Property="IsEnabled" Value="True"/>
-                            <Setter Property="Header" Value="Add"/>
-                            <Setter Property="Command" Value="{Binding Data.CreateComponentCommand, Source={StaticResource ComponentManagerProxy}}"/>
-                            <Style.Triggers>
-                                
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" 
-                                             Value="{x:Type Components:Composition}">
-                                    <Setter Property="Header" Value="Add Layer"/>
-                                    <Setter Property="CommandParameter" Value="{x:Type Components:Layer}"/>
-                                </DataTrigger>
-                                
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" 
-                                             Value="{x:Type Components:Layer}">
-                                    <Setter Property="Header" Value="Add Scene"/>
-                                    <Setter Property="CommandParameter" Value="{x:Type Components:Scene}"/>
-                                </DataTrigger>
-                                
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" 
-                                             Value="{x:Type Components:Scene}">
-                                    <Setter Property="Header" Value="Add Entity"/>
-                                    <Setter Property="CommandParameter" Value="{x:Type Components:Entity}"/>
-                                </DataTrigger>
-                                
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}"
-                                             Value="{x:Type Components:Entity}">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                                
-                            </Style.Triggers>
-                        </Style>
-                    </MenuItem.Style>
-                    <MenuItem.Icon>
-                        <Image Source="{StaticResource Add}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
-                <MenuItem
-                    Command="{Binding Data.RenameComponentCommand, Source={StaticResource ComponentManagerProxy}}"
-                    CommandParameter="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy}}"
-                    Header="Rename">
-                    <MenuItem.Icon>
-                        <Image Source="{StaticResource Rename}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
-                <MenuItem
-                    Command="{Binding Data.DuplicateComponentCommand, Source={StaticResource ComponentManagerProxy}}"
-                    CommandParameter="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy}}"
-                    Header="Duplicate">
-                    <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource ContextMenuSubItem}">
-                            <Setter Property="IsEnabled" Value="True"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy},  Converter={StaticResource DataTypeConverter}}" Value="{x:Type Components:Project}">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </MenuItem.Style>
-                    <MenuItem.Icon>
-                        <Image Source="{StaticResource Copy}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
-                <MenuItem
-                    Command="{Binding Data.DeleteComponentCommand, Source={StaticResource ComponentManagerProxy}}"
-                    CommandParameter="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy}}"
-                    Header="Delete">
-                    <MenuItem.Style>
-                        <Style TargetType="{x:Type MenuItem}" BasedOn="{StaticResource ContextMenuSubItem}">
-                            <Setter Property="IsEnabled" Value="True"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Data.SelectedComponent, Source={StaticResource ComponentManagerProxy}, Converter={StaticResource DataTypeConverter}}" Value="{x:Type Components:Project}">
-                                    <Setter Property="IsEnabled" Value="False"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </MenuItem.Style>
-                    <MenuItem.Icon>
-                        <Image Source="{StaticResource DeleteLayer}"/>
-                    </MenuItem.Icon>
-                </MenuItem>
-
-            </ContextMenu>
+                SceneTemplate="{StaticResource componentTemplate}"/>
         </ResourceDictionary>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
-    <DockPanel Background="{DynamicResource DarkerColor}">
-        <Border 
+    <Border 
             VerticalAlignment="Center"
             Padding="4"
             DockPanel.Dock="Top"
-            BorderBrush="{DynamicResource Shadow}"
-            BorderThickness="0, 0, 0, 1">
-            <DockPanel Height="25">
-                <TextBlock Text="OUTLINER" Margin="8" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                <ComboBox 
+        Background="{DynamicResource DarkerColor}"
+            BorderBrush="{DynamicResource Shadow}">
+        <DockPanel Height="25">
+            <ComboBox 
                     Style="{StaticResource ComboBoxWithButton}"
                     SelectedItem="{Binding SelectedComposition}"
                     ItemsSource="{Binding Project.Components}">
-                    <ComboBox.ItemTemplate>
-                        <DataTemplate>
-                            <TextBlock Text="{Binding Name}"/>
-                        </DataTemplate>
-                    </ComboBox.ItemTemplate>
-                </ComboBox>
-            </DockPanel>
-        </Border>
-
-        <Controls:TreeViewSelect 
-            Style="{StaticResource TreeViewDefault}"
-            AllowDrop="True"
-            dd:DragDrop.IsDragSource="True"
-            dd:DragDrop.IsDropTarget="True"
-            dd:DragDrop.DragHandler="{Binding OutlinerDragDropManager}"
-            dd:DragDrop.DropHandler="{Binding OutlinerDragDropManager}"
-            ContextMenu="{DynamicResource OutlinerContextMenu}"
-            ItemsSource="{Binding SelectedComposition.Components}">
-            <Controls:TreeViewSelect.Resources>
-                
-                <HierarchicalDataTemplate DataType="{x:Type Components:Scene}" ItemsSource="{Binding Components}">
-                    <DockPanel>
-                        <Image Margin="8" Opacity="0.75">
-                            <Image.Style>
-                                <Style TargetType="{x:Type Image}">
-                                    <Style.Triggers>
-                                        <DataTrigger Binding="{Binding Mask.IsMask}" Value="False">
-                                            <Setter Property="Source" Value="{DynamicResource Scene}"/>
-                                        </DataTrigger>
-                                        <DataTrigger Binding="{Binding Mask.IsMask}" Value="True">
-                                            <Setter Property="Source" Value="{DynamicResource Mask}"/>
-                                        </DataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Image.Style>
-                        </Image>
-                        <Controls:EditableTextBox 
-                                DockPanel.Dock="Left"
-                                Padding="0, 4" 
-                                VerticalAlignment="Center" 
-                                IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </DockPanel>
-                </HierarchicalDataTemplate>
-
-                <HierarchicalDataTemplate DataType="{x:Type Components:Layer}" ItemsSource="{Binding Components}">
-                    <DockPanel DockPanel.Dock="Top">
-                        <Image Margin="8" Opacity="0.75" Source="{StaticResource Copy}"/>
-                        <Controls:EditableTextBox 
-                                    DockPanel.Dock="Left"
-                                    Padding="0, 4" 
-                                    VerticalAlignment="Center" 
-                                    IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                    Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </DockPanel>
-                </HierarchicalDataTemplate>
-
-                <DataTemplate DataType="{x:Type Components:Entity}">
-                    <DockPanel>
-                        <Image Margin="8" DockPanel.Dock="Left" Opacity="0.75" Source="{StaticResource Entity}"/>
-                        <Controls:EditableTextBox 
-                                Padding="4" 
-                                VerticalAlignment="Center" 
-                                IsEditing="{Binding IsRenaming, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" 
-                                Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </DockPanel>
-                </DataTemplate>
-
-            </Controls:TreeViewSelect.Resources>
-            
-            <i:Interaction.Behaviors>
-                <Behaviors:BindableSelectedItemBehavior SelectedItem="{Binding Data.ComponentManager.SelectedComponent, Source={StaticResource RootProxy}, Mode=TwoWay}"/>
-            </i:Interaction.Behaviors>
-
-            <TreeView.ItemContainerStyle>
-                <Style TargetType="{x:Type TreeViewItem}" BasedOn="{StaticResource TreeViewItemDefault}">
-                    <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}"/>
-                    <Setter Property="IsExpanded" Value="{Binding IsExpanded}"/>
-                </Style>
-            </TreeView.ItemContainerStyle>
-            
-        </Controls:TreeViewSelect>
-        
-    </DockPanel>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </DockPanel>
+    </Border>
 
 </UserControl>

@@ -8,7 +8,6 @@
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:dd="urn:gong-wpf-dragdrop"
-    d:DataContext="{d:DesignInstance Type=ViewModels:Instancer}"
     d:DesignHeight="238.667"
     d:DesignWidth="277.667"
     mc:Ignorable="d"
@@ -18,32 +17,93 @@
         <ResourceDictionary>
 
             <DataTemplate x:Key="LinearXYZTemplate" DataType="{x:Type ViewModels:LinearXYZ}">
-                <Views:LinearXYZ Margin="0, 2" DataContext="{Binding}"/>
+                <Views:LinearXYZ Margin="0, 4" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="RandomXYZTemplate" DataType="{x:Type ViewModels:TranslateModifier}">
-                <Views:RandomXYZ Margin="0, 2" DataContext="{Binding}"/>
+                <Views:RandomXYZ Margin="0, 4" DataContext="{Binding}"/>
             </DataTemplate>
 
+            <DataTemplate x:Key="LFOTemplate" DataType="{x:Type ViewModels:LFO}">
+                <Views:LFO Margin="0, 4" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="RandomScaleTemplate" DataType="{x:Type ViewModels:RandomScale}">
+                <Views:RandomScale Margin="0, 4" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TransformTemplate" DataType="{x:Type ViewModels:Transform}">
+                <Views:Transform Margin="0, 4" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="TranslateTemplate" DataType="{x:Type ViewModels:Translate}">
+                <Expander
+                    Margin="0, 4"
+                    IsExpanded="{Binding IsExpanded}"
+                    Header="Translate XYZ" 
+                    Template="{StaticResource ModifierPanelTemplate}">
+                    <Views:Translate Margin="8, 16" DataContext="{Binding}"/>
+                </Expander>
+            </DataTemplate>
+
+            <DataTemplate x:Key="ScaleTemplate" DataType="{x:Type ViewModels:Scale}">
+                <Expander
+                    Margin="0, 4"
+                    IsExpanded="{Binding IsExpanded}"
+                    Header="Scale XYZ" 
+                    Template="{StaticResource ModifierPanelTemplate}">
+                    <Views:Scale Margin="8, 16" DataContext="{Binding}"/>
+                </Expander>
+            </DataTemplate>
+
+            <DataTemplate x:Key="RotationTemplate" DataType="{x:Type ViewModels:Rotation}">
+                <Expander
+                    Margin="0, 4"
+                    IsExpanded="{Binding IsExpanded}"
+                    Header="Rotate XYZ" 
+                    Template="{StaticResource ModifierPanelTemplate}">
+                    <Views:Rotation Margin="8, 16" DataContext="{Binding}"/>
+                </Expander>
+            </DataTemplate>
+            
             <ViewModels:TransformModifierTemplateSelector 
                 x:Key="TemplateSelector" 
                 RandomXYZTemplate="{StaticResource RandomXYZTemplate}"
-                LinearXYZTemplate="{StaticResource LinearXYZTemplate}"/>
+                LinearXYZTemplate="{StaticResource LinearXYZTemplate}"
+                LFOTemplate="{StaticResource LFOTemplate}"
+                TransformTemplate="{StaticResource TransformTemplate}"
+                TranslateTemplate="{StaticResource TranslateTemplate}"
+                ScaleTemplate="{StaticResource ScaleTemplate}"
+                RandomScaleTemplate="{StaticResource RandomScaleTemplate}"
+                RotationTemplate="{StaticResource RotationTemplate}"/>
 
         </ResourceDictionary>
 
     </UserControl.Resources>
 
-    <Expander Header="Transforms" IsExpanded="True">
-        <StackPanel Margin="8">
+    <Expander  IsExpanded="True">
+        <Expander.Header>
+            <DockPanel>
+                <ToggleButton
+                    x:Name="ModifierEnabled"
+                    Height="16"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    IsChecked="{Binding Visibility.IsChecked}"/>
+                <TextBlock Text="Transform" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+            </DockPanel>
+        </Expander.Header>
+        
+        <StackPanel Margin="8, 16">
 
             <ToggleButton 
-                x:Name="PopUpToggle" 
-                Content="Add Modifier"
-                Height="22" 
-                Margin="0, 4"
-                Background="{DynamicResource DarkerColor}" 
-                Style="{StaticResource ToggleTransformModifierMenu}"/>
+                    IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+                    x:Name="PopUpToggle" 
+                    Content="Add Modifier"
+                    Height="22" 
+                    Background="{DynamicResource DarkerColor}" 
+                    Style="{StaticResource ToggleTransformModifierMenu}"/>
+
 
             <Popup
                 AllowsTransparency="True"
@@ -72,8 +132,10 @@
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
+                                <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
+                                <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
                                 <RowDefinition/>
@@ -97,12 +159,72 @@
                                 Height="20" 
                                 Content="RandomXYZ"/>
 
+                            <Button 
+                                Command="{Binding CreateCommand}" 
+                                CommandParameter="{x:Type ViewModels:LFO}" 
+                                Grid.Column="2"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="LFO"/>
+                            
+                            <Button 
+                                Command="{Binding CreateCommand}" 
+                                CommandParameter="{x:Type ViewModels:RandomScale}" 
+                                Grid.Row="1"
+                                Grid.Column="0"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="Random Scale"/>
+
+                            <Button 
+                                Command="{Binding CreateCommand}" 
+                                CommandParameter="{x:Type ViewModels:Transform}" 
+                                Grid.Row="2"
+                                Grid.Column="1"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="Transform XYZ"/>
+
+                            <Button 
+                                Command="{Binding CreateCommand}" 
+                                CommandParameter="{x:Type ViewModels:Translate}" 
+                                Grid.Row="1"
+                                Grid.Column="1"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="Translate XYZ"/>
+
+                            <Button 
+                                Command="{Binding CreateCommand}" 
+                                CommandParameter="{x:Type ViewModels:Scale}" 
+                                Grid.Row="1"
+                                Grid.Column="2"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="Scale XYZ"/>
+
+                            <Button 
+                                Command="{Binding CreateCommand}" 
+                                CommandParameter="{x:Type ViewModels:Rotation}" 
+                                Grid.Row="2"
+                                Grid.Column="0"
+                                VerticalAlignment="Center" 
+                                Width="100" 
+                                Height="20" 
+                                Content="Rotate XYZ"/>
                         </Grid>
                     </Border>
                 </Border>
             </Popup>
 
             <ItemsControl 
+                IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+                Margin="0, 8, 0, 0"
                 AllowDrop="True"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"

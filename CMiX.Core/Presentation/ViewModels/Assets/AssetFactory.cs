@@ -22,22 +22,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             return new AssetDirectory(name);
         }
 
-        private AssetTexture CreateAssetTexture(string name, string path)
-        {
-            return new AssetTexture(name, path);
-        }
-
-        private AssetVideo CreateAssetVideo(string name, string path)
-        {
-            return new AssetVideo(name, path);
-        }
-
-
-        private AssetGeometry CreateAssetGeometry(string name, string path)
-        {
-            return new AssetGeometry(name, path);
-        }
-
 
         public IAsset CreateAsset(string fileType, string fileName, string filePath)
         {
@@ -45,17 +29,17 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
             if (Enum.IsDefined(typeof(TextureFileType), fileType))
             {
-                return CreateAssetTexture(fileName, filePath);
+                return new AssetImage(fileName, filePath);
             }
 
             if (Enum.IsDefined(typeof(GeometryFileType), fileType))
             {
-                return CreateAssetGeometry(fileName, filePath);
+                return new AssetGeometry(fileName, filePath);
             }
 
             if(Enum.IsDefined(typeof(VideoFileType), fileType))
             {
-                return CreateAssetVideo(fileName, filePath);
+                return new AssetVideo(fileName, filePath);
             }
 
             return asset;

@@ -1,45 +1,46 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Models;
-using CMiX.Core.Models.Component;
 using System;
-using System.Collections.ObjectModel;
+using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 
-namespace CMiX.Core.Models
+namespace CMiX.Core.Models.Component
 {
-    [Serializable]
     public class LayerModel : IComponentModel
     {
         public LayerModel()
         {
+            ID = Guid.NewGuid();
+            Name = "Layer";
 
+            Opacity = new SliderModel(1.0f);
+            BlendMode = new BlendModeModel(BlendModeEnum.Normal);
+            LayerScene = new LayerSceneModel();
+            LayerMask = new LayerMaskModel();
+            Visibility = new ToggleButtonModel();
+            ModifierManager = new ModifierManagerModel();
+            EntityManager = new PrefabManagerModel();
         }
 
-        public LayerModel(Guid id)
+        public LayerModel(Guid id) : this()
         {
             ID = id;
-            BlendMode = new BlendModeModel();
-            PostFXModel = new PostFXModel();
-            Fade = new SliderModel();
-            MaskModel = new MaskModel();
-            VisibilityModel = new VisibilityModel();
-            ComponentModels = new ObservableCollection<IComponentModel>();
         }
 
+
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
         public string Name { get; set; }
-        public bool Out { get; set; }
-        public string Address { get; set; }
-        public bool IsVisible { get; set; }
-
-
-        public VisibilityModel VisibilityModel { get; set; }
+        public bool Enabled { get; set; }
+        public SliderModel Opacity { get; set; }
         public BlendModeModel BlendMode { get; set; }
-        public SliderModel Fade { get; set; }
-        public MaskModel MaskModel { get; set; }
-        public PostFXModel PostFXModel{ get; set; }
-        public ObservableCollection<IComponentModel> ComponentModels { get; set; }
+
+        public ToggleButtonModel Visibility { get; set; }
+
+        public LayerSceneModel LayerScene { get; set; }
+        public LayerMaskModel LayerMask { get; set; }
+        public ModifierManagerModel ModifierManager { get; internal set; }
+        public PrefabManagerModel EntityManager { get; internal set; }
     }
 }

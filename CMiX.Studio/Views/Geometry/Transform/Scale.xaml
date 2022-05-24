@@ -1,82 +1,93 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.Scale"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:MVVM.Views="clr-namespace:CMiX.Core.Presentation.Views;assembly=CMiX.Core"
-             xmlns:Studio.Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="150.801" d:DesignWidth="415.252">
 
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ViewModels:ModifierMode"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    
     <StackPanel>
-        <Grid Height="20">
+        <Grid Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
+                Text="Type" 
+                HorizontalAlignment="Right" 
+                VerticalAlignment="Center" 
+                Padding="4" 
+                Foreground="{DynamicResource TextBase}"/>
+            <ComboBox 
+                Grid.Column="1" 
+                SelectedItem="{Binding Mode.Selection}"
+                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
+        </Grid>
+        
+        <Grid Height="22" Margin="0, 8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
+                <Controls:DistanceSlider 
+                    Position="Default" 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Value="{Binding Uniform.Amount}"/>
+            </Border>
+
+            <TextBlock Grid.Column="0" Padding="8, 0" Text="Uniform" HorizontalAlignment="Right" Foreground="{StaticResource TextBase}"/>
+        </Grid>
+        <Grid Height="21">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
                 <Controls:DistanceSlider 
                     Position="Top" 
                     Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding Path=X.Amount}"/>
+                    Value="{Binding XYZ.X.Amount}"/>
             </Border>
 
             <TextBlock Grid.Column="0" Padding="8, 0" Text="Scale X" HorizontalAlignment="Right" Foreground="{StaticResource TextBase}"/>
         </Grid>
-
-        <Grid Height="20" Margin="0, 1">
+        <Grid Height="21" Margin="0, 1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
                 <Controls:DistanceSlider 
                     Style="{StaticResource DistanceSliderStyle}" 
                     Position="Middle"  
-                    Value="{Binding Path=Y.Amount}"/>
+                    Value="{Binding XYZ.Y.Amount}"/>
             </Border>
             <TextBlock Grid.Column="0" Padding="8, 0" HorizontalAlignment="Right" Text="Y" Foreground="{StaticResource TextBase}"/>
         </Grid>
-        
-        <Grid Height="20">
+        <Grid Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Grid.Style>
-                <Style TargetType="{x:Type Grid}">
-                    <Setter Property="IsEnabled" Value="False"/>
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Studio.Views:Transform}}, Path=DataContext.Is3D}" Value="True">
-                            <Setter Property="IsEnabled" Value="True"/>
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Grid.Style>
             <Border Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
                 <Controls:DistanceSlider 
                     Grid.Column="1" 
                     Position="Bottom" 
                     Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding Path=Z.Amount}"/>
+                    Value="{Binding XYZ.Z.Amount}"/>
             </Border>
             <TextBlock Grid.Column="0" Padding="8, 0" HorizontalAlignment="Right" Text="Z" Foreground="{StaticResource TextBase}"/>
         </Grid>
-
-        
-            <Grid Height="20" Margin="0, 4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-            <Border Grid.Column="1" Style="{StaticResource BorderShadow}">
-                <Controls:DistanceSlider Position="Default" Style="{StaticResource DistanceSliderStyle}" Value="{Binding Path=Uniform.Amount}"/>
-            </Border>
-            <TextBlock Grid.Column="0" Padding="8, 0" HorizontalAlignment="Right" Text="Uniform" Foreground="{StaticResource TextBase}"/>
-            </Grid>
-        
-
-        
     </StackPanel>
 </UserControl>

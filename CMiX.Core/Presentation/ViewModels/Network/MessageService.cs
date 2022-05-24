@@ -24,6 +24,13 @@ namespace CMiX.Core.Presentation.ViewModels
             IsActive = true;
         }
 
+        private void Client_DataReceived(object sender, DataEventArgs e)
+        {
+            IMessage message = Serializer.Deserialize<IMessage>(e.Data);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.In);
+            Console.WriteLine("MessageType.In Sent of type " + message.GetType());
+        }
+
 
         protected override void OnActivated()
         {
@@ -34,14 +41,6 @@ namespace CMiX.Core.Presentation.ViewModels
         private CerasSerializer Serializer { get; set; }
         public Client Client { get; set; }
         public ObservableCollection<Server> Servers { get; set; }
-
-
-        private void Client_DataReceived(object sender, DataEventArgs e)
-        {
-            IMessage message = Serializer.Deserialize<IMessage>(e.Data);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.In);
-            Console.WriteLine("MessageType.In Sent of type " + message.GetType());
-        }
 
 
         public void StartClient(Settings settings)

@@ -14,6 +14,12 @@ namespace CMiX.Core.Models
             Mode = ((BlendModeEnum)0).ToString();
         }
 
+        public BlendModeModel(BlendModeEnum blendModeEnum)
+        {
+            this.ID = Guid.NewGuid();
+            Mode = blendModeEnum.ToString();
+        }
+
         public string Mode { get; set; }
         public bool Enabled { get; set; }
         public Guid ID { get; set; }

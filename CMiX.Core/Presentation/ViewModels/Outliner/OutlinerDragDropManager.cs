@@ -314,7 +314,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool CanStartDrag(IDragInfo dragInfo)
         {
             var dragged = dragInfo.SourceItem;
-            if (dragged is Entity || dragged is Layer || dragged is Scene || dragged is Composition)
+            if (dragged is IEntity || dragged is Layer || dragged is Composition)
                 return true;
             else
                 return false;

@@ -12,6 +12,11 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
         }
 
+        public CounterModel(int count) : this()
+        {
+            Count = count;
+        }
+
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public int Count { get; set; }

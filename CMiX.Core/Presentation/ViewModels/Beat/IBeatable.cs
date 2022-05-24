@@ -12,5 +12,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
     public interface IBeatable
     {
         void SetMasterBeat(MasterBeat masterBeat);
+        //BeatModifier BeatModifier { get; set; }
     }
 }

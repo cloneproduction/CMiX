@@ -8,7 +8,7 @@ namespace CMiX.Core.Models
     public interface IComponentModel : IModel
     {
         string Name { get; set; }
-        bool IsVisible { get; set; }
-        ObservableCollection<IComponentModel> ComponentModels { get; set; }
+        //bool IsVisible { get; set; }
+        //ObservableCollection<IComponentModel> ComponentModels { get; set; }
     }
 }

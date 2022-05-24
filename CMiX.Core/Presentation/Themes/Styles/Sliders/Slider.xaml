@@ -229,10 +229,16 @@
         <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Slider}">
-                    <Border x:Name="mainBorder" SnapsToDevicePixels="True" BorderBrush="{DynamicResource Shadow}" BorderThickness="0, 0, 0, 0">
+                <ControlTemplate TargetType="{x:Type Controls:CMiXSlider}">
+                    <Border x:Name="mainBorder" 
+                            Height="22"
+                            SnapsToDevicePixels="True" 
+                            BorderBrush="{DynamicResource Shadow}" 
+                            BorderThickness="1, 0, 1, 2"
+                            CornerRadius="3">
                         <Grid>
                             <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
+
                             <Border x:Name="sliderBorder" Background="Transparent">
 
                                 <Border.OpacityMask>

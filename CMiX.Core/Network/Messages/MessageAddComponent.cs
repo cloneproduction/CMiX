@@ -17,14 +17,14 @@ namespace CMiX.Core.Network.Messages
         public MessageAddComponent(Guid parentID, Component component)
         {
             ComponentModel = component.GetModel();
-            ID = component.ID;
+            ID = parentID;
             ComponentType = component.GetType();
-            ParentID = parentID;
+            ComponentID = component.ID;
         }
 
         public Type ComponentType { get; set; }
         public IComponentModel ComponentModel { get; set; }
-        public Guid ParentID { get; set; }
+        public Guid ComponentID { get; set; }
         public Guid ID { get; set; }
     }
 }

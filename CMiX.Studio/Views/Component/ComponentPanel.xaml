@@ -14,23 +14,13 @@
             <Views:CompositionPanel DataContext="{Binding}"/>
         </DataTemplate>
 
-        <DataTemplate x:Key="EntityPanelTemplate" DataType="{x:Type Components:Entity}">
-            <Views:EntityPanel DataContext="{Binding}"/>
-        </DataTemplate>
-
         <DataTemplate x:Key="LayerPanelTemplate" DataType="{x:Type Components:Layer}">
-            <Views:LayerPanel DataContext="{Binding}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ScenePanelTemplate" DataType="{x:Type Components:Scene}">
-            <Views:ScenePanel DataContext="{Binding}"/>
+            <Views:LayerManager DataContext="{Binding}"/>
         </DataTemplate>
 
         <Components:ComponentPanelTemplateSelector 
             x:Key="TemplateSelector" 
-            EntityPanelTemplate="{StaticResource EntityPanelTemplate}"
             LayerPanelTemplate="{StaticResource LayerPanelTemplate}" 
-            ScenePanelTemplate="{StaticResource ScenePanelTemplate}"
             CompositionPanelTemplate="{StaticResource CompositionPanelTemplate}"/>
     </UserControl.Resources>
 

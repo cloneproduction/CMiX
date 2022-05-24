@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
@@ -15,6 +16,7 @@ namespace CMiX.Core.Models
             TransformModel = new TransformModel();
             ModifierManagerModel = new ModifierManagerModel();
             AssetPathSelectorModel = new GeometrySelectorModel();
+            VisibilityModel = new VisibilityModel();
         }
 
         public bool Enabled { get; set; }
@@ -23,5 +25,6 @@ namespace CMiX.Core.Models
         public ModifierManagerModel ModifierManagerModel { get; set; }
         public GeometryFXModel GeometryFXModel { get; set; }
         public GeometrySelectorModel AssetPathSelectorModel { get; set; }
+        public VisibilityModel VisibilityModel { get; internal set; }
     }
 }

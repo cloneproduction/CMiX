@@ -2,23 +2,26 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    public class RotationModel : IModel
+    public class RotationModel : IModifierModel
     {
         public RotationModel()
         {
             this.ID = Guid.NewGuid();
-            X = new SliderModel();
-            Y = new SliderModel();
-            Z = new SliderModel();
+            this.Enabled = true;
+            this.XYZ = new VectorXYZModel();
+            Visible = new ToggleButtonModel(true);
+            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public SliderModel X { get; set; }
-        public SliderModel Y { get; set; }
-        public SliderModel Z { get; set; }
+        public VectorXYZModel XYZ { get; set; }
+        public ToggleButtonModel Visible { get; set; }
+        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
     }
 }

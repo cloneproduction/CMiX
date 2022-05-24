@@ -62,14 +62,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public void SetChildVisibility(IComponent component, bool parentVisibility)
         {
-            foreach (var childComponent in component.Components)
-            {
-                if (childComponent.Visibility.IsVisible)
-                {
-                    childComponent.Visibility.SetChildVisibility(childComponent, parentVisibility);
-                }
-                childComponent.Visibility.ParentIsVisible = parentVisibility;
-            }
+            //foreach (var childComponent in component.Components)
+            //{
+            //    if (childComponent.Visibility.IsVisible)
+            //    {
+            //        childComponent.Visibility.SetChildVisibility(childComponent, parentVisibility);
+            //    }
+            //    childComponent.Visibility.ParentIsVisible = parentVisibility;
+            //}
         }
 
 

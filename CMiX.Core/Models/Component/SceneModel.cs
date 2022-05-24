@@ -14,8 +14,7 @@ namespace CMiX.Core.Models
             TransformModel = new TransformModel();
             TextureModel = new TextureModel();
             GeometryModel = new GeometryModel();
-            PostFXModel = new PostFXModel();
-            MaskModel = new MaskModel();
+            MaskModel = new LayerMaskModel();
             BeatModifierModel = new BeatModifierModel();
             BackgroundColorSelectorModel = new ColorSelectorModel();
             CameraModel = new CameraModel();
@@ -34,11 +33,10 @@ namespace CMiX.Core.Models
         public ColorSelectorModel BackgroundColorSelectorModel { get; set; }
         public VisibilityModel VisibilityModel { get; set; }
         public TransformModel TransformModel { get; set; }
-        public MaskModel MaskModel { get; set; }
+        public LayerMaskModel MaskModel { get; set; }
         public BeatModifierModel BeatModifierModel { get; set; }
         public TextureModel TextureModel { get; set; }
         public GeometryModel GeometryModel { get; set; }
-        public PostFXModel PostFXModel { get; set; }
         public CameraModel CameraModel { get; set; }
 
         public Guid ID { get; set; }

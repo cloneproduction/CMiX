@@ -13,6 +13,10 @@ namespace CMiX.Core.Presentation.ViewModels
         public DataTemplate BlurTemplate { get; set; }
         public DataTemplate EdgeTemplate { get; set; }
         public DataTemplate TransformTextureTemplate { get; set; }
+        public DataTemplate PixelateTemplate { get; set; }
+        public DataTemplate EchoTemplate { get; set; }
+        public DataTemplate FeedbackTemplate { get; set; }
+        public DataTemplate TriColorTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -30,6 +34,14 @@ namespace CMiX.Core.Presentation.ViewModels
                     dataTemplate = EdgeTemplate;
                 if (item is TransformTexture)
                     dataTemplate = TransformTextureTemplate;
+                if (item is Pixelate)
+                    dataTemplate = PixelateTemplate;
+                if (item is Echo)
+                    dataTemplate = EchoTemplate;
+                if (item is Feedback)
+                    dataTemplate = FeedbackTemplate;
+                if (item is TriColor)
+                    dataTemplate = TriColorTemplate;
             }
 
             return dataTemplate;

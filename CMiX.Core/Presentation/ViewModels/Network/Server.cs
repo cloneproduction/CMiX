@@ -37,6 +37,23 @@ namespace CMiX.Core.Presentation.ViewModels
             ApplySettingsCommand = new RelayCommand(Apply);
         }
 
+        public Server(Settings settings)
+        {
+            ClientIsConnected = false;
+            ServerIsRunning = false;
+            DataSent = false;
+            this.SetSettings(settings);
+
+            Name = $"Server (0)";
+            Status = "Disconnected";
+
+            ConnectedClients = new ObservableCollection<ConnectedClient>();
+            Statistics = new ServerStatistics();
+
+            PauseCommand = new RelayCommand(Pause);
+            EditSettingsCommand = new RelayCommand(EditSettings);
+            ApplySettingsCommand = new RelayCommand(Apply);
+        }
 
         public ICommand ApplySettingsCommand { get; }
         public ICommand PauseCommand { get; }

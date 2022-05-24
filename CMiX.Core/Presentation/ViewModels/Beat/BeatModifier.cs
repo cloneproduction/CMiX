@@ -3,7 +3,6 @@
 
 using System;
 using System.Windows.Input;
-using CMiX.Core.Mathematics;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.Controls;

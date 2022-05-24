@@ -1,0 +1,71 @@
+[Category("Filter")]
+[Tags("")]
+
+shader CMiXSetAlpha_TextureFX : FilterBase
+{
+    [Default(1, 1, 1, 1)]
+    compose ComputeFloat4 AlphaMask;
+    
+    [Default(1.0)]
+    compose ComputeFloat Opacity;
+
+    int AlphaChannel = 1;
+    bool Invert = 0;
+    Texture2D Mask;
+
+    //float4x4 Transform;
+    //SamplerState CustomSampler;
+
+    float4 Filter(float4 tex0col)
+    {
+        float4 alphaMask = AlphaMask.Compute();
+        float alpha;
+        float4 mask = Mask.SampleLevel(LinearSampler, streams.TexCoord, 0); 
+        //float2 uv = mul(float4((streams.TexCoord * 2 - 1) * float2(1,-1) * .5, 0, 1), Transform).xy * float2(1,-1) + 0.5;
+
+        switch(AlphaChannel)
+        {
+            case 0:
+                alpha = (alphaMask.r + alphaMask.g + alphaMask.b + alphaMask.a) / 4;
+                break;
+
+            case 1:
+                alpha = 1.0 - alphaMask.r;
+                break;
+
+            case 2:
+                alpha = 1.0 - alphaMask.g;
+                break;
+
+            case 3:
+                alpha = 1.0 - alphaMask.b;
+                break;
+
+            case 4:
+                alpha = 1.0 - alphaMask.a ;
+                break;
+
+            case 5:
+                alpha = base.RGBtoHSV(alphaMask.rgb).x;
+                break;
+
+            case 6:
+                alpha = 1.0 - base.RGBtoHSV(alphaMask.rgb).y;
+                break;
+
+            case 7:
+                alpha = 1.0 - base.RGBtoHSV(alphaMask.rgb).z;
+                break;
+
+            case 8:
+                alpha = 1.0 - base.RGBtoHSL(alphaMask.rgb).z;
+                break;
+        }
+
+
+        float4 col = tex0col;
+        if(!Invert) alpha = 1 - saturate(alpha);
+        col *= alpha * Opacity.Compute();
+        return col;
+    }
+};

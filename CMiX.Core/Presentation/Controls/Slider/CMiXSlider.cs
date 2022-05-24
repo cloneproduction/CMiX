@@ -236,11 +236,13 @@ namespace CMiX.Core.Presentation.Controls
             Keyboard.ClearFocus();
             _mouseDownPos = null;
         }
-
+        
         private readonly Regex _regex = new Regex(@"[^0-9.-]+"); //regex that matches disallowed text
+       //private readonly Regex _regex = new Regex(@"^-?[0-9]\d*(\.\d+)?$");
         private bool IsTextAllowed(string text)
         {
-            return !_regex.IsMatch(text);
+            bool result = !_regex.IsMatch(text);
+            return result;
         }
 
         private void TextInput_LostFocus(object sender, RoutedEventArgs e)
@@ -293,7 +295,7 @@ namespace CMiX.Core.Presentation.Controls
         }
 
         public static readonly DependencyProperty CaptionProperty =
-        DependencyProperty.Register("Caption", typeof(string), typeof(Slider), new PropertyMetadata(""));
+        DependencyProperty.Register("Caption", typeof(string), typeof(CMiXSlider), new PropertyMetadata(""));
         public string Caption
         {
             get { return (string)GetValue(CaptionProperty); }

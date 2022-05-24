@@ -19,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = counterModel.ID;
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
 
-            Count = 1;
+            Count = counterModel.Count;
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
         }

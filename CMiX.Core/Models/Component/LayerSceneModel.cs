@@ -1,0 +1,39 @@
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using System;
+using System.Collections.ObjectModel;
+using CMiX.Core.Models.Component;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
+
+namespace CMiX.Core.Models
+{
+    public class LayerSceneModel : IComponentModel
+    {
+        public LayerSceneModel()
+        {
+            ID = Guid.NewGuid();
+
+            VisibilityModel = new ToggleButtonModel();
+            ComponentModels = new ObservableCollection<IComponentModel>();
+            ModifierManager = new ModifierManagerModel();
+            ColorSelectorModel = new ColorSelectorModel("#00000000");
+            Camera = new CameraModel();
+            AmbientOcclusion = new AmbientOcclusionModel();
+        }
+
+        public Guid ID { get; set; }
+        public bool Enabled { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public bool IsVisible { get; set; }
+
+
+        public ToggleButtonModel VisibilityModel { get; set; }
+        public ObservableCollection<IComponentModel> ComponentModels { get; set; }
+        public ModifierManagerModel ModifierManager { get; set; }
+        public ColorSelectorModel ColorSelectorModel { get; set; }
+        public CameraModel Camera { get; set; }
+        public AmbientOcclusionModel AmbientOcclusion { get; set; }
+    }
+}

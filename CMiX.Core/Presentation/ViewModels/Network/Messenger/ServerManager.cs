@@ -19,6 +19,10 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 
             ServerFactory = new ServerFactory();
 
+            Settings settings = new Settings("127.0.0.1", 8080);
+            var server = new Server(settings);
+            MessageService.Servers.Add(server);
+
             AddItemCommand = new RelayCommand(AddServer);
             DeleteItemCommand = new RelayCommand(DeleteServer);
             RenameServerCommand = new RelayCommand<Server>(RenameServer);

@@ -12,6 +12,11 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
         }
 
+        public ComboBoxModel(T selected) : this()
+        {
+            Selection = selected;
+        }
+
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public T Selection { get; set; }

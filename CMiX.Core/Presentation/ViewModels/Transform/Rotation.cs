@@ -3,44 +3,67 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Rotation : ObservableObject, IControl
+    public class Rotation : ObservableObject, ITransformModifier
     {
         public Rotation(RotationModel rotationModel)
         {
             this.ID = rotationModel.ID;
-            X = new Slider(nameof(X), rotationModel.X);
-            Y = new Slider(nameof(Y), rotationModel.Y);
-            Z = new Slider(nameof(Z), rotationModel.Z);
+            this.Enabled = rotationModel.Enabled;
+            XYZ = new VectorXYZ(rotationModel.XYZ);
+            Visible = new ToggleButton(rotationModel.Visible);
+            Mode = new ComboBox<ModifierMode>(rotationModel.Mode);
+            IsExpanded = true;
         }
 
 
         public Guid ID { get; set; }
-        public Slider X { get; set; }
-        public Slider Y { get; set; }
-        public Slider Z { get; set; }
+        public VectorXYZ XYZ { get; set; }
+        public bool Enabled { get; set; }
+        public ToggleButton Visible { get; set; }
+
+        public ComboBox<ModifierMode> Mode  { get; set; }
+
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
+        }
 
 
         public IModel GetModel()
         {
             RotationModel model = new RotationModel();
+
             model.ID = this.ID;
-            model.X = (SliderModel)this.X.GetModel();
-            model.Y = (SliderModel)this.Y.GetModel();
-            model.Z = (SliderModel)this.Z.GetModel();
+            model.Enabled = this.Enabled;
+            model.XYZ = (VectorXYZModel)this.XYZ.GetModel();
+            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
+            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+
             return model;
         }
 
         public void SetViewModel(IModel model)
         {
             RotationModel rotationModel = model as RotationModel;
+
             this.ID = rotationModel.ID;
-            this.X.SetViewModel(rotationModel.X);
-            this.Y.SetViewModel(rotationModel.Y);
-            this.Z.SetViewModel(rotationModel.Z);
+            this.Enabled = rotationModel.Enabled;
+            this.XYZ.SetViewModel(rotationModel.XYZ);
+            this.Visible.SetViewModel(rotationModel.Visible);
+            this.Mode.SetViewModel(rotationModel.Mode);
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

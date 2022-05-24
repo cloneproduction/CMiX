@@ -16,9 +16,10 @@ namespace CMiX.Core.Models
 
             Visible = new ToggleButtonModel(true);
             HueModel = new SliderModel();
-            SaturationModel = new SliderModel();
+            SaturationModel = new SliderModel(1.0f);
             ConstrastModel = new SliderModel();
             BrightnessModel = new SliderModel();
+            Control = new SliderModel();
         }
 
         public bool Enabled { get; set; }
@@ -29,6 +30,7 @@ namespace CMiX.Core.Models
         public SliderModel SaturationModel { get; set; }
         public SliderModel ConstrastModel { get; set; }
         public SliderModel BrightnessModel { get; set; }
+        public SliderModel Control { get; set; }
         public TextureFilterName Name { get; set; }
     }
 }

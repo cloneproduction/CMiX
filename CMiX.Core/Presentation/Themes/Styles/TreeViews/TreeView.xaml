@@ -120,16 +120,15 @@
                                     Width="30" 
                                     BorderBrush="{DynamicResource Shadow}"                                 
                                     BorderThickness="0, 0, 1, 0">
-                                    <Button 
-                                        Padding="4" 
+                                    <ToggleButton
+                                        Padding="4"
                                         Margin="4"
-                                        Command="{Binding Path=Visibility.SetVisibilityCommand}"
-                                        CommandParameter="{Binding DataContext, RelativeSource={RelativeSource TemplatedParent}}">
-                                        <Button.Style>
-                                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+                                        IsChecked="{Binding Visibility.IsChecked}">
+                                        <ToggleButton.Style>
+                                            <Style TargetType="{x:Type ToggleButton}">
                                                 <Setter Property="Template">
                                                     <Setter.Value>
-                                                        <ControlTemplate TargetType="{x:Type Button}">
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
                                                             <Border
                                                                 x:Name="border"
                                                                 Margin="0"
@@ -140,83 +139,41 @@
                                                                 <Image x:Name="image" Source="{DynamicResource Visible}"/>
                                                             </Border>
                                                             <ControlTemplate.Triggers>
-
-                                                                
-                                                                <MultiDataTrigger>
-                                                                    <MultiDataTrigger.Conditions>
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.ParentIsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.IsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
-                                                                    </MultiDataTrigger.Conditions>
-                                                                    <MultiDataTrigger.Setters>
-                                                                        <Setter TargetName="image" Property="Source" Value="{DynamicResource Visible}"/>
-                                                                    </MultiDataTrigger.Setters>
-                                                                </MultiDataTrigger>
-
-                                                                <MultiDataTrigger>
-                                                                    <MultiDataTrigger.Conditions>
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.ParentIsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.IsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
-                                                                    </MultiDataTrigger.Conditions>
-                                                                    <MultiDataTrigger.Setters>
-                                                                        <Setter TargetName="image" Property="Opacity" Value="0.0"/>
-                                                                    </MultiDataTrigger.Setters>
-                                                                </MultiDataTrigger>
-
-                                                                <MultiDataTrigger>
-                                                                    <MultiDataTrigger.Conditions>
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.ParentIsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.IsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
-                                                                    </MultiDataTrigger.Conditions>
-                                                                    <MultiDataTrigger.Setters>
-                                                                        <Setter TargetName="image" Property="Source" Value="{DynamicResource NotVisible}"/>
-                                                                        <Setter TargetName="image" Property="Opacity" Value="0.5"/>
-                                                                    </MultiDataTrigger.Setters>
-                                                                </MultiDataTrigger>
-
-                                                                <MultiDataTrigger>
-                                                                    <MultiDataTrigger.Conditions>
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.ParentIsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
-                                                                        <Condition Binding="{Binding Path=DataContext.Visibility.IsVisible, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
-                                                                    </MultiDataTrigger.Conditions>
-                                                                    <MultiDataTrigger.Setters>
-                                                                        <Setter TargetName="image" Property="Opacity" Value="0.0"/>
-                                                                    </MultiDataTrigger.Setters>
-                                                                </MultiDataTrigger>
-
-                                                                <Trigger Property="IsMouseOver" Value="True">
-                                                                    <Setter TargetName="border" Property="Opacity" Value="0.9"/>
-                                                                    <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-                                                                </Trigger>
-                                                                <Trigger Property="IsPressed" Value="True">
-                                                                    <Setter TargetName="border" Property="Opacity" Value="1.0"/>
-                                                                </Trigger>
-                                                                <Trigger Property="IsEnabled" Value="False">
-                                                                    <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter TargetName="image" Property="Source" Value="{DynamicResource NotVisible}"/>
                                                                 </Trigger>
                                                             </ControlTemplate.Triggers>
                                                         </ControlTemplate>
                                                     </Setter.Value>
                                                 </Setter>
                                             </Style>
-                                        </Button.Style>
-                                    </Button>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
                                 </Border>
 
-                                <Grid Height="25" Grid.Column="1" Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+                                <Grid 
+                                    Height="25" 
+                                    Grid.Column="1" 
+                                    Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
+                                    
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition Width="19" />
                                         <ColumnDefinition/>
                                     </Grid.ColumnDefinitions>
+                                    
                                     <ToggleButton x:Name="Expander"
                                         Style="{DynamicResource ExpandCollapseToggleStyle}"
                                         IsChecked="{Binding Path=IsExpanded, RelativeSource={RelativeSource TemplatedParent}}"
                                         ClickMode="Press"/>
+                                    
                                     <ContentPresenter x:Name="PART_Header"
                                         Grid.Column="1"
                                         ContentSource="Header"
                                         VerticalAlignment="Stretch"
                                         HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"/>
+                                    
                                 </Grid>
+                                
                             </DockPanel>
                         </Border>
                         <Border x:Name="presenterBg" Background="Transparent">

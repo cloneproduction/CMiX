@@ -7,10 +7,10 @@ namespace CMiX.Core.Models
 {
     public class BeatModel : IModel
     {
-        public BeatModel()
-        {
-            this.ID = Guid.NewGuid();
-        }
+        //public BeatModel()
+        //{
+        //    this.ID = Guid.NewGuid();
+        //}
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }

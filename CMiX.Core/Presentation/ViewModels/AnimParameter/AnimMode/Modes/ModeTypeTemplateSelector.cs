@@ -27,8 +27,6 @@ namespace CMiX.Core.Presentation.ViewModels
                     dataTemplate = StepperTemplate;
                 else if (item is Steady)
                     dataTemplate = SteadyTemplate;
-                else if (item is Randomized)
-                    dataTemplate = RandomizedTemplate;
                 else if (item is None)
                     dataTemplate = NoneTemplate;
             }

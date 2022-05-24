@@ -1,0 +1,92 @@
+[Category("Filter")]
+[Tags("")]
+
+shader CMiXAlphaMask_ShaderFX : ComputeFloat4, Texturing, ShaderUtils, ShaderBaseStream 
+{
+    struct Transform
+    {
+        float4x4 Matrix;
+    };
+
+    cbuffer PerMaterial
+    {
+        stage float4x4 TransformResult;
+    }
+
+    rgroup PerMaterial 
+    {
+        stage Texture2D Texture;
+        stage Texture2D Mask;
+        stage SamplerState TextureSampler;
+        stage SamplerState MaskSampler;
+        stage int AlphaChannel = 1;
+        stage bool Invert = 0;
+        stage bool MaskEnabled;
+        stage StructuredBuffer<Transform> TransformTexture;
+        stage StructuredBuffer<Transform> TransformMask;
+    }
+
+    float2 TransformTexCoord(float2 TexCoord, float4x4 transform)
+    {
+        return mul(float4((TexCoord.xy*2-1)*float2(1,-1) * 0.5, 0, 1), transform).xy * float2(1, -1) + 0.5;
+    }
+
+    override float4 Compute()
+    {
+        float2 uv = streams.TexCoord;
+
+        float alpha;
+
+        uint id = streams.InstanceID;
+
+        float2 maskUV = TransformTexCoord(streams.TexCoord, mul(TransformMask[id].Matrix, TransformResult));
+        float2 textureUV = TransformTexCoord(streams.TexCoord, mul( TransformTexture[id].Matrix, TransformResult));
+
+        float4 alphaMask = Mask.Sample(MaskSampler, maskUV); 
+
+        switch(AlphaChannel)
+        {
+            case 0:
+                alpha = (alphaMask.r + alphaMask.g + alphaMask.b + alphaMask.a) / 4;
+                break;
+
+            case 1:
+                alpha = 1.0 - alphaMask.r;
+                break;
+
+            case 2:
+                alpha = 1.0 - alphaMask.g;
+                break;
+
+            case 3:
+                alpha = 1.0 - alphaMask.b;
+                break;
+
+            case 4:
+                alpha = 1.0 - alphaMask.a ;
+                break;
+
+            case 5:
+                alpha = base.RGBtoHSV(alphaMask.rgb).x;
+                break;
+
+            case 6:
+                alpha = 1.0 - base.RGBtoHSV(alphaMask.rgb).y;
+                break;
+
+            case 7:
+                alpha = 1.0 - base.RGBtoHSV(alphaMask.rgb).z;
+                break;
+
+            case 8:
+                alpha = 1.0 - base.RGBtoHSL(alphaMask.rgb).z;
+                break;
+        }
+
+
+        float4 col = Texture.Sample(TextureSampler, textureUV);
+        if(!Invert) alpha = 1 - saturate(alpha);
+        if(MaskEnabled) col *= alpha;// * Opacity.Compute();
+        return col;
+    }
+};

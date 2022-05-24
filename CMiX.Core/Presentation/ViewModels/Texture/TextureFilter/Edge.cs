@@ -13,10 +13,12 @@ namespace CMiX.Core.Presentation.ViewModels
         public Edge(EdgeModel edgeModel)
         {
             ID = edgeModel.ID;
+            Name = edgeModel.Name;
             Enabled = edgeModel.Enabled;
             Visible = new ToggleButton(edgeModel.Visible);
             Radius = new Slider(nameof(Radius), edgeModel.Radius);
             Brightness = new Slider(nameof(Brightness), edgeModel.Brightness);
+            Control = new Slider(nameof(Control), edgeModel.Control);
             IsExpanded = true;
         }
 
@@ -25,7 +27,9 @@ namespace CMiX.Core.Presentation.ViewModels
         public Guid ID { get; set; }
         public Slider Radius { get; set; }
         public Slider Brightness { get; set; }
+        public Slider Control { get; set; }
         public ToggleButton Visible { get; set; }
+
 
         private bool _enabled;
         public bool Enabled
@@ -49,7 +53,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
             edgeModel.ID = ID;
             edgeModel.Enabled = Enabled;
+            edgeModel.Name = Name;
 
+            edgeModel.Control = (SliderModel)Control.GetModel();
             edgeModel.Visible = (ToggleButtonModel)Visible.GetModel();
             edgeModel.Radius = (SliderModel)Radius.GetModel();
             edgeModel.Brightness = (SliderModel)Brightness.GetModel();
@@ -62,7 +68,9 @@ namespace CMiX.Core.Presentation.ViewModels
             EdgeModel edgeModel = model as EdgeModel;
             ID = edgeModel.ID;
             Enabled = edgeModel.Enabled;
+            Name = edgeModel.Name;
 
+            Control.SetViewModel(edgeModel.Control);
             Visible.SetViewModel(edgeModel.Visible);
             Radius.SetViewModel(edgeModel.Radius);
             Brightness.SetViewModel(edgeModel.Brightness);

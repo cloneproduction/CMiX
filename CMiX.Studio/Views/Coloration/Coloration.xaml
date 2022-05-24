@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.Coloration"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             md:DialogServiceViews.IsRegistered="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="471.333" d:DesignWidth="348">
+
+
+    <StackPanel>
+        <Grid Margin="8, 16">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
+                Text="Base Color" 
+                HorizontalAlignment="Right" Padding="4, 0"
+                VerticalAlignment="Center"/>
+
+            <Border Grid.Column="1">
+                <Button Height="22"
+                        Margin="0"
+                        Command="{Binding OpenColorSelectorCommand}"
+                        Style="{StaticResource ButtonColorStyle}">
+                    <Button.Background>
+                        <SolidColorBrush Color="{Binding ColorSelector.SelectedColor}"/>
+                    </Button.Background>
+                </Button>
+            </Border>
+
+        </Grid>
+        <Views:ColorModifierManager Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}"/>
+    </StackPanel>
+</UserControl>

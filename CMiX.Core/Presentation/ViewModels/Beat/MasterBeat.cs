@@ -38,6 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
+            TapCommand = new RelayCommand(Tap);
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
@@ -45,12 +46,15 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
 
         public Guid ID { get; set; }
-        public ICommand ResetCommand { get; set; }
-        public ICommand MultiplyCommand { get; set; }
-        public ICommand DivideCommand { get; set; }
+        public ICommand ResetCommand { get;  }
+        public ICommand MultiplyCommand { get;  }
+        public ICommand DivideCommand { get;}
+        public ICommand TapCommand { get; }
+
 
         public BeatAnimations BeatAnimations { get; set; }
         public Resync Resync { get; set; }
+
 
         private readonly List<float> tapPeriods;
         private readonly List<float> tapTime;
@@ -112,6 +116,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Index = 0;
             SetAnimatedDouble();
         }
+
 
         Stopwatch sw = new Stopwatch();
         float ms = 0;
@@ -175,20 +180,24 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public void SetViewModel(IModel model)
         {
             MasterBeatModel masterBeatModel = model as MasterBeatModel;
+
             this.ID = masterBeatModel.ID;
             this.Period = masterBeatModel.Period;
             this.Periods = masterBeatModel.Periods;
             this.BeatIndex = masterBeatModel.BeatIndex;
+
             Resync.SetViewModel(masterBeatModel.ResyncModel);
         }
 
         public IModel GetModel()
         {
             MasterBeatModel model = new MasterBeatModel();
+
             model.ID = this.ID;
             model.Period = this.Period;
             model.Periods = this.Periods;
             model.BeatIndex = this.BeatIndex;
+
             model.ResyncModel = (ResyncModel)this.Resync.GetModel();
 
             return model;
@@ -208,7 +217,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         public void UpdateBeatModifiers()
         {
-
             foreach (var beatModifier in BeatModifiers)
             {
                 beatModifier.SetAnimatedDouble();

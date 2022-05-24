@@ -8,6 +8,6 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface ITransformModifier : IModifier, IControl, IDisposable
     {
-        ModifierType SelectedModifierType { get; set; }
+        //ModifierType SelectedModifierType { get; set; }
     }
 }

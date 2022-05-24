@@ -2,64 +2,92 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CommunityToolkit.Mvvm.Messaging;
+using CMiX.Core.Presentation.ViewModels.Prefab;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Entity : Component, IBeatable, IDisposable
+    public class Entity : ObservableObject, IPrefab, IBeatable
     {
-        public Entity(EntityModel entityModel) : base()
+        public Entity(EntityModel entityModel)
         {
             ID = entityModel.ID;
-            WeakReferenceMessenger.Default.RegisterAll(this, this.ID);
+            Name = this.GetType().Name;
+        }
 
-            Geometry = new Geometry(entityModel.GeometryModel);
-            Texture = new Texture(entityModel.TextureModel);
-            Material = new Material(entityModel.ColorationModel);
+        public Guid ID { get; set; }
 
-            //Visibility = new Visibility(entityModel.VisibilityModel);
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
+
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get => _isRenaming;
+            set => SetProperty(ref _isRenaming, value);
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
         }
 
 
-        public Geometry Geometry { get; set; }
-        public Texture Texture { get; set; }
-        public Material Material { get; set; }
+        private Mesh _mesh;
+        public Mesh Mesh
+        {
+            get => _mesh;
+            set => SetProperty(ref _mesh, value);
+        }
+
+        private Material _material;
+        public Material Material
+        {
+            get => _material;
+            set => SetProperty(ref _material, value);
+        }
+
+        private Coloration _coloration;
+        public Coloration Coloration
+        {
+            get => _coloration;
+            set => SetProperty(ref _coloration, value);
+        }
+
+
+
+        public MasterBeat MasterBeat { get; set; }
+
+        public void SetViewModel(IModel model)
+        {
+            EntityModel entityModel = model as EntityModel;
+            this.ID = entityModel.ID;
+        }
+
+        public IModel GetModel()
+        {
+            EntityModel entityModel = new EntityModel() ;
+            entityModel.ID = ID;
+
+            return entityModel;
+        }
 
         public void SetMasterBeat(MasterBeat masterBeat)
         {
             this.MasterBeat = masterBeat;
-            Material.SetMasterBeat(masterBeat);
-            Geometry.SetMasterBeat(masterBeat);
-        }
-
-
-        public override IComponentModel GetModel()
-        {
-            EntityModel model = new EntityModel(this.ID);
-
-            model.Name = this.Name;
-            model.TextureModel = (TextureModel)this.Texture.GetModel();
-            model.GeometryModel = (GeometryModel)this.Geometry.GetModel();
-            model.ColorationModel = (MaterialModel)this.Material.GetModel();
-
-            return model;
-        }
-
-        public override void SetViewModel(IComponentModel model)
-        {
-            EntityModel entityModel = model as EntityModel;
-            this.ID = entityModel.ID;
-            this.Texture.SetViewModel(entityModel.TextureModel);
-            this.Geometry.SetViewModel(entityModel.GeometryModel);
-            this.Material.SetViewModel(entityModel.ColorationModel);
-        }
-
-        public override void Dispose()
-        {
-            base.Dispose();
-            Material.Dispose();
         }
     }
 }

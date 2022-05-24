@@ -176,41 +176,108 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MainViewModel.cs" />
-    <Compile Include="Views\AnimParameter\Easing.xaml.cs">
-      <DependentUpon>Easing.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnimParameter\None.xaml.cs">
-      <DependentUpon>None.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnimParameter\Steady.xaml.cs">
-      <DependentUpon>Steady.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnimParameter\Randomized.xaml.cs">
-      <DependentUpon>Randomized.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnimParameter\Stepper.xaml.cs">
-      <DependentUpon>Stepper.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\AnimParameter\LFO.xaml.cs">
-      <DependentUpon>LFO.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Assets\TexturePathSelector.xaml.cs">
       <DependentUpon>TexturePathSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Assets\GeometryPathSelector.xaml.cs">
       <DependentUpon>GeometryPathSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Assets\VideoPathSelector.xaml.cs">
+      <DependentUpon>VideoPathSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\EntityContentControl.cs" />
+    <Compile Include="Views\BaseControl\VectorXY.xaml.cs">
+      <DependentUpon>VectorXY.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Beat\BeatManager.xaml.cs">
       <DependentUpon>BeatManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ColorSelector.xaml.cs">
+    <Compile Include="Views\BaseControl\ColorSelector.xaml.cs">
       <DependentUpon>ColorSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Coloration\Coloration.xaml.cs">
+      <DependentUpon>Coloration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\ComponentPanel.xaml.cs">
       <DependentUpon>ComponentPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Component\Composition\OutputProperties.xaml.cs">
+      <DependentUpon>OutputProperties.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MaskPanel.xaml.cs">
+      <DependentUpon>MaskPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightAmbient.xaml.cs">
+      <DependentUpon>LightAmbient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightDirectional.xaml.cs">
+      <DependentUpon>LightDirectional.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightEntity.xaml.cs">
+      <DependentUpon>LightEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightPoint.xaml.cs">
+      <DependentUpon>LightPoint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightSpot.xaml.cs">
+      <DependentUpon>LightSpot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshBox.xaml.cs">
+      <DependentUpon>MeshBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshCone.xaml.cs">
+      <DependentUpon>MeshCone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshCylinder.xaml.cs">
+      <DependentUpon>MeshCylinder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\Mesh.xaml.cs">
+      <DependentUpon>Mesh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshPlane.xaml.cs">
+      <DependentUpon>MeshPlane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshSphere.xaml.cs">
+      <DependentUpon>MeshSphere.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshTorus.xaml.cs">
+      <DependentUpon>MeshTorus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\ModelEntity.xaml.cs">
+      <DependentUpon>ModelEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\AmbientOcclusion.xaml.cs">
+      <DependentUpon>AmbientOcclusion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\LayerBlendController.xaml.cs">
+      <DependentUpon>LayerBlendController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\LayerContent.xaml.cs">
+      <DependentUpon>LayerContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\LayerMaskController.xaml.cs">
+      <DependentUpon>LayerMaskController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\CompositionService.xaml.cs">
+      <DependentUpon>CompositionService.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Easing.xaml.cs">
+      <DependentUpon>Easing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\LFO2D.xaml.cs">
+      <DependentUpon>LFO2D.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\LFO.xaml.cs">
+      <DependentUpon>LFO.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml.cs">
       <DependentUpon>LinearXYZ.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomScale.xaml.cs">
+      <DependentUpon>RandomScale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXY.xaml.cs">
+      <DependentUpon>RandomXY.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml.cs">
       <DependentUpon>RandomXYZ.xaml</DependentUpon>
@@ -218,14 +285,39 @@
     <Compile Include="Views\Geometry\Instancer\Range.xaml.cs">
       <DependentUpon>Range.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\ScaleModifier.xaml.cs">
-      <DependentUpon>ScaleModifier.xaml</DependentUpon>
+    <Compile Include="Views\Managers\CameraManager.xaml.cs">
+      <DependentUpon>CameraManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\XYZModifier.xaml.cs">
-      <DependentUpon>XYZModifier.xaml</DependentUpon>
+    <Compile Include="Views\Managers\ColorationManager.xaml.cs">
+      <DependentUpon>ColorationManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Mask\Mask.xaml.cs">
-      <DependentUpon>Mask.xaml</DependentUpon>
+    <Compile Include="Views\Managers\LightEntityManager.xaml.cs">
+      <DependentUpon>LightEntityManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\MeshEntityManager.xaml.cs">
+      <DependentUpon>MeshEntityManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\ModelEntityManager.xaml.cs">
+      <DependentUpon>ModelEntityManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\TextureManager.xaml.cs">
+      <DependentUpon>TextureManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\ColorModifierManager.xaml.cs">
+      <DependentUpon>ColorModifierManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\ColorModifierTemplateSelector.cs" />
+    <Compile Include="Views\Material\Constant.xaml.cs">
+      <DependentUpon>Constant.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\MaterialManager.xaml.cs">
+      <DependentUpon>MaterialManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\Metallic.xaml.cs">
+      <DependentUpon>Metallic.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\RandomHSV.xaml.cs">
+      <DependentUpon>RandomHSV.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menus\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
@@ -257,7 +349,7 @@
     <Compile Include="Views\SliderBeat.xaml.cs">
       <DependentUpon>SliderBeat.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entity\EntityPanel.xaml.cs">
+    <Compile Include="Views\Component\Entities\EntityPanel.xaml.cs">
       <DependentUpon>EntityPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\Layer\MessageValidation.xaml.cs">
@@ -272,17 +364,11 @@
     <Compile Include="Views\Component\Composition\CompositionPanel.xaml.cs">
       <DependentUpon>CompositionPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\AnimParameter\AnimParameter.xaml.cs">
-      <DependentUpon>AnimParameter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Component\Entity\Entity.xaml.cs">
-      <DependentUpon>Entity.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Component\Layer\Layer.xaml.cs">
       <DependentUpon>Layer.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Layer\LayerPanel.xaml.cs">
-      <DependentUpon>LayerPanel.xaml</DependentUpon>
+    <Compile Include="Views\Component\Layer\LayerManager.xaml.cs">
+      <DependentUpon>LayerManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Messenger\Server.xaml.cs">
       <DependentUpon>Server.xaml</DependentUpon>
@@ -308,6 +394,21 @@
     <Compile Include="Views\Texture\Blur.xaml.cs">
       <DependentUpon>Blur.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Texture\Echo.xaml.cs">
+      <DependentUpon>Echo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Feedback.xaml.cs">
+      <DependentUpon>Feedback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TextureTransformModifierManager.xaml.cs">
+      <DependentUpon>TextureTransformModifierManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TriColor.xaml.cs">
+      <DependentUpon>TriColor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Pixelate.xaml.cs">
+      <DependentUpon>Pixelate.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Texture\Edge.xaml.cs">
       <DependentUpon>Edge.xaml</DependentUpon>
     </Compile>
@@ -326,8 +427,17 @@
     <Compile Include="Views\Texture\TransformTexture.xaml.cs">
       <DependentUpon>TransformTexture.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Texture\TypeWriter.xaml.cs">
+      <DependentUpon>TypeWriter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\VideoIn.xaml.cs">
+      <DependentUpon>VideoIn.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Texture\VideoPlayer.xaml.cs">
       <DependentUpon>VideoPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\VectorXYZ.xaml.cs">
+      <DependentUpon>VectorXYZ.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Windows\MainWindowController.xaml.cs">
       <DependentUpon>MainWindowController.xaml</DependentUpon>
@@ -354,12 +464,6 @@
     <Compile Include="Views\RangeControl.xaml.cs">
       <DependentUpon>RangeControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\GeometryFX.xaml.cs">
-      <DependentUpon>GeometryFX.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Component\Layer\ChannelLayer.xaml.cs">
-      <DependentUpon>ChannelLayer.xaml</DependentUpon>
-    </Compile>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
     </ApplicationDefinition>
@@ -375,30 +479,6 @@
     <Compile Include="Views\Texture\Texture.xaml.cs">
       <DependentUpon>Texture.xaml</DependentUpon>
     </Compile>
-    <Page Include="Views\AnimParameter\Easing.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\AnimParameter\None.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AnimParameter\Steady.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AnimParameter\Randomized.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AnimParameter\Stepper.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\AnimParameter\LFO.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Assets\TexturePathSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -407,11 +487,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Assets\VideoPathSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\VectorXY.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Beat\BeatManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ColorSelector.xaml">
+    <Page Include="Views\BaseControl\ColorSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Coloration\Coloration.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -419,9 +511,109 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Component\Composition\OutputProperties.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MaskPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Component\Entities\LightAmbient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightDirectional.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightPoint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightSpot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshCone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshCylinder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\Mesh.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshPlane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshSphere.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshTorus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\ModelEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\AmbientOcclusion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\LayerBlendController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Component\Layer\LayerContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\LayerMaskController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\CompositionService.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Easing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\LFO2D.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\LFO.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\RandomScale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\RandomXY.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml">
       <SubType>Designer</SubType>
@@ -431,15 +623,47 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Instancer\ScaleModifier.xaml">
-      <Generator>MSBuild:Compile</Generator>
+    <Page Include="Views\Managers\CameraManager.xaml">
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Geometry\Instancer\XYZModifier.xaml">
       <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Mask\Mask.xaml">
+    <Page Include="Views\Managers\ColorationManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\LightEntityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\MeshEntityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\ModelEntityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\TextureManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\ColorModifierManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\Constant.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\MaterialManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\Metallic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\RandomHSV.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -483,7 +707,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Component\Entity\EntityPanel.xaml">
+    <Page Include="Views\Component\Entities\EntityPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -495,19 +719,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\AnimParameter\AnimParameter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Component\Entity\Entity.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Component\Layer\Layer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Layer\LayerPanel.xaml">
+    <Page Include="Views\Component\Layer\LayerManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -593,15 +809,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\Geometry\GeometryFX.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Beat\MasterBeatControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Component\Layer\ChannelLayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -612,6 +820,26 @@
     <Page Include="Views\Texture\Blur.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\Echo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Feedback.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\TextureTransformModifierManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\TriColor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Pixelate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Texture\Edge.xaml">
       <SubType>Designer</SubType>
@@ -645,7 +873,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Texture\TypeWriter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\VideoIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Texture\VideoPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\VectorXYZ.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -701,6 +941,9 @@
       <Project>{b49435ef-ef33-47b4-a92d-267566db96d8}</Project>
       <Name>CMiX.Core</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\AnimParameter\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

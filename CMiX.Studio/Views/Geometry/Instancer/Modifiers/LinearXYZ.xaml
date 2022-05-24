@@ -11,14 +11,16 @@
 
 
     <UserControl.Resources>
-        <ObjectDataProvider x:Key="ModifierType" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierType}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:ModifierType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        
         <ObjectDataProvider x:Key="TransformType" MethodName="GetValues" ObjectType="{x:Type ViewModels:TransformType}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="ViewModels:TransformType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        
+        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="ViewModels:ModifierMode"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
@@ -37,21 +39,21 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Type" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
                     <ComboBox 
-                    Grid.Column="1" 
-                    SelectedItem="{Binding SelectedModifierType}"
-                    ItemsSource="{Binding Source={StaticResource ModifierType}}"/>
+                        Grid.Column="1" 
+                        SelectedItem="{Binding Mode.Selection}"
+                        ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
                 </Grid>
                 <Border Margin="0, 0, 0, 16">
-                    <Border.Style>
+                    <!--<Border.Style>
                         <Style TargetType="Border">
                             <Setter Property="IsEnabled" Value="False"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding SelectedModifierType}"  Value="{x:Static ViewModels:ModifierType.GROUP}">
+                                <DataTrigger Binding="{Binding SelectedModifierType}"  Value="{x:Static ViewModels:ModifierMode.AsGroup}">
                                     <Setter Property="IsEnabled" Value="True"/>
                                 </DataTrigger>
                             </Style.Triggers>
                         </Style>
-                    </Border.Style>
+                    </Border.Style>-->
                     <Grid Height="20">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -69,7 +71,18 @@
                 </Border>
 
                 <!--<Views:BeatModifier DataContext="{Binding BeatModifier}"/>-->
-
+                <Grid Height="22" Margin="0, 8, 0, 4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Transform" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
+                    <ComboBox 
+                        Grid.Column="1" 
+                        SelectedItem="{Binding TransformTypeSelector.Selection}"
+                        ItemsSource="{Binding Source={StaticResource TransformType}}"/>
+                </Grid>
+                
                 <Grid Height="20" Margin="0, 0, 0, 4">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -80,7 +93,7 @@
                             Grid.Column="0" 
                             Padding="4" 
                             HorizontalAlignment="Right" 
-                            Text="Orientation" 
+                            Text="Axis" 
                             Foreground="{StaticResource TextBase}"/>
 
                     <Grid Grid.Column="2">
@@ -89,9 +102,9 @@
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <RadioButton IsChecked="{Binding DirectionXYZ.DirectionX}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X" Style="{StaticResource InlineRadioButtonLeft}"/>
-                        <RadioButton IsChecked="{Binding DirectionXYZ.DirectionY}" Grid.Column="1" Margin="0" Content="Y" Style="{StaticResource InlineRadioButtonCenter}"/>
-                        <RadioButton IsChecked="{Binding DirectionXYZ.DirectionZ}" Grid.Column="2" Margin="1, 0, 0, 0" Content="Z" Style="{StaticResource InlineRadioButtonRight}"/>
+                        <ToggleButton IsChecked="{Binding DirectionXYZ.DirectionX}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X" Style="{StaticResource InlineToggleButtonLeft}"/>
+                        <ToggleButton IsChecked="{Binding DirectionXYZ.DirectionY}" Grid.Column="1" Margin="0" Content="Y" Style="{StaticResource InlineToggleButtonCenter}"/>
+                        <ToggleButton IsChecked="{Binding DirectionXYZ.DirectionZ}" Grid.Column="2" Margin="1, 0, 0, 0" Content="Z" Style="{StaticResource InlineToggleButtonRight}"/>
                     </Grid>
                 </Grid>
                 <Grid Margin="0, 0, 0, 4" Height="20">

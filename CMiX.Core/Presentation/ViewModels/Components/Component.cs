@@ -31,9 +31,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
-
-        public Visibility Visibility { get; set; }
-        public ICommand VisibilityCommand { get; set; }
         public ICommand RenameCommand { get; set; }
 
 
@@ -84,19 +81,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             get => _masterBeat;
             set => SetProperty(ref _masterBeat, value);
-        }
-
-        public MasterBeatContainer MasterBeatContainer
-        {
-            get { return MasterBeatContainer.Instance; }
-        }
-
-
-        public void Receive(MessageRequestMasterBeat message)
-        {
-            var pouet = this.GetType();
-            if(MasterBeat != null)
-                message.Reply(MasterBeat);
         }
 
 

@@ -2,9 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Input;
+using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -15,229 +15,105 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public class ComponentManager : ObservableRecipient, IRecipient<IMessage>
     {
-        public ComponentManager(IProject project)
+        public ComponentManager(Project project)
         {
             Project = project;
 
-            ComponentFactory = new ComponentFactory();
-
-            IsActive = true;
-
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
 
-            SelectItemCommand = new RelayCommand<Composition>(SelectComposition);
-            AddItemCommand = new RelayCommand(CreateComposition);
-            DeleteItemCommand = new RelayCommand(DeleteComposition);
-
-            CreateComponentCommand = new RelayCommand<Type>(CreateComponent);
-            DuplicateComponentCommand = new RelayCommand<Component>(DuplicateComponent);
-            DeleteComponentCommand = new RelayCommand<Component>(RemoveComponent);
-            RenameComponentCommand = new RelayCommand<Component>(RenameComponent);
+            AddItemCommand = new RelayCommand(Create);
+            DeleteItemCommand = new RelayCommand(Delete);
         }
 
 
-        public ICommand SelectItemCommand { get; set; }
+
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
 
-        public ICommand CreateComponentCommand { get; }
-        public ICommand DuplicateComponentCommand { get; }
-        public ICommand DeleteComponentCommand { get; }
-        public ICommand RenameComponentCommand { get; }
-
-        private ComponentFactory ComponentFactory { get; }
-
-
-        private IProject _project;
-        public IProject Project
-        {
-            get => _project;
-            set => SetProperty(ref _project, value);
-        }
+        public Project Project { get; set; }
 
 
         private Composition _selectedComposition;
         public Composition SelectedComposition
         {
             get => _selectedComposition;
-            set
-            {
-                SelectedComponent = null;
-                SetProperty(ref _selectedComposition, value);
-            }
+            set => SetProperty(ref _selectedComposition, value);
         }
 
-        private IComponent _selectedComponent;
-        public IComponent SelectedComponent
+        public void Rename() => SelectedComposition.IsRenaming = true;
+
+        public void Create()
         {
-            get => _selectedComponent;
-            set => SetProperty(ref _selectedComponent, value);
-        }
-
-
-        public void RenameComponent(IComponent component) => SelectedComponent.IsRenaming = true;
-
-
-        public void SelectComposition(Composition composition)
-        {
-            SelectedComposition = composition;
-        }
-
-        public void CreateLayer()
-        {
-            if (SelectedComposition != null)
-            {
-                Component layer = ComponentFactory.CreateComponent(typeof(Layer));
-                SelectedComposition.AddComponent(layer);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(SelectedComposition.ID, layer), MessageType.Out);
-            }
-        }
-
-        public void CreateComposition()
-        {
-            Component composition = ComponentFactory.CreateComponent(typeof(Composition));
+            Composition composition = new Composition(new CompositionModel(Guid.NewGuid()));
             Project.AddComponent(composition);
-
-            SelectedComposition = composition as Composition;
+            composition.IsSelected = true;
+            SelectedComposition = composition;
 
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(Project.ID, composition), MessageType.Out);
-            Console.WriteLine(SelectedComposition.GetType().Name + "'s Components Count is " + SelectedComposition.Components.Count);
+            Console.WriteLine(Project.GetType().Name + "'s Components Count is " + Project.Components.Count);
         }
 
-
-        private void DeleteComposition()
+        public void Create(CompositionModel compositionModel)
         {
-            var components = Project.Components;
-            int index = components.IndexOf(SelectedComposition);
+            Composition composition = new Composition(compositionModel);
+            Project.AddComponent(composition);
+            composition.IsSelected = true;
+            SelectedComposition = composition;
+            Console.WriteLine(Project.GetType().Name + "'s Components Count is " + Project.Components.Count);
+        }
 
-            if (SelectedComposition != null)
+        public void Delete()
+        {
+            var selected = SelectedComposition;
+            var index = Project.Components.IndexOf(selected);
+
+            if (selected == null)
+                return;
+
+            Project.RemoveComponent(selected);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(Project.ID, selected), MessageType.Out);
+
+            if (Project.Components.Count == 0)
+                return;
+
+            if (index == 0)
             {
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(Project.ID, SelectedComposition), MessageType.Out);
-                Project.RemoveComponent(SelectedComposition);
+                SelectedComposition = Project.Components[0] as Composition;
+                return;
             }
 
             if (index > 0)
             {
-                SelectedComposition = components[index - 1] as Composition;
+                SelectedComposition = Project.Components[index - 1] as Composition;
                 return;
             }
 
-            if (index == 0 && components.Count > 0)
-            {
-                SelectedComposition = components[0] as Composition;
-                return;
-            }
-
-            if (Project.Components.Count == 0)
-                SelectedComposition = null;
+            SelectedComposition = null;
         }
 
 
-        public void CreateComponent(Type componentType)
+        public void Delete(Guid id)
         {
-            IComponent parentComponent = SelectedComponent;
+            var toDelete = Project.Components.First(x => x.ID == id);
 
-            Component newComponent = ComponentFactory.CreateComponent(componentType);
-
-            parentComponent.AddComponent(newComponent);
-
-            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComponent(parentComponent.ID, newComponent), MessageType.Out);
+            if (toDelete != null)
+                Project.RemoveComponent(toDelete);
         }
 
-        public void CreateComponent(MessageAddComponent messageAddComponent)
-        {
-            var descendants = GetAllDescendants(new[] { Project });
-            IComponent parentComponent = Project;
-
-            foreach (var descendant in descendants)
-            {
-                if(descendant.ID == messageAddComponent.ParentID)
-                {
-                    parentComponent = descendant;
-                    break;
-                }
-            }
-
-            Component newComponent = ComponentFactory.CreateComponent(messageAddComponent.ComponentType);
-            newComponent.SetViewModel(messageAddComponent.ComponentModel);
-
-            parentComponent.AddComponent(newComponent);
-
-            Console.WriteLine(parentComponent.GetType().Name + "'s Components Count is " + parentComponent.Components.Count);
-        }
-
-
-        public void DeleteComponent(MessageRemoveComponent messageRemoveComponent)
-        {
-            IComponent parent = GetParent(Project, x => x.ID == messageRemoveComponent.ID);
-            parent?.RemoveComponent(messageRemoveComponent.ID);
-
-            Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
-        }
-
-
-        private IComponent GetParent(IComponent rootNode, Func<IComponent, bool> childSelector)
-        {
-            var allNodes = GetAllDescendants(new[] { rootNode });
-
-            IEnumerable<IComponent> parentsOfSelectedChildren = allNodes.Where(node => node.Components.Any(childSelector));
-
-            if (parentsOfSelectedChildren.Count() == 0)
-                return rootNode;
-
-            return parentsOfSelectedChildren.Single();
-        }
-
-        private IEnumerable<IComponent> GetAllDescendants(IEnumerable<IComponent> rootNodes)
-        {
-            var descendants = rootNodes.SelectMany(_ => GetAllDescendants(_.Components));
-            return rootNodes.Concat(descendants);
-        }
-
-
-        private void RemoveComponent(IComponent component)
-        {
-            IComponent parent = GetParent(Project, x => x.ID == component.ID);
-            parent?.RemoveComponent(component);
-
-            Console.WriteLine(parent.GetType().Name + "'s Components Count is " + parent.Components.Count);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveComponent(parent.ID, component), MessageType.Out);
-        }
-
-
-        public void InsertComponent(int index, Component parentComponent, Component componentToInsert)
-        {
-            parentComponent.InsertComponent(index, componentToInsert);
-        }
-
-
-        public void DuplicateComponent(Component component)
-        {
-            //Component result = null;
-            // = GetSelectedParent(Components);
-            //return result;
-        }
 
         public void Receive(IMessage message)
         {
+            if (message.ID != Project.ID)
+                return;
+
             switch (message)
             {
-                case MessageAddLayer _:
-                    this.CreateLayer();
-                    break;
-
-                case MessageAddComposition _:
-                    this.CreateComposition();
-                    break;
-
                 case MessageAddComponent add:
-                    this.CreateComponent(add);
+                    this.Create(add.ComponentModel as CompositionModel);
                     break;
 
                 case MessageRemoveComponent remove:
-                    this.DeleteComponent(remove);
+                    this.Delete(remove.ID);
                     break;
             }
         }

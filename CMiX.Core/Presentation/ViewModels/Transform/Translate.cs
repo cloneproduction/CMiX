@@ -3,41 +3,43 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Observer;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Translate : ObservableObject, IControl, IObserver
+    public class Translate : ObservableObject, ITransformModifier
     {
-        public Translate(TranslateModel translateModel)
+        public Translate(TranslateModel translateModel) 
         {
             this.ID = translateModel.ID;
-            X = new Slider(nameof(X), translateModel.X);
-            Y = new Slider(nameof(Y), translateModel.Y);
-            Z = new Slider(nameof(Z), translateModel.Z);
+            this.Enabled = translateModel.Enabled;
+            this.Visible = new ToggleButton(translateModel.Visible);
+            XYZ = new VectorXYZ(translateModel.XYZ);
+            IsExpanded = true;
         }
-
 
         public Guid ID { get; set; }
-        public Slider X { get; set; }
-        public Slider Y { get; set; }
-        public Slider Z { get; set; }
+        public VectorXYZ XYZ { get; set; }
+        public bool Enabled { get; set; }
+        public ToggleButton Visible { get; set; }
 
 
-        public void Update(int count)
+        private bool _isExpanded;
+        public bool IsExpanded
         {
-            //XYZ = new Vector3D[count];
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
         }
-
 
         public IModel GetModel()
         {
             TranslateModel model = new TranslateModel();
             model.ID = this.ID;
-            model.X = (SliderModel)this.X.GetModel();
-            model.Y = (SliderModel)this.Y.GetModel();
-            model.Z = (SliderModel)this.Z.GetModel();
+            model.Enabled = this.Enabled;
+            model.XYZ = (VectorXYZModel)this.XYZ.GetModel();
+            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
             return model;
         }
 
@@ -45,9 +47,14 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             TranslateModel translateModel = model as TranslateModel;
             this.ID = translateModel.ID;
-            this.X.SetViewModel(translateModel.X);
-            this.Y.SetViewModel(translateModel.Y);
-            this.Z.SetViewModel(translateModel.Z);
+            this.Enabled = translateModel.Enabled;
+            this.XYZ.SetViewModel(translateModel.XYZ);
+            this.Visible.SetViewModel(translateModel.Visible);
+        }
+
+        public void Dispose()
+        {
+
         }
     }
 }

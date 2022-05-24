@@ -4,16 +4,19 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ComboBox<T> : ObservableRecipient, IControl
+    public class ComboBox<T> : ObservableRecipient, IControl, IRecipient<IMessage>
     {
         public ComboBox(ComboBoxModel<T> comboBoxModel)
         {
             this.ID = comboBoxModel.ID;
+            this.Selection = comboBoxModel.Selection;
+            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
 
@@ -27,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _selection, value);
-                WeakReferenceMessenger.Default.Send<IMessage, string>(new MessageUpdateViewModel(this), "OUT");
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
@@ -45,6 +48,15 @@ namespace CMiX.Core.Presentation.ViewModels
             ComboBoxModel<T> comboBoxModel = model as ComboBoxModel<T>;
             this.ID = comboBoxModel.ID;
             this.Selection = comboBoxModel.Selection;
+        }
+
+        public void Receive(IMessage message)
+        {
+            if (message.ID != this.ID)
+                return;
+
+            if(message is MessageUpdateViewModel messageUpdateViewModel)
+                this.SetViewModel(messageUpdateViewModel.Model);
         }
     }
 }

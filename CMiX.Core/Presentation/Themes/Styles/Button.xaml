@@ -219,24 +219,26 @@
                     <Border
                         x:Name="border"
                         Margin="0"
-                        Opacity="0.6"
                         Padding="1"
-                        Background="{TemplateBinding Background}"
-                        SnapsToDevicePixels="True">
+                        CornerRadius="2"
+                        SnapsToDevicePixels="True"
+                        Background="{DynamicResource Color}"
+                        BorderBrush="{DynamicResource HighDarkerColor}"
+                        BorderThickness="1, 0, 1, 1">
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
-                            <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
+                            <ContentPresenter x:Name="Presenter" Opacity="0.6" ContentTemplate="{TemplateBinding Content}"/>
                         </Viewbox>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Opacity" Value="0.9"/>
+                            <Setter TargetName="Presenter" Property="Opacity" Value="0.9"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Opacity" Value="1.0"/>
+                            <Setter TargetName="Presenter" Property="Opacity" Value="1.0"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="Presenter" Property="Opacity" Value="0.15" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

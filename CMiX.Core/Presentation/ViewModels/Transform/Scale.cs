@@ -3,58 +3,74 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Scale : ObservableObject, IControl
+    public class Scale : ObservableObject, ITransformModifier
     {
         public Scale(ScaleModel scaleModel)
         {
             this.ID = scaleModel.ID;
+            this.Enabled = scaleModel.Enabled;
 
-            Uniform = new Slider(nameof(Uniform), scaleModel.Uniform) { Amount = 1.0f }; ;
-            X = new Slider(nameof(X), scaleModel.X) { Amount = 1.0f };
-            Y = new Slider(nameof(Y), scaleModel.Y) { Amount = 1.0f }; ;
-            Z = new Slider(nameof(Z), scaleModel.Z) { Amount = 1.0f }; ;
+            Uniform = new Slider(nameof(Uniform), scaleModel.Uniform);
+            XYZ = new VectorXYZ(scaleModel.XYZ);
+            Visible = new ToggleButton(scaleModel.Visible);
 
-            IsUniform = true;
+            Mode = new ComboBox<ModifierMode>(scaleModel.Mode);
+            IsExpanded = true;
         }
 
 
         public Guid ID { get; set; }
-        public Slider X { get; set; }
-        public Slider Y { get; set; }
-        public Slider Z { get; set; }
+
         public Slider Uniform { get; set; }
+        public VectorXYZ XYZ { get; set; }
+        public bool Enabled { get; set; }
+        public ToggleButton Visible { get; set; }
+        public ComboBox<ModifierMode> Mode { get; set; }
 
 
-        private bool _isUniform;
-        public bool IsUniform
+        private bool _isExpanded;
+        public bool IsExpanded
         {
-            get => _isUniform;
-            set => SetProperty(ref _isUniform, value);
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
         }
+
 
         public IModel GetModel()
         {
             ScaleModel model = new ScaleModel();
+
             model.ID = this.ID;
-            model.X = (SliderModel)this.X.GetModel();
-            model.Y = (SliderModel)this.Y.GetModel();
-            model.Z = (SliderModel)this.Z.GetModel();
+            model.Enabled = this.Enabled;
             model.Uniform = (SliderModel)this.Uniform.GetModel();
+            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
+            model.XYZ = (VectorXYZModel)this.XYZ.GetModel();
+            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+
             return model;
         }
 
         public void SetViewModel(IModel model)
         {
             ScaleModel scaleModel = model as ScaleModel;
+
             this.ID = scaleModel.ID;
-            this.X.SetViewModel(scaleModel.X);
-            this.Y.SetViewModel(scaleModel.Y);
-            this.Z.SetViewModel(scaleModel.Z);
+            this.Enabled = scaleModel.Enabled;
             this.Uniform.SetViewModel(scaleModel.Uniform);
+            this.Visible.SetViewModel(scaleModel.Visible);
+            this.XYZ.SetViewModel(scaleModel.XYZ);
+            this.Mode.SetViewModel(scaleModel.Mode);
+        }
+
+        public void Dispose()
+        {
+            
         }
     }
 }

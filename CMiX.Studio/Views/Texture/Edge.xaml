@@ -13,6 +13,13 @@
         <StackPanel Margin="8">
             <Controls:CMiXSlider Caption="Radius" Minimum="0" Maximum="10" Value="{Binding Radius.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Top"/>
             <Controls:CMiXSlider Margin="0, 1, 0, 0" Caption="Brightness" Minimum="0" Maximum="10" Value="{Binding Brightness.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Bottom"/>
+            
+            <Controls:CMiXSlider Margin="0, 8, 0, 0" 
+                                 Caption="Control" 
+                                 Minimum="0" 
+                                 Maximum="1" 
+                                 Value="{Binding Control.Amount}" 
+                                 Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
         </StackPanel>
     </Expander>
 </UserControl>
