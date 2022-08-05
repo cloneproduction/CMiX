@@ -7,6 +7,7 @@ using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -14,11 +15,12 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public abstract class PrefabManager : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class PrefabManager<T> : ObservableRecipient, IRecipient<IMessage>, IControl, IBeatable
     {
         public PrefabManager(IPrefabManagerModel prefabManagerModel)
         {
             ID = prefabManagerModel.ID;
+            PrefabFactory = new PrefabFactory();
 
             Prefabs = new ObservableCollection<IPrefab>();
 
@@ -28,6 +30,9 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 
             WeakReferenceMessenger.Default.Register(this, MessageType.In);
         }
+
+
+        public PrefabFactory PrefabFactory { get; set; }
 
         public Guid ID { get; set; }
         public ICommand AddItemCommand { get; set; }
@@ -45,9 +50,39 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         }
 
 
-        public abstract IPrefab CreatePrefab();
-        public abstract IPrefab CreatePrefab(IPrefabModel prefabModel);
+        public MasterBeat MasterBeat { get; set; }
 
+        public void SetMasterBeat(MasterBeat masterBeat)
+        {
+            this.MasterBeat = masterBeat;
+        }
+
+        public IPrefab CreatePrefab(IPrefabModel prefabModel)
+        {
+            IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
+
+            prefab.Name = prefab.GetType().Name;
+            SelectedItem = prefab;
+            prefab.IsSelected = true;
+            Prefabs.Add(prefab);
+            prefab.SetMasterBeat(MasterBeat);
+
+            return prefab;
+        }
+         
+
+        public IPrefab CreatePrefab()
+        {
+            IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
+
+            prefab.Name = prefab.GetType().Name;
+            SelectedItem = prefab;
+            prefab.IsSelected = true;
+            Prefabs.Add(prefab);
+            prefab.SetMasterBeat(MasterBeat);
+
+            return prefab;
+        }
 
         public void AddItem()
         {
@@ -130,6 +165,11 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             ID = materialManagerModel.ID;
         }
 
-        public abstract IModel GetModel();
+        public IModel GetModel()
+        {
+            IPrefabManagerModel modifierManagerModel = new PrefabManagerModel();
+            modifierManagerModel.ID = this.ID;
+            return modifierManagerModel;
+        }
     }
 }

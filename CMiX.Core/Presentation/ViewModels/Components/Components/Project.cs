@@ -6,6 +6,8 @@ using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
+using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentation.ViewModels.Services;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {

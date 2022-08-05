@@ -3,12 +3,13 @@
 
 using System;
 using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
 {
-    public class TransformModel : IModifierModel
+    public class TransformSRTModel : IPrefabModel, IModifierModel
     {
-        public TransformModel()
+        public TransformSRTModel()
         {
             this.ID = Guid.NewGuid();
 
@@ -17,6 +18,8 @@ namespace CMiX.Core.Models
             RotationModel = new RotationModel();
             Visible = new ToggleButtonModel(true);
             Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
+
+            TransformModifier = new ModifierManagerModel();
         }
 
         public bool Enabled { get; set; }
@@ -30,5 +33,6 @@ namespace CMiX.Core.Models
         public bool Is3D { get; set; }
         public ToggleButtonModel Visible { get; set; }
         public ComboBoxModel<ModifierMode> Mode { get; internal set; }
+        public ModifierManagerModel TransformModifier { get; internal set; }
     }
 }

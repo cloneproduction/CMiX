@@ -39,8 +39,6 @@ namespace CMiX.Core.Presentation.ViewModels
             GenerateBackFace = new ToggleButton(meshModel.GenerateBackFace);
             Visibility = new ToggleButton(meshModel.Visibility);
 
-            //Coloration = new Coloration(meshEntityModel.Coloration);
-
             TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new TransformModifierFactory());
         }
 
@@ -121,8 +119,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public void SetMasterBeat(MasterBeat masterBeat)
         {
             TransformModifierManager.SetMasterBeat(masterBeat);
-            //Coloration.SetMasterBeat(masterBeat);
-            //Material.SetMasterBeat(masterBeat);
         }
 
 
@@ -143,10 +139,6 @@ namespace CMiX.Core.Presentation.ViewModels
             meshModelModel.TessellationY = (CounterModel)TessellationY.GetModel();
             meshModelModel.GenerateBackFace = (ToggleButtonModel)GenerateBackFace.GetModel();
             meshModelModel.Visibility = (ToggleButtonModel)Visibility.GetModel();
-
-            //meshEntityModel.Material = (MaterialModel)Material.GetModel();
-            //meshEntityModel.Coloration = (ColorationModel)Coloration.GetModel();
-
             meshModelModel.TransformModifierManager = (ModifierManagerModel)TransformModifierManager.GetModel();
 
             return meshModelModel;

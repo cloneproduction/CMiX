@@ -11,7 +11,6 @@ namespace CMiX.Core.Models
     {
         public SceneModel()
         {
-            TransformModel = new TransformModel();
             TextureModel = new TextureModel();
             GeometryModel = new GeometryModel();
             MaskModel = new LayerMaskModel();
@@ -32,7 +31,7 @@ namespace CMiX.Core.Models
 
         public ColorSelectorModel BackgroundColorSelectorModel { get; set; }
         public VisibilityModel VisibilityModel { get; set; }
-        public TransformModel TransformModel { get; set; }
+
         public LayerMaskModel MaskModel { get; set; }
         public BeatModifierModel BeatModifierModel { get; set; }
         public TextureModel TextureModel { get; set; }

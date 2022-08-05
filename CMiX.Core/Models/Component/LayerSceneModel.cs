@@ -4,7 +4,9 @@
 using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models.Component;
+using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 
 namespace CMiX.Core.Models
 {
@@ -20,6 +22,10 @@ namespace CMiX.Core.Models
             ColorSelectorModel = new ColorSelectorModel("#00000000");
             Camera = new CameraModel();
             AmbientOcclusion = new AmbientOcclusionModel();
+            EntityManagerModel = new PrefabSlotManagerModel();
+            BlendModeModel = new BlendModeModel(BlendModeEnum.Normal);
+            Opacity = new SliderModel(1.0f);
+            CameraManagerModel = new PrefabSlotManagerModel();
         }
 
         public Guid ID { get; set; }
@@ -35,5 +41,9 @@ namespace CMiX.Core.Models
         public ColorSelectorModel ColorSelectorModel { get; set; }
         public CameraModel Camera { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
+        public PrefabSlotManagerModel EntityManagerModel { get; internal set; }
+        public BlendModeModel BlendModeModel { get; internal set; }
+        public SliderModel Opacity { get; internal set; }
+        public PrefabSlotManagerModel CameraManagerModel { get; internal set; }
     }
 }

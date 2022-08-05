@@ -2,14 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CMiX.Core.Models;
 
-namespace CMiX.Core.Presentation.ViewModels.Components
+namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public class LayerFactory
+    public class PrefabSlotManagerModel : IModel
     {
+        public Guid ID { get; set; }
+        public bool Enabled { get; set; }
     }
 }

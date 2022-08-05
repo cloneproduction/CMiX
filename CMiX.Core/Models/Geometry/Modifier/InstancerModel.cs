@@ -11,7 +11,6 @@ namespace CMiX.Core.Models
         public InstancerModel()
         {
             ID = Guid.NewGuid();
-            Transform = new TransformModel();
             Counter = new CounterModel();
             ModifierManagerModel = new ModifierManagerModel();
             UniformScale = new AnimParameterModel();
@@ -21,7 +20,6 @@ namespace CMiX.Core.Models
         public Guid ID { get; set; }
         public ModifierManagerModel ModifierManagerModel { get; set; }
         public AnimParameterModel UniformScale { get; set; }
-        public TransformModel Transform { get; set; }
         public CounterModel Counter { get; set; }
         public bool NoAspectRatio { get; set; }
     }

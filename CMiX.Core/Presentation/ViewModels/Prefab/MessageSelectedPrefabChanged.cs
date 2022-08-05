@@ -7,16 +7,16 @@ using CMiX.Core.Network.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public class MessageRemovePrefab : IMessage
+    public class MessageSelectedPrefabChanged : IMessage
     {
-        public MessageRemovePrefab()
+        public MessageSelectedPrefabChanged()
         {
 
         }
 
-        public MessageRemovePrefab(Guid managerID, IPrefab prefab)
+        public MessageSelectedPrefabChanged(Guid id, IPrefab prefab)
         {
-            ID = managerID;
+            ID = id;
             Model = prefab.GetModel();
         }
 

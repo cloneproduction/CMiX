@@ -28,12 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Entities = new ObservableCollection<IEntity>();
             BackgroundColor = new ColorSelector(maskModel.ColorSelectorModel);
 
-            //MeshEntities = new ObservableCollection<MeshEntity>();
-            //MeshEntityManager = new MeshEntityManager();
-
-            //LightEntities = new ObservableCollection<LightEntity>();
-            //LightEntityManager = new LightEntityManager();
-
             Visibility = new ToggleButton(maskModel.VisibilityModel);
             Invert = new ToggleButton(maskModel.Invert);
 
@@ -59,8 +53,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        public MeshManager MeshEntityManager { get; set; }
-
         private ObservableCollection<Mesh> _meshEntities;
         public ObservableCollection<Mesh> MeshEntities
         {
@@ -68,8 +60,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _meshEntities, value);
         }
 
-
-        public LightEntityManager LightEntityManager { get; set; }
 
         private ObservableCollection<LightEntity> _lightEntities;
         public ObservableCollection<LightEntity> LightEntities
@@ -99,7 +89,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ColorSelector BackgroundColor { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public Slider Opacity { get; set; }
-        public CameraManager CameraManager { get; set; }
         public Camera Camera { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }
         public ComboBox<MaskChannel> MaskChannelSelector { get; set; }

@@ -39,16 +39,16 @@
             </Grid.ColumnDefinitions>
 
             <TextBlock 
-                    HorizontalAlignment="Right" 
-                    Padding="8, 0" 
-                    VerticalAlignment="Center" 
-                    Text="BlendMode"/>
+                HorizontalAlignment="Right" 
+                Padding="8, 0" 
+                VerticalAlignment="Center" 
+                Text="BlendMode"/>
 
             <ComboBox 
-                    Grid.Column="1"
-                    DockPanel.Dock="Top"
-                    SelectedItem="{Binding BlendMode.Mode}"
-                    ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
+                Grid.Column="1"
+                DockPanel.Dock="Top"
+                SelectedItem="{Binding BlendMode.Mode}"
+                ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
         </Grid>
         
     </StackPanel>

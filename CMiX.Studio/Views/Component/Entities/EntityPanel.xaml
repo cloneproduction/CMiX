@@ -4,10 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:Managers="clr-namespace:CMiX.Studio.Views.Managers"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              mc:Ignorable="d"
              md:DialogServiceViews.IsRegistered="True" 
              d:DesignHeight="645.333" d:DesignWidth="349.293">
@@ -43,21 +41,13 @@
                 <TabItem.Header>
                     <Image Margin="6" Source="{DynamicResource MeshLight}"/>
                 </TabItem.Header>
+
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <Managers:LightEntityManager DataContext="{Binding LightEntityManager}"/>
                 </ScrollViewer>
-
-
             </TabItem>
 
-            <!--<TabItem>
-                <TabItem.Header>
-                    <Border Background="{DynamicResource DarkerColor}">
-                        <Image Margin="8" Source="{DynamicResource World}"/>
-                    </Border>
-                </TabItem.Header>
-            </TabItem>-->
-
+            
             <TabItem Header="Fx">
                 <Views:TextureFilterManager DataContext="{Binding ModifierManager}"/>
             </TabItem>
@@ -77,6 +67,15 @@
             <TabItem Header="Co">
                 <Managers:ColorationManager DataContext="{Binding ColorationManager}"/>
             </TabItem>
+
+            <TabItem Header="Tr">
+                <Managers:TransformManager DataContext="{Binding TransformManager}"/>
+            </TabItem>
+
+            <TabItem Header="tTex">
+                <Managers:TextureTransformManager DataContext="{Binding TextureTransformManager}"/>
+            </TabItem>
+            
         </TabControl>
     </Border>
 

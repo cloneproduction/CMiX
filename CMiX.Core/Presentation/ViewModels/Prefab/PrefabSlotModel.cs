@@ -3,24 +3,18 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public class MessageRemovePrefab : IMessage
+    public class PrefabSlotModel : IModel
     {
-        public MessageRemovePrefab()
+        public PrefabSlotModel()
         {
 
         }
 
-        public MessageRemovePrefab(Guid managerID, IPrefab prefab)
-        {
-            ID = managerID;
-            Model = prefab.GetModel();
-        }
-
+        public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public IModel Model { get; set; }
+        public bool IsSelected { get; internal set; }
     }
 }

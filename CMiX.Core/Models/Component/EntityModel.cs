@@ -13,6 +13,8 @@ namespace CMiX.Core.Models
     {
         public EntityModel()
         {
+            ID = Guid.NewGuid();
+
             BeatModifierModel = new BeatModifierModel();
             GeometryModel = new GeometryModel();
             TextureModel = new TextureModel();

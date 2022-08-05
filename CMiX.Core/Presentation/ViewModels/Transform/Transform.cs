@@ -3,32 +3,50 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Transform : ObservableObject, IControl, ITransformModifier
+    public class Transform : ObservableObject, IPrefab, IControl, IBeatable
     {
         public Transform(TransformModel transformModel)
         {
             this.IsExpanded = true;
             this.ID = transformModel.ID;
+            this.Name = this.GetType().Name;
             this.Enabled = transformModel.Enabled;
-            this.Visible = new ToggleButton(transformModel.Visible);
-            Translate = new Translate(transformModel.TranslateModel);
-            Scale = new Scale(transformModel.ScaleModel);
-            Rotation = new Rotation(transformModel.RotationModel);
-            Mode = new ComboBox<ModifierMode>(transformModel.Mode);
+
+            TransformModifier = new ModifierManager(transformModel.TransformModifier, new TransformModifierFactory());
+        }
+
+        public Guid ID { get; set; }
+        public bool Enabled { get; set; }
+        public ModifierManager TransformModifier { get; set; }
+
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
 
 
-        public Guid ID { get; set; }
-        public Translate Translate { get; set; }
-        public Scale Scale { get; set; }
-        public Rotation Rotation { get; set; }
-        public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get => _isRenaming;
+            set => SetProperty(ref _isRenaming, value);
+        }
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
 
 
         private bool _isExpanded;
@@ -38,28 +56,22 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
+        public void SetMasterBeat(MasterBeat masterBeat)
+        {
+            TransformModifier.SetMasterBeat(masterBeat);
+        }
 
         public void SetViewModel(IModel model)
         {
             TransformModel transformModel = model as TransformModel;
-
             this.ID = transformModel.ID;
-            this.Translate.SetViewModel(transformModel.TranslateModel);
-            this.Scale.SetViewModel(transformModel.ScaleModel);
-            this.Rotation.SetViewModel(transformModel.RotationModel);
-            this.Mode.SetViewModel(transformModel.Mode);
+
         }
 
         public IModel GetModel()
         {
             TransformModel model = new TransformModel();
-
             model.ID = this.ID;
-            model.TranslateModel = (TranslateModel)this.Translate.GetModel();
-            model.ScaleModel = (ScaleModel)this.Scale.GetModel();
-            model.RotationModel = (RotationModel)this.Rotation.GetModel();
-            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
-
             return model;
         }
 

@@ -86,6 +86,25 @@
                 </ComboBox.ItemTemplate>
             </ComboBox>
         </Grid>
-        
+
+        <Grid Margin="8, 0, 8, 8" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Texture Transform" HorizontalAlignment="Right" Padding="4, 0"/>
+            <ComboBox 
+                    DockPanel.Dock="Bottom" Grid.Column="1" 
+                    SelectedItem="{Binding Transform}"
+                    ItemsSource="{Binding Path=DataContext.TextureTransformManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+                <ComboBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
     </StackPanel>
 </UserControl>

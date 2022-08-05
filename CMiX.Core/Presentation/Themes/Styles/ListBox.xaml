@@ -94,9 +94,7 @@
                     </DockPanel>
 
                     <ControlTemplate.Triggers>
-                        <DataTrigger
-                            Binding="{Binding HasItems,RelativeSource={RelativeSource Self},UpdateSourceTrigger=PropertyChanged}"
-                            Value="False">
+                        <DataTrigger Binding="{Binding HasItems,RelativeSource={RelativeSource Self},UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <Setter TargetName="deleteItemButton" Property="IsEnabled" Value="False"/>
                         </DataTrigger>
                     </ControlTemplate.Triggers>
@@ -106,7 +104,47 @@
         </Setter>
     </Style>
 
-    
+    <Style x:Key="ListBoxSlotWithButton" BasedOn="{StaticResource ListBoxWithButton}" TargetType="{x:Type ListBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxSlotItemStyle}"/>
+    </Style>
+
+    <Style x:Key="ListBoxSlotItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="SnapsToDevicePixels" Value="True" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                    <Border
+                        x:Name="Bd"
+                        Background="{DynamicResource DarkColor}"
+                        CornerRadius="2"
+                        SnapsToDevicePixels="True"
+                        Margin="2, 1, 2, 1"
+                        Padding="4, 0, 0, 0"
+                        TextBlock.Foreground="{DynamicResource TextBase}">
+
+                        <ContentPresenter/>
+
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
+                        </MultiTrigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
+
     <Style x:Key="ListBoxWithSelectorItem" TargetType="{x:Type ListBoxItem}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">

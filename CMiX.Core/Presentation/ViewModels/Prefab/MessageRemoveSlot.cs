@@ -7,20 +7,20 @@ using CMiX.Core.Network.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public class MessageRemovePrefab : IMessage
+    public class MessageRemoveSlot : IMessage
     {
-        public MessageRemovePrefab()
+        public MessageRemoveSlot()
         {
 
         }
 
-        public MessageRemovePrefab(Guid managerID, IPrefab prefab)
+        public MessageRemoveSlot(Guid managerID, PrefabSlot prefabSlot)
         {
             ID = managerID;
-            Model = prefab.GetModel();
+            SlotID = prefabSlot.ID;
         }
 
         public Guid ID { get; set; }
-        public IModel Model { get; set; }
+        public Guid SlotID { get; set; }
     }
 }

@@ -300,6 +300,9 @@
     <Compile Include="Views\Managers\ModelEntityManager.xaml.cs">
       <DependentUpon>ModelEntityManager.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Managers\TransformManager.xaml.cs">
+      <DependentUpon>TransformManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Managers\TextureManager.xaml.cs">
       <DependentUpon>TextureManager.xaml</DependentUpon>
     </Compile>
@@ -400,6 +403,9 @@
     <Compile Include="Views\Texture\Feedback.xaml.cs">
       <DependentUpon>Feedback.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Texture\TextureTransformManager.xaml.cs">
+      <DependentUpon>TextureTransformManager.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Texture\TextureTransformModifierManager.xaml.cs">
       <DependentUpon>TextureTransformModifierManager.xaml</DependentUpon>
     </Compile>
@@ -469,9 +475,6 @@
     </ApplicationDefinition>
     <Compile Include="Views\Beat\MasterBeatControl.xaml.cs">
       <DependentUpon>MasterBeatControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Geometry\Geometry.xaml.cs">
-      <DependentUpon>Geometry.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\Inverter.xaml.cs">
       <DependentUpon>Inverter.xaml</DependentUpon>
@@ -643,6 +646,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Managers\TransformManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Managers\TextureManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -813,10 +820,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Geometry.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Texture\Blur.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -826,6 +829,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Texture\Feedback.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\TextureTransformManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="CMiX.Studio.Views.TextureTransformModifierManager"
+    x:Class="CMiX.Studio.Views.Managers.TextureTransformModifierManager"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,13 +14,13 @@
     x:Name="InstancerPouet">
 
     <UserControl.Resources>
+        
         <ResourceDictionary>
 
             <DataTemplate x:Key="RandomXYTemplate" DataType="{x:Type ViewModels:RandomXY}">
                 <Views:RandomXY Margin="0, 4" DataContext="{Binding}"/>
             </DataTemplate>
-
-
+            
             <ViewModels:TextureTransformModifierTemplateSelector 
                 x:Key="TemplateSelector" 
                 RandomXYTemplate="{StaticResource RandomXYTemplate}"/>
@@ -29,22 +29,24 @@
 
     </UserControl.Resources>
 
-    <Expander  IsExpanded="True">
-        <Expander.Header>
-            <DockPanel>
-                <ToggleButton
+    <DockPanel>
+        <Expander  IsExpanded="True">
+
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
                     x:Name="ModifierEnabled"
                     Height="16"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsChecked="{Binding Visibility.IsChecked}"/>
-                <TextBlock Text="Transform" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
-            </DockPanel>
-        </Expander.Header>
-        
-        <StackPanel Margin="8, 16">
+                    <TextBlock Text="Transform" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                </DockPanel>
+            </Expander.Header>
 
-            <ToggleButton 
+            <StackPanel Margin="8, 16">
+
+                <ToggleButton 
                     IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
                     x:Name="PopUpToggle" 
                     Content="Add Modifier"
@@ -52,72 +54,72 @@
                     Background="{DynamicResource DarkerColor}" 
                     Style="{StaticResource ToggleTransformModifierMenu}"/>
 
-            <Popup
-                AllowsTransparency="True"
-                Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=InstancerPouet}"
-                Placement="Bottom"
-                PlacementTarget="{Binding ElementName=PopUpToggle}"
-                FlowDirection="RightToLeft"
-                IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+                <Popup
+                    AllowsTransparency="True"
+                    Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=InstancerPouet}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=PopUpToggle}"
+                    FlowDirection="RightToLeft"
+                    IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
 
-                <Border Background="Transparent" CornerRadius="{DynamicResource CornerRadiusBottom}" Padding="2, 0, 2, 2">
-                    <Border.Effect>
-                        <DropShadowEffect 
+                    <Border Background="Transparent" CornerRadius="{DynamicResource CornerRadiusBottom}" Padding="2, 0, 2, 2">
+                        <Border.Effect>
+                            <DropShadowEffect 
                             BlurRadius="15" 
                             Opacity="0.8"  
                             ShadowDepth="2" 
                             Direction="-90" 
                             RenderingBias="Performance"/>
-                    </Border.Effect>
-                    <Border 
-                        CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
-                        Opacity="0.75" 
-                        Background="{DynamicResource HighDarkerColor}">
+                        </Border.Effect>
+                        <Border 
+                            CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
+                            Opacity="0.75" 
+                            Background="{DynamicResource HighDarkerColor}">
 
-                        <Grid Margin="8" Background="{DynamicResource HighDarkerColor}">
-                            
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                            <Grid Margin="8" Background="{DynamicResource HighDarkerColor}">
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:RandomXY}" 
-                                Grid.Row="0"
-                                Grid.Column="0"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="RandomXY"/>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
 
-                        </Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+
+                                <Button 
+                                    Command="{Binding CreateCommand}" 
+                                    CommandParameter="{x:Type ViewModels:RandomXY}" 
+                                    Grid.Row="0"
+                                    Grid.Column="0"
+                                    VerticalAlignment="Center" 
+                                    Width="100" 
+                                    Height="20" 
+                                    Content="RandomXY"/>
+
+                            </Grid>
+                        </Border>
                     </Border>
-                </Border>
-            </Popup>
+                </Popup>
 
-            <ItemsControl 
-                IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
-                Margin="0, 8, 0, 0"
-                AllowDrop="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DragHandler="{Binding}"
-                dd:DragDrop.DropHandler="{Binding}"
-                ItemTemplateSelector="{StaticResource TemplateSelector}"
-                ItemsSource="{Binding Modifiers}"/>
+                <ItemsControl 
+                    IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+                    Margin="0, 8, 0, 0"
+                    AllowDrop="True"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.DragHandler="{Binding}"
+                    dd:DragDrop.DropHandler="{Binding}"
+                    ItemTemplateSelector="{StaticResource TemplateSelector}"
+                    ItemsSource="{Binding Modifiers}"/>
 
-        </StackPanel>
-        
-    </Expander>
+            </StackPanel>
 
+        </Expander>
+    </DockPanel>
 </UserControl>

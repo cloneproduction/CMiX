@@ -6,10 +6,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public interface IPrefab : IControl
+    public interface IPrefab : IControl, IBeatable
     {
         bool IsSelected { get; set; }
         bool IsRenaming { get; set; }

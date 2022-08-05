@@ -9,7 +9,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="778" d:DesignWidth="330">
 
-    
     <UserControl.Resources>
         <ResourceDictionary>
 
@@ -46,10 +45,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    
-    <StackPanel>
-
-        <StackPanel Margin="8, 16">
+    <StackPanel Margin="8, 16">
 
             <Grid Height="22">
                 <Grid.ColumnDefinitions>
@@ -99,10 +95,5 @@
             </ContentControl>
 
         </StackPanel>
-
-        <Views:TransformModifierManager DataContext="{Binding TransformModifierManager}"/>
-
-        
-    </StackPanel>
 
 </UserControl>

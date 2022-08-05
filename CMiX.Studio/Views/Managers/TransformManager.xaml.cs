@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views.Managers
 {
-    public partial class TextureTransformModifierManager : UserControl
+    public partial class TransformManager : UserControl
     {
-        public TextureTransformModifierManager()
+        public TransformManager()
         {
             InitializeComponent();
         }

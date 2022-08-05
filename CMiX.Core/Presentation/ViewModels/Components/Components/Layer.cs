@@ -5,6 +5,7 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.ViewModels.Services;
 
@@ -25,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             LayerScene = new LayerScene(layerModel.LayerScene, compositionService);
 
-            EntityManager = new ModelEntityManager(layerModel.EntityManager);
+            EntityManager = new PrefabManager<Entity>(layerModel.EntityManager);
 
             TextureFilterModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
 
@@ -38,7 +39,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ToggleButton Visibility { get; set; }
         public ModifierManager TextureFilterModifierManager { get; set; }
         public CompositionService CompositionService { get; set; }
-        public ModelEntityManager EntityManager { get; set; }
+        public PrefabManager<Entity> EntityManager { get; set; }
 
 
         private int _selectedIndex;

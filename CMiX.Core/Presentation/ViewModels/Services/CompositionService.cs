@@ -4,6 +4,7 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Services;
 
@@ -15,14 +16,15 @@ namespace CMiX.Core.Presentation.ViewModels.Service
         {
             ID = compositionServiceModel.ID;
 
-            TextureManager = new TextureManager(new PrefabManagerModel());
-            ColorationManager = new ColorationManager(new PrefabManagerModel());
-            MaterialManager = new MaterialManager(new PrefabManagerModel());
-
-            ModelEntityManager = new ModelEntityManager(new PrefabManagerModel());
-            MeshManager = new MeshManager(new PrefabManagerModel());
-            LightEntityManager = new LightEntityManager(new PrefabManagerModel());
-            CameraManager = new CameraManager(new PrefabManagerModel());
+            TextureManager = new PrefabManager<Texture>(new PrefabManagerModel());
+            ColorationManager = new PrefabManager<Coloration>(new PrefabManagerModel());
+            MaterialManager = new PrefabManager<Material>(new PrefabManagerModel());
+            ModelEntityManager = new PrefabManager<Entity>(new PrefabManagerModel());
+            MeshManager = new PrefabManager<Mesh>(new PrefabManagerModel());
+            LightEntityManager = new PrefabManager<LightEntity>(new PrefabManagerModel());
+            CameraManager = new PrefabManager<Camera>(new PrefabManagerModel());
+            TransformManager = new PrefabManager<Transform>(new PrefabManagerModel());
+            TextureTransformManager = new PrefabManager<Transform>(new PrefabManagerModel());
 
             this.SetMasterBeat(masterBeat);
         }
@@ -30,13 +32,15 @@ namespace CMiX.Core.Presentation.ViewModels.Service
 
         public Guid ID { get; set; }
 
-        public MaterialManager MaterialManager { get; set; }
-        public TextureManager TextureManager { get; set; }
-        public MeshManager MeshManager { get; set; }
-        public LightEntityManager LightEntityManager { get; set; }
-        public CameraManager CameraManager { get; set; }
-        public ColorationManager ColorationManager { get; set; }
-        public ModelEntityManager ModelEntityManager { get; set; }
+        public PrefabManager<Material> MaterialManager { get; set; }
+        public PrefabManager<Texture> TextureManager { get; set; }
+        public PrefabManager<Mesh> MeshManager { get; set; }
+        public PrefabManager<LightEntity> LightEntityManager { get; set; }
+        public PrefabManager<Camera> CameraManager { get; set; }
+        public PrefabManager<Coloration> ColorationManager { get; set; }
+        public PrefabManager<Entity> ModelEntityManager { get; set; }
+        public PrefabManager<Transform> TransformManager { get; set; }
+        public PrefabManager<Transform> TextureTransformManager { get; set; }
 
 
         public IModel GetModel()
@@ -52,6 +56,8 @@ namespace CMiX.Core.Presentation.ViewModels.Service
             compositionServiceModel.CameraManager = (PrefabManagerModel)CameraManager.GetModel();
             compositionServiceModel.ColorationManager = (PrefabManagerModel)ColorationManager.GetModel();
             compositionServiceModel.EntityManager = (PrefabManagerModel)ModelEntityManager.GetModel();
+            compositionServiceModel.TransformManager = (PrefabManagerModel)TransformManager.GetModel();
+            compositionServiceModel.TextureTransformManager = (PrefabManagerModel)TextureTransformManager.GetModel();
 
             return compositionServiceModel;
         }
@@ -65,6 +71,8 @@ namespace CMiX.Core.Presentation.ViewModels.Service
             ColorationManager.SetMasterBeat(masterBeat);
             CameraManager.SetMasterBeat(masterBeat);
             ModelEntityManager.SetMasterBeat(masterBeat);
+            TransformManager.SetMasterBeat(masterBeat);
+            TextureTransformManager.SetMasterBeat(masterBeat);
         }
 
         public void SetViewModel(IModel model)
@@ -80,6 +88,8 @@ namespace CMiX.Core.Presentation.ViewModels.Service
             this.CameraManager.SetViewModel(compositionServiceModel.CameraManager);
             this.ColorationManager.SetViewModel(compositionServiceModel.ColorationManager);
             this.ModelEntityManager.SetViewModel(compositionServiceModel.EntityManager);
+            this.TransformManager.SetViewModel(compositionServiceModel.TransformManager);
+            this.TextureTransformManager.SetViewModel(compositionServiceModel.TextureTransformManager);
         }
     }
 }

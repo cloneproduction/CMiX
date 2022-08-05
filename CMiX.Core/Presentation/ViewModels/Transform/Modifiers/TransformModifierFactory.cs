@@ -31,8 +31,8 @@ namespace CMiX.Core.Presentation.ViewModels
             if (modifierType == typeof(RandomScale))
                 return CreateRandomScale();
 
-            if (modifierType == typeof(Transform))
-                return CreateTransform();
+            if (modifierType == typeof(TransformSRT))
+                return CreateTransformSRT();
 
             if (modifierType == typeof(Translate))
                 return CreateTranslate();
@@ -63,8 +63,8 @@ namespace CMiX.Core.Presentation.ViewModels
             if (modifierModel is RandomScaleModel randomScaleModel)
                 return CreateRandomScale(randomScaleModel);
 
-            if (modifierModel is TransformModel transformModel)
-                return CreateTransform(transformModel);
+            if (modifierModel is TransformSRTModel transformSRTModel)
+                return CreateTransformSRT(transformSRTModel);
 
             if (modifierModel is TranslateModel translateModel)
                 return CreateTranslate(translateModel);
@@ -147,18 +147,18 @@ namespace CMiX.Core.Presentation.ViewModels
             return translate;
         }
 
-        private Transform CreateTransform()
+        private TransformSRT CreateTransformSRT()
         {
-            var transform = new Transform(new TransformModel());
+            var transform = new TransformSRT(new TransformSRTModel());
             //transform.SetMasterBeat(MasterBeat);
             return transform;
         }
 
-        private Transform CreateTransform(TransformModel transformModel)
+        private TransformSRT CreateTransformSRT(TransformSRTModel transformSRTModel)
         {
-            var transform = new Transform(transformModel);
+            var transformSRT = new TransformSRT(transformSRTModel);
             //transform.SetMasterBeat(MasterBeat);
-            return transform;
+            return transformSRT;
         }
 
         private RandomScale CreateRandomScale()

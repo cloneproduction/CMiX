@@ -22,6 +22,8 @@ namespace CMiX.Core.Presentation.ViewModels.Services
             MeshEntityManager = new PrefabManagerModel();
             LightEntityManager = new PrefabManagerModel();
             CameraManager = new PrefabManagerModel();
+            TransformManager = new PrefabManagerModel();
+            TextureTransformManager = new PrefabManagerModel();
         }
 
         public bool Enabled { get; set; }
@@ -34,5 +36,7 @@ namespace CMiX.Core.Presentation.ViewModels.Services
         public PrefabManagerModel CameraManager { get; internal set; }
         public PrefabManagerModel ColorationManager { get; internal set; }
         public PrefabManagerModel EntityManager { get; internal set; }
+        public PrefabManagerModel TransformManager { get; set; }
+        public PrefabManagerModel TextureTransformManager { get; internal set; }
     }
 }

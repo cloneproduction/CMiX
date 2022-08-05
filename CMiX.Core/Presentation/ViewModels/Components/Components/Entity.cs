@@ -2,10 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Prefab;
@@ -18,7 +14,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Entity(EntityModel entityModel)
         {
             ID = entityModel.ID;
-            Name = this.GetType().Name;
+            Name = this.GetType().Name + ID.ToString();
         }
 
         public Guid ID { get; set; }
@@ -67,7 +63,12 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _coloration, value);
         }
 
-
+        private Transform _transform;
+        public Transform Transform
+        {
+            get => _transform;
+            set => SetProperty(ref _transform, value);
+        }
 
         public MasterBeat MasterBeat { get; set; }
 

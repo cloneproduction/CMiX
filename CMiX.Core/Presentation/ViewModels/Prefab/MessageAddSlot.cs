@@ -7,17 +7,17 @@ using CMiX.Core.Network.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public class MessageRemovePrefab : IMessage
+    public class MessageAddSlot : IMessage
     {
-        public MessageRemovePrefab()
+        public MessageAddSlot()
         {
 
         }
 
-        public MessageRemovePrefab(Guid managerID, IPrefab prefab)
+        public MessageAddSlot(Guid managerID, PrefabSlot prefabSlotModel)
         {
             ID = managerID;
-            Model = prefab.GetModel();
+            Model = prefabSlotModel.GetModel();
         }
 
         public Guid ID { get; set; }
