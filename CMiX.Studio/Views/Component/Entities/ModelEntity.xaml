@@ -22,9 +22,7 @@
                 ItemsSource="{Binding CompositionService.MeshManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
-                        <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                        </Border>
+                        <TextBlock Text="{Binding Name}"/>
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -51,9 +49,7 @@
                   ItemsSource="{Binding CompositionService.ColorationManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
-                        <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                        </Border>
+                        <TextBlock Text="{Binding Name}"/>
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -80,9 +76,7 @@
                 ItemsSource="{Binding CompositionService.MaterialManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
-                        <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                        </Border>
+                        <TextBlock Text="{Binding Name}"/>
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
@@ -109,9 +103,7 @@
                 ItemsSource="{Binding CompositionService.TransformManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
-                        <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                        </Border>
+                        <TextBlock Text="{Binding Name}"/>
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>

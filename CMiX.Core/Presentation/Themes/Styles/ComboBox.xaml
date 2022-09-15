@@ -104,12 +104,12 @@
                                 BorderBrush="{DynamicResource Shadow}"
                                 HorizontalAlignment="Stretch">
                                 <Grid HorizontalAlignment="Stretch">
-                                    <Border CornerRadius="0, 0, 4, 4" Background="{DynamicResource ComboboxBackground}"/>
+                                    <Border CornerRadius="0, 0, 4, 4" Background="{DynamicResource DarkerColor}"/>
                                     <ScrollViewer 
                                         x:Name="DropDownScrollViewer"
                                         HorizontalScrollBarVisibility="Hidden"
                                         VerticalScrollBarVisibility="Auto"
-                                        Padding="4">
+                                        Padding="4, 2">
                                         <ItemsPresenter
                                             RenderOptions.ClearTypeHint="Enabled"
                                             x:Name="ItemsPresenter"
@@ -142,27 +142,27 @@
     <Style TargetType="{x:Type ComboBoxItem}">
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Padding" Value="4" />
+        <Setter Property="Padding" Value="0" />
         <Setter Property="Margin" Value="0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Width" Value="Auto" />
-        <Setter Property="Foreground" Value="Red" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                    <Border Padding="0, 1" Background="Transparent">
+                    <Border 
+                        Padding="0, 1" 
+                        Background="Transparent">
                         <Border x:Name="Bd"
-                                Padding="0"
-                                Margin="0"
+                                Padding="3"
                                 CornerRadius="2"
                                 VerticalAlignment="Center"
                                 Background="Transparent"
                                 SnapsToDevicePixels="True">
                             <ContentPresenter
-                                Margin="4"
+                                Margin="0, -1"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
                                 Content="{TemplateBinding Content}"

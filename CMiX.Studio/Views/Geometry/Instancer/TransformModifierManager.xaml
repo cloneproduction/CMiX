@@ -17,28 +17,28 @@
         <ResourceDictionary>
 
             <DataTemplate x:Key="LinearXYZTemplate" DataType="{x:Type ViewModels:LinearXYZ}">
-                <Views:LinearXYZ Margin="0, 4" DataContext="{Binding}"/>
+                <Views:LinearXYZ Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="RandomXYZTemplate" DataType="{x:Type ViewModels:TranslateModifier}">
-                <Views:RandomXYZ Margin="0, 4" DataContext="{Binding}"/>
+                <Views:RandomXYZ Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="LFOTemplate" DataType="{x:Type ViewModels:LFO}">
-                <Views:LFO Margin="0, 4" DataContext="{Binding}"/>
+                <Views:LFO Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="RandomScaleTemplate" DataType="{x:Type ViewModels:RandomScale}">
-                <Views:RandomScale Margin="0, 4" DataContext="{Binding}"/>
+                <Views:RandomScale Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="TransformTemplate" DataType="{x:Type ViewModels:TransformSRT}">
-                <Views:TransformSRT Margin="0, 4" DataContext="{Binding}"/>
+                <Views:TransformSRT Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="TranslateTemplate" DataType="{x:Type ViewModels:Translate}">
                 <Expander
-                    Margin="0, 4"
+                    Margin="0, 8, 0, 0"
                     IsExpanded="{Binding IsExpanded}"
                     Header="Translate XYZ" 
                     Template="{StaticResource ModifierPanelTemplate}">
@@ -48,7 +48,7 @@
 
             <DataTemplate x:Key="ScaleTemplate" DataType="{x:Type ViewModels:Scale}">
                 <Expander
-                    Margin="0, 4"
+                    Margin="0, 8, 0, 0"
                     IsExpanded="{Binding IsExpanded}"
                     Header="Scale XYZ" 
                     Template="{StaticResource ModifierPanelTemplate}">
@@ -58,7 +58,7 @@
 
             <DataTemplate x:Key="RotationTemplate" DataType="{x:Type ViewModels:Rotation}">
                 <Expander
-                    Margin="0, 4"
+                    Margin="0, 8, 0, 0"
                     IsExpanded="{Binding IsExpanded}"
                     Header="Rotate XYZ" 
                     Template="{StaticResource ModifierPanelTemplate}">
@@ -224,7 +224,7 @@
 
             <ItemsControl 
                 IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
-                Margin="0, 8, 0, 0"
+                Margin="0, 0, 0, 0"
                 AllowDrop="True"
                 dd:DragDrop.IsDragSource="True"
                 dd:DragDrop.IsDropTarget="True"
