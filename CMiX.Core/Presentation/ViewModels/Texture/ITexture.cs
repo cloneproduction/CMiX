@@ -6,12 +6,11 @@ using CMiX.Core.Presentation.ViewModels.Assets;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public interface ITexture
+    public interface ITexture : IIDObject
     {
-        Guid ID { get; set; }
         ImageSelector ImageSelector { get; set; }
         ToggleButton IsEnabled { get; set; }
-        ModifierManager ModifierManager { get; set; }
+        ModifierManager TextureModifierManager { get; set; }
         ComboBox<int> SelectedAssetType { get; set; }
         ModifierManager TextureTransformModifierManager { get; set; }
 

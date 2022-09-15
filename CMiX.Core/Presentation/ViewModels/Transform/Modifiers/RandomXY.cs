@@ -4,13 +4,14 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class RandomXY : ObservableObject, IBeatModifiable, ITransformModifier
     {
-        public RandomXY(RandomXYModel randomXYModel)
+        public RandomXY(RandomXYModel randomXYModel, CompositionService compositionService)
         {
             this.ID = randomXYModel.ID;
             this.Name = randomXYModel.Name;
@@ -20,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Visible = new ToggleButton(randomXYModel.Visible);
 
             Easing = new Easing(randomXYModel.EasingModel);
-            BeatModifier = new BeatModifier(randomXYModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(randomXYModel.BeatModifierModel, compositionService);
             Mode = new ComboBox<ModifierMode>(randomXYModel.Mode);
 
             RandomizeLocation = new ToggleButton(randomXYModel.RandomizeLocation);
@@ -102,12 +103,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             get => _selectedModifierType;
             set => SetProperty(ref _selectedModifierType, value);
-        }
-
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            BeatModifier.SetMasterBeat(masterBeat);
         }
 
         public void Dispose()

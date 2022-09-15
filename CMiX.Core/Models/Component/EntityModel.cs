@@ -15,7 +15,6 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
 
-            BeatModifierModel = new BeatModifierModel();
             GeometryModel = new GeometryModel();
             TextureModel = new TextureModel();
             ColorationModel = new TextureModel();
@@ -32,7 +31,6 @@ namespace CMiX.Core.Models
         public string Name { get; set; }
         public Guid ID { get; set; }
 
-        public BeatModifierModel BeatModifierModel { get; set; }
         public GeometryModel GeometryModel { get; set; }
         public TextureModel TextureModel { get; set; }
         public TextureModel ColorationModel { get; set; }

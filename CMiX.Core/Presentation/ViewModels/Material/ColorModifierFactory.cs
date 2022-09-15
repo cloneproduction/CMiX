@@ -5,17 +5,18 @@ using System;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Service;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class ColorModifierFactory : IModifierFactory
     {
-        public ColorModifierFactory()
+        public ColorModifierFactory(CompositionService compositionService)
         {
+            CompositionService = compositionService;
+         }
 
-        }
-
-        private MasterBeat MasterBeat { get; set; }
+        public CompositionService CompositionService { get; set; }
 
         public IModifier Create(Type modifierType)
         {
@@ -33,24 +34,15 @@ namespace CMiX.Core.Presentation.ViewModels
             return null;
         }
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            MasterBeat = masterBeat;
-        }
-
 
         private RandomHSV CreateRandomHSV()
         {
-            var randomized = new RandomHSV(new RandomHSVModel());
-            randomized.SetMasterBeat(MasterBeat);
-            return randomized;
+            return new RandomHSV(new RandomHSVModel(), CompositionService);
         }
 
         private RandomHSV CreateRandomHSV(RandomHSVModel randomHSVModel)
         {
-            var randomized = new RandomHSV(randomHSVModel);
-            randomized.SetMasterBeat(MasterBeat);
-            return randomized;
+            return new RandomHSV(randomHSVModel, CompositionService);
         }
     }
 }

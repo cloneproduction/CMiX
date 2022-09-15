@@ -13,29 +13,21 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class VideoSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
+    public class VideoSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IAssetSelector, IDropTarget
     {
         public VideoSelector(AssetVideo defaultAsset, VideoSelectorModel geometrySelectorModel)
         {
             this.ID = geometrySelectorModel.ID;
             SelectedAsset = defaultAsset;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            IsActive = true;
         }
 
-        public VideoSelector(AssetVideo assetVideo, AssetVideo videoSelectorModel)
-        {
-            this.assetVideo = assetVideo;
-            this.videoSelectorModel = videoSelectorModel;
-        }
 
         public Guid ID { get; set; }
 
 
-        private AssetVideo _selectedAsset;
-        private AssetVideo assetVideo;
-        private AssetVideo videoSelectorModel;
-
-        public AssetVideo SelectedAsset
+        private IAsset _selectedAsset;
+        public IAsset SelectedAsset
         {
             get => _selectedAsset;
             set
@@ -78,23 +70,10 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             return model;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageAsset messageAsset)
-            {
-                var assetModel = messageAsset.AssetModel;
-
-                if (assetModel is AssetVideoModel videoModel)
-                {
-                    var asset = new AssetVideo();
-                    asset.SetViewModel(videoModel);
-                    this.SelectedAsset = asset;
-                    return;
-                }
-            }
+            if (message.ID == this.ID)
+                message.Reply(this);
         }
 
         public void DragEnter(IDropInfo dropInfo)

@@ -1,0 +1,92 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.PrefabManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Presentation="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             mc:Ignorable="d" 
+             d:DesignHeight="156.667" d:DesignWidth="256.334">
+
+    <UserControl.Resources>
+        <Presentation:BindingProxy x:Key="ModelEntityProxy" Data="{Binding Path=DataContext.Project.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"/>
+        <Presentation:BindingProxy x:Key="LightEntityProxy" Data="{Binding Path=DataContext.Project.CompositionService.LightEntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"/>
+    </UserControl.Resources>
+
+    <Border Background="{DynamicResource HighDarkerColor}">
+        <StackPanel>
+            <Grid Height="100" Margin="8">
+
+                <ListBox 
+                    x:Name="EntityListBox"
+                    Style="{StaticResource ListBoxWithButton}"
+                    DataContext="{Binding }"
+                    Grid.Row="3" 
+                    ItemsSource="{Binding Prefabs}"
+                    SelectedItem="{Binding SelectedItem}">
+
+                    <ListBox.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <Border Height="20">
+                                <TextBlock Padding="4" Text="{Binding Name}"/>
+                            </Border>
+                        </ItemContainerTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+            </Grid>
+
+            <ComboBox 
+                Grid.Column="1"
+                x:Name="EntityCombobox"
+                Margin="8, 0, 8, 16" 
+                DockPanel.Dock="Bottom"
+                SelectedItem="{Binding SelectedItem.Prefab}">
+
+                <ComboBox.ItemsSource>
+                    <CompositeCollection>
+                        <CollectionContainer Collection="{Binding Path=Data, Source={StaticResource ModelEntityProxy}}" />
+                        <CollectionContainer Collection="{Binding Path=Data, Source={StaticResource LightEntityProxy}}" />
+                    </CompositeCollection>
+                </ComboBox.ItemsSource>
+
+                <!--<i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=EntityCombobox, Path=SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>-->
+
+                <ComboBox.Style>
+                    <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+                        <Style.Triggers>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=EntityCombobox, Path=HasItems}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False" />
+                            </MultiDataTrigger>
+                            <MultiDataTrigger>
+                                <MultiDataTrigger.Conditions>
+                                    <Condition Binding="{Binding ElementName=EntityListBox, Path=HasItems}" Value="False" />
+                                </MultiDataTrigger.Conditions>
+                                <Setter Property="IsEnabled" Value="False" />
+                            </MultiDataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </ComboBox.Style>
+
+                <ComboBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ComboBox.ItemTemplate>
+
+            </ComboBox>
+
+        </StackPanel>
+    </Border>
+
+</UserControl>

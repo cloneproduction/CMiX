@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Modifiers
@@ -17,10 +16,10 @@ namespace CMiX.Core.Presentation.ViewModels.Modifiers
         public MessageRemoveModifier(Guid ParentID, IModifier modifier)
         {
             this.ID = ParentID;
-            this.ModifierModel = modifier.GetModel();
+            this.ModifierID = modifier.ID;
         }
 
         public Guid ID { get; set; }
-        public IModel ModifierModel { get; set; }
+        public Guid ModifierID { get; set; }
     }
 }

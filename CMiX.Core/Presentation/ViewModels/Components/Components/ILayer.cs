@@ -4,7 +4,7 @@
 using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
@@ -13,14 +13,16 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         Guid ID { get; set; }
         AmbientOcclusion AmbientOcclusion { get; set; }
         ColorSelector BackgroundColor { get; set; }
-        MasterBeat MasterBeat { get; set; }
-        ModifierManager ModifierManager { get; set; }
+        ModifierManager TextureModifierManager { get; set; }
         ICommand OpenColorSelectorCommand { get; set; }
         ToggleButton Visibility { get; set; }
 
+        PrefabManager<Entity> ModelEntityManager { get; set; }
+        PrefabManager<Camera> CameraEntityManager { get; set; }
+
         void OpenColorSelector();
 
-        IComponentModel GetModel();
-        void SetViewModel(IComponentModel model);
+        IModel GetModel();
+        void SetViewModel(IModel model);
     }
 }

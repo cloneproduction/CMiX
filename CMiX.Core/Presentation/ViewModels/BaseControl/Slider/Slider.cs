@@ -12,35 +12,21 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Slider : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class Slider : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public Slider(string name, SliderModel sliderModel)
         {
             Name = name;
-            this.IsActive = false;
             this.ID = sliderModel.ID;
             this.Amount = sliderModel.Amount;
-
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-            this.IsActive = true;
-
-            CanSend = true;
 
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
             ResetCommand = new RelayCommand(Reset);
+
+            this.IsActive = true;
         }
 
-        public Slider(string v, string from)
-        {
-            this.v = v;
-            this.from = from;
-        }
-
-        public Slider(CounterModel positionX)
-        {
-            this.positionX = positionX;
-        }
 
         public Guid ID { get; set; }
         public ICommand AddCommand { get; }
@@ -63,7 +49,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _amount, value);
-                Send(new MessageUpdateViewModel(this));
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
             }
         }
 
@@ -79,26 +65,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             get => _maximum;
             set => SetProperty(ref _maximum, value);
-        }
-
-        private bool CanSend = false;
-        private string v;
-        private string from;
-        private CounterModel positionX;
-
-        public void Send(IMessage message)
-        {
-            if(CanSend)
-                WeakReferenceMessenger.Default.Send(message, MessageType.Out);
-        }
-
-        public void Receive(IMessage message)
-        {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageUpdateViewModel msg)
-                this.SetViewModel(msg.Model);
         }
 
 
@@ -121,6 +87,12 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.Amount = this.Amount;
             return model;
+        }
+
+        public void Receive(MessageRequestControl message)
+        {
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

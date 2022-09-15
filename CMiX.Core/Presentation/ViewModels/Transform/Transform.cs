@@ -3,27 +3,31 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Transform : ObservableObject, IPrefab, IControl, IBeatable
+    public class Transform : ObservableObject, IPrefab, IControl
     {
-        public Transform(TransformModel transformModel)
+        public Transform(TransformModel transformModel, CompositionService compositionService)
         {
             this.IsExpanded = true;
             this.ID = transformModel.ID;
+
             this.Name = this.GetType().Name;
             this.Enabled = transformModel.Enabled;
 
-            TransformModifier = new ModifierManager(transformModel.TransformModifier, new TransformModifierFactory());
+            TransformModifier = new ModifierManager(transformModel.TransformModifier, new TransformModifierFactory(compositionService));
         }
+
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
         public ModifierManager TransformModifier { get; set; }
+        public CompositionService CompositionService { get; set; }
 
 
         private string _name;
@@ -32,7 +36,6 @@ namespace CMiX.Core.Presentation.ViewModels
             get => _name;
             set => SetProperty(ref _name, value);
         }
-
 
         private bool _isRenaming;
         public bool IsRenaming
@@ -48,7 +51,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isSelected, value);
         }
 
-
         private bool _isExpanded;
         public bool IsExpanded
         {
@@ -56,22 +58,19 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            TransformModifier.SetMasterBeat(masterBeat);
-        }
 
         public void SetViewModel(IModel model)
         {
             TransformModel transformModel = model as TransformModel;
             this.ID = transformModel.ID;
-
+            this.TransformModifier.SetViewModel(transformModel.TransformModifier);
         }
 
         public IModel GetModel()
         {
             TransformModel model = new TransformModel();
             model.ID = this.ID;
+            model.TransformModifier = (ModifierManagerModel)this.TransformModifier.GetModel();
             return model;
         }
 

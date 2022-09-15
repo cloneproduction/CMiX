@@ -12,10 +12,11 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface IProject : IIDObject, IDisposable, IComponent
     {
-        Composition ActiveComposition { get; set; }
-
         SortableObservableCollection<IAsset> Assets { get; set; }
         ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
         ObservableCollection<Playlist> Playlists { get; set; }
+
+        void SetViewModel(IModel model);
+        IModel GetModel();
     }
 }

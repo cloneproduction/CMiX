@@ -5,12 +5,16 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
     d:DesignHeight="636.667"
     d:DesignWidth="316.667"
     mc:Ignorable="d">
 
+    
     <StackPanel>
+        
         <Views:SamplerState DataContext="{Binding SamplerState}" Margin="8, 8, 8, 0"/>
+        
         <TabControl Margin="8, 16" SelectedIndex="{Binding SelectedAssetType.Selection}" Style="{StaticResource InLineTabControlStyle}">
 
             <TabItem Header="Image">
@@ -45,10 +49,37 @@
 
             </TabItem>
 
-            </TabControl>
+        </TabControl>
 
-        <Views:TextureFilterManager DataContext="{Binding ModifierManager}"/>
-        <Views:TransformModifierManager DataContext="{Binding TextureTransformModifierManager}"/>
-        </StackPanel>
+        
+        <Grid Margin="8, 0, 8, 8">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Text="Transform UV" Padding="4, 0" HorizontalAlignment="Right"/>
+            
+            <ComboBox 
+                Grid.Column="1"
+                SelectedValue="{Binding TransformUV}"
+                SelectedValuePath="Prefab"
+                ItemsSource="{Binding Path=DataContext.TextureTransformManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Component:CompositionService}}}">
+                <ComboBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+        </Grid>
+
+        <Expander Header="Filter" IsExpanded="True">
+            <Views:TextureFilter DataContext="{Binding TextureModifierManager}"/>
+        </Expander>
+
+        <!--<Views:TransformModifierManager DataContext="{Binding TextureTransformModifierManager}"/>-->
+        
+    </StackPanel>
 
 </UserControl>

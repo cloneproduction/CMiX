@@ -9,11 +9,12 @@ namespace CMiX.Core.Models
     {
         public ComboBoxModel()
         {
-            this.ID = Guid.NewGuid();
+
         }
 
-        public ComboBoxModel(T selected) : this()
+        public ComboBoxModel(T selected)
         {
+            this.ID = Guid.NewGuid();
             Selection = selected;
         }
 

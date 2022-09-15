@@ -11,8 +11,8 @@
     <StackPanel>
         <Grid Height="20">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
-                <ColumnDefinition/>
+                <ColumnDefinition Width="0.5*"/>
+                <ColumnDefinition Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
                 <Controls:DistanceSlider 
@@ -42,8 +42,8 @@
 
         <Grid Height="20" Margin="0, 1">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
-                <ColumnDefinition/>
+                <ColumnDefinition  Width="0.5*"/>
+                <ColumnDefinition  Width="0.5*"/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
                 <Controls:DistanceSlider 

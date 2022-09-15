@@ -11,17 +11,20 @@ using CMiX.Core.Models.Beat;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.Controls;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class MasterBeat : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class MasterBeat : ObservableRecipient, IRecipient<MessageRequestControl>, IPrefab
     {
-        public MasterBeat(MasterBeatModel masterBeatModel)
+        public MasterBeat(MasterBeatModel masterBeatModel, CompositionService compositionService)
         {
             this.ID = masterBeatModel.ID;
+            CompositionService = compositionService;
 
             Index = 0;
             Period = 1000;
@@ -31,7 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             BeatAnimations = new BeatAnimations();
             Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
-            BeatModifiers = new List<BeatModifier>();
 
             UpdatePeriods(Period);
             SetAnimatedDouble();
@@ -40,8 +42,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             DivideCommand = new RelayCommand(Divide);
             TapCommand = new RelayCommand(Tap);
 
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
+            IsActive = true;
         }
 
 
@@ -50,6 +51,29 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public ICommand MultiplyCommand { get;  }
         public ICommand DivideCommand { get;}
         public ICommand TapCommand { get; }
+        public CompositionService CompositionService { get; set; }
+
+
+        private bool _isSelected;
+        public bool IsSelected
+        {
+            get => _isSelected;
+            set => SetProperty(ref _isSelected, value);
+        }
+
+        private bool _isRenaming;
+        public bool IsRenaming
+        {
+            get => _isRenaming;
+            set => SetProperty(ref _isRenaming, value);
+        }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
 
 
         public BeatAnimations BeatAnimations { get; set; }
@@ -82,15 +106,21 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
-        public float[] Periods { get; set; }
+        private float[] _periods;
+        public float[] Periods
+        {
+            get => _periods;
+            set => SetProperty(ref _periods, value);
+        }
+
 
         private void SetAnimatedDouble()
         {
             BeatIndex = Index + (Periods.Length - 1) / 2;
             Period = Periods[Index + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
+            OnPropertyChanged("Period");
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
-            UpdateBeatModifiers();
         }
 
 
@@ -115,6 +145,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             UpdatePeriods(GetMasterPeriod());
             Index = 0;
             SetAnimatedDouble();
+            OnPropertyChanged("Period");
         }
 
 
@@ -164,16 +195,10 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             }
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageUpdateViewModel msg)
-            {
-                this.SetViewModel(msg.Model);
-                UpdateBeatModifiers();
-            }
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
 
 
@@ -201,26 +226,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.ResyncModel = (ResyncModel)this.Resync.GetModel();
 
             return model;
-        }
-
-        public List<BeatModifier> BeatModifiers {get; set;}
-
-        public void RegisterBeatModifier(BeatModifier beatModifier)
-        {
-            BeatModifiers.Add(beatModifier);
-        }
-
-        public void UnregisterBeatModifier(BeatModifier beatModifier)
-        {
-            BeatModifiers.Remove(beatModifier);
-        }
-
-        public void UpdateBeatModifiers()
-        {
-            foreach (var beatModifier in BeatModifiers)
-            {
-                beatModifier.SetAnimatedDouble();
-            }
         }
     }
 }

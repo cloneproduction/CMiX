@@ -4,40 +4,40 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using CMiX.Core.Models.Component;
-using MvvmDialogs;
-using CMiX.Core.Presentation.ViewModels.Services;
-using CMiX.Core.Presentation.ViewModels.Service;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class LayerMask : Component, ILayer, IBeatable
+    public class LayerMask : Component, ILayer
     {
         public LayerMask(LayerMaskModel maskModel, CompositionService compositionService)
         {
             ID = maskModel.ID;
+            CompositionService = compositionService;
+
             Opacity = new Slider(nameof(Opacity), maskModel.Opacity);
 
-            Entities = new ObservableCollection<IEntity>();
             BackgroundColor = new ColorSelector(maskModel.ColorSelectorModel);
 
+            EditPanelOpen = new ToggleButton(maskModel.EditPanelOpen);
             Visibility = new ToggleButton(maskModel.VisibilityModel);
             Invert = new ToggleButton(maskModel.Invert);
 
-            ModifierManager = new ModifierManager(maskModel.ModifierManager, new TextureFilterFactory());
-            Camera = new Camera(maskModel.Camera);
+            TextureModifierManager = new ModifierManager(maskModel.ModifierManager, new TextureFilterFactory(compositionService));
+
             AmbientOcclusion = new AmbientOcclusion(maskModel.AmbientOcclusion);
             OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
 
             EntityPanelIsSelected = true;
             MaskChannelSelector = new ComboBox<MaskChannel>(maskModel.MaskChannelSelector);
+
+            ModelEntityManager = new PrefabManager<Entity>(maskModel.ModelEntityManager, compositionService.PrefabFactory);
+            CameraEntityManager = new PrefabManager<Camera>(maskModel.CameraEntityManager, compositionService.PrefabFactory);
         }
 
 
@@ -46,18 +46,13 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ICommand RemoveSelectedEntityCommand { get; set; }
 
 
+        public PrefabManager<Entity> ModelEntityManager { get; set; }
+        public PrefabManager<Camera> CameraEntityManager { get; set; }
+        public CompositionService CompositionService { get; set; }
+
         public void OpenColorSelector()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
-        }
-
-
-        private ObservableCollection<Mesh> _meshEntities;
-        public ObservableCollection<Mesh> MeshEntities
-        {
-            get => _meshEntities;
-            set => SetProperty(ref _meshEntities, value);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
         }
 
 
@@ -76,42 +71,17 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _entityPanelIsSelected, value);
         }
 
-        private ObservableCollection<IEntity> _entities;
-        public ObservableCollection<IEntity> Entities
-        {
-            get => _entities;
-            set => SetProperty(ref _entities, value);
-        }
-
-
-        //public PrefabManager Services { get; set; }
+        public ToggleButton EditPanelOpen { get; set; }
         public ToggleButton Visibility { get; set; }
         public ColorSelector BackgroundColor { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager TextureModifierManager { get; set; }
         public Slider Opacity { get; set; }
-        public Camera Camera { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }
         public ComboBox<MaskChannel> MaskChannelSelector { get; set; }
         public ToggleButton Invert { get; set; }
 
-        public void AddEntity(IEntity entity)
-        {
-            Entities.Add(entity);
-            entity.SetMasterBeat(this.MasterBeat);
-        }
 
-        public void RemoveEntity(IEntity entity)
-        {
-            Entities.Remove(entity);
-        }
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            this.MasterBeat = masterBeat;
-        }
-
-
-        public override IComponentModel GetModel()
+        public override IModel GetModel()
         {
             LayerMaskModel model = new LayerMaskModel();
 
@@ -119,22 +89,19 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Name = this.Name;
 
             model.Opacity = (SliderModel)this.Opacity.GetModel();
-            model.ModifierManager = (ModifierManagerModel)this.ModifierManager.GetModel();
+            model.ModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.ColorSelectorModel = (ColorSelectorModel)this.BackgroundColor.GetModel();
-            model.Camera = (CameraModel)this.Camera.GetModel();
             model.VisibilityModel = (ToggleButtonModel)this.Visibility.GetModel();
             model.AmbientOcclusion = (AmbientOcclusionModel)this.AmbientOcclusion.GetModel();
             model.Invert = (ToggleButtonModel)this.Invert.GetModel();
-
+            model.ModelEntityManager = (PrefabManagerModel)ModelEntityManager.GetModel();
+            model.CameraEntityManager = (PrefabManagerModel)CameraEntityManager.GetModel();
             model.MaskChannelSelector = (ComboBoxModel<MaskChannel>)this.MaskChannelSelector.GetModel();
-
-            foreach (Component item in this.Components)
-                model.ComponentModels.Add(item.GetModel());
 
             return model;
         }
 
-        public override void SetViewModel(IComponentModel model)
+        public override void SetViewModel(IModel model)
         {
             LayerMaskModel layerModel = model as LayerMaskModel;
 
@@ -142,22 +109,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.Name = layerModel.Name;
 
             this.Opacity.SetViewModel(layerModel.Opacity);
-            this.ModifierManager.SetViewModel(layerModel.ModifierManager);
+            this.TextureModifierManager.SetViewModel(layerModel.ModifierManager);
             this.BackgroundColor.SetViewModel(layerModel.ColorSelectorModel);
-            this.Camera.SetViewModel(layerModel.Camera);
             this.Visibility.SetViewModel(layerModel.VisibilityModel);
             this.AmbientOcclusion.SetViewModel(layerModel.AmbientOcclusion);
+            this.CameraEntityManager.SetViewModel(layerModel.CameraEntityManager);
+            this.ModelEntityManager.SetViewModel(layerModel.ModelEntityManager);
 
             this.MaskChannelSelector.SetViewModel(layerModel.MaskChannelSelector);
             this.Invert.SetViewModel(layerModel.Invert);
-
-            this.Components.Clear();
-
-            //foreach (var componentModel in layerModel.ComponentModels)
-            //{
-            //    //var newComponent = this.ComponentFactory.CreateComponent(componentModel);
-            //    //this.AddComponent(newComponent);
-            //}
         }
     }
 }

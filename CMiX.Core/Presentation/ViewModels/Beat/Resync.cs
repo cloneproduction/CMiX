@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class Resync : ObservableObject, IControl, IRecipient<IMessage>
+    public class Resync : ObservableObject, IControl, IRecipient<MessageRequestControl>
     {
         public Resync(BeatAnimations beatAnimations, ResyncModel resyncModel)
         {
@@ -65,14 +65,11 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             return model;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if(message is MessageUpdateViewModel messageUpdateViewModel)
+            if (message.ID == this.ID && !message.HasReceivedResponse)
             {
-                this.SetViewModel(messageUpdateViewModel.Model);
+                message.Reply(this);
                 OnBeatResync();
             }
         }

@@ -4,7 +4,6 @@
 using System;
 using System.ComponentModel;
 using CMiX.Core.Presentation.Views;
-using CMiX.Core.Presentation.Views.Dialogs;
 using MvvmDialogs.DialogTypeLocators;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -20,6 +19,8 @@ namespace CMiX.Core.Presentation.ViewModels
             else if (viewModel is Material)
                 return typeof(ColorSelectorDialog);
             else if (viewModel is SamplerState)
+                return typeof(ColorSelectorDialog);
+            else if (viewModel is ColorSelector)
                 return typeof(ColorSelectorDialog);
             else
                 throw new Exception("Dialog type is not defined.");

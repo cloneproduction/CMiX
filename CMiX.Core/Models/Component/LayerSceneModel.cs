@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.ObjectModel;
-using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
@@ -16,17 +15,19 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
 
+            EditPanelOpen = new ToggleButtonModel(true);
             VisibilityModel = new ToggleButtonModel();
             ComponentModels = new ObservableCollection<IComponentModel>();
-            ModifierManager = new ModifierManagerModel();
+            TextureModifierManager = new ModifierManagerModel();
             ColorSelectorModel = new ColorSelectorModel("#00000000");
             Camera = new CameraModel();
             AmbientOcclusion = new AmbientOcclusionModel();
-            EntityManagerModel = new PrefabSlotManagerModel();
             BlendModeModel = new BlendModeModel(BlendModeEnum.Normal);
             Opacity = new SliderModel(1.0f);
-            CameraManagerModel = new PrefabSlotManagerModel();
+            ModelEntityManager = new PrefabManagerModel();
+            CameraEntityManager = new PrefabManagerModel();
         }
+
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
@@ -37,13 +38,14 @@ namespace CMiX.Core.Models
 
         public ToggleButtonModel VisibilityModel { get; set; }
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }
-        public ModifierManagerModel ModifierManager { get; set; }
+        public ModifierManagerModel TextureModifierManager { get; set; }
         public ColorSelectorModel ColorSelectorModel { get; set; }
         public CameraModel Camera { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
-        public PrefabSlotManagerModel EntityManagerModel { get; internal set; }
         public BlendModeModel BlendModeModel { get; internal set; }
         public SliderModel Opacity { get; internal set; }
-        public PrefabSlotManagerModel CameraManagerModel { get; internal set; }
+        public PrefabManagerModel ModelEntityManager { get; internal set; }
+        public PrefabManagerModel CameraEntityManager { get; internal set; }
+        public ToggleButtonModel EditPanelOpen { get; internal set; }
     }
 }

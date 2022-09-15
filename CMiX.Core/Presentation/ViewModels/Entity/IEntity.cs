@@ -6,7 +6,7 @@ using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public interface IEntity : IBeatable, IControl, IDisposable
+    public interface IEntity : IControl, IDisposable
     {
         bool IsRenaming { get; set; }
         string Name { get; set; }

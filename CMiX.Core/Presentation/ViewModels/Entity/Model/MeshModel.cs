@@ -12,6 +12,8 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public MeshModel()
         {
+            ID = Guid.NewGuid();
+
             MeshTypeSelector = new ComboBoxModel<MeshType>(MeshType.Plane);
             Scale = new VectorXYZModel(1.0f, 1.0f, 1.0f);
             Offset = new VectorXYZModel(0.0f, 0.0f, 0.0f);

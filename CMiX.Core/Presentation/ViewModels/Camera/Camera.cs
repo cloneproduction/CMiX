@@ -3,15 +3,15 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Camera : ObservableObject, IPrefab, IBeatable, IControl
+    public class Camera : ObservableObject, IPrefab
     {
-        public Camera(CameraModel cameraModel)
+        public Camera(CameraModel cameraModel, CompositionService compositionService)
         {
             this.ID = cameraModel.ID;
 
@@ -34,6 +34,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
+        public CompositionService CompositionService { get; set; }
 
 
         private Camera _selectedCamera;
@@ -76,25 +77,21 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider FarClip { get; set; }
         public ToggleButton Projection { get; set; }
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            //throw new NotImplementedException();
-        }
 
         public void SetViewModel(IModel model)
         {
             CameraModel cameraModel = model as CameraModel;
-            this.ID = cameraModel.ID;
+            ID = cameraModel.ID;
 
-            this.FOV.SetViewModel(cameraModel.FOV);
-            this.Distance.SetViewModel(cameraModel.Distance);
+            FOV.SetViewModel(cameraModel.FOV);
+            Distance.SetViewModel(cameraModel.Distance);
 
-            this.Yaw.SetViewModel(cameraModel.Yaw);
-            this.Pitch.SetViewModel(cameraModel.Pitch);
+            Yaw.SetViewModel(cameraModel.Yaw);
+            Pitch.SetViewModel(cameraModel.Pitch);
 
-            this.TargetX.SetViewModel(cameraModel.TargetX);
-            this.TargetY.SetViewModel(cameraModel.TargetY);
-            this.TargetZ.SetViewModel(cameraModel.TargetZ);
+            TargetX.SetViewModel(cameraModel.TargetX);
+            TargetY.SetViewModel(cameraModel.TargetY);
+            TargetZ.SetViewModel(cameraModel.TargetZ);
 
             NearClip.SetViewModel(cameraModel.NearClip);
             FarClip.SetViewModel(cameraModel.FarClip);

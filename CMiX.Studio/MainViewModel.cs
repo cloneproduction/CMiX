@@ -1,21 +1,20 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 using CMiX.Core.Presentation.ViewModels.Windows;
-using CMiX.Core.Network.Messages;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using MvvmDialogs;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class MainViewModel : IRecipient<MessageRequestDialogService>, IRecipient<IMessage>
+    public class MainViewModel
     {
         public MainViewModel(IProject project, IDialogService dialogService, IMessageService messageService)
         {
@@ -65,19 +64,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             if(!TextInputFocusState)
                 WeakReferenceMessenger.Default.Send(new MessageKeyPressed(key), MessageType.In);
-        }
-
-        public void Receive(MessageRequestDialogService message)
-        {
-            message.Reply(DialogService);
-        }
-
-        public void Receive(IMessage message)
-        {
-            if(message is MessageTextInputFocusState messageTextInputFocusState)
-            {
-                this.TextInputFocusState = messageTextInputFocusState.FocusState;
-            }
         }
     }
 }

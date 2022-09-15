@@ -20,14 +20,32 @@
                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                 </Border.OpacityMask>
                     <Grid>
-                    <Border 
-                        Background="{DynamicResource LightColor}" 
-                        Opacity="{Binding Path=AnimatedDouble.AnimationPosition}"/>
+                    <Border Background="{DynamicResource LightColor}">
+                        
+                        <Border.Opacity>
+                            <MultiBinding Converter="{StaticResource MultiPeriodToBeatAnimation}">
+                                <Binding Path="BeatIndex"/>
+                                <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat"/>
+                                <!--The third binding is only to continuously update as the animation position keeps moving otherwise it would update only on BeatIndex Change or MasterBeat Change-->
+                                <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.AnimatedDouble.AnimationPosition"/>
+                            </MultiBinding>
+                        </Border.Opacity>
+
+                    </Border>
+                        
                     <TextBlock 
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource TextBase}" 
-                        Text="{Binding Period, Converter={StaticResource PeriodToBPM}, Mode=OneWay, StringFormat=0 BPM}" />
+                        Foreground="{DynamicResource TextBase}">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource MultiPeriodToBPM}">
+                                <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.Period"/>
+                                <Binding Path="BeatIndex"/>
+                                <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                        
                     <Button
                         HorizontalAlignment="Left"
                         DockPanel.Dock="Left"
@@ -35,35 +53,35 @@
                         Command="{Binding DivideCommand}"
                         Content="-"
                         IsDefault="True">
-                        <Button.Style>
-                            <Style BasedOn="{StaticResource ButtonRoundedLeft}" TargetType="{x:Type Button}">
-                                <Setter Property="Visibility" Value="Hidden" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=MainBorder}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
-                    <Button
-                        HorizontalAlignment="Right"
-                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                        Command="{Binding MultiplyCommand}"
-                        Content="+"
-                        DockPanel.Dock="Right"
-                        IsDefault="True">
-                        <Button.Style>
-                            <Style BasedOn="{StaticResource ButtonRoundedBottomRight}" TargetType="{x:Type Button}">
-                                <Setter Property="Visibility" Value="Hidden" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=MainBorder}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource ButtonRoundedLeft}" TargetType="{x:Type Button}">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=MainBorder}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
+                        <Button
+                            HorizontalAlignment="Right"
+                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                            Command="{Binding MultiplyCommand}"
+                            Content="+"
+                            DockPanel.Dock="Right"
+                            IsDefault="True">
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource ButtonRoundedBottomRight}" TargetType="{x:Type Button}">
+                                    <Setter Property="Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=MainBorder}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
+                        </Button>
                 </Grid>
             </Border>
         </Grid>

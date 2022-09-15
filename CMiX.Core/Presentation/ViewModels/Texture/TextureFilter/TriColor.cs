@@ -4,23 +4,22 @@
 using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class TriColor : ObservableObject, ITextureFilter
     {
-        public TriColor(TriColorModel triColorModel)
+        public TriColor(TriColorModel triColorModel, CompositionService compositionService)
         {
             ID = triColorModel.ID;
             Name = triColorModel.Name;
             IsExpanded = true;
+
+            CompositionService = compositionService;
 
             Visible = new ToggleButton(triColorModel.Visible);
             Control = new Slider(nameof(Control), triColorModel.Control);
@@ -45,35 +44,37 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand OpenColorBSelectorCommand { get; set; }
         public ICommand OpenColorCSelectorCommand { get; set; }
 
+        public CompositionService CompositionService { get; set; }
+
 
         public void OpenColorASelector()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.ColorA);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.ColorA);
         }
 
         public void OpenColorBSelector()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.ColorB);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.ColorB);
         }
 
         public void OpenColorCSelector()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.ColorC);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.ColorC);
         }
 
 
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
         public ToggleButton Visible { get; set; }
+
         public Slider Control { get; set; }
+        public Slider Smooth { get; set; }
+        public Slider Center { get; set; }
+
         public ColorSelector ColorA { get; set; }
         public ColorSelector ColorB { get; set; }
         public ColorSelector ColorC { get; set; }
-        public Slider Smooth { get; set; }
-        public Slider Center { get; set; }
+
         public ToggleButton SingleChannel { get; set; }
         public ToggleButton ClampColor { get; set; }
 

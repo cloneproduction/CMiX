@@ -12,13 +12,13 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Button : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class Button : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public Button(ButtonModel buttonModel)
         {
             this.ID = buttonModel.ID;
             ClickCommand = new RelayCommand(OnClick);
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            this.IsActive = true;
         }
 
         public ICommand ClickCommand { get; set; }
@@ -50,14 +50,13 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = buttonModel.ID;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageUpdateViewModel messageUpdateViewModel)
+            if (message.ID == this.ID)
             {
-                this.SetViewModel(messageUpdateViewModel.Model);
+                if (!message.HasReceivedResponse)
+                    message.Reply(this);
+
                 OnClick();
             }
         }

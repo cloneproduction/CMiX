@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using Ceras;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -14,7 +15,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class MessageService : ObservableRecipient, IMessageService
     {
-        public MessageService(CerasSerializer serializer)
+        public MessageService(CompositionService compositionService, CerasSerializer serializer)
         {
             Servers = new ObservableCollection<Server>();
             Serializer = serializer;
@@ -22,13 +23,18 @@ namespace CMiX.Core.Presentation.ViewModels
             Client = new Client();
             Client.DataReceived += Client_DataReceived;
             IsActive = true;
+
+            MessageProcessor = new MessageProcessor(compositionService);
         }
+
+
+        public MessageProcessor MessageProcessor { get; set; }
 
         private void Client_DataReceived(object sender, DataEventArgs e)
         {
             IMessage message = Serializer.Deserialize<IMessage>(e.Data);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.In);
-            Console.WriteLine("MessageType.In Sent of type " + message.GetType());
+            MessageProcessor.ProcessMessage(message);
+            WeakReferenceMessenger.Default.Send(message, MessageType.In);
         }
 
 
@@ -50,7 +56,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void SendMessage(IMessage message)
         {
-            Console.WriteLine("MessageService SendMessage");
+            Console.WriteLine("MessageService SendMessage of type " + message.GetType().Name);
             var data = Serializer.Serialize(message);
             foreach (var server in Servers)
             {

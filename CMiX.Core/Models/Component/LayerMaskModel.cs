@@ -2,9 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.ObjectModel;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 
 namespace CMiX.Core.Models.Component
 {
@@ -16,8 +16,7 @@ namespace CMiX.Core.Models.Component
             BlendMode = new BlendModeModel();
             Opacity = new SliderModel();
             Opacity.Amount = 1.0f;
-            VisibilityModel = new ToggleButtonModel(true);
-            ComponentModels = new ObservableCollection<IComponentModel>();
+            VisibilityModel = new ToggleButtonModel(false);
             ModifierManager = new ModifierManagerModel();
             ColorSelectorModel = new ColorSelectorModel();
             Camera = new CameraModel();
@@ -25,6 +24,10 @@ namespace CMiX.Core.Models.Component
             Invert = new ToggleButtonModel(true);
 
             MaskChannelSelector = new ComboBoxModel<MaskChannel>(MaskChannel.Luma);
+
+            ModelEntityManager = new PrefabManagerModel();
+            CameraEntityManager = new PrefabManagerModel();
+            EditPanelOpen = new ToggleButtonModel(false);
         }
 
         public Guid ID { get; set; }
@@ -37,12 +40,14 @@ namespace CMiX.Core.Models.Component
         public ToggleButtonModel VisibilityModel { get; set; }
         public BlendModeModel BlendMode { get; set; }
         public SliderModel Opacity { get; set; }
-        public ObservableCollection<IComponentModel> ComponentModels { get; set; }
         public ModifierManagerModel ModifierManager { get; set; }
         public ColorSelectorModel ColorSelectorModel { get; set; }
         public CameraModel Camera { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
         public ComboBoxModel<MaskChannel> MaskChannelSelector { get; set; }
         public ToggleButtonModel Invert { get; internal set; }
+        public PrefabManagerModel ModelEntityManager { get; internal set; }
+        public PrefabManagerModel CameraEntityManager { get; internal set; }
+        public ToggleButtonModel EditPanelOpen { get; internal set; }
     }
 }

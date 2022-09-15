@@ -6,18 +6,17 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Mesh : ObservableRecipient, IRecipient<IMessage>, IEntity, IPrefab
+    public class Mesh : ObservableRecipient, IRecipient<MessageRequestControl>, IEntity, IPrefab
     {
-        public Mesh(MeshModel meshModel)
+        public Mesh(MeshModel meshModel, CompositionService compositionService)
         {
             ID = meshModel.ID;
             Name = this.GetType().Name;
@@ -39,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels
             GenerateBackFace = new ToggleButton(meshModel.GenerateBackFace);
             Visibility = new ToggleButton(meshModel.Visibility);
 
-            TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new TransformModifierFactory());
+            TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new TransformModifierFactory(compositionService));
         }
 
 
@@ -73,32 +72,8 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-        private Material _material;
-        public Material Material
-        {
-            get => _material;
-            set
-            {
-                SetProperty(ref _material, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedMaterial(this.ID, Material.ID), MessageType.Out);
-            }
-        }
-
-
-        private Coloration _coloration;
-        public Coloration Coloration
-        {
-            get => _coloration;
-            set
-            {
-                SetProperty(ref _coloration, value);
-                //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedMaterial(this.ID, Material.ID), MessageType.Out);
-            }
-        }
-
 
         public ModifierManager TransformModifierManager { get; set; }
-
         public ComboBox<MeshType> MeshTypeSelector { get; set; }
 
         public VectorXYZ Scale { get; set; }
@@ -114,12 +89,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public ToggleButton GenerateBackFace { get; set; }
         public ToggleButton Visibility { get; set; }
-
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            TransformModifierManager.SetMasterBeat(masterBeat);
-        }
 
 
         public IModel GetModel()
@@ -170,10 +139,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != ID)
-                return;
+            if (message.ID == this.ID)
+                message.Reply(this);
         }
     }
 }

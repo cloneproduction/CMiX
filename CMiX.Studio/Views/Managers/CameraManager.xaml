@@ -17,12 +17,6 @@
             <ListBox 
                 Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
-                AllowDrop="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DragHandler="{Binding}"
-                dd:DragDrop.DropHandler="{Binding}"
-                Grid.Row="3" 
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
 
@@ -37,7 +31,7 @@
         </Border>
 
         <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <Views:Camera Margin="8" DataContext="{Binding SelectedItem}"/>
+            <Views:Camera Margin="8" DataContext="{Binding SelectedItem.Prefab}"/>
         </Border>
     </DockPanel>
 </UserControl>

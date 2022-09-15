@@ -1,115 +1,70 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections;
-using System.Linq;
 using CMiX.Core.Models;
-using CMiX.Core.Models.Beat;
 using CMiX.Core.Models.Component;
+using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Presentation.ViewModels.Services;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Composition : Component, IBeatable
+    public class Composition : Component, IPrefab
     {
-        public Composition(CompositionModel compositionModel)
+        public Composition(CompositionModel compositionModel, CompositionService compositionService)
         {
             ID = compositionModel.ID;
-            Transition = new Slider(nameof(Transition), compositionModel.TransitionModel);
-            MasterBeat = new MasterBeat(compositionModel.MasterBeatModel);
-            
-            OutputProperties = new OutputProperties(compositionModel.OutputProperties);
+            CompositionService = compositionService;
 
-            ModifierManager = new ModifierManager(compositionModel.ModifierManager, new TextureFilterFactory());
+            OutputSettings = new OutputSettings(compositionModel.OutputSettings, compositionService);
+            LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, new PrefabFactory(compositionService));
+            ModifierManager = new ModifierManager(compositionModel.ModifierManager, new TextureFilterFactory(compositionService));
 
-            CompositionService = new CompositionService(compositionModel.CompositionService, MasterBeat);
-
-            LayerManager = new LayerManager(this);
+            IsActive = true;
         }
 
 
         public CompositionService CompositionService { get; set; }
-
-        public Camera Camera { get; set; }
-        public Slider Transition { get; set; }
-        public LayerManager LayerManager { get; set; }
-        public OutputProperties OutputProperties { get; set; }
+        public PrefabManager<Layer> LayerManager { get; set; }
+        public OutputSettings OutputSettings { get; set; }
         public ModifierManager ModifierManager { get; set; }
 
 
-        private Layer _selectedLayer;
-        public Layer SelectedLayer
+        private MasterBeat _masterBeat;
+        public MasterBeat MasterBeat
         {
-            get => _selectedLayer;
-            set => SetProperty(ref _selectedLayer, value);
-        }
-
-
-        public override void AddComponent(IComponent component)
-        {
-            base.AddComponent(component);
-            if (component is Layer layer)
+            get => _masterBeat;
+            set
             {
-                SelectedLayer = layer;
-                //layer.CameraManager = this.CameraManager;
+                SetProperty(ref _masterBeat, value);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageChangePrefab(this.ID, value, nameof(MasterBeat)), MessageType.Out);
             }
         }
 
 
-        public void SetMasterBeat(MasterBeat masterBeat)
+        public override IModel GetModel()
         {
-            this.MasterBeat = masterBeat;
-            CompositionService.SetMasterBeat(masterBeat);
-
-            IEnumerable beatables = this.Components.Select(x => x.GetType() == typeof(IBeatable));
-
-            foreach (IBeatable beatable in beatables)
-                beatable.SetMasterBeat(this.MasterBeat);
-        }
-
-        public override IComponentModel GetModel()
-        {
-            CompositionModel model = new CompositionModel(this.ID);
+            CompositionModel model = new CompositionModel();
 
             model.Name = this.Name;
             model.ID = this.ID;
-            model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
-            model.TransitionModel = (SliderModel)this.Transition.GetModel();
-
-            model.OutputProperties = (OutputPropertiesModel)this.OutputProperties.GetModel();
+            model.OutputSettings = (OutputSettingsModel)this.OutputSettings.GetModel();
             model.ModifierManager = (ModifierManagerModel)this.ModifierManager.GetModel();
-            model.CompositionService = (CompositionServiceModel)this.CompositionService.GetModel();
-            //model.MaterialManager = (MaterialManagerModel)this.MaterialManager.GetModel();
-
-            foreach (Component item in this.Components)
-                model.ComponentModels.Add(item.GetModel());
-
+            model.LayerManager = (PrefabManagerModel)this.LayerManager.GetModel();
             return model;
         }
 
-        public override void SetViewModel(IComponentModel model)
+        public override void SetViewModel(IModel model)
         {
             CompositionModel compositionModel = model as CompositionModel;
             this.ID = compositionModel.ID;
-            this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
-            this.Transition.SetViewModel(compositionModel.TransitionModel);
-
-            this.OutputProperties.SetViewModel(compositionModel.OutputProperties);
+            this.OutputSettings.SetViewModel(compositionModel.OutputSettings);
             this.ModifierManager.SetViewModel(compositionModel.ModifierManager);
-            this.CompositionService.SetViewModel(compositionModel.CompositionService);
-
-            //this.MaterialManager.SetViewModel(compositionModel.MaterialManager);
-
-            this.Components.Clear();
-
-            foreach (var componentModel in compositionModel.ComponentModels)
-            {
-                //var newComponent = this.ComponentFactory.CreateComponent(compositionModel);
-                //this.AddComponent(newComponent);
-            }
+            this.LayerManager.SetViewModel(compositionModel.LayerManager);
         }
     }
 }

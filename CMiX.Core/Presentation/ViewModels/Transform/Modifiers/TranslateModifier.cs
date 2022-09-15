@@ -19,10 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels
             Location = new Vector3D[1] { new Vector3D(0.0, 0.0, 0.0) };
             Scale = new Vector3D[1] { new Vector3D(1.0, 1.0, 1.0) };
             Rotation = new Vector3D[1] { new Vector3D(0.0, 0.0, 0.0) };
-
-            //X = new AnimParameter(nameof(X), this, new double[1] { 0.0 }, beat);
-            //Y = new AnimParameter(nameof(Y), this, translate.Y.Amount, beat);
-            //Z = new AnimParameter(nameof(Z), this, translate.Z.Amount, beat);
         }
 
         private ModifierMode _modifierType;
@@ -67,9 +63,6 @@ namespace CMiX.Core.Presentation.ViewModels
             var YToAnimate = Location.Select(x => x.Y).ToArray();
             var ZToAnimate = Location.Select(x => x.Z).ToArray();
 
-            X.AnimateOnGameLoop(XToAnimate);
-            Y.AnimateOnGameLoop(YToAnimate);
-            Z.AnimateOnGameLoop(ZToAnimate);
 
             for (int i = 0; i < modifierCount; i++)
             {
@@ -80,22 +73,9 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-
-        private void AnimateObjectsOnGameLoop()
-        {
-
-        }
-
-
-        public void Update(int count)
-        {
-            this.Count = count;
-            X.Parameters = new double[count];
-        }
-
-        public AnimParameter X { get; set; }
-        public AnimParameter Y { get; set; }
-        public AnimParameter Z { get; set; }
+        //public AnimParameter X { get; set; }
+        //public AnimParameter Y { get; set; }
+        //public AnimParameter Z { get; set; }
 
         double[] TranslateX { get; set; }
         double[] TranslateY { get; set; }

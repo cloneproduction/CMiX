@@ -5,38 +5,40 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             mc:Ignorable="d" d:DesignHeight="693.333" d:DesignWidth="310">
+             mc:Ignorable="d" d:DesignHeight="364.793" d:DesignWidth="292.539">
 
-    <Border Background="{DynamicResource DarkerColor}">
-        <TabControl  
-            SelectedIndex="{Binding SelectedIndex, Mode=TwoWay}" 
-            Style="{StaticResource TabControlLayerPanel}">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <Border Background="{DynamicResource DarkerColor}">
+            <TabControl  Style="{StaticResource TabControlLayerPanel}" SelectedIndex="{Binding SelectedTabItemIndex}">
 
-            <TabItem IsEnabled="{Binding LayerMask, Converter={StaticResource NullToBool}}">
-                <TabItem.Header>
-                    <Image Source="{DynamicResource Mask}"/>
-                </TabItem.Header>
-                <StackPanel>
-                    <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8" />
-                    <ViewComponents:LayerContent DataContext="{Binding LayerMask}"/>
-                </StackPanel>
-            </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <Image Source="{DynamicResource Mask}"/>
+                    </TabItem.Header>
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <StackPanel Background="{DynamicResource HighDarkerColor}">
+                            <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8, 16" />
+                            <ViewComponents:LayerContent DataContext="{Binding LayerMask}"/>
+                        </StackPanel>
+                    </ScrollViewer>
+                </TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <Image Source="{DynamicResource LayerScene}"/>
-                </TabItem.Header>
-                <Border
-                    Background="{DynamicResource DarkerColor}"
-                    IsEnabled="{Binding Converter={StaticResource NullToBool}}">
-                    <StackPanel>
-                        <Views:LayerBlendController DataContext="{Binding LayerScene}" Margin="8" />
-                        <ViewComponents:LayerContent DataContext="{Binding LayerScene}"/>
-                    </StackPanel>
-                </Border>
-            </TabItem>
+                <TabItem>
+                    <TabItem.Header>
+                        <Image Source="{DynamicResource LayerScene}"/>
+                    </TabItem.Header>
+                    
+                    <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">
 
-        </TabControl>
-    </Border>
+                        <StackPanel>
+                            <Views:LayerBlendController DataContext="{Binding LayerScene}" Margin="8, 16" />
+                            <ViewComponents:LayerContent DataContext="{Binding LayerScene}"/>
+                        </StackPanel>
+                    </Border>
+                    
+                </TabItem>
 
+            </TabControl>
+        </Border>
+    </ScrollViewer>
 </UserControl>

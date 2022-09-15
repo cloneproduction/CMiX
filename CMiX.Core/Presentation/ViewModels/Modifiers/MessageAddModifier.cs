@@ -14,14 +14,13 @@ namespace CMiX.Core.Presentation.ViewModels
 
         }
 
-        public MessageAddModifier(Guid parentID, IModifier modifier)
+        public MessageAddModifier(Guid parentID, IModel model)
         {
             ID = parentID;
-            ModifierModel = (IModifierModel)modifier.GetModel();
+            Model = model;
         }
 
-
-        public IModifierModel ModifierModel { get; set; }
         public Guid ID { get; set; }
+        public IModel Model { get; set; }
     }
 }

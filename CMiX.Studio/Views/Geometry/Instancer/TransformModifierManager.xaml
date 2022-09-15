@@ -32,8 +32,8 @@
                 <Views:RandomScale Margin="0, 4" DataContext="{Binding}"/>
             </DataTemplate>
 
-            <DataTemplate x:Key="TransformTemplate" DataType="{x:Type ViewModels:Transform}">
-                <Views:Transform Margin="0, 4" DataContext="{Binding}"/>
+            <DataTemplate x:Key="TransformTemplate" DataType="{x:Type ViewModels:TransformSRT}">
+                <Views:TransformSRT Margin="0, 4" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="TranslateTemplate" DataType="{x:Type ViewModels:Translate}">
@@ -81,7 +81,7 @@
 
     </UserControl.Resources>
 
-    <Expander  IsExpanded="True">
+    <Expander>
         <Expander.Header>
             <DockPanel>
                 <ToggleButton
@@ -180,7 +180,7 @@
 
                             <Button 
                                 Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:Transform}" 
+                                CommandParameter="{x:Type ViewModels:TransformSRT}" 
                                 Grid.Row="2"
                                 Grid.Column="1"
                                 VerticalAlignment="Center" 

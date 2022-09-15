@@ -4,11 +4,10 @@
 using System;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Prefab;
 
 namespace CMiX.Core.Models.Component
 {
-    public class LayerModel : IComponentModel
+    public class LayerModel : IPrefabModel//, IComponentModel
     {
         public LayerModel()
         {
@@ -21,7 +20,6 @@ namespace CMiX.Core.Models.Component
             LayerMask = new LayerMaskModel();
             Visibility = new ToggleButtonModel();
             ModifierManager = new ModifierManagerModel();
-            EntityManager = new PrefabManagerModel();
         }
 
         public LayerModel(Guid id) : this()
@@ -35,12 +33,9 @@ namespace CMiX.Core.Models.Component
         public bool Enabled { get; set; }
         public SliderModel Opacity { get; set; }
         public BlendModeModel BlendMode { get; set; }
-
         public ToggleButtonModel Visibility { get; set; }
-
         public LayerSceneModel LayerScene { get; set; }
         public LayerMaskModel LayerMask { get; set; }
         public ModifierManagerModel ModifierManager { get; internal set; }
-        public PrefabManagerModel EntityManager { get; internal set; }
     }
 }

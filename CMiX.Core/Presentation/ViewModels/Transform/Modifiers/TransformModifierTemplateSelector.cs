@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels
                     dataTemplate = LFOTemplate;
                 else if (item is RandomScale)
                     dataTemplate = RandomScaleTemplate;
-                else if (item is Transform)
+                else if (item is TransformSRT)
                     dataTemplate = TransformTemplate;
 
                 else if (item is Translate)

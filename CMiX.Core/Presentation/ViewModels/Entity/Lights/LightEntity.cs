@@ -5,26 +5,23 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.BaseControls;
-using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class LightEntity : ObservableObject, IEntity, IPrefab
     {
-        public LightEntity(LightEntityModel lightEntityModel)
+        public LightEntity(LightEntityModel lightEntityModel, CompositionService compositionService)
         {
             ID = lightEntityModel.ID;
             Name = this.GetType().Name;
             IsRenaming = false;
+            CompositionService = compositionService;
 
             LightColor = new ColorSelector(lightEntityModel.LightColor);
             Position = new VectorXYZ(lightEntityModel.Position);
@@ -43,6 +40,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand OpenColorSelectorCommand { get; set; }
 
         public Guid ID { get; set; }
+
+        public CompositionService CompositionService { get; set; }
         public ComboBox<LightType> LightTypeSelector { get; set; }
         public ColorSelector LightColor { get; set; }
         public VectorXYZ Position { get; set; }
@@ -56,8 +55,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void OpenColorSelector()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.LightColor);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.LightColor);
         }
 
 
@@ -82,10 +80,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isSelected, value);
         }
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            //throw new NotImplementedException();
-        }
 
         public IModel GetModel()
         {

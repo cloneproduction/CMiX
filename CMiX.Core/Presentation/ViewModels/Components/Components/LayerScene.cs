@@ -4,19 +4,16 @@
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class LayerScene : Component, IBeatable, ILayer, IRecipient<MessageKeyPressed>
+    public class LayerScene : Component, ILayer, IRecipient<MessageKeyPressed>
     {
         public LayerScene(LayerSceneModel layerModel, CompositionService compositionService)
         {
@@ -24,43 +21,45 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             CompositionService = compositionService;
 
             Opacity = new Slider(nameof(Opacity), layerModel.Opacity);
-            EntityManager = new PrefabSlotManager(layerModel.EntityManagerModel);
+
             BackgroundColor = new ColorSelector(layerModel.ColorSelectorModel);
 
+            EditPanelOpen = new ToggleButton(layerModel.EditPanelOpen);
             Visibility = new ToggleButton(layerModel.VisibilityModel);
             BlendMode = new BlendMode(layerModel.BlendModeModel);
-            ModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
+
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
             OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
 
-            CameraManager = new PrefabSlotManager(layerModel.CameraManagerModel);
             SelectedTabIndex = 0;
+            TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService));
+
+            ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager, compositionService.PrefabFactory);
+            CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager, compositionService.PrefabFactory);
         }
 
 
         public ICommand OpenColorSelectorCommand { get; set; }
-        public ICommand ChangeEntityPanelCommand { get; set; }
+
+
+        public PrefabManager<Entity> ModelEntityManager { get; set; }
+        public PrefabManager<Camera> CameraEntityManager { get; set; }
 
 
         public void OpenColorSelector()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
         }
 
-        public Slider Opacity { get; set; }
-        public CompositionService CompositionService { get; set; }
 
+        public CompositionService CompositionService { get; set; }
+        public Slider Opacity { get; set; }
+        public ToggleButton EditPanelOpen { get; set; }
         public ToggleButton Visibility { get; set; }
         public ColorSelector BackgroundColor { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager TextureModifierManager { get; set; }
         public BlendMode BlendMode { get; set; }
-
-
         public AmbientOcclusion AmbientOcclusion { get; set; }
-
-        public PrefabSlotManager EntityManager { get; set; }
-        public PrefabSlotManager CameraManager { get; set; }
 
 
         private int _selectedTabIndex;
@@ -71,45 +70,39 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            this.MasterBeat = masterBeat;
-        }
-
-
-        public override IComponentModel GetModel()
+        public override IModel GetModel()
         {
             LayerSceneModel model = new LayerSceneModel();
 
             model.ID = this.ID;
             model.Name = this.Name;
 
-            model.ModifierManager = (ModifierManagerModel)this.ModifierManager.GetModel();
+            model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.ColorSelectorModel = (ColorSelectorModel)this.BackgroundColor.GetModel();
             model.VisibilityModel = (ToggleButtonModel)this.Visibility.GetModel();
             model.AmbientOcclusion = (AmbientOcclusionModel)this.AmbientOcclusion.GetModel();
             model.BlendModeModel = (BlendModeModel)this.BlendMode.GetModel();
             model.Opacity = (SliderModel)this.Opacity.GetModel();
-
-            foreach (Component item in this.Components)
-                model.ComponentModels.Add(item.GetModel());
-
+            model.ModelEntityManager = (PrefabManagerModel)this.ModelEntityManager.GetModel();
+            model.CameraEntityManager = (PrefabManagerModel)this.CameraEntityManager.GetModel();
             return model;
         }
 
-        public override void SetViewModel(IComponentModel model)
+        public override void SetViewModel(IModel model)
         {
             LayerSceneModel layerModel = model as LayerSceneModel;
 
             this.ID = layerModel.ID;
             this.Name = layerModel.Name;
 
-            this.ModifierManager.SetViewModel(layerModel.ModifierManager);
+            this.TextureModifierManager.SetViewModel(layerModel.TextureModifierManager);
             this.BackgroundColor.SetViewModel(layerModel.ColorSelectorModel);
             this.Visibility.SetViewModel(layerModel.VisibilityModel);
             this.AmbientOcclusion.SetViewModel(layerModel.AmbientOcclusion);
             this.BlendMode.SetViewModel(layerModel.BlendModeModel);
             this.Opacity.SetViewModel(layerModel.Opacity);
+            this.ModelEntityManager.SetViewModel(layerModel.ModelEntityManager);
+            this.CameraEntityManager.SetViewModel(layerModel.Camera);
 
             this.Components.Clear();
         }

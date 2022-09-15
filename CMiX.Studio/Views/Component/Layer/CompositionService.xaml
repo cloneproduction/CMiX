@@ -5,10 +5,76 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Views.Managers"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+    md:DialogServiceViews.IsRegistered="True" 
     mc:Ignorable="av"
     av:DesignHeight="545.422" 
     av:DesignWidth="346.747" >
 
-    <Views:EntityPanel DataContext="{Binding}"/>
+    <Border VerticalAlignment="Stretch" Background="{DynamicResource DarkerColor}">
+        
+        <TabControl 
+            SelectedIndex="{Binding SelectedTabIndex}"
+            TabStripPlacement="Left" 
+            Background="{DynamicResource HighHighDarkerColor}" 
+            Style="{StaticResource TabControlVerticalPanel}" >
+
+            <TabItem Header="En" IsSelected="True">
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <Border Background="{DynamicResource HighDarkerColor}">
+                        <Managers:ModelEntityManager DataContext="{Binding ModelEntityManager}"/>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="7" Source="{DynamicResource CubeCol}"/>
+                </TabItem.Header>
+
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <Border Background="{DynamicResource HighDarkerColor}">
+                        <Managers:MeshEntityManager DataContext="{Binding MeshManager}"/>
+                    </Border>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Tr">
+                <Managers:TransformManager DataContext="{Binding TransformManager}"/>
+            </TabItem>
+
+            <TabItem Header="Co">
+                <Managers:ColorationManager DataContext="{Binding ColorationManager}"/>
+            </TabItem>
+            
+            <TabItem Header="Ma">
+                <Views:MaterialManager DataContext="{Binding MaterialManager}"/>
+            </TabItem>
+
+            <TabItem Header="tTex">
+                <Managers:TextureTransformManager DataContext="{Binding TextureTransformManager}"/>
+            </TabItem>
+
+            <TabItem Header="Ca">
+                <Managers:CameraManager DataContext="{Binding CameraManager}"/>
+            </TabItem>
+            
+            <TabItem Header="Bpm">
+                <Beat:BeatManager Margin="8" DataContext="{Binding MasterBeatManager}"/>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="6" Source="{DynamicResource MeshLight}"/>
+                </TabItem.Header>
+
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <Managers:LightEntityManager DataContext="{Binding LightEntityManager}"/>
+                </ScrollViewer>
+            </TabItem>
+        </TabControl>
+        
+    </Border>
 
 </UserControl>

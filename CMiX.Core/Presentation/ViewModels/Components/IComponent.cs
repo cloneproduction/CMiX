@@ -3,18 +3,11 @@
 
 using System;
 using System.Collections.ObjectModel;
-using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public interface IComponent : IIDObject, IDisposable
     {
-        //void SelectMasterBeat(MasterBeat masterBeat);
-        //ObservableCollection<MasterBeat> MasterBeats { get; set; }
-
-        MasterBeat MasterBeat { get; set; }
-        //Visibility Visibility { get; set; }
         ObservableCollection<IComponent> Components { get; set; }
         bool IsSelected { get; set; }
         bool IsRenaming { get; set; }
@@ -25,8 +18,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         void RemoveComponent(Guid componentID);
 
         IComponent GetComponent(Guid childID);
-
-        void SetViewModel(IComponentModel model);
-        IComponentModel GetModel();
     }
 }

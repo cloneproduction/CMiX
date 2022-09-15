@@ -11,13 +11,13 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.BaseControl
 {
-    public class StringControl : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class StringControl : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public StringControl(StringControlModel stringBaseModel)
         {
             ID = stringBaseModel.ID;
             Text = stringBaseModel.Text;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            IsActive = true;
         }
 
         public Guid ID { get; set; }
@@ -48,13 +48,10 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
             this.Text = stringBaseModel.Text;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if(message is MessageUpdateViewModel messageUpdateViewModel)
-                this.SetViewModel(messageUpdateViewModel.Model);
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

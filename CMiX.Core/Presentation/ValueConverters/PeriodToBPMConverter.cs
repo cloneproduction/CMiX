@@ -2,8 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.ObjectModel;
 using System.Globalization;
+using System.Windows;
 using System.Windows.Data;
+using CMiX.Core.Presentation.Controls;
+using CMiX.Core.Presentation.ViewModels.Beat;
 
 namespace CMiX.Core.Presentation.ValueConverters
 {
@@ -24,6 +28,46 @@ namespace CMiX.Core.Presentation.ValueConverters
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return 60000 / (float)value;
+        }
+    }
+
+    public class MultiPeriodToBPMConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values[0] == null || values[1] == null || values[2] == null)
+                return "0";
+
+            var beatIndex = (int)values[1];
+            var masterBeat = (MasterBeat)values[2];
+            //var periods = (float[])values[2];
+
+            //return String.Format("{0:C0}", (60000 / periods[beatIndex + masterBeat.BeatIndex]).ToString());
+            return String.Format("{0:C0}", (60000 / masterBeat.Periods[beatIndex + masterBeat.BeatIndex]).ToString());
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class MultiPeriodToBeatAnimationConverter : IMultiValueConverter
+    {
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values[0] == null || values[1] == null)
+                return DependencyProperty.UnsetValue;
+
+            var beatIndex = (int)values[0];
+            var masterBeat = (MasterBeat)values[1];
+
+            return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex + masterBeat.BeatIndex].AnimationPosition;
+        }
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
         }
     }
 }

@@ -4,13 +4,14 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier
     {
-        public RandomHSV(RandomHSVModel randomHSVModel)
+        public RandomHSV(RandomHSVModel randomHSVModel, CompositionService compositionService)
         {
             ID = randomHSVModel.ID;
             Visible = new ToggleButton(randomHSVModel.Visible);
@@ -20,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Value = new Slider(nameof(Value), randomHSVModel.Value);
             Alpha = new Slider(nameof(Alpha), randomHSVModel.Alpha);
 
-            BeatModifier = new BeatModifier(randomHSVModel.BeatModifier);
+            BeatModifier = new BeatModifier(randomHSVModel.BeatModifier, compositionService);
             Easing = new Easing(randomHSVModel.Easing);
 
             Mode = new ComboBox<ModifierMode>(randomHSVModel.Mode);
@@ -48,10 +49,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            BeatModifier.SetMasterBeat(masterBeat);
-        }
 
         public void Dispose()
         {

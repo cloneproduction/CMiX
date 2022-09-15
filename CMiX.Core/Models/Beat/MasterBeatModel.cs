@@ -2,10 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models.Beat
 {
-    public class MasterBeatModel : BeatModel, IModel
+    public class MasterBeatModel : BeatModel, IPrefabModel
     {
         public MasterBeatModel()
         {

@@ -10,6 +10,11 @@ namespace CMiX.Studio.Views
             WindowStartupLocation = WindowStartupLocation.CenterScreen;
         }
 
+        private void TabControl_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+        {
+
+        }
+
         //private void UndoCommand_CanExecute(object sender, CanExecuteRoutedEventArgs e)
         //{
         //    e.CanExecute = true;

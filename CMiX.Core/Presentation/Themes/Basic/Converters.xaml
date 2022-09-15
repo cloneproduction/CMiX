@@ -44,6 +44,7 @@
     <Converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
     <Converters:NotNullToBoolConverter x:Key="NotNullToBool"/>
     <Converters:NullToBoolConverter x:Key="NullToBool"/>
+    <Converters:IsNullConverter x:Key="IsNull"/>
     <Converters:PathToFilenameConverter x:Key="PathToFileName" />
     <Converters:ColorToHSVControledConverter x:Key="ColorToHSVControled"/>
 
@@ -52,7 +53,9 @@
     <Converters:DataTypeConverter x:Key="DataTypeConverter"/>
 
     <Converters:PeriodToBPMConverter x:Key="PeriodToBPM"/>
-
+    <Converters:MultiPeriodToBPMConverter x:Key="MultiPeriodToBPM"/>
+    <Converters:MultiPeriodToBeatAnimationConverter x:Key="MultiPeriodToBeatAnimation"/>
+    
     <Converters:ColorToNoAlphaConverter x:Key="ColorToNoAlpha"/>
     <Converters:TypeToVisibilityConverter x:Key="TypeToVisibility"/>
     <Converters:ValueDataTemplateConverter x:Key="ValueDataTemplate"/>

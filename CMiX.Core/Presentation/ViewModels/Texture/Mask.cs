@@ -5,22 +5,22 @@ using System;
 using CMiX.Core.Models;
 using CMiX.Core.Models.Assets;
 using CMiX.Core.Presentation.ViewModels.Assets;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Mask : ObservableObject, IBeatable, ITexture
+    public class Mask : ObservableObject, ITexture
     {
-        public Mask(MaskModel textureModel)
+        public Mask(MaskModel textureModel, CompositionService compositionService)
         {
             this.ID = textureModel.ID;
 
             IsEnabled = new ToggleButton(textureModel.IsEnabled);
-            ModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory());
-            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new TransformModifierFactory());
-            SamplerState = new SamplerState(textureModel.SamplerState);
+            TextureModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
+            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new TransformModifierFactory(compositionService));
+            SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
             Invert = new ToggleButton(textureModel.Invert);
 
             ImageSelector = new ImageSelector(new AssetImage(), textureModel.TextureSelectorModel);
@@ -29,12 +29,12 @@ namespace CMiX.Core.Presentation.ViewModels
             VideoIn = new VideoIn(textureModel.VideoIn);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
             SelectedAssetType = new ComboBox<int>(textureModel.SelectedAssetType);
-            TypeWriter = new TypeWriter(textureModel.TypeWriter);
+            TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
         }
 
 
         public Guid ID { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager TextureModifierManager { get; set; }
         public ModifierManager TextureTransformModifierManager { get; set; }
 
         public ToggleButton IsEnabled { get; set; }
@@ -61,10 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public ImageSelector ImageSelector { get; set; }
         public VideoSelector VideoSelector { get; set; }
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            TextureTransformModifierManager.SetMasterBeat(masterBeat);
-        }
 
         public IModel GetModel()
         {
@@ -75,7 +71,7 @@ namespace CMiX.Core.Presentation.ViewModels
             model.IsEnabled = (ToggleButtonModel)this.IsEnabled.GetModel();
             model.Invert = (ToggleButtonModel)this.Invert.GetModel();
 
-            model.ModifierManagerModel = (ModifierManagerModel)this.ModifierManager.GetModel();
+            model.ModifierManagerModel = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.TextureTransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
             model.TextureSelectorModel = (ImageSelectorModel)this.ImageSelector.GetModel();
             model.VideoSelectorModel = (VideoSelectorModel)this.VideoSelector.GetModel();
@@ -96,7 +92,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.IsEnabled.SetViewModel(textureModel.IsEnabled);
             this.Invert.SetViewModel(textureModel.Invert);
 
-            this.ModifierManager.SetViewModel(textureModel.ModifierManagerModel);
+            this.TextureModifierManager.SetViewModel(textureModel.ModifierManagerModel);
             this.TextureTransformModifierManager.SetViewModel(textureModel.TextureTransformModifierManager);
             this.ImageSelector.SetViewModel(textureModel.TextureSelectorModel);
             this.VideoSelector.SetViewModel(textureModel.VideoSelectorModel);

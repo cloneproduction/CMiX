@@ -22,6 +22,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             ResyncCommand = new RelayCommand(Resync);
         }
 
+
         public IProject Project { get; set; }
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
@@ -49,22 +50,22 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         public void Multiply()
         {
-            SelectedComponent?.MasterBeat.Multiply();
+            //SelectedComponent?.MasterBeat.Multiply();
         }
 
         public void Divide()
         {
-            SelectedComponent?.MasterBeat.Divide();
+            //SelectedComponent?.MasterBeat.Divide();
         }
 
         public void Tap()
         {
-            SelectedComponent?.MasterBeat.Tap();
+            //SelectedComponent?.MasterBeat.Tap();
         }
 
         public void Resync()
         {
-            SelectedComponent?.MasterBeat.Resync.DoResync();
+            //SelectedComponent?.MasterBeat.Resync.DoResync();
         }
     }
 }

@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public interface IBeatModifiable : IBeatable
+    public interface IBeatModifiable
     {
         BeatModifier BeatModifier { get; set; }
     }

@@ -14,7 +14,7 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
             Enabled = true;
             ModifierManager = new ModifierManagerModel();
-            ColorSelector = new ColorSelectorModel("#FF7F7F7F");
+            ColorSelector = new ColorSelectorModel("#FFFFFFFF");
         }
 
         public bool Enabled { get; set; }

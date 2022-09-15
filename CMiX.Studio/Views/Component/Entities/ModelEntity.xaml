@@ -3,21 +3,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
              mc:Ignorable="d" 
              d:DesignHeight="486" d:DesignWidth="322.667">
 
     <StackPanel>
 
-        <Grid Margin="8, 0, 8, 8" >
+        <Grid Margin="8, 0, 8, 8" DockPanel.Dock="Left">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Mesh" HorizontalAlignment="Right" Padding="4, 0"/>
+
             <ComboBox Grid.Column="1" DockPanel.Dock="Bottom" 
-                  SelectedItem="{Binding Mesh}"
-                  ItemsSource="{Binding Path=DataContext.MeshManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+                SelectedValue="{Binding Mesh}"
+                SelectedValuePath="Prefab"
+                ItemsSource="{Binding CompositionService.MeshManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <Border Height="20">
@@ -26,17 +28,27 @@
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button 
+                Grid.Column="2" 
+                Margin="4, 0, 0, 0" 
+                DockPanel.Dock="Right" 
+                Width="20" 
+                Style="{StaticResource ButtonRounded}" 
+                Content="+"
+                Command="{Binding CompositionService.MeshManager.AddItemCommand}"/>
         </Grid>
-        
+
         <Grid Margin="8, 0, 8, 8" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Coloration" HorizontalAlignment="Right" Padding="4, 0"/>
             <ComboBox Grid.Column="1" DockPanel.Dock="Bottom" 
-                  SelectedItem="{Binding Coloration}"
-                  ItemsSource="{Binding Path=DataContext.ColorationManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+                  SelectedValue="{Binding Coloration}"
+                  SelectedValuePath="Prefab"
+                  ItemsSource="{Binding CompositionService.ColorationManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <Border Height="20">
@@ -45,18 +57,27 @@
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button 
+                Grid.Column="2" 
+                Margin="4, 0, 0, 0" 
+                DockPanel.Dock="Right" 
+                Width="20" 
+                Style="{StaticResource ButtonRounded}" 
+                Content="+"
+                Command="{Binding CompositionService.ColorationManager.AddItemCommand}"/>
         </Grid>
 
         <Grid Margin="8, 0, 8, 8" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Material" HorizontalAlignment="Right" Padding="4, 0"/>
-            <ComboBox 
-                    DockPanel.Dock="Bottom" Grid.Column="1" 
-                    SelectedItem="{Binding Material}"
-                    ItemsSource="{Binding Path=DataContext.MaterialManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+            <ComboBox DockPanel.Dock="Bottom" Grid.Column="1" 
+                SelectedValue="{Binding Material}"
+                SelectedValuePath="Prefab"
+                ItemsSource="{Binding CompositionService.MaterialManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <Border Height="20">
@@ -65,18 +86,27 @@
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button 
+                Grid.Column="2" 
+                Margin="4, 0, 0, 0" 
+                DockPanel.Dock="Right" 
+                Width="20" 
+                Style="{StaticResource ButtonRounded}" 
+                Content="+"
+                Command="{Binding CompositionService.MaterialManager.AddItemCommand}"/>
         </Grid>
 
         <Grid Margin="8, 0, 8, 8" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
+                <ColumnDefinition Width="auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Transform" HorizontalAlignment="Right" Padding="4, 0"/>
-            <ComboBox 
-                    DockPanel.Dock="Bottom" Grid.Column="1" 
-                    SelectedItem="{Binding Transform}"
-                    ItemsSource="{Binding Path=DataContext.TransformManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
+            <ComboBox Grid.Column="1" 
+                SelectedValue="{Binding Transform}"
+                SelectedValuePath="Prefab"
+                ItemsSource="{Binding CompositionService.TransformManager.Prefabs}">
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <Border Height="20">
@@ -85,26 +115,15 @@
                     </ItemContainerTemplate>
                 </ComboBox.ItemTemplate>
             </ComboBox>
+            <Button 
+                Grid.Column="2" 
+                Margin="4, 0, 0, 0" 
+                DockPanel.Dock="Right" 
+                Width="20" 
+                Style="{StaticResource ButtonRounded}" 
+                Content="+"
+                Command="{Binding CompositionService.TransformManager.AddItemCommand}"/>
         </Grid>
-
-        <Grid Margin="8, 0, 8, 8" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Texture Transform" HorizontalAlignment="Right" Padding="4, 0"/>
-            <ComboBox 
-                    DockPanel.Dock="Bottom" Grid.Column="1" 
-                    SelectedItem="{Binding Transform}"
-                    ItemsSource="{Binding Path=DataContext.TextureTransformManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
-                <ComboBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                        </Border>
-                    </ItemContainerTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </Grid>
+        
     </StackPanel>
 </UserControl>

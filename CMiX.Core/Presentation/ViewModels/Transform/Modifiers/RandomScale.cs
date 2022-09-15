@@ -4,13 +4,14 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class RandomScale : ObservableObject, IBeatModifiable, ITransformModifier
     {
-        public RandomScale(RandomScaleModel randomScaleModel)
+        public RandomScale(RandomScaleModel randomScaleModel, CompositionService compositionService)
         {
             this.ID = randomScaleModel.ID;
             this.Name = randomScaleModel.Name;
@@ -19,7 +20,8 @@ namespace CMiX.Core.Presentation.ViewModels
             Visible = new ToggleButton(randomScaleModel.Visible);
 
             Easing = new Easing(randomScaleModel.EasingModel);
-            BeatModifier = new BeatModifier(randomScaleModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(randomScaleModel.BeatModifierModel, compositionService);
+
             Mode = new ComboBox<ModifierMode>(randomScaleModel.Mode);
 
             ScaleX = new Slider(nameof(ScaleX), randomScaleModel.ScaleX);
@@ -59,12 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            BeatModifier.SetMasterBeat(masterBeat);
-        }
 
         public void Dispose()
         {

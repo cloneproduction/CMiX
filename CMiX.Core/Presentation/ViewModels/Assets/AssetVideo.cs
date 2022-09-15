@@ -20,6 +20,13 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             Path = path;
         }
 
+        public AssetVideo(IAssetModel assetModel)
+        {
+            this.Name = assetModel.Name;
+            this.Path = assetModel.Path;
+            this.Ponderation = assetModel.Ponderation;
+        }
+
 
         private bool _fileExist;
         public bool FileExist

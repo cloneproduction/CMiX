@@ -10,16 +10,17 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class BlendMode : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class BlendMode : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
         public BlendMode(BlendModeModel blendModeModel)
         {
             this.ID = blendModeModel.ID;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             Mode = blendModeModel.Mode;
+            IsActive = true;
         }
 
         public Guid ID { get; set; }
+
 
         private string _mode;
         public string Mode
@@ -48,14 +49,13 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageUpdateViewModel msg)
-                this.SetViewModel(msg.Model);
+            if (message.ID == this.ID)
+            {
+                if (!message.HasReceivedResponse)
+                    message.Reply(this);
+            }
         }
     }
 }

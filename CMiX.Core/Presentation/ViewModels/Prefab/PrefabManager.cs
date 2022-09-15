@@ -3,11 +3,11 @@
 
 using System;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -15,99 +15,232 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
-    public class PrefabManager<T> : ObservableRecipient, IRecipient<IMessage>, IControl, IBeatable
+    public class PrefabManager<T> : ObservableRecipient, IPrefabManager, IControl, IRecipient<MessageRequestControl> where T : class, IPrefab
     {
-        public PrefabManager(IPrefabManagerModel prefabManagerModel)
+        public PrefabManager(PrefabManagerModel prefabManagerModel, PrefabFactory prefabFactory)
         {
             ID = prefabManagerModel.ID;
-            PrefabFactory = new PrefabFactory();
+            PrefabFactory = prefabFactory;
+            Prefabs = new ObservableCollection<PrefabContainer>();
 
-            Prefabs = new ObservableCollection<IPrefab>();
-
+            ItemUpCommand = new RelayCommand(ItemUp);
+            ItemDownCommand = new RelayCommand(ItemDown);
+            AddItemToContainerCommand = new RelayCommand<PrefabContainer>(AddItemToContainer);
             AddItemCommand = new RelayCommand(AddItem);
-            DeleteItemCommand = new RelayCommand(DeleteItem);
+            AddEmptyItemCommand = new RelayCommand(AddEmptyItem);
+            DeleteItemCommand = new RelayCommand<PrefabContainer>(DeleteItem);
             RenameCommand = new RelayCommand(Rename);
 
-            WeakReferenceMessenger.Default.Register(this, MessageType.In);
+            IsActive = true;
+        }
+
+        public PrefabManager(Guid id, PrefabFactory prefabFactory)
+        {
+            ID = id;
+            PrefabFactory = prefabFactory;
+            Prefabs = new ObservableCollection<PrefabContainer>();
+
+            ItemUpCommand = new RelayCommand(ItemUp);
+            ItemDownCommand = new RelayCommand(ItemDown);
+            AddItemToContainerCommand = new RelayCommand<PrefabContainer>(AddItemToContainer);
+            AddItemCommand = new RelayCommand(AddItem);
+            AddEmptyItemCommand = new RelayCommand(AddEmptyItem);
+            DeleteItemCommand = new RelayCommand<PrefabContainer>(DeleteItem);
+            RenameCommand = new RelayCommand(Rename);
+
+            IsActive = true;
+        }
+
+        public PrefabManager(Guid id, PrefabFactory prefabFactory, PrefabRepository<T> prefabRepository) : this(id, prefabFactory)
+        {
+            PrefabRepository = prefabRepository;
         }
 
 
-        public PrefabFactory PrefabFactory { get; set; }
-
         public Guid ID { get; set; }
+
+        public PrefabFactory PrefabFactory { get; set; }
+        public PrefabRepository<T> PrefabRepository { get; set; }
+
+        public ICommand ItemUpCommand { get; set; }
+        public ICommand ItemDownCommand { get; set; }
+        public ICommand AddItemToContainerCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
+        public ICommand AddEmptyItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand RenameCommand { get; }
 
-        public ObservableCollection<IPrefab> Prefabs { get; set; }
 
+        private ObservableCollection<PrefabContainer> _prefabs;
+        public ObservableCollection<PrefabContainer> Prefabs
+        {
+            get => _prefabs;
+            set => SetProperty(ref _prefabs, value);
+        }
 
-        private IPrefab _selectedItem;
-        public IPrefab SelectedItem
+        private PrefabContainer _selectedItem;
+        public PrefabContainer SelectedItem
         {
             get => _selectedItem;
-            set => SetProperty(ref _selectedItem, value);
+            set
+            {
+                SetProperty(ref _selectedItem, value);
+                Send(new MessageSelectPrefab(this.ID, SelectedItem));
+            }
         }
 
-
-        public MasterBeat MasterBeat { get; set; }
-
-        public void SetMasterBeat(MasterBeat masterBeat)
+        private T _comboBoxSelectedItem;
+        public T ComboBoxSelectedItem
         {
-            this.MasterBeat = masterBeat;
+            get => _comboBoxSelectedItem;
+            set => SetProperty(ref _comboBoxSelectedItem, value);
         }
 
-        public IPrefab CreatePrefab(IPrefabModel prefabModel)
+
+        public void SelectPrefab(Guid prefabID)
         {
-            IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
-
-            prefab.Name = prefab.GetType().Name;
-            SelectedItem = prefab;
-            prefab.IsSelected = true;
-            Prefabs.Add(prefab);
-            prefab.SetMasterBeat(MasterBeat);
-
-            return prefab;
+            SelectedItem = GetPrefab(prefabID) as PrefabContainer;
         }
-         
 
-        public IPrefab CreatePrefab()
+        public void ItemUp()
+        {
+            var currentIndex = Prefabs.IndexOf(SelectedItem);
+            if (currentIndex < 0)
+                return;
+
+            Prefabs.Move(currentIndex, currentIndex - 1);
+            Send(new MessageMovePrefab(this.ID, currentIndex, currentIndex - 1));
+        }
+
+        public void ItemDown()
+        {
+            var currentIndex = Prefabs.IndexOf(SelectedItem);
+            if (currentIndex == Prefabs.Count - 1)
+                return;
+
+            Prefabs.Move(currentIndex, currentIndex + 1);
+            Send(new MessageMovePrefab(this.ID, currentIndex, currentIndex + 1));
+        }
+
+
+        public void PrefabContainer_PrefabChanged(object sender, PropertyChangedEventArgs e)
+        {
+            var prefabContainer = sender as PrefabContainer;
+            if (prefabContainer.Prefab == null)
+                return;
+
+            var prefabID = prefabContainer.Prefab.ID;
+            Send(new MessagePrefabContainerChanged(this.ID, prefabContainer.ID, prefabID));
+        }
+
+
+        public PrefabContainer CreateEmptyPrefabContainer()
+        {
+            PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel());
+            prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
+            Prefabs.Add(prefabContainer);
+            SelectedItem = prefabContainer;
+
+            return prefabContainer;
+        }
+
+        public PrefabContainer CreatePrefabContainer()
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
+            prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+            nameCount++;
 
-            prefab.Name = prefab.GetType().Name;
-            SelectedItem = prefab;
             prefab.IsSelected = true;
-            Prefabs.Add(prefab);
-            prefab.SetMasterBeat(MasterBeat);
+            PrefabRepository?.AddPrefab((T)prefab);
 
-            return prefab;
+            PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel());
+            prefabContainer.Prefab = (T)prefab;
+            prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
+            Prefabs.Add(prefabContainer);
+            SelectedItem = prefabContainer;
+
+            return prefabContainer;
+        }
+
+        public void AddPrefab(Guid containerID, IPrefabModel prefabModel)
+        {
+            var container = GetPrefab(containerID);//.Prefabs.FirstOrDefault(x => x.ID == messageAddPrefab.ContainerID);
+
+            if (container == null)
+                container = new PrefabContainer(new PrefabContainerModel(containerID));
+
+            if (prefabModel != null)
+            {
+                IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
+                prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+                nameCount++;
+
+                prefab.IsSelected = true;
+                PrefabRepository?.AddPrefab((T)prefab);
+                ((PrefabContainer)container).Prefab = (T)prefab;
+            }
+
+            ((PrefabContainer)container).PrefabChanged += PrefabContainer_PrefabChanged;
+            Prefabs.Add((PrefabContainer)container);
+            SelectedItem = (PrefabContainer)container;
+        }
+
+        public void AddItemToContainer(PrefabContainer prefabContainer)
+        {
+            IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
+            prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+            nameCount++;
+            prefab.IsSelected = true;
+            PrefabRepository?.AddPrefab((T)prefab);
+
+            SelectedItem.Prefab = (T)prefab;
+            SelectedItem.PrefabChanged += PrefabContainer_PrefabChanged;
         }
 
         public void AddItem()
         {
-            IPrefab item = CreatePrefab();
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddPrefab(this.ID, item), MessageType.Out);
-        }
-
-        public void AddItem(IPrefabModel prefabModel)
-        {
-            if (prefabModel == null)
-                return;
-
-            CreatePrefab(prefabModel);
+            PrefabContainer prefab = CreatePrefabContainer();
+            Send(new MessageAddPrefab(this.ID, prefab));
         }
 
 
-        public void DeleteItem()
+        int nameCount = 0;
+        public void AddItem(Guid containerID, IPrefabModel prefabModel)
         {
-            var index = Prefabs.IndexOf(SelectedItem);
+            var container = GetPrefab(containerID);
 
-            if (SelectedItem == null)
+            IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
+            prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+            nameCount++;
+
+            prefab.IsSelected = true;
+            PrefabRepository?.AddPrefab((T)prefab);
+            ((PrefabContainer)container).Prefab = (T)prefab;
+        }
+
+        public void AddEmptyItem()
+        {
+            PrefabContainer prefab = CreateEmptyPrefabContainer();
+            Send(new MessageAddPrefab(this.ID, prefab));
+        }
+
+
+        public void Send(IMessage message)
+        {
+            WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.Out);
+        }
+
+
+        public void DeleteItem(PrefabContainer prefab)
+        {
+            var index = Prefabs.IndexOf(prefab);
+
+            if (prefab == null)
                 return;
 
-            Prefabs.Remove(SelectedItem);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemovePrefab(this.ID, SelectedItem), MessageType.Out);
+            Prefabs.Remove(prefab);
+            PrefabRepository?.RemovePrefab((T)prefab.Prefab);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemovePrefab(this.ID, prefab), MessageType.Out);
 
             if (Prefabs.Count == 0)
             {
@@ -131,45 +264,54 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 
         public void DeleteItem(Guid id)
         {
-            var entity = Prefabs.FirstOrDefault(x => x.ID == id);
+            var prefab = Prefabs.FirstOrDefault(x => x.ID == id);
 
-            if (entity == null)
+            if (prefab == null)
                 return;
 
-            Prefabs.Remove(entity);
+            Prefabs.Remove(prefab);
+            PrefabRepository?.RemovePrefab((T)prefab.Prefab);
         }
 
+
+        public void ChangePrefab(Guid containerID, Guid prefabID)
+        {
+            var prefabContainer = Prefabs.FirstOrDefault(x => x.ID == containerID);
+            prefabContainer.Prefab = WeakReferenceMessenger.Default.Send(new MessageRequestPrefab(prefabID), MessageType.Internal).Response;
+        }
+
+        public void MovePrefab(int oldIndex, int newIndex)
+        {
+            if (Prefabs.Count <= 0)
+                return;
+
+            Prefabs.Move(oldIndex, newIndex);
+        }
 
         public void Rename() => SelectedItem.IsRenaming = true;
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != ID)
-                return;
-
-            if (message is MessageAddPrefab messageAddPrefab)
-            {
-                this.AddItem(messageAddPrefab.PrefabModel as IPrefabModel);
-            }
-
-            if (message is MessageRemoveEntity messageRemoveEntity)
-            {
-                this.DeleteItem(messageRemoveEntity.EntityID);
-            }
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
-
 
         public void SetViewModel(IModel model)
         {
-            IPrefabManagerModel materialManagerModel = model as IPrefabManagerModel;
-            ID = materialManagerModel.ID;
+            PrefabManagerModel prefabManagerModel = model as PrefabManagerModel;
+            this.ID = prefabManagerModel.ID;
         }
 
         public IModel GetModel()
         {
-            IPrefabManagerModel modifierManagerModel = new PrefabManagerModel();
-            modifierManagerModel.ID = this.ID;
-            return modifierManagerModel;
+            PrefabManagerModel prefabManagerModel = new PrefabManagerModel();
+            prefabManagerModel.ID = this.ID;
+            return prefabManagerModel;
+        }
+
+        public IPrefab GetPrefab(Guid guid)
+        {
+            return Prefabs.FirstOrDefault(x => x.ID == guid);
         }
     }
 }

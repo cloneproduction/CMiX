@@ -14,7 +14,7 @@ using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling
 {
-    public class SchedulerManager : ObservableRecipient, IRecipient<ISchedulerMessage>
+    public class SchedulerManager : ObservableRecipient
     {
         public SchedulerManager(IProject project)
         {
@@ -23,7 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             PlaylistEditor = new PlaylistEditor(project);
             JobEditor = new JobEditor(project);
 
-            Messenger.Register(this, MessageType.In);
+            //Messenger.Register(this, MessageType.In);
 
             IsActive = true;
             AddJobCommand = new RelayCommand(AddJob);
@@ -83,7 +83,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             set
             {
                 SetProperty(ref _selectedSchedulerIndex, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
+                //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
             }
         }
 
@@ -95,7 +95,7 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel);
             CompositionSchedulers.Add(compositionScheduler);
 
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddScheduler(compositionSchedulerModel), MessageType.Out);
+            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddScheduler(compositionSchedulerModel), MessageType.Out);
         }
 
         public void CreateScheduler(CompositionSchedulerModel compositionSchedulerModel)
@@ -122,11 +122,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
                 SelectedScheduler = CompositionSchedulers[0];
                 return;
             }
-        }
-
-        public void Receive(ISchedulerMessage message)
-        {
-
         }
     }
 }

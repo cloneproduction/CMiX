@@ -5,17 +5,18 @@ using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Service;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TransformModifierFactory : IBeatable, IModifierFactory
+    public class TransformModifierFactory : IModifierFactory
     {
-        public TransformModifierFactory()
+        public TransformModifierFactory(CompositionService compositionService)
         {
-
+            CompositionService = compositionService;
         }
 
-        private MasterBeat MasterBeat { get; set; }
+        private CompositionService CompositionService { get; set; }
 
         public IModifier Create(Type modifierType)
         {
@@ -82,144 +83,99 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            MasterBeat = masterBeat;
-        }
-
-
         private RandomXY CreateRandomXY()
         {
-            var randomized = new RandomXY(new RandomXYModel());
-            randomized.SetMasterBeat(MasterBeat);
-            return randomized;
+            return new RandomXY(new RandomXYModel(), CompositionService);
         }
 
         private RandomXY CreateRandomXY(RandomXYModel randomXYZModel)
         {
-            var randomized = new RandomXY(randomXYZModel);
-            randomized.SetMasterBeat(MasterBeat);
-            return randomized;
+            return new RandomXY(randomXYZModel, CompositionService);
         }
 
         private Rotation CreateRotation()
         {
-            var rotation = new Rotation(new RotationModel());
-            //transform.SetMasterBeat(MasterBeat);
-            return rotation;
+            return new Rotation(new RotationModel());
         }
 
         private Rotation CreateRotation(RotationModel rotationModel)
         {
-            var rotation = new Rotation(rotationModel);
-            //transform.SetMasterBeat(MasterBeat);
-            return rotation;
+            return new Rotation(rotationModel);
         }
 
 
         private Scale CreateScale()
         {
-            var scale = new Scale(new ScaleModel());
-            //transform.SetMasterBeat(MasterBeat);
-            return scale;
+            return new Scale(new ScaleModel());
         }
 
         private Scale CreateScale(ScaleModel scaleModel)
         {
-            var scale = new Scale(scaleModel);
-            //transform.SetMasterBeat(MasterBeat);
-            return scale;
+            return new Scale(scaleModel);
         }
 
 
         private Translate CreateTranslate()
         {
-            var translate = new Translate(new TranslateModel());
-            //transform.SetMasterBeat(MasterBeat);
-            return translate;
+            return new Translate(new TranslateModel());
         }
 
         private Translate CreateTranslate(TranslateModel translateModel)
         {
-            var translate = new Translate(translateModel);
-            //transform.SetMasterBeat(MasterBeat);
-            return translate;
+            return new Translate(translateModel);
         }
 
         private TransformSRT CreateTransformSRT()
         {
-            var transform = new TransformSRT(new TransformSRTModel());
-            //transform.SetMasterBeat(MasterBeat);
-            return transform;
+            return new TransformSRT(new TransformSRTModel());
         }
 
         private TransformSRT CreateTransformSRT(TransformSRTModel transformSRTModel)
         {
-            var transformSRT = new TransformSRT(transformSRTModel);
-            //transform.SetMasterBeat(MasterBeat);
-            return transformSRT;
+            return new TransformSRT(transformSRTModel);
         }
 
         private RandomScale CreateRandomScale()
         {
-            var randomScale = new RandomScale(new RandomScaleModel());
-            randomScale.SetMasterBeat(MasterBeat);
-            return randomScale;
+            return new RandomScale(new RandomScaleModel(), CompositionService);
         }
 
         private RandomScale CreateRandomScale(RandomScaleModel randomScaleModel)
         {
-            var randomScale = new RandomScale(randomScaleModel);
-            randomScale.SetMasterBeat(MasterBeat);
-            return randomScale;
+            return new RandomScale(randomScaleModel, CompositionService);
         }
 
 
         private RandomXYZ CreateRandomXYZ()
         {
-            var randomized = new RandomXYZ(new RandomXYZModel());
-            randomized.SetMasterBeat(MasterBeat);
-            return randomized;
+            return new RandomXYZ(new RandomXYZModel(), CompositionService);
         }
 
         private RandomXYZ CreateRandomXYZ(RandomXYZModel randomXYZModel)
         {
-            var randomized = new RandomXYZ(randomXYZModel);
-            randomized.SetMasterBeat(MasterBeat);
-            return randomized;
+            return new RandomXYZ(randomXYZModel, CompositionService);
         }
 
 
 
         private LFO CreateLFO()
         {
-            var lfo = new LFO(new LFOModel());
-            lfo.SetMasterBeat(MasterBeat);
-            return lfo;
+            return new LFO(new LFOModel(), CompositionService);
         }
 
         private LFO CreateLFO(LFOModel randomXYZModel)
         {
-            var lfo = new LFO(randomXYZModel);
-            lfo.SetMasterBeat(MasterBeat);
-            return lfo;
+            return new LFO(randomXYZModel, CompositionService);
         }
-
-
 
         private LinearXYZ CreateLinearXYZ()
         {
-            var linear = new LinearXYZ(new LinearXYZModel());
-            linear.SetMasterBeat(MasterBeat);
-            return linear;
+            return new LinearXYZ(new LinearXYZModel(), CompositionService);
         }
 
         private LinearXYZ CreateLinearXYZ(LinearXYZModel linearXYZModel)
         {
-            var linear = new LinearXYZ(linearXYZModel);
-            linear.SetMasterBeat(MasterBeat);
-            return linear;
+            return new LinearXYZ(linearXYZModel, CompositionService);
         }
     }
 }

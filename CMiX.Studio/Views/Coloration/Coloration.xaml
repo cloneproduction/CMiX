@@ -9,13 +9,15 @@
              mc:Ignorable="d" 
              d:DesignHeight="471.333" d:DesignWidth="348">
 
-
     <StackPanel>
+        
         <Grid Margin="8, 16">
+            
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
+            
             <TextBlock 
                 Text="Base Color" 
                 HorizontalAlignment="Right" Padding="4, 0"
@@ -33,6 +35,9 @@
             </Border>
 
         </Grid>
+        
         <Views:ColorModifierManager Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}"/>
+        
     </StackPanel>
+    
 </UserControl>

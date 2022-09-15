@@ -10,13 +10,14 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ToggleButton : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class ToggleButton : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public ToggleButton(ToggleButtonModel toggleButtonModel)
         {
             this.ID = toggleButtonModel.ID;
             IsChecked = toggleButtonModel.IsChecked;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
+            IsActive = true;
         }
 
         public Guid ID { get; set; }
@@ -48,13 +49,10 @@ namespace CMiX.Core.Presentation.ViewModels
             this.IsChecked = comboBoxModel.IsChecked;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if(message is MessageUpdateViewModel msg)
-                this.SetViewModel(msg.Model);
+            if (message.ID == this.ID)
+                message.Reply(this);
         }
     }
 }

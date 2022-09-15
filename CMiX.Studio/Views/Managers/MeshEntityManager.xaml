@@ -4,7 +4,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="935.333" d:DesignWidth="394.667">
 
@@ -12,31 +11,26 @@
         <Grid 
             Height="100"                                         
             DockPanel.Dock="Top"
-            Margin="8">
+            Margin="8, 16">
             <ListBox 
                 Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
-                AllowDrop="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DragHandler="{Binding}"
-                dd:DragDrop.DropHandler="{Binding}"
-                Grid.Row="3" 
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
 
                 <ListBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                            <TextBlock Padding="4" Text="{Binding Path=Name}"/>
                         </Border>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>
+
             </ListBox>
         </Grid>
 
         <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <ViewComponents:Mesh DataContext="{Binding SelectedItem}"/>
+            <ViewComponents:Mesh DataContext="{Binding SelectedItem.Prefab}"/>
         </Border>
     </DockPanel>
 </UserControl>

@@ -5,63 +5,32 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Components="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
              xmlns:dd="urn:gong-wpf-dragdrop"
-             mc:Ignorable="d" 
-             d:DesignHeight="233.333" d:DesignWidth="235">
+             mc:Ignorable="d" d:DesignHeight="210.285" d:DesignWidth="298.727" >
 
 
     <Border Background="{DynamicResource SuperHighDarkerColor}">
-        <StackPanel Grid.Row="0">
+        <DockPanel Grid.Row="0">
 
-            <Border Background="{DynamicResource DarkerColor}">
-                <ListBox 
-                    Height="200"
-                    DockPanel.Dock="Top"
-                    AllowDrop="True"
-                    dd:DragDrop.IsDragSource="True"
-                    dd:DragDrop.IsDropTarget="True"
-                    dd:DragDrop.DragHandler="{Binding}"
-                    dd:DragDrop.DropHandler="{Binding}"
-                    Grid.Row="3" 
-                    Style="{StaticResource LayerListBoxStyle}"
-                    SelectedItem="{Binding SelectedLayer}"
-                    VirtualizingStackPanel.IsVirtualizing="False"
-                    ItemsSource="{Binding Composition.Components}">
-                    <ListBox.ItemContainerStyle>
-                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource LayerListBoxItemStyle}">
-                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                        </Style>
-                    </ListBox.ItemContainerStyle>
-                </ListBox>
-            </Border>
-            
-            <Border Margin="0, 0, 0, 4" Height="25" DockPanel.Dock="Bottom" Background="{DynamicResource DarkerColor}" >
+            <Border Margin="0, 0, 0, 2" DockPanel.Dock="Bottom" Background="{DynamicResource DarkerColor}" >
                 <DockPanel LastChildFill="False">
 
                     <Button 
-                        Command="{Binding CreateCommand}"
+                        Command="{Binding AddItemCommand}"
                         CommandParameter="{x:Type Components:Layer}"
-                        Margin="2"
+                        Margin="4"
+                        Height="22"
                         Style="{StaticResource ButtonImage}">
                         <Button.Content>
                             <Image Margin="16" Source="{DynamicResource Add}"/>
                         </Button.Content>
                     </Button>
 
-                    <Button 
-                        IsEnabled="{Binding SelectedLayer.LayerMask, Converter={StaticResource NotNullToBool}}"
-                        Grid.Column="2" 
-                        Margin="0, 2" 
-                        Command="{Binding CreateMaskCommand}"
-                        Style="{StaticResource ButtonImage}">
-                        <Button.Content>
-                            <Image Margin="16" Source="{DynamicResource Mask}"/>
-                        </Button.Content>
-                    </Button>
-
                     <Button Grid.Column="1" 
                         DockPanel.Dock="Right"
-                        Margin="2" 
-                        Command="{Binding DeleteCommand}"
+                        Margin="4"
+                        Height="22"
+                        Command="{Binding DeleteItemCommand}"
+                        CommandParameter="{Binding SelectedItem}"
                         Style="{StaticResource ButtonImage}">
                         <Button.Content>
                             <Image Margin="16" Source="{DynamicResource DeleteLayer}"/>
@@ -70,8 +39,27 @@
 
                 </DockPanel>
             </Border>
-
-        </StackPanel>
+            <Border DockPanel.Dock="Top" Background="{DynamicResource DarkerColor}">
+                <ListBox 
+                    DockPanel.Dock="Top"
+                    AllowDrop="True"
+                    dd:DragDrop.IsDragSource="True"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.DragHandler="{Binding}"
+                    dd:DragDrop.DropHandler="{Binding}"
+                    Grid.Row="3" 
+                    Style="{StaticResource LayerListBoxStyle}"
+                    SelectedItem="{Binding SelectedItem}"
+                    VirtualizingStackPanel.IsVirtualizing="False"
+                    ItemsSource="{Binding Prefabs}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource LayerListBoxItemStyle}">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </Border>
+        </DockPanel>
     </Border>
 
 </UserControl>

@@ -14,7 +14,7 @@ namespace CMiX.Core.Models
 
             Name = TextureFilterName.Invert;
             Factor = new SliderModel(1.0f);
-            InvertChannelSelector = new ComboBoxModel<InvertChannel>();
+            InvertChannelSelector = new ComboBoxModel<InvertChannel>(InvertChannel.Value);
             InvertAlpha = new ToggleButtonModel();
             Visible = new ToggleButtonModel(true);
             Control = new SliderModel();

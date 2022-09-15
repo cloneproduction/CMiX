@@ -12,7 +12,7 @@ namespace CMiX.Core.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.8.1.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "17.0.3.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -23,21 +23,15 @@ namespace CMiX.Core.Properties {
             }
         }
         
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11223344-5566-7788-99aa-bbccddeeff01")]
-        public global::System.Guid JobSchedulerID {
+        [global::System.Configuration.DefaultSettingValueAttribute("11223344-5566-7788-99aa-bbccddeeff02")]
+        public global::System.Guid CompositionServiceID {
             get {
-                return ((global::System.Guid)(this["JobSchedulerID"]));
+                return ((global::System.Guid)(this["CompositionServiceID"]));
             }
-        }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("11223344-5566-7788-99aa-bbccddeeff00")]
-        public global::System.Guid ProjectID {
-            get {
-                return ((global::System.Guid)(this["ProjectID"]));
+            set {
+                this["CompositionServiceID"] = value;
             }
         }
     }

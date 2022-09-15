@@ -11,14 +11,14 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorSelector : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
             this.ID = colorSelectorModel.ID;
             SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
 
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            this.IsActive = true;
         }
 
         public Guid ID { get; set; }
@@ -49,13 +49,13 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageUpdateViewModel msg)
-                this.SetViewModel(msg.Model);
+            if (message.ID == this.ID)
+            {
+                if (!message.HasReceivedResponse)
+                    message.Reply(this);
+            }
         }
     }
 }

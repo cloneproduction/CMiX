@@ -19,7 +19,7 @@ namespace CMiX.Core.Models
             Width = new SliderModel();
             Phase = new SliderModel();
             DirectionXYZModel = new DirectionXYZModel();
-            Mode = new ComboBoxModel<ModifierMode>();
+            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.PerInstance);
             Mode.Selection = ModifierMode.ToSpread;
             TransformTypeSelector = new ComboBoxModel<TransformType>(TransformType.Translate);
         }

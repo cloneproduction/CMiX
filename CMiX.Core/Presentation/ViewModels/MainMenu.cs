@@ -45,16 +45,17 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand AddCompositionCommand { get; }
         public ICommand AddLayerCommand { get; }
 
+
         public string FolderPath { get; set; }
 
         public void AddLayer()
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
+            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
         }
 
         public void AddComposition()
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComposition(), MessageType.Internal);
+            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComposition(), MessageType.Internal);
         }
 
         private void NewProject()

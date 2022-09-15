@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class AssetImage : ObservableObject, IAssetImage
+    public class AssetImage : ObservableObject, IAsset
     {
         public AssetImage()
         {
@@ -17,6 +17,13 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         {
             Name = name;
             Path = path;
+        }
+
+        public AssetImage(IAssetModel assetModel)
+        {
+            this.Name = assetModel.Name;
+            this.Path = assetModel.Path;
+            this.Ponderation = assetModel.Ponderation;
         }
 
 
@@ -69,13 +76,13 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             set => SetProperty(ref _isRoot, value);
         }
 
-
         private bool _isExpanded = false;
         public bool IsExpanded
         {
             get => _isExpanded;
             set => SetProperty(ref _isExpanded, value);
         }
+
 
         public IModel GetModel()
         {

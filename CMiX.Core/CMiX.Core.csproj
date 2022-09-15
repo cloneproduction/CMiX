@@ -3,6 +3,8 @@
   <PropertyGroup>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
@@ -55,30 +57,33 @@
     <Reference Include="ColorMine, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\ColorMine.1.1.3.0\lib\ColorMine.dll</HintPath>
     </Reference>
-    <Reference Include="CommunityToolkit.Mvvm, Version=7.1.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
-      <HintPath>..\packages\CommunityToolkit.Mvvm.7.1.2\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
+    <Reference Include="CommunityToolkit.Mvvm, Version=8.0.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommunityToolkit.Mvvm.8.0.0\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
     </Reference>
     <Reference Include="FluentScheduler, Version=5.5.1.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\FluentScheduler.5.5.1\lib\netstandard2.0\FluentScheduler.dll</HintPath>
     </Reference>
     <Reference Include="GongSolutions.WPF.DragDrop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
-      <HintPath>..\packages\gong-wpf-dragdrop.3.0.0\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+      <HintPath>..\packages\gong-wpf-dragdrop.3.1.1\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="Humanizer, Version=2.14.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.14.1\lib\netstandard2.0\Humanizer.dll</HintPath>
     </Reference>
     <Reference Include="Memento, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38cdbba176369010, processorArchitecture=MSIL">
       <HintPath>..\packages\Memento.1.2.1\lib\net40\Memento.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0-preview.6.21352.12\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\MicrosoftExpressionInteractions.3.0.40218.0\lib\net45\Microsoft.Expression.Interactions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.6.0.0-preview.6.21352.12\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
-      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0-preview.6.21352.12\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="MvvmDialogs, Version=8.0.0.0, Culture=neutral, PublicKeyToken=3d3b9708589bc73e, processorArchitecture=MSIL">
       <HintPath>..\packages\MvvmDialogs.8.0.0\lib\net472\MvvmDialogs.dll</HintPath>
@@ -92,23 +97,51 @@
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
+    <Reference Include="System.Collections.Immutable, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.6.0.0\lib\net461\System.Collections.Immutable.dll</HintPath>
+    </Reference>
     <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.ComponentModel.Annotations.6.0.0-preview.4.21253.7\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
     </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Composition.AttributedModel, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.AttributedModel.6.0.0\lib\net461\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Convention.6.0.0\lib\net461\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Hosting.6.0.0\lib\net461\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Runtime.6.0.0\lib\net461\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.TypedParts.6.0.0\lib\net461\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
-    <Reference Include="System.Memory, Version=4.0.1.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Memory.4.5.4\lib\net461\System.Memory.dll</HintPath>
+    <Reference Include="System.IO.Pipelines, Version=6.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.6.0.3\lib\net461\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
     </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=6.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.6.0.1\lib\net461\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0-preview.6.21352.12\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
     </Reference>
     <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.6.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
     </Reference>
@@ -120,8 +153,8 @@
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="WatsonTcp, Version=4.8.10.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WatsonTcp.4.8.10\lib\net461\WatsonTcp.dll</HintPath>
+    <Reference Include="WatsonTcp, Version=4.8.14.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WatsonTcp.4.8.14.11\lib\net472\WatsonTcp.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -140,7 +173,7 @@
     <Compile Include="Models\Component\LayerMaskModel.cs" />
     <Compile Include="Models\Component\LayerModel.cs" />
     <Compile Include="Models\Component\LayerSceneModel.cs" />
-    <Compile Include="Models\Component\OutputPropertiesModel.cs" />
+    <Compile Include="Models\Component\OutputSettingsModel.cs" />
     <Compile Include="Models\Entity\BoxModel.cs" />
     <Compile Include="Models\Entity\LightEntityModel.cs" />
     <Compile Include="Models\Geometry\Modifier\LinearXYZModel.cs" />
@@ -173,39 +206,19 @@
     <Compile Include="Models\Texture\TypeWriterModel.cs" />
     <Compile Include="Models\Texture\VideoInModel.cs" />
     <Compile Include="Models\VideoPlayerModel.cs" />
-    <Compile Include="Network\Messages\IComponentMessage.cs" />
     <Compile Include="Network\Messages\IMessage.cs" />
-    <Compile Include="Network\Messages\ISchedulerMessage.cs" />
-    <Compile Include="Network\Messages\MessageAddBeat.cs" />
-    <Compile Include="Network\Messages\MessageAddComposition.cs" />
-    <Compile Include="Network\Messages\MessageAddCompositionToPlaylist.cs" />
-    <Compile Include="Network\Messages\MessageAddEntity.cs" />
-    <Compile Include="Network\Messages\MessageAddLayer.cs" />
-    <Compile Include="Network\Messages\MessageAddMaterial.cs" />
-    <Compile Include="Network\Messages\MessageAddNewPlaylist.cs" />
-    <Compile Include="Network\Messages\MessageAddScheduler.cs" />
-    <Compile Include="Network\Messages\MessageAddTextureFilter.cs" />
-    <Compile Include="Network\Messages\MessageButtonClicked.cs" />
-    <Compile Include="Network\Messages\MessageComponentOrder.cs" />
-    <Compile Include="Network\Messages\MessageCreateLayerMask.cs" />
+    <Compile Include="Network\Messages\IMessageHandler.cs" />
+    <Compile Include="Network\Messages\IMessagePrefab.cs" />
+    <Compile Include="Network\Messages\MessageAssetHandler.cs" />
+    <Compile Include="Network\Messages\MessagePrefabOrderChange.cs" />
     <Compile Include="Network\Messages\MessageKeyPressed.cs" />
-    <Compile Include="Network\Messages\MessageRemoveEntity.cs" />
-    <Compile Include="Network\Messages\MessageMasterBeatCollectionChanged.cs" />
-    <Compile Include="Network\Messages\MessageMasterBeatResync.cs" />
-    <Compile Include="Network\Messages\MessageModifierMove.cs" />
-    <Compile Include="Network\Messages\MessageRemoveMaterial.cs" />
-    <Compile Include="Network\Messages\MessageRemoveTextureFilter.cs" />
+    <Compile Include="Network\Messages\MessagePrefabManagerHandler.cs" />
+    <Compile Include="Network\Messages\MessagePrefabOrderChangeHandler.cs" />
+    <Compile Include="Network\Messages\MessageProcessor.cs" />
+    <Compile Include="Network\Messages\MessageMoveModifier.cs" />
     <Compile Include="Network\Messages\MessageRequestControl.cs" />
     <Compile Include="Network\Messages\MessageRequestDialogService.cs" />
-    <Compile Include="Network\Messages\MessageRequestMasterBeats.cs" />
-    <Compile Include="Network\Messages\MessageSelectedMaterial.cs" />
-    <Compile Include="Network\Messages\MessageSelectedMasterBeatChange.cs" />
-    <Compile Include="Network\Messages\MessageEventArgs.cs" />
-    <Compile Include="Network\Messages\MessageMasterBeatChange.cs" />
-    <Compile Include="Network\Messages\MessageSchedulerJob.cs" />
-    <Compile Include="Network\Messages\MessageSelectedSchedulerIndex.cs" />
-    <Compile Include="Network\Messages\MessageSelectMasterBeat.cs" />
-    <Compile Include="Network\Messages\MessageTextInputFocusState.cs" />
+    <Compile Include="Network\Messages\MessageUpdateViewModelHandler.cs" />
     <Compile Include="Presentation\Behaviors\BindableTreeViewSelectedItemBehavior.cs" />
     <Compile Include="Presentation\Behaviors\ClickBehavior.cs" />
     <Compile Include="Presentation\Behaviors\ContextMenuMouseDownBehavior.cs" />
@@ -310,6 +323,7 @@
     <Compile Include="Presentation\ValueConverters\IntToNormalizedDoubleConverter.cs" />
     <Compile Include="Presentation\ValueConverters\IntToStringConverter.cs" />
     <Compile Include="Presentation\ValueConverters\IntToStringWithMaxConverter.cs" />
+    <Compile Include="Presentation\ValueConverters\IsNullConverter.cs" />
     <Compile Include="Presentation\ValueConverters\ItemToParentConverter.cs" />
     <Compile Include="Presentation\ValueConverters\LeftMarginMultiplierConverter.cs" />
     <Compile Include="Presentation\ValueConverters\MultiplyConverter.cs" />
@@ -327,6 +341,7 @@
     <Compile Include="Presentation\ViewModels\Assets\AssetTypes.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetVideo.cs" />
     <Compile Include="Presentation\ViewModels\Assets\IAssetImage.cs" />
+    <Compile Include="Presentation\ViewModels\Assets\IAssetSelector.cs" />
     <Compile Include="Presentation\ViewModels\Assets\ImageSelector.cs" />
     <Compile Include="Presentation\ViewModels\Assets\VideoSelector.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Button.cs" />
@@ -335,27 +350,37 @@
     <Compile Include="Presentation\ViewModels\BaseControl\VectorXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatManager.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatResyncEventArgs.cs" />
-    <Compile Include="Presentation\ViewModels\Beat\IBeatable.cs" />
     <Compile Include="Presentation\ViewModels\Beat\IBeatModifiable.cs" />
     <Compile Include="Presentation\ViewModels\Beat\MasterBeatContainer.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\CameraTransformModifierFactory.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraLFOModel.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraTransformType.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\ICameraModifier.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraLFO.cs" />
     <Compile Include="Presentation\ViewModels\Coloration\Coloration.cs" />
-    <Compile Include="Presentation\ViewModels\Components\ComponentManager.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Components\CompositionManager.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Entity.cs" />
-    <Compile Include="Presentation\ViewModels\Prefab\MessageAddSlot.cs" />
-    <Compile Include="Presentation\ViewModels\Prefab\MessageRemoveSlot.cs" />
-    <Compile Include="Presentation\ViewModels\Prefab\MessageSelectedPrefabChanged.cs" />
+    <Compile Include="Presentation\ViewModels\Modifiers\MessageModifierManagerHandler.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\IPrefabContainer.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\IPrefabDataBase.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\IPrefabManagerDraggable.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\MessageMovePrefab.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\MessageChangePrefabHandler.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\MessageChangePrefab.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\MessagePrefabContainerChanged.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\MessagePrefabContainerChangedHandler.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\MessageRequestPrefab.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\MessageSelectPrefab.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\PrefabDataBase.cs" />
     <Compile Include="Presentation\ViewModels\Prefab\PrefabFactory.cs" />
-    <Compile Include="Presentation\ViewModels\Prefab\PrefabSlotManager.cs" />
-    <Compile Include="Presentation\ViewModels\Prefab\PrefabSlotManagerModel.cs" />
-    <Compile Include="Presentation\ViewModels\Prefab\PrefabSlot.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\PrefabRepository.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\PrefabContainer.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\ILayer.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\LayerMask.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\LayerScene.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Components\OutputProperties.cs" />
+    <Compile Include="Presentation\ViewModels\Components\Components\OutputSettings.cs" />
     <Compile Include="Presentation\ViewModels\Components\IComponent.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\IProject.cs" />
-    <Compile Include="Presentation\ViewModels\Components\LayerManager.cs" />
+    <Compile Include="Presentation\ViewModels\Components\DraggablePrefabManager.cs" />
     <Compile Include="Presentation\ViewModels\Entity\IEntity.cs" />
     <Compile Include="Models\Component\IEntityModel.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Model\MeshModel.cs" />
@@ -386,7 +411,7 @@
     <Compile Include="Presentation\ViewModels\Modifiers\ModifierManager.cs" />
     <Compile Include="Presentation\ViewModels\Modifiers\ModifierManagerModel.cs" />
     <Compile Include="Presentation\ViewModels\PostFX\AmbientOcclusion.cs" />
-    <Compile Include="Presentation\ViewModels\Prefab\PrefabSlotModel.cs" />
+    <Compile Include="Presentation\ViewModels\Prefab\PrefabContainerModel.cs" />
     <Compile Include="Presentation\ViewModels\Services\CompositionService.cs" />
     <Compile Include="Presentation\ViewModels\Services\CompositionServiceModel.cs" />
     <Compile Include="Presentation\ViewModels\Services\IService.cs" />
@@ -400,6 +425,7 @@
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\InvertChannel.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Echo.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Pixelate.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilter.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilterName.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Invert.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\ITextureFilter.cs" />
@@ -421,9 +447,6 @@
     <Compile Include="Presentation\ViewModels\BaseControl\ToggleButton.cs" />
     <Compile Include="Presentation\ViewModels\Beat\IBeat.cs" />
     <Compile Include="Presentation\ViewModels\Components\ComponentStyleSelector.cs" />
-    <Compile Include="Network\Messages\IIDIterator.cs" />
-    <Compile Include="Network\Messages\Message.cs" />
-    <Compile Include="Network\Messages\MessageRemoveComponent.cs" />
     <Compile Include="Presentation\ViewModels\Components\Visibility.cs" />
     <Compile Include="Network\Messages\MessageRemoveTransformModifier.cs" />
     <Compile Include="Network\Messages\MessageAddTransformModifier.cs" />
@@ -431,7 +454,6 @@
     <Compile Include="Presentation\ViewModels\Network\IMessageService.cs" />
     <Compile Include="Presentation\ViewModels\Network\MessageType.cs" />
     <Compile Include="Presentation\ViewModels\Network\Messenger\ServerManager.cs" />
-    <Compile Include="Presentation\ViewModels\Network\NetMQMessageEventArgs.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\IAnimMode.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\SteadyType.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\Easing\Easing.cs" />
@@ -440,7 +462,6 @@
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\Steady.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\Stepper.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\ModeTypeTemplateSelector.cs" />
-    <Compile Include="Network\Messages\MessageIDIterator.cs" />
     <Compile Include="Presentation\ViewModels\IIDObject.cs" />
     <Compile Include="Presentation\ViewModels\Network\ServerStatistics.cs" />
     <Compile Include="Presentation\ViewModels\Scheduling\CompositionScheduler.cs" />
@@ -499,16 +520,12 @@
     <Compile Include="Presentation\ViewModels\Transform\TransformModel.cs" />
     <Compile Include="Presentation\ViewModels\Transform\TransformSRT.cs" />
     <Compile Include="Presentation\ViewModels\Transform\TransformType.cs" />
-    <Compile Include="Network\Messages\MessageAddComponent.cs" />
-    <Compile Include="Network\Messages\MessageInsertComponent.cs" />
-    <Compile Include="Network\Messages\MessageMoveComponent.cs" />
     <Compile Include="Network\Messages\MessageUpdateViewModel.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Range\IRange.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Range\Range.cs" />
     <Compile Include="Models\Texture\InvertModel.cs" />
     <Compile Include="Mathematics\Easings.cs" />
     <Compile Include="Presentation\ViewModels\Beat\Resync.cs" />
-    <Compile Include="Presentation\ViewModels\BaseControl\ColorPicker\ColorPicker.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\ComboBox.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Counter\CounterEventArgs.cs" />
     <Compile Include="Presentation\ViewModels\Transform\ITransform.cs" />
@@ -559,8 +576,6 @@
     <Compile Include="Presentation\ViewModels\Material\Material.cs" />
     <Compile Include="Presentation\ViewModels\Material\ColorSelector.cs" />
     <Compile Include="Presentation\ViewModels\Components\Component.cs" />
-    <Compile Include="Presentation\ViewModels\Components\ComponentManagerOLD.cs" />
-    <Compile Include="Presentation\ViewModels\Components\ComponentPanelTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Composition.cs" />
     <Compile Include="Presentation\ViewModels\Components\ComponentTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Layer.cs" />
@@ -1026,8 +1041,18 @@
     <Resource Include="Presentation\Themes\Assets\LayerScene.png" />
     <Resource Include="Presentation\Themes\Assets\World.png" />
     <Resource Include="Presentation\Themes\Assets\MeshLight.png" />
+    <Resource Include="Presentation\Themes\Assets\Arrow_Down.png" />
+    <Resource Include="Presentation\Themes\Assets\Arrow_Up.png" />
+    <Resource Include="Presentation\Themes\Assets\Cube_Col.png" />
     <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets'))" />
+  </Target>
 </Project>

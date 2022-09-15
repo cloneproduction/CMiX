@@ -7,8 +7,8 @@ using System.Linq;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -17,6 +17,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 {
     public abstract class Component : 
         ObservableRecipient,
+        IControl,
+        IRecipient<MessageRequestControl>,
         IComponent, 
         IDisposable
     {
@@ -27,8 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             RenameCommand = new RelayCommand(Rename);
             Components = new ObservableCollection<IComponent>();
 
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            this.IsActive = true;
         }
 
         public ICommand RenameCommand { get; set; }
@@ -76,38 +77,20 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _components, value);
         }
 
-        private MasterBeat _masterBeat;
-        public MasterBeat MasterBeat
-        {
-            get => _masterBeat;
-            set => SetProperty(ref _masterBeat, value);
-        }
-
-
-        public void Receive(MessageSelectedMasterBeatChange message)
-        {
-            if(MasterBeat != null)
-                MasterBeat.SetViewModel(message.MasterBeatModel);
-        }
-
 
         public virtual void AddComponent(IComponent component)
         {
             Components.Add(component);
-
-            if (component is IBeatable beatable)
-                beatable.SetMasterBeat(this.MasterBeat);
-
             IsExpanded = true;
         }
 
         public void RemoveComponent(IComponent component)
         {
-            if(component != null)
-            {
-                component.Dispose();
-                Components.Remove(component);
-            }
+            if (component == null)
+                return;
+
+            component.Dispose();
+            Components.Remove(component);
         }
 
         public void RemoveComponent(Guid id)
@@ -147,9 +130,22 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        public abstract void SetViewModel(IComponentModel model);
-        public abstract IComponentModel GetModel();
+        public abstract void SetViewModel(IModel model);
+        public abstract IModel GetModel();
 
+
+
+
+        public IPrefab RequestPrefab(Guid id)
+        {
+            return WeakReferenceMessenger.Default.Send(new MessageRequestPrefab(id), MessageType.Internal).Response;
+        }
+
+        public void Receive(MessageRequestControl message)
+        {
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
+        }
 
         public virtual void Dispose()
         {

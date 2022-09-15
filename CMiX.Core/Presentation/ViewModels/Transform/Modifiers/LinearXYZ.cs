@@ -4,13 +4,14 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class LinearXYZ : ObservableObject, IControl, ITransformModifier, IBeatable, IDisposable
+    public class LinearXYZ : ObservableObject, IControl, ITransformModifier, IDisposable
     {
-        public LinearXYZ(LinearXYZModel linearXYZModel)
+        public LinearXYZ(LinearXYZModel linearXYZModel, CompositionService compositionService)
         {
             this.ID = linearXYZModel.ID;
             this.Name = linearXYZModel.Name;
@@ -22,7 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Counter = new Counter(linearXYZModel.CounterModel);
             TransformTypeSelector = new ComboBox<TransformType>(linearXYZModel.TransformTypeSelector);
             DirectionXYZ = new DirectionXYZ(linearXYZModel.DirectionXYZModel);
-            BeatModifier = new BeatModifier(linearXYZModel.BeatModifierModel);
+            BeatModifier = new BeatModifier(linearXYZModel.BeatModifierModel, compositionService);
         }
 
         public bool Enabled { get; set; }
@@ -88,11 +89,6 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Phase.SetViewModel(linearXYZModel.Phase);
             this.Mode.SetViewModel(linearXYZModel.Mode);
             this.TransformTypeSelector.SetViewModel(linearXYZModel.TransformTypeSelector);
-        }
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            BeatModifier.SetMasterBeat(masterBeat);
         }
 
         public void Dispose()

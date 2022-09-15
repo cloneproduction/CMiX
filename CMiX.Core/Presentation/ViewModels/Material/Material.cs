@@ -3,24 +3,25 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Material : ObservableObject, IPrefab, IControl, IBeatable, IDisposable
+    public class Material : ObservableRecipient, IRecipient<MessageRequestControl>, IPrefab, IDisposable
     {
-        public Material(MaterialModel materialModel)
+        public Material(MaterialModel materialModel, CompositionService compositionService)
         {
             this.ID = materialModel.ID;
             Name = this.GetType().Name;
 
-            BeatModifier = new BeatModifier(materialModel.BeatModifierModel);
+            Texture = new Texture(materialModel.Texture, compositionService);
 
-            Texture = new Texture(materialModel.Texture);
-            Mask = new Mask(materialModel.Mask);
-
+            Mask = new Mask(materialModel.Mask, compositionService);
             MaskChannelSelector = new ComboBox<MaskChannel>(materialModel.MaskChannelSelector);
 
             Pipeline = new ComboBox<PipelineType>(materialModel.Pipeline);
@@ -32,13 +33,42 @@ namespace CMiX.Core.Presentation.ViewModels
             Glossiness = new Slider(nameof(Glossiness), materialModel.Glossiness);
             Alpha = new Slider(nameof(Alpha), materialModel.Alpha);
             IsShadowCaster = new ToggleButton(materialModel.IsShadowCaster);
+
+            IsActive = true;
         }
 
 
         public Guid ID { get; set; }
 
-        public BeatModifier BeatModifier { get; set; }
-        public Texture Texture { get; set; }
+
+        private Texture _texture;
+        public Texture Texture
+        {
+            get => _texture;
+            set => SetProperty(ref _texture, value);
+        }
+
+
+        private Transform _transform;
+        public Transform Transform
+        {
+            get => _transform;
+            set
+            {
+                SetProperty(ref _transform, value);
+                SendMessage(new MessageChangePrefab(this.ID, value, nameof(Transform)));
+            }
+        }
+
+
+        bool CanSend = true;
+        public void SendMessage(IMessage message)
+        {
+            if (CanSend)
+                WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.Out);
+        }
+
+
         public Mask Mask { get; set; }
         public ComboBox<MaskChannel> MaskChannelSelector { get; set; }
 
@@ -82,13 +112,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            BeatModifier.SetMasterBeat(masterBeat);
-            Texture.SetMasterBeat(masterBeat);
-            Mask.SetMasterBeat(masterBeat);
-        }
-
         public IModel GetModel()
         {
             MaterialModel model = new MaterialModel();
@@ -97,8 +120,6 @@ namespace CMiX.Core.Presentation.ViewModels
             model.Texture = (TextureModel)Texture.GetModel();
             model.Mask = (MaskModel)Mask.GetModel();
             model.MaskChannelSelector = (ComboBoxModel<MaskChannel>)MaskChannelSelector.GetModel();
-
-            model.BeatModifierModel = (BeatModifierModel)BeatModifier.GetModel();
 
             model.Pipeline = (ComboBoxModel<PipelineType>)Pipeline.GetModel();
             model.CullMode = (ComboBoxModel<CullModeType>)CullMode.GetModel();
@@ -123,8 +144,6 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Mask.SetViewModel(materialModel.Mask);
             this.MaskChannelSelector.SetViewModel(materialModel.MaskChannelSelector);
 
-            this.BeatModifier.SetViewModel(materialModel.BeatModifierModel);
-
             this.Pipeline.SetViewModel(materialModel.Pipeline);
             this.CullMode.SetViewModel(materialModel.CullMode);
             this.Transparency.SetViewModel(materialModel.Transparency);
@@ -139,7 +158,13 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Dispose()
         {
-            BeatModifier.Dispose();
+
+        }
+
+        public void Receive(MessageRequestControl message)
+        {
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

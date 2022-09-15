@@ -6,10 +6,11 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Animation;
 using CMiX.Core.Presentation.Controls;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class BeatAnimations
+    public class BeatAnimations : ObservableObject
     {
         public BeatAnimations()
         {
@@ -24,7 +25,13 @@ namespace CMiX.Core.Presentation.ViewModels
             set => _animatedDoubles = value;
         }
 
-        private Storyboard Storyboard { get; set; }
+
+        private Storyboard _storyboard;
+        public Storyboard Storyboard
+        {
+            get => _storyboard;
+            set => SetProperty(ref _storyboard, value);
+        }
 
         public void MakeStoryBoard(float[] periods)
         {

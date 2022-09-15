@@ -10,16 +10,17 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Easing : ObservableObject, IControl, IRecipient<IMessage>
+    public class Easing : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public Easing(EasingModel easingModel)
         {
             this.ID = easingModel.ID;
             IsEnabled = easingModel.IsEnabled;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
 
             EasingMode = EasingMode.In;
             EasingFunction = EasingFunction.Linear;
+            IsActive = true;
         }
 
 
@@ -79,16 +80,10 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-            }
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

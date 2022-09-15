@@ -9,6 +9,9 @@
         <Setter Property="BorderBrush" Value="Transparent" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="Padding" Value="0" />
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
+        <Setter Property="UseLayoutRounding" Value="True"/>
+        <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
         <Setter Property="Controls:SelectTextOnFocus.Active" Value="True"/>
         <Setter Property="SelectionBrush" Value="{DynamicResource TextBase}"/>
         <Setter Property="CaretBrush" Value="{DynamicResource TextBase}"/>
@@ -19,7 +22,7 @@
                         x:Name="border"
                         Background="{DynamicResource SuperHighDarkerColor}"
                         BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="1"
+                        BorderThickness="0"
                         Padding="0"
                         Margin="0"
                         VerticalAlignment="Stretch"

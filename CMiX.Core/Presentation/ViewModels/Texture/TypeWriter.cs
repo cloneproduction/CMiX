@@ -5,23 +5,21 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Models.BaseControls;
-using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class TypeWriter : ObservableRecipient, IControl
     {
-        public TypeWriter(TypeWriterModel typeWriterModel)
+        public TypeWriter(TypeWriterModel typeWriterModel, CompositionService compositionService)
         {
             ID = typeWriterModel.ID;
             StringControl = new StringControl(typeWriterModel.StringControl);
+            CompositionService = compositionService;
 
             FontFamily = new ComboBox<string>(typeWriterModel.FontFamily);
 
@@ -50,6 +48,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand TextInputGotFocusCommand { get; set; }
         public ICommand TextInputLostFocusCommand { get; set; }
 
+
+        public CompositionService CompositionService { get; set; }
         public Guid ID { get; set; }
         public StringControl StringControl { get; set; }
 
@@ -69,24 +69,22 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void OpenFontColor()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.FontColor);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.FontColor);
         }
 
         public void OpenBackgroundColor()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
         }
 
         public void TextInputGotFocus()
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, true), MessageType.In);
+            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, true), MessageType.In);
         }
 
         public void TextInputLostFocus()
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, false), MessageType.Internal);
+            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, false), MessageType.Internal);
         }
 
         public IModel GetModel()

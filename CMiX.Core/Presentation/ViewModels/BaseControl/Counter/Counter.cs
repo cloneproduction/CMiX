@@ -12,16 +12,17 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Counter : ObservableRecipient, IRecipient<IMessage>, IControl
+    public class Counter : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
         public Counter(CounterModel counterModel)
         {
-            this.ID = counterModel.ID;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-
+            ID = counterModel.ID;
             Count = counterModel.Count;
+
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
+
+            IsActive = true;
         }
 
 
@@ -73,13 +74,10 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message is MessageUpdateViewModel msg)
-            {
-                if (msg.ID == this.ID)
-                    this.SetViewModel(msg.Model);
-            }
+            if (message.ID == this.ID)// && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

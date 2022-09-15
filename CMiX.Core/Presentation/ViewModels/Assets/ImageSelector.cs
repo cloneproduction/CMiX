@@ -12,21 +12,22 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class ImageSelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
+    public class ImageSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IAssetSelector, IDropTarget
     {
         public ImageSelector(AssetImage defaultAsset, ImageSelectorModel geometrySelectorModel)
         {
             this.ID = geometrySelectorModel.ID;
             SelectedAsset = defaultAsset;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
+            IsActive = true;
         }
 
 
         public Guid ID { get; set; }
 
 
-        private AssetImage _selectedAsset;
-        public AssetImage SelectedAsset
+        private IAsset _selectedAsset;
+        public IAsset SelectedAsset
         {
             get => _selectedAsset;
             set
@@ -69,33 +70,20 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             return model;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageAsset messageAsset)
-            {
-                var assetModel = messageAsset.AssetModel;
-
-                if(assetModel is AssetImageModel imageModel)
-                {
-                    var asset = new AssetImage();
-                    asset.SetViewModel(imageModel);
-                    this.SelectedAsset = asset;
-                    return;
-                }
-            }
+            if (message.ID == this.ID)
+                message.Reply(this);
         }
 
         public void DragEnter(IDropInfo dropInfo)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void DragLeave(IDropInfo dropInfo)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
     }
 }

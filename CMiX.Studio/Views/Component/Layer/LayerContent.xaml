@@ -3,171 +3,93 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Presentation="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d"
              md:DialogServiceViews.IsRegistered="True"
-             d:DesignHeight="587.333" d:DesignWidth="317.333">
+             d:DesignHeight="752.666" d:DesignWidth="333.333">
 
-    <UserControl.Resources>
-        <Presentation:BindingProxy x:Key="ModelEntityProxy" Data="{Binding Path=DataContext.Project.CompositionManager.SelectedComposition.CompositionService.ModelEntityManager, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"/>
-        <Presentation:BindingProxy x:Key="LightEntityProxy" Data="{Binding Path=DataContext.Project.CompositionManager.SelectedComposition.CompositionService.LightEntityManager, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"/>
-        <Presentation:BindingProxy x:Key="CameraProxy" Data="{Binding Path=DataContext.Project.CompositionManager.SelectedComposition.CompositionService.CameraManager, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"/>
-    </UserControl.Resources>
-    
     <Border
         Background="{DynamicResource DarkerColor}"
         IsEnabled="{Binding Converter={StaticResource NullToBool}}">
         <StackPanel>
-            <Expander Header="Entities" IsExpanded="True">
-                <Border Background="{DynamicResource HighDarkerColor}">
-                    <StackPanel>
-                        <Grid Height="100" Margin="8">
+            <Expander Header="Entities">
+                <StackPanel>
+                    <Views:PrefabSlotManager
+                        ItemsSource="{Binding Path=DataContext.Project.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
+                        DataContext="{Binding ModelEntityManager}"/>
+                    <Border>
 
-                            <ListBox 
-                                x:Name="EntityListBox"
-                                Style="{StaticResource ListBoxSlotWithButton}"
-                                DataContext="{Binding EntityManager}"
-                                AllowDrop="True"
-                                dd:DragDrop.IsDragSource="True"
-                                dd:DragDrop.IsDropTarget="True"
-                                dd:DragDrop.DragHandler="{Binding}"
-                                dd:DragDrop.DropHandler="{Binding}"
-                                Grid.Row="3" 
-                                SelectedItem="{Binding SelectedItem}"
-                                ItemsSource="{Binding PrefabSlots}">
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Path=ModelEntityManager.SelectedItem, Converter={StaticResource NullToBool}}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Path=ModelEntityManager.SelectedItem, Converter={StaticResource NullToBool}}" Value="False">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
 
-                                <ListBox.ItemTemplate>
-                                    <ItemContainerTemplate>
-                                        <Border Height="20">
-                                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                                        </Border>
-                                    </ItemContainerTemplate>
-                                </ListBox.ItemTemplate>
-                                
-                            </ListBox>
-                        </Grid>
+                        <StackPanel>
+                            <Border IsEnabled="{Binding ModelEntityManager.SelectedItem.Transform, Converter={StaticResource NullToBool}}">
+                                <Views:TransformModifierManager DataContext="{Binding ModelEntityManager.SelectedItem.Prefab.Transform.TransformModifier}"/>
+                            </Border>
 
-                        <ComboBox 
-                            Grid.Column="1"
-                            x:Name="EntityCombobox"
-                            Margin="8, 0, 8, 16" 
-                            DockPanel.Dock="Bottom" 
-                            SelectedItem="{Binding EntityManager.SelectedItem.Prefab}">
-                            <ComboBox.Style>
-                                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
-                                    <Style.Triggers>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=EntityCombobox, Path=HasItems}" Value="False" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </MultiDataTrigger>
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
+                            <Border IsEnabled="{Binding ModelEntityManager.SelectedItem.Mesh, Converter={StaticResource NullToBool}}">
+                                <Expander Header="Mesh">
+                                    <StackPanel>
+                                        <Grid Margin="8, 8, 8, 0" >
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock 
+                                                Grid.Column="0" 
+                                                Padding="8, 0" 
+                                                HorizontalAlignment="Right" 
+                                                Text="Mesh" 
+                                                Foreground="{StaticResource TextBase}"/>
+                                            <ComboBox 
+                                                Grid.Column="1"
+                                                SelectedValue="{Binding ModelEntityManager.SelectedItem.Prefab.Mesh}"
+                                                SelectedValuePath="Prefab"
+                                                ItemsSource="{Binding CompositionService.MeshManager.Prefabs}">
+                                                <ComboBox.ItemTemplate>
+                                                    <ItemContainerTemplate>
+                                                        <Border Height="20">
+                                                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                                                        </Border>
+                                                    </ItemContainerTemplate>
+                                                </ComboBox.ItemTemplate>
+                                            </ComboBox>
+                                        </Grid>
+                                        <ViewComponents:Mesh DataContext="{Binding ModelEntityManager.SelectedItem.Prefab.Mesh}"/>
+                                    </StackPanel>
 
-                                                <Condition Binding="{Binding ElementName=EntityListBox, Path=HasItems}" Value="False" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </MultiDataTrigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </ComboBox.Style>
-                            <ComboBox.ItemsSource>
-                                <CompositeCollection>
-                                    <CollectionContainer Collection="{Binding Path=Data.Prefabs, Source={StaticResource ModelEntityProxy}}" />
-                                    <CollectionContainer Collection="{Binding Path=Data.Prefabs, Source={StaticResource LightEntityProxy}}" />
-                                </CompositeCollection>
-                            </ComboBox.ItemsSource>
-                            
-                            <ComboBox.ItemTemplate>
-                                <ItemContainerTemplate>
-                                    <Border Height="20">
-                                        <TextBlock Padding="4" Text="{Binding Name}"/>
-                                    </Border>
-                                </ItemContainerTemplate>
-                            </ComboBox.ItemTemplate>
-                            
-                        </ComboBox>
-                    </StackPanel>
-                </Border>
+                                </Expander>
+                            </Border>
+
+                            <Border IsEnabled="{Binding ModelEntityManager.SelectedItem.Material, Converter={StaticResource NullToBool}}">
+                                <Expander Header="Material">
+                                    <Views:Material DataContext="{Binding ModelEntityManager.SelectedItem.Prefab.Material}"/>
+                                </Expander>
+                            </Border>
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+            </Expander>
+
+            <Expander Header="Filter">
+                <Views:TextureFilter  DataContext="{Binding TextureModifierManager}"/>
             </Expander>
             
-            <Expander Header="Cameras" IsExpanded="True">
-                <Border Background="{DynamicResource HighDarkerColor}">
-                    <StackPanel>
-                        <Grid Height="100" Margin="8">
-
-                            <ListBox 
-                                x:Name="CameraListBox"
-                                Style="{StaticResource ListBoxSlotWithButton}"
-                                DataContext="{Binding CameraManager}"
-                                AllowDrop="True"
-                                dd:DragDrop.IsDragSource="True"
-                                dd:DragDrop.IsDropTarget="True"
-                                dd:DragDrop.DragHandler="{Binding}"
-                                dd:DragDrop.DropHandler="{Binding}"
-                                Grid.Row="3" 
-                                SelectedItem="{Binding SelectedItem}"
-                                ItemsSource="{Binding PrefabSlots}">
-
-                                <ListBox.ItemTemplate>
-                                    <ItemContainerTemplate>
-                                        <Border Height="20">
-                                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                                        </Border>
-                                    </ItemContainerTemplate>
-                                </ListBox.ItemTemplate>
-
-                            </ListBox>
-                        </Grid>
-
-                        <ComboBox 
-                            Grid.Column="1"
-                            x:Name="CameraCombobox"
-                            Margin="8, 0, 8, 16" 
-                            DockPanel.Dock="Bottom" 
-                            ItemsSource="{Binding Path=Data.Prefabs, Source={StaticResource CameraProxy}}"
-                            SelectedItem="{Binding CameraManager.SelectedItem.Prefab}">
-                            <ComboBox.Style>
-                                <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
-                                    <Style.Triggers>
-
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=CameraCombobox, Path=HasItems}" Value="False" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </MultiDataTrigger>
-
-                                        <MultiDataTrigger>
-                                            <MultiDataTrigger.Conditions>
-                                                <Condition Binding="{Binding ElementName=CameraListBox, Path=HasItems}" Value="False" />
-                                            </MultiDataTrigger.Conditions>
-                                            <Setter Property="IsEnabled" Value="False" />
-                                        </MultiDataTrigger>
-
-                                    </Style.Triggers>
-                                </Style>
-                            </ComboBox.Style>
-                            
-                            <ComboBox.ItemTemplate>
-                                <ItemContainerTemplate>
-                                    <Border Height="20">
-                                        <TextBlock Padding="4" Text="{Binding Name}"/>
-                                    </Border>
-                                </ItemContainerTemplate>
-                            </ComboBox.ItemTemplate>
-
-                        </ComboBox>
-                    </StackPanel>
-                </Border>
-            </Expander>
-            
-            <Expander Header="Background" IsExpanded="True">
+            <Expander Header="Background">
                 <Grid Margin="8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -191,12 +113,15 @@
                         Foreground="{StaticResource TextBase}"/>
                 </Grid>
             </Expander>
-
-            <Views:TextureFilterManager DataContext="{Binding ModifierManager}"/>
+            
+            <Expander Header="Cameras">
+                <Views:PrefabSlotManager 
+                    ItemsSource="{Binding Path=DataContext.Project.CompositionService.CameraRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
+                    DataContext="{Binding CameraEntityManager}"/>
+            </Expander>
+            
             <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
 
         </StackPanel>
-
     </Border>
-
 </UserControl>

@@ -3,17 +3,19 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Service;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class TextureFilterFactory : IModifierFactory
     {
-        public TextureFilterFactory()
+        public TextureFilterFactory(CompositionService compositionService)
         {
-
+            CompositionService = compositionService;
         }
+
+        public CompositionService CompositionService { get; set; }
 
         public IModifier Create(Type modifierType)
         {
@@ -30,7 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels
                 return new Edge(new EdgeModel());
 
             if(modifierType == typeof(TransformTexture))
-                return new TransformTexture(new TransformTextureModel());
+                return new TransformTexture(new TransformTextureModel(), CompositionService);
 
             if (modifierType == typeof(Pixelate))
                 return new Pixelate(new PixelateModel());
@@ -42,7 +44,7 @@ namespace CMiX.Core.Presentation.ViewModels
                 return new Feedback(new FeedbackModel());
 
             if (modifierType == typeof(TriColor))
-                return new TriColor(new TriColorModel());
+                return new TriColor(new TriColorModel(), CompositionService);
 
             return null;
         }
@@ -62,7 +64,7 @@ namespace CMiX.Core.Presentation.ViewModels
                 return new Edge(edgeModel);
 
             if (modifierModel is TransformTextureModel modelTexture)
-                return new TransformTexture(modelTexture);
+                return new TransformTexture(modelTexture, CompositionService);
 
             if (modifierModel is PixelateModel pixelateModel)
                 return new Pixelate(pixelateModel);
@@ -74,14 +76,9 @@ namespace CMiX.Core.Presentation.ViewModels
                 return new Feedback(feedbackModel);
 
             if (modifierModel is TriColorModel triColorModel)
-                return new TriColor(triColorModel);
+                return new TriColor(triColorModel, CompositionService);
 
             return null;
-        }
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            throw new NotImplementedException();
         }
     }
 }

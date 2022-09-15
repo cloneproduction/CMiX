@@ -10,7 +10,8 @@
                 <ControlTemplate TargetType="{x:Type GridSplitter}">
                     <Border 
                         x:Name="border"
-                        Background="{TemplateBinding Background}">
+                        Opacity="0.0"
+                        Background="Transparent">
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">

@@ -12,7 +12,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Height" Value="22"/>
+        <Setter Property="Height" Value="24"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="Template">
@@ -75,16 +75,16 @@
                         </ToggleButton>
 
                         <ContentPresenter
-                                    x:Name="contentPresenter"
-                                    Margin="8, 0, 0, 0"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
-                                    Content="{TemplateBinding SelectionBoxItem}"
-                                    ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
-                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                    IsHitTestVisible="False"
-                                    SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                                    TextElement.Foreground="{DynamicResource TextBase}" />
+                            x:Name="contentPresenter"
+                            Margin="8, 0, 0, 0"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding SelectionBoxItem}"
+                            ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
+                            ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                            IsHitTestVisible="False"
+                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
+                            TextElement.Foreground="{DynamicResource TextBase}" />
 
                         <Popup
                             x:Name="PART_Popup"
@@ -114,7 +114,7 @@
                                             RenderOptions.ClearTypeHint="Enabled"
                                             x:Name="ItemsPresenter"
                                             KeyboardNavigation.DirectionalNavigation="Contained"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                                            SnapsToDevicePixels="True"/>
                                     </ScrollViewer>
                                 </Grid>
 
@@ -140,30 +140,38 @@
 
     
     <Style TargetType="{x:Type ComboBoxItem}">
-        <Setter Property="Height" Value="25"/>
+
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Padding" Value="4" />
+        <Setter Property="Margin" Value="0"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="Width" Value="Auto" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Foreground" Value="Red" />
 
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
-                    <Border x:Name="Bd"
-                            Padding="8, 4"
-                            VerticalAlignment="Center"
-                            Background="Transparent"
-                            SnapsToDevicePixels="True">
-                        <ContentPresenter
-                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                            Content="{TemplateBinding Content}"
-                            ContentStringFormat="{TemplateBinding ContentStringFormat}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                    <Border Padding="0, 1" Background="Transparent">
+                        <Border x:Name="Bd"
+                                Padding="0"
+                                Margin="0"
+                                CornerRadius="2"
+                                VerticalAlignment="Center"
+                                Background="Transparent"
+                                SnapsToDevicePixels="True">
+                            <ContentPresenter
+                                Margin="4"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                Content="{TemplateBinding Content}"
+                                ContentStringFormat="{TemplateBinding ContentStringFormat}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                        </Border>
                     </Border>
+
 
                     <ControlTemplate.Triggers>
 
@@ -171,13 +179,12 @@
                             <Setter TargetName="Bd" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
 
-                        <MultiTrigger>
+                        <!--<MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
-                                <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
-                        </MultiTrigger>
+                        </MultiTrigger>-->
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
@@ -200,7 +207,7 @@
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
                         </MultiTrigger>
 
                     </ControlTemplate.Triggers>
@@ -223,6 +230,7 @@
                             DockPanel.Dock="Right" 
                             Width="25" 
                             Command="{Binding DeleteItemCommand}"
+                            CommandParameter="{Binding SelectedItem}"
                             Style="{StaticResource ButtonRoundedRight}"
                             Content="-">
                         </Button>

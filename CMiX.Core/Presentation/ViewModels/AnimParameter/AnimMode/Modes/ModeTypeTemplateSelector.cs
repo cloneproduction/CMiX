@@ -16,7 +16,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
             DataTemplate dataTemplate = null;
-            var animParameter = item as AnimParameter;
+            //var animParameter = item as AnimParameter;
 
             if (item != null)
             {
@@ -27,8 +27,8 @@ namespace CMiX.Core.Presentation.ViewModels
                     dataTemplate = StepperTemplate;
                 else if (item is Steady)
                     dataTemplate = SteadyTemplate;
-                else if (item is None)
-                    dataTemplate = NoneTemplate;
+                //else if (item is None)
+                //    dataTemplate = NoneTemplate;
             }
 
             return dataTemplate;

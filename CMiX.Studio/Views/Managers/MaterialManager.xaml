@@ -3,9 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             xmlns:dd="urn:gong-wpf-dragdrop"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              mc:Ignorable="d"
              md:DialogServiceViews.IsRegistered="True" 
              d:DesignHeight="645.333" d:DesignWidth="349.293">
@@ -18,12 +17,6 @@
             <ListBox 
                 Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
-                AllowDrop="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DragHandler="{Binding}"
-                dd:DragDrop.DropHandler="{Binding}"
-                Grid.Row="3" 
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
 
@@ -39,7 +32,7 @@
         </Grid>
 
         <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <Views:Material DataContext="{Binding SelectedItem}"/>
+            <Views:Material DataContext="{Binding SelectedItem.Prefab}"/>
         </Border>
     </StackPanel>
 </UserControl>

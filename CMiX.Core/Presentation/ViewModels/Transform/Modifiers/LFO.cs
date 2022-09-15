@@ -4,13 +4,14 @@
 using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class LFO : ObservableObject, IControl, ITransformModifier, IBeatModifiable, IDisposable
+    public class LFO : ObservableObject, IControl, IBeatModifiable, ITransformModifier, IDisposable
     {
-        public LFO(LFOModel lfoModel)
+        public LFO(LFOModel lfoModel, CompositionService compositionService)
         {
             ID = lfoModel.ID;
             Enabled = lfoModel.Enabled;
@@ -18,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Mode = new ComboBox<ModifierMode>(lfoModel.Mode);
 
             Visible = new ToggleButton(lfoModel.Visible);
-            BeatModifier = new BeatModifier(lfoModel.BeatModifier);
+            BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
 
             XAxis = new ToggleButton(lfoModel.XAxis);
             YAxis = new ToggleButton(lfoModel.YAxis);
@@ -52,11 +53,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Slider From { get; set; }
         public Slider To { get; set; }
 
-
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            BeatModifier.SetMasterBeat(masterBeat);
-        }
 
         public IModel GetModel()
         {

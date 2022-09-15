@@ -12,13 +12,13 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets
 {
-    public class GeometrySelector : ObservableRecipient, IRecipient<IMessage>, IControl, IDropTarget
+    public class GeometrySelector : ObservableRecipient, IControl, IDropTarget
     {
         public GeometrySelector(AssetGeometry defaultAsset, GeometrySelectorModel geometrySelectorModel)
         {
             this.ID = geometrySelectorModel.ID;
             SelectedAsset = defaultAsset;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+
         }
 
 
@@ -72,24 +72,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             if (this.SelectedAsset != null)
                 model.SelectedAsset = (IAssetModel)this.SelectedAsset.GetModel();
             return model;
-        }
-
-        public void Receive(IMessage message)
-        {
-            if (message is MessageAsset messageAsset && message.ID == this.ID)
-            {
-                var assetModel = messageAsset.AssetModel;
-
-                if (assetModel is AssetGeometryModel model)
-                {
-                    var asset = new AssetGeometry();
-                    asset.SetViewModel(model);
-                    this.SelectedAsset = asset;
-                    Console.WriteLine("GeometrySelector Receive Asset with address " + SelectedAsset.Path);
-                    return;
-
-                }
-            }
         }
 
         public void DragEnter(IDropInfo dropInfo)

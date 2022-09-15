@@ -9,8 +9,9 @@
             </Trigger>
         </Style.Triggers>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="SnapsToDevicePixels" Value="True"/>
+        <Setter Property="SnapsToDevicePixels" Value="False"/>
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
     </Style>

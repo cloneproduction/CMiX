@@ -3,19 +3,20 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
     public class TransformTexture : ObservableObject, ITextureFilter
     {
-        public TransformTexture(TransformTextureModel transformTextureModel)
+        public TransformTexture(TransformTextureModel transformTextureModel, CompositionService compositionService)
         {
             ID = transformTextureModel.ID;
             Name = transformTextureModel.Name;
             IsExpanded = true;
             Visible = new ToggleButton(transformTextureModel.Visible);
-            SamplerState = new SamplerState(transformTextureModel.SamplerStateModel);
+            SamplerState = new SamplerState(transformTextureModel.SamplerStateModel, compositionService);
             TranslateX = new Slider(nameof(TranslateX), transformTextureModel.TranslateXModel);
             TranslateY = new Slider(nameof(TranslateY), transformTextureModel.TranslateYModel);
             ScaleX = new Slider(nameof(ScaleX), transformTextureModel.ScaleXModel);

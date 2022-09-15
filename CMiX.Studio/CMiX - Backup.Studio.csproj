@@ -1,0 +1,975 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>v4.7.2</TargetFramework>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>CMiX.App</StartupObject>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>7.1</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Release|x64'">
+    <OutputPath>bin\x64\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <Optimize>true</Optimize>
+    <DebugType>pdbonly</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AutoGenerateBindingRedirects>false</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VVVV_Debug|AnyCPU'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\VVVV_Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'VVVV_Debug|x64'">
+    <DebugSymbols>true</DebugSymbols>
+    <OutputPath>bin\x64\VVVV_Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DebugType>full</DebugType>
+    <PlatformTarget>x64</PlatformTarget>
+    <LangVersion>7.1</LangVersion>
+    <ErrorReport>prompt</ErrorReport>
+    <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  
+  
+  <ItemGroup>
+    <Reference Include="Ceras, Version=4.1.7.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ceras.4.1.7\lib\net47\Ceras.dll</HintPath>
+    </Reference>
+    <Reference Include="CommunityToolkit.Mvvm, Version=8.0.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
+      <HintPath>..\packages\CommunityToolkit.Mvvm.8.0.0\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
+    </Reference>
+    <Reference Include="FluentScheduler, Version=5.5.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\FluentScheduler.5.5.1\lib\netstandard2.0\FluentScheduler.dll</HintPath>
+    </Reference>
+    <Reference Include="GongSolutions.WPF.DragDrop, Version=3.0.0.0, Culture=neutral, PublicKeyToken=91f1945125b7a587, processorArchitecture=MSIL">
+      <HintPath>..\packages\gong-wpf-dragdrop.3.1.1\lib\net47\GongSolutions.WPF.DragDrop.dll</HintPath>
+    </Reference>
+    <Reference Include="Humanizer, Version=2.14.0.0, Culture=neutral, PublicKeyToken=979442b78dfc278e, processorArchitecture=MSIL">
+      <HintPath>..\packages\Humanizer.Core.2.14.1\lib\netstandard2.0\Humanizer.dll</HintPath>
+    </Reference>
+    <Reference Include="Memento, Version=1.0.0.0, Culture=neutral, PublicKeyToken=38cdbba176369010, processorArchitecture=MSIL">
+      <HintPath>..\packages\Memento.1.2.1\lib\net40\Memento.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Bcl.AsyncInterfaces, Version=6.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Bcl.AsyncInterfaces.6.0.0\lib\net461\Microsoft.Bcl.AsyncInterfaces.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="Microsoft.Expression.Interactions, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Interaction.3.0.40218.0\lib\net46\Microsoft.Expression.Interactions.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Extensions.DependencyInjection.Abstractions, Version=6.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Extensions.DependencyInjection.Abstractions.6.0.0\lib\net461\Microsoft.Extensions.DependencyInjection.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="MvvmDialogs, Version=8.0.0.0, Culture=neutral, PublicKeyToken=3d3b9708589bc73e, processorArchitecture=MSIL">
+      <HintPath>..\packages\MvvmDialogs.8.0.0\lib\net472\MvvmDialogs.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Collections.Immutable, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Collections.Immutable.6.0.0\lib\net461\System.Collections.Immutable.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Annotations, Version=4.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.ComponentModel.Annotations.6.0.0-preview.4.21253.7\lib\net461\System.ComponentModel.Annotations.dll</HintPath>
+    </Reference>
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Composition.AttributedModel, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.AttributedModel.6.0.0\lib\net461\System.Composition.AttributedModel.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Convention, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Convention.6.0.0\lib\net461\System.Composition.Convention.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Hosting, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Hosting.6.0.0\lib\net461\System.Composition.Hosting.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.Runtime, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.Runtime.6.0.0\lib\net461\System.Composition.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Composition.TypedParts, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Composition.TypedParts.6.0.0\lib\net461\System.Composition.TypedParts.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Pipelines, Version=6.0.0.3, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Pipelines.6.0.3\lib\net461\System.IO.Pipelines.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Memory, Version=4.0.1.2, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Memory.4.5.5\lib\net461\System.Memory.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Numerics.Vectors, Version=4.1.4.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Numerics.Vectors.4.5.0\lib\net46\System.Numerics.Vectors.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Reflection.Metadata, Version=6.0.0.1, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Reflection.Metadata.6.0.1\lib\net461\System.Reflection.Metadata.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.CompilerServices.Unsafe, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.CompilerServices.Unsafe.6.0.0\lib\net461\System.Runtime.CompilerServices.Unsafe.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Runtime.Remoting" />
+    <Reference Include="System.ServiceModel" />
+    <Reference Include="System.Text.Encoding.CodePages, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Text.Encoding.CodePages.6.0.0\lib\net461\System.Text.Encoding.CodePages.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.Extensions, Version=4.2.0.1, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Threading.Tasks.Extensions.4.5.4\lib\net461\System.Threading.Tasks.Extensions.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Expression.Interaction.3.0.40218.0\lib\net46\System.Windows.Interactivity.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xaml">
+      <RequiredTargetFramework>4.0</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="WatsonTcp, Version=4.8.14.11, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\WatsonTcp.4.8.14.11\lib\net472\WatsonTcp.dll</HintPath>
+    </Reference>
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="MainViewModel.cs" />
+    <Compile Include="Views\Assets\TexturePathSelector.xaml.cs">
+      <DependentUpon>TexturePathSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Assets\GeometryPathSelector.xaml.cs">
+      <DependentUpon>GeometryPathSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Assets\VideoPathSelector.xaml.cs">
+      <DependentUpon>VideoPathSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\EntityContentControl.cs" />
+    <Compile Include="Views\BaseControl\VectorXY.xaml.cs">
+      <DependentUpon>VectorXY.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Beat\BeatManager.xaml.cs">
+      <DependentUpon>BeatManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\ColorSelector.xaml.cs">
+      <DependentUpon>ColorSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Coloration\Coloration.xaml.cs">
+      <DependentUpon>Coloration.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\ComponentPanel.xaml.cs">
+      <DependentUpon>ComponentPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Composition\OutputProperties.xaml.cs">
+      <DependentUpon>OutputProperties.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MaskPanel.xaml.cs">
+      <DependentUpon>MaskPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightAmbient.xaml.cs">
+      <DependentUpon>LightAmbient.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightDirectional.xaml.cs">
+      <DependentUpon>LightDirectional.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightEntity.xaml.cs">
+      <DependentUpon>LightEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightPoint.xaml.cs">
+      <DependentUpon>LightPoint.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\LightSpot.xaml.cs">
+      <DependentUpon>LightSpot.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshBox.xaml.cs">
+      <DependentUpon>MeshBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshCone.xaml.cs">
+      <DependentUpon>MeshCone.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshCylinder.xaml.cs">
+      <DependentUpon>MeshCylinder.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\Mesh.xaml.cs">
+      <DependentUpon>Mesh.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshPlane.xaml.cs">
+      <DependentUpon>MeshPlane.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshSphere.xaml.cs">
+      <DependentUpon>MeshSphere.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\MeshTorus.xaml.cs">
+      <DependentUpon>MeshTorus.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\ModelEntity.xaml.cs">
+      <DependentUpon>ModelEntity.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\AmbientOcclusion.xaml.cs">
+      <DependentUpon>AmbientOcclusion.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\LayerBlendController.xaml.cs">
+      <DependentUpon>LayerBlendController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\LayerContent.xaml.cs">
+      <DependentUpon>LayerContent.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\LayerMaskController.xaml.cs">
+      <DependentUpon>LayerMaskController.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\CompositionService.xaml.cs">
+      <DependentUpon>CompositionService.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Easing.xaml.cs">
+      <DependentUpon>Easing.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\LFO2D.xaml.cs">
+      <DependentUpon>LFO2D.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\LFO.xaml.cs">
+      <DependentUpon>LFO.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml.cs">
+      <DependentUpon>LinearXYZ.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomScale.xaml.cs">
+      <DependentUpon>RandomScale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXY.xaml.cs">
+      <DependentUpon>RandomXY.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml.cs">
+      <DependentUpon>RandomXYZ.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\Range.xaml.cs">
+      <DependentUpon>Range.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\CameraManager.xaml.cs">
+      <DependentUpon>CameraManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\ColorationManager.xaml.cs">
+      <DependentUpon>ColorationManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\LightEntityManager.xaml.cs">
+      <DependentUpon>LightEntityManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\MeshEntityManager.xaml.cs">
+      <DependentUpon>MeshEntityManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\ModelEntityManager.xaml.cs">
+      <DependentUpon>ModelEntityManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\TransformManager.xaml.cs">
+      <DependentUpon>TransformManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\TextureManager.xaml.cs">
+      <DependentUpon>TextureManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\ColorModifierManager.xaml.cs">
+      <DependentUpon>ColorModifierManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\ColorModifierTemplateSelector.cs" />
+    <Compile Include="Views\Material\Constant.xaml.cs">
+      <DependentUpon>Constant.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\MaterialManager.xaml.cs">
+      <DependentUpon>MaterialManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\Metallic.xaml.cs">
+      <DependentUpon>Metallic.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\RandomHSV.xaml.cs">
+      <DependentUpon>RandomHSV.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Menus\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Outliner\Outliner.xaml.cs">
+      <DependentUpon>Outliner.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Scene\ScenePanel.xaml.cs">
+      <DependentUpon>ScenePanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\Client.xaml.cs">
+      <DependentUpon>Client.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\JobScheduled.xaml.cs">
+      <DependentUpon>JobScheduled.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\PlaylistEditor.xaml.cs">
+      <DependentUpon>PlaylistEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\Overview.xaml.cs">
+      <DependentUpon>Overview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\CompositionScheduler.xaml.cs">
+      <DependentUpon>CompositionScheduler.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\SchedulerManager.xaml.cs">
+      <DependentUpon>SchedulerManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SliderBeat.xaml.cs">
+      <DependentUpon>SliderBeat.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Entities\EntityPanel.xaml.cs">
+      <DependentUpon>EntityPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\MessageValidation.xaml.cs">
+      <DependentUpon>MessageValidation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messenger\ServerManager.xaml.cs">
+      <DependentUpon>ServerManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\ComponentEditor.xaml.cs">
+      <DependentUpon>ComponentEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Composition\CompositionPanel.xaml.cs">
+      <DependentUpon>CompositionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\Layer.xaml.cs">
+      <DependentUpon>Layer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Layer\LayerManager.xaml.cs">
+      <DependentUpon>LayerManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Messenger\Server.xaml.cs">
+      <DependentUpon>Server.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Assets\AssetManager.xaml.cs">
+      <DependentUpon>AssetManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Instancer\TransformModifierManager.xaml.cs">
+      <DependentUpon>TransformModifierManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Transform\Translate.xaml.cs">
+      <DependentUpon>Translate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Transform\Rotation.xaml.cs">
+      <DependentUpon>Rotation.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Transform\Scale.xaml.cs">
+      <DependentUpon>Scale.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Transform\Transform.xaml.cs">
+      <DependentUpon>Transform.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Blur.xaml.cs">
+      <DependentUpon>Blur.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Echo.xaml.cs">
+      <DependentUpon>Echo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Feedback.xaml.cs">
+      <DependentUpon>Feedback.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TextureTransformManager.xaml.cs">
+      <DependentUpon>TextureTransformManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TextureTransformModifierManager.xaml.cs">
+      <DependentUpon>TextureTransformModifierManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TriColor.xaml.cs">
+      <DependentUpon>TriColor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Pixelate.xaml.cs">
+      <DependentUpon>Pixelate.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Edge.xaml.cs">
+      <DependentUpon>Edge.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\HSCB.xaml.cs">
+      <DependentUpon>HSCB.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Invert.xaml.cs">
+      <DependentUpon>Invert.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TextureFilterManager.xaml.cs">
+      <DependentUpon>TextureFilterManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\SamplerState.xaml.cs">
+      <DependentUpon>SamplerState.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TransformTexture.xaml.cs">
+      <DependentUpon>TransformTexture.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TypeWriter.xaml.cs">
+      <DependentUpon>TypeWriter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\VideoIn.xaml.cs">
+      <DependentUpon>VideoIn.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\VideoPlayer.xaml.cs">
+      <DependentUpon>VideoPlayer.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\VectorXYZ.xaml.cs">
+      <DependentUpon>VectorXYZ.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Windows\MainWindowController.xaml.cs">
+      <DependentUpon>MainWindowController.xaml</DependentUpon>
+    </Compile>
+    <None Include="packages.config" />
+    <Compile Include="Views\Beat\BeatModifier.xaml.cs">
+      <DependentUpon>BeatModifier.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Beat\BeatControls.xaml.cs">
+      <DependentUpon>BeatControls.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Camera\Camera.xaml.cs">
+      <DependentUpon>Camera.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Material\Material.xaml.cs">
+      <DependentUpon>Material.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Component\Project\Project.xaml.cs">
+      <DependentUpon>Project.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\PostFX\PostFX.xaml.cs">
+      <DependentUpon>PostFX.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\RangeControl.xaml.cs">
+      <DependentUpon>RangeControl.xaml</DependentUpon>
+    </Compile>
+    <ApplicationDefinition Include="App.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Compile Include="Views\Beat\MasterBeatControl.xaml.cs">
+      <DependentUpon>MasterBeatControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Inverter.xaml.cs">
+      <DependentUpon>Inverter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Texture.xaml.cs">
+      <DependentUpon>Texture.xaml</DependentUpon>
+    </Compile>
+    <Page Include="Views\Assets\TexturePathSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Assets\GeometryPathSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Assets\VideoPathSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\VectorXY.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Beat\BeatManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\ColorSelector.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Coloration\Coloration.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\ComponentPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Composition\OutputProperties.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MaskPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Component\Entities\LightAmbient.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightDirectional.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightPoint.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\LightSpot.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshCone.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshCylinder.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\Mesh.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshPlane.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshSphere.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\MeshTorus.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Entities\ModelEntity.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\AmbientOcclusion.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\LayerBlendController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Component\Layer\LayerContent.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\LayerMaskController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\CompositionService.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Easing.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\LFO2D.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\LFO.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\RandomScale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\RandomXY.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\Range.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Managers\CameraManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\ColorationManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\LightEntityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\MeshEntityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\ModelEntityManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\TransformManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Managers\TextureManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\ColorModifierManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\Constant.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\MaterialManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\Metallic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\RandomHSV.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Menus\MainMenu.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Outliner\Outliner.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Scene\ScenePanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scheduler\Client.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scheduler\JobScheduled.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scheduler\PlaylistEditor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scheduler\Overview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scheduler\CompositionScheduler.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Scheduler\SchedulerManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SliderBeat.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Component\Entities\EntityPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\MessageValidation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Component\Composition\CompositionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\Layer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Layer\LayerManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Messenger\Server.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Component\ComponentEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Assets\AssetManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Geometry\Instancer\TransformModifierManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Transform\Translate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Transform\Rotation.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Transform\Scale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Transform\Transform.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Messenger\ServerManager.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Beat\BeatModifier.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Camera\Camera.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Material\Material.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Project\Project.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\PostFX\PostFX.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\RangeControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Beat\BeatControls.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Component\Composition\Composition.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Views\Component\Composition\Composition.xaml.cs">
+      <DependentUpon>Composition.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Page Include="Views\Beat\MasterBeatControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\Blur.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\Echo.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Feedback.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\TextureTransformManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\TextureTransformModifierManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\TriColor.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Pixelate.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Edge.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\HSCB.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\Invert.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\TextureFilterManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Inverter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\SamplerState.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\Texture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\TransformTexture.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\TypeWriter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\VideoIn.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Texture\VideoPlayer.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\VectorXYZ.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Windows\MainWindowController.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\CMiX.Core\CMiX.Core.csproj">
+      <Project>{b49435ef-ef33-47b4-a92d-267566db96d8}</Project>
+      <Name>CMiX.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Views\AnimParameter\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

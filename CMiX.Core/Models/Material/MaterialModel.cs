@@ -12,7 +12,7 @@ namespace CMiX.Core.Models
         public MaterialModel()
         {
             ID = Guid.NewGuid();
-            BeatModifierModel = new BeatModifierModel();
+
             ColorSelectorModel = new ColorSelectorModel();
             Texture = new TextureModel();
             Mask = new MaskModel();
@@ -36,8 +36,6 @@ namespace CMiX.Core.Models
         public Guid ID { get; set; }
 
         public ColorSelectorModel ColorSelectorModel { get; set; }
-
-        public BeatModifierModel BeatModifierModel { get; set; }
 
         public TextureModel Texture { get; set; }
         public MaskModel Mask { get; set; }

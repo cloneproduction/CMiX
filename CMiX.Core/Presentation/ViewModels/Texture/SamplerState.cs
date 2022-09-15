@@ -6,6 +6,7 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -14,20 +15,25 @@ using MvvmDialogs;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class SamplerState : ObservableObject, IControl, IRecipient<IMessage>
+    public class SamplerState : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public SamplerState(SamplerStateModel samplerStateModel)
+        public SamplerState(SamplerStateModel samplerStateModel, CompositionService compositionService)
         {
             ID = samplerStateModel.ID;
+            CompositionService = compositionService;
+
             BorderColor = new ColorSelector(samplerStateModel.ColorSelectorModel);
             AddressU = samplerStateModel.AddressU;
             AddressV = samplerStateModel.AddressV;
 
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
+
+            IsActive = true;
         }
 
         public Guid ID { get; set; }
+        public CompositionService CompositionService { get; set; }
+
         public ICommand OpenColorSelectorCommand { get; set; }
 
         public ColorSelector BorderColor { get; set; }
@@ -56,8 +62,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void OpenColorSelector()
         {
-            IDialogService dialogService = WeakReferenceMessenger.Default.Send(new MessageRequestDialogService(), MessageType.Internal).Response;
-            dialogService.Show<ColorSelectorWindow>(this, this.BorderColor);
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BorderColor);
         }
 
         public IModel GetModel()
@@ -81,13 +86,10 @@ namespace CMiX.Core.Presentation.ViewModels
             BorderColor.SetViewModel(samplerStateModel.ColorSelectorModel);
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if(message is MessageUpdateViewModel messageUpdateViewModel)
-                this.SetViewModel(messageUpdateViewModel.Model);
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

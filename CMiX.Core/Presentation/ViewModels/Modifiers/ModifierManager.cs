@@ -8,7 +8,6 @@ using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -18,7 +17,7 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ModifierManager : ObservableRecipient, IRecipient<IMessage>, IBeatable, IControl, IDropTarget, IDragSource
+    public class ModifierManager : ObservableRecipient, IRecipient<MessageRequestControl>, IControl, IDropTarget, IDragSource
     {
         public ModifierManager(ModifierManagerModel modifierManagerModel, IModifierFactory modifierFactory)
         {
@@ -30,12 +29,12 @@ namespace CMiX.Core.Presentation.ViewModels
             Factory = modifierFactory;
             Visibility = new ToggleButton(modifierManagerModel.Visibility);
 
-            WeakReferenceMessenger.Default.Register(this, MessageType.In);
-
             CreateCommand = new RelayCommand<Type>(Create);
             RemoveCommand = new RelayCommand<IModifier>(Remove);
             DragHandlerDownCommand = new RelayCommand(OnDragHandlerDown);
             DragHandlerUpCommand = new RelayCommand(OnDragHandlerUp);
+
+            IsActive = true;
         }
 
 
@@ -68,15 +67,10 @@ namespace CMiX.Core.Presentation.ViewModels
             Add(filter);
         }
 
-        public void SetMasterBeat(MasterBeat masterBeat)
-        {
-            Factory.SetMasterBeat(masterBeat);
-        }
-
         public void Add(IModifier modifier)
         {
             Modifiers.Add(modifier);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddModifier(this.ID, modifier), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddModifier(this.ID, modifier.GetModel()), MessageType.Out);
         }
 
 
@@ -87,11 +81,10 @@ namespace CMiX.Core.Presentation.ViewModels
             modifier.Dispose();
         }
 
-        public void Remove(Guid textureFilterID)
+        public void Remove(Guid id)
         {
-            var filter = Modifiers.FirstOrDefault(x => x.ID == textureFilterID);
-            if (filter != null)
-                this.Remove(filter);
+            var modifier = Modifiers.FirstOrDefault(x => x.ID == id);
+            this.Remove(modifier);
         }
 
 
@@ -112,31 +105,10 @@ namespace CMiX.Core.Presentation.ViewModels
             return modifierManagerModel;
         }
 
-
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if (message is MessageAddModifier messageAddModifier)
-            {
-                this.Create(messageAddModifier.ModifierModel);
-                return;
-            }
-
-            if (message is MessageRemoveModifier messageRemoveModifier)
-            {
-                this.Remove(messageRemoveModifier.ModifierModel.ID);
-                return;
-            }
-
-            if(message is MessageModifierMove messageModifierMove)
-            {
-                var oldIndex = messageModifierMove.OldIndex;
-                var newIndex = messageModifierMove.NewIndex;
-                
-                Modifiers.Move(oldIndex, newIndex);
-            }
+            if (message.ID == this.ID)
+                message.Reply(this);
         }
 
 
@@ -174,31 +146,36 @@ namespace CMiX.Core.Presentation.ViewModels
 
             if (targetIndex == Modifiers.Count)
             {
-                Move(sourceIndex, targetIndex);
+                MoveOnDrop(sourceIndex, targetIndex);
                 return;
             }
 
             if (targetIndex == Modifiers.Count - 1)
             {
-                Move(sourceIndex, targetIndex);
+                MoveOnDrop(sourceIndex, targetIndex);
                 return;
             }
 
             if (targetIndex >= sourceIndex)
             {
-                Move(sourceIndex, targetIndex);
+                MoveOnDrop(sourceIndex, targetIndex);
                 return;
             }
 
             Modifiers.Move(sourceIndex, targetIndex);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageModifierMove(this.ID, sourceIndex, targetIndex), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMoveModifier(this.ID, sourceIndex, targetIndex), MessageType.Out);
         }
 
-        private void Move(int sourceIndex, int targetIndex)
+        public void MoveOnDrop(int sourceIndex, int targetIndex)
         {
             targetIndex -= 1;
             Modifiers.Move(sourceIndex, targetIndex);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageModifierMove(this.ID, sourceIndex, targetIndex), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMoveModifier(this.ID, sourceIndex, targetIndex), MessageType.Out);
+        }
+
+        public void Move(int oldIndex, int newIndex)
+        {
+            Modifiers.Move(oldIndex, newIndex);
         }
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)

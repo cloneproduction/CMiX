@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class DirectionXYZ : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class DirectionXYZ : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public DirectionXYZ(DirectionXYZModel directionXYZModel)
         {
@@ -19,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
             DirectionY = directionXYZModel.DirectionY;
             DirectionZ = directionXYZModel.DirectionZ;
 
-            WeakReferenceMessenger.Default.Register(this, MessageType.In);
+            IsActive = true;
         }
 
         public Guid ID { get; set; }
@@ -78,13 +78,10 @@ namespace CMiX.Core.Presentation.ViewModels
             DirectionZ = directionXYZModel.DirectionZ;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if(message is MessageUpdateViewModel msg)
-                this.SetViewModel(msg.Model);
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

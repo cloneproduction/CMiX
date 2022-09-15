@@ -10,13 +10,13 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ComboBox<T> : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class ComboBox<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public ComboBox(ComboBoxModel<T> comboBoxModel)
         {
             this.ID = comboBoxModel.ID;
             this.Selection = comboBoxModel.Selection;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
+            this.IsActive = true;
         }
 
 
@@ -37,7 +37,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public IModel GetModel()
         {
-            ComboBoxModel<T> model = new ComboBoxModel<T>();
+            ComboBoxModel<T> model = new ComboBoxModel<T>(this.Selection);
             model.ID = this.ID;
             model.Selection = this.Selection;
             return model;
@@ -50,13 +50,10 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Selection = comboBoxModel.Selection;
         }
 
-        public void Receive(IMessage message)
+        public void Receive(MessageRequestControl message)
         {
-            if (message.ID != this.ID)
-                return;
-
-            if(message is MessageUpdateViewModel messageUpdateViewModel)
-                this.SetViewModel(messageUpdateViewModel.Model);
+            if (message.ID == this.ID && !message.HasReceivedResponse)
+                message.Reply(this);
         }
     }
 }

@@ -8,7 +8,7 @@ using CMiX.Core.Presentation.ViewModels.Scheduling;
 
 namespace CMiX.Core.Models
 {
-    public class ProjectModel : IComponentModel
+    public class ProjectModel : IModel
     {
         public ProjectModel()
         {
@@ -16,7 +16,7 @@ namespace CMiX.Core.Models
             ComponentModels = new ObservableCollection<IComponentModel>();
             AssetModels = new ObservableCollection<IAssetModel>();
             AssetModelsFlatten = new ObservableCollection<IAssetModel>();
-            CompositionSchedulerSelectorModel = new ComboBoxModel<CompositionScheduler>();
+            //CompositionSchedulerSelectorModel = new ComboBoxModel<CompositionScheduler>();
             SchedulerManagerModel = new SchedulerManagerModel();
         }
 

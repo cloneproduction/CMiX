@@ -8,34 +8,32 @@
              mc:Ignorable="d" d:DesignHeight="316" d:DesignWidth="240.667" >
     
     <DockPanel>
+
         <Border 
             Height="100"                                         
             DockPanel.Dock="Top"
             Margin="8">
             <ListBox 
                 Style="{StaticResource ListBoxWithButton}"
-                DataContext="{Binding}"
-                AllowDrop="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DragHandler="{Binding}"
-                dd:DragDrop.DropHandler="{Binding}"
-                Grid.Row="3" 
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
 
                 <ListBox.ItemTemplate>
                     <ItemContainerTemplate>
                         <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
+                            <TextBlock Padding="4" Text="{Binding Path=Name}"/>
                         </Border>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>
+                
             </ListBox>
+            
         </Border>
 
         <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <Views:ModelEntity Margin="0, 8" DataContext="{Binding SelectedItem}"/>
+            <Views:ModelEntity Margin="0, 8" DataContext="{Binding SelectedItem.Prefab}"/>
         </Border>
+        
     </DockPanel>
+    
 </UserControl>

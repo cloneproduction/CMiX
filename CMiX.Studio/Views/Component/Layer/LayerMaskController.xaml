@@ -22,7 +22,7 @@
     <StackPanel>
 
         <Controls:CMiXSlider
-            Margin="0, 0, 0, 4"
+            Margin="0, 0, 0, 8"
             Style="{StaticResource CMiXSliderStyle}"
             Minimum="0"
             Maximum="1"
@@ -31,7 +31,7 @@
             Value="{Binding Opacity.Amount}" 
             Caption="Opacity"/>
 
-        <Grid DockPanel.Dock="Top" Height="22">
+        <Grid DockPanel.Dock="Top">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -51,7 +51,7 @@
                 ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
         </Grid>
 
-        <Grid DockPanel.Dock="Top" Height="22" Margin="0, 8">
+        <Grid DockPanel.Dock="Top" Height="22" Margin="0, 8, 0, 0">
 
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -64,7 +64,7 @@
                 VerticalAlignment="Center" 
                 Text="Invert"/>
             
-            <ToggleButton IsChecked="{Binding Invert.IsChecked}" Grid.Column="1" HorizontalAlignment="Left"/>
+            <ToggleButton IsChecked="{Binding Invert.IsChecked}" Margin="1, 0, 0, 0" Grid.Column="1" HorizontalAlignment="Left"/>
             
         </Grid>
     </StackPanel>
