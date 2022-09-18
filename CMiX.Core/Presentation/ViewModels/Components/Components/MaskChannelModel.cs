@@ -7,12 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentation.ViewModels.Components.Components
 {
-    public enum CameraTransformType
+    public class MaskChannelModel
     {
-        Zoom,
-        Pitch,
-        Yaw,
     }
 }

@@ -36,7 +36,21 @@
 
                         <StackPanel>
                             <Border IsEnabled="{Binding ModelEntityManager.SelectedItem.Transform, Converter={StaticResource NullToBool}}">
-                                <Views:TransformModifierManager DataContext="{Binding ModelEntityManager.SelectedItem.Prefab.Transform.TransformModifier}"/>
+                                <Expander>
+                                    <Expander.Header>
+                                        <DockPanel>
+                                            <ToggleButton
+                                                x:Name="ModifierEnabled"
+                                                Height="16"
+                                                HorizontalAlignment="Left"
+                                                VerticalAlignment="Center"
+                                                IsChecked="{Binding ModelEntityManager.SelectedItem.Prefab.TransformModifier.Visibility.IsChecked}"/>
+                                            <TextBlock Text="Modifiers" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                                        </DockPanel>
+                                    </Expander.Header>
+                                    <Views:CameraTransformModifierManager DataContext="{Binding ModelEntityManager.SelectedItem.Prefab.Transform.TransformModifier}"/>
+                                </Expander>
+
                             </Border>
 
                             <Border IsEnabled="{Binding ModelEntityManager.SelectedItem.Mesh, Converter={StaticResource NullToBool}}">

@@ -4,33 +4,63 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:dd="urn:gong-wpf-dragdrop"
+             xmlns:dd="urn:gong-wpf-dragdrop" xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core" xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="668.082" d:DesignWidth="312.071">
 
-    <DockPanel>
-        <Border 
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <DockPanel>
+            <Border 
             Height="100"                                         
             DockPanel.Dock="Top"
             Margin="8">
-            <ListBox 
+                <ListBox 
                 Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
 
-                <ListBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                        </Border>
-                    </ItemContainerTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Border>
+                    <ListBox.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <Border Height="20">
+                                <TextBlock Padding="4" Text="{Binding Name}"/>
+                            </Border>
+                        </ItemContainerTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
 
-        <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
-        </Border>
-    </DockPanel>
+            <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
+                <StackPanel>
+                    <StackPanel Margin="8, 16">
+                        <basecontrol:VectorXYZ DataContext="{Binding SelectedItem.Prefab.Translate}"/>
+                        <basecontrol:VectorXYZ  Margin="0, 8" DataContext="{Binding SelectedItem.Prefab.Scale}"/>
+                        <basecontrol:VectorXYZ  DataContext="{Binding SelectedItem.Prefab.Rotate}"/>
+                    </StackPanel>
+
+
+
+
+                    <Expander>
+                        <Expander.Header>
+                            <DockPanel>
+                                <ToggleButton
+                                    x:Name="ModifierEnabled"
+                                    Height="16"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    IsChecked="{Binding SelectedItem.Prefab.TransformModifier.Visibility.IsChecked}"/>
+                                <TextBlock Text="Modifiers" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                            </DockPanel>
+                        </Expander.Header>
+                        <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
+
+                    </Expander>
+
+                </StackPanel>
+
+            </Border>
+        </DockPanel>
+    </ScrollViewer>
+
 </UserControl>

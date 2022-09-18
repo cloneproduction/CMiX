@@ -19,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public IModifier Create(Type modifierType)
         {
-            if (modifierType == typeof(CameraLFOModel))
+            if (modifierType == typeof(CameraLFO))
                 return CreateCameraLFO();
 
             return null;

@@ -15,7 +15,7 @@
 
         <Grid Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
@@ -28,24 +28,17 @@
                     </i:Interaction.Behaviors>
                 </Controls:DistanceSlider>
             </Border>
-            <DockPanel Grid.Column="0" >
-                <TextBlock 
+            <TextBlock 
                     Padding="8, 0" 
                     DockPanel.Dock="Right"
                     HorizontalAlignment="Right" 
                     Text="Radius" 
                     Foreground="{DynamicResource TextBase}"/>
-
-                <TextBlock
-                    DockPanel.Dock="Right"
-                    HorizontalAlignment="Right" 
-                    Text="{Binding Name}"/>
-            </DockPanel>
         </Grid>
 
         <Grid Margin="0, 8" Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 

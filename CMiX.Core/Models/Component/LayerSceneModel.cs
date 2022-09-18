@@ -22,7 +22,7 @@ namespace CMiX.Core.Models
             ColorSelectorModel = new ColorSelectorModel("#00000000");
             Camera = new CameraModel();
             AmbientOcclusion = new AmbientOcclusionModel();
-            BlendModeModel = new BlendModeModel(BlendModeEnum.Normal);
+            BlendModeModel = new ComboBoxModel<BlendModeEnum>(BlendModeEnum.Normal);
             Opacity = new SliderModel(1.0f);
             ModelEntityManager = new PrefabManagerModel();
             CameraEntityManager = new PrefabManagerModel();
@@ -42,7 +42,7 @@ namespace CMiX.Core.Models
         public ColorSelectorModel ColorSelectorModel { get; set; }
         public CameraModel Camera { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
-        public BlendModeModel BlendModeModel { get; internal set; }
+        public ComboBoxModel<BlendModeEnum> BlendModeModel { get; internal set; }
         public SliderModel Opacity { get; internal set; }
         public PrefabManagerModel ModelEntityManager { get; internal set; }
         public PrefabManagerModel CameraEntityManager { get; internal set; }

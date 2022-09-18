@@ -47,7 +47,7 @@
             <ComboBox 
                 Grid.Column="1"
                 DockPanel.Dock="Top"
-                SelectedItem="{Binding BlendMode.Mode}"
+                SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
                 ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
         </Grid>
         

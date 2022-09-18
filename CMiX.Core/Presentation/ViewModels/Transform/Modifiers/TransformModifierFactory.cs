@@ -3,7 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Service;
 

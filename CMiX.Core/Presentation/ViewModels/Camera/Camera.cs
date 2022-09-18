@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -30,19 +31,16 @@ namespace CMiX.Core.Presentation.ViewModels
             FarClip = new Slider(nameof(FarClip), cameraModel.FarClip);
 
             Projection = new ToggleButton(cameraModel.Projection);
+
+            CameraTransformModifierManager = new ModifierManager(cameraModel.CameraTransformModifierManager, new CameraTransformModifierFactory(compositionService));
         }
 
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
+        public ModifierManager CameraTransformModifierManager { get; set; }
 
 
-        private Camera _selectedCamera;
-        public Camera SelectedCamera
-        {
-            get => _selectedCamera;
-            set => SetProperty(ref _selectedCamera, value);
-        }
 
         private string _name;
         public string Name
@@ -85,7 +83,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             FOV.SetViewModel(cameraModel.FOV);
             Distance.SetViewModel(cameraModel.Distance);
-
+            CameraTransformModifierManager.SetViewModel(cameraModel.CameraTransformModifierManager);
             Yaw.SetViewModel(cameraModel.Yaw);
             Pitch.SetViewModel(cameraModel.Pitch);
 
@@ -103,7 +101,7 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             CameraModel cameraModel = new CameraModel();
             cameraModel.ID = this.ID;
-
+            cameraModel.CameraTransformModifierManager = (ModifierManagerModel)CameraTransformModifierManager.GetModel();
             cameraModel.FOV = (SliderModel)FOV.GetModel();
             cameraModel.Distance = (SliderModel)Distance.GetModel();
 

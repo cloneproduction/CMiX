@@ -8,7 +8,7 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
-             d:DesignHeight="337.77" d:DesignWidth="259.712">
+             d:DesignHeight="221.317" d:DesignWidth="231.447">
 
     <StackPanel>
         <BaseControl:VectorXYZ DataContext="{Binding Scale}"/>
@@ -16,7 +16,7 @@
 
         <Grid Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 1">
@@ -39,7 +39,7 @@
 
         <Grid Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
@@ -62,7 +62,7 @@
 
         <Grid Margin="0, 8" Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 

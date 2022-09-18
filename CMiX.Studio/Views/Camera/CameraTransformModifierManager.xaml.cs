@@ -1,11 +1,10 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CMiX.Studio.Views
 {
-    public partial class LayerManager : UserControl
+    public partial class CameraTransformModifierManager : UserControl
     {
-        public LayerManager()
+        public CameraTransformModifierManager()
         {
             InitializeComponent();
         }

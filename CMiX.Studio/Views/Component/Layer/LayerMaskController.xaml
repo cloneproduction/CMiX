@@ -29,7 +29,7 @@
             DockPanel.Dock="Top"
             Height="22"
             Value="{Binding Opacity.Amount}" 
-            Caption="Opacity"/>
+            Caption="Alpha"/>
 
         <Grid DockPanel.Dock="Top">
 
@@ -47,7 +47,8 @@
             <ComboBox 
                 Grid.Column="1"
                 DockPanel.Dock="Top"
-                SelectedItem="{Binding MaskChannelSelector.Selection}"
+                IsSynchronizedWithCurrentItem="True"
+                SelectedValue="{Binding MaskChannelSelector.Selection, Converter={StaticResource EnumToString}}"
                 ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
         </Grid>
 

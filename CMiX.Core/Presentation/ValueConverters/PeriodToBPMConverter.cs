@@ -39,10 +39,11 @@ namespace CMiX.Core.Presentation.ValueConverters
                 return "0";
 
             var beatIndex = (int)values[1];
-            var masterBeat = (MasterBeat)values[2];
-            //var periods = (float[])values[2];
+            var masterBeat = values[2] as MasterBeat;
 
-            //return String.Format("{0:C0}", (60000 / periods[beatIndex + masterBeat.BeatIndex]).ToString());
+            if (masterBeat == null)
+                return DependencyProperty.UnsetValue;
+
             return String.Format("{0:C0}", (60000 / masterBeat.Periods[beatIndex + masterBeat.BeatIndex]).ToString());
         }
 
@@ -60,7 +61,10 @@ namespace CMiX.Core.Presentation.ValueConverters
                 return DependencyProperty.UnsetValue;
 
             var beatIndex = (int)values[0];
-            var masterBeat = (MasterBeat)values[1];
+            var masterBeat = values[1] as MasterBeat;
+
+            if(masterBeat == null)
+                return DependencyProperty.UnsetValue;
 
             return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex + masterBeat.BeatIndex].AnimationPosition;
         }

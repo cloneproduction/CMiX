@@ -81,148 +81,141 @@
 
     </UserControl.Resources>
 
-    <Expander>
-        <Expander.Header>
-            <DockPanel>
-                <ToggleButton
-                    x:Name="ModifierEnabled"
-                    Height="16"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
-                    IsChecked="{Binding Visibility.IsChecked}"/>
-                <TextBlock Text="Transform" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
-            </DockPanel>
-        </Expander.Header>
-        
-        <StackPanel Margin="8, 16">
+    <StackPanel Margin="8, 16">
 
-            <ToggleButton 
-                    IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
-                    x:Name="PopUpToggle" 
-                    Content="Add Modifier"
-                    Height="22" 
-                    Background="{DynamicResource DarkerColor}" 
-                    Style="{StaticResource ToggleTransformModifierMenu}"/>
+        <ToggleButton 
+            IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+            x:Name="PopUpToggle" 
+            Content="Add Modifier"
+            Height="22" 
+            Margin="0, 0, 0, 4"
+            Background="{DynamicResource DarkerColor}" 
+            Style="{StaticResource ToggleTransformModifierMenu}"/>
 
+        <Popup
+            AllowsTransparency="True"
+            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=textureFilterManager}"
+            Placement="Bottom"
+            PlacementTarget="{Binding ElementName=PopUpToggle}"
+            FlowDirection="LeftToRight"
+            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
 
-            <Popup
-                AllowsTransparency="True"
-                Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=InstancerPouet}"
-                Placement="Bottom"
-                PlacementTarget="{Binding ElementName=PopUpToggle}"
-                FlowDirection="RightToLeft"
-                IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+            <Border 
+                BorderThickness="1, 0, 1, 2"
+                BorderBrush="{DynamicResource Shadow}"
+                CornerRadius="{DynamicResource CornerRadiusBottom}" 
+                Padding="2, 0, 2, 2"
+                Background="{DynamicResource HighHighDarkerColor}">
 
-                <Border Background="Transparent" CornerRadius="{DynamicResource CornerRadiusBottom}" Padding="2, 0, 2, 2">
-                    <Border.Effect>
-                        <DropShadowEffect 
-                            BlurRadius="15" 
-                            Opacity="0.8"  
-                            ShadowDepth="2" 
-                            Direction="-90" 
-                            RenderingBias="Performance"/>
-                    </Border.Effect>
-                    <Border 
-                        CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
-                        Opacity="0.75" 
-                        Background="{DynamicResource HighDarkerColor}">
+                <Grid Margin="4, 8">
 
-                        <Grid Margin="8" Background="{DynamicResource HighDarkerColor}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                                <RowDefinition/>
-                            </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:LinearXYZ}" 
-                                Grid.Column="0"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="LinearXYZ"/>
+                    <StackPanel Grid.Column="0">
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:RandomXYZ}" 
-                                Grid.Column="1"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="RandomXYZ"/>
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:TransformSRT}" 
+                            Grid.Row="2"
+                            Grid.Column="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Transform XYZ"/>
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:LFO}" 
-                                Grid.Column="2"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="LFO"/>
-                            
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:RandomScale}" 
-                                Grid.Row="1"
-                                Grid.Column="0"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="Random Scale"/>
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Translate}" 
+                            Grid.Row="1"
+                            Grid.Column="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Translate XYZ"/>
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:TransformSRT}" 
-                                Grid.Row="2"
-                                Grid.Column="1"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="Transform XYZ"/>
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Scale}" 
+                            Grid.Row="1"
+                            Grid.Column="2"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Scale XYZ"/>
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:Translate}" 
-                                Grid.Row="1"
-                                Grid.Column="1"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="Translate XYZ"/>
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Rotation}" 
+                            Grid.Row="2"
+                            Grid.Column="0"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Rotate XYZ"/>
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:Scale}" 
-                                Grid.Row="1"
-                                Grid.Column="2"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="Scale XYZ"/>
+                    </StackPanel>
 
-                            <Button 
-                                Command="{Binding CreateCommand}" 
-                                CommandParameter="{x:Type ViewModels:Rotation}" 
-                                Grid.Row="2"
-                                Grid.Column="0"
-                                VerticalAlignment="Center" 
-                                Width="100" 
-                                Height="20" 
-                                Content="Rotate XYZ"/>
-                        </Grid>
-                    </Border>
-                </Border>
-            </Popup>
+                    <StackPanel Grid.Column="1">
+                        
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:RandomXYZ}" 
+                            Grid.Column="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="RandomXYZ"/>
 
-            <ItemsControl 
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:RandomScale}" 
+                            Grid.Row="1"
+                            Grid.Column="0"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Random Scale"/>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+                        
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:LinearXYZ}" 
+                            Grid.Column="0"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="LinearXYZ"/>
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:LFO}" 
+                            Grid.Column="2"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="LFO"/>
+                        
+                    </StackPanel>
+                </Grid>
+            </Border>
+        </Popup>
+
+        <ItemsControl 
                 IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
                 Margin="0, 0, 0, 0"
                 AllowDrop="True"
@@ -233,7 +226,6 @@
                 ItemTemplateSelector="{StaticResource TemplateSelector }" 
                 ItemsSource="{Binding Modifiers}"/>
 
-        </StackPanel>
-    </Expander>
+    </StackPanel>
 
 </UserControl>

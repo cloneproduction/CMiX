@@ -178,9 +178,9 @@
     </Style>
 
     
-    <Style x:Key="ButtonItemControl" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
+    <Style x:Key="ButtonItemControl" TargetType="{x:Type Button}">
         <Setter Property="HorizontalAlignment" Value="Left"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -188,20 +188,16 @@
                         x:Name="border"
                         HorizontalAlignment="Stretch"
                         Margin="0"
-                        Padding="8, 4, 4, 4"
-                        Opacity="0.8"
+                        Padding="8, 0, 0, 0"
+                        CornerRadius="2"
                         Background="Transparent"
                         SnapsToDevicePixels="True">
-                        <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
+                        <ContentPresenter HorizontalAlignment="Left" ContentTemplate="{TemplateBinding Content}"/>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Opacity" Value="1.0"/>
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}"/>
                             <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Opacity" Value="1.0"/>
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />

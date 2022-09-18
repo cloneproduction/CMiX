@@ -5,28 +5,25 @@
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Placement" Value="MousePoint"/>
         <Setter Property="VerticalOffset" Value="10"/>
+        <Setter Property="HorizontalOffset" Value="-10"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
                     <Grid>
                         <Border
-                            Background="{DynamicResource HighDarkerColor}"
+                            Background="{DynamicResource DarkerColor}"
                             Margin="8"
+                            BorderBrush="{DynamicResource Shadow}"
+                            BorderThickness="1, 0, 1, 2"
                             CornerRadius="2">
-                            <Border.Effect>
-                                <DropShadowEffect 
-                                    BlurRadius="8" 
-                                    Direction="0" 
-                                    Opacity="0.5" 
-                                    RenderingBias="Performance" 
-                                    ShadowDepth="2"/>
-                            </Border.Effect>
+                            <Border Margin="8">
+                                <ContentPresenter  
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center" />
+                            </Border>
+
                         </Border>
-                        <Border Margin="8" Padding="8">
-                            <ContentPresenter  
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center" />
-                        </Border>
+
 
                     </Grid>
 

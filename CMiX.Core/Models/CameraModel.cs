@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
 {
@@ -31,7 +32,7 @@ namespace CMiX.Core.Models
             NearClip = new SliderModel(0.05f);
 
             Projection = new ToggleButtonModel();
-
+            CameraTransformModifierManager = new ModifierManagerModel();
             Name = "Camera";
         }
 
@@ -54,5 +55,6 @@ namespace CMiX.Core.Models
         public SliderModel NearClip { get; internal set; }
         public SliderModel FarClip { get; internal set; }
         public ToggleButtonModel Projection { get; internal set; }
+        public ModifierManagerModel CameraTransformModifierManager { get; internal set; }
     }
 }

@@ -20,8 +20,8 @@
         IsExpanded="{Binding IsExpanded}"
         Header="Transform XYZ" 
         Template="{StaticResource ModifierPanelTemplate}">
-        <StackPanel Margin="8">
-            <Grid Height="20" Margin="0, 4">
+        <StackPanel Margin="8, 16">
+            <Grid Height="22" Margin="0, 0, 0, 16">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -101,8 +101,6 @@
                 </Grid>
 
             </StackPanel>
-
-
             <StackPanel Margin="0, 4">
                 <Grid Height="21">
                     <Grid.ColumnDefinitions>
@@ -146,7 +144,6 @@
                     <TextBlock Grid.Column="0" Padding="8, 0" HorizontalAlignment="Right" Text="Z" Foreground="{StaticResource TextBase}"/>
                 </Grid>
             </StackPanel>
-
             <StackPanel Margin="0, 4, 0, 8">
                 <Grid Height="20">
                     <Grid.ColumnDefinitions>
@@ -181,9 +178,7 @@
                     <TextBlock Grid.Column="0" Padding="8, 0" Text="Z" HorizontalAlignment="Right" Foreground="{StaticResource TextBase}"/>
                 </Grid>
             </StackPanel>
-            <!--<Views:Translate  Margin="0, 4" DataContext="{Binding Translate}"/>-->
-            <!--<Views:Scale Margin="0, 4" DataContext="{Binding Scale}"/>-->
-            <!--<Views:Rotation Margin="0, 4, 0, 8" DataContext="{Binding Rotation}"/>-->
+
         </StackPanel>
     </Expander>
 </UserControl>

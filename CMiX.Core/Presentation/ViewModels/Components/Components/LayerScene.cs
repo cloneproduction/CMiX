@@ -26,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             EditPanelOpen = new ToggleButton(layerModel.EditPanelOpen);
             Visibility = new ToggleButton(layerModel.VisibilityModel);
-            BlendMode = new BlendMode(layerModel.BlendModeModel);
+            BlendMode = new ComboBox<BlendModeEnum>(layerModel.BlendModeModel);
 
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
             OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
@@ -58,7 +58,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ToggleButton Visibility { get; set; }
         public ColorSelector BackgroundColor { get; set; }
         public ModifierManager TextureModifierManager { get; set; }
-        public BlendMode BlendMode { get; set; }
+        public ComboBox<BlendModeEnum> BlendMode { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }
 
 
@@ -81,7 +81,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.ColorSelectorModel = (ColorSelectorModel)this.BackgroundColor.GetModel();
             model.VisibilityModel = (ToggleButtonModel)this.Visibility.GetModel();
             model.AmbientOcclusion = (AmbientOcclusionModel)this.AmbientOcclusion.GetModel();
-            model.BlendModeModel = (BlendModeModel)this.BlendMode.GetModel();
+            model.BlendModeModel = (ComboBoxModel<BlendModeEnum>)this.BlendMode.GetModel();
             model.Opacity = (SliderModel)this.Opacity.GetModel();
             model.ModelEntityManager = (PrefabManagerModel)this.ModelEntityManager.GetModel();
             model.CameraEntityManager = (PrefabManagerModel)this.CameraEntityManager.GetModel();

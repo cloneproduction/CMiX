@@ -7,7 +7,7 @@ using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    public class CameraLFOModel : IModel
+    public class CameraLFOModel : IModifierModel
     {
         public CameraLFOModel()
         {
@@ -22,21 +22,22 @@ namespace CMiX.Core.Models
             Easing = new EasingModel();
             From = new SliderModel(0.0f);
             To = new SliderModel(1.0f);
-            TransformType = new ComboBoxModel<CameraTransformType>(CameraTransformType.Pitch);
+            Axis = new ComboBoxModel<CameraAxis>(CameraAxis.Zoom);
         }
+
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButtonModel Visible { get; internal set; }
-        public ToggleButtonModel Yaw { get; internal set; }
-        public ToggleButtonModel Pitch { get; internal set; }
-        public ToggleButtonModel Zoom { get; internal set; }
+        public ToggleButtonModel Visible { get; set; }
+        public ToggleButtonModel Yaw { get; set; }
+        public ToggleButtonModel Pitch { get; set; }
+        public ToggleButtonModel Zoom { get; set; }
 
-        public ToggleButtonModel PingPong { get; internal set; }
-        public BeatModifierModel BeatModifier { get; internal set; }
-        public EasingModel Easing { get; internal set; }
-        public SliderModel From { get; internal set; }
-        public SliderModel To { get; internal set; }
-        public ComboBoxModel<CameraTransformType> TransformType { get; internal set; }
+        public ToggleButtonModel PingPong { get; set; }
+        public BeatModifierModel BeatModifier { get; set; }
+        public EasingModel Easing { get; set; }
+        public SliderModel From { get; set; }
+        public SliderModel To { get; set; }
+        public ComboBoxModel<CameraAxis> Axis { get; set; }
 
     }
 }

@@ -8,7 +8,7 @@ using CMiX.Core.Presentation.ViewModels.Service;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class CameraLFO : ICameraModifier
+    public class CameraLFO : ICameraModifier, IBeatModifiable
     {
         public CameraLFO(CameraLFOModel lfoModel, CompositionService compositionService)
         {
@@ -23,7 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Zoom = new ToggleButton(lfoModel.Zoom);
 
             PingPong = new ToggleButton(lfoModel.PingPong);
-            TransformType = new ComboBox<CameraTransformType>(lfoModel.TransformType);
+            Axis = new ComboBox<CameraAxis>(lfoModel.Axis);
             Easing = new Easing(lfoModel.Easing);
 
             From = new Slider(nameof(From), lfoModel.From);
@@ -41,7 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ToggleButton Pitch { get; set; }
         public ToggleButton Zoom { get; set; }
         public ToggleButton PingPong { get; set; }
-        public ComboBox<CameraTransformType> TransformType { get; set; }
+        public ComboBox<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
         public Slider From { get; set; }
         public Slider To { get; set; }
@@ -59,7 +59,7 @@ namespace CMiX.Core.Presentation.ViewModels
             cameraLFOModel.Pitch = (ToggleButtonModel)Pitch.GetModel();
             cameraLFOModel.Zoom = (ToggleButtonModel)Zoom.GetModel();
             cameraLFOModel.PingPong = (ToggleButtonModel)PingPong.GetModel();
-            cameraLFOModel.TransformType = (ComboBoxModel<CameraTransformType>)TransformType.GetModel();
+            cameraLFOModel.Axis = (ComboBoxModel<CameraAxis>)Axis.GetModel();
             cameraLFOModel.Easing = (EasingModel)Easing.GetModel();
             cameraLFOModel.From = (SliderModel)From.GetModel();
             cameraLFOModel.To = (SliderModel)To.GetModel();
@@ -78,7 +78,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Pitch.SetViewModel(cameraLFOModel.Pitch);
             Zoom.SetViewModel(cameraLFOModel.Zoom);
             PingPong.SetViewModel(cameraLFOModel.PingPong);
-            TransformType.SetViewModel(cameraLFOModel.TransformType);
+            Axis.SetViewModel(cameraLFOModel.Axis);
             Easing.SetViewModel(cameraLFOModel.Easing);
             From.SetViewModel(cameraLFOModel.From);
             To.SetViewModel(cameraLFOModel.To);
@@ -86,7 +86,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+
         }
     }
 }

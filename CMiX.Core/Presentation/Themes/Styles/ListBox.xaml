@@ -9,7 +9,6 @@
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/ToggleButton.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}"/>
         <Setter Property="Template">
@@ -215,6 +214,19 @@
     
     
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -232,8 +244,12 @@
                         Margin="2, 1"
                         Padding="4, 0, 0, 0"
                         TextBlock.Foreground="{DynamicResource TextBase}">
-                        
-                        <ContentPresenter/>
+
+                        <Controls:EditableTextBox 
+                                x:Name="editableTextBox"
+                                Foreground="{DynamicResource TextBase}"
+                                Height="20" 
+                                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     </Border>
                     
@@ -302,47 +318,21 @@
         </Setter>
     </Style>
 
-    <Style x:Key="EditableListBoxItem" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Template">
+    
+    <Style x:Key="LayerListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+        <Setter Property="FocusVisualStyle">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border
-                        x:Name="Bd"
-                        Background="Transparent"
-                        CornerRadius="2"
-                        SnapsToDevicePixels="True"
-                        Margin="2"
-                        Padding="4, 0, 0, 0"
-                        TextBlock.Foreground="{DynamicResource TextBase}">
-                        <Controls:EditableTextBox 
-                            Height="20" 
-                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsSelected" Value="True" />
-                            </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource HighLightColor}" />
-                        </MultiTrigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
             </Setter.Value>
         </Setter>
-    </Style>
-
-
-
-
-    
-
-    <Style x:Key="LayerListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -436,23 +426,20 @@
                                 </ToggleButton.Style>
                             </ToggleButton>
 
-
-
-
-
-
-                            <!--<Image Height="12" Margin="8, 0" Opacity="0.5" Source="{DynamicResource Mask}"/>-->
                             <Controls:EditableTextBox 
                                 x:Name="editableTextBox"
-                                    Foreground="{DynamicResource TextBase}"
-                                    Height="20" 
-                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                Foreground="{DynamicResource TextBase}"
+                                Height="20" 
+                                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                         </DockPanel>
                     </Border>
 
                     <ControlTemplate.Triggers>
-
+                        <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                            <Setter Property="IsSelected" Value="true" />
+                        </Trigger>
+                        
                         <Trigger Property="IsSelected" Value="true">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}"/>
                             <Setter TargetName="editableTextBox" Property="Foreground" Value="{DynamicResource ActiveTextBase}"/>
@@ -463,6 +450,7 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+
     </Style>
 
 

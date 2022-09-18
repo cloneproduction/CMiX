@@ -17,7 +17,7 @@
 
         <Grid Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 1">
@@ -39,7 +39,7 @@
         
         <Grid Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
@@ -62,7 +62,7 @@
         
         <Grid Margin="0, 8" Height="22">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
@@ -74,19 +74,12 @@
                 HorizontalAlignment="Stretch"
                 Value="{Binding Count, Mode=TwoWay}"/>
 
-            <DockPanel Grid.Column="0" >
-                <TextBlock 
-                    Padding="8, 0" 
-                    DockPanel.Dock="Right"
-                    HorizontalAlignment="Right" 
-                    Text="Tessellation" 
-                    Foreground="{DynamicResource TextBase}"/>
-
-                <TextBlock
-                    DockPanel.Dock="Right"
-                    HorizontalAlignment="Right" 
-                    Text="{Binding Name}"/>
-            </DockPanel>
+            <TextBlock 
+                Padding="8, 0" 
+                DockPanel.Dock="Right"
+                HorizontalAlignment="Right" 
+                Text="Tessellation" 
+                Foreground="{DynamicResource TextBase}"/>
         </Grid>
 
     </StackPanel>

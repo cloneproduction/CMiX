@@ -3,6 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -19,6 +21,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
             this.Name = this.GetType().Name;
             this.Enabled = transformModel.Enabled;
+            this.Scale = new VectorXYZ(transformModel.Scale);
+            this.Rotate = new VectorXYZ(transformModel.Rotate);
+            this.Translate = new VectorXYZ(transformModel.Translate);
 
             TransformModifier = new ModifierManager(transformModel.TransformModifier, new TransformModifierFactory(compositionService));
         }
@@ -28,6 +33,10 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool Enabled { get; set; }
         public ModifierManager TransformModifier { get; set; }
         public CompositionService CompositionService { get; set; }
+
+        public VectorXYZ Scale { get; set; }
+        public VectorXYZ Rotate { get; set; }
+        public VectorXYZ Translate { get; set; }
 
 
         private string _name;
@@ -64,6 +73,9 @@ namespace CMiX.Core.Presentation.ViewModels
             TransformModel transformModel = model as TransformModel;
             this.ID = transformModel.ID;
             this.TransformModifier.SetViewModel(transformModel.TransformModifier);
+            this.Scale.SetViewModel(transformModel.Scale);
+            this.Rotate.SetViewModel(transformModel.Rotate);
+            this.Translate.SetViewModel(transformModel.Translate);
         }
 
         public IModel GetModel()
@@ -71,6 +83,9 @@ namespace CMiX.Core.Presentation.ViewModels
             TransformModel model = new TransformModel();
             model.ID = this.ID;
             model.TransformModifier = (ModifierManagerModel)this.TransformModifier.GetModel();
+            model.Scale = (VectorXYZModel)this.Scale.GetModel();
+            model.Translate = (VectorXYZModel)this.Translate.GetModel();
+            model.Rotate = (VectorXYZModel)this.Rotate.GetModel();
             return model;
         }
 

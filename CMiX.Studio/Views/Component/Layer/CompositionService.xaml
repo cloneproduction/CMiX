@@ -12,7 +12,7 @@
     av:DesignHeight="545.422" 
     av:DesignWidth="346.747" >
 
-    <Border VerticalAlignment="Stretch" Background="{DynamicResource DarkerColor}">
+    <Border VerticalAlignment="Stretch" Background="{DynamicResource HighDarkerColor}">
         
         <TabControl 
             SelectedIndex="{Binding SelectedTabIndex}"
@@ -20,7 +20,10 @@
             Background="{DynamicResource HighHighDarkerColor}" 
             Style="{StaticResource TabControlVerticalPanel}" >
 
-            <TabItem Header="En" IsSelected="True">
+            <TabItem IsSelected="True">
+                <TabItem.Header>
+                    <Image Margin="7" Source="{DynamicResource CubeCol}"/>
+                </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <Border Background="{DynamicResource HighDarkerColor}">
                         <Managers:ModelEntityManager DataContext="{Binding ModelEntityManager}"/>
@@ -30,7 +33,7 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <Image Margin="7" Source="{DynamicResource CubeCol}"/>
+                    <Image Margin="7" Source="{DynamicResource World}"/>
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -40,15 +43,24 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Tr">
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="7" Source="{DynamicResource Transform3D}"/>
+                </TabItem.Header>
                 <Managers:TransformManager DataContext="{Binding TransformManager}"/>
             </TabItem>
 
-            <TabItem Header="Co">
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="7" Source="{DynamicResource Coloration}"/>
+                </TabItem.Header>
                 <Managers:ColorationManager DataContext="{Binding ColorationManager}"/>
             </TabItem>
             
-            <TabItem Header="Ma">
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="7" Source="{DynamicResource Texture}"/>
+                </TabItem.Header>
                 <Views:MaterialManager DataContext="{Binding MaterialManager}"/>
             </TabItem>
 

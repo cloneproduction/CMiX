@@ -74,138 +74,143 @@
     <StackPanel Margin="8, 16">
 
         <ToggleButton 
-                x:Name="PopUpToggle" 
-                Content="Add Filter"
-                Height="22" 
-                Margin="0, 0, 0, 4"
-                Background="{DynamicResource DarkerColor}" 
-                Style="{StaticResource ToggleTransformModifierMenu}"/>
+            x:Name="PopUpToggle" 
+            Content="Add Filter"
+            Height="22" 
+            Margin="0, 0, 0, 4"
+            Background="{DynamicResource DarkerColor}" 
+            Style="{StaticResource ToggleTransformModifierMenu}"/>
 
         <Popup
-                AllowsTransparency="True"
-                Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=textureFilterManager}"
-                Placement="Bottom"
-                PlacementTarget="{Binding ElementName=PopUpToggle}"
-                FlowDirection="RightToLeft"
-                IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+            AllowsTransparency="True"
+            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=textureFilterManager}"
+            Placement="Bottom"
+            PlacementTarget="{Binding ElementName=PopUpToggle}"
+            FlowDirection="LeftToRight"
+            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
 
-            <Border Background="Transparent" CornerRadius="{DynamicResource CornerRadiusBottom}" Padding="2, 0, 2, 2">
-                <Border.Effect>
-                    <DropShadowEffect 
-                        BlurRadius="15" 
-                        Opacity="0.8"  
-                        ShadowDepth="2" 
-                        Direction="-90" 
-                        RenderingBias="Performance"/>
-                </Border.Effect>
-                <Border 
-                    CornerRadius="{DynamicResource CornerRadiusBottomLarge}" 
-                    Opacity="0.75" 
-                    Background="{DynamicResource HighDarkerColor}">
+            <Border 
+                BorderThickness="1, 0, 1, 2"
+                BorderBrush="{DynamicResource Shadow}"
+                CornerRadius="{DynamicResource CornerRadiusBottom}" 
+                Padding="2, 0, 2, 2"
+                Background="{DynamicResource HighHighDarkerColor}">
 
-                    <Grid Margin="8" Background="{DynamicResource HighDarkerColor}">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                            <RowDefinition/>
-                        </Grid.RowDefinitions>
+                <Grid Margin="4, 8">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0">
 
                         <Button 
+                            Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
                             CommandParameter="{x:Type ViewModels:HSCB}" 
                             Grid.Column="0"
                             VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
+                            Width="120" 
+                            Height="22" 
                             Content="HSCB"/>
 
                         <Button 
+                            Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
                             CommandParameter="{x:Type ViewModels:Invert}" 
                             Grid.Column="1"
                             VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
+                            Width="120" 
+                            Height="22" 
                             Content="Invert"/>
 
                         <Button 
-                            Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Blur}" 
-                            Grid.Column="2"
-                            VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
-                            Content="Blur"/>
-
-                        <Button 
-                            Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Edge}" 
-                            Grid.Column="0"
-                            Grid.Row="1"
-                            VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
-                            Content="Edge"/>
-
-                        <Button 
-                            Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:TransformTexture}" 
-                            Grid.Column="1"
-                            Grid.Row="1"
-                            VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
-                            Content="TransformTexture"/>
-
-                        <Button 
-                            Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Pixelate}" 
-                            Grid.Column="2"
-                            Grid.Row="1"
-                            VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
-                            Content="Pixelate"/>
-
-                        <Button 
-                            Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Echo}" 
-                            Grid.Column="2"
-                            Grid.Row="2"
-                            VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
-                            Content="Echo"/>
-
-                        <Button 
-                            Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Feedback}" 
-                            Grid.Column="2"
-                            Grid.Row="3"
-                            VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
-                            Content="Feedback"/>
-
-                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
                             CommandParameter="{x:Type ViewModels:TriColor}" 
                             Grid.Column="1"
                             Grid.Row="2"
                             VerticalAlignment="Center" 
-                            Width="100" 
-                            Height="20" 
+                            Width="120" 
+                            Height="22" 
                             Content="TriColor"/>
 
-                    </Grid>
-                </Border>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1">
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Edge}" 
+                            Grid.Column="0"
+                            Grid.Row="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Edge"/>
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:TransformTexture}" 
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Transform"/>
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Pixelate}" 
+                            Grid.Column="2"
+                            Grid.Row="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Pixelate"/>
+
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="2">
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Blur}" 
+                            Grid.Column="2"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Blur"/>
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Echo}" 
+                            Grid.Column="2"
+                            Grid.Row="2"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Echo"/>
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Feedback}" 
+                            Grid.Column="2"
+                            Grid.Row="3"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Feedback"/>
+                        
+                    </StackPanel>
+                </Grid>
             </Border>
         </Popup>
 

@@ -20,18 +20,39 @@ namespace CMiX.Core.Presentation.Controls
             this.PreviewMouseLeftButtonDown += EditableTextBox_PreviewMouseDown;
         }
 
+        public static T FindParent<T>(DependencyObject child) where T : DependencyObject
+        {
+            //get parent item
+            DependencyObject parentObject = VisualTreeHelper.GetParent(child);
+
+            //we've reached the end of the tree
+            if (parentObject == null) return null;
+
+            //check if the parent matches the type we're looking for
+            T parent = parentObject as T;
+            if (parent != null)
+                return parent;
+
+            return FindParent<T>(parentObject);
+        }
+
         private void EditableTextBox_PreviewMouseDown(object sender, MouseButtonEventArgs e)
         {
-            var poeut = Mouse.DirectlyOver;
-            //e.Handled = true;
+            var frameworkElement = sender as FrameworkElement;
+            if (frameworkElement != null)
+            {
+                var item = FindParent<ListBoxItem>(frameworkElement);
+                if (item != null)
+                    item.IsSelected = true;
+            }
         }
 
         private void EditableTextBox_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
-            //((IInputElement)sender).CaptureMouse();
-            this.OnSwitchToEditingMode();
-            //this.InputValue.CaptureMouse();
-            e.Handled = true;
+            if (e.ChangedButton == MouseButton.Left)
+            {
+                this.OnSwitchToEditingMode();
+            }
         }
 
 
@@ -102,14 +123,15 @@ namespace CMiX.Core.Presentation.Controls
 
         protected override void OnLostFocus(RoutedEventArgs e)
         {
-            base.OnLostFocus(e);
             OnSwitchToNormalMode();
+            base.OnLostFocus(e);
+
         }
 
         protected override void OnLostKeyboardFocus(KeyboardFocusChangedEventArgs e)
         {
-            base.OnLostKeyboardFocus(e);
             OnSwitchToNormalMode();
+            base.OnLostKeyboardFocus(e);
         }
 
         public void OnMouseDownOutsideElement(object sender, MouseButtonEventArgs e)
@@ -117,7 +139,8 @@ namespace CMiX.Core.Presentation.Controls
 
             OnSwitchToNormalMode();
 
-            e.Handled = true;
+            //e.Handled = true;
+
             ((IInputElement)sender).ReleaseMouseCapture();
         }
         #endregion
@@ -129,7 +152,6 @@ namespace CMiX.Core.Presentation.Controls
             InputValue.Visibility = Visibility.Visible;
             HookItemsControlEvents();
             InputValue.CaptureMouse();
-
             Text = InputValue.Text;
             InputValue.Focus();
             InputValue.SelectAll();
@@ -144,14 +166,14 @@ namespace CMiX.Core.Presentation.Controls
             TextDisplay.Text = InputValue.Text;
             TextDisplay.Visibility = Visibility.Visible;
             InputValue.Visibility = Visibility.Hidden;
-            FocusManager.SetFocusedElement(FocusManager.GetFocusScope(InputValue), null);
-            Keyboard.ClearFocus();
+
+            //InputValue.ReleaseMouseCapture();
+            //FocusManager.SetFocusedElement(FocusManager.GetFocusScope(InputValue), null);
+            //Keyboard.ClearFocus();
         }
 
         private void HookItemsControlEvents()
         {
-            //this.AddHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new RoutedEventHandler((s, e) => this.OnSwitchToNormalMode()));
-            //Mouse.AddPreviewMouseDownOutsideCapturedElementHandler(this, OnMouseDownOutsideElement);
             _ParentItemsControl = this.GetDpObjectFromVisualTree(this, typeof(Window)) as Window;
             if (_ParentItemsControl != null)
             {
@@ -166,8 +188,6 @@ namespace CMiX.Core.Presentation.Controls
         private void _ParentItemsControl_MouseDown(object sender, MouseButtonEventArgs e)
         {
             OnSwitchToNormalMode();
-            e.Handled = true;
-            //((FrameworkElement)sender).Cursor = Cursors.Arrow;
         }
 
         private DependencyObject GetDpObjectFromVisualTree(DependencyObject startObject, Type type)
@@ -182,6 +202,8 @@ namespace CMiX.Core.Presentation.Controls
             }
             return parent;
         }
+
+
         #endregion
     }
 }

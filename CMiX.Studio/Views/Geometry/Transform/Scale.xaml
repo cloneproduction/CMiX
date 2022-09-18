@@ -6,7 +6,7 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="150.801" d:DesignWidth="415.252">
+             d:DesignHeight="152.16" d:DesignWidth="328.279">
 
     <UserControl.Resources>
         <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
@@ -15,7 +15,7 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
-    
+
     <StackPanel>
         <Grid Height="22">
             <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
                 SelectedItem="{Binding Mode.Selection}"
                 ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
         </Grid>
-        
+
         <Grid Height="22" Margin="0, 8">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>

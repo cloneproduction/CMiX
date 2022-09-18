@@ -15,15 +15,14 @@
                     <TabItem.Header>
                         <Image Source="{DynamicResource Mask}"/>
                     </TabItem.Header>
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <StackPanel Background="{DynamicResource HighDarkerColor}">
-                            <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8, 16" />
-                            <ViewComponents:LayerContent DataContext="{Binding LayerMask}"/>
-                        </StackPanel>
-                    </ScrollViewer>
+                    <StackPanel Background="{DynamicResource HighDarkerColor}">
+                        <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8, 16" />
+                        <ViewComponents:LayerContent DataContext="{Binding LayerMask}"/>
+                    </StackPanel>
                 </TabItem>
 
                 <TabItem>
+                    
                     <TabItem.Header>
                         <Image Source="{DynamicResource LayerScene}"/>
                     </TabItem.Header>

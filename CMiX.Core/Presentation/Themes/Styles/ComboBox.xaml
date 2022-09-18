@@ -90,7 +90,7 @@
                             x:Name="PART_Popup"
                             Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                             MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ComboBox}}"
-                            MaxHeight="204"
+                            MaxHeight="210"
                             AllowsTransparency="True"
                             IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Placement="Bottom"
@@ -104,7 +104,7 @@
                                 BorderBrush="{DynamicResource Shadow}"
                                 HorizontalAlignment="Stretch">
                                 <Grid HorizontalAlignment="Stretch">
-                                    <Border CornerRadius="0, 0, 4, 4" Background="{DynamicResource DarkerColor}"/>
+                                    <Border CornerRadius="0, 0, 4, 4" Background="{DynamicResource HighHighDarkerColor}"/>
                                     <ScrollViewer 
                                         x:Name="DropDownScrollViewer"
                                         HorizontalScrollBarVisibility="Hidden"
@@ -142,8 +142,6 @@
     <Style TargetType="{x:Type ComboBoxItem}">
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Padding" Value="0" />
-        <Setter Property="Margin" Value="0"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />
         <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type ItemsControl}}}" />

@@ -6,7 +6,7 @@
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
-             d:DesignHeight="447" d:DesignWidth="252">
+             d:DesignHeight="637.667" d:DesignWidth="256">
 
 
     <DockPanel>
@@ -31,7 +31,14 @@
         </Border>
 
         <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <Views:Camera Margin="8" DataContext="{Binding SelectedItem.Prefab}"/>
+            <StackPanel>
+                <Views:Camera Margin="8" DataContext="{Binding SelectedItem.Prefab}"/>
+                <Expander Header="Modifiers">
+                    <Views:CameraTransformModifierManager DataContext="{Binding SelectedItem.Prefab.CameraTransformModifierManager}"/>
+                </Expander>
+
+            </StackPanel>
+
         </Border>
     </DockPanel>
 </UserControl>

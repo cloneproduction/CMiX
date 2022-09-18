@@ -8,27 +8,29 @@
              x:Name="editableTextBox"
              d:DesignHeight="46.738" d:DesignWidth="124.807">
 
-    <Grid>
-        <TextBlock 
-            x:Name="TextDisplay" 
-            Padding="4, 0, 0, 0"
-            Margin="0"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Stretch"
-            Foreground="{Binding Foreground, ElementName=editableTextBox}" 
-            Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}" />
+        <Grid Background="Transparent">
+            <TextBlock 
+                x:Name="TextDisplay" 
+                Padding="4, 0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                Foreground="{Binding Foreground, ElementName=editableTextBox}" 
+                Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}" />
 
-        <TextBox
-            x:Name="InputValue" 
-            SelectionBrush="{DynamicResource SuperHighLightColor}"
-            CaretBrush="{DynamicResource AccentInactive}"
-            Padding="0"
-            BorderThickness="0"
-            VerticalAlignment="Center"
-            HorizontalAlignment="Stretch"
-            Background="{DynamicResource HighDarkerColor}" 
-            Foreground="{DynamicResource ActiveTextBase}" 
-            Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}" />
-    </Grid>
+            <TextBox
+                x:Name="InputValue" 
+                SelectionBrush="{DynamicResource SuperHighLightColor}"
+                CaretBrush="{DynamicResource AccentInactive}"
+                BorderThickness="0"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Stretch"
+                Background="Transparent" 
+                Foreground="{DynamicResource ActiveTextBase}" 
+                Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}">
+                <TextBox.ContextMenu>
+                    <ContextMenu Visibility="Hidden"/>
+                </TextBox.ContextMenu>
+            </TextBox>
+        </Grid>
 
 </UserControl>

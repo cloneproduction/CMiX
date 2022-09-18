@@ -16,7 +16,7 @@
                     <Border 
                         x:Name="mainBorder"
                         Height="20"
-                        Background="{DynamicResource HighHighDarkerColor}" >
+                        Background="Transparent" >
                         <Grid SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="19"/>
@@ -162,10 +162,11 @@
 
     <ControlTemplate x:Key="ModifierPanelTemplate" TargetType="{x:Type Expander}">
         <Border 
+            x:Name="border"
             CornerRadius="4"
-            BorderBrush="{DynamicResource HighHighDarkerColor}"
-            BorderThickness="0, 1, 0, 0"
-            Background="{DynamicResource HighHighDarkerColor}"
+            BorderBrush="{DynamicResource Shadow}"
+            BorderThickness="1, 0, 1, 2"
+            Background="{DynamicResource HighDarkerColor}"
             SnapsToDevicePixels="true">
             <DockPanel>
 
@@ -229,7 +230,7 @@
 
                 
                 <Border x:Name="PresenterBorder"
-                    BorderBrush="{DynamicResource DarkerColor}"
+                    BorderBrush="{DynamicResource DarkColor}"
                     BorderThickness="0, 1, 0, 0"
                     DockPanel.Dock="Top">
                     <Border
@@ -256,6 +257,9 @@
             <Trigger Property="IsEnabled" Value="false">
                 <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
             </Trigger>
+            <!--<Trigger Property="IsMouseOver" Value="true">
+                <Setter Property="BorderBrush" TargetName="border" Value="{DynamicResource Accent}"/>
+            </Trigger>-->
         </ControlTemplate.Triggers>
     </ControlTemplate>
 

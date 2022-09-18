@@ -2,10 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -17,11 +14,17 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = Guid.NewGuid();
             Enabled = true;
             TransformModifier = new ModifierManagerModel();
+            Scale = new VectorXYZModel(nameof(Scale), 1.0f, 1.0f, 1.0f);
+            Rotate = new VectorXYZModel(nameof(Rotate), 0.0f, 0.0f, 0.0f);
+            Translate = new VectorXYZModel(nameof(Translate), 0.0f, 0.0f, 0.0f);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public ModifierManagerModel TransformModifier { get; internal set; }
+        public ModifierManagerModel TransformModifier { get; set; }
+        public VectorXYZModel Scale { get; set; }
+        public VectorXYZModel Rotate { get; set; }
+        public VectorXYZModel Translate { get; set; }
     }
 }

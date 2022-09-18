@@ -354,11 +354,13 @@
     <Compile Include="Presentation\ViewModels\Beat\MasterBeatContainer.cs" />
     <Compile Include="Presentation\ViewModels\Camera\CameraTransformModifierFactory.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraLFOModel.cs" />
-    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraTransformType.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraTransformModifierTemplateSelector.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraAxis.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\ICameraModifier.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraLFO.cs" />
     <Compile Include="Presentation\ViewModels\Coloration\Coloration.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Entity.cs" />
+    <Compile Include="Presentation\ViewModels\Components\Components\MaskChannelModel.cs" />
     <Compile Include="Presentation\ViewModels\Modifiers\MessageModifierManagerHandler.cs" />
     <Compile Include="Presentation\ViewModels\Prefab\IPrefabContainer.cs" />
     <Compile Include="Presentation\ViewModels\Prefab\IPrefabDataBase.cs" />
@@ -1044,6 +1046,7 @@
     <Resource Include="Presentation\Themes\Assets\Arrow_Down.png" />
     <Resource Include="Presentation\Themes\Assets\Arrow_Up.png" />
     <Resource Include="Presentation\Themes\Assets\Cube_Col.png" />
+    <Resource Include="Presentation\Themes\Assets\Transform3D.png" />
     <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup />
