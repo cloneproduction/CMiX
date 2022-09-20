@@ -13,14 +13,14 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Beat
 {
-    public class Resync : ObservableObject, IControl, IRecipient<MessageRequestControl>
+    public class Resync : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
         public Resync(BeatAnimations beatAnimations, ResyncModel resyncModel)
         {
             this.ID = resyncModel.ID;
             BeatAnimations = beatAnimations;
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
             ResyncCommand = new RelayCommand(DoResync);
+            IsActive = true;
         }
 
 

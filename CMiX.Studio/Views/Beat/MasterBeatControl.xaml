@@ -16,7 +16,7 @@
                 Grid.Column="3"
                 Style="{StaticResource ButtonRounded}"
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                Command="{Binding ResyncCommand}"
+                Command="{Binding Resync.ResyncCommand}"
                 Content="Rc"
                 DockPanel.Dock="Right"/>
             
