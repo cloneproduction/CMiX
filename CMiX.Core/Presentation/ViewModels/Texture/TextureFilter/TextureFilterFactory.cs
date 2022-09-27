@@ -46,6 +46,12 @@ namespace CMiX.Core.Presentation.ViewModels
             if (modifierType == typeof(TriColor))
                 return new TriColor(new TriColorModel(), CompositionService);
 
+            if (modifierType == typeof(RandomUV))
+                return new RandomUV(new RandomUVModel(), CompositionService);
+
+            if (modifierType == typeof(LFOUV))
+                return new LFOUV(new LFOUVModel(), CompositionService);
+
             return null;
         }
 
@@ -77,6 +83,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
             if (modifierModel is TriColorModel triColorModel)
                 return new TriColor(triColorModel, CompositionService);
+
+            if (modifierModel is RandomUVModel randomUVModel)
+                return new RandomUV(randomUVModel, CompositionService);
+
+            if (modifierModel is LFOUVModel lfoUVModel)
+                return new LFOUV(lfoUVModel, CompositionService);
 
             return null;
         }

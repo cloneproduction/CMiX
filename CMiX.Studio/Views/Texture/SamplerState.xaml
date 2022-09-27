@@ -7,8 +7,7 @@
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
-             mc:Ignorable="d"
-             d:DesignHeight="450" d:DesignWidth="800">
+             mc:Ignorable="d" d:DesignWidth="386">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -19,12 +18,12 @@
             </ObjectDataProvider>
         </ResourceDictionary>
     </UserControl.Resources>
-    
+
     <StackPanel>
-        
-        <Grid Height="21" Margin="0, 4">
+
+        <Grid Height="21" Margin="0, 0, 0, 4">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock 
@@ -42,7 +41,7 @@
 
         <Grid Height="21">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock 
@@ -56,27 +55,24 @@
             </Border>
         </Grid>
 
-        <Grid >
+        <Grid Margin="0, 8, 0, 0">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.9*"/>
+                <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock 
                 Text="Border Color" 
                 HorizontalAlignment="Right" Padding="4, 0"
                 VerticalAlignment="Center"/>
-            
-            <Border Margin="0, 4, 0, 0" Grid.Column="1">
-                <!--<Views:ColorSelector DataContext="{Binding ColorSelector}"/>-->
-                <Button Height="21"
-                    Margin="0"
-                    Background="{Binding BorderColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
-                    Command="{Binding OpenColorSelectorCommand}"
-                    Style="{StaticResource ButtonColorStyle}"/>
-            </Border>
+            <Button 
+                Height="21"
+                Margin="0, 4, 0, 0" Grid.Column="1"
+                Background="{Binding BorderColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+                Command="{Binding OpenColorSelectorCommand}"
+                Style="{StaticResource ButtonColorStyle}"/>
         </Grid>
-        
 
-        
+
+
     </StackPanel>
 </UserControl>

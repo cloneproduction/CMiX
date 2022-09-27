@@ -16,6 +16,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public DataTemplate TranslateTemplate{ get; set; }
         public DataTemplate ScaleTemplate { get; set; }
         public DataTemplate RotationTemplate { get; set; }
+        public DataTemplate StepperTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -33,13 +34,14 @@ namespace CMiX.Core.Presentation.ViewModels
                     dataTemplate = RandomScaleTemplate;
                 else if (item is TransformSRT)
                     dataTemplate = TransformTemplate;
-
                 else if (item is Translate)
                     dataTemplate = TranslateTemplate;
                 else if (item is Scale)
                     dataTemplate = ScaleTemplate;
                 else if (item is Rotation)
                     dataTemplate = RotationTemplate;
+                else if (item is Stepper)
+                    dataTemplate = StepperTemplate;
             }
 
             return dataTemplate;

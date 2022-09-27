@@ -17,6 +17,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public DataTemplate EchoTemplate { get; set; }
         public DataTemplate FeedbackTemplate { get; set; }
         public DataTemplate TriColorTemplate { get; set; }
+        public DataTemplate RandomUVTemplate { get; set; }
+        public DataTemplate LFOUVTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -42,6 +44,10 @@ namespace CMiX.Core.Presentation.ViewModels
                     dataTemplate = FeedbackTemplate;
                 if (item is TriColor)
                     dataTemplate = TriColorTemplate;
+                if (item is RandomUV)
+                    dataTemplate = RandomUVTemplate;
+                if (item is LFOUV)
+                    dataTemplate = LFOUVTemplate;
             }
 
             return dataTemplate;

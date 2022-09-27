@@ -6,24 +6,17 @@
              mc:Ignorable="d" 
              d:DesignHeight="222.346" d:DesignWidth="306.881">
 
-    <Border 
-        VerticalAlignment="Center"
-        Padding="4"
-        DockPanel.Dock="Top"
-        Background="{DynamicResource DarkerColor}"
-        BorderBrush="{DynamicResource Shadow}">
-        <DockPanel Height="25">
-            <ComboBox 
+    <DockPanel Height="25">
+        <ComboBox 
                 Style="{StaticResource ComboBoxWithButton}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-        </DockPanel>
-    </Border>
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name}"/>
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+    </DockPanel>
 
 </UserControl>

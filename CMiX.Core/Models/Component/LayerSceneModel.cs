@@ -26,6 +26,7 @@ namespace CMiX.Core.Models
             Opacity = new SliderModel(1.0f);
             ModelEntityManager = new PrefabManagerModel();
             CameraEntityManager = new PrefabManagerModel();
+            LightEntityManager = new PrefabManagerModel();
         }
 
 
@@ -47,5 +48,6 @@ namespace CMiX.Core.Models
         public PrefabManagerModel ModelEntityManager { get; internal set; }
         public PrefabManagerModel CameraEntityManager { get; internal set; }
         public ToggleButtonModel EditPanelOpen { get; internal set; }
+        public PrefabManagerModel LightEntityManager { get; internal set; }
     }
 }

@@ -9,11 +9,11 @@
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
     md:DialogServiceViews.IsRegistered="True" 
     mc:Ignorable="av"
-    av:DesignHeight="545.422" 
-    av:DesignWidth="346.747" >
+    av:DesignHeight="581.422" 
+    av:DesignWidth="334.747" >
 
     <Border VerticalAlignment="Stretch" Background="{DynamicResource HighDarkerColor}">
-        
+
         <TabControl 
             SelectedIndex="{Binding SelectedTabIndex}"
             TabStripPlacement="Left" 
@@ -45,7 +45,7 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <Image Margin="7" Source="{DynamicResource Transform3D}"/>
+                    <Image Margin="4" Source="{DynamicResource Transform3D}"/>
                 </TabItem.Header>
                 <Managers:TransformManager DataContext="{Binding TransformManager}"/>
             </TabItem>
@@ -56,7 +56,7 @@
                 </TabItem.Header>
                 <Managers:ColorationManager DataContext="{Binding ColorationManager}"/>
             </TabItem>
-            
+
             <TabItem>
                 <TabItem.Header>
                     <Image Margin="7" Source="{DynamicResource Texture}"/>
@@ -64,21 +64,23 @@
                 <Views:MaterialManager DataContext="{Binding MaterialManager}"/>
             </TabItem>
 
-            <TabItem Header="tTex">
-                <Managers:TextureTransformManager DataContext="{Binding TextureTransformManager}"/>
-            </TabItem>
-
-            <TabItem Header="Ca">
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="6" Source="{DynamicResource Camera}"/>
+                </TabItem.Header>
                 <Managers:CameraManager DataContext="{Binding CameraManager}"/>
             </TabItem>
-            
-            <TabItem Header="Bpm">
+
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="4" Source="{DynamicResource Beat}"/>
+                </TabItem.Header>
                 <Beat:BeatManager Margin="8" DataContext="{Binding MasterBeatManager}"/>
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
-                    <Image Margin="6" Source="{DynamicResource MeshLight}"/>
+                    <Image Margin="5" Source="{DynamicResource MeshLight}"/>
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -86,7 +88,7 @@
                 </ScrollViewer>
             </TabItem>
         </TabControl>
-        
+
     </Border>
 
 </UserControl>

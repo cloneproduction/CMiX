@@ -11,8 +11,8 @@ namespace CMiX.Core.Models
         public SamplerStateModel()
         {
             ID = Guid.NewGuid();
-            AddressU = TextureAddressMode.Clamp.ToString();
-            AddressV = TextureAddressMode.Clamp.ToString();
+            AddressU = TextureAddressMode.Mirror.ToString();
+            AddressV = TextureAddressMode.Mirror.ToString();
             ColorSelectorModel = new ColorSelectorModel();
         }
 

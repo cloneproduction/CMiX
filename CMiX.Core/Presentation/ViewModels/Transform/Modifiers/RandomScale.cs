@@ -31,6 +31,8 @@ namespace CMiX.Core.Presentation.ViewModels
             UniformXYZ = new Slider(nameof(UniformXYZ), randomScaleModel.UniformXYZ);
 
             Spread = new ToggleButton(randomScaleModel.Spread);
+
+            IsExpanded = true;
         }
 
 

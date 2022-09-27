@@ -1,10 +1,11 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.LFO2D"
+﻿<UserControl x:Class="CMiX.Studio.Views.Stepper"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core" xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core" 
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
              mc:Ignorable="d" 
              d:DesignHeight="345.111" d:DesignWidth="228.889">
 
@@ -14,12 +15,6 @@
         <ObjectDataProvider x:Key="TransformType" MethodName="GetValues" ObjectType="{x:Type ViewModels:TransformType}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="ViewModels:TransformType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider x:Key="WaveType" MethodName="GetValues" ObjectType="{x:Type ViewModels:WaveType}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:WaveType"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
 
@@ -34,10 +29,12 @@
 
     <Expander
         IsExpanded="{Binding IsExpanded}"
-        Header="LFO"
+        Header="Stepper"
         Template="{StaticResource ModifierPanelTemplate}">
         <StackPanel>
+
             <StackPanel Margin="8">
+
                 <Grid Height="20" Margin="0, 0, 0, 8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -52,41 +49,60 @@
 
                 <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
 
+                <Grid Height="22" Margin="0, 8, 0, 0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Controls:Counter Grid.Column="1" Value="{Binding StepCount.Count}" Style="{StaticResource CMiXCounterStyle}" />
+                    <TextBlock 
+                        Grid.Column="0" 
+                        Padding="4" 
+                        HorizontalAlignment="Right" 
+                        Text="Steps" 
+                        Foreground="{StaticResource TextBase}"/>
+                </Grid>
+                
                 <Grid Height="20" Margin="0, 8, 0, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
                     <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding From.Amount}"/>
+                        Grid.Column="2" 
+                        Position="Top" 
+                        Style="{StaticResource DistanceSliderStyle}" 
+                        Value="{Binding From.Amount}"/>
                     <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="From" 
-                            Foreground="{StaticResource TextBase}"/>
+                        Grid.Column="0" 
+                        Padding="4" 
+                        HorizontalAlignment="Right" 
+                        Text="From" 
+                        Foreground="{StaticResource TextBase}"/>
                 </Grid>
+
                 <Grid Margin="0, 1, 0, 8" Height="20">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
+
                     <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Bottom" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding To.Amount}"/>
+                        Grid.Column="2" 
+                        Position="Bottom" 
+                        Style="{StaticResource DistanceSliderStyle}" 
+                        Value="{Binding To.Amount}"/>
+
                     <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="To" 
-                            Foreground="{StaticResource TextBase}"/>
+                        Grid.Column="0" 
+                        Padding="4" 
+                        HorizontalAlignment="Right" 
+                        Text="To" 
+                        Foreground="{StaticResource TextBase}"/>
                 </Grid>
+
                 <Grid Height="20" Margin="0, 4, 0, 4">
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -100,28 +116,46 @@
                         Foreground="{StaticResource TextBase}"/>
 
                     <Grid Grid.Column="2">
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <ToggleButton HorizontalAlignment="Left" IsChecked="{Binding PingPong.IsChecked}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X"/>
+
+                        <ToggleButton 
+                            HorizontalAlignment="Left" 
+                            IsChecked="{Binding PingPong.IsChecked}" 
+                            Grid.Column="0" 
+                            Margin="0, 0, 1, 0" 
+                            Content="X"/>
+
                     </Grid>
                 </Grid>
 
                 <Grid Height="20" Margin="0, 8, 0, 4">
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Text="Transform" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
+
+                    <TextBlock 
+                        Text="Transform" 
+                        HorizontalAlignment="Right" 
+                        VerticalAlignment="Center" 
+                        Padding="4" 
+                        Foreground="{DynamicResource TextBase}"/>
+
                     <ComboBox 
                         Grid.Column="1" 
                         SelectedItem="{Binding TransformType.Selection}"
                         ItemsSource="{Binding Source={StaticResource TransformType}}"/>
+
                 </Grid>
-                
+
                 <Grid Height="20" Margin="0, 4, 0, 0">
+
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
                         <ColumnDefinition/>
@@ -135,25 +169,24 @@
                             Foreground="{StaticResource TextBase}"/>
 
                     <Grid Grid.Column="2">
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
+
                         <ToggleButton Style="{StaticResource InlineToggleButtonLeft}" IsChecked="{Binding XAxis.IsChecked}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X"/>
                         <ToggleButton Style="{StaticResource InlineToggleButtonCenter}" IsChecked="{Binding YAxis.IsChecked}" Grid.Column="1" Margin="0" Content="Y"/>
                         <ToggleButton Style="{StaticResource InlineToggleButtonRight}" IsChecked="{Binding ZAxis.IsChecked}" Grid.Column="2" Margin="1, 0, 0, 0" Content="Z"/>
-                        <!--Style="{StaticResource InlineRadioButtonRight}"-->
+
                     </Grid>
                 </Grid>
 
-
             </StackPanel>
-
             <Views:Easing  DataContext="{Binding Easing}"/>
-
-
         </StackPanel>
+
     </Expander>
 
 </UserControl>

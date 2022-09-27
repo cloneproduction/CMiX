@@ -43,8 +43,8 @@ namespace CMiX.Core.Presentation.ViewModels
             if (modifierType == typeof(Rotation))
                 return CreateRotation();
 
-            if (modifierType == typeof(RandomXY))
-                return CreateRandomXY();
+            if (modifierType == typeof(Stepper))
+                return CreateStepper();
 
             return null;
         }
@@ -75,21 +75,21 @@ namespace CMiX.Core.Presentation.ViewModels
             if (modifierModel is RotationModel rotationModel)
                 return CreateRotation(rotationModel);
 
-            if (modifierModel is RandomXYModel randomXYModel)
-                return CreateRandomXY(randomXYModel);
+            if (modifierModel is StepperModel stepperModel)
+                return CreateStepper(stepperModel);
 
             return null;
         }
 
 
-        private RandomXY CreateRandomXY()
+        private RandomUV CreateRandomXY()
         {
-            return new RandomXY(new RandomXYModel(), CompositionService);
+            return new RandomUV(new RandomUVModel(), CompositionService);
         }
 
-        private RandomXY CreateRandomXY(RandomXYModel randomXYZModel)
+        private RandomUV CreateRandomXY(RandomUVModel randomXYZModel)
         {
-            return new RandomXY(randomXYZModel, CompositionService);
+            return new RandomUV(randomXYZModel, CompositionService);
         }
 
         private Rotation CreateRotation()
@@ -175,6 +175,17 @@ namespace CMiX.Core.Presentation.ViewModels
         private LinearXYZ CreateLinearXYZ(LinearXYZModel linearXYZModel)
         {
             return new LinearXYZ(linearXYZModel, CompositionService);
+        }
+
+
+        private Stepper CreateStepper()
+        {
+            return new Stepper(new StepperModel(), CompositionService);
+        }
+
+        private Stepper CreateStepper(StepperModel stepperModel)
+        {
+            return new Stepper(stepperModel, CompositionService);
         }
     }
 }

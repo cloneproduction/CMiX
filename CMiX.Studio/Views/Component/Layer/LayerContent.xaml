@@ -127,6 +127,12 @@
                         Foreground="{StaticResource TextBase}"/>
                 </Grid>
             </Expander>
+
+            <Expander Header="Lights">
+                <Views:PrefabSlotManager 
+                    ItemsSource="{Binding Path=DataContext.Project.CompositionService.LightEntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
+                    DataContext="{Binding LightEntityManager}"/>
+            </Expander>
             
             <Expander Header="Cameras">
                 <Views:PrefabSlotManager 

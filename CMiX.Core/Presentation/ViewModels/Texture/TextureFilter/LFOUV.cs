@@ -9,39 +9,38 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class LFO : ObservableObject, IControl, IBeatModifiable, ITransformModifier, IDisposable
+    public class LFOUV : ObservableObject, IControl, IBeatModifiable, ITextureFilter, IDisposable
     {
-        public LFO(LFOModel lfoModel, CompositionService compositionService)
+        public LFOUV(LFOUVModel lfoUVModel, CompositionService compositionService)
         {
-            ID = lfoModel.ID;
-            Enabled = lfoModel.Enabled;
+            ID = lfoUVModel.ID;
+            Enabled = lfoUVModel.Enabled;
 
-            Mode = new ComboBox<ModifierMode>(lfoModel.Mode);
+            Name = lfoUVModel.Name;
+            Visible = new ToggleButton(lfoUVModel.Visible);
+            BeatModifier = new BeatModifier(lfoUVModel.BeatModifier, compositionService);
 
-            Visible = new ToggleButton(lfoModel.Visible);
-            BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
+            XAxis = new ToggleButton(lfoUVModel.XAxis);
+            YAxis = new ToggleButton(lfoUVModel.YAxis);
+            ZAxis = new ToggleButton(lfoUVModel.ZAxis);
 
-            XAxis = new ToggleButton(lfoModel.XAxis);
-            YAxis = new ToggleButton(lfoModel.YAxis);
-            ZAxis = new ToggleButton(lfoModel.ZAxis);
+            PingPong = new ToggleButton(lfoUVModel.PingPong);
+            TransformType = new ComboBox<TransformType>(lfoUVModel.TransformType);
+            Easing = new Easing(lfoUVModel.Easing);
 
-            PingPong = new ToggleButton(lfoModel.PingPong);
-            TransformType = new ComboBox<TransformType>(lfoModel.TransformType);
-            Easing = new Easing(lfoModel.Easing);
+            From = new Slider(nameof(From), lfoUVModel.From);
+            To = new Slider(nameof(To), lfoUVModel.To);
 
-            From = new Slider(nameof(From), lfoModel.From);
-            To = new Slider(nameof(To), lfoModel.To);
-
-            IsExpanded = true;
+            SamplerState = new SamplerState(lfoUVModel.SamplerState, compositionService);
         }
 
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
 
         public ToggleButton Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
+        public TextureFilterName Name { get; set; }
 
         public ToggleButton PingPong { get; set; }
 
@@ -49,25 +48,17 @@ namespace CMiX.Core.Presentation.ViewModels
         public ToggleButton YAxis { get; set; }
         public ToggleButton ZAxis { get; set; }
 
-
         public ComboBox<TransformType> TransformType { get; set; }
         public Easing Easing { get; set; }
 
         public Slider From { get; set; }
         public Slider To { get; set; }
-
-
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        public SamplerState SamplerState { get; set; }
 
 
         public IModel GetModel()
         {
-            LFOModel lfoModel = new LFOModel();
+            LFOUVModel lfoModel = new LFOUVModel();
 
             lfoModel.ID = this.ID;
             lfoModel.Enabled = Enabled;
@@ -81,23 +72,22 @@ namespace CMiX.Core.Presentation.ViewModels
             lfoModel.ZAxis = (ToggleButtonModel)ZAxis.GetModel();
 
             lfoModel.TransformType = (ComboBoxModel<TransformType>)TransformType.GetModel();
-            lfoModel.Mode = (ComboBoxModel<ModifierMode>)Mode.GetModel();
 
             lfoModel.Easing = (EasingModel)Easing.GetModel();
 
             lfoModel.From = (SliderModel)From.GetModel();
             lfoModel.To = (SliderModel)To.GetModel();
+            lfoModel.SamplerState = (SamplerStateModel)SamplerState.GetModel();
 
             return lfoModel;
         }
 
         public void SetViewModel(IModel model)
         {
-            LFOModel lfoModel = model as LFOModel;
+            LFOUVModel lfoModel = model as LFOUVModel;
             ID = lfoModel.ID;
             Enabled = lfoModel.Enabled;
 
-            Mode.SetViewModel(lfoModel.Mode);
             Visible.SetViewModel(lfoModel.Visible);
             BeatModifier.SetViewModel(lfoModel.BeatModifier);
             PingPong.SetViewModel(lfoModel.PingPong);
@@ -111,6 +101,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             From.SetViewModel(lfoModel.From);
             To.SetViewModel(lfoModel.To);
+            SamplerState.SetViewModel(lfoModel.SamplerState);
         }
 
         public void Dispose()

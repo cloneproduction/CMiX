@@ -6,13 +6,12 @@ using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    public class RandomXYModel : IModifierModel
+    public class RandomUVModel : ITextureFilterModel
     {
-        public RandomXYModel()
+        public RandomUVModel()
         {
             this.ID = Guid.NewGuid();
-            Name = TransformModifierNames.RandomXY;
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
+            Name = TextureFilterName.RandomUV;
 
             Visible = new ToggleButtonModel(true);
 
@@ -32,14 +31,14 @@ namespace CMiX.Core.Models
             RandomizeRotation = new ToggleButtonModel();
             Rotation = new SliderModel();
 
-            Spread = new ToggleButtonModel();
+            SamplerState = new SamplerStateModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
 
-        public ComboBoxModel<ModifierMode> Mode { get; set; }
+
         public ToggleButtonModel Visible { get; set; }
 
         public EasingModel EasingModel { get; set; }
@@ -59,9 +58,10 @@ namespace CMiX.Core.Models
 
 
         public BeatModifierModel BeatModifierModel { get; set; }
-        public TransformModifierNames Name { get; set; }
+        public TextureFilterName Name { get; set; }
 
         public int Count { get; set; }
         public ToggleButtonModel Spread { get; internal set; }
+        public SamplerStateModel SamplerState { get; internal set; }
     }
 }

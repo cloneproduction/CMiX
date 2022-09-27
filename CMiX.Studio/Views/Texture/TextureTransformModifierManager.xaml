@@ -17,13 +17,13 @@
         
         <ResourceDictionary>
 
-            <DataTemplate x:Key="RandomXYTemplate" DataType="{x:Type ViewModels:RandomXY}">
+            <!--<DataTemplate x:Key="RandomXYTemplate" DataType="{x:Type ViewModels:RandomXY}">
                 <Views:RandomXY Margin="0, 4" DataContext="{Binding}"/>
             </DataTemplate>
             
             <ViewModels:TextureTransformModifierTemplateSelector 
                 x:Key="TemplateSelector" 
-                RandomXYTemplate="{StaticResource RandomXYTemplate}"/>
+                RandomXYTemplate="{StaticResource RandomXYTemplate}"/>-->
 
         </ResourceDictionary>
 
@@ -92,7 +92,7 @@
                                     <RowDefinition/>
                                 </Grid.RowDefinitions>
 
-                                <Button 
+                                <!--<Button 
                                     Command="{Binding CreateCommand}" 
                                     CommandParameter="{x:Type ViewModels:RandomXY}" 
                                     Grid.Row="0"
@@ -100,14 +100,14 @@
                                     VerticalAlignment="Center" 
                                     Width="100" 
                                     Height="20" 
-                                    Content="RandomXY"/>
+                                    Content="RandomXY"/>-->
 
                             </Grid>
                         </Border>
                     </Border>
                 </Popup>
 
-                <ItemsControl 
+                <!--<ItemsControl 
                     IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
                     Margin="0, 8, 0, 0"
                     AllowDrop="True"
@@ -116,7 +116,7 @@
                     dd:DragDrop.DragHandler="{Binding}"
                     dd:DragDrop.DropHandler="{Binding}"
                     ItemTemplateSelector="{StaticResource TemplateSelector}"
-                    ItemsSource="{Binding Modifiers}"/>
+                    ItemsSource="{Binding Modifiers}"/>-->
 
             </StackPanel>
 

@@ -11,7 +11,7 @@
     d:DesignHeight="238.667"
     d:DesignWidth="277.667"
     mc:Ignorable="d"
-    x:Name="InstancerPouet">
+    x:Name="transformModifierManager">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -28,6 +28,10 @@
                 <Views:LFO Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
+            <DataTemplate x:Key="StepperTemplate" DataType="{x:Type ViewModels:Stepper}">
+                <Views:Stepper Margin="0, 8, 0, 0" DataContext="{Binding}"/>
+            </DataTemplate>
+            
             <DataTemplate x:Key="RandomScaleTemplate" DataType="{x:Type ViewModels:RandomScale}">
                 <Views:RandomScale Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
@@ -75,7 +79,8 @@
                 TranslateTemplate="{StaticResource TranslateTemplate}"
                 ScaleTemplate="{StaticResource ScaleTemplate}"
                 RandomScaleTemplate="{StaticResource RandomScaleTemplate}"
-                RotationTemplate="{StaticResource RotationTemplate}"/>
+                RotationTemplate="{StaticResource RotationTemplate}"
+                StepperTemplate="{StaticResource StepperTemplate}"/>
 
         </ResourceDictionary>
 
@@ -94,7 +99,7 @@
 
         <Popup
             AllowsTransparency="True"
-            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=textureFilterManager}"
+            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=transformModifierManager}"
             Placement="Bottom"
             PlacementTarget="{Binding ElementName=PopUpToggle}"
             FlowDirection="LeftToRight"
@@ -209,6 +214,16 @@
                             Width="120" 
                             Height="22" 
                             Content="LFO"/>
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:Stepper}" 
+                            Grid.Column="2"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Stepper"/>
                         
                     </StackPanel>
                 </Grid>

@@ -33,8 +33,6 @@ namespace CMiX.Core.Presentation.ViewModels
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
             SelectedAssetType = new ComboBox<int>(textureModel.SelectedAssetType);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
-
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
 
@@ -44,7 +42,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public ToggleButton IsEnabled { get; set; }
         public SamplerState SamplerState { get; set; }
-
 
 
         private bool _isExpanded;

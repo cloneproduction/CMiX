@@ -211,7 +211,7 @@
                 </DockPanel>
             </Expander.Header>
 
-            <StackPanel Margin="8">
+            <StackPanel Margin="0, 16, 0, 0">
                 <Grid Margin="0, 0, 0, 8">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -242,27 +242,7 @@
                         Grid.Column="1" HorizontalAlignment="Left"/>
                 </Grid>
 
-                <!--<Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Texture" HorizontalAlignment="Right" Padding="4, 0"/>
-                    <ComboBox 
-                            Margin="0, 8"
-                                Grid.Column="1"
-                                SelectedItem="{Binding Coloration}"
-                                ItemsSource="{Binding Path=DataContext.TextureManager.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:EntityPanel}}}">
-                        <ComboBox.ItemTemplate>
-                            <ItemContainerTemplate>
-                                <Border Height="20">
-                                    <TextBlock Padding="4" Text="{Binding Name}"/>
-                                </Border>
-                            </ItemContainerTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                </Grid>-->
-
+                <Views:Texture DataContext="{Binding Mask}"/>
             </StackPanel>
         </Expander>
 

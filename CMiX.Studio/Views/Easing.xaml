@@ -6,11 +6,11 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="298.031" d:DesignWidth="269.095">
 
-    
+
     <UserControl.Resources>
-        
+
         <ObjectDataProvider x:Key="EasingFunction" MethodName="GetValues" ObjectType="{x:Type ViewModels:EasingFunction}">
             <ObjectDataProvider.MethodParameters>
                 <x:Type TypeName="ViewModels:EasingFunction"/>
@@ -22,10 +22,10 @@
                 <x:Type TypeName="ViewModels:EasingMode"/>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        
+
     </UserControl.Resources>
-    
-    
+
+
     <Expander>
         <Expander.Header>
             <DockPanel>
@@ -38,9 +38,9 @@
                 <TextBlock Text="Easing" Foreground="{DynamicResource TextBase}"/>
             </DockPanel>
         </Expander.Header>
-        
-        <StackPanel Margin="8" IsEnabled="{Binding IsEnabled}">
-            
+
+        <StackPanel Margin="8, 16" IsEnabled="{Binding IsEnabled}">
+
             <Grid Height="20" Margin="0, 0, 0, 4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -57,7 +57,7 @@
                     SelectedItem="{Binding EasingFunction}"
                     ItemsSource="{Binding Source={StaticResource EasingFunction}}"/>
             </Grid>
-            
+
             <Grid Height="20" Margin="0, 0, 0, 0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
@@ -74,8 +74,8 @@
                     SelectedItem="{Binding EasingMode}"
                     ItemsSource="{Binding Source={StaticResource EasingMode}}"/>
             </Grid>
-            
+
         </StackPanel>
-        
+
     </Expander>
 </UserControl>

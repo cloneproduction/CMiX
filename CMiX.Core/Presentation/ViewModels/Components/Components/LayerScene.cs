@@ -36,6 +36,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager, compositionService.PrefabFactory);
             CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager, compositionService.PrefabFactory);
+            LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager, compositionService.PrefabFactory);
         }
 
 
@@ -44,7 +45,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public PrefabManager<Entity> ModelEntityManager { get; set; }
         public PrefabManager<Camera> CameraEntityManager { get; set; }
-
+        public PrefabManager<LightEntity> LightEntityManager { get; set; }
 
         public void OpenColorSelector()
         {
@@ -85,6 +86,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Opacity = (SliderModel)this.Opacity.GetModel();
             model.ModelEntityManager = (PrefabManagerModel)this.ModelEntityManager.GetModel();
             model.CameraEntityManager = (PrefabManagerModel)this.CameraEntityManager.GetModel();
+            model.LightEntityManager = (PrefabManagerModel)(this.LightEntityManager.GetModel());
+
             return model;
         }
 
@@ -103,8 +106,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.Opacity.SetViewModel(layerModel.Opacity);
             this.ModelEntityManager.SetViewModel(layerModel.ModelEntityManager);
             this.CameraEntityManager.SetViewModel(layerModel.Camera);
-
-            this.Components.Clear();
+            this.LightEntityManager.SetViewModel(layerModel.LightEntityManager);
         }
 
         public void Receive(MessageKeyPressed message)

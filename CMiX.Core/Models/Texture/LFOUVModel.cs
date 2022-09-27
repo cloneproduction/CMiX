@@ -6,9 +6,9 @@ using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    public class StepperModel : IModifierModel
+    public class LFOUVModel : ITextureFilterModel
     {
-        public StepperModel()
+        public LFOUVModel()
         {
             this.ID = Guid.NewGuid();
             Enabled = true;
@@ -29,7 +29,9 @@ namespace CMiX.Core.Models
 
             From = new SliderModel(0.0f);
             To = new SliderModel(1.0f);
-            StepCount = new CounterModel();
+
+            Name = TextureFilterName.LFOUV;
+            SamplerState = new SamplerStateModel();
         }
 
         public ToggleButtonModel PingPong { get; set; }
@@ -44,8 +46,9 @@ namespace CMiX.Core.Models
         public ComboBoxModel<TransformType> TransformType { get; set; }
         public SliderModel From { get; set; }
         public SliderModel To { get; set; }
-        public ComboBoxModel<ModifierMode> Mode { get; set; }
+        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
         public EasingModel Easing { get; internal set; }
-        public CounterModel StepCount { get; set; }
+        public TextureFilterName Name { get; internal set; }
+        public SamplerStateModel SamplerState { get; internal set; }
     }
 }

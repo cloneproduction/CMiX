@@ -13,6 +13,8 @@ namespace CMiX.Core.Presentation.ViewModels
         TransformTexture,
         Pixelate,
         Echo,
-        Feedback
+        Feedback,
+        RandomUV,
+        LFOUV,
     }
 }

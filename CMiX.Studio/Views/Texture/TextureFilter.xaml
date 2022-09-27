@@ -20,41 +20,49 @@
             <Converters:EnumToStringConverter x:Key="EnumToString" />
 
             <DataTemplate x:Key="HSCBTemplate" DataType="{x:Type ViewModels:HSCB}">
-                <Filters:HSCB Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:HSCB Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="InvertTemplate" DataType="{x:Type ViewModels:HSCB}">
-                <Filters:Invert Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:Invert Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="BlurTemplate" DataType="{x:Type ViewModels:HSCB}">
-                <Filters:Blur Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:Blur Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="EdgeTemplate" DataType="{x:Type ViewModels:Edge}">
-                <Filters:Edge Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:Edge Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="TransformTextureTemplate" DataType="{x:Type ViewModels:TransformTexture}">
-                <Filters:TransformTexture Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:TransformTexture Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="PixelateTemplate" DataType="{x:Type ViewModels:Pixelate}">
-                <Filters:Pixelate Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:Pixelate Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="EchoTemplate" DataType="{x:Type ViewModels:Echo}">
-                <Filters:Echo Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:Echo Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="FeedbackTemplate" DataType="{x:Type ViewModels:Feedback}">
-                <Filters:Feedback Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:Feedback Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="TriColorTemplate" DataType="{x:Type ViewModels:TriColor}">
-                <Filters:TriColor Margin="0, 2" DataContext="{Binding}"/>
+                <Filters:TriColor Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
+            <DataTemplate x:Key="RandomUVTemplate" DataType="{x:Type ViewModels:RandomUV}">
+                <Filters:RandomUV Margin="0, 8, 0, 0" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="LFOUVTemplate" DataType="{x:Type ViewModels:LFOUV}">
+                <Filters:LFOUV Margin="0, 8, 0, 0" DataContext="{Binding}"/>
+            </DataTemplate>
+            
             <ViewModels:TextureFilterTemplateSelector 
                 x:Key="TemplateSelector" 
                 BlurTemplate="{StaticResource BlurTemplate}"
@@ -65,7 +73,9 @@
                 PixelateTemplate="{StaticResource PixelateTemplate}"
                 EchoTemplate="{StaticResource EchoTemplate}"
                 FeedbackTemplate="{StaticResource FeedbackTemplate}"
-                TriColorTemplate="{StaticResource TriColorTemplate}"/>
+                TriColorTemplate="{StaticResource TriColorTemplate}"
+                RandomUVTemplate="{StaticResource RandomUVTemplate}"
+                LFOUVTemplate="{StaticResource LFOUVTemplate}"/>
 
         </ResourceDictionary>
 
@@ -77,7 +87,7 @@
             x:Name="PopUpToggle" 
             Content="Add Filter"
             Height="22" 
-            Margin="0, 0, 0, 4"
+            Margin="0, 0, 0, 8"
             Background="{DynamicResource DarkerColor}" 
             Style="{StaticResource ToggleTransformModifierMenu}"/>
 
@@ -165,6 +175,28 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:RandomUV}" 
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="Random UV"/>
+
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
+                            CommandParameter="{x:Type ViewModels:LFOUV}" 
+                            Grid.Column="1"
+                            Grid.Row="1"
+                            VerticalAlignment="Center" 
+                            Width="120" 
+                            Height="22" 
+                            Content="LFO UV"/>
+                        
+                        <Button 
+                            Style="{StaticResource ButtonItemControl}"
+                            Command="{Binding CreateCommand}" 
                             CommandParameter="{x:Type ViewModels:Pixelate}" 
                             Grid.Column="2"
                             Grid.Row="1"
@@ -221,7 +253,8 @@
             dd:DragDrop.DragHandler="{Binding}"
             dd:DragDrop.DropHandler="{Binding}"
             ItemTemplateSelector="{StaticResource TemplateSelector }" 
-            ItemsSource="{Binding Modifiers}"/>
+            ItemsSource="{Binding Modifiers}">
+        </ItemsControl>
 
     </StackPanel>
 </UserControl>

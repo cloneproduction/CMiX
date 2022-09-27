@@ -201,10 +201,13 @@ namespace CMiX.Core.Presentation.ViewModels
         public void DragOver(IDropInfo dropInfo)
         {
             var targetItem = dropInfo.VisualTargetItem;
-            var visualTarget = dropInfo.DragInfo.VisualSourceItem;
+            var visualTarget = dropInfo.DragInfo?.VisualSourceItem;
+
+            if (visualTarget == null)
+                return;
 
             var targetIndex = dropInfo.InsertIndex;
-            var sourceIndex = dropInfo.DragInfo.SourceIndex;
+            var sourceIndex = dropInfo.DragInfo?.SourceIndex;
 
             if (targetIndex - 1 == sourceIndex)
             {

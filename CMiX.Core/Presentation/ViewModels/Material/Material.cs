@@ -71,7 +71,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Mask Mask { get; set; }
         public ComboBox<MaskChannel> MaskChannelSelector { get; set; }
-
         public ComboBox<PipelineType> Pipeline { get; set; }
         public ComboBox<TransparencyType> Transparency { get; set; }
         public ComboBox<CullModeType> CullMode { get; set; }

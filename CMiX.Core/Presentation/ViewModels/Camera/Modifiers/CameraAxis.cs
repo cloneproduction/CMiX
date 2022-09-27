@@ -8,5 +8,6 @@ namespace CMiX.Core.Presentation.ViewModels
         Zoom,
         Pitch,
         Yaw,
+        FOV,
     }
 }

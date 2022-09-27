@@ -43,6 +43,8 @@ namespace CMiX.Core.Presentation.ViewModels
             RotationZ = new Slider(nameof(RotationZ), randomXYZModel.RotationZ);
 
             Spread = new ToggleButton(randomXYZModel.Spread);
+
+            IsExpanded = true;
         }
 
 
@@ -53,6 +55,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Guid ID { get; set; }
         public TransformModifierNames Name { get; set; }
         public ComboBox<ModifierMode> Mode { get; set; }
+
 
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }

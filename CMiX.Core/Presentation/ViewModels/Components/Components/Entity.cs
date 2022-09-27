@@ -96,17 +96,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
         }
 
-        private Transform _textureTransform;
-        public Transform TextureTransform
-        {
-            get => _textureTransform;
-            set
-            {
-                SetProperty(ref _textureTransform, value);
-                SendMessage(new MessageChangePrefab(this.ID, value, nameof(TextureTransform)));
-            }
-        }
-
 
         public void SetViewModel(IModel model)
         {

@@ -27,6 +27,8 @@ namespace CMiX.Core.Models.Component
 
             ModelEntityManager = new PrefabManagerModel();
             CameraEntityManager = new PrefabManagerModel();
+            LightEntityManager = new PrefabManagerModel();
+
             EditPanelOpen = new ToggleButtonModel(false);
         }
 
@@ -49,5 +51,6 @@ namespace CMiX.Core.Models.Component
         public PrefabManagerModel ModelEntityManager { get; internal set; }
         public PrefabManagerModel CameraEntityManager { get; internal set; }
         public ToggleButtonModel EditPanelOpen { get; internal set; }
+        public PrefabManagerModel LightEntityManager { get; internal set; }
     }
 }

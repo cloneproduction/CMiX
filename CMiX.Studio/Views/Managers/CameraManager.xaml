@@ -1,44 +1,44 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.Managers.CameraManager"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              d:DesignHeight="637.667" d:DesignWidth="256">
 
-
-    <DockPanel>
-        <Border 
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <DockPanel>
+            <Border 
             Height="100"                                         
             DockPanel.Dock="Top"
             Margin="8">
-            <ListBox 
+                <ListBox 
                 Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
 
-                <ListBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <Border Height="20">
-                            <TextBlock Padding="4" Text="{Binding Name}"/>
-                        </Border>
-                    </ItemContainerTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </Border>
+                    <ListBox.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <Border Height="20">
+                                <TextBlock Padding="4" Text="{Binding Name}"/>
+                            </Border>
+                        </ItemContainerTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
 
-        <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <StackPanel>
-                <Views:Camera Margin="8" DataContext="{Binding SelectedItem.Prefab}"/>
-                <Expander Header="Modifiers">
-                    <Views:CameraTransformModifierManager DataContext="{Binding SelectedItem.Prefab.CameraTransformModifierManager}"/>
-                </Expander>
+            <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
+                <StackPanel>
+                    <Views:Camera Margin="8" DataContext="{Binding SelectedItem.Prefab}"/>
+                    <Expander Header="Modifiers">
+                        <Views:CameraTransformModifierManager DataContext="{Binding SelectedItem.Prefab.CameraTransformModifierManager}"/>
+                    </Expander>
 
-            </StackPanel>
+                </StackPanel>
 
-        </Border>
-    </DockPanel>
+            </Border>
+        </DockPanel>
+    </ScrollViewer>
 </UserControl>

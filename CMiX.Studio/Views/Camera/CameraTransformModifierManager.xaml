@@ -17,11 +17,16 @@
         <ResourceDictionary>
 
             <DataTemplate x:Key="CameraLFOTemplate" DataType="{x:Type ViewModels:CameraLFO}">
-                <Views:CameraLFO Margin="0, 8" DataContext="{Binding}"/>
+                <Views:CameraLFO Margin="0, 8, 0, 0" DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="CameraRandomTemplate" DataType="{x:Type ViewModels:CameraRandom}">
+                <Views:CameraRandom Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
             
             <ViewModels:CameraTransformModifierTemplateSelector 
                 x:Key="TemplateSelector" 
+                CameraRandomTemplate="{StaticResource CameraRandomTemplate}"
                 CameraLFOTemplate="{StaticResource CameraLFOTemplate}"/>
 
         </ResourceDictionary>
@@ -56,7 +61,7 @@
                 
                 <Border CornerRadius="{DynamicResource CornerRadiusBottomLarge}" >
 
-                    <Grid Margin="0, 0">
+                    <Grid>
                         
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition/>
@@ -77,6 +82,17 @@
                                 Width="120" 
                                 Height="22" 
                                 Content="LFO"/>
+
+                            <Button 
+                                Style="{StaticResource ButtonItemControl}"
+                                Command="{Binding CreateCommand}" 
+                                CommandParameter="{x:Type ViewModels:CameraRandom}" 
+                                Grid.Row="0"
+                                Grid.Column="0"
+                                VerticalAlignment="Center" 
+                                Width="120" 
+                                Height="22" 
+                                Content="Random"/>
                             
                         </StackPanel>
 
@@ -88,7 +104,6 @@
 
         <ItemsControl 
             IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
-            Margin="0, 0, 0, 0"
             AllowDrop="True"
             dd:DragDrop.IsDragSource="True"
             dd:DragDrop.IsDropTarget="True"

@@ -6,29 +6,25 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="67.333" d:DesignWidth="332">
+    
     <StackPanel>
-
-
+        
         <Grid Height="22">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Resolution X" HorizontalAlignment="Right" Padding="4"/>
-            <Border Grid.Column="1" BorderBrush="{DynamicResource SuperHighDarkerColor}" CornerRadius="2, 2, 0, 0" BorderThickness="1, 0, 1, 1">
+            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" CornerRadius="2, 2, 0, 0" BorderThickness="1, 0, 1, 1">
                 <Controls:Counter
-                        Style="{DynamicResource CMiXCounterStyle}"
-                        Position="Top"
-                        StepValue="1"
-                        
-                        Height="21"
-                        HorizontalAlignment="Stretch"
-                        Value="{Binding SizeX.Count, Mode=TwoWay}"/>
+                    Style="{DynamicResource CMiXCounterStyle}"
+                    Position="Top"
+                    StepValue="1"
+                    Height="21"
+                    HorizontalAlignment="Stretch"
+                    Value="{Binding SizeX.Count, Mode=TwoWay}"/>
             </Border>
-
         </Grid>
-
-
 
         <Grid Height="22">
             <Grid.ColumnDefinitions>
@@ -36,7 +32,7 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Y" HorizontalAlignment="Right" Padding="4"/>
-            <Border Grid.Column="1" BorderBrush="{DynamicResource SuperHighDarkerColor}" CornerRadius="0, 0, 4, 4" BorderThickness="1, 0, 1, 2">
+            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" CornerRadius="0, 0, 4, 4" BorderThickness="1, 0, 1, 2">
                 <Controls:Counter
                     Style="{DynamicResource CMiXCounterStyle}"
                     StepValue="1"
@@ -46,8 +42,8 @@
                     HorizontalAlignment="Stretch"
                     Value="{Binding SizeY.Count, Mode=TwoWay}"/>
             </Border>
-
         </Grid>
 
     </StackPanel>
+    
 </UserControl>

@@ -19,6 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         PrefabManager<Entity> ModelEntityManager { get; set; }
         PrefabManager<Camera> CameraEntityManager { get; set; }
+        PrefabManager<LightEntity> LightEntityManager { get; set; }
 
         void OpenColorSelector();
 

@@ -38,6 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             ModelEntityManager = new PrefabManager<Entity>(maskModel.ModelEntityManager, compositionService.PrefabFactory);
             CameraEntityManager = new PrefabManager<Camera>(maskModel.CameraEntityManager, compositionService.PrefabFactory);
+            LightEntityManager = new PrefabManager<LightEntity>(maskModel.LightEntityManager, compositionService.PrefabFactory);
         }
 
 
@@ -48,6 +49,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public PrefabManager<Entity> ModelEntityManager { get; set; }
         public PrefabManager<Camera> CameraEntityManager { get; set; }
+        public PrefabManager<LightEntity> LightEntityManager { get; set; }
+
         public CompositionService CompositionService { get; set; }
 
         public void OpenColorSelector()
@@ -96,6 +99,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Invert = (ToggleButtonModel)this.Invert.GetModel();
             model.ModelEntityManager = (PrefabManagerModel)ModelEntityManager.GetModel();
             model.CameraEntityManager = (PrefabManagerModel)CameraEntityManager.GetModel();
+            model.LightEntityManager = (PrefabManagerModel)LightEntityManager.GetModel();
+
             model.MaskChannelSelector = (ComboBoxModel<MaskChannel>)this.MaskChannelSelector.GetModel();
 
             return model;
@@ -114,6 +119,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.Visibility.SetViewModel(layerModel.VisibilityModel);
             this.AmbientOcclusion.SetViewModel(layerModel.AmbientOcclusion);
             this.CameraEntityManager.SetViewModel(layerModel.CameraEntityManager);
+            this.LightEntityManager.SetViewModel(layerModel.LightEntityManager);
+
             this.ModelEntityManager.SetViewModel(layerModel.ModelEntityManager);
 
             this.MaskChannelSelector.SetViewModel(layerModel.MaskChannelSelector);

@@ -1,10 +1,11 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.Managers.TransformManager"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:dd="urn:gong-wpf-dragdrop" xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core" xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="668.082" d:DesignWidth="312.071">
 
@@ -34,12 +35,26 @@
                 <StackPanel>
                     <StackPanel Margin="8, 16">
                         <basecontrol:VectorXYZ DataContext="{Binding SelectedItem.Prefab.Translate}"/>
+                        <Grid Height="20" Margin="0, 8, 0, 0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition/>
+                            </Grid.ColumnDefinitions>
+                            <Controls:DistanceSlider 
+                                Grid.Column="2" 
+                                Position="Top" 
+                                Style="{StaticResource DistanceSliderStyle}" 
+                                Value="{Binding SelectedItem.Prefab.Uniform.Amount}"/>
+                            <TextBlock 
+                                Grid.Column="0" 
+                                Padding="4" 
+                                HorizontalAlignment="Right" 
+                                Text="Uniform XYZ" 
+                                Foreground="{StaticResource TextBase}"/>
+                        </Grid>
                         <basecontrol:VectorXYZ  Margin="0, 8" DataContext="{Binding SelectedItem.Prefab.Scale}"/>
                         <basecontrol:VectorXYZ  DataContext="{Binding SelectedItem.Prefab.Rotate}"/>
                     </StackPanel>
-
-
-
 
                     <Expander>
                         <Expander.Header>
@@ -54,7 +69,6 @@
                             </DockPanel>
                         </Expander.Header>
                         <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
-
                     </Expander>
 
                 </StackPanel>

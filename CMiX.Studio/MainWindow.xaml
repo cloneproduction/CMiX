@@ -69,15 +69,115 @@
             DockPanel.Dock="Bottom" 
             VerticalAlignment="Center" 
             BorderBrush="{StaticResource SuperHighDarkerColor}"
-            Margin="2"
-            Background="{StaticResource HighHighDarkerColor}" 
-            Height="25">
-            <DockPanel>
-                <TextBlock Text="© CloneProduction" DockPanel.Dock="Right" Padding="8"/>
-                <TextBlock Text="CMiX" Padding="8"/>
+            Margin="2, 0, 2, 2"
+            Height="28"
+            Padding="2"
+            Background="{StaticResource HighHighDarkerColor}" >
+            <DockPanel LastChildFill="False">
+
+                <ComboBox
+                        Width="200"
+                        SelectedValue="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat}"
+                        SelectedValuePath="Prefab"
+                        ItemsSource="{Binding Project.CompositionService.MasterBeatManager.Prefabs}">
+                    <ComboBox.ItemTemplate>
+                        <ItemContainerTemplate>
+                            <TextBlock Text="{Binding Name}"/>
+                        </ItemContainerTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+                
+                <StackPanel IsEnabled="{Binding Project.CompositionService.CompositionManager.SelectedItem, Converter={StaticResource NullToBool}}" 
+                            DockPanel.Dock="Right"  Margin="0"  Orientation="Horizontal">
+
+
+                    <Border Margin="2, 0" Width="50" DockPanel.Dock="Right" >
+                        <Grid>
+                            <Border 
+                                Background="{DynamicResource HighHighDarkerColor}" 
+                                CornerRadius="2" 
+                                BorderBrush="{DynamicResource Shadow}"
+                                BorderThickness="1, 0, 1, 2"
+                                Opacity="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.AnimatedDouble.AnimationPosition}"/>
+                            <Border 
+                                Background="{DynamicResource Color}"
+                                BorderBrush="{DynamicResource Shadow}"
+                                Margin="0, 0, 0, 1"
+                                CornerRadius="2" 
+                                Opacity="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.AnimatedDouble.AnimationPosition}"/>
+                            <TextBlock 
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                Foreground="{DynamicResource TextBase}" 
+                                Text="{Binding  Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.Period, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}" />
+                        </Grid>
+                    </Border>
+
+                    <Button
+                    Margin="2, 0"
+                    Width="50"
+                    Style="{StaticResource ButtonRounded}"
+                    VerticalAlignment="Stretch"
+                    HorizontalAlignment="Stretch"
+                    Command="{Binding  Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.TapCommand}"
+                    Content="TAP"/>
+
+                    <Button
+                    Margin="2, 0"
+                    Style="{StaticResource ButtonRounded}"
+                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                    Command="{Binding  Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.DivideCommand}"
+                    Content="-"
+                    DockPanel.Dock="Right"/>
+
+                    <Button
+                    Style="{StaticResource ButtonRounded}"
+                    Margin="2, 0"
+                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                    Command="{Binding  Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.MultiplyCommand}"
+                    Content="+"
+                    DockPanel.Dock="Right"/>
+                    
+                    <Button
+                    Margin="2, 0"
+                    Style="{StaticResource ButtonImage}"
+                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                    Command="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.Resync.ResyncCommand}"
+                    DockPanel.Dock="Right">
+                        <Button.Content>
+                            <Image Margin="16" Source="{StaticResource Reset}"/>
+                        </Button.Content>
+                    </Button>
+
+                    <ToggleButton
+                    Style="{StaticResource InlineToggleButtonCenter}"
+                    Margin="2, 0, 1, 2"
+                    Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                    IsChecked="{Binding  Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.Pause.IsChecked}"
+                    Content="P"
+                    DockPanel.Dock="Right"/>
+
+
+
+                </StackPanel>
             </DockPanel>
         </Border>
-        
+
+        <Border 
+            Background="{DynamicResource HighDarkerColor}" 
+            DockPanel.Dock="Top"
+            Margin="2, 2, 2, 0">
+            
+            <Views:Outliner 
+                DockPanel.Dock="Left" 
+                Margin="4"
+                Width="300"
+                DataContext="{Binding Project.CompositionService.CompositionManager}"/>
+        </Border>
+
+        <Border DockPanel.Dock="Bottom">
+            
+        </Border>
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*"/>
@@ -93,12 +193,10 @@
             <GridSplitter Grid.Column="0"  Margin="-3, 0" Width="6" HorizontalAlignment="Right" Style="{StaticResource GridSplitter}"/>
 
             <DockPanel Margin="2, 2" Grid.Column="1" Background="{DynamicResource HighDarkerColor}">
-                <Views:Outliner DockPanel.Dock="Top" 
-                                DataContext="{Binding Project.CompositionService.CompositionManager}"/>
+
                 <Border Grid.Row="2" >
                     <Border
                         BorderBrush="{DynamicResource PanelBackground}"
-                        BorderThickness="0, 2, 0, 0"
                         Visibility="{Binding Project.CompositionService.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
 
                         <TabControl TabStripPlacement="Left" 
@@ -159,38 +257,10 @@
                                     <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
                                         <StackPanel>
 
-                                            <Grid Margin="8" >
-                                                <Grid.ColumnDefinitions>
-                                                    <ColumnDefinition Width="0.5*"/>
-                                                    <ColumnDefinition Width="0.5*"/>
-                                                </Grid.ColumnDefinitions>
-
-                                                <TextBlock Text="Beat" HorizontalAlignment="Right" Padding="4, 0"/>
-
-                                                <ComboBox 
-                                                    Grid.Column="1" 
-                                                    DockPanel.Dock="Bottom" 
-                                                    SelectedValue="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat}"
-                                                    SelectedValuePath="Prefab"
-                                                    ItemsSource="{Binding Project.CompositionService.MasterBeatManager.Prefabs}">
-                                                    <ComboBox.ItemTemplate>
-                                                        <ItemContainerTemplate>
-                                                            <Border Height="20">
-                                                                <TextBlock Padding="4" Text="{Binding Name}"/>
-                                                            </Border>
-                                                        </ItemContainerTemplate>
-                                                    </ComboBox.ItemTemplate>
-                                                </ComboBox>
-
-                                            </Grid>
-
                                             <Expander Header="Filter">
                                                 <Views:TextureFilter  DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.ModifierManager}"/>
                                             </Expander>
-                                            
-                                            <!--<Expander Header="PostFX">
-                                                <Views:TextureFilterManager DataContext="{Binding Project.CompositionManager.SelectedComposition.ModifierManager}"/>
-                                            </Expander>-->
+
 
                                             <Expander Header="Render Settings">
                                                 <ComponentViews:CompositionSettings DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.OutputSettings}"/>
@@ -205,6 +275,7 @@
                 </Border>
             </DockPanel>
         </Grid>
+        
     </DockPanel>
 </Window>
 

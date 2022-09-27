@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class RandomXY : UserControl
+    public partial class LFOUV : UserControl
     {
-        public RandomXY()
+        public LFOUV()
         {
             InitializeComponent();
         }

@@ -24,6 +24,8 @@ namespace CMiX.Core.Presentation.ViewModels
             TransformTypeSelector = new ComboBox<TransformType>(linearXYZModel.TransformTypeSelector);
             DirectionXYZ = new DirectionXYZ(linearXYZModel.DirectionXYZModel);
             BeatModifier = new BeatModifier(linearXYZModel.BeatModifierModel, compositionService);
+
+            IsExpanded = true;
         }
 
         public bool Enabled { get; set; }

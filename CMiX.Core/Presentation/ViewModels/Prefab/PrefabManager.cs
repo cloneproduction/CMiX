@@ -197,7 +197,7 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             SelectedItem.PrefabChanged += PrefabContainer_PrefabChanged;
         }
 
-        public void AddItem()
+        public virtual void AddItem()
         {
             PrefabContainer prefab = CreatePrefabContainer();
             Send(new MessageAddPrefab(this.ID, prefab));
@@ -231,7 +231,7 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         }
 
 
-        public void DeleteItem(PrefabContainer prefab)
+        public virtual void DeleteItem(PrefabContainer prefab)
         {
             var index = Prefabs.IndexOf(prefab);
 

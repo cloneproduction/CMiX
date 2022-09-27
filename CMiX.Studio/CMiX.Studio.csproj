@@ -226,6 +226,9 @@
     <Compile Include="Views\BaseControl\ColorSelector.xaml.cs">
       <DependentUpon>ColorSelector.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Camera\CameraRandom.xaml.cs">
+      <DependentUpon>CameraRandom.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Camera\CameraLFO.xaml.cs">
       <DependentUpon>CameraLFO.xaml</DependentUpon>
     </Compile>
@@ -298,8 +301,11 @@
     <Compile Include="Views\Easing.xaml.cs">
       <DependentUpon>Easing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Modifiers\LFO2D.xaml.cs">
-      <DependentUpon>LFO2D.xaml</DependentUpon>
+    <Compile Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml.cs">
+      <DependentUpon>Stepper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\LFOUV.xaml.cs">
+      <DependentUpon>LFOUV.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\LFO.xaml.cs">
       <DependentUpon>LFO.xaml</DependentUpon>
@@ -310,8 +316,8 @@
     <Compile Include="Views\Geometry\Instancer\Modifiers\RandomScale.xaml.cs">
       <DependentUpon>RandomScale.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXY.xaml.cs">
-      <DependentUpon>RandomXY.xaml</DependentUpon>
+    <Compile Include="Views\Texture\RandomUV.xaml.cs">
+      <DependentUpon>RandomUV.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml.cs">
       <DependentUpon>RandomXYZ.xaml</DependentUpon>
@@ -540,6 +546,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Camera\CameraRandom.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Camera\CameraLFO.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -636,7 +646,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Instancer\Modifiers\LFO2D.xaml">
+    <Page Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\LFOUV.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -652,7 +666,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Instancer\Modifiers\RandomXY.xaml">
+    <Page Include="Views\Texture\RandomUV.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

@@ -13,7 +13,6 @@
         <DockPanel Height="30">
             
             <Button
-                Grid.Column="3"
                 Style="{StaticResource ButtonRounded}"
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="{Binding Resync.ResyncCommand}"
@@ -21,7 +20,6 @@
                 DockPanel.Dock="Right"/>
             
             <Button
-                Grid.Column="2"
                 Style="{StaticResource ButtonRounded}"
                 Margin="4, 0"
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
@@ -30,11 +28,18 @@
                 DockPanel.Dock="Right"/>
             
             <Button
-                Grid.Column="1"
                 Style="{StaticResource ButtonRounded}"
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="{Binding DivideCommand}"
                 Content="-"
+                DockPanel.Dock="Right"/>
+
+            <ToggleButton
+                Style="{StaticResource InlineToggleButtonCenter}"
+                Margin="4, 2"
+                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                IsChecked="{Binding Pause.IsChecked}"
+                Content="P"
                 DockPanel.Dock="Right"/>
             
             <Border Margin="0, 0, 4, 0" DockPanel.Dock="Right" >

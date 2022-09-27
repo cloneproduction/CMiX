@@ -178,7 +178,7 @@
     <Compile Include="Models\Entity\LightEntityModel.cs" />
     <Compile Include="Models\Geometry\Modifier\LinearXYZModel.cs" />
     <Compile Include="Models\Geometry\Modifier\RandomScaleModel.cs" />
-    <Compile Include="Models\Geometry\Modifier\RandomXYModel.cs" />
+    <Compile Include="Models\Geometry\Modifier\RandomUVModel.cs" />
     <Compile Include="Models\Lights\ILightModel.cs" />
     <Compile Include="Models\Lights\SpotLightModel.cs" />
     <Compile Include="Models\Material\RandomHSVModel.cs" />
@@ -199,6 +199,7 @@
     <Compile Include="Models\Texture\HSCBModel.cs" />
     <Compile Include="Models\Texture\ITextureFilterModel.cs" />
     <Compile Include="Models\Texture\EchoModel.cs" />
+    <Compile Include="Models\Texture\LFOUVModel.cs" />
     <Compile Include="Models\Texture\PixelateModel.cs" />
     <Compile Include="Models\Texture\TextureFilterManagerModel.cs" />
     <Compile Include="Models\Texture\TriColorModel.cs" />
@@ -353,6 +354,8 @@
     <Compile Include="Presentation\ViewModels\Beat\IBeatModifiable.cs" />
     <Compile Include="Presentation\ViewModels\Beat\MasterBeatContainer.cs" />
     <Compile Include="Presentation\ViewModels\Camera\CameraTransformModifierFactory.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraRandomModel.cs" />
+    <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraRandom.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraLFOModel.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraTransformModifierTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraAxis.cs" />
@@ -426,6 +429,7 @@
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\HSCB.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\InvertChannel.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Echo.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\LFOUV.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Pixelate.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilter.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilterName.cs" />
@@ -462,7 +466,6 @@
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\None.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\ModeType.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\Steady.cs" />
-    <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\Stepper.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\AnimMode\Modes\ModeTypeTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\IIDObject.cs" />
     <Compile Include="Presentation\ViewModels\Network\ServerStatistics.cs" />
@@ -504,10 +507,11 @@
     <Compile Include="Presentation\ViewModels\Scheduling\Views\UnitType.xaml.cs">
       <DependentUpon>UnitType.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Presentation\ViewModels\Transform\Modifiers\Stepper.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\LFO.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\LinearXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\RandomScale.cs" />
-    <Compile Include="Presentation\ViewModels\Transform\Modifiers\RandomXY.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureFilter\RandomUV.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\RandomXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierFactory.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierNames.cs" />
@@ -1047,6 +1051,8 @@
     <Resource Include="Presentation\Themes\Assets\Arrow_Up.png" />
     <Resource Include="Presentation\Themes\Assets\Cube_Col.png" />
     <Resource Include="Presentation\Themes\Assets\Transform3D.png" />
+    <Resource Include="Presentation\Themes\Assets\Camera.png" />
+    <Resource Include="Presentation\Themes\Assets\Beat.png" />
     <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup />

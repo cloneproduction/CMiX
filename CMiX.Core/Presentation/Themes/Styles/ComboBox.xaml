@@ -220,7 +220,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <Border BorderBrush="{DynamicResource Shadow}" CornerRadius="4" BorderThickness="1, 0, 1, 2">
+                    <Border BorderBrush="{DynamicResource Shadow}" CornerRadius="2" BorderThickness="1, 0, 1, 2">
                         <DockPanel>
 
                         <Button 
@@ -329,7 +329,7 @@
                             HorizontalAlignment="Stretch"
                             VerticalAlignment="Stretch"
                             VerticalContentAlignment="Stretch"
-                            Background="{DynamicResource HighDarkerColor}"
+                            Background="{DynamicResource HighHighDarkerColor}"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                             TextElement.Foreground="{DynamicResource TextBase}"
                             Text="{Binding SelectedItem.Name, Mode=TwoWay,  RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/>

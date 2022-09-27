@@ -9,7 +9,7 @@ namespace CMiX.Core.Presentation.ViewModels
     public class CameraTransformModifierTemplateSelector : DataTemplateSelector
     {
         public DataTemplate CameraLFOTemplate { get; set; }
-
+        public DataTemplate CameraRandomTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -19,8 +19,8 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 if (item is CameraLFO)
                     dataTemplate = CameraLFOTemplate;
-                //else if (item is LinearXYZ)
-                //    dataTemplate = LinearXYZTemplate;
+                if (item is CameraRandom)
+                    dataTemplate = CameraRandomTemplate;
             }
 
             return dataTemplate;

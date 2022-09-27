@@ -22,6 +22,9 @@ namespace CMiX.Core.Presentation.ViewModels
             if (modifierType == typeof(CameraLFO))
                 return CreateCameraLFO();
 
+            if (modifierType == typeof(CameraRandom))
+                return CreateCameraRandom();
+
             return null;
         }
 
@@ -29,6 +32,9 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             if (modifierModel is CameraLFOModel cameraLFOModel)
                 return CreateCameraLFO(cameraLFOModel);
+
+            if (modifierModel is CameraRandomModel cameraRandomModel)
+                return CreateCameraRandom(cameraRandomModel);
 
             return null;
         }
@@ -41,6 +47,16 @@ namespace CMiX.Core.Presentation.ViewModels
         private CameraLFO CreateCameraLFO(CameraLFOModel cameraLFOModel)
         {
             return new CameraLFO(cameraLFOModel, CompositionService);
+        }
+
+        private CameraRandom CreateCameraRandom()
+        {
+            return new CameraRandom(new CameraRandomModel(), CompositionService);
+        }
+
+        private CameraRandom CreateCameraRandom(CameraRandomModel cameraRandomModel)
+        {
+            return new CameraRandom(cameraRandomModel, CompositionService);
         }
     }
 }

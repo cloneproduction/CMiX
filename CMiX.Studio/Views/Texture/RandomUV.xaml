@@ -1,71 +1,19 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.RandomXY"
+﻿<UserControl x:Class="CMiX.Studio.Views.RandomUV"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
              mc:Ignorable="d" 
              d:DesignHeight="548" d:DesignWidth="461.333">
 
-    <UserControl.Resources>
-        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:ModifierMode"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </UserControl.Resources>
-    
     <Expander
             IsExpanded="{Binding IsExpanded}"
-            Header="RandomXY" 
+            Header="Random UV" 
             Template="{StaticResource ModifierPanelTemplate}">
         <StackPanel>
-            <StackPanel Margin="8, 16">
-                <Grid Height="20" Margin="0, 0, 0, 4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Type" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
-                    <!--<Controls:CMiXToggleButton HorizontalAlignment="Left" Caption="Spread" Style="{StaticResource CMiXToggleButtonStyle}" Grid.Column="1" IsChecked="{Binding Spread.IsChecked}"/>-->
-                    <ComboBox 
-                        Grid.Column="1" 
-                        SelectedItem="{Binding Mode.Selection}"
-                        ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-                </Grid>
-                <Border Margin="0, 0, 0, 16">
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="IsEnabled" Value="False"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Mode.Selection}" Value="{x:Static ViewModels:ModifierMode.ToSpread}">
-                                    <Setter Property="IsEnabled" Value="True"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-                    <Grid Height="22">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Count" HorizontalAlignment="Right" Padding="4"/>
-                        <Controls:Counter
-                            Style="{DynamicResource CMiXCounterStyle}"
-                            StepValue="1"
-                            Grid.Column="1"
-                            Height="20"
-                            HorizontalAlignment="Stretch"
-                            Value="{Binding Counter.Count, Mode=TwoWay}"/>
-                    </Grid>
-                </Border>
-
-                <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
-            </StackPanel>
-
-
+            <Views:BeatModifier Margin="8, 16" DataContext="{Binding BeatModifier}"/>
             <Views:Easing DataContext="{Binding Easing}"/>
 
             <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}">
@@ -215,25 +163,32 @@
 
                 <Border Margin="8" IsEnabled="{Binding RandomizeRotation.IsChecked}">
                     <Grid Height="20" >
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Controls:DistanceSlider 
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
+                        <Controls:DistanceSlider 
                                 Grid.Column="2" 
                                 Position="Top" 
                                 Style="{StaticResource DistanceSliderStyle}" 
                                 Value="{Binding Rotation.Amount}"/>
-                            <TextBlock 
+                        <TextBlock 
                                 Grid.Column="0" 
                                 Padding="4" 
                                 HorizontalAlignment="Right" 
                                 Text="Rotate" 
                                 Foreground="{StaticResource TextBase}"/>
-                        </Grid>
+                    </Grid>
                 </Border>
             </Expander>
 
+            <Expander>
+                <Expander.Header>
+                    <TextBlock Text="Sampler State"/>
+                </Expander.Header>
+                <Views:SamplerState Margin="8, 16" DataContext="{Binding SamplerState}"/>
+            </Expander>
+            
         </StackPanel>
     </Expander>
 

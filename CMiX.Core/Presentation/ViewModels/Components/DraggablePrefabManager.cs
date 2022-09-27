@@ -29,6 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             IsActive = true;
         }
 
+
         private void Prefabs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
             var col = sender as ObservableCollection<PrefabContainer>;
@@ -47,6 +48,18 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             set => SetProperty(ref _prefabOrder, value);
         }
 
+        public override void AddItem()
+        {
+            base.AddItem();
+            UpdateComponentOrder((from x in Prefabs select x.Prefab.ID).Distinct().ToList());
+        }
+
+
+        public override void DeleteItem(PrefabContainer prefab)
+        {
+            base.DeleteItem(prefab);
+            UpdateComponentOrder((from x in Prefabs select x.Prefab.ID).Distinct().ToList());
+        }
 
         public void UpdateComponentOrder(IList<Guid> ids)
         {
@@ -54,7 +67,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             foreach (var id in ids)
             {
                 PrefabOrder.Add(id);
-                Console.WriteLine("HELLO REORDER IDEA IS " + id);
             }
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessagePrefabOrderChange(this.ID, PrefabOrder), MessageType.Out);
         }

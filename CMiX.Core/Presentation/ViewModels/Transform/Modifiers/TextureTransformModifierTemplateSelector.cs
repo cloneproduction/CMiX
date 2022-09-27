@@ -17,7 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             if (item != null)
             {
-                if (item is RandomXY)
+                if (item is RandomUV)
                     dataTemplate = RandomXYTemplate;
 
             }

@@ -24,6 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Scale = new VectorXYZ(transformModel.Scale);
             this.Rotate = new VectorXYZ(transformModel.Rotate);
             this.Translate = new VectorXYZ(transformModel.Translate);
+            this.Uniform = new Slider(nameof(Uniform), transformModel.Uniform);
 
             TransformModifier = new ModifierManager(transformModel.TransformModifier, new TransformModifierFactory(compositionService));
         }
@@ -37,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public VectorXYZ Scale { get; set; }
         public VectorXYZ Rotate { get; set; }
         public VectorXYZ Translate { get; set; }
-
+        public Slider Uniform { get; set; }
 
         private string _name;
         public string Name
@@ -76,16 +77,20 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Scale.SetViewModel(transformModel.Scale);
             this.Rotate.SetViewModel(transformModel.Rotate);
             this.Translate.SetViewModel(transformModel.Translate);
+            this.Uniform.SetViewModel(transformModel.Uniform);
         }
 
         public IModel GetModel()
         {
             TransformModel model = new TransformModel();
+
             model.ID = this.ID;
             model.TransformModifier = (ModifierManagerModel)this.TransformModifier.GetModel();
             model.Scale = (VectorXYZModel)this.Scale.GetModel();
             model.Translate = (VectorXYZModel)this.Translate.GetModel();
             model.Rotate = (VectorXYZModel)this.Rotate.GetModel();
+            model.Uniform = (SliderModel)this.Uniform.GetModel();
+
             return model;
         }
 

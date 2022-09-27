@@ -9,37 +9,33 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class RandomXY : ObservableObject, IBeatModifiable, ITransformModifier
+    public class RandomUV : ObservableObject, IBeatModifiable, ITextureFilter
     {
-        public RandomXY(RandomXYModel randomXYModel, CompositionService compositionService)
+        public RandomUV(RandomUVModel randomUVModel, CompositionService compositionService)
         {
-            this.ID = randomXYModel.ID;
-            this.Name = randomXYModel.Name;
+            this.ID = randomUVModel.ID;
+            this.Name = randomUVModel.Name;
             IsExpanded = true;
 
-            Counter = new Counter(randomXYModel.CounterModel);
-            Visible = new ToggleButton(randomXYModel.Visible);
+            Visible = new ToggleButton(randomUVModel.Visible);
 
-            Easing = new Easing(randomXYModel.EasingModel);
-            BeatModifier = new BeatModifier(randomXYModel.BeatModifierModel, compositionService);
-            Mode = new ComboBox<ModifierMode>(randomXYModel.Mode);
-
-            RandomizeLocation = new ToggleButton(randomXYModel.RandomizeLocation);
+            Easing = new Easing(randomUVModel.EasingModel);
+            BeatModifier = new BeatModifier(randomUVModel.BeatModifierModel, compositionService);
+            SamplerState = new SamplerState(randomUVModel.SamplerState, compositionService);
+            RandomizeLocation = new ToggleButton(randomUVModel.RandomizeLocation);
             RandomizeLocation.IsChecked = true;
-            LocationX = new Slider(nameof(LocationX), randomXYModel.LocationX);
-            LocationY = new Slider(nameof(LocationY), randomXYModel.LocationY);
+            LocationX = new Slider(nameof(LocationX), randomUVModel.LocationX);
+            LocationY = new Slider(nameof(LocationY), randomUVModel.LocationY);
 
-            RandomizeScale = new ToggleButton(randomXYModel.RandomizeScale);
+            RandomizeScale = new ToggleButton(randomUVModel.RandomizeScale);
             RandomizeScale.IsChecked = true;
-            Uniform = new Slider(nameof(Uniform), randomXYModel.Uniform);
-            ScaleX = new Slider(nameof(ScaleX), randomXYModel.ScaleX);
-            ScaleY = new Slider(nameof(ScaleY), randomXYModel.ScaleY);
+            Uniform = new Slider(nameof(Uniform), randomUVModel.Uniform);
+            ScaleX = new Slider(nameof(ScaleX), randomUVModel.ScaleX);
+            ScaleY = new Slider(nameof(ScaleY), randomUVModel.ScaleY);
 
-            RandomizeRotation = new ToggleButton(randomXYModel.RandomizeScale);
+            RandomizeRotation = new ToggleButton(randomUVModel.RandomizeScale);
             RandomizeRotation.IsChecked = true;
-            Rotation = new Slider(nameof(Rotation), randomXYModel.Rotation);
-
-            Spread = new ToggleButton(randomXYModel.Spread);
+            Rotation = new Slider(nameof(Rotation), randomUVModel.Rotation);
         }
 
 
@@ -48,13 +44,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public TransformModifierNames Name { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        public TextureFilterName Name { get; set; }
 
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public Counter Counter { get; set; }
-        public ToggleButton Spread { get; set; }
 
 
         public ToggleButton RandomizeLocation { get; set; }
@@ -68,6 +61,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public ToggleButton RandomizeRotation { get; set; }
         public Slider Rotation { get; set; }
+
+        public SamplerState SamplerState { get; set; }
 
 
         private bool _isExpanded;
@@ -113,46 +108,42 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void SetViewModel(IModel model)
         {
-            RandomXYModel randomXYModel = model as RandomXYModel;
-            this.ID = randomXYModel.ID;
-            this.Name = randomXYModel.Name;
+            RandomUVModel randomUVModel = model as RandomUVModel;
+            this.ID = randomUVModel.ID;
+            this.Name = randomUVModel.Name;
             //this.SelectedModifierType = ModifierMode.AsGroup;
 
-            this.Mode.SetViewModel(randomXYModel.Mode);
-            this.Visible.SetViewModel(randomXYModel.Visible);
-            this.Spread.SetViewModel(randomXYModel.Spread);
 
-            this.BeatModifier.SetViewModel(randomXYModel.BeatModifierModel);
-            this.Counter.SetViewModel(randomXYModel.CounterModel);
-            this.Easing.SetViewModel(randomXYModel.EasingModel);
+            this.Visible.SetViewModel(randomUVModel.Visible);
 
-            this.LocationX.SetViewModel(randomXYModel.LocationX);
-            this.LocationY.SetViewModel(randomXYModel.LocationY);
-            this.RandomizeLocation.SetViewModel(randomXYModel.RandomizeLocation);
+            this.BeatModifier.SetViewModel(randomUVModel.BeatModifierModel);
+            this.Easing.SetViewModel(randomUVModel.EasingModel);
 
-            this.ScaleX.SetViewModel(randomXYModel.LocationX);
-            this.ScaleY.SetViewModel(randomXYModel.LocationY);
-            this.Uniform.SetViewModel(randomXYModel.Uniform);
-            this.RandomizeScale.SetViewModel(randomXYModel.RandomizeLocation);
+            this.LocationX.SetViewModel(randomUVModel.LocationX);
+            this.LocationY.SetViewModel(randomUVModel.LocationY);
+            this.RandomizeLocation.SetViewModel(randomUVModel.RandomizeLocation);
 
-            this.Rotation.SetViewModel(randomXYModel.Rotation);
+            this.ScaleX.SetViewModel(randomUVModel.LocationX);
+            this.ScaleY.SetViewModel(randomUVModel.LocationY);
+            this.Uniform.SetViewModel(randomUVModel.Uniform);
+            this.RandomizeScale.SetViewModel(randomUVModel.RandomizeLocation);
 
-            this.RandomizeRotation.SetViewModel(randomXYModel.RandomizeLocation);
+            this.Rotation.SetViewModel(randomUVModel.Rotation);
+
+            this.RandomizeRotation.SetViewModel(randomUVModel.RandomizeLocation);
+
+            this.SamplerState.SetViewModel(randomUVModel.SamplerState);
         }
 
         public IModel GetModel()
         {
-            RandomXYModel model = new RandomXYModel();
+            RandomUVModel model = new RandomUVModel();
             model.ID = this.ID;
             model.Name = this.Name;
 
-            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
-
             model.Visible = (ToggleButtonModel)this.Visible.GetModel();
-            model.Spread = (ToggleButtonModel)this.Spread.GetModel();
 
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
-            model.CounterModel = (CounterModel)this.Counter.GetModel();
             model.EasingModel = (EasingModel)this.Easing.GetModel();
 
             model.LocationX = (SliderModel)this.LocationX.GetModel();
@@ -168,6 +159,8 @@ namespace CMiX.Core.Presentation.ViewModels
             model.Rotation = (SliderModel)this.Rotation.GetModel();
 
             model.RandomizeRotation = (ToggleButtonModel)this.RandomizeLocation.GetModel();
+
+            model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
             return model;
         }
     }
