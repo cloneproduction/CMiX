@@ -5,10 +5,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
              mc:Ignorable="d"
              md:DialogServiceViews.IsRegistered="True" 
              d:DesignHeight="645.333" d:DesignWidth="349.293">
 
+    <!--<i:Interaction.Behaviors>
+        <Behaviors:ScrollViewerBehavior/>
+    </i:Interaction.Behaviors>-->
     <StackPanel>
         <Grid 
             Height="100"                                         

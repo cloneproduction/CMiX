@@ -440,6 +440,12 @@
     <Compile Include="Views\Texture\Feedback.xaml.cs">
       <DependentUpon>Feedback.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\Texture\Source\BubbleNoise.xaml.cs">
+      <DependentUpon>BubbleNoise.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Source\Gradient.xaml.cs">
+      <DependentUpon>Gradient.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Texture\TextureFilter.xaml.cs">
       <DependentUpon>TextureFilter.xaml</DependentUpon>
     </Compile>
@@ -448,6 +454,9 @@
     </Compile>
     <Compile Include="Views\Texture\TextureTransformModifierManager.xaml.cs">
       <DependentUpon>TextureTransformModifierManager.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\TransformUV.xaml.cs">
+      <DependentUpon>TransformUV.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\TriColor.xaml.cs">
       <DependentUpon>TriColor.xaml</DependentUpon>
@@ -873,6 +882,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Views\Texture\Source\BubbleNoise.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Source\Gradient.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Texture\TextureFilter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -882,6 +899,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Texture\TextureTransformModifierManager.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\TransformUV.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

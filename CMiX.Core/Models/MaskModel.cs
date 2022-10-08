@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Models.Assets;
+using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Models
@@ -29,6 +30,7 @@ namespace CMiX.Core.Models
             SelectedAssetType = new ComboBoxModel<int>(0);
 
             TypeWriter = new TypeWriterModel();
+            ProceduralSelector = new ProceduralSelectorModel();
         }
 
         public bool Enabled { get; set; }
@@ -47,5 +49,6 @@ namespace CMiX.Core.Models
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
         public ToggleButtonModel Invert { get; internal set; }
+        public ProceduralSelectorModel ProceduralSelector { get; set; }
     }
 }

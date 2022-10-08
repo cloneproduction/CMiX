@@ -19,5 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels
         VideoIn VideoIn { get; set; }
         VideoPlayer VideoPlayer { get; set; }
         VideoSelector VideoSelector { get; set; }
+        ProceduralSelector ProceduralSelector { get; set; }
     }
 }

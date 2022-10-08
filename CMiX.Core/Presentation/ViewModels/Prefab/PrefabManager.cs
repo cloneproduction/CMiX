@@ -105,7 +105,8 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         public void ItemUp()
         {
             var currentIndex = Prefabs.IndexOf(SelectedItem);
-            if (currentIndex < 0)
+
+            if (currentIndex <= 0)
                 return;
 
             Prefabs.Move(currentIndex, currentIndex - 1);
@@ -115,6 +116,7 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         public void ItemDown()
         {
             var currentIndex = Prefabs.IndexOf(SelectedItem);
+
             if (currentIndex == Prefabs.Count - 1)
                 return;
 

@@ -16,7 +16,7 @@ namespace CMiX.Core.Models
 
             TextureSelectorModel = new ImageSelectorModel();
             VideoSelectorModel = new VideoSelectorModel();
-
+            ProceduralSelector = new ProceduralSelectorModel();
             VideoPlayerModel = new VideoPlayerModel();
 
             ModifierManagerModel = new ModifierManagerModel();
@@ -46,5 +46,6 @@ namespace CMiX.Core.Models
         public ComboBoxModel<int> SelectedAssetType { get; internal set; }
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
+        public ProceduralSelectorModel ProceduralSelector { get; internal set; }
     }
 }

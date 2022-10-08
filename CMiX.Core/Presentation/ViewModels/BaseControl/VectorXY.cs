@@ -8,16 +8,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.BaseControl
 {
-    public class VectorXYZ : ObservableObject, IControl
+    public class VectorXY : ObservableObject, IControl
     {
-        public VectorXYZ(VectorXYZModel vectorXYZModel)
+        public VectorXY(VectorXYModel vectorXYZModel)
         {
             ID = vectorXYZModel.ID;
             Name = vectorXYZModel.Name;
 
             X = new Slider(nameof(X), vectorXYZModel.X);
             Y = new Slider(nameof(Y), vectorXYZModel.Y);
-            Z = new Slider(nameof(Z), vectorXYZModel.Z);
         }
 
 
@@ -32,30 +31,27 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
 
         public Slider X { get; set; }
         public Slider Y { get; set; }
-        public Slider Z { get; set; }
 
 
         public IModel GetModel()
         {
-            VectorXYZModel vectorXYZModel = new VectorXYZModel(this.Name);
+            VectorXYModel vectorXYZModel = new VectorXYModel(this.Name);
             vectorXYZModel.ID = ID;
 
             vectorXYZModel.X = (SliderModel)X.GetModel();
             vectorXYZModel.Y = (SliderModel)Y.GetModel();
-            vectorXYZModel.Z = (SliderModel)Z.GetModel();
 
             return vectorXYZModel;
         }
 
         public void SetViewModel(IModel model)
         {
-            VectorXYZModel modelXYZModel = model as VectorXYZModel;
+            VectorXYModel modelXYZModel = model as VectorXYModel;
             this.ID = modelXYZModel.ID;
             this.Name = modelXYZModel.Name;
 
             this.X.SetViewModel(modelXYZModel.X);
             this.Y.SetViewModel(modelXYZModel.Y);
-            this.Z.SetViewModel(modelXYZModel.Z);
         }
     }
 }

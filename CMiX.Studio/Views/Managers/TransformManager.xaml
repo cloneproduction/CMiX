@@ -6,10 +6,15 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="668.082" d:DesignWidth="312.071">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior/>
+        </i:Interaction.Behaviors>
         <DockPanel>
             <Border 
             Height="100"                                         

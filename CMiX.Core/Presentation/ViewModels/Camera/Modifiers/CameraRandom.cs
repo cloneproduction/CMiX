@@ -5,10 +5,11 @@ using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class CameraRandom : ICameraModifier, IBeatModifiable
+    public class CameraRandom : ObservableObject, ICameraModifier, IBeatModifiable
     {
         public CameraRandom(CameraRandomModel randomModel, CompositionService compositionService)
         {
@@ -22,8 +23,8 @@ namespace CMiX.Core.Presentation.ViewModels
             Axis = new ComboBox<CameraAxis>(randomModel.Axis);
             Easing = new Easing(randomModel.Easing);
 
-            From = new Slider(nameof(From), randomModel.From);
-            To = new Slider(nameof(To), randomModel.To);
+            Width = new Slider(nameof(Width), randomModel.Width);
+            IsExpanded = true;
         }
 
 
@@ -31,13 +32,18 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool Enabled { get; set; }
         public ToggleButton Visible { get; set; }
 
+        private bool _isExpanded;
+        public bool IsExpanded
+        {
+            get => _isExpanded;
+            set => SetProperty(ref _isExpanded, value);
+        }
 
         public BeatModifier BeatModifier { get; set; }
         public ToggleButton PingPong { get; set; }
         public ComboBox<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
-        public Slider From { get; set; }
-        public Slider To { get; set; }
+        public Slider Width { get; set; }
 
 
         public IModel GetModel()
@@ -51,8 +57,7 @@ namespace CMiX.Core.Presentation.ViewModels
             cameraRandomModel.PingPong = (ToggleButtonModel)PingPong.GetModel();
             cameraRandomModel.Axis = (ComboBoxModel<CameraAxis>)Axis.GetModel();
             cameraRandomModel.Easing = (EasingModel)Easing.GetModel();
-            cameraRandomModel.From = (SliderModel)From.GetModel();
-            cameraRandomModel.To = (SliderModel)To.GetModel();
+            cameraRandomModel.Width = (SliderModel)Width.GetModel();
 
             return cameraRandomModel;
         }
@@ -67,8 +72,7 @@ namespace CMiX.Core.Presentation.ViewModels
             PingPong.SetViewModel(cameraRandomModel.PingPong);
             Axis.SetViewModel(cameraRandomModel.Axis);
             Easing.SetViewModel(cameraRandomModel.Easing);
-            From.SetViewModel(cameraRandomModel.From);
-            To.SetViewModel(cameraRandomModel.To);
+            Width.SetViewModel(cameraRandomModel.Width);
         }
 
         public void Dispose()

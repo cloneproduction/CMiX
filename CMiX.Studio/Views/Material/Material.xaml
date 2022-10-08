@@ -194,12 +194,12 @@
 
         </StackPanel>
 
-        <Expander Header="Texture" IsExpanded="True">
+        <Expander RequestBringIntoView="Expander_RequestBringIntoView" Header="Texture" IsExpanded="True">
             <Views:Texture DataContext="{Binding Texture}"/>
         </Expander>
 
 
-        <Expander IsExpanded="{Binding Mask.IsExpanded}">
+        <Expander RequestBringIntoView="Expander_RequestBringIntoView" IsExpanded="{Binding Mask.IsExpanded}">
             <Expander.Header>
                 <DockPanel>
                     <ToggleButton

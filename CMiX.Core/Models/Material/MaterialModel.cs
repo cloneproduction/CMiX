@@ -22,7 +22,7 @@ namespace CMiX.Core.Models
 
             Pipeline = new ComboBoxModel<PipelineType>(PipelineType.Constant);
             CullMode = new ComboBoxModel<CullModeType>(CullModeType.Back);
-            Transparency = new ComboBoxModel<TransparencyType>(TransparencyType.Blend);
+            Transparency = new ComboBoxModel<TransparencyType>(TransparencyType.CutOff); //if blend is use by default depthbuffer doesn't work in stride ? bug ?
 
             Metalness = new SliderModel(0.0f);
             Glossiness = new SliderModel(0.5f);

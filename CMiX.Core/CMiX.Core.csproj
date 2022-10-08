@@ -227,6 +227,7 @@
     <Compile Include="Presentation\Behaviors\FolderDialogBehavior.cs" />
     <Compile Include="Presentation\Behaviors\ListBoxSelectionBehavior.cs" />
     <Compile Include="Presentation\Behaviors\ClosePopupBehavior.cs" />
+    <Compile Include="Presentation\Behaviors\ScrollViewerBehavior.cs" />
     <Compile Include="Presentation\Behaviors\SliderBehavior.cs" />
     <Compile Include="Presentation\Behaviors\TreeViewItemClickBehavior.cs" />
     <Compile Include="Presentation\Behaviors\TreeViewMultiSelectionBehavior.cs" />
@@ -348,6 +349,7 @@
     <Compile Include="Presentation\ViewModels\BaseControl\Button.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\DirectionXYZ.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\StringControl.cs" />
+    <Compile Include="Presentation\ViewModels\BaseControl\VectorXY.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\VectorXYZ.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatManager.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatResyncEventArgs.cs" />
@@ -423,6 +425,8 @@
     <Compile Include="Presentation\ViewModels\Texture\FontStyle.cs" />
     <Compile Include="Presentation\ViewModels\Texture\ITexture.cs" />
     <Compile Include="Presentation\ViewModels\Texture\Mask.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\ProceduralSelector.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\ProceduralSelectorModel.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Blur.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Edge.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\Feedback.cs" />
@@ -439,6 +443,14 @@
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TextureFilterTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TriColor.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\TransformTexture.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureSource\BubbleNoise.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureSource\BubbleNoiseModel.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureSource\Gradient.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureSource\GradientModel.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureSource\ITextureSource.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\TextureSource\TextureSourceName.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\Transform2D.cs" />
+    <Compile Include="Presentation\ViewModels\Texture\Transform2DModel.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TypeWriter.cs" />
     <Compile Include="Presentation\ViewModels\Texture\VideoIn.cs" />
     <Compile Include="Presentation\ViewModels\Texture\VideoPlayer.cs" />

@@ -4,10 +4,15 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="637.667" d:DesignWidth="256">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior/>
+        </i:Interaction.Behaviors>
         <DockPanel>
             <Border 
             Height="100"                                         

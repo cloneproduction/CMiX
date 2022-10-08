@@ -16,7 +16,7 @@ namespace CMiX.Core.Models
             PingPong = new ToggleButtonModel(false);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
-            From = new SliderModel(0.0f);
+            Width = new SliderModel(0.0f);
             To = new SliderModel(1.0f);
             Axis = new ComboBoxModel<CameraAxis>(CameraAxis.Zoom);
         }
@@ -28,7 +28,7 @@ namespace CMiX.Core.Models
         public ToggleButtonModel PingPong { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }
-        public SliderModel From { get; set; }
+        public SliderModel Width { get; set; }
         public SliderModel To { get; set; }
         public ComboBoxModel<CameraAxis> Axis { get; set; }
 

@@ -6,11 +6,9 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.Assets;
 using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -28,6 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             ImageSelector = new ImageSelector(new AssetImage(), textureModel.TextureSelectorModel);
             VideoSelector = new VideoSelector(new AssetVideo(), textureModel.VideoSelectorModel);
+            ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);
 
             VideoIn = new VideoIn(textureModel.VideoIn);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
@@ -81,6 +80,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public ImageSelector ImageSelector { get; set; }
         public VideoSelector VideoSelector { get; set; }
+        public ProceduralSelector ProceduralSelector { get; set; }
 
 
         public IModel GetModel()
@@ -98,6 +98,7 @@ namespace CMiX.Core.Presentation.ViewModels
             model.SelectedAssetType = (ComboBoxModel<int>)this.SelectedAssetType.GetModel();
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
+            model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();
 
             return model;
         }
@@ -117,6 +118,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.SelectedAssetType.SetViewModel(textureModel.SelectedAssetType);
             this.TypeWriter.SetViewModel(textureModel.TypeWriter);
             this.SamplerState.SetViewModel(textureModel.SamplerState);
+            this.ProceduralSelector.SetViewModel(textureModel.ProceduralSelector);
         }
     }
 }

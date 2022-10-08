@@ -5,10 +5,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     d:DesignHeight="454.667"
     d:DesignWidth="572.667"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <ObjectDataProvider x:Key="TextureSourceName" MethodName="GetNames" ObjectType="{x:Type ViewModels:TextureSourceName}">
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="ViewModels:TextureSourceName"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <StackPanel>
 
         <TabControl Margin="8, 16" SelectedIndex="{Binding SelectedAssetType.Selection}" Style="{StaticResource InLineTabControlStyle}">
@@ -40,12 +51,51 @@
             </TabItem>
 
             <TabItem Header="Pro">
+                <StackPanel>
+                    <ComboBox    
+                        x:Name="proceduralTextureSelector"
+                        SelectedItem="{Binding ProceduralSelector.ProceduralName.Selection, Converter={StaticResource EnumToString}}"
+                        ItemsSource="{Binding Source={StaticResource TextureSourceName}}"
+                        Margin="0, 8, 0, 0"/>
 
+                    <Border Margin="0, 16, 0, 0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Gradient}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        
+                        <Views:Gradient DataContext="{Binding ProceduralSelector.Gradient}" Margin="0"/>
+
+                    </Border>
+
+                    <Border Margin="0, 16, 0, 0">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.BubbleNoise}">
+                                        <Setter Property="Visibility" Value="Visible" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+
+                        <Views:BubbleNoise DataContext="{Binding ProceduralSelector.BubbleNoise}" Margin="0"/>
+
+                    </Border>
+                    
+                </StackPanel>
             </TabItem>
 
         </TabControl>
 
-        <Expander Header="Filter" IsExpanded="True">
+        <Expander RequestBringIntoView="Expander_RequestBringIntoView" Header="Filter" IsExpanded="True">
             <Views:TextureFilter DataContext="{Binding TextureModifierManager}"/>
         </Expander>
 

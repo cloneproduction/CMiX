@@ -30,6 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
             SelectedAssetType = new ComboBox<int>(textureModel.SelectedAssetType);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
+            ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);
         }
 
 
@@ -61,6 +62,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ImageSelector ImageSelector { get; set; }
         public VideoSelector VideoSelector { get; set; }
 
+        public ProceduralSelector ProceduralSelector { get; set; }
 
         public IModel GetModel()
         {
@@ -79,6 +81,7 @@ namespace CMiX.Core.Presentation.ViewModels
             model.SelectedAssetType = (ComboBoxModel<int>)this.SelectedAssetType.GetModel();
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
+            model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();
 
             return model;
         }
@@ -100,6 +103,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.SelectedAssetType.SetViewModel(textureModel.SelectedAssetType);
             this.TypeWriter.SetViewModel(textureModel.TypeWriter);
             this.SamplerState.SetViewModel(textureModel.SamplerState);
+            this.ProceduralSelector.SetViewModel(textureModel.ProceduralSelector);
         }
     }
 }

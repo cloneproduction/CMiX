@@ -8,5 +8,10 @@ namespace CMiX.Studio.Views
         {
             InitializeComponent();
         }
+
+        private void Expander_RequestBringIntoView(object sender, System.Windows.RequestBringIntoViewEventArgs e)
+        {
+            e.Handled = true;
+        }
     }
 }
