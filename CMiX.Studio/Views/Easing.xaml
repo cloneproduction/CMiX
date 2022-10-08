@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core" 
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="298.031" d:DesignWidth="269.095">
 
@@ -31,49 +32,23 @@
             <DockPanel>
                 <Controls:CMiXToggleButton
                     Style="{DynamicResource CMiXToggleButtonStyle}"
-                    Dock="Left"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
                     IsChecked="{Binding IsEnabled}"/>
-                <TextBlock Text="Easing" Foreground="{DynamicResource TextBase}"/>
+                <TextBlock Text="Easing" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
             </DockPanel>
         </Expander.Header>
 
-        <StackPanel Margin="8, 16" IsEnabled="{Binding IsEnabled}">
+        <StackPanel Margin="8" IsEnabled="{Binding IsEnabled}">
 
-            <Grid Height="20" Margin="0, 0, 0, 4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="Function" 
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Center" 
-                    Padding="4" 
-                    Foreground="{DynamicResource TextBase}"/>
-                <ComboBox 
-                    Grid.Column="1" 
-                    SelectedItem="{Binding EasingFunction}"
-                    ItemsSource="{Binding Source={StaticResource EasingFunction}}"/>
-            </Grid>
+            <BaseControls:ComboBox 
+                Margin="0, 0, 0, 4"
+                Caption="Function"
+                SelectedItem="{Binding EasingFunction}"
+                ItemsSource="{Binding Source={StaticResource EasingFunction}}"/>
 
-            <Grid Height="20" Margin="0, 0, 0, 0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="Mode" 
-                    HorizontalAlignment="Right" 
-                    VerticalAlignment="Center" 
-                    Padding="4" 
-                    Foreground="{DynamicResource TextBase}"/>
-                <ComboBox 
-                    Grid.Column="1" 
-                    SelectedItem="{Binding EasingMode}"
-                    ItemsSource="{Binding Source={StaticResource EasingMode}}"/>
-            </Grid>
+            <BaseControls:ComboBox 
+                Caption="Mode"
+                SelectedItem="{Binding EasingMode}"
+                ItemsSource="{Binding Source={StaticResource EasingMode}}"/>
 
         </StackPanel>
 

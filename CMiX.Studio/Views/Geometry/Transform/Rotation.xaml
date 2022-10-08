@@ -3,70 +3,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="145.023" d:DesignWidth="357.03">
 
-    <UserControl.Resources>
-        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:ModifierMode"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </UserControl.Resources>
-    
-    <StackPanel>
+    <StackPanel Margin="8">
         
-        <Grid Height="22" Margin="0, 0, 0, 8">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                Text="Type" 
-                HorizontalAlignment="Right" 
-                VerticalAlignment="Center" 
-                Padding="4" 
-                Foreground="{DynamicResource TextBase}"/>
-            <ComboBox 
-                Grid.Column="1" 
-                SelectedItem="{Binding Mode.Selection}"
-                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-        </Grid>
-        
-        <Grid Height="20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
-                <Controls:DistanceSlider Grid.Column="1" Position="Top" Style="{StaticResource DistanceSliderStyle}" Value="{Binding XYZ.X.Amount}" />
-            </Border>
-            <TextBlock Grid.Column="0" Padding="8, 0" Text="Rotation X" HorizontalAlignment="Right" Foreground="{StaticResource TextBase}"/>
-        </Grid>
-        
-        <Grid Height="20" Margin="0, 1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 0">
-                <Controls:DistanceSlider Grid.Column="1" Position="Middle" Style="{StaticResource DistanceSliderStyle}" Value="{Binding XYZ.Y.Amount}"/>
-            </Border>
-            <TextBlock Grid.Column="0" Padding="8, 0" HorizontalAlignment="Right" Text="Y" Foreground="{StaticResource TextBase}"/>
-        </Grid>
-        
-        <Grid Height="20">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Border Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2">
-                <Controls:DistanceSlider Grid.Column="2" Position="Bottom" Style="{StaticResource DistanceSliderStyle}" Value="{Binding XYZ.Z.Amount}"/>
-            </Border>
-            <TextBlock Grid.Column="0" Padding="8, 0" Text="Z" HorizontalAlignment="Right" Foreground="{StaticResource TextBase}"/>
-        </Grid>
+        <BaseControls:ComboBox  
+            Margin="0, 0, 0, 8"
+            Caption="Type"
+            SelectedItem="{Binding Mode.Selection}"
+            ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
+
+        <BaseControls:VectorXYZ 
+            Caption="Rotation"
+            X="{Binding XYZ.X.Amount}"
+            Y="{Binding XYZ.Y.Amount}"
+            Z="{Binding XYZ.Z.Amount}"/>
         
     </StackPanel>
+
 </UserControl>

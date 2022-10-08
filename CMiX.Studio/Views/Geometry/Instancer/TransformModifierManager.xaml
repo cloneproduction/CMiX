@@ -7,93 +7,21 @@
     xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:dd="urn:gong-wpf-dragdrop"
     d:DesignHeight="238.667"
     d:DesignWidth="277.667"
     mc:Ignorable="d"
     x:Name="transformModifierManager">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-
-            <DataTemplate x:Key="LinearXYZTemplate" DataType="{x:Type ViewModels:LinearXYZ}">
-                <Views:LinearXYZ Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="RandomXYZTemplate" DataType="{x:Type ViewModels:TranslateModifier}">
-                <Views:RandomXYZ Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="LFOTemplate" DataType="{x:Type ViewModels:LFO}">
-                <Views:LFO Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="StepperTemplate" DataType="{x:Type ViewModels:Stepper}">
-                <Views:Stepper Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-            
-            <DataTemplate x:Key="RandomScaleTemplate" DataType="{x:Type ViewModels:RandomScale}">
-                <Views:RandomScale Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="TransformTemplate" DataType="{x:Type ViewModels:TransformSRT}">
-                <Views:TransformSRT Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="TranslateTemplate" DataType="{x:Type ViewModels:Translate}">
-                <Expander
-                    Margin="0, 8, 0, 0"
-                    IsExpanded="{Binding IsExpanded}"
-                    Header="Translate XYZ" 
-                    Template="{StaticResource ModifierPanelTemplate}">
-                    <Views:Translate Margin="8, 16" DataContext="{Binding}"/>
-                </Expander>
-            </DataTemplate>
-
-            <DataTemplate x:Key="ScaleTemplate" DataType="{x:Type ViewModels:Scale}">
-                <Expander
-                    Margin="0, 8, 0, 0"
-                    IsExpanded="{Binding IsExpanded}"
-                    Header="Scale XYZ" 
-                    Template="{StaticResource ModifierPanelTemplate}">
-                    <Views:Scale Margin="8, 16" DataContext="{Binding}"/>
-                </Expander>
-            </DataTemplate>
-
-            <DataTemplate x:Key="RotationTemplate" DataType="{x:Type ViewModels:Rotation}">
-                <Expander
-                    Margin="0, 8, 0, 0"
-                    IsExpanded="{Binding IsExpanded}"
-                    Header="Rotate XYZ" 
-                    Template="{StaticResource ModifierPanelTemplate}">
-                    <Views:Rotation Margin="8, 16" DataContext="{Binding}"/>
-                </Expander>
-            </DataTemplate>
-            
-            <ViewModels:TransformModifierTemplateSelector 
-                x:Key="TemplateSelector" 
-                RandomXYZTemplate="{StaticResource RandomXYZTemplate}"
-                LinearXYZTemplate="{StaticResource LinearXYZTemplate}"
-                LFOTemplate="{StaticResource LFOTemplate}"
-                TransformTemplate="{StaticResource TransformTemplate}"
-                TranslateTemplate="{StaticResource TranslateTemplate}"
-                ScaleTemplate="{StaticResource ScaleTemplate}"
-                RandomScaleTemplate="{StaticResource RandomScaleTemplate}"
-                RotationTemplate="{StaticResource RotationTemplate}"
-                StepperTemplate="{StaticResource StepperTemplate}"/>
-
-        </ResourceDictionary>
-
-    </UserControl.Resources>
-
-    <StackPanel Margin="8, 16">
+    <StackPanel Margin="8, 6">
 
         <ToggleButton 
             IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
             x:Name="PopUpToggle" 
             Content="Add Modifier"
             Height="22" 
-            Margin="0, 0, 0, 4"
+            Margin="0, 4"
             Background="{DynamicResource DarkerColor}" 
             Style="{StaticResource ToggleTransformModifierMenu}"/>
 
@@ -231,15 +159,66 @@
         </Popup>
 
         <ItemsControl 
-                IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
-                Margin="0, 0, 0, 0"
-                AllowDrop="True"
-                dd:DragDrop.IsDragSource="True"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DragHandler="{Binding}"
-                dd:DragDrop.DropHandler="{Binding}"
-                ItemTemplateSelector="{StaticResource TemplateSelector }" 
-                ItemsSource="{Binding Modifiers}"/>
+            IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+            AllowDrop="True"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
+            dd:DragDrop.DragHandler="{Binding}"
+            dd:DragDrop.DropHandler="{Binding}"
+            ItemsSource="{Binding Modifiers}">
+            
+            <ItemsControl.Resources>
+                <DataTemplate DataType="{x:Type ViewModels:LinearXYZ}">
+                    <Views:LinearXYZ DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:TranslateModifier}">
+                    <Views:RandomXYZ DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:LFO}">
+                    <Views:LFO DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Stepper}">
+                    <Views:Stepper DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:RandomScale}">
+                    <Views:RandomScale DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:TransformSRT}">
+                    <Views:TransformSRT DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Translate}">
+                    <Views:Translate DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Scale}">
+                    <Views:Scale DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Rotation}">
+                    <Views:Rotation DataContext="{Binding}"/>
+                </DataTemplate>
+            </ItemsControl.Resources>
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Panels:ModifierPanel 
+                        Margin="0, 4"
+                        DragHandlerIsPressed="{Binding DataContext.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CloseModifierCommand="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CloseModifierCommandParameter="{Binding}">
+                        <ContentPresenter Content="{Binding}"/>
+                    </Panels:ModifierPanel>
+                </DataTemplate>
+                
+            </ItemsControl.ItemTemplate>
+            
+        </ItemsControl>
 
     </StackPanel>
 

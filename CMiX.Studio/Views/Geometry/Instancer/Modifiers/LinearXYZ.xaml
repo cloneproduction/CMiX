@@ -1,143 +1,45 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.LinearXYZ"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="314" d:DesignWidth="258.667">
 
+    <StackPanel Margin="8">
 
-    <UserControl.Resources>
-        
-        <ObjectDataProvider x:Key="TransformType" MethodName="GetValues" ObjectType="{x:Type ViewModels:TransformType}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:TransformType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        
-        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:ModifierMode"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </UserControl.Resources>
+        <BaseControls:ComboBox  
+            Margin="0, 0, 0, 2"
+            Caption="Type"
+            SelectedItem="{Binding Mode.Selection}"
+            ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
+        <BaseControls:Counter 
+            Margin="0, 0, 0, 8"
+            Count="{Binding Counter.Count}"/>
 
-    <Expander
-        IsExpanded="{Binding IsExpanded}"
-        Header="LinearXYZ"
-        Template="{StaticResource ModifierPanelTemplate}">
-        <StackPanel>
-            <StackPanel Margin="8, 16">
-                <Grid Height="20" Margin="0, 0, 0, 4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Type" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
-                    <ComboBox 
-                        Grid.Column="1" 
-                        SelectedItem="{Binding Mode.Selection}"
-                        ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-                </Grid>
-                <Border Margin="0, 0, 0, 8">
-                    <Grid Height="20">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Count" HorizontalAlignment="Right" Padding="4"/>
-                        <Controls:Counter
-                            Style="{DynamicResource CMiXCounterStyle}"
-                            StepValue="1"
-                            Grid.Column="1"
-                            Height="20"
-                            HorizontalAlignment="Stretch"
-                            Value="{Binding Counter.Count, Mode=TwoWay}"/>
-                    </Grid>
-                </Border>
+        <BaseControls:ComboBox  
+            Margin="0, 4, 0, 2"
+            Caption="Transform"
+            SelectedItem="{Binding TransformTypeSelector.Selection}"
+            ItemsSource="{Binding Source={StaticResource TransformType}}"/>
 
-                <!--<Views:BeatModifier DataContext="{Binding BeatModifier}"/>-->
-                <Grid Height="22" Margin="0, 8, 0, 4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Transform" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
-                    <ComboBox 
-                        Grid.Column="1" 
-                        SelectedItem="{Binding TransformTypeSelector.Selection}"
-                        ItemsSource="{Binding Source={StaticResource TransformType}}"/>
-                </Grid>
-                
-                <Grid Height="22" Margin="0, 0, 0, 4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+        <BaseControls:AxisSelector3D 
+            Margin="0, 0, 0, 4"
+            XIsChecked="{Binding DirectionXYZ.DirectionX}"
+            YIsChecked="{Binding DirectionXYZ.DirectionY}"
+            ZIsChecked="{Binding DirectionXYZ.DirectionZ}"/>
 
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Axis" 
-                            Foreground="{StaticResource TextBase}"/>
+        <BaseControls:DragValue 
+            Caption="Width" 
+            Margin="0, 4, 0, 4" 
+            Value="{Binding Width.Amount}"/>
 
-                    <Grid Grid.Column="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <ToggleButton IsChecked="{Binding DirectionXYZ.DirectionX}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X" Style="{StaticResource InlineToggleButtonLeft}"/>
-                        <ToggleButton IsChecked="{Binding DirectionXYZ.DirectionY}" Grid.Column="1" Margin="0" Content="Y" Style="{StaticResource InlineToggleButtonCenter}"/>
-                        <ToggleButton IsChecked="{Binding DirectionXYZ.DirectionZ}" Grid.Column="2" Margin="1, 0, 0, 0" Content="Z" Style="{StaticResource InlineToggleButtonRight}"/>
-                    </Grid>
-                </Grid>
-                <Grid Margin="0, 8, 0, 4" Height="22">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Default" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Width.Amount}"/>
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Width" 
-                            Foreground="{StaticResource TextBase}"/>
-                </Grid>
+        <BaseControls:DragValue 
+            Caption="Phase" 
+            Value="{Binding Phase.Amount}"/>
 
-                <Grid Margin="0, 0, 0, 4" Height="22">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                    Grid.Column="2" 
-                    Position="Default" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding Phase.Amount}"/>
-                    <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Phase" 
-                    Foreground="{StaticResource TextBase}"/>
-                </Grid>
-            </StackPanel>
-
-
-
-
-        </StackPanel>
-    </Expander>
+    </StackPanel>
 
 </UserControl>

@@ -216,7 +216,24 @@
     <Compile Include="Views\Assets\VideoPathSelector.xaml.cs">
       <DependentUpon>VideoPathSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\BaseControl\EntityContentControl.cs" />
+    <Compile Include="Views\BaseControl\AxisSelector3D.xaml.cs">
+      <DependentUpon>AxisSelector3D.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\ComboBox.xaml.cs">
+      <DependentUpon>ComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\Counter.xaml.cs">
+      <DependentUpon>Counter.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\DragValue.xaml.cs">
+      <DependentUpon>DragValue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\Panels\ModifierPanel.xaml.cs">
+      <DependentUpon>ModifierPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\ToggleButton.xaml.cs">
+      <DependentUpon>ToggleButton.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BaseControl\VectorXY.xaml.cs">
       <DependentUpon>VectorXY.xaml</DependentUpon>
     </Compile>
@@ -543,6 +560,30 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\BaseControl\AxisSelector3D.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\ComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\Counter.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\DragValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\Panels\ModifierPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\ToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BaseControl\VectorXY.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -656,6 +697,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Resources\DataProviders.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

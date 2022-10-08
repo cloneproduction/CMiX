@@ -15,60 +15,60 @@
         <i:Interaction.Behaviors>
             <Behaviors:ScrollViewerBehavior/>
         </i:Interaction.Behaviors>
+        
         <DockPanel>
-            <Border 
-            Height="100"                                         
-            DockPanel.Dock="Top"
-            Margin="8">
-                <ListBox 
+            
+            <ListBox 
+                Height="100"                                         
+                DockPanel.Dock="Top"
+                Margin="8"
                 Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
-
-                    <ListBox.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <Border Height="20">
-                                <TextBlock Padding="4" Text="{Binding Name}"/>
-                            </Border>
-                        </ItemContainerTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </Border>
+            </ListBox>
 
             <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
                 <StackPanel>
-                    <StackPanel Margin="8, 16">
-                        <basecontrol:VectorXYZ DataContext="{Binding SelectedItem.Prefab.Translate}"/>
-                        <Grid Height="20" Margin="0, 8, 0, 0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Controls:DistanceSlider 
-                                Grid.Column="2" 
-                                Position="Top" 
-                                Style="{StaticResource DistanceSliderStyle}" 
+                    
+                    <Expander Header="Transform SRT">
+                        <StackPanel Margin="8">
+                            
+                            <basecontrol:DragValue 
+                                Caption="Uniform" 
                                 Value="{Binding SelectedItem.Prefab.Uniform.Amount}"/>
-                            <TextBlock 
-                                Grid.Column="0" 
-                                Padding="4" 
-                                HorizontalAlignment="Right" 
-                                Text="Uniform XYZ" 
-                                Foreground="{StaticResource TextBase}"/>
-                        </Grid>
-                        <basecontrol:VectorXYZ  Margin="0, 8" DataContext="{Binding SelectedItem.Prefab.Scale}"/>
-                        <basecontrol:VectorXYZ  DataContext="{Binding SelectedItem.Prefab.Rotate}"/>
-                    </StackPanel>
+                            
+                            <basecontrol:VectorXYZ 
+                                Caption="Scale"  
+                                Margin="0, 8" 
+                                DataContext="{Binding SelectedItem.Prefab.Scale}"
+                                X="{Binding X.Amount}"
+                                Y="{Binding Y.Amount}"
+                                Z="{Binding Z.Amount}"/>
+                            
+                            <basecontrol:VectorXYZ 
+                                Caption="Rotation"  
+                                DataContext="{Binding SelectedItem.Prefab.Rotate}"
+                                X="{Binding X.Amount}"
+                                Y="{Binding Y.Amount}"
+                                Z="{Binding Z.Amount}"/>
+                            
+                            <basecontrol:VectorXYZ 
+                                Caption="Translate" 
+                                Margin="0, 8, 0, 0" 
+                                DataContext="{Binding SelectedItem.Prefab.Translate}"
+                                X="{Binding X.Amount}"
+                                Y="{Binding Y.Amount}"
+                                Z="{Binding Z.Amount}"/>
+                            
+                        </StackPanel>
+                    </Expander>
 
                     <Expander>
                         <Expander.Header>
                             <DockPanel>
                                 <ToggleButton
                                     x:Name="ModifierEnabled"
-                                    Height="16"
-                                    HorizontalAlignment="Left"
-                                    VerticalAlignment="Center"
                                     IsChecked="{Binding SelectedItem.Prefab.TransformModifier.Visibility.IsChecked}"/>
                                 <TextBlock Text="Modifiers" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                             </DockPanel>

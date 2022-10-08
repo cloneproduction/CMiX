@@ -13,6 +13,7 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public LFO(LFOModel lfoModel, CompositionService compositionService)
         {
+            Name = lfoModel.Name;
             ID = lfoModel.ID;
             Enabled = lfoModel.Enabled;
 
@@ -64,6 +65,12 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
+        }
 
         public IModel GetModel()
         {

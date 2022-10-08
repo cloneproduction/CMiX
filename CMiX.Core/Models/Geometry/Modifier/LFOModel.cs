@@ -10,6 +10,7 @@ namespace CMiX.Core.Models
     {
         public LFOModel()
         {
+            Name = "LFO";
             this.ID = Guid.NewGuid();
             Enabled = true;
 
@@ -29,9 +30,9 @@ namespace CMiX.Core.Models
 
             From = new SliderModel(0.0f);
             To = new SliderModel(1.0f);
-
         }
 
+        public string Name { get; set; }
         public ToggleButtonModel PingPong { get; set; }
         public bool Enabled { get; set; }
         public Guid ID { get; set; }

@@ -21,8 +21,6 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public ModifierManager(ModifierManagerModel modifierManagerModel, IModifierFactory modifierFactory)
         {
-            DragHanderIsDown = false;
-
             this.ID = modifierManagerModel.ID;
 
             Modifiers = new ObservableCollection<IModifier>();
@@ -31,8 +29,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
             CreateCommand = new RelayCommand<Type>(Create);
             RemoveCommand = new RelayCommand<IModifier>(Remove);
-            DragHandlerDownCommand = new RelayCommand(OnDragHandlerDown);
-            DragHandlerUpCommand = new RelayCommand(OnDragHandlerUp);
 
             IsActive = true;
         }
@@ -45,6 +41,13 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand DragHandlerUpCommand { get; set; }
         public ToggleButton Visibility { get; set; }
 
+
+        private bool _dragHandlerIsPressed;
+        public bool DragHandlerIsPressed
+        {
+            get => _dragHandlerIsPressed;
+            set => SetProperty(ref _dragHandlerIsPressed, value);
+        }
 
         private ObservableCollection<IModifier> _modifiers;
         public ObservableCollection<IModifier> Modifiers
@@ -111,23 +114,10 @@ namespace CMiX.Core.Presentation.ViewModels
                 message.Reply(this);
         }
 
-
-        private bool DragHanderIsDown { get; set; }
-
-        private void OnDragHandlerDown()
-        {
-            DragHanderIsDown = true;
-        }
-
-        private void OnDragHandlerUp()
-        {
-            DragHanderIsDown = false;
-        }
-
         public void StartDrag(IDragInfo dragInfo)
         {
 
-            if (DragHanderIsDown)
+            if (DragHandlerIsPressed)
             {
                 dragInfo.Data = dragInfo.SourceItem;
                 dragInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
@@ -180,7 +170,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)
         {
-            DragHanderIsDown = false;
+            DragHandlerIsPressed = false;
         }
 
         public void DragCancelled()

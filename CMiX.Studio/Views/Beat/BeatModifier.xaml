@@ -13,23 +13,23 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <Grid>
+        <Grid Height="22">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Beat" Margin="2, 0" Padding="4" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Border Margin="0, 0, 0, 1" Grid.Column="1" Style="{StaticResource BorderShadow}">
+            <TextBlock Text="Beat" Margin="4, 0" Padding="4" VerticalAlignment="Center" HorizontalAlignment="Right" />
+            <Border BorderThickness="1, 0, 1, 2" Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}">
                 <Views:BeatControls DataContext="{Binding}"/>
             </Border>
         </Grid>
-        <Grid>
+        <Grid Height="22">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Chance To Hit" Margin="2, 0" Padding="4" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Border  Height="21" Grid.Column="1" Margin="0, 1, 0, 0" Style="{StaticResource BorderShadow}">
+            <Border BorderThickness="1, 0, 1, 2" Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}">
                 <Controls:CMiXSlider 
                     Minimum="0" 
                     Maximum="100" 

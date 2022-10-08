@@ -11,10 +11,10 @@
         <DockPanel>
             <Border x:Name="border"
                     DockPanel.Dock="Right"
-                    Height="16"
+                    Height="15"
                     Width="15"
-                    BorderBrush="{DynamicResource HighDarkerColor}"
-                    BorderThickness="0, 0, 0, 1"
+                    BorderBrush="{DynamicResource Shadow}"
+                    BorderThickness="1, 0, 1, 2"
                     CornerRadius="2"
                     Padding="2"
                     Background="{TemplateBinding Background}"
@@ -116,8 +116,8 @@
 
             <TextBlock x:Name="textBlock"
                        Foreground="{DynamicResource TextBase}" 
-                       Padding="4"
-                       Margin="4, 0"
+                       Padding="0"
+                       Margin="0, 0"
                        VerticalAlignment="Center"
                        Text="{Binding Path=Caption, RelativeSource={RelativeSource TemplatedParent}}"/>
         </DockPanel>
@@ -267,6 +267,7 @@
     </Style>
 
     <Style x:Key="ToggleTransformModifierMenu" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Height" Value="24" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -282,7 +283,7 @@
                         <DockPanel>
                             <Path 
                                 x:Name="arrow" 
-                                Margin="4"
+                                Margin="0, 0, 8, 0"
                                 DockPanel.Dock="Right"
                                 Data="M 1,1.5 L 4.5,5 L 8,1.5" 
                                 HorizontalAlignment="Center" 
@@ -339,7 +340,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="border"
-                        Padding="5"
+                        Padding="4"
                         Background="Transparent"
                         CornerRadius="0, 2, 2, 0"
                         SnapsToDevicePixels="True">
