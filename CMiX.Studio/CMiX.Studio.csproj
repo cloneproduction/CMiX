@@ -542,9 +542,6 @@
     <Compile Include="Views\Beat\MasterBeatControl.xaml.cs">
       <DependentUpon>MasterBeatControl.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\Inverter.xaml.cs">
-      <DependentUpon>Inverter.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Texture\Texture.xaml.cs">
       <DependentUpon>Texture.xaml</DependentUpon>
     </Compile>
@@ -972,10 +969,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Texture\TextureFilterManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Texture\Inverter.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

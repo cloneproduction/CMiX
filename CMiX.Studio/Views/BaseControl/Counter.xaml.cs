@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CMiX.Core.Presentation.Controls;
+using System;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -28,6 +29,14 @@ namespace CMiX.Studio.Views.BaseControl
         {
             get { return (int)GetValue(CountProperty); }
             set { SetValue(CountProperty, value); }
+        }
+
+        public static readonly DependencyProperty PositionProperty =
+        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(Counter), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public ControlPosition Position
+        {
+            get { return (ControlPosition)GetValue(PositionProperty); }
+            set { SetValue(PositionProperty, value); }
         }
     }
 }

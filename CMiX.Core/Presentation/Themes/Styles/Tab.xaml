@@ -574,7 +574,7 @@
 
                         <Border
                             x:Name="innerBorder"
-                            Height="22"
+                            Height="20"
                             Margin="1, 0"
                             VerticalAlignment="Stretch"
                             FlowDirection="LeftToRight"
@@ -641,10 +641,10 @@
                         </Grid.RowDefinitions>
 
                         <Border x:Name="Mask" 
-                                Background="{DynamicResource SuperHighDarkerColor}" 
+                                Background="{DynamicResource HighHighDarkerColor}" 
                                 CornerRadius="2"/>
-                        
-                        <Border BorderBrush="{DynamicResource SuperHighDarkerColor}" >
+
+                        <Border Margin="8, 8"  BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2"  >
                             <Border.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=Mask}"/>
                             </Border.OpacityMask>

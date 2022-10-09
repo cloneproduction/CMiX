@@ -6,36 +6,34 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="295.333" d:DesignWidth="282.667">
-    <Expander
-        Header="Pixelate" 
-        Template="{StaticResource ModifierPanelTemplate}"
-        IsExpanded="{Binding IsExpanded}">
+    
+    <StackPanel Margin="8">
+
+        <Controls:CMiXSlider 
+            Caption="Factor X" 
+            Margin="0, 0, 0, 1"
+            Minimum="0" 
+            Maximum="1" 
+            Value="{Binding FactorX.Amount}" 
+            Style="{StaticResource CMiXSliderStyle}" 
+            Position="Top"/>
+
+        <Controls:CMiXSlider 
+            Caption="Factor Y" 
+            Minimum="0" 
+            Maximum="1" 
+            Value="{Binding FactorY.Amount}" 
+            Style="{StaticResource CMiXSliderStyle}" 
+            Position="Bottom"/>
+
+        <Controls:CMiXSlider 
+            Margin="0, 8, 0, 0" 
+            Caption="Control" 
+            Minimum="0" 
+            Maximum="1" 
+            Value="{Binding Control.Amount}" 
+            Style="{StaticResource CMiXSliderStyle}" 
+            Position="Default"/>
         
-        <StackPanel Margin="8">
-            
-            <Controls:CMiXSlider Caption="Factor X" 
-                                 Margin="0, 8, 0, 1"
-                                 Minimum="0" 
-                                 Maximum="1" 
-                                 Value="{Binding FactorX.Amount}" 
-                                 Style="{StaticResource CMiXSliderStyle}" 
-                                 Position="Top"/>
-            
-            <Controls:CMiXSlider Caption="Factor Y" 
-                                 Minimum="0" 
-                                 Maximum="1" 
-                                 Value="{Binding FactorY.Amount}" 
-                                 Style="{StaticResource CMiXSliderStyle}" 
-                                 Position="Bottom"/>
-            
-            <Controls:CMiXSlider Margin="0, 8" 
-                                 Caption="Control" 
-                                 Minimum="0" 
-                                 Maximum="1" 
-                                 Value="{Binding Control.Amount}" 
-                                 Style="{StaticResource CMiXSliderStyle}" 
-                                 Position="Default"/>
-        </StackPanel>
-        
-    </Expander>
+    </StackPanel>
 </UserControl>

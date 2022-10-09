@@ -24,11 +24,11 @@
                 <Filters:HSCB Margin="0, 2" DataContext="{Binding}"/>
             </DataTemplate>
 
-            <DataTemplate x:Key="InvertTemplate" DataType="{x:Type ViewModels:HSCB}">
+            <DataTemplate x:Key="InvertTemplate" DataType="{x:Type ViewModels:Invert}">
                 <Filters:Invert Margin="0, 2" DataContext="{Binding}"/>
             </DataTemplate>
 
-            <DataTemplate x:Key="BlurTemplate" DataType="{x:Type ViewModels:HSCB}">
+            <DataTemplate x:Key="BlurTemplate" DataType="{x:Type ViewModels:Blur}">
                 <Filters:Blur Margin="0, 2" DataContext="{Binding}"/>
             </DataTemplate>
 

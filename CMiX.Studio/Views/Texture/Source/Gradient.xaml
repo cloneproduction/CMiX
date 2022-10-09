@@ -51,7 +51,7 @@
                 </Border>
             </Grid>
 
-            <Grid Margin="0, 4, 0, 8">
+            <Grid Margin="0, 0, 0, 8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition/>
                     <ColumnDefinition/>
@@ -82,8 +82,6 @@
                 <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Horizontal.IsChecked}"/>
             </Grid>
 
-            <Views:TransformUV Margin="0, 8" DataContext="{Binding Transform2D}"/>
-            
             <StackPanel Margin="0, 8, 0, 0">
 
                 <Grid Height="22">

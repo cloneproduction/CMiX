@@ -3,59 +3,25 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:Basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" d:DesignWidth="386">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ObjectDataProvider x:Key="TextureAddressMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="ViewModels:TextureAddressMode"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-        </ResourceDictionary>
-    </UserControl.Resources>
-
     <StackPanel>
 
-        <Grid Height="21" Margin="0, 0, 0, 4">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                Text="Address U" 
-                HorizontalAlignment="Right" 
-                Padding="4, 0" 
-                VerticalAlignment="Center"/>
-            <Border Grid.Column="1">
-                <ComboBox 
-                    ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
-                    SelectedItem="{Binding AddressU}"
-                    Grid.Column="1"/>
-            </Border>
-        </Grid>
+        <Basecontrol:ComboBox                    
+            ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
+            SelectedItem="{Binding AddressU}"
+            Caption="Address U"/>
 
-        <Grid Height="21">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                Text="V" 
-                HorizontalAlignment="Right" Padding="4, 0"
-                VerticalAlignment="Center"/>
-            <Border Grid.Column="1">
-                <ComboBox 
-                    ItemsSource="{Binding Source={StaticResource TextureAddressMode}}"
-                    SelectedItem="{Binding AddressV}"/>
-            </Border>
-        </Grid>
+        <Basecontrol:ComboBox
+            Margin="0, 4"
+            ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
+            SelectedItem="{Binding AddressV}"
+            Caption="V"/>
 
-        <Grid Margin="0, 8, 0, 0">
+        <Grid Margin="0, 4, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>

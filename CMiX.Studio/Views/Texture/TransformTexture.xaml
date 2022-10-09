@@ -1,113 +1,47 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.TransformTexture"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="216.58" d:DesignWidth="218.361">
+             d:DesignHeight="268.58" d:DesignWidth="240.361">
 
-    <Expander
-        Header="Transform" 
-        Margin="0, 2" 
-        Template="{StaticResource ModifierPanelTemplate}"
-        IsExpanded="{Binding IsExpanded}">
-        <StackPanel>
-            <StackPanel Margin="8">
-                <Grid Height="21" Margin="0, 0, 0, 1" >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Translate X" 
-                        HorizontalAlignment="Right" 
-                        Padding="4, 0" 
-                        VerticalAlignment="Center"/>
-                    <Controls:DistanceSlider 
-                        Grid.Column="1"  
-                        Value="{Binding TranslateX.Amount}" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Position="Top"/>
-                </Grid>
+    <StackPanel Margin="8">
 
-                <Grid Height="21">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Y" 
-                        HorizontalAlignment="Right" 
-                        Padding="4, 0" 
-                        VerticalAlignment="Center"/>
-                    <Controls:DistanceSlider 
-                        Grid.Column="1"  
-                        Value="{Binding TranslateY.Amount}" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Position="Bottom"/>
-                </Grid>
+        <basecontrol:DragValue 
+            Margin="0, 0, 0, 0" 
+            Position="Top" 
+            Value="{Binding ScaleX.Amount}"
+            Caption="Scale X"/>
+        <basecontrol:DragValue 
+            Position="Bottom" 
+            Margin="0, 1, 0, 0" 
+            Value="{Binding ScaleY.Amount}" 
+            Caption="Y"/>
 
-                <Grid Height="21" Margin="0, 8, 0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Scale X" 
-                        HorizontalAlignment="Right" 
-                        Padding="4, 0" 
-                        VerticalAlignment="Center"/>
-                    <Controls:DistanceSlider 
-                        Grid.Column="1"  
-                        Value="{Binding ScaleX.Amount}" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Position="Top"/>
-                </Grid>
+        <basecontrol:DragValue 
+            Margin="0, 8" 
+            Position="Default" 
+            Value="{Binding Rotate.Amount}" 
+            Caption="Rotation"/>
 
-                <Grid Height="21">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Y" 
-                        HorizontalAlignment="Right" 
-                        Padding="4, 0" 
-                        VerticalAlignment="Center"/>
-                    <Controls:DistanceSlider 
-                        Grid.Column="1"  
-                        Value="{Binding ScaleY.Amount}" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Position="Bottom"/>
-                </Grid>
+        <basecontrol:DragValue 
+            Margin="0, 0, 0, 1" 
+            Position="Top" 
+            Value="{Binding TranslateX.Amount}" 
+            Caption="Translate X"/>
+        
+        <basecontrol:DragValue 
+            Position="Bottom" 
+            Value="{Binding TranslateY.Amount}"
+            Caption="Y"/>
 
-                <Grid Height="21" Margin="0, 8, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Rotate" 
-                        HorizontalAlignment="Right" 
-                        Padding="4, 0" 
-                        VerticalAlignment="Center"/>
-                    <Controls:DistanceSlider 
-                        Grid.Column="1"  
-                        Value="{Binding Rotate.Amount}" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Position="Bottom"/>
-                </Grid>
-            </StackPanel>
+        <Views:SamplerState 
+            Margin="0, 8, 0, 0" 
+            DataContext="{Binding SamplerState}"/>
 
-            <Expander>
-                <Expander.Header>
-                    <TextBlock Text="Sampler State"/>
-                </Expander.Header>
-                <Views:SamplerState Margin="8" DataContext="{Binding SamplerState}"/>
-            </Expander>
-
-        </StackPanel>
-    </Expander>
+    </StackPanel>
+    
 </UserControl>

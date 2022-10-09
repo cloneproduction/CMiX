@@ -5,21 +5,34 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Expander
-        Header="Edge" 
-        Template="{StaticResource ModifierPanelTemplate}"
-        IsExpanded="{Binding IsExpanded}">
-        <StackPanel Margin="8">
-            <Controls:CMiXSlider Caption="Radius" Minimum="0" Maximum="10" Value="{Binding Radius.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Top"/>
-            <Controls:CMiXSlider Margin="0, 1, 0, 0" Caption="Brightness" Minimum="0" Maximum="10" Value="{Binding Brightness.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Bottom"/>
-            
-            <Controls:CMiXSlider Margin="0, 8, 0, 0" 
-                                 Caption="Control" 
-                                 Minimum="0" 
-                                 Maximum="1" 
-                                 Value="{Binding Control.Amount}" 
-                                 Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
-        </StackPanel>
-    </Expander>
+             d:DesignHeight="240.813" d:DesignWidth="236.721">
+    
+    <StackPanel Margin="8">
+        
+        <Controls:CMiXSlider 
+            Caption="Radius" 
+            Minimum="0" 
+            Maximum="10" 
+            Value="{Binding Radius.Amount}" 
+            Style="{StaticResource CMiXSliderStyle}" 
+            Position="Top"/>
+        
+        <Controls:CMiXSlider 
+            Margin="0, 1, 0, 0" 
+            Caption="Brightness" 
+            Minimum="0" 
+            Maximum="10" 
+            Value="{Binding Brightness.Amount}" 
+            Style="{StaticResource CMiXSliderStyle}" 
+            Position="Bottom"/>
+        
+        <Controls:CMiXSlider 
+            Margin="0, 8, 0, 0" 
+            Caption="Control" 
+            Minimum="0" 
+            Maximum="1" 
+            Value="{Binding Control.Amount}" 
+            Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
+        
+    </StackPanel>
 </UserControl>

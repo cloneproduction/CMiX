@@ -10,6 +10,7 @@
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
     xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
     xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     md:DialogServiceViews.IsRegistered="True"
     d:DesignHeight="749.181"
     d:DesignWidth="282.55"
@@ -17,29 +18,7 @@
 
     <UserControl.Resources>
 
-        <ObjectDataProvider x:Key="PipelineType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:PipelineType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
 
-        <ObjectDataProvider x:Key="TransparencyType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:TransparencyType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider x:Key="CullModeType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:CullModeType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider x:Key="MaskChannel" MethodName="GetValues" ObjectType="{x:Type ViewModels:MaskChannel}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:MaskChannel"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
 
         <DataTemplate x:Key="MetallicTemplate">
             <Views:Metallic DataContext="{Binding Metallic}"/>
@@ -53,10 +32,11 @@
 
     <StackPanel>
 
-        <StackPanel Margin="8, 8, 8, 0">
+        <Expander Header="Surface" IsExpanded="False">
+            <StackPanel Margin="8">
 
-            <Controls:CMiXSlider 
-                Margin="0, 8"
+                <Controls:CMiXSlider 
+                Height="22"
                 Grid.Column="2" 
                 Position="Default"
                 Caption="Alpha Blend"
@@ -65,94 +45,51 @@
                 Style="{StaticResource CMiXSliderStyle}" 
                 Value="{Binding Alpha.Amount}"/>
 
-            <Grid Margin="0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="CullMode" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
-                <ComboBox 
-                    Grid.Column="1" 
-                    SelectedItem="{Binding CullMode.Selection}" 
-                    ItemsSource="{Binding Source={StaticResource CullModeType}}"/>
-            </Grid>
+                <BaseControls:ComboBox    
+                Margin="0, 8"
+                Caption="CullMode"
+                SelectedItem="{Binding CullMode.Selection}" 
+                ItemsSource="{Binding Source={StaticResource CullModeType}}"/>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="Transparency" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
-                <ComboBox 
-                    Grid.Column="1" 
-                    SelectedItem="{Binding Transparency.Selection}"
-                    ItemsSource="{Binding Source={StaticResource TransparencyType}}"/>
-            </Grid>
+                <BaseControls:ComboBox    
+                Caption="Transparency"
+                SelectedItem="{Binding Transparency.Selection}" 
+                ItemsSource="{Binding Source={StaticResource TransparencyType}}"/>
 
-            <Grid Margin="0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="Shadow Caster" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
-                <ToggleButton 
-                    Height="22"
-                    Margin="1"
-                    Grid.Column="1" 
-                    HorizontalAlignment="Left" 
-                    IsChecked="{Binding IsShadowCaster.IsChecked}"/>
-            </Grid>
+                <BaseControls:ToggleButton 
+                Margin="0, 8" 
+                Caption="Shadow Caster" 
+                IsChecked="{Binding IsShadowCaster.IsChecked}"/>
 
+                <BaseControls:ComboBox    
+                Caption="Type"
+                SelectedItem="{Binding Pipeline.Selection}" 
+                ItemsSource="{Binding Source={StaticResource PipelineType}}"/>
 
-
-            <Grid Margin="0, 0, 0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="Type" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
-                <ComboBox 
-                    Grid.Column="1" 
-                    SelectedItem="{Binding Pipeline.Selection}" 
-                    ItemsSource="{Binding Source={StaticResource PipelineType}}"/>
-            </Grid>
-
-            <Controls:CMiXSlider 
-                Margin="0, 4, 0, 1"
+                <Controls:CMiXSlider 
+                Margin="0, 8, 0, 1"
                 Grid.Column="2"
                 Caption="Glossiness"
                 Maximum="1"
                 Minimum="0"
                 Position="Top" 
                 Value="{Binding Glossiness.Amount}">
-                <Controls:CMiXSlider.Style>
-                    <Style BasedOn="{StaticResource CMiXSliderStyle}" TargetType="Controls:CMiXSlider">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Specular}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Metallic}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Controls:CMiXSlider.Style>
-            </Controls:CMiXSlider>
+                    <Controls:CMiXSlider.Style>
+                        <Style BasedOn="{StaticResource CMiXSliderStyle}" TargetType="Controls:CMiXSlider">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Specular}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Metallic}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Controls:CMiXSlider.Style>
+                </Controls:CMiXSlider>
 
-            <Controls:CMiXSlider 
+                <Controls:CMiXSlider 
                 Grid.Column="2" 
                 Position="Default"
                 Caption="Specularity"
@@ -160,19 +97,19 @@
                 Minimum="0"
                 Margin="0, 0, 0, 8"
                 Value="{Binding Specularity.Amount}">
-                <Controls:CMiXSlider.Style>
-                    <Style BasedOn="{StaticResource CMiXSliderStyle}" TargetType="Controls:CMiXSlider">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Specular}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Controls:CMiXSlider.Style>
-            </Controls:CMiXSlider>
+                    <Controls:CMiXSlider.Style>
+                        <Style BasedOn="{StaticResource CMiXSliderStyle}" TargetType="Controls:CMiXSlider">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Specular}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Controls:CMiXSlider.Style>
+                </Controls:CMiXSlider>
 
-            <Controls:CMiXSlider 
+                <Controls:CMiXSlider 
                 Margin="0, 0, 0, 8"
                 Grid.Column="2" 
                 Position="Bottom"
@@ -180,21 +117,21 @@
                 Maximum="2"
                 Minimum="0"
                 Value="{Binding Metalness.Amount}">
-                <Controls:CMiXSlider.Style>
-                    <Style BasedOn="{StaticResource CMiXSliderStyle}" TargetType="Controls:CMiXSlider">
-                        <Setter Property="Visibility" Value="Collapsed"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Metallic}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </Controls:CMiXSlider.Style>
-            </Controls:CMiXSlider>
+                    <Controls:CMiXSlider.Style>
+                        <Style BasedOn="{StaticResource CMiXSliderStyle}" TargetType="Controls:CMiXSlider">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Metallic}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Controls:CMiXSlider.Style>
+                </Controls:CMiXSlider>
 
-        </StackPanel>
-
-        <Expander RequestBringIntoView="Expander_RequestBringIntoView" Header="Texture" IsExpanded="True">
+            </StackPanel>
+        </Expander>
+        <Expander Header="Texture" IsExpanded="True">
             <Views:Texture DataContext="{Binding Texture}"/>
         </Expander>
 
@@ -211,38 +148,22 @@
                 </DockPanel>
             </Expander.Header>
 
-            <StackPanel Margin="0, 16, 0, 0">
-                <Grid Margin="0, 0, 0, 8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Mask Channel" 
-                        HorizontalAlignment="Right" Padding="4, 0"
-                        VerticalAlignment="Center"/>
-                    <ComboBox 
-                        Grid.Column="1" 
+            <StackPanel >
+                <StackPanel Margin="8">
+                    <BaseControls:ComboBox    
+                        Caption="MaskChannel"
                         SelectedItem="{Binding MaskChannelSelector.Selection}" 
                         ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
-                </Grid>
+                    <BaseControls:ToggleButton 
+                        Margin="0, 8, 0, 0"
+                        Caption="Invert" 
+                        IsChecked="{Binding Mask.Invert.IsChecked}"/>
+                </StackPanel>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Invert" 
-                        HorizontalAlignment="Right" Padding="4, 0"
-                        VerticalAlignment="Center"/>
-                    <ToggleButton 
-                        IsChecked="{Binding Mask.Invert.IsChecked}"
-                        Margin="1"
-                        Grid.Column="1" HorizontalAlignment="Left"/>
-                </Grid>
-
+                
+                <Border BorderThickness="0, 1, 0, 0" BorderBrush="{DynamicResource Shadow}"/>
                 <Views:Texture DataContext="{Binding Mask}"/>
+
             </StackPanel>
         </Expander>
 

@@ -6,22 +6,14 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="295.333" d:DesignWidth="282.667">
-    <Expander
-        Header="Echo" 
-        Template="{StaticResource ModifierPanelTemplate}"
-        IsExpanded="{Binding IsExpanded}">
-        
-        <StackPanel Margin="8">
-            
-            <Controls:CMiXSlider Caption="Factor" 
-                                 Margin="0, 8"
-                                 Minimum="0" 
-                                 Maximum="1" 
-                                 Value="{Binding Factor.Amount}" 
-                                 Style="{StaticResource CMiXSliderStyle}" 
-                                 Position="Top"/>
-            
-        </StackPanel>
-        
-    </Expander>
+    
+    <Controls:CMiXSlider 
+        Caption="Factor" 
+        Margin="8"
+        Minimum="0" 
+        Maximum="1" 
+        Value="{Binding Factor.Amount}" 
+        Style="{StaticResource CMiXSliderStyle}" 
+        Position="Default"/>
+    
 </UserControl>

@@ -19,7 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels
             CompositionService = compositionService;
             ResolutionX = new Counter(gradientModel.ResolutionX);
             ResolutionY = new Counter(gradientModel.ResolutionY);
-            Transform2D = new Transform2D(gradientModel.Transform2D, compositionService);
             From = new ColorSelector(gradientModel.From);
             To = new ColorSelector(gradientModel.To);
             Gamma = new Slider(nameof(Gamma), gradientModel.Gamma);
@@ -38,7 +37,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public ColorSelector To { get; set; }
         public Slider Gamma { get; set; }
         public ToggleButton Horizontal { get; set; }
-        public Transform2D Transform2D { get; set; }
 
 
         public void OpenColorSelector(ColorSelector colorSelector)
@@ -57,7 +55,6 @@ namespace CMiX.Core.Presentation.ViewModels
             gradientModel.To = (ColorSelectorModel)To.GetModel();
             gradientModel.Gamma = (SliderModel)Gamma.GetModel();
             gradientModel.Horizontal = (ToggleButtonModel)Horizontal.GetModel();
-            gradientModel.Transform2D = (Transform2DModel)Transform2D.GetModel();
             return gradientModel;
         }
 
@@ -70,7 +67,6 @@ namespace CMiX.Core.Presentation.ViewModels
             To.SetViewModel(gradientModel.To);
             Gamma.SetViewModel(gradientModel.Gamma);
             Horizontal.SetViewModel(gradientModel.Horizontal);
-            Transform2D.SetViewModel(gradientModel.Transform2D);
         }
 
         public void Dispose()

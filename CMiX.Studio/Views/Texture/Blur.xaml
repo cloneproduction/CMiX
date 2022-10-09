@@ -7,12 +7,5 @@
              mc:Ignorable="d" 
              d:DesignHeight="208.777" d:DesignWidth="266.087">
 
-    <Expander
-        Header="Blur" 
-        Template="{StaticResource ModifierPanelTemplate}"
-        IsExpanded="{Binding IsExpanded}">
-        <StackPanel Margin="8">
-            <Controls:CMiXSlider Caption="Strength" Minimum="0" Maximum="1" Value="{Binding Strength.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
-        </StackPanel>
-    </Expander>
+    <Controls:CMiXSlider Margin="8" Caption="Strength" Minimum="0" Maximum="1" Value="{Binding Strength.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
 </UserControl>

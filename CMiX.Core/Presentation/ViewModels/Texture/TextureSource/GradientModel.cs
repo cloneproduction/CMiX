@@ -18,7 +18,6 @@ namespace CMiX.Core.Presentation.ViewModels
             To = new ColorSelectorModel("#FF000000");
             Gamma = new SliderModel(2.2f);
             Horizontal = new ToggleButtonModel(false);
-            Transform2D = new Transform2DModel();
         }
 
         public bool Enabled { get; set; }
@@ -29,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public ColorSelectorModel From { get; set; }
         public ColorSelectorModel To { get; set; }
         public ToggleButtonModel Horizontal { get; set; }
-        public Transform2DModel Transform2D { get; set; }
         public ColorSelectorModel BackgroundColor { get; set; }
     }
 }

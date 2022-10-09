@@ -4,90 +4,21 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
-             xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
              xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-             xmlns:Tools="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
              xmlns:Filters="clr-namespace:CMiX.Studio.Views"
+             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:dd="urn:gong-wpf-dragdrop"
              x:Name="textureFilterManager"
              mc:Ignorable="d" 
              d:DesignHeight="259.434" d:DesignWidth="313.836">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Tools:BindingProxy x:Key="ProjectProxy" Data="{Binding}" />
-            <Converters:BoolInverterConverter x:Key="BoolInverter" />
-            <Converters:EnumToStringConverter x:Key="EnumToString" />
-
-            <DataTemplate x:Key="HSCBTemplate" DataType="{x:Type ViewModels:HSCB}">
-                <Filters:HSCB Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="InvertTemplate" DataType="{x:Type ViewModels:HSCB}">
-                <Filters:Invert Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="BlurTemplate" DataType="{x:Type ViewModels:HSCB}">
-                <Filters:Blur Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="EdgeTemplate" DataType="{x:Type ViewModels:Edge}">
-                <Filters:Edge Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="TransformTextureTemplate" DataType="{x:Type ViewModels:TransformTexture}">
-                <Filters:TransformTexture Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="PixelateTemplate" DataType="{x:Type ViewModels:Pixelate}">
-                <Filters:Pixelate Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="EchoTemplate" DataType="{x:Type ViewModels:Echo}">
-                <Filters:Echo Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="FeedbackTemplate" DataType="{x:Type ViewModels:Feedback}">
-                <Filters:Feedback Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="TriColorTemplate" DataType="{x:Type ViewModels:TriColor}">
-                <Filters:TriColor Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="RandomUVTemplate" DataType="{x:Type ViewModels:RandomUV}">
-                <Filters:RandomUV Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-
-            <DataTemplate x:Key="LFOUVTemplate" DataType="{x:Type ViewModels:LFOUV}">
-                <Filters:LFOUV Margin="0, 8, 0, 0" DataContext="{Binding}"/>
-            </DataTemplate>
-            
-            <ViewModels:TextureFilterTemplateSelector 
-                x:Key="TemplateSelector" 
-                BlurTemplate="{StaticResource BlurTemplate}"
-                InvertTemplate="{StaticResource InvertTemplate}"
-                HSCBTemplate="{StaticResource HSCBTemplate}"
-                EdgeTemplate="{StaticResource EdgeTemplate}"
-                TransformTextureTemplate="{StaticResource TransformTextureTemplate}"
-                PixelateTemplate="{StaticResource PixelateTemplate}"
-                EchoTemplate="{StaticResource EchoTemplate}"
-                FeedbackTemplate="{StaticResource FeedbackTemplate}"
-                TriColorTemplate="{StaticResource TriColorTemplate}"
-                RandomUVTemplate="{StaticResource RandomUVTemplate}"
-                LFOUVTemplate="{StaticResource LFOUVTemplate}"/>
-
-        </ResourceDictionary>
-
-    </UserControl.Resources>
-
-    <StackPanel Margin="8, 16">
+    <StackPanel Margin="8, 6">
 
         <ToggleButton 
             x:Name="PopUpToggle" 
             Content="Add Filter"
             Height="22" 
-            Margin="0, 0, 0, 8"
+            Margin="0, 4"
             Background="{DynamicResource DarkerColor}" 
             Style="{StaticResource ToggleTransformModifierMenu}"/>
 
@@ -106,7 +37,7 @@
                 Padding="2, 0, 2, 2"
                 Background="{DynamicResource HighHighDarkerColor}">
 
-                <Grid Margin="4, 8">
+                <Grid Margin="4">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -252,9 +183,68 @@
             dd:DragDrop.IsDropTarget="True"
             dd:DragDrop.DragHandler="{Binding}"
             dd:DragDrop.DropHandler="{Binding}"
-            ItemTemplateSelector="{StaticResource TemplateSelector }" 
             ItemsSource="{Binding Modifiers}">
-        </ItemsControl>
+            
+            <ItemsControl.Resources>
+                
+                <DataTemplate DataType="{x:Type ViewModels:HSCB}">
+                    <Filters:HSCB DataContext="{Binding}"/>
+                </DataTemplate>
 
+                <DataTemplate DataType="{x:Type ViewModels:Invert}">
+                    <Filters:Invert DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Blur}">
+                    <Filters:Blur DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Edge}">
+                    <Filters:Edge DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:TransformTexture}">
+                    <Filters:TransformTexture DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Pixelate}">
+                    <Filters:Pixelate DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Echo}">
+                    <Filters:Echo DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:Feedback}">
+                    <Filters:Feedback DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:TriColor}">
+                    <Filters:TriColor DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:RandomUV}">
+                    <Filters:RandomUV DataContext="{Binding}"/>
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type ViewModels:LFOUV}">
+                    <Filters:LFOUV DataContext="{Binding}"/>
+                </DataTemplate>
+                
+            </ItemsControl.Resources>
+            
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Panels:ModifierPanel 
+                        Margin="0, 4"
+                        DragHandlerIsPressed="{Binding DataContext.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CloseModifierCommand="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CloseModifierCommandParameter="{Binding}">
+                        <ContentPresenter Content="{Binding}"/>
+                    </Panels:ModifierPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            
+        </ItemsControl>
     </StackPanel>
 </UserControl>

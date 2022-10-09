@@ -4,130 +4,59 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core" xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="345.111" d:DesignWidth="228.889">
 
-    <UserControl.Resources>
+    <StackPanel>
 
-        <ObjectDataProvider x:Key="TransformType" MethodName="GetValues" ObjectType="{x:Type ViewModels:TransformType}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:TransformType"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
+        <StackPanel Margin="8">
 
-    </UserControl.Resources>
+            <basecontrol:ComboBox 
+                Margin="0, 0, 0, 8"
+                Caption="Type" 
+                SelectedItem="{Binding Mode.Selection}" 
+                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
-    <Expander
-        IsExpanded="{Binding IsExpanded}"
-        Header="LFO UV"
-        Template="{StaticResource ModifierPanelTemplate}">
-        <StackPanel>
-            <StackPanel Margin="8">
-                <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
+            <Views:BeatModifier 
+                DataContext="{Binding BeatModifier}"/>
 
-                <Grid Height="20" Margin="0, 8, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                        Grid.Column="2" 
-                        Position="Top" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Value="{Binding From.Amount}"/>
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="4" 
-                        HorizontalAlignment="Right" 
-                        Text="From" 
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>
-                <Grid Margin="0, 1, 0, 8" Height="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Bottom" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding To.Amount}"/>
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="To" 
-                            Foreground="{StaticResource TextBase}"/>
-                </Grid>
-                <Grid Height="20" Margin="0, 4, 0, 4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            <basecontrol:DragValue 
+                Margin="0, 8, 0, 0"
+                Caption="From" 
+                Value="{Binding From.Amount}" 
+                Position="Top"/>
 
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="4" 
-                        HorizontalAlignment="Right" 
-                        Text="PingPong" 
-                        Foreground="{StaticResource TextBase}"/>
+            <basecontrol:DragValue 
+                Margin="0, 1, 0, 0"
+                Caption="To" 
+                Value="{Binding To.Amount}" 
+                Position="Bottom"/>
 
-                    <Grid Grid.Column="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <ToggleButton HorizontalAlignment="Left" IsChecked="{Binding PingPong.IsChecked}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X"/>
-                    </Grid>
-                </Grid>
+            <basecontrol:ToggleButton
+                Margin="0, 8"
+                Caption="PingPong"
+                IsChecked="{Binding PingPong.IsChecked}"/>
 
-                <Grid Height="20" Margin="0, 8, 0, 4">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Transform" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
-                    <ComboBox 
-                        Grid.Column="1" 
-                        SelectedItem="{Binding TransformType.Selection}"
-                        ItemsSource="{Binding Source={StaticResource TransformType}}"/>
-                </Grid>
-                
-                <Grid Height="20" Margin="0, 4, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            <basecontrol:ComboBox 
+                Caption="Transform" 
+                SelectedItem="{Binding TransformType.Selection}" 
+                ItemsSource="{Binding Source={StaticResource TransformType}}"/>
 
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Axis" 
-                            Foreground="{StaticResource TextBase}"/>
+            <basecontrol:AxisSelector3D 
+                Margin="0, 2, 0, 0"
+                XIsChecked="{Binding XAxis.IsChecked}"
+                YIsChecked="{Binding YAxis.IsChecked}"
+                ZIsChecked="{Binding ZAxis.IsChecked}"/>
 
-                    <Grid Grid.Column="2">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <ToggleButton Style="{StaticResource InlineToggleButtonLeft}" IsChecked="{Binding XAxis.IsChecked}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X"/>
-                        <ToggleButton Style="{StaticResource InlineToggleButtonRight}" IsChecked="{Binding YAxis.IsChecked}" Grid.Column="1" Margin="0" Content="Y"/>
-                    </Grid>
-                </Grid>
-
-
-            </StackPanel>
-
-            <Views:Easing  DataContext="{Binding Easing}"/>
-
-            <Expander Header="Sampler State">
-                <Views:SamplerState Margin="8" DataContext="{Binding SamplerState}"/>
-            </Expander>
-
+            <Views:SamplerState 
+                Margin="0, 8" 
+                DataContext="{Binding SamplerState}"/>
         </StackPanel>
-    </Expander>
+
+        <Views:Easing  DataContext="{Binding Easing}"/>
+
+    </StackPanel>
 
 </UserControl>

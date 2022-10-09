@@ -9,106 +9,100 @@
              mc:Ignorable="d" 
              d:DesignHeight="246.889" d:DesignWidth="291.555">
 
-    <Expander
-        Header="TriColor" 
-        Template="{StaticResource ModifierPanelTemplate}"
-        IsExpanded="{Binding IsExpanded}">
-        
-        <StackPanel Margin="8">
+    <StackPanel Margin="8">
 
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
                     Text="Color A" 
                     HorizontalAlignment="Right" Padding="4, 0"
                     VerticalAlignment="Center"/>
-                <Border Margin="0, 4, 0, 0" Grid.Column="1">
-                    <Button Height="21"
+            <Border Margin="0, 4, 0, 0" Grid.Column="1">
+                <Button Height="21"
                         Margin="0"
                         Background="{Binding ColorA.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
                         Command="{Binding OpenColorASelectorCommand}"
                         Style="{StaticResource ButtonColorStyle}"/>
-                </Border>
-            </Grid>
+            </Border>
+        </Grid>
 
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
                     Text="Color B" 
                     HorizontalAlignment="Right" Padding="4, 0"
                     VerticalAlignment="Center"/>
-                <Border Margin="0, 4, 0, 0" Grid.Column="1">
-                    <Button Height="21"
+            <Border Margin="0, 4, 0, 0" Grid.Column="1">
+                <Button Height="21"
                         Margin="0"
                         Background="{Binding ColorB.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
                         Command="{Binding OpenColorBSelectorCommand}"
                         Style="{StaticResource ButtonColorStyle}"/>
-                </Border>
-            </Grid>
+            </Border>
+        </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
                     Text="Color C" 
                     HorizontalAlignment="Right" Padding="4, 0"
                     VerticalAlignment="Center"/>
-                <Border Margin="0, 4, 0, 0" Grid.Column="1">
-                    <Button 
+            <Border Margin="0, 4, 0, 0" Grid.Column="1">
+                <Button 
                         Height="21"
                         Margin="0"
                         Background="{Binding ColorC.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
                         Command="{Binding OpenColorCSelectorCommand}"
                         Style="{StaticResource ButtonColorStyle}"/>
-                </Border>
-            </Grid>
+            </Border>
+        </Grid>
 
-            <Grid Margin="0, 8, 0, 0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
+        <Grid Margin="0, 8, 0, 0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
                     Text="Single Channel" 
                     HorizontalAlignment="Right" Padding="4, 0"
                     VerticalAlignment="Center"/>
-                <Border Margin="0, 4, 0, 0" Grid.Column="1">
-                    <ToggleButton 
+            <Border Margin="0, 4, 0, 0" Grid.Column="1">
+                <ToggleButton 
                         Height="21"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding SingleChannel.IsChecked}"/>
-                </Border>
-            </Grid>
+            </Border>
+        </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock 
                     Text="Clamp Color" 
                     HorizontalAlignment="Right" Padding="4, 0"
                     VerticalAlignment="Center"/>
-                <Border Margin="0, 4, 0, 0" Grid.Column="1">
-                    <ToggleButton 
+            <Border Margin="0, 4, 0, 0" Grid.Column="1">
+                <ToggleButton 
                         Height="21"
                         HorizontalAlignment="Left"
                         IsChecked="{Binding ClampColor.IsChecked}"/>
-                </Border>
-            </Grid>
+            </Border>
+        </Grid>
 
-            <Controls:CMiXSlider Margin="0, 8, 0, 1" Caption="Smooth" Minimum="0.0" Maximum="1.0" Value="{Binding Smooth.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Top"/>
-            <Controls:CMiXSlider Margin="0, 0, 0, 8" Caption="Center" Minimum="0.0" Maximum="1.0" Value="{Binding Center.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Bottom"/>
+        <Controls:CMiXSlider Margin="0, 8, 0, 1" Caption="Smooth" Minimum="0.0" Maximum="1.0" Value="{Binding Smooth.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Top"/>
+        <Controls:CMiXSlider Margin="0, 0, 0, 8" Caption="Center" Minimum="0.0" Maximum="1.0" Value="{Binding Center.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Bottom"/>
 
-            <Controls:CMiXSlider Margin="0, 8" Caption="Control" Minimum="0.0" Maximum="1.0" Value="{Binding Control.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
-        </StackPanel>
-    </Expander>
+        <Controls:CMiXSlider Margin="0, 8" Caption="Control" Minimum="0.0" Maximum="1.0" Value="{Binding Control.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
+    </StackPanel>
 </UserControl>
