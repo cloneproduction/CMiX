@@ -36,11 +36,12 @@
 
             <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
                 <StackPanel>
-                    <Views:Camera Margin="8" DataContext="{Binding SelectedItem.Prefab}"/>
+                    <Expander Header="Transform">
+                        <Views:Camera Margin="8" DataContext="{Binding SelectedItem.Prefab}"/>
+                    </Expander>
                     <Expander Header="Modifiers">
                         <Views:CameraTransformModifierManager DataContext="{Binding SelectedItem.Prefab.CameraTransformModifierManager}"/>
                     </Expander>
-
                 </StackPanel>
 
             </Border>

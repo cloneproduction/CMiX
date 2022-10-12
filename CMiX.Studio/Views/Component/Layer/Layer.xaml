@@ -5,9 +5,15 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             mc:Ignorable="d" d:DesignHeight="364.793" d:DesignWidth="292.539">
+             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+             mc:Ignorable="d" d:DesignHeight="483.46" d:DesignWidth="299.206">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior/>
+        </i:Interaction.Behaviors>
+
         <Border Background="{DynamicResource DarkerColor}">
             <TabControl  Style="{StaticResource TabControlLayerPanel}" SelectedIndex="{Binding SelectedTabItemIndex}">
 
@@ -16,25 +22,25 @@
                         <Image Source="{DynamicResource Mask}"/>
                     </TabItem.Header>
                     <StackPanel Background="{DynamicResource HighDarkerColor}">
-                        <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8, 16" />
+                        <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8" />
                         <ViewComponents:LayerContent DataContext="{Binding LayerMask}"/>
                     </StackPanel>
                 </TabItem>
 
                 <TabItem>
-                    
+
                     <TabItem.Header>
                         <Image Source="{DynamicResource LayerScene}"/>
                     </TabItem.Header>
-                    
+
                     <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">
 
                         <StackPanel>
-                            <Views:LayerBlendController DataContext="{Binding LayerScene}" Margin="8, 16" />
+                            <Views:LayerBlendController DataContext="{Binding LayerScene}" Margin="8" />
                             <ViewComponents:LayerContent DataContext="{Binding LayerScene}"/>
                         </StackPanel>
                     </Border>
-                    
+
                 </TabItem>
 
             </TabControl>

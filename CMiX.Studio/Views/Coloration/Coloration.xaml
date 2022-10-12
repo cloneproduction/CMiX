@@ -11,7 +11,7 @@
 
     <StackPanel>
         
-        <Grid Margin="8, 16">
+        <Grid Margin="8, 0, 8, 8">
             
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
@@ -35,8 +35,11 @@
             </Border>
 
         </Grid>
-        
-        <Views:ColorModifierManager Margin="8, 0, 8, 8" DataContext="{Binding ModifierManager}"/>
+
+        <Expander Header="Modifier">
+            <Views:ColorModifierManager Margin="8" DataContext="{Binding ModifierManager}"/>
+        </Expander>
+
         
     </StackPanel>
     

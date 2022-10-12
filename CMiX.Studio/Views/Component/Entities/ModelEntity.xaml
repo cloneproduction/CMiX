@@ -3,119 +3,164 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views" 
+             xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Geometry="clr-namespace:CMiX.Studio.Views.Geometry"
              mc:Ignorable="d" 
              d:DesignHeight="486" d:DesignWidth="322.667">
 
     <StackPanel>
+        <Expander Header="Transform">
+            <StackPanel>
+                
+                <Grid DockPanel.Dock="Left" Margin="8" Height="22">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        DockPanel.Dock="Bottom" 
+                        SelectedValue="{Binding Mesh}"
+                        SelectedValuePath="Prefab"
+                        ItemsSource="{Binding CompositionService.TransformManager.Prefabs}">
+                        <ComboBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </ItemContainerTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button
+                        Grid.Column="2" 
+                        Margin="0, 0, 0, 0" 
+                        DockPanel.Dock="Right" 
+                        Width="22" 
+                        Style="{StaticResource ButtonRounded}" 
+                        Content="+"
+                        Command="{Binding CompositionService.TransformManager.AddItemCommand}"/>
+                </Grid>
 
-        <Grid Margin="8, 0, 8, 8" DockPanel.Dock="Left">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Mesh" HorizontalAlignment="Right" Padding="4, 0"/>
+                <Geometry:Transform DataContext="{Binding Transform}"/>
 
-            <ComboBox Grid.Column="1" DockPanel.Dock="Bottom" 
-                SelectedValue="{Binding Mesh}"
-                SelectedValuePath="Prefab"
-                ItemsSource="{Binding CompositionService.MeshManager.Prefabs}">
-                <ComboBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </ItemContainerTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Button 
-                Grid.Column="2" 
-                Margin="4, 0, 0, 0" 
-                DockPanel.Dock="Right" 
-                Width="20" 
-                Style="{StaticResource ButtonRounded}" 
-                Content="+"
-                Command="{Binding CompositionService.MeshManager.AddItemCommand}"/>
-        </Grid>
+            </StackPanel>
 
-        <Grid Margin="8, 0, 8, 8" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Coloration" HorizontalAlignment="Right" Padding="4, 0"/>
-            <ComboBox Grid.Column="1" DockPanel.Dock="Bottom" 
-                  SelectedValue="{Binding Coloration}"
-                  SelectedValuePath="Prefab"
-                  ItemsSource="{Binding CompositionService.ColorationManager.Prefabs}">
-                <ComboBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </ItemContainerTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Button 
-                Grid.Column="2" 
-                Margin="4, 0, 0, 0" 
-                DockPanel.Dock="Right" 
-                Width="20" 
-                Style="{StaticResource ButtonRounded}" 
-                Content="+"
-                Command="{Binding CompositionService.ColorationManager.AddItemCommand}"/>
-        </Grid>
 
-        <Grid Margin="8, 0, 8, 8" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Material" HorizontalAlignment="Right" Padding="4, 0"/>
-            <ComboBox DockPanel.Dock="Bottom" Grid.Column="1" 
-                SelectedValue="{Binding Material}"
-                SelectedValuePath="Prefab"
-                ItemsSource="{Binding CompositionService.MaterialManager.Prefabs}">
-                <ComboBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </ItemContainerTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Button 
-                Grid.Column="2" 
-                Margin="4, 0, 0, 0" 
-                DockPanel.Dock="Right" 
-                Width="20" 
-                Style="{StaticResource ButtonRounded}" 
-                Content="+"
-                Command="{Binding CompositionService.MaterialManager.AddItemCommand}"/>
-        </Grid>
+        </Expander>
 
-        <Grid Margin="8, 0, 8, 8" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-                <ColumnDefinition Width="auto"/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Transform" HorizontalAlignment="Right" Padding="4, 0"/>
-            <ComboBox Grid.Column="1" 
-                SelectedValue="{Binding Transform}"
-                SelectedValuePath="Prefab"
-                ItemsSource="{Binding CompositionService.TransformManager.Prefabs}">
-                <ComboBox.ItemTemplate>
-                    <ItemContainerTemplate>
-                        <TextBlock Text="{Binding Name}"/>
-                    </ItemContainerTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
-            <Button 
-                Grid.Column="2" 
-                Margin="4, 0, 0, 0" 
-                DockPanel.Dock="Right" 
-                Width="20" 
-                Style="{StaticResource ButtonRounded}" 
-                Content="+"
-                Command="{Binding CompositionService.TransformManager.AddItemCommand}"/>
-        </Grid>
+        <Expander Header="Material">
+            <StackPanel>
+                <Grid DockPanel.Dock="Left" Margin="8" Height="22">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        DockPanel.Dock="Bottom" 
+                        SelectedValue="{Binding Material}"
+                        SelectedValuePath="Prefab"
+                        ItemsSource="{Binding CompositionService.MaterialManager.Prefabs}">
+                        <ComboBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </ItemContainerTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button
+                        Grid.Column="2" 
+                        Margin="0, 0, 0, 0" 
+                        DockPanel.Dock="Right" 
+                        Width="22" 
+                        Style="{StaticResource ButtonRounded}" 
+                        Content="+"
+                        Command="{Binding CompositionService.MaterialManager.AddItemCommand}"/>
+                </Grid>
+                <Views:Material DataContext="{Binding Material}"/>
+            </StackPanel>
+
+            
+        </Expander>
+
+        <Expander Header="Coloration">
+            <StackPanel>
+
+                <Grid Margin="8" DockPanel.Dock="Left" Height="22">
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+
+                    <ComboBox Grid.Column="0" DockPanel.Dock="Bottom" 
+                          SelectedValue="{Binding Coloration}"
+                          SelectedValuePath="Prefab"
+                          ItemsSource="{Binding CompositionService.ColorationManager.Prefabs}">
+                        <ComboBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </ItemContainerTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Button 
+                        Grid.Column="2" 
+                        Margin="0, 0, 0, 0" 
+                        DockPanel.Dock="Right" 
+                        Width="22" 
+                        Style="{StaticResource ButtonRounded}" 
+                        Content="+"
+                        Command="{Binding CompositionService.ColorationManager.AddItemCommand}"/>
+                </Grid>
+
+                <Views:Coloration DataContext="{Binding Coloration}"/>
+
+            </StackPanel>
+
+        </Expander>
+        
+        <Expander Header="Mesh">
+            <StackPanel Margin="8">
+                <Grid DockPanel.Dock="Left" Height="22">
+                    
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    
+                    <ComboBox 
+                        Grid.Column="0" 
+                        DockPanel.Dock="Bottom" 
+                        SelectedValue="{Binding Mesh}"
+                        SelectedValuePath="Prefab"
+                        ItemsSource="{Binding CompositionService.MeshManager.Prefabs}">
+                        <ComboBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </ItemContainerTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                    <Button 
+                        Grid.Column="2" 
+                        Margin="0, 0, 0, 0" 
+                        DockPanel.Dock="Right" 
+                        Width="22" 
+                        Style="{StaticResource ButtonRounded}" 
+                        Content="+"
+                        Command="{Binding CompositionService.MeshManager.AddItemCommand}"/>
+                </Grid>
+                <Component:Mesh DataContext="{Binding Mesh}" Margin="0, 8, 0, 0"/>
+            </StackPanel>
+
+        </Expander>
+
+
+
+
+
+
+
         
     </StackPanel>
 </UserControl>

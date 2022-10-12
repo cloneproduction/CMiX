@@ -65,18 +65,15 @@ namespace CMiX.Core.Presentation.ViewModels
         public IModel GetModel()
         {
             ColorationModel colorationModel = new ColorationModel();
-
             colorationModel.ID = ID;
             colorationModel.ColorSelector = (ColorSelectorModel)ColorSelector.GetModel();
             colorationModel.ModifierManager = (ModifierManagerModel)ModifierManager.GetModel();
-
             return colorationModel;
         }
 
         public void SetViewModel(IModel model)
         {
             ColorationModel colorationModel = model as ColorationModel;
-
             ID = colorationModel.ID;
             ColorSelector.SetViewModel(colorationModel.ColorSelector);
             ModifierManager.SetViewModel(colorationModel.ModifierManager);

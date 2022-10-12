@@ -14,6 +14,11 @@
             SelectedItem="{Binding Mode.Selection}"
             ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
+        <BaseControls:DragValue
+            Margin="0, 8, 0, 0"
+            Caption="Uniform Scale" 
+            Value="{Binding Uniform.Amount}"/>
+        
         <BaseControls:VectorXYZ
             Margin="0, 8, 0, 0"
             Caption="Scale"

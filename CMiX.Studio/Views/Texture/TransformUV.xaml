@@ -1,97 +1,46 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.TransformUV"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="160.58" d:DesignWidth="211.028">
 
     <StackPanel>
-        <Grid Height="21" Margin="0, 0, 0, 1" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                        Text="Translate X" 
-                        HorizontalAlignment="Right" 
-                        Padding="4, 0" 
-                        VerticalAlignment="Center"/>
-            <Controls:DistanceSlider 
-                        Grid.Column="1"  
-                        Value="{Binding Translate.X.Amount}" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Position="Top"/>
-        </Grid>
+        
+        <BaseControls:DragValue           
+            Caption="Uniform Scale"
+            Value="{Binding Uniform.Amount}" 
+            Position="Default"/>
 
-        <Grid Height="21">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                        Text="Y" 
-                        HorizontalAlignment="Right" 
-                        Padding="4, 0" 
-                        VerticalAlignment="Center"/>
-            <Controls:DistanceSlider 
-                        Grid.Column="1"  
-                        Value="{Binding Translate.Y.Amount}" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Position="Bottom"/>
-        </Grid>
+        <BaseControls:DragValue  
+            Margin="0, 8, 0, 1"
+            Caption="Scale X"
+            Value="{Binding Scale.X.Amount}" 
+            Position="Top"/>
 
-        <Grid Height="21" Margin="0, 8, 0, 1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                    Text="Scale X" 
-                    HorizontalAlignment="Right" 
-                    Padding="4, 0" 
-                    VerticalAlignment="Center"/>
-            <Controls:DistanceSlider 
-                    Grid.Column="1"  
-                    Value="{Binding Scale.X.Amount}" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Position="Top"/>
-        </Grid>
+        <BaseControls:DragValue  
+            Caption="Y"
+            Value="{Binding Scale.Y.Amount}" 
+            Position="Bottom"/>
 
-        <Grid Height="21">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                    Text="Y" 
-                    HorizontalAlignment="Right" 
-                    Padding="4, 0" 
-                    VerticalAlignment="Center"/>
-            <Controls:DistanceSlider 
-                    Grid.Column="1"  
-                    Value="{Binding Scale.Y.Amount}" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Position="Bottom"/>
-        </Grid>
+        <BaseControls:DragValue  
+            Margin="0, 8"
+            Caption="Rotate"
+            Value="{Binding Rotate.Amount}" 
+            Position="Default"/>
 
-        <Grid Height="21" Margin="0, 8, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                    Text="Rotate" 
-                    HorizontalAlignment="Right" 
-                    Padding="4, 0" 
-                    VerticalAlignment="Center"/>
-            <Controls:DistanceSlider 
-                    Grid.Column="1"  
-                    Value="{Binding Rotate.Amount}" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Position="Default"/>
-        </Grid>
+        <BaseControls:DragValue  
+            Margin="0, 0, 0, 1"
+            Caption="Translate X"
+            Value="{Binding Translate.X.Amount}" 
+            Position="Top"/>
+
+        <BaseControls:DragValue  
+            Caption="Y"
+            Value="{Binding Translate.Y.Amount}" 
+            Position="Bottom"/>
+
     </StackPanel>
 </UserControl>

@@ -14,12 +14,14 @@
         Background="{DynamicResource DarkerColor}"
         IsEnabled="{Binding Converter={StaticResource NullToBool}}">
         <StackPanel>
-            <Expander Header="Entities">
+            <Expander Header="Entities" IsExpanded="True">
                 <StackPanel>
                     <Views:PrefabSlotManager
                         ItemsSource="{Binding Path=DataContext.Project.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
                         DataContext="{Binding ModelEntityManager}"/>
-                    <Border>
+
+                    <Views:ModelEntity DataContext="{Binding ModelEntityManager.SelectedItem.Transform}"/>
+                    <!--<Border>
 
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
@@ -94,39 +96,20 @@
                             </Border>
                         </StackPanel>
 
-                    </Border>
+                    </Border>-->
 
                 </StackPanel>
             </Expander>
 
-            <Expander Header="Filter">
-                <Views:TextureFilter  DataContext="{Binding TextureModifierManager}"/>
-            </Expander>
-            
-            <Expander Header="Background">
-                <Grid Margin="8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Button 
-                        Height="22"
-                        Grid.Column="1"
-                        Margin="4"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        Style="{StaticResource ButtonColorStyle}">
-                        <Button.Background>
-                            <SolidColorBrush Color="{Binding BackgroundColor.SelectedColor}"/>
-                        </Button.Background>
-                    </Button>
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        
-                        HorizontalAlignment="Right" 
-                        Text="Color" 
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>
+            <Expander Header="Effects">
+                <StackPanel>
+                    <Expander Header="Filter" IsExpanded="True">
+                        <Views:TextureFilter  DataContext="{Binding TextureModifierManager}"/>
+                    </Expander>
+                    <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
+                </StackPanel>
+
+
             </Expander>
 
             <Expander Header="Lights">
@@ -136,12 +119,15 @@
             </Expander>
             
             <Expander Header="Cameras">
-                <Views:PrefabSlotManager 
-                    ItemsSource="{Binding Path=DataContext.Project.CompositionService.CameraRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
-                    DataContext="{Binding CameraEntityManager}"/>
+                <StackPanel>
+                    <Views:PrefabSlotManager 
+                        ItemsSource="{Binding Path=DataContext.Project.CompositionService.CameraRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
+                        DataContext="{Binding CameraEntityManager}"/>
+                    <Views:Camera Margin="8, 0, 8, 8" DataContext="{Binding CameraEntityManager.SelectedItem.Prefab}"/>
+                </StackPanel>
             </Expander>
             
-            <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
+
 
         </StackPanel>
     </Border>

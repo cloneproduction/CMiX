@@ -15,14 +15,17 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = transformModel.ID;
             this.Enabled = transformModel.Enabled;
             this.Visible = new ToggleButton(transformModel.Visible);
-            Translate = new Translate(transformModel.TranslateModel);
-            Scale = new Scale(transformModel.ScaleModel);
-            Rotation = new Rotation(transformModel.RotationModel);
+
+            Uniform = new Slider(nameof(Uniform), transformModel.Uniform);
+            Translate = new Translate(transformModel.Translate);
+            Scale = new Scale(transformModel.Scale);
+            Rotation = new Rotation(transformModel.Rotation);
             Mode = new ComboBox<ModifierMode>(transformModel.Mode);
         }
 
 
         public Guid ID { get; set; }
+        public Slider Uniform { get; set; }
         public Translate Translate { get; set; }
         public Scale Scale { get; set; }
         public Rotation Rotation { get; set; }
@@ -44,9 +47,10 @@ namespace CMiX.Core.Presentation.ViewModels
             TransformSRTModel transformModel = model as TransformSRTModel;
 
             this.ID = transformModel.ID;
-            this.Translate.SetViewModel(transformModel.TranslateModel);
-            this.Scale.SetViewModel(transformModel.ScaleModel);
-            this.Rotation.SetViewModel(transformModel.RotationModel);
+            this.Uniform.SetViewModel(transformModel.Uniform);
+            this.Translate.SetViewModel(transformModel.Translate);
+            this.Scale.SetViewModel(transformModel.Scale);
+            this.Rotation.SetViewModel(transformModel.Rotation);
             this.Mode.SetViewModel(transformModel.Mode);
         }
 
@@ -55,9 +59,10 @@ namespace CMiX.Core.Presentation.ViewModels
             TransformSRTModel model = new TransformSRTModel();
 
             model.ID = this.ID;
-            model.TranslateModel = (TranslateModel)this.Translate.GetModel();
-            model.ScaleModel = (ScaleModel)this.Scale.GetModel();
-            model.RotationModel = (RotationModel)this.Rotation.GetModel();
+            model.Uniform = (SliderModel)this.Uniform.GetModel();
+            model.Translate = (TranslateModel)this.Translate.GetModel();
+            model.Scale = (ScaleModel)this.Scale.GetModel();
+            model.Rotation = (RotationModel)this.Rotation.GetModel();
             model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
 
             return model;

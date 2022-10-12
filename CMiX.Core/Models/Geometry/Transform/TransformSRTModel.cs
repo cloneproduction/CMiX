@@ -13,10 +13,12 @@ namespace CMiX.Core.Models
         {
             this.ID = Guid.NewGuid();
 
-            TranslateModel = new TranslateModel();
-            ScaleModel = new ScaleModel();
-            RotationModel = new RotationModel();
+            Translate = new TranslateModel();
+            Scale = new ScaleModel();
+            Rotation = new RotationModel();
             Visible = new ToggleButtonModel(true);
+            Uniform = new SliderModel(0.0f);
+
             Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
 
             TransformModifier = new ModifierManagerModel();
@@ -24,13 +26,12 @@ namespace CMiX.Core.Models
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public TranslateModel TranslateModel { get; set; }
-        public ScaleModel ScaleModel { get; set; }
-        public RotationModel RotationModel { get; set; }
 
+        public SliderModel Uniform { get; set; }
+        public TranslateModel Translate { get; set; }
+        public ScaleModel Scale { get; set; }
+        public RotationModel Rotation { get; set; }
 
-
-        public bool Is3D { get; set; }
         public ToggleButtonModel Visible { get; set; }
         public ComboBoxModel<ModifierMode> Mode { get; internal set; }
         public ModifierManagerModel TransformModifier { get; internal set; }

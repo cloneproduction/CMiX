@@ -4,242 +4,57 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     x:Name="CameraControl"
     d:DesignHeight="294.297"
     d:DesignWidth="260.578"
     mc:Ignorable="d">
 
+    <StackPanel>
+        
+        <BaseControls:DragValue 
+            Margin="0, 0, 0, 1" 
+            Position="Top" 
+            Caption="Distance" 
+            Value="{Binding Path=Distance.Amount}"/>
+        
+        <BaseControls:DragValue 
+            Caption="FOV" 
+            Position="Bottom" 
+            Value="{Binding Path=FOV.Amount}"/>
 
-    <StackPanel Margin="8">
-        <Grid Height="20" Margin="0, 0, 0, 2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="1" 
-                            BorderBrush="{DynamicResource Shadow}" 
-                            BorderThickness="1, 0, 1, 0">
-                    <Controls:DistanceSlider 
-                            Position="Default" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=Distance.Amount}" />
-                </Border>
-                <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Distance" 
-                        Foreground="{DynamicResource TextBase}"/>
-            </Grid>
+        <BaseControls:DragValue 
+            Margin="0, 8, 0, 1" 
+            Position="Top" 
+            Caption="Yaw" 
+            Value="{Binding Path=Yaw.Amount}"/>
+        <BaseControls:DragValue 
+            Caption="Pitch" 
+            Position="Bottom" 
+            Value="{Binding Path=Pitch.Amount}"/>
 
-            <Grid Height="20" Margin="0, 2">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="1" 
-                            CornerRadius="4" 
-                            BorderBrush="{DynamicResource Shadow}" 
-                            BorderThickness="1, 0, 1, 2">
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Default" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=FOV.Amount}"/>
-                </Border>
-                <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="FOV" 
-                        Foreground="{StaticResource TextBase}"/>
-            </Grid>
+        <BaseControls:VectorXYZ 
+            Margin="0, 8"
+            Caption="Target" 
+            X="{Binding Path=TargetX.Amount}"
+            Y="{Binding Path=TargetY.Amount}"
+            Z="{Binding Path=TargetZ.Amount}"/>
 
+        <BaseControls:ToggleButton 
+            Caption="Orthographic" 
+            IsChecked="{Binding Projection.IsChecked}"/>
 
-            <StackPanel Margin="0, 8">
+        <BaseControls:DragValue 
+            Margin="0, 8, 0, 1" 
+            Position="Top" 
+            Caption="Near" 
+            Value="{Binding Path=NearClip.Amount}"/>
+        
+        <BaseControls:DragValue 
+            Caption="Far" 
+            Position="Bottom" 
+            Value="{Binding Path=FarClip.Amount}"/>
 
-                <Grid Height="20" Margin="0, 0, 0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1" 
-                            BorderBrush="{DynamicResource Shadow}" 
-                            BorderThickness="1, 0, 1, 0">
-                        <Controls:DistanceSlider 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=Yaw.Amount}" />
-                    </Border>
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Yaw" 
-                        Foreground="{DynamicResource TextBase}"/>
-                </Grid>
-
-                <Grid Height="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Border 
-                        Grid.Column="1" 
-                        CornerRadius="4" 
-                        BorderBrush="{DynamicResource Shadow}" 
-                        BorderThickness="1, 0, 1, 2">
-                        <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Bottom" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=Pitch.Amount}"/>
-                    </Border>
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Pitch" 
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>
-
-            </StackPanel>
-
-            <StackPanel Margin="0">
-
-                <Grid Height="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1" 
-                            BorderBrush="{DynamicResource Shadow}" 
-                            BorderThickness="1, 0, 1, 0">
-                        <Controls:DistanceSlider 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=TargetX.Amount}" />
-                    </Border>
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Target X" 
-                        Foreground="{DynamicResource TextBase}"/>
-                </Grid>
-
-                <Grid Height="20" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1" 
-                            BorderBrush="{DynamicResource Shadow}" 
-                            BorderThickness="1, 0, 1, 0">
-                        <Controls:DistanceSlider 
-                            Grid.Column="1" 
-                            Position="Middle" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=TargetY.Amount}"/>
-                    </Border>
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Y" 
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>
-
-                <Grid Height="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.9*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Border Grid.Column="1" 
-                            CornerRadius="4" 
-                            BorderBrush="{DynamicResource Shadow}" 
-                            BorderThickness="1, 0, 1, 2">
-                        <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Bottom" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=TargetZ.Amount}"/>
-                    </Border>
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Z" 
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>
-
-            </StackPanel>
-
-        <StackPanel Margin="0, 8">
-            
-            <Grid Height="20" Margin="0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="1" 
-                        BorderBrush="{DynamicResource Shadow}" 
-                        BorderThickness="1, 0, 1, 0">
-                    <Controls:CMiXToggleButton 
-                        Caption="Orthographic" 
-                        Style="{StaticResource CMiXToggleButtonStyle}" 
-                        IsChecked="{Binding Projection.IsChecked}"/>
-                </Border>
-
-            </Grid>
-            
-            <Grid Height="20" Margin="0, 0, 0, 1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Border Grid.Column="1" 
-                            BorderBrush="{DynamicResource Shadow}" 
-                            BorderThickness="1, 0, 1, 0">
-                    <Controls:DistanceSlider 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=NearClip.Amount}" />
-                </Border>
-                <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Near Clip" 
-                        Foreground="{DynamicResource TextBase}"/>
-            </Grid>
-
-            <Grid Height="20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Border 
-                        Grid.Column="1" 
-                        CornerRadius="4" 
-                        BorderBrush="{DynamicResource Shadow}" 
-                        BorderThickness="1, 0, 1, 2">
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Bottom" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Path=FarClip.Amount}"/>
-                </Border>
-                <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Far Clip" 
-                        Foreground="{StaticResource TextBase}"/>
-            </Grid>
-
-        </StackPanel>
     </StackPanel>
 
 </UserControl>

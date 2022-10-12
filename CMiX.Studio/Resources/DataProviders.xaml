@@ -70,5 +70,11 @@
             <ComponentModel:SortDescription PropertyName="Source" />
         </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
+
+    <ObjectDataProvider x:Key="BlendMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:BlendModeEnum"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
     
 </ResourceDictionary>

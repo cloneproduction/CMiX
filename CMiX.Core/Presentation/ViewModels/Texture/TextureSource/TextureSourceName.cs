@@ -5,6 +5,10 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public enum TextureSourceName
     {
+        Image,
+        Video,
+        Input,
+        Text,
         Gradient,
         BubbleNoise,
     }

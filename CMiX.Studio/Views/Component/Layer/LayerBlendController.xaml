@@ -4,25 +4,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="63" d:DesignWidth="341">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ObjectDataProvider x:Key="BlendMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="ViewModels:BlendModeEnum"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-        </ResourceDictionary>
-    </UserControl.Resources>
+             d:DesignHeight="114.556" d:DesignWidth="342.778">
 
     <StackPanel>
 
         <Controls:CMiXSlider
-            Margin="0, 0, 0, 8"
             Style="{StaticResource CMiXSliderStyle}"
             Minimum="0"
             Maximum="1"
@@ -30,27 +18,39 @@
             Height="22"
             Value="{Binding Opacity.Amount}" 
             Caption="Alpha"/>
+
+        <BaseControls:ComboBox 
+            Margin="0, 8"
+            Caption="BlendMode"
+            SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
+            ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
+
+        <BaseControls:ColorSelector 
+            Caption="Background" 
+            Command="{Binding OpenColorSelectorCommand}"/>
         
-        <Grid DockPanel.Dock="Top">
-            
+        <!--<Grid Margin="0, 8, 0, 0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-
-            <TextBlock 
-                HorizontalAlignment="Right" 
-                Padding="8, 0" 
-                VerticalAlignment="Center" 
-                Text="BlendMode"/>
-
-            <ComboBox 
+            <Button 
+                Height="22"
                 Grid.Column="1"
-                DockPanel.Dock="Top"
-                SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
-                ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
-        </Grid>
-        
+                Command="{Binding OpenColorSelectorCommand}"
+                Style="{StaticResource ButtonColorStyle}">
+                <Button.Background>
+                    <SolidColorBrush Color="{Binding BackgroundColor.SelectedColor}"/>
+                </Button.Background>
+            </Button>
+            <TextBlock 
+                Grid.Column="0" 
+                Padding="8, 0" 
+                        
+                HorizontalAlignment="Right" 
+                Text="Background" 
+                Foreground="{StaticResource TextBase}"/>
+        </Grid>-->
     </StackPanel>
-    
+
 </UserControl>

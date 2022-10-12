@@ -31,7 +31,40 @@
     </UserControl.Resources>
 
     <StackPanel>
+        <Expander Header="Texture" IsExpanded="True">
+            <Views:Texture DataContext="{Binding Texture}"/>
+        </Expander>
 
+        <Expander RequestBringIntoView="Expander_RequestBringIntoView" IsExpanded="{Binding Mask.IsExpanded}">
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
+                            x:Name="MaskEnabled"
+                            HorizontalAlignment="Left"
+                            VerticalAlignment="Center"
+                            IsChecked="{Binding Mask.IsEnabled.IsChecked}"/>
+                    <TextBlock Text="Mask" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                </DockPanel>
+            </Expander.Header>
+
+            <StackPanel >
+                <StackPanel Margin="8">
+                    <BaseControls:ComboBox    
+                        Caption="MaskChannel"
+                        SelectedItem="{Binding MaskChannelSelector.Selection}" 
+                        ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
+                    <BaseControls:ToggleButton 
+                        Margin="0, 8, 0, 0"
+                        Caption="Invert" 
+                        IsChecked="{Binding Mask.Invert.IsChecked}"/>
+                </StackPanel>
+
+                
+                <Border BorderThickness="0, 1, 0, 0" BorderBrush="{DynamicResource Shadow}"/>
+                <Views:Texture DataContext="{Binding Mask}"/>
+
+            </StackPanel>
+        </Expander>
         <Expander Header="Surface" IsExpanded="False">
             <StackPanel Margin="8">
 
@@ -110,13 +143,13 @@
                 </Controls:CMiXSlider>
 
                 <Controls:CMiXSlider 
-                Margin="0, 0, 0, 8"
-                Grid.Column="2" 
-                Position="Bottom"
-                Caption="Metalness"
-                Maximum="2"
-                Minimum="0"
-                Value="{Binding Metalness.Amount}">
+                    Margin="0, 0, 0, 8"
+                    Grid.Column="2" 
+                    Position="Bottom"
+                    Caption="Metalness"
+                    Maximum="2"
+                    Minimum="0"
+                    Value="{Binding Metalness.Amount}">
                     <Controls:CMiXSlider.Style>
                         <Style BasedOn="{StaticResource CMiXSliderStyle}" TargetType="Controls:CMiXSlider">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -131,42 +164,6 @@
 
             </StackPanel>
         </Expander>
-        <Expander Header="Texture" IsExpanded="True">
-            <Views:Texture DataContext="{Binding Texture}"/>
-        </Expander>
-
-
-        <Expander RequestBringIntoView="Expander_RequestBringIntoView" IsExpanded="{Binding Mask.IsExpanded}">
-            <Expander.Header>
-                <DockPanel>
-                    <ToggleButton
-                            x:Name="MaskEnabled"
-                            HorizontalAlignment="Left"
-                            VerticalAlignment="Center"
-                            IsChecked="{Binding Mask.IsEnabled.IsChecked}"/>
-                    <TextBlock Text="Mask" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
-                </DockPanel>
-            </Expander.Header>
-
-            <StackPanel >
-                <StackPanel Margin="8">
-                    <BaseControls:ComboBox    
-                        Caption="MaskChannel"
-                        SelectedItem="{Binding MaskChannelSelector.Selection}" 
-                        ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
-                    <BaseControls:ToggleButton 
-                        Margin="0, 8, 0, 0"
-                        Caption="Invert" 
-                        IsChecked="{Binding Mask.Invert.IsChecked}"/>
-                </StackPanel>
-
-                
-                <Border BorderThickness="0, 1, 0, 0" BorderBrush="{DynamicResource Shadow}"/>
-                <Views:Texture DataContext="{Binding Mask}"/>
-
-            </StackPanel>
-        </Expander>
-
     </StackPanel>
 
 </UserControl>

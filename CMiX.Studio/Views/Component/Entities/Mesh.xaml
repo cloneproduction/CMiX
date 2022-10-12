@@ -7,7 +7,8 @@
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:System="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
-             d:DesignHeight="778" d:DesignWidth="330">
+             d:DesignHeight="112" d:DesignWidth="328"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -45,55 +46,43 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <StackPanel Margin="8, 16">
+    <StackPanel>
 
-            <Grid Height="22">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <ComboBox 
-                        Grid.Column="1"
-                        SelectedItem="{Binding MeshTypeSelector.Selection}"              
-                        ItemsSource="{Binding Source={StaticResource MeshType}}"/>
-                <TextBlock 
-                        Grid.Column="0" 
-                        Padding="8, 0" 
-                        HorizontalAlignment="Right" 
-                        Text="Type" 
-                        Foreground="{StaticResource TextBase}"/>
-            </Grid>
+        <BaseControls:ComboBox 
+            Caption="Type"
+            SelectedItem="{Binding MeshTypeSelector.Selection}"              
+            ItemsSource="{Binding Source={StaticResource MeshType}}"/>
 
-            <ContentControl
-                        Margin="0, 8, 0, 0"
-                        DataContext="{Binding}"
-                        Content="{Binding}">
-                <ContentControl.Style>
-                    <Style TargetType="ContentControl">
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Box}">
-                                <Setter Property="ContentTemplate" Value="{StaticResource MeshBoxTemplate}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Sphere}">
-                                <Setter Property="ContentTemplate" Value="{StaticResource MeshSphereTemplate}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Torus}">
-                                <Setter Property="ContentTemplate" Value="{StaticResource MeshTorusTemplate}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Cone}">
-                                <Setter Property="ContentTemplate" Value="{StaticResource MeshConeTemplate}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Cylinder}">
-                                <Setter Property="ContentTemplate" Value="{StaticResource MeshCylinderTemplate}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Plane}">
-                                <Setter Property="ContentTemplate" Value="{StaticResource MeshPlaneTemplate}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ContentControl.Style>
-            </ContentControl>
+        <ContentControl
+            Margin="0, 8, 0, 0"
+            DataContext="{Binding}"
+            Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Box}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource MeshBoxTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Sphere}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource MeshSphereTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Torus}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource MeshTorusTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Cone}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource MeshConeTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Cylinder}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource MeshCylinderTemplate}"/>
+                        </DataTrigger>
+                        <DataTrigger Binding="{Binding MeshTypeSelector.Selection}" Value="{x:Static ViewModels:MeshType.Plane}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource MeshPlaneTemplate}"/>
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
 
-        </StackPanel>
+    </StackPanel>
 
 </UserControl>

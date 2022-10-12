@@ -25,7 +25,7 @@
                     <Image Margin="7" Source="{DynamicResource CubeCol}"/>
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <Border Background="{DynamicResource HighDarkerColor}">
+                    <Border Background="{DynamicResource DarkerColor}">
                         <Managers:ModelEntityManager DataContext="{Binding ModelEntityManager}"/>
                     </Border>
                 </ScrollViewer>
@@ -64,21 +64,15 @@
                 <Views:MaterialManager DataContext="{Binding MaterialManager}"/>
             </TabItem>
 
-            <TabItem>
-                <TabItem.Header>
-                    <Image Margin="6" Source="{DynamicResource Camera}"/>
-                </TabItem.Header>
-                <Managers:CameraManager DataContext="{Binding CameraManager}"/>
-            </TabItem>
 
-            <TabItem>
+            <!--<TabItem>
                 <TabItem.Header>
                     <Image Margin="4" Source="{DynamicResource Beat}"/>
                 </TabItem.Header>
                 <Beat:BeatManager Margin="8" DataContext="{Binding MasterBeatManager}"/>
-            </TabItem>
+            </TabItem>-->
 
-            <TabItem>
+            <!--<TabItem>
                 <TabItem.Header>
                     <Image Margin="5" Source="{DynamicResource MeshLight}"/>
                 </TabItem.Header>
@@ -86,7 +80,7 @@
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <Managers:LightEntityManager DataContext="{Binding LightEntityManager}"/>
                 </ScrollViewer>
-            </TabItem>
+            </TabItem>-->
         </TabControl>
 
     </Border>

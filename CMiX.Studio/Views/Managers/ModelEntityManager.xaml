@@ -30,7 +30,7 @@
         </Border>
 
         <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-            <Views:ModelEntity Margin="0, 8" DataContext="{Binding SelectedItem.Prefab}"/>
+            <Views:ModelEntity DataContext="{Binding SelectedItem.Prefab}"/>
         </Border>
         
     </DockPanel>

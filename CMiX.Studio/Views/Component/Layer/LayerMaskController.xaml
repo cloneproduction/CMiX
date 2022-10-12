@@ -4,20 +4,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="128.333" d:DesignWidth="340.111">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <ObjectDataProvider x:Key="MaskChannel" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="ViewModels:MaskChannel"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
-        </ResourceDictionary>
-    </UserControl.Resources>
 
     <StackPanel>
 
@@ -31,43 +20,20 @@
             Value="{Binding Opacity.Amount}" 
             Caption="Alpha"/>
 
-        <Grid DockPanel.Dock="Top">
+        <BaseControls:ComboBox 
+            Caption="Channel"
+            SelectedItem="{Binding MaskChannelSelector.Selection, Converter={StaticResource EnumToString}}"
+            ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
 
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
+        <BaseControls:ColorSelector 
+            Margin="0, 8"
+            Caption="Background" 
+            Command="{Binding OpenColorSelectorCommand}"/>
 
-            <TextBlock 
-                HorizontalAlignment="Right" 
-                Padding="8, 0" 
-                VerticalAlignment="Center" 
-                Text="Channel"/>
-
-            <ComboBox 
-                Grid.Column="1"
-                DockPanel.Dock="Top"
-                IsSynchronizedWithCurrentItem="True"
-                SelectedValue="{Binding MaskChannelSelector.Selection, Converter={StaticResource EnumToString}}"
-                ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
-        </Grid>
-
-        <Grid DockPanel.Dock="Top" Height="22" Margin="0, 8, 0, 0">
-
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            
-            <TextBlock 
-                HorizontalAlignment="Right" 
-                Padding="8, 0" 
-                VerticalAlignment="Center" 
-                Text="Invert"/>
-            
-            <ToggleButton IsChecked="{Binding Invert.IsChecked}" Margin="1, 0, 0, 0" Grid.Column="1" HorizontalAlignment="Left"/>
-            
-        </Grid>
+        <BaseControls:ToggleButton 
+            IsChecked="{Binding Invert.IsChecked}"
+            Caption="Invert"/>
+        
     </StackPanel>
 
 </UserControl>

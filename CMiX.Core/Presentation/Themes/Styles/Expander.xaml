@@ -332,7 +332,7 @@
                     <Border 
                         x:Name="mainBorder"
                         Height="20"
-                        Background="{DynamicResource HighDarkerColor}" 
+                        Background="{DynamicResource DarkerColor}" 
                         BorderBrush="{DynamicResource DarkerColor}"
                         BorderThickness="0, 0, 0, 1"
                         CornerRadius="2">
@@ -382,7 +382,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Expander}">
                     <Border 
-                        Background="{DynamicResource HighDarkerColor}"
+                        Background="{DynamicResource DarkerColor}"
                         BorderBrush="{DynamicResource Shadow}"
                         BorderThickness="1, 0, 1, 2"
                         CornerRadius="2"

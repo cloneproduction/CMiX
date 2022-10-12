@@ -219,6 +219,9 @@
     <Compile Include="Views\BaseControl\AxisSelector3D.xaml.cs">
       <DependentUpon>AxisSelector3D.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\Button.xaml.cs">
+      <DependentUpon>Button.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BaseControl\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
@@ -320,6 +323,9 @@
     </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml.cs">
       <DependentUpon>Stepper.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Geometry\Transform\Transform.xaml.cs">
+      <DependentUpon>Transform.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\LFOUV.xaml.cs">
       <DependentUpon>LFOUV.xaml</DependentUpon>
@@ -561,6 +567,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\BaseControl\Button.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\BaseControl\ComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -700,6 +710,10 @@
     <Page Include="Resources\DataProviders.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Geometry\Transform\Transform.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Texture\LFOUV.xaml">
       <Generator>MSBuild:Compile</Generator>

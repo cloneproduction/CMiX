@@ -17,7 +17,7 @@
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     IsChecked="{Binding IsEnabled.IsChecked}"/>
-                <TextBlock Text="Ambient Occlusion" Foreground="{DynamicResource TextBase}"/>
+                <TextBlock Text="Ambient Occlusion" Margin="8, 0, 0, 0" Foreground="{DynamicResource TextBase}"/>
             </DockPanel>
         </Expander.Header>
 

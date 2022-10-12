@@ -50,8 +50,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-
-
         private Mesh _mesh;
         public Mesh Mesh
         {
