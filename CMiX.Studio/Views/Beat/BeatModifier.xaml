@@ -19,23 +19,26 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock Text="Beat" Margin="4, 0" Padding="4" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Border BorderThickness="1, 0, 1, 2" Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}">
-                <Views:BeatControls DataContext="{Binding}"/>
-            </Border>
+            <Views:BeatControls  Grid.Column="1" DataContext="{Binding}"/>
         </Grid>
         <Grid Height="22">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <TextBlock Text="Chance To Hit" Margin="2, 0" Padding="4" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Border BorderThickness="1, 0, 1, 2" Grid.Column="1" CornerRadius="4" BorderBrush="{DynamicResource Shadow}">
-                <Controls:CMiXSlider 
-                    Minimum="0" 
-                    Maximum="100" 
-                    Style="{StaticResource CMiXSliderPercentStyle}" 
-                    Value="{Binding ChanceToHit.Amount}"/>
-            </Border>
+            <TextBlock 
+                Text="Chance To Hit" 
+                Margin="2, 0" 
+                Padding="4" 
+                VerticalAlignment="Center" 
+                HorizontalAlignment="Right" />
+
+            <Controls:CMiXSlider 
+                Grid.Column="1"
+                Minimum="0" 
+                Maximum="100" 
+                Style="{StaticResource CMiXSliderPercentStyle}" 
+                Value="{Binding ChanceToHit.Amount}"/>
         </Grid>
     </StackPanel>
 </UserControl>

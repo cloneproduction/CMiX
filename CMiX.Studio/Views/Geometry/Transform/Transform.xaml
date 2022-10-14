@@ -11,7 +11,7 @@
 
     <StackPanel>
 
-        <Expander Header="Transform SRT" IsExpanded="True">
+        <!--<Expander Header="Transform SRT" IsExpanded="True">
             <StackPanel Margin="8">
 
                 <BaseControls:DragValue 
@@ -42,18 +42,48 @@
                                 Z="{Binding Z.Amount}"/>
 
             </StackPanel>
-        </Expander>
+        </Expander>-->
 
         <Expander>
             <Expander.Header>
                 <DockPanel>
                     <ToggleButton
-                                    x:Name="ModifierEnabled"
-                                    IsChecked="{Binding SelectedItem.Prefab.TransformModifier.Visibility.IsChecked}"/>
+                        x:Name="ModifierEnabled"
+                        IsChecked="{Binding SelectedItem.Prefab.TransformModifier.Visibility.IsChecked}"/>
                     <TextBlock Text="Modifiers" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                 </DockPanel>
             </Expander.Header>
-            <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
+
+            <StackPanel>
+
+                <Grid DockPanel.Dock="Left" Margin="8" Height="20">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox
+                        Grid.Column="0"
+                        DockPanel.Dock="Bottom" 
+                        SelectedValue="{Binding Mesh}"
+                        SelectedValuePath="Prefab"
+                        ItemsSource="{Binding CompositionService.TransformManager.Prefabs}">
+                        <ComboBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <TextBlock Text="{Binding Name}"/>
+                            </ItemContainerTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+                    <Button
+                        Grid.Column="2" 
+                        Margin="1, 0, 0, 0" 
+                        DockPanel.Dock="Right" 
+                        Width="20"
+                        Content="+"
+                        Command="{Binding CompositionService.TransformManager.AddItemCommand}"/>
+                </Grid>
+                <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
+            </StackPanel>
+
         </Expander>
 
     </StackPanel>

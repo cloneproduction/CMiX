@@ -7,6 +7,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="453.334"
     d:DesignWidth="340.667"
     mc:Ignorable="d">
@@ -19,7 +20,7 @@
             SelectedItem="{Binding ProceduralSelector.ProceduralName.Selection, Converter={StaticResource EnumToString}}"
             ItemsSource="{Binding Source={StaticResource TextureSourceName}}"/>
 
-        <Expander Header="Settings">
+        <Panels:IndentedExpander Header="Settings" Indentation="24">
             <Grid Margin="8">
 
                 <Border>
@@ -145,15 +146,15 @@
 
                 </Border>
             </Grid>
-        </Expander>
+        </Panels:IndentedExpander>
 
-        <Expander Header="Transform">
+        <Panels:IndentedExpander Indentation="24" Header="Transform UV">
             <Views:TransformUV Margin="8"/>
-        </Expander>
+        </Panels:IndentedExpander>
 
-        <Expander Header="Filter" IsExpanded="True">
+        <Panels:IndentedExpander Indentation="24" Header="Filter" IsExpanded="True">
             <Views:TextureFilter DataContext="{Binding TextureModifierManager}"/>
-        </Expander>
+        </Panels:IndentedExpander>
 
     </StackPanel>
 

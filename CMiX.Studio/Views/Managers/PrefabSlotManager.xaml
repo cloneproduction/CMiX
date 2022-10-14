@@ -30,10 +30,12 @@
                 </ListBox>
             </Grid>
 
-            <Grid>
+            <Grid Margin="8, 0, 8, 16" >
+
                 <ComboBox 
                     x:Name="EntityCombobox"
-                    Margin="8, 0, 8, 16" 
+                    Height="22"
+
                     DockPanel.Dock="Bottom"
                     ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
                     SelectedItem="{Binding SelectedItem.Prefab}">
@@ -66,8 +68,21 @@
                     </ComboBox.ItemTemplate>
 
                 </ComboBox>
+                <Button Height="22" Command="{Binding AddItemCommand}" Content="New">
+                    <Button.Style>
+                        <Style TargetType="{x:Type Button}">
+                            <Style.Triggers>
+                                <MultiDataTrigger>
+                                    <MultiDataTrigger.Conditions>
+                                        <Condition Binding="{Binding ElementName=EntityListBox, Path=HasItems}" Value="True" />
+                                    </MultiDataTrigger.Conditions>
+                                    <Setter Property="Visibility" Value="Collapsed" />
+                                </MultiDataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Button.Style>
+                </Button>
             </Grid>
-
 
         </StackPanel>
     </Border>

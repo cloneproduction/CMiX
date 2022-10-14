@@ -6,94 +6,111 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Styles/Border.xaml"/>
     </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type ToggleButton}">
+        <Setter Property="Background" Value="{DynamicResource Color}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
+        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    
+                    <Border
+                        x:Name="border"
+                        CornerRadius="{TemplateBinding Border.CornerRadius}"
+                        Background="{TemplateBinding Background}"
+                        HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                        VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                        SnapsToDevicePixels="True">
+                        <ContentPresenter 
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                            Content="{TemplateBinding Content}"/>
+                    </Border>
+                    
+                    <ControlTemplate.Triggers>
+                        
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="true" />
+                                <Condition Property="IsMouseOver" Value="false" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+                        
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="true" />
+                                <Condition Property="IsMouseOver" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="false" />
+                                <Condition Property="IsMouseOver" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsPressed" Value="true" />
+                                <Condition Property="IsChecked" Value="true" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsPressed" Value="true" />
+                                <Condition Property="IsChecked" Value="false" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRounded" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Border.CornerRadius" Value="2" />
+    </Style>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRoundedRight" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Border.CornerRadius" Value="0, 2, 2, 0" />
+    </Style>
+
+    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRoundedLeft" BasedOn="{StaticResource {x:Type ToggleButton}}">
+        <Setter Property="Border.CornerRadius" Value="2, 0, 0, 2" />
+    </Style>
     
-    <ControlTemplate x:Key="DefaultToggleButtonTemplate" TargetType="{x:Type ToggleButton}">
-        <DockPanel>
-            <Border x:Name="border"
-                    DockPanel.Dock="Right"
-                    Height="15"
-                    Width="15"
-                    BorderBrush="{DynamicResource Shadow}"
-                    BorderThickness="1, 0, 1, 2"
-                    CornerRadius="2"
-                    Padding="2"
-                    Background="{TemplateBinding Background}"
-                    SnapsToDevicePixels="True">
-                <Image x:Name="Path" Opacity="0.75" Source="{DynamicResource IsChecked}"/>
-            </Border>
-        </DockPanel>
-
-        <ControlTemplate.Triggers>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsChecked" Value="true" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource Accent}" />
-                    <Setter TargetName="Path" Property="Visibility" Value="Visible"/>
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsChecked" Value="false" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-                    <Setter TargetName="Path" Property="Visibility" Value="Hidden"/>
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsChecked" Value="true" />
-                    <Condition Property="IsMouseOver" Value="true" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource AccentLight1}" />
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsChecked" Value="false" />
-                    <Condition Property="IsMouseOver" Value="true" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource Color}" />
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsPressed" Value="true" />
-                    <Condition Property="IsChecked" Value="true" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource HighLightColor}" />
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-            <MultiTrigger>
-                <MultiTrigger.Conditions>
-                    <Condition Property="IsPressed" Value="true" />
-                    <Condition Property="IsChecked" Value="false" />
-                </MultiTrigger.Conditions>
-                <MultiTrigger.Setters>
-                    <Setter Property="Background" Value="{DynamicResource HighLightColor}" />
-                </MultiTrigger.Setters>
-            </MultiTrigger>
-        </ControlTemplate.Triggers>
-    </ControlTemplate>
+    
 
     <ControlTemplate x:Key="CMiXToggleButtonTemplate" TargetType="{x:Type Controls:CMiXToggleButton}">
         <DockPanel>
             <Border x:Name="border"
                     Height="15" Width="15"
-                    CornerRadius="2"
                     Padding="2"
                     Background="{DynamicResource DarkColor}"
-                    BorderBrush="{DynamicResource Shadow}"
-                    BorderThickness="1, 0, 1, 2"
                     SnapsToDevicePixels="True">
-                <Border.Style>
+                <!--<Border.Style>
                     <Style BasedOn="{StaticResource BorderShadow}" TargetType="{x:Type Border}">
                         <Setter Property="DockPanel.Dock" Value="Right"/>
                         <Style.Triggers>
@@ -108,7 +125,7 @@
 
                         </Style.Triggers>
                     </Style>
-                </Border.Style>
+                </Border.Style>-->
                 <Image x:Name="Path" 
                        Opacity="0.75" 
                        Source="{DynamicResource IsChecked}"/>
@@ -191,13 +208,7 @@
         </ControlTemplate.Triggers>
     </ControlTemplate>
 
-    <Style TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource Color}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template" Value="{StaticResource DefaultToggleButtonTemplate }"/>
-    </Style>
+
 
     <Style x:Key="CMiXToggleButtonStyle" TargetType="{x:Type Controls:CMiXToggleButton}">
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -275,9 +286,6 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="border"
-                        CornerRadius="2"
-                        BorderBrush="{DynamicResource Shadow}"
-                        BorderThickness="1, 0, 1, 2"
                         Background="{DynamicResource DarkerColor}"
                         SnapsToDevicePixels="True">
                         <DockPanel>
@@ -310,7 +318,6 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="border" Property="CornerRadius" Value="2, 2, 0, 0"/>
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}"/>
                             <Setter TargetName="arrow" Property="Opacity" Value="1.0"/>
                         </MultiTrigger>
@@ -342,7 +349,6 @@
                         x:Name="border"
                         Padding="4"
                         Background="Transparent"
-                        CornerRadius="0, 2, 2, 0"
                         SnapsToDevicePixels="True">
                         <Image x:Name="icon" Source="{DynamicResource NotVisible}"/>
                     </Border>
@@ -411,8 +417,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="radioButtonBorder" 
-                            Background="{DynamicResource DarkColor}"
-                            CornerRadius="2, 0, 0, 2">
+                            Background="{DynamicResource DarkColor}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
@@ -465,8 +470,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="radioButtonBorder" 
-                            Background="{DynamicResource DarkColor}"
-                            CornerRadius="0, 2, 2, 0">
+                            Background="{DynamicResource DarkColor}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 
@@ -519,8 +523,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border x:Name="radioButtonBorder" 
-                            Background="{DynamicResource DarkColor}"
-                            CornerRadius="0">
+                            Background="{DynamicResource DarkColor}">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
 

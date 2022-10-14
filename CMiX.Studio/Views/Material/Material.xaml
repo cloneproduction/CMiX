@@ -4,13 +4,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:System="clr-namespace:System;assembly=mscorlib"
-    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
-    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-    xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     md:DialogServiceViews.IsRegistered="True"
     d:DesignHeight="749.181"
     d:DesignWidth="282.55"
@@ -31,21 +30,20 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <Expander Header="Texture" IsExpanded="True">
+        <Panels:IndentedExpander Header="Texture" Indentation="16">
             <Views:Texture DataContext="{Binding Texture}"/>
-        </Expander>
+        </Panels:IndentedExpander>
 
-        <Expander RequestBringIntoView="Expander_RequestBringIntoView" IsExpanded="{Binding Mask.IsExpanded}">
-            <Expander.Header>
+        <Panels:IndentedExpander IsExpanded="{Binding Mask.IsExpanded}" Indentation="16">
+            <Panels:IndentedExpander.Header>
                 <DockPanel>
                     <ToggleButton
-                            x:Name="MaskEnabled"
                             HorizontalAlignment="Left"
                             VerticalAlignment="Center"
                             IsChecked="{Binding Mask.IsEnabled.IsChecked}"/>
                     <TextBlock Text="Mask" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                 </DockPanel>
-            </Expander.Header>
+            </Panels:IndentedExpander.Header>
 
             <StackPanel >
                 <StackPanel Margin="8">
@@ -64,10 +62,31 @@
                 <Views:Texture DataContext="{Binding Mask}"/>
 
             </StackPanel>
-        </Expander>
-        <Expander Header="Surface" IsExpanded="False">
+        </Panels:IndentedExpander>
+        <Panels:IndentedExpander Header="Surface" IsExpanded="True" Indentation="16">
             <StackPanel Margin="8">
 
+                <Grid Margin="0, 0, 0, 8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock 
+                        Text="Base Color" 
+                        HorizontalAlignment="Right" Padding="4, 0"
+                        VerticalAlignment="Center"/>
+                    <Border Grid.Column="1">
+                        <Button Height="22"
+                            Margin="0"
+                            Command="{Binding OpenColorSelectorCommand}"
+                            Style="{StaticResource ButtonColorStyle}">
+                            <Button.Background>
+                                <SolidColorBrush Color="{Binding ColorSelector.SelectedColor}"/>
+                            </Button.Background>
+                        </Button>
+                    </Border>
+                </Grid>
+                
                 <Controls:CMiXSlider 
                 Height="22"
                 Grid.Column="2" 
@@ -163,7 +182,7 @@
                 </Controls:CMiXSlider>
 
             </StackPanel>
-        </Expander>
+        </Panels:IndentedExpander>
     </StackPanel>
 
 </UserControl>

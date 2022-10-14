@@ -11,29 +11,33 @@
     <Border Background="{DynamicResource SuperHighDarkerColor}">
         <DockPanel Grid.Row="0">
 
-            <Border Margin="0, 0, 0, 2" DockPanel.Dock="Bottom" Background="{DynamicResource DarkerColor}" >
+            <Border 
+                Margin="0, 0, 0, 2" 
+                DockPanel.Dock="Bottom" 
+                Background="{DynamicResource DarkerColor}">
+                
                 <DockPanel LastChildFill="False">
 
                     <Button 
+                        Background="Transparent"
+                        Style="{StaticResource ButtonRounded}"
                         Command="{Binding AddItemCommand}"
                         CommandParameter="{x:Type Components:Layer}"
                         Margin="4"
-                        Height="22"
-                        Style="{StaticResource ButtonImage}">
-                        
+                        Height="20">
                         <Button.Content>
                             <Image Margin="16" Source="{DynamicResource Add}"/>
                         </Button.Content>
-                        
                     </Button>
 
-                    <Button Grid.Column="1" 
+                    <Button
+                        Style="{StaticResource ButtonRounded}"
+                        Background="Transparent"
                         DockPanel.Dock="Right"
                         Margin="4"
-                        Height="22"
+                        Height="20"
                         Command="{Binding DeleteItemCommand}"
-                        CommandParameter="{Binding SelectedItem}"
-                        Style="{StaticResource ButtonImage}">
+                        CommandParameter="{Binding SelectedItem}">
                         
                         <Button.Content>
                             <Image Margin="16" Source="{DynamicResource DeleteLayer}"/>

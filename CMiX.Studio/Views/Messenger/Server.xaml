@@ -14,10 +14,9 @@
         <Expander Header="Settings" >
             <StackPanel Margin="8">
                 <Button 
-                        Height="25"
-                        Content="Edit"
-                        Style="{StaticResource ButtonRounded}"
-                        Command="{Binding EditSettingsCommand}"/>
+                    Height="25"
+                    Content="Edit"
+                    Command="{Binding EditSettingsCommand}"/>
                 <Grid Height="25" Margin="0, 1">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="0.4*"/>
@@ -70,8 +69,7 @@
                     Height="25"
                     Content =" Resync"
                     Command="{Binding RequestProjectReSyncCommand}"
-                    CommandParameter="{Binding DataContext.CurrentProject, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"
-                    Style="{DynamicResource ButtonRounded}"/>
+                    CommandParameter="{Binding DataContext.CurrentProject, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
             </StackPanel>
         </Expander>
 

@@ -39,7 +39,6 @@
                     </Grid.ColumnDefinitions>
                     <Button 
                         Grid.Column="0"
-                        Style="{StaticResource ButtonRounded}"
                         Margin="4"
                         Content="Save"
                         Command="{Binding SaveCommand}"
@@ -47,14 +46,12 @@
                     <Button 
                         Grid.Column="1"
                         Margin="4"
-                        Style="{StaticResource ButtonRounded}"
                         Content="Don't Save"
                         Command="{Binding DontSaveCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>
                     <Button 
                         Grid.Column="2"
                         Margin="4"
-                        Style="{StaticResource ButtonRounded}"
                         Content="Cancel"
                         Command="{Binding CancelCommand}"
                         CommandParameter="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"/>

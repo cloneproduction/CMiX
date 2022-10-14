@@ -13,14 +13,12 @@
         <DockPanel Height="30">
             
             <Button
-                Style="{StaticResource ButtonRounded}"
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="{Binding Resync.ResyncCommand}"
                 Content="Rc"
                 DockPanel.Dock="Right"/>
             
             <Button
-                Style="{StaticResource ButtonRounded}"
                 Margin="4, 0"
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="{Binding MultiplyCommand}"
@@ -28,7 +26,6 @@
                 DockPanel.Dock="Right"/>
             
             <Button
-                Style="{StaticResource ButtonRounded}"
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Command="{Binding DivideCommand}"
                 Content="-"
@@ -47,8 +44,6 @@
                     <Border 
                         Background="{DynamicResource LightColor}" 
                         BorderBrush="{DynamicResource HighHighDarkerColor}" 
-                        BorderThickness="1, 0, 1, 2" 
-                        CornerRadius="4" 
                         Opacity="{Binding AnimatedDouble.AnimationPosition}"/>
                     <TextBlock 
                         HorizontalAlignment="Center" 
@@ -63,7 +58,6 @@
         <Button
             Height="30"
             Margin="0, 4, 0, 0"
-            Style="{StaticResource ButtonRounded}"
             VerticalAlignment="Stretch"
             HorizontalAlignment="Stretch"
             Command="{Binding TapCommand}"

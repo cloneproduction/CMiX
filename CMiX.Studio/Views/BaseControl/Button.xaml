@@ -17,7 +17,7 @@
                 HorizontalAlignment="Right" Padding="4, 0"
                 VerticalAlignment="Center"/>
         <Border Grid.Column="1">
-            <Button Command="{Binding Command, ElementName=button}" Style="{StaticResource ButtonRounded}"/>
+            <Button Command="{Binding Command, ElementName=button}"/>
         </Border>
     </Grid>
 </UserControl>

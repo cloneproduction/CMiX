@@ -20,7 +20,7 @@
                         ItemsSource="{Binding Path=DataContext.Project.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
                         DataContext="{Binding ModelEntityManager}"/>
 
-                    <Views:ModelEntity DataContext="{Binding ModelEntityManager.SelectedItem.Transform}"/>
+                    <Views:ModelEntity DataContext="{Binding ModelEntityManager.SelectedItem.Prefab}"/>
                     <!--<Border>
 
                         <Border.Style>

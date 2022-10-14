@@ -1,0 +1,23 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.Panels.IndentedExpander"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:AttachedProperties="clr-namespace:CMiX.Core.Themes.AttachedProperties;assembly=CMiX.Core"
+             mc:Ignorable="d" 
+             x:Name="indentedExpander"
+             d:DesignHeight="33.777" d:DesignWidth="302.222">
+
+    <UserControl.ContentTemplate>
+        <DataTemplate>
+            <Expander 
+                IsExpanded="{Binding IsExpanded, ElementName=indentedExpander}"
+                Header="{Binding Header, ElementName=indentedExpander}"
+                Style="{StaticResource IndentedExpanderStyle}" 
+                AttachedProperties:ExpanderIndentation.Indentation="{Binding Indentation, ElementName=indentedExpander, Converter={StaticResource Indentation}}">
+                <ContentPresenter Content="{Binding Content, ElementName=indentedExpander}" />
+            </Expander>
+        </DataTemplate>
+    </UserControl.ContentTemplate>
+    
+</UserControl>

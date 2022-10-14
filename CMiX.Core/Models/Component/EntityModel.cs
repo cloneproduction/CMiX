@@ -40,5 +40,6 @@ namespace CMiX.Core.Models
         public bool IsVisible { get; set; }
 
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }
+        public IModel TransformSRT { get; internal set; }
     }
 }

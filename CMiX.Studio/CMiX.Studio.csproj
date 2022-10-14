@@ -231,6 +231,9 @@
     <Compile Include="Views\BaseControl\DragValue.xaml.cs">
       <DependentUpon>DragValue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\Panels\IndentedExpander.xaml.cs">
+      <DependentUpon>IndentedExpander.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\BaseControl\Panels\ModifierPanel.xaml.cs">
       <DependentUpon>ModifierPanel.xaml</DependentUpon>
     </Compile>
@@ -580,6 +583,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BaseControl\DragValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\Panels\IndentedExpander.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
