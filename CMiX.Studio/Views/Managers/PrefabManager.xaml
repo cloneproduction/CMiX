@@ -20,7 +20,6 @@
 
                 <ListBox 
                     x:Name="EntityListBox"
-                    Style="{StaticResource ListBoxWithButton}"
                     DataContext="{Binding }"
                     Grid.Row="3" 
                     ItemsSource="{Binding Prefabs}"

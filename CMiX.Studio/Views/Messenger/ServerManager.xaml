@@ -37,7 +37,6 @@
                     SelectedItem="{Binding SelectedServer}"
                     Height="125"
                     DockPanel.Dock="Top"
-                    Style="{StaticResource ListBoxWithButton}"
                     ItemsSource="{Binding Servers}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>

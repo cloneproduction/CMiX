@@ -443,6 +443,7 @@
 
 
     <Style x:Key="TabItemLayerPanel" TargetType="{x:Type TabItem}">
+        <Setter Property="Background" Value="{DynamicResource DarkerColor}"/>
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -452,15 +453,14 @@
 
                     <Border
                         x:Name="mainBorder"
-                        Width="22"
+                        BorderThickness="1"
+                        BorderBrush="{DynamicResource Color}"
                         Height="22"
                         Padding="4"
                         Margin="2, 0, 0, 0"
                         VerticalAlignment="Center"
                         CornerRadius="2"
-                        BorderBrush="{DynamicResource Shadow}"
-                        BorderThickness="1, 0, 1, 2"
-                        Background="{DynamicResource DarkerColor}">
+                        Background="{TemplateBinding Background}">
 
                         <ContentPresenter
                             x:Name="contentPresenter"
@@ -503,7 +503,6 @@
         <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemLayerPanel}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource HighDarkerColor}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -518,7 +517,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <Border Margin="0" Padding="4" BorderThickness="0, 0, 0, 1" BorderBrush="{DynamicResource PanelBackground}">
+                        <Border Margin="0" Padding="4">
                             <DockPanel>
                                 <TextBlock VerticalAlignment="Center" Margin="8, 0" Text="{Binding Name}"/>
                                 <StackPanel
@@ -540,6 +539,7 @@
                             KeyboardNavigation.DirectionalNavigation="Contained"
                             KeyboardNavigation.TabIndex="2"
                             KeyboardNavigation.TabNavigation="Local">
+
                             <ContentPresenter                            
                                 x:Name="PART_SelectedContentHost"
                                 Content="{TemplateBinding SelectedContent}"
@@ -547,13 +547,9 @@
                                 ContentStringFormat="{TemplateBinding SelectedContentStringFormat}"
                                 ContentTemplate="{TemplateBinding SelectedContentTemplate}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+
                         </Border>
                     </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

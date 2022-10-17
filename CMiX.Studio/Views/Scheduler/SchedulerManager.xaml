@@ -18,7 +18,6 @@
             <ListBox
                 Margin="8"
                 MaxHeight="100"
-                Style="{StaticResource ListBoxWithButton}"
                 ItemsSource="{Binding CompositionSchedulers}"
                 SelectedItem="{Binding SelectedScheduler}"
                 SelectedIndex="{Binding SelectedSchedulerIndex}">

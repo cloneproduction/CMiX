@@ -9,35 +9,74 @@
 
     <Border Background="{DynamicResource HighDarkerColor}">
         <StackPanel>
-            <Grid Height="100" Margin="8, 16, 8, 8">
+            <DockPanel HorizontalAlignment="Stretch">
+
+                <DockPanel 
+                    LastChildFill="False"
+                        Margin="4, 0, 0, 0" 
+                        DockPanel.Dock="Right">
+
+                    <Button 
+                        DockPanel.Dock="Top"
+                            Height="20"
+                            Content="+" 
+                            Style="{StaticResource ButtonRoundedTop}"
+                            Command="{Binding AddEmptyItemCommand}"/>
+
+                    <Button 
+                        DockPanel.Dock="Top"
+                            x:Name="deleteItemButton"
+                            Height="20"
+                            Content="-"
+                            Margin="0, 1, 0, 0"
+                            Style="{StaticResource ButtonRoundedBottom}"
+                            Command="{Binding DeleteItemCommand}"
+                            CommandParameter="{Binding SelectedItem}"/>
+
+                    <Button 
+                            x:Name="moveItemDownButton"
+                        DockPanel.Dock="Bottom"
+                            Height="20"
+                            Width="21"
+                            Style="{StaticResource ButtonRoundedBottom}"
+                            Padding="8"
+                            Command="{Binding ItemDownCommand}">
+                        <Button.Content>
+                            <Image Source="{DynamicResource ArrowDown}" Margin="20" Opacity="0.7"/>
+                        </Button.Content>
+                    </Button>
+                    
+                    <Button 
+                            x:Name="moveItemUpButton"
+                            DockPanel.Dock="Bottom"
+                            Height="20"
+                            Margin="0, 0, 0, 1"
+                            Style="{StaticResource ButtonRoundedTop}"
+                            Command="{Binding ItemUpCommand}">
+                        <Button.Content>
+                            <Image Source="{DynamicResource ArrowUp}" Margin="20" Opacity="0.7"/>
+                        </Button.Content>
+                    </Button>
+
+                </DockPanel>
 
                 <ListBox 
-                    x:Name="EntityListBox"
-                    Style="{StaticResource ListBoxSlotWithButton}"
+                    x:Name="prefabListBox"
+                    Height="100" 
                     DataContext="{Binding }"
                     Grid.Row="3" 
                     ItemsSource="{Binding Prefabs}"
-                    SelectedItem="{Binding SelectedItem}">
+                    SelectedItem="{Binding SelectedItem}"/>
 
-                    <ListBox.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <Border Height="20">
-                                <TextBlock Padding="4" Text="{Binding Name}"/>
-                            </Border>
-                        </ItemContainerTemplate>
-                    </ListBox.ItemTemplate>
+            </DockPanel>
 
-                </ListBox>
-            </Grid>
 
-            <Grid Margin="8, 0, 8, 16" >
-
+            <Grid Margin="0, 8, 0, 0" >
                 <ComboBox 
-                    x:Name="EntityCombobox"
+                    x:Name="prefabCombobox"
                     Height="22"
-
                     DockPanel.Dock="Bottom"
-                    ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
+                    ItemsSource="{Binding Prefabs}"
                     SelectedItem="{Binding SelectedItem.Prefab}">
 
                     <ComboBox.Style>
@@ -45,13 +84,13 @@
                             <Style.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding ElementName=EntityCombobox, Path=HasItems}" Value="False" />
+                                        <Condition Binding="{Binding ElementName=prefabCombobox, Path=HasItems}" Value="False" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="False" />
                                 </MultiDataTrigger>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding ElementName=EntityListBox, Path=HasItems}" Value="False" />
+                                        <Condition Binding="{Binding ElementName=prefabListBox, Path=HasItems}" Value="False" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="IsEnabled" Value="False" />
                                 </MultiDataTrigger>
@@ -70,11 +109,11 @@
                 </ComboBox>
                 <Button Height="22" Command="{Binding AddItemCommand}" Content="New">
                     <Button.Style>
-                        <Style TargetType="{x:Type Button}">
+                        <Style TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
                             <Style.Triggers>
                                 <MultiDataTrigger>
                                     <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding ElementName=EntityListBox, Path=HasItems}" Value="True" />
+                                        <Condition Binding="{Binding ElementName=prefabListBox, Path=HasItems}" Value="True" />
                                     </MultiDataTrigger.Conditions>
                                     <Setter Property="Visibility" Value="Collapsed" />
                                 </MultiDataTrigger>

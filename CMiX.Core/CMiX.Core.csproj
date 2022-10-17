@@ -93,6 +93,15 @@
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="SharpDX, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.4.2.0\lib\net45\SharpDX.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.Direct3D11, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.Direct3D11.4.2.0\lib\net45\SharpDX.Direct3D11.dll</HintPath>
+    </Reference>
+    <Reference Include="SharpDX.DXGI, Version=4.2.0.0, Culture=neutral, PublicKeyToken=b4dcf0f35e5521f1, processorArchitecture=MSIL">
+      <HintPath>..\packages\SharpDX.DXGI.4.2.0\lib\net45\SharpDX.DXGI.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
@@ -281,7 +290,9 @@
     <Compile Include="Models\Range\IRangeModel.cs" />
     <Compile Include="Models\Range\RangeModel.cs" />
     <Compile Include="Presentation\Extensions\DependencyObjectExtensions.cs" />
+    <Compile Include="Presentation\Themes\AttachedProperties\PositionedCornerRadius.cs" />
     <Compile Include="Presentation\Themes\AttachedProperties\ExpanderIndentation.cs" />
+    <Compile Include="Presentation\Themes\AttachedProperties\RoundedPosition.cs" />
     <Compile Include="Presentation\ValueConverters\FontFamilyToStringConverter.cs" />
     <Compile Include="Presentation\ValueConverters\AltBackgroundConverter.cs" />
     <Compile Include="Presentation\ValueConverters\AlwaysVisibleConverter.cs" />
@@ -1068,6 +1079,8 @@
     <Resource Include="Presentation\Themes\Assets\Transform3D.png" />
     <Resource Include="Presentation\Themes\Assets\Camera.png" />
     <Resource Include="Presentation\Themes\Assets\Beat.png" />
+    <Resource Include="Presentation\Themes\Assets\Arrow_Left.png" />
+    <Resource Include="Presentation\Themes\Assets\Arrow_Right.png" />
     <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup />

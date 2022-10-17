@@ -23,13 +23,36 @@
                         Style="{StaticResource ButtonRounded}"
                         Command="{Binding AddItemCommand}"
                         CommandParameter="{x:Type Components:Layer}"
-                        Margin="4"
+                        Margin="2"
                         Height="20">
                         <Button.Content>
-                            <Image Margin="16" Source="{DynamicResource Add}"/>
+                            <Image Margin="20" Opacity="0.7" Source="{DynamicResource Add}"/>
+                        </Button.Content>
+                    </Button>
+                    
+                    
+                    <Button 
+                        Background="Transparent"
+                        Style="{StaticResource ButtonRounded}"
+                        Command="{Binding ItemUpCommand}"
+                        Margin="2"
+                        Height="20">
+                        <Button.Content>
+                            <Image Margin="16" Opacity="0.7" Source="{DynamicResource ArrowUp}"/>
                         </Button.Content>
                     </Button>
 
+                    <Button 
+                        Background="Transparent"
+                        Style="{StaticResource ButtonRounded}"
+                        Command="{Binding ItemDownCommand}"
+                        Margin="2"
+                        Height="20">
+                        <Button.Content>
+                            <Image Margin="16" Opacity="0.7" Source="{DynamicResource ArrowDown}"/>
+                        </Button.Content>
+                    </Button>
+                    
                     <Button
                         Style="{StaticResource ButtonRounded}"
                         Background="Transparent"
@@ -40,7 +63,7 @@
                         CommandParameter="{Binding SelectedItem}">
                         
                         <Button.Content>
-                            <Image Margin="16" Source="{DynamicResource DeleteLayer}"/>
+                            <Image Margin="20" Opacity="0.7" Source="{DynamicResource DeleteLayer}"/>
                         </Button.Content>
                         
                     </Button>

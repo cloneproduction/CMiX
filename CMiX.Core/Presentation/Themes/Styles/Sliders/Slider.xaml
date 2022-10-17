@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls"
-                    xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters">
+                    xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters"
+                    xmlns:AttachedProperties="clr-namespace:CMiX.Core.Presentation.Themes.AttachedProperties">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Basic/Converters.xaml"/>
@@ -40,13 +41,14 @@
 
     <Style x:Key="RepeatButtonDecrease" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
+
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="{DynamicResource AccentInactive}" />
+                    <Border x:Name="border" Background="{DynamicResource AccentInactive}"/>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -198,11 +200,11 @@
                     
                     <Border x:Name="border" Background="{DynamicResource SuperHighDarkerColor}">
                         <ScrollViewer x:Name="PART_ContentHost"
-                            Focusable="False"
-                            VerticalAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            HorizontalScrollBarVisibility="Hidden"
-                            VerticalScrollBarVisibility="Hidden" />
+                                    Focusable="False"
+                                    VerticalAlignment="Center"
+                                    VerticalContentAlignment="Center"
+                                    HorizontalScrollBarVisibility="Hidden"
+                                    VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     
                     <ControlTemplate.Triggers>
@@ -223,20 +225,82 @@
     </Style>
 
 
-    <Style x:Key="CMiXSliderStyle" TargetType="{x:Type Controls:CMiXSlider}">
+
+    <Style x:Key="BorderMask" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{DynamicResource DarkerColor}"/>
+        <Setter Property="CornerRadius" Value="0"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="All">
+                <Setter Property="CornerRadius" Value="16"/>
+            </DataTrigger>
+
+            <DataTrigger  Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Middle">
+                <Setter Property="CornerRadius" Value="0"/>
+            </DataTrigger>
+
+            <DataTrigger Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Default">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusDefault}"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+    
+    
+    <Style TargetType="{x:Type Controls:CMiXSlider}">
         <Setter Property="Height" Value="20"/>
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
+        <Setter Property="HorizontalContentAlignment" Value="Right"/>
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All"/>
+        <Setter Property="Caption" Value=""/>
         <Setter Property="Template">
             <Setter.Value>
+                
                 <ControlTemplate TargetType="{x:Type Controls:CMiXSlider}">
-                    <Border x:Name="mainBorder" 
-                            Height="20"
-                            SnapsToDevicePixels="True" >
+
+                    <Border x:Name="mainBorder" SnapsToDevicePixels="True">
                         <Grid>
+                            <Border x:Name="borderMask">
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="Background" Value="{DynamicResource DarkerColor}"/>
+                                        <Setter Property="CornerRadius" Value="0"/>
+                                        <Style.Triggers>
+                                            
+                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="All">
+                                                <Setter Property="CornerRadius" Value="2"/>
+                                            </DataTrigger>
 
+                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
+                                                <Setter Property="CornerRadius" Value="0, 0, 2, 2"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
+                                                <Setter Property="CornerRadius" Value="2, 2, 0, 0"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
+                                                <Setter Property="CornerRadius" Value="2, 0, 0, 2"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
+                                                <Setter Property="CornerRadius" Value="0, 2, 2, 0"/>
+                                            </DataTrigger>
+
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                            </Border>
+
+                            
                             <Border x:Name="sliderBorder" Background="Transparent">
-
                                 <Border.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                                 </Border.OpacityMask>
@@ -244,41 +308,38 @@
                                 <Track>
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton
-                                            x:Name="RBD"
-                                            Command="{x:Static Slider.DecreaseLarge}"
-                                            Style="{StaticResource RepeatButtonDecrease}" />
+                                        x:Name="RBD"
+                                        Command="{x:Static Slider.DecreaseLarge}"
+                                        Style="{StaticResource RepeatButtonDecrease}" />
                                     </Track.DecreaseRepeatButton>
                                     <Track.IncreaseRepeatButton>
                                         <RepeatButton
-                                            x:Name="RBI"
-                                            Command="{x:Static Slider.IncreaseLarge}"
-                                            Style="{StaticResource RepeatButtonIncrease}" />
+                                        x:Name="RBI"
+                                        Command="{x:Static Slider.IncreaseLarge}"
+                                        Style="{StaticResource RepeatButtonIncrease}" />
                                     </Track.IncreaseRepeatButton>
                                 </Track>
-                                
+
                             </Border>
 
                             <TextBlock x:Name="sliderName"
                                         VerticalAlignment="Center" 
                                         HorizontalAlignment="Left"
-                                        Text="{Binding Path=Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" 
+                                        Text="{TemplateBinding Caption}" 
                                         Padding="8, 0" 
                                         IsHitTestVisible="False"/>
 
                             <Label x:Name="textDisplay" 
                                     Padding="0, 0, 8, 0"
                                     VerticalAlignment="Center"
-                                    HorizontalAlignment="Right"
-                                    Content="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"/>
+                                    HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                    ContentStringFormat="{}{0:0.000}"
+                                    Content="{TemplateBinding Value}"/>
 
                             <TextBox x:Name="textInput" 
-                                     Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
+                                     Height="{TemplateBinding ActualHeight}"
                                      Style="{StaticResource SliderTextBox}"
-                                     Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=LostFocus, RelativeSource={RelativeSource TemplatedParent}}">
-                                <TextBox.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=borderMask}"/>
-                                </TextBox.OpacityMask>
-                            </TextBox>
+                                     Text="{TemplateBinding Value, Converter={StaticResource DoubleToString}}"/>
 
                         </Grid>
                     </Border>
@@ -313,93 +374,30 @@
         </Setter>
     </Style>
 
-    
-    <Style x:Key="CMiXSliderPercentStyle" TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="Height" Value="20"/>
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Slider}">
-                    <Border x:Name="mainBorder" SnapsToDevicePixels="True">
-                        <Grid>
-                            <Border x:Name="borderMask" 
-                                    Style="{DynamicResource BorderMask}"/>
-                            <Border x:Name="sliderBorder" Background="Transparent">
-                                
-                                <Border.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=borderMask}"/>
-                                </Border.OpacityMask>
-
-                                <Track>
-                                    <Track.DecreaseRepeatButton>
-                                        <RepeatButton
-                                        x:Name="RBD"
-                                        Command="{x:Static Slider.DecreaseLarge}"
-                                        Style="{StaticResource RepeatButtonDecrease}" />
-                                    </Track.DecreaseRepeatButton>
-                                    <Track.IncreaseRepeatButton>
-                                        <RepeatButton
-                                        x:Name="RBI"
-                                        Command="{x:Static Slider.IncreaseLarge}"
-                                        Style="{StaticResource RepeatButtonIncrease}" />
-                                    </Track.IncreaseRepeatButton>
-                                </Track>
-                                
-                            </Border>
-
-                            <TextBlock x:Name="sliderName"
-                                    VerticalAlignment="Center" 
-                                    HorizontalAlignment="Left"
-                                    Text="{Binding Path=Caption, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" 
-                                    Padding="8, 0" 
-                                    IsHitTestVisible="False"/>
-
-                            <TextBlock x:Name="textDisplay" 
-                                    Padding="0, 0, 8, 0"
-                                    VerticalAlignment="Center"
-                                    HorizontalAlignment="Center"
-                                    Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToStringPercent}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}"/>
-
-                            <TextBox x:Name="textInput" 
-                                     Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                     Style="{StaticResource SliderTextBox}"
-                                     Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=LostFocus, RelativeSource={RelativeSource TemplatedParent}}">
-                                <TextBox.OpacityMask>
-                                    <VisualBrush Visual="{Binding ElementName=borderMask}"/>
-                                </TextBox.OpacityMask>
-                            </TextBox>
-
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-
-                        <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False">
-                            <Setter TargetName="sliderName" Property="Visibility" Value="Visible"/>
-                        </DataTrigger>
-
-                        <DataTrigger  Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                            <Setter TargetName="sliderName" Property="Visibility" Value="Hidden"/>
-                        </DataTrigger>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="RBD" Property="Style" Value="{DynamicResource RepeatButtonDecreaseOver}" />
-                            <Setter TargetName="RBI" Property="Style" Value="{DynamicResource RepeatButtonIncreaseOver}" />
-                        </Trigger>
-
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="mainBorder" Property="Opacity" Value="0.5" />
-                        </Trigger>
-
-                        <Trigger Property="Controls:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
-                            <Setter Property="Cursor" Value="None"/>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+    <Style TargetType="{x:Type Controls:CMiXSlider}" x:Key="SliderStraight" BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}">
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
     </Style>
+
+    <Style TargetType="{x:Type Controls:CMiXSlider}" x:Key="SliderRounded" BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}">
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+    </Style>
+
+    <Style TargetType="{x:Type Controls:CMiXSlider}" x:Key="SliderRoundedRight" BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}">
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
+    </Style>
+
+    <Style TargetType="{x:Type Controls:CMiXSlider}" x:Key="SliderRoundedLeft" BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}">
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
+    </Style>
+
+    <Style TargetType="{x:Type Controls:CMiXSlider}" x:Key="SliderRoundedTop" BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}">
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
+    </Style>
+
+    <Style TargetType="{x:Type Controls:CMiXSlider}" x:Key="SliderRoundedBottom" BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}">
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
+    </Style>
+
     
     
     <Style x:Key="distanceSliderBorder" TargetType="Border">
@@ -428,9 +426,9 @@
                     <Grid>
                         <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
                         <Border x:Name="mainBorder" Style="{StaticResource distanceSliderBorder}">
-                            <!--<Border.OpacityMask>
+                            <Border.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=borderMask}"/>
-                            </Border.OpacityMask>-->
+                            </Border.OpacityMask>
                             <Grid>
                                 <TextBox 
                                     x:Name="valueInput" 

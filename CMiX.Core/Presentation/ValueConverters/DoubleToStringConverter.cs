@@ -21,6 +21,7 @@ namespace CMiX.Core.Presentation.ValueConverters
         {
             string strValue = value as string;
             double resultDouble;
+
             if (double.TryParse(strValue, out resultDouble))
                 return resultDouble;
             else

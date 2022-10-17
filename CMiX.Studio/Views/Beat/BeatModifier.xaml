@@ -37,8 +37,9 @@
                 Grid.Column="1"
                 Minimum="0" 
                 Maximum="100" 
-                Style="{StaticResource CMiXSliderPercentStyle}" 
-                Value="{Binding ChanceToHit.Amount}"/>
+                HorizontalContentAlignment="Center"
+                Style="{StaticResource SliderRoundedBottom}" 
+                Value="{Binding ChanceToHit.Amount}"/> <!--String.Format("{0:0.}%"Converter={StaticResource DoubleToStringPercent}}"/>-->
         </Grid>
     </StackPanel>
 </UserControl>

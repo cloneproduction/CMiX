@@ -1,7 +1,7 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!--<Style x:Key="BorderContainer" TargetType="{x:Type Border}">
+    <Style x:Key="BorderContainer" TargetType="{x:Type Border}">
         <Setter Property="Padding" Value="4"/>
         <Setter Property="CornerRadius" Value="4"/>
         <Setter Property="Background" Value="{DynamicResource DarkerColor}"/>
@@ -14,25 +14,5 @@
         <Setter Property="BorderBrush" Value="{DynamicResource Shadow}"/>
     </Style>
 
-    <Style x:Key="BorderMask" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="{DynamicResource DarkerColor}"/>
-        <Setter Property="CornerRadius" Value="0"/>
-        <Style.Triggers>
-            <DataTrigger  Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}"/>
-            </DataTrigger>
 
-            <DataTrigger Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}"/>
-            </DataTrigger>
-
-            <DataTrigger Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Middle">
-                <Setter Property="CornerRadius" Value="0"/>
-            </DataTrigger>
-
-            <DataTrigger Binding="{Binding Path=Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Default">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusDefault}"/>
-            </DataTrigger>
-        </Style.Triggers>
-    </Style>-->
 </ResourceDictionary>

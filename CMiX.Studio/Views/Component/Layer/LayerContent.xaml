@@ -5,7 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              mc:Ignorable="d"
              md:DialogServiceViews.IsRegistered="True"
              d:DesignHeight="752.666" d:DesignWidth="333.333">
@@ -14,9 +14,10 @@
         Background="{DynamicResource DarkerColor}"
         IsEnabled="{Binding Converter={StaticResource NullToBool}}">
         <StackPanel>
-            <Expander Header="Entities" IsExpanded="True">
+            <Panels:IndentedExpander Header="Entities" IsExpanded="True">
                 <StackPanel>
                     <Views:PrefabSlotManager
+                        Margin="8"
                         ItemsSource="{Binding Path=DataContext.Project.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"
                         DataContext="{Binding ModelEntityManager}"/>
 
@@ -99,7 +100,7 @@
                     </Border>-->
 
                 </StackPanel>
-            </Expander>
+            </Panels:IndentedExpander>
 
             <Expander Header="Effects">
                 <StackPanel>

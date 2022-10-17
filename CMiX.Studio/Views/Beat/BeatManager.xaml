@@ -18,7 +18,6 @@
             Height="100"                                         
             DockPanel.Dock="Top">
             <ListBox 
-                Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
@@ -32,7 +31,7 @@
             </ListBox>
         </Border>
 
-        <Border Margin="0, 8">
+        <Border Margin="0, 8, 0, 0">
             <Beat:MasterBeatControl DataContext="{Binding SelectedItem.Prefab}"/>
         </Border>
 

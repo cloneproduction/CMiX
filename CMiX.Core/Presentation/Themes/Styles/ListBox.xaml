@@ -14,187 +14,25 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
-                    
                     <Border
                         x:Name="Bd"
                         Background="{DynamicResource ListBoxBackground}"
+                        CornerRadius="2"
                         SnapsToDevicePixels="True">
-                        
                         <ScrollViewer 
                             Focusable="False" 
-                            Margin="2, 1, 2, 2" 
+                            Margin="2" 
                             VerticalScrollBarVisibility="Auto" 
                             HorizontalScrollBarVisibility="Disabled">
-                            
-                            <ItemsPresenter  SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                            
+                            <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
-                        
                     </Border>
-                    
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    
-    <Style x:Key="ListBoxWithButton" TargetType="{x:Type ListBox}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}"/>
-        <Setter Property="Background" Value="{DynamicResource ListBoxBackground}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource ListBoxOutline}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate  TargetType="{x:Type ListBox}">
-                    
-                    <DockPanel HorizontalAlignment="Stretch">
-                        
-                        <StackPanel Margin="4, 0, 0, 0" DockPanel.Dock="Right">
-
-                            <Button 
-                                Margin="0, 0, 0, 1"
-                                Height="20" 
-                                Width="21"
-                                Content="+" 
-                                Command="{Binding AddItemCommand}"/>
-
-                            <Button 
-                                x:Name="deleteItemButton"
-                                Height="20"
-                                Width="21"
-                                Content="-"
-                                Command="{Binding DeleteItemCommand}"
-                                CommandParameter="{Binding SelectedItem}"/>
-                            
-                        </StackPanel>
-
-                        <Border
-                            x:Name="Bd"
-                            Background="{DynamicResource ListBoxBackground}"
-                            SnapsToDevicePixels="True">
-
-                            <ScrollViewer 
-                                Margin="2" 
-                                Focusable="False" 
-                                VerticalScrollBarVisibility="Auto" 
-                                HorizontalScrollBarVisibility="Disabled">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ScrollViewer>
-
-                        </Border>
-
-                    </DockPanel>
-
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding HasItems,RelativeSource={RelativeSource Self},UpdateSourceTrigger=PropertyChanged}" Value="False">
-                            <Setter TargetName="deleteItemButton" Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-                    
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ListBoxSlotWithButton" BasedOn="{StaticResource ListBoxWithButton}" TargetType="{x:Type ListBox}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}"/>
-        <Setter Property="Background" Value="{DynamicResource ListBoxBackground}"/>
-        <Setter Property="BorderBrush" Value="{DynamicResource ListBoxOutline}"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate  TargetType="{x:Type ListBox}">
-
-                    <DockPanel HorizontalAlignment="Stretch">
-
-                        <StackPanel 
-                            Margin="4, 0, 0, 0" 
-                            DockPanel.Dock="Right">
-
-                            <Button 
-                                Height="20" 
-                                Width="21"
-                                Content="+" 
-                                Command="{Binding AddEmptyItemCommand}"/>
-
-                            <Button 
-                                x:Name="deleteItemButton"
-                                Height="20"
-                                Width="21"
-                                Content="-"
-                                Command="{Binding DeleteItemCommand}"
-                                CommandParameter="{Binding SelectedItem}"/>
-
-                            <Button 
-                                x:Name="moveItemUpButton"
-                                Height="20"
-                                Width="21"
-                                Margin="0, 8, 0, 0"
-                                Command="{Binding ItemUpCommand}">
-                                <Button.Content>
-                                    <Image Source="{DynamicResource ArrowUp}" Margin="12" Opacity="0.7"/>
-                                </Button.Content>
-                            </Button>
-
-                            <Button 
-                                x:Name="moveItemDownButton"
-                                Height="20"
-                                Width="21"
-                                Padding="8"
-                                Command="{Binding ItemDownCommand}">
-                                <Button.Content>
-                                    <Image Source="{DynamicResource ArrowDown}" Margin="12" Opacity="0.7"/>
-                                </Button.Content>
-                            </Button>
-
-                        </StackPanel>
-
-                        <Border
-                            x:Name="Bd"
-                            Background="{DynamicResource ListBoxBackground}"
-                            SnapsToDevicePixels="True">
-
-                            <ScrollViewer 
-                                Margin="2, 1, 2, 2" 
-                                Focusable="False" 
-                                VerticalScrollBarVisibility="Auto" 
-                                HorizontalScrollBarVisibility="Disabled">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                            </ScrollViewer>
-
-                        </Border>
-
-                    </DockPanel>
-
-                    <ControlTemplate.Triggers>
-                        <DataTrigger Binding="{Binding HasItems,RelativeSource={RelativeSource Self},UpdateSourceTrigger=PropertyChanged}" Value="False">
-                            <Setter TargetName="deleteItemButton" Property="IsEnabled" Value="False"/>
-                        </DataTrigger>
-                    </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
 
-    <Style x:Key="ListBoxWithSelectorItem" TargetType="{x:Type ListBoxItem}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Button 
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Left"
-                        Command="{Binding DataContext.SelectItemCommand,  RelativeSource={RelativeSource AncestorType={x:Type ListBox}}}"
-                        CommandParameter="{Binding}"
-                        Height="25"
-                        Content="{Binding Name}" 
-                        Style="{StaticResource ButtonListBoxItem}"/>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-    
-    
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
@@ -222,15 +60,16 @@
                         x:Name="Bd"
                         Background="Transparent"
                         SnapsToDevicePixels="True"
-                        Margin="2, 1"
+                        CornerRadius="2"
+                        Margin="1"
                         Padding="4, 0, 0, 0"
                         TextBlock.Foreground="{DynamicResource TextBase}">
 
                         <Controls:EditableTextBox 
-                                x:Name="editableTextBox"
-                                Foreground="{DynamicResource TextBase}"
-                                Height="20" 
-                                Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            x:Name="editableTextBox"
+                            Foreground="{DynamicResource TextBase}"
+                            Height="20" 
+                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     </Border>
                     

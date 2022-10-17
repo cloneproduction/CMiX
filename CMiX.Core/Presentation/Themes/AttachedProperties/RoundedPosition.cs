@@ -7,15 +7,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Core.Presentation.Controls
+namespace CMiX.Core.Presentation.Themes.AttachedProperties
 {
-    public enum ControlPosition
+    public enum RoundedPosition
     {
-        Default,
-        Top,
-        Middle,
-        Bottom,
         Left,
+        Top,
         Right,
-    };
+        Bottom,
+        All,
+        None,
+    }
 }

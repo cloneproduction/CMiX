@@ -19,7 +19,7 @@
 
                 <TabItem>
                     <TabItem.Header>
-                        <Image Source="{DynamicResource Mask}"/>
+                        <TextBlock Margin="16, 0" Text="Mask" Foreground="White"/>
                     </TabItem.Header>
                     <StackPanel Background="{DynamicResource HighDarkerColor}">
                         <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8" />
@@ -30,7 +30,7 @@
                 <TabItem>
 
                     <TabItem.Header>
-                        <Image Source="{DynamicResource LayerScene}"/>
+                        <TextBlock Margin="16, 0" Text="Scene" Foreground="White"/>
                     </TabItem.Header>
 
                     <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">

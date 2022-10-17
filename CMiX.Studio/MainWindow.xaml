@@ -11,6 +11,7 @@
     xmlns:Scheduling="clr-namespace:CMiX.Studio.Views.Scheduler"
     xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows" 
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat" xmlns:Managers="clr-namespace:CMiX.Studio.Views.Managers"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Core.Presentation.Themes.AttachedProperties;assembly=CMiX.Core"
     Focusable="True"
     Title="C-MiX Studio"
     Width="450"
@@ -80,7 +81,8 @@
                         <ColumnDefinition/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ComboBox   
+                    <ComboBox
+                        Style="{StaticResource ComboBoxRounded}"
                         Margin="0, 0, 2, 0"
                         SelectedValue="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat}"
                         SelectedValuePath="Prefab"
@@ -195,11 +197,7 @@
                                     </Border>
                                     <GridSplitter Grid.Row="0" VerticalAlignment="Bottom" Margin="0, -2" Height="6" Style="{StaticResource GridSplitter}"/>
                                 </Grid>
-
                             </TabItem>
-
-
-
 
                             <TabItem>
                                 <TabItem.Header>
@@ -242,7 +240,6 @@
                                 <Border Background="{DynamicResource DarkerColor}">
                                     <ScrollViewer VerticalScrollBarVisibility="Hidden" HorizontalScrollBarVisibility="Hidden">
                                         <StackPanel>
-
                                             <Expander Header="Beats" IsExpanded="True">
                                                 <Beat:BeatManager Margin="8" DataContext="{Binding Project.CompositionService.MasterBeatManager}"/>
                                             </Expander>

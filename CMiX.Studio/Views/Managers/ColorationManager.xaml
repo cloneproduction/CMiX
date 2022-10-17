@@ -20,7 +20,6 @@
             DockPanel.Dock="Top"
             Margin="8">
             <ListBox 
-                Style="{StaticResource ListBoxWithButton}"
                 DataContext="{Binding}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">

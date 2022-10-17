@@ -34,7 +34,6 @@
                                 DockPanel.Dock="Top"
                                 Margin="8">
                                 <ListBox 
-                                    Style="{StaticResource ListBoxWithButton}"
                                     DataContext="{Binding MeshEntityManager}"
                                     AllowDrop="True"
                                     dd:DragDrop.IsDragSource="True"
@@ -80,7 +79,6 @@
                                 DockPanel.Dock="Top"
                                 Margin="8">
                                 <ListBox 
-                                    Style="{StaticResource ListBoxWithButton}"
                                     DataContext="{Binding LightEntityManager}"
                                     AllowDrop="True"
                                     dd:DragDrop.IsDragSource="True"
