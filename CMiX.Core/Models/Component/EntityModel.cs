@@ -4,6 +4,7 @@
 using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 using System;
 using System.Collections.ObjectModel;
 
@@ -20,6 +21,9 @@ namespace CMiX.Core.Models
             ColorationModel = new TextureModel();
 
             VisibilityModel = new VisibilityModel();
+            TransformSRT = new TransformSRTModel();
+            TransformModifier = new ModifierManagerModel();
+            Mesh = new MeshModel();
         }
 
         public EntityModel(Guid id) : this ()
@@ -40,6 +44,8 @@ namespace CMiX.Core.Models
         public bool IsVisible { get; set; }
 
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }
-        public IModel TransformSRT { get; internal set; }
+        public TransformSRTModel TransformSRT { get; internal set; }
+        public MeshModel Mesh { get; internal set; }
+        public ModifierManagerModel TransformModifier { get; internal set; }
     }
 }

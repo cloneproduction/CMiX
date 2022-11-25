@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Components="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" d:DesignHeight="210.285" d:DesignWidth="298.727" >
@@ -15,7 +16,7 @@
                 Margin="0, 0, 0, 2" 
                 DockPanel.Dock="Bottom" 
                 Background="{DynamicResource DarkerColor}">
-                
+
                 <DockPanel LastChildFill="False">
 
                     <Button 
@@ -29,8 +30,7 @@
                             <Image Margin="20" Opacity="0.7" Source="{DynamicResource Add}"/>
                         </Button.Content>
                     </Button>
-                    
-                    
+
                     <Button 
                         Background="Transparent"
                         Style="{StaticResource ButtonRounded}"
@@ -52,7 +52,7 @@
                             <Image Margin="16" Opacity="0.7" Source="{DynamicResource ArrowDown}"/>
                         </Button.Content>
                     </Button>
-                    
+
                     <Button
                         Style="{StaticResource ButtonRounded}"
                         Background="Transparent"
@@ -61,18 +61,16 @@
                         Height="20"
                         Command="{Binding DeleteItemCommand}"
                         CommandParameter="{Binding SelectedItem}">
-                        
                         <Button.Content>
                             <Image Margin="20" Opacity="0.7" Source="{DynamicResource DeleteLayer}"/>
                         </Button.Content>
-                        
                     </Button>
 
                 </DockPanel>
             </Border>
-            
+
             <Border DockPanel.Dock="Top" Background="{DynamicResource DarkerColor}">
-                
+
                 <ListBox 
                     DockPanel.Dock="Top"
                     AllowDrop="True"
@@ -86,13 +84,91 @@
                     VirtualizingStackPanel.IsVirtualizing="False"
                     ItemsSource="{Binding Prefabs}">
 
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+
+                                <Border 
+                                    DockPanel.Dock="Left" 
+                                    Height="25" 
+                                    Width="30" 
+                                    BorderBrush="{DynamicResource Shadow}"                                 
+                                    BorderThickness="0, 0, 2, 0">
+                                    <ToggleButton
+                                        Padding="4"
+                                        Margin="4"
+                                        IsChecked="{Binding Prefab.Visibility.IsChecked}">
+
+                                        <ToggleButton.Style>
+                                            <Style TargetType="{x:Type ToggleButton}">
+                                                <Setter Property="Template">
+                                                    <Setter.Value>
+                                                        <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                            <Border
+                                                                x:Name="border"
+                                                                Margin="0"
+                                                                Opacity="0.6"
+                                                                Padding="1"
+                                                                Background="Transparent"
+                                                                SnapsToDevicePixels="True">
+                                                                <Image x:Name="image" Source="{DynamicResource Visible}"/>
+                                                            </Border>
+                                                            <ControlTemplate.Triggers>
+                                                                <Trigger Property="IsChecked" Value="True">
+                                                                    <Setter TargetName="image" Property="Source" Value="{DynamicResource NotVisible}"/>
+                                                                </Trigger>
+                                                            </ControlTemplate.Triggers>
+                                                        </ControlTemplate>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </Style>
+                                        </ToggleButton.Style>
+                                    </ToggleButton>
+                                </Border>
+
+                                <ToggleButton 
+                                    DockPanel.Dock="Right" 
+                                    IsChecked="{Binding Prefab.IsMask.IsChecked}">
+                                    <ToggleButton.Style>
+                                        <Style TargetType="{x:Type ToggleButton}">
+                                            <Setter Property="Template">
+                                                <Setter.Value>
+                                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                                        <Border
+                                                            x:Name="border"
+                                                            Margin="8, 0"
+                                                            Opacity="0.6"
+                                                            Padding="1"
+                                                            Height="15"
+                                                            Background="Transparent"
+                                                            SnapsToDevicePixels="True">
+                                                            <Image x:Name="image" Opacity="0.2" Source="{DynamicResource Mask}"/>
+                                                        </Border>
+                                                        <ControlTemplate.Triggers>
+                                                            <Trigger Property="IsChecked" Value="True">
+                                                                <Setter TargetName="image" Property="Opacity" Value="1.0"/>
+                                                            </Trigger>
+                                                        </ControlTemplate.Triggers>
+                                                    </ControlTemplate>
+                                                </Setter.Value>
+                                            </Setter>
+                                        </Style>
+                                    </ToggleButton.Style>
+                                </ToggleButton>
+
+                                <Controls:EditableTextBox 
+                                    x:Name="editableTextBox"
+                                    Foreground="{DynamicResource TextBase}"
+                                    Height="20" 
+                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                            </DockPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
                 </ListBox>
-                
             </Border>
-            
         </DockPanel>
     </Border>
-
 </UserControl>
 
 

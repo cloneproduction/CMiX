@@ -18,10 +18,10 @@
 
                     <Button 
                         DockPanel.Dock="Top"
-                            Height="20"
-                            Content="+" 
-                            Style="{StaticResource ButtonRoundedTop}"
-                            Command="{Binding AddEmptyItemCommand}"/>
+                        Height="20"
+                        Content="+" 
+                        Style="{StaticResource ButtonRoundedTop}"
+                        Command="{Binding AddEmptyItemCommand}"/>
 
                     <Button 
                         DockPanel.Dock="Top"
@@ -34,13 +34,13 @@
                             CommandParameter="{Binding SelectedItem}"/>
 
                     <Button 
-                            x:Name="moveItemDownButton"
+                        x:Name="moveItemDownButton"
                         DockPanel.Dock="Bottom"
-                            Height="20"
-                            Width="21"
-                            Style="{StaticResource ButtonRoundedBottom}"
-                            Padding="8"
-                            Command="{Binding ItemDownCommand}">
+                        Height="20"
+                        Width="21"
+                        Style="{StaticResource ButtonRoundedBottom}"
+                        Padding="8"
+                        Command="{Binding ItemDownCommand}">
                         <Button.Content>
                             <Image Source="{DynamicResource ArrowDown}" Margin="20" Opacity="0.7"/>
                         </Button.Content>

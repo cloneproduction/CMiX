@@ -28,29 +28,6 @@
         <BaseControls:ColorSelector 
             Caption="Background" 
             Command="{Binding OpenColorSelectorCommand}"/>
-        
-        <!--<Grid Margin="0, 8, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <Button 
-                Height="22"
-                Grid.Column="1"
-                Command="{Binding OpenColorSelectorCommand}"
-                Style="{StaticResource ButtonColorStyle}">
-                <Button.Background>
-                    <SolidColorBrush Color="{Binding BackgroundColor.SelectedColor}"/>
-                </Button.Background>
-            </Button>
-            <TextBlock 
-                Grid.Column="0" 
-                Padding="8, 0" 
-                        
-                HorizontalAlignment="Right" 
-                Text="Background" 
-                Foreground="{StaticResource TextBase}"/>
-        </Grid>-->
     </StackPanel>
 
 </UserControl>

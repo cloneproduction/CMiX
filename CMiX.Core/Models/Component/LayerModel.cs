@@ -4,22 +4,33 @@
 using System;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 
 namespace CMiX.Core.Models.Component
 {
-    public class LayerModel : IPrefabModel//, IComponentModel
+    public class LayerModel : IPrefabModel
     {
         public LayerModel()
         {
             ID = Guid.NewGuid();
             Name = "Layer";
 
-            Opacity = new SliderModel(1.0f);
-            BlendMode = new BlendModeModel(BlendModeEnum.Normal);
-            LayerScene = new LayerSceneModel();
-            LayerMask = new LayerMaskModel();
             Visibility = new ToggleButtonModel();
-            ModifierManager = new ModifierManagerModel();
+            IsMask = new ToggleButtonModel();
+            Opacity = new SliderModel(1.0f);
+
+            ColorSelectorModel = new ColorSelectorModel("#ffff00ff");
+            AmbientOcclusion = new AmbientOcclusionModel();
+
+            BlendModeModel = new ComboBoxModel<BlendModeEnum>(BlendModeEnum.Normal);
+            MaskChannelModel = new ComboBoxModel<MaskChannel>(MaskChannel.Alpha);
+            MaskModeModel = new ComboBoxModel<MaskMode>(MaskMode.AllBelow);
+
+            TextureModifierManager = new ModifierManagerModel();
+
+            ModelEntityManager = new PrefabManagerModel();
+            CameraEntityManager = new PrefabManagerModel();
+            LightEntityManager = new PrefabManagerModel();
         }
 
         public LayerModel(Guid id) : this()
@@ -27,15 +38,24 @@ namespace CMiX.Core.Models.Component
             ID = id;
         }
 
-
         public Guid ID { get; set; }
         public string Name { get; set; }
         public bool Enabled { get; set; }
+
         public SliderModel Opacity { get; set; }
-        public BlendModeModel BlendMode { get; set; }
         public ToggleButtonModel Visibility { get; set; }
-        public LayerSceneModel LayerScene { get; set; }
-        public LayerMaskModel LayerMask { get; set; }
-        public ModifierManagerModel ModifierManager { get; internal set; }
+
+        public ModifierManagerModel TextureModifierManager { get; set; }
+        public ColorSelectorModel ColorSelectorModel { get; set; }
+        public AmbientOcclusionModel AmbientOcclusion { get; set; }
+
+        public ComboBoxModel<BlendModeEnum> BlendModeModel { get; internal set; }
+        public ComboBoxModel<MaskMode> MaskModeModel { get; internal set; }
+        public ComboBoxModel<MaskChannel> MaskChannelModel { get; internal set; }
+
+        public PrefabManagerModel ModelEntityManager { get; internal set; }
+        public PrefabManagerModel CameraEntityManager { get; internal set; }
+        public PrefabManagerModel LightEntityManager { get; internal set; }
+        public ToggleButtonModel IsMask { get; internal set; }
     }
 }

@@ -175,8 +175,8 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-
-                        <DockPanel>
+                        <ContentPresenter/>
+                        <!--<DockPanel>
 
                             <Border 
                                 DockPanel.Dock="Left" 
@@ -252,18 +252,18 @@
                                 Height="20" 
                                 Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
-                        </DockPanel>
+                        </DockPanel>-->
                     </Border>
 
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsKeyboardFocusWithin" Value="true">
+                        <!--<Trigger Property="IsKeyboardFocusWithin" Value="true">
                             <Setter Property="IsSelected" Value="true" />
-                        </Trigger>
+                        </Trigger>-->
                         
                         <Trigger Property="IsSelected" Value="true">
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}"/>
-                            <Setter TargetName="editableTextBox" Property="Foreground" Value="{DynamicResource ActiveTextBase}"/>
-                            <Setter Property="Foreground" Value="{DynamicResource ActiveTextBase}"/>
+                            <!--<Setter TargetName="editableTextBox" Property="Foreground" Value="{DynamicResource ActiveTextBase}"/>-->
+                            <!--<Setter Property="Foreground" Value="{DynamicResource ActiveTextBase}"/>-->
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -275,6 +275,7 @@
 
 
     <Style x:Key="LayerListBoxStyle" TargetType="{x:Type ListBox}">
+        <Setter Property="Background" Value="{DynamicResource ListBoxBackground}"/>
         <Setter Property="ItemContainerStyle" Value="{DynamicResource LayerListBoxItemStyle}"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -282,9 +283,8 @@
 
                     <Border
                         x:Name="Bd"
-                        Background="{DynamicResource ListBoxBackground}"
+                        Background="{TemplateBinding Background}"
                         SnapsToDevicePixels="True">
-
                         <ScrollViewer 
                             Focusable="False" 
                             VerticalScrollBarVisibility="Auto" 

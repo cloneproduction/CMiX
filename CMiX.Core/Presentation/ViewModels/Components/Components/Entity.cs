@@ -19,7 +19,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             ID = entityModel.ID;
             Name = this.GetType().Name + ID.ToString();
             CompositionService = compositionService;
-
+            TransformSRT = new TransformSRT(entityModel.TransformSRT);
+            Mesh = new Mesh(entityModel.Mesh, compositionService);
+            TransformModifier = new ModifierManager(entityModel.TransformModifier, new TransformModifierFactory(compositionService));
             IsActive = true;
         }
 
@@ -50,16 +52,10 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        private Mesh _mesh;
-        public Mesh Mesh
-        {
-            get => _mesh;
-            set
-            {
-                SetProperty(ref _mesh, value);
-                SendMessage(new MessageChangePrefab(this.ID, value, nameof(Mesh)));
-            }
-        }
+        public TransformSRT TransformSRT { get; set; }
+        public ModifierManager TransformModifier { get; set; }
+        public Mesh Mesh { get; set; }
+
 
         private Material _material;
         public Material Material
@@ -99,13 +95,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             EntityModel entityModel = model as EntityModel;
             this.ID = entityModel.ID;
+            this.TransformSRT.SetViewModel(entityModel.TransformSRT);
         }
 
         public IModel GetModel()
         {
             EntityModel entityModel = new EntityModel() ;
             entityModel.ID = ID;
-
+            entityModel.TransformSRT = (TransformSRTModel)TransformSRT.GetModel();
             return entityModel;
         }
 

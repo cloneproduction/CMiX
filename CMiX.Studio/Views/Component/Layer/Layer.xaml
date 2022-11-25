@@ -1,12 +1,13 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.Component.Layer"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
+             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" d:DesignHeight="483.46" d:DesignWidth="299.206">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -14,36 +15,87 @@
             <Behaviors:ScrollViewerBehavior/>
         </i:Interaction.Behaviors>
 
-        <Border Background="{DynamicResource DarkerColor}">
-            <TabControl  Style="{StaticResource TabControlLayerPanel}" SelectedIndex="{Binding SelectedTabItemIndex}">
+        <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">
+            <StackPanel>
+                <StackPanel Margin="8">
 
-                <TabItem>
-                    <TabItem.Header>
-                        <TextBlock Margin="16, 0" Text="Mask" Foreground="White"/>
-                    </TabItem.Header>
-                    <StackPanel Background="{DynamicResource HighDarkerColor}">
-                        <Views:LayerMaskController DataContext="{Binding LayerMask}" Margin="8" />
-                        <ViewComponents:LayerContent DataContext="{Binding LayerMask}"/>
-                    </StackPanel>
-                </TabItem>
+                    <Controls:CMiXSlider
+                        Minimum="0"
+                        Maximum="1"
+                        DockPanel.Dock="Top"
+                        Style="{StaticResource SliderRounded}"
+                        Height="22"
+                        Value="{Binding Opacity.Amount}" 
+                        Caption="Alpha"/>
 
-                <TabItem>
-
-                    <TabItem.Header>
-                        <TextBlock Margin="16, 0" Text="Scene" Foreground="White"/>
-                    </TabItem.Header>
-
-                    <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">
-
-                        <StackPanel>
-                            <Views:LayerBlendController DataContext="{Binding LayerScene}" Margin="8" />
-                            <ViewComponents:LayerContent DataContext="{Binding LayerScene}"/>
-                        </StackPanel>
+                    <BaseControls:ColorSelector 
+                        Margin="0, 8"
+                        Caption="Background" 
+                        SelectedColor="{Binding BackgroundColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+                        Command="{Binding OpenColorSelectorCommand}"
+                        CommandParameter="{Binding}"/>
+                    
+                    <Border>
+                        
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Visibility" Value="Visible"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="False">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        
+                        <BaseControls:ComboBox
+                            Caption="Blend Mode"
+                            SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
+                            ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
+                        
                     </Border>
 
-                </TabItem>
+                    <Border>
+                        
+                        <Border.Style>
+                            <Style TargetType="{x:Type Border}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="False">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
 
-            </TabControl>
+                        <StackPanel>
+
+                            <BaseControls:ComboBox 
+                                Caption="Mask Mode"
+                                SelectedItem="{Binding MaskMode.Selection, Converter={StaticResource EnumToString}}"
+                                ItemsSource="{Binding Source={StaticResource MaskMode}}"/>
+
+                            <BaseControls:ComboBox 
+                                Margin="0, 4"
+                                Caption="Channel"
+                                SelectedItem="{Binding MaskChannel.Selection}"
+                                ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+                
+                <ViewComponents:LayerContent DataContext="{Binding}"/>
+                
+            </StackPanel>
         </Border>
     </ScrollViewer>
 </UserControl>

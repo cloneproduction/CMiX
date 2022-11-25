@@ -12,7 +12,10 @@
         mc:Ignorable="d"
         WindowStyle="None"
         Loaded="Window_Loaded"
-        ShowInTaskbar="False">
+        ShowInTaskbar="False" d:DesignHeight="289.556" d:DesignWidth="179.778">
 
-    <Controls:ColorPicker SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+    <Border>
+        <Controls:ColorPicker SelectedColor="{Binding SelectedColor, Mode=TwoWay}"/>
+    </Border>
+
 </Window>

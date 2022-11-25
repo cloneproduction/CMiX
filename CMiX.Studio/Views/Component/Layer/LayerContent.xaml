@@ -22,6 +22,7 @@
                         DataContext="{Binding ModelEntityManager}"/>
 
                     <Views:ModelEntity DataContext="{Binding ModelEntityManager.SelectedItem.Prefab}"/>
+                    
                     <!--<Border>
 
                         <Border.Style>
@@ -109,8 +110,6 @@
                     </Expander>
                     <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
                 </StackPanel>
-
-
             </Expander>
 
             <Expander Header="Lights">
@@ -128,8 +127,6 @@
                 </StackPanel>
             </Expander>
             
-
-
         </StackPanel>
     </Border>
 </UserControl>

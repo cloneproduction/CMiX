@@ -59,12 +59,6 @@
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
-    <ObjectDataProvider x:Key="MaskChannel" MethodName="GetValues" ObjectType="{x:Type ViewModels:MaskChannel}">
-        <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:MaskChannel"/>
-        </ObjectDataProvider.MethodParameters>
-    </ObjectDataProvider>
-
     <CollectionViewSource x:Key="SortedFontsCollection" Source="{Binding Source={x:Static Fonts.SystemFontFamilies}}" >
         <CollectionViewSource.SortDescriptions>
             <ComponentModel:SortDescription PropertyName="Source" />
@@ -74,6 +68,18 @@
     <ObjectDataProvider x:Key="BlendMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="ViewModels:BlendModeEnum"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+    <ObjectDataProvider x:Key="MaskMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:MaskMode"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+    <ObjectDataProvider x:Key="MaskChannel" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:MaskChannel"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
     

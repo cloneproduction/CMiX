@@ -46,11 +46,11 @@
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Mesh" Indentation="8">
-            <Component:Mesh DataContext="{Binding Mesh}" Margin="0, 8, 0, 0"/>
+            <Component:Mesh DataContext="{Binding Mesh}" Margin="8"/>
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Modifiers" Indentation="8">
-            <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
+            <Views:TransformModifierManager DataContext="{Binding TransformModifier}"/>
         </Panels:IndentedExpander>
 
     </StackPanel>

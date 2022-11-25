@@ -4,9 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              x:Name="colorSelector"
-             md:DialogServiceViews.IsRegistered="True"
              d:DesignHeight="49" d:DesignWidth="275">
 
 
@@ -19,7 +17,7 @@
         <Button 
             Grid.Column="1"
             Height="22"
-            Background="{Binding SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+            Background="{Binding SelectedColor, ElementName=colorSelector}"
             Command="{Binding Command, ElementName=colorSelector}"
             Style="{StaticResource ButtonColorStyle}"/>
     </Grid>
