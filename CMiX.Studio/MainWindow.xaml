@@ -73,7 +73,7 @@
                     <ColumnDefinition/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <Views:Outliner Margin="8" Grid.Column="1"  DataContext="{Binding Project.CompositionService.CompositionManager}"/>
+                <Views:Outliner Margin="8" Grid.Column="1"  DataContext="{Binding Project.CompositionManager}"/>
                 <StackPanel Grid.Column="0">
 
                     <Grid Margin="8" Height="20">
@@ -215,10 +215,10 @@
                                                 <RowDefinition/>
                                             </Grid.RowDefinitions>
 
-                                            <Views:LayerManager DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.LayerManager}"/>
+                                            <Views:LayerManager DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager}"/>
 
-                                            <Border Grid.Row="1" Visibility="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                                                <ComponentViews:Layer DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem.Prefab}"/>
+                                            <Border Grid.Row="1" Visibility="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                                <ComponentViews:Layer DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem.Prefab}"/>
                                             </Border>
                                             <GridSplitter Grid.Row="0" VerticalAlignment="Bottom" Margin="0, -2" Height="6" Style="{StaticResource GridSplitter}"/>
                                         </Grid>

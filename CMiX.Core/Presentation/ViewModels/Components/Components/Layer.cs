@@ -38,9 +38,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService));
 
             TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService));
-            ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager, compositionService.PrefabFactory);
-            CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager, compositionService.PrefabFactory);
-            LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager, compositionService.PrefabFactory);
+            ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
+            CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager, compositionService);
+            LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager, compositionService);
         }
 
 

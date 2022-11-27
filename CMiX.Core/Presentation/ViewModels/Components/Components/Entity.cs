@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.Component;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
@@ -21,6 +22,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             CompositionService = compositionService;
             TransformSRT = new TransformSRT(entityModel.TransformSRT);
             Mesh = new Mesh(entityModel.Mesh, compositionService);
+            MaterialManager = new PrefabManager<Material>(entityModel.MaterialManager, compositionService);
             TransformModifier = new ModifierManager(entityModel.TransformModifier, new TransformModifierFactory(compositionService));
             IsActive = true;
         }
@@ -52,6 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
+        public PrefabManager<Material> MaterialManager { get; set; }
         public TransformSRT TransformSRT { get; set; }
         public ModifierManager TransformModifier { get; set; }
         public Mesh Mesh { get; set; }

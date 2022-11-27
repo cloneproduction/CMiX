@@ -1,5 +1,4 @@
-﻿
-using Ceras;
+﻿using Ceras;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
@@ -27,9 +26,7 @@ namespace CMiX
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
             CompositionService compositionService = ServiceProvider.GetRequiredService<CompositionService>();
-
-            Project project = ServiceProvider.GetRequiredService<Project>();
-            project.CompositionService = compositionService;
+            Project project = new Project(compositionService);
 
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();

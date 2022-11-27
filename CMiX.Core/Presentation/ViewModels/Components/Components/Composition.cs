@@ -21,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             CompositionService = compositionService;
 
             OutputSettings = new OutputSettings(compositionModel.OutputSettings, compositionService);
-            LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, new PrefabFactory(compositionService));
+            LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
             ModifierManager = new ModifierManager(compositionModel.ModifierManager, new TextureFilterFactory(compositionService));
 
             IsActive = true;

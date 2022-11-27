@@ -126,22 +126,20 @@
                                     </ToggleButton>
                                 </Border>
 
-                                <ToggleButton 
-                                    DockPanel.Dock="Right" 
-                                    IsChecked="{Binding Prefab.IsMask.IsChecked}">
+                                <ToggleButton DockPanel.Dock="Right" 
+                                              IsChecked="{Binding Prefab.IsMask.IsChecked}">
                                     <ToggleButton.Style>
                                         <Style TargetType="{x:Type ToggleButton}">
                                             <Setter Property="Template">
                                                 <Setter.Value>
                                                     <ControlTemplate TargetType="{x:Type ToggleButton}">
-                                                        <Border
-                                                            x:Name="border"
-                                                            Margin="8, 0"
-                                                            Opacity="0.6"
-                                                            Padding="1"
-                                                            Height="15"
-                                                            Background="Transparent"
-                                                            SnapsToDevicePixels="True">
+                                                        <Border x:Name="border"
+                                                                Margin="8, 0"
+                                                                Opacity="0.6"
+                                                                Padding="1"
+                                                                Height="15"
+                                                                Background="Transparent"
+                                                                SnapsToDevicePixels="True">
                                                             <Image x:Name="image" Opacity="0.2" Source="{DynamicResource Mask}"/>
                                                         </Border>
                                                         <ControlTemplate.Triggers>
@@ -156,11 +154,10 @@
                                     </ToggleButton.Style>
                                 </ToggleButton>
 
-                                <Controls:EditableTextBox 
-                                    x:Name="editableTextBox"
-                                    Foreground="{DynamicResource TextBase}"
-                                    Height="20" 
-                                    Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Controls:EditableTextBox x:Name="editableTextBox"
+                                                            Foreground="{DynamicResource TextBase}"
+                                                            Height="20" 
+                                                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                             </DockPanel>
                         </DataTemplate>

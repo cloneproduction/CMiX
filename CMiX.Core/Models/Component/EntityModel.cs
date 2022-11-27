@@ -5,6 +5,7 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.Component;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Prefab;
 using System;
 using System.Collections.ObjectModel;
 
@@ -24,6 +25,7 @@ namespace CMiX.Core.Models
             TransformSRT = new TransformSRTModel();
             TransformModifier = new ModifierManagerModel();
             Mesh = new MeshModel();
+            MaterialManager = new PrefabManagerModel();
         }
 
         public EntityModel(Guid id) : this ()
@@ -47,5 +49,6 @@ namespace CMiX.Core.Models
         public TransformSRTModel TransformSRT { get; internal set; }
         public MeshModel Mesh { get; internal set; }
         public ModifierManagerModel TransformModifier { get; internal set; }
+        public PrefabManagerModel MaterialManager { get; internal set; }
     }
 }

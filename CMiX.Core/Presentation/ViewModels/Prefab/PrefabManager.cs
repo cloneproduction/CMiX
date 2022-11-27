@@ -9,6 +9,7 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -17,11 +18,14 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 {
     public class PrefabManager<T> : ObservableRecipient, IPrefabManager, IControl, IRecipient<MessageRequestControl> where T : class, IPrefab
     {
-        public PrefabManager(PrefabManagerModel prefabManagerModel, PrefabFactory prefabFactory)
+        public PrefabManager(PrefabManagerModel prefabManagerModel, CompositionService compositionService)
         {
             ID = prefabManagerModel.ID;
-            PrefabFactory = prefabFactory;
+            CompositionService = compositionService;
+            PrefabFactory = compositionService.PrefabFactory;
             Prefabs = new ObservableCollection<PrefabContainer>();
+
+            SelectionChangedCommand = new RelayCommand<IPrefab>(ChangeSelectedItem);
 
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
@@ -34,10 +38,11 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             IsActive = true;
         }
 
-        public PrefabManager(Guid id, PrefabFactory prefabFactory)
+        public PrefabManager(Guid id, CompositionService compositionService)
         {
             ID = id;
-            PrefabFactory = prefabFactory;
+            CompositionService = compositionService;
+            PrefabFactory = compositionService.PrefabFactory;
             Prefabs = new ObservableCollection<PrefabContainer>();
 
             ItemUpCommand = new RelayCommand(ItemUp);
@@ -51,7 +56,7 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             IsActive = true;
         }
 
-        public PrefabManager(Guid id, PrefabFactory prefabFactory, PrefabRepository<T> prefabRepository) : this(id, prefabFactory)
+        public PrefabManager(Guid id, CompositionService compositionService, PrefabRepository<T> prefabRepository) : this(id, compositionService)
         {
             PrefabRepository = prefabRepository;
         }
@@ -59,9 +64,12 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 
         public Guid ID { get; set; }
 
+        public CompositionService CompositionService { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
         public PrefabRepository<T> PrefabRepository { get; set; }
 
+
+        public ICommand SelectionChangedCommand { get; set; }
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
         public ICommand AddItemToContainerCommand { get; set; }
@@ -69,6 +77,12 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         public ICommand AddEmptyItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand RenameCommand { get; }
+
+
+        public void ChangeSelectedItem(IPrefab prefab)
+        {
+            SelectedItem.Prefab = ((PrefabContainer)prefab).Prefab;
+        }
 
 
         private ObservableCollection<PrefabContainer> _prefabs;
@@ -155,6 +169,14 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             prefab.IsSelected = true;
             PrefabRepository?.AddPrefab((T)prefab);
 
+
+            //if(SelectedItem != null)
+            //{
+            //    SelectedItem.Prefab = prefab;
+            //    Console.WriteLine();
+            //    return SelectedItem;
+            //}    
+
             PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel());
             prefabContainer.Prefab = (T)prefab;
             prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
@@ -240,8 +262,9 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             if (prefab == null)
                 return;
 
+            prefab.PrefabChanged -= PrefabContainer_PrefabChanged;
             Prefabs.Remove(prefab);
-            PrefabRepository?.RemovePrefab((T)prefab.Prefab);
+            //PrefabRepository?.RemovePrefab((T)prefab.Prefab);
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemovePrefab(this.ID, prefab), MessageType.Out);
 
             if (Prefabs.Count == 0)

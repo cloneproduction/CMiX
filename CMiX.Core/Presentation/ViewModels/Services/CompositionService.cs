@@ -17,7 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels.Service
         public CompositionService(IPrefabDataBase prefabDataBase)
         {
             ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
-            Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            
             Guid LayerManagerID = Guid.Parse("00000000-0000-0000-0000-000000000002");
             Guid ModelEntityManagerID = Guid.Parse("00000000-0000-0000-0000-000000000003");
             Guid TextureManagerID = Guid.Parse("00000000-0000-0000-0000-000000000004");
@@ -35,34 +35,15 @@ namespace CMiX.Core.Presentation.ViewModels.Service
             PrefabFactory = new PrefabFactory(this);
 
             CompositionRepository = new PrefabRepository<Composition>(prefabDataBase);
-            CompositionManager = new PrefabManager<Composition>(CompositionManagerID, PrefabFactory, CompositionRepository);
-
             LayerRepository = new PrefabRepository<Layer>(prefabDataBase);
-            LayerManager = new PrefabManager<Layer>(LayerManagerID, PrefabFactory, LayerRepository);
-
             EntityRepository = new PrefabRepository<Entity>(prefabDataBase);
-            ModelEntityManager = new PrefabManager<Entity>(ModelEntityManagerID, PrefabFactory, EntityRepository);
-
             ColorationRepository = new PrefabRepository<Coloration>(prefabDataBase);
-            ColorationManager = new PrefabManager<Coloration>(ColorationManagerID, PrefabFactory, ColorationRepository);
-
             MaterialRepository = new PrefabRepository<Material>(prefabDataBase);
-            MaterialManager = new PrefabManager<Material>(MaterialManagerID, PrefabFactory, MaterialRepository);
-
             MeshRepository = new PrefabRepository<Mesh>(prefabDataBase);
-            MeshManager = new PrefabManager<Mesh>(MeshManagerID, PrefabFactory, MeshRepository);
-
             LightEntityRepository = new PrefabRepository<LightEntity>(prefabDataBase);
-            LightEntityManager = new PrefabManager<LightEntity>(LightEntityManagerID, PrefabFactory, LightEntityRepository);
-
             CameraRepository = new PrefabRepository<Camera>(prefabDataBase);
-            CameraManager = new PrefabManager<Camera>(CameraManagerID, PrefabFactory, CameraRepository);
-
             TransformRepository = new PrefabRepository<Transform>(prefabDataBase);
-            TransformManager = new PrefabManager<Transform>(TransformManagerID, PrefabFactory, TransformRepository);
-
             MasterBeatRepository = new PrefabRepository<MasterBeat>(prefabDataBase);
-            MasterBeatManager = new PrefabManager<MasterBeat>(MasterBeatManagerID, PrefabFactory, MasterBeatRepository);
 
             IsActive = true;
         }
@@ -86,36 +67,15 @@ namespace CMiX.Core.Presentation.ViewModels.Service
 
 
         public PrefabRepository<Layer> LayerRepository { get; set; }
-        public PrefabManager<Layer> LayerManager { get; set; }
-
         public PrefabRepository<Composition> CompositionRepository { get; set; }
-        public PrefabManager<Composition> CompositionManager { get; set; }
-
         public PrefabRepository<MasterBeat> MasterBeatRepository { get; set; }
-        public PrefabManager<MasterBeat> MasterBeatManager { get; set; }
-
         public PrefabRepository<Entity> EntityRepository { get; set; }
-        public PrefabManager<Entity> ModelEntityManager { get; set; }
-
         public PrefabRepository<Material> MaterialRepository { get; set; }
-        public PrefabManager<Material> MaterialManager { get; set; }
-
         public PrefabRepository<Texture> TextureRepository { get; set; }
-        public PrefabManager<Texture> TextureManager { get; set; }
-
         public PrefabRepository<LightEntity> LightEntityRepository { get; set; }
-        public PrefabManager<LightEntity> LightEntityManager { get; set; }
-
         public PrefabRepository<Coloration> ColorationRepository { get; set; }
-        public PrefabManager<Coloration> ColorationManager { get; set; }
-
         public PrefabRepository<Mesh> MeshRepository { get; set; }
-        public PrefabManager<Mesh> MeshManager { get; set; }
-
         public PrefabRepository<Camera> CameraRepository { get; set; }
-        public PrefabManager<Camera> CameraManager { get; set; }
-
         public PrefabRepository<Transform> TransformRepository { get; set; }
-        public PrefabManager<Transform> TransformManager { get; set; }
     }
 }

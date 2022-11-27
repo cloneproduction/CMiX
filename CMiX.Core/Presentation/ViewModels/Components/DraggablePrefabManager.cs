@@ -10,6 +10,7 @@ using System.Windows;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.Messaging;
 using GongSolutions.Wpf.DragDrop;
 
@@ -21,8 +22,9 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         IDropTarget, 
         IDragSource where T : class, IPrefab
     {
-        public DraggablePrefabManager(Guid id, PrefabFactory prefabFactory) : base(id, prefabFactory)
+        public DraggablePrefabManager(Guid id, CompositionService compositionService, PrefabRepository<T> prefabRepository) : base(id, compositionService)
         {
+            PrefabRepository = prefabRepository;
             Prefabs.CollectionChanged += Prefabs_CollectionChanged;
             PrefabOrder = new ObservableCollection<Guid>();
 

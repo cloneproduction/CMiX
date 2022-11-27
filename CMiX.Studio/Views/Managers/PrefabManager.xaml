@@ -9,10 +9,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="156.667" d:DesignWidth="256.334">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <Presentation:BindingProxy x:Key="ModelEntityProxy" Data="{Binding Path=DataContext.Project.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"/>
         <Presentation:BindingProxy x:Key="LightEntityProxy" Data="{Binding Path=DataContext.Project.CompositionService.LightEntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Views:MainWindow}}}"/>
-    </UserControl.Resources>
+    </UserControl.Resources>-->
 
     <Border Background="{DynamicResource HighDarkerColor}">
         <StackPanel>

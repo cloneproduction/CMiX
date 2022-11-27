@@ -36,7 +36,7 @@
                 <ControlTemplate TargetType="{x:Type TextBoxBase}">
                     <Border
                         x:Name="border"
-                        Background="Transparent"
+                        Background="{TemplateBinding Background}"
                         BorderBrush="{DynamicResource SuperHighDarkerColor}"
                         BorderThickness="0"
                         Padding="0"
