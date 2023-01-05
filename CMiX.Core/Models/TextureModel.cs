@@ -29,6 +29,7 @@ namespace CMiX.Core.Models
             SelectedAssetType = new ComboBoxModel<int>(0);
             SamplerState = new SamplerStateModel();
             TypeWriter = new TypeWriterModel();
+            TransformUV = new TransformSRTModel();
         }
 
         public bool Enabled { get; set; }
@@ -47,5 +48,6 @@ namespace CMiX.Core.Models
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
         public ProceduralSelectorModel ProceduralSelector { get; internal set; }
+        public TransformSRTModel TransformUV { get; internal set; }
     }
 }

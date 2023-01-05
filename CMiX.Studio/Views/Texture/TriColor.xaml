@@ -100,9 +100,9 @@
             </Border>
         </Grid>
 
-        <Controls:CMiXSlider Margin="0, 8, 0, 1" Caption="Smooth" Minimum="0.0" Maximum="1.0" Value="{Binding Smooth.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Top"/>
-        <Controls:CMiXSlider Margin="0, 0, 0, 8" Caption="Center" Minimum="0.0" Maximum="1.0" Value="{Binding Center.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Bottom"/>
+        <Controls:CMiXSlider Margin="0, 8, 0, 1" Caption="Smooth" Minimum="0.0" Maximum="1.0" Value="{Binding Smooth.Amount}" Style="{StaticResource SliderRoundedTop}" Position="Top"/>
+        <Controls:CMiXSlider Margin="0, 0, 0, 8" Caption="Center" Minimum="0.0" Maximum="1.0" Value="{Binding Center.Amount}" Style="{StaticResource SliderRoundedBottom}" Position="Bottom"/>
 
-        <Controls:CMiXSlider Margin="0, 8" Caption="Control" Minimum="0.0" Maximum="1.0" Value="{Binding Control.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
+        <Controls:CMiXSlider Margin="0, 8" Caption="Control" Minimum="0.0" Maximum="1.0" Value="{Binding Control.Amount}" Style="{StaticResource SliderRounded}" Position="Default"/>
     </StackPanel>
 </UserControl>

@@ -17,113 +17,108 @@
         </ObjectDataProvider>
     </UserControl.Resources>
 
-    <Expander
-            IsExpanded="{Binding IsExpanded}"
-            Header="RandomHSV" 
-            Template="{StaticResource ModifierPanelTemplate}">
-        <StackPanel>
+    <StackPanel>
 
-            <StackPanel Margin="8">
-                
-                <Grid Height="22" Margin="0, 8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
+        <StackPanel Margin="8">
+
+            <Grid Height="22" Margin="0, 8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock 
                         Text="Type" 
                         HorizontalAlignment="Right" 
                         VerticalAlignment="Center" 
                         Padding="4" 
                         Foreground="{DynamicResource TextBase}"/>
-                    <ComboBox 
+                <ComboBox 
                         Grid.Column="1" 
                         SelectedItem="{Binding Mode.Selection}"
                         ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-                </Grid>
-                
-                <Views:BeatModifier Margin="0, 8" DataContext="{Binding BeatModifier}"/>
-                
-                <StackPanel Margin="0, 8">
-                    
-                    <Grid Height="21">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Controls:DistanceSlider 
+            </Grid>
+
+            <Views:BeatModifier Margin="0, 8" DataContext="{Binding BeatModifier}"/>
+
+            <StackPanel Margin="0, 8">
+
+                <Grid Height="21">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Controls:DistanceSlider 
                                 Grid.Column="2" 
                                 Position="Top" 
                                 Style="{StaticResource DistanceSliderStyle}" 
                                 Value="{Binding Hue.Amount}"/>
-                        <TextBlock 
+                    <TextBlock 
                                 Grid.Column="0" 
                                 Padding="4" 
                                 HorizontalAlignment="Right" 
                                 Text="Hue" 
                                 Foreground="{StaticResource TextBase}"/>
-                    </Grid>
-                    
-                    <Grid Height="21" Margin="0, 1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Controls:DistanceSlider 
+                </Grid>
+
+                <Grid Height="21" Margin="0, 1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Controls:DistanceSlider 
                             Grid.Column="2" 
                             Position="Middle" 
                             Style="{StaticResource DistanceSliderStyle}" 
                             Value="{Binding Saturation.Amount}"/>
-                        <TextBlock 
+                    <TextBlock 
                             Grid.Column="0" 
                             Padding="4" 
                             HorizontalAlignment="Right" 
                             Text="Saturation" 
                             Foreground="{StaticResource TextBase}"/>
-                    </Grid>
-                    
-                    <Grid Height="21" Margin="0, 0, 0, 1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Controls:DistanceSlider 
+                </Grid>
+
+                <Grid Height="21" Margin="0, 0, 0, 1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Controls:DistanceSlider 
                             Grid.Column="2" 
                             Position="Middle" 
                             Style="{StaticResource DistanceSliderStyle}" 
                             Value="{Binding Value.Amount}"/>
-                        <TextBlock 
+                    <TextBlock 
                             Grid.Column="0" 
                             Padding="4" 
                             HorizontalAlignment="Right" 
                             Text="Value" 
                             Foreground="{StaticResource TextBase}"/>
-                    </Grid>
-                    
-                    <Grid Height="22">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <Controls:DistanceSlider 
+                </Grid>
+
+                <Grid Height="22">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <Controls:DistanceSlider 
                             Grid.Column="2" 
                             Position="Bottom" 
                             Style="{StaticResource DistanceSliderStyle}" 
                             Value="{Binding Alpha.Amount}"/>
-                        <TextBlock 
+                    <TextBlock 
                             Grid.Column="0" 
                             Padding="4" 
                             HorizontalAlignment="Right" 
                             Text="Alpha" 
                             Foreground="{StaticResource TextBase}"/>
-                    </Grid>
-                    
-                </StackPanel>
-                
+                </Grid>
+
             </StackPanel>
 
-            <Views:Easing DataContext="{Binding Easing}"/>
-
         </StackPanel>
-    </Expander>
+
+        <Views:Easing DataContext="{Binding Easing}"/>
+
+    </StackPanel>
 </UserControl>

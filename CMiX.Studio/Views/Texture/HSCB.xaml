@@ -15,7 +15,7 @@
             Minimum="0.0" 
             Maximum="1.0" 
             Value="{Binding Hue.Amount}" 
-            Style="{StaticResource CMiXSliderStyle}" 
+            Style="{StaticResource SliderRoundedTop}" 
             Position="Top"/>
         
         <Controls:CMiXSlider 
@@ -24,7 +24,7 @@
             Minimum="0.0" 
             Maximum="1.0" 
             Value="{Binding Saturation.Amount}" 
-            Style="{StaticResource CMiXSliderStyle}" 
+            Style="{StaticResource SliderStraight}" 
             Position="Middle"/>
         
         <Controls:CMiXSlider 
@@ -33,7 +33,7 @@
             Minimum="0.0" 
             Maximum="10.0" 
             Value="{Binding Contrast.Amount}" 
-            Style="{StaticResource CMiXSliderStyle}" 
+            Style="{StaticResource SliderStraight}" 
             Position="Middle"/>
         
         <Controls:CMiXSlider 
@@ -43,7 +43,7 @@
             Minimum="0.0" 
             Maximum="10.0" 
             Value="{Binding Brightness.Amount}" 
-            Style="{StaticResource CMiXSliderStyle}" 
+            Style="{StaticResource SliderRoundedBottom}" 
             Position="Bottom"/>
 
     </StackPanel>

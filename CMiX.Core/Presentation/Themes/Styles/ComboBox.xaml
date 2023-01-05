@@ -18,6 +18,7 @@
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True"/>
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -107,7 +108,7 @@
                         <ContentPresenter
                             x:Name="contentPresenter"
                             Margin="8, 0, 0, 0"
-                            HorizontalAlignment="Left"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                             VerticalAlignment="Center"
                             Content="{TemplateBinding SelectionBoxItem}"
                             ContentStringFormat="{TemplateBinding SelectionBoxItemStringFormat}"
@@ -340,6 +341,7 @@
 
                     </DockPanel>
                     <ControlTemplate.Triggers>
+                        
                         <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <Setter TargetName="deleteItemButton" Property="IsEnabled" Value="False"/>
                             <Setter TargetName="PART_Popup" Property="IsOpen" Value="False"/>
@@ -364,10 +366,10 @@
                                 Background="{DynamicResource HighHighDarkerColor}"
                                 Style="{StaticResource ToggleButtonRoundedLeft}"
                                 IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-                                <ToggleButton.Content>
-                                    <Image Source="{DynamicResource ArrowDown}" Margin="7" Opacity="0.5"/>
-                                </ToggleButton.Content>
-                            </ToggleButton>
+                            <ToggleButton.Content>
+                                <Image x:Name="image" Source="{DynamicResource ArrowRight}" Margin="7" Opacity="0.5"/>
+                            </ToggleButton.Content>
+                        </ToggleButton>
 
 
                             <Popup
@@ -405,6 +407,10 @@
 
                     </DockPanel>
                     <ControlTemplate.Triggers>
+                        <Trigger Property="IsDropDownOpen" Value="True">
+                            <Setter Property="Source" TargetName="image" Value="{DynamicResource ArrowDown}"/>
+                        </Trigger>
+
                         <DataTrigger Binding="{Binding HasItems, RelativeSource={RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}" Value="False">
                             <Setter TargetName="PART_Popup" Property="IsOpen" Value="False"/>
                         </DataTrigger>

@@ -81,7 +81,7 @@
                         Content="+"
                         Command="{Binding CompositionService.TransformManager.AddItemCommand}"/>
                 </Grid>
-                <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
+                <Views:ModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
             </StackPanel>
 
         </Expander>

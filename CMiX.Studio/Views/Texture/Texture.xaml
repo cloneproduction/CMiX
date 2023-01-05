@@ -149,7 +149,7 @@
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Indentation="24" Header="Transform UV">
-            <Views:TransformUV Margin="8"/>
+            <Views:TransformUV Margin="8" DataContext="{Binding TransformUV}"/>
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Indentation="24" Header="Filter" IsExpanded="True">

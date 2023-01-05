@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class TransformModifierManager : UserControl
+    public partial class CameraModifierSelectionPanel : UserControl
     {
-        public TransformModifierManager()
+        public CameraModifierSelectionPanel()
         {
             InitializeComponent();
         }

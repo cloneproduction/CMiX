@@ -7,5 +7,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="208.777" d:DesignWidth="266.087">
 
-    <Controls:CMiXSlider Margin="8" Caption="Strength" Minimum="0" Maximum="1" Value="{Binding Strength.Amount}" Style="{StaticResource CMiXSliderStyle}" Position="Default"/>
+    <Controls:CMiXSlider 
+        Margin="8" 
+        Caption="Strength" 
+        Minimum="0" 
+        Maximum="1" 
+        Value="{Binding Strength.Amount}" 
+        Style="{StaticResource SliderRounded}" 
+        Position="Default"/>
 </UserControl>

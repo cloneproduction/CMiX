@@ -23,7 +23,7 @@ namespace CMiX.Core.Models
 
             VisibilityModel = new VisibilityModel();
             TransformSRT = new TransformSRTModel();
-            TransformModifier = new ModifierManagerModel();
+            ModifierManager = new ModifierManagerModel();
             Mesh = new MeshModel();
             MaterialManager = new PrefabManagerModel();
         }
@@ -48,7 +48,7 @@ namespace CMiX.Core.Models
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }
         public TransformSRTModel TransformSRT { get; internal set; }
         public MeshModel Mesh { get; internal set; }
-        public ModifierManagerModel TransformModifier { get; internal set; }
         public PrefabManagerModel MaterialManager { get; internal set; }
+        public ModifierManagerModel ModifierManager { get; internal set; }
     }
 }

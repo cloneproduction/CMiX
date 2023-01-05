@@ -8,43 +8,46 @@
     d:DesignWidth="226.667"
     mc:Ignorable="d">
 
-    <Border Background="{DynamicResource DarkColor}">
+    <Border x:Name="MainBorder" CornerRadius="2, 2, 0, 0"  Background="{DynamicResource DarkColor}">
         <Grid>
-            <Border Background="{DynamicResource LightColor}">
+            <Border CornerRadius="2, 2, 0, 0" Background="{DynamicResource LightColor}">
 
                 <Border.Opacity>
                     <MultiBinding Converter="{StaticResource MultiPeriodToBeatAnimation}">
                         <Binding Path="BeatIndex"/>
-                        <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat"/>
+                        <Binding Path="CompositionService.MasterBeatManager.SelectedItem.Prefab"/>
                         <!--The third binding is only to continuously update as the animation position keeps moving otherwise it would update only on BeatIndex Change or MasterBeat Change-->
-                        <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.AnimatedDouble.AnimationPosition"/>
+                        <Binding Path="CompositionService.MasterBeatManager.SelectedItem.Prefab.AnimatedDouble.AnimationPosition"/>
                     </MultiBinding>
                 </Border.Opacity>
 
             </Border>
 
             <TextBlock 
-                        HorizontalAlignment="Center" 
-                        VerticalAlignment="Center"
-                        Foreground="{DynamicResource TextBase}">
+                HorizontalAlignment="Center" 
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource TextBase}">
                 <TextBlock.Text>
                     <MultiBinding Converter="{StaticResource MultiPeriodToBPM}">
-                        <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat.Period"/>
+                        <Binding Path="CompositionService.MasterBeatManager.SelectedItem.Prefab.Period"/>
                         <Binding Path="BeatIndex"/>
-                        <Binding Path="CompositionService.CompositionManager.SelectedItem.Prefab.MasterBeat"/>
+                        <Binding Path="CompositionService.MasterBeatManager.SelectedItem.Prefab"/>
                     </MultiBinding>
                 </TextBlock.Text>
             </TextBlock>
 
             <Button
-                        HorizontalAlignment="Left"
-                        DockPanel.Dock="Left"
-                        Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                        Command="{Binding DivideCommand}"
-                        Content="-"
-                        IsDefault="True">
+                HorizontalAlignment="Left"
+                DockPanel.Dock="Left"
+                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Command="{Binding DivideCommand}"
+
+                IsDefault="True">
+                <Button.Content>
+                    <Image Source="{StaticResource Sub}" Margin="64" Opacity="0.7"/>
+                </Button.Content>
                 <Button.Style>
-                    <Style TargetType="{x:Type Button}">
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRoundedLeft}">
                         <Setter Property="Visibility" Value="Hidden" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=MainBorder}" Value="True">
@@ -54,15 +57,18 @@
                     </Style>
                 </Button.Style>
             </Button>
+            
             <Button
-                            HorizontalAlignment="Right"
-                            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                            Command="{Binding MultiplyCommand}"
-                            Content="+"
-                            DockPanel.Dock="Right"
-                            IsDefault="True">
+                HorizontalAlignment="Right"
+                Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+                Command="{Binding MultiplyCommand}"
+                DockPanel.Dock="Right"
+                IsDefault="True">
+                <Button.Content>
+                    <Image Source="{StaticResource Add}" Margin="64" Opacity="0.7"/>
+                </Button.Content>
                 <Button.Style>
-                    <Style TargetType="{x:Type Button}">
+                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRoundedRight}">
                         <Setter Property="Visibility" Value="Hidden" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding IsMouseOver, ElementName=MainBorder}" Value="True">
@@ -72,6 +78,7 @@
                     </Style>
                 </Button.Style>
             </Button>
+            
         </Grid>
     </Border>
 </UserControl>

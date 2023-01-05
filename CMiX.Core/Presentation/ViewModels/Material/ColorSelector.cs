@@ -51,11 +51,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == this.ID)
+            if (message.ID == this.ID && !message.HasReceivedResponse)
             {
-                if (!message.HasReceivedResponse)
-                    message.Reply(this);
+                message.Reply(this);
+                Console.WriteLine(SelectedColor);
             }
+
         }
     }
 }

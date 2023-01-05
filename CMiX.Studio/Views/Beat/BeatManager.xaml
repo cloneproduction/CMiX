@@ -6,6 +6,8 @@
              xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
              xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
              mc:Ignorable="d" 
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl" 
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
              d:DesignHeight="243" d:DesignWidth="234">
 
     <UserControl.Resources>
@@ -15,9 +17,11 @@
     <StackPanel>
 
         <Border 
-            Height="100"                                         
+                                      
             DockPanel.Dock="Top">
-            <ListBox 
+
+            <Views:PrefabSlotManager DataContext="{Binding }"/>
+            <!--<ListBox 
                 DataContext="{Binding}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
@@ -28,7 +32,7 @@
                         </Border>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>
+            </ListBox>-->
         </Border>
 
         <Border Margin="0, 8, 0, 0">

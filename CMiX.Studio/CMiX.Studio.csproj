@@ -244,6 +244,7 @@
     <Compile Include="Views\BaseControl\DragValue.xaml.cs">
       <DependentUpon>DragValue.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\Panels\ControlPanelNames.cs" />
     <Compile Include="Views\BaseControl\Panels\IndentedExpander.xaml.cs">
       <DependentUpon>IndentedExpander.xaml</DependentUpon>
     </Compile>
@@ -270,9 +271,6 @@
     </Compile>
     <Compile Include="Views\Camera\CameraTransformModifierManager.xaml.cs">
       <DependentUpon>CameraTransformModifierManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Coloration\Coloration.xaml.cs">
-      <DependentUpon>Coloration.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\CompositionSettings.xaml.cs">
       <DependentUpon>CompositionSettings.xaml</DependentUpon>
@@ -339,6 +337,15 @@
     </Compile>
     <Compile Include="Views\Geometry\Transform\Transform.xaml.cs">
       <DependentUpon>Transform.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\CameraModifierSelectionPanel.xaml.cs">
+      <DependentUpon>CameraModifierSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\EntityModifierSelectionPanel.xaml.cs">
+      <DependentUpon>EntityModifierSelectionPanel.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Managers\ManagerSelector.xaml.cs">
+      <DependentUpon>ManagerSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\LFOUV.xaml.cs">
       <DependentUpon>LFOUV.xaml</DependentUpon>
@@ -452,8 +459,8 @@
     <Compile Include="Views\Assets\AssetManager.xaml.cs">
       <DependentUpon>AssetManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\TransformModifierManager.xaml.cs">
-      <DependentUpon>TransformModifierManager.xaml</DependentUpon>
+    <Compile Include="Views\Geometry\Instancer\ModifierManager.xaml.cs">
+      <DependentUpon>ModifierManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Geometry\Transform\Translate.xaml.cs">
       <DependentUpon>Translate.xaml</DependentUpon>
@@ -632,10 +639,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Coloration\Coloration.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Component\CompositionSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -716,6 +719,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Geometry\Instancer\ModifierDataTemplates.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -725,6 +732,18 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Geometry\Transform\Transform.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\CameraModifierSelectionPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Managers\EntityModifierSelectionPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Managers\ManagerSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -872,7 +891,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Instancer\TransformModifierManager.xaml">
+    <Page Include="Views\Geometry\Instancer\ModifierManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1080,10 +1099,7 @@
       <Name>CMiX.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\AnimParameter\" />
-    <Folder Include="Views\Camera\Modifier\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

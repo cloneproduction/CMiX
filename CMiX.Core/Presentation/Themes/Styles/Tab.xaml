@@ -2,68 +2,7 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls">
     
-    
-    <!--<Style TargetType="{x:Type TabItem}">
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabItem}">
-                    <Border x:Name="mainBorder" Height="25" Padding="8, 0">
-                        <ContentPresenter
-                                                x:Name="contentPresenter"
-                                                HorizontalAlignment="Center"
-                                                VerticalAlignment="Stretch"
-                                                Content="{TemplateBinding Header}"
-                                                
-                                                ContentSource="Header"
-                                                ContentStringFormat="{TemplateBinding HeaderStringFormat}"
-                                                ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                                Focusable="False"
-                                                RecognizesAccessKey="True"
-                                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
 
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource DarkerColor}"/>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter TargetName="contentPresenter" Property="Opacity" Value="0.56" />
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false" />
-                            </MultiDataTrigger.Conditions>
-                            --><!--<Setter TargetName="innerBorder" Property="Background" Value="{DynamicResource HighDarkerColor}"/>--><!--
-                            <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Panel.ZIndex" Value="1" />
-                            <Setter TargetName="contentPresenter"   Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}"/>
-                            <Setter TargetName="mainBorder" Property="Background" Value="{StaticResource Color}"/>
-                            --><!--<Setter TargetName="innerBorder" Property="BorderThickness" Value="0, 0, 0, 3"/>
-                                            <Setter TargetName="innerBorder" Property="BorderBrush" Value="{DynamicResource HighLightColor}"/>
-                                            <Setter TargetName="innerBorder" Property="Background" Value="{DynamicResource HighDarkerColor}" />--><!--
-                        </MultiDataTrigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>-->
     <Style x:Key="TabItemStyle" TargetType="{x:Type TabItem}">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -334,7 +273,7 @@
                         x:Name="mainBorder"
                         Width="30"
                         Height="30"
-                        CornerRadius="2, 0, 0, 2"
+                        CornerRadius="0"
                         Padding="0"
                         Background="{DynamicResource HighHighDarkerColor}"
                         Margin="0, 0, 0, 0">
@@ -500,31 +439,35 @@
     
     
     <Style x:Key="TabControlLayerPanel" TargetType="{x:Type TabControl}">
-        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemLayerPanel}"/>
         <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="Margin" Value="0"/>
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Background" Value="{DynamicResource HighDarkerColor}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource DarkerColor}"/>
+        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemVerticalPanel}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
+                    
                     <Grid
                         x:Name="templateRoot"
                         ClipToBounds="True"
                         KeyboardNavigation.TabNavigation="Local"
                         SnapsToDevicePixels="True">
+                        
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto"/>
-                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="0.3*"/>
                         </Grid.RowDefinitions>
 
-                        <Border Margin="0" Padding="4">
+                        <Border Margin="0" Padding="0" HorizontalAlignment="Left" Background="{TemplateBinding Background}">
                             <DockPanel>
-                                <TextBlock VerticalAlignment="Center" Margin="8, 0" Text="{Binding Name}"/>
+                                <TextBlock VerticalAlignment="Center" Margin="0, 0" Text="{Binding Name}"/>
                                 <StackPanel
                                     x:Name="HeaderPanel"
                                     Background="Transparent"
                                     Orientation="Horizontal"
-                                    FlowDirection="RightToLeft"
+                                    FlowDirection="LeftToRight"
                                     HorizontalAlignment="Stretch"
                                     IsItemsHost="True" />
                             </DockPanel>
@@ -533,23 +476,21 @@
                         <Border
                             x:Name="ContentPanel"
                             Grid.Row="1"
-                            BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                            Background="Transparent"
+                            
                             SnapsToDevicePixels="True"
                             KeyboardNavigation.DirectionalNavigation="Contained"
                             KeyboardNavigation.TabIndex="2"
                             KeyboardNavigation.TabNavigation="Local">
-
-                            <ContentPresenter                            
+                            <ContentPresenter
                                 x:Name="PART_SelectedContentHost"
                                 Content="{TemplateBinding SelectedContent}"
                                 ContentSource="SelectedContent"
                                 ContentStringFormat="{TemplateBinding SelectedContentStringFormat}"
                                 ContentTemplate="{TemplateBinding SelectedContentTemplate}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-
                         </Border>
                     </Grid>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -559,6 +500,7 @@
 
 
     <Style x:Key="InlineTabItemStyle" TargetType="{x:Type TabItem}">
+        <Setter Property="Height" Value="25"/>
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -570,8 +512,8 @@
 
                         <Border
                             x:Name="innerBorder"
-                            Height="20"
-                            Margin="1, 0"
+                            Height="{TemplateBinding Height}"
+                            Margin="1"
                             VerticalAlignment="Stretch"
                             FlowDirection="LeftToRight"
                             Background="{DynamicResource DarkColor}"
@@ -636,14 +578,7 @@
                             <RowDefinition x:Name="RowDefinition1" Height="*"/>
                         </Grid.RowDefinitions>
 
-                        <Border x:Name="Mask" 
-                                Background="{DynamicResource HighHighDarkerColor}" 
-                                CornerRadius="2"/>
-
-                        <Border Margin="8, 8"  BorderBrush="{DynamicResource Shadow}" BorderThickness="1, 0, 1, 2"  >
-                            <Border.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=Mask}"/>
-                            </Border.OpacityMask>
+                        <Border>
                             <Controls:UniformTabPanel IsItemsHost="True" Grid.Row="0" x:Name="HeaderPanel"/>
                         </Border>
 

@@ -8,9 +8,9 @@ using CMiX.Core.Presentation.ViewModels.Service;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TransformModifierFactory : IModifierFactory
+    public class ModifierFactory : IModifierFactory
     {
-        public TransformModifierFactory(CompositionService compositionService)
+        public ModifierFactory(CompositionService compositionService)
         {
             CompositionService = compositionService;
         }
@@ -19,6 +19,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public IModifier Create(Type modifierType)
         {
+            if (modifierType == typeof(RandomHSV))
+                return CreateRandomHSV();
+
             if (modifierType == typeof(RandomXYZ))
                 return CreateRandomXYZ();
 
@@ -51,7 +54,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public IModifier Create(IModifierModel modifierModel)
         {
-            if(modifierModel is RandomXYZModel randomXYZModel)
+            if (modifierModel is RandomHSVModel randomHSVModel)
+                return CreateRandomHSV(randomHSVModel);
+
+            if (modifierModel is RandomXYZModel randomXYZModel)
                 return CreateRandomXYZ(randomXYZModel);
 
             if (modifierModel is LinearXYZModel linearXYZModel)
@@ -80,6 +86,17 @@ namespace CMiX.Core.Presentation.ViewModels
 
             return null;
         }
+
+        private RandomHSV CreateRandomHSV()
+        {
+            return new RandomHSV(new RandomHSVModel(), CompositionService);
+        }
+
+        private RandomHSV CreateRandomHSV(RandomHSVModel randomHSVModel)
+        {
+            return new RandomHSV(randomHSVModel, CompositionService);
+        }
+
 
 
         private RandomUV CreateRandomXY()

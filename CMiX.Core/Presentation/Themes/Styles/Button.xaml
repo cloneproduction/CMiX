@@ -5,7 +5,7 @@
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Core;component/Presentation/Themes/Basic/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style TargetType="{x:Type Button}">
         <Setter Property="Background" Value="{DynamicResource Color}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
@@ -20,6 +20,7 @@
                     <Border
                         x:Name="border"
                         CornerRadius="2"
+                        Width="{TemplateBinding Width}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Background="{TemplateBinding Background}"

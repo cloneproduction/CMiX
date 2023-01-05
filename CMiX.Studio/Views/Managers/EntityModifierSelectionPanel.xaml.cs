@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class Easing : UserControl
+    public partial class EntityModifierSelectionPanel : UserControl
     {
-        public Easing()
+        public EntityModifierSelectionPanel()
         {
             InitializeComponent();
         }

@@ -38,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels
             GenerateBackFace = new ToggleButton(meshModel.GenerateBackFace);
             Visibility = new ToggleButton(meshModel.Visibility);
 
-            TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new TransformModifierFactory(compositionService));
+            TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new ModifierFactory(compositionService));
         }
 
 

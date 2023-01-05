@@ -19,7 +19,7 @@ namespace CMiX.Core.Models.Component
             IsMask = new ToggleButtonModel();
             Opacity = new SliderModel(1.0f);
 
-            ColorSelectorModel = new ColorSelectorModel("#ffff00ff");
+            BackgroundColor = new ColorSelectorModel("#ffff00ff");
             AmbientOcclusion = new AmbientOcclusionModel();
 
             BlendModeModel = new ComboBoxModel<BlendModeEnum>(BlendModeEnum.Normal);
@@ -46,7 +46,7 @@ namespace CMiX.Core.Models.Component
         public ToggleButtonModel Visibility { get; set; }
 
         public ModifierManagerModel TextureModifierManager { get; set; }
-        public ColorSelectorModel ColorSelectorModel { get; set; }
+        public ColorSelectorModel BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
 
         public ComboBoxModel<BlendModeEnum> BlendModeModel { get; internal set; }

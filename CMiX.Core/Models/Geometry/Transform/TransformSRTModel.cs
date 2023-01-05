@@ -17,7 +17,7 @@ namespace CMiX.Core.Models
             Scale = new ScaleModel();
             Rotation = new RotationModel();
             Visible = new ToggleButtonModel(true);
-            Uniform = new SliderModel(0.0f);
+            Uniform = new SliderModel(1.0f);
 
             Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
 

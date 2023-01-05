@@ -21,14 +21,13 @@
             Text="{Binding Caption, ElementName=toggleButton}" 
             Foreground="{StaticResource TextBase}"/>
 
-        <Grid Grid.Column="1">
-
-            <ToggleButton 
-                HorizontalAlignment="Left" 
-                IsChecked="{Binding IsChecked, ElementName=toggleButton}" 
-                Grid.Column="0" 
-                Margin="0, 0, 1, 0" />
-
-        </Grid>
+        <ToggleButton 
+            Grid.Column="1"
+            HorizontalAlignment="Left" 
+            IsChecked="{Binding IsChecked, ElementName=toggleButton}" 
+            Margin="0, 2, 2, 2"
+            Width="22"
+            Style="{StaticResource ToggleCheckBox}"/>
+        
     </Grid>
 </UserControl>

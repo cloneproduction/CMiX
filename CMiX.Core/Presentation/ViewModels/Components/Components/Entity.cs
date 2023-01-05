@@ -3,8 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.Component;
 using CMiX.Core.Network.Messages;
+using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -20,17 +20,18 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             ID = entityModel.ID;
             Name = this.GetType().Name + ID.ToString();
             CompositionService = compositionService;
+
             TransformSRT = new TransformSRT(entityModel.TransformSRT);
             Mesh = new Mesh(entityModel.Mesh, compositionService);
             MaterialManager = new PrefabManager<Material>(entityModel.MaterialManager, compositionService);
-            TransformModifier = new ModifierManager(entityModel.TransformModifier, new TransformModifierFactory(compositionService));
+
+            ModifierManager = new ModifierManager(entityModel.ModifierManager, new ModifierFactory(compositionService));
             IsActive = true;
         }
 
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
-
 
         private string _name;
         public string Name
@@ -56,7 +57,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public PrefabManager<Material> MaterialManager { get; set; }
         public TransformSRT TransformSRT { get; set; }
-        public ModifierManager TransformModifier { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
 
 
@@ -71,16 +72,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             }
         }
 
-        private Coloration _coloration;
-        public Coloration Coloration
-        {
-            get => _coloration;
-            set
-            {
-                SetProperty(ref _coloration, value);
-                SendMessage(new MessageChangePrefab(this.ID, value, nameof(Coloration)));
-            }
-        }
 
         private Transform _transform;
         public Transform Transform
@@ -98,14 +89,20 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             EntityModel entityModel = model as EntityModel;
             this.ID = entityModel.ID;
+            this.Mesh.SetViewModel(entityModel.Mesh);
             this.TransformSRT.SetViewModel(entityModel.TransformSRT);
+            this.MaterialManager.SetViewModel(entityModel.MaterialManager);
+            this.ModifierManager.SetViewModel(entityModel.ModifierManager);
         }
 
         public IModel GetModel()
         {
             EntityModel entityModel = new EntityModel() ;
             entityModel.ID = ID;
+            entityModel.Mesh = (MeshModel)Mesh.GetModel();
             entityModel.TransformSRT = (TransformSRTModel)TransformSRT.GetModel();
+            entityModel.MaterialManager = (PrefabManagerModel)MaterialManager.GetModel();
+            entityModel.ModifierManager = (ModifierManagerModel)ModifierManager.GetModel();
             return entityModel;
         }
 

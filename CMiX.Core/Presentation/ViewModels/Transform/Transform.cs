@@ -20,7 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Enabled = transformModel.Enabled;
 
             TransformSRT = new TransformSRT(transformModel.TransformSRT);
-            TransformModifier = new ModifierManager(transformModel.TransformModifier, new TransformModifierFactory(compositionService));
+            TransformModifier = new ModifierManager(transformModel.TransformModifier, new ModifierFactory(compositionService));
         }
 
 

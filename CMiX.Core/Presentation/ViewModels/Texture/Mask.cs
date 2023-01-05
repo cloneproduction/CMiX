@@ -19,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             IsEnabled = new ToggleButton(textureModel.IsEnabled);
             TextureModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
-            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new TransformModifierFactory(compositionService));
+            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService));
             SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
             Invert = new ToggleButton(textureModel.Invert);
 

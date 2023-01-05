@@ -31,9 +31,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             if (type == typeof(MasterBeat))
                 return new MasterBeat(new MasterBeatModel(), CompositionService);
 
-            if (type == typeof(Coloration))
-                return new Coloration(new ColorationModel(), CompositionService);
-
             if (type == typeof(Transform))
                 return new Transform(new TransformModel(), CompositionService);
 
@@ -68,9 +65,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 
             if (prefabModel is MasterBeatModel masterBeatModel)
                 return new MasterBeat(masterBeatModel, CompositionService);
-
-            if (prefabModel is ColorationModel colorationModel)
-                return new Coloration(colorationModel, CompositionService);
 
             if (prefabModel is TransformModel transformModel)
                 return new Transform(transformModel, CompositionService);

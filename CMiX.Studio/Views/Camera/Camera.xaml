@@ -5,6 +5,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels" 
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     x:Name="CameraControl"
     d:DesignHeight="294.297"
     d:DesignWidth="260.578"
@@ -12,48 +14,67 @@
 
     <StackPanel>
         
-        <BaseControls:DragValue 
-            Margin="0, 0, 0, 1" 
-            Position="Top" 
-            Caption="Distance" 
-            Value="{Binding Path=Distance.Amount}"/>
+        <Panels:IndentedExpander Header="Settings" Indentation="0">
+            
+            <Border Margin="8">
+                <StackPanel>
+                    
+                    <BaseControls:DragValue 
+                        Margin="0, 0, 0, 1" 
+                        Position="Top" 
+                        Caption="Distance" 
+                        Value="{Binding Path=Distance.Amount}"/>
+
+                    <BaseControls:DragValue 
+                        Caption="FOV" 
+                        Position="Bottom" 
+                        Value="{Binding Path=FOV.Amount}"/>
+
+                    <BaseControls:DragValue 
+                        Margin="0, 8, 0, 1" 
+                        Position="Top" 
+                        Caption="Yaw" 
+                        Value="{Binding Path=Yaw.Amount}"/>
+
+                    <BaseControls:DragValue 
+                        Caption="Pitch" 
+                        Position="Bottom" 
+                        Value="{Binding Path=Pitch.Amount}"/>
+
+                    <BaseControls:VectorXYZ 
+                        Margin="0, 8"
+                        Caption="Target" 
+                        X="{Binding Path=TargetX.Amount}"
+                        Y="{Binding Path=TargetY.Amount}"
+                        Z="{Binding Path=TargetZ.Amount}"/>
+
+                    <BaseControls:ToggleButton 
+                        Caption="Orthographic" 
+                        IsChecked="{Binding Projection.IsChecked}"/>
+
+                    <BaseControls:DragValue 
+                        Margin="0, 8, 0, 1" 
+                        Position="Top" 
+                        Caption="Near" 
+                        Value="{Binding Path=NearClip.Amount}"/>
+
+                    <BaseControls:DragValue 
+                        Caption="Far" 
+                        Position="Bottom" 
+                        Value="{Binding Path=FarClip.Amount}"/>
+                    
+                </StackPanel>
+            </Border>
+
+        </Panels:IndentedExpander>
         
-        <BaseControls:DragValue 
-            Caption="FOV" 
-            Position="Bottom" 
-            Value="{Binding Path=FOV.Amount}"/>
-
-        <BaseControls:DragValue 
-            Margin="0, 8, 0, 1" 
-            Position="Top" 
-            Caption="Yaw" 
-            Value="{Binding Path=Yaw.Amount}"/>
-        <BaseControls:DragValue 
-            Caption="Pitch" 
-            Position="Bottom" 
-            Value="{Binding Path=Pitch.Amount}"/>
-
-        <BaseControls:VectorXYZ 
-            Margin="0, 8"
-            Caption="Target" 
-            X="{Binding Path=TargetX.Amount}"
-            Y="{Binding Path=TargetY.Amount}"
-            Z="{Binding Path=TargetZ.Amount}"/>
-
-        <BaseControls:ToggleButton 
-            Caption="Orthographic" 
-            IsChecked="{Binding Projection.IsChecked}"/>
-
-        <BaseControls:DragValue 
-            Margin="0, 8, 0, 1" 
-            Position="Top" 
-            Caption="Near" 
-            Value="{Binding Path=NearClip.Amount}"/>
-        
-        <BaseControls:DragValue 
-            Caption="Far" 
-            Position="Bottom" 
-            Value="{Binding Path=FarClip.Amount}"/>
+        <Panels:IndentedExpander Header="Modifiers" Indentation="0">
+            <Views:ModifierManager DataContext="{Binding CameraTransformModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:CameraModifierSelectionPanel DataContext="{Binding }"/>
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+        </Panels:IndentedExpander>
 
     </StackPanel>
 

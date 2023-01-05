@@ -9,7 +9,9 @@
 
     <UserControl.ContentTemplate>
         <DataTemplate>
-            <Expander IsExpanded="True" Style="{StaticResource ItemControlExpander}">
+            <Expander IsExpanded="True" 
+                      Style="{StaticResource ItemControlExpander}">
+                
                 <Expander.Header>
                     <Border>
                         <DockPanel>

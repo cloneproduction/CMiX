@@ -5,14 +5,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
-             mc:Ignorable="d" d:DesignHeight="483.46" d:DesignWidth="299.206">
+             mc:Ignorable="d" d:DesignHeight="639.46" d:DesignWidth="351.206">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <i:Interaction.Behaviors>
@@ -20,118 +18,76 @@
         </i:Interaction.Behaviors>
 
         <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">
-            <StackPanel>
-                <StackPanel Margin="8">
+            <DockPanel>
 
-                    <Controls:CMiXSlider
-                        Minimum="0"
-                        Maximum="1"
-                        DockPanel.Dock="Top"
-                        Style="{StaticResource SliderRounded}"
-                        Height="22"
-                        Value="{Binding Opacity.Amount}" 
-                        Caption="Alpha"/>
+                <TabControl TabStripPlacement="Left" 
+                            Background="{DynamicResource HighHighDarkerColor}" 
+                            Style="{StaticResource InLineTabControlStyle}">
 
-                    <BaseControls:ColorSelector 
-                        Margin="0, 8"
-                        Caption="Background" 
-                        SelectedColor="{Binding BackgroundColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        CommandParameter="{Binding}"/>
-                    
-                    <Border>
-                        
-                        <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="Visibility" Value="Visible"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="False">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="True">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-                        
-                        <BaseControls:ComboBox
-                            Caption="Blend Mode"
-                            SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
-                            ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
-                        
-                    </Border>
-
-                    <Border>
-                        
-                        <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                    </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="False">
-                                        <Setter Property="Visibility" Value="Collapsed"/>
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
-
+                    <TabItem IsSelected="True" Header="Entity">
                         <StackPanel>
+                            <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}"/>
 
-                            <BaseControls:ComboBox 
-                                Caption="Mask Mode"
-                                SelectedItem="{Binding MaskMode.Selection, Converter={StaticResource EnumToString}}"
-                                ItemsSource="{Binding Source={StaticResource MaskMode}}"/>
-
-                            <BaseControls:ComboBox 
-                                Margin="0, 4"
-                                Caption="Channel"
-                                SelectedItem="{Binding MaskChannel.Selection}"
-                                ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding ModelEntityManager.SelectedItem}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding ModelEntityManager.SelectedItem.Prefab}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Views:ModelEntity DataContext="{Binding ModelEntityManager.SelectedItem.Prefab}"/>
+                            </Border>
 
                         </StackPanel>
+                    </TabItem>
 
-                    </Border>
+                    <TabItem Header="Camera">
+                        <StackPanel>
+                            <Views:PrefabSlotManager Margin="8" DataContext="{Binding CameraEntityManager}"/>
 
-                </StackPanel>
+                            <Border>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding CameraEntityManager.SelectedItem}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                            <DataTrigger Binding="{Binding CameraEntityManager.SelectedItem.Prefab}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
+                                <Views:Camera DataContext="{Binding CameraEntityManager.SelectedItem.Prefab}"/>
+                            </Border>
 
-                <Border Background="{DynamicResource DarkerColor}"
-                        IsEnabled="{Binding Converter={StaticResource NullToBool}}">
-                    <StackPanel>
-                        
-                        <Panels:IndentedExpander Header="Entities" IsExpanded="True">
-                            <StackPanel>
-                                <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}"/>
-                                <Views:ModelEntity DataContext="{Binding ModelEntityManager.SelectedItem.Prefab}"/>
-                            </StackPanel>
-                        </Panels:IndentedExpander>
+                        </StackPanel>
+                    </TabItem>
 
-                        <Expander Header="Effects">
-                            <StackPanel>
-                                <Expander Header="Filter" IsExpanded="True">
-                                    <Views:TextureFilter  DataContext="{Binding TextureModifierManager}"/>
-                                </Expander>
-                                <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
-                            </StackPanel>
-                        </Expander>
+                    <TabItem Header="Light">
+                        <Views:PrefabSlotManager Margin="8" DataContext="{Binding LightEntityManager}"/>
+                    </TabItem>
 
-                        <Expander Header="Lights">
-                            <Views:PrefabSlotManager DataContext="{Binding LightEntityManager}"/>
-                        </Expander>
+                    <TabItem Header="PostFX">
+                        <StackPanel>
+                            <Panels:IndentedExpander Header="Filter">
+                                <Views:TextureFilter  DataContext="{Binding TextureModifierManager}"/>
+                            </Panels:IndentedExpander>
+                            <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
+                        </StackPanel>
+                    </TabItem>
+                </TabControl>
+            </DockPanel>
 
-                        <Expander Header="Cameras">
-                            <StackPanel>
-                                <Views:PrefabSlotManager DataContext="{Binding CameraEntityManager}"/>
-                                <Views:Camera Margin="8, 0, 8, 8" DataContext="{Binding CameraEntityManager.SelectedItem.Prefab}"/>
-                            </StackPanel>
-                        </Expander>
 
-                    </StackPanel>
-                </Border>
-
-            </StackPanel>
         </Border>
     </ScrollViewer>
 </UserControl>

@@ -19,70 +19,47 @@
 
     </UserControl.Resources>
 
-    <Expander
-        IsExpanded="{Binding IsExpanded}"
-        Header="Random"
-        Template="{StaticResource ModifierPanelTemplate}">
-        <StackPanel>
-            <StackPanel Margin="8, 16">
-                <Grid Height="22" Margin="0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Axis" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
-                    <ComboBox 
+    <StackPanel>
+        <StackPanel Margin="8">
+            <Grid Height="22" Margin="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Axis" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
+                <ComboBox 
                         Grid.Column="1" 
                         SelectedItem="{Binding Axis.Selection}"
                         ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
-                </Grid>
+            </Grid>
+
+            <Grid Margin="0, 8">
                 
-                <Grid Height="20" Margin="0, 8, 0, 16">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Width.Amount}"/>
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Width" 
-                            Foreground="{StaticResource TextBase}"/>
-                </Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
                 
-                <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
+                <Controls:DistanceSlider 
+                    Grid.Column="2" 
+                    Position="Default" 
+                    Style="{StaticResource DistanceSliderStyle}" 
+                    Value="{Binding Width.Amount}"/>
+                
+                <TextBlock 
+                    Grid.Column="0" 
+                    Padding="4" 
+                    HorizontalAlignment="Right" 
+                    Text="Width" 
+                    Foreground="{StaticResource TextBase}"/>
+                
+            </Grid>
 
-
-
-                <!--<Grid Margin="0, 1, 0, 0" Height="22">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <Controls:DistanceSlider 
-                        Grid.Column="2" 
-                        Position="Bottom" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Value="{Binding To.Amount}"/>
-
-                    <TextBlock 
-                        Grid.Column="0" 
-                        Padding="4" 
-                        HorizontalAlignment="Right" 
-                        Text="To" 
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>-->
-
-            </StackPanel>
-
-            <Views:Easing  DataContext="{Binding Easing}"/>
+            <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
 
         </StackPanel>
-    </Expander>
+
+        <Views:Easing  DataContext="{Binding Easing}"/>
+
+    </StackPanel>
 </UserControl>

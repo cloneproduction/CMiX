@@ -10,11 +10,19 @@
              d:DesignHeight="486" d:DesignWidth="322.667">
 
     <StackPanel>
-        <Panels:IndentedExpander Header="Transform" Indentation="8">
+        <Panels:IndentedExpander Header="Transform" Indentation="0">
             <Views:TransformSRT DataContext="{Binding TransformSRT}"/>
         </Panels:IndentedExpander>
-
-        <Panels:IndentedExpander Header="Material" Indentation="8">
+        
+        <Panels:IndentedExpander Header="Modifiers" Indentation="0">
+            <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:EntityModifierSelectionPanel DataContext="{Binding }"/>
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+        </Panels:IndentedExpander>
+        
+        <Panels:IndentedExpander Header="Material" Indentation="0">
             <StackPanel>
 
                 <Grid DockPanel.Dock="Left" Margin="8" Height="22">
@@ -25,9 +33,9 @@
                     <ComboBox
                         Grid.Column="0"
                         DockPanel.Dock="Bottom" 
-                        SelectedValue="{Binding Material}"
-                        SelectedValuePath="Prefab"
-                        ItemsSource="{Binding CompositionService.MaterialManager.Prefabs}">
+                        SelectedItem="{Binding MaterialManager.SelectedItem}"
+                        ItemsSource="{Binding MaterialManager.Prefabs}"
+                        Style="{StaticResource ComboBoxRoundedLeft}">
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>
                                 <TextBlock Text="{Binding Name}"/>
@@ -35,23 +43,39 @@
                         </ComboBox.ItemTemplate>
                     </ComboBox>
                     <Button
+                        Margin="1, 0, 0, 0"
                         Grid.Column="2" 
                         DockPanel.Dock="Right" 
                         Width="22" 
                         Content="+"
-                        Command="{Binding CompositionService.MaterialManager.AddItemCommand}"/>
+                        Command="{Binding MaterialManager.AddItemCommand}"
+                        Style="{StaticResource ButtonRoundedRight}"/>
                 </Grid>
-                <Views:Material DataContext="{Binding Material}"/>
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding MaterialManager.SelectedItem}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                                <DataTrigger Binding="{Binding MaterialManager.SelectedItem.Prefab}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+                    <Views:Material DataContext="{Binding MaterialManager.SelectedItem.Prefab}"/>
+                </Border>
+                
             </StackPanel>
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Mesh" Indentation="8">
+        <Panels:IndentedExpander Header="Mesh" Indentation="0">
             <Component:Mesh DataContext="{Binding Mesh}" Margin="8"/>
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Modifiers" Indentation="8">
-            <Views:TransformModifierManager DataContext="{Binding TransformModifier}"/>
-        </Panels:IndentedExpander>
+
 
     </StackPanel>
 </UserControl>

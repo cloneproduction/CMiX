@@ -29,65 +29,16 @@
     </UserControl.Resources>
 
     <StackPanel>
-        <Panels:IndentedExpander Header="Texture" Indentation="16">
-            <Views:Texture DataContext="{Binding Texture}"/>
-        </Panels:IndentedExpander>
-
-        <Panels:IndentedExpander IsExpanded="{Binding Mask.IsExpanded}" Indentation="16">
-            <Panels:IndentedExpander.Header>
-                <DockPanel>
-                    <ToggleButton
-                        Style="{StaticResource ToggleButtonIcon}"
-                        Height="14"
-                        Width="14"
-                        IsChecked="{Binding Mask.IsEnabled.IsChecked}"/>
-
-                    <TextBlock Text="Mask" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
-                </DockPanel>
-            </Panels:IndentedExpander.Header>
-
-            <StackPanel >
-                <StackPanel Margin="8">
-                    <BaseControls:ComboBox    
-                        Caption="MaskChannel"
-                        SelectedItem="{Binding MaskChannelSelector.Selection}" 
-                        ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
-                    <BaseControls:ToggleButton 
-                        Margin="0, 8, 0, 0"
-                        Caption="Invert" 
-                        IsChecked="{Binding Mask.Invert.IsChecked}"/>
-                </StackPanel>
-
-                
-                <Border BorderThickness="0, 1, 0, 0" BorderBrush="{DynamicResource Shadow}"/>
-                <Views:Texture DataContext="{Binding Mask}"/>
-
-            </StackPanel>
-        </Panels:IndentedExpander>
-        <Panels:IndentedExpander Header="Surface" IsExpanded="True" Indentation="16">
+        <Panels:IndentedExpander Header="Surface" Indentation="16">
             <StackPanel Margin="8">
 
-                <Grid Margin="0, 0, 0, 8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Base Color" 
-                        HorizontalAlignment="Right" Padding="4, 0"
-                        VerticalAlignment="Center"/>
-                    <Border Grid.Column="1">
-                        <Button Height="22"
-                            Margin="0"
-                            Command="{Binding OpenColorSelectorCommand}"
-                            Style="{StaticResource ButtonColorStyle}">
-                            <Button.Background>
-                                <SolidColorBrush Color="{Binding ColorSelector.SelectedColor}"/>
-                            </Button.Background>
-                        </Button>
-                    </Border>
-                </Grid>
-                
+                <BaseControls:ColorSelector 
+                    Margin="0, 8"
+                    Caption="Base Color" 
+                    SelectedColor="{Binding Color.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+                    Command="{Binding OpenColorSelectorCommand}"
+                    CommandParameter="{Binding}"/>
+
                 <Controls:CMiXSlider 
                     Height="22"
                     Grid.Column="2" 
@@ -127,7 +78,7 @@
                     Position="Top" 
                     Value="{Binding Glossiness.Amount}">
                     <Controls:CMiXSlider.Style>
-                        <Style TargetType="Controls:CMiXSlider">
+                        <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Specular}">
@@ -150,7 +101,7 @@
                     Margin="0, 0, 0, 8"
                     Value="{Binding Specularity.Amount}">
                     <Controls:CMiXSlider.Style>
-                        <Style TargetType="Controls:CMiXSlider">
+                        <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Specular}">
@@ -170,7 +121,7 @@
                     Minimum="0"
                     Value="{Binding Metalness.Amount}">
                     <Controls:CMiXSlider.Style>
-                        <Style BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}" TargetType="Controls:CMiXSlider">
+                        <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedBottom}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding Pipeline.Selection}"  Value="{x:Static ViewModels:PipelineType.Metallic}">
@@ -182,6 +133,41 @@
                 </Controls:CMiXSlider>
             </StackPanel>
         </Panels:IndentedExpander>
+        <Panels:IndentedExpander Header="Texture" Indentation="16">
+            <Views:Texture DataContext="{Binding Texture}"/>
+        </Panels:IndentedExpander>
+        <Panels:IndentedExpander IsExpanded="{Binding Mask.IsExpanded}" Indentation="16">
+            <Panels:IndentedExpander.Header>
+                <DockPanel>
+                    <ToggleButton
+                        Style="{StaticResource ToggleButtonIcon}"
+                        Height="14"
+                        Width="14"
+                        IsChecked="{Binding Mask.IsEnabled.IsChecked}"/>
+
+                    <TextBlock Text="Mask" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                </DockPanel>
+            </Panels:IndentedExpander.Header>
+
+            <StackPanel >
+                <StackPanel Margin="8">
+                    <BaseControls:ComboBox    
+                        Caption="MaskChannel"
+                        SelectedItem="{Binding MaskChannelSelector.Selection}" 
+                        ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
+                    <BaseControls:ToggleButton 
+                        Margin="0, 8, 0, 0"
+                        Caption="Invert" 
+                        IsChecked="{Binding Mask.Invert.IsChecked}"/>
+                </StackPanel>
+
+                
+                <Border BorderThickness="0, 1, 0, 0" BorderBrush="{DynamicResource Shadow}"/>
+                <Views:Texture DataContext="{Binding Mask}"/>
+
+            </StackPanel>
+        </Panels:IndentedExpander>
+
     </StackPanel>
 
 </UserControl>

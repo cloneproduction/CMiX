@@ -13,7 +13,7 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
 
-            ColorSelectorModel = new ColorSelectorModel();
+            ColorModel = new ColorSelectorModel();
             Texture = new TextureModel();
             Mask = new MaskModel();
             MaskChannelSelector = new ComboBoxModel<MaskChannel>(MaskChannel.Luma);
@@ -35,7 +35,7 @@ namespace CMiX.Core.Models
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public ColorSelectorModel ColorSelectorModel { get; set; }
+        public ColorSelectorModel ColorModel { get; set; }
 
         public TextureModel Texture { get; set; }
         public MaskModel Mask { get; set; }

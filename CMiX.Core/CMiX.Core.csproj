@@ -178,7 +178,6 @@
     <Compile Include="Models\BaseControls\StringControlModel.cs" />
     <Compile Include="Models\BaseControls\VectorXYModel.cs" />
     <Compile Include="Models\BaseControls\VectorXYZModel.cs" />
-    <Compile Include="Models\Coloration\ColorationModel.cs" />
     <Compile Include="Models\Component\LayerMaskModel.cs" />
     <Compile Include="Models\Component\LayerModel.cs" />
     <Compile Include="Models\Component\LayerSceneModel.cs" />
@@ -378,7 +377,6 @@
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraAxis.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\ICameraModifier.cs" />
     <Compile Include="Presentation\ViewModels\Camera\Modifiers\CameraLFO.cs" />
-    <Compile Include="Presentation\ViewModels\Coloration\Coloration.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Entity.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\MaskChannelModel.cs" />
     <Compile Include="Presentation\ViewModels\Modifiers\MessageModifierManagerHandler.cs" />
@@ -409,7 +407,6 @@
     <Compile Include="Presentation\ViewModels\Entity\Lights\LightType.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Model\Mesh.cs" />
     <Compile Include="Presentation\ViewModels\Entity\Model\MeshType.cs" />
-    <Compile Include="Presentation\ViewModels\Material\ColorModifierFactory.cs" />
     <Compile Include="Presentation\ViewModels\Material\CullModeType.cs" />
     <Compile Include="Presentation\ViewModels\Material\IColorModifier.cs" />
     <Compile Include="Presentation\ViewModels\Material\IMaterialPipeline.cs" />
@@ -537,7 +534,7 @@
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\RandomScale.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureFilter\RandomUV.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\RandomXYZ.cs" />
-    <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierFactory.cs" />
+    <Compile Include="Presentation\ViewModels\Transform\Modifiers\ModifierFactory.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierNames.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\ModifierMode.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\RotationModifier.cs" />
@@ -625,7 +622,6 @@
     <Compile Include="Presentation\Windows\ColorSelectorDialog.cs" />
     <Compile Include="Presentation\Windows\MessengerSettingsDialog.cs" />
     <Compile Include="Presentation\ViewModels\Dialogs\ModalDialog.cs" />
-    <Compile Include="Presentation\ViewModels\AnimParameter\AnimParameter.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Rotation.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Scale.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Transform.cs" />
@@ -1081,7 +1077,9 @@
     <Resource Include="Presentation\Themes\Assets\Arrow_Right.png" />
     <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Presentation\ViewModels\Coloration\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

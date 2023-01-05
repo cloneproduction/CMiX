@@ -31,7 +31,8 @@
         <Expander.Header>
             <DockPanel>
                 <Controls:CMiXToggleButton
-                    Style="{DynamicResource CMiXToggleButtonStyle}"
+                    Width="16"
+                    Style="{DynamicResource ToggleButtonRounded}"
                     IsChecked="{Binding IsEnabled}"/>
                 <TextBlock Text="Easing" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
             </DockPanel>

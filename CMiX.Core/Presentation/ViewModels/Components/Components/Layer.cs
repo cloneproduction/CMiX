@@ -25,17 +25,14 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             Opacity = new Slider(nameof(Opacity), layerModel.Opacity);
 
-            BackgroundColor = new ColorSelector(layerModel.ColorSelectorModel);
+            BackgroundColor = new ColorSelector(layerModel.BackgroundColor);
 
             MaskChannel = new ComboBox<MaskChannel>(layerModel.MaskChannelModel);
             BlendMode = new ComboBox<BlendModeEnum>(layerModel.BlendModeModel);
             MaskMode = new ComboBox<MaskMode>(layerModel.MaskModeModel);
 
-
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
             OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
-
-            TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService));
 
             TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService));
             ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
@@ -84,9 +81,17 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             model.ID = ID;
             model.Name = Name;
+            model.Opacity = (SliderModel)Opacity.GetModel();
+
+            model.ModelEntityManager = (PrefabManagerModel)ModelEntityManager.GetModel();
+            model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
+            model.CameraEntityManager = (PrefabManagerModel)CameraEntityManager.GetModel();
+            model.LightEntityManager = (PrefabManagerModel)LightEntityManager.GetModel();
+
+            model.BackgroundColor = (ColorSelectorModel)BackgroundColor.GetModel();
             model.Visibility = (ToggleButtonModel)Visibility.GetModel();
             model.IsMask = (ToggleButtonModel)IsMask.GetModel();
-            model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
+
             model.MaskChannelModel = (ComboBoxModel<MaskChannel>)this.MaskChannel.GetModel();
             model.MaskModeModel = (ComboBoxModel<MaskMode>)this.MaskMode.GetModel();
             model.BlendModeModel = (ComboBoxModel<BlendModeEnum>)this.BlendMode.GetModel();
@@ -99,9 +104,17 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             this.ID = layerModel.ID;
             this.Name = layerModel.Name;
+            this.Opacity.SetViewModel(layerModel.Opacity);
+
+            this.ModelEntityManager.SetViewModel(layerModel.ModelEntityManager);
+            this.TextureModifierManager.SetViewModel(layerModel.TextureModifierManager);
+            this.CameraEntityManager.SetViewModel(layerModel.CameraEntityManager);
+            this.LightEntityManager.SetViewModel(layerModel.LightEntityManager);
+
+            this.BackgroundColor.SetViewModel(layerModel.BackgroundColor);
             this.Visibility.SetViewModel(layerModel.Visibility);
             this.IsMask.SetViewModel(layerModel.IsMask);
-            this.TextureModifierManager.SetViewModel(layerModel.TextureModifierManager);
+
             this.MaskChannel.SetViewModel(layerModel.MaskChannelModel);
             this.MaskMode.SetViewModel(layerModel.MaskModeModel);
             this.BlendMode.SetViewModel(layerModel.BlendModeModel);

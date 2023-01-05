@@ -19,97 +19,93 @@
 
     </UserControl.Resources>
 
-    <Expander
-        IsExpanded="{Binding IsExpanded}"
-        Header="LFO"
-        Template="{StaticResource ModifierPanelTemplate}">
-        <StackPanel>
-            <StackPanel Margin="8">
-                <Grid Height="22" Margin="0, 0, 0, 8">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="Axis" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
-                    <ComboBox 
+    <StackPanel>
+        <StackPanel Margin="8">
+            <Grid Height="22" Margin="0, 0, 0, 8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Text="Axis" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
+                <ComboBox 
                         Grid.Column="1" 
                         SelectedItem="{Binding Axis.Selection}"
                         ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
-                </Grid>
+            </Grid>
 
-                <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
+            <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
 
-                <Grid Height="20" Margin="0, 8, 0, 0">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
+            <Grid Height="20" Margin="0, 8, 0, 0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <Controls:DistanceSlider 
                             Grid.Column="2" 
                             Position="Top" 
                             Style="{StaticResource DistanceSliderStyle}" 
                             Value="{Binding From.Amount}"/>
-                    <TextBlock 
+                <TextBlock 
                             Grid.Column="0" 
                             Padding="4" 
                             HorizontalAlignment="Right" 
                             Text="From" 
                             Foreground="{StaticResource TextBase}"/>
-                </Grid>
+            </Grid>
 
-                <Grid Margin="0, 1, 0, 8" Height="20">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+            <Grid Margin="0, 1, 0, 8" Height="20">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-                    <Controls:DistanceSlider 
+                <Controls:DistanceSlider 
                         Grid.Column="2" 
                         Position="Bottom" 
                         Style="{StaticResource DistanceSliderStyle}" 
                         Value="{Binding To.Amount}"/>
 
-                    <TextBlock 
+                <TextBlock 
                         Grid.Column="0" 
                         Padding="4" 
                         HorizontalAlignment="Right" 
                         Text="To" 
                         Foreground="{StaticResource TextBase}"/>
-                </Grid>
+            </Grid>
 
-                <Grid Height="20" Margin="0, 4, 0, 4">
+            <Grid Height="20" Margin="0, 4, 0, 4">
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
 
-                    <TextBlock 
+                <TextBlock 
                         Grid.Column="0" 
                         Padding="4" 
                         HorizontalAlignment="Right" 
                         Text="PingPong" 
                         Foreground="{StaticResource TextBase}"/>
 
-                    <Grid Grid.Column="2">
+                <Grid Grid.Column="2">
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
 
-                        <ToggleButton 
+                    <ToggleButton 
                             HorizontalAlignment="Left" 
                             IsChecked="{Binding PingPong.IsChecked}" 
                             Grid.Column="0" 
                             Margin="0, 0, 1, 0" 
                             Content="X"/>
 
-                    </Grid>
                 </Grid>
+            </Grid>
 
-                <!--<Grid Height="20" Margin="0, 8, 0, 4">
+            <!--<Grid Height="20" Margin="0, 8, 0, 4">
 
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
@@ -123,10 +119,12 @@
                         Padding="4" 
                         Foreground="{DynamicResource TextBase}"/>
 
-                    --><!--<ComboBox 
+                    -->
+            <!--<ComboBox 
                         Grid.Column="1" 
                         SelectedItem="{Binding TransformType.Selection}"
-                        ItemsSource="{Binding Source={StaticResource CameraTransformType}}"/>--><!--
+                        ItemsSource="{Binding Source={StaticResource CameraTransformType}}"/>-->
+            <!--
 
                 </Grid>
 
@@ -159,10 +157,9 @@
                     </Grid>
                 </Grid>-->
 
-            </StackPanel>
-
-            <Views:Easing  DataContext="{Binding Easing}"/>
-
         </StackPanel>
-    </Expander>
+
+        <Views:Easing  DataContext="{Binding Easing}"/>
+
+    </StackPanel>
 </UserControl>

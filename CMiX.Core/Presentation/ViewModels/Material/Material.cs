@@ -2,12 +2,15 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -18,6 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = materialModel.ID;
             Name = this.GetType().Name;
+            CompositionService = compositionService;
 
             Texture = new Texture(materialModel.Texture, compositionService);
 
@@ -35,11 +39,14 @@ namespace CMiX.Core.Presentation.ViewModels
             IsShadowCaster = new ToggleButton(materialModel.IsShadowCaster);
 
             IsActive = true;
+
+            Color = new ColorSelector(materialModel.ColorModel);
+            OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
         }
 
 
         public Guid ID { get; set; }
-
+        public CompositionService CompositionService { get; set; }
 
         private Texture _texture;
         public Texture Texture
@@ -67,6 +74,14 @@ namespace CMiX.Core.Presentation.ViewModels
             if (CanSend)
                 WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.Out);
         }
+
+        public ColorSelector Color { get; set; }
+        public ICommand OpenColorSelectorCommand { get; set; }
+        public void OpenColorSelector()
+        {
+            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.Color);
+        }
+
 
 
         public Mask Mask { get; set; }
@@ -131,6 +146,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.IsShadowCaster = (ToggleButtonModel)IsShadowCaster.GetModel();
 
+            model.ColorModel = (ColorSelectorModel)Color.GetModel();
+            
             return model;
         }
 
@@ -153,6 +170,8 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Alpha.SetViewModel(materialModel.Alpha);
 
             this.IsShadowCaster.SetViewModel(materialModel.IsShadowCaster);
+
+            this.Color.SetViewModel(materialModel.ColorModel);
         }
 
         public void Dispose()

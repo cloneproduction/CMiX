@@ -15,7 +15,7 @@
             Minimum="0" 
             Maximum="1" 
             Value="{Binding FactorX.Amount}" 
-            Style="{StaticResource CMiXSliderStyle}" 
+            Style="{StaticResource SliderRoundedTop}" 
             Position="Top"/>
 
         <Controls:CMiXSlider 
@@ -23,7 +23,7 @@
             Minimum="0" 
             Maximum="1" 
             Value="{Binding FactorY.Amount}" 
-            Style="{StaticResource CMiXSliderStyle}" 
+            Style="{StaticResource SliderRoundedBottom}" 
             Position="Bottom"/>
 
         <Controls:CMiXSlider 
@@ -32,7 +32,7 @@
             Minimum="0" 
             Maximum="1" 
             Value="{Binding Control.Amount}" 
-            Style="{StaticResource CMiXSliderStyle}" 
+            Style="{StaticResource SliderRounded}" 
             Position="Default"/>
         
     </StackPanel>

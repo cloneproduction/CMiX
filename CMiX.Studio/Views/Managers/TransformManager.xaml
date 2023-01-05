@@ -72,7 +72,7 @@
                                 <TextBlock Text="Modifiers" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                             </DockPanel>
                         </Expander.Header>
-                        <Views:TransformModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
+                        <Views:ModifierManager DataContext="{Binding SelectedItem.Prefab.TransformModifier}"/>
                     </Expander>
 
                 </StackPanel>

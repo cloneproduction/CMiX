@@ -21,7 +21,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             IsEnabled = new ToggleButton(textureModel.IsEnabled);
             TextureModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
-            TextureTransformModifierManager = new ModifierManager(textureModel.TransformModifierManager, new TransformModifierFactory(compositionService));
+            TextureTransformModifierManager = new ModifierManager(textureModel.TransformModifierManager, new ModifierFactory(compositionService));
             SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
 
             ImageSelector = new ImageSelector(new AssetImage(), textureModel.TextureSelectorModel);
@@ -32,6 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
             SelectedAssetType = new ComboBox<int>(textureModel.SelectedAssetType);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
+            TransformUV = new TransformSRT(textureModel.TransformUV);
         }
 
 
@@ -41,7 +42,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public ToggleButton IsEnabled { get; set; }
         public SamplerState SamplerState { get; set; }
-
+        public TransformSRT TransformUV { get; set; }
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -99,6 +100,7 @@ namespace CMiX.Core.Presentation.ViewModels
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
             model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();
+            model.TransformUV = (TransformSRTModel)this.TransformUV.GetModel();
 
             return model;
         }
@@ -119,6 +121,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.TypeWriter.SetViewModel(textureModel.TypeWriter);
             this.SamplerState.SetViewModel(textureModel.SamplerState);
             this.ProceduralSelector.SetViewModel(textureModel.ProceduralSelector);
+            this.TransformUV.SetViewModel(textureModel.TransformUV);
         }
     }
 }

@@ -17,29 +17,29 @@
         <BaseControls:DragValue  
             Margin="0, 8, 0, 1"
             Caption="Scale X"
-            Value="{Binding Scale.X.Amount}" 
+            Value="{Binding Scale.XYZ.X.Amount}" 
             Position="Top"/>
 
         <BaseControls:DragValue  
             Caption="Y"
-            Value="{Binding Scale.Y.Amount}" 
+            Value="{Binding Scale.XYZ.Y.Amount}" 
             Position="Bottom"/>
 
         <BaseControls:DragValue  
             Margin="0, 8"
             Caption="Rotate"
-            Value="{Binding Rotate.Amount}" 
+            Value="{Binding Rotation.XYZ.Z.Amount}" 
             Position="Default"/>
 
         <BaseControls:DragValue  
             Margin="0, 0, 0, 1"
             Caption="Translate X"
-            Value="{Binding Translate.X.Amount}" 
+            Value="{Binding Translate.XYZ.X.Amount}" 
             Position="Top"/>
 
         <BaseControls:DragValue  
             Caption="Y"
-            Value="{Binding Translate.Y.Amount}" 
+            Value="{Binding Translate.XYZ.Y.Amount}" 
             Position="Bottom"/>
 
     </StackPanel>
