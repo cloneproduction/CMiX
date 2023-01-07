@@ -243,10 +243,10 @@
                             <DockPanel>
                                 <Views:Outliner VerticalAlignment="Top" DockPanel.Dock="Top" Margin="8" Grid.Column="1"  DataContext="{Binding Project.CompositionManager}"/>
                                 <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filter">
-                                    <Views:TextureFilter  DataContext="{Binding TextureModifierManager}"/>
+                                    <Views:TextureFilter  DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.TextureModifierManager}"/>
                                 </Panels:IndentedExpander>
                                 <Panels:IndentedExpander Header="Render Settings" DockPanel.Dock="Top">
-                                    <ComponentViews:CompositionSettings DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.OutputSettings}"/>
+                                    <ComponentViews:CompositionSettings DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.OutputSettings}"/>
                                 </Panels:IndentedExpander>
                             </DockPanel>
                         </Border>

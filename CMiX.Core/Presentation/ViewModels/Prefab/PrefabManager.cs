@@ -169,14 +169,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             prefab.IsSelected = true;
             PrefabRepository?.AddPrefab((T)prefab);
 
-
-            //if(SelectedItem != null)
-            //{
-            //    SelectedItem.Prefab = prefab;
-            //    Console.WriteLine();
-            //    return SelectedItem;
-            //}    
-
             PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel());
             prefabContainer.Prefab = (T)prefab;
             prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
@@ -188,10 +180,15 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 
         public void AddPrefab(Guid containerID, IPrefabModel prefabModel)
         {
-            var container = GetPrefab(containerID);//.Prefabs.FirstOrDefault(x => x.ID == messageAddPrefab.ContainerID);
+            bool addToContainer = false;
+
+            var container = GetPrefab(containerID);
 
             if (container == null)
+            {
+                addToContainer = true;
                 container = new PrefabContainer(new PrefabContainerModel(containerID));
+            }
 
             if (prefabModel != null)
             {
@@ -205,7 +202,10 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             }
 
             ((PrefabContainer)container).PrefabChanged += PrefabContainer_PrefabChanged;
-            Prefabs.Add((PrefabContainer)container);
+
+            if(addToContainer)
+                Prefabs.Add((PrefabContainer)container);
+
             SelectedItem = (PrefabContainer)container;
         }
 
@@ -217,30 +217,36 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             prefab.IsSelected = true;
             PrefabRepository?.AddPrefab((T)prefab);
 
-            SelectedItem.Prefab = (T)prefab;
-            SelectedItem.PrefabChanged += PrefabContainer_PrefabChanged;
+            prefabContainer.Prefab = (T)prefab;
+            prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
+           //Prefabs.Add(prefabContainer);
+            SelectedItem = prefabContainer;
+
+            Send(new MessageAddPrefab(this.ID, prefabContainer));
         }
+
 
         public virtual void AddItem()
         {
-            PrefabContainer prefab = CreatePrefabContainer();
-            Send(new MessageAddPrefab(this.ID, prefab));
+            PrefabContainer prefabContainer = CreatePrefabContainer();
+            Send(new MessageAddPrefab(this.ID, prefabContainer));
         }
 
 
         int nameCount = 0;
-        public void AddItem(Guid containerID, IPrefabModel prefabModel)
-        {
-            var container = GetPrefab(containerID);
 
-            IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
-            prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
-            nameCount++;
+        //public void AddItem(Guid containerID, IPrefabModel prefabModel)
+        //{
+        //    var container = GetPrefab(containerID);
 
-            prefab.IsSelected = true;
-            PrefabRepository?.AddPrefab((T)prefab);
-            ((PrefabContainer)container).Prefab = (T)prefab;
-        }
+        //    IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
+        //    prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+        //    nameCount++;
+
+        //    prefab.IsSelected = true;
+        //    PrefabRepository?.AddPrefab((T)prefab);
+        //    ((PrefabContainer)container).Prefab = (T)prefab;
+        //}
 
         public void AddEmptyItem()
         {

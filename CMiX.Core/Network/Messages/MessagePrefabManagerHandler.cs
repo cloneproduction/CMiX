@@ -23,6 +23,11 @@ namespace CMiX.Core.Network.Messages
                     return true;
                 }
 
+                if(message is MessageAddPrefabToContainer messageAddPrefabToContainer)
+                {
+                    prefabManager.AddPrefab(messageAddPrefabToContainer.ContainerID, messageAddPrefabToContainer.Model);
+                }
+
                 if (message is MessageRemovePrefab messageRemovePrefab)
                 {
                     prefabManager.DeleteItem(messageRemovePrefab.PrefabID);

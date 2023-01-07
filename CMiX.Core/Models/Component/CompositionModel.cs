@@ -24,7 +24,7 @@ namespace CMiX.Core.Models
             VisibilityModel = new VisibilityModel();
             CameraManagerModel = new PrefabManagerModel();
             OutputSettings = new OutputSettingsModel();
-            ModifierManager = new ModifierManagerModel();
+            TextureModifierManager = new ModifierManagerModel();
             MaterialManager = new PrefabManagerModel();
 
             LayerManager = new PrefabManagerModel();
@@ -47,7 +47,7 @@ namespace CMiX.Core.Models
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }
         public PrefabManagerModel CameraManagerModel { get; set; }
         public OutputSettingsModel OutputSettings { get; set; }
-        public ModifierManagerModel ModifierManager { get; internal set; }
+        public ModifierManagerModel TextureModifierManager { get; internal set; }
         public PrefabManagerModel MaterialManager { get; internal set; }
         public PrefabManagerModel LayerManager { get; set; }
     }

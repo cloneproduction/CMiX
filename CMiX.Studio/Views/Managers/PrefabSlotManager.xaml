@@ -128,6 +128,7 @@
                                         </MultiDataTrigger.Conditions>
                                         <Setter Property="Visibility" Value="Visible" />
                                         <Setter Property="Command" Value="{Binding AddItemToContainerCommand}"/>
+                                        <Setter Property="CommandParameter" Value="{Binding SelectedItem}"/>
                                     </MultiDataTrigger>
 
                                     <MultiDataTrigger>

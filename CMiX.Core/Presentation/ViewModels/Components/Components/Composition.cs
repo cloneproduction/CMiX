@@ -22,7 +22,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             OutputSettings = new OutputSettings(compositionModel.OutputSettings, compositionService);
             LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
-            ModifierManager = new ModifierManager(compositionModel.ModifierManager, new TextureFilterFactory(compositionService));
+            TextureModifierManager = new ModifierManager(compositionModel.TextureModifierManager, new TextureFilterFactory(compositionService));
 
             IsActive = true;
         }
@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public CompositionService CompositionService { get; set; }
         public PrefabManager<Layer> LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager TextureModifierManager { get; set; }
 
 
         private MasterBeat _masterBeat;
@@ -53,7 +53,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.Name = this.Name;
             model.ID = this.ID;
             model.OutputSettings = (OutputSettingsModel)this.OutputSettings.GetModel();
-            model.ModifierManager = (ModifierManagerModel)this.ModifierManager.GetModel();
+            model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.LayerManager = (PrefabManagerModel)this.LayerManager.GetModel();
             return model;
         }
@@ -63,7 +63,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             CompositionModel compositionModel = model as CompositionModel;
             this.ID = compositionModel.ID;
             this.OutputSettings.SetViewModel(compositionModel.OutputSettings);
-            this.ModifierManager.SetViewModel(compositionModel.ModifierManager);
+            this.TextureModifierManager.SetViewModel(compositionModel.TextureModifierManager);
             this.LayerManager.SetViewModel(compositionModel.LayerManager);
         }
     }
