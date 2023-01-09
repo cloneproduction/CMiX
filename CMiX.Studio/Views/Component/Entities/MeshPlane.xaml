@@ -14,62 +14,21 @@
             <BaseControl:VectorXY DataContext="{Binding Scale}"/>
             <BaseControl:VectorXYZ Margin="0, 8" DataContext="{Binding Offset}"/>
 
-            <Grid Margin="0, 0" Height="22">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+            <BaseControl:Counter 
+                Position="Top" 
+                Caption="Tessellation X" 
+                Count="{Binding TessellationX.Count}"/>
+            
+            <BaseControl:Counter 
+                Position="Bottom" 
+                Margin="0, 1, 0, 8" 
+                Caption="Y" 
+                Count="{Binding TessellationY.Count}"/>
 
-                <Controls:Counter 
-                    Grid.Column="1"
-                    DataContext="{Binding TessellationX}"
-                    Style="{DynamicResource CMiXCounterStyle}"
-                    StepValue="1"
-                    HorizontalAlignment="Stretch"
-                    Value="{Binding Count, Mode=TwoWay}"/>
+            <BaseControl:ToggleButton
+                Caption="Generate Backface" 
+                IsChecked="{Binding GenerateBackFace.IsChecked}"/>
 
-                <TextBlock 
-                    Grid.Column="0"
-                    Padding="8, 0" 
-                    HorizontalAlignment="Right" 
-                    Text="Tessellation X" 
-                    Foreground="{DynamicResource TextBase}"/>
-
-            </Grid>
-
-            <Grid Margin="0, 0" Height="22">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Controls:Counter 
-                    Grid.Column="1"
-                    DataContext="{Binding TessellationX}"
-                    Style="{DynamicResource CMiXCounterStyle}"
-                    StepValue="1"
-                    HorizontalAlignment="Stretch"
-                    Value="{Binding Count, Mode=TwoWay}"/>
-
-                <TextBlock 
-                    Padding="8, 0" 
-                    HorizontalAlignment="Right" 
-                    Text="Y" 
-                    Foreground="{DynamicResource TextBase}"/>
-            </Grid>
-
-            <Grid Margin="0, 8, 0, 0" Height="22">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.9*"/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:CMiXToggleButton
-                    Grid.Column="1"
-                    Style="{DynamicResource CMiXToggleButtonStyle}"
-                    Caption="Generate BackFace"
-                    HorizontalAlignment="Left"
-                    IsChecked="{Binding GenerateBackFace.IsChecked}"/>
-            </Grid>
         </StackPanel>
     </Grid>
 </UserControl>

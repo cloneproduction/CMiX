@@ -9,27 +9,33 @@
              mc:Ignorable="d" d:DesignHeight="210.285" d:DesignWidth="298.727" >
 
 
-    <Border Padding="0, 0, 0, 0" Background="{DynamicResource HighDarkerColor}">
-        <DockPanel Grid.Row="0">
+    <Border Background="{DynamicResource HighDarkerColor}">
+        <DockPanel>
 
-            <Border DockPanel.Dock="Bottom" BorderThickness="0, 1, 0, 0" BorderBrush="{DynamicResource SuperHighDarkerColor}">
-                <StackPanel DataContext="{Binding SelectedItem.Prefab}" Margin="8">
+            <Border DockPanel.Dock="Bottom" 
+                    Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}"
+                    BorderThickness="0, 1, 0, 0" 
+                    BorderBrush="{DynamicResource SuperHighDarkerColor}">
+                
+                <StackPanel 
+                    DataContext="{Binding SelectedItem.Prefab}" 
+                    Margin="8">
 
                     <Controls:CMiXSlider
-                    Minimum="0"
-                    Maximum="1"
-                    DockPanel.Dock="Top"
-                    Style="{StaticResource SliderRounded}"
-                    Height="22"
-                    Value="{Binding Opacity.Amount}" 
-                    Caption="Alpha"/>
+                        Minimum="0"
+                        Maximum="1"
+                        DockPanel.Dock="Top"
+                        Style="{StaticResource SliderRounded}"
+                        Height="22"
+                        Value="{Binding Opacity.Amount}" 
+                        Caption="Alpha"/>
 
                     <BaseControls:ColorSelector 
-                    Margin="0, 8"
-                    Caption="Background" 
-                    SelectedColor="{Binding BackgroundColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
-                    Command="{Binding OpenColorSelectorCommand}"
-                    CommandParameter="{Binding}"/>
+                        Margin="0, 8"
+                        Caption="Background" 
+                        SelectedColor="{Binding BackgroundColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+                        Command="{Binding OpenColorSelectorCommand}"
+                        CommandParameter="{Binding}"/>
 
                     <Border>
 
@@ -48,9 +54,9 @@
                         </Border.Style>
 
                         <BaseControls:ComboBox
-                        Caption="Blend Mode"
-                        SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
-                        ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
+                            Caption="Blend Mode"
+                            SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
+                            ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
 
                     </Border>
 
@@ -73,15 +79,15 @@
                         <StackPanel>
 
                             <BaseControls:ComboBox 
-                            Caption="Mask Mode"
-                            SelectedItem="{Binding MaskMode.Selection, Converter={StaticResource EnumToString}}"
-                            ItemsSource="{Binding Source={StaticResource MaskMode}}"/>
+                                Caption="Mask Mode"
+                                SelectedItem="{Binding MaskMode.Selection, Converter={StaticResource EnumToString}}"
+                                ItemsSource="{Binding Source={StaticResource MaskMode}}"/>
 
                             <BaseControls:ComboBox 
-                            Margin="0, 4"
-                            Caption="Channel"
-                            SelectedItem="{Binding MaskChannel.Selection}"
-                            ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
+                                Margin="0, 4"
+                                Caption="Channel"
+                                SelectedItem="{Binding MaskChannel.Selection}"
+                                ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
 
                         </StackPanel>
 
@@ -90,9 +96,11 @@
                 </StackPanel>
             </Border>
 
-
             <DockPanel>
-                <DockPanel Background="{DynamicResource DarkerColor}" DockPanel.Dock="Bottom" LastChildFill="False">
+                <DockPanel 
+                    Background="{DynamicResource DarkerColor}" 
+                    DockPanel.Dock="Bottom" 
+                    LastChildFill="False">
 
                     <Button 
                         Background="Transparent"

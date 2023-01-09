@@ -3,163 +3,24 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core" 
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="432" d:DesignWidth="274">
 
-    <UserControl.Resources>
-
-        <ObjectDataProvider x:Key="CameraAxis" MethodName="GetValues" ObjectType="{x:Type ViewModels:CameraAxis}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:CameraAxis"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-    </UserControl.Resources>
 
     <StackPanel>
+        
         <StackPanel Margin="8">
-            <Grid Height="22" Margin="0, 0, 0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Text="Axis" HorizontalAlignment="Right" VerticalAlignment="Center" Padding="4" Foreground="{DynamicResource TextBase}"/>
-                <ComboBox 
-                        Grid.Column="1" 
-                        SelectedItem="{Binding Axis.Selection}"
-                        ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
-            </Grid>
-
+            <BaseControl:ComboBox Margin="0, 0, 0, 8" Caption="Axis" SelectedItem="{Binding Axis.Selection}" ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
             <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
-
-            <Grid Height="20" Margin="0, 8, 0, 0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Top" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding From.Amount}"/>
-                <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="From" 
-                            Foreground="{StaticResource TextBase}"/>
-            </Grid>
-
-            <Grid Margin="0, 1, 0, 8" Height="20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <Controls:DistanceSlider 
-                        Grid.Column="2" 
-                        Position="Bottom" 
-                        Style="{StaticResource DistanceSliderStyle}" 
-                        Value="{Binding To.Amount}"/>
-
-                <TextBlock 
-                        Grid.Column="0" 
-                        Padding="4" 
-                        HorizontalAlignment="Right" 
-                        Text="To" 
-                        Foreground="{StaticResource TextBase}"/>
-            </Grid>
-
-            <Grid Height="20" Margin="0, 4, 0, 4">
-
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-
-                <TextBlock 
-                        Grid.Column="0" 
-                        Padding="4" 
-                        HorizontalAlignment="Right" 
-                        Text="PingPong" 
-                        Foreground="{StaticResource TextBase}"/>
-
-                <Grid Grid.Column="2">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <ToggleButton 
-                            HorizontalAlignment="Left" 
-                            IsChecked="{Binding PingPong.IsChecked}" 
-                            Grid.Column="0" 
-                            Margin="0, 0, 1, 0" 
-                            Content="X"/>
-
-                </Grid>
-            </Grid>
-
-            <!--<Grid Height="20" Margin="0, 8, 0, 4">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock 
-                        Text="Transform" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Center" 
-                        Padding="4" 
-                        Foreground="{DynamicResource TextBase}"/>
-
-                    -->
-            <!--<ComboBox 
-                        Grid.Column="1" 
-                        SelectedItem="{Binding TransformType.Selection}"
-                        ItemsSource="{Binding Source={StaticResource CameraTransformType}}"/>-->
-            <!--
-
-                </Grid>
-
-                <Grid Height="20" Margin="0, 4, 0, 0">
-
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Axis" 
-                            Foreground="{StaticResource TextBase}"/>
-
-                    <Grid Grid.Column="2">
-
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-
-                        <ToggleButton Style="{StaticResource InlineToggleButtonLeft}" IsChecked="{Binding XAxis.IsChecked}" Grid.Column="0" Margin="0, 0, 1, 0" Content="X"/>
-                        <ToggleButton Style="{StaticResource InlineToggleButtonCenter}" IsChecked="{Binding YAxis.IsChecked}" Grid.Column="1" Margin="0" Content="Y"/>
-                        <ToggleButton Style="{StaticResource InlineToggleButtonRight}" IsChecked="{Binding ZAxis.IsChecked}" Grid.Column="2" Margin="1, 0, 0, 0" Content="Z"/>
-
-                    </Grid>
-                </Grid>-->
-
+            <BaseControl:DragValue Margin="0, 8, 0, 0" Position="Top" Caption="From" Value="{Binding From.Amount}"/>
+            <BaseControl:DragValue Margin="0, 1, 0, 0" Position="Bottom" Caption="To" Value="{Binding From.Amount}"/>
+            <BaseControl:ToggleButton Margin="0, 8, 0, 0" IsChecked="{Binding PingPong.IsChecked}" Caption="Ping Pong"/>
         </StackPanel>
 
         <Views:Easing  DataContext="{Binding Easing}"/>
 
     </StackPanel>
+    
 </UserControl>

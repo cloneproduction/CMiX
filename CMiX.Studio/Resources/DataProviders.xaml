@@ -5,6 +5,30 @@
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase">
 
+    <ObjectDataProvider x:Key="CameraAxis" MethodName="GetValues" ObjectType="{x:Type ViewModels:CameraAxis}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:CameraAxis"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
+    <ObjectDataProvider x:Key="MeshType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:MeshType"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
+    <ObjectDataProvider x:Key="EasingFunction" MethodName="GetValues" ObjectType="{x:Type ViewModels:EasingFunction}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:EasingFunction"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+    <ObjectDataProvider x:Key="EasingMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:EasingMode}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:EasingMode"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
     <ObjectDataProvider x:Key="TransformType" MethodName="GetValues" ObjectType="{x:Type ViewModels:TransformType}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="ViewModels:TransformType"/>

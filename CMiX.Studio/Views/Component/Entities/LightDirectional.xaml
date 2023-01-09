@@ -8,8 +8,8 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <StackPanel>
-        <BaseControl:VectorXYZ DataContext="{Binding Position}"/>
-        <BaseControl:VectorXYZ Margin="0, 8" DataContext="{Binding Target}"/>
+        <BaseControl:VectorXYZ Caption="Position" DataContext="{Binding Position}"/>
+        <BaseControl:VectorXYZ Caption="Target" Margin="0, 8" DataContext="{Binding Target}"/>
     </StackPanel>
     
 </UserControl>

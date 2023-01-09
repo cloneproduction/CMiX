@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
+using CMiX.Core.Models.Beat;
 using CMiX.Core.Models.Component;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
@@ -23,6 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             OutputSettings = new OutputSettings(compositionModel.OutputSettings, compositionService);
             LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
             TextureModifierManager = new ModifierManager(compositionModel.TextureModifierManager, new TextureFilterFactory(compositionService));
+            MasterBeat = new MasterBeat(compositionModel.MasterBeatModel, compositionService);
 
             IsActive = true;
         }
@@ -55,6 +57,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.OutputSettings = (OutputSettingsModel)this.OutputSettings.GetModel();
             model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.LayerManager = (PrefabManagerModel)this.LayerManager.GetModel();
+            model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
             return model;
         }
 
@@ -65,6 +68,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             this.OutputSettings.SetViewModel(compositionModel.OutputSettings);
             this.TextureModifierManager.SetViewModel(compositionModel.TextureModifierManager);
             this.LayerManager.SetViewModel(compositionModel.LayerManager);
+            this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
         }
     }
 }

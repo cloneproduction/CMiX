@@ -17,18 +17,19 @@
                 ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
             <BaseControls:Counter 
+                Caption="Count"
+                Margin="0, 8"
                 Count="{Binding Counter.Count}"/>
 
             <Views:BeatModifier 
-                Margin="0, 8"
                 DataContext="{Binding BeatModifier}"/>
 
             <BaseControls:DragValue 
+                Margin="0, 8"
                 Caption="Uniform" 
                 Value="{Binding UniformXYZ.Amount}"/>
 
             <BaseControls:VectorXYZ 
-                Margin="0, 8, 0, 0" 
                 Caption="Scale"
                 X="{Binding ScaleX.Amount}"
                 Y="{Binding ScaleY.Amount}"
@@ -37,7 +38,6 @@
             </StackPanel>
 
         <Views:Easing DataContext="{Binding Easing}"/>
-
 
     </StackPanel>
 

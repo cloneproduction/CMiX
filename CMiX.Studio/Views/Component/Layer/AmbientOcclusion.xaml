@@ -5,172 +5,62 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="415.333" d:DesignWidth="381.333">
 
-    <Panels:IndentedExpander>
+    <Panels:IndentedExpander IsExpanded="True">
+        
         <Panels:IndentedExpander.Header>
             <DockPanel>
                 <Controls:CMiXToggleButton
-
-                    Style="{DynamicResource CMiXToggleButtonStyle}"
-                    Dock="Left"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Center"
+                    Width="14"
+                    Height="14"
+                    Style="{DynamicResource ToggleButtonRounded}"
                     IsChecked="{Binding IsEnabled.IsChecked}"/>
-                <TextBlock Text="Ambient Occlusion" Margin="8, 0, 0, 0" Foreground="{DynamicResource TextBase}"/>
-
+                <TextBlock Text="Ambient Occlusion" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
             </DockPanel>
         </Panels:IndentedExpander.Header>
 
         <StackPanel IsEnabled="{Binding IsChecked, ElementName=Enabled}" Margin="8">
-            <Grid Height="22">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:Counter
-                    Style="{DynamicResource CMiXCounterStyle}"
-                    StepValue="1"
-                    Grid.Column="1"
-                    Height="20"
-                    HorizontalAlignment="Stretch"
-                    Value="{Binding Samples.Count, Mode=TwoWay}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Samples" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
+            
+            <BaseControls:Counter 
+                Caption="Samples" 
+                Count="{Binding Samples.Count, Mode=TwoWay}"/>
+            
+            <BaseControls:DragValue 
+                Margin="0, 8" 
+                Caption="Intensity" 
+                Value="{Binding Intensity.Amount}"/>
 
-            <Grid Height="20" Margin="0, 4">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:DistanceSlider 
-                    Grid.Column="2" 
-                    Position="Default" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding ProjectionScale.Amount}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Projection Scale" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
+            <BaseControls:DragValue 
+                Margin="0" 
+                Position="Top"
+                Caption="SampleBias" 
+                Value="{Binding SampleBias.Amount}"/>
 
-            <Grid Height="20" Margin="0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:DistanceSlider 
-                    Grid.Column="2" 
-                    Position="Default" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding Intensity.Amount}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Intensity" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
+            <BaseControls:DragValue 
+                Margin="0, 1, 0, 8"
+                Position="Bottom"
+                Caption="SampleRadius" 
+                Value="{Binding SampleRadius.Amount}"/>
 
-            <Grid Height="20">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:DistanceSlider 
-                    Grid.Column="2" 
-                    Position="Top" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding SampleBias.Amount}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Sample Bias" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
+            <BaseControls:Counter 
+                Caption="Blur Count" 
+                Position="Top"
+                Count="{Binding BlurCount.Count, Mode=TwoWay}"/>
 
-            <Grid Height="22" Margin="0, 1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:DistanceSlider 
-                    Grid.Column="2" 
-                    Position="Bottom" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding SampleRadius.Amount}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Sample Radius" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
+            <BaseControls:DragValue 
+                Position="Bottom"
+                Margin="0, 1, 0, 0"
+                Caption="Blur Radius" 
+                Value="{Binding BlurRadius.Amount}"/>
 
-            <Grid Height="22" Margin="0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:Counter
-                    Style="{DynamicResource CMiXCounterStyle}"
-                    StepValue="1"
-                    Grid.Column="1"
-                    Height="20"
-                    HorizontalAlignment="Stretch"
-                    Value="{Binding BlurCount.Count, Mode=TwoWay}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Blur Count" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
-
-            <Grid Height="22" Margin="0, 1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:DistanceSlider 
-                    Grid.Column="2" 
-                    Position="Default" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding BlurRadius.Amount}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Blur Radius" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
-
-            <Grid Height="22" Margin="0, 1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <Controls:DistanceSlider 
-                    Grid.Column="2" 
-                    Position="Default" 
-                    Style="{StaticResource DistanceSliderStyle}" 
-                    Value="{Binding EdgeSharpness.Amount}"/>
-                <TextBlock 
-                    Grid.Column="0" 
-                    Padding="4" 
-                    HorizontalAlignment="Right" 
-                    Text="Edge Sharpness" 
-                    Foreground="{StaticResource TextBase}"/>
-            </Grid>
+            <BaseControls:DragValue 
+                Margin="0, 8" 
+                Caption="Edge Sharpness" 
+                Value="{Binding EdgeSharpness.Amount}"/>
+            
         </StackPanel>
 
     </Panels:IndentedExpander>

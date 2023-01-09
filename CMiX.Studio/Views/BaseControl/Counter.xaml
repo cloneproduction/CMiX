@@ -28,22 +28,21 @@
             </Style>
         </Border.Style>
         
-        <Grid>
+        <Grid Height="22">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock Text="{Binding Caption, ElementName=counter}" HorizontalAlignment="Right" Padding="4"/>
+            <TextBlock Text="{Binding Caption, ElementName=counter}" HorizontalAlignment="Right" Margin="8, 0"/>
 
-            <Border Grid.Column="1" BorderBrush="{DynamicResource Shadow}" CornerRadius="4" BorderThickness="1, 0, 1, 2">
-                <Controls:Counter
-                Position="{Binding Position, ElementName=counter}"
-                Style="{DynamicResource CMiXCounterStyle}"
-                StepValue="1"
-                HorizontalAlignment="Stretch"
-                Value="{Binding Count, ElementName=counter}"/>
-            </Border>
+            <Controls:Counter
+                Grid.Column="1"
+                    Position="{Binding Position, ElementName=counter}"
+                    Style="{DynamicResource CMiXCounterStyle}"
+                    StepValue="1"
+                    HorizontalAlignment="Stretch"
+                    Value="{Binding Count, ElementName=counter}"/>
 
         </Grid>
     </Border>

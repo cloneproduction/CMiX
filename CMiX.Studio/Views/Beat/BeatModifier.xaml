@@ -4,42 +4,18 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
     xmlns:Beat="clr-namespace:CMiX.Core.Presentation.ViewModels.Beat;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     d:DataContext="{d:DesignInstance Type={x:Type Beat:BeatModifier}, IsDesignTimeCreatable=False}"
     d:DesignHeight="84.326"
     d:DesignWidth="360.914"
     mc:Ignorable="d">
 
     <StackPanel>
-        <Grid Height="22">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Text="Beat" Margin="4, 0" Padding="4" VerticalAlignment="Center" HorizontalAlignment="Right" />
-            <Views:BeatControls  Grid.Column="1" DataContext="{Binding}"/>
-        </Grid>
-        <Grid Height="22">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                Text="Chance To Hit" 
-                Margin="2, 0" 
-                Padding="4" 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Right" />
 
-            <Controls:CMiXSlider 
-                Grid.Column="1"
-                Minimum="0" 
-                Maximum="100" 
-                HorizontalContentAlignment="Center"
-                Style="{StaticResource SliderRoundedBottom}" 
-                Value="{Binding ChanceToHit.Amount}"/> <!--String.Format("{0:0.}%"Converter={StaticResource DoubleToStringPercent}}"/>-->
-        </Grid>
+        <Views:BeatControls DataContext="{Binding}"/>
+        <BaseControls:DragValue Margin="0, 1, 0, 0" Caption="Chance To Hit" Position="Bottom" Value="{Binding ChanceToHit.Amount}"/>
+
     </StackPanel>
 </UserControl>

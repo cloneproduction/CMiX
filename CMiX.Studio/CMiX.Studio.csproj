@@ -269,14 +269,8 @@
     <Compile Include="Views\Camera\CameraLFO.xaml.cs">
       <DependentUpon>CameraLFO.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\CameraTransformModifierManager.xaml.cs">
-      <DependentUpon>CameraTransformModifierManager.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Component\CompositionSettings.xaml.cs">
       <DependentUpon>CompositionSettings.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Component\Entities\MaskPanel.xaml.cs">
-      <DependentUpon>MaskPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\Entities\LightAmbient.xaml.cs">
       <DependentUpon>LightAmbient.xaml</DependentUpon>
@@ -326,26 +320,17 @@
     <Compile Include="Views\Component\Layer\LayerMaskController.xaml.cs">
       <DependentUpon>LayerMaskController.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Layer\CompositionService.xaml.cs">
-      <DependentUpon>CompositionService.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Easing.xaml.cs">
       <DependentUpon>Easing.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml.cs">
       <DependentUpon>Stepper.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Transform\Transform.xaml.cs">
-      <DependentUpon>Transform.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\CameraModifierSelectionPanel.xaml.cs">
+    <Compile Include="Views\Camera\CameraModifierSelectionPanel.xaml.cs">
       <DependentUpon>CameraModifierSelectionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Managers\EntityModifierSelectionPanel.xaml.cs">
       <DependentUpon>EntityModifierSelectionPanel.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\ManagerSelector.xaml.cs">
-      <DependentUpon>ManagerSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\LFOUV.xaml.cs">
       <DependentUpon>LFOUV.xaml</DependentUpon>
@@ -365,23 +350,8 @@
     <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml.cs">
       <DependentUpon>RandomXYZ.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Range.xaml.cs">
+    <Compile Include="Views\BaseControl\Range.xaml.cs">
       <DependentUpon>Range.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\CameraManager.xaml.cs">
-      <DependentUpon>CameraManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\ColorationManager.xaml.cs">
-      <DependentUpon>ColorationManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\LightEntityManager.xaml.cs">
-      <DependentUpon>LightEntityManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\MeshEntityManager.xaml.cs">
-      <DependentUpon>MeshEntityManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\ModelEntityManager.xaml.cs">
-      <DependentUpon>ModelEntityManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Managers\PrefabManager.xaml.cs">
       <DependentUpon>PrefabManager.xaml</DependentUpon>
@@ -389,21 +359,9 @@
     <Compile Include="Views\Managers\PrefabSlotManager.xaml.cs">
       <DependentUpon>PrefabSlotManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Managers\TransformManager.xaml.cs">
-      <DependentUpon>TransformManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\TextureManager.xaml.cs">
-      <DependentUpon>TextureManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Material\ColorModifierManager.xaml.cs">
-      <DependentUpon>ColorModifierManager.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Material\ColorModifierTemplateSelector.cs" />
     <Compile Include="Views\Material\Constant.xaml.cs">
       <DependentUpon>Constant.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Managers\MaterialManager.xaml.cs">
-      <DependentUpon>MaterialManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Material\Metallic.xaml.cs">
       <DependentUpon>Metallic.xaml</DependentUpon>
@@ -416,9 +374,6 @@
     </Compile>
     <Compile Include="Views\Outliner\Outliner.xaml.cs">
       <DependentUpon>Outliner.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Component\Scene\ScenePanel.xaml.cs">
-      <DependentUpon>ScenePanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Scheduler\Client.xaml.cs">
       <DependentUpon>Client.xaml</DependentUpon>
@@ -443,9 +398,6 @@
     </Compile>
     <Compile Include="Views\Messenger\ServerManager.xaml.cs">
       <DependentUpon>ServerManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Component\ComponentEditor.xaml.cs">
-      <DependentUpon>ComponentEditor.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\Layer\Layer.xaml.cs">
       <DependentUpon>Layer.xaml</DependentUpon>
@@ -553,12 +505,6 @@
     <Compile Include="Views\Material\Material.xaml.cs">
       <DependentUpon>Material.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Project\Project.xaml.cs">
-      <DependentUpon>Project.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\PostFX\PostFX.xaml.cs">
-      <DependentUpon>PostFX.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\RangeControl.xaml.cs">
       <DependentUpon>RangeControl.xaml</DependentUpon>
     </Compile>
@@ -635,17 +581,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Camera\CameraTransformModifierManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Component\CompositionSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Component\Entities\MaskPanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Component\Entities\LightAmbient.xaml">
       <SubType>Designer</SubType>
@@ -711,10 +649,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Layer\CompositionService.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Easing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -731,19 +665,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Transform\Transform.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Managers\CameraModifierSelectionPanel.xaml">
+    <Page Include="Views\Camera\CameraModifierSelectionPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Managers\EntityModifierSelectionPanel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Managers\ManagerSelector.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -771,29 +697,9 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Instancer\Range.xaml">
+    <Page Include="Views\BaseControl\Range.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Managers\CameraManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Managers\ColorationManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Managers\LightEntityManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Managers\MeshEntityManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Managers\ModelEntityManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Managers\PrefabManager.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -803,23 +709,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Managers\TransformManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Managers\TextureManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Material\ColorModifierManager.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Material\Constant.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Managers\MaterialManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -838,10 +728,6 @@
     <Page Include="Views\Outliner\Outliner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Component\Scene\ScenePanel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Scheduler\Client.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -883,10 +769,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Component\ComponentEditor.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Assets\AssetManager.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -924,14 +806,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\Material\Material.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Component\Project\Project.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\PostFX\PostFX.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

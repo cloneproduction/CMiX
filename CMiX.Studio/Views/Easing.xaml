@@ -9,36 +9,21 @@
              mc:Ignorable="d" 
              d:DesignHeight="298.031" d:DesignWidth="269.095">
 
-
-    <UserControl.Resources>
-
-        <ObjectDataProvider x:Key="EasingFunction" MethodName="GetValues" ObjectType="{x:Type ViewModels:EasingFunction}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:EasingFunction"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-        <ObjectDataProvider x:Key="EasingMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:EasingMode}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:EasingMode"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-
-    </UserControl.Resources>
-
-
     <Expander>
         <Expander.Header>
             <DockPanel>
                 <Controls:CMiXToggleButton
-                    Width="16"
+                    Width="14"
+                    Height="14"
                     Style="{DynamicResource ToggleButtonRounded}"
                     IsChecked="{Binding IsEnabled}"/>
                 <TextBlock Text="Easing" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
             </DockPanel>
         </Expander.Header>
 
-        <StackPanel Margin="8" IsEnabled="{Binding IsEnabled}">
+        <StackPanel 
+            Margin="8" 
+            IsEnabled="{Binding IsEnabled}">
 
             <BaseControls:ComboBox 
                 Margin="0, 0, 0, 4"

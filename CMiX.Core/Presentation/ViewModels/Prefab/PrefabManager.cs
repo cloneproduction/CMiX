@@ -219,7 +219,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 
             prefabContainer.Prefab = (T)prefab;
             prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
-           //Prefabs.Add(prefabContainer);
             SelectedItem = prefabContainer;
 
             Send(new MessageAddPrefab(this.ID, prefabContainer));
@@ -232,21 +231,7 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             Send(new MessageAddPrefab(this.ID, prefabContainer));
         }
 
-
         int nameCount = 0;
-
-        //public void AddItem(Guid containerID, IPrefabModel prefabModel)
-        //{
-        //    var container = GetPrefab(containerID);
-
-        //    IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
-        //    prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
-        //    nameCount++;
-
-        //    prefab.IsSelected = true;
-        //    PrefabRepository?.AddPrefab((T)prefab);
-        //    ((PrefabContainer)container).Prefab = (T)prefab;
-        //}
 
         public void AddEmptyItem()
         {
@@ -270,8 +255,7 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
 
             prefab.PrefabChanged -= PrefabContainer_PrefabChanged;
             Prefabs.Remove(prefab);
-            //PrefabRepository?.RemovePrefab((T)prefab.Prefab);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemovePrefab(this.ID, prefab), MessageType.Out);
+            Send(new MessageRemovePrefab(this.ID, prefab));
 
             if (Prefabs.Count == 0)
             {
