@@ -9,46 +9,35 @@
              d:DesignHeight="548" d:DesignWidth="461.333">
 
     <StackPanel>
-        <StackPanel Margin="8" >
-            
+        
+        <StackPanel Margin="8">
+
             <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
-            
+
             <basecontrol:DragValue 
-                Margin="0, 16, 0, 0" 
-                Position="Top" 
-                Value="{Binding ScaleX.Amount}" 
-                Caption="Scale X"/>
-            
-            <basecontrol:DragValue 
-                Position="Bottom" 
-                Margin="0, 1, 0, 0" 
-                Value="{Binding ScaleY.Amount}" 
-                Caption="Y"/>
-            
-            <basecontrol:DragValue 
-                Margin="0, 2, 0, 8" 
+                Margin="0, 8" 
                 Position="Default" 
                 Value="{Binding Uniform.Amount}" 
                 Caption="Uniform"/>
-            
+
+            <basecontrol:VectorXY
+                Margin="0, 8, 0, 0"
+                Caption="Scale"
+                X="{Binding ScaleX.Amount}"
+                Y="{Binding ScaleY.Amount}"/>
+
             <basecontrol:DragValue 
-                Margin="0, 0, 0, 1" 
-                Position="Top" 
-                Value="{Binding LocationX.Amount}" 
-                Caption="Translate X"/>
-            
-            <basecontrol:DragValue 
-                Margin="0, 0, 0, 8" 
-                Position="Bottom" 
-                Value="{Binding LocationY.Amount}" 
-                Caption="Y"/>
-            
-            <basecontrol:DragValue 
-                Margin="0, 0, 0, 1" 
+                Margin="0, 8" 
                 Position="Default" 
                 Value="{Binding Rotation.Amount}" 
                 Caption="Rotation"/>
-            
+
+            <basecontrol:VectorXY
+                Margin="0, 8, 0, 0"
+                Caption="Translate"
+                X="{Binding LocationX.Amount}"
+                Y="{Binding LocationY.Amount}"/>
+
             <Views:SamplerState 
                 Margin="0, 16, 0, 0" 
                 DataContext="{Binding SamplerState}"/>

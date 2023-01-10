@@ -360,12 +360,6 @@
       <DependentUpon>PrefabSlotManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Material\ColorModifierTemplateSelector.cs" />
-    <Compile Include="Views\Material\Constant.xaml.cs">
-      <DependentUpon>Constant.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Material\Metallic.xaml.cs">
-      <DependentUpon>Metallic.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Material\RandomHSV.xaml.cs">
       <DependentUpon>RandomHSV.xaml</DependentUpon>
     </Compile>
@@ -444,12 +438,6 @@
     <Compile Include="Views\Texture\TextureFilter.xaml.cs">
       <DependentUpon>TextureFilter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\TextureTransformManager.xaml.cs">
-      <DependentUpon>TextureTransformManager.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Texture\TextureTransformModifierManager.xaml.cs">
-      <DependentUpon>TextureTransformModifierManager.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\Texture\TransformUV.xaml.cs">
       <DependentUpon>TransformUV.xaml</DependentUpon>
     </Compile>
@@ -467,9 +455,6 @@
     </Compile>
     <Compile Include="Views\Texture\Invert.xaml.cs">
       <DependentUpon>Invert.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Texture\TextureFilterManager.xaml.cs">
-      <DependentUpon>TextureFilterManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\SamplerState.xaml.cs">
       <DependentUpon>SamplerState.xaml</DependentUpon>
@@ -504,9 +489,6 @@
     </Compile>
     <Compile Include="Views\Material\Material.xaml.cs">
       <DependentUpon>Material.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\RangeControl.xaml.cs">
-      <DependentUpon>RangeControl.xaml</DependentUpon>
     </Compile>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -709,14 +691,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Material\Constant.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Material\Metallic.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Material\RandomHSV.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -809,10 +783,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\RangeControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\Beat\BeatControls.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -856,14 +826,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\TextureTransformManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Texture\TextureTransformModifierManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Views\Texture\TransformUV.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -887,10 +849,6 @@
     <Page Include="Views\Texture\Invert.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Texture\TextureFilterManager.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Texture\SamplerState.xaml">
       <SubType>Designer</SubType>

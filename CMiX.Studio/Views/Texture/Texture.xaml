@@ -4,8 +4,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="453.334"
@@ -152,7 +152,7 @@
             <Views:TransformUV Margin="8" DataContext="{Binding TransformUV}"/>
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Indentation="24" Header="Filter" IsExpanded="True">
+        <Panels:IndentedExpander Indentation="24" Header="Filter">
             <Views:TextureFilter DataContext="{Binding TextureModifierManager}"/>
         </Panels:IndentedExpander>
 

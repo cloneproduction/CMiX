@@ -4,39 +4,27 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="268.58" d:DesignWidth="240.361">
 
     <StackPanel Margin="8">
 
-        <basecontrol:DragValue 
-            Margin="0, 0, 0, 0" 
-            Position="Top" 
-            Value="{Binding ScaleX.Amount}"
-            Caption="Scale X"/>
-        <basecontrol:DragValue 
-            Position="Bottom" 
-            Margin="0, 1, 0, 0" 
-            Value="{Binding ScaleY.Amount}" 
-            Caption="Y"/>
+        <BaseControl:VectorXY
+            Caption="Scale"
+            X="{Binding ScaleX.Amount}"
+            Y="{Binding ScaleY.Amount}"/>
 
-        <basecontrol:DragValue 
+        <BaseControl:DragValue 
             Margin="0, 8" 
             Position="Default" 
             Value="{Binding Rotate.Amount}" 
             Caption="Rotation"/>
 
-        <basecontrol:DragValue 
-            Margin="0, 0, 0, 1" 
-            Position="Top" 
-            Value="{Binding TranslateX.Amount}" 
-            Caption="Translate X"/>
-        
-        <basecontrol:DragValue 
-            Position="Bottom" 
-            Value="{Binding TranslateY.Amount}"
-            Caption="Y"/>
+        <BaseControl:VectorXY
+            Caption="Scale"
+            X="{Binding TranslateX.Amount}"
+            Y="{Binding TranslateY.Amount}"/>
 
         <Views:SamplerState 
             Margin="0, 8, 0, 0" 

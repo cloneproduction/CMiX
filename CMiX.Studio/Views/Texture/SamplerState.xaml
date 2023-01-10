@@ -3,42 +3,31 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" d:DesignWidth="386">
 
     <StackPanel>
 
-        <Basecontrol:ComboBox                    
+        <BaseControls:ComboBox                    
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
             SelectedItem="{Binding AddressU}"
             Caption="Address U"/>
 
-        <Basecontrol:ComboBox
+        <BaseControls:ComboBox
             Margin="0, 4"
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
             SelectedItem="{Binding AddressV}"
             Caption="V"/>
 
-        <Grid Margin="0, 4, 0, 0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                Text="Border Color" 
-                HorizontalAlignment="Right" Padding="4, 0"
-                VerticalAlignment="Center"/>
-            <Button 
-                Height="21"
-                Margin="0, 4, 0, 0" Grid.Column="1"
-                Background="{Binding BorderColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
-                Command="{Binding OpenColorSelectorCommand}"
-                Style="{StaticResource ButtonColorStyle}"/>
-        </Grid>
-
-
+        <BaseControls:ColorSelector 
+            Margin="0, 8"
+            Caption="Border Color" 
+            SelectedColor="{Binding BorderColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
+            Command="{Binding OpenColorSelectorCommand}"
+            CommandParameter="{Binding}"/>
 
     </StackPanel>
+    
 </UserControl>

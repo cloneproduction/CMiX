@@ -15,18 +15,6 @@
     d:DesignWidth="282.55"
     mc:Ignorable="d">
 
-    
-    <UserControl.Resources>
-
-        <DataTemplate x:Key="MetallicTemplate">
-            <Views:Metallic DataContext="{Binding Metallic}"/>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ConstantTemplate">
-            <Views:Constant DataContext="{Binding Constant}"/>
-        </DataTemplate>
-
-    </UserControl.Resources>
 
     <StackPanel>
         <Panels:IndentedExpander Header="Surface" Indentation="16">
@@ -131,11 +119,14 @@
                         </Style>
                     </Controls:CMiXSlider.Style>
                 </Controls:CMiXSlider>
+                
             </StackPanel>
         </Panels:IndentedExpander>
+        
         <Panels:IndentedExpander Header="Texture" Indentation="16">
             <Views:Texture DataContext="{Binding Texture}"/>
         </Panels:IndentedExpander>
+        
         <Panels:IndentedExpander IsExpanded="{Binding Mask.IsExpanded}" Indentation="16">
             <Panels:IndentedExpander.Header>
                 <DockPanel>
@@ -144,12 +135,11 @@
                         Height="14"
                         Width="14"
                         IsChecked="{Binding Mask.IsEnabled.IsChecked}"/>
-
                     <TextBlock Text="Mask" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                 </DockPanel>
             </Panels:IndentedExpander.Header>
 
-            <StackPanel >
+            <StackPanel>
                 <StackPanel Margin="8">
                     <BaseControls:ComboBox    
                         Caption="MaskChannel"

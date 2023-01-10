@@ -84,7 +84,7 @@
             
             <Border 
                 BorderBrush="{DynamicResource SuperHighDarkerColor}" 
-                BorderThickness="2" 
+                BorderThickness="2, 0" 
                 Padding="8"
                 DockPanel.Dock="Bottom" 
                 Background="{DynamicResource HighDarkerColor}">
@@ -150,6 +150,8 @@
 
                         <Border 
                             VerticalAlignment="Stretch" 
+                            BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                            BorderThickness="0, 1, 0, 0"
                             Background="{DynamicResource HighDarkerColor}">
                             <DockPanel>
                                 <Views:Outliner 
@@ -171,7 +173,7 @@
                                         </Panels:IndentedExpander>
 
                                         <Panels:IndentedExpander Header="Render Settings" DockPanel.Dock="Top">
-                                            <ComponentViews:CompositionSettings DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.OutputSettings}"/>
+                                            <ComponentViews:CompositionSettings Margin="8" DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.OutputSettings}"/>
                                         </Panels:IndentedExpander>
 
                                     </StackPanel>

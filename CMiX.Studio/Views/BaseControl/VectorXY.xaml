@@ -11,7 +11,7 @@
     <StackPanel>
         
         <BaseControls:DragValue 
-            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vectorXYZ}" 
+            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vectorXY}" 
             Position="Top" 
             Value="{Binding X, ElementName=vectorXY}"/>
 

@@ -39,7 +39,9 @@
                 Background="{DynamicResource HighHighDarkerColor}">
 
                 <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                
             </Border>
+            
         </Popup>
 
         <ItemsControl 
@@ -52,13 +54,11 @@
             ItemsSource="{Binding Modifiers}">
 
             <ItemsControl.Resources>
-
                 <ResourceDictionary Source="ModifierDataTemplates.xaml" />
-
-
             </ItemsControl.Resources>
             
             <ItemsControl.ItemTemplate>
+                
                 <DataTemplate>
                     <Panels:ModifierPanel 
                         Margin="0, 4"

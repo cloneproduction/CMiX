@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="415.333" d:DesignWidth="381.333">
 
-    <Panels:IndentedExpander IsExpanded="True">
+    <Panels:IndentedExpander>
         
         <Panels:IndentedExpander.Header>
             <DockPanel>
@@ -17,51 +17,57 @@
                     Width="14"
                     Height="14"
                     Style="{DynamicResource ToggleButtonRounded}"
-                    IsChecked="{Binding IsEnabled.IsChecked}"/>
+                    IsChecked="{Binding IsEnabled}"/>
                 <TextBlock Text="Ambient Occlusion" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
             </DockPanel>
         </Panels:IndentedExpander.Header>
 
-        <StackPanel IsEnabled="{Binding IsChecked, ElementName=Enabled}" Margin="8">
+        <Border
+            IsEnabled="{Binding IsEnabled.IsChecked}" 
+            Margin="8">
             
-            <BaseControls:Counter 
-                Caption="Samples" 
-                Count="{Binding Samples.Count, Mode=TwoWay}"/>
+            <StackPanel>
+
+                <BaseControls:Counter 
+                    Caption="Samples" 
+                    Count="{Binding Samples.Count, Mode=TwoWay}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0, 8" 
+                    Caption="Intensity" 
+                    Value="{Binding Intensity.Amount}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0" 
+                    Position="Top"
+                    Caption="SampleBias" 
+                    Value="{Binding SampleBias.Amount}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0, 1, 0, 8"
+                    Position="Bottom"
+                    Caption="SampleRadius" 
+                    Value="{Binding SampleRadius.Amount}"/>
+
+                <BaseControls:Counter 
+                    Caption="Blur Count" 
+                    Position="Top"
+                    Count="{Binding BlurCount.Count, Mode=TwoWay}"/>
+
+                <BaseControls:DragValue 
+                    Position="Bottom"
+                    Margin="0, 1, 0, 0"
+                    Caption="Blur Radius" 
+                    Value="{Binding BlurRadius.Amount}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0, 8" 
+                    Caption="Edge Sharpness" 
+                    Value="{Binding EdgeSharpness.Amount}"/>
+
+            </StackPanel>
             
-            <BaseControls:DragValue 
-                Margin="0, 8" 
-                Caption="Intensity" 
-                Value="{Binding Intensity.Amount}"/>
-
-            <BaseControls:DragValue 
-                Margin="0" 
-                Position="Top"
-                Caption="SampleBias" 
-                Value="{Binding SampleBias.Amount}"/>
-
-            <BaseControls:DragValue 
-                Margin="0, 1, 0, 8"
-                Position="Bottom"
-                Caption="SampleRadius" 
-                Value="{Binding SampleRadius.Amount}"/>
-
-            <BaseControls:Counter 
-                Caption="Blur Count" 
-                Position="Top"
-                Count="{Binding BlurCount.Count, Mode=TwoWay}"/>
-
-            <BaseControls:DragValue 
-                Position="Bottom"
-                Margin="0, 1, 0, 0"
-                Caption="Blur Radius" 
-                Value="{Binding BlurRadius.Amount}"/>
-
-            <BaseControls:DragValue 
-                Margin="0, 8" 
-                Caption="Edge Sharpness" 
-                Value="{Binding EdgeSharpness.Amount}"/>
-            
-        </StackPanel>
+        </Border>
 
     </Panels:IndentedExpander>
 

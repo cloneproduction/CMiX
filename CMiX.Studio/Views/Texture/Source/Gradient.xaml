@@ -6,28 +6,14 @@
              xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
              d:DesignHeight="429.222" d:DesignWidth="287.643">
 
     <StackPanel>
         <StackPanel>
-            <Grid Height="22" Margin="0, 0, 0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                Text="Gamma" 
-                HorizontalAlignment="Right" 
-                Padding="4, 0" 
-                VerticalAlignment="Center"/>
-                <Controls:DistanceSlider 
-                Grid.Column="1"  
-                Value="{Binding Gamma.Amount}" 
-                Style="{StaticResource DistanceSliderStyle}" 
-                Position="Default"/>
-            </Grid>
+            <BaseControl:DragValue Caption="Gamma" Margin="0, 0, 0, 8" Value="{Binding Gamma.Amount}"/>
 
             <Grid>
                 <Grid.ColumnDefinitions>

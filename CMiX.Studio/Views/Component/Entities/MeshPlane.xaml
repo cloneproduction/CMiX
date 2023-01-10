@@ -1,34 +1,36 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.MeshPlane"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
-        <StackPanel>
-            <BaseControl:VectorXY DataContext="{Binding Scale}"/>
-            <BaseControl:VectorXYZ Margin="0, 8" DataContext="{Binding Offset}"/>
 
-            <BaseControl:Counter 
-                Position="Top" 
-                Caption="Tessellation X" 
-                Count="{Binding TessellationX.Count}"/>
+    <StackPanel>
+        
+        <BaseControl:VectorXY 
+            DataContext="{Binding Scale}"/>
+        
+        <BaseControl:VectorXYZ 
+            Margin="0, 8" 
+            DataContext="{Binding Offset}"/>
+
+        <BaseControl:Counter 
+            Position="Top" 
+            Caption="Tessellation X" 
+            Count="{Binding TessellationX.Count}"/>
             
-            <BaseControl:Counter 
-                Position="Bottom" 
-                Margin="0, 1, 0, 8" 
-                Caption="Y" 
-                Count="{Binding TessellationY.Count}"/>
+        <BaseControl:Counter 
+            Position="Bottom" 
+            Margin="0, 1, 0, 8" 
+            Caption="Y" 
+            Count="{Binding TessellationY.Count}"/>
 
-            <BaseControl:ToggleButton
-                Caption="Generate Backface" 
-                IsChecked="{Binding GenerateBackFace.IsChecked}"/>
+        <BaseControl:ToggleButton
+            Caption="Generate Backface" 
+            IsChecked="{Binding GenerateBackFace.IsChecked}"/>
 
-        </StackPanel>
-    </Grid>
+    </StackPanel>
+
 </UserControl>

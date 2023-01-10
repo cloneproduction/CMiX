@@ -3,118 +3,46 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="392" d:DesignWidth="374">
-
-    <UserControl.Resources>
-        <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type ViewModels:ModifierMode}">
-            <ObjectDataProvider.MethodParameters>
-                <x:Type TypeName="ViewModels:ModifierMode"/>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-    </UserControl.Resources>
 
     <StackPanel>
 
         <StackPanel Margin="8">
 
-            <Grid Height="22" Margin="0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                        Text="Type" 
-                        HorizontalAlignment="Right" 
-                        VerticalAlignment="Center" 
-                        Padding="4" 
-                        Foreground="{DynamicResource TextBase}"/>
-                <ComboBox 
-                        Grid.Column="1" 
-                        SelectedItem="{Binding Mode.Selection}"
-                        ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-            </Grid>
+            <BaseControl:ComboBox 
+                ItemsSource="{Binding Source={StaticResource ModifierMode}}" 
+                SelectedItem="{Binding Mode.Selection}" 
+                Caption="Type"/>
+            
+            <Views:BeatModifier 
+                Margin="0, 8" 
+                DataContext="{Binding BeatModifier}"/>
 
-            <Views:BeatModifier Margin="0, 8" DataContext="{Binding BeatModifier}"/>
-
-            <StackPanel Margin="0, 8">
-
-                <Grid Height="21">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                                Grid.Column="2" 
-                                Position="Top" 
-                                Style="{StaticResource DistanceSliderStyle}" 
-                                Value="{Binding Hue.Amount}"/>
-                    <TextBlock 
-                                Grid.Column="0" 
-                                Padding="4" 
-                                HorizontalAlignment="Right" 
-                                Text="Hue" 
-                                Foreground="{StaticResource TextBase}"/>
-                </Grid>
-
-                <Grid Height="21" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Middle" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Saturation.Amount}"/>
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Saturation" 
-                            Foreground="{StaticResource TextBase}"/>
-                </Grid>
-
-                <Grid Height="21" Margin="0, 0, 0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Middle" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Value.Amount}"/>
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Value" 
-                            Foreground="{StaticResource TextBase}"/>
-                </Grid>
-
-                <Grid Height="22">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <Controls:DistanceSlider 
-                            Grid.Column="2" 
-                            Position="Bottom" 
-                            Style="{StaticResource DistanceSliderStyle}" 
-                            Value="{Binding Alpha.Amount}"/>
-                    <TextBlock 
-                            Grid.Column="0" 
-                            Padding="4" 
-                            HorizontalAlignment="Right" 
-                            Text="Alpha" 
-                            Foreground="{StaticResource TextBase}"/>
-                </Grid>
-
-            </StackPanel>
+            <BaseControl:DragValue 
+                Position="Top" 
+                Caption="Hue" 
+                Value="{Binding Hue.Amount}"/>
+                
+            <BaseControl:DragValue 
+                Margin="0, 1"
+                Position="Middle"
+                Caption="Saturation"
+                Value="{Binding Saturation.Amount}"/>
+                
+            <BaseControl:DragValue 
+                Margin="0" 
+                Position="Middle" 
+                Caption="Value" 
+                Value="{Binding Value.Amount}"/>
+                
+            <BaseControl:DragValue 
+                Margin="0, 1, 0, 0"
+                Position="Bottom"
+                Caption="Alpha" 
+                Value="{Binding Alpha.Amount}"/>
 
         </StackPanel>
 

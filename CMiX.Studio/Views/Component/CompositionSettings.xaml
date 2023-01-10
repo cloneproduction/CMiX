@@ -3,30 +3,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
+             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    
-    <StackPanel Margin="0, 8">
-        <Grid Height="22">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Padding="4" Text="Resolution X" HorizontalAlignment="Right"/>
-            <Border Grid.Column="1" BorderThickness="1, 0, 1, 1">
-                <Controls:Counter Position="Top" Style="{StaticResource CMiXCounterStyle}"  Value="{Binding ResolutionX.Count, Mode=TwoWay}"/>
-            </Border>
+             d:DesignHeight="56.667" d:DesignWidth="774.667">
 
-        </Grid>
-        <Grid Height="22">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock Grid.Column="0" Padding="4" Text="Y" HorizontalAlignment="Right"/>
-            <Controls:Counter Grid.Column="1" Position="Bottom" Style="{StaticResource CMiXCounterStyle}" Value="{Binding ResolutionY.Count, Mode=TwoWay}"/>
+    <StackPanel>
 
-        </Grid>
+        <BaseControl:Counter 
+            Position="Top" 
+            Caption="Resolution X" 
+            Count="{Binding ResolutionX.Count}"/>
+
+        <BaseControl:Counter 
+            Margin="0, 1, 0, 0" 
+            Position="Bottom" 
+            Caption="Y" 
+            Count="{Binding ResolutionY.Count}"/>
+
     </StackPanel>
+    
 </UserControl>
