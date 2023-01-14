@@ -1,0 +1,102 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.RandomXYZ"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="548" d:DesignWidth="461.333">
+
+    <StackPanel>
+
+        <StackPanel Margin="8">
+
+            <BaseControls:ComboBox 
+                Caption="Type"
+                SelectedItem="{Binding Mode.Selection}"
+                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
+
+            <BaseControls:Counter 
+                Margin="0, 8" 
+                Caption="Count" 
+                Count="{Binding Counter.Count, Mode=TwoWay}"/>
+
+            <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
+
+        </StackPanel>
+        
+        <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}">
+            
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
+                        Width="14"
+                        Height="14"
+                        Style="{DynamicResource ToggleButtonRounded}"
+                        IsChecked="{Binding RandomizeLocation.IsChecked}"/>
+                        <TextBlock Text="Location" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                </DockPanel>
+            </Expander.Header>
+
+            <BaseControls:VectorXYZ 
+                IsEnabled="{Binding RandomizeLocation.IsChecked}"
+                Margin="0, 8"
+                Caption="Location" 
+                X="{Binding Path=LocationX.Amount}"
+                Y="{Binding Path=LocationY.Amount}"
+                Z="{Binding Path=LocationZ.Amount}"/>
+
+        </Expander>
+
+        <Expander IsExpanded="{Binding RandomizeScaleIsExpanded}">
+            
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
+                        Width="14"
+                        Height="14"
+                        Style="{DynamicResource ToggleButtonRounded}"
+                        IsChecked="{Binding RandomizeScale.IsChecked}"/>
+                    <TextBlock Text="Scale" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                </DockPanel>
+            </Expander.Header>
+            
+            <BaseControls:VectorXYZ 
+                IsEnabled="{Binding RandomizeLocation.IsChecked}"
+                Margin="0, 8"
+                Caption="Location" 
+                X="{Binding Path=ScaleX.Amount}"
+                Y="{Binding Path=ScaleY.Amount}"
+                Z="{Binding Path=ScaleZ.Amount}"/>
+            
+        </Expander>
+
+        <Expander IsExpanded="{Binding RandomizeRotationIsExpanded}">
+            
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
+                        Width="14"
+                        Height="14"
+                        Style="{DynamicResource ToggleButtonRounded}"
+                        IsChecked="{Binding RandomizeRotation.IsChecked}"/>
+                    <TextBlock Text="Rotation" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                </DockPanel>
+            </Expander.Header>
+
+            <BaseControls:VectorXYZ 
+                IsEnabled="{Binding RandomizeLocation.IsChecked}"
+                Margin="0, 8"
+                Caption="Rotation" 
+                X="{Binding Path=RotationX.Amount}"
+                Y="{Binding Path=RotationY.Amount}"
+                Z="{Binding Path=RotationZ.Amount}"/>
+            
+        </Expander>
+
+        <Views:Easing DataContext="{Binding Easing}"/>
+    </StackPanel>
+
+</UserControl>

@@ -1,21 +1,22 @@
 ﻿<UserControl x:Class="CMiX.Studio.Views.Scheduler.PlaylistEditor"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Presentation="clr-namespace:CMiX.Core.Presentation;assembly=CMiX.Core"
-             xmlns:Views ="clr-namespace:CMiX.Studio.Views"
-             xmlns:local ="clr-namespace:CMiX.Studio.Views.Scheduler"
-             xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls;assembly=CMiX.Core"
-             xmlns:Behaviors="clr-namespace:CMiX.Core.Presentation.Behaviors;assembly=CMiX.Core"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             mc:Ignorable="d" 
+             xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
+             xmlns:Resource="clr-namespace:CMiX.Studio.Resources"
+             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:local="clr-namespace:CMiX.Studio.Views.Scheduler"
+             xmlns:dd="urn:gong-wpf-dragdrop"
+             mc:Ignorable="d"
              x:Name="playlistEditor"
-             xmlns:dd="urn:gong-wpf-dragdrop" d:DesignWidth="342.667" d:DesignHeight="528">
+             d:DesignWidth="342.667" d:DesignHeight="528">
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <Presentation:BindingProxy x:Key="proxy" Data="{Binding}" />
+            <Resource:BindingProxy x:Key="proxy" Data="{Binding}" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -99,7 +100,7 @@
                             VerticalAlignment="Center"
                             Style="{StaticResource ToggleTransformModifierMenu}"/>
 
-                        <Controls:CMiXPopup 
+                        <BaseControl:CMiXPopup 
                             AllowsTransparency="True"
                             Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=playlistEditor}"
                             Width="{Binding ActualWidth, ElementName=PopUpToggle}"
@@ -141,7 +142,7 @@
                                 </ScrollViewer>
                             </Border>
 
-                        </Controls:CMiXPopup>
+                        </BaseControl:CMiXPopup>
                     </StackPanel>
 
                 </StackPanel>

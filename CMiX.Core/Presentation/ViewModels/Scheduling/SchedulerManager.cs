@@ -6,7 +6,6 @@ using System.Windows.Input;
 using CMiX.Core.Models.Scheduling;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentation.Views.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -40,13 +39,13 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
 
         private void AddJob()
         {
-            JobEditor jobEditor = new JobEditor(Project);
-            bool? success = DialogService.ShowDialog<TaskEditor>(this, jobEditor);
-            if (success == true)
-            {
-                Job job = new JobNextComposition(jobEditor.JobName, jobEditor.SelectedPlaylist, (s) => jobEditor.ToRunType.SetRunType(s.WithName(jobEditor.JobName)));
-                SelectedScheduler.AddJob(job);
-            }
+            //JobEditor jobEditor = new JobEditor(Project);
+            //bool? success = DialogService.ShowDialog<TaskEditor>(this, jobEditor);
+            //if (success == true)
+            //{
+            //    Job job = new JobNextComposition(jobEditor.JobName, jobEditor.SelectedPlaylist, (s) => jobEditor.ToRunType.SetRunType(s.WithName(jobEditor.JobName)));
+            //    SelectedScheduler.AddJob(job);
+            //}
         }
 
         public ICommand AddJobCommand { get; set; }

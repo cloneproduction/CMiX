@@ -8,7 +8,6 @@ using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -55,7 +54,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void OpenColorSelector()
         {
-            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.LightColor);
+            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.LightColor);
         }
 
 

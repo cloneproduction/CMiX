@@ -3,6 +3,7 @@
 
 using System.Windows;
 using System.Windows.Input;
+using CMiX.Core.Presentation.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;

@@ -5,7 +5,6 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -48,7 +47,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void OpenColorSelector(ColorSelector colorSelector)
         {
-            CompositionService.DialogService.Show<ColorSelectorWindow>(this, colorSelector);
+            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, colorSelector);
         }
 
 

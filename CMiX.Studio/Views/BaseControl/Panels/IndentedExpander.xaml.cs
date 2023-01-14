@@ -3,9 +3,6 @@ using System.Windows.Controls;
 
 namespace CMiX.Studio.Views.BaseControl.Panels
 {
-    /// <summary>
-    /// Interaction logic for IndentedExpander.xaml
-    /// </summary>
     public partial class IndentedExpander : UserControl
     {
         public IndentedExpander()

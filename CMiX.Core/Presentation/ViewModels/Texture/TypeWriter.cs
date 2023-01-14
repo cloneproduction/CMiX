@@ -7,7 +7,6 @@ using CMiX.Core.Models;
 using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Presentation.Views.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -69,12 +68,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void OpenFontColor()
         {
-            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.FontColor);
+            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.FontColor);
         }
 
         public void OpenBackgroundColor()
         {
-            CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
+            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
         }
 
         public void TextInputGotFocus()

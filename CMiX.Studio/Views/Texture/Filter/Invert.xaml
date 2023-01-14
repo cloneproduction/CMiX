@@ -1,0 +1,34 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.Invert"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="254" d:DesignWidth="348">
+
+    <StackPanel Margin="8">
+        
+        <Controls:CMiXSlider 
+            Height="22" 
+            Caption="Factor" 
+            Minimum="0.0" 
+            Maximum="1.0" 
+            Value="{Binding Factor.Amount}" 
+            Style="{StaticResource SliderRounded}" 
+            Position="Default"/>
+        
+        <Basecontrol:ComboBox 
+            Margin="0, 8"
+            ItemsSource="{Binding Source={StaticResource InvertChannel}}" 
+            SelectedItem="{Binding InvertChannelSelector.Selection}"
+            Caption="Channel"/>
+        
+        <Basecontrol:ToggleButton 
+            IsChecked="{Binding InvertAlpha.IsChecked}" 
+            Caption=" Invert Alpha"/>
+
+    </StackPanel>
+
+</UserControl>

@@ -6,6 +6,7 @@ using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.ViewModels.Services;
 using CMiX.Studio.Views;
+using CMiX.Studio.Views.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;

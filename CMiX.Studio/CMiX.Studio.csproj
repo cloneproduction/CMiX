@@ -107,6 +107,9 @@
     <Reference Include="Ceras, Version=4.1.7.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Ceras.4.1.7\lib\net47\Ceras.dll</HintPath>
     </Reference>
+    <Reference Include="ColorMine, Version=1.1.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\ColorMine.1.1.3.0\lib\ColorMine.dll</HintPath>
+    </Reference>
     <Reference Include="CommunityToolkit.Mvvm, Version=8.0.0.0, Culture=neutral, PublicKeyToken=4aff67a105548ee2, processorArchitecture=MSIL">
       <HintPath>..\packages\CommunityToolkit.Mvvm.8.0.0\lib\netstandard2.0\CommunityToolkit.Mvvm.dll</HintPath>
     </Reference>
@@ -218,8 +221,90 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Behaviors\BindableTreeViewSelectedItemBehavior.cs" />
+    <Compile Include="Behaviors\ClickBehavior.cs" />
+    <Compile Include="Behaviors\ClosePopupBehavior.cs" />
+    <Compile Include="Behaviors\ContextMenuMouseDownBehavior.cs" />
+    <Compile Include="Behaviors\FocusBehavior.cs" />
+    <Compile Include="Behaviors\FolderDialogBehavior.cs" />
+    <Compile Include="Behaviors\ListBoxSelectionBehavior.cs" />
+    <Compile Include="Behaviors\ScrollViewerBehavior.cs" />
+    <Compile Include="Behaviors\SliderBehavior.cs" />
+    <Compile Include="Behaviors\TreeViewItemClickBehavior.cs" />
+    <Compile Include="Behaviors\TreeViewMultiSelectionBehavior.cs" />
     <Compile Include="D3D11Image.cs" />
     <Compile Include="MainViewModel.cs" />
+    <Compile Include="Resources\AttachedProperties\MouseDownAttachedProperty.cs" />
+    <Compile Include="Resources\AttachedProperties\PositionedControl.cs" />
+    <Compile Include="Resources\BindingProxy.cs" />
+    <Compile Include="Resources\ValueConverters\AltBackgroundConverter.cs" />
+    <Compile Include="Resources\ValueConverters\AlwaysVisibleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\BoolInverterConverter.cs" />
+    <Compile Include="Resources\ValueConverters\BoolToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\BoolToVisibilityConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ByteToNormalizedDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ByteToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\CollectionToItemConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorHueToDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToBlueAsDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToBrushConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToColorComponentConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToGreenAsDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToHexConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToHSVAsDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToHSVControledConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToHueOnlyConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToHueSatOnlyConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToHueValueOnlyConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToNoAlphaConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToRedAsDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToSaturationAsDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToSaturationConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToSliderBgColorConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToValueAsDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ColorToValueOnlyConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ComponentVisibilityConverter.cs" />
+    <Compile Include="Resources\ValueConverters\DataTypeConverter.cs" />
+    <Compile Include="Resources\ValueConverters\DoubleToColorSatConverter.cs" />
+    <Compile Include="Resources\ValueConverters\DoubleToDividedConverter.cs" />
+    <Compile Include="Resources\ValueConverters\DoubleToInvertedConverter.cs" />
+    <Compile Include="Resources\ValueConverters\DoubleToPersistantStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\DoubleToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\DoubleToStringPercentConverter.cs" />
+    <Compile Include="Resources\ValueConverters\EnumToBooleanConverter.cs" />
+    <Compile Include="Resources\ValueConverters\EnumToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\FontFamilyToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\HueToColorConverter.cs" />
+    <Compile Include="Resources\ValueConverters\IndentationConverter.cs" />
+    <Compile Include="Resources\ValueConverters\IndexToCountConverter.cs" />
+    <Compile Include="Resources\ValueConverters\IntToNormalizedDoubleConverter.cs" />
+    <Compile Include="Resources\ValueConverters\IntToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\IntToStringWithMaxConverter.cs" />
+    <Compile Include="Resources\ValueConverters\IsNullConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ItemToParentConverter.cs" />
+    <Compile Include="Resources\ValueConverters\LeftMarginMultiplierConverter.cs" />
+    <Compile Include="Resources\ValueConverters\MultiplyConverter.cs" />
+    <Compile Include="Resources\ValueConverters\NotNullToBoolConverter.cs" />
+    <Compile Include="Resources\ValueConverters\NullToBoolConverter.cs" />
+    <Compile Include="Resources\ValueConverters\NullToVisibilityConverter.cs" />
+    <Compile Include="Resources\ValueConverters\PathToFilenameConverter.cs" />
+    <Compile Include="Resources\ValueConverters\PeriodToBPMConverter.cs" />
+    <Compile Include="Resources\ValueConverters\RadioButtonCheckedConverter.cs" />
+    <Compile Include="Resources\ValueConverters\RadioButtonSelectionConverter.cs" />
+    <Compile Include="Resources\ValueConverters\RangeValueToStringConverter.cs" />
+    <Compile Include="Resources\ValueConverters\TreeViewItemExtensions.cs" />
+    <Compile Include="Resources\ValueConverters\TypeToNameConverter.cs" />
+    <Compile Include="Resources\ValueConverters\TypeToVisibilityConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ValToColorConverter.cs" />
+    <Compile Include="Resources\ValueConverters\ValueDataTemplateConverter.cs" />
+    <Compile Include="Resources\AttachedProperties\ExpanderIndentation.cs" />
+    <Compile Include="Resources\AttachedProperties\PositionedCornerRadius.cs" />
+    <Compile Include="Resources\AttachedProperties\RoundedPosition.cs" />
+    <Compile Include="Themes\Styles\Windows\MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\Assets\TexturePathSelector.xaml.cs">
       <DependentUpon>TexturePathSelector.xaml</DependentUpon>
     </Compile>
@@ -235,14 +320,54 @@
     <Compile Include="Views\BaseControl\Button.xaml.cs">
       <DependentUpon>Button.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\CMiXPopup.cs" />
+    <Compile Include="Views\BaseControl\CMiXSlider.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\ColorManager.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\ColorPicker.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\ColorState.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\ColorWheel.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\ColorWheelValueSlider.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\HueColorSlider.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\IColorClient.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\IColorManager.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\IColorStateStorage.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\NotifyableColor.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\RgbaChannel.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\RgbaColorSlider.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\SaturationColorSlider.cs" />
+    <Compile Include="Views\BaseControl\ColorPicker\ValueColorSlider.cs" />
     <Compile Include="Views\BaseControl\ComboBox.xaml.cs">
       <DependentUpon>ComboBox.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\ControlPositionEnum.cs" />
+    <Compile Include="Views\BaseControl\BaseCounter.cs" />
     <Compile Include="Views\BaseControl\Counter.xaml.cs">
       <DependentUpon>Counter.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\Dialogs\ColorSelectorWindow.xaml.cs">
+      <DependentUpon>ColorSelectorWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\Dialogs\CustomWindowDialog.xaml.cs">
+      <DependentUpon>CustomWindowDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\Dialogs\MessengerSettingsWindow.xaml.cs">
+      <DependentUpon>MessengerSettingsWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\DistanceSlider.cs" />
     <Compile Include="Views\BaseControl\DragValue.xaml.cs">
       <DependentUpon>DragValue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\FileNameItem.xaml.cs">
+      <DependentUpon>FileNameItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\FileSelector.xaml.cs">
+      <DependentUpon>FileSelector.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\IPBox.xaml.cs">
+      <DependentUpon>IPBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\Panels\BorderContainer.xaml.cs">
+      <DependentUpon>BorderContainer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseControl\Panels\ControlPanelNames.cs" />
     <Compile Include="Views\BaseControl\Panels\IndentedExpander.xaml.cs">
@@ -251,61 +376,82 @@
     <Compile Include="Views\BaseControl\Panels\ModifierPanel.xaml.cs">
       <DependentUpon>ModifierPanel.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\Popup\CMiXPopup.cs" />
+    <Compile Include="Views\BaseControl\Slider.xaml.cs">
+      <DependentUpon>Slider.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\TabItemResize.cs" />
+    <Compile Include="Views\BaseControl\TaskEditorDialog.cs" />
+    <Compile Include="Views\BaseControl\TextBox\EditableTextBox.xaml.cs">
+      <DependentUpon>EditableTextBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\TextBox\EditableValue.xaml.cs">
+      <DependentUpon>EditableValue.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\TextBox\InputNumbersOnly.cs" />
+    <Compile Include="Views\BaseControl\TextBox\SelectTextOnFocus.cs" />
     <Compile Include="Views\BaseControl\ToggleButton.xaml.cs">
       <DependentUpon>ToggleButton.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\TreeView\TreeViewMultiSelect.cs" />
+    <Compile Include="Views\BaseControl\TreeView\TreeViewSelect.cs" />
     <Compile Include="Views\BaseControl\VectorXY.xaml.cs">
       <DependentUpon>VectorXY.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\BaseControl\Windows\ColorSelectorDialog.cs" />
+    <Compile Include="Views\BaseControl\Windows\CustomDialog.cs" />
+    <Compile Include="Views\BaseControl\Windows\CustomTypeLocator.cs" />
+    <Compile Include="Views\BaseControl\Windows\DialogFactory.cs" />
+    <Compile Include="Views\BaseControl\Windows\MessengerSettingsDialog.cs" />
     <Compile Include="Views\Beat\BeatManager.xaml.cs">
       <DependentUpon>BeatManager.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseControl\ColorSelector.xaml.cs">
       <DependentUpon>ColorSelector.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\CameraRandom.xaml.cs">
+    <Compile Include="Views\Component\Entities\Camera\CameraRandom.xaml.cs">
       <DependentUpon>CameraRandom.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\CameraLFO.xaml.cs">
+    <Compile Include="Views\Component\Entities\Camera\CameraLFO.xaml.cs">
       <DependentUpon>CameraLFO.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\CompositionSettings.xaml.cs">
+    <Compile Include="Views\Component\Composition\CompositionSettings.xaml.cs">
       <DependentUpon>CompositionSettings.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\LightAmbient.xaml.cs">
+    <Compile Include="Views\Component\Entities\Light\LightAmbient.xaml.cs">
       <DependentUpon>LightAmbient.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\LightDirectional.xaml.cs">
+    <Compile Include="Views\Component\Entities\Light\LightDirectional.xaml.cs">
       <DependentUpon>LightDirectional.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\LightEntity.xaml.cs">
+    <Compile Include="Views\Component\Entities\Light\LightEntity.xaml.cs">
       <DependentUpon>LightEntity.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\LightPoint.xaml.cs">
+    <Compile Include="Views\Component\Entities\Light\LightPoint.xaml.cs">
       <DependentUpon>LightPoint.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\LightSpot.xaml.cs">
+    <Compile Include="Views\Component\Entities\Light\LightSpot.xaml.cs">
       <DependentUpon>LightSpot.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\MeshBox.xaml.cs">
+    <Compile Include="Views\Component\Entities\Mesh\MeshBox.xaml.cs">
       <DependentUpon>MeshBox.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\MeshCone.xaml.cs">
+    <Compile Include="Views\Component\Entities\Mesh\MeshCone.xaml.cs">
       <DependentUpon>MeshCone.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\MeshCylinder.xaml.cs">
+    <Compile Include="Views\Component\Entities\Mesh\MeshCylinder.xaml.cs">
       <DependentUpon>MeshCylinder.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\Mesh.xaml.cs">
+    <Compile Include="Views\Component\Entities\Mesh\Mesh.xaml.cs">
       <DependentUpon>Mesh.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\MeshPlane.xaml.cs">
+    <Compile Include="Views\Component\Entities\Mesh\MeshPlane.xaml.cs">
       <DependentUpon>MeshPlane.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\MeshSphere.xaml.cs">
+    <Compile Include="Views\Component\Entities\Mesh\MeshSphere.xaml.cs">
       <DependentUpon>MeshSphere.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Entities\MeshTorus.xaml.cs">
+    <Compile Include="Views\Component\Entities\Mesh\MeshTorus.xaml.cs">
       <DependentUpon>MeshTorus.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\Entities\ModelEntity.xaml.cs">
@@ -320,34 +466,52 @@
     <Compile Include="Views\Component\Layer\LayerMaskController.xaml.cs">
       <DependentUpon>LayerMaskController.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Easing.xaml.cs">
+    <Compile Include="Views\Modifiers\Easing.xaml.cs">
       <DependentUpon>Easing.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\Stepper.xaml.cs">
       <DependentUpon>Stepper.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\CameraModifierSelectionPanel.xaml.cs">
+    <Compile Include="Views\Component\Entities\Camera\CameraModifierSelectionPanel.xaml.cs">
       <DependentUpon>CameraModifierSelectionPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Managers\EntityModifierSelectionPanel.xaml.cs">
       <DependentUpon>EntityModifierSelectionPanel.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\LFOUV.xaml.cs">
+    <Compile Include="Views\Scheduler\At.xaml.cs">
+      <DependentUpon>At.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\TaskEditor.xaml.cs">
+      <DependentUpon>TaskEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\ToRunEvery.xaml.cs">
+      <DependentUpon>ToRunEvery.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\ToRunType.xaml.cs">
+      <DependentUpon>ToRunType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\UnitInterval.xaml.cs">
+      <DependentUpon>UnitInterval.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Scheduler\UnitType.xaml.cs">
+      <DependentUpon>UnitType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\Texture\Filter\LFOUV.xaml.cs">
       <DependentUpon>LFOUV.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Modifiers\LFO.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\LFO.xaml.cs">
       <DependentUpon>LFO.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\LinearXYZ.xaml.cs">
       <DependentUpon>LinearXYZ.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomScale.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\RandomScale.xaml.cs">
       <DependentUpon>RandomScale.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\RandomUV.xaml.cs">
+    <Compile Include="Views\Texture\Filter\RandomUV.xaml.cs">
       <DependentUpon>RandomUV.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\RandomXYZ.xaml.cs">
       <DependentUpon>RandomXYZ.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseControl\Range.xaml.cs">
@@ -359,14 +523,13 @@
     <Compile Include="Views\Managers\PrefabSlotManager.xaml.cs">
       <DependentUpon>PrefabSlotManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Material\ColorModifierTemplateSelector.cs" />
-    <Compile Include="Views\Material\RandomHSV.xaml.cs">
+    <Compile Include="Views\Modifiers\Color\RandomHSV.xaml.cs">
       <DependentUpon>RandomHSV.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Menus\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Outliner\Outliner.xaml.cs">
+    <Compile Include="Views\BaseControl\Outliner.xaml.cs">
       <DependentUpon>Outliner.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Scheduler\Client.xaml.cs">
@@ -405,28 +568,28 @@
     <Compile Include="Views\Assets\AssetManager.xaml.cs">
       <DependentUpon>AssetManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Instancer\ModifierManager.xaml.cs">
+    <Compile Include="Views\Modifiers\ModifierManager.xaml.cs">
       <DependentUpon>ModifierManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Transform\Translate.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\Translate.xaml.cs">
       <DependentUpon>Translate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Transform\Rotation.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\Rotation.xaml.cs">
       <DependentUpon>Rotation.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Transform\Scale.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\Scale.xaml.cs">
       <DependentUpon>Scale.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Geometry\Transform\TransformSRT.xaml.cs">
+    <Compile Include="Views\Modifiers\Transform\TransformSRT.xaml.cs">
       <DependentUpon>TransformSRT.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\Blur.xaml.cs">
+    <Compile Include="Views\Texture\Filter\Blur.xaml.cs">
       <DependentUpon>Blur.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\Echo.xaml.cs">
+    <Compile Include="Views\Texture\Filter\Echo.xaml.cs">
       <DependentUpon>Echo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\Feedback.xaml.cs">
+    <Compile Include="Views\Texture\Filter\Feedback.xaml.cs">
       <DependentUpon>Feedback.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\Source\BubbleNoise.xaml.cs">
@@ -441,34 +604,34 @@
     <Compile Include="Views\Texture\TransformUV.xaml.cs">
       <DependentUpon>TransformUV.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\TriColor.xaml.cs">
+    <Compile Include="Views\Texture\Filter\TriColor.xaml.cs">
       <DependentUpon>TriColor.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\Pixelate.xaml.cs">
+    <Compile Include="Views\Texture\Filter\Pixelate.xaml.cs">
       <DependentUpon>Pixelate.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\Edge.xaml.cs">
+    <Compile Include="Views\Texture\Filter\Edge.xaml.cs">
       <DependentUpon>Edge.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\HSCB.xaml.cs">
+    <Compile Include="Views\Texture\Filter\HSCB.xaml.cs">
       <DependentUpon>HSCB.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\Invert.xaml.cs">
+    <Compile Include="Views\Texture\Filter\Invert.xaml.cs">
       <DependentUpon>Invert.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\SamplerState.xaml.cs">
       <DependentUpon>SamplerState.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\TransformTexture.xaml.cs">
+    <Compile Include="Views\Texture\Filter\TransformTexture.xaml.cs">
       <DependentUpon>TransformTexture.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\TypeWriter.xaml.cs">
+    <Compile Include="Views\Texture\Source\TypeWriter.xaml.cs">
       <DependentUpon>TypeWriter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\VideoIn.xaml.cs">
+    <Compile Include="Views\Texture\Source\VideoIn.xaml.cs">
       <DependentUpon>VideoIn.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\VideoPlayer.xaml.cs">
+    <Compile Include="Views\Texture\Source\VideoPlayer.xaml.cs">
       <DependentUpon>VideoPlayer.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseControl\VectorXYZ.xaml.cs">
@@ -484,7 +647,7 @@
     <Compile Include="Views\Beat\BeatControls.xaml.cs">
       <DependentUpon>BeatControls.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Camera\Camera.xaml.cs">
+    <Compile Include="Views\Component\Entities\Camera\Camera.xaml.cs">
       <DependentUpon>Camera.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Material\Material.xaml.cs">
@@ -499,6 +662,162 @@
     <Compile Include="Views\Texture\Texture.xaml.cs">
       <DependentUpon>Texture.xaml</DependentUpon>
     </Compile>
+    <Page Include="Themes\Basic\Basic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Basic\Brushes.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Basic\Colors.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Basic\Converters.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Basic\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Basic\Values.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\BeatController\BeatTapButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\BeatController\MasterBeatController.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Border.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Button.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\ComboBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Counter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\DataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Expander.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\GridSplitter.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Label.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\ListBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Menu\ContextMenu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Menu\Menu.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Modifiers\Modifier.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Popup.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\RadioButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\ScrollViewer.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Sliders\ColorWheel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Sliders\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Sliders\SliderThumb.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Style.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Tab.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\TextBlock.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\TextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\TextBoxEditable.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\ToggleButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\ToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\TreeViews\TreeView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\TreeViews\TreeViewMultiSelect.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Windows\MainWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Styles\Windows\Window.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\Assets\TexturePathSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -527,7 +846,35 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\BaseControl\Dialogs\ColorSelectorWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\Dialogs\CustomWindowDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\Dialogs\MessengerSettingsWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\BaseControl\DragValue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\FileNameItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\FileSelector.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\IPBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\Panels\BorderContainer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -538,6 +885,18 @@
     <Page Include="Views\BaseControl\Panels\ModifierPanel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\BaseControl\Slider.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\TextBox\EditableTextBox.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\TextBox\EditableValue.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BaseControl\ToggleButton.xaml">
       <SubType>Designer</SubType>
@@ -555,63 +914,63 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Camera\CameraRandom.xaml">
+    <Page Include="Views\Component\Entities\Camera\CameraRandom.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Camera\CameraLFO.xaml">
+    <Page Include="Views\Component\Entities\Camera\CameraLFO.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\CompositionSettings.xaml">
+    <Page Include="Views\Component\Composition\CompositionSettings.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\LightAmbient.xaml">
+    <Page Include="Views\Component\Entities\Light\LightAmbient.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\LightDirectional.xaml">
+    <Page Include="Views\Component\Entities\Light\LightDirectional.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\LightEntity.xaml">
+    <Page Include="Views\Component\Entities\Light\LightEntity.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\LightPoint.xaml">
+    <Page Include="Views\Component\Entities\Light\LightPoint.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\LightSpot.xaml">
+    <Page Include="Views\Component\Entities\Light\LightSpot.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\MeshBox.xaml">
+    <Page Include="Views\Component\Entities\Mesh\MeshBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\MeshCone.xaml">
+    <Page Include="Views\Component\Entities\Mesh\MeshCone.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\MeshCylinder.xaml">
+    <Page Include="Views\Component\Entities\Mesh\MeshCylinder.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\Mesh.xaml">
+    <Page Include="Views\Component\Entities\Mesh\Mesh.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\MeshPlane.xaml">
+    <Page Include="Views\Component\Entities\Mesh\MeshPlane.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\MeshSphere.xaml">
+    <Page Include="Views\Component\Entities\Mesh\MeshSphere.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Entities\MeshTorus.xaml">
+    <Page Include="Views\Component\Entities\Mesh\MeshTorus.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -631,15 +990,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Easing.xaml">
+    <Page Include="Views\Modifiers\Easing.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Instancer\ModifierDataTemplates.xaml">
+    <Page Include="Views\Modifiers\ModifierDataTemplates.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Instancer\Modifiers\Stepper.xaml">
+    <Page Include="Views\Modifiers\Transform\Stepper.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -647,7 +1006,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Camera\CameraModifierSelectionPanel.xaml">
+    <Page Include="Views\Component\Entities\Camera\CameraModifierSelectionPanel.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -655,27 +1014,51 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\LFOUV.xaml">
+    <Page Include="Views\Scheduler\At.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Instancer\Modifiers\LFO.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Geometry\Instancer\Modifiers\LinearXYZ.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Geometry\Instancer\Modifiers\RandomScale.xaml">
+    <Page Include="Views\Scheduler\TaskEditor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Texture\RandomUV.xaml">
+    <Page Include="Views\Scheduler\ToRunEvery.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Instancer\Modifiers\RandomXYZ.xaml">
+    <Page Include="Views\Scheduler\ToRunType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scheduler\UnitInterval.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Scheduler\UnitType.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Filter\LFOUV.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Modifiers\Transform\LFO.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Modifiers\Transform\LinearXYZ.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Modifiers\Transform\RandomScale.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Texture\Filter\RandomUV.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\Modifiers\Transform\RandomXYZ.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -691,7 +1074,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Material\RandomHSV.xaml">
+    <Page Include="Views\Modifiers\Color\RandomHSV.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -699,7 +1082,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Outliner\Outliner.xaml">
+    <Page Include="Views\BaseControl\Outliner.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -747,23 +1130,23 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Geometry\Instancer\ModifierManager.xaml">
+    <Page Include="Views\Modifiers\ModifierManager.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Transform\Translate.xaml">
+    <Page Include="Views\Modifiers\Transform\Translate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Transform\Rotation.xaml">
+    <Page Include="Views\Modifiers\Transform\Rotation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Transform\Scale.xaml">
+    <Page Include="Views\Modifiers\Transform\Scale.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Geometry\Transform\TransformSRT.xaml">
+    <Page Include="Views\Modifiers\Transform\TransformSRT.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -775,7 +1158,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Camera\Camera.xaml">
+    <Page Include="Views\Component\Entities\Camera\Camera.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -802,15 +1185,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\Blur.xaml">
+    <Page Include="Views\Texture\Filter\Blur.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\Echo.xaml">
+    <Page Include="Views\Texture\Filter\Echo.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Texture\Feedback.xaml">
+    <Page Include="Views\Texture\Filter\Feedback.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -830,23 +1213,23 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Texture\TriColor.xaml">
+    <Page Include="Views\Texture\Filter\TriColor.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Texture\Pixelate.xaml">
+    <Page Include="Views\Texture\Filter\Pixelate.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Texture\Edge.xaml">
+    <Page Include="Views\Texture\Filter\Edge.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\HSCB.xaml">
+    <Page Include="Views\Texture\Filter\HSCB.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\Invert.xaml">
+    <Page Include="Views\Texture\Filter\Invert.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -858,19 +1241,19 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\TransformTexture.xaml">
+    <Page Include="Views\Texture\Filter\TransformTexture.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\TypeWriter.xaml">
+    <Page Include="Views\Texture\Source\TypeWriter.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\VideoIn.xaml">
+    <Page Include="Views\Texture\Source\VideoIn.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\VideoPlayer.xaml">
+    <Page Include="Views\Texture\Source\VideoPlayer.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -931,7 +1314,177 @@
       <Name>CMiX.Core</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\AddTab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Arrow_Down.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Arrow_Left.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Arrow_Right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Arrow_Up.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\BC.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Beat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Camera.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Close.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\CloseTab.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Coloration.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\colorChart.PNG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\ColorWheel.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Composition.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Copy.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Cube.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Cube_Col.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\DeleteLayer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\DragHandler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Edit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Effect.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Entity.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Folder_Opened.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\HSL.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\HueCircle.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\IsChecked.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\LayerScene.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Mask.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Maximize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Menu.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\MeshLight.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Minimize.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Network.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\NewLayer.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\NotVisible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Paste.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Play.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Playlist.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Rename.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Resource.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Scene.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Scheduler.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Settings.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Size.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Sub.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Texture.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Transform3D.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Transparent_Bg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Visible.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\Warning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Themes\Assets\World.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

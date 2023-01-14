@@ -3,14 +3,14 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Converters="clr-namespace:CMiX.Core.Presentation.ValueConverters;assembly=CMiX.Core"
+             xmlns:Converters="clr-namespace:CMiX.Studio.ValueConverters"
              xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
              mc:Ignorable="d" 
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl" 
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              d:DesignHeight="243" d:DesignWidth="234">
 
-    <UserControl.Resources>
+    <!--<UserControl.Resources>
         <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
     </UserControl.Resources>
 
@@ -21,7 +21,7 @@
             DockPanel.Dock="Top">
 
             <Views:PrefabSlotManager DataContext="{Binding }"/>
-            <!--<ListBox 
+            --><!--<ListBox 
                 DataContext="{Binding}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
@@ -32,10 +32,10 @@
                         </Border>
                     </ItemContainerTemplate>
                 </ListBox.ItemTemplate>
-            </ListBox>-->
+            </ListBox>--><!--
         </Border>
 
 
-    </StackPanel>
+    </StackPanel>-->
 
 </UserControl>

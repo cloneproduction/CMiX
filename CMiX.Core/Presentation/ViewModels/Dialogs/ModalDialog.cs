@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentation.ViewModels.Dialogs
 {
     public class ModalDialog : ObservableObject, IModalDialogViewModel
     {

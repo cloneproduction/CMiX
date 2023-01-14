@@ -10,7 +10,6 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentation.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
@@ -242,10 +241,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void EditSettings()
         {
-            Settings settings = this.GetSettings();
-            bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
-            if (success == true)
-                this.SetSettings(settings);
+            //Settings settings = this.GetSettings();
+            //bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
+            //if (success == true)
+            //    this.SetSettings(settings);
         }
 
         public void Start()

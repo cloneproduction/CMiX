@@ -1,0 +1,62 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.LFOUV"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="345.111" d:DesignWidth="228.889">
+
+    <StackPanel>
+
+        <StackPanel Margin="8">
+
+            <basecontrol:ComboBox 
+                Margin="0, 0, 0, 8"
+                Caption="Type" 
+                SelectedItem="{Binding Mode.Selection}" 
+                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
+
+            <Views:BeatModifier 
+                DataContext="{Binding BeatModifier}"/>
+
+            <basecontrol:DragValue 
+                Margin="0, 8, 0, 0"
+                Caption="From" 
+                Value="{Binding From.Amount}" 
+                Position="Top"/>
+
+            <basecontrol:DragValue 
+                Margin="0, 1, 0, 0"
+                Caption="To" 
+                Value="{Binding To.Amount}" 
+                Position="Bottom"/>
+
+            <basecontrol:ToggleButton
+                Margin="0, 8"
+                Caption="PingPong"
+                IsChecked="{Binding PingPong.IsChecked}"/>
+
+            <basecontrol:ComboBox 
+                Caption="Transform" 
+                SelectedItem="{Binding TransformType.Selection}" 
+                ItemsSource="{Binding Source={StaticResource TransformType}}"/>
+
+            <basecontrol:AxisSelector3D 
+                Margin="0, 2, 0, 0"
+                XIsChecked="{Binding XAxis.IsChecked}"
+                YIsChecked="{Binding YAxis.IsChecked}"
+                ZIsChecked="{Binding ZAxis.IsChecked}"/>
+
+            <Views:SamplerState 
+                Margin="0, 8" 
+                DataContext="{Binding SamplerState}"/>
+        </StackPanel>
+
+        <Views:Easing  DataContext="{Binding Easing}"/>
+
+    </StackPanel>
+
+</UserControl>

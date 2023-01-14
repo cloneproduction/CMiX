@@ -169,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Mathematics\ColorExtensions.cs" />
+    <Compile Include="Mathematics\ColorSpaceHelper.cs" />
     <Compile Include="Mathematics\MathUtils.cs" />
     <Compile Include="Models\Assets\AssetVideoModel.cs" />
     <Compile Include="Models\Assets\ImageSelectorModel.cs" />
@@ -228,48 +229,13 @@
     <Compile Include="Network\Messages\MessageRequestControl.cs" />
     <Compile Include="Network\Messages\MessageRequestDialogService.cs" />
     <Compile Include="Network\Messages\MessageUpdateViewModelHandler.cs" />
-    <Compile Include="Presentation\Behaviors\BindableTreeViewSelectedItemBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\ClickBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\ContextMenuMouseDownBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\FocusBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\FolderDialogBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\ListBoxSelectionBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\ClosePopupBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\ScrollViewerBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\SliderBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\TreeViewItemClickBehavior.cs" />
-    <Compile Include="Presentation\Behaviors\TreeViewMultiSelectionBehavior.cs" />
     <Compile Include="Presentation\Controls\Beat\BeatAnimations.cs" />
     <Compile Include="Presentation\Controls\Beat\BeatMasterController.cs" />
     <Compile Include="Presentation\Controls\Beat\AnimatedDouble.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\IColorStateStorage.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\NotifyableColor.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorManager.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorPicker.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorSpaceHelper.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorState.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorWheel.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ColorWheelValueSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\ValueColorSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\SaturationColorSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\RgbaChannel.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\RgbaColorSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\HueColorSlider.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\IColorClient.cs" />
-    <Compile Include="Presentation\Controls\ColorPicker\IColorManager.cs" />
-    <Compile Include="Presentation\Controls\ListBox\CMiXListBox.cs" />
-    <Compile Include="Presentation\Controls\ListBox\CMiXListBoxItem.cs" />
-    <Compile Include="Presentation\Controls\Popup\CMiXPopup.cs" />
-    <Compile Include="Presentation\Controls\Slider\CMiXRangeSlider.xaml.cs">
-      <DependentUpon>CMiXRangeSlider.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Controls\Slider\CMiXSlider.cs" />
-    <Compile Include="Presentation\Controls\Counter\Counter.cs" />
-    <Compile Include="Presentation\Controls\TabItemResize.cs" />
-    <Compile Include="Presentation\Controls\TextBox\InputNumbersOnly.cs" />
-    <Compile Include="Presentation\Controls\TextBox\SelectTextOnFocus.cs" />
-    <Compile Include="Presentation\Controls\ToggleButton\CMiXToggleButton.cs" />
-    <Compile Include="Presentation\Controls\ToggleButton\ToggleDockPosition.cs" />
+    <Compile Include="Presentation\ViewModels\Dialogs\ModalDialog.cs" />
+    <Compile Include="_TRASH\EditableTextBox.cs" />
+    <Compile Include="_TRASH\ListBox\CMiXListBox.cs" />
+    <Compile Include="_TRASH\ListBox\CMiXListBoxItem.cs" />
     <Compile Include="Models\AnimParameter\AnimMode\IAnimModeModel.cs" />
     <Compile Include="Models\Geometry\Modifier\LFOModel.cs" />
     <Compile Include="Models\AnimParameter\AnimMode\NoneModel.cs" />
@@ -289,70 +255,6 @@
     <Compile Include="Models\Range\IRangeModel.cs" />
     <Compile Include="Models\Range\RangeModel.cs" />
     <Compile Include="Presentation\Extensions\DependencyObjectExtensions.cs" />
-    <Compile Include="Presentation\Themes\AttachedProperties\PositionedCornerRadius.cs" />
-    <Compile Include="Presentation\Themes\AttachedProperties\ExpanderIndentation.cs" />
-    <Compile Include="Presentation\Themes\AttachedProperties\RoundedPosition.cs" />
-    <Compile Include="Presentation\ValueConverters\FontFamilyToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\AltBackgroundConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\AlwaysVisibleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\BoolInverterConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\BoolToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\BoolToVisibilityConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ByteToNormalizedDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ByteToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\CollectionToItemConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorHueToDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToBlueAsDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToBrushConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToColorComponentConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToGreenAsDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToHexConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToHSVAsDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToHSVControledConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToNoAlphaConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToHueOnlyConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToHueSatOnlyConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToHueValueOnlyConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToRedAsDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToSaturationAsDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToSaturationConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToSliderBgColorConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToValueAsDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ColorToValueOnlyConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ComponentVisibilityConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\DataTypeConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\DoubleToColorSatConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\DoubleToDividedConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\DoubleToInvertedConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\DoubleToPersistantStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\DoubleToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\DoubleToStringPercentConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\EnumToBooleanConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\EnumToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\HueToColorConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\IndentationConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\IndexToCountConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\IntToNormalizedDoubleConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\IntToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\IntToStringWithMaxConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\IsNullConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ItemToParentConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\LeftMarginMultiplierConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\MultiplyConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\NullToBoolConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\NotNullToBoolConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\NullToVisibilityConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\PathToFilenameConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\PeriodToBPMConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\RadioButtonCheckedConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\RadioButtonSelectionConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\RangeValueToStringConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\TypeToNameConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\TypeToVisibilityConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ValToColorConverter.cs" />
-    <Compile Include="Presentation\ValueConverters\ValueDataTemplateConverter.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetTypes.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetVideo.cs" />
     <Compile Include="Presentation\ViewModels\Assets\IAssetImage.cs" />
@@ -514,21 +416,6 @@
     <Compile Include="Presentation\ViewModels\Scheduling\Playlist.cs" />
     <Compile Include="Presentation\ViewModels\Scheduling\PlaylistEditor.cs" />
     <Compile Include="Presentation\ViewModels\Scheduling\SchedulerManager.cs" />
-    <Compile Include="Presentation\ViewModels\Scheduling\Views\At.xaml.cs">
-      <DependentUpon>At.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\ViewModels\Scheduling\Views\ToRunEvery.xaml.cs">
-      <DependentUpon>ToRunEvery.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\ViewModels\Scheduling\Views\ToRunType.xaml.cs">
-      <DependentUpon>ToRunType.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\ViewModels\Scheduling\Views\UnitInterval.xaml.cs">
-      <DependentUpon>UnitInterval.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\ViewModels\Scheduling\Views\UnitType.xaml.cs">
-      <DependentUpon>UnitType.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\Stepper.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\LFO.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\LinearXYZ.cs" />
@@ -559,18 +446,7 @@
     <Compile Include="Presentation\ViewModels\Transform\ITransform.cs" />
     <Compile Include="Presentation\ViewModels\Outliner\OutlinerDragDropManager.cs" />
     <Compile Include="Presentation\ViewModels\Windows\MainWindowController.cs" />
-    <Compile Include="Presentation\Controls\Slider\DistanceSlider.cs" />
-    <Compile Include="Presentation\Controls\MouseDownAttachedProperty.cs" />
-    <Compile Include="Presentation\Controls\TextBox\EditableTextBox.xaml.cs">
-      <DependentUpon>EditableTextBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Controls\TextBox\EditableTextBox.cs" />
-    <Compile Include="Presentation\Controls\TextBox\EditableValue.xaml.cs">
-      <DependentUpon>EditableValue.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Controls\Expander\ExpanderLayerList.cs" />
-    <Compile Include="Presentation\Controls\TreeView\TreeViewMultiSelect.cs" />
-    <Compile Include="Presentation\Controls\TreeView\TreeViewSelect.cs" />
+    <Compile Include="_TRASH\Expander\ExpanderLayerList.cs" />
     <Compile Include="Models\Assets\AssetModel.cs" />
     <Compile Include="Models\Assets\GeometrySelectorModel.cs" />
     <Compile Include="Models\Assets\AssetManagerModel.cs" />
@@ -587,8 +463,6 @@
     <Compile Include="Models\BlendModeModel.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Component\EntityModel.cs" />
-    <Compile Include="Presentation\Controls\ControlPositionEnum.cs" />
-    <Compile Include="Presentation\Themes\Styles\Windows\MainWindow.xaml.cs" />
     <Compile Include="Presentation\ViewModels\Assets\IAsset.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetDirectory.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetDragDrop.cs" />
@@ -610,19 +484,6 @@
     <Compile Include="Presentation\ViewModels\Outliner\Outliner.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Project.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Counter\Counter.cs" />
-    <Compile Include="Presentation\ViewModels\Scheduling\Views\TaskEditor.xaml.cs">
-      <DependentUpon>TaskEditor.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\ViewModels\Scheduling\TaskEditorDialog.cs" />
-    <Compile Include="Presentation\Views\Dialogs\ColorSelectorWindow.xaml.cs">
-      <DependentUpon>ColorSelectorWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Windows\CustomDialog.cs" />
-    <Compile Include="Presentation\Windows\DialogFactory.cs" />
-    <Compile Include="Presentation\Windows\CustomTypeLocator.cs" />
-    <Compile Include="Presentation\Windows\ColorSelectorDialog.cs" />
-    <Compile Include="Presentation\Windows\MessengerSettingsDialog.cs" />
-    <Compile Include="Presentation\ViewModels\Dialogs\ModalDialog.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Rotation.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Scale.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Transform.cs" />
@@ -645,19 +506,6 @@
     <Compile Include="Presentation\ViewModels\IControl.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Slider\Slider.cs" />
     <Compile Include="Presentation\ViewModels\AnimParameter\Easing\EasingTypes.cs" />
-    <Compile Include="Presentation\Views\Dialogs\CustomWindowDialog.xaml.cs">
-      <DependentUpon>CustomWindowDialog.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Views\Dialogs\MessengerSettingsWindow.xaml.cs">
-      <DependentUpon>MessengerSettingsWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Views\Sliders\SliderInfinite.xaml.cs">
-      <DependentUpon>SliderInfinite.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Controls\IPBox\IPBox.xaml.cs">
-      <DependentUpon>IPBox.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Controls\Slider\RangeSlider.cs" />
     <Compile Include="Models\Beat\BeatModifierModel.cs" />
     <Compile Include="Models\CameraModel.cs" />
     <Compile Include="Models\Material\MaterialModel.cs" />
@@ -675,25 +523,8 @@
     <Compile Include="Models\SliderModel.cs" />
     <Compile Include="Models\TextureModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Presentation\BindingProxy.cs" />
-    <Compile Include="Presentation\ValueConverters\TreeViewItemExtensions.cs" />
     <Compile Include="Presentation\ViewModels\Mask\MaskControlType.cs" />
     <Compile Include="Presentation\ViewModels\Mask\MaskChannel.cs" />
-    <Compile Include="Presentation\Views\Counter.xaml.cs">
-      <DependentUpon>Counter.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Views\FileNameItem.xaml.cs">
-      <DependentUpon>FileNameItem.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Views\FileSelector.xaml.cs">
-      <DependentUpon>FileSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Views\Sliders\Slider.xaml.cs">
-      <DependentUpon>Slider.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Presentation\Views\Sliders\SliderCentered.xaml.cs">
-      <DependentUpon>SliderCentered.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Presentation\ViewModels\BlendMode\BlendModeEnum.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureInvertMode.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -709,377 +540,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-Black.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-BlackItalic.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-Bold.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-BoldItalic.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-Italic.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-Light.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-LightItalic.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-Medium.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-MediumItalic.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-Regular.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-Thin.ttf" />
-    <Resource Include="Presentation\Themes\Basic\Fonts\Roboto-ThinItalic.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Presentation\Controls\Slider\CMiXRangeSlider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Basic\Basic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Basic\Converters.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\BeatController\BeatTapButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\BeatController\MasterBeatController.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\ColorPicker.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Counter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Modifiers\Modifier.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Sliders\SliderThumb.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Sliders\ColorWheel.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Popup.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\TreeViews\TreeViewMultiSelect.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Style.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\ViewModels\Scheduling\Views\At.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\ViewModels\Scheduling\Views\ToRunEvery.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\ViewModels\Scheduling\Views\ToRunType.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\ViewModels\Scheduling\Views\UnitInterval.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\ViewModels\Scheduling\Views\UnitType.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Controls\TextBox\EditableTextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Controls\IPBox\IPBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Controls\TextBox\EditableValue.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presentation\Themes\Basic\Values.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Windows\Window.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\TextBlock.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\TextBoxEditable.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\TreeViews\TreeView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\GridSplitter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\DataGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Border.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Basic\Brushes.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Button.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Basic\Colors.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\ComboBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Menu\ContextMenu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Expander.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Generic.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Basic\Icons.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Label.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\ListBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Menu\Menu.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\RadioButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\RangeSlider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\ScrollViewer.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Sliders\Slider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Tab.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\TextBox.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\ToggleButton.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\ToolTip.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Themes\Styles\Windows\MainWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\Counter.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\Dialogs\ColorSelectorWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Presentation\Views\Dialogs\CustomWindowDialog.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\Dialogs\MessengerSettingsWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\ViewModels\Scheduling\Views\TaskEditor.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\FileNameItem.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\FileSelector.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\Sliders\Slider.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\Sliders\SliderCentered.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Presentation\Views\Sliders\SliderInfinite.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\AddTab.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\BC.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\CloseTab.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Coloration.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\colorChart.PNG" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Copy.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Cube.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\DeleteLayer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Effect.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\HSL.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\HueCircle.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\NewLayer.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Paste.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Reset.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Size.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Texture.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Edit.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Folder.png" />
-    <Resource Include="Presentation\Themes\Assets\Folder_Opened.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Network.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Resource.png">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Add.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Rename.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\NotVisible.png" />
-    <Resource Include="Presentation\Themes\Assets\Visible.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Close.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Mask.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\IsChecked.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Composition.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Presentation\Themes\Assets\Entity.png" />
-    <Resource Include="Presentation\Themes\Assets\Scene.png" />
-    <Resource Include="Presentation\Themes\Assets\Maximize.png" />
-    <Resource Include="Presentation\Themes\Assets\Minimize.png" />
-    <Resource Include="Presentation\Themes\Assets\Warning.png" />
-    <Resource Include="Presentation\Themes\Assets\Settings.png" />
-    <Resource Include="Presentation\Themes\Assets\Menu.png" />
-    <Resource Include="Presentation\Themes\Assets\Play.png" />
-    <Resource Include="Presentation\Themes\Assets\Stop.png" />
-    <Resource Include="Presentation\Themes\Assets\Sub.png" />
-    <Resource Include="Presentation\Themes\Assets\Scheduler.png" />
-    <Resource Include="Presentation\Themes\Assets\Playlist.png" />
-    <Resource Include="Presentation\Themes\Assets\ColorWheel.png" />
-    <Resource Include="Presentation\Themes\Assets\Transparent_Bg.png" />
-    <Resource Include="Presentation\Themes\Assets\DragHandler.png" />
-    <Resource Include="Presentation\Themes\Assets\LayerScene.png" />
-    <Resource Include="Presentation\Themes\Assets\World.png" />
-    <Resource Include="Presentation\Themes\Assets\MeshLight.png" />
-    <Resource Include="Presentation\Themes\Assets\Arrow_Down.png" />
-    <Resource Include="Presentation\Themes\Assets\Arrow_Up.png" />
-    <Resource Include="Presentation\Themes\Assets\Cube_Col.png" />
-    <Resource Include="Presentation\Themes\Assets\Transform3D.png" />
-    <Resource Include="Presentation\Themes\Assets\Camera.png" />
-    <Resource Include="Presentation\Themes\Assets\Beat.png" />
-    <Resource Include="Presentation\Themes\Assets\Arrow_Left.png" />
-    <Resource Include="Presentation\Themes\Assets\Arrow_Right.png" />
-    <Content Include="Presentation\Themes\Basic\Fonts\LICENSE.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Presentation\ViewModels\Coloration\" />
+    <Folder Include="Presentation\ViewModels\Scheduling\Views\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.0.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />

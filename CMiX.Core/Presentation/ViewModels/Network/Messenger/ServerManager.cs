@@ -3,7 +3,6 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Presentation.Views;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using MvvmDialogs;
@@ -57,10 +56,10 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 
         public void EditMessengerSettings(Server server)
         {
-            Settings settings = server.GetSettings();
-            bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
-            if (success == true)
-                server.SetSettings(settings);
+            //Settings settings = server.GetSettings();
+            //bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
+            //if (success == true)
+            //    server.SetSettings(settings);
         }
 
         public void AddServer()
