@@ -11,41 +11,41 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.BaseControl
 {
-    public class StringControl : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
+    public class StringValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public StringControl(StringControlModel stringBaseModel)
+        public StringValue(StringValueModel stringValueModel)
         {
-            ID = stringBaseModel.ID;
-            Text = stringBaseModel.Text;
+            ID = stringValueModel.ID;
+            Value = stringValueModel.Value;
             IsActive = true;
         }
 
         public Guid ID { get; set; }
 
-        private string _text;
-        public string Text
+        private string _value;
+        public string Value
         {
-            get => _text;
+            get => _value;
             set
             {
-                SetProperty(ref _text, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                SetProperty(ref _value, value);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
             }
         }
 
         public IModel GetModel()
         {
-            StringControlModel stringBaseModel = new StringControlModel();
-            stringBaseModel.ID = ID;
-            stringBaseModel.Text = Text;
-            return stringBaseModel;
+            StringValueModel stringValueModel = new StringValueModel();
+            stringValueModel.ID = ID;
+            stringValueModel.Value = Value;
+            return stringValueModel;
         }
 
         public void SetViewModel(IModel model)
         {
-            StringControlModel stringBaseModel = model as StringControlModel;
-            this.ID = stringBaseModel.ID;
-            this.Text = stringBaseModel.Text;
+            StringValueModel stringValueModel = model as StringValueModel;
+            this.ID = stringValueModel.ID;
+            this.Value = stringValueModel.Value;
         }
 
         public void Receive(MessageRequestControl message)

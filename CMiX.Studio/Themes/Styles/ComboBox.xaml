@@ -17,7 +17,6 @@
         <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True"/>
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All"/>
         <Setter Property="HorizontalContentAlignment" Value="Left"/>
         <Setter Property="Template">
             <Setter.Value>
@@ -35,7 +34,6 @@
                                     <Setter Property="OverridesDefaultStyle" Value="True" />
                                     <Setter Property="IsTabStop" Value="False" />
                                     <Setter Property="Focusable" Value="True" />
-                                    <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="{Binding (AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}"/>
                                     <Setter Property="ClickMode" Value="Press" />
                                     <Setter Property="Background" Value="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"/>
                                     <Setter Property="Template">
@@ -44,7 +42,7 @@
                                                 
                                                 <Border
                                                     x:Name="border"
-                                                    CornerRadius="2"
+                                                    CornerRadius="0"
                                                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                     Background="{TemplateBinding Background}"
@@ -59,30 +57,7 @@
                                                 </Border>
 
                                                 <ControlTemplate.Triggers>
-                                                    <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All">
-                                                        <Setter TargetName="border" Property="CornerRadius" Value="2"/>
-                                                    </Trigger>
 
-                                                    <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right">
-                                                        <Setter TargetName="border" Property="CornerRadius" Value="0, 2, 2, 0"/>
-                                                    </Trigger>
-                                                    
-                                                    <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left">
-                                                        <Setter TargetName="border" Property="CornerRadius" Value="2, 0, 0, 2"/>
-                                                    </Trigger>
-
-                                                    <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None">
-                                                        <Setter TargetName="border" Property="CornerRadius" Value="0"/>
-                                                    </Trigger>
-
-                                                    <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top">
-                                                        <Setter TargetName="border" Property="CornerRadius" Value="2, 2, 0, 0"/>
-                                                    </Trigger>
-
-                                                    <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom">
-                                                        <Setter TargetName="border" Property="CornerRadius" Value="0, 0, 2, 2"/>
-                                                    </Trigger>
-                                                    
                                                     <Trigger Property="IsMouseOver" Value="True">
                                                         <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}"/>
                                                     </Trigger>

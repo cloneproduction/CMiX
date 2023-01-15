@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
@@ -13,23 +14,21 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
             Name = TextureFilterName.RandomUV;
 
-            Visible = new ToggleButtonModel(true);
+            Visible = new BooleanValueModel(true);
 
             BeatModifierModel = new BeatModifierModel();
-            CounterModel = new CounterModel(1);
+            CounterModel = new IntegerValueModel(1);
             EasingModel = new EasingModel();
 
-            RandomizeLocation = new ToggleButtonModel();
-            LocationX = new SliderModel();
-            LocationY = new SliderModel();
+            RandomizeLocation = new BooleanValueModel();
+            Location = new Vector2Model();
 
-            RandomizeScale = new ToggleButtonModel();
-            ScaleX = new SliderModel();
-            ScaleY = new SliderModel();
-            Uniform = new SliderModel();
+            RandomizeScale = new BooleanValueModel();
+            Scale = new Vector2Model();
+            Uniform = new FloatValueModel();
 
-            RandomizeRotation = new ToggleButtonModel();
-            Rotation = new SliderModel();
+            RandomizeRotation = new BooleanValueModel();
+            Rotation = new FloatValueModel();
 
             SamplerState = new SamplerStateModel();
         }
@@ -39,29 +38,27 @@ namespace CMiX.Core.Models
 
 
 
-        public ToggleButtonModel Visible { get; set; }
+        public BooleanValueModel Visible { get; set; }
 
         public EasingModel EasingModel { get; set; }
-        public CounterModel CounterModel { get; set; }
+        public IntegerValueModel CounterModel { get; set; }
 
-        public ToggleButtonModel RandomizeLocation { get; set; }
-        public SliderModel LocationX { get; set; }
-        public SliderModel LocationY { get; set; }
+        public BooleanValueModel RandomizeLocation { get; set; }
+        public Vector2Model Location { get; set; }
 
-        public ToggleButtonModel RandomizeScale { get; set; }
-        public SliderModel ScaleX { get; set; }
-        public SliderModel ScaleY { get; set; }
-        public SliderModel Uniform { get; set; }
+        public BooleanValueModel RandomizeScale { get; set; }
+        public Vector2Model Scale { get; set; }
+        public FloatValueModel Uniform { get; set; }
 
-        public ToggleButtonModel RandomizeRotation { get; set; }
-        public SliderModel Rotation { get; set; }
+        public BooleanValueModel RandomizeRotation { get; set; }
+        public FloatValueModel Rotation { get; set; }
 
 
         public BeatModifierModel BeatModifierModel { get; set; }
         public TextureFilterName Name { get; set; }
 
         public int Count { get; set; }
-        public ToggleButtonModel Spread { get; internal set; }
+        public BooleanValueModel Spread { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
     }
 }

@@ -11,14 +11,16 @@ namespace CMiX.Core.Network.Messages
         {
 
         }
+
         public bool Handle(IControl control, IMessage message)
         {
-            var msg = message as MessagePrefabOrderChange;
-
             if(control is IPrefabManagerDraggable prefabManagerDraggable)
             {
-                prefabManagerDraggable.UpdateComponentOrder(msg.IDs);
-                return true;
+                if (message is MessagePrefabOrderChange msg)
+                {
+                    prefabManagerDraggable.UpdateComponentOrder(msg.IDs);
+                    return true;
+                }
             }
 
             return false;

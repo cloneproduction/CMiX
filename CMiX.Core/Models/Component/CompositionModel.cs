@@ -20,7 +20,6 @@ namespace CMiX.Core.Models
             ComponentModels = new ObservableCollection<IComponentModel>();
             MasterBeatModel = new MasterBeatModel();
             CameraModel = new CameraModel();
-            TransitionModel = new SliderModel();
             VisibilityModel = new VisibilityModel();
             CameraManagerModel = new PrefabManagerModel();
             OutputSettings = new OutputSettingsModel();
@@ -34,7 +33,6 @@ namespace CMiX.Core.Models
         public VisibilityModel VisibilityModel { get; set; }
         public MasterBeatModel MasterBeatModel { get; set; }
         public CameraModel CameraModel { get; set; }
-        public SliderModel TransitionModel { get; set; }
 
 
         public bool Enabled { get; set; }

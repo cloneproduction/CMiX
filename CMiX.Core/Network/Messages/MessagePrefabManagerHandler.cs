@@ -15,7 +15,7 @@ namespace CMiX.Core.Network.Messages
 
         public bool Handle(IControl control, IMessage message)
         {
-            if (control is IPrefabManager prefabManager)
+            if(control is IPrefabManager prefabManager)
             {
                 if (message is MessageAddPrefab messageAddPrefab)
                 {
@@ -23,9 +23,10 @@ namespace CMiX.Core.Network.Messages
                     return true;
                 }
 
-                if(message is MessageAddPrefabToContainer messageAddPrefabToContainer)
+                if (message is MessageAddPrefabToContainer messageAddPrefabToContainer)
                 {
                     prefabManager.AddPrefab(messageAddPrefabToContainer.ContainerID, messageAddPrefabToContainer.Model);
+                    return true;
                 }
 
                 if (message is MessageRemovePrefab messageRemovePrefab)

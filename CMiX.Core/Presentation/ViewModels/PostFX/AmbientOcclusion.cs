@@ -12,43 +12,43 @@ namespace CMiX.Core.Presentation.ViewModels
         public AmbientOcclusion(AmbientOcclusionModel ambientOcclusionModel)
         {
             ID = ambientOcclusionModel.ID;
-            IsEnabled = new ToggleButton(ambientOcclusionModel.IsEnabled);
-            Samples = new Counter(ambientOcclusionModel.Samples);
-            ProjectionScale = new Slider(nameof(ProjectionScale), ambientOcclusionModel.ProjectionScale);
-            Intensity = new Slider(nameof(Intensity), ambientOcclusionModel.Intensity);
-            SampleBias = new Slider(nameof(SampleBias), ambientOcclusionModel.SampleBias);
-            SampleRadius = new Slider(nameof(SampleRadius), ambientOcclusionModel.SampleRadius);
-            BlurCount = new Counter(ambientOcclusionModel.BlurCount);
-            BlurRadius = new Slider(nameof(BlurRadius), ambientOcclusionModel.BlurRadius);
-            EdgeSharpness = new Slider(nameof(EdgeSharpness), ambientOcclusionModel.EdgeSharpness);
+            IsEnabled = new BooleanValue(ambientOcclusionModel.IsEnabled);
+            Samples = new IntegerValue(ambientOcclusionModel.Samples);
+            ProjectionScale = new FloatValue(ambientOcclusionModel.ProjectionScale);
+            Intensity = new FloatValue(ambientOcclusionModel.Intensity);
+            SampleBias = new FloatValue(ambientOcclusionModel.SampleBias);
+            SampleRadius = new FloatValue(ambientOcclusionModel.SampleRadius);
+            BlurCount = new IntegerValue(ambientOcclusionModel.BlurCount);
+            BlurRadius = new FloatValue(ambientOcclusionModel.BlurRadius);
+            EdgeSharpness = new FloatValue(ambientOcclusionModel.EdgeSharpness);
         }
 
 
         public Guid ID { get; set; }
 
-        public ToggleButton IsEnabled { get; set; }
-        public Counter Samples { get; set; }
-        public Slider ProjectionScale { get; set; }
-        public Slider Intensity { get; set; }
-        public Slider SampleBias { get; set; }
-        public Slider SampleRadius { get; set; }
-        public Counter BlurCount { get; set; }
-        public Slider BlurRadius { get; set; }
-        public Slider EdgeSharpness { get; set; }
+        public BooleanValue IsEnabled { get; set; }
+        public IntegerValue Samples { get; set; }
+        public FloatValue ProjectionScale { get; set; }
+        public FloatValue Intensity { get; set; }
+        public FloatValue SampleBias { get; set; }
+        public FloatValue SampleRadius { get; set; }
+        public IntegerValue BlurCount { get; set; }
+        public FloatValue BlurRadius { get; set; }
+        public FloatValue EdgeSharpness { get; set; }
 
         public IModel GetModel()
         {
             AmbientOcclusionModel ambientOcclusionModel = new AmbientOcclusionModel();
 
             ambientOcclusionModel.ID = ID;
-            ambientOcclusionModel.IsEnabled = (ToggleButtonModel)IsEnabled.GetModel();
-            ambientOcclusionModel.Samples = (CounterModel)Samples.GetModel();
-            ambientOcclusionModel.ProjectionScale = (SliderModel)ProjectionScale.GetModel();
-            ambientOcclusionModel.Intensity = (SliderModel)Intensity.GetModel();
-            ambientOcclusionModel.SampleBias = (SliderModel)SampleBias.GetModel();
-            ambientOcclusionModel.BlurCount = (CounterModel)BlurCount.GetModel();
-            ambientOcclusionModel.BlurRadius = (SliderModel)BlurRadius.GetModel();
-            ambientOcclusionModel.EdgeSharpness = (SliderModel)EdgeSharpness.GetModel();
+            ambientOcclusionModel.IsEnabled = (BooleanValueModel)IsEnabled.GetModel();
+            ambientOcclusionModel.Samples = (IntegerValueModel)Samples.GetModel();
+            ambientOcclusionModel.ProjectionScale = (FloatValueModel)ProjectionScale.GetModel();
+            ambientOcclusionModel.Intensity = (FloatValueModel)Intensity.GetModel();
+            ambientOcclusionModel.SampleBias = (FloatValueModel)SampleBias.GetModel();
+            ambientOcclusionModel.BlurCount = (IntegerValueModel)BlurCount.GetModel();
+            ambientOcclusionModel.BlurRadius = (FloatValueModel)BlurRadius.GetModel();
+            ambientOcclusionModel.EdgeSharpness = (FloatValueModel)EdgeSharpness.GetModel();
 
             return ambientOcclusionModel;
         }

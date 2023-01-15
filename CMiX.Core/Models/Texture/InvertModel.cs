@@ -13,22 +13,22 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
 
             Name = TextureFilterName.Invert;
-            Factor = new SliderModel(1.0f);
-            InvertChannelSelector = new ComboBoxModel<InvertChannel>(InvertChannel.Value);
-            InvertAlpha = new ToggleButtonModel();
-            Visible = new ToggleButtonModel(true);
-            Control = new SliderModel();
+            Factor = new FloatValueModel(1.0f);
+            InvertChannelSelector = new GenericValueModel<InvertChannel>(InvertChannel.Value);
+            InvertAlpha = new BooleanValueModel();
+            Visible = new BooleanValueModel(true);
+            Control = new FloatValueModel();
 
             Enabled = true;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public SliderModel Factor { get; set; }
-        public ToggleButtonModel Visible { get; set; }
-        public ComboBoxModel<InvertChannel> InvertChannelSelector { get; set; }
+        public FloatValueModel Factor { get; set; }
+        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<InvertChannel> InvertChannelSelector { get; set; }
         public TextureFilterName Name { get; set; }
-        public ToggleButtonModel InvertAlpha { get; internal set; }
-        public SliderModel Control { get; set; }
+        public BooleanValueModel InvertAlpha { get; internal set; }
+        public FloatValueModel Control { get; set; }
     }
 }

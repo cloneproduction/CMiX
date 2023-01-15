@@ -11,14 +11,14 @@ namespace CMiX.Core.Presentation.ViewModels
         public ProceduralSelectorModel()
         {
             ID = Guid.NewGuid();
-            ProceduralName = new ComboBoxModel<TextureSourceName>(TextureSourceName.Gradient);
+            ProceduralName = new GenericValueModel<TextureSourceName>(TextureSourceName.Gradient);
             Gradient = new GradientModel();
             BubbleNoise = new BubbleNoiseModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public ComboBoxModel<TextureSourceName> ProceduralName { get; internal set; }
+        public GenericValueModel<TextureSourceName> ProceduralName { get; internal set; }
         public GradientModel Gradient { get; internal set; }
         public BubbleNoiseModel BubbleNoise { get; internal set; }
     }

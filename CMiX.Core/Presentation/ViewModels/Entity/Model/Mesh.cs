@@ -23,20 +23,20 @@ namespace CMiX.Core.Presentation.ViewModels
             IsRenaming = false;
             IsExpanded = true;
 
-            MeshTypeSelector = new ComboBox<MeshType>(meshModel.MeshTypeSelector);
+            MeshTypeSelector = new GenericValue<MeshType>(meshModel.MeshTypeSelector);
 
-            Scale = new VectorXYZ(meshModel.Scale);
-            Offset = new VectorXYZ(meshModel.Offset);
+            Scale = new Vector3(meshModel.Scale);
+            Offset = new Vector3(meshModel.Offset);
 
-            Radius = new Slider(nameof(Radius), meshModel.Radius);
-            Height = new Slider(nameof(Height), meshModel.Height);
-            Thickness = new Slider(nameof(Thickness), meshModel.Thickness);
+            Radius = new FloatValue(meshModel.Radius);
+            Height = new FloatValue(meshModel.Height);
+            Thickness = new FloatValue(meshModel.Thickness);
 
-            Tessellation = new Counter(meshModel.Tessellation);
-            TessellationX = new Counter(meshModel.TessellationX);
-            TessellationY = new Counter(meshModel.TessellationY);
-            GenerateBackFace = new ToggleButton(meshModel.GenerateBackFace);
-            Visibility = new ToggleButton(meshModel.Visibility);
+            Tessellation = new IntegerValue(meshModel.Tessellation);
+            TessellationX = new IntegerValue(meshModel.TessellationX);
+            TessellationY = new IntegerValue(meshModel.TessellationY);
+            GenerateBackFace = new BooleanValue(meshModel.GenerateBackFace);
+            Visibility = new BooleanValue(meshModel.Visibility);
 
             TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new ModifierFactory(compositionService));
         }
@@ -74,21 +74,21 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public ModifierManager TransformModifierManager { get; set; }
-        public ComboBox<MeshType> MeshTypeSelector { get; set; }
+        public GenericValue<MeshType> MeshTypeSelector { get; set; }
 
-        public VectorXYZ Scale { get; set; }
-        public VectorXYZ Offset { get; set; }
+        public Vector3 Scale { get; set; }
+        public Vector3 Offset { get; set; }
 
-        public Slider Radius { get; set; }
-        public Slider Height { get; set; }
-        public Slider Thickness { get; set; }
+        public FloatValue Radius { get; set; }
+        public FloatValue Height { get; set; }
+        public FloatValue Thickness { get; set; }
 
-        public Counter Tessellation { get; set; }
-        public Counter TessellationX { get; set; }
-        public Counter TessellationY { get; set; }
+        public IntegerValue Tessellation { get; set; }
+        public IntegerValue TessellationX { get; set; }
+        public IntegerValue TessellationY { get; set; }
 
-        public ToggleButton GenerateBackFace { get; set; }
-        public ToggleButton Visibility { get; set; }
+        public BooleanValue GenerateBackFace { get; set; }
+        public BooleanValue Visibility { get; set; }
 
 
         public IModel GetModel()
@@ -96,18 +96,18 @@ namespace CMiX.Core.Presentation.ViewModels
             MeshModel meshModelModel = new MeshModel();
             meshModelModel.ID = ID;
 
-            meshModelModel.MeshTypeSelector = (ComboBoxModel<MeshType>)MeshTypeSelector.GetModel();
+            meshModelModel.MeshTypeSelector = (GenericValueModel<MeshType>)MeshTypeSelector.GetModel();
 
-            meshModelModel.Scale = (VectorXYZModel)Scale.GetModel();
-            meshModelModel.Offset = (VectorXYZModel)Offset.GetModel();
-            meshModelModel.Radius = (SliderModel)Radius.GetModel();
-            meshModelModel.Height = (SliderModel)Height.GetModel();
-            meshModelModel.Thickness = (SliderModel)Thickness.GetModel();
-            meshModelModel.Tessellation = (CounterModel)Tessellation.GetModel();
-            meshModelModel.TessellationX = (CounterModel)TessellationX.GetModel();
-            meshModelModel.TessellationY = (CounterModel)TessellationY.GetModel();
-            meshModelModel.GenerateBackFace = (ToggleButtonModel)GenerateBackFace.GetModel();
-            meshModelModel.Visibility = (ToggleButtonModel)Visibility.GetModel();
+            meshModelModel.Scale = (Vector3Model)Scale.GetModel();
+            meshModelModel.Offset = (Vector3Model)Offset.GetModel();
+            meshModelModel.Radius = (FloatValueModel)Radius.GetModel();
+            meshModelModel.Height = (FloatValueModel)Height.GetModel();
+            meshModelModel.Thickness = (FloatValueModel)Thickness.GetModel();
+            meshModelModel.Tessellation = (IntegerValueModel)Tessellation.GetModel();
+            meshModelModel.TessellationX = (IntegerValueModel)TessellationX.GetModel();
+            meshModelModel.TessellationY = (IntegerValueModel)TessellationY.GetModel();
+            meshModelModel.GenerateBackFace = (BooleanValueModel)GenerateBackFace.GetModel();
+            meshModelModel.Visibility = (BooleanValueModel)Visibility.GetModel();
             meshModelModel.TransformModifierManager = (ModifierManagerModel)TransformModifierManager.GetModel();
 
             return meshModelModel;

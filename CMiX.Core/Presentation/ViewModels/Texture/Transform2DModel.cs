@@ -14,15 +14,15 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = Guid.NewGuid();
             Enabled = true;
 
-            Translate = new VectorXYModel(0.0f, 0.0f);
-            Scale = new VectorXYModel(1.0f, 1.0f);
-            Rotate = new SliderModel(0.0f);
+            Translate = new Vector2Model(0.0f, 0.0f);
+            Scale = new Vector2Model(1.0f, 1.0f);
+            Rotate = new FloatValueModel(0.0f);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public VectorXYModel Translate { get; set; }
-        public VectorXYModel Scale { get; set; }
-        public SliderModel Rotate { get; set; }
+        public Vector2Model Translate { get; set; }
+        public Vector2Model Scale { get; set; }
+        public FloatValueModel Rotate { get; set; }
     }
 }

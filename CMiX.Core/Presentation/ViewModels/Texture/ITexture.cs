@@ -9,9 +9,9 @@ namespace CMiX.Core.Presentation.ViewModels
     public interface ITexture : IIDObject
     {
         ImageSelector ImageSelector { get; set; }
-        ToggleButton IsEnabled { get; set; }
+        BooleanValue IsEnabled { get; set; }
         ModifierManager TextureModifierManager { get; set; }
-        ComboBox<int> SelectedAssetType { get; set; }
+        GenericValue<int> SelectedAssetType { get; set; }
         ModifierManager TextureTransformModifierManager { get; set; }
 
         SamplerState SamplerState { get; set; }

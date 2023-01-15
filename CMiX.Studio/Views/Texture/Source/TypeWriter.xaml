@@ -44,13 +44,15 @@
 
         <BaseControl:ColorSelector
             Caption="Font Color"
-            Command="{Binding OpenFontColorCommand}"
+            Position="Top"
+            ViewModel="{Binding FontColor}"
             SelectedColor="{Binding FontColor.SelectedColor}"/>
 
         <BaseControl:ColorSelector
             Caption="Background Color"
-            Command="{Binding OpenFontBackgroundCommand}"
             Margin="0, 1, 0, 0"
+            Position="Bottom"
+            ViewModel="{Binding BackgroundColor}"
             SelectedColor="{Binding BackgroundColor.SelectedColor}"/>
 
         <BaseControl:VectorXY

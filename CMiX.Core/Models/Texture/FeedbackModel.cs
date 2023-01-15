@@ -12,14 +12,14 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
             Name = TextureFilterName.Feedback;
-            Visible = new ToggleButtonModel(true);
-            Factor = new SliderModel();
+            Visible = new BooleanValueModel(true);
+            Factor = new FloatValueModel();
         }
 
-        public ToggleButtonModel Visible { get; set; }
+        public BooleanValueModel Visible { get; set; }
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
-        public SliderModel Factor { get; set; }
+        public FloatValueModel Factor { get; set; }
     }
 }

@@ -2,11 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -20,62 +18,37 @@ namespace CMiX.Core.Presentation.ViewModels
 
             CompositionService = compositionService;
 
-            Visible = new ToggleButton(triColorModel.Visible);
-            Control = new Slider(nameof(Control), triColorModel.Control);
+            Visible = new BooleanValue(triColorModel.Visible);
+            Control = new FloatValue(triColorModel.Control);
 
             ColorA = new ColorSelector(triColorModel.ColorA);
             ColorB = new ColorSelector(triColorModel.ColorB);
             ColorC = new ColorSelector(triColorModel.ColorC);
 
-            Smooth = new Slider(nameof(Smooth), triColorModel.Smooth);
-            Center = new Slider(nameof(Center), triColorModel.Center);
+            Smooth = new FloatValue(triColorModel.Smooth);
+            Center = new FloatValue(triColorModel.Center);
 
-            SingleChannel = new ToggleButton(triColorModel.SingleChannel);
-            ClampColor = new ToggleButton(triColorModel.ClampColor);
-
-            OpenColorASelectorCommand = new RelayCommand(OpenColorASelector);
-            OpenColorBSelectorCommand = new RelayCommand(OpenColorBSelector);
-            OpenColorCSelectorCommand = new RelayCommand(OpenColorCSelector);
+            SingleChannel = new BooleanValue(triColorModel.SingleChannel);
+            ClampColor = new BooleanValue(triColorModel.ClampColor);
         }
-
-
-        public ICommand OpenColorASelectorCommand { get; set; }
-        public ICommand OpenColorBSelectorCommand { get; set; }
-        public ICommand OpenColorCSelectorCommand { get; set; }
 
         public CompositionService CompositionService { get; set; }
 
 
-        public void OpenColorASelector()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.ColorA);
-        }
-
-        public void OpenColorBSelector()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.ColorB);
-        }
-
-        public void OpenColorCSelector()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.ColorC);
-        }
-
-
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
-        public Slider Control { get; set; }
-        public Slider Smooth { get; set; }
-        public Slider Center { get; set; }
+        public FloatValue Control { get; set; }
+        public FloatValue Smooth { get; set; }
+        public FloatValue Center { get; set; }
 
         public ColorSelector ColorA { get; set; }
         public ColorSelector ColorB { get; set; }
         public ColorSelector ColorC { get; set; }
 
-        public ToggleButton SingleChannel { get; set; }
-        public ToggleButton ClampColor { get; set; }
+        public BooleanValue SingleChannel { get; set; }
+        public BooleanValue ClampColor { get; set; }
 
 
         private bool _isExpanded;
@@ -117,15 +90,15 @@ namespace CMiX.Core.Presentation.ViewModels
             triColorModel.ID = ID;
             triColorModel.Name = Name;
 
-            triColorModel.Visible = (ToggleButtonModel)Visible.GetModel();
-            triColorModel.Control = (SliderModel)Control.GetModel();
+            triColorModel.Visible = (BooleanValueModel)Visible.GetModel();
+            triColorModel.Control = (FloatValueModel)Control.GetModel();
             triColorModel.ColorA = (ColorSelectorModel)ColorA.GetModel();
             triColorModel.ColorB = (ColorSelectorModel)ColorB.GetModel();
             triColorModel.ColorC = (ColorSelectorModel)ColorC.GetModel();
-            triColorModel.Smooth = (SliderModel)Smooth.GetModel();
-            triColorModel.Center = (SliderModel)Center.GetModel();
-            triColorModel.SingleChannel = (ToggleButtonModel)SingleChannel.GetModel();
-            triColorModel.ClampColor = (ToggleButtonModel)ClampColor.GetModel();
+            triColorModel.Smooth = (FloatValueModel)Smooth.GetModel();
+            triColorModel.Center = (FloatValueModel)Center.GetModel();
+            triColorModel.SingleChannel = (BooleanValueModel)SingleChannel.GetModel();
+            triColorModel.ClampColor = (BooleanValueModel)ClampColor.GetModel();
 
             return triColorModel;
         }

@@ -17,19 +17,19 @@ namespace CMiX.Core.Presentation.ViewModels
             Enabled = lfoUVModel.Enabled;
 
             Name = lfoUVModel.Name;
-            Visible = new ToggleButton(lfoUVModel.Visible);
+            Visible = new BooleanValue(lfoUVModel.Visible);
             BeatModifier = new BeatModifier(lfoUVModel.BeatModifier, compositionService);
 
-            XAxis = new ToggleButton(lfoUVModel.XAxis);
-            YAxis = new ToggleButton(lfoUVModel.YAxis);
-            ZAxis = new ToggleButton(lfoUVModel.ZAxis);
+            XAxis = new BooleanValue(lfoUVModel.XAxis);
+            YAxis = new BooleanValue(lfoUVModel.YAxis);
+            ZAxis = new BooleanValue(lfoUVModel.ZAxis);
 
-            PingPong = new ToggleButton(lfoUVModel.PingPong);
-            TransformType = new ComboBox<TransformType>(lfoUVModel.TransformType);
+            PingPong = new BooleanValue(lfoUVModel.PingPong);
+            TransformType = new GenericValue<TransformType>(lfoUVModel.TransformType);
             Easing = new Easing(lfoUVModel.Easing);
 
-            From = new Slider(nameof(From), lfoUVModel.From);
-            To = new Slider(nameof(To), lfoUVModel.To);
+            From = new FloatValue(lfoUVModel.From);
+            To = new FloatValue(lfoUVModel.To);
 
             SamplerState = new SamplerState(lfoUVModel.SamplerState, compositionService);
         }
@@ -38,21 +38,21 @@ namespace CMiX.Core.Presentation.ViewModels
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
 
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public TextureFilterName Name { get; set; }
 
-        public ToggleButton PingPong { get; set; }
+        public BooleanValue PingPong { get; set; }
 
-        public ToggleButton XAxis { get; set; }
-        public ToggleButton YAxis { get; set; }
-        public ToggleButton ZAxis { get; set; }
+        public BooleanValue XAxis { get; set; }
+        public BooleanValue YAxis { get; set; }
+        public BooleanValue ZAxis { get; set; }
 
-        public ComboBox<TransformType> TransformType { get; set; }
+        public GenericValue<TransformType> TransformType { get; set; }
         public Easing Easing { get; set; }
 
-        public Slider From { get; set; }
-        public Slider To { get; set; }
+        public FloatValue From { get; set; }
+        public FloatValue To { get; set; }
         public SamplerState SamplerState { get; set; }
 
 
@@ -63,20 +63,20 @@ namespace CMiX.Core.Presentation.ViewModels
             lfoModel.ID = this.ID;
             lfoModel.Enabled = Enabled;
 
-            lfoModel.Visible = (ToggleButtonModel)Visible.GetModel();
+            lfoModel.Visible = (BooleanValueModel)Visible.GetModel();
             lfoModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            lfoModel.PingPong = (ToggleButtonModel)PingPong.GetModel();
+            lfoModel.PingPong = (BooleanValueModel)PingPong.GetModel();
 
-            lfoModel.XAxis = (ToggleButtonModel)XAxis.GetModel();
-            lfoModel.YAxis = (ToggleButtonModel)YAxis.GetModel();
-            lfoModel.ZAxis = (ToggleButtonModel)ZAxis.GetModel();
+            lfoModel.XAxis = (BooleanValueModel)XAxis.GetModel();
+            lfoModel.YAxis = (BooleanValueModel)YAxis.GetModel();
+            lfoModel.ZAxis = (BooleanValueModel)ZAxis.GetModel();
 
-            lfoModel.TransformType = (ComboBoxModel<TransformType>)TransformType.GetModel();
+            lfoModel.TransformType = (GenericValueModel<TransformType>)TransformType.GetModel();
 
             lfoModel.Easing = (EasingModel)Easing.GetModel();
 
-            lfoModel.From = (SliderModel)From.GetModel();
-            lfoModel.To = (SliderModel)To.GetModel();
+            lfoModel.From = (FloatValueModel)From.GetModel();
+            lfoModel.To = (FloatValueModel)To.GetModel();
             lfoModel.SamplerState = (SamplerStateModel)SamplerState.GetModel();
 
             return lfoModel;

@@ -6,7 +6,6 @@ using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -16,52 +15,40 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ID = gradientModel.ID;
             CompositionService = compositionService;
-            ResolutionX = new Counter(gradientModel.ResolutionX);
-            ResolutionY = new Counter(gradientModel.ResolutionY);
+            Resolution = new Integer2(gradientModel.Resolution);
             From = new ColorSelector(gradientModel.From);
             To = new ColorSelector(gradientModel.To);
-            Gamma = new Slider(nameof(Gamma), gradientModel.Gamma);
-            Horizontal = new ToggleButton(gradientModel.Horizontal);
-
-            OpenColorSelectorCommand = new RelayCommand<ColorSelector>(OpenColorSelector);
+            Gamma = new FloatValue(gradientModel.Gamma);
+            Horizontal = new BooleanValue(gradientModel.Horizontal);
         }
 
         public ICommand OpenColorSelectorCommand { get; set; }
         public Guid ID { get; set; }
 
         public CompositionService CompositionService { get; set; }
-        public Counter ResolutionX { get; set; }
-        public Counter ResolutionY { get; set; }
+        public Integer2 Resolution { get; set; }
         public ColorSelector From { get; set; }
         public ColorSelector To { get; set; }
-        public Slider Gamma { get; set; }
-        public ToggleButton Horizontal { get; set; }
-
-
-        public void OpenColorSelector(ColorSelector colorSelector)
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, colorSelector);
-        }
+        public FloatValue Gamma { get; set; }
+        public BooleanValue Horizontal { get; set; }
 
 
         public IModel GetModel()
         {
             GradientModel gradientModel = new GradientModel();
 
-            gradientModel.ResolutionX = (CounterModel)ResolutionX.GetModel();
-            gradientModel.ResolutionY = (CounterModel)ResolutionY.GetModel();
+            gradientModel.Resolution = (Integer2Model)Resolution.GetModel();
             gradientModel.From = (ColorSelectorModel)From.GetModel();
             gradientModel.To = (ColorSelectorModel)To.GetModel();
-            gradientModel.Gamma = (SliderModel)Gamma.GetModel();
-            gradientModel.Horizontal = (ToggleButtonModel)Horizontal.GetModel();
+            gradientModel.Gamma = (FloatValueModel)Gamma.GetModel();
+            gradientModel.Horizontal = (BooleanValueModel)Horizontal.GetModel();
             return gradientModel;
         }
 
         public void SetViewModel(IModel model)
         {
             GradientModel gradientModel = model as GradientModel;
-            ResolutionX.SetViewModel(gradientModel.ResolutionX);
-            ResolutionY.SetViewModel(gradientModel.ResolutionY);
+            Resolution.SetViewModel(gradientModel.Resolution);
             From.SetViewModel(gradientModel.From);
             To.SetViewModel(gradientModel.To);
             Gamma.SetViewModel(gradientModel.Gamma);

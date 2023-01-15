@@ -12,20 +12,20 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
             Name = TextureFilterName.Edge;
-            Radius = new SliderModel(1.0f);
-            Brightness = new SliderModel(1.0f);
-            Visible = new ToggleButtonModel(true);
-            Control = new SliderModel(1.0f);
+            Radius = new FloatValueModel(1.0f);
+            Brightness = new FloatValueModel(1.0f);
+            Visible = new BooleanValueModel(true);
+            Control = new FloatValueModel(1.0f);
             Enabled = true;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public ToggleButtonModel Visible { get; set; }
-        public SliderModel Radius { get; set; }
-        public SliderModel Brightness { get; set; }
-        public SliderModel Control { get; set; }
+        public BooleanValueModel Visible { get; set; }
+        public FloatValueModel Radius { get; set; }
+        public FloatValueModel Brightness { get; set; }
+        public FloatValueModel Control { get; set; }
         public TextureFilterName Name { get; internal set; }
     }
 }

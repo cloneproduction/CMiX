@@ -5,22 +5,20 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class SliderModel : IModel
+    public class IntegerValueModel : IModel
     {
-        public SliderModel()
+        public IntegerValueModel()
         {
-            ID = Guid.NewGuid();
-            Amount = 0.0f;
-            Enabled = true;
+            this.ID = Guid.NewGuid();
         }
 
-        public SliderModel(float value) : this()
+        public IntegerValueModel(int count) : this()
         {
-            Amount = value;
+            Value = count;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public float Amount { get; set; }
+        public int Value { get; set; }
     }
 }

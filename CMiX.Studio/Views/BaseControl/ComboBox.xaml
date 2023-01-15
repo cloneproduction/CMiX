@@ -3,6 +3,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
              mc:Ignorable="d" 
              x:Name="comboBox"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -22,10 +23,26 @@
             Margin="8, 0" 
             Foreground="{DynamicResource TextBase}"/>
 
-        <ComboBox 
+        <Border
+            x:Name="mask" 
             Grid.Column="1" 
-            SelectedItem="{Binding SelectedItem, ElementName=comboBox}"
-            ItemsSource="{Binding ItemsSource, ElementName=comboBox}"/>
+            Background="{DynamicResource DarkColor}" 
+            Style="{StaticResource BorderMask}"
+            AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=comboBox}"/>
 
+        <Border 
+            x:Name="mainBorder" 
+            Grid.Column="1" 
+            BorderBrush="Transparent" 
+            Background="{DynamicResource DarkColor}">
+            <Border.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=mask}"/>
+            </Border.OpacityMask>
+
+            <ComboBox 
+                Grid.Column="1" 
+                SelectedItem="{Binding SelectedItem, ElementName=comboBox}"
+                ItemsSource="{Binding ItemsSource, ElementName=comboBox}"/>
+        </Border>
     </Grid>
 </UserControl>

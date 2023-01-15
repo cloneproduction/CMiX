@@ -16,20 +16,20 @@ namespace CMiX.Core.Models
             ColorModel = new ColorSelectorModel();
             Texture = new TextureModel();
             Mask = new MaskModel();
-            MaskChannelSelector = new ComboBoxModel<MaskChannel>(MaskChannel.Luma);
+            MaskChannelSelector = new GenericValueModel<MaskChannel>(MaskChannel.Luma);
 
             ModifierManager = new ModifierManagerModel();
 
-            Pipeline = new ComboBoxModel<PipelineType>(PipelineType.Constant);
-            CullMode = new ComboBoxModel<CullModeType>(CullModeType.Back);
-            Transparency = new ComboBoxModel<TransparencyType>(TransparencyType.CutOff); //if blend is use by default depthbuffer doesn't work in stride ? bug ?
+            Pipeline = new GenericValueModel<PipelineType>(PipelineType.Constant);
+            CullMode = new GenericValueModel<CullModeType>(CullModeType.Back);
+            Transparency = new GenericValueModel<TransparencyType>(TransparencyType.CutOff); //if blend is use by default depthbuffer doesn't work in stride ? bug ?
 
-            Metalness = new SliderModel(0.0f);
-            Glossiness = new SliderModel(0.5f);
-            Specularity = new SliderModel(0.5f);
+            Metalness = new FloatValueModel(0.0f);
+            Glossiness = new FloatValueModel(0.5f);
+            Specularity = new FloatValueModel(0.5f);
 
-            Alpha = new SliderModel(1.0f);
-            IsShadowCaster = new ToggleButtonModel(true);
+            Alpha = new FloatValueModel(1.0f);
+            IsShadowCaster = new BooleanValueModel(true);
         }
 
         public bool Enabled { get; set; }
@@ -42,14 +42,14 @@ namespace CMiX.Core.Models
 
         public ModifierManagerModel ModifierManager { get; set; }
 
-        public ComboBoxModel<PipelineType> Pipeline { get; internal set; }
-        public ComboBoxModel<CullModeType> CullMode { get; internal set; }
-        public ComboBoxModel<TransparencyType> Transparency { get; internal set; }
-        public SliderModel Metalness { get; internal set; }
-        public SliderModel Specularity { get; internal set; }
-        public SliderModel Glossiness { get; internal set; }
-        public SliderModel Alpha { get; internal set; }
-        public ToggleButtonModel IsShadowCaster { get; internal set; }
-        public ComboBoxModel<MaskChannel> MaskChannelSelector { get; internal set; }
+        public GenericValueModel<PipelineType> Pipeline { get; internal set; }
+        public GenericValueModel<CullModeType> CullMode { get; internal set; }
+        public GenericValueModel<TransparencyType> Transparency { get; internal set; }
+        public FloatValueModel Metalness { get; internal set; }
+        public FloatValueModel Specularity { get; internal set; }
+        public FloatValueModel Glossiness { get; internal set; }
+        public FloatValueModel Alpha { get; internal set; }
+        public BooleanValueModel IsShadowCaster { get; internal set; }
+        public GenericValueModel<MaskChannel> MaskChannelSelector { get; internal set; }
     }
 }

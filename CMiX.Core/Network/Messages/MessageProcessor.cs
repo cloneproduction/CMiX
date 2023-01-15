@@ -41,7 +41,7 @@ namespace CMiX.Core.Network.Messages
         {
             var msg = WeakReferenceMessenger.Default.Send(new MessageRequestControl(message));
 
-            if (msg.HasReceivedResponse && MessageHandlers[message.GetType()].Handle(msg.Response, message))
+            if (msg.HasReceivedResponse && MessageHandlers[message.GetType()].Handle((IControl)msg.Response, message))
             {
                 Console.WriteLine("Message " + message.GetType().Name + " handled");
                 return;

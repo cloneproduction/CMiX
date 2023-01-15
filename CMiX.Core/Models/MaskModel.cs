@@ -23,11 +23,11 @@ namespace CMiX.Core.Models
             TextureTransformModifierManager = new ModifierManagerModel();
             SamplerState = new SamplerStateModel();
             VideoIn = new VideoInModel();
-            Invert = new ToggleButtonModel();
+            Invert = new BooleanValueModel();
 
-            IsEnabled = new ToggleButtonModel();
+            IsEnabled = new BooleanValueModel();
 
-            SelectedAssetType = new ComboBoxModel<int>(0);
+            SelectedAssetType = new GenericValueModel<int>(0);
 
             TypeWriter = new TypeWriterModel();
             ProceduralSelector = new ProceduralSelectorModel();
@@ -41,14 +41,14 @@ namespace CMiX.Core.Models
 
         public ImageSelectorModel TextureSelectorModel { get; set; }
 
-        public ToggleButtonModel IsEnabled { get; internal set; }
+        public BooleanValueModel IsEnabled { get; internal set; }
         public VideoSelectorModel VideoSelectorModel { get; internal set; }
         public VideoPlayerModel VideoPlayerModel { get; set; }
         public VideoInModel VideoIn { get; internal set; }
-        public ComboBoxModel<int> SelectedAssetType { get; internal set; }
+        public GenericValueModel<int> SelectedAssetType { get; internal set; }
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
-        public ToggleButtonModel Invert { get; internal set; }
+        public BooleanValueModel Invert { get; internal set; }
         public ProceduralSelectorModel ProceduralSelector { get; set; }
     }
 }

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.BaseControls;
 
 namespace CMiX.Core.Models
 {
@@ -10,20 +11,13 @@ namespace CMiX.Core.Models
         public SpotLightModel()
         {
             this.ID = Guid.NewGuid();
-
             Enabled = true;
 
-            PositionX = new SliderModel();
-            PositionY = new SliderModel();
-            PositionZ = new SliderModel();
-
-            TargetX = new SliderModel();
-            TargetY = new SliderModel();
-            TargetZ = new SliderModel();
-
-            Intensity = new SliderModel();
-            Range = new SliderModel();
-            Angle = new SliderModel();
+            Position = new Vector3Model();
+            Target = new Vector3Model();
+            Intensity = new FloatValueModel();
+            Range = new FloatValueModel();
+            Angle = new FloatValueModel();
 
             ColorSelectorModel = new ColorSelectorModel();
         }
@@ -32,17 +26,12 @@ namespace CMiX.Core.Models
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public SliderModel PositionX { get; set; }
-        public SliderModel PositionY { get; set; }
-        public SliderModel PositionZ { get; set; }
+        public Vector3Model Position { get; set; }
+        public Vector3Model Target { get; set; }
 
-        public SliderModel TargetX { get; set; }
-        public SliderModel TargetY { get; set; }
-        public SliderModel TargetZ { get; set; }
-
-        public SliderModel Intensity { get; set; }
-        public SliderModel Range { get; set; }
-        public SliderModel Angle { get; set; }
+        public FloatValueModel Intensity { get; set; }
+        public FloatValueModel Range { get; set; }
+        public FloatValueModel Angle { get; set; }
 
         public ColorSelectorModel ColorSelectorModel { get; set; }
     }

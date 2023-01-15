@@ -12,21 +12,21 @@ namespace CMiX.Core.Presentation.ViewModels
         public VideoIn(VideoInModel videoInModel)
         {
             ID = videoInModel.ID;
-            SizeX = new Counter(videoInModel.SizeX);
-            SizeY = new Counter(videoInModel.SizeY);
+            SizeX = new IntegerValue(videoInModel.SizeX);
+            SizeY = new IntegerValue(videoInModel.SizeY);
         }
 
         public Guid ID { get; set; }
-        public Counter SizeX { get; set; }
-        public Counter SizeY { get; set; }
+        public IntegerValue SizeX { get; set; }
+        public IntegerValue SizeY { get; set; }
 
         public IModel GetModel()
         {
             VideoInModel videoInModel = new VideoInModel();
 
             videoInModel.ID = ID;
-            videoInModel.SizeX = (CounterModel)this.SizeX.GetModel();
-            videoInModel.SizeY = (CounterModel)this.SizeY.GetModel();
+            videoInModel.SizeX = (IntegerValueModel)this.SizeX.GetModel();
+            videoInModel.SizeY = (IntegerValueModel)this.SizeY.GetModel();
 
             return videoInModel;
         }

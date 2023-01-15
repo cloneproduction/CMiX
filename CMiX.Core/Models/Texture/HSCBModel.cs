@@ -14,23 +14,23 @@ namespace CMiX.Core.Models
             Enabled = true;
             Name = TextureFilterName.HSCB;
 
-            Visible = new ToggleButtonModel(true);
-            HueModel = new SliderModel();
-            SaturationModel = new SliderModel(1.0f);
-            ConstrastModel = new SliderModel();
-            BrightnessModel = new SliderModel();
-            Control = new SliderModel();
+            Visible = new BooleanValueModel(true);
+            HueModel = new FloatValueModel();
+            SaturationModel = new FloatValueModel(1.0f);
+            ConstrastModel = new FloatValueModel();
+            BrightnessModel = new FloatValueModel();
+            Control = new FloatValueModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public ToggleButtonModel Visible { get; set; }
-        public SliderModel HueModel { get; set; }
-        public SliderModel SaturationModel { get; set; }
-        public SliderModel ConstrastModel { get; set; }
-        public SliderModel BrightnessModel { get; set; }
-        public SliderModel Control { get; set; }
+        public BooleanValueModel Visible { get; set; }
+        public FloatValueModel HueModel { get; set; }
+        public FloatValueModel SaturationModel { get; set; }
+        public FloatValueModel ConstrastModel { get; set; }
+        public FloatValueModel BrightnessModel { get; set; }
+        public FloatValueModel Control { get; set; }
         public TextureFilterName Name { get; set; }
     }
 }

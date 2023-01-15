@@ -16,14 +16,14 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
             Enabled = true;
 
-            SizeX = new CounterModel(1920);
-            SizeY = new CounterModel(1080);
+            SizeX = new IntegerValueModel(1920);
+            SizeY = new IntegerValueModel(1080);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public CounterModel SizeX { get; set; }
-        public CounterModel SizeY { get; set; }
+        public IntegerValueModel SizeX { get; set; }
+        public IntegerValueModel SizeY { get; set; }
     }
 }

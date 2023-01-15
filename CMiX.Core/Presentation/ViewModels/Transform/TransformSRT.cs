@@ -14,24 +14,24 @@ namespace CMiX.Core.Presentation.ViewModels
             this.IsExpanded = true;
             this.ID = transformModel.ID;
             this.Enabled = transformModel.Enabled;
-            this.Visible = new ToggleButton(transformModel.Visible);
+            this.Visible = new BooleanValue(transformModel.Visible);
 
-            Uniform = new Slider(nameof(Uniform), transformModel.Uniform);
+            Uniform = new FloatValue(transformModel.Uniform);
             Translate = new Translate(transformModel.Translate);
             Scale = new Scale(transformModel.Scale);
             Rotation = new Rotation(transformModel.Rotation);
-            Mode = new ComboBox<ModifierMode>(transformModel.Mode);
+            Mode = new GenericValue<ModifierMode>(transformModel.Mode);
         }
 
 
         public Guid ID { get; set; }
-        public Slider Uniform { get; set; }
+        public FloatValue Uniform { get; set; }
         public Translate Translate { get; set; }
         public Scale Scale { get; set; }
         public Rotation Rotation { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        public BooleanValue Visible { get; set; }
+        public GenericValue<ModifierMode> Mode { get; set; }
 
 
         private bool _isExpanded;
@@ -59,11 +59,11 @@ namespace CMiX.Core.Presentation.ViewModels
             TransformSRTModel model = new TransformSRTModel();
 
             model.ID = this.ID;
-            model.Uniform = (SliderModel)this.Uniform.GetModel();
+            model.Uniform = (FloatValueModel)this.Uniform.GetModel();
             model.Translate = (TranslateModel)this.Translate.GetModel();
             model.Scale = (ScaleModel)this.Scale.GetModel();
             model.Rotation = (RotationModel)this.Rotation.GetModel();
-            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
 
             return model;
         }

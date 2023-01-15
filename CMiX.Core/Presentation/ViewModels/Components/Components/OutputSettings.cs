@@ -22,8 +22,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             ID = outputPropertiesModel.ID;
             CompositionService = compositionService;
 
-            ResolutionX = new Counter(outputPropertiesModel.ResolutionX);
-            ResolutionY = new Counter(outputPropertiesModel.ResolutionY);
+            ResolutionX = new IntegerValue(outputPropertiesModel.ResolutionX);
+            ResolutionY = new IntegerValue(outputPropertiesModel.ResolutionY);
             BackgroundColor = new ColorSelector(outputPropertiesModel.BackgroundColor);
             OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
         }
@@ -31,8 +31,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
-        public Counter ResolutionX { get; set; }
-        public Counter ResolutionY { get; set; }
+        public IntegerValue ResolutionX { get; set; }
+        public IntegerValue ResolutionY { get; set; }
         public ColorSelector BackgroundColor { get; set; }
         public ICommand OpenColorSelectorCommand { get; set; }
 
@@ -47,8 +47,8 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             OutputSettingsModel outputPropertiesModel = new OutputSettingsModel();
 
             outputPropertiesModel.ID = ID;
-            outputPropertiesModel.ResolutionX = (CounterModel)ResolutionX.GetModel();
-            outputPropertiesModel.ResolutionY = (CounterModel)ResolutionY.GetModel();
+            outputPropertiesModel.ResolutionX = (IntegerValueModel)ResolutionX.GetModel();
+            outputPropertiesModel.ResolutionY = (IntegerValueModel)ResolutionY.GetModel();
             outputPropertiesModel.BackgroundColor = (ColorSelectorModel)BackgroundColor.GetModel();
 
             return outputPropertiesModel;

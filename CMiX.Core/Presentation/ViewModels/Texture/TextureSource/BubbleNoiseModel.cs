@@ -11,11 +11,10 @@ namespace CMiX.Core.Presentation.ViewModels
         public BubbleNoiseModel()
         {
             ID = Guid.NewGuid();
-            ResolutionX = new CounterModel(512);
-            ResolutionY = new CounterModel(512);
-            Speed = new SliderModel(0.0f);
-            Frequency = new SliderModel(3.5f);
-            Contrast = new SliderModel(0.15f);
+            Resolution = new Integer2Model(512, 512);
+            Speed = new FloatValueModel(0.0f);
+            Frequency = new FloatValueModel(3.5f);
+            Contrast = new FloatValueModel(0.15f);
             BackgroundColor = new ColorSelectorModel("#FF000000");
             BubbleColor = new ColorSelectorModel("#FFFFFFFF");
         }
@@ -23,11 +22,10 @@ namespace CMiX.Core.Presentation.ViewModels
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public CounterModel ResolutionX { get; set; }
-        public CounterModel ResolutionY { get; set; }
-        public SliderModel Speed { get; set; }
-        public SliderModel Frequency { get; set; }
-        public SliderModel Contrast { get; set; }
+        public Integer2Model Resolution { get; set; }
+        public FloatValueModel Speed { get; set; }
+        public FloatValueModel Frequency { get; set; }
+        public FloatValueModel Contrast { get; set; }
         public ColorSelectorModel BackgroundColor { get; set; }
         public ColorSelectorModel BubbleColor { get; set; }
     }

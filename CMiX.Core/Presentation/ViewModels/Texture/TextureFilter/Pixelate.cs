@@ -3,6 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -12,24 +14,21 @@ namespace CMiX.Core.Presentation.ViewModels
         public Pixelate(PixelateModel pixelateModel)
         {
             ID = pixelateModel.ID;
-            Visible = new ToggleButton(pixelateModel.Visible);
+            Visible = new BooleanValue(pixelateModel.Visible);
             Name = pixelateModel.Name;
-            Control = new Slider(nameof(Control), pixelateModel.Control);
-            FactorX = new Slider(nameof(FactorX), pixelateModel.FactorX);
-            FactorY = new Slider(nameof(FactorY), pixelateModel.FactorY);
+            Control = new FloatValue(pixelateModel.Control);
+            Factor = new Vector2(pixelateModel.Factor);
 
             IsExpanded = true;
         }
 
         public TextureFilterName Name { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
 
-        public Slider FactorX { get; set; }
-        public Slider FactorY { get; set; }
-
-        public Slider Control { get; set; }
+        public Vector2 Factor { get; set; }
+        public FloatValue Control { get; set; }
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -44,10 +43,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
             pixelateModel.ID = ID;
             pixelateModel.Name = Name;
-            pixelateModel.Visible = (ToggleButtonModel)Visible.GetModel();
-            pixelateModel.Control = (SliderModel)Control.GetModel();
-            pixelateModel.FactorX = (SliderModel)FactorX.GetModel();
-            pixelateModel.FactorY = (SliderModel)FactorY.GetModel();
+            pixelateModel.Visible = (BooleanValueModel)Visible.GetModel();
+            pixelateModel.Control = (FloatValueModel)Control.GetModel();
+            pixelateModel.Factor = (Vector2Model)Factor.GetModel();
 
             return pixelateModel;
         }
@@ -60,8 +58,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Name = pixelateModel.Name;
             Visible.SetViewModel(pixelateModel.Visible);
             Control.SetViewModel(pixelateModel.Control);
-            FactorX.SetViewModel(pixelateModel.FactorX);
-            FactorY.SetViewModel(pixelateModel.FactorY);
+            Factor.SetViewModel(pixelateModel.Factor);
         }
 
         public void Dispose()

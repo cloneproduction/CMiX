@@ -25,15 +25,12 @@ namespace CMiX.Core.Presentation.ViewModels
             AddressU = samplerStateModel.AddressU;
             AddressV = samplerStateModel.AddressV;
 
-            OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
-
             IsActive = true;
         }
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
 
-        public ICommand OpenColorSelectorCommand { get; set; }
 
         public ColorSelector BorderColor { get; set; }
 
@@ -44,7 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _AddressU, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
             }
         }
 
@@ -55,14 +52,10 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _AddressV, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
             }
         }
 
-        public void OpenColorSelector()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BorderColor);
-        }
 
         public IModel GetModel()
         {

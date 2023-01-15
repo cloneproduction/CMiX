@@ -11,15 +11,15 @@ namespace CMiX.Core.Models
         public EchoModel()
         {
             ID = Guid.NewGuid();
-            Visible = new ToggleButtonModel(true);
-            Factor = new SliderModel(0.9f);
+            Visible = new BooleanValueModel(true);
+            Factor = new FloatValueModel(0.9f);
             Name = TextureFilterName.Echo;
         }
 
-        public ToggleButtonModel Visible { get; set ; }
+        public BooleanValueModel Visible { get; set ; }
         public bool Enabled { get; set ; }
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
-        public SliderModel Factor { get; set; }
+        public FloatValueModel Factor { get; set; }
     }
 }

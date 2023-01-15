@@ -8,16 +8,16 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.BaseControl
 {
-    public class VectorXYZ : ObservableObject, IControl
+    public class Vector3 : ObservableObject, IControl
     {
-        public VectorXYZ(VectorXYZModel vectorXYZModel)
+        public Vector3(Vector3Model vectorXYZModel)
         {
             ID = vectorXYZModel.ID;
             Name = vectorXYZModel.Name;
 
-            X = new Slider(nameof(X), vectorXYZModel.X);
-            Y = new Slider(nameof(Y), vectorXYZModel.Y);
-            Z = new Slider(nameof(Z), vectorXYZModel.Z);
+            X = new FloatValue(vectorXYZModel.X);
+            Y = new FloatValue(vectorXYZModel.Y);
+            Z = new FloatValue(vectorXYZModel.Z);
         }
 
 
@@ -30,26 +30,26 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
             set => SetProperty(ref _name, value);
         }
 
-        public Slider X { get; set; }
-        public Slider Y { get; set; }
-        public Slider Z { get; set; }
+        public FloatValue X { get; set; }
+        public FloatValue Y { get; set; }
+        public FloatValue Z { get; set; }
 
 
         public IModel GetModel()
         {
-            VectorXYZModel vectorXYZModel = new VectorXYZModel(this.Name);
+            Vector3Model vectorXYZModel = new Vector3Model(this.Name);
             vectorXYZModel.ID = ID;
 
-            vectorXYZModel.X = (SliderModel)X.GetModel();
-            vectorXYZModel.Y = (SliderModel)Y.GetModel();
-            vectorXYZModel.Z = (SliderModel)Z.GetModel();
+            vectorXYZModel.X = (FloatValueModel)X.GetModel();
+            vectorXYZModel.Y = (FloatValueModel)Y.GetModel();
+            vectorXYZModel.Z = (FloatValueModel)Z.GetModel();
 
             return vectorXYZModel;
         }
 
         public void SetViewModel(IModel model)
         {
-            VectorXYZModel modelXYZModel = model as VectorXYZModel;
+            Vector3Model modelXYZModel = model as Vector3Model;
             this.ID = modelXYZModel.ID;
             this.Name = modelXYZModel.Name;
 

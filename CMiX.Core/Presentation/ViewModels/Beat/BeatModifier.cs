@@ -23,7 +23,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             this.ID = beatModifierModel.ID;
             CompositionService = compositionService;
 
-            ChanceToHit = new Slider(nameof(ChanceToHit), beatModifierModel.ChanceToHit) { Minimum = 0, Maximum = 100 };
+            ChanceToHit = new FloatValue(beatModifierModel.ChanceToHit);
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -39,7 +39,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
 
         public Guid ID { get; set; }
-        public Slider ChanceToHit { get; set; }
+        public FloatValue ChanceToHit { get; set; }
 
 
         private int maxIndex = 4;
@@ -65,7 +65,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public void Reset()
         {
             BeatIndex = 0;
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            SendMessage();
         }
 
         public void Multiply()
@@ -73,7 +73,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if (BeatIndex <= minIndex)
                 return;
             BeatIndex--;
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            SendMessage();
         }
 
         public void Divide()
@@ -81,9 +81,13 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if (BeatIndex >= maxIndex)
                 return;
             BeatIndex++;
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            SendMessage();
         }
 
+        public void SendMessage()
+        {
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
+        }
 
         public void SetViewModel(IModel model)
         {
@@ -98,7 +102,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             BeatModifierModel model = new BeatModifierModel();
             model.ID = this.ID;
             model.BeatIndex = this.BeatIndex;
-            model.ChanceToHit = (SliderModel)this.ChanceToHit.GetModel();
+            model.ChanceToHit = (FloatValueModel)ChanceToHit.GetModel();
             return model;
         }
 

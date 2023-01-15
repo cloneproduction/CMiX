@@ -12,12 +12,12 @@ namespace CMiX.Core.Models.Beat
         {
             this.ID = Guid.NewGuid();
             ResyncModel = new ResyncModel();
-            Pause = new ToggleButtonModel(false);
+            Pause = new BooleanValueModel(false);
         }
 
 
         public ResyncModel ResyncModel { get; set; }
         public int BeatIndex { get; set; }
-        public ToggleButtonModel Pause { get; internal set; }
+        public BooleanValueModel Pause { get; internal set; }
     }
 }

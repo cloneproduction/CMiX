@@ -17,21 +17,21 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = lfoModel.ID;
             Enabled = lfoModel.Enabled;
 
-            Mode = new ComboBox<ModifierMode>(lfoModel.Mode);
+            Mode = new GenericValue<ModifierMode>(lfoModel.Mode);
 
-            Visible = new ToggleButton(lfoModel.Visible);
+            Visible = new BooleanValue(lfoModel.Visible);
             BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
 
-            XAxis = new ToggleButton(lfoModel.XAxis);
-            YAxis = new ToggleButton(lfoModel.YAxis);
-            ZAxis = new ToggleButton(lfoModel.ZAxis);
+            XAxis = new BooleanValue(lfoModel.XAxis);
+            YAxis = new BooleanValue(lfoModel.YAxis);
+            ZAxis = new BooleanValue(lfoModel.ZAxis);
 
-            PingPong = new ToggleButton(lfoModel.PingPong);
-            TransformType = new ComboBox<TransformType>(lfoModel.TransformType);
+            PingPong = new BooleanValue(lfoModel.PingPong);
+            TransformType = new GenericValue<TransformType>(lfoModel.TransformType);
             Easing = new Easing(lfoModel.Easing);
 
-            From = new Slider(nameof(From), lfoModel.From);
-            To = new Slider(nameof(To), lfoModel.To);
+            From = new FloatValue(lfoModel.From);
+            To = new FloatValue(lfoModel.To);
 
             IsExpanded = true;
         }
@@ -39,23 +39,23 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        public GenericValue<ModifierMode> Mode { get; set; }
 
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
 
-        public ToggleButton PingPong { get; set; }
+        public BooleanValue PingPong { get; set; }
 
-        public ToggleButton XAxis { get; set; }
-        public ToggleButton YAxis { get; set; }
-        public ToggleButton ZAxis { get; set; }
+        public BooleanValue XAxis { get; set; }
+        public BooleanValue YAxis { get; set; }
+        public BooleanValue ZAxis { get; set; }
 
 
-        public ComboBox<TransformType> TransformType { get; set; }
+        public GenericValue<TransformType> TransformType { get; set; }
         public Easing Easing { get; set; }
 
-        public Slider From { get; set; }
-        public Slider To { get; set; }
+        public FloatValue From { get; set; }
+        public FloatValue To { get; set; }
 
 
         private bool _isExpanded;
@@ -79,21 +79,21 @@ namespace CMiX.Core.Presentation.ViewModels
             lfoModel.ID = this.ID;
             lfoModel.Enabled = Enabled;
 
-            lfoModel.Visible = (ToggleButtonModel)Visible.GetModel();
+            lfoModel.Visible = (BooleanValueModel)Visible.GetModel();
             lfoModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            lfoModel.PingPong = (ToggleButtonModel)PingPong.GetModel();
+            lfoModel.PingPong = (BooleanValueModel)PingPong.GetModel();
 
-            lfoModel.XAxis = (ToggleButtonModel)XAxis.GetModel();
-            lfoModel.YAxis = (ToggleButtonModel)YAxis.GetModel();
-            lfoModel.ZAxis = (ToggleButtonModel)ZAxis.GetModel();
+            lfoModel.XAxis = (BooleanValueModel)XAxis.GetModel();
+            lfoModel.YAxis = (BooleanValueModel)YAxis.GetModel();
+            lfoModel.ZAxis = (BooleanValueModel)ZAxis.GetModel();
 
-            lfoModel.TransformType = (ComboBoxModel<TransformType>)TransformType.GetModel();
-            lfoModel.Mode = (ComboBoxModel<ModifierMode>)Mode.GetModel();
+            lfoModel.TransformType = (GenericValueModel<TransformType>)TransformType.GetModel();
+            lfoModel.Mode = (GenericValueModel<ModifierMode>)Mode.GetModel();
 
             lfoModel.Easing = (EasingModel)Easing.GetModel();
 
-            lfoModel.From = (SliderModel)From.GetModel();
-            lfoModel.To = (SliderModel)To.GetModel();
+            lfoModel.From = (FloatValueModel)From.GetModel();
+            lfoModel.To = (FloatValueModel)To.GetModel();
 
             return lfoModel;
         }

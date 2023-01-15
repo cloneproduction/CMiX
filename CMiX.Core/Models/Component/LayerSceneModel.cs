@@ -15,15 +15,15 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
 
-            EditPanelOpen = new ToggleButtonModel(true);
-            VisibilityModel = new ToggleButtonModel();
+            EditPanelOpen = new BooleanValueModel(true);
+            VisibilityModel = new BooleanValueModel();
             ComponentModels = new ObservableCollection<IComponentModel>();
             TextureModifierManager = new ModifierManagerModel();
             ColorSelectorModel = new ColorSelectorModel("#00000000");
             Camera = new CameraModel();
             AmbientOcclusion = new AmbientOcclusionModel();
-            BlendModeModel = new ComboBoxModel<BlendModeEnum>(BlendModeEnum.Normal);
-            Opacity = new SliderModel(1.0f);
+            BlendModeModel = new GenericValueModel<BlendModeEnum>(BlendModeEnum.Normal);
+            Opacity = new FloatValueModel(1.0f);
             ModelEntityManager = new PrefabManagerModel();
             CameraEntityManager = new PrefabManagerModel();
             LightEntityManager = new PrefabManagerModel();
@@ -37,17 +37,17 @@ namespace CMiX.Core.Models
         public bool IsVisible { get; set; }
 
 
-        public ToggleButtonModel VisibilityModel { get; set; }
+        public BooleanValueModel VisibilityModel { get; set; }
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }
         public ModifierManagerModel TextureModifierManager { get; set; }
         public ColorSelectorModel ColorSelectorModel { get; set; }
         public CameraModel Camera { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
-        public ComboBoxModel<BlendModeEnum> BlendModeModel { get; internal set; }
-        public SliderModel Opacity { get; internal set; }
+        public GenericValueModel<BlendModeEnum> BlendModeModel { get; internal set; }
+        public FloatValueModel Opacity { get; internal set; }
         public PrefabManagerModel ModelEntityManager { get; internal set; }
         public PrefabManagerModel CameraEntityManager { get; internal set; }
-        public ToggleButtonModel EditPanelOpen { get; internal set; }
+        public BooleanValueModel EditPanelOpen { get; internal set; }
         public PrefabManagerModel LightEntityManager { get; internal set; }
     }
 }

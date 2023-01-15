@@ -14,22 +14,22 @@ namespace CMiX.Core.Models.Component
         {
             ID = Guid.NewGuid();
             BlendMode = new BlendModeModel();
-            Opacity = new SliderModel();
-            Opacity.Amount = 1.0f;
-            VisibilityModel = new ToggleButtonModel(false);
+            Opacity = new FloatValueModel();
+            Opacity.Value = 1.0f;
+            VisibilityModel = new BooleanValueModel(false);
             ModifierManager = new ModifierManagerModel();
             ColorSelectorModel = new ColorSelectorModel();
             Camera = new CameraModel();
             AmbientOcclusion = new AmbientOcclusionModel();
-            Invert = new ToggleButtonModel(true);
+            Invert = new BooleanValueModel(true);
 
-            MaskChannelSelector = new ComboBoxModel<MaskChannel>(MaskChannel.Luma);
+            MaskChannelSelector = new GenericValueModel<MaskChannel>(MaskChannel.Luma);
 
             ModelEntityManager = new PrefabManagerModel();
             CameraEntityManager = new PrefabManagerModel();
             LightEntityManager = new PrefabManagerModel();
 
-            EditPanelOpen = new ToggleButtonModel(false);
+            EditPanelOpen = new BooleanValueModel(false);
         }
 
         public Guid ID { get; set; }
@@ -39,18 +39,18 @@ namespace CMiX.Core.Models.Component
         public bool IsVisible { get; set; }
 
 
-        public ToggleButtonModel VisibilityModel { get; set; }
+        public BooleanValueModel VisibilityModel { get; set; }
         public BlendModeModel BlendMode { get; set; }
-        public SliderModel Opacity { get; set; }
+        public FloatValueModel Opacity { get; set; }
         public ModifierManagerModel ModifierManager { get; set; }
         public ColorSelectorModel ColorSelectorModel { get; set; }
         public CameraModel Camera { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
-        public ComboBoxModel<MaskChannel> MaskChannelSelector { get; set; }
-        public ToggleButtonModel Invert { get; internal set; }
+        public GenericValueModel<MaskChannel> MaskChannelSelector { get; set; }
+        public BooleanValueModel Invert { get; internal set; }
         public PrefabManagerModel ModelEntityManager { get; internal set; }
         public PrefabManagerModel CameraEntityManager { get; internal set; }
-        public ToggleButtonModel EditPanelOpen { get; internal set; }
+        public BooleanValueModel EditPanelOpen { get; internal set; }
         public PrefabManagerModel LightEntityManager { get; internal set; }
     }
 }

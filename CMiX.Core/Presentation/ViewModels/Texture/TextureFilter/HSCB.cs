@@ -14,24 +14,24 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = HSCBModel.ID;
 
             Name = HSCBModel.Name;
-            Visible = new ToggleButton(HSCBModel.Visible);
-            Hue = new Slider(nameof(Hue), HSCBModel.HueModel);
-            Saturation = new Slider(nameof(Saturation), HSCBModel.SaturationModel);
-            Contrast = new Slider(nameof(Contrast), HSCBModel.ConstrastModel);
-            Brightness = new Slider(nameof(Brightness), HSCBModel.BrightnessModel);
+            Visible = new BooleanValue(HSCBModel.Visible);
+            Hue = new FloatValue(HSCBModel.HueModel);
+            Saturation = new FloatValue(HSCBModel.SaturationModel);
+            Contrast = new FloatValue(HSCBModel.ConstrastModel);
+            Brightness = new FloatValue(HSCBModel.BrightnessModel);
             Enabled = HSCBModel.Enabled;
             IsExpanded = true;
         }
 
         public Guid ID { get; set; }
 
-        public ToggleButton Visible { get; set; }
-        public Slider Hue { get; set; }
-        public Slider Saturation { get; set; }
-        public Slider Contrast { get; set; }
-        public Slider Brightness { get; set; }
+        public BooleanValue Visible { get; set; }
+        public FloatValue Hue { get; set; }
+        public FloatValue Saturation { get; set; }
+        public FloatValue Contrast { get; set; }
+        public FloatValue Brightness { get; set; }
         public TextureFilterName Name { get; set; }
-        public Slider Control { get; set; }
+        public FloatValue Control { get; set; }
 
         private bool _enabled;
         public bool Enabled
@@ -57,11 +57,11 @@ namespace CMiX.Core.Presentation.ViewModels
             HSCBModel.Name = Name;
             HSCBModel.Enabled = this.Enabled;
 
-            HSCBModel.Visible = (ToggleButtonModel)Visible.GetModel();
-            HSCBModel.HueModel = (SliderModel)Hue.GetModel();
-            HSCBModel.SaturationModel = (SliderModel)Saturation.GetModel();
-            HSCBModel.ConstrastModel = (SliderModel)Contrast.GetModel();
-            HSCBModel.BrightnessModel = (SliderModel)Brightness.GetModel();
+            HSCBModel.Visible = (BooleanValueModel)Visible.GetModel();
+            HSCBModel.HueModel = (FloatValueModel)Hue.GetModel();
+            HSCBModel.SaturationModel = (FloatValueModel)Saturation.GetModel();
+            HSCBModel.ConstrastModel = (FloatValueModel)Contrast.GetModel();
+            HSCBModel.BrightnessModel = (FloatValueModel)Brightness.GetModel();
 
             return HSCBModel;
         }

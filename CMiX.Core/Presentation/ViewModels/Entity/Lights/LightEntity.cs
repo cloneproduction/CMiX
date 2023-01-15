@@ -9,7 +9,6 @@ using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -23,17 +22,15 @@ namespace CMiX.Core.Presentation.ViewModels
             CompositionService = compositionService;
 
             LightColor = new ColorSelector(lightEntityModel.LightColor);
-            Position = new VectorXYZ(lightEntityModel.Position);
-            Target = new VectorXYZ(lightEntityModel.Target);
-            Radius = new Slider(nameof(Radius), lightEntityModel.Radius);
-            Angle = new Slider(nameof(Angle), lightEntityModel.Angle);
-            Softness = new Slider(nameof(Softness), lightEntityModel.Softness);
-            Intensity = new Slider(nameof(Intensity), lightEntityModel.Intensity);
+            Position = new Vector3(lightEntityModel.Position);
+            Target = new Vector3(lightEntityModel.Target);
+            Radius = new FloatValue(lightEntityModel.Radius);
+            Angle = new FloatValue(lightEntityModel.Angle);
+            Softness = new FloatValue(lightEntityModel.Softness);
+            Intensity = new FloatValue(lightEntityModel.Intensity);
 
-            LightTypeSelector = new ComboBox<LightType>(lightEntityModel.LightTypeSelector);
-            Visibility = new ToggleButton(lightEntityModel.Visibility);
-
-            OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
+            LightTypeSelector = new GenericValue<LightType>(lightEntityModel.LightTypeSelector);
+            Visibility = new BooleanValue(lightEntityModel.Visibility);
         }
 
         public ICommand OpenColorSelectorCommand { get; set; }
@@ -41,21 +38,16 @@ namespace CMiX.Core.Presentation.ViewModels
         public Guid ID { get; set; }
 
         public CompositionService CompositionService { get; set; }
-        public ComboBox<LightType> LightTypeSelector { get; set; }
+        public GenericValue<LightType> LightTypeSelector { get; set; }
         public ColorSelector LightColor { get; set; }
-        public VectorXYZ Position { get; set; }
-        public VectorXYZ Target { get; set; }
-        public Slider Radius { get; set; }
-        public Slider Angle { get; set; }
-        public Slider Softness { get; set; }
-        public Slider Intensity { get; set; }
-        public ToggleButton Visibility { get; set; }
+        public Vector3 Position { get; set; }
+        public Vector3 Target { get; set; }
+        public FloatValue Radius { get; set; }
+        public FloatValue Angle { get; set; }
+        public FloatValue Softness { get; set; }
+        public FloatValue Intensity { get; set; }
+        public BooleanValue Visibility { get; set; }
 
-
-        public void OpenColorSelector()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.LightColor);
-        }
 
 
         private bool _isRenaming;
@@ -88,14 +80,14 @@ namespace CMiX.Core.Presentation.ViewModels
             lightEntityModel.ID = ID;
 
             lightEntityModel.LightColor = (ColorSelectorModel)LightColor.GetModel();
-            lightEntityModel.Position = (VectorXYZModel)Position.GetModel();
-            lightEntityModel.Target = (VectorXYZModel)Target.GetModel();
-            lightEntityModel.Radius = (SliderModel)Radius.GetModel();
-            lightEntityModel.Angle = (SliderModel)Angle.GetModel();
-            lightEntityModel.Softness = (SliderModel)Softness.GetModel();
-            lightEntityModel.Intensity = (SliderModel)Intensity.GetModel();
-            lightEntityModel.LightTypeSelector = (ComboBoxModel<LightType>)LightTypeSelector.GetModel();
-            lightEntityModel.Visibility = (ToggleButtonModel)Visibility.GetModel();
+            lightEntityModel.Position = (Vector3Model)Position.GetModel();
+            lightEntityModel.Target = (Vector3Model)Target.GetModel();
+            lightEntityModel.Radius = (FloatValueModel)Radius.GetModel();
+            lightEntityModel.Angle = (FloatValueModel)Angle.GetModel();
+            lightEntityModel.Softness = (FloatValueModel)Softness.GetModel();
+            lightEntityModel.Intensity = (FloatValueModel)Intensity.GetModel();
+            lightEntityModel.LightTypeSelector = (GenericValueModel<LightType>)LightTypeSelector.GetModel();
+            lightEntityModel.Visibility = (BooleanValueModel)Visibility.GetModel();
 
             return lightEntityModel;
         }

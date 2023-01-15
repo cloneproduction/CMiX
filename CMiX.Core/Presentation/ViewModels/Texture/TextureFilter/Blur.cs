@@ -16,15 +16,14 @@ namespace CMiX.Core.Presentation.ViewModels
             Enabled = blurModel.Enabled;
             IsExpanded = true;
 
-            Strength = new Slider(nameof(Strength), blurModel.Strength);
-            Visible = new ToggleButton(blurModel.Visible);
+            Strength = new FloatValue(blurModel.Strength);
+            Visible = new BooleanValue(blurModel.Visible);
         }
 
         public Guid ID { get; set; }
-        public Slider Strength { get; set; }
+        public FloatValue Strength { get; set; }
         public TextureFilterName Name { get; set; }
-        public ToggleButton Visible { get; set; }
-        public Slider Control { get; set; }
+        public BooleanValue Visible { get; set; }
 
         private bool _enabled;
         public bool Enabled
@@ -48,8 +47,8 @@ namespace CMiX.Core.Presentation.ViewModels
             blurModel.Name = Name;
             blurModel.Enabled = Enabled;
 
-            blurModel.Strength = (SliderModel)Strength.GetModel();
-            blurModel.Visible = (ToggleButtonModel)Visible.GetModel();
+            blurModel.Strength = (FloatValueModel)Strength.GetModel();
+            blurModel.Visible = (BooleanValueModel)Visible.GetModel();
 
             return blurModel;
         }

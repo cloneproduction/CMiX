@@ -3,6 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -15,24 +17,20 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = transformTextureModel.ID;
             Name = transformTextureModel.Name;
             IsExpanded = true;
-            Visible = new ToggleButton(transformTextureModel.Visible);
+            Visible = new BooleanValue(transformTextureModel.Visible);
             SamplerState = new SamplerState(transformTextureModel.SamplerStateModel, compositionService);
-            TranslateX = new Slider(nameof(TranslateX), transformTextureModel.TranslateXModel);
-            TranslateY = new Slider(nameof(TranslateY), transformTextureModel.TranslateYModel);
-            ScaleX = new Slider(nameof(ScaleX), transformTextureModel.ScaleXModel);
-            ScaleY = new Slider(nameof(ScaleY), transformTextureModel.ScaleYModel);
-            Rotate = new Slider(nameof(Rotate), transformTextureModel.RotateModel);
+            Translate = new Vector2(transformTextureModel.Translate);
+            Scale = new Vector2(transformTextureModel.Scale);
+            Rotate = new FloatValue(transformTextureModel.Rotate);
         }
 
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
         public SamplerState SamplerState { get; set; }
-        public Slider TranslateX { get; set; }
-        public Slider TranslateY { get; set; }
-        public Slider ScaleX { get; set; }
-        public Slider ScaleY { get; set; }
-        public Slider Rotate { get; set; }
-        public ToggleButton Visible { get; set; }
+        public Vector2 Translate { get; set; }
+        public Vector2 Scale { get; set; }
+        public FloatValue Rotate { get; set; }
+        public BooleanValue Visible { get; set; }
 
 
         private bool _enabled;
@@ -58,11 +56,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Visible.SetViewModel(transformTextureModel.Visible);
             SamplerState.SetViewModel(transformTextureModel.SamplerStateModel);
-            TranslateX.SetViewModel(transformTextureModel.TranslateXModel);
-            TranslateY.SetViewModel(transformTextureModel.TranslateYModel);
-            ScaleX.SetViewModel(transformTextureModel.ScaleXModel);
-            ScaleY.SetViewModel(transformTextureModel.ScaleYModel);
-            Rotate.SetViewModel(transformTextureModel.RotateModel);
+            Translate.SetViewModel(transformTextureModel.Translate);
+            Scale.SetViewModel(transformTextureModel.Scale);
+            Rotate.SetViewModel(transformTextureModel.Rotate);
         }
 
         public IModel GetModel()
@@ -71,18 +67,14 @@ namespace CMiX.Core.Presentation.ViewModels
             transformTextureModel.ID = ID;
             transformTextureModel.Name = Name;
 
-            transformTextureModel.Visible = (ToggleButtonModel)Visible.GetModel();
+            transformTextureModel.Visible = (BooleanValueModel)Visible.GetModel();
             transformTextureModel.SamplerStateModel = (SamplerStateModel)SamplerState.GetModel();
 
-            transformTextureModel.TranslateXModel = (SliderModel)TranslateX.GetModel();
-            transformTextureModel.TranslateYModel = (SliderModel)TranslateY.GetModel();
-
-            transformTextureModel.ScaleXModel = (SliderModel)ScaleX.GetModel();
-            transformTextureModel.ScaleYModel = (SliderModel)ScaleY.GetModel();
-            transformTextureModel.RotateModel = (SliderModel)Rotate.GetModel();
+            transformTextureModel.Translate = (Vector2Model)Translate.GetModel();
+            transformTextureModel.Scale = (Vector2Model)Scale.GetModel();
+            transformTextureModel.Rotate = (FloatValueModel)Rotate.GetModel();
 
             return transformTextureModel;
-
         }
 
         public void Dispose()

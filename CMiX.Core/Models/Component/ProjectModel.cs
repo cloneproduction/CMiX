@@ -29,7 +29,7 @@ namespace CMiX.Core.Models
 
 
         public SchedulerManagerModel SchedulerManagerModel { get; set; }
-        public ComboBoxModel<CompositionScheduler> CompositionSchedulerSelectorModel { get; set; }
+        public GenericValueModel<CompositionScheduler> CompositionSchedulerSelectorModel { get; set; }
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }
         public ObservableCollection<IAssetModel> AssetModels { get; set; }
         public ObservableCollection<IAssetModel> AssetModelsFlatten { get; set; }

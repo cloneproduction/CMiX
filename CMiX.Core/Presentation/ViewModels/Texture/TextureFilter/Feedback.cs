@@ -13,16 +13,16 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ID = feedBackModel.ID;
             Name = feedBackModel.Name;
-            Visible = new ToggleButton(feedBackModel.Visible);
-            Factor = new Slider(nameof(Factor), feedBackModel.Factor);
+            Visible = new BooleanValue(feedBackModel.Visible);
+            Factor = new FloatValue(feedBackModel.Factor);
         }
 
 
         public TextureFilterName Name { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
-        public Slider Factor { get; set; }
+        public FloatValue Factor { get; set; }
 
 
         public IModel GetModel()
@@ -31,8 +31,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
             feedbackModel.ID = ID;
             feedbackModel.Name = Name;
-            feedbackModel.Visible = (ToggleButtonModel)Visible.GetModel();
-            feedbackModel.Factor = (SliderModel)Factor.GetModel();
+            feedbackModel.Visible = (BooleanValueModel)Visible.GetModel();
+            feedbackModel.Factor = (FloatValueModel)Factor.GetModel();
 
             return feedbackModel;
         }

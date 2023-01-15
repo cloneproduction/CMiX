@@ -15,36 +15,36 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = lfoModel.ID;
             Enabled = lfoModel.Enabled;
 
-            Visible = new ToggleButton(lfoModel.Visible);
+            Visible = new BooleanValue(lfoModel.Visible);
             BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
 
-            Yaw = new ToggleButton(lfoModel.Yaw);
-            Pitch = new ToggleButton(lfoModel.Pitch);
-            Zoom = new ToggleButton(lfoModel.Zoom);
+            Yaw = new BooleanValue(lfoModel.Yaw);
+            Pitch = new BooleanValue(lfoModel.Pitch);
+            Zoom = new BooleanValue(lfoModel.Zoom);
 
-            PingPong = new ToggleButton(lfoModel.PingPong);
-            Axis = new ComboBox<CameraAxis>(lfoModel.Axis);
+            PingPong = new BooleanValue(lfoModel.PingPong);
+            Axis = new GenericValue<CameraAxis>(lfoModel.Axis);
             Easing = new Easing(lfoModel.Easing);
 
-            From = new Slider(nameof(From), lfoModel.From);
-            To = new Slider(nameof(To), lfoModel.To);
+            From = new FloatValue(lfoModel.From);
+            To = new FloatValue(lfoModel.To);
         }
 
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
 
         public BeatModifier BeatModifier { get; set; }
-        public ToggleButton Yaw { get; set; }
-        public ToggleButton Pitch { get; set; }
-        public ToggleButton Zoom { get; set; }
-        public ToggleButton PingPong { get; set; }
-        public ComboBox<CameraAxis> Axis { get; set; }
+        public BooleanValue Yaw { get; set; }
+        public BooleanValue Pitch { get; set; }
+        public BooleanValue Zoom { get; set; }
+        public BooleanValue PingPong { get; set; }
+        public GenericValue<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
-        public Slider From { get; set; }
-        public Slider To { get; set; }
+        public FloatValue From { get; set; }
+        public FloatValue To { get; set; }
 
 
         public IModel GetModel()
@@ -53,16 +53,16 @@ namespace CMiX.Core.Presentation.ViewModels
 
             cameraLFOModel.ID = ID;
             cameraLFOModel.Enabled = Enabled;
-            cameraLFOModel.Visible = (ToggleButtonModel)Visible.GetModel();
+            cameraLFOModel.Visible = (BooleanValueModel)Visible.GetModel();
             cameraLFOModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            cameraLFOModel.Yaw = (ToggleButtonModel)Yaw.GetModel();
-            cameraLFOModel.Pitch = (ToggleButtonModel)Pitch.GetModel();
-            cameraLFOModel.Zoom = (ToggleButtonModel)Zoom.GetModel();
-            cameraLFOModel.PingPong = (ToggleButtonModel)PingPong.GetModel();
-            cameraLFOModel.Axis = (ComboBoxModel<CameraAxis>)Axis.GetModel();
+            cameraLFOModel.Yaw = (BooleanValueModel)Yaw.GetModel();
+            cameraLFOModel.Pitch = (BooleanValueModel)Pitch.GetModel();
+            cameraLFOModel.Zoom = (BooleanValueModel)Zoom.GetModel();
+            cameraLFOModel.PingPong = (BooleanValueModel)PingPong.GetModel();
+            cameraLFOModel.Axis = (GenericValueModel<CameraAxis>)Axis.GetModel();
             cameraLFOModel.Easing = (EasingModel)Easing.GetModel();
-            cameraLFOModel.From = (SliderModel)From.GetModel();
-            cameraLFOModel.To = (SliderModel)To.GetModel();
+            cameraLFOModel.From = (FloatValueModel)From.GetModel();
+            cameraLFOModel.To = (FloatValueModel)To.GetModel();
 
             return cameraLFOModel;
         }

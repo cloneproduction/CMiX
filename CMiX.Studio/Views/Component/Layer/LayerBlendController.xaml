@@ -10,7 +10,7 @@
 
     <StackPanel>
 
-        <Controls:CMiXSlider
+        <!--<Controls:CMiXSlider
             Minimum="0"
             Maximum="1"
             DockPanel.Dock="Top"
@@ -27,7 +27,8 @@
 
         <BaseControls:ColorSelector 
             Caption="Background" 
-            Command="{Binding OpenColorSelectorCommand}"/>
+            ViewModel="{Binding Background}"
+            SelectedColor="{Binding Background.SelectedColor}"/>-->
         
     </StackPanel>
 

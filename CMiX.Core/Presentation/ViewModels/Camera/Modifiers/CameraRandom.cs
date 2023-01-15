@@ -16,21 +16,21 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = randomModel.ID;
             Enabled = randomModel.Enabled;
 
-            Visible = new ToggleButton(randomModel.Visible);
+            Visible = new BooleanValue(randomModel.Visible);
             BeatModifier = new BeatModifier(randomModel.BeatModifier, compositionService);
 
-            PingPong = new ToggleButton(randomModel.PingPong);
-            Axis = new ComboBox<CameraAxis>(randomModel.Axis);
+            PingPong = new BooleanValue(randomModel.PingPong);
+            Axis = new GenericValue<CameraAxis>(randomModel.Axis);
             Easing = new Easing(randomModel.Easing);
 
-            Width = new Slider(nameof(Width), randomModel.Width);
+            Width = new FloatValue(randomModel.Width);
             IsExpanded = true;
         }
 
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -40,10 +40,10 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
         public BeatModifier BeatModifier { get; set; }
-        public ToggleButton PingPong { get; set; }
-        public ComboBox<CameraAxis> Axis { get; set; }
+        public BooleanValue PingPong { get; set; }
+        public GenericValue<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
-        public Slider Width { get; set; }
+        public FloatValue Width { get; set; }
 
 
         public IModel GetModel()
@@ -52,12 +52,12 @@ namespace CMiX.Core.Presentation.ViewModels
 
             cameraRandomModel.ID = ID;
             cameraRandomModel.Enabled = Enabled;
-            cameraRandomModel.Visible = (ToggleButtonModel)Visible.GetModel();
+            cameraRandomModel.Visible = (BooleanValueModel)Visible.GetModel();
             cameraRandomModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            cameraRandomModel.PingPong = (ToggleButtonModel)PingPong.GetModel();
-            cameraRandomModel.Axis = (ComboBoxModel<CameraAxis>)Axis.GetModel();
+            cameraRandomModel.PingPong = (BooleanValueModel)PingPong.GetModel();
+            cameraRandomModel.Axis = (GenericValueModel<CameraAxis>)Axis.GetModel();
             cameraRandomModel.Easing = (EasingModel)Easing.GetModel();
-            cameraRandomModel.Width = (SliderModel)Width.GetModel();
+            cameraRandomModel.Width = (FloatValueModel)Width.GetModel();
 
             return cameraRandomModel;
         }

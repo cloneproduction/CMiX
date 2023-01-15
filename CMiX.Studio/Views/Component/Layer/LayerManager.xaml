@@ -33,9 +33,8 @@
                     <BaseControls:ColorSelector 
                         Margin="0, 8"
                         Caption="Background" 
-                        SelectedColor="{Binding BackgroundColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        CommandParameter="{Binding}"/>
+                        SelectedColor="{Binding BackgroundColor.SelectedColor}"
+                        ViewModel="{Binding BackgroundColor}"/>
 
                     <Border>
 

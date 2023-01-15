@@ -19,7 +19,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = textureModel.ID;
             Name = this.GetType().Name;
 
-            IsEnabled = new ToggleButton(textureModel.IsEnabled);
+            IsEnabled = new BooleanValue(textureModel.IsEnabled);
             TextureModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
             TextureTransformModifierManager = new ModifierManager(textureModel.TransformModifierManager, new ModifierFactory(compositionService));
             SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             VideoIn = new VideoIn(textureModel.VideoIn);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
-            SelectedAssetType = new ComboBox<int>(textureModel.SelectedAssetType);
+            SelectedAssetType = new GenericValue<int>(textureModel.SelectedAssetType);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
             TransformUV = new TransformSRT(textureModel.TransformUV);
         }
@@ -40,7 +40,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ModifierManager TextureModifierManager { get; set; }
         public ModifierManager TextureTransformModifierManager { get; set; }
 
-        public ToggleButton IsEnabled { get; set; }
+        public BooleanValue IsEnabled { get; set; }
         public SamplerState SamplerState { get; set; }
         public TransformSRT TransformUV { get; set; }
 
@@ -72,7 +72,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _name, value);
         }
 
-        public ComboBox<int> SelectedAssetType { get; set; }
+        public GenericValue<int> SelectedAssetType { get; set; }
 
 
         public TypeWriter TypeWriter { get; set; }
@@ -90,13 +90,13 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.ID = this.ID;
 
-            model.IsEnabled = (ToggleButtonModel)this.IsEnabled.GetModel();
+            model.IsEnabled = (BooleanValueModel)this.IsEnabled.GetModel();
             model.ModifierManagerModel = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.TransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
             model.TextureSelectorModel = (ImageSelectorModel)this.ImageSelector.GetModel();
             model.VideoSelectorModel = (VideoSelectorModel)this.VideoSelector.GetModel();
             model.VideoPlayerModel = (VideoPlayerModel)this.VideoPlayer.GetModel();
-            model.SelectedAssetType = (ComboBoxModel<int>)this.SelectedAssetType.GetModel();
+            model.SelectedAssetType = (GenericValueModel<int>)this.SelectedAssetType.GetModel();
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
             model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();

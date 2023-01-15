@@ -14,30 +14,30 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
             Enabled = true;
 
-            Hue = new SliderModel();
-            Saturation = new SliderModel();
-            Value = new SliderModel();
-            Alpha = new SliderModel();
+            Hue = new FloatValueModel();
+            Saturation = new FloatValueModel();
+            Value = new FloatValueModel();
+            Alpha = new FloatValueModel();
 
-            Visible = new ToggleButtonModel(true);
+            Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.PerInstance);
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public VectorXYZModel HSV { get; set; }
-        public ToggleButtonModel Visible { get; set; }
+        public Vector3Model HSV { get; set; }
+        public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }
-        public SliderModel Hue { get; set; }
-        public SliderModel Saturation { get; set; }
-        public SliderModel Value { get; set; }
-        public SliderModel Alpha { get; set; }
+        public FloatValueModel Hue { get; set; }
+        public FloatValueModel Saturation { get; set; }
+        public FloatValueModel Value { get; set; }
+        public FloatValueModel Alpha { get; set; }
 
-        public ComboBoxModel<ModifierMode> Mode { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; set; }
 
     }
 }

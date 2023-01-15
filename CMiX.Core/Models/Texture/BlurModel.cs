@@ -13,16 +13,15 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
 
             Name = TextureFilterName.Blur;
-            Visible = new ToggleButtonModel(true);
-            Strength = new SliderModel();
+            Visible = new BooleanValueModel(true);
+            Strength = new FloatValueModel();
             Enabled = true;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public SliderModel Strength { get; set; }
-        public ToggleButtonModel Visible { get; set; }
+        public FloatValueModel Strength { get; set; }
+        public BooleanValueModel Visible { get; set; }
         public TextureFilterName Name { get; set; }
-        public SliderModel Control { get; set; }
     }
 }

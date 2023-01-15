@@ -10,20 +10,20 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
+    public class FloatValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public GenericValue(GenericValueModel<T> genericValueModel)
+        public FloatValue(FloatValueModel floatValueModel)
         {
-            this.ID = genericValueModel.ID;
-            this.Value = genericValueModel.Value;
+            this.ID = floatValueModel.ID;
+            this.Value = floatValueModel.Value;
             this.IsActive = true;
         }
 
         public Guid ID { get; set; }
 
 
-        private T _value;
-        public T Value
+        private float _value;
+        public float Value
         {
             get => _value;
             set
@@ -34,19 +34,20 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
+        public void SetViewModel(IModel model)
+        {
+            FloatValueModel sliderModel = model as FloatValueModel;
+            this.ID = sliderModel.ID;
+            this.Value = sliderModel.Value;
+            Console.WriteLine("Value = " + Value);
+        }
+
         public IModel GetModel()
         {
-            GenericValueModel<T> model = new GenericValueModel<T>(this.Value);
+            FloatValueModel model = new FloatValueModel();
             model.ID = this.ID;
             model.Value = this.Value;
             return model;
-        }
-
-        public void SetViewModel(IModel model)
-        {
-            GenericValueModel<T> genericValueModel = model as GenericValueModel<T>;
-            this.ID = genericValueModel.ID;
-            this.Value = genericValueModel.Value;
         }
 
         public void Receive(MessageRequestControl message)

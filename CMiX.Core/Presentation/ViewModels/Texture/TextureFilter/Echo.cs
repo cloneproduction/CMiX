@@ -12,18 +12,18 @@ namespace CMiX.Core.Presentation.ViewModels
         public Echo(EchoModel echoModel)
         {
             ID = echoModel.ID;
-            Visible = new ToggleButton(echoModel.Visible);
+            Visible = new BooleanValue(echoModel.Visible);
             Name = echoModel.Name;
-            Factor = new Slider(nameof(Factor), echoModel.Factor);
+            Factor = new FloatValue(echoModel.Factor);
 
             IsExpanded = true;
         }
 
         public TextureFilterName Name { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
-        public Slider Factor { get; set; }
+        public FloatValue Factor { get; set; }
 
 
         private bool _isExpanded;
@@ -39,8 +39,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
             echoModel.ID = ID;
             echoModel.Name = Name;
-            echoModel.Visible = (ToggleButtonModel)Visible.GetModel();
-            echoModel.Factor = (SliderModel)Factor.GetModel();
+            echoModel.Visible = (BooleanValueModel)Visible.GetModel();
+            echoModel.Factor = (FloatValueModel)Factor.GetModel();
 
             return echoModel;
         }

@@ -10,17 +10,17 @@ namespace CMiX.Core.Models
         public VideoPlayerModel()
         {
             ID = Guid.NewGuid();
-            SeekFrame = new CounterModel();
+            SeekFrame = new IntegerValueModel();
             DoSeek = new ButtonModel();
-            PlayModel = new ToggleButtonModel();
-            PlayModel.IsChecked = true;
+            PlayModel = new BooleanValueModel();
+            PlayModel.Value = true;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public ButtonModel DoSeek { get; set; }
-        public CounterModel SeekFrame { get; set; }
-        public ToggleButtonModel PlayModel { get; set; }
+        public IntegerValueModel SeekFrame { get; set; }
+        public BooleanValueModel PlayModel { get; set; }
     }
 }

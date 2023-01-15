@@ -14,10 +14,10 @@ namespace CMiX.Core.Network.Messages
 
         }
 
-        public MessageUpdateViewModel(IControl control)
+        public MessageUpdateViewModel(IModel model)
         {
-            Model = control.GetModel();
-            ID = control.ID;
+            Model = model;
+            ID = model.ID;
         }
 
         public Guid ID { get; set; }

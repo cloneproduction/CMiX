@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels
             if (Click != null)
                 Click(this, null);
 
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
         }
 
 

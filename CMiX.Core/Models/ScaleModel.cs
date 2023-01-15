@@ -12,17 +12,17 @@ namespace CMiX.Core.Models
         public ScaleModel()
         {
             ID = Guid.NewGuid();
-            Uniform = new SliderModel(1.0f);
-            XYZ = new VectorXYZModel(1.0f, 1.0f, 1.0f);
-            Visible = new ToggleButtonModel(true);
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
+            Uniform = new FloatValueModel(1.0f);
+            XYZ = new Vector3Model(1.0f, 1.0f, 1.0f);
+            Visible = new BooleanValueModel(true);
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public SliderModel Uniform { get; set; }
-        public VectorXYZModel XYZ { get; set; }
-        public ToggleButtonModel Visible { get; set; }
-        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
+        public FloatValueModel Uniform { get; set; }
+        public Vector3Model XYZ { get; set; }
+        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; internal set; }
     }
 }

@@ -10,23 +10,25 @@
 
     <StackPanel>
 
-        <BaseControls:ComboBox                    
+        <BaseControls:ComboBox       
+            Position="Top"
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
             SelectedItem="{Binding AddressU}"
             Caption="Address U"/>
 
         <BaseControls:ComboBox
-            Margin="0, 4"
+            Position="Bottom"
+            Margin="0, 1, 0, 0"
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
             SelectedItem="{Binding AddressV}"
             Caption="V"/>
 
         <BaseControls:ColorSelector 
-            Margin="0, 8"
+            Margin="0, 8, 0, 0"
+            Position="Default"
             Caption="Border Color" 
-            SelectedColor="{Binding BorderColor.SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all}"
-            Command="{Binding OpenColorSelectorCommand}"
-            CommandParameter="{Binding}"/>
+            ViewModel="{Binding BorderColor}"
+            SelectedColor="{Binding BorderColor.SelectedColor}"/>
 
     </StackPanel>
     

@@ -15,20 +15,20 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = edgeModel.ID;
             Name = edgeModel.Name;
             Enabled = edgeModel.Enabled;
-            Visible = new ToggleButton(edgeModel.Visible);
-            Radius = new Slider(nameof(Radius), edgeModel.Radius);
-            Brightness = new Slider(nameof(Brightness), edgeModel.Brightness);
-            Control = new Slider(nameof(Control), edgeModel.Control);
+            Visible = new BooleanValue(edgeModel.Visible);
+            Radius = new FloatValue(edgeModel.Radius);
+            Brightness = new FloatValue(edgeModel.Brightness);
+            Control = new FloatValue(edgeModel.Control);
             IsExpanded = true;
         }
 
 
         public TextureFilterName Name { get; set; }
         public Guid ID { get; set; }
-        public Slider Radius { get; set; }
-        public Slider Brightness { get; set; }
-        public Slider Control { get; set; }
-        public ToggleButton Visible { get; set; }
+        public FloatValue Radius { get; set; }
+        public FloatValue Brightness { get; set; }
+        public FloatValue Control { get; set; }
+        public BooleanValue Visible { get; set; }
 
 
         private bool _enabled;
@@ -55,10 +55,10 @@ namespace CMiX.Core.Presentation.ViewModels
             edgeModel.Enabled = Enabled;
             edgeModel.Name = Name;
 
-            edgeModel.Control = (SliderModel)Control.GetModel();
-            edgeModel.Visible = (ToggleButtonModel)Visible.GetModel();
-            edgeModel.Radius = (SliderModel)Radius.GetModel();
-            edgeModel.Brightness = (SliderModel)Brightness.GetModel();
+            edgeModel.Control = (FloatValueModel)Control.GetModel();
+            edgeModel.Visible = (BooleanValueModel)Visible.GetModel();
+            edgeModel.Radius = (FloatValueModel)Radius.GetModel();
+            edgeModel.Brightness = (FloatValueModel)Brightness.GetModel();
 
             return edgeModel;
         }

@@ -2,14 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Network.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -25,22 +23,21 @@ namespace CMiX.Core.Presentation.ViewModels
             Texture = new Texture(materialModel.Texture, compositionService);
 
             Mask = new Mask(materialModel.Mask, compositionService);
-            MaskChannelSelector = new ComboBox<MaskChannel>(materialModel.MaskChannelSelector);
+            MaskChannelSelector = new GenericValue<MaskChannel>(materialModel.MaskChannelSelector);
 
-            Pipeline = new ComboBox<PipelineType>(materialModel.Pipeline);
-            CullMode = new ComboBox<CullModeType>(materialModel.CullMode);
-            Transparency = new ComboBox<TransparencyType>(materialModel.Transparency);
+            Pipeline = new GenericValue<PipelineType>(materialModel.Pipeline);
+            CullMode = new GenericValue<CullModeType>(materialModel.CullMode);
+            Transparency = new GenericValue<TransparencyType>(materialModel.Transparency);
 
-            Metalness = new Slider(nameof(Metalness), materialModel.Metalness);
-            Specularity = new Slider(nameof(Specularity), materialModel.Specularity);
-            Glossiness = new Slider(nameof(Glossiness), materialModel.Glossiness);
-            Alpha = new Slider(nameof(Alpha), materialModel.Alpha);
-            IsShadowCaster = new ToggleButton(materialModel.IsShadowCaster);
+            Metalness = new FloatValue(materialModel.Metalness);
+            Specularity = new FloatValue(materialModel.Specularity);
+            Glossiness = new FloatValue(materialModel.Glossiness);
+            Alpha = new FloatValue(materialModel.Alpha);
+            IsShadowCaster = new BooleanValue(materialModel.IsShadowCaster);
 
             IsActive = true;
 
             Color = new ColorSelector(materialModel.ColorModel);
-            OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
         }
 
 
@@ -75,25 +72,19 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
         public ColorSelector Color { get; set; }
-        public ICommand OpenColorSelectorCommand { get; set; }
-        public void OpenColorSelector()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.Color);
-        }
-
 
 
         public Mask Mask { get; set; }
-        public ComboBox<MaskChannel> MaskChannelSelector { get; set; }
-        public ComboBox<PipelineType> Pipeline { get; set; }
-        public ComboBox<TransparencyType> Transparency { get; set; }
-        public ComboBox<CullModeType> CullMode { get; set; }
+        public GenericValue<MaskChannel> MaskChannelSelector { get; set; }
+        public GenericValue<PipelineType> Pipeline { get; set; }
+        public GenericValue<TransparencyType> Transparency { get; set; }
+        public GenericValue<CullModeType> CullMode { get; set; }
 
-        public Slider Metalness { get; set; }
-        public Slider Specularity { get; set; }
-        public Slider Glossiness { get; set; }
-        public Slider Alpha { get; set; }
-        public ToggleButton IsShadowCaster { get; set; }
+        public FloatValue Metalness { get; set; }
+        public FloatValue Specularity { get; set; }
+        public FloatValue Glossiness { get; set; }
+        public FloatValue Alpha { get; set; }
+        public BooleanValue IsShadowCaster { get; set; }
 
 
         private string _name;
@@ -132,18 +123,18 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.Texture = (TextureModel)Texture.GetModel();
             model.Mask = (MaskModel)Mask.GetModel();
-            model.MaskChannelSelector = (ComboBoxModel<MaskChannel>)MaskChannelSelector.GetModel();
+            model.MaskChannelSelector = (GenericValueModel<MaskChannel>)MaskChannelSelector.GetModel();
 
-            model.Pipeline = (ComboBoxModel<PipelineType>)Pipeline.GetModel();
-            model.CullMode = (ComboBoxModel<CullModeType>)CullMode.GetModel();
-            model.Transparency = (ComboBoxModel<TransparencyType>)Transparency.GetModel();
+            model.Pipeline = (GenericValueModel<PipelineType>)Pipeline.GetModel();
+            model.CullMode = (GenericValueModel<CullModeType>)CullMode.GetModel();
+            model.Transparency = (GenericValueModel<TransparencyType>)Transparency.GetModel();
 
-            model.Metalness = (SliderModel)Metalness.GetModel();
-            model.Specularity = (SliderModel)Specularity.GetModel();
-            model.Glossiness = (SliderModel)Glossiness.GetModel();
-            model.Alpha = (SliderModel)Alpha.GetModel();
+            model.Metalness = (FloatValueModel)Metalness.GetModel();
+            model.Specularity = (FloatValueModel)Specularity.GetModel();
+            model.Glossiness = (FloatValueModel)Glossiness.GetModel();
+            model.Alpha = (FloatValueModel)Alpha.GetModel();
 
-            model.IsShadowCaster = (ToggleButtonModel)IsShadowCaster.GetModel();
+            model.IsShadowCaster = (BooleanValueModel)IsShadowCaster.GetModel();
 
             model.ColorModel = (ColorSelectorModel)Color.GetModel();
             

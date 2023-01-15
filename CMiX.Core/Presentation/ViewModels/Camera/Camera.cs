@@ -17,20 +17,20 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = cameraModel.ID;
 
             Name = cameraModel.Name;
-            FOV = new Slider(nameof(FOV), cameraModel.FOV);
-            Distance = new Slider(nameof(Distance), cameraModel.Distance);
+            FOV = new FloatValue(cameraModel.FOV);
+            Distance = new FloatValue(cameraModel.Distance);
 
-            Yaw = new Slider(nameof(Yaw), cameraModel.Yaw);
-            Pitch = new Slider(nameof(Pitch), cameraModel.Pitch);
+            Yaw = new FloatValue(cameraModel.Yaw);
+            Pitch = new FloatValue(cameraModel.Pitch);
 
-            TargetX = new Slider(nameof(TargetX), cameraModel.TargetX);
-            TargetY = new Slider(nameof(TargetY), cameraModel.TargetY);
-            TargetZ = new Slider(nameof(TargetZ), cameraModel.TargetZ);
+            TargetX = new FloatValue(cameraModel.TargetX);
+            TargetY = new FloatValue(cameraModel.TargetY);
+            TargetZ = new FloatValue(cameraModel.TargetZ);
 
-            NearClip = new Slider(nameof(NearClip), cameraModel.NearClip);
-            FarClip = new Slider(nameof(FarClip), cameraModel.FarClip);
+            NearClip = new FloatValue(cameraModel.NearClip);
+            FarClip = new FloatValue(cameraModel.FarClip);
 
-            Projection = new ToggleButton(cameraModel.Projection);
+            Projection = new BooleanValue(cameraModel.Projection);
 
             CameraTransformModifierManager = new ModifierManager(cameraModel.CameraTransformModifierManager, new CameraTransformModifierFactory(compositionService));
         }
@@ -64,16 +64,16 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public Slider FOV { get; set; }
-        public Slider Distance { get; set; }
-        public Slider Yaw { get; set; }
-        public Slider Pitch { get; set; }
-        public Slider TargetX { get; set; }
-        public Slider TargetY { get; set; }
-        public Slider TargetZ { get; set; }
-        public Slider NearClip { get; set; }
-        public Slider FarClip { get; set; }
-        public ToggleButton Projection { get; set; }
+        public FloatValue FOV { get; set; }
+        public FloatValue Distance { get; set; }
+        public FloatValue Yaw { get; set; }
+        public FloatValue Pitch { get; set; }
+        public FloatValue TargetX { get; set; }
+        public FloatValue TargetY { get; set; }
+        public FloatValue TargetZ { get; set; }
+        public FloatValue NearClip { get; set; }
+        public FloatValue FarClip { get; set; }
+        public BooleanValue Projection { get; set; }
 
 
         public void SetViewModel(IModel model)
@@ -102,20 +102,20 @@ namespace CMiX.Core.Presentation.ViewModels
             CameraModel cameraModel = new CameraModel();
             cameraModel.ID = this.ID;
             cameraModel.CameraTransformModifierManager = (ModifierManagerModel)CameraTransformModifierManager.GetModel();
-            cameraModel.FOV = (SliderModel)FOV.GetModel();
-            cameraModel.Distance = (SliderModel)Distance.GetModel();
+            cameraModel.FOV = (FloatValueModel)FOV.GetModel();
+            cameraModel.Distance = (FloatValueModel)Distance.GetModel();
 
-            cameraModel.Yaw = (SliderModel)Yaw.GetModel();
-            cameraModel.Pitch = (SliderModel)Pitch.GetModel();
+            cameraModel.Yaw = (FloatValueModel)Yaw.GetModel();
+            cameraModel.Pitch = (FloatValueModel)Pitch.GetModel();
 
-            cameraModel.TargetX = (SliderModel)TargetX.GetModel();
-            cameraModel.TargetY = (SliderModel)TargetY.GetModel();
-            cameraModel.TargetZ = (SliderModel)TargetZ.GetModel();
+            cameraModel.TargetX = (FloatValueModel)TargetX.GetModel();
+            cameraModel.TargetY = (FloatValueModel)TargetY.GetModel();
+            cameraModel.TargetZ = (FloatValueModel)TargetZ.GetModel();
 
-            cameraModel.NearClip = (SliderModel)NearClip.GetModel();
-            cameraModel.FarClip = (SliderModel)FarClip.GetModel();
+            cameraModel.NearClip = (FloatValueModel)NearClip.GetModel();
+            cameraModel.FarClip = (FloatValueModel)FarClip.GetModel();
 
-            cameraModel.Projection = (ToggleButtonModel)Projection.GetModel();
+            cameraModel.Projection = (BooleanValueModel)Projection.GetModel();
 
             return cameraModel;
         }

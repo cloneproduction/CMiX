@@ -15,7 +15,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ProceduralSelector(ProceduralSelectorModel proceduralTextureSelectorModel, CompositionService compositionService)
         {
             ID = proceduralTextureSelectorModel.ID;
-            ProceduralName = new ComboBox<TextureSourceName>(proceduralTextureSelectorModel.ProceduralName);
+            ProceduralName = new GenericValue<TextureSourceName>(proceduralTextureSelectorModel.ProceduralName);
             CompositionService = compositionService;
             Gradient = new Gradient(proceduralTextureSelectorModel.Gradient, compositionService);
             BubbleNoise = new BubbleNoise(proceduralTextureSelectorModel.BubbleNoise, compositionService);
@@ -26,7 +26,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public Gradient Gradient { get; set; }
         public BubbleNoise BubbleNoise { get; set; }
 
-        public ComboBox<TextureSourceName> ProceduralName { get; set; }
+        public GenericValue<TextureSourceName> ProceduralName { get; set; }
         public CompositionService CompositionService { get; set; }
 
 
@@ -34,7 +34,7 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ProceduralSelectorModel proceduralSelectorModel = new ProceduralSelectorModel();
 
-            proceduralSelectorModel.ProceduralName = (ComboBoxModel<TextureSourceName>)ProceduralName.GetModel();
+            proceduralSelectorModel.ProceduralName = (GenericValueModel<TextureSourceName>)ProceduralName.GetModel();
             proceduralSelectorModel.Gradient = (GradientModel)Gradient.GetModel();
             proceduralSelectorModel.BubbleNoise = (BubbleNoiseModel)BubbleNoise.GetModel();
 

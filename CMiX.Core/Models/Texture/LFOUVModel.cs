@@ -13,40 +13,40 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
             Enabled = true;
 
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.PerInstance);
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
 
-            Visible = new ToggleButtonModel(true);
+            Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
 
-            XAxis = new ToggleButtonModel();
-            YAxis = new ToggleButtonModel();
-            ZAxis = new ToggleButtonModel();
+            XAxis = new BooleanValueModel();
+            YAxis = new BooleanValueModel();
+            ZAxis = new BooleanValueModel();
 
-            PingPong = new ToggleButtonModel();
+            PingPong = new BooleanValueModel();
 
-            TransformType = new ComboBoxModel<TransformType>(Presentation.ViewModels.TransformType.Translate);
+            TransformType = new GenericValueModel<TransformType>(Presentation.ViewModels.TransformType.Translate);
             Easing = new EasingModel();
 
-            From = new SliderModel(0.0f);
-            To = new SliderModel(1.0f);
+            From = new FloatValueModel(0.0f);
+            To = new FloatValueModel(1.0f);
 
             Name = TextureFilterName.LFOUV;
             SamplerState = new SamplerStateModel();
         }
 
-        public ToggleButtonModel PingPong { get; set; }
+        public BooleanValueModel PingPong { get; set; }
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public ToggleButtonModel Visible { get; set; }
+        public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
 
-        public ToggleButtonModel XAxis { get; set; }
-        public ToggleButtonModel YAxis { get; set; }
-        public ToggleButtonModel ZAxis { get; set; }
-        public ComboBoxModel<TransformType> TransformType { get; set; }
-        public SliderModel From { get; set; }
-        public SliderModel To { get; set; }
-        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
+        public BooleanValueModel XAxis { get; set; }
+        public BooleanValueModel YAxis { get; set; }
+        public BooleanValueModel ZAxis { get; set; }
+        public GenericValueModel<TransformType> TransformType { get; set; }
+        public FloatValueModel From { get; set; }
+        public FloatValueModel To { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; internal set; }
         public EasingModel Easing { get; internal set; }
         public TextureFilterName Name { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }

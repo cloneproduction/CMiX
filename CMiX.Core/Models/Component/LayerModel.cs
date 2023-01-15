@@ -15,16 +15,16 @@ namespace CMiX.Core.Models.Component
             ID = Guid.NewGuid();
             Name = "Layer";
 
-            Visibility = new ToggleButtonModel();
-            IsMask = new ToggleButtonModel();
-            Opacity = new SliderModel(1.0f);
+            Visibility = new BooleanValueModel();
+            IsMask = new BooleanValueModel();
+            Opacity = new FloatValueModel(1.0f);
 
             BackgroundColor = new ColorSelectorModel("#ffff00ff");
             AmbientOcclusion = new AmbientOcclusionModel();
 
-            BlendModeModel = new ComboBoxModel<BlendModeEnum>(BlendModeEnum.Normal);
-            MaskChannelModel = new ComboBoxModel<MaskChannel>(MaskChannel.Alpha);
-            MaskModeModel = new ComboBoxModel<MaskMode>(MaskMode.AllBelow);
+            BlendModeModel = new GenericValueModel<BlendModeEnum>(BlendModeEnum.Normal);
+            MaskChannelModel = new GenericValueModel<MaskChannel>(MaskChannel.Alpha);
+            MaskModeModel = new GenericValueModel<MaskMode>(MaskMode.AllBelow);
 
             TextureModifierManager = new ModifierManagerModel();
 
@@ -42,20 +42,20 @@ namespace CMiX.Core.Models.Component
         public string Name { get; set; }
         public bool Enabled { get; set; }
 
-        public SliderModel Opacity { get; set; }
-        public ToggleButtonModel Visibility { get; set; }
+        public FloatValueModel Opacity { get; set; }
+        public BooleanValueModel Visibility { get; set; }
 
         public ModifierManagerModel TextureModifierManager { get; set; }
         public ColorSelectorModel BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
 
-        public ComboBoxModel<BlendModeEnum> BlendModeModel { get; internal set; }
-        public ComboBoxModel<MaskMode> MaskModeModel { get; internal set; }
-        public ComboBoxModel<MaskChannel> MaskChannelModel { get; internal set; }
+        public GenericValueModel<BlendModeEnum> BlendModeModel { get; internal set; }
+        public GenericValueModel<MaskMode> MaskModeModel { get; internal set; }
+        public GenericValueModel<MaskChannel> MaskChannelModel { get; internal set; }
 
         public PrefabManagerModel ModelEntityManager { get; internal set; }
         public PrefabManagerModel CameraEntityManager { get; internal set; }
         public PrefabManagerModel LightEntityManager { get; internal set; }
-        public ToggleButtonModel IsMask { get; internal set; }
+        public BooleanValueModel IsMask { get; internal set; }
     }
 }

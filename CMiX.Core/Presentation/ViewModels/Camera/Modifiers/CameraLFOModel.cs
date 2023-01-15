@@ -13,31 +13,31 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
             Enabled = true;
-            Visible = new ToggleButtonModel(true);
-            Yaw = new ToggleButtonModel(false);
-            Pitch = new ToggleButtonModel(false);
-            Zoom = new ToggleButtonModel(false);
-            PingPong = new ToggleButtonModel(false);
+            Visible = new BooleanValueModel(true);
+            Yaw = new BooleanValueModel(false);
+            Pitch = new BooleanValueModel(false);
+            Zoom = new BooleanValueModel(false);
+            PingPong = new BooleanValueModel(false);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
-            From = new SliderModel(0.0f);
-            To = new SliderModel(1.0f);
-            Axis = new ComboBoxModel<CameraAxis>(CameraAxis.Zoom);
+            From = new FloatValueModel(0.0f);
+            To = new FloatValueModel(1.0f);
+            Axis = new GenericValueModel<CameraAxis>(CameraAxis.Zoom);
         }
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButtonModel Visible { get; set; }
-        public ToggleButtonModel Yaw { get; set; }
-        public ToggleButtonModel Pitch { get; set; }
-        public ToggleButtonModel Zoom { get; set; }
+        public BooleanValueModel Visible { get; set; }
+        public BooleanValueModel Yaw { get; set; }
+        public BooleanValueModel Pitch { get; set; }
+        public BooleanValueModel Zoom { get; set; }
 
-        public ToggleButtonModel PingPong { get; set; }
+        public BooleanValueModel PingPong { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }
-        public SliderModel From { get; set; }
-        public SliderModel To { get; set; }
-        public ComboBoxModel<CameraAxis> Axis { get; set; }
+        public FloatValueModel From { get; set; }
+        public FloatValueModel To { get; set; }
+        public GenericValueModel<CameraAxis> Axis { get; set; }
 
     }
 }

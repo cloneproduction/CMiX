@@ -12,12 +12,12 @@ namespace CMiX.Core.Presentation.ViewModels.Modifiers
         {
             this.ID = Guid.NewGuid();
             Enabled = true;
-            Visibility = new ToggleButtonModel(true);
+            Visibility = new BooleanValueModel(true);
         }
 
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public ToggleButtonModel Visibility { get; internal set; }
+        public BooleanValueModel Visibility { get; internal set; }
     }
 }

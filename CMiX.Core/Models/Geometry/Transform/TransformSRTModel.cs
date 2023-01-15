@@ -16,10 +16,10 @@ namespace CMiX.Core.Models
             Translate = new TranslateModel();
             Scale = new ScaleModel();
             Rotation = new RotationModel();
-            Visible = new ToggleButtonModel(true);
-            Uniform = new SliderModel(1.0f);
+            Visible = new BooleanValueModel(true);
+            Uniform = new FloatValueModel(1.0f);
 
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
 
             TransformModifier = new ModifierManagerModel();
         }
@@ -27,13 +27,13 @@ namespace CMiX.Core.Models
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public SliderModel Uniform { get; set; }
+        public FloatValueModel Uniform { get; set; }
         public TranslateModel Translate { get; set; }
         public ScaleModel Scale { get; set; }
         public RotationModel Rotation { get; set; }
 
-        public ToggleButtonModel Visible { get; set; }
-        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
+        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; internal set; }
         public ModifierManagerModel TransformModifier { get; internal set; }
     }
 }

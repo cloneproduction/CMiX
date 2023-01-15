@@ -15,14 +15,14 @@ namespace CMiX.Core.Models
             Enabled = true;
 
             LightColor = new ColorSelectorModel();
-            Position = new VectorXYZModel(nameof(Position), 0.0f, 2.0f, 0.0f);
-            Target = new VectorXYZModel(nameof(Target), 0.001f, 0.0f, 0.0f);
-            Radius = new SliderModel(5.0f);
-            Angle = new SliderModel(0.25f);
-            Softness = new SliderModel(0.01f);
-            Intensity = new SliderModel(1.0f);
-            LightTypeSelector = new ComboBoxModel<LightType>(LightType.AmbientLight);
-            Visibility = new ToggleButtonModel();
+            Position = new Vector3Model(nameof(Position), 0.0f, 2.0f, 0.0f);
+            Target = new Vector3Model(nameof(Target), 0.001f, 0.0f, 0.0f);
+            Radius = new FloatValueModel(5.0f);
+            Angle = new FloatValueModel(0.25f);
+            Softness = new FloatValueModel(0.01f);
+            Intensity = new FloatValueModel(1.0f);
+            LightTypeSelector = new GenericValueModel<LightType>(LightType.AmbientLight);
+            Visibility = new BooleanValueModel();
         }
 
         public bool Enabled { get; set; }
@@ -30,13 +30,13 @@ namespace CMiX.Core.Models
         public string Name { get; set; }
 
         public ColorSelectorModel LightColor { get; set; }
-        public VectorXYZModel Position { get; set; }
-        public VectorXYZModel Target { get; set; }
-        public SliderModel Radius { get; set; }
-        public SliderModel Angle { get; set; }
-        public SliderModel Softness { get; set; }
-        public SliderModel Intensity { get; set; }
-        public ComboBoxModel<LightType> LightTypeSelector { get; internal set; }
-        public ToggleButtonModel Visibility { get; internal set; }
+        public Vector3Model Position { get; set; }
+        public Vector3Model Target { get; set; }
+        public FloatValueModel Radius { get; set; }
+        public FloatValueModel Angle { get; set; }
+        public FloatValueModel Softness { get; set; }
+        public FloatValueModel Intensity { get; set; }
+        public GenericValueModel<LightType> LightTypeSelector { get; internal set; }
+        public BooleanValueModel Visibility { get; internal set; }
     }
 }

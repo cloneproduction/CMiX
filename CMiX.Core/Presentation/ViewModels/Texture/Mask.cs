@@ -17,18 +17,18 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = textureModel.ID;
 
-            IsEnabled = new ToggleButton(textureModel.IsEnabled);
+            IsEnabled = new BooleanValue(textureModel.IsEnabled);
             TextureModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
             TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService));
             SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
-            Invert = new ToggleButton(textureModel.Invert);
+            Invert = new BooleanValue(textureModel.Invert);
 
             ImageSelector = new ImageSelector(new AssetImage(), textureModel.TextureSelectorModel);
             VideoSelector = new VideoSelector(new AssetVideo(), textureModel.VideoSelectorModel);
 
             VideoIn = new VideoIn(textureModel.VideoIn);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
-            SelectedAssetType = new ComboBox<int>(textureModel.SelectedAssetType);
+            SelectedAssetType = new GenericValue<int>(textureModel.SelectedAssetType);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
             ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);
         }
@@ -38,8 +38,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public ModifierManager TextureModifierManager { get; set; }
         public ModifierManager TextureTransformModifierManager { get; set; }
 
-        public ToggleButton IsEnabled { get; set; }
-        public ToggleButton Invert { get; set; }
+        public BooleanValue IsEnabled { get; set; }
+        public BooleanValue Invert { get; set; }
 
         public SamplerState SamplerState { get; set; }
 
@@ -52,7 +52,7 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public ComboBox<int> SelectedAssetType { get; set; }
+        public GenericValue<int> SelectedAssetType { get; set; }
 
 
         public TypeWriter TypeWriter { get; set; }
@@ -70,15 +70,15 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.ID = this.ID;
 
-            model.IsEnabled = (ToggleButtonModel)this.IsEnabled.GetModel();
-            model.Invert = (ToggleButtonModel)this.Invert.GetModel();
+            model.IsEnabled = (BooleanValueModel)this.IsEnabled.GetModel();
+            model.Invert = (BooleanValueModel)this.Invert.GetModel();
 
             model.ModifierManagerModel = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.TextureTransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
             model.TextureSelectorModel = (ImageSelectorModel)this.ImageSelector.GetModel();
             model.VideoSelectorModel = (VideoSelectorModel)this.VideoSelector.GetModel();
             model.VideoPlayerModel = (VideoPlayerModel)this.VideoPlayer.GetModel();
-            model.SelectedAssetType = (ComboBoxModel<int>)this.SelectedAssetType.GetModel();
+            model.SelectedAssetType = (GenericValueModel<int>)this.SelectedAssetType.GetModel();
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
             model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();

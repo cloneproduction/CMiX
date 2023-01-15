@@ -12,7 +12,7 @@ namespace CMiX.Core.Models
         public GeometryModel()
         {
             this.ID = Guid.NewGuid();
-            GeometryFXModel = new GeometryFXModel();
+
 
             ModifierManagerModel = new ModifierManagerModel();
             AssetPathSelectorModel = new GeometrySelectorModel();
@@ -23,7 +23,7 @@ namespace CMiX.Core.Models
         public Guid ID { get; set; }
 
         public ModifierManagerModel ModifierManagerModel { get; set; }
-        public GeometryFXModel GeometryFXModel { get; set; }
+
         public GeometrySelectorModel AssetPathSelectorModel { get; set; }
         public VisibilityModel VisibilityModel { get; internal set; }
     }

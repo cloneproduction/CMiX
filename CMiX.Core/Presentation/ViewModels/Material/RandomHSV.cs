@@ -14,31 +14,31 @@ namespace CMiX.Core.Presentation.ViewModels
         public RandomHSV(RandomHSVModel randomHSVModel, CompositionService compositionService)
         {
             ID = randomHSVModel.ID;
-            Visible = new ToggleButton(randomHSVModel.Visible);
+            Visible = new BooleanValue(randomHSVModel.Visible);
 
-            Hue = new Slider(nameof(Hue), randomHSVModel.Hue);
-            Saturation = new Slider(nameof(Saturation), randomHSVModel.Saturation);
-            Value = new Slider(nameof(Value), randomHSVModel.Value);
-            Alpha = new Slider(nameof(Alpha), randomHSVModel.Alpha);
+            Hue = new FloatValue(randomHSVModel.Hue);
+            Saturation = new FloatValue(randomHSVModel.Saturation);
+            Value = new FloatValue(randomHSVModel.Value);
+            Alpha = new FloatValue(randomHSVModel.Alpha);
 
             BeatModifier = new BeatModifier(randomHSVModel.BeatModifier, compositionService);
             Easing = new Easing(randomHSVModel.Easing);
 
-            Mode = new ComboBox<ModifierMode>(randomHSVModel.Mode);
+            Mode = new GenericValue<ModifierMode>(randomHSVModel.Mode);
         }
 
 
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
-        public Slider Hue { get; set; }
-        public Slider Saturation { get; set; }
-        public Slider Value { get; set; }
-        public Slider Alpha { get; set; }
+        public FloatValue Hue { get; set; }
+        public FloatValue Saturation { get; set; }
+        public FloatValue Value { get; set; }
+        public FloatValue Alpha { get; set; }
 
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        public GenericValue<ModifierMode> Mode { get; set; }
 
 
         private bool _isExpanded;
@@ -61,14 +61,14 @@ namespace CMiX.Core.Presentation.ViewModels
 
             randomHSVModel.Enabled = Enabled;
             randomHSVModel.ID = ID;
-            randomHSVModel.Hue = (SliderModel)Hue.GetModel();
-            randomHSVModel.Saturation = (SliderModel)Saturation.GetModel();
-            randomHSVModel.Value = (SliderModel)Value.GetModel();
-            randomHSVModel.Alpha = (SliderModel)Alpha.GetModel();
+            randomHSVModel.Hue = (FloatValueModel)Hue.GetModel();
+            randomHSVModel.Saturation = (FloatValueModel)Saturation.GetModel();
+            randomHSVModel.Value = (FloatValueModel)Value.GetModel();
+            randomHSVModel.Alpha = (FloatValueModel)Alpha.GetModel();
 
             randomHSVModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
             randomHSVModel.Easing = (EasingModel)Easing.GetModel();
-            randomHSVModel.Mode = (ComboBoxModel<ModifierMode>)Mode.GetModel();
+            randomHSVModel.Mode = (GenericValueModel<ModifierMode>)Mode.GetModel();
 
             return randomHSVModel;
         }

@@ -15,19 +15,19 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = rotationModel.ID;
             this.Enabled = rotationModel.Enabled;
-            XYZ = new VectorXYZ(rotationModel.XYZ);
-            Visible = new ToggleButton(rotationModel.Visible);
-            Mode = new ComboBox<ModifierMode>(rotationModel.Mode);
+            XYZ = new Vector3(rotationModel.XYZ);
+            Visible = new BooleanValue(rotationModel.Visible);
+            Mode = new GenericValue<ModifierMode>(rotationModel.Mode);
             IsExpanded = true;
         }
 
 
         public Guid ID { get; set; }
-        public VectorXYZ XYZ { get; set; }
+        public Vector3 XYZ { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
-        public ComboBox<ModifierMode> Mode  { get; set; }
+        public GenericValue<ModifierMode> Mode  { get; set; }
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -43,9 +43,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.ID = this.ID;
             model.Enabled = this.Enabled;
-            model.XYZ = (VectorXYZModel)this.XYZ.GetModel();
-            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
-            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+            model.XYZ = (Vector3Model)this.XYZ.GetModel();
+            model.Visible = (BooleanValueModel)this.Visible.GetModel();
+            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
 
             return model;
         }

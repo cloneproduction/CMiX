@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
@@ -11,20 +12,17 @@ namespace CMiX.Core.Models
         public PixelateModel()
         {
             ID = Guid.NewGuid();
-            Visible = new ToggleButtonModel(true);
-            Control = new SliderModel(1.0f);
-            FactorX = new SliderModel(0.5f);
-            FactorY = new SliderModel(0.5f);
-
+            Visible = new BooleanValueModel(true);
+            Control = new FloatValueModel(1.0f);
+            Factor = new Vector2Model(0.5f, 0.5f);
             Name = TextureFilterName.Pixelate;
         }
 
-        public ToggleButtonModel Visible { get; set ; }
+        public BooleanValueModel Visible { get; set ; }
         public bool Enabled { get; set ; }
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
-        public SliderModel Control { get; set; }
-        public SliderModel FactorX { get; set; }
-        public SliderModel FactorY { get; set; }
+        public FloatValueModel Control { get; set; }
+        public Vector2Model Factor { get; set; }
     }
 }

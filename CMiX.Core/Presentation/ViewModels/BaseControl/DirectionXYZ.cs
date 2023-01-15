@@ -31,7 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _directionX, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                SendMessage();
             }
         }
 
@@ -42,7 +42,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _directionY, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                SendMessage();
             }
         }
 
@@ -53,8 +53,13 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _directionZ, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                SendMessage();
             }
+        }
+
+        public void SendMessage()
+        {
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
         }
 
         public IModel GetModel()

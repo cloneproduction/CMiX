@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
@@ -14,26 +15,21 @@ namespace CMiX.Core.Models
             Enabled = true;
             Name = TextureFilterName.TransformTexture;
 
-            Visible = new ToggleButtonModel(true);
+            Visible = new BooleanValueModel(true);
             SamplerStateModel = new SamplerStateModel();
-            TranslateXModel = new SliderModel();
-            TranslateYModel = new SliderModel();
-            ScaleXModel = new SliderModel(1.0f);
-            ScaleYModel = new SliderModel(1.0f);
-            RotateModel = new SliderModel();
-            Control = new SliderModel();
+            Translate = new Vector2Model();
+            Rotate = new FloatValueModel();
+            Control = new FloatValueModel();
         }
 
         public TextureFilterName Name { get; set; }
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public ToggleButtonModel Visible { get; set; }
+        public BooleanValueModel Visible { get; set; }
         public SamplerStateModel SamplerStateModel { get; set; }
-        public SliderModel TranslateXModel { get; set; }
-        public SliderModel TranslateYModel { get; set; }
-        public SliderModel ScaleXModel { get; set; }
-        public SliderModel ScaleYModel { get; set; }
-        public SliderModel RotateModel { get; set; }
-        public SliderModel Control { get; set; }
+        public Vector2Model Translate { get; set; }
+        public Vector2Model Scale { get; set; }
+        public FloatValueModel Rotate { get; set; }
+        public FloatValueModel Control { get; set; }
     }
 }

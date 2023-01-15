@@ -25,7 +25,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Modifiers = new ObservableCollection<IModifier>();
             Factory = modifierFactory;
-            Visibility = new ToggleButton(modifierManagerModel.Visibility);
+            Visibility = new BooleanValue(modifierManagerModel.Visibility);
 
             CreateCommand = new RelayCommand<Type>(Create);
             RemoveCommand = new RelayCommand<IModifier>(Remove);
@@ -39,7 +39,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand RemoveCommand { get; set; }
         public ICommand DragHandlerDownCommand { get; set; }
         public ICommand DragHandlerUpCommand { get; set; }
-        public ToggleButton Visibility { get; set; }
+        public BooleanValue Visibility { get; set; }
 
 
         private bool _dragHandlerIsPressed;
@@ -103,7 +103,7 @@ namespace CMiX.Core.Presentation.ViewModels
             ModifierManagerModel modifierManagerModel = new ModifierManagerModel();
 
             modifierManagerModel.ID = this.ID;
-            modifierManagerModel.Visibility = (ToggleButtonModel)Visibility.GetModel();
+            modifierManagerModel.Visibility = (BooleanValueModel)Visibility.GetModel();
 
             return modifierManagerModel;
         }

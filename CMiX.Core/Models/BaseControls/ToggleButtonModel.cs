@@ -5,21 +5,21 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class ToggleButtonModel : IModel
+    public class BooleanValueModel : IModel
     {
-        public ToggleButtonModel()
+        public BooleanValueModel()
         {
             this.ID = Guid.NewGuid();
-            IsChecked = false;
+            Value = false;
         }
 
-        public ToggleButtonModel(bool isChecked) : this()
+        public BooleanValueModel(bool isChecked) : this()
         {
-            IsChecked = isChecked;
+            Value = isChecked;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public bool IsChecked { get; set; }
+        public bool Value { get; set; }
     }
 }

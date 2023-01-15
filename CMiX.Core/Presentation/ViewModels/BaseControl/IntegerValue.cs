@@ -12,12 +12,12 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Counter : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
+    public class IntegerValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public Counter(CounterModel counterModel)
+        public IntegerValue(IntegerValueModel counterModel)
         {
             ID = counterModel.ID;
-            Count = counterModel.Count;
+            Value = counterModel.Value;
 
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
@@ -29,47 +29,47 @@ namespace CMiX.Core.Presentation.ViewModels
         public event EventHandler<CounterEventArgs> CounterChangeEvent;
         public void OnCountChange()
         {
-            CounterChangeEvent?.Invoke(this, new CounterEventArgs(this.Count));
+            CounterChangeEvent?.Invoke(this, new CounterEventArgs(this.Value));
         }
 
 
         public ICommand AddCommand { get; }
         public ICommand SubCommand { get; }
 
-        private int _count;
-        public int Count
+        private int _value;
+        public int Value
         {
-            get => _count;
+            get => _value;
             set
             {
-                SetProperty(ref _count, value);
+                SetProperty(ref _value, value);
                 OnCountChange();
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
             }
         }
 
         public Guid ID { get; set; }
 
-        private void Add() => Count += 1;
+        private void Add() => Value += 1;
 
         private void Sub()
         {
-            if (Count > 1)
-                Count -= 1;
+            if (Value > 1)
+                Value -= 1;
         }
 
         public void SetViewModel(IModel model)
         {
-            CounterModel counterModel = model as CounterModel;
+            IntegerValueModel counterModel = model as IntegerValueModel;
             this.ID = counterModel.ID;
-            this.Count = counterModel.Count;
+            this.Value = counterModel.Value;
         }
 
         public IModel GetModel()
         {
-            CounterModel model = new CounterModel();
+            IntegerValueModel model = new IntegerValueModel();
             model.ID = this.ID;
-            model.Count = this.Count;
+            model.Value = this.Value;
             return model;
         }
 

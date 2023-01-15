@@ -5,6 +5,6 @@ namespace CMiX.Core.Models
 {
     public interface IModifierModel : IModel
     {
-        ToggleButtonModel Visible { get; set; }
+        BooleanValueModel Visible { get; set; }
     }
 }

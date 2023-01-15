@@ -10,43 +10,43 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ToggleButton : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
+    public class BooleanValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public ToggleButton(ToggleButtonModel toggleButtonModel)
+        public BooleanValue(BooleanValueModel booleanValue)
         {
-            this.ID = toggleButtonModel.ID;
-            IsChecked = toggleButtonModel.IsChecked;
+            this.ID = booleanValue.ID;
+            Value = booleanValue.Value;
 
             IsActive = true;
         }
 
         public Guid ID { get; set; }
 
-        private bool _isChecked;
-        public bool IsChecked
+        private bool _value;
+        public bool Value
         {
-            get => _isChecked;
+            get => _value;
             set
             {
-                SetProperty(ref _isChecked, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+                SetProperty(ref _value, value);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
             }
         }
 
 
         public IModel GetModel()
         {
-            ToggleButtonModel model = new ToggleButtonModel();
+            BooleanValueModel model = new BooleanValueModel();
             model.ID = this.ID;
-            model.IsChecked = this.IsChecked;
+            model.Value = this.Value;
             return model;
         }
 
         public void SetViewModel(IModel model)
         {
-            ToggleButtonModel comboBoxModel = model as ToggleButtonModel;
-            this.ID = comboBoxModel.ID;
-            this.IsChecked = comboBoxModel.IsChecked;
+            BooleanValueModel booleanValueModel = model as BooleanValueModel;
+            this.ID = booleanValueModel.ID;
+            this.Value = booleanValueModel.Value;
         }
 
         public void Receive(MessageRequestControl message)

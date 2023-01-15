@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
@@ -12,44 +13,40 @@ namespace CMiX.Core.Models
         {
             this.ID = Guid.NewGuid();
             Name = TransformModifierNames.RandomXY;
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
 
-            Visible = new ToggleButtonModel(true);
+            Visible = new BooleanValueModel(true);
 
             BeatModifierModel = new BeatModifierModel();
-            CounterModel = new CounterModel(1);
+            CounterModel = new IntegerValueModel(1);
             EasingModel = new EasingModel();
 
-            ScaleX = new SliderModel();
-            ScaleY = new SliderModel();
-            ScaleZ = new SliderModel();
-            UniformXYZ = new SliderModel();
+            Scale = new Vector3Model();
+            UniformXYZ = new FloatValueModel();
 
-            Spread = new ToggleButtonModel();
+            Spread = new BooleanValueModel();
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
 
-        public ComboBoxModel<ModifierMode> Mode { get; set; }
-        public ToggleButtonModel Visible { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; set; }
+        public BooleanValueModel Visible { get; set; }
 
         public EasingModel EasingModel { get; set; }
-        public CounterModel CounterModel { get; set; }
+        public IntegerValueModel CounterModel { get; set; }
 
 
-        public ToggleButtonModel RandomizeScale { get; set; }
-        public SliderModel ScaleX { get; set; }
-        public SliderModel ScaleY { get; set; }
-        public SliderModel ScaleZ { get; set; }
+        public BooleanValueModel RandomizeScale { get; set; }
+        public Vector3Model Scale { get; set; }
+
 
 
         public BeatModifierModel BeatModifierModel { get; set; }
         public TransformModifierNames Name { get; set; }
 
-        public int Count { get; set; }
-        public ToggleButtonModel Spread { get; internal set; }
-        public SliderModel UniformXYZ { get; internal set; }
+        public BooleanValueModel Spread { get; internal set; }
+        public FloatValueModel UniformXYZ { get; internal set; }
     }
 }

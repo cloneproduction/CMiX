@@ -3,6 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,67 +18,56 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = randomXYZModel.ID;
             this.Name = randomXYZModel.Name;
 
-            Counter = new Counter(randomXYZModel.CounterModel);
-            Visible = new ToggleButton(randomXYZModel.Visible);
+            Counter = new IntegerValue(randomXYZModel.CounterModel);
+            Visible = new BooleanValue(randomXYZModel.Visible);
 
             Easing = new Easing(randomXYZModel.EasingModel);
             BeatModifier = new BeatModifier(randomXYZModel.BeatModifierModel, compositionService);
 
-            Mode = new ComboBox<ModifierMode>(randomXYZModel.Mode);
+            Mode = new GenericValue<ModifierMode>(randomXYZModel.Mode);
 
-            RandomizeLocation = new ToggleButton(randomXYZModel.RandomizeLocation);
-            RandomizeLocation.IsChecked = true;
-            LocationX = new Slider(nameof(LocationX), randomXYZModel.LocationX);
-            LocationY = new Slider(nameof(LocationY), randomXYZModel.LocationY);
-            LocationZ = new Slider(nameof(LocationZ), randomXYZModel.LocationZ);
+            RandomizeLocation = new BooleanValue(randomXYZModel.RandomizeLocation);
+            RandomizeLocation.Value = true;
+            Location = new Vector3(randomXYZModel.Location);
 
-            RandomizeScale = new ToggleButton(randomXYZModel.RandomizeScale);
-            RandomizeScale.IsChecked = true;
-            ScaleX = new Slider(nameof(ScaleX), randomXYZModel.ScaleX);
-            ScaleY = new Slider(nameof(ScaleY), randomXYZModel.ScaleY);
-            ScaleZ = new Slider(nameof(ScaleZ), randomXYZModel.ScaleZ);
+            RandomizeScale = new BooleanValue(randomXYZModel.RandomizeScale);
+            RandomizeScale.Value = true;
+            Scale = new Vector3(randomXYZModel.Scale);
 
-            RandomizeRotation = new ToggleButton(randomXYZModel.RandomizeScale);
-            RandomizeRotation.IsChecked = true;
-            RotationX = new Slider(nameof(RotationX), randomXYZModel.RotationX);
-            RotationY = new Slider(nameof(RotationY), randomXYZModel.RotationY);
-            RotationZ = new Slider(nameof(RotationZ), randomXYZModel.RotationZ);
+            RandomizeRotation = new BooleanValue(randomXYZModel.RandomizeScale);
+            RandomizeRotation.Value = true;
+            Rotation = new Vector3(randomXYZModel.Rotation);
 
-            Spread = new ToggleButton(randomXYZModel.Spread);
+            Spread = new BooleanValue(randomXYZModel.Spread);
 
             IsExpanded = true;
         }
 
 
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
 
         public Guid ID { get; set; }
         public TransformModifierNames Name { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        public GenericValue<ModifierMode> Mode { get; set; }
 
 
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public Counter Counter { get; set; }
-        public ToggleButton Spread { get; set; }
+        public IntegerValue Counter { get; set; }
+        public BooleanValue Spread { get; set; }
 
 
-        public ToggleButton RandomizeLocation { get; set; }
-        public Slider LocationX { get; set; }
-        public Slider LocationY { get; set; }
-        public Slider LocationZ { get; set; }
+        public BooleanValue RandomizeLocation { get; set; }
+        public Vector3 Location{ get; set; }
 
-        public ToggleButton RandomizeScale { get; set; }
-        public Slider ScaleX { get; set; }
-        public Slider ScaleY { get; set; }
-        public Slider ScaleZ { get; set; }
+        public BooleanValue RandomizeScale { get; set; }
+        public Vector3 Scale { get; set; }
 
-        public ToggleButton RandomizeRotation { get; set; }
-        public Slider RotationX { get; set; }
-        public Slider RotationY { get; set; }
-        public Slider RotationZ { get; set; }
+        public BooleanValue RandomizeRotation { get; set; }
+        public Vector3 Rotation { get; set; }
+
 
 
         private bool _isExpanded;
@@ -136,19 +127,13 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Counter.SetViewModel(randomXYZModel.CounterModel);
             this.Easing.SetViewModel(randomXYZModel.EasingModel);
 
-            this.LocationX.SetViewModel(randomXYZModel.LocationX);
-            this.LocationY.SetViewModel(randomXYZModel.LocationY);
-            this.LocationZ.SetViewModel(randomXYZModel.LocationZ);
+            this.Location.SetViewModel(randomXYZModel.Location);
             this.RandomizeLocation.SetViewModel(randomXYZModel.RandomizeLocation);
 
-            this.ScaleX.SetViewModel(randomXYZModel.LocationX);
-            this.ScaleY.SetViewModel(randomXYZModel.LocationY);
-            this.ScaleZ.SetViewModel(randomXYZModel.LocationZ);
+            this.Scale.SetViewModel(randomXYZModel.Scale);
             this.RandomizeScale.SetViewModel(randomXYZModel.RandomizeLocation);
 
-            this.RotationX.SetViewModel(randomXYZModel.LocationX);
-            this.RotationY.SetViewModel(randomXYZModel.LocationY);
-            this.RotationZ.SetViewModel(randomXYZModel.LocationZ);
+            this.Rotation.SetViewModel(randomXYZModel.Rotation);
             this.RandomizeRotation.SetViewModel(randomXYZModel.RandomizeLocation);
         }
 
@@ -158,29 +143,23 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.Name = this.Name;
 
-            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
 
-            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
-            model.Spread = (ToggleButtonModel)this.Spread.GetModel();
+            model.Visible = (BooleanValueModel)this.Visible.GetModel();
+            model.Spread = (BooleanValueModel)this.Spread.GetModel();
 
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
-            model.CounterModel = (CounterModel)this.Counter.GetModel();
+            model.CounterModel = (IntegerValueModel)this.Counter.GetModel();
             model.EasingModel = (EasingModel)this.Easing.GetModel();
 
-            model.LocationX = (SliderModel)this.LocationX.GetModel();
-            model.LocationY = (SliderModel)this.LocationY.GetModel();
-            model.LocationZ = (SliderModel)this.LocationZ.GetModel();
-            model.RandomizeLocation = (ToggleButtonModel)this.RandomizeLocation.GetModel();
+            model.Location = (Vector3Model)this.Location.GetModel();
+            model.RandomizeLocation = (BooleanValueModel)this.RandomizeLocation.GetModel();
 
-            model.ScaleX = (SliderModel)this.ScaleX.GetModel();
-            model.ScaleY = (SliderModel)this.ScaleY.GetModel();
-            model.ScaleZ = (SliderModel)this.ScaleZ.GetModel();
-            model.RandomizeScale = (ToggleButtonModel)this.RandomizeLocation.GetModel();
+            model.Scale = (Vector3Model)this.Scale.GetModel();
+            model.RandomizeScale = (BooleanValueModel)this.RandomizeLocation.GetModel();
 
-            model.RotationX = (SliderModel)this.RotationX.GetModel();
-            model.RotationY = (SliderModel)this.RotationY.GetModel();
-            model.RotationZ = (SliderModel)this.RotationZ.GetModel();
-            model.RandomizeRotation = (ToggleButtonModel)this.RandomizeLocation.GetModel();
+            model.Rotation = (Vector3Model)this.Rotation.GetModel();
+            model.RandomizeRotation = (BooleanValueModel)this.RandomizeLocation.GetModel();
             return model;
         }
     }

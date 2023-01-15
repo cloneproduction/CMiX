@@ -17,11 +17,10 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = bubbleNoiseModel.ID;
             CompositionService = compositionService;
 
-            ResolutionX = new Counter(bubbleNoiseModel.ResolutionX);
-            ResolutionY = new Counter(bubbleNoiseModel.ResolutionY);
-            Speed = new Slider(nameof(Speed), bubbleNoiseModel.Speed);
-            Frequency = new Slider(nameof(Frequency), bubbleNoiseModel.Frequency);
-            Contrast = new Slider(nameof(Contrast), bubbleNoiseModel.Contrast);
+            Resolution = new Integer2(bubbleNoiseModel.Resolution);
+            Speed = new FloatValue(bubbleNoiseModel.Speed);
+            Frequency = new FloatValue(bubbleNoiseModel.Frequency);
+            Contrast = new FloatValue(bubbleNoiseModel.Contrast);
             BackgroundColor = new ColorSelector(bubbleNoiseModel.BackgroundColor);
             BubbleColor = new ColorSelector(bubbleNoiseModel.BubbleColor);
 
@@ -34,11 +33,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public CompositionService CompositionService { get; set; }
-        public Counter ResolutionX { get; set; }
-        public Counter ResolutionY { get; set; }
-        public Slider Speed { get; set; }
-        public Slider Frequency { get; set; }
-        public Slider Contrast { get; set; }
+        public Integer2 Resolution { get; set; }
+        public FloatValue Speed { get; set; }
+        public FloatValue Frequency { get; set; }
+        public FloatValue Contrast { get; set; }
 
 
         public ColorSelector BackgroundColor { get; set; }
@@ -55,11 +53,10 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             BubbleNoiseModel gradientModel = new BubbleNoiseModel();
 
-            gradientModel.ResolutionX = (CounterModel)ResolutionX.GetModel();
-            gradientModel.ResolutionY = (CounterModel)ResolutionY.GetModel();
-            gradientModel.Speed = (SliderModel)Speed.GetModel();
-            gradientModel.Frequency = (SliderModel)Frequency.GetModel();
-            gradientModel.Contrast = (SliderModel)Contrast.GetModel();
+            gradientModel.Resolution = (Integer2Model)Resolution.GetModel();
+            gradientModel.Speed = (FloatValueModel)Speed.GetModel();
+            gradientModel.Frequency = (FloatValueModel)Frequency.GetModel();
+            gradientModel.Contrast = (FloatValueModel)Contrast.GetModel();
             gradientModel.BackgroundColor = (ColorSelectorModel)BackgroundColor.GetModel();
             gradientModel.BubbleColor = (ColorSelectorModel)BubbleColor.GetModel();
 
@@ -69,8 +66,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public void SetViewModel(IModel model)
         {
             BubbleNoiseModel gradientModel = model as BubbleNoiseModel;
-            ResolutionX.SetViewModel(gradientModel.ResolutionX);
-            ResolutionY.SetViewModel(gradientModel.ResolutionY);
+            Resolution.SetViewModel(gradientModel.Resolution);
             BackgroundColor.SetViewModel(gradientModel.BackgroundColor);
             BubbleColor.SetViewModel(gradientModel.BubbleColor);
             Speed.SetViewModel(gradientModel.Speed);

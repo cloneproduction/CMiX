@@ -5,21 +5,21 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class ComboBoxModel<T> : IModel
+    public class GenericValueModel<T> : IModel
     {
-        public ComboBoxModel()
+        public GenericValueModel()
         {
 
         }
 
-        public ComboBoxModel(T selected)
+        public GenericValueModel(T selected)
         {
             this.ID = Guid.NewGuid();
-            Selection = selected;
+            Value = selected;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public T Selection { get; set; }
+        public T Value { get; set; }
     }
 }

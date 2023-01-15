@@ -26,8 +26,7 @@
 
         <BaseControls:ColorSelector 
             Margin="0, 8"
-            Caption="Background" 
-            Command="{Binding OpenColorSelectorCommand}"/>
+            Caption="Background"  />
 
         <BaseControls:ToggleButton 
             IsChecked="{Binding Invert.IsChecked}"

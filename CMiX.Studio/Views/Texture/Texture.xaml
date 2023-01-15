@@ -20,133 +20,131 @@
             SelectedItem="{Binding ProceduralSelector.ProceduralName.Selection, Converter={StaticResource EnumToString}}"
             ItemsSource="{Binding Source={StaticResource TextureSourceName}}"/>
 
-        <Panels:IndentedExpander Header="Settings" Indentation="24">
-            <Grid Margin="8">
+        <Grid Margin="8">
 
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Image}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Image}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="0.5*"/>
+                        <ColumnDefinition/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="File" Margin="4, 0, 0, 0"/>
+                    <Views:TexturePathSelector 
+                            Grid.Column="1"
+                            Height="22"
+                            DataContext="{Binding ImageSelector}"/>
+                </Grid>
+
+            </Border>
+
+
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Video}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+
+                <StackPanel>
                     <Grid>
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="0.5*"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <TextBlock Text="File" Margin="4, 0, 0, 0"/>
-                        <Views:TexturePathSelector 
-                            Grid.Column="1"
-                            Height="22"
-                            DataContext="{Binding ImageSelector}"/>
-                    </Grid>
-
-                </Border>
-
-
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Video}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-
-                    <StackPanel>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="0.5*"/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="File" Margin="4, 0, 0, 0"/>
-                            <Views:VideoPathSelector 
+                        <Views:VideoPathSelector 
                             Grid.Column="1"
                             Height="22"
                             DataContext="{Binding VideoSelector}"/>
-                        </Grid>
-                        <Views:VideoPlayer Margin="0, 8, 0, 0" DataContext="{Binding VideoPlayer}"/>
-                    </StackPanel>
+                    </Grid>
+                    <Views:VideoPlayer Margin="0, 8, 0, 0" DataContext="{Binding VideoPlayer}"/>
+                </StackPanel>
 
 
-                </Border>
+            </Border>
 
 
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Text}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Text}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
-                    <Views:TypeWriter DataContext="{Binding TypeWriter}"/>
+                <Views:TypeWriter DataContext="{Binding TypeWriter}"/>
 
-                </Border>
+            </Border>
 
 
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Input}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Input}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
-                    <Views:VideoIn DataContext="{Binding VideoIn}"/>
+                <Views:VideoIn DataContext="{Binding VideoIn}"/>
 
-                </Border>
+            </Border>
 
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Gradient}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.Gradient}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
-                    <Views:Gradient DataContext="{Binding ProceduralSelector.Gradient}"/>
+                <Views:Gradient DataContext="{Binding ProceduralSelector.Gradient}"/>
 
-                </Border>
+            </Border>
 
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="Border">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.BubbleNoise}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Selection}" Value="{x:Static ViewModels:TextureSourceName.BubbleNoise}">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
 
-                    <Views:BubbleNoise DataContext="{Binding ProceduralSelector.BubbleNoise}"/>
+                <Views:BubbleNoise DataContext="{Binding ProceduralSelector.BubbleNoise}"/>
 
-                </Border>
-            </Grid>
-        </Panels:IndentedExpander>
+            </Border>
+        </Grid>
 
         <Panels:IndentedExpander Indentation="24" Header="Transform UV">
             <Views:TransformUV Margin="8" DataContext="{Binding TransformUV}"/>

@@ -13,29 +13,28 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
             Name = TransformModifierNames.LinearXYZ;
 
-            Visible = new ToggleButtonModel(true);
+            Visible = new BooleanValueModel(true);
             BeatModifierModel = new BeatModifierModel();
-            CounterModel = new CounterModel(1);
-            Width = new SliderModel();
-            Phase = new SliderModel();
+            CounterModel = new IntegerValueModel(1);
+            Width = new FloatValueModel();
+            Phase = new FloatValueModel();
             DirectionXYZModel = new DirectionXYZModel();
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.PerInstance);
-            Mode.Selection = ModifierMode.ToSpread;
-            TransformTypeSelector = new ComboBoxModel<TransformType>(TransformType.Translate);
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
+            Mode.Value = ModifierMode.ToSpread;
+            TransformTypeSelector = new GenericValueModel<TransformType>(TransformType.Translate);
         }
 
         public TransformModifierNames Name { get; set; }
         public Guid ID { get; set; }
-        public int Count { get; set; }
         public bool Enabled { get; set; }
 
-        public ToggleButtonModel Visible { get; set; }
+        public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifierModel { get; set; }
-        public CounterModel CounterModel { get; set; }
-        public SliderModel Width { get; set; }
+        public IntegerValueModel CounterModel { get; set; }
+        public FloatValueModel Width { get; set; }
         public DirectionXYZModel DirectionXYZModel { get; set; }
-        public SliderModel Phase { get; set; }
-        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
-        public ComboBoxModel<TransformType> TransformTypeSelector { get; internal set; }
+        public FloatValueModel Phase { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; internal set; }
+        public GenericValueModel<TransformType> TransformTypeSelector { get; internal set; }
     }
 }

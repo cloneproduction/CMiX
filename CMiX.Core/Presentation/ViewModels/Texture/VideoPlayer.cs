@@ -13,15 +13,15 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = videoPlayerModel.ID;
 
-            SeekFrame = new Counter(videoPlayerModel.SeekFrame);
-            Play = new ToggleButton(videoPlayerModel.PlayModel);
+            SeekFrame = new IntegerValue(videoPlayerModel.SeekFrame);
+            Play = new BooleanValue(videoPlayerModel.PlayModel);
             DoSeek = new Button(videoPlayerModel.DoSeek);
         }
 
         public Guid ID { get; set; }
         public Button DoSeek { get; set; }
-        public Counter SeekFrame { get; set; }
-        public ToggleButton Play { get; set; }
+        public IntegerValue SeekFrame { get; set; }
+        public BooleanValue Play { get; set; }
 
 
         public IModel GetModel()
@@ -29,8 +29,8 @@ namespace CMiX.Core.Presentation.ViewModels
             VideoPlayerModel videoPlayerModel = new VideoPlayerModel();
 
             videoPlayerModel.ID = ID;
-            videoPlayerModel.SeekFrame = (CounterModel)SeekFrame.GetModel();
-            videoPlayerModel.PlayModel = (ToggleButtonModel)Play.GetModel();
+            videoPlayerModel.SeekFrame = (IntegerValueModel)SeekFrame.GetModel();
+            videoPlayerModel.PlayModel = (BooleanValueModel)Play.GetModel();
             videoPlayerModel.DoSeek = (ButtonModel)DoSeek.GetModel();
             return videoPlayerModel;
         }

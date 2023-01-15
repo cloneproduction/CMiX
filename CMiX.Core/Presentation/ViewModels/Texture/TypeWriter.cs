@@ -17,25 +17,19 @@ namespace CMiX.Core.Presentation.ViewModels
         public TypeWriter(TypeWriterModel typeWriterModel, CompositionService compositionService)
         {
             ID = typeWriterModel.ID;
-            StringControl = new StringControl(typeWriterModel.StringControl);
+            StringControl = new StringValue(typeWriterModel.StringControl);
             CompositionService = compositionService;
 
-            FontFamily = new ComboBox<string>(typeWriterModel.FontFamily);
+            FontFamily = new GenericValue<string>(typeWriterModel.FontFamily);
 
-            FontSize = new Slider(nameof(FontSize), typeWriterModel.FontSize);
-            Style = new ComboBox<FontStyle>(typeWriterModel.Style);
+            FontSize = new FloatValue(typeWriterModel.FontSize);
+            Style = new GenericValue<FontStyle>(typeWriterModel.Style);
 
             FontColor = new ColorSelector(typeWriterModel.FontColor);
             BackgroundColor = new ColorSelector(typeWriterModel.BackgroundColor);
 
-            ResolutionX = new Counter(typeWriterModel.ResolutionX);
-            ResolutionY = new Counter(typeWriterModel.ResolutionY);
-
-            PositionX = new Slider(nameof(PositionX), typeWriterModel.PositionX);
-            PositionY = new Slider(nameof(PositionY), typeWriterModel.PositionY);
-
-            OpenFontColorCommand = new RelayCommand(OpenFontColor);
-            OpenFontBackgroundCommand = new RelayCommand(OpenBackgroundColor);
+            Resolution = new Integer2(typeWriterModel.Resolution);
+            Position = new Vector2(typeWriterModel.Position);
 
             TextInputGotFocusCommand = new RelayCommand(TextInputGotFocus);
             TextInputLostFocusCommand = new RelayCommand(TextInputLostFocus);
@@ -50,31 +44,18 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public CompositionService CompositionService { get; set; }
         public Guid ID { get; set; }
-        public StringControl StringControl { get; set; }
+        public StringValue StringControl { get; set; }
 
-        public ComboBox<FontStyle> Style { get; set; }
-        public ComboBox<string> FontFamily { get; set; }
-        public Slider FontSize { get; set; }
+        public GenericValue<FontStyle> Style { get; set; }
+        public GenericValue<string> FontFamily { get; set; }
+        public FloatValue FontSize { get; set; }
 
         public ColorSelector FontColor { get; set; }
         public ColorSelector BackgroundColor { get; set; }
 
-        public Counter ResolutionX { get; set; }
-        public Counter ResolutionY { get; set; }
+        public Integer2 Resolution { get; set; }
+        public Vector2 Position { get; set; }
 
-        public Slider PositionX { get; set; }
-        public Slider PositionY { get; set; }
-
-
-        public void OpenFontColor()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.FontColor);
-        }
-
-        public void OpenBackgroundColor()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
-        }
 
         public void TextInputGotFocus()
         {
@@ -91,20 +72,17 @@ namespace CMiX.Core.Presentation.ViewModels
             TypeWriterModel typeWriterModel = new TypeWriterModel();
 
             typeWriterModel.ID = ID;
-            typeWriterModel.StringControl = (StringControlModel)this.StringControl.GetModel();
+            typeWriterModel.StringControl = (StringValueModel)this.StringControl.GetModel();
 
             typeWriterModel.FontColor = (ColorSelectorModel)this.FontColor.GetModel();
             typeWriterModel.BackgroundColor = (ColorSelectorModel)this.BackgroundColor.GetModel();
 
-            typeWriterModel.ResolutionX = (CounterModel)this.ResolutionX.GetModel();
-            typeWriterModel.ResolutionY = (CounterModel)this.ResolutionY.GetModel();
+            typeWriterModel.Resolution = (Integer2Model)this.Resolution.GetModel();
+            typeWriterModel.Position = (Vector2Model)this.Position.GetModel();
 
-            typeWriterModel.PositionX = (SliderModel)this.PositionX.GetModel();
-            typeWriterModel.PositionY = (SliderModel)this.PositionY.GetModel();
-
-            typeWriterModel.FontSize = (SliderModel)this.FontSize.GetModel();
-            typeWriterModel.FontFamily = (ComboBoxModel<string>)this.FontFamily.GetModel();
-            typeWriterModel.Style = (ComboBoxModel<FontStyle>)this.Style.GetModel();
+            typeWriterModel.FontSize = (FloatValueModel)this.FontSize.GetModel();
+            typeWriterModel.FontFamily = (GenericValueModel<string>)this.FontFamily.GetModel();
+            typeWriterModel.Style = (GenericValueModel<FontStyle>)this.Style.GetModel();
 
             return typeWriterModel;
         }
@@ -119,11 +97,8 @@ namespace CMiX.Core.Presentation.ViewModels
             this.FontColor.SetViewModel(typeWriterModel.FontColor);
             this.BackgroundColor.SetViewModel(typeWriterModel.BackgroundColor);
 
-            this.ResolutionX.SetViewModel(typeWriterModel.ResolutionX);
-            this.ResolutionY.SetViewModel(typeWriterModel.ResolutionY);
-
-            this.PositionX.SetViewModel(typeWriterModel.PositionX);
-            this.PositionY.SetViewModel(typeWriterModel.PositionY);
+            this.Resolution.SetViewModel(typeWriterModel.Resolution);
+            this.Position.SetViewModel(typeWriterModel.Position);
 
             this.FontSize.SetViewModel(typeWriterModel.FontSize);
             this.FontFamily.SetViewModel(typeWriterModel.FontFamily);

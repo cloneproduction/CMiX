@@ -5,17 +5,17 @@ using System;
 
 namespace CMiX.Core.Models.BaseControls
 {
-    public class StringControlModel : IModel
+    public class StringValueModel : IModel
     {
-        public StringControlModel()
+        public StringValueModel()
         {
             ID = Guid.NewGuid();
             Enabled = true;
-            Text = "";
+            Value = "";
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public string Text { get; internal set; }
+        public string Value { get; internal set; }
     }
 }

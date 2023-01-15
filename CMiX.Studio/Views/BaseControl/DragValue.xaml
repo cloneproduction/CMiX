@@ -9,6 +9,8 @@
              Height="22"
              d:DesignHeight="31.15" d:DesignWidth="320.797">
 
+
+    
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -28,7 +30,7 @@
             Background="{DynamicResource DarkColor}" 
             Style="{StaticResource BorderMask}"
             AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=dragValue}"/>
-
+        
         <Border 
             x:Name="mainBorder" 
             Grid.Column="1" 
@@ -106,7 +108,6 @@
                             x:Name="valueDisplay" 
                             Padding="0"
                             Content="{Binding Value, Converter={StaticResource DoubleToString}, ElementName=dragValue}"/>
-
                     </Border>
                 </DockPanel>
             </Grid>

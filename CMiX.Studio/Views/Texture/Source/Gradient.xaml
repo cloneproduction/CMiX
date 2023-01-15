@@ -3,7 +3,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
@@ -14,58 +13,23 @@
         <StackPanel>
             <BaseControl:DragValue Caption="Gamma" Margin="0, 0, 0, 8" Value="{Binding Gamma.Amount}"/>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                Text="From" 
-                HorizontalAlignment="Right" Padding="4, 0"
-                VerticalAlignment="Center"/>
-                <Border Grid.Column="1">
-                    <Button Height="22"
-                        Margin="0"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        CommandParameter="{Binding From}"
-                        Style="{StaticResource ButtonColorStyle}">
-                        <Button.Background>
-                            <SolidColorBrush Color="{Binding From.SelectedColor}"/>
-                        </Button.Background>
-                    </Button>
-                </Border>
-            </Grid>
+            <BaseControl:ColorSelector 
+                Caption="From"
+                Position="Top"
+                ViewModel="{Binding From}"
+                SelectedColor="{Binding From.SelectedColor}"/>
+            
+            <BaseControl:ColorSelector 
+                Margin="0, 1, 0, 0"
+                Caption="To"
+                Position="Bottom"
+                ViewModel="{Binding To}"
+                SelectedColor="{Binding To.SelectedColor}"/>
 
-            <Grid Margin="0, 0, 0, 8">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="To" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
-                <Border Grid.Column="1">
-                    <Button Height="22"
-                        Margin="0"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        CommandParameter="{Binding To}"
-                        Style="{StaticResource ButtonColorStyle}">
-                        <Button.Background>
-                            <SolidColorBrush Color="{Binding To.SelectedColor}"/>
-                        </Button.Background>
-                    </Button>
-                </Border>
-            </Grid>
-
-            <Grid Height="22">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" Padding="4" Text="Horizontal" HorizontalAlignment="Right"/>
-                <ToggleButton Grid.Column="1" HorizontalAlignment="Left" IsChecked="{Binding Horizontal.IsChecked}"/>
-            </Grid>
+            <BaseControl:ToggleButton 
+                Margin="0, 8, 0, 0"
+                IsChecked="{Binding Horizontal.IsChecked}"
+                Caption="Horizontal"/>
 
             <StackPanel Margin="0, 8, 0, 0">
 

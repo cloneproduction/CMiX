@@ -3,6 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,44 +18,39 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = randomScaleModel.ID;
             this.Name = randomScaleModel.Name;
 
-            Counter = new Counter(randomScaleModel.CounterModel);
-            Visible = new ToggleButton(randomScaleModel.Visible);
+            Counter = new IntegerValue(randomScaleModel.CounterModel);
+            Visible = new BooleanValue(randomScaleModel.Visible);
 
             Easing = new Easing(randomScaleModel.EasingModel);
             BeatModifier = new BeatModifier(randomScaleModel.BeatModifierModel, compositionService);
 
-            Mode = new ComboBox<ModifierMode>(randomScaleModel.Mode);
+            Mode = new GenericValue<ModifierMode>(randomScaleModel.Mode);
 
-            ScaleX = new Slider(nameof(ScaleX), randomScaleModel.ScaleX);
-            ScaleY = new Slider(nameof(ScaleY), randomScaleModel.ScaleY);
-            ScaleZ = new Slider(nameof(ScaleZ), randomScaleModel.ScaleZ);
+            Scale = new Vector3(randomScaleModel.Scale);
+            UniformXYZ = new FloatValue(randomScaleModel.UniformXYZ);
 
-            UniformXYZ = new Slider(nameof(UniformXYZ), randomScaleModel.UniformXYZ);
-
-            Spread = new ToggleButton(randomScaleModel.Spread);
+            Spread = new BooleanValue(randomScaleModel.Spread);
 
             IsExpanded = true;
         }
 
 
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
 
         public Guid ID { get; set; }
         public TransformModifierNames Name { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        public GenericValue<ModifierMode> Mode { get; set; }
 
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public Counter Counter { get; set; }
-        public ToggleButton Spread { get; set; }
+        public IntegerValue Counter { get; set; }
+        public BooleanValue Spread { get; set; }
 
 
-        public Slider ScaleX { get; set; }
-        public Slider ScaleY { get; set; }
-        public Slider ScaleZ { get; set; }
-        public Slider UniformXYZ { get; set; }
+        public Vector3 Scale { get; set; }
+        public FloatValue UniformXYZ { get; set; }
 
 
         private bool _isExpanded;
@@ -84,9 +81,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Counter.SetViewModel(randomScaleModel.CounterModel);
             this.Easing.SetViewModel(randomScaleModel.EasingModel);
 
-            this.ScaleX.SetViewModel(randomScaleModel.ScaleX);
-            this.ScaleY.SetViewModel(randomScaleModel.ScaleY);
-            this.ScaleZ.SetViewModel(randomScaleModel.ScaleZ);
+            this.Scale.SetViewModel(randomScaleModel.Scale);
             this.UniformXYZ.SetViewModel(randomScaleModel.UniformXYZ);
         }
 
@@ -96,20 +91,15 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.Name = this.Name;
             
-            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
 
-            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
-            model.Spread = (ToggleButtonModel)this.Spread.GetModel();
-
+            model.Visible = (BooleanValueModel)this.Visible.GetModel();
+            model.Spread = (BooleanValueModel)this.Spread.GetModel();
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
-            model.CounterModel = (CounterModel)this.Counter.GetModel();
+            model.CounterModel = (IntegerValueModel)this.Counter.GetModel();
             model.EasingModel = (EasingModel)this.Easing.GetModel();
-
-            model.ScaleX = (SliderModel)this.ScaleX.GetModel();
-            model.ScaleY = (SliderModel)this.ScaleY.GetModel();
-            model.ScaleZ = (SliderModel)this.ScaleZ.GetModel();
-
-            model.UniformXYZ = (SliderModel)this.UniformXYZ.GetModel();
+            model.Scale = (Vector3Model)this.Scale.GetModel();
+            model.UniformXYZ = (FloatValueModel)this.UniformXYZ.GetModel();
 
             return model;
         }

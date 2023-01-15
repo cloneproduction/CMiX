@@ -15,15 +15,15 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             this.ID = translateModel.ID;
             this.Enabled = translateModel.Enabled;
-            this.Visible = new ToggleButton(translateModel.Visible);
-            XYZ = new VectorXYZ(translateModel.XYZ);
+            this.Visible = new BooleanValue(translateModel.Visible);
+            XYZ = new Vector3(translateModel.XYZ);
             IsExpanded = true;
         }
 
         public Guid ID { get; set; }
-        public VectorXYZ XYZ { get; set; }
+        public Vector3 XYZ { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
 
         private bool _isExpanded;
@@ -38,8 +38,8 @@ namespace CMiX.Core.Presentation.ViewModels
             TranslateModel model = new TranslateModel();
             model.ID = this.ID;
             model.Enabled = this.Enabled;
-            model.XYZ = (VectorXYZModel)this.XYZ.GetModel();
-            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
+            model.XYZ = (Vector3Model)this.XYZ.GetModel();
+            model.Visible = (BooleanValueModel)this.Visible.GetModel();
             return model;
         }
 

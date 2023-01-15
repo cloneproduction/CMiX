@@ -110,7 +110,7 @@
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
 
-                        <Border Grid.Column="1" CornerRadius="0, 2, 2, 0">
+                        <Border Grid.Column="1" CornerRadius="0">
                             <Border.Background>
                                 <ImageBrush Stretch="Uniform" Viewport="0, 0, 128, 128" ViewportUnits="Absolute" TileMode="Tile" ImageSource="{DynamicResource CheckBoard}"/>
                             </Border.Background>
@@ -120,14 +120,14 @@
                             Grid.Column="1"
                             x:Name="borderAlpha"
                             SnapsToDevicePixels="True"
-                            CornerRadius="0, 2, 2, 0">
+                            CornerRadius="0">
                             <Border.Background>
                                 <SolidColorBrush Color="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}}"/>
                             </Border.Background>
                         </Border>
 
                         <Border
-                            CornerRadius="2, 0, 0, 2"
+                            CornerRadius="0"
                             Grid.Column="0"
                             x:Name="border"
                             Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"

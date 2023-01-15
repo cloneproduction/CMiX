@@ -34,7 +34,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
             BeatAnimations = new BeatAnimations();
             Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
-            Pause = new ToggleButton(masterBeatModel.Pause);
+            Pause = new BooleanValue(masterBeatModel.Pause);
 
             UpdatePeriods(Period);
             SetAnimatedDouble();
@@ -53,7 +53,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public ICommand DivideCommand { get;}
         public ICommand TapCommand { get; }
         public CompositionService CompositionService { get; set; }
-        public ToggleButton Pause { get; set; }
+        public BooleanValue Pause { get; set; }
 
         private bool _isSelected;
         public bool IsSelected
@@ -121,7 +121,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Period = Periods[Index + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
             OnPropertyChanged("Period");
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
         }
 
 
@@ -226,7 +226,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             model.BeatIndex = this.BeatIndex;
 
             model.ResyncModel = (ResyncModel)this.Resync.GetModel();
-            model.Pause = (ToggleButtonModel)this.Pause.GetModel();
+            model.Pause = (BooleanValueModel)this.Pause.GetModel();
 
             return model;
         }

@@ -13,15 +13,15 @@ namespace CMiX.Core.Models
         {
             this.ID = Guid.NewGuid();
             this.Enabled = true;
-            this.XYZ = new VectorXYZModel();
-            Visible = new ToggleButtonModel(true);
-            Mode = new ComboBoxModel<ModifierMode>(ModifierMode.ToSpread);
+            this.XYZ = new Vector3Model();
+            Visible = new BooleanValueModel(true);
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public VectorXYZModel XYZ { get; set; }
-        public ToggleButtonModel Visible { get; set; }
-        public ComboBoxModel<ModifierMode> Mode { get; internal set; }
+        public Vector3Model XYZ { get; set; }
+        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; internal set; }
     }
 }

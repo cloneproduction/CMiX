@@ -3,6 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,30 +19,28 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Name = randomUVModel.Name;
             IsExpanded = true;
 
-            Visible = new ToggleButton(randomUVModel.Visible);
+            Visible = new BooleanValue(randomUVModel.Visible);
 
             Easing = new Easing(randomUVModel.EasingModel);
             BeatModifier = new BeatModifier(randomUVModel.BeatModifierModel, compositionService);
             SamplerState = new SamplerState(randomUVModel.SamplerState, compositionService);
-            RandomizeLocation = new ToggleButton(randomUVModel.RandomizeLocation);
-            RandomizeLocation.IsChecked = true;
-            LocationX = new Slider(nameof(LocationX), randomUVModel.LocationX);
-            LocationY = new Slider(nameof(LocationY), randomUVModel.LocationY);
+            RandomizeLocation = new BooleanValue(randomUVModel.RandomizeLocation);
+            RandomizeLocation.Value = true;
+            Location = new Vector2(randomUVModel.Location);
 
-            RandomizeScale = new ToggleButton(randomUVModel.RandomizeScale);
-            RandomizeScale.IsChecked = true;
-            Uniform = new Slider(nameof(Uniform), randomUVModel.Uniform);
-            ScaleX = new Slider(nameof(ScaleX), randomUVModel.ScaleX);
-            ScaleY = new Slider(nameof(ScaleY), randomUVModel.ScaleY);
+            RandomizeScale = new BooleanValue(randomUVModel.RandomizeScale);
+            RandomizeScale.Value = true;
+            Uniform = new FloatValue(randomUVModel.Uniform);
+            Scale = new Vector2(randomUVModel.Scale);
 
-            RandomizeRotation = new ToggleButton(randomUVModel.RandomizeScale);
-            RandomizeRotation.IsChecked = true;
-            Rotation = new Slider(nameof(Rotation), randomUVModel.Rotation);
+            RandomizeRotation = new BooleanValue(randomUVModel.RandomizeScale);
+            RandomizeRotation.Value = true;
+            Rotation = new FloatValue(randomUVModel.Rotation);
         }
 
 
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
+        public BooleanValue Visible { get; set; }
 
 
         public Guid ID { get; set; }
@@ -50,17 +50,15 @@ namespace CMiX.Core.Presentation.ViewModels
         public Easing Easing { get; set; }
 
 
-        public ToggleButton RandomizeLocation { get; set; }
-        public Slider LocationX { get; set; }
-        public Slider LocationY { get; set; }
+        public BooleanValue RandomizeLocation { get; set; }
+        public Vector2 Location { get; set; }
 
-        public ToggleButton RandomizeScale { get; set; }
-        public Slider ScaleX { get; set; }
-        public Slider ScaleY { get; set; }
-        public Slider Uniform { get; set; }
+        public BooleanValue RandomizeScale { get; set; }
+        public Vector2 Scale { get; set; }
+        public FloatValue Uniform { get; set; }
 
-        public ToggleButton RandomizeRotation { get; set; }
-        public Slider Rotation { get; set; }
+        public BooleanValue RandomizeRotation { get; set; }
+        public FloatValue Rotation { get; set; }
 
         public SamplerState SamplerState { get; set; }
 
@@ -111,20 +109,16 @@ namespace CMiX.Core.Presentation.ViewModels
             RandomUVModel randomUVModel = model as RandomUVModel;
             this.ID = randomUVModel.ID;
             this.Name = randomUVModel.Name;
-            //this.SelectedModifierType = ModifierMode.AsGroup;
-
-
+ 
             this.Visible.SetViewModel(randomUVModel.Visible);
 
             this.BeatModifier.SetViewModel(randomUVModel.BeatModifierModel);
             this.Easing.SetViewModel(randomUVModel.EasingModel);
 
-            this.LocationX.SetViewModel(randomUVModel.LocationX);
-            this.LocationY.SetViewModel(randomUVModel.LocationY);
+            this.Location.SetViewModel(randomUVModel.Location);
             this.RandomizeLocation.SetViewModel(randomUVModel.RandomizeLocation);
 
-            this.ScaleX.SetViewModel(randomUVModel.LocationX);
-            this.ScaleY.SetViewModel(randomUVModel.LocationY);
+            this.Scale.SetViewModel(randomUVModel.Scale);
             this.Uniform.SetViewModel(randomUVModel.Uniform);
             this.RandomizeScale.SetViewModel(randomUVModel.RandomizeLocation);
 
@@ -141,24 +135,22 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.Name = this.Name;
 
-            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
+            model.Visible = (BooleanValueModel)this.Visible.GetModel();
 
             model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
             model.EasingModel = (EasingModel)this.Easing.GetModel();
 
-            model.LocationX = (SliderModel)this.LocationX.GetModel();
-            model.LocationY = (SliderModel)this.LocationY.GetModel();
+            model.Location = (Vector2Model)this.Location.GetModel();
 
-            model.RandomizeLocation = (ToggleButtonModel)this.RandomizeLocation.GetModel();
+            model.RandomizeLocation = (BooleanValueModel)this.RandomizeLocation.GetModel();
 
-            model.ScaleX = (SliderModel)this.ScaleX.GetModel();
-            model.ScaleY = (SliderModel)this.ScaleY.GetModel();
-            model.Uniform = (SliderModel)this.Uniform.GetModel();
-            model.RandomizeScale = (ToggleButtonModel)this.RandomizeLocation.GetModel();
+            model.Scale = (Vector2Model)this.Scale.GetModel();
+            model.Uniform = (FloatValueModel)this.Uniform.GetModel();
+            model.RandomizeScale = (BooleanValueModel)this.RandomizeLocation.GetModel();
 
-            model.Rotation = (SliderModel)this.Rotation.GetModel();
+            model.Rotation = (FloatValueModel)this.Rotation.GetModel();
 
-            model.RandomizeRotation = (ToggleButtonModel)this.RandomizeLocation.GetModel();
+            model.RandomizeRotation = (BooleanValueModel)this.RandomizeLocation.GetModel();
 
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
             return model;

@@ -14,40 +14,26 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
             Enabled = true;
 
-            StringControl = new StringControlModel();
-
-            FontFamily = new ComboBoxModel<string>("Arial");
-
-            FontSize = new SliderModel(0.45f);
-
+            StringControl = new StringValueModel();
+            FontFamily = new GenericValueModel<string>("Arial");
+            FontSize = new FloatValueModel(0.45f);
             FontColor = new ColorSelectorModel("#ff000000");
             BackgroundColor = new ColorSelectorModel("#00000000");
-
-            ResolutionX = new CounterModel(1024);
-            ResolutionY = new CounterModel(1024);
-
-            PositionX = new SliderModel();
-            PositionY = new SliderModel();
-
-            Style = new ComboBoxModel<FontStyle>(FontStyle.Normal);
+            Resolution = new Integer2Model(1024, 1024);
+            Position = new Vector2Model();
+            Style = new GenericValueModel<FontStyle>(FontStyle.Normal);
         }
 
         public Guid ID { get; set; }
         public bool Enabled { get; set; }
 
-        public StringControlModel StringControl { get; internal set; }
-
+        public StringValueModel StringControl { get; internal set; }
         public ColorSelectorModel FontColor { get; internal set; }
         public ColorSelectorModel BackgroundColor { get; internal set; }
-
-        public CounterModel ResolutionX { get; internal set; }
-        public CounterModel ResolutionY { get; internal set; }
-
-        public SliderModel PositionX { get; internal set; }
-        public SliderModel PositionY { get; internal set; }
-
-        public SliderModel FontSize { get; internal set; }
-        public ComboBoxModel<string> FontFamily { get; internal set; }
-        public ComboBoxModel<FontStyle> Style { get; internal set; }
+        public Integer2Model Resolution { get; internal set; }
+        public Vector2Model Position { get; internal set; }
+        public FloatValueModel FontSize { get; internal set; }
+        public GenericValueModel<string> FontFamily { get; internal set; }
+        public GenericValueModel<FontStyle> Style { get; internal set; }
     }
 }

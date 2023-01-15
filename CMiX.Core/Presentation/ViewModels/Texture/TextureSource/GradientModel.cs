@@ -12,22 +12,20 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             Enabled = true;
             ID = Guid.NewGuid();
-            ResolutionX = new CounterModel(512);
-            ResolutionY = new CounterModel(512);
+            Resolution = new Integer2Model(512, 512);
             From = new ColorSelectorModel("#FFFFFFFF");
             To = new ColorSelectorModel("#FF000000");
-            Gamma = new SliderModel(2.2f);
-            Horizontal = new ToggleButtonModel(false);
+            Gamma = new FloatValueModel(2.2f);
+            Horizontal = new BooleanValueModel(false);
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public CounterModel ResolutionX { get; set; }
-        public CounterModel ResolutionY { get; set; }
-        public SliderModel Gamma { get; set; }
+        public Integer2Model Resolution { get; set; }
+        public FloatValueModel Gamma { get; set; }
         public ColorSelectorModel From { get; set; }
         public ColorSelectorModel To { get; set; }
-        public ToggleButtonModel Horizontal { get; set; }
+        public BooleanValueModel Horizontal { get; set; }
         public ColorSelectorModel BackgroundColor { get; set; }
     }
 }

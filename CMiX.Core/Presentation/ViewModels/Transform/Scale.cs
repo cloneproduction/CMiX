@@ -16,22 +16,22 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = scaleModel.ID;
             this.Enabled = scaleModel.Enabled;
 
-            Uniform = new Slider(nameof(Uniform), scaleModel.Uniform);
-            XYZ = new VectorXYZ(scaleModel.XYZ);
-            Visible = new ToggleButton(scaleModel.Visible);
+            Uniform = new FloatValue(scaleModel.Uniform);
+            XYZ = new Vector3(scaleModel.XYZ);
+            Visible = new BooleanValue(scaleModel.Visible);
 
-            Mode = new ComboBox<ModifierMode>(scaleModel.Mode);
+            Mode = new GenericValue<ModifierMode>(scaleModel.Mode);
             IsExpanded = true;
         }
 
 
         public Guid ID { get; set; }
 
-        public Slider Uniform { get; set; }
-        public VectorXYZ XYZ { get; set; }
+        public FloatValue Uniform { get; set; }
+        public Vector3 XYZ { get; set; }
         public bool Enabled { get; set; }
-        public ToggleButton Visible { get; set; }
-        public ComboBox<ModifierMode> Mode { get; set; }
+        public BooleanValue Visible { get; set; }
+        public GenericValue<ModifierMode> Mode { get; set; }
 
 
         private bool _isExpanded;
@@ -48,10 +48,10 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.ID = this.ID;
             model.Enabled = this.Enabled;
-            model.Uniform = (SliderModel)this.Uniform.GetModel();
-            model.Visible = (ToggleButtonModel)this.Visible.GetModel();
-            model.XYZ = (VectorXYZModel)this.XYZ.GetModel();
-            model.Mode = (ComboBoxModel<ModifierMode>)this.Mode.GetModel();
+            model.Uniform = (FloatValueModel)this.Uniform.GetModel();
+            model.Visible = (BooleanValueModel)this.Visible.GetModel();
+            model.XYZ = (Vector3Model)this.XYZ.GetModel();
+            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
 
             return model;
         }

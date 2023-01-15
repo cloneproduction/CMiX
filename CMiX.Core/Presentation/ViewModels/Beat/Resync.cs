@@ -41,7 +41,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         {
             BeatAnimations.ResetAnimation();
             OnBeatResync();
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
         }
 
 

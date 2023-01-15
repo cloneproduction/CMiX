@@ -14,25 +14,25 @@ namespace CMiX.Core.Presentation.ViewModels
         public Transform2D(Transform2DModel transformUVModel, CompositionService compositionService)
         {
             ID = transformUVModel.ID;
-            Translate = new VectorXY(transformUVModel.Translate);
-            Scale = new VectorXY(transformUVModel.Scale);
-            Rotate = new Slider(nameof(Rotate), transformUVModel.Rotate);
+            Translate = new Vector2(transformUVModel.Translate);
+            Scale = new Vector2(transformUVModel.Scale);
+            Rotate = new FloatValue(transformUVModel.Rotate);
         }
 
         public Guid ID { get; set; }
 
-        public VectorXY Translate { get; set; }
-        public VectorXY Scale { get; set; }
-        public Slider Rotate { get; set; }
+        public Vector2 Translate { get; set; }
+        public Vector2 Scale { get; set; }
+        public FloatValue Rotate { get; set; }
 
         public IModel GetModel()
         {
             Transform2DModel transformUVModel = new Transform2DModel();
 
             transformUVModel.ID = ID;
-            transformUVModel.Translate = (VectorXYModel)Translate.GetModel();
-            transformUVModel.Scale = (VectorXYModel)Scale.GetModel();
-            transformUVModel.Rotate = (SliderModel)Rotate.GetModel();
+            transformUVModel.Translate = (Vector2Model)Translate.GetModel();
+            transformUVModel.Scale = (Vector2Model)Scale.GetModel();
+            transformUVModel.Rotate = (FloatValueModel)Rotate.GetModel();
 
             return transformUVModel;
 

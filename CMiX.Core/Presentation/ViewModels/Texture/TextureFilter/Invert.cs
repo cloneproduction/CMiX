@@ -15,20 +15,20 @@ namespace CMiX.Core.Presentation.ViewModels
             Name = invertModel.Name;
             Enabled = invertModel.Enabled;
 
-            Factor = new Slider(nameof(Factor), invertModel.Factor);
-            Visible = new ToggleButton(invertModel.Visible);
-            InvertAlpha = new ToggleButton(invertModel.InvertAlpha);
-            InvertChannelSelector = new ComboBox<InvertChannel>(invertModel.InvertChannelSelector);
+            Factor = new FloatValue(invertModel.Factor);
+            Visible = new BooleanValue(invertModel.Visible);
+            InvertAlpha = new BooleanValue(invertModel.InvertAlpha);
+            InvertChannelSelector = new GenericValue<InvertChannel>(invertModel.InvertChannelSelector);
             IsExpanded = true;
         }
 
         public Guid ID { get; set; }
-        public Slider Factor { get; set; }
+        public FloatValue Factor { get; set; }
         public TextureFilterName Name { get; set; }
-        public ToggleButton Visible { get; set; }
-        public ToggleButton InvertAlpha { get; set; }
-        public ComboBox<InvertChannel> InvertChannelSelector { get; set; }
-        public Slider Control { get; set; }
+        public BooleanValue Visible { get; set; }
+        public BooleanValue InvertAlpha { get; set; }
+        public GenericValue<InvertChannel> InvertChannelSelector { get; set; }
+        public FloatValue Control { get; set; }
 
 
         private bool _enabled;
@@ -54,10 +54,10 @@ namespace CMiX.Core.Presentation.ViewModels
             invertModel.Name = Name;
             invertModel.Enabled = Enabled;
 
-            invertModel.Factor = (SliderModel)Factor.GetModel();
-            invertModel.Visible = (ToggleButtonModel)Visible.GetModel();
-            invertModel.InvertAlpha = (ToggleButtonModel)InvertAlpha.GetModel();
-            invertModel.InvertChannelSelector = (ComboBoxModel<InvertChannel>)InvertChannelSelector.GetModel();
+            invertModel.Factor = (FloatValueModel)Factor.GetModel();
+            invertModel.Visible = (BooleanValueModel)Visible.GetModel();
+            invertModel.InvertAlpha = (BooleanValueModel)InvertAlpha.GetModel();
+            invertModel.InvertChannelSelector = (GenericValueModel<InvertChannel>)InvertChannelSelector.GetModel();
             return invertModel;
         }
 

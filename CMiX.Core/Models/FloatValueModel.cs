@@ -5,18 +5,21 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class RangeControlModel : IModel
+    public class FloatValueModel : IModel
     {
-        public RangeControlModel()
+        public FloatValueModel()
         {
-            this.ID = Guid.NewGuid();
-            Range = new SliderModel();
-            //Modifier = ((RangeModifier)0).ToString();
+            ID = Guid.NewGuid();
+            Enabled = true;
+        }
+
+        public FloatValueModel(float value) : this()
+        {
+            Value = value;
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public SliderModel Range { get; set; }
-        public string Modifier { get; set; }
+        public float Value { get; set; }
     }
 }
