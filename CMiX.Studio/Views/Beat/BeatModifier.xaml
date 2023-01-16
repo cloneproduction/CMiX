@@ -15,7 +15,12 @@
     <StackPanel>
 
         <Views:BeatControls DataContext="{Binding}"/>
-        <BaseControls:DragValue Margin="0, 1, 0, 0" Caption="Chance To Hit" Position="Bottom" Value="{Binding ChanceToHit.Amount}"/>
+        
+        <BaseControls:DragValue 
+            Margin="0, 1, 0, 0" 
+            Caption="Chance To Hit" 
+            Position="Bottom" 
+            Value="{Binding ChanceToHit.Value}"/>
 
     </StackPanel>
 </UserControl>

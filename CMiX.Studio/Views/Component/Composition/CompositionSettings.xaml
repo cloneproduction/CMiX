@@ -7,19 +7,8 @@
              mc:Ignorable="d" 
              d:DesignHeight="56.667" d:DesignWidth="774.667">
 
-    <StackPanel>
+    <BaseControl:Integer2Value
+            Caption="Resolution"
+            DataContext="{Binding Resolution}"/>
 
-        <BaseControl:Counter 
-            Position="Top" 
-            Caption="Resolution X" 
-            Count="{Binding ResolutionX.Count}"/>
-
-        <BaseControl:Counter 
-            Margin="0, 1, 0, 0" 
-            Position="Bottom" 
-            Caption="Y" 
-            Count="{Binding ResolutionY.Count}"/>
-
-    </StackPanel>
-    
 </UserControl>

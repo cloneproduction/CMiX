@@ -7,9 +7,9 @@ using System.Windows.Input;
 
 namespace CMiX.Studio.Views.BaseControl
 {
-    public partial class Counter : UserControl
+    public partial class IntegerValue : UserControl
     {
-        public Counter()
+        public IntegerValue()
         {
             InitializeComponent();
             OnApplyTemplate();
@@ -64,10 +64,10 @@ namespace CMiX.Studio.Views.BaseControl
                 else if (currentPoint.X <= 0)
                     SetCursorPos(ScreenWidth - 1, Convert.ToInt32(currentPoint.Y));
 
-                newValue = (Int32) Math.Round(this.Count + offset.X * 0.51);
+                newValue = (Int32) Math.Round(this.Value + offset.X * 0.51);
                 if (newValue <= 0)
                     newValue = 0;
-                this.Count = newValue;
+                this.Value = newValue;
                 _lastPoint = GetMousePosition();
             }
         }
@@ -140,13 +140,13 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Count += StepValue;
+            this.Value += StepValue;
             e.Handled = true;
         }
 
         private void SubButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Count -= StepValue;
+            this.Value -= StepValue;
             e.Handled = true;
         }
 
@@ -227,21 +227,21 @@ namespace CMiX.Studio.Views.BaseControl
         public void UpdateValue()
         {
             if (IsTextAllowed(valueInput.Text))
-                this.Count = Int32.Parse(valueInput.Text);
+                this.Value = Int32.Parse(valueInput.Text);
         }
 
         public void CancelUpdateValue()
         {
-            Int32 oldValue = this.Count;
+            Int32 oldValue = this.Value;
             if (IsTextAllowed(valueInput.Text))
-                this.Count = oldValue;
+                this.Value = oldValue;
             valueInput.Text = oldValue.ToString();
         }
 
 
 
         public static readonly DependencyProperty StepValueProperty =
-        DependencyProperty.Register("StepValue", typeof(int), typeof(Counter), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("StepValue", typeof(int), typeof(IntegerValue), new FrameworkPropertyMetadata(1, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public int StepValue
         {
             get { return (int)GetValue(StepValueProperty); }
@@ -249,39 +249,31 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         public static readonly DependencyProperty IsEditingProperty =
-        DependencyProperty.Register("IsEditing", typeof(bool), typeof(Counter), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("IsEditing", typeof(bool), typeof(IntegerValue), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public bool IsEditing
         {
             get { return (bool)GetValue(IsEditingProperty); }
             set { SetValue(IsEditingProperty, value); }
         }
 
-        //public static readonly DependencyProperty ValueProperty =
-        //DependencyProperty.Register("Value", typeof(double), typeof(Counter), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        //public double Value
-        //{
-        //    get { return (double)GetValue(ValueProperty); }
-        //    set { SetValue(ValueProperty, value); }
-        //}
-
         public static readonly DependencyProperty CaptionProperty =
-        DependencyProperty.Register("Caption", typeof(string), typeof(Counter), new FrameworkPropertyMetadata(String.Empty));
+        DependencyProperty.Register("Caption", typeof(string), typeof(IntegerValue), new FrameworkPropertyMetadata(String.Empty));
         public string Caption
         {
             get { return (string)GetValue(CaptionProperty); }
             set { SetValue(CaptionProperty, value); }
         }
 
-        public static readonly DependencyProperty CountProperty =
-        DependencyProperty.Register("Count", typeof(int), typeof(Counter), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public int Count
+        public static readonly DependencyProperty ValueProperty =
+        DependencyProperty.Register("Value", typeof(int), typeof(IntegerValue), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public int Value
         {
-            get { return (int)GetValue(CountProperty); }
-            set { SetValue(CountProperty, value); }
+            get { return (int)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
 
         public static readonly DependencyProperty PositionProperty =
-        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(Counter), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(IntegerValue), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public ControlPosition Position
         {
             get { return (ControlPosition)GetValue(PositionProperty); }

@@ -10,21 +10,19 @@
 
     <StackPanel Margin="8">
 
-        <BaseControl:VectorXY
+        <BaseControl:Vector2
             Caption="Scale"
-            X="{Binding ScaleX.Amount}"
-            Y="{Binding ScaleY.Amount}"/>
+            DataContext="{Binding Scale}"/>
 
         <BaseControl:DragValue 
             Margin="0, 8" 
             Position="Default" 
-            Value="{Binding Rotate.Amount}" 
-            Caption="Rotation"/>
+            Value="{Binding Rotate.Value}" 
+            Caption="Rotate"/>
 
-        <BaseControl:VectorXY
+        <BaseControl:Vector2
             Caption="Translate"
-            X="{Binding TranslateX.Amount}"
-            Y="{Binding TranslateY.Amount}"/>
+            DataContext="{Binding Translate}"/>
 
         <Views:SamplerState 
             Margin="0, 8, 0, 0" 

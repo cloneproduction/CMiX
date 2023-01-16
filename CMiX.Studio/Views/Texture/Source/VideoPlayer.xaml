@@ -10,8 +10,8 @@
     
     <StackPanel>
         
-        <BaseControls:Counter
-            Count="{Binding SeekFrame.Count}" 
+        <BaseControls:IntegerValue
+            Value="{Binding SeekFrame.Value}" 
             Caption="Seek Frame"/>
 
         <BaseControls:Button 
@@ -21,7 +21,7 @@
 
         <BaseControls:ToggleButton 
             Caption="Play"
-            IsChecked="{Binding Play.IsChecked}"/>
+            IsChecked="{Binding Play.Value}"/>
 
     </StackPanel>
     

@@ -20,14 +20,14 @@ namespace CMiX.Core.Models
             CounterModel = new IntegerValueModel(1);
             EasingModel = new EasingModel();
 
-            RandomizeLocation = new BooleanValueModel();
+            RandomizeLocation = new BooleanValueModel(true);
             Location = new Vector2Model();
 
-            RandomizeScale = new BooleanValueModel();
+            RandomizeScale = new BooleanValueModel(true);
             Scale = new Vector2Model();
             Uniform = new FloatValueModel();
 
-            RandomizeRotation = new BooleanValueModel();
+            RandomizeRotation = new BooleanValueModel(true);
             Rotation = new FloatValueModel();
 
             SamplerState = new SamplerStateModel();

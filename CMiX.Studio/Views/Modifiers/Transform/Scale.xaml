@@ -5,26 +5,23 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="152.16" d:DesignWidth="328.279">
+             d:DesignHeight="150.627" d:DesignWidth="324.957">
 
     <StackPanel Margin="8">
-        
+
         <BaseControls:ComboBox  
-            Margin="0, 0, 0, 8"
             Caption="Type"
-            SelectedItem="{Binding Mode.Selection}"
+            SelectedItem="{Binding Mode.Value}"
             ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-        
+
         <BaseControls:DragValue 
-            Margin="0, 0, 0, 8"
+            Margin="0, 8"
             Caption="Uniform" 
-            Value="{Binding Uniform.Amount}"/>
-        
+            Value="{Binding Uniform.Value}"/>
+
         <BaseControls:VectorXYZ 
             Caption="Scale"
-            X="{Binding XYZ.X.Amount}"
-            Y="{Binding XYZ.Y.Amount}"
-            Z="{Binding XYZ.Z.Amount}"/>
-        
+            DataContext="{Binding XYZ}"/>
+
     </StackPanel>
 </UserControl>

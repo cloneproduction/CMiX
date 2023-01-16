@@ -13,18 +13,18 @@
         <BaseControls:DragValue 
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vectorXYZ}" 
             Position="Top" 
-            Value="{Binding X, ElementName=vectorXYZ}"/>
+            Value="{Binding X.Value}"/>
 
         <BaseControls:DragValue 
             Margin="0, 1"
             Caption="Y" 
             Position="Middle" 
-            Value="{Binding Y, ElementName=vectorXYZ}"/>
+            Value="{Binding Y.Value}"/>
 
         <BaseControls:DragValue 
             Caption="Z" 
             Position="Bottom" 
-            Value="{Binding Z, ElementName=vectorXYZ}"/>
+            Value="{Binding Z.Value}"/>
 
     </StackPanel>
 </UserControl>

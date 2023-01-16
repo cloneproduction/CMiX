@@ -18,6 +18,7 @@ namespace CMiX.Core.Models
             Visible = new BooleanValueModel(true);
             SamplerStateModel = new SamplerStateModel();
             Translate = new Vector2Model();
+            Scale = new Vector2Model();
             Rotate = new FloatValueModel();
             Control = new FloatValueModel();
         }

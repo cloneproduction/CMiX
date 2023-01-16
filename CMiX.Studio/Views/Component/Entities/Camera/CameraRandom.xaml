@@ -9,19 +9,21 @@
              d:DesignHeight="413.412" d:DesignWidth="271.192">
 
     <StackPanel>
+        
         <StackPanel Margin="8">
             
             <BaseControl:ComboBox
                 Caption="Axis"
-                SelectedItem="{Binding Axis.Selection}"
+                SelectedItem="{Binding Axis.Value}"
                 ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
 
-            <BaseControl:DragValue 
-                Value="{Binding Width.Amount}" 
+            <Views:BeatModifier 
                 Margin="0, 8" 
+                DataContext="{Binding BeatModifier}"/>
+            
+            <BaseControl:DragValue 
+                Value="{Binding Width.Value}" 
                 Caption="Width"/>
-
-            <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
 
         </StackPanel>
 

@@ -12,8 +12,6 @@
         Margin="8"
         Minimum="0" 
         Maximum="1" 
-        Value="{Binding Factor.Amount}" 
-        Style="{StaticResource SliderRounded}" 
-        Position="Default"/>
+        Value="{Binding Factor.Value}"/>
     
 </UserControl>

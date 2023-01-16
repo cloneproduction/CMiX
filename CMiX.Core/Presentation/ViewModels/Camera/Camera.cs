@@ -3,6 +3,8 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -23,9 +25,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Yaw = new FloatValue(cameraModel.Yaw);
             Pitch = new FloatValue(cameraModel.Pitch);
 
-            TargetX = new FloatValue(cameraModel.TargetX);
-            TargetY = new FloatValue(cameraModel.TargetY);
-            TargetZ = new FloatValue(cameraModel.TargetZ);
+            Target = new Vector3(cameraModel.Target);
 
             NearClip = new FloatValue(cameraModel.NearClip);
             FarClip = new FloatValue(cameraModel.FarClip);
@@ -68,9 +68,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue Distance { get; set; }
         public FloatValue Yaw { get; set; }
         public FloatValue Pitch { get; set; }
-        public FloatValue TargetX { get; set; }
-        public FloatValue TargetY { get; set; }
-        public FloatValue TargetZ { get; set; }
+        public Vector3 Target { get; set; }
         public FloatValue NearClip { get; set; }
         public FloatValue FarClip { get; set; }
         public BooleanValue Projection { get; set; }
@@ -87,9 +85,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Yaw.SetViewModel(cameraModel.Yaw);
             Pitch.SetViewModel(cameraModel.Pitch);
 
-            TargetX.SetViewModel(cameraModel.TargetX);
-            TargetY.SetViewModel(cameraModel.TargetY);
-            TargetZ.SetViewModel(cameraModel.TargetZ);
+            Target.SetViewModel(cameraModel.Target);
 
             NearClip.SetViewModel(cameraModel.NearClip);
             FarClip.SetViewModel(cameraModel.FarClip);
@@ -108,9 +104,7 @@ namespace CMiX.Core.Presentation.ViewModels
             cameraModel.Yaw = (FloatValueModel)Yaw.GetModel();
             cameraModel.Pitch = (FloatValueModel)Pitch.GetModel();
 
-            cameraModel.TargetX = (FloatValueModel)TargetX.GetModel();
-            cameraModel.TargetY = (FloatValueModel)TargetY.GetModel();
-            cameraModel.TargetZ = (FloatValueModel)TargetZ.GetModel();
+            cameraModel.Target = (Vector3Model)Target.GetModel();
 
             cameraModel.NearClip = (FloatValueModel)NearClip.GetModel();
             cameraModel.FarClip = (FloatValueModel)FarClip.GetModel();

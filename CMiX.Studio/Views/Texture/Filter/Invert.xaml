@@ -15,18 +15,18 @@
             Caption="Factor" 
             Minimum="0.0" 
             Maximum="1.0" 
-            Value="{Binding Factor.Amount}" 
+            Value="{Binding Factor.Value}" 
             Style="{StaticResource SliderRounded}" 
             Position="Default"/>
         
         <Basecontrol:ComboBox 
             Margin="0, 8"
             ItemsSource="{Binding Source={StaticResource InvertChannel}}" 
-            SelectedItem="{Binding InvertChannelSelector.Selection}"
+            SelectedItem="{Binding InvertChannelSelector.Value}"
             Caption="Channel"/>
         
         <Basecontrol:ToggleButton 
-            IsChecked="{Binding InvertAlpha.IsChecked}" 
+            IsChecked="{Binding InvertAlpha.Value}" 
             Caption=" Invert Alpha"/>
 
     </StackPanel>

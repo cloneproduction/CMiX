@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.Messaging;
@@ -41,12 +42,16 @@ namespace CMiX.Core.Network.Messages
         {
             var msg = WeakReferenceMessenger.Default.Send(new MessageRequestControl(message));
 
+            ControlMessenger.CanSend = false;
+
             if (msg.HasReceivedResponse && MessageHandlers[message.GetType()].Handle((IControl)msg.Response, message))
             {
                 Console.WriteLine("Message " + message.GetType().Name + " handled");
+                ControlMessenger.CanSend = true;
                 return;
             }
 
+            ControlMessenger.CanSend = true;
             Console.WriteLine("WARNING ! Message " + message.GetType().Name + " wasn't handled");
         }
     }

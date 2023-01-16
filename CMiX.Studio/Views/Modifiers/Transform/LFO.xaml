@@ -12,41 +12,41 @@
         <StackPanel Margin="8">
 
             <basecontrol:ComboBox 
-                Margin="0, 0, 0, 8"
                 Caption="Type" 
-                SelectedItem="{Binding Mode.Selection}" 
+                SelectedItem="{Binding Mode.Value}" 
                 ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
             <Views:BeatModifier 
+                Margin="0, 8"
                 DataContext="{Binding BeatModifier}"/>
 
             <basecontrol:DragValue 
-                Margin="0, 8, 0, 0"
                 Caption="From" 
-                Value="{Binding From.Amount}" 
+                Value="{Binding From.Value}" 
                 Position="Top"/>
 
             <basecontrol:DragValue 
                 Margin="0, 1, 0, 0"
                 Caption="To" 
-                Value="{Binding To.Amount}" 
+                Value="{Binding To.Value}" 
                 Position="Bottom"/>
 
             <basecontrol:ToggleButton
-                Margin="0, 8"
+                Margin="8"
                 Caption="PingPong"
-                IsChecked="{Binding PingPong.IsChecked}"/>
+                IsChecked="{Binding PingPong.Value}"/>
 
             <basecontrol:ComboBox 
                 Caption="Transform" 
-                SelectedItem="{Binding TransformType.Selection}" 
+                Position="Top"
+                SelectedItem="{Binding TransformType.Value}" 
                 ItemsSource="{Binding Source={StaticResource TransformType}}"/>
 
             <basecontrol:AxisSelector3D 
                 Margin="0, 2, 0, 0"
-                XIsChecked="{Binding XAxis.IsChecked}"
-                YIsChecked="{Binding YAxis.IsChecked}"
-                ZIsChecked="{Binding ZAxis.IsChecked}"/>
+                XIsChecked="{Binding XAxis.Value}"
+                YIsChecked="{Binding YAxis.Value}"
+                ZIsChecked="{Binding ZAxis.Value}"/>
 
         </StackPanel>
 

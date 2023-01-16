@@ -11,8 +11,8 @@
         
         <BaseControl:VectorXYZ Caption="Scale" DataContext="{Binding Scale}"/>
         <BaseControl:VectorXYZ Caption="Offset" Margin="0, 8" DataContext="{Binding Offset}"/>
-        <BaseControl:DragValue Caption="Radius" Value="{Binding Path=Radius.Amount}"/>
-        <BaseControl:Counter Caption="Tessellation" Margin="0, 8, 0, 0" Count="{Binding Tessellation.Count, Mode=TwoWay}"/>
+        <BaseControl:DragValue Caption="Radius" Value="{Binding Radius.Value}"/>
+        <BaseControl:IntegerValue Caption="Tessellation" Margin="0, 8, 0, 0" Value="{Binding Tessellation.Value}"/>
         
     </StackPanel>
     

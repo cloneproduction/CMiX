@@ -20,11 +20,9 @@
                 Value="{Binding Uniform.Amount}" 
                 Caption="Uniform"/>
 
-            <basecontrol:VectorXY
-                Margin="0, 8, 0, 0"
+            <basecontrol:Vector2
                 Caption="Scale"
-                X="{Binding ScaleX.Amount}"
-                Y="{Binding ScaleY.Amount}"/>
+                DataContext="{Binding Scale}"/>
 
             <basecontrol:DragValue 
                 Margin="0, 8" 
@@ -32,14 +30,12 @@
                 Value="{Binding Rotation.Amount}" 
                 Caption="Rotation"/>
 
-            <basecontrol:VectorXY
-                Margin="0, 8, 0, 0"
+            <basecontrol:Vector2
                 Caption="Translate"
-                X="{Binding LocationX.Amount}"
-                Y="{Binding LocationY.Amount}"/>
+                DataContext="{Binding Location}"/>
 
             <Views:SamplerState 
-                Margin="0, 16, 0, 0" 
+                Margin="0, 8, 0, 0" 
                 DataContext="{Binding SamplerState}"/>
             
         </StackPanel>

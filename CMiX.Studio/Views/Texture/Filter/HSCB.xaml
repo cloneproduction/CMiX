@@ -14,7 +14,7 @@
             Caption="Hue" 
             Minimum="0.0" 
             Maximum="1.0" 
-            Value="{Binding Hue.Amount}" 
+            Value="{Binding Hue.Value}" 
             Style="{StaticResource SliderRoundedTop}" 
             Position="Top"/>
         
@@ -23,7 +23,7 @@
             Caption="Saturation" 
             Minimum="0.0" 
             Maximum="1.0" 
-            Value="{Binding Saturation.Amount}" 
+            Value="{Binding Saturation.Value}" 
             Style="{StaticResource SliderStraight}" 
             Position="Middle"/>
         
@@ -32,7 +32,7 @@
             Caption="Contrast" 
             Minimum="0.0" 
             Maximum="10.0" 
-            Value="{Binding Contrast.Amount}" 
+            Value="{Binding Contrast.Value}" 
             Style="{StaticResource SliderStraight}" 
             Position="Middle"/>
         
@@ -42,7 +42,7 @@
             Caption="Brightness" 
             Minimum="0.0" 
             Maximum="10.0" 
-            Value="{Binding Brightness.Amount}" 
+            Value="{Binding Brightness.Value}" 
             Style="{StaticResource SliderRoundedBottom}" 
             Position="Bottom"/>
 

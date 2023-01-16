@@ -11,67 +11,37 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Integer2 : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
+    public class Integer2 : ObservableRecipient, IControl
     {
         public Integer2(Integer2Model integer2Model)
         {
             ID = integer2Model.ID;
-            X = integer2Model.X;
-            Y = integer2Model.Y;
+            X = new IntegerValue(integer2Model.X);
+            Y = new IntegerValue(integer2Model.Y);
             IsActive = true;
         }
 
-        public ICommand AddCommand { get; }
-        public ICommand SubCommand { get; }
-
-        private int _x;
-        public int X
-        {
-            get => _x;
-            set
-            {
-                SetProperty(ref _x, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
-            }
-        }
-
-        private int _y;
-        public int Y
-        {
-            get => _y;
-            set
-            {
-                SetProperty(ref _y, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
-            }
-        }
-
-
         public Guid ID { get; set; }
+
+        public IntegerValue X { get; set; }
+        public IntegerValue Y { get; set; }
 
 
         public void SetViewModel(IModel model)
         {
             Integer2Model counterModel = model as Integer2Model;
             this.ID = counterModel.ID;
-            this.X = counterModel.X;
-            this.Y = counterModel.Y;
+            X.SetViewModel(counterModel.X);
+            Y.SetViewModel(counterModel.Y);
         }
 
         public IModel GetModel()
         {
             Integer2Model model = new Integer2Model();
             model.ID = this.ID;
-            model.X = this.X;
-            model.Y = this.Y;
+            model.X = (IntegerValueModel)X.GetModel();
+            model.Y = (IntegerValueModel)Y.GetModel();
             return model;
-        }
-
-
-        public void Receive(MessageRequestControl message)
-        {
-            if (message.ID == this.ID)// && !message.HasReceivedResponse)
-                message.Reply(this);
         }
     }
 }

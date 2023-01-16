@@ -21,8 +21,8 @@ namespace CMiX.Core.Presentation.ViewModels
             Height = new FloatValueModel(1.0f);
             Thickness = new FloatValueModel(1.0f);
             Tessellation = new IntegerValueModel(16);
-            TessellationX = new IntegerValueModel(16);
-            TessellationY = new IntegerValueModel(16);
+            TessellationXY = new Integer2Model(16, 16);
+
             GenerateBackFace = new BooleanValueModel(true);
             Visibility = new BooleanValueModel(true);
             TransformModifierManager = new ModifierManagerModel();
@@ -37,8 +37,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValueModel Height { get; internal set; }
         public FloatValueModel Thickness { get; internal set; }
         public IntegerValueModel Tessellation { get; internal set; }
-        public IntegerValueModel TessellationX { get; internal set; }
-        public IntegerValueModel TessellationY { get; internal set; }
+        public Integer2Model TessellationXY { get; internal set; }
         public BooleanValueModel GenerateBackFace { get; internal set; }
         public BooleanValueModel Visibility { get; internal set; }
         public ModifierManagerModel TransformModifierManager { get; internal set; }

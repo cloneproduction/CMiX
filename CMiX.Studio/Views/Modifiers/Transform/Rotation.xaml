@@ -12,15 +12,13 @@
         <BaseControls:ComboBox  
             Margin="0, 0, 0, 8"
             Caption="Type"
-            SelectedItem="{Binding Mode.Selection}"
+            SelectedItem="{Binding Mode.Value}"
             ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
         <BaseControls:VectorXYZ 
             Caption="Rotation"
-            X="{Binding XYZ.X.Amount}"
-            Y="{Binding XYZ.Y.Amount}"
-            Z="{Binding XYZ.Z.Amount}"/>
-        
+            DataContext="{Binding XYZ}"/>
+
     </StackPanel>
 
 </UserControl>

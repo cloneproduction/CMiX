@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.VectorXY"
+﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.Vector2"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -13,13 +13,13 @@
         <BaseControls:DragValue 
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vectorXY}" 
             Position="Top" 
-            Value="{Binding X, ElementName=vectorXY}"/>
+            Value="{Binding X.Value}"/>
 
         <BaseControls:DragValue 
             Margin="0, 1"
             Caption="Y" 
             Position="Bottom" 
-            Value="{Binding Y, ElementName=vectorXY}"/>
+            Value="{Binding Y.Value}"/>
         
     </StackPanel>
     

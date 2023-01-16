@@ -27,7 +27,7 @@
                         DockPanel.Dock="Top"
                         Style="{StaticResource SliderRounded}"
                         Height="22"
-                        Value="{Binding Opacity.Amount}" 
+                        Value="{Binding Opacity.Value}" 
                         Caption="Alpha"/>
 
                     <BaseControls:ColorSelector 
@@ -54,7 +54,7 @@
 
                         <BaseControls:ComboBox
                             Caption="Blend Mode"
-                            SelectedItem="{Binding BlendMode.Selection, Converter={StaticResource EnumToString}}"
+                            SelectedItem="{Binding BlendMode.Value, Converter={StaticResource EnumToString}}"
                             ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
 
                     </Border>

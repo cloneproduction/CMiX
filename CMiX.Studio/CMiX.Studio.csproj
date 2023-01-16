@@ -341,8 +341,11 @@
     </Compile>
     <Compile Include="Views\BaseControl\ControlPositionEnum.cs" />
     <Compile Include="Views\BaseControl\BaseCounter.cs" />
-    <Compile Include="Views\BaseControl\Counter.xaml.cs">
-      <DependentUpon>Counter.xaml</DependentUpon>
+    <Compile Include="Views\BaseControl\Integer2Value.xaml.cs">
+      <DependentUpon>Integer2Value.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\BaseControl\IntegerValue.xaml.cs">
+      <DependentUpon>IntegerValue.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseControl\Dialogs\ColorSelectorWindow.xaml.cs">
       <DependentUpon>ColorSelectorWindow.xaml</DependentUpon>
@@ -395,8 +398,8 @@
     </Compile>
     <Compile Include="Views\BaseControl\TreeView\TreeViewMultiSelect.cs" />
     <Compile Include="Views\BaseControl\TreeView\TreeViewSelect.cs" />
-    <Compile Include="Views\BaseControl\VectorXY.xaml.cs">
-      <DependentUpon>VectorXY.xaml</DependentUpon>
+    <Compile Include="Views\BaseControl\Vector2.xaml.cs">
+      <DependentUpon>Vector2.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseControl\Windows\ColorSelectorDialog.cs" />
     <Compile Include="Views\BaseControl\Windows\CustomDialog.cs" />
@@ -459,9 +462,6 @@
     </Compile>
     <Compile Include="Views\Component\Layer\AmbientOcclusion.xaml.cs">
       <DependentUpon>AmbientOcclusion.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Component\Layer\LayerBlendController.xaml.cs">
-      <DependentUpon>LayerBlendController.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Component\Layer\LayerMaskController.xaml.cs">
       <DependentUpon>LayerMaskController.xaml</DependentUpon>
@@ -842,7 +842,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BaseControl\Counter.xaml">
+    <Page Include="Views\BaseControl\Integer2Value.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Views\BaseControl\IntegerValue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -902,7 +906,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\BaseControl\VectorXY.xaml">
+    <Page Include="Views\BaseControl\Vector2.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -981,10 +985,6 @@
     <Page Include="Views\Component\Layer\AmbientOcclusion.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\Component\Layer\LayerBlendController.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\Component\Layer\LayerMaskController.xaml">
       <SubType>Designer</SubType>

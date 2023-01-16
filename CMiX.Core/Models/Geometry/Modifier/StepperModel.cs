@@ -3,15 +3,10 @@
 
 using System;
 
-namespace CMiX.Core.Models
+namespace CMiX.Core.Models.Modifier
 {
-    public class NoneModel : IAnimModeModel
+    public class StepperModel : IModel
     {
-        public NoneModel()
-        {
-            this.ID = Guid.NewGuid();
-        }
-
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
     }

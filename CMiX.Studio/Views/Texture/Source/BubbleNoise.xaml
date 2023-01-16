@@ -72,16 +72,16 @@
                 </Border>
             </Grid>
 
-            <BaseControls:Counter 
+            <BaseControls:IntegerValue 
                 Position="Top" 
                 Margin="0, 8, 0, 0" 
                 Caption="Resolution X" 
-                Count="{Binding ResolutionX.Count}"/>
+                Value="{Binding ResolutionX.Count}"/>
             
-            <BaseControls:Counter 
+            <BaseControls:IntegerValue 
                 Position="Bottom" 
                 Caption="Y" 
-                Count="{Binding ResolutionY.Count}"/>
+                Value="{Binding ResolutionY.Count}"/>
             
         </StackPanel>
 

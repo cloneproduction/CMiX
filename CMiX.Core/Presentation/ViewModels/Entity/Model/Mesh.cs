@@ -33,8 +33,8 @@ namespace CMiX.Core.Presentation.ViewModels
             Thickness = new FloatValue(meshModel.Thickness);
 
             Tessellation = new IntegerValue(meshModel.Tessellation);
-            TessellationX = new IntegerValue(meshModel.TessellationX);
-            TessellationY = new IntegerValue(meshModel.TessellationY);
+            TessellationXY = new Integer2(meshModel.TessellationXY);
+
             GenerateBackFace = new BooleanValue(meshModel.GenerateBackFace);
             Visibility = new BooleanValue(meshModel.Visibility);
 
@@ -84,8 +84,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue Thickness { get; set; }
 
         public IntegerValue Tessellation { get; set; }
-        public IntegerValue TessellationX { get; set; }
-        public IntegerValue TessellationY { get; set; }
+        public Integer2 TessellationXY { get; set; }
 
         public BooleanValue GenerateBackFace { get; set; }
         public BooleanValue Visibility { get; set; }
@@ -104,8 +103,7 @@ namespace CMiX.Core.Presentation.ViewModels
             meshModelModel.Height = (FloatValueModel)Height.GetModel();
             meshModelModel.Thickness = (FloatValueModel)Thickness.GetModel();
             meshModelModel.Tessellation = (IntegerValueModel)Tessellation.GetModel();
-            meshModelModel.TessellationX = (IntegerValueModel)TessellationX.GetModel();
-            meshModelModel.TessellationY = (IntegerValueModel)TessellationY.GetModel();
+            meshModelModel.TessellationXY = (Integer2Model)TessellationXY.GetModel();
             meshModelModel.GenerateBackFace = (BooleanValueModel)GenerateBackFace.GetModel();
             meshModelModel.Visibility = (BooleanValueModel)Visibility.GetModel();
             meshModelModel.TransformModifierManager = (ModifierManagerModel)TransformModifierManager.GetModel();
@@ -126,8 +124,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Height.SetViewModel(meshModelModel.Height);
             Thickness.SetViewModel(meshModelModel.Thickness);
             Tessellation.SetViewModel(meshModelModel.Tessellation);
-            TessellationX.SetViewModel(meshModelModel.TessellationX);
-            TessellationY.SetViewModel(meshModelModel.TessellationY);
+            TessellationXY.SetViewModel(meshModelModel.TessellationXY);
             GenerateBackFace.SetViewModel(meshModelModel.GenerateBackFace);
             Visibility.SetViewModel(meshModelModel.Visibility);
 

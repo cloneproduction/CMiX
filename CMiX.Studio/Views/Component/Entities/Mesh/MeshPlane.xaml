@@ -5,31 +5,27 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="211.333" d:DesignWidth="361.333">
 
     <StackPanel>
-        
-        <BaseControl:VectorXY 
+
+        <BaseControl:Vector2 
+            Caption="Scale"
             DataContext="{Binding Scale}"/>
-        
+
         <BaseControl:VectorXYZ 
+            Caption="Offset"
             Margin="0, 8" 
             DataContext="{Binding Offset}"/>
 
-        <BaseControl:Counter 
-            Position="Top" 
-            Caption="Tessellation X" 
-            Count="{Binding TessellationX.Count}"/>
-            
-        <BaseControl:Counter 
-            Position="Bottom" 
-            Margin="0, 1, 0, 8" 
-            Caption="Y" 
-            Count="{Binding TessellationY.Count}"/>
+        <BaseControl:Integer2Value 
+            Margin="0, 0, 0, 8"
+            Caption="Tessellation"
+            DataContext="{Binding TessellationXY}"/>
 
         <BaseControl:ToggleButton
             Caption="Generate Backface" 
-            IsChecked="{Binding GenerateBackFace.IsChecked}"/>
+            IsChecked="{Binding GenerateBackFace.Value}"/>
 
     </StackPanel>
 

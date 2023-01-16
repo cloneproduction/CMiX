@@ -44,6 +44,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public SamplerState SamplerState { get; set; }
         public TransformSRT TransformUV { get; set; }
 
+
         private bool _isExpanded;
         public bool IsExpanded
         {
@@ -72,8 +73,8 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _name, value);
         }
 
-        public GenericValue<int> SelectedAssetType { get; set; }
 
+        public GenericValue<int> SelectedAssetType { get; set; }
 
         public TypeWriter TypeWriter { get; set; }
         public VideoIn VideoIn { get; set; }

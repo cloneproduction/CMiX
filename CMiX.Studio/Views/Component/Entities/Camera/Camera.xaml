@@ -23,45 +23,43 @@
                         Margin="0, 0, 0, 1" 
                         Position="Top" 
                         Caption="Distance" 
-                        Value="{Binding Path=Distance.Amount}"/>
+                        Value="{Binding Distance.Value}"/>
 
                     <BaseControls:DragValue 
                         Caption="FOV" 
                         Position="Bottom" 
-                        Value="{Binding Path=FOV.Amount}"/>
+                        Value="{Binding FOV.Value}"/>
 
                     <BaseControls:DragValue 
                         Margin="0, 8, 0, 1" 
                         Position="Top" 
                         Caption="Yaw" 
-                        Value="{Binding Path=Yaw.Amount}"/>
+                        Value="{Binding Yaw.Value}"/>
 
                     <BaseControls:DragValue 
                         Caption="Pitch" 
                         Position="Bottom" 
-                        Value="{Binding Path=Pitch.Amount}"/>
+                        Value="{Binding Pitch.Value}"/>
 
                     <BaseControls:VectorXYZ 
                         Margin="0, 8"
                         Caption="Target" 
-                        X="{Binding Path=TargetX.Amount}"
-                        Y="{Binding Path=TargetY.Amount}"
-                        Z="{Binding Path=TargetZ.Amount}"/>
+                        DataContext="{Binding Target}"/>
 
                     <BaseControls:ToggleButton 
                         Caption="Orthographic" 
-                        IsChecked="{Binding Projection.IsChecked}"/>
+                        IsChecked="{Binding Projection.Value}"/>
 
                     <BaseControls:DragValue 
                         Margin="0, 8, 0, 1" 
                         Position="Top" 
                         Caption="Near" 
-                        Value="{Binding Path=NearClip.Amount}"/>
+                        Value="{Binding NearClip.Value}"/>
 
                     <BaseControls:DragValue 
                         Caption="Far" 
                         Position="Bottom" 
-                        Value="{Binding Path=FarClip.Amount}"/>
+                        Value="{Binding FarClip.Value}"/>
                     
                 </StackPanel>
             </Border>

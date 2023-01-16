@@ -10,16 +10,14 @@ namespace CMiX.Core.Models.Component
         public OutputSettingsModel()
         {
             ID = Guid.NewGuid();
-            ResolutionX = new IntegerValueModel(1920);
-            ResolutionY = new IntegerValueModel(1080);
+            Resolution = new Integer2Model(1920, 1080);
             BackgroundColor = new ColorSelectorModel("#FF000000");
         }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
-        public IntegerValueModel ResolutionX { get; set; }
-        public IntegerValueModel ResolutionY { get; set; }
+        public Integer2Model Resolution { get; set; }
         public ColorSelectorModel BackgroundColor { get; internal set; }
     }
 }

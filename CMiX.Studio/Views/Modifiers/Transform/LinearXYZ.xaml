@@ -15,9 +15,9 @@
             SelectedItem="{Binding Mode.Selection}"
             ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
-        <BaseControls:Counter 
+        <BaseControls:IntegerValue 
             Margin="0, 0, 0, 8"
-            Count="{Binding Counter.Count}"/>
+            Value="{Binding Counter.Count}"/>
 
         <BaseControls:ComboBox  
             Margin="0, 4, 0, 2"

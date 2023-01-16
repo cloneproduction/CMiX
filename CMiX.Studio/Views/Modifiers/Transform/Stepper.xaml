@@ -21,10 +21,10 @@
             <Views:BeatModifier 
                 DataContext="{Binding BeatModifier}"/>
 
-            <BaseControls:Counter 
+            <BaseControls:IntegerValue 
                 Caption="Step Count"
                 Margin="0, 8, 0, 0" 
-                Count="{Binding StepCount.Count}"/>
+                Value="{Binding StepCount.Count}"/>
 
             <BaseControls:DragValue 
                 Margin="0, 8, 0, 0" 

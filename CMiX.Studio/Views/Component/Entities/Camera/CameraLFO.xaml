@@ -15,7 +15,7 @@
             <BaseControl:ComboBox 
                 Margin="0, 0, 0, 8" 
                 Caption="Axis" 
-                SelectedItem="{Binding Axis.Selection}" 
+                SelectedItem="{Binding Axis.Value}" 
                 ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
             
             <Views:BeatModifier 
@@ -25,17 +25,17 @@
                 Margin="0, 8, 0, 0" 
                 Position="Top" 
                 Caption="From" 
-                Value="{Binding From.Amount}"/>
+                Value="{Binding From.Value}"/>
             
             <BaseControl:DragValue
                 Margin="0, 1, 0, 0" 
                 Position="Bottom" 
                 Caption="To" 
-                Value="{Binding To.Amount}"/>
+                Value="{Binding To.Value}"/>
             
             <BaseControl:ToggleButton 
                 Margin="0, 8, 0, 0" 
-                IsChecked="{Binding PingPong.IsChecked}" 
+                IsChecked="{Binding PingPong.Value}" 
                 Caption="Ping Pong"/>
             
         </StackPanel>

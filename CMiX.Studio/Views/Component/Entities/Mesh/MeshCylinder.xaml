@@ -5,14 +5,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d"
-             d:DesignHeight="221.317" d:DesignWidth="231.447">
+             d:DesignHeight="261.569" d:DesignWidth="246.503">
 
     <StackPanel>
-        <BaseControl:VectorXYZ DataContext="{Binding Scale}"/>
-        <BaseControl:VectorXYZ Margin="0, 8" DataContext="{Binding Offset}"/>
+        <BaseControl:VectorXYZ Caption="Scale" DataContext="{Binding Scale}"/>
+        <BaseControl:VectorXYZ Caption="Offset" Margin="0, 8" DataContext="{Binding Offset}"/>
         <BaseControl:DragValue Position="Top" Caption="Radius" Value="{Binding Path=Radius.Amount}"/>
-        <BaseControl:DragValue Position="Bottom" Caption="Height" Value="{Binding Path=Height.Amount}"/>
-        <BaseControl:Counter Margin="0, 8, 0, 0" Count="{Binding Count, Mode=TwoWay}" Caption="Tessellation"/>
+        <BaseControl:DragValue Position="Bottom" Margin="0, 1, 0, 0" Caption="Height" Value="{Binding Path=Height.Amount}"/>
+        <BaseControl:IntegerValue Margin="0, 8, 0, 0" Value="{Binding Tessellation.Value}" Caption="Tessellation"/>
     </StackPanel>
-    
+
 </UserControl>

@@ -2,22 +2,26 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
 {
-    public class SteadyModel : IAnimModeModel
+    public class Integer2Model : IModel
     {
-        public SteadyModel()
+        public Integer2Model()
         {
             this.ID = Guid.NewGuid();
         }
 
-        public SteadyType SteadyType { get; set; }
-        public LinearType LinearType { get; set; }
-        public int Seed { get; set; }
+        public Integer2Model(int x, int y) : this()
+        {
+            X = new IntegerValueModel(x);
+            Y = new IntegerValueModel(y);
+        }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
+
+        public IntegerValueModel X{ get; set; }
+        public IntegerValueModel Y { get; set; }
     }
 }

@@ -18,10 +18,10 @@
                 SelectedItem="{Binding Mode.Selection}"
                 ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
-            <BaseControls:Counter 
+            <BaseControls:IntegerValue 
                 Margin="0, 8" 
                 Caption="Count" 
-                Count="{Binding Counter.Count, Mode=TwoWay}"/>
+                Value="{Binding Counter.Count, Mode=TwoWay}"/>
 
             <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
 

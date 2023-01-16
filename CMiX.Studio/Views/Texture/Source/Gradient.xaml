@@ -7,18 +7,21 @@
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
-             d:DesignHeight="429.222" d:DesignWidth="287.643">
+             d:DesignHeight="162.555" d:DesignWidth="270.31">
 
     <StackPanel>
         <StackPanel>
-            <BaseControl:DragValue Caption="Gamma" Margin="0, 0, 0, 8" Value="{Binding Gamma.Amount}"/>
+            <BaseControl:DragValue 
+                Caption="Gamma" 
+                Margin="0, 0, 0, 8"
+                Value="{Binding Gamma.Value}"/>
 
             <BaseControl:ColorSelector 
                 Caption="From"
                 Position="Top"
                 ViewModel="{Binding From}"
                 SelectedColor="{Binding From.SelectedColor}"/>
-            
+
             <BaseControl:ColorSelector 
                 Margin="0, 1, 0, 0"
                 Caption="To"
@@ -27,34 +30,14 @@
                 SelectedColor="{Binding To.SelectedColor}"/>
 
             <BaseControl:ToggleButton 
-                Margin="0, 8, 0, 0"
-                IsChecked="{Binding Horizontal.IsChecked}"
+                Margin="0, 8"
+                IsChecked="{Binding Horizontal.Value}"
                 Caption="Horizontal"/>
 
-            <StackPanel Margin="0, 8, 0, 0">
+            <BaseControl:Integer2Value 
+                Caption="Resolution"
+                DataContext="{Binding Resolution}"/>
 
-                
-                <!--<Grid Height="22">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Padding="4" Text="Resolution X" HorizontalAlignment="Right"/>
-                    <Border Grid.Column="1" BorderThickness="0, 0, 0, 1">
-                        <Controls:Counter Position="Top" Style="{StaticResource CMiXCounterStyle}"  Value="{Binding ResolutionX.Count, Mode=TwoWay}"/>
-                    </Border>
-                </Grid>
-
-                <Grid Height="22">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" Padding="4" Text="Y" HorizontalAlignment="Right"/>
-                    <Controls:Counter Grid.Column="1" Position="Bottom" Style="{StaticResource CMiXCounterStyle}" Value="{Binding ResolutionY.Count, Mode=TwoWay}"/>
-                </Grid>-->
-
-            </StackPanel>
         </StackPanel>
 
     </StackPanel>

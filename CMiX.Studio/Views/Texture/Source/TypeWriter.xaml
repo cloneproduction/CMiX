@@ -55,22 +55,21 @@
             ViewModel="{Binding BackgroundColor}"
             SelectedColor="{Binding BackgroundColor.SelectedColor}"/>
 
-        <BaseControl:VectorXY
+        <BaseControl:Vector2
             Margin="0, 8"
             Caption="Position"
-            X="{Binding Path=PositionX.Amount}"
-            Y="{Binding Path=PositionY.Amount}"/>
+            DataContext="{Binding Position}"/>
 
-        <BaseControl:Counter 
+        <BaseControl:IntegerValue 
             Caption="Resolution X" 
             Position="Top" 
-            Count="{Binding ResolutionX.Count}"/>
+            Value="{Binding ResolutionX.Count}"/>
         
-        <BaseControl:Counter 
-            Caption="X" 
+        <BaseControl:IntegerValue 
+            Caption="Y" 
             Margin="0, 1, 0, 0"
             Position="Bottom" 
-            Count="{Binding ResolutionY.Count}"/>
+            Value="{Binding ResolutionY.Count}"/>
         
     </StackPanel>
 

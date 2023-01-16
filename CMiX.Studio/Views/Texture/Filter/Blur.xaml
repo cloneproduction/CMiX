@@ -12,7 +12,6 @@
         Caption="Strength" 
         Minimum="0" 
         Maximum="1" 
-        Value="{Binding Strength.Amount}" 
-        Style="{StaticResource SliderRounded}" 
-        Position="Default"/>
+        Value="{Binding Strength.Value}"/>
+    
 </UserControl>

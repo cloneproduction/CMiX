@@ -1,25 +1,27 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.VideoIn"
+﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.Integer2Value"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="67.333" d:DesignWidth="332">
-    
-    <StackPanel>
+             x:Name="integer2Value"
+             Background="Transparent"
+             d:DesignHeight="50.555" d:DesignWidth="608.778">
 
-        <BaseControl:IntegerValue 
-            Value="{Binding SizeX.Count}" 
-            Caption="Resolution X" 
+    <StackPanel>
+        
+        <BaseControl:IntegerValue
+            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer2Value}" 
+            Value="{Binding X.Value}" 
             Position="Top"/>
         
         <BaseControl:IntegerValue 
-            Value="{Binding SizeY.Count}" 
-            Caption="Y" 
+            Caption="Y"
+            Value="{Binding Y.Value}" 
             Position="Bottom" 
             Margin="0, 1, 0, 0"/>
-
+        
     </StackPanel>
-    
+
 </UserControl>

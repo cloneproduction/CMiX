@@ -29,7 +29,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _value, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
+                ControlMessenger.Send(this);
             }
         }
 
@@ -51,8 +51,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == this.ID && !message.HasReceivedResponse)
-                message.Reply(this);
+            ControlMessenger.Receive(this, message);
         }
     }
 }

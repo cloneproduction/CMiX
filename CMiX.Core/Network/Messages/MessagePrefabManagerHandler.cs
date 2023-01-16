@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 
 namespace CMiX.Core.Network.Messages
@@ -17,6 +18,7 @@ namespace CMiX.Core.Network.Messages
         {
             if(control is IPrefabManager prefabManager)
             {
+
                 if (message is MessageAddPrefab messageAddPrefab)
                 {
                     prefabManager.AddPrefab(messageAddPrefab.ContainerID, messageAddPrefab.Model);
@@ -46,6 +48,7 @@ namespace CMiX.Core.Network.Messages
                     prefabManager.SelectPrefab(messageSelectPrefab.PrefabID);
                     return true;
                 }
+
             }
 
             return false;

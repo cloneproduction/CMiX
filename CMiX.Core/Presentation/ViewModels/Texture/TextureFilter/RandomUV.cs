@@ -25,16 +25,13 @@ namespace CMiX.Core.Presentation.ViewModels
             BeatModifier = new BeatModifier(randomUVModel.BeatModifierModel, compositionService);
             SamplerState = new SamplerState(randomUVModel.SamplerState, compositionService);
             RandomizeLocation = new BooleanValue(randomUVModel.RandomizeLocation);
-            RandomizeLocation.Value = true;
             Location = new Vector2(randomUVModel.Location);
 
             RandomizeScale = new BooleanValue(randomUVModel.RandomizeScale);
-            RandomizeScale.Value = true;
             Uniform = new FloatValue(randomUVModel.Uniform);
             Scale = new Vector2(randomUVModel.Scale);
 
             RandomizeRotation = new BooleanValue(randomUVModel.RandomizeScale);
-            RandomizeRotation.Value = true;
             Rotation = new FloatValue(randomUVModel.Rotation);
         }
 

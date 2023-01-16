@@ -22,33 +22,22 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             ID = outputPropertiesModel.ID;
             CompositionService = compositionService;
 
-            ResolutionX = new IntegerValue(outputPropertiesModel.ResolutionX);
-            ResolutionY = new IntegerValue(outputPropertiesModel.ResolutionY);
+            Resolution = new Integer2(outputPropertiesModel.Resolution);
             BackgroundColor = new ColorSelector(outputPropertiesModel.BackgroundColor);
-            OpenColorSelectorCommand = new RelayCommand(OpenColorSelector);
         }
 
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
-        public IntegerValue ResolutionX { get; set; }
-        public IntegerValue ResolutionY { get; set; }
+        public Integer2 Resolution { get; set; }
         public ColorSelector BackgroundColor { get; set; }
-        public ICommand OpenColorSelectorCommand { get; set; }
-
-
-        public void OpenColorSelector()
-        {
-            //CompositionService.DialogService.Show<ColorSelectorWindow>(this, this.BackgroundColor);
-        }
 
         public IModel GetModel()
         {
             OutputSettingsModel outputPropertiesModel = new OutputSettingsModel();
 
             outputPropertiesModel.ID = ID;
-            outputPropertiesModel.ResolutionX = (IntegerValueModel)ResolutionX.GetModel();
-            outputPropertiesModel.ResolutionY = (IntegerValueModel)ResolutionY.GetModel();
+            outputPropertiesModel.Resolution = (Integer2Model)Resolution.GetModel();
             outputPropertiesModel.BackgroundColor = (ColorSelectorModel)BackgroundColor.GetModel();
 
             return outputPropertiesModel;
@@ -58,8 +47,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             OutputSettingsModel outputPropertiesModel = model as OutputSettingsModel;
             this.ID = outputPropertiesModel.ID;
-            this.ResolutionX.SetViewModel(outputPropertiesModel.ResolutionX);
-            this.ResolutionY.SetViewModel(outputPropertiesModel.ResolutionY);
+            this.Resolution.SetViewModel(outputPropertiesModel.Resolution);
             this.BackgroundColor.SetViewModel(outputPropertiesModel.BackgroundColor);
         }
     }

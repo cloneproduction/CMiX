@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Models;
+using CMiX.Core.Models.Modifier;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -16,22 +17,22 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = stepperModel.ID;
             Enabled = stepperModel.Enabled;
 
-            Mode = new GenericValue<ModifierMode>(stepperModel.Mode);
+            //Mode = new GenericValue<ModifierMode>(stepperModel.Mode);
 
-            Visible = new BooleanValue(stepperModel.Visible);
-            BeatModifier = new BeatModifier(stepperModel.BeatModifier, compositionService);
+            //Visible = new BooleanValue(stepperModel.Visible);
+            //BeatModifier = new BeatModifier(stepperModel.BeatModifier, compositionService);
 
-            XAxis = new BooleanValue(stepperModel.XAxis);
-            YAxis = new BooleanValue(stepperModel.YAxis);
-            ZAxis = new BooleanValue(stepperModel.ZAxis);
+            //XAxis = new BooleanValue(stepperModel.XAxis);
+            //YAxis = new BooleanValue(stepperModel.YAxis);
+            //ZAxis = new BooleanValue(stepperModel.ZAxis);
 
-            PingPong = new BooleanValue(stepperModel.PingPong);
-            TransformType = new GenericValue<TransformType>(stepperModel.TransformType);
-            Easing = new Easing(stepperModel.Easing);
+            //PingPong = new BooleanValue(stepperModel.PingPong);
+            //TransformType = new GenericValue<TransformType>(stepperModel.TransformType);
+            //Easing = new Easing(stepperModel.Easing);
 
-            From = new FloatValue(stepperModel.From);
-            To = new FloatValue(stepperModel.To);
-            StepCount = new IntegerValue(stepperModel.StepCount);
+            //From = new FloatValue(stepperModel.From);
+            //To = new FloatValue(stepperModel.To);
+            //StepCount = new IntegerValue(stepperModel.StepCount);
 
             IsExpanded = true;
         }
@@ -75,22 +76,22 @@ namespace CMiX.Core.Presentation.ViewModels
             stepperModel.ID = this.ID;
             stepperModel.Enabled = Enabled;
 
-            stepperModel.Visible = (BooleanValueModel)Visible.GetModel();
-            stepperModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            stepperModel.PingPong = (BooleanValueModel)PingPong.GetModel();
+            //stepperModel.Visible = (BooleanValueModel)Visible.GetModel();
+            //stepperModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
+            //stepperModel.PingPong = (BooleanValueModel)PingPong.GetModel();
 
-            stepperModel.XAxis = (BooleanValueModel)XAxis.GetModel();
-            stepperModel.YAxis = (BooleanValueModel)YAxis.GetModel();
-            stepperModel.ZAxis = (BooleanValueModel)ZAxis.GetModel();
+            //stepperModel.XAxis = (BooleanValueModel)XAxis.GetModel();
+            //stepperModel.YAxis = (BooleanValueModel)YAxis.GetModel();
+            //stepperModel.ZAxis = (BooleanValueModel)ZAxis.GetModel();
 
-            stepperModel.TransformType = (GenericValueModel<TransformType>)TransformType.GetModel();
-            stepperModel.Mode = (GenericValueModel<ModifierMode>)Mode.GetModel();
+            //stepperModel.TransformType = (GenericValueModel<TransformType>)TransformType.GetModel();
+            //stepperModel.Mode = (GenericValueModel<ModifierMode>)Mode.GetModel();
 
-            stepperModel.Easing = (EasingModel)Easing.GetModel();
+            //stepperModel.Easing = (EasingModel)Easing.GetModel();
 
-            stepperModel.From = (FloatValueModel)From.GetModel();
-            stepperModel.To = (FloatValueModel)To.GetModel();
-            stepperModel.StepCount = (IntegerValueModel)StepCount.GetModel();
+            //stepperModel.From = (FloatValueModel)From.GetModel();
+            //stepperModel.To = (FloatValueModel)To.GetModel();
+            //stepperModel.StepCount = (IntegerValueModel)StepCount.GetModel();
 
             return stepperModel;
         }
@@ -101,21 +102,21 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = stepperModel.ID;
             Enabled = stepperModel.Enabled;
 
-            Mode.SetViewModel(stepperModel.Mode);
-            Visible.SetViewModel(stepperModel.Visible);
-            BeatModifier.SetViewModel(stepperModel.BeatModifier);
-            PingPong.SetViewModel(stepperModel.PingPong);
+            //Mode.SetViewModel(stepperModel.Mode);
+            //Visible.SetViewModel(stepperModel.Visible);
+            //BeatModifier.SetViewModel(stepperModel.BeatModifier);
+            //PingPong.SetViewModel(stepperModel.PingPong);
 
-            XAxis.SetViewModel(stepperModel.XAxis);
-            YAxis.SetViewModel(stepperModel.YAxis);
-            ZAxis.SetViewModel(stepperModel.ZAxis);
+            //XAxis.SetViewModel(stepperModel.XAxis);
+            //YAxis.SetViewModel(stepperModel.YAxis);
+            //ZAxis.SetViewModel(stepperModel.ZAxis);
 
-            TransformType.SetViewModel(stepperModel.TransformType);
-            Easing.SetViewModel(stepperModel.Easing);
+            //TransformType.SetViewModel(stepperModel.TransformType);
+            //Easing.SetViewModel(stepperModel.Easing);
 
-            From.SetViewModel(stepperModel.From);
-            To.SetViewModel(stepperModel.To);
-            StepCount.SetViewModel(stepperModel.StepCount);
+            //From.SetViewModel(stepperModel.From);
+            //To.SetViewModel(stepperModel.To);
+            //StepCount.SetViewModel(stepperModel.StepCount);
         }
 
         public void Dispose()

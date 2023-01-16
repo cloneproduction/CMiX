@@ -13,7 +13,7 @@
             Caption="Radius" 
             Minimum="0" 
             Maximum="10" 
-            Value="{Binding Radius.Amount}" 
+            Value="{Binding Radius.Value}" 
             Style="{StaticResource SliderRoundedTop}" 
             Position="Top"/>
         
@@ -22,7 +22,7 @@
             Caption="Brightness" 
             Minimum="0" 
             Maximum="10" 
-            Value="{Binding Brightness.Amount}" 
+            Value="{Binding Brightness.Value}" 
             Style="{StaticResource SliderRoundedBottom}" 
             Position="Bottom"/>
         
@@ -31,7 +31,7 @@
             Caption="Control" 
             Minimum="0" 
             Maximum="1" 
-            Value="{Binding Control.Amount}" 
+            Value="{Binding Control.Value}" 
             Style="{StaticResource SliderRounded}" Position="Default"/>
         
     </StackPanel>

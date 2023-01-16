@@ -21,48 +21,46 @@
             </DockPanel>
         </Panels:IndentedExpander.Header>
 
-        <Border
-            IsEnabled="{Binding IsEnabled.IsChecked}" 
-            Margin="8">
+        <Border IsEnabled="{Binding IsEnabled}"  Margin="8">
             
             <StackPanel>
 
-                <BaseControls:Counter 
+                <BaseControls:IntegerValue 
                     Caption="Samples" 
-                    Count="{Binding Samples.Count, Mode=TwoWay}"/>
+                    Value="{Binding Samples.Value}"/>
 
                 <BaseControls:DragValue 
                     Margin="0, 8" 
                     Caption="Intensity" 
-                    Value="{Binding Intensity.Amount}"/>
+                    Value="{Binding Intensity.Value}"/>
 
                 <BaseControls:DragValue 
                     Margin="0" 
                     Position="Top"
                     Caption="SampleBias" 
-                    Value="{Binding SampleBias.Amount}"/>
+                    Value="{Binding SampleBias.Value}"/>
 
                 <BaseControls:DragValue 
                     Margin="0, 1, 0, 8"
                     Position="Bottom"
                     Caption="SampleRadius" 
-                    Value="{Binding SampleRadius.Amount}"/>
+                    Value="{Binding SampleRadius.Value}"/>
 
-                <BaseControls:Counter 
+                <BaseControls:IntegerValue 
                     Caption="Blur Count" 
                     Position="Top"
-                    Count="{Binding BlurCount.Count, Mode=TwoWay}"/>
+                    Value="{Binding BlurCount.Value}"/>
 
                 <BaseControls:DragValue 
                     Position="Bottom"
                     Margin="0, 1, 0, 0"
                     Caption="Blur Radius" 
-                    Value="{Binding BlurRadius.Amount}"/>
+                    Value="{Binding BlurRadius.Value}"/>
 
                 <BaseControls:DragValue 
                     Margin="0, 8" 
                     Caption="Edge Sharpness" 
-                    Value="{Binding EdgeSharpness.Amount}"/>
+                    Value="{Binding EdgeSharpness.Value}"/>
 
             </StackPanel>
             

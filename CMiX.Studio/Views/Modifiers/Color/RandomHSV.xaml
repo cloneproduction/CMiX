@@ -13,9 +13,9 @@
         <StackPanel Margin="8">
 
             <BaseControl:ComboBox 
+                Caption="Type"
                 ItemsSource="{Binding Source={StaticResource ModifierMode}}" 
-                SelectedItem="{Binding Mode.Selection}" 
-                Caption="Type"/>
+                SelectedItem="{Binding Mode.Value}"/>
             
             <Views:BeatModifier 
                 Margin="0, 8" 
@@ -24,25 +24,25 @@
             <BaseControl:DragValue 
                 Position="Top" 
                 Caption="Hue" 
-                Value="{Binding Hue.Amount}"/>
+                Value="{Binding Hue.Value}"/>
                 
             <BaseControl:DragValue 
                 Margin="0, 1"
                 Position="Middle"
                 Caption="Saturation"
-                Value="{Binding Saturation.Amount}"/>
+                Value="{Binding Saturation.Value}"/>
                 
             <BaseControl:DragValue 
                 Margin="0" 
                 Position="Middle" 
                 Caption="Value" 
-                Value="{Binding Value.Amount}"/>
+                Value="{Binding Value.Value}"/>
                 
             <BaseControl:DragValue 
                 Margin="0, 1, 0, 0"
                 Position="Bottom"
                 Caption="Alpha" 
-                Value="{Binding Alpha.Amount}"/>
+                Value="{Binding Alpha.Value}"/>
 
         </StackPanel>
 

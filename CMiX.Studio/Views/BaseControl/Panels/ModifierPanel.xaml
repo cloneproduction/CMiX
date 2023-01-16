@@ -45,7 +45,7 @@
                                 DockPanel.Dock="Right" 
                                 Style="{StaticResource ToggleModifierVisibility}" 
                                 Width="22"
-                                IsChecked="{Binding  Path=DataContext.Visible.IsChecked}"/>
+                                IsChecked="{Binding  Path=DataContext.Visible.Value}"/>
 
                             <TextBlock Text="{Binding Path=DataContext, Converter={StaticResource TypeToName}}" DockPanel.Dock="Left"/>
                         </DockPanel>

@@ -17,7 +17,6 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = easingModel.ID;
             IsEnabled = easingModel.IsEnabled;
 
-
             EasingMode = EasingMode.In;
             EasingFunction = EasingFunction.Linear;
             IsActive = true;
@@ -34,7 +33,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _isEnabled, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
+                ControlMessenger.Send(this);
             }
         }
 
@@ -45,7 +44,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _easingFunction, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
+                ControlMessenger.Send(this);
             }
         }
 
@@ -56,7 +55,7 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _easingMode, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
+                ControlMessenger.Send(this);
             }
         }
 
@@ -82,8 +81,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == this.ID && !message.HasReceivedResponse)
-                message.Reply(this);
+            ControlMessenger.Receive(this, message);
         }
     }
 }
