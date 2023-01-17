@@ -8,11 +8,32 @@
              d:DesignHeight="261.569" d:DesignWidth="246.503">
 
     <StackPanel>
-        <BaseControl:VectorXYZ Caption="Scale" DataContext="{Binding Scale}"/>
-        <BaseControl:VectorXYZ Caption="Offset" Margin="0, 8" DataContext="{Binding Offset}"/>
-        <BaseControl:DragValue Position="Top" Caption="Radius" Value="{Binding Path=Radius.Amount}"/>
-        <BaseControl:DragValue Position="Bottom" Margin="0, 1, 0, 0" Caption="Height" Value="{Binding Path=Height.Amount}"/>
-        <BaseControl:IntegerValue Margin="0, 8, 0, 0" Value="{Binding Tessellation.Value}" Caption="Tessellation"/>
+        
+        <BaseControl:VectorXYZ 
+            Caption="Scale" 
+            DataContext="{Binding Scale}"/>
+        
+        <BaseControl:VectorXYZ 
+            Caption="Offset" 
+            Margin="0, 8" 
+            DataContext="{Binding Offset}"/>
+        
+        <BaseControl:DragValue 
+            Position="Top" 
+            Caption="Radius" 
+            Value="{Binding Radius.Value}"/>
+        
+        <BaseControl:DragValue 
+            Position="Bottom" 
+            Margin="0, 1, 0, 0" 
+            Caption="Height" 
+            Value="{Binding Height.Value}"/>
+        
+        <BaseControl:IntegerValue 
+            Margin="0, 8, 0, 0" 
+            Value="{Binding Tessellation.Value}" 
+            Caption="Tessellation"/>
+        
     </StackPanel>
 
 </UserControl>

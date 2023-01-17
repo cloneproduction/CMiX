@@ -10,35 +10,34 @@
     <StackPanel Margin="8">
 
         <BaseControls:ComboBox  
-            Margin="0, 0, 0, 2"
             Caption="Type"
-            SelectedItem="{Binding Mode.Selection}"
+            SelectedItem="{Binding Mode.Value}"
             ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
         <BaseControls:IntegerValue 
-            Margin="0, 0, 0, 8"
-            Value="{Binding Counter.Count}"/>
+            Margin="0, 8"
+            Value="{Binding Counter.Value}"/>
 
         <BaseControls:ComboBox  
-            Margin="0, 4, 0, 2"
+            Margin="0, 0, 0, 1"
             Caption="Transform"
-            SelectedItem="{Binding TransformTypeSelector.Selection}"
+            Position="Top"
+            SelectedItem="{Binding TransformTypeSelector.Value}"
             ItemsSource="{Binding Source={StaticResource TransformType}}"/>
 
         <BaseControls:AxisSelector3D 
-            Margin="0, 0, 0, 4"
             XIsChecked="{Binding DirectionXYZ.DirectionX}"
             YIsChecked="{Binding DirectionXYZ.DirectionY}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ}"/>
 
         <BaseControls:DragValue 
             Caption="Width" 
-            Margin="0, 4, 0, 4" 
-            Value="{Binding Width.Amount}"/>
+            Margin="0, 8" 
+            Value="{Binding Width.Value}"/>
 
         <BaseControls:DragValue 
             Caption="Phase" 
-            Value="{Binding Phase.Amount}"/>
+            Value="{Binding Phase.Value}"/>
 
     </StackPanel>
 

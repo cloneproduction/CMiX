@@ -10,11 +10,16 @@
 
 
     <Grid Height="22">
+        
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
             <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <TextBlock HorizontalAlignment="Right" Margin="0, 0, 4, 0" Text="{Binding Caption, ElementName=colorSelector}"/>
+        
+        <TextBlock 
+            HorizontalAlignment="Right" 
+            Margin="0, 0, 8, 0" 
+            Text="{Binding Caption, ElementName=colorSelector}"/>
 
         <Border
             x:Name="mask" 
@@ -26,6 +31,7 @@
         <Border 
             x:Name="mainBorder" 
             Grid.Column="1">
+            
             <Border.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Border.OpacityMask>
@@ -35,8 +41,9 @@
                 Click="Button_Click"
                 Background="{Binding SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all, ElementName=colorSelector}"
                 Style="{StaticResource ButtonColorStyle}"/>
+            
         </Border>
+        
     </Grid>
-
 
 </UserControl>

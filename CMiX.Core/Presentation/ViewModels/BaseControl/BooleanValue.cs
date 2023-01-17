@@ -29,7 +29,8 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _value, value);
-                ControlMessenger.Send(this);
+                if(IsActive)
+                    ControlMessenger.Send(this);
             }
         }
 

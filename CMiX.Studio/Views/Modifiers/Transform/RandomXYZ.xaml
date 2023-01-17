@@ -15,13 +15,13 @@
 
             <BaseControls:ComboBox 
                 Caption="Type"
-                SelectedItem="{Binding Mode.Selection}"
+                SelectedItem="{Binding Mode.Value}"
                 ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
             <BaseControls:IntegerValue 
                 Margin="0, 8" 
                 Caption="Count" 
-                Value="{Binding Counter.Count, Mode=TwoWay}"/>
+                Value="{Binding Counter.Value}"/>
 
             <Views:BeatModifier DataContext="{Binding BeatModifier}"/>
 
@@ -35,18 +35,16 @@
                         Width="14"
                         Height="14"
                         Style="{DynamicResource ToggleButtonRounded}"
-                        IsChecked="{Binding RandomizeLocation.IsChecked}"/>
+                        IsChecked="{Binding RandomizeLocation.Value}"/>
                         <TextBlock Text="Location" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                 </DockPanel>
             </Expander.Header>
 
             <BaseControls:VectorXYZ 
-                IsEnabled="{Binding RandomizeLocation.IsChecked}"
-                Margin="0, 8"
+                IsEnabled="{Binding RandomizeLocation.Value}"
+                Margin="8"
                 Caption="Location" 
-                X="{Binding Path=LocationX.Amount}"
-                Y="{Binding Path=LocationY.Amount}"
-                Z="{Binding Path=LocationZ.Amount}"/>
+                DataContext="{Binding Location}"/>
 
         </Expander>
 
@@ -58,19 +56,17 @@
                         Width="14"
                         Height="14"
                         Style="{DynamicResource ToggleButtonRounded}"
-                        IsChecked="{Binding RandomizeScale.IsChecked}"/>
+                        IsChecked="{Binding RandomizeScale.Value}"/>
                     <TextBlock Text="Scale" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                 </DockPanel>
             </Expander.Header>
-            
+
             <BaseControls:VectorXYZ 
-                IsEnabled="{Binding RandomizeLocation.IsChecked}"
-                Margin="0, 8"
+                IsEnabled="{Binding RandomizeLocation.Value}"
+                Margin="8"
                 Caption="Location" 
-                X="{Binding Path=ScaleX.Amount}"
-                Y="{Binding Path=ScaleY.Amount}"
-                Z="{Binding Path=ScaleZ.Amount}"/>
-            
+                DataContext="{Binding Location}"/>
+
         </Expander>
 
         <Expander IsExpanded="{Binding RandomizeRotationIsExpanded}">
@@ -81,22 +77,21 @@
                         Width="14"
                         Height="14"
                         Style="{DynamicResource ToggleButtonRounded}"
-                        IsChecked="{Binding RandomizeRotation.IsChecked}"/>
+                        IsChecked="{Binding RandomizeRotation.Value}"/>
                     <TextBlock Text="Rotation" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
                 </DockPanel>
             </Expander.Header>
 
             <BaseControls:VectorXYZ 
-                IsEnabled="{Binding RandomizeLocation.IsChecked}"
-                Margin="0, 8"
+                IsEnabled="{Binding RandomizeLocation.Value}"
+                Margin="8"
                 Caption="Rotation" 
-                X="{Binding Path=RotationX.Amount}"
-                Y="{Binding Path=RotationY.Amount}"
-                Z="{Binding Path=RotationZ.Amount}"/>
-            
+                DataContext="{Binding Rotation}"/>
+
         </Expander>
 
         <Views:Easing DataContext="{Binding Easing}"/>
+        
     </StackPanel>
 
 </UserControl>

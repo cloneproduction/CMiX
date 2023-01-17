@@ -52,7 +52,12 @@ namespace CMiX.Core.Network.Messages
             }
 
             ControlMessenger.CanSend = true;
+
             Console.WriteLine("WARNING ! Message " + message.GetType().Name + " wasn't handled");
+            if (message is MessageUpdateViewModel messageUpdateViewModel)
+            {
+                Console.WriteLine( messageUpdateViewModel.Model.GetType().Name);
+            }
         }
     }
 }

@@ -76,10 +76,21 @@
                 BorderBrush="{DynamicResource SuperHighDarkerColor}" 
                 DockPanel.Dock="Bottom" 
                 Background="{DynamicResource SuperHighDarkerColor}">
+                
                 <DockPanel LastChildFill="False" Opacity="0.5">
-                    <TextBlock DockPanel.Dock="Right" Padding="8" Text="CMiX"/>
-                    <TextBlock DockPanel.Dock="Left" Padding="8" Text="CloneProduction"/>
+                    
+                    <TextBlock 
+                        DockPanel.Dock="Right" 
+                        Padding="8" 
+                        Text="CMiX"/>
+                    
+                    <TextBlock 
+                        DockPanel.Dock="Left" 
+                        Padding="8" 
+                        Text="CloneProduction"/>
+                    
                 </DockPanel>
+                
             </Border>
             
             <Border 
@@ -153,7 +164,9 @@
                             BorderBrush="{DynamicResource SuperHighDarkerColor}"
                             BorderThickness="0, 1, 0, 0"
                             Background="{DynamicResource HighDarkerColor}">
+                            
                             <DockPanel>
+                                
                                 <Views:Outliner 
                                     VerticalAlignment="Top" 
                                     DockPanel.Dock="Top" 

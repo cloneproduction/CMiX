@@ -92,51 +92,6 @@
         </Setter>
     </Style>
 
-
-    <!--<Style x:Key="SliderButtonImage" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
-        <Setter Property="Focusable" Value="False"/>
-        <Setter Property="IsEnabled" Value="True"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
-        <Setter Property="HorizontalContentAlignment" Value="Center"/>
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Margin="0"
-                        Opacity="0.6"
-                        Padding="1"
-                        Background="{TemplateBinding Background}"
-                        SnapsToDevicePixels="True">
-                        <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
-                            <ContentPresenter ContentTemplate="{TemplateBinding Content}"/>
-                        </Viewbox>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
-                            <Setter TargetName="border" Property="Opacity" Value="0.9" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
-                            <Setter TargetName="border" Property="Opacity" Value="1.0" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
-                        </Trigger>
-                        
-                        <StaticResource ResourceKey="Trigger0" />
-                        <StaticResource ResourceKey="Trigger1" />
-                        <StaticResource ResourceKey="Trigger2" />
-                        <StaticResource ResourceKey="Trigger3" />
-                        
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>-->
     
     
     <Style x:Key="SliderButton" TargetType="{x:Type Button}" BasedOn="{StaticResource {x:Type Button}}">
@@ -223,38 +178,10 @@
         </Setter>
     </Style>
 
-
-
-    <!--<Style x:Key="BorderMask" TargetType="{x:Type Border}">
-        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Default"/>
-        <Setter Property="BorderThickness" Value="0"/>
-        <Setter Property="BorderBrush" Value="Transparent"/>
-        <Setter Property="Background" Value="{DynamicResource DarkerColor}"/>
-        <Setter Property="CornerRadius" Value="2"/>
-        <Style.Triggers>
-            
-            <DataTrigger  Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}"/>
-            </DataTrigger>
-
-            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}"/>
-            </DataTrigger>
-
-            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Middle">
-                <Setter Property="CornerRadius" Value="0"/>
-            </DataTrigger>
-
-            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Default">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusDefault}"/>
-            </DataTrigger>
-            
-        </Style.Triggers>
-    </Style>-->
     
     
     <Style TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="Height" Value="20"/>
+        <Setter Property="Height" Value="22"/>
         <Setter Property="Focusable" Value="False" />
         <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True"/>
         <Setter Property="HorizontalContentAlignment" Value="Right"/>

@@ -44,7 +44,8 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _value, value);
                 OnCountChange();
-                ControlMessenger.Send(this);
+                if(IsActive)
+                    ControlMessenger.Send(this);
             }
         }
 

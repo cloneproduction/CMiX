@@ -8,8 +8,7 @@
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Icons.xaml"/>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml"/>
     </ResourceDictionary.MergedDictionaries>
-    
-    
+
     <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke" Color="{DynamicResource Normal}"/>
     <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill" Color="{DynamicResource Normal}"/>
     <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke" Color="{DynamicResource HighLight}"/>
@@ -23,8 +22,6 @@
     <SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="{DynamicResource HighDarker}"/>
     <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="{DynamicResource Light}"/>
 
-
-    
     <Style x:Key="ExpanderHeaderFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
@@ -374,8 +371,7 @@
                 <ControlTemplate TargetType="{x:Type Expander}">
                     <Border 
                         Background="{DynamicResource HighDarkerColor}"
-                        BorderBrush="{DynamicResource Shadow}"
-                        BorderThickness="1, 0, 1, 2"
+                        BorderBrush="Transparent"
                         CornerRadius="2"
                         SnapsToDevicePixels="true">
                         <DockPanel>

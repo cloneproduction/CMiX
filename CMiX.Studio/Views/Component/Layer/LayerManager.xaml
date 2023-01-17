@@ -5,7 +5,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
              xmlns:Components="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
-             xmlns:dd="urn:gong-wpf-dragdrop" xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:dd="urn:gong-wpf-dragdrop" 
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" d:DesignHeight="210.285" d:DesignWidth="298.727" >
 
 
@@ -42,10 +43,10 @@
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Visibility" Value="Visible"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="False">
+                                    <DataTrigger Binding="{Binding IsMask.Value}" Value="False">
                                         <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="True">
+                                    <DataTrigger Binding="{Binding IsMask.Value}" Value="True">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -65,10 +66,10 @@
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="True">
+                                    <DataTrigger Binding="{Binding IsMask.Value}" Value="True">
                                         <Setter Property="Visibility" Value="Visible"/>
                                     </DataTrigger>
-                                    <DataTrigger Binding="{Binding IsMask.IsChecked}" Value="False">
+                                    <DataTrigger Binding="{Binding IsMask.Value}" Value="False">
                                         <Setter Property="Visibility" Value="Collapsed"/>
                                     </DataTrigger>
                                 </Style.Triggers>
@@ -79,13 +80,13 @@
 
                             <BaseControls:ComboBox 
                                 Caption="Mask Mode"
-                                SelectedItem="{Binding MaskMode.Selection, Converter={StaticResource EnumToString}}"
+                                SelectedItem="{Binding MaskMode.Value, Converter={StaticResource EnumToString}}"
                                 ItemsSource="{Binding Source={StaticResource MaskMode}}"/>
 
                             <BaseControls:ComboBox 
                                 Margin="0, 4"
                                 Caption="Channel"
-                                SelectedItem="{Binding MaskChannel.Selection}"
+                                SelectedItem="{Binding MaskChannel.Value}"
                                 ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
 
                         </StackPanel>
@@ -170,15 +171,15 @@
                                 <DockPanel>
 
                                     <Border 
-                                    DockPanel.Dock="Left" 
-                                    Height="25" 
-                                    Width="30" 
-                                    BorderBrush="{DynamicResource Shadow}"                                 
-                                    BorderThickness="0, 0, 2, 0">
+                                        DockPanel.Dock="Left" 
+                                        Height="25" 
+                                        Width="30"                             
+                                        BorderThickness="0, 0, 2, 0">
+                                        
                                         <ToggleButton
-                                        Padding="4"
-                                        Margin="4"
-                                        IsChecked="{Binding Prefab.Visibility.IsChecked}">
+                                            Padding="4"
+                                            Margin="4"
+                                            IsChecked="{Binding Prefab.Visibility.Value}">
 
                                             <ToggleButton.Style>
                                                 <Style TargetType="{x:Type ToggleButton}">
@@ -204,11 +205,11 @@
                                                     </Setter>
                                                 </Style>
                                             </ToggleButton.Style>
+                                            
                                         </ToggleButton>
                                     </Border>
 
-                                    <ToggleButton DockPanel.Dock="Right" 
-                                              IsChecked="{Binding Prefab.IsMask.IsChecked}">
+                                    <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding Prefab.IsMask.Value}">
                                         <ToggleButton.Style>
                                             <Style TargetType="{x:Type ToggleButton}">
                                                 <Setter Property="Template">
@@ -235,10 +236,11 @@
                                         </ToggleButton.Style>
                                     </ToggleButton>
 
-                                    <Controls:EditableTextBox x:Name="editableTextBox"
-                                                            Foreground="{DynamicResource TextBase}"
-                                                            Height="20" 
-                                                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                    <Controls:EditableTextBox 
+                                        x:Name="editableTextBox"
+                                        Foreground="{DynamicResource TextBase}"
+                                        Height="20" 
+                                        Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 </DockPanel>
                             </DataTemplate>

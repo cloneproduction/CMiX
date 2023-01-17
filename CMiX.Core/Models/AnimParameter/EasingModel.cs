@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Mathematics;
 using CMiX.Core.Presentation.ViewModels;
 
 namespace CMiX.Core.Models
@@ -12,14 +11,15 @@ namespace CMiX.Core.Models
         public EasingModel()
         {
             this.ID = Guid.NewGuid();
-            IsEnabled = false;
+            IsEnabled = new BooleanValueModel(false);
+            Function = new GenericValueModel<EasingFunction>(EasingFunction.Linear);
+            Mode = new GenericValueModel<EasingMode>(EasingMode.In);
         }
 
         public bool Enabled { get; set; }
-        public bool IsEnabled { get; set; }
+        public BooleanValueModel IsEnabled { get; set; }
         public Guid ID { get; set; }
-        public Easings.Functions SelectedEasing { get; set; }
-        public EasingFunction EasingFunction { get; set; }
-        public EasingMode EasingMode { get; set; }
+        public GenericValueModel<EasingFunction> Function { get; set; }
+        public GenericValueModel<EasingMode> Mode { get; set; }
     }
 }

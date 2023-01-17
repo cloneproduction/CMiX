@@ -6,7 +6,6 @@
              xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:System="clr-namespace:System;assembly=mscorlib"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
@@ -14,12 +13,6 @@
 
     <UserControl.Resources>
         <ResourceDictionary>
-
-            <ObjectDataProvider x:Key="MeshType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
-                <ObjectDataProvider.MethodParameters>
-                    <x:Type TypeName="ViewModels:LightType"/>
-                </ObjectDataProvider.MethodParameters>
-            </ObjectDataProvider>
 
             <DataTemplate x:Key="PointLightTemplate">
                 <Views:LightPoint DataContext="{Binding}"/>
@@ -43,32 +36,18 @@
 
     <StackPanel>
 
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-            <TextBlock 
-                    Text="Color" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
+        <BaseControls:ColorSelector 
+            SelectedColor="{Binding LightColor.SelectedColor}" 
+            Caption="Color"/>
 
-            <Border Grid.Column="1">
-                <Button Height="25"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        Style="{StaticResource ButtonColorStyle}">
-                    <Button.Background>
-                        <SolidColorBrush Color="{Binding LightColor.SelectedColor}"/>
-                    </Button.Background>
-                </Button>
-            </Border>
-        </Grid>
-
-        <BaseControls:DragValue Margin="0, 8" Caption="Intensity" Value="{Binding Intensity.Amount}"/>
+        <BaseControls:DragValue 
+            Margin="0, 8" 
+            Caption="Intensity" 
+            Value="{Binding Intensity.Value}"/>
 
         <BaseControls:ComboBox 
             Caption="Type"                
-            SelectedItem="{Binding LightTypeSelector.Selection}"              
+            SelectedItem="{Binding LightTypeSelector.Value}"              
             ItemsSource="{Binding Source={StaticResource MeshType}}"/>
 
         <ContentControl
@@ -79,19 +58,19 @@
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Selection}" Value="{x:Static ViewModels:LightType.PointLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.PointLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource PointLightTemplate}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Selection}" Value="{x:Static ViewModels:LightType.SpotLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.SpotLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource SpotLightTemplate}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Selection}" Value="{x:Static ViewModels:LightType.AmbientLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.AmbientLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource AmbientLightTemplate}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Selection}" Value="{x:Static ViewModels:LightType.DirectionalLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.DirectionalLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource DirectionalLightTemplate}"/>
                         </DataTrigger>
 

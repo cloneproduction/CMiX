@@ -13,13 +13,13 @@
             
             <BaseControls:ComboBox
                 Caption="Type"
-                SelectedItem="{Binding Mode.Selection}"
+                SelectedItem="{Binding Mode.Value}"
                 ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
             <BaseControls:IntegerValue 
                 Caption="Count"
                 Margin="0, 8"
-                Value="{Binding Counter.Count}"/>
+                Value="{Binding Counter.Value}"/>
 
             <Views:BeatModifier 
                 DataContext="{Binding BeatModifier}"/>
@@ -27,15 +27,13 @@
             <BaseControls:DragValue 
                 Margin="0, 8"
                 Caption="Uniform" 
-                Value="{Binding UniformXYZ.Amount}"/>
+                Value="{Binding UniformXYZ.Value}"/>
 
             <BaseControls:VectorXYZ 
                 Caption="Scale"
-                X="{Binding ScaleX.Amount}"
-                Y="{Binding ScaleY.Amount}"
-                Z="{Binding ScaleZ.Amount}"/>
+                DataContext="{Binding Scale}"/>
 
-            </StackPanel>
+        </StackPanel>
 
         <Views:Easing DataContext="{Binding Easing}"/>
 

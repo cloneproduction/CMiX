@@ -27,50 +27,42 @@
 
         <BaseControl:ComboBox 
             Caption="Font Family"
-            Margin="0, 16, 0, 0" 
+            Margin="0, 8" 
             ItemsSource="{Binding Source={StaticResource SortedFontsCollection}}" 
-            SelectedItem="{Binding FontFamily.Selection, Converter={StaticResource FontFamilyToString}}"/>
+            SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}"/>
 
         <BaseControl:ComboBox 
             Caption="Style"
-            Margin="0, 4, 0, 0" 
             ItemsSource="{Binding Source={StaticResource FontStyle}}" 
-            SelectedItem="{Binding Style.Selection}"/>
+            SelectedItem="{Binding Style.Value}"/>
 
         <BaseControl:DragValue 
             Caption="Size" 
-            Value="{Binding FontSize.Amount}" 
+            Value="{Binding FontSize.Value}" 
             Margin="0, 8"/>
 
         <BaseControl:ColorSelector
             Caption="Font Color"
             Position="Top"
             ViewModel="{Binding FontColor}"
-            SelectedColor="{Binding FontColor.SelectedColor}"/>
+            SelectedColor="{Binding FontColor.Value}"/>
 
         <BaseControl:ColorSelector
             Caption="Background Color"
             Margin="0, 1, 0, 0"
             Position="Bottom"
             ViewModel="{Binding BackgroundColor}"
-            SelectedColor="{Binding BackgroundColor.SelectedColor}"/>
+            SelectedColor="{Binding BackgroundColor.Value}"/>
 
         <BaseControl:Vector2
             Margin="0, 8"
             Caption="Position"
             DataContext="{Binding Position}"/>
 
-        <BaseControl:IntegerValue 
-            Caption="Resolution X" 
-            Position="Top" 
-            Value="{Binding ResolutionX.Count}"/>
-        
-        <BaseControl:IntegerValue 
-            Caption="Y" 
-            Margin="0, 1, 0, 0"
-            Position="Bottom" 
-            Value="{Binding ResolutionY.Count}"/>
-        
+        <BaseControl:Integer2Value
+            Caption="Resolution"
+            DataContext="{Binding Resolution}"/>
+
     </StackPanel>
 
 </UserControl>

@@ -9,11 +9,30 @@
     
     <StackPanel>
         
-        <BaseControl:VectorXYZ Caption="Position" DataContext="{Binding Position}"/>
-        <BaseControl:VectorXYZ Caption="Target" Margin="0, 8" DataContext="{Binding Target}"/>
-        <BaseControl:DragValue Position="Top" Value="{Binding Path=Range.Amount}" Caption="Range"/>
-        <BaseControl:DragValue Margin="0, 1" Position="Middle" Value="{Binding Path=Angle.Amount}" Caption="Angle"/>
-        <BaseControl:DragValue Position="Bottom" Value="{Binding Path=Softness.Amount}" Caption="Softness"/>
+        <BaseControl:VectorXYZ 
+            Caption="Position" 
+            DataContext="{Binding Position}"/>
+        
+        <BaseControl:VectorXYZ 
+            Caption="Target" 
+            Margin="0, 8" 
+            DataContext="{Binding Target}"/>
+        
+        <BaseControl:DragValue 
+            Position="Top" 
+            Value="{Binding Range.Value}" 
+            Caption="Range"/>
+        
+        <BaseControl:DragValue 
+            Margin="0, 1" 
+            Position="Middle" 
+            Value="{Binding Angle.Value}" 
+            Caption="Angle"/>
+        
+        <BaseControl:DragValue 
+            Position="Bottom" 
+            Value="{Binding Softness.Value}" 
+            Caption="Softness"/>
 
     </StackPanel>
     

@@ -261,7 +261,7 @@
     <Compile Include="Presentation\ViewModels\Assets\VideoSelector.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Button.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\DirectionXYZ.cs" />
-    <Compile Include="Presentation\ViewModels\BaseControl\StringControl.cs" />
+    <Compile Include="Presentation\ViewModels\BaseControl\StringValue.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Vector2.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Vector3.cs" />
     <Compile Include="Presentation\ViewModels\Beat\BeatManager.cs" />
@@ -416,8 +416,6 @@
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\ModifierFactory.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierNames.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\ModifierMode.cs" />
-    <Compile Include="Presentation\ViewModels\Transform\Modifiers\RotationModifier.cs" />
-    <Compile Include="Presentation\ViewModels\Transform\Modifiers\ScaleModifier.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\ITransformModifier.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TextureTransformModifierTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\Transform\Modifiers\TransformModifierTemplateSelector.cs" />
@@ -432,7 +430,7 @@
     <Compile Include="Models\Texture\InvertModel.cs" />
     <Compile Include="Mathematics\Easings.cs" />
     <Compile Include="Presentation\ViewModels\Beat\Resync.cs" />
-    <Compile Include="Presentation\ViewModels\BaseControl\ComboBox.cs" />
+    <Compile Include="Presentation\ViewModels\BaseControl\GenericValue.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\CounterEventArgs.cs" />
     <Compile Include="Presentation\ViewModels\Transform\ITransform.cs" />
     <Compile Include="Presentation\ViewModels\Outliner\OutlinerDragDropManager.cs" />
@@ -488,7 +486,6 @@
     <Compile Include="Presentation\ViewModels\Network\Server.cs" />
     <Compile Include="Presentation\ViewModels\Network\Settings.cs" />
     <Compile Include="Presentation\ViewModels\IControl.cs" />
-    <Compile Include="Presentation\ViewModels\BaseControl\Slider\Slider.cs" />
     <Compile Include="Presentation\Easing\EasingTypes.cs" />
     <Compile Include="Models\Beat\BeatModifierModel.cs" />
     <Compile Include="Models\CameraModel.cs" />

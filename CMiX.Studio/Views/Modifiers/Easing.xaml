@@ -8,30 +8,37 @@
              d:DesignHeight="298.031" d:DesignWidth="269.095">
 
     <Expander>
+        
         <Expander.Header>
             <DockPanel>
+                
                 <ToggleButton
                     Width="14"
                     Height="14"
                     Style="{DynamicResource ToggleButtonRounded}"
-                    IsChecked="{Binding IsEnabled}"/>
-                <TextBlock Text="Easing" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+                    IsChecked="{Binding IsEnabled.Value}"/>
+                
+                <TextBlock 
+                    Text="Easing" 
+                    Margin="8, 0" 
+                    Foreground="{DynamicResource TextBase}"/>
+                
             </DockPanel>
         </Expander.Header>
 
         <StackPanel 
             Margin="8" 
-            IsEnabled="{Binding IsEnabled}">
+            IsEnabled="{Binding IsEnabled.Value}">
 
             <BaseControls:ComboBox 
                 Margin="0, 0, 0, 4"
                 Caption="Function"
-                SelectedItem="{Binding EasingFunction}"
+                SelectedItem="{Binding Function.Value}"
                 ItemsSource="{Binding Source={StaticResource EasingFunction}}"/>
 
             <BaseControls:ComboBox 
                 Caption="Mode"
-                SelectedItem="{Binding EasingMode}"
+                SelectedItem="{Binding Mode.Value}"
                 ItemsSource="{Binding Source={StaticResource EasingMode}}"/>
 
         </StackPanel>

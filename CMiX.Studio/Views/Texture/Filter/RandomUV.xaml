@@ -17,7 +17,7 @@
             <basecontrol:DragValue 
                 Margin="0, 8" 
                 Position="Default" 
-                Value="{Binding Uniform.Amount}" 
+                Value="{Binding Uniform.Value}" 
                 Caption="Uniform"/>
 
             <basecontrol:Vector2
@@ -27,7 +27,7 @@
             <basecontrol:DragValue 
                 Margin="0, 8" 
                 Position="Default" 
-                Value="{Binding Rotation.Amount}" 
+                Value="{Binding Rotation.Value}" 
                 Caption="Rotation"/>
 
             <basecontrol:Vector2

@@ -14,22 +14,21 @@
             Margin="0, 0, 0, 8"
             Minimum="0"
             Maximum="1"
-            DockPanel.Dock="Top"
-            Height="22"
-            Value="{Binding Opacity.Amount}" 
+            Value="{Binding Opacity.Value}" 
             Caption="Alpha"/>
 
         <BaseControls:ComboBox 
             Caption="Channel"
-            SelectedItem="{Binding MaskChannelSelector.Selection, Converter={StaticResource EnumToString}}"
+            SelectedItem="{Binding MaskChannelSelector.Value, Converter={StaticResource EnumToString}}"
             ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
 
         <BaseControls:ColorSelector 
             Margin="0, 8"
-            Caption="Background"  />
+            SelectedColor="{Binding BackgroundColor.SelectedColor}"
+            Caption="Background"/>
 
         <BaseControls:ToggleButton 
-            IsChecked="{Binding Invert.IsChecked}"
+            IsChecked="{Binding Invert.Value}"
             Caption="Invert"/>
         
     </StackPanel>

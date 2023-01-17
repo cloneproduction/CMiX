@@ -35,6 +35,7 @@
             Grid.Column="1" 
             BorderBrush="Transparent" 
             Background="{DynamicResource DarkColor}">
+            
             <Border.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Border.OpacityMask>
@@ -43,6 +44,9 @@
                 Grid.Column="1" 
                 SelectedItem="{Binding SelectedItem, ElementName=comboBox}"
                 ItemsSource="{Binding ItemsSource, ElementName=comboBox}"/>
+            
         </Border>
+        
     </Grid>
+    
 </UserControl>

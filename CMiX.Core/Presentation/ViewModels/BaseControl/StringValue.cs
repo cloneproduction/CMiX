@@ -29,7 +29,8 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
             set
             {
                 SetProperty(ref _value, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
+                if(IsActive)
+                    ControlMessenger.Send(this);
             }
         }
 

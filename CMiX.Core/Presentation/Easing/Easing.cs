@@ -15,67 +15,36 @@ namespace CMiX.Core.Presentation.ViewModels
         public Easing(EasingModel easingModel)
         {
             this.ID = easingModel.ID;
-            IsEnabled = easingModel.IsEnabled;
-
-            EasingMode = EasingMode.In;
-            EasingFunction = EasingFunction.Linear;
+            IsEnabled = new BooleanValue(easingModel.IsEnabled);
+            Mode = new GenericValue<EasingMode>(easingModel.Mode);
+            Function = new GenericValue<EasingFunction>(easingModel.Function);
             IsActive = true;
         }
 
 
         public Guid ID { get; set; }
 
-
-        private bool _isEnabled;
-        public bool IsEnabled
-        {
-            get => _isEnabled;
-            set
-            {
-                SetProperty(ref _isEnabled, value);
-                ControlMessenger.Send(this);
-            }
-        }
-
-        private EasingFunction _easingFunction;
-        public EasingFunction EasingFunction
-        {
-            get => _easingFunction;
-            set
-            {
-                SetProperty(ref _easingFunction, value);
-                ControlMessenger.Send(this);
-            }
-        }
-
-        private EasingMode _easingMode;
-        public EasingMode EasingMode
-        {
-            get => _easingMode;
-            set
-            {
-                SetProperty(ref _easingMode, value);
-                ControlMessenger.Send(this);
-            }
-        }
+        public BooleanValue IsEnabled { get; set; }
+        public GenericValue<EasingFunction> Function { get; set; }
+        public GenericValue<EasingMode> Mode { get; set; }
 
 
         public void SetViewModel(IModel model)
         {
             EasingModel easingModel = model as EasingModel;
             this.ID = easingModel.ID;
-            this.IsEnabled = easingModel.IsEnabled;
-            this.EasingFunction = easingModel.EasingFunction;
-            this.EasingMode = easingModel.EasingMode;
+            this.IsEnabled.SetViewModel(easingModel.IsEnabled);
+            this.Function.SetViewModel(easingModel.Function);
+            this.Mode.SetViewModel(easingModel.Mode);
         }
 
         public IModel GetModel()
         {
             EasingModel model = new EasingModel();
             model.ID = this.ID;
-            model.IsEnabled = this.IsEnabled;
-            model.EasingFunction = this.EasingFunction;
-            model.EasingMode = this.EasingMode;
+            model.IsEnabled = (BooleanValueModel)IsEnabled.GetModel();
+            model.Function = (GenericValueModel<EasingFunction>)this.Function.GetModel();
+            model.Mode = (GenericValueModel<EasingMode>)this.Mode.GetModel();
             return model;
         }
 

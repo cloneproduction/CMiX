@@ -10,80 +10,39 @@
              d:DesignHeight="429.222" d:DesignWidth="287.643">
 
     <StackPanel>
-        <StackPanel>
-            
-            <BaseControls:DragValue 
-                Caption="Speed" 
-                Position="Top" 
-                Value="{Binding Speed.Amount}"/>
-            
-            <BaseControls:DragValue 
-                Margin="0, 1" 
-                Caption="Frequency" 
-                Position="Middle" 
-                Value="{Binding Frequency.Amount}"/>
-            
-            <BaseControls:DragValue 
-                Caption="Contrast" 
-                Position="Bottom" 
-                Value="{Binding Contrast.Amount}"/>
-            
-            <Grid Margin="0, 8, 0, 0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="Background" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
-                <Border Grid.Column="1">
-                    <Button Height="22"
-                        Margin="0"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        CommandParameter="{Binding BackgroundColor}"
-                        Style="{StaticResource ButtonColorStyle}">
-                        <Button.Background>
-                            <SolidColorBrush Color="{Binding BackgroundColor.SelectedColor}"/>
-                        </Button.Background>
-                    </Button>
-                </Border>
-            </Grid>
 
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock 
-                    Text="Bubble" 
-                    HorizontalAlignment="Right" Padding="4, 0"
-                    VerticalAlignment="Center"/>
-                <Border Grid.Column="1">
-                    <Button Height="22"
-                        Margin="0"
-                        Command="{Binding OpenColorSelectorCommand}"
-                        CommandParameter="{Binding BubbleColor}"
-                        Style="{StaticResource ButtonColorStyle}">
-                        <Button.Background>
-                            <SolidColorBrush Color="{Binding BubbleColor.SelectedColor}"/>
-                        </Button.Background>
-                    </Button>
-                </Border>
-            </Grid>
+        <BaseControls:DragValue 
+            Caption="Speed" 
+            Position="Top" 
+            Value="{Binding Speed.Value}"/>
+            
+        <BaseControls:DragValue 
+            Margin="0, 1" 
+            Caption="Frequency" 
+            Position="Middle" 
+            Value="{Binding Frequency.Value}"/>
 
-            <BaseControls:IntegerValue 
-                Position="Top" 
-                Margin="0, 8, 0, 0" 
-                Caption="Resolution X" 
-                Value="{Binding ResolutionX.Count}"/>
+        <BaseControls:DragValue 
+            Caption="Contrast" 
+            Position="Bottom" 
+            Value="{Binding Contrast.Value}"/>
+
+        <BaseControls:ColorSelector 
+            Caption="Background" 
+            Margin="0, 8, 0, 1"
+            SelectedColor="{Binding BackgroundColor.SelectedColor}" 
+            Position="Top"/>
             
-            <BaseControls:IntegerValue 
-                Position="Bottom" 
-                Caption="Y" 
-                Value="{Binding ResolutionY.Count}"/>
-            
-        </StackPanel>
+        <BaseControls:ColorSelector 
+            Caption="Bubble" 
+            SelectedColor="{Binding BubbleColor.SelectedColor}" 
+            Position="Bottom"/>
+
+        <BaseControls:Integer2Value 
+            Margin="0, 8, 0, 0"
+            DataContext="{Binding Resolution}" 
+            Caption="Resolution"/>
 
     </StackPanel>
+    
 </UserControl>

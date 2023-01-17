@@ -9,18 +9,18 @@
 
     <UserControl.ContentTemplate>
         <DataTemplate>
-            <Expander IsExpanded="True" 
-                      Style="{StaticResource ItemControlExpander}">
-                
+
+            <Expander IsExpanded="True" Style="{StaticResource ItemControlExpander}">
+
                 <Expander.Header>
                     <Border>
                         <DockPanel>
 
                             <Border 
-                                DockPanel.Dock="Right" 
-                                Width="22"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center">
+                                    DockPanel.Dock="Right" 
+                                    Width="22"
+                                    HorizontalAlignment="Right"
+                                    VerticalAlignment="Center">
 
                                 <Button 
                                     Style="{StaticResource DragHandlerButton}"

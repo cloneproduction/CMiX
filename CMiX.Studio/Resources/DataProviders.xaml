@@ -5,6 +5,12 @@
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase">
 
+    <ObjectDataProvider x:Key="LightType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="ViewModels:LightType"/>
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
     <ObjectDataProvider x:Key="CameraAxis" MethodName="GetValues" ObjectType="{x:Type ViewModels:CameraAxis}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="ViewModels:CameraAxis"/>
