@@ -11,41 +11,46 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Transform2D : IControl
     {
-        public Transform2D(Transform2DModel transformUVModel, CompositionService compositionService)
+        public Transform2D(Transform2DModel transform2DModel, CompositionService compositionService)
         {
-            ID = transformUVModel.ID;
-            Translate = new Vector2(transformUVModel.Translate);
-            Scale = new Vector2(transformUVModel.Scale);
-            Rotate = new FloatValue(transformUVModel.Rotate);
+            ID = transform2DModel.ID;
+
+            UniformScale = new FloatValue(transform2DModel.UniformScale);
+            Translate = new Vector2(transform2DModel.Translate);
+            Scale = new Vector2(transform2DModel.Scale);
+            Rotate = new FloatValue(transform2DModel.Rotate);
         }
 
         public Guid ID { get; set; }
 
+        public FloatValue UniformScale { get; set; }
         public Vector2 Translate { get; set; }
         public Vector2 Scale { get; set; }
         public FloatValue Rotate { get; set; }
 
         public IModel GetModel()
         {
-            Transform2DModel transformUVModel = new Transform2DModel();
+            Transform2DModel transform2DModel = new Transform2DModel();
 
-            transformUVModel.ID = ID;
-            transformUVModel.Translate = (Vector2Model)Translate.GetModel();
-            transformUVModel.Scale = (Vector2Model)Scale.GetModel();
-            transformUVModel.Rotate = (FloatValueModel)Rotate.GetModel();
+            transform2DModel.ID = ID;
+            transform2DModel.UniformScale = (FloatValueModel)UniformScale.GetModel();
+            transform2DModel.Translate = (Vector2Model)Translate.GetModel();
+            transform2DModel.Scale = (Vector2Model)Scale.GetModel();
+            transform2DModel.Rotate = (FloatValueModel)Rotate.GetModel();
 
-            return transformUVModel;
+            return transform2DModel;
 
         }
 
         public void SetViewModel(IModel model)
         {
-            Transform2DModel modelUVModel = model as Transform2DModel;
+            Transform2DModel transform2DModel = model as Transform2DModel;
 
-            ID = modelUVModel.ID;
-            Translate.SetViewModel(modelUVModel.Translate);
-            Scale.SetViewModel(modelUVModel.Scale);
-            Rotate.SetViewModel(modelUVModel.Rotate);
+            ID = transform2DModel.ID;
+            UniformScale.SetViewModel(transform2DModel.UniformScale);
+            Translate.SetViewModel(transform2DModel.Translate);
+            Scale.SetViewModel(transform2DModel.Scale);
+            Rotate.SetViewModel(transform2DModel.Rotate);
         }
     }
 }

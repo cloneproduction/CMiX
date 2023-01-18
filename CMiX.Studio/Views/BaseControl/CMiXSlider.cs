@@ -58,6 +58,7 @@ namespace CMiX.Studio.Views.BaseControl
         private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             Window parentWindow = Window.GetWindow(this);
+
             if (parentWindow != null)
                 Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
 

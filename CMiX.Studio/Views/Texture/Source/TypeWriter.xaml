@@ -27,12 +27,14 @@
 
         <BaseControl:ComboBox 
             Caption="Font Family"
-            Margin="0, 8" 
+            Position="Top"
+            Margin="0, 8, 0, 1" 
             ItemsSource="{Binding Source={StaticResource SortedFontsCollection}}" 
             SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}"/>
 
         <BaseControl:ComboBox 
             Caption="Style"
+            Position="Bottom"
             ItemsSource="{Binding Source={StaticResource FontStyle}}" 
             SelectedItem="{Binding Style.Value}"/>
 
@@ -45,14 +47,14 @@
             Caption="Font Color"
             Position="Top"
             ViewModel="{Binding FontColor}"
-            SelectedColor="{Binding FontColor.Value}"/>
+            SelectedColor="{Binding FontColor.SelectedColor}"/>
 
         <BaseControl:ColorSelector
             Caption="Background Color"
             Margin="0, 1, 0, 0"
             Position="Bottom"
             ViewModel="{Binding BackgroundColor}"
-            SelectedColor="{Binding BackgroundColor.Value}"/>
+            SelectedColor="{Binding BackgroundColor.SelectedColor}"/>
 
         <BaseControl:Vector2
             Margin="0, 8"

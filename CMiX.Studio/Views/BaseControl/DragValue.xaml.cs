@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CMiX.Core.Mathematics;
+using System;
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -74,6 +75,32 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
+        //protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
+        //{
+        //    var mouseUpPos = e.GetPosition(this);
+        //    Border.ReleaseMouseCapture();
+
+        //    if (_mouseDownPos == mouseUpPos)
+        //        OnSwitchToEditingMode();
+
+        //    if (_mouseDownPos != null && IsEditing == false)
+        //    {
+
+        //        Point pointToScreen;
+
+        //        double YPos = ActualHeight / 2;
+        //        double XPos = MathUtils.Map(this.Value, this.Minimum, this.Maximum, 0, ActualWidth);
+
+        //        if (XPos >= ActualWidth)
+        //            XPos -= 1;
+
+        //        pointToScreen = this.PointToScreen(new Point(XPos, YPos));
+        //        SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+        //    }
+        //    _mouseDownPos = null;
+        //}
+
+
         private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             var mouseUpPos = e.GetPosition(this);
@@ -84,11 +111,33 @@ namespace CMiX.Studio.Views.BaseControl
 
             if (_mouseDownPos != null && IsEditing == false)
             {
-                Point pointToScreen = this.PointToScreen(new Point(ActualWidth / 2, ActualHeight / 2));
+
+                Point pointToScreen;
+
+                double YPos = ActualHeight / 2;
+                double XPos = ActualWidth / 4 - AddButton.ActualWidth;// MathUtils.Map(this.Value, 0, 1, 0, ActualWidth);
+
+                if (XPos >= ActualWidth)
+                    XPos -= 1;
+
+                pointToScreen = borderValueDisplay.PointToScreen(new Point(XPos, YPos));
                 SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
             }
-
             _mouseDownPos = null;
+
+            //var mouseUpPos = e.GetPosition(this);
+            //borderValueDisplay.ReleaseMouseCapture();
+
+            //if (_mouseDownPos == mouseUpPos)
+            //    OnSwitchToEditingMode();
+
+            //if (_mouseDownPos != null && IsEditing == false)
+            //{
+            //    Point pointToScreen = this.PointToScreen(new Point(ActualWidth / 2, ActualHeight / 2));
+            //    SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+            //}
+
+            //_mouseDownPos = null;
         }
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)

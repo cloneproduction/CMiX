@@ -17,6 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Translate = new Vector2Model(0.0f, 0.0f);
             Scale = new Vector2Model(1.0f, 1.0f);
             Rotate = new FloatValueModel(0.0f);
+            UniformScale = new FloatValueModel(0.0f);
         }
 
         public bool Enabled { get; set; }
@@ -24,5 +25,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Vector2Model Translate { get; set; }
         public Vector2Model Scale { get; set; }
         public FloatValueModel Rotate { get; set; }
+        public FloatValueModel UniformScale { get; set; }
     }
 }

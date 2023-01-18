@@ -179,7 +179,6 @@
     <Compile Include="Models\BaseControls\StringControlModel.cs" />
     <Compile Include="Models\BaseControls\Vector2Model.cs" />
     <Compile Include="Models\BaseControls\Vector3Model.cs" />
-    <Compile Include="Models\Component\LayerMaskModel.cs" />
     <Compile Include="Models\Component\LayerModel.cs" />
     <Compile Include="Models\Component\LayerSceneModel.cs" />
     <Compile Include="Models\Component\OutputSettingsModel.cs" />
@@ -237,16 +236,17 @@
     <Compile Include="Presentation\ViewModels\BaseControl\FloatValue.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\Integer2.cs" />
     <Compile Include="Presentation\ViewModels\Dialogs\ModalDialog.cs" />
+    <Compile Include="Presentation\ViewModels\MainViewModel.cs" />
     <Compile Include="Presentation\ViewModels\Network\ControlMessenger.cs" />
     <Compile Include="_TRASH\EditableTextBox.cs" />
     <Compile Include="_TRASH\ListBox\CMiXListBox.cs" />
     <Compile Include="_TRASH\ListBox\CMiXListBoxItem.cs" />
     <Compile Include="Models\Geometry\Modifier\LFOModel.cs" />
-    <Compile Include="Models\AnimParameter\EasingModel.cs" />
+    <Compile Include="Models\Easing\EasingModel.cs" />
     <Compile Include="Models\BaseControls\ToggleButtonModel.cs" />
     <Compile Include="Models\Beat\MasterBeatModel.cs" />
     <Compile Include="Models\Beat\ResyncModel.cs" />
-    <Compile Include="Models\ComboBoxModel.cs" />
+    <Compile Include="Models\GenericValueModel.cs" />
     <Compile Include="Models\Component\VisibilityModel.cs" />
     <Compile Include="Models\Geometry\Modifier\IModifierModel.cs" />
     <Compile Include="Models\Geometry\Modifier\RandomXYZModel.cs" />
@@ -432,7 +432,6 @@
     <Compile Include="Presentation\ViewModels\Beat\Resync.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\GenericValue.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\CounterEventArgs.cs" />
-    <Compile Include="Presentation\ViewModels\Transform\ITransform.cs" />
     <Compile Include="Presentation\ViewModels\Outliner\OutlinerDragDropManager.cs" />
     <Compile Include="Presentation\ViewModels\Windows\MainWindowController.cs" />
     <Compile Include="_TRASH\Expander\ExpanderLayerList.cs" />
@@ -445,11 +444,9 @@
     <Compile Include="Models\Assets\AssetImageModel.cs" />
     <Compile Include="Models\Component\ComponentModel.cs" />
     <Compile Include="Models\Component\IComponentModel.cs" />
-    <Compile Include="Models\TextureFileModel.cs" />
     <Compile Include="Presentation\SortableObservableCollection.cs" />
     <Compile Include="Presentation\ViewModels\Network\Client.cs" />
     <Compile Include="Presentation\ViewModels\Network\NetMQServer.cs" />
-    <Compile Include="Models\BlendModeModel.cs" />
     <Compile Include="Models\IModel.cs" />
     <Compile Include="Models\Component\EntityModel.cs" />
     <Compile Include="Presentation\ViewModels\Assets\IAsset.cs" />
@@ -493,7 +490,6 @@
     <Compile Include="Models\ColorPickerModel.cs" />
     <Compile Include="Models\ColorSelectorModel.cs" />
     <Compile Include="Models\Component\CompositionModel.cs" />
-    <Compile Include="Models\Component\SceneModel.cs" />
     <Compile Include="Models\BaseControls\IntegerValueModel.cs" />
     <Compile Include="Models\FileNameItemModel.cs" />
     <Compile Include="Models\Geometry\GeometryModel.cs" />

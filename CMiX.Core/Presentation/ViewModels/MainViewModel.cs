@@ -13,7 +13,7 @@ using MvvmDialogs;
 using System.Windows.Input;
 
 namespace CMiX.Core.Presentation.ViewModels
-{
+{ 
     public class MainViewModel
     {
         public MainViewModel(IProject project, IDialogService dialogService, IMessageService messageService)

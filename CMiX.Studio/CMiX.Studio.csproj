@@ -232,8 +232,6 @@
     <Compile Include="Behaviors\SliderBehavior.cs" />
     <Compile Include="Behaviors\TreeViewItemClickBehavior.cs" />
     <Compile Include="Behaviors\TreeViewMultiSelectionBehavior.cs" />
-    <Compile Include="D3D11Image.cs" />
-    <Compile Include="MainViewModel.cs" />
     <Compile Include="Resources\AttachedProperties\MouseDownAttachedProperty.cs" />
     <Compile Include="Resources\AttachedProperties\PositionedControl.cs" />
     <Compile Include="Resources\BindingProxy.cs" />
@@ -305,14 +303,8 @@
     <Compile Include="Themes\Styles\Windows\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Assets\TexturePathSelector.xaml.cs">
-      <DependentUpon>TexturePathSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Assets\GeometryPathSelector.xaml.cs">
-      <DependentUpon>GeometryPathSelector.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\Assets\VideoPathSelector.xaml.cs">
-      <DependentUpon>VideoPathSelector.xaml</DependentUpon>
+    <Compile Include="Views\Assets\PathSelector.xaml.cs">
+      <DependentUpon>PathSelector.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\BaseControl\AxisSelector3D.xaml.cs">
       <DependentUpon>AxisSelector3D.xaml</DependentUpon>
@@ -463,8 +455,8 @@
     <Compile Include="Views\Component\Layer\AmbientOcclusion.xaml.cs">
       <DependentUpon>AmbientOcclusion.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Layer\LayerMaskController.xaml.cs">
-      <DependentUpon>LayerMaskController.xaml</DependentUpon>
+    <Compile Include="Views\Managers\PrefabManagerComboBox.xaml.cs">
+      <DependentUpon>PrefabManagerComboBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Modifiers\Easing.xaml.cs">
       <DependentUpon>Easing.xaml</DependentUpon>
@@ -550,7 +542,7 @@
     <Compile Include="Views\Scheduler\SchedulerManager.xaml.cs">
       <DependentUpon>SchedulerManager.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Component\Layer\MessageValidation.xaml.cs">
+    <Compile Include="Views\Messenger\MessageValidation.xaml.cs">
       <DependentUpon>MessageValidation.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Messenger\ServerManager.xaml.cs">
@@ -601,8 +593,8 @@
     <Compile Include="Views\Texture\TextureFilter.xaml.cs">
       <DependentUpon>TextureFilter.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\Texture\TransformUV.xaml.cs">
-      <DependentUpon>TransformUV.xaml</DependentUpon>
+    <Compile Include="Views\Texture\Transform2D.xaml.cs">
+      <DependentUpon>Transform2D.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\Texture\Filter\TriColor.xaml.cs">
       <DependentUpon>TriColor.xaml</DependentUpon>
@@ -818,17 +810,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Views\Assets\TexturePathSelector.xaml">
+    <Page Include="Views\Assets\PathSelector.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Assets\GeometryPathSelector.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Views\Assets\VideoPathSelector.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\BaseControl\AxisSelector3D.xaml">
       <SubType>Designer</SubType>
@@ -986,7 +970,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Layer\LayerMaskController.xaml">
+    <Page Include="Views\Managers\PrefabManagerComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -1110,7 +1094,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Component\Layer\MessageValidation.xaml">
+    <Page Include="Views\Messenger\MessageValidation.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -1209,7 +1193,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\Texture\TransformUV.xaml">
+    <Page Include="Views\Texture\Transform2D.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

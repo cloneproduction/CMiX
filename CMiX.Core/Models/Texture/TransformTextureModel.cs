@@ -17,9 +17,7 @@ namespace CMiX.Core.Models
 
             Visible = new BooleanValueModel(true);
             SamplerStateModel = new SamplerStateModel();
-            Translate = new Vector2Model();
-            Scale = new Vector2Model();
-            Rotate = new FloatValueModel();
+            Transform2D = new Transform2DModel();
             Control = new FloatValueModel();
         }
 
@@ -28,9 +26,7 @@ namespace CMiX.Core.Models
         public Guid ID { get; set; }
         public BooleanValueModel Visible { get; set; }
         public SamplerStateModel SamplerStateModel { get; set; }
-        public Vector2Model Translate { get; set; }
-        public Vector2Model Scale { get; set; }
-        public FloatValueModel Rotate { get; set; }
+        public Transform2DModel Transform2D { get; set; }
         public FloatValueModel Control { get; set; }
     }
 }

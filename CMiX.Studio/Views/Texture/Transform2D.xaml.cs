@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class TransformUV : UserControl
+    public partial class Transform2D : UserControl
     {
-        public TransformUV()
+        public Transform2D()
         {
             InitializeComponent();
         }

@@ -15,12 +15,12 @@
     <StackPanel>
 
         <BaseControls:ComboBox
-            Margin="8"
+            Margin="8, 8, 8, 0"
             Caption="Type"
             SelectedItem="{Binding ProceduralSelector.ProceduralName.Value, Converter={StaticResource EnumToString}}"
             ItemsSource="{Binding Source={StaticResource TextureSourceName}}"/>
 
-        <Grid Margin="8, 0, 8, 8">
+        <Grid Margin="8">
 
             <Border>
                 <Border.Style>
@@ -34,20 +34,11 @@
                     </Style>
                 </Border.Style>
 
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.5*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock Text="File" Margin="4, 0, 0, 0"/>
-                    <Views:TexturePathSelector 
-                            Grid.Column="1"
-                            Height="22"
-                            DataContext="{Binding ImageSelector}"/>
-                </Grid>
+                <Views:PathSelector 
+                    ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                    SelectedItem="{Binding ImageSelector.SelectedAsset}"/>
 
             </Border>
-
 
             <Border>
                 <Border.Style>
@@ -62,23 +53,17 @@
                 </Border.Style>
 
                 <StackPanel>
-                    <Grid>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="0.5*"/>
-                            <ColumnDefinition/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="File" Margin="4, 0, 0, 0"/>
-                        <Views:VideoPathSelector 
+
+                    <Views:PathSelector 
+                            SelectedItem="{Binding SelectedAsset}"
+                            ItemsSource="{Binding Path=DataContext.AssetManager.VideoAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                             Grid.Column="1"
-                            Height="22"
-                            DataContext="{Binding VideoSelector}"/>
-                    </Grid>
+                            Height="22"/>
+
                     <Views:VideoPlayer Margin="0, 8, 0, 0" DataContext="{Binding VideoPlayer}"/>
+                    
                 </StackPanel>
-
-
             </Border>
-
 
             <Border>
                 <Border.Style>
@@ -146,8 +131,8 @@
             </Border>
         </Grid>
 
-        <Panels:IndentedExpander Indentation="24" Header="Transform UV">
-            <Views:TransformUV Margin="8" DataContext="{Binding TransformUV}"/>
+        <Panels:IndentedExpander Indentation="24" Header="Transform">
+            <Views:TransformTexture DataContext="{Binding TransformTexture}"/>
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Indentation="24" Header="Filter">

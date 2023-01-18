@@ -3,8 +3,6 @@
 
 using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
-using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -19,17 +17,13 @@ namespace CMiX.Core.Presentation.ViewModels
             IsExpanded = true;
             Visible = new BooleanValue(transformTextureModel.Visible);
             SamplerState = new SamplerState(transformTextureModel.SamplerStateModel, compositionService);
-            Translate = new Vector2(transformTextureModel.Translate);
-            Scale = new Vector2(transformTextureModel.Scale);
-            Rotate = new FloatValue(transformTextureModel.Rotate);
+            Transform2D = new Transform2D(transformTextureModel.Transform2D, compositionService);
         }
 
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
         public SamplerState SamplerState { get; set; }
-        public Vector2 Translate { get; set; }
-        public Vector2 Scale { get; set; }
-        public FloatValue Rotate { get; set; }
+        public Transform2D Transform2D { get; set; }
         public BooleanValue Visible { get; set; }
 
 
@@ -56,9 +50,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Visible.SetViewModel(transformTextureModel.Visible);
             SamplerState.SetViewModel(transformTextureModel.SamplerStateModel);
-            Translate.SetViewModel(transformTextureModel.Translate);
-            Scale.SetViewModel(transformTextureModel.Scale);
-            Rotate.SetViewModel(transformTextureModel.Rotate);
+            Transform2D.SetViewModel(transformTextureModel.Transform2D);
         }
 
         public IModel GetModel()
@@ -69,10 +61,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             transformTextureModel.Visible = (BooleanValueModel)Visible.GetModel();
             transformTextureModel.SamplerStateModel = (SamplerStateModel)SamplerState.GetModel();
-
-            transformTextureModel.Translate = (Vector2Model)Translate.GetModel();
-            transformTextureModel.Scale = (Vector2Model)Scale.GetModel();
-            transformTextureModel.Rotate = (FloatValueModel)Rotate.GetModel();
+            transformTextureModel.Transform2D = (Transform2DModel)Transform2D.GetModel();
 
             return transformTextureModel;
         }

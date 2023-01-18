@@ -4,25 +4,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="268.58" d:DesignWidth="240.361">
 
     <StackPanel Margin="8">
 
-        <BaseControl:Vector2
-            Caption="Scale"
-            DataContext="{Binding Scale}"/>
+        <Views:Transform2D 
+            DataContext="{Binding Transform2D}"/>
 
-        <BaseControl:DragValue 
-            Margin="0, 8" 
-            Position="Default" 
-            Value="{Binding Rotate.Value}" 
-            Caption="Rotate"/>
-
-        <BaseControl:Vector2
-            Caption="Translate"
-            DataContext="{Binding Translate}"/>
 
         <Views:SamplerState 
             Margin="0, 8, 0, 0" 

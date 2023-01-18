@@ -17,23 +17,27 @@
 
 
     <StackPanel>
-        <Panels:IndentedExpander Header="Surface" Indentation="16">
+        
+        <Panels:IndentedExpander 
+            Header="Surface" 
+            Indentation="16">
+            
             <StackPanel Margin="8">
-
-                <BaseControls:ColorSelector 
-                    Margin="0, 8"
-                    Caption="Base Color" 
-                    SelectedColor="{Binding Color.SelectedColor}"
-                    ViewModel="{Binding Color}"/>
 
                 <Controls:CMiXSlider 
                     Height="22"
+                    Margin="0, 0, 0, 8"
                     Grid.Column="2" 
                     Position="Default"
                     Caption="Alpha Blend"
                     Maximum="1"
                     Minimum="0"
                     Value="{Binding Alpha.Value}"/>
+                
+                <BaseControls:ColorSelector 
+                    Caption="Base Color" 
+                    SelectedColor="{Binding Color.SelectedColor}"
+                    ViewModel="{Binding Color}"/>
 
                 <BaseControls:ComboBox    
                     Margin="0, 8"
@@ -64,6 +68,7 @@
                     Minimum="0"
                     Position="Top" 
                     Value="{Binding Glossiness.Value}">
+                    
                     <Controls:CMiXSlider.Style>
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -77,6 +82,7 @@
                             </Style.Triggers>
                         </Style>
                     </Controls:CMiXSlider.Style>
+                    
                 </Controls:CMiXSlider>
 
                 <Controls:CMiXSlider 
@@ -87,6 +93,7 @@
                     Minimum="0"
                     Margin="0, 0, 0, 8"
                     Value="{Binding Specularity.Value}">
+                    
                     <Controls:CMiXSlider.Style>
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -97,6 +104,7 @@
                             </Style.Triggers>
                         </Style>
                     </Controls:CMiXSlider.Style>
+                    
                 </Controls:CMiXSlider>
 
                 <Controls:CMiXSlider 
@@ -107,6 +115,7 @@
                     Maximum="2"
                     Minimum="0"
                     Value="{Binding Metalness.Value}">
+                    
                     <Controls:CMiXSlider.Style>
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedBottom}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -117,9 +126,11 @@
                             </Style.Triggers>
                         </Style>
                     </Controls:CMiXSlider.Style>
+                    
                 </Controls:CMiXSlider>
                 
             </StackPanel>
+            
         </Panels:IndentedExpander>
         
         <Panels:IndentedExpander Header="Texture" Indentation="16">
@@ -134,7 +145,7 @@
                         Style="{StaticResource ToggleButtonIcon}"
                         Height="14"
                         Width="14"
-                        IsChecked="{Binding Mask.IsEnabled.IsChecked}"/>
+                        IsChecked="{Binding Path=DataContext.Mask.IsEnabled.Value}"/>
                     
                     <TextBlock 
                         Text="Mask" 
@@ -142,31 +153,26 @@
                         Foreground="{DynamicResource TextBase}"/>
                     
                 </DockPanel>
+                
             </Panels:IndentedExpander.Header>
 
-            <StackPanel>
-                <StackPanel Margin="8">
+                <StackPanel>
                     
-                    <BaseControls:ComboBox    
+                    <BaseControls:ComboBox
                         Caption="MaskChannel"
+                        Margin="8"
                         SelectedItem="{Binding MaskChannelSelector.Value}" 
                         ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
-                    
-                    <BaseControls:ToggleButton 
-                        Margin="0, 8, 0, 0"
+
+                    <BaseControls:ToggleButton
                         Caption="Invert" 
-                        IsChecked="{Binding Mask.Invert.IsChecked}"/>
+                        IsChecked="{Binding Mask.Invert.Value}"/>
+
+                    <Views:Texture 
+                        DataContext="{Binding Mask}"/>
                     
                 </StackPanel>
 
-                <Border 
-                    BorderThickness="0, 1, 0, 0" 
-                    BorderBrush="{DynamicResource Shadow}"/>
-                
-                <Views:Texture 
-                    DataContext="{Binding Mask}"/>
-
-            </StackPanel>
         </Panels:IndentedExpander>
 
     </StackPanel>

@@ -43,34 +43,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
-
-        private Texture _texture;
-        public Texture Texture
-        {
-            get => _texture;
-            set => SetProperty(ref _texture, value);
-        }
-
-
-        private Transform _transform;
-        public Transform Transform
-        {
-            get => _transform;
-            set
-            {
-                SetProperty(ref _transform, value);
-                SendMessage(new MessageChangePrefab(this.ID, value, nameof(Transform)));
-            }
-        }
-
-
-        bool CanSend = true;
-        public void SendMessage(IMessage message)
-        {
-            if (CanSend)
-                WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.Out);
-        }
-
+        public Texture Texture { get; set; }
+        public  TransformSRT TransformSRT { get; set; }
         public ColorSelector Color { get; set; }
 
 

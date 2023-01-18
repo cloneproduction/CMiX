@@ -6,10 +6,12 @@
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
+             xmlns:Manager="clr-namespace:CMiX.Studio.Views.Managers"
              mc:Ignorable="d" 
              d:DesignHeight="486" d:DesignWidth="322.667">
 
     <StackPanel>
+        
         <Panels:IndentedExpander Header="Transform">
             <Views:TransformSRT DataContext="{Binding TransformSRT}"/>
         </Panels:IndentedExpander>
@@ -24,33 +26,11 @@
         
         <Panels:IndentedExpander Header="Material">
             <StackPanel>
+                <Manager:PrefabManagerComboBox 
+                    ItemsSource="{Binding MaterialManager.Prefabs}"
+                    SelectedItem="{Binding MaterialManager.SelectedItem}"
+                    AddItemCommand="{Binding MaterialManager.AddItemCommand}"/>
 
-                <Grid DockPanel.Dock="Left" Margin="8" Height="22">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition Width="Auto"/>
-                    </Grid.ColumnDefinitions>
-                    <ComboBox
-                        Grid.Column="0"
-                        DockPanel.Dock="Bottom" 
-                        SelectedItem="{Binding MaterialManager.SelectedItem}"
-                        ItemsSource="{Binding MaterialManager.Prefabs}"
-                        Style="{StaticResource ComboBoxRoundedLeft}">
-                        <ComboBox.ItemTemplate>
-                            <ItemContainerTemplate>
-                                <TextBlock Text="{Binding Name}"/>
-                            </ItemContainerTemplate>
-                        </ComboBox.ItemTemplate>
-                    </ComboBox>
-                    <Button
-                        Margin="1, 0, 0, 0"
-                        Grid.Column="2" 
-                        DockPanel.Dock="Right" 
-                        Width="22" 
-                        Content="+"
-                        Command="{Binding MaterialManager.AddItemCommand}"
-                        Style="{StaticResource ButtonRoundedRight}"/>
-                </Grid>
                 <Border>
                     <Border.Style>
                         <Style TargetType="{x:Type Border}">
@@ -67,6 +47,7 @@
                     </Border.Style>
                     <Views:Material DataContext="{Binding MaterialManager.SelectedItem.Prefab}"/>
                 </Border>
+                
             </StackPanel>
         </Panels:IndentedExpander>
 

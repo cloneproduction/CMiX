@@ -13,35 +13,42 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class Mask : ObservableObject, ITexture
     {
-        public Mask(MaskModel textureModel, CompositionService compositionService)
+        public Mask(MaskModel maskModel, CompositionService compositionService)
         {
-            this.ID = textureModel.ID;
+            this.ID = maskModel.ID;
 
-            IsEnabled = new BooleanValue(textureModel.IsEnabled);
-            TextureModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
-            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService));
-            SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
-            Invert = new BooleanValue(textureModel.Invert);
+            IsEnabled = new BooleanValue(maskModel.IsEnabled);
+            TextureModifierManager = new ModifierManager(maskModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
+            TextureTransformModifierManager = new ModifierManager(maskModel.TextureTransformModifierManager, new ModifierFactory(compositionService));
+            SamplerState = new SamplerState(maskModel.SamplerState, compositionService);
+            Invert = new BooleanValue(maskModel.Invert);
 
-            ImageSelector = new ImageSelector(new AssetImage(), textureModel.TextureSelectorModel);
-            VideoSelector = new VideoSelector(new AssetVideo(), textureModel.VideoSelectorModel);
+            ImageSelector = new ImageSelector(new AssetImage(), maskModel.TextureSelectorModel);
+            VideoSelector = new VideoSelector(new AssetVideo(), maskModel.VideoSelectorModel);
 
-            VideoIn = new VideoIn(textureModel.VideoIn);
-            VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
-            SelectedAssetType = new GenericValue<int>(textureModel.SelectedAssetType);
-            TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
-            ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);
+            VideoIn = new VideoIn(maskModel.VideoIn);
+            VideoPlayer = new VideoPlayer(maskModel.VideoPlayerModel);
+            SelectedAssetType = new GenericValue<int>(maskModel.SelectedAssetType);
+            TypeWriter = new TypeWriter(maskModel.TypeWriter, compositionService);
+            ProceduralSelector = new ProceduralSelector(maskModel.ProceduralSelector, compositionService);
+            TransformTexture = new TransformTexture(maskModel.TransformTexture, compositionService);
         }
 
 
         public Guid ID { get; set; }
         public ModifierManager TextureModifierManager { get; set; }
         public ModifierManager TextureTransformModifierManager { get; set; }
-
         public BooleanValue IsEnabled { get; set; }
         public BooleanValue Invert { get; set; }
-
         public SamplerState SamplerState { get; set; }
+        public TransformTexture TransformTexture { get; set; }
+        public GenericValue<int> SelectedAssetType { get; set; }
+        public TypeWriter TypeWriter { get; set; }
+        public VideoIn VideoIn { get; set; }
+        public VideoPlayer VideoPlayer { get; set; }
+        public ImageSelector ImageSelector { get; set; }
+        public VideoSelector VideoSelector { get; set; }
+        public ProceduralSelector ProceduralSelector { get; set; }
 
 
         private bool _isExpanded;
@@ -51,18 +58,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-
-        public GenericValue<int> SelectedAssetType { get; set; }
-
-
-        public TypeWriter TypeWriter { get; set; }
-        public VideoIn VideoIn { get; set; }
-        public VideoPlayer VideoPlayer { get; set; }
-
-        public ImageSelector ImageSelector { get; set; }
-        public VideoSelector VideoSelector { get; set; }
-
-        public ProceduralSelector ProceduralSelector { get; set; }
 
         public IModel GetModel()
         {
@@ -82,6 +77,7 @@ namespace CMiX.Core.Presentation.ViewModels
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
             model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();
+            model.TransformTexture = (TransformTextureModel)this.TransformTexture.GetModel();
 
             return model;
         }
@@ -104,6 +100,7 @@ namespace CMiX.Core.Presentation.ViewModels
             this.TypeWriter.SetViewModel(textureModel.TypeWriter);
             this.SamplerState.SetViewModel(textureModel.SamplerState);
             this.ProceduralSelector.SetViewModel(textureModel.ProceduralSelector);
+            this.TransformTexture.SetViewModel(textureModel.TransformTexture);
         }
     }
 }

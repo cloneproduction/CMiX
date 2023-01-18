@@ -31,6 +31,7 @@ namespace CMiX.Core.Models
 
             TypeWriter = new TypeWriterModel();
             ProceduralSelector = new ProceduralSelectorModel();
+            TransformTexture = new TransformTextureModel();
         }
 
         public bool Enabled { get; set; }
@@ -50,5 +51,6 @@ namespace CMiX.Core.Models
         public SamplerStateModel SamplerState { get; internal set; }
         public BooleanValueModel Invert { get; internal set; }
         public ProceduralSelectorModel ProceduralSelector { get; set; }
+        public TransformTextureModel TransformTexture { get; set; }
     }
 }
