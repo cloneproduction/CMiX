@@ -159,7 +159,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            Console.WriteLine("Message from " + e.IpPort + ": " + Encoding.UTF8.GetString(e.Data));
+            Console.WriteLine("Message from " + e.Client.IpPort + ": " + Encoding.UTF8.GetString(e.Data));
         }
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)
@@ -170,7 +170,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 for (int i = ConnectedClients.Count - 1; i >= 0; i--)
                 {
-                    if (ConnectedClients[i].IPPORT == e.IpPort)
+                    if (ConnectedClients[i].IPPORT == e.Client.IpPort)
                     {
                         ConnectedClients.Remove(ConnectedClients[i]);
                     }
@@ -185,9 +185,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void ClientConnected(object sender, ConnectionEventArgs e)
         {
-            Console.WriteLine("Client connected: " + e.IpPort);
-            ConnectedClient connectedClient = new ConnectedClient(e.IpPort);
-            this.ipPort = e.IpPort;
+            Console.WriteLine("Client connected: " + e.Client.IpPort);
+            ConnectedClient connectedClient = new ConnectedClient(e.Client.IpPort);
+            this.ipPort = e.Client.IpPort;
             Application.Current.Dispatcher.Invoke((Action)delegate
             {
                 ConnectedClients.Add(connectedClient);

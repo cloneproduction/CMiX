@@ -32,8 +32,6 @@ namespace CMiX.Core.Network.Messages
             MessageHandlers.Add(typeof(MessageAddModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageMoveModifier), new MessageModifierManagerHandler());
-
-            MessageHandlers.Add(typeof(MessageAsset), new MessageAssetHandler());
         }
 
         private Dictionary<Type, IMessageHandler> MessageHandlers { get; set;}

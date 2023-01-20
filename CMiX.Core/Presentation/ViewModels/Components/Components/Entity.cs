@@ -73,17 +73,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         }
 
 
-        private Transform _transform;
-        public Transform Transform
-        {
-            get => _transform;
-            set
-            {
-                SetProperty(ref _transform, value);
-                SendMessage(new MessageChangePrefab(this.ID, value, nameof(Transform)));
-            }
-        }
-
 
         public void SetViewModel(IModel model)
         {

@@ -41,7 +41,6 @@ namespace CMiX.Core.Presentation.ViewModels.Service
             MeshRepository = new PrefabRepository<Mesh>(prefabDataBase);
             LightEntityRepository = new PrefabRepository<LightEntity>(prefabDataBase);
             CameraRepository = new PrefabRepository<Camera>(prefabDataBase);
-            TransformRepository = new PrefabRepository<Transform>(prefabDataBase);
             MasterBeatRepository = new PrefabRepository<MasterBeat>(prefabDataBase);
 
             MasterBeatManager = new PrefabManager<MasterBeat>(MasterBeatManagerID, this, MasterBeatRepository);
@@ -78,6 +77,5 @@ namespace CMiX.Core.Presentation.ViewModels.Service
         public PrefabRepository<LightEntity> LightEntityRepository { get; set; }
         public PrefabRepository<Mesh> MeshRepository { get; set; }
         public PrefabRepository<Camera> CameraRepository { get; set; }
-        public PrefabRepository<Transform> TransformRepository { get; set; }
     }
 }

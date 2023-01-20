@@ -72,7 +72,7 @@ namespace CMiX.Core.Services
 
         private void ServerDisconnected(object sender, DisconnectionEventArgs e)
         {
-            Console.WriteLine("Server " + e.IpPort + " disconnected");
+            Console.WriteLine("Server " + e.Client.IpPort + " disconnected");
             DeconnectionReason = e.Reason.ToString();
             ServerIsConnected = false;
             _ = TryToConnect(this.WatsonTcpClient);
@@ -80,8 +80,12 @@ namespace CMiX.Core.Services
 
         private void ServerConnected(object sender, ConnectionEventArgs e)
         {
-            Console.WriteLine("Server " + e.IpPort + " connected");
-            ServerIsConnected = true;
+            if(e.Client != null)
+            {
+                Console.WriteLine("Server " + e.Client.IpPort + " connected");
+                ServerIsConnected = true;
+            }
+
         }
 
 

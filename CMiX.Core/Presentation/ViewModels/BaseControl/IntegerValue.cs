@@ -26,13 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public event EventHandler<CounterEventArgs> CounterChangeEvent;
-        public void OnCountChange()
-        {
-            CounterChangeEvent?.Invoke(this, new CounterEventArgs(this.Value));
-        }
-
-
         public ICommand AddCommand { get; }
         public ICommand SubCommand { get; }
 
@@ -43,7 +36,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set
             {
                 SetProperty(ref _value, value);
-                OnCountChange();
                 if(IsActive)
                     ControlMessenger.Send(this);
             }
