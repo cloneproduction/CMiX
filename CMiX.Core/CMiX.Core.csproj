@@ -368,15 +368,13 @@
     <Compile Include="Presentation\ViewModels\Texture\VideoPlayer.cs" />
     <Compile Include="Presentation\ViewModels\Texture\SamplerState.cs" />
     <Compile Include="Presentation\ViewModels\Texture\TextureAddressMode.cs" />
-    <Compile Include="Presentation\ViewModels\MainMenu.cs" />
+    <Compile Include="Presentation\ViewModels\Windows\MainMenu.cs" />
     <Compile Include="Presentation\ViewModels\Network\ConnectedClient.cs" />
     <Compile Include="Presentation\ViewModels\Network\DataEventArgs.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetFactory.cs" />
     <Compile Include="Presentation\ViewModels\Assets\AssetTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\BaseControl\BooleanValue.cs" />
     <Compile Include="Presentation\ViewModels\Beat\IBeat.cs" />
-    <Compile Include="Presentation\ViewModels\Components\ComponentStyleSelector.cs" />
-    <Compile Include="Presentation\ViewModels\Components\Visibility.cs" />
     <Compile Include="Presentation\ViewModels\Network\IMessageService.cs" />
     <Compile Include="Presentation\ViewModels\Network\MessageType.cs" />
     <Compile Include="Presentation\ViewModels\Network\Messenger\ServerManager.cs" />
@@ -458,7 +456,6 @@
     <Compile Include="Presentation\ViewModels\Material\ColorSelector.cs" />
     <Compile Include="Presentation\ViewModels\Components\Component.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Composition.cs" />
-    <Compile Include="Presentation\ViewModels\Components\ComponentTemplateSelector.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Layer.cs" />
     <Compile Include="Presentation\ViewModels\Outliner\Outliner.cs" />
     <Compile Include="Presentation\ViewModels\Components\Components\Project.cs" />
@@ -508,9 +505,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Presentation\ViewModels\Scheduling\Views\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="..\packages\CommunityToolkit.Mvvm.8.1.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets" Condition="Exists('..\packages\CommunityToolkit.Mvvm.8.1.0\build\netstandard2.0\CommunityToolkit.Mvvm.targets')" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
