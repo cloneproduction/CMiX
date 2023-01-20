@@ -1,0 +1,71 @@
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using System;
+using CMiX.Core.Models;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace CMiX.Core.Presentation.ViewModels
+{
+    public class AmbientOcclusion : ObservableObject, IControl
+    {
+        public AmbientOcclusion(AmbientOcclusionModel ambientOcclusionModel)
+        {
+            ID = ambientOcclusionModel.ID;
+            IsEnabled = new BooleanValue(ambientOcclusionModel.IsEnabled);
+            Samples = new IntegerValue(ambientOcclusionModel.Samples);
+            ProjectionScale = new FloatValue(ambientOcclusionModel.ProjectionScale);
+            Intensity = new FloatValue(ambientOcclusionModel.Intensity);
+            SampleBias = new FloatValue(ambientOcclusionModel.SampleBias);
+            SampleRadius = new FloatValue(ambientOcclusionModel.SampleRadius);
+            BlurCount = new IntegerValue(ambientOcclusionModel.BlurCount);
+            BlurRadius = new FloatValue(ambientOcclusionModel.BlurRadius);
+            EdgeSharpness = new FloatValue(ambientOcclusionModel.EdgeSharpness);
+        }
+
+
+        public Guid ID { get; set; }
+
+        public BooleanValue IsEnabled { get; set; }
+        public IntegerValue Samples { get; set; }
+        public FloatValue ProjectionScale { get; set; }
+        public FloatValue Intensity { get; set; }
+        public FloatValue SampleBias { get; set; }
+        public FloatValue SampleRadius { get; set; }
+        public IntegerValue BlurCount { get; set; }
+        public FloatValue BlurRadius { get; set; }
+        public FloatValue EdgeSharpness { get; set; }
+
+        public IModel GetModel()
+        {
+            AmbientOcclusionModel ambientOcclusionModel = new AmbientOcclusionModel();
+
+            ambientOcclusionModel.ID = ID;
+            ambientOcclusionModel.IsEnabled = (BooleanValueModel)IsEnabled.GetModel();
+            ambientOcclusionModel.Samples = (IntegerValueModel)Samples.GetModel();
+            ambientOcclusionModel.ProjectionScale = (FloatValueModel)ProjectionScale.GetModel();
+            ambientOcclusionModel.Intensity = (FloatValueModel)Intensity.GetModel();
+            ambientOcclusionModel.SampleBias = (FloatValueModel)SampleBias.GetModel();
+            ambientOcclusionModel.BlurCount = (IntegerValueModel)BlurCount.GetModel();
+            ambientOcclusionModel.BlurRadius = (FloatValueModel)BlurRadius.GetModel();
+            ambientOcclusionModel.EdgeSharpness = (FloatValueModel)EdgeSharpness.GetModel();
+
+            return ambientOcclusionModel;
+        }
+
+        public void SetViewModel(IModel model)
+        {
+            AmbientOcclusionModel ambientOcclusionModel = model as AmbientOcclusionModel;
+
+            this.ID = ambientOcclusionModel.ID;
+            this.IsEnabled.SetViewModel(ambientOcclusionModel.IsEnabled);
+            this.Samples.SetViewModel(ambientOcclusionModel.Samples);
+            this.ProjectionScale.SetViewModel(ambientOcclusionModel.ProjectionScale);
+            this.Intensity.SetViewModel(ambientOcclusionModel.Intensity);
+            this.SampleBias.SetViewModel(ambientOcclusionModel.SampleBias);
+            this.BlurCount.SetViewModel(ambientOcclusionModel.BlurCount);
+            this.BlurRadius.SetViewModel(ambientOcclusionModel.BlurRadius);
+            this.EdgeSharpness.SetViewModel(ambientOcclusionModel.EdgeSharpness);
+        }
+    }
+}
