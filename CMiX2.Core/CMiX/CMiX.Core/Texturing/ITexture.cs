@@ -8,17 +8,15 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface ITexture : IIDObject
     {
-        //ImageSelector ImageSelector { get; set; }
         BooleanValue IsEnabled { get; set; }
         ModifierManager TextureModifierManager { get; set; }
-        GenericValue<int> SelectedAssetType { get; set; }
+        IntegerValue SelectedAssetType { get; set; }
         ModifierManager TextureTransformModifierManager { get; set; }
 
         SamplerState SamplerState { get; set; }
         TypeWriter TypeWriter { get; set; }
         VideoIn VideoIn { get; set; }
         VideoPlayer VideoPlayer { get; set; }
-        //VideoSelector VideoSelector { get; set; }
         ProceduralSelector ProceduralSelector { get; set; }
     }
 }

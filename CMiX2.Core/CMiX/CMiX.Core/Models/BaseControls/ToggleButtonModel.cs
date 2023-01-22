@@ -18,7 +18,6 @@ namespace CMiX.Core.Models
             Value = isChecked;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public bool Value { get; set; }
     }

@@ -28,7 +28,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             VideoIn = new VideoIn(maskModel.VideoIn);
             VideoPlayer = new VideoPlayer(maskModel.VideoPlayerModel);
-            SelectedAssetType = new GenericValue<int>(maskModel.SelectedAssetType);
+            SelectedAssetType = new IntegerValue(maskModel.SelectedAssetType);
             TypeWriter = new TypeWriter(maskModel.TypeWriter, compositionService);
             ProceduralSelector = new ProceduralSelector(maskModel.ProceduralSelector, compositionService);
             TransformTexture = new TransformTexture(maskModel.TransformTexture, compositionService);
@@ -42,7 +42,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue Invert { get; set; }
         public SamplerState SamplerState { get; set; }
         public TransformTexture TransformTexture { get; set; }
-        public GenericValue<int> SelectedAssetType { get; set; }
+        public IntegerValue SelectedAssetType { get; set; }
         public TypeWriter TypeWriter { get; set; }
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
@@ -70,10 +70,8 @@ namespace CMiX.Core.Presentation.ViewModels
 
             model.ModifierManagerModel = (ModifierManagerModel)this.TextureModifierManager.GetModel();
             model.TextureTransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
-            //model.TextureSelectorModel = (ImageSelectorModel)this.ImageSelector.GetModel();
-            //model.VideoSelectorModel = (VideoSelectorModel)this.VideoSelector.GetModel();
             model.VideoPlayerModel = (VideoPlayerModel)this.VideoPlayer.GetModel();
-            model.SelectedAssetType = (GenericValueModel<int>)this.SelectedAssetType.GetModel();
+            model.SelectedAssetType = (IntegerValueModel)this.SelectedAssetType.GetModel();
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
             model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();
@@ -93,8 +91,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
             this.TextureModifierManager.SetViewModel(textureModel.ModifierManagerModel);
             this.TextureTransformModifierManager.SetViewModel(textureModel.TextureTransformModifierManager);
-            //this.ImageSelector.SetViewModel(textureModel.TextureSelectorModel);
-            //this.VideoSelector.SetViewModel(textureModel.VideoSelectorModel);
             this.VideoPlayer.SetViewModel(textureModel.VideoPlayerModel);
             this.SelectedAssetType.SetViewModel(textureModel.SelectedAssetType);
             this.TypeWriter.SetViewModel(textureModel.TypeWriter);

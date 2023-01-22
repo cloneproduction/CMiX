@@ -17,11 +17,6 @@ namespace CMiX.Core.Models
         {
             ID = Guid.NewGuid();
 
-            GeometryModel = new GeometryModel();
-            TextureModel = new TextureModel();
-            ColorationModel = new TextureModel();
-
-            VisibilityModel = new VisibilityModel();
             TransformSRT = new TransformSRTModel();
             ModifierManager = new ModifierManagerModel();
             Mesh = new MeshModel();
@@ -33,19 +28,10 @@ namespace CMiX.Core.Models
             ID = id;
         }
 
-        public bool Enabled { get; set; }
         public string Name { get; set; }
         public Guid ID { get; set; }
 
-        public GeometryModel GeometryModel { get; set; }
-        public TextureModel TextureModel { get; set; }
-        public TextureModel ColorationModel { get; set; }
-        public VisibilityModel VisibilityModel { get; set; }
 
-        public string Address { get; set; }
-        public bool IsVisible { get; set; }
-
-        public ObservableCollection<IComponentModel> ComponentModels { get; set; }
         public TransformSRTModel TransformSRT { get; internal set; }
         public MeshModel Mesh { get; internal set; }
         public PrefabManagerModel MaterialManager { get; internal set; }

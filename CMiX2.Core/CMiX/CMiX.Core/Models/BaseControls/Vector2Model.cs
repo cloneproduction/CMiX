@@ -22,21 +22,9 @@ namespace CMiX.Core.Models.BaseControls
             Y.Value = y;
         }
 
-        public Vector2Model(string name) : this()
-        {
-            Name = name;
-        }
-
-        public Vector2Model(string name, float x, float y) : this()
-        {
-            Name = name;
-            X.Value = x;
-            Y.Value = y;
-        }
 
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public string Name { get; set; }
         public FloatValueModel X { get; set; }
         public FloatValueModel Y { get; set; }
     }

@@ -1,0 +1,75 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Controls="clr-namespace:CMiX.Core.Presentation.Controls">
+
+    <Style x:Key="EditableTextBoxStyle" TargetType="{x:Type TextBox}">
+        <Setter Property="FocusVisualStyle">
+            <Setter.Value>
+                <Style>
+                    <Setter Property="Control.Template">
+                        <Setter.Value>
+                            <ControlTemplate>
+                                <Rectangle
+                                    Margin="2"
+                                    SnapsToDevicePixels="True"
+                                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
+                                    StrokeDashArray="1 2"
+                                    StrokeThickness="1" 
+                                    />
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </Setter.Value>
+        </Setter>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="6,2" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Style.Triggers>
+            <Trigger Property="IsReadOnly" Value="True">
+                <Setter Property="Template" Value="{DynamicResource IsEditingMode}" />
+                <Setter Property="CaretBrush" Value="Transparent"/>
+                <Setter Property="SelectionBrush" Value="Transparent"/>
+            </Trigger>
+            <Trigger Property="IsReadOnly" Value="False">
+                <Setter Property="Template" Value="{DynamicResource IsNormalMode}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <ControlTemplate x:Key="IsEditingMode">
+        <Border
+            x:Name="border"
+            Margin="1"
+            Background="Green"
+            BorderBrush="Black"
+            BorderThickness="1"
+            SnapsToDevicePixels="True">
+            <ScrollViewer
+                x:Name="PART_ContentHost"
+                Focusable="False"
+                HorizontalScrollBarVisibility="Hidden"
+                VerticalScrollBarVisibility="Hidden" />
+        </Border>
+    </ControlTemplate>
+
+    <ControlTemplate x:Key="IsNormalMode">
+        <Border
+            x:Name="border"
+            Margin="1"
+            Background="Red"
+            BorderBrush="Black"
+            BorderThickness="1"
+            SnapsToDevicePixels="True">
+            <ScrollViewer
+                x:Name="PART_ContentHost"
+                Focusable="False"
+                HorizontalScrollBarVisibility="Hidden"
+                VerticalScrollBarVisibility="Hidden" />
+        </Border>
+    </ControlTemplate>
+</ResourceDictionary>

@@ -28,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels
             TransformModifierManager = new ModifierManagerModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public GenericValueModel<MeshType> MeshTypeSelector { get; internal set; }
         public Vector3Model Scale { get; internal set; }

@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.Beat.BeatManager"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Converters="clr-namespace:CMiX.Studio.Converters"
+             xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+             mc:Ignorable="d" 
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl" 
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             d:DesignHeight="243" d:DesignWidth="234">
+
+    <!--<UserControl.Resources>
+        <Converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </UserControl.Resources>
+
+    <StackPanel>
+
+        <Border 
+                                      
+            DockPanel.Dock="Top">
+
+            <Views:PrefabSlotManager DataContext="{Binding }"/>
+            --><!--<ListBox 
+                DataContext="{Binding}"
+                SelectedItem="{Binding SelectedItem}"
+                ItemsSource="{Binding Prefabs}">
+                <ListBox.ItemTemplate>
+                    <ItemContainerTemplate>
+                        <Border Height="20">
+                            <TextBlock Padding="4" Text="{Binding Path=Name}"/>
+                        </Border>
+                    </ItemContainerTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>--><!--
+        </Border>
+
+
+    </StackPanel>-->
+
+</UserControl>

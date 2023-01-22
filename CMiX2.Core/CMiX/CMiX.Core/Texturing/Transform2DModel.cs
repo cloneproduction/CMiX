@@ -12,7 +12,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Transform2DModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
 
             Translate = new Vector2Model(0.0f, 0.0f);
             Scale = new Vector2Model(1.0f, 1.0f);
@@ -20,7 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels
             UniformScale = new FloatValueModel(0.0f);
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public Vector2Model Translate { get; set; }
         public Vector2Model Scale { get; set; }

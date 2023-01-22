@@ -61,19 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Mesh Mesh { get; set; }
 
 
-        private Material _material;
-        public Material Material
-        {
-            get => _material;
-            set
-            {
-                SetProperty(ref _material, value);
-                SendMessage(new MessageChangePrefab(this.ID, value, nameof(Material)));
-            }
-        }
-
-
-
         public void SetViewModel(IModel model)
         {
             EntityModel entityModel = model as EntityModel;
@@ -94,23 +81,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             entityModel.ModifierManager = (ModifierManagerModel)ModifierManager.GetModel();
             return entityModel;
         }
-
-
-        public void ChangePrefab(string propertyName, Guid prefabID)
-        {
-            var prefab = CompositionService.GetPrefab(prefabID);
-            this.GetType().GetProperty(propertyName).SetValue(this, prefab);
-        }
-
-
-
-        bool CanSend = true;
-        public void SendMessage(IMessage message)
-        {
-            if (CanSend)
-                WeakReferenceMessenger.Default.Send<IMessage, int>(message, MessageType.Out);
-        }
-
 
         public void Receive(MessageRequestControl message)
         {

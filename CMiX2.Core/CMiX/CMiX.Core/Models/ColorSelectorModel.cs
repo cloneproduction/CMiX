@@ -19,7 +19,6 @@ namespace CMiX.Core.Models
             SelectedColor = ColorHEX;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public string SelectedColor { get; set; }
     }

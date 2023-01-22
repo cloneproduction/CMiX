@@ -27,7 +27,7 @@ namespace CMiX.Core.Models
 
             IsEnabled = new BooleanValueModel();
 
-            SelectedAssetType = new GenericValueModel<int>(0);
+            SelectedAssetType = new IntegerValueModel(0);
 
             TypeWriter = new TypeWriterModel();
             ProceduralSelector = new ProceduralSelectorModel();
@@ -46,7 +46,7 @@ namespace CMiX.Core.Models
         public VideoSelectorModel VideoSelectorModel { get; internal set; }
         public VideoPlayerModel VideoPlayerModel { get; set; }
         public VideoInModel VideoIn { get; internal set; }
-        public GenericValueModel<int> SelectedAssetType { get; internal set; }
+        public IntegerValueModel SelectedAssetType { get; internal set; }
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
         public BooleanValueModel Invert { get; internal set; }

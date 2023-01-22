@@ -10,11 +10,9 @@ namespace CMiX.Core.Models.BaseControls
         public StringValueModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
             Value = "";
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public string Value { get; internal set; }
     }

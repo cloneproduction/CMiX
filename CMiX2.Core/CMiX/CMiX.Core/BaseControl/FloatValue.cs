@@ -1,7 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
+using AutoMapper;
 using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
@@ -12,6 +12,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public partial class FloatValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
+
         public FloatValue(FloatValueModel floatValueModel)
         {
             this.ID = floatValueModel.ID;
@@ -20,31 +21,23 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
         public Guid ID { get; set; }
-        public bool CanSendMessage { get; set; }
+        public bool Enabled { get; set; }
 
         [ObservableProperty]
         private float value;
 
-        
-
-        //private float _value;
-        //public float Value
-        //{
-        //    get => _value;
-        //    set
-        //    {
-        //        SetProperty(ref _value, value);
-        //        if (IsActive)
-        //            ControlMessenger.Send(this);
-        //    }
-        //}
+        partial void OnValueChanged(float value)
+        {
+            if (IsActive)
+                ControlMessenger.Send(this);
+        }
 
 
         public void SetViewModel(IModel model)
         {
-            FloatValueModel sliderModel = model as FloatValueModel;
-            this.ID = sliderModel.ID;
-            this.Value = sliderModel.Value;
+            FloatValueModel floatValueModel = model as FloatValueModel;
+            this.ID = floatValueModel.ID;
+            this.Value = floatValueModel.Value;
             Console.WriteLine("Value = " + Value);
         }
 

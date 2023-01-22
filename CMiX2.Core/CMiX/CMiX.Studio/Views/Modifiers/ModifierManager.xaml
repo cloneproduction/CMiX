@@ -1,0 +1,78 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.ModifierManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:dd="urn:gong-wpf-dragdrop"
+    d:DesignHeight="238.667"
+    d:DesignWidth="277.667"
+    mc:Ignorable="d"
+    x:Name="transformModifierManager">
+
+    <StackPanel Margin="8, 6">
+
+        <ToggleButton 
+            IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+            x:Name="PopUpToggle" 
+            Content="Add Modifier"
+            Height="22" 
+            Margin="0, 4"
+            Background="{DynamicResource DarkerColor}" 
+            Style="{StaticResource ToggleTransformModifierMenu}"/>
+
+        <Popup
+            AllowsTransparency="True"
+            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=transformModifierManager}"
+            Placement="Bottom"
+            PlacementTarget="{Binding ElementName=PopUpToggle}"
+            FlowDirection="LeftToRight"
+            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+
+            <Border 
+                BorderThickness="1, 0, 1, 2"
+                BorderBrush="{DynamicResource Shadow}"
+                CornerRadius="{DynamicResource CornerRadiusBottom}" 
+                Padding="2, 0, 2, 2"
+                Background="{DynamicResource HighHighDarkerColor}">
+
+                <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                
+            </Border>
+            
+        </Popup>
+
+        <ItemsControl 
+            IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+            AllowDrop="True"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
+            dd:DragDrop.DragHandler="{Binding}"
+            dd:DragDrop.DropHandler="{Binding}"
+            ItemsSource="{Binding Modifiers}">
+
+            <ItemsControl.Resources>
+                <ResourceDictionary Source="ModifierDataTemplates.xaml" />
+            </ItemsControl.Resources>
+            
+            <ItemsControl.ItemTemplate>
+                
+                <DataTemplate>
+                    <Panels:ModifierPanel 
+                        Margin="0, 4"
+                        DragHandlerIsPressed="{Binding DataContext.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CloseModifierCommand="{Binding DataContext.RemoveCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        CloseModifierCommandParameter="{Binding}">
+                        <ContentPresenter Content="{Binding}"/>
+                    </Panels:ModifierPanel>
+                </DataTemplate>
+                
+            </ItemsControl.ItemTemplate>
+            
+        </ItemsControl>
+
+    </StackPanel>
+
+</UserControl>

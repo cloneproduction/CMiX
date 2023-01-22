@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.Component.CompositionSettings"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+             mc:Ignorable="d" 
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             md:DialogServiceViews.IsRegistered="True"
+             d:DesignHeight="80" d:DesignWidth="320.667">
+
+    <StackPanel>
+
+        <BaseControl:ColorSelector 
+            Margin="0, 0, 0, 8" 
+            Caption="Background Color"
+            ViewModel="{Binding BackgroundColor}"
+            SelectedColor="{Binding BackgroundColor.SelectedColor}"/>
+
+        <BaseControl:Integer2Value
+            Caption="Resolution"
+            DataContext="{Binding Resolution}"/>
+
+    </StackPanel>
+
+</UserControl>

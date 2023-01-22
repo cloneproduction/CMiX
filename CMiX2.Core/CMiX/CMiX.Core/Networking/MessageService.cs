@@ -2,13 +2,19 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using AutoMapper;
 using Ceras;
+using CMiX.Core.Mapper;
+using CMiX.Core.Models;
+using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
@@ -26,14 +32,12 @@ namespace CMiX.Core.Presentation.ViewModels
             MessageProcessor = new MessageProcessor(compositionService);
         }
 
-
         public MessageProcessor MessageProcessor { get; set; }
 
         private void Client_DataReceived(object sender, DataEventArgs e)
         {
             IMessage message = Serializer.Deserialize<IMessage>(e.Data);
             MessageProcessor.ProcessMessage(message);
-            WeakReferenceMessenger.Default.Send(message, MessageType.In);
         }
 
 

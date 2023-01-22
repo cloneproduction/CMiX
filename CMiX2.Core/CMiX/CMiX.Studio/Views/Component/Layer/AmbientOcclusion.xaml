@@ -1,0 +1,71 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.Component.AmbientOcclusion"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+             mc:Ignorable="d" 
+             d:DesignHeight="415.333" d:DesignWidth="381.333">
+
+    <Panels:IndentedExpander>
+        
+        <Panels:IndentedExpander.Header>
+            <DockPanel>
+                <ToggleButton
+                    Width="14"
+                    Height="14"
+                    Style="{DynamicResource ToggleButtonRounded}"
+                    IsChecked="{Binding IsEnabled}"/>
+                <TextBlock Text="Ambient Occlusion" Margin="8, 0" Foreground="{DynamicResource TextBase}"/>
+            </DockPanel>
+        </Panels:IndentedExpander.Header>
+
+        <Border IsEnabled="{Binding IsEnabled}"  Margin="8">
+            
+            <StackPanel>
+
+                <BaseControls:IntegerValue 
+                    Caption="Samples" 
+                    Value="{Binding Samples.Value}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0, 8" 
+                    Caption="Intensity" 
+                    Value="{Binding Intensity.Value}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0" 
+                    Position="Top"
+                    Caption="SampleBias" 
+                    Value="{Binding SampleBias.Value}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0, 1, 0, 8"
+                    Position="Bottom"
+                    Caption="SampleRadius" 
+                    Value="{Binding SampleRadius.Value}"/>
+
+                <BaseControls:IntegerValue 
+                    Caption="Blur Count" 
+                    Position="Top"
+                    Value="{Binding BlurCount.Value}"/>
+
+                <BaseControls:DragValue 
+                    Position="Bottom"
+                    Margin="0, 1, 0, 0"
+                    Caption="Blur Radius" 
+                    Value="{Binding BlurRadius.Value}"/>
+
+                <BaseControls:DragValue 
+                    Margin="0, 8" 
+                    Caption="Edge Sharpness" 
+                    Value="{Binding EdgeSharpness.Value}"/>
+
+            </StackPanel>
+            
+        </Border>
+
+    </Panels:IndentedExpander>
+
+</UserControl>

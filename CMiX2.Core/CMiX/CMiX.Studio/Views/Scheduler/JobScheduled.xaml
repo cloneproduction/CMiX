@@ -1,0 +1,76 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.Scheduler.JobScheduled"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views.Scheduler"
+             mc:Ignorable="d" 
+             d:DesignHeight="40.105" d:DesignWidth="896.212">
+    
+    <Grid Height="30">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <TextBlock
+            Margin="4"
+            Foreground="{StaticResource TextBase}"
+            VerticalAlignment="Center"
+            Grid.Column="0"
+            Text="{Binding Name}"/>
+        <TextBlock
+            Margin="4"
+            Foreground="{StaticResource TextBase}"
+            VerticalAlignment="Center"
+            Grid.Column="0"
+            Text="{Binding NextRun}"/>
+        <TextBlock
+            Margin="4"
+            Foreground="{StaticResource TextBase}"
+            VerticalAlignment="Center"
+            Grid.Column="1"
+            Text="{Binding Playlist.Name}"/>
+        <TextBlock
+            Margin="4"
+            Foreground="{StaticResource TextBase}"
+            VerticalAlignment="Center"
+            Grid.Column="2"
+            Text="{Binding CurrentComposition.Name}"/>
+        <TextBlock
+            Margin="4"
+            Foreground="{StaticResource TextBase}"
+            VerticalAlignment="Center"
+            Grid.Column="3"
+            Text="{Binding NextComposition.Name}"/>
+        <StackPanel 
+            Grid.Column="4" 
+            Orientation="Horizontal" 
+            FlowDirection="RightToLeft">
+            <Button
+                Margin="1, 0"
+                Width="30"
+                Content="X"
+                Command="{Binding Path=DataContext.RemoveJobCommand, RelativeSource={RelativeSource AncestorType={x:Type Views:Overview}}}"
+                CommandParameter="{Binding}"/>
+            <Button
+                Margin="1, 0"
+                Width="30"
+                Content="Next"
+                Command="{Binding SendNextCommand}"/>
+            <Button
+                Margin="1, 0"
+                Width="30"
+                Content="Prev"
+                Command="{Binding SendPreviousCommand}"/>
+            <ToggleButton
+                Margin="1, 0"
+                Width="30"
+                Content="Pause"
+                IsChecked="{Binding Pause}"/>
+        </StackPanel>
+    </Grid>
+</UserControl>

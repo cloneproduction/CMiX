@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.LinearXYZ"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             mc:Ignorable="d" 
+             d:DesignHeight="314" d:DesignWidth="258.667">
+
+    <StackPanel Margin="8">
+
+        <BaseControls:ComboBox  
+            Caption="Type"
+            SelectedItem="{Binding Mode.Value}"
+            ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
+
+        <BaseControls:IntegerValue 
+            Margin="0, 8"
+            Value="{Binding Counter.Value}"/>
+
+        <BaseControls:ComboBox  
+            Margin="0, 0, 0, 1"
+            Caption="Transform"
+            Position="Top"
+            SelectedItem="{Binding TransformTypeSelector.Value}"
+            ItemsSource="{Binding Source={StaticResource TransformType}}"/>
+
+        <BaseControls:AxisSelector3D 
+            XIsChecked="{Binding DirectionXYZ.DirectionX}"
+            YIsChecked="{Binding DirectionXYZ.DirectionY}"
+            ZIsChecked="{Binding DirectionXYZ.DirectionZ}"/>
+
+        <BaseControls:DragValue 
+            Caption="Width" 
+            Margin="0, 8" 
+            Value="{Binding Width.Value}"/>
+
+        <BaseControls:DragValue 
+            Caption="Phase" 
+            Value="{Binding Phase.Value}"/>
+
+    </StackPanel>
+
+</UserControl>

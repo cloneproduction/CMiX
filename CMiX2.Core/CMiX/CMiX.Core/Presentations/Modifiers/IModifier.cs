@@ -7,7 +7,6 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface IModifier : IControl, IDisposable
     {
-        bool Enabled { get; set; }
         BooleanValue Visible { get; set; }
     }
 }

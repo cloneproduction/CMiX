@@ -13,20 +13,13 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
         public Vector2(Vector2Model vector2Model)
         {
             ID = vector2Model.ID;
-            Name = vector2Model.Name;
 
             X = new FloatValue(vector2Model.X);
             Y = new FloatValue(vector2Model.Y);
         }
 
         public Guid ID { get; set; }
-
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
+        public bool Enabled { get; set; }
 
         public FloatValue X { get; set; }
         public FloatValue Y { get; set; }
@@ -34,7 +27,7 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
 
         public IModel GetModel()
         {
-            Vector2Model vectorXYZModel = new Vector2Model(this.Name);
+            Vector2Model vectorXYZModel = new Vector2Model();
 
             vectorXYZModel.ID = ID;
             vectorXYZModel.X = (FloatValueModel)X.GetModel();
@@ -47,7 +40,6 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
         {
             Vector2Model vectorXYZModel = model as Vector2Model;
             this.ID = vectorXYZModel.ID;
-            this.Name = vectorXYZModel.Name;
             this.X.SetViewModel(vectorXYZModel.X);
             this.Y.SetViewModel(vectorXYZModel.Y);
         }

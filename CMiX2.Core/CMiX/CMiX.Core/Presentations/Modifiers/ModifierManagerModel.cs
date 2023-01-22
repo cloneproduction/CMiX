@@ -11,12 +11,9 @@ namespace CMiX.Core.Presentation.ViewModels.Modifiers
         public ModifierManagerModel()
         {
             this.ID = Guid.NewGuid();
-            Enabled = true;
             Visibility = new BooleanValueModel(true);
         }
 
-
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public BooleanValueModel Visibility { get; internal set; }
     }

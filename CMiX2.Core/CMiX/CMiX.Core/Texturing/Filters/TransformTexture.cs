@@ -27,12 +27,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue Visible { get; set; }
 
 
-        private bool _enabled;
-        public bool Enabled
-        {
-            get => _enabled;
-            set => SetProperty(ref _enabled, value);
-        }
 
         private bool _isExpanded;
         public bool IsExpanded

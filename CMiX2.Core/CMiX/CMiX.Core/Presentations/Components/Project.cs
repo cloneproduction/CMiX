@@ -1,11 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Assets;
-using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 using CMiX.Core.Presentation.ViewModels.Service;
