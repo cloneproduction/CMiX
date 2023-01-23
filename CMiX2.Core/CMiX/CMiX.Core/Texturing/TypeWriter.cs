@@ -20,7 +20,7 @@ namespace CMiX.Core.Presentation.ViewModels
             StringControl = new StringValue(typeWriterModel.StringControl);
             CompositionService = compositionService;
 
-            FontFamily = new GenericValue<string>(typeWriterModel.FontFamily);
+            FontFamily = new StringValue(typeWriterModel.FontFamily);
 
             FontSize = new FloatValue(typeWriterModel.FontSize);
             Style = new GenericValue<FontStyle>(typeWriterModel.Style);
@@ -36,8 +36,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public ICommand OpenFontColorCommand { get; set; }
-        public ICommand OpenFontBackgroundCommand { get; set; }
         public ICommand TextInputGotFocusCommand { get; set; }
         public ICommand TextInputLostFocusCommand { get; set; }
 
@@ -47,7 +45,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public StringValue StringControl { get; set; }
 
         public GenericValue<FontStyle> Style { get; set; }
-        public GenericValue<string> FontFamily { get; set; }
+        public StringValue FontFamily { get; set; }
         public FloatValue FontSize { get; set; }
 
         public ColorSelector FontColor { get; set; }
@@ -81,7 +79,7 @@ namespace CMiX.Core.Presentation.ViewModels
             typeWriterModel.Position = (Vector2Model)this.Position.GetModel();
 
             typeWriterModel.FontSize = (FloatValueModel)this.FontSize.GetModel();
-            typeWriterModel.FontFamily = (GenericValueModel<string>)this.FontFamily.GetModel();
+            typeWriterModel.FontFamily = (StringValueModel)this.FontFamily.GetModel();
             typeWriterModel.Style = (GenericValueModel<FontStyle>)this.Style.GetModel();
 
             return typeWriterModel;

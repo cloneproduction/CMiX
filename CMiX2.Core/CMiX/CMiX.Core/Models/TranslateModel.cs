@@ -13,10 +13,8 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
             XYZ = new Vector3Model();
             Visible = new BooleanValueModel(true);
-            Enabled = true;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public Vector3Model XYZ { get; internal set; }
         public BooleanValueModel Visible { get; set; }

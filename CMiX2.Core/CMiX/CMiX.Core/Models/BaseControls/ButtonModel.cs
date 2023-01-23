@@ -16,7 +16,6 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
     }
 }

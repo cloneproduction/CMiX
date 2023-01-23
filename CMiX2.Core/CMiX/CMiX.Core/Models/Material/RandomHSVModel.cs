@@ -12,7 +12,6 @@ namespace CMiX.Core.Models
         public RandomHSVModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
 
             Hue = new FloatValueModel();
             Saturation = new FloatValueModel();
@@ -25,7 +24,6 @@ namespace CMiX.Core.Models
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public Vector3Model HSV { get; set; }

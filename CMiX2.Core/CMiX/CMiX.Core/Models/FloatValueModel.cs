@@ -9,7 +9,6 @@ namespace CMiX.Core.Models
         public FloatValueModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
         }
 
         public FloatValueModel(float value) : this()
@@ -17,7 +16,6 @@ namespace CMiX.Core.Models
             Value = value;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public float Value { get; set; }
     }

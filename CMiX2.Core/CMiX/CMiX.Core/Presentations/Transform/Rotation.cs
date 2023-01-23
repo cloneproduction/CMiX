@@ -14,7 +14,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Rotation(RotationModel rotationModel)
         {
             this.ID = rotationModel.ID;
-            this.Enabled = rotationModel.Enabled;
             XYZ = new Vector3(rotationModel.XYZ);
             Visible = new BooleanValue(rotationModel.Visible);
             Mode = new GenericValue<ModifierMode>(rotationModel.Mode);
@@ -24,7 +23,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public Guid ID { get; set; }
         public Vector3 XYZ { get; set; }
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
 
         public GenericValue<ModifierMode> Mode  { get; set; }
@@ -42,7 +40,6 @@ namespace CMiX.Core.Presentation.ViewModels
             RotationModel model = new RotationModel();
 
             model.ID = this.ID;
-            model.Enabled = this.Enabled;
             model.XYZ = (Vector3Model)this.XYZ.GetModel();
             model.Visible = (BooleanValueModel)this.Visible.GetModel();
             model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
@@ -55,7 +52,6 @@ namespace CMiX.Core.Presentation.ViewModels
             RotationModel rotationModel = model as RotationModel;
 
             this.ID = rotationModel.ID;
-            this.Enabled = rotationModel.Enabled;
             this.XYZ.SetViewModel(rotationModel.XYZ);
             this.Visible.SetViewModel(rotationModel.Visible);
             this.Mode.SetViewModel(rotationModel.Mode);

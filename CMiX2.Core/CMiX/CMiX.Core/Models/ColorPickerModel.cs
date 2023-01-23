@@ -13,7 +13,6 @@ namespace CMiX.Core.Models
             SelectedColor = "#ff00ff";
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public string SelectedColor { get; set; }
     }

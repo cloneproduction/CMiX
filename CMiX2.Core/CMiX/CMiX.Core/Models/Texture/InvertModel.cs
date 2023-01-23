@@ -18,11 +18,8 @@ namespace CMiX.Core.Models
             InvertAlpha = new BooleanValueModel();
             Visible = new BooleanValueModel(true);
             Control = new FloatValueModel();
-
-            Enabled = true;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public FloatValueModel Factor { get; set; }
         public BooleanValueModel Visible { get; set; }

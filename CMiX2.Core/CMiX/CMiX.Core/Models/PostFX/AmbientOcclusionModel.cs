@@ -22,8 +22,6 @@ namespace CMiX.Core.Models
             EdgeSharpness = new FloatValueModel(3.0f);
         }
 
-
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public BooleanValueModel IsEnabled { get; set; }

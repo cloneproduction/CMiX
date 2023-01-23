@@ -36,7 +36,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
 
 

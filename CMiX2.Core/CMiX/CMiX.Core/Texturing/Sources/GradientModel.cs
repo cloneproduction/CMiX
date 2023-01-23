@@ -10,7 +10,6 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public GradientModel()
         {
-            Enabled = true;
             ID = Guid.NewGuid();
             Resolution = new Integer2Model(512, 512);
             From = new ColorSelectorModel("#FFFFFFFF");
@@ -19,7 +18,6 @@ namespace CMiX.Core.Presentation.ViewModels
             Horizontal = new BooleanValueModel(false);
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public Integer2Model Resolution { get; set; }
         public FloatValueModel Gamma { get; set; }

@@ -21,8 +21,7 @@ namespace CMiX.Core.Models
         }
 
 
-        public bool Enabled { get; set; }
-        public string Address { get; set; }
+
         public Guid ID { get; set; }
         public string Name { get; set; }
         public bool IsVisible { get; set; }

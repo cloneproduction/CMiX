@@ -15,7 +15,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Stepper(StepperModel stepperModel, CompositionService compositionService)
         {
             ID = stepperModel.ID;
-            Enabled = stepperModel.Enabled;
 
             //Mode = new GenericValue<ModifierMode>(stepperModel.Mode);
 
@@ -39,7 +38,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
 
         public IntegerValue StepCount { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
@@ -74,7 +72,6 @@ namespace CMiX.Core.Presentation.ViewModels
             StepperModel stepperModel = new StepperModel();
 
             stepperModel.ID = this.ID;
-            stepperModel.Enabled = Enabled;
 
             //stepperModel.Visible = (BooleanValueModel)Visible.GetModel();
             //stepperModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
@@ -100,7 +97,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             StepperModel stepperModel = model as StepperModel;
             ID = stepperModel.ID;
-            Enabled = stepperModel.Enabled;
 
             //Mode.SetViewModel(stepperModel.Mode);
             //Visible.SetViewModel(stepperModel.Visible);

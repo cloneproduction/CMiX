@@ -32,7 +32,6 @@ namespace CMiX.Core.Models
             IsShadowCaster = new BooleanValueModel(true);
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public ColorSelectorModel ColorModel { get; set; }

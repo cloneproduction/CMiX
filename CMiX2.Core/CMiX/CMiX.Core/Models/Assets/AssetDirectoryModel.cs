@@ -19,7 +19,6 @@ namespace CMiX.Core.Models
         public string Name { get; set; }
         public bool IsSelected { get; set; }
         public string Ponderation { get; set; }
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
     }
 }

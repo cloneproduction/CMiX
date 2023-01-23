@@ -12,7 +12,6 @@ namespace CMiX.Core.Models.Scheduling
             this.ID = Guid.NewGuid();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
     }
 }

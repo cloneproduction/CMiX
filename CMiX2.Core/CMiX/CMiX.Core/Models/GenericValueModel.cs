@@ -18,7 +18,6 @@ namespace CMiX.Core.Models
             Value = selected;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public T Value { get; set; }
     }

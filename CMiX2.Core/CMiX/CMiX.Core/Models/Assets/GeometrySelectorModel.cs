@@ -11,7 +11,7 @@ namespace CMiX.Core.Models
         {
             this.ID = Guid.NewGuid();
         }
-        public bool Enabled { get; set; }
+
         public Guid ID { get; set; }
         public IAssetModel SelectedAsset { get; set; }
     }

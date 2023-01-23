@@ -26,7 +26,6 @@ namespace CMiX.Core.Models
 
         public TransformModifierNames Name { get; set; }
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
 
         public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifierModel { get; set; }

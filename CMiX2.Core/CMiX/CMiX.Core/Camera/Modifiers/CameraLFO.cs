@@ -13,7 +13,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public CameraLFO(CameraLFOModel lfoModel, CompositionService compositionService)
         {
             ID = lfoModel.ID;
-            Enabled = lfoModel.Enabled;
 
             Visible = new BooleanValue(lfoModel.Visible);
             BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
@@ -32,10 +31,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
-
-
         public BeatModifier BeatModifier { get; set; }
         public BooleanValue Yaw { get; set; }
         public BooleanValue Pitch { get; set; }
@@ -52,7 +48,6 @@ namespace CMiX.Core.Presentation.ViewModels
             CameraLFOModel cameraLFOModel = new CameraLFOModel();
 
             cameraLFOModel.ID = ID;
-            cameraLFOModel.Enabled = Enabled;
             cameraLFOModel.Visible = (BooleanValueModel)Visible.GetModel();
             cameraLFOModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
             cameraLFOModel.Yaw = (BooleanValueModel)Yaw.GetModel();

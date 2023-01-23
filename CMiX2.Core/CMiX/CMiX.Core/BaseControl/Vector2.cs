@@ -19,7 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
         }
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
 
         public FloatValue X { get; set; }
         public FloatValue Y { get; set; }

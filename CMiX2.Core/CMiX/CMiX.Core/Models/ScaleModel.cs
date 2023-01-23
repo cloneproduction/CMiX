@@ -18,7 +18,6 @@ namespace CMiX.Core.Models
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public FloatValueModel Uniform { get; set; }
         public Vector3Model XYZ { get; set; }

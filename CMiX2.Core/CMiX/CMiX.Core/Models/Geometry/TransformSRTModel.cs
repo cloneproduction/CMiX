@@ -24,7 +24,6 @@ namespace CMiX.Core.Models
             TransformModifier = new ModifierManagerModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public FloatValueModel Uniform { get; set; }

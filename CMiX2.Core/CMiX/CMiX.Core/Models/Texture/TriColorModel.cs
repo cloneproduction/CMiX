@@ -11,7 +11,6 @@ namespace CMiX.Core.Models
         public TriColorModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
             Name = TextureFilterName.TriColor;
 
             Visible = new BooleanValueModel(true);
@@ -26,7 +25,6 @@ namespace CMiX.Core.Models
         }
 
         public TextureFilterName Name { get; set; }
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public BooleanValueModel Visible { get; set; }
 

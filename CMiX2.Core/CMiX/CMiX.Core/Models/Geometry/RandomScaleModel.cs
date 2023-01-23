@@ -27,7 +27,6 @@ namespace CMiX.Core.Models
             Spread = new BooleanValueModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
 

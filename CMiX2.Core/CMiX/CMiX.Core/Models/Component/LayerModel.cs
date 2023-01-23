@@ -40,7 +40,6 @@ namespace CMiX.Core.Models.Component
 
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public bool Enabled { get; set; }
 
         public FloatValueModel Opacity { get; set; }
         public BooleanValueModel Visibility { get; set; }

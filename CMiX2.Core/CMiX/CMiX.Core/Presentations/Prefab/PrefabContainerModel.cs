@@ -20,7 +20,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             IsSelected = false;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public bool IsSelected { get; internal set; }
         public IPrefabModel PrefabModel { get; set; }

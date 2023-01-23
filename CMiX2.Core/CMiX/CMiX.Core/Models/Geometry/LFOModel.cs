@@ -12,7 +12,6 @@ namespace CMiX.Core.Models
         {
             Name = "LFO";
             this.ID = Guid.NewGuid();
-            Enabled = true;
 
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
 
@@ -34,7 +33,6 @@ namespace CMiX.Core.Models
 
         public string Name { get; set; }
         public BooleanValueModel PingPong { get; set; }
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }

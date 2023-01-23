@@ -10,7 +10,6 @@ namespace CMiX.Core.Models.BaseControls
         public Vector3Model()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
 
             X = new FloatValueModel();
             Y = new FloatValueModel();
@@ -39,7 +38,6 @@ namespace CMiX.Core.Models.BaseControls
 
         public Guid ID { get; set; }
         public string Name { get; set; }
-        public bool Enabled { get; set; }
 
         public FloatValueModel X { get; set; }
         public FloatValueModel Y { get; set; }

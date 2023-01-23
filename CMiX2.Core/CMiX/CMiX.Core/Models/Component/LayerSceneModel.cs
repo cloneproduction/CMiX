@@ -31,7 +31,6 @@ namespace CMiX.Core.Models
 
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
         public bool IsVisible { get; set; }

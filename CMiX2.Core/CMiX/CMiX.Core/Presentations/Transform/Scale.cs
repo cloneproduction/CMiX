@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
 using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
@@ -14,7 +13,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Scale(ScaleModel scaleModel)
         {
             this.ID = scaleModel.ID;
-            this.Enabled = scaleModel.Enabled;
 
             Uniform = new FloatValue(scaleModel.Uniform);
             XYZ = new Vector3(scaleModel.XYZ);
@@ -29,7 +27,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public FloatValue Uniform { get; set; }
         public Vector3 XYZ { get; set; }
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
 
@@ -47,7 +44,6 @@ namespace CMiX.Core.Presentation.ViewModels
             ScaleModel model = new ScaleModel();
 
             model.ID = this.ID;
-            model.Enabled = this.Enabled;
             model.Uniform = (FloatValueModel)this.Uniform.GetModel();
             model.Visible = (BooleanValueModel)this.Visible.GetModel();
             model.XYZ = (Vector3Model)this.XYZ.GetModel();
@@ -61,7 +57,6 @@ namespace CMiX.Core.Presentation.ViewModels
             ScaleModel scaleModel = model as ScaleModel;
 
             this.ID = scaleModel.ID;
-            this.Enabled = scaleModel.Enabled;
             this.Uniform.SetViewModel(scaleModel.Uniform);
             this.Visible.SetViewModel(scaleModel.Visible);
             this.XYZ.SetViewModel(scaleModel.XYZ);

@@ -16,10 +16,8 @@ namespace CMiX.Core.Models
             Brightness = new FloatValueModel(1.0f);
             Visible = new BooleanValueModel(true);
             Control = new FloatValueModel(1.0f);
-            Enabled = true;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public BooleanValueModel Visible { get; set; }

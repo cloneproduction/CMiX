@@ -15,10 +15,8 @@ namespace CMiX.Core.Models
             Name = TextureFilterName.Blur;
             Visible = new BooleanValueModel(true);
             Strength = new FloatValueModel();
-            Enabled = true;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public FloatValueModel Strength { get; set; }
         public BooleanValueModel Visible { get; set; }

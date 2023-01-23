@@ -34,7 +34,6 @@ namespace CMiX.Core.Models
             TransformTexture = new TransformTextureModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public ModifierManagerModel ModifierManagerModel { get; set; }

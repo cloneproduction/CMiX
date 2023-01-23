@@ -14,7 +14,6 @@ namespace CMiX.Core.Models.Component
             BackgroundColor = new ColorSelectorModel("#FF000000");
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public Integer2Model Resolution { get; set; }

@@ -28,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
         public FloatValue Hue { get; set; }
@@ -59,7 +58,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             RandomHSVModel randomHSVModel = new RandomHSVModel();
 
-            randomHSVModel.Enabled = Enabled;
             randomHSVModel.ID = ID;
             randomHSVModel.Hue = (FloatValueModel)Hue.GetModel();
             randomHSVModel.Saturation = (FloatValueModel)Saturation.GetModel();
@@ -77,7 +75,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             RandomHSVModel randomHSVModel = model as RandomHSVModel;
 
-            Enabled = randomHSVModel.Enabled;
             ID = randomHSVModel.ID;
             Hue.SetViewModel(randomHSVModel.Hue);
             Saturation.SetViewModel(randomHSVModel.Saturation);

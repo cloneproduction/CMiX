@@ -19,7 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels
             Saturation = new FloatValue(HSCBModel.SaturationModel);
             Contrast = new FloatValue(HSCBModel.ConstrastModel);
             Brightness = new FloatValue(HSCBModel.BrightnessModel);
-            Enabled = HSCBModel.Enabled;
             IsExpanded = true;
         }
 
@@ -55,7 +54,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
             HSCBModel.ID = ID;
             HSCBModel.Name = Name;
-            HSCBModel.Enabled = this.Enabled;
 
             HSCBModel.Visible = (BooleanValueModel)Visible.GetModel();
             HSCBModel.HueModel = (FloatValueModel)Hue.GetModel();
@@ -71,7 +69,6 @@ namespace CMiX.Core.Presentation.ViewModels
             HSCBModel HSCBModel = model as HSCBModel;
             ID = HSCBModel.ID;
             Name = HSCBModel.Name;
-            Enabled = HSCBModel.Enabled;
 
             Visible.SetViewModel(HSCBModel.Visible);
             Hue.SetViewModel(HSCBModel.HueModel);

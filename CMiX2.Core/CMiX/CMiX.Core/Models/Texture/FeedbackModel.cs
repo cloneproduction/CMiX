@@ -17,7 +17,6 @@ namespace CMiX.Core.Models
         }
 
         public BooleanValueModel Visible { get; set; }
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public TextureFilterName Name { get; set; }
         public FloatValueModel Factor { get; set; }

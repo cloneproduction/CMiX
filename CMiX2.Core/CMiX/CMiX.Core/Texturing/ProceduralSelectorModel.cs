@@ -16,7 +16,6 @@ namespace CMiX.Core.Presentation.ViewModels
             BubbleNoise = new BubbleNoiseModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public GenericValueModel<TextureSourceName> ProceduralName { get; internal set; }
         public GradientModel Gradient { get; internal set; }

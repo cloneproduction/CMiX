@@ -17,7 +17,7 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = samplerStateModel.ID;
             CompositionService = compositionService;
 
-            BorderColor = new ColorSelector(samplerStateModel.ColorSelectorModel);
+            BorderColor = new ColorSelector(samplerStateModel.BorderColor);
             AddressU = samplerStateModel.AddressU;
             AddressV = samplerStateModel.AddressV;
 
@@ -60,7 +60,7 @@ namespace CMiX.Core.Presentation.ViewModels
             samplerStateModel.ID = ID;
             samplerStateModel.AddressU = AddressU;
             samplerStateModel.AddressV = AddressV;
-            samplerStateModel.ColorSelectorModel = (ColorSelectorModel)BorderColor.GetModel();
+            samplerStateModel.BorderColor = (ColorSelectorModel)BorderColor.GetModel();
 
             return samplerStateModel;
         }
@@ -71,7 +71,7 @@ namespace CMiX.Core.Presentation.ViewModels
             ID = samplerStateModel.ID;
             AddressU = samplerStateModel.AddressU;
             AddressV = samplerStateModel.AddressV;
-            BorderColor.SetViewModel(samplerStateModel.ColorSelectorModel);
+            BorderColor.SetViewModel(samplerStateModel.BorderColor);
         }
 
         public void Receive(MessageRequestControl message)

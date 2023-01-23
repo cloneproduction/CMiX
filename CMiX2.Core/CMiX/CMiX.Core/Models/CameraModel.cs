@@ -35,7 +35,6 @@ namespace CMiX.Core.Models
             Name = "Camera";
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
 

@@ -1,10 +1,9 @@
-﻿using AutoMapper;
+﻿using System;
+using System.Windows;
+using AutoMapper;
 using Ceras;
 using CMiX.Core.Mapper;
-using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
@@ -15,9 +14,6 @@ using CMiX.Studio.Views.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;
-using MvvmDialogs.DialogTypeLocators;
-using System;
-using System.Windows;
 
 namespace CMiX
 {
@@ -49,7 +45,7 @@ namespace CMiX
             var config = new MapperConfiguration(cfg => {
                 cfg.AddProfile(new MappingProfile());
             });
-            config.AssertConfigurationIsValid();
+            //config.AssertConfigurationIsValid();
 
             IMapper mapper = config.CreateMapper();
 

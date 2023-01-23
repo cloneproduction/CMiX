@@ -15,10 +15,10 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
 
             ProceduralSelector = new ProceduralSelectorModel();
-            VideoPlayerModel = new VideoPlayerModel();
+            VideoPlayer = new VideoPlayerModel();
 
-            ModifierManagerModel = new ModifierManagerModel();
-            TransformModifierManager = new ModifierManagerModel();
+            TextureModifierManager = new ModifierManagerModel();
+            TextureTransformModifierManager = new ModifierManagerModel();
 
             VideoIn = new VideoInModel();
 
@@ -30,15 +30,16 @@ namespace CMiX.Core.Models
             TransformTexture = new TransformTextureModel();
         }
 
+
+
+
         public Guid ID { get; set; }
 
-        public ModifierManagerModel ModifierManagerModel { get; set; }
-        public ModifierManagerModel TransformModifierManager { get; set; }
-
+        public ModifierManagerModel TextureModifierManager { get; set; }
+        public ModifierManagerModel TextureTransformModifierManager { get; set; }
 
         public BooleanValueModel IsEnabled { get; internal set; }
-        public VideoSelectorModel VideoSelectorModel { get; internal set; }
-        public VideoPlayerModel VideoPlayerModel { get; set; }
+        public VideoPlayerModel VideoPlayer { get; set; }
         public VideoInModel VideoIn { get; internal set; }
         public IntegerValueModel SelectedAssetType { get; internal set; }
         public TypeWriterModel TypeWriter { get; internal set; }

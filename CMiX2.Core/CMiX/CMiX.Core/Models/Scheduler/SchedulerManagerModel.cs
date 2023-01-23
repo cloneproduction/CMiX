@@ -13,7 +13,6 @@ namespace CMiX.Core.Models.Scheduling
             PlaylistEditorModel = new PlaylistEditorModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public PlaylistEditorModel PlaylistEditorModel { get; set; }
     }

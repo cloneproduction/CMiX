@@ -14,7 +14,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public CameraRandom(CameraRandomModel randomModel, CompositionService compositionService)
         {
             ID = randomModel.ID;
-            Enabled = randomModel.Enabled;
 
             Visible = new BooleanValue(randomModel.Visible);
             BeatModifier = new BeatModifier(randomModel.BeatModifier, compositionService);
@@ -29,7 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
 
         private bool _isExpanded;
@@ -51,7 +49,6 @@ namespace CMiX.Core.Presentation.ViewModels
             CameraRandomModel cameraRandomModel = new CameraRandomModel();
 
             cameraRandomModel.ID = ID;
-            cameraRandomModel.Enabled = Enabled;
             cameraRandomModel.Visible = (BooleanValueModel)Visible.GetModel();
             cameraRandomModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
             cameraRandomModel.PingPong = (BooleanValueModel)PingPong.GetModel();

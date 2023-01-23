@@ -11,7 +11,6 @@ namespace CMiX.Core.Models
         public HSCBModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
             Name = TextureFilterName.HSCB;
 
             Visible = new BooleanValueModel(true);
@@ -22,7 +21,6 @@ namespace CMiX.Core.Models
             Control = new FloatValueModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public BooleanValueModel Visible { get; set; }

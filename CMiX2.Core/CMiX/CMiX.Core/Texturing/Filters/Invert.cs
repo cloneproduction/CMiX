@@ -13,7 +13,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ID = invertModel.ID;
             Name = invertModel.Name;
-            Enabled = invertModel.Enabled;
 
             Factor = new FloatValue(invertModel.Factor);
             Visible = new BooleanValue(invertModel.Visible);
@@ -31,12 +30,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue Control { get; set; }
 
 
-        private bool _enabled;
-        public bool Enabled
-        {
-            get => _enabled;
-            set => SetProperty(ref _enabled, value);
-        }
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -52,7 +45,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
             invertModel.ID = ID;
             invertModel.Name = Name;
-            invertModel.Enabled = Enabled;
 
             invertModel.Factor = (FloatValueModel)Factor.GetModel();
             invertModel.Visible = (BooleanValueModel)Visible.GetModel();
@@ -67,7 +59,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
             this.ID = invertModel.ID;
             this.Name = invertModel.Name;
-            this.Enabled = invertModel.Enabled;
 
             this.Factor.SetViewModel(invertModel.Factor);
             this.Visible.SetViewModel(invertModel.Visible);

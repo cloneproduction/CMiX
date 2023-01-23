@@ -21,7 +21,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
 
         [ObservableProperty]
         private float value;

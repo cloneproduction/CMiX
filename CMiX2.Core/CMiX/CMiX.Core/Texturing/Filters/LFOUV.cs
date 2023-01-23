@@ -14,7 +14,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public LFOUV(LFOUVModel lfoUVModel, CompositionService compositionService)
         {
             ID = lfoUVModel.ID;
-            Enabled = lfoUVModel.Enabled;
 
             Name = lfoUVModel.Name;
             Visible = new BooleanValue(lfoUVModel.Visible);
@@ -36,7 +35,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
 
         public BooleanValue Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
@@ -61,7 +59,6 @@ namespace CMiX.Core.Presentation.ViewModels
             LFOUVModel lfoModel = new LFOUVModel();
 
             lfoModel.ID = this.ID;
-            lfoModel.Enabled = Enabled;
 
             lfoModel.Visible = (BooleanValueModel)Visible.GetModel();
             lfoModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
@@ -86,7 +83,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             LFOUVModel lfoModel = model as LFOUVModel;
             ID = lfoModel.ID;
-            Enabled = lfoModel.Enabled;
 
             Visible.SetViewModel(lfoModel.Visible);
             BeatModifier.SetViewModel(lfoModel.BeatModifier);

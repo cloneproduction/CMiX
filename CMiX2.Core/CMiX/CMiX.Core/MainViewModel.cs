@@ -44,10 +44,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Transform2D trans = new Transform2D(new Transform2DModel(), null);
 
-            var prout = Mapper.Map<Transform2DModel>(trans);
-            Vector2 vector2 = new Vector2(new Vector2Model(11.0f, 123.0f));
-            var pouet = Mapper.Map<Vector2Model>(vector2);
-            Console.WriteLine(prout);
+            var tex = new Texture(new TextureModel(), null);
+            var pouet = Mapper.Map<TextureModel>(tex);
+            Console.WriteLine(pouet);
         }
 
         public IMapper Mapper { get; set; }

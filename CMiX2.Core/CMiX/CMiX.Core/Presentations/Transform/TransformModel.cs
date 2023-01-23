@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Presentation.ViewModels
@@ -13,7 +11,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public TransformModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
             TransformSRT = new TransformSRTModel();
             TransformModifier = new ModifierManagerModel();
             //Scale = new VectorXYZModel(nameof(Scale), 1.0f, 1.0f, 1.0f);
@@ -22,7 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels
             //Uniform = new SliderModel(1.0f);
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public ModifierManagerModel TransformModifier { get; set; }

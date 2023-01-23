@@ -19,7 +19,6 @@ namespace CMiX.Core.Models
             VisibilityModel = new VisibilityModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public ModifierManagerModel ModifierManagerModel { get; set; }

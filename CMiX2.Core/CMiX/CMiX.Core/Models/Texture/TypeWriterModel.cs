@@ -12,10 +12,9 @@ namespace CMiX.Core.Models
         public TypeWriterModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
 
             StringControl = new StringValueModel();
-            FontFamily = new GenericValueModel<string>("Arial");
+            FontFamily = new StringValueModel("Arial");
             FontSize = new FloatValueModel(0.45f);
             FontColor = new ColorSelectorModel("#ff000000");
             BackgroundColor = new ColorSelectorModel("#00000000");
@@ -25,7 +24,6 @@ namespace CMiX.Core.Models
         }
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
 
         public StringValueModel StringControl { get; internal set; }
         public ColorSelectorModel FontColor { get; internal set; }
@@ -33,7 +31,7 @@ namespace CMiX.Core.Models
         public Integer2Model Resolution { get; internal set; }
         public Vector2Model Position { get; internal set; }
         public FloatValueModel FontSize { get; internal set; }
-        public GenericValueModel<string> FontFamily { get; internal set; }
+        public StringValueModel FontFamily { get; internal set; }
         public GenericValueModel<FontStyle> Style { get; internal set; }
     }
 }

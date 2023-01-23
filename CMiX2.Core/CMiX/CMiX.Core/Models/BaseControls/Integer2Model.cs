@@ -18,7 +18,6 @@ namespace CMiX.Core.Models
             Y = new IntegerValueModel(y);
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public IntegerValueModel X{ get; set; }

@@ -11,7 +11,6 @@ namespace CMiX.Core.Models
         public SpotLightModel()
         {
             this.ID = Guid.NewGuid();
-            Enabled = true;
 
             Position = new Vector3Model();
             Target = new Vector3Model();
@@ -23,7 +22,6 @@ namespace CMiX.Core.Models
         }
 
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public Vector3Model Position { get; set; }

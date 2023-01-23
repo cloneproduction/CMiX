@@ -13,7 +13,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ID = blurModel.ID;
             Name = blurModel.Name;
-            Enabled = blurModel.Enabled;
             IsExpanded = true;
 
             Strength = new FloatValue(blurModel.Strength);
@@ -45,7 +44,6 @@ namespace CMiX.Core.Presentation.ViewModels
             BlurModel blurModel = new BlurModel();
             blurModel.ID = ID;
             blurModel.Name = Name;
-            blurModel.Enabled = Enabled;
 
             blurModel.Strength = (FloatValueModel)Strength.GetModel();
             blurModel.Visible = (BooleanValueModel)Visible.GetModel();
@@ -58,7 +56,6 @@ namespace CMiX.Core.Presentation.ViewModels
             BlurModel blurModel = model as BlurModel;
             this.ID = blurModel.ID;
             this.Name = blurModel.Name;
-            this.Enabled = blurModel.Enabled;
 
             this.Visible.SetViewModel(blurModel.Visible);
             this.Strength.SetViewModel(blurModel.Strength);

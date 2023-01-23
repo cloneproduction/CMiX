@@ -20,14 +20,14 @@ namespace CMiX.Core.Presentation.ViewModels
             Name = this.GetType().Name;
 
             IsEnabled = new BooleanValue(textureModel.IsEnabled);
-            TextureModifierManager = new ModifierManager(textureModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
-            TextureTransformModifierManager = new ModifierManager(textureModel.TransformModifierManager, new ModifierFactory(compositionService));
+            TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory(compositionService));
+            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService));
             SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
 
             ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);
 
             VideoIn = new VideoIn(textureModel.VideoIn);
-            VideoPlayer = new VideoPlayer(textureModel.VideoPlayerModel);
+            VideoPlayer = new VideoPlayer(textureModel.VideoPlayer);
             SelectedAssetType = new IntegerValue(textureModel.SelectedAssetType);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
             TransformTexture = new TransformTexture(textureModel.TransformTexture, compositionService);
@@ -86,9 +86,9 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
 
             model.IsEnabled = (BooleanValueModel)this.IsEnabled.GetModel();
-            model.ModifierManagerModel = (ModifierManagerModel)this.TextureModifierManager.GetModel();
-            model.TransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
-            model.VideoPlayerModel = (VideoPlayerModel)this.VideoPlayer.GetModel();
+            model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
+            model.TextureTransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
+            model.VideoPlayer = (VideoPlayerModel)this.VideoPlayer.GetModel();
             model.SelectedAssetType = (IntegerValueModel)this.SelectedAssetType.GetModel();
             model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
             model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
@@ -105,11 +105,11 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = textureModel.ID;
 
             this.IsEnabled.SetViewModel(textureModel.IsEnabled);
-            this.TextureModifierManager.SetViewModel(textureModel.ModifierManagerModel);
-            this.TextureTransformModifierManager.SetViewModel(textureModel.TransformModifierManager);
+            this.TextureModifierManager.SetViewModel(textureModel.TextureModifierManager);
+            this.TextureTransformModifierManager.SetViewModel(textureModel.TextureTransformModifierManager);
             //this.ImageSelector.SetViewModel(textureModel.TextureSelectorModel);
             //this.VideoSelector.SetViewModel(textureModel.VideoSelectorModel);
-            this.VideoPlayer.SetViewModel(textureModel.VideoPlayerModel);
+            this.VideoPlayer.SetViewModel(textureModel.VideoPlayer);
             this.SelectedAssetType.SetViewModel(textureModel.SelectedAssetType);
             this.TypeWriter.SetViewModel(textureModel.TypeWriter);
             this.SamplerState.SetViewModel(textureModel.SamplerState);

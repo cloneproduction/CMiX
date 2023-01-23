@@ -19,7 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels
             BubbleColor = new ColorSelectorModel("#FFFFFFFF");
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public Integer2Model Resolution { get; set; }

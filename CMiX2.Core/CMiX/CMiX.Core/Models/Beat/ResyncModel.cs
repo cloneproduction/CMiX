@@ -12,7 +12,7 @@ namespace CMiX.Core.Models.Beat
             this.ID = Guid.NewGuid();
         }
 
-        public bool Enabled { get; set; }
+
         public Guid ID { get; set; }
     }
 }

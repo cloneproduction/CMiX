@@ -17,7 +17,6 @@ namespace CMiX.Core.Models
             Value = count;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public int Value { get; set; }
     }

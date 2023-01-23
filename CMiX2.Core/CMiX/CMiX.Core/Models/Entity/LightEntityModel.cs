@@ -12,7 +12,6 @@ namespace CMiX.Core.Models
         public LightEntityModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
 
             LightColor = new ColorSelectorModel();
             Position = new Vector3Model(nameof(Position), 0.0f, 2.0f, 0.0f);
@@ -25,7 +24,6 @@ namespace CMiX.Core.Models
             Visibility = new BooleanValueModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public string Name { get; set; }
 

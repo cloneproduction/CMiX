@@ -14,7 +14,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             ID = edgeModel.ID;
             Name = edgeModel.Name;
-            Enabled = edgeModel.Enabled;
             Visible = new BooleanValue(edgeModel.Visible);
             Radius = new FloatValue(edgeModel.Radius);
             Brightness = new FloatValue(edgeModel.Brightness);
@@ -52,7 +51,6 @@ namespace CMiX.Core.Presentation.ViewModels
             EdgeModel edgeModel = new EdgeModel();
 
             edgeModel.ID = ID;
-            edgeModel.Enabled = Enabled;
             edgeModel.Name = Name;
 
             edgeModel.Control = (FloatValueModel)Control.GetModel();
@@ -67,7 +65,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             EdgeModel edgeModel = model as EdgeModel;
             ID = edgeModel.ID;
-            Enabled = edgeModel.Enabled;
             Name = edgeModel.Name;
 
             Control.SetViewModel(edgeModel.Control);

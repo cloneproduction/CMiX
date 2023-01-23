@@ -15,7 +15,6 @@ namespace CMiX.Core.Models
             FlattenAssetModels = new ObservableCollection<IAssetModel>();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public ObservableCollection<IAssetModel> AssetModels { get; set; }
         public ObservableCollection<IAssetModel> FlattenAssetModels { get; set; }

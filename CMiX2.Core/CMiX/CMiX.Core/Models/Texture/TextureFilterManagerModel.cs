@@ -14,11 +14,9 @@ namespace CMiX.Core.Models
         public TextureFilterManagerModel()
         {
             this.ID = Guid.NewGuid();
-            Enabled = true;
         }
 
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
     }
 }

@@ -43,8 +43,6 @@ namespace CMiX.Core.Presentation.ViewModels
             IsExpanded = true;
         }
 
-
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
 
 

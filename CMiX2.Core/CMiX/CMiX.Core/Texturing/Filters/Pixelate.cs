@@ -23,7 +23,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
         public TextureFilterName Name { get; set; }
-        public bool Enabled { get; set; }
         public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
 

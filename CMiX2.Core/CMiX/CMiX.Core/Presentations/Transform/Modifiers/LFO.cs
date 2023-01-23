@@ -15,7 +15,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             Name = lfoModel.Name;
             ID = lfoModel.ID;
-            Enabled = lfoModel.Enabled;
 
             Mode = new GenericValue<ModifierMode>(lfoModel.Mode);
 
@@ -38,7 +37,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
 
         public BooleanValue Visible { get; set; }
@@ -77,7 +75,6 @@ namespace CMiX.Core.Presentation.ViewModels
             LFOModel lfoModel = new LFOModel();
 
             lfoModel.ID = this.ID;
-            lfoModel.Enabled = Enabled;
 
             lfoModel.Visible = (BooleanValueModel)Visible.GetModel();
             lfoModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
@@ -102,7 +99,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             LFOModel lfoModel = model as LFOModel;
             ID = lfoModel.ID;
-            Enabled = lfoModel.Enabled;
 
             Mode.SetViewModel(lfoModel.Mode);
             Visible.SetViewModel(lfoModel.Visible);

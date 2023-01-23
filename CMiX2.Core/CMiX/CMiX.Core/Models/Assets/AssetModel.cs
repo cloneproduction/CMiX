@@ -13,7 +13,6 @@ namespace CMiX.Core.Models
             this.ID = Guid.NewGuid();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public string Name { get; set; }
         public string Ponderation { get; set; }

@@ -15,8 +15,6 @@ namespace CMiX.Core.Models
             PlayModel = new BooleanValueModel();
             PlayModel.Value = true;
         }
-
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
         public ButtonModel DoSeek { get; set; }

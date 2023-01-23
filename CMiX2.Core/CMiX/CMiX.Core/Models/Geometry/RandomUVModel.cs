@@ -33,7 +33,6 @@ namespace CMiX.Core.Models
             SamplerState = new SamplerStateModel();
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
 
 

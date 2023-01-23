@@ -11,7 +11,6 @@ namespace CMiX.Core.Models
         public CameraRandomModel()
         {
             ID = Guid.NewGuid();
-            Enabled = true;
             Visible = new BooleanValueModel(true);
             PingPong = new BooleanValueModel(false);
             BeatModifier = new BeatModifierModel();
@@ -22,7 +21,6 @@ namespace CMiX.Core.Models
         }
 
         public Guid ID { get; set; }
-        public bool Enabled { get; set; }
         public BooleanValueModel Visible { get; set; }
 
         public BooleanValueModel PingPong { get; set; }

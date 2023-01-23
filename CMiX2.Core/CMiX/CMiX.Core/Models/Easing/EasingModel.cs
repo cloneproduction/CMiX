@@ -16,7 +16,6 @@ namespace CMiX.Core.Models
             Mode = new GenericValueModel<EasingMode>(EasingMode.In);
         }
 
-        public bool Enabled { get; set; }
         public BooleanValueModel IsEnabled { get; set; }
         public Guid ID { get; set; }
         public GenericValueModel<EasingFunction> Function { get; set; }

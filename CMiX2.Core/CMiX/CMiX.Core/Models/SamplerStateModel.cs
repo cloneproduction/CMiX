@@ -12,11 +12,11 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
             AddressU = TextureAddressMode.Mirror.ToString();
             AddressV = TextureAddressMode.Mirror.ToString();
-            ColorSelectorModel = new ColorSelectorModel();
+            BorderColor = new ColorSelectorModel();
         }
 
         public Guid ID { get; set; }
-        public ColorSelectorModel ColorSelectorModel { get; set; }
+        public ColorSelectorModel BorderColor { get; set; }
         public string AddressU { get; set; }
         public string AddressV { get; set; }
     }

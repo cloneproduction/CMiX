@@ -14,7 +14,6 @@ namespace CMiX.Core.Models
             DirectionY = false;
             DirectionZ = false;
         }
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
         public bool DirectionX { get; set; }
         public bool DirectionY { get; set; }

@@ -10,10 +10,8 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         public PrefabManagerModel()
         {
             this.ID = Guid.NewGuid();
-            Enabled = true;
         }
 
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
     }
 }

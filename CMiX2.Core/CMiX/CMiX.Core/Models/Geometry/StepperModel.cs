@@ -7,7 +7,6 @@ namespace CMiX.Core.Models.Modifier
 {
     public class StepperModel : IModel
     {
-        public bool Enabled { get; set; }
         public Guid ID { get; set; }
     }
 }

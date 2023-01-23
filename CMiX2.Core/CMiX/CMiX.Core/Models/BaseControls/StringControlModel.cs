@@ -13,6 +13,11 @@ namespace CMiX.Core.Models.BaseControls
             Value = "";
         }
 
+        public StringValueModel(string value) : this()
+        {
+            Value = value;
+        }
+
         public Guid ID { get; set; }
         public string Value { get; internal set; }
     }
