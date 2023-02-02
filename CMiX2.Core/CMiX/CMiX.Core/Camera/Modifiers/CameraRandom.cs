@@ -59,19 +59,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return cameraRandomModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            CameraRandomModel cameraRandomModel = model as CameraRandomModel;
-
-            ID = cameraRandomModel.ID;
-            Visible.SetViewModel(cameraRandomModel.Visible);
-            BeatModifier.SetViewModel(cameraRandomModel.BeatModifier);
-            PingPong.SetViewModel(cameraRandomModel.PingPong);
-            Axis.SetViewModel(cameraRandomModel.Axis);
-            Easing.SetViewModel(cameraRandomModel.Easing);
-            Width.SetViewModel(cameraRandomModel.Width);
-        }
-
         public void Dispose()
         {
 

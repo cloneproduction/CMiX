@@ -36,15 +36,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return feedbackModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            FeedbackModel feedbackModel = model as FeedbackModel;
-            ID = feedbackModel.ID;
-            Name = feedbackModel.Name;
-            Visible.SetViewModel(feedbackModel.Visible);
-            Factor.SetViewModel(feedbackModel.Factor);
-        }
-
         public void Dispose()
         {
 

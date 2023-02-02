@@ -49,17 +49,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return pixelateModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            PixelateModel pixelateModel = model as PixelateModel;
-
-            ID = pixelateModel.ID;
-            Name = pixelateModel.Name;
-            Visible.SetViewModel(pixelateModel.Visible);
-            Control.SetViewModel(pixelateModel.Control);
-            Factor.SetViewModel(pixelateModel.Factor);
-        }
-
         public void Dispose()
         {
 

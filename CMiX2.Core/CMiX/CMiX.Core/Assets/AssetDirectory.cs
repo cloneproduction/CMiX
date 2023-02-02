@@ -146,31 +146,5 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             }
             return directoryAssetModel as IModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            AssetDirectoryModel assetDirectoryModel = model as AssetDirectoryModel;
-            this.Name = assetDirectoryModel.Name;
-
-            this.Assets.Clear();
-            foreach (var assetModel in assetDirectoryModel.AssetModels)
-            {
-                IAsset asset = null;
-
-                if (assetModel is AssetDirectoryModel)
-                    asset = new AssetDirectory();
-                else if (assetModel is AssetGeometryModel)
-                    asset = new AssetGeometry();
-                else if (assetModel is AssetImageModel)
-                    asset = new AssetImage();
-
-                if (asset != null)
-                {
-                    asset.SetViewModel(assetModel);
-                    this.Assets.Add(asset);
-                }
-            }
-            this.SortAssets();
-        }
     }
 }

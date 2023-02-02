@@ -37,7 +37,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _value, value);
                 if(IsActive)
-                    ControlMessenger.Send(this);
+                    ControlMessenger.Send<IntegerValueModel>(this);
             }
         }
 
@@ -49,13 +49,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             if (Value > 1)
                 Value -= 1;
-        }
-
-        public void SetViewModel(IModel model)
-        {
-            IntegerValueModel counterModel = model as IntegerValueModel;
-            this.ID = counterModel.ID;
-            this.Value = counterModel.Value;
         }
 
         public IModel GetModel()

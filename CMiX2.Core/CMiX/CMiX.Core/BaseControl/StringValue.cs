@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
             {
                 SetProperty(ref _value, value);
                 if(IsActive)
-                    ControlMessenger.Send(this);
+                    ControlMessenger.Send<StringValueModel>(this);
             }
         }
 
@@ -40,13 +40,6 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
             stringValueModel.ID = ID;
             stringValueModel.Value = Value;
             return stringValueModel;
-        }
-
-        public void SetViewModel(IModel model)
-        {
-            StringValueModel stringValueModel = model as StringValueModel;
-            this.ID = stringValueModel.ID;
-            this.Value = stringValueModel.Value;
         }
 
         public void Receive(MessageRequestControl message)

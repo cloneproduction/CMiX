@@ -33,12 +33,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             schedule.ToRunNow();
         }
 
-        public void SetViewModel(IModel model)
-        {
-            ToRunNowModel toRunNowModel = model as ToRunNowModel;
-            this.Name = toRunNowModel.Name;
-        }
-
         public IModel GetModel()
         {
             ToRunNowModel toRunNowModel = new ToRunNowModel();

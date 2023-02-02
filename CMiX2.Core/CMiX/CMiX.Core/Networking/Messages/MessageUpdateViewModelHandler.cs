@@ -12,13 +12,9 @@ namespace CMiX.Core.Networking.Messages
 {
     public class MessageUpdateViewModelHandler : IMessageHandler
     {
-        public MessageUpdateViewModelHandler()
+        public MessageUpdateViewModelHandler(IMapper mapper)
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.AddProfile(new MappingProfile());
-            });
-
-            Mapper = config.CreateMapper();
+            Mapper = mapper;
         }
 
         private IMapper Mapper { get; set; }
@@ -27,14 +23,7 @@ namespace CMiX.Core.Networking.Messages
         {
             if (message is MessageUpdateViewModel messageUpdateViewModel)
             {
-                //if(messageUpdateViewModel.Model is FloatValueModel floatValueModel)
-                //{
-                //    control = Mapper.Map<FloatValue>(floatValueModel);
-                //    Debug.WriteLine(((FloatValue)control).Value);
-                //    return true;
-                //}
-
-                control.SetViewModel(messageUpdateViewModel.Model);
+                Mapper.Map(messageUpdateViewModel.Model, control);
                 return true;
             }
 

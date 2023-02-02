@@ -58,14 +58,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             CurrentComposition = Playlist.Compositions[CompositionIndex];
         }
 
-
-        public override void SetViewModel(IModel model)
-        {
-            JobModel jobModel = model as JobModel;
-            this.ID = jobModel.ID;
-            this.Name = jobModel.Name;
-        }
-
         public override IModel GetModel()
         {
             JobModel jobModel = new JobModel();

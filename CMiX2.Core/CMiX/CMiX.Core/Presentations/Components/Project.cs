@@ -48,29 +48,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             return model;
         }
-
-        public override void SetViewModel(IModel componentModel)
-        {
-            var projectModel = componentModel as ProjectModel;
-
-            this.Assets.Clear();
-            foreach (IAssetModel assetModel in projectModel.AssetModels)
-            {
-                IAsset asset = null;
-                if (assetModel is AssetDirectoryModel)
-                    asset = new AssetDirectory();
-                else if (assetModel is AssetImageModel)
-                    asset = new AssetImage();
-                else if (assetModel is AssetGeometryModel)
-                    asset = new AssetGeometry();
-
-                asset.SetViewModel(assetModel);
-                this.Assets.Add(asset);
-            }
-        }
-
-        public class PrefabDataBase
-        {
-        }
     }
 }

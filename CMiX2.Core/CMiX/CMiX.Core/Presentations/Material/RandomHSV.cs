@@ -70,20 +70,5 @@ namespace CMiX.Core.Presentation.ViewModels
 
             return randomHSVModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            RandomHSVModel randomHSVModel = model as RandomHSVModel;
-
-            ID = randomHSVModel.ID;
-            Hue.SetViewModel(randomHSVModel.Hue);
-            Saturation.SetViewModel(randomHSVModel.Saturation);
-            Value.SetViewModel(randomHSVModel.Value);
-            Alpha.SetViewModel(randomHSVModel.Alpha);
-
-            BeatModifier.SetViewModel(randomHSVModel.BeatModifier);
-            Easing.SetViewModel(randomHSVModel.Easing);
-            Mode.SetViewModel(randomHSVModel.Mode);
-        }
     }
 }

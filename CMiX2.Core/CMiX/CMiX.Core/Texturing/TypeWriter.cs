@@ -84,23 +84,5 @@ namespace CMiX.Core.Presentation.ViewModels
 
             return typeWriterModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            TypeWriterModel typeWriterModel = model as TypeWriterModel;
-
-            this.ID = typeWriterModel.ID;
-            this.StringControl.SetViewModel(typeWriterModel.StringControl);
-
-            this.FontColor.SetViewModel(typeWriterModel.FontColor);
-            this.BackgroundColor.SetViewModel(typeWriterModel.BackgroundColor);
-
-            this.Resolution.SetViewModel(typeWriterModel.Resolution);
-            this.Position.SetViewModel(typeWriterModel.Position);
-
-            this.FontSize.SetViewModel(typeWriterModel.FontSize);
-            this.FontFamily.SetViewModel(typeWriterModel.FontFamily);
-            this.Style.SetViewModel(typeWriterModel.Style);
-        }
     }
 }

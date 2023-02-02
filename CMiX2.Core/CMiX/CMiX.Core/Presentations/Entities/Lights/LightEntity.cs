@@ -92,25 +92,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return lightEntityModel;
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            LightEntityModel lightEntityModel = model as LightEntityModel;
-
-            Name = lightEntityModel.Name;
-            ID = lightEntityModel.ID;
-
-            LightColor.SetViewModel(lightEntityModel.LightColor);
-            Position.SetViewModel(lightEntityModel.Position);
-            Target.SetViewModel(lightEntityModel.Target);
-            Radius.SetViewModel(lightEntityModel.Radius);
-            Angle.SetViewModel(lightEntityModel.Angle);
-            Softness.SetViewModel(lightEntityModel.Softness);
-            Intensity.SetViewModel(lightEntityModel.Intensity);
-            LightTypeSelector.SetViewModel(lightEntityModel.LightTypeSelector);
-            Visibility.SetViewModel(lightEntityModel.Visibility);
-        }
-
         public void Dispose()
         {
             

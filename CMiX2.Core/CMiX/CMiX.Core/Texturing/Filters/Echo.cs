@@ -43,16 +43,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return echoModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            EchoModel pixelateModel = model as EchoModel;
-
-            ID = pixelateModel.ID;
-            Name = pixelateModel.Name;
-            Visible.SetViewModel(pixelateModel.Visible);
-            Factor.SetViewModel(pixelateModel.Factor);
-        }
-
         public void Dispose()
         {
 

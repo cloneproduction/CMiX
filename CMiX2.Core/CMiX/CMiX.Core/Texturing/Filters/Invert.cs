@@ -53,19 +53,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return invertModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            InvertModel invertModel = model as InvertModel;
-
-            this.ID = invertModel.ID;
-            this.Name = invertModel.Name;
-
-            this.Factor.SetViewModel(invertModel.Factor);
-            this.Visible.SetViewModel(invertModel.Visible);
-            this.InvertAlpha.SetViewModel(invertModel.InvertAlpha);
-            this.InvertChannelSelector.SetViewModel(invertModel.InvertChannelSelector);
-        }
-
         public void Dispose()
         {
 

@@ -1,6 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using AutoMapper;
+using CMiX.Core.Mapper;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Network;
@@ -14,9 +16,16 @@ namespace CMiX.Core.Networking.Messages
     {
         public MessageProcessor(CompositionService compositionService)
         {
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile(new MappingProfile());
+            });
+
+            IMapper Mapper = config.CreateMapper();
+
+
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
 
-            MessageHandlers.Add(typeof(MessageUpdateViewModel), new MessageUpdateViewModelHandler());
+            MessageHandlers.Add(typeof(MessageUpdateViewModel), new MessageUpdateViewModelHandler(Mapper));
             MessageHandlers.Add(typeof(MessageChangePrefab), new MessageChangePrefabHandler(compositionService));
 
             MessageHandlers.Add(typeof(MessageAddPrefab), new MessagePrefabManagerHandler());

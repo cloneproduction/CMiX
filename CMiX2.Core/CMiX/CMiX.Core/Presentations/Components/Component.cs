@@ -129,8 +129,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Components.Move(oldIndex, newIndex);
         }
 
-
-        public abstract void SetViewModel(IModel model);
         public abstract IModel GetModel();
 
 

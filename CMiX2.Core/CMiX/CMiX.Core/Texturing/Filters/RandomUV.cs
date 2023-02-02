@@ -99,32 +99,6 @@ namespace CMiX.Core.Presentation.ViewModels
             BeatModifier.Dispose();
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            RandomUVModel randomUVModel = model as RandomUVModel;
-            this.ID = randomUVModel.ID;
-            this.Name = randomUVModel.Name;
- 
-            this.Visible.SetViewModel(randomUVModel.Visible);
-
-            this.BeatModifier.SetViewModel(randomUVModel.BeatModifierModel);
-            this.Easing.SetViewModel(randomUVModel.EasingModel);
-
-            this.Location.SetViewModel(randomUVModel.Location);
-            this.RandomizeLocation.SetViewModel(randomUVModel.RandomizeLocation);
-
-            this.Scale.SetViewModel(randomUVModel.Scale);
-            this.Uniform.SetViewModel(randomUVModel.Uniform);
-            this.RandomizeScale.SetViewModel(randomUVModel.RandomizeLocation);
-
-            this.Rotation.SetViewModel(randomUVModel.Rotation);
-
-            this.RandomizeRotation.SetViewModel(randomUVModel.RandomizeLocation);
-
-            this.SamplerState.SetViewModel(randomUVModel.SamplerState);
-        }
-
         public IModel GetModel()
         {
             RandomUVModel model = new RandomUVModel();

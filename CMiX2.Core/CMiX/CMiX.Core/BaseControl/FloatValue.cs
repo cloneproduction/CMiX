@@ -27,17 +27,9 @@ namespace CMiX.Core.Presentation.ViewModels
 
         partial void OnValueChanged(float value)
         {
+            Console.WriteLine("FloatValueChanged = " + value);
             if (IsActive)
-                ControlMessenger.Send(this);
-        }
-
-
-        public void SetViewModel(IModel model)
-        {
-            FloatValueModel floatValueModel = model as FloatValueModel;
-            this.ID = floatValueModel.ID;
-            this.Value = floatValueModel.Value;
-            Console.WriteLine("Value = " + Value);
+                ControlMessenger.Send<FloatValueModel>(this);
         }
 
         public IModel GetModel()

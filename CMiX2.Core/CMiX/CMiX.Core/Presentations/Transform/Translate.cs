@@ -40,14 +40,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            TranslateModel translateModel = model as TranslateModel;
-            this.ID = translateModel.ID;
-            this.XYZ.SetViewModel(translateModel.XYZ);
-            this.Visible.SetViewModel(translateModel.Visible);
-        }
-
         public void Dispose()
         {
 

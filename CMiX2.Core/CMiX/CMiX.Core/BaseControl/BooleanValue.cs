@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _value, value);
                 if(IsActive)
-                    ControlMessenger.Send(this);
+                    ControlMessenger.Send<BooleanValueModel>(this);
             }
         }
 
@@ -41,13 +41,6 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.Value = this.Value;
             return model;
-        }
-
-        public void SetViewModel(IModel model)
-        {
-            BooleanValueModel booleanValueModel = model as BooleanValueModel;
-            this.ID = booleanValueModel.ID;
-            this.Value = booleanValueModel.Value;
         }
 
         public void Receive(MessageRequestControl message)

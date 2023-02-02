@@ -109,32 +109,6 @@ namespace CMiX.Core.Presentation.ViewModels
             BeatModifier.Dispose();
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            RandomXYZModel randomXYZModel = model as RandomXYZModel;
-            this.ID = randomXYZModel.ID;
-            this.Name = randomXYZModel.Name;
-            //this.SelectedModifierType = ModifierMode.AsGroup;
-
-            this.Mode.SetViewModel(randomXYZModel.Mode);
-            this.Visible.SetViewModel(randomXYZModel.Visible);
-            this.Spread.SetViewModel(randomXYZModel.Spread);
-
-            this.BeatModifier.SetViewModel(randomXYZModel.BeatModifierModel);
-            this.Counter.SetViewModel(randomXYZModel.CounterModel);
-            this.Easing.SetViewModel(randomXYZModel.EasingModel);
-
-            this.Location.SetViewModel(randomXYZModel.Location);
-            this.RandomizeLocation.SetViewModel(randomXYZModel.RandomizeLocation);
-
-            this.Scale.SetViewModel(randomXYZModel.Scale);
-            this.RandomizeScale.SetViewModel(randomXYZModel.RandomizeLocation);
-
-            this.Rotation.SetViewModel(randomXYZModel.Rotation);
-            this.RandomizeRotation.SetViewModel(randomXYZModel.RandomizeLocation);
-        }
-
         public IModel GetModel()
         {
             RandomXYZModel model = new RandomXYZModel();

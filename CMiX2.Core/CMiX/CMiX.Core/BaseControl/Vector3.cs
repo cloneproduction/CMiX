@@ -46,16 +46,5 @@ namespace CMiX.Core.Presentation.ViewModels.BaseControl
 
             return vectorXYZModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            Vector3Model modelXYZModel = model as Vector3Model;
-            this.ID = modelXYZModel.ID;
-            this.Name = modelXYZModel.Name;
-
-            this.X.SetViewModel(modelXYZModel.X);
-            this.Y.SetViewModel(modelXYZModel.Y);
-            this.Z.SetViewModel(modelXYZModel.Z);
-        }
     }
 }

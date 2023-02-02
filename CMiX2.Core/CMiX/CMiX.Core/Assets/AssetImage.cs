@@ -94,13 +94,5 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
             return assetModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            AssetImageModel assetTextureModel = model as AssetImageModel;
-            this.Name = assetTextureModel.Name;
-            this.Path = assetTextureModel.Path;
-            this.Ponderation = assetTextureModel.Ponderation;
-        }
     }
 }

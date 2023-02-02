@@ -82,13 +82,5 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
 
             return assetModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            AssetVideoModel assetVideoModel = model as AssetVideoModel;
-            this.Name = assetVideoModel.Name;
-            this.Path = assetVideoModel.Path;
-            this.Ponderation = assetVideoModel.Ponderation;
-        }
     }
 }

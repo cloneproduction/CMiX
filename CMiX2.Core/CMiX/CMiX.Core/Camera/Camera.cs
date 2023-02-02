@@ -74,25 +74,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue Projection { get; set; }
 
 
-        public void SetViewModel(IModel model)
-        {
-            CameraModel cameraModel = model as CameraModel;
-            ID = cameraModel.ID;
-
-            FOV.SetViewModel(cameraModel.FOV);
-            Distance.SetViewModel(cameraModel.Distance);
-            CameraTransformModifierManager.SetViewModel(cameraModel.CameraTransformModifierManager);
-            Yaw.SetViewModel(cameraModel.Yaw);
-            Pitch.SetViewModel(cameraModel.Pitch);
-
-            Target.SetViewModel(cameraModel.Target);
-
-            NearClip.SetViewModel(cameraModel.NearClip);
-            FarClip.SetViewModel(cameraModel.FarClip);
-
-            Projection.SetViewModel(cameraModel.Projection);
-        }
-
         public IModel GetModel()
         {
             CameraModel cameraModel = new CameraModel();

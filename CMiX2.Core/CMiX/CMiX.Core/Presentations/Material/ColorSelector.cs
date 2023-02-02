@@ -34,13 +34,6 @@ namespace CMiX.Core.Presentation.ViewModels
             }
         }
 
-        public void SetViewModel(IModel model)
-        {
-            ColorSelectorModel colorSelectorModel = model as ColorSelectorModel;
-            this.ID = colorSelectorModel.ID;
-            this.SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
-        }
-
         public IModel GetModel()
         {
             ColorSelectorModel model = new ColorSelectorModel();

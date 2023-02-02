@@ -61,18 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return edgeModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            EdgeModel edgeModel = model as EdgeModel;
-            ID = edgeModel.ID;
-            Name = edgeModel.Name;
-
-            Control.SetViewModel(edgeModel.Control);
-            Visible.SetViewModel(edgeModel.Visible);
-            Radius.SetViewModel(edgeModel.Radius);
-            Brightness.SetViewModel(edgeModel.Brightness);
-        }
-
         public void Dispose()
         {
 

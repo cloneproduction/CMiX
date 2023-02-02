@@ -90,14 +90,6 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Remove(modifier);
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            ModifierManagerModel modifierManagerModel = model as ModifierManagerModel;
-            ID = modifierManagerModel.ID;
-            Visibility.SetViewModel(modifierManagerModel.Visibility);
-        }
-
         public IModel GetModel()
         {
             ModifierManagerModel modifierManagerModel = new ModifierManagerModel();

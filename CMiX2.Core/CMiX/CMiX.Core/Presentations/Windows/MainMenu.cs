@@ -58,7 +58,6 @@ namespace CMiX.Core.Presentation.ViewModels
         private void NewProject()
         {
             ProjectModel projectModel = new ProjectModel();
-            Project.SetViewModel(projectModel);
         }
 
         private void OpenProject()
@@ -74,7 +73,7 @@ namespace CMiX.Core.Presentation.ViewModels
             //    {
             //        byte[] data = File.ReadAllBytes(folderPath);
             //        NewProject();
-            //        //Project.SetViewModel(Serializer.Deserialize<ProjectModel>(data));
+            //        //map model to viewmodel
             //        //FolderPath = folderPath;
             //    }
             //}

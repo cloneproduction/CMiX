@@ -115,29 +115,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            MaterialModel materialModel = model as MaterialModel;
-            this.ID = materialModel.ID;
-
-            this.Texture.SetViewModel(materialModel.Texture);
-            this.Mask.SetViewModel(materialModel.Mask);
-            this.MaskChannelSelector.SetViewModel(materialModel.MaskChannelSelector);
-
-            this.Pipeline.SetViewModel(materialModel.Pipeline);
-            this.CullMode.SetViewModel(materialModel.CullMode);
-            this.Transparency.SetViewModel(materialModel.Transparency);
-
-            this.Metalness.SetViewModel(materialModel.Metalness);
-            this.Specularity.SetViewModel(materialModel.Specularity);
-            this.Glossiness.SetViewModel(materialModel.Glossiness);
-            this.Alpha.SetViewModel(materialModel.Alpha);
-
-            this.IsShadowCaster.SetViewModel(materialModel.IsShadowCaster);
-
-            this.Color.SetViewModel(materialModel.ColorModel);
-        }
-
         public void Dispose()
         {
 

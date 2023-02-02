@@ -93,28 +93,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return stepperModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            StepperModel stepperModel = model as StepperModel;
-            ID = stepperModel.ID;
-
-            //Mode.SetViewModel(stepperModel.Mode);
-            //Visible.SetViewModel(stepperModel.Visible);
-            //BeatModifier.SetViewModel(stepperModel.BeatModifier);
-            //PingPong.SetViewModel(stepperModel.PingPong);
-
-            //XAxis.SetViewModel(stepperModel.XAxis);
-            //YAxis.SetViewModel(stepperModel.YAxis);
-            //ZAxis.SetViewModel(stepperModel.ZAxis);
-
-            //TransformType.SetViewModel(stepperModel.TransformType);
-            //Easing.SetViewModel(stepperModel.Easing);
-
-            //From.SetViewModel(stepperModel.From);
-            //To.SetViewModel(stepperModel.To);
-            //StepCount.SetViewModel(stepperModel.StepCount);
-        }
-
         public void Dispose()
         {
             //throw new NotImplementedException();

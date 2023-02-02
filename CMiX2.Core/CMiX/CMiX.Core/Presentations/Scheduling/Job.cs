@@ -41,7 +41,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         }
 
         public abstract void Execute();
-        public abstract void SetViewModel(IModel model);
         public abstract IModel GetModel();
     }
 }

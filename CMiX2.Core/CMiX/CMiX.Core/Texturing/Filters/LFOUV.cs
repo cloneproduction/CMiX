@@ -79,27 +79,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return lfoModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            LFOUVModel lfoModel = model as LFOUVModel;
-            ID = lfoModel.ID;
-
-            Visible.SetViewModel(lfoModel.Visible);
-            BeatModifier.SetViewModel(lfoModel.BeatModifier);
-            PingPong.SetViewModel(lfoModel.PingPong);
-
-            XAxis.SetViewModel(lfoModel.XAxis);
-            YAxis.SetViewModel(lfoModel.YAxis);
-            ZAxis.SetViewModel(lfoModel.ZAxis);
-
-            TransformType.SetViewModel(lfoModel.TransformType);
-            Easing.SetViewModel(lfoModel.Easing);
-
-            From.SetViewModel(lfoModel.From);
-            To.SetViewModel(lfoModel.To);
-            SamplerState.SetViewModel(lfoModel.SamplerState);
-        }
-
         public void Dispose()
         {
             //throw new NotImplementedException();

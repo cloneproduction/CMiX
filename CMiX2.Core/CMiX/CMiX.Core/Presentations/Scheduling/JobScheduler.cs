@@ -42,11 +42,5 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             jobSchedulerModel.ID = this.ID;
             return jobSchedulerModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            JobSchedulerModel jobSchedulerModel = model as JobSchedulerModel;
-            this.ID = jobSchedulerModel.ID;
-        }
     }
 }

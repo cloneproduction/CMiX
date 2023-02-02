@@ -79,24 +79,5 @@ namespace CMiX.Core.Presentation.ViewModels
 
             return model;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            MaskModel textureModel = model as MaskModel;
-
-            this.ID = textureModel.ID;
-
-            this.IsEnabled.SetViewModel(textureModel.IsEnabled);
-            this.Invert.SetViewModel(textureModel.Invert);
-
-            this.TextureModifierManager.SetViewModel(textureModel.ModifierManagerModel);
-            this.TextureTransformModifierManager.SetViewModel(textureModel.TextureTransformModifierManager);
-            this.VideoPlayer.SetViewModel(textureModel.VideoPlayerModel);
-            this.SelectedAssetType.SetViewModel(textureModel.SelectedAssetType);
-            this.TypeWriter.SetViewModel(textureModel.TypeWriter);
-            this.SamplerState.SetViewModel(textureModel.SamplerState);
-            this.ProceduralSelector.SetViewModel(textureModel.ProceduralSelector);
-            this.TransformTexture.SetViewModel(textureModel.TransformTexture);
-        }
     }
 }

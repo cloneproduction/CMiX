@@ -36,13 +36,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             return outputPropertiesModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            OutputSettingsModel outputPropertiesModel = model as OutputSettingsModel;
-            this.ID = outputPropertiesModel.ID;
-            this.Resolution.SetViewModel(outputPropertiesModel.Resolution);
-            this.BackgroundColor.SetViewModel(outputPropertiesModel.BackgroundColor);
-        }
     }
 }

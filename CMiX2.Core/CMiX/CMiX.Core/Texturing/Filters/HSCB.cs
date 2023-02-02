@@ -64,18 +64,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return HSCBModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            HSCBModel HSCBModel = model as HSCBModel;
-            ID = HSCBModel.ID;
-            Name = HSCBModel.Name;
-
-            Visible.SetViewModel(HSCBModel.Visible);
-            Hue.SetViewModel(HSCBModel.HueModel);
-            Saturation.SetViewModel(HSCBModel.SaturationModel);
-            Contrast.SetViewModel(HSCBModel.ConstrastModel);
-            Brightness.SetViewModel(HSCBModel.BrightnessModel);
-        }
 
         public void Dispose()
         {

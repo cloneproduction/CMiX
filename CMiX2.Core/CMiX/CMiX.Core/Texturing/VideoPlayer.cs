@@ -34,14 +34,5 @@ namespace CMiX.Core.Presentation.ViewModels
             videoPlayerModel.DoSeek = (ButtonModel)DoSeek.GetModel();
             return videoPlayerModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            VideoPlayerModel videoPlayerModel = model as VideoPlayerModel;
-            this.ID = videoPlayerModel.ID;
-            this.SeekFrame.SetViewModel(videoPlayerModel.SeekFrame);
-            this.Play.SetViewModel(videoPlayerModel.PlayModel);
-            this.DoSeek.SetViewModel(videoPlayerModel.DoSeek);
-        }
     }
 }

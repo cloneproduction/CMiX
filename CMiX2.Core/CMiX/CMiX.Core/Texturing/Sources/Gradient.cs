@@ -45,15 +45,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return gradientModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            GradientModel gradientModel = model as GradientModel;
-            Resolution.SetViewModel(gradientModel.Resolution);
-            From.SetViewModel(gradientModel.From);
-            To.SetViewModel(gradientModel.To);
-            Gamma.SetViewModel(gradientModel.Gamma);
-            Horizontal.SetViewModel(gradientModel.Horizontal);
-        }
 
         public void Dispose()
         {

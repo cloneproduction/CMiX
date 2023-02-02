@@ -65,25 +65,6 @@ namespace CMiX.Core.Presentation.ViewModels
             BeatModifier.Dispose();
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            RandomScaleModel randomScaleModel = model as RandomScaleModel;
-            this.ID = randomScaleModel.ID;
-            this.Name = randomScaleModel.Name;
-
-            this.Mode.SetViewModel(randomScaleModel.Mode);
-            this.Visible.SetViewModel(randomScaleModel.Visible);
-            this.Spread.SetViewModel(randomScaleModel.Spread);
-
-            this.BeatModifier.SetViewModel(randomScaleModel.BeatModifierModel);
-            this.Counter.SetViewModel(randomScaleModel.CounterModel);
-            this.Easing.SetViewModel(randomScaleModel.EasingModel);
-
-            this.Scale.SetViewModel(randomScaleModel.Scale);
-            this.UniformXYZ.SetViewModel(randomScaleModel.UniformXYZ);
-        }
-
         public IModel GetModel()
         {
             RandomScaleModel model = new RandomScaleModel();

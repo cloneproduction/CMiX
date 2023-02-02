@@ -47,16 +47,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            RotationModel rotationModel = model as RotationModel;
-
-            this.ID = rotationModel.ID;
-            this.XYZ.SetViewModel(rotationModel.XYZ);
-            this.Visible.SetViewModel(rotationModel.Visible);
-            this.Mode.SetViewModel(rotationModel.Mode);
-        }
-
         public void Dispose()
         {
 

@@ -81,17 +81,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
         }
 
 
-        public void SetViewModel(IModel model)
-        {
-            PlaylistModel playlistModel = model as PlaylistModel;
-            this.ID = playlistModel.ID;
-            this.Name = playlistModel.Name;
-            //foreach (var composition in playlistModel.Compositions)
-            //{
-            //    Compositions.Add(composition);
-            //}
-        }
-
         public IModel GetModel()
         {
             PlaylistModel playlistModel = new PlaylistModel();

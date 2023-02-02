@@ -89,14 +89,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
         }
 
-        public void SetViewModel(IModel model)
-        {
-            BeatModifierModel beatModifierModel = model as BeatModifierModel;
-            this.ID = beatModifierModel.ID;
-            this.BeatIndex = beatModifierModel.BeatIndex;
-            this.ChanceToHit.SetViewModel(beatModifierModel.ChanceToHit);
-        }
-
         public IModel GetModel()
         {
             BeatModifierModel model = new BeatModifierModel();

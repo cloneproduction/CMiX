@@ -91,29 +91,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             return model;
         }
-
-        public override void SetViewModel(IModel model)
-        {
-            LayerModel layerModel = model as LayerModel;
-
-            this.ID = layerModel.ID;
-            this.Name = layerModel.Name;
-            this.Opacity.SetViewModel(layerModel.Opacity);
-
-            this.ModelEntityManager.SetViewModel(layerModel.ModelEntityManager);
-            this.TextureModifierManager.SetViewModel(layerModel.TextureModifierManager);
-            this.CameraEntityManager.SetViewModel(layerModel.CameraEntityManager);
-            this.LightEntityManager.SetViewModel(layerModel.LightEntityManager);
-
-            this.BackgroundColor.SetViewModel(layerModel.BackgroundColor);
-            this.Visibility.SetViewModel(layerModel.Visibility);
-            this.IsMask.SetViewModel(layerModel.IsMask);
-
-            this.MaskChannel.SetViewModel(layerModel.MaskChannelModel);
-            this.MaskMode.SetViewModel(layerModel.MaskModeModel);
-            this.BlendMode.SetViewModel(layerModel.BlendModeModel);
-
-            this.AmbientOcclusion.SetViewModel(layerModel.AmbientOcclusion);
-        }
     }
 }

@@ -15,6 +15,5 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
         string Path { get; set; }
 
         IModel GetModel();
-        void SetViewModel(IModel model);
     }
 }

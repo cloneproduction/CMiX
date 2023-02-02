@@ -1,10 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.Assets;
-using CMiX.Core.Presentation.ViewModels.Assets;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -96,25 +93,6 @@ namespace CMiX.Core.Presentation.ViewModels
             model.TransformTexture = (TransformTextureModel)this.TransformTexture.GetModel();
 
             return model;
-        }
-
-        public void SetViewModel(IModel model)
-        {
-            TextureModel textureModel = model as TextureModel;
-
-            this.ID = textureModel.ID;
-
-            this.IsEnabled.SetViewModel(textureModel.IsEnabled);
-            this.TextureModifierManager.SetViewModel(textureModel.TextureModifierManager);
-            this.TextureTransformModifierManager.SetViewModel(textureModel.TextureTransformModifierManager);
-            //this.ImageSelector.SetViewModel(textureModel.TextureSelectorModel);
-            //this.VideoSelector.SetViewModel(textureModel.VideoSelectorModel);
-            this.VideoPlayer.SetViewModel(textureModel.VideoPlayer);
-            this.SelectedAssetType.SetViewModel(textureModel.SelectedAssetType);
-            this.TypeWriter.SetViewModel(textureModel.TypeWriter);
-            this.SamplerState.SetViewModel(textureModel.SamplerState);
-            this.ProceduralSelector.SetViewModel(textureModel.ProceduralSelector);
-            this.TransformTexture.SetViewModel(textureModel.TransformTexture);
         }
     }
 }

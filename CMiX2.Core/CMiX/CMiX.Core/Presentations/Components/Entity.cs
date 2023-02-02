@@ -61,16 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Mesh Mesh { get; set; }
 
 
-        public void SetViewModel(IModel model)
-        {
-            EntityModel entityModel = model as EntityModel;
-            this.ID = entityModel.ID;
-            this.Mesh.SetViewModel(entityModel.Mesh);
-            this.TransformSRT.SetViewModel(entityModel.TransformSRT);
-            this.MaterialManager.SetViewModel(entityModel.MaterialManager);
-            this.ModifierManager.SetViewModel(entityModel.ModifierManager);
-        }
-
         public IModel GetModel()
         {
             EntityModel entityModel = new EntityModel() ;

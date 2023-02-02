@@ -60,15 +60,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             model.MasterBeatModel = (MasterBeatModel)this.MasterBeat.GetModel();
             return model;
         }
-
-        public override void SetViewModel(IModel model)
-        {
-            CompositionModel compositionModel = model as CompositionModel;
-            this.ID = compositionModel.ID;
-            this.OutputSettings.SetViewModel(compositionModel.OutputSettings);
-            this.TextureModifierManager.SetViewModel(compositionModel.TextureModifierManager);
-            this.LayerManager.SetViewModel(compositionModel.LayerManager);
-            this.MasterBeat.SetViewModel(compositionModel.MasterBeatModel);
-        }
     }
 }

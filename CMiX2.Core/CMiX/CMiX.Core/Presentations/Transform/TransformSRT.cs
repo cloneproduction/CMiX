@@ -38,19 +38,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            TransformSRTModel transformModel = model as TransformSRTModel;
-
-            this.ID = transformModel.ID;
-            this.Uniform.SetViewModel(transformModel.Uniform);
-            this.Translate.SetViewModel(transformModel.Translate);
-            this.Scale.SetViewModel(transformModel.Scale);
-            this.Rotation.SetViewModel(transformModel.Rotation);
-            this.Mode.SetViewModel(transformModel.Mode);
-        }
-
         public IModel GetModel()
         {
             TransformSRTModel model = new TransformSRTModel();

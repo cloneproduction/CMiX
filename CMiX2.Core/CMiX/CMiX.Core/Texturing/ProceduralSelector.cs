@@ -41,15 +41,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return proceduralSelectorModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            ProceduralSelectorModel proceduralSelectorModel = new ProceduralSelectorModel();
-
-            ProceduralName.SetViewModel(proceduralSelectorModel.ProceduralName);
-            Gradient.SetViewModel(proceduralSelectorModel.Gradient);
-            BubbleNoise.SetViewModel(proceduralSelectorModel.BubbleNoise);
-        }
-
         public void Receive(MessageRequestControl message)
         {
             if (message.ID == this.ID && !message.HasReceivedResponse)

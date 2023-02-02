@@ -58,11 +58,5 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             compositionSchedulerModel.ID = this.ID;
             return compositionSchedulerModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            CompositionSchedulerModel compositionSchedulerModel = model as CompositionSchedulerModel;
-            this.ID = compositionSchedulerModel.ID;
-        }
     }
 }

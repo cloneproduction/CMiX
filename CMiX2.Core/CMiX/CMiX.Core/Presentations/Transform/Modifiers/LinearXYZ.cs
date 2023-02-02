@@ -75,23 +75,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return linearXYZModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            LinearXYZModel linearXYZModel = model as LinearXYZModel;
-
-            this.Name = linearXYZModel.Name;
-            this.ID = linearXYZModel.ID;
-
-            this.Visible.SetViewModel(linearXYZModel.Visible);
-            this.Width.SetViewModel(linearXYZModel.Width);
-            this.Counter.SetViewModel(linearXYZModel.CounterModel);
-            this.BeatModifier.SetViewModel(linearXYZModel.BeatModifierModel);
-            this.DirectionXYZ.SetViewModel(linearXYZModel.DirectionXYZModel);
-            this.Phase.SetViewModel(linearXYZModel.Phase);
-            this.Mode.SetViewModel(linearXYZModel.Mode);
-            this.TransformTypeSelector.SetViewModel(linearXYZModel.TransformTypeSelector);
-        }
-
         public void Dispose()
         {
             BeatModifier.Dispose();

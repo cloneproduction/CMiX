@@ -62,22 +62,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return cameraLFOModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            CameraLFOModel cameraLFOModel = model as CameraLFOModel;
-
-            ID = cameraLFOModel.ID;
-            Visible.SetViewModel(cameraLFOModel.Visible);
-            BeatModifier.SetViewModel(cameraLFOModel.BeatModifier);
-            Yaw.SetViewModel(cameraLFOModel.Yaw);
-            Pitch.SetViewModel(cameraLFOModel.Pitch);
-            Zoom.SetViewModel(cameraLFOModel.Zoom);
-            PingPong.SetViewModel(cameraLFOModel.PingPong);
-            Axis.SetViewModel(cameraLFOModel.Axis);
-            Easing.SetViewModel(cameraLFOModel.Easing);
-            From.SetViewModel(cameraLFOModel.From);
-            To.SetViewModel(cameraLFOModel.To);
-        }
 
         public void Dispose()
         {

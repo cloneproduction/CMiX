@@ -51,16 +51,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return blurModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            BlurModel blurModel = model as BlurModel;
-            this.ID = blurModel.ID;
-            this.Name = blurModel.Name;
-
-            this.Visible.SetViewModel(blurModel.Visible);
-            this.Strength.SetViewModel(blurModel.Strength);
-        }
-
         public void Dispose()
         {
 

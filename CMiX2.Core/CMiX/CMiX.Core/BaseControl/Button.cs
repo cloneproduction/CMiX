@@ -42,12 +42,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return buttonModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            ButtonModel buttonModel = model as ButtonModel;
-            this.ID = buttonModel.ID;
-        }
-
         public void Receive(MessageRequestControl message)
         {
             if (message.ID == this.ID)

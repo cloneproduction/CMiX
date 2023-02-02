@@ -36,17 +36,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public void SetViewModel(IModel model)
-        {
-            TransformTextureModel transformTextureModel = model as TransformTextureModel;
-            ID = transformTextureModel.ID;
-            Name = transformTextureModel.Name;
-
-            Visible.SetViewModel(transformTextureModel.Visible);
-            SamplerState.SetViewModel(transformTextureModel.SamplerStateModel);
-            Transform2D.SetViewModel(transformTextureModel.Transform2D);
-        }
-
         public IModel GetModel()
         {
             TransformTextureModel transformTextureModel = new TransformTextureModel();

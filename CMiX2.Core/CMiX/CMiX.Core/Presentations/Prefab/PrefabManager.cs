@@ -311,12 +311,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
                 message.Reply(this);
         }
 
-        public void SetViewModel(IModel model)
-        {
-            PrefabManagerModel prefabManagerModel = model as PrefabManagerModel;
-            this.ID = prefabManagerModel.ID;
-        }
-
         public IModel GetModel()
         {
             PrefabManagerModel prefabManagerModel = new PrefabManagerModel();

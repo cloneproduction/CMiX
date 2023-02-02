@@ -31,8 +31,11 @@ namespace CMiX.Core.Mapper
             CreateMap<Button, ButtonModel>().ReverseMap();
 
             CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
-
+            CreateMap<GenericValue<TextureAddressMode>, GenericValueModel<TextureAddressMode>>().ReverseMap();
             CreateMap<GenericValue<FontStyle>, GenericValueModel<FontStyle>>().ReverseMap();
+
+            CreateMap<GenericValue<BlendModeEnum>, GenericValueModel<BlendModeEnum>>().ReverseMap();
+
             CreateMap<TypeWriter, TypeWriterModel>().ReverseMap();
 
 
@@ -42,14 +45,12 @@ namespace CMiX.Core.Mapper
             CreateMap<BubbleNoise, BubbleNoiseModel>().ReverseMap();
 
             CreateMap<TransformTexture, TransformTextureModel>().ReverseMap();
-            //CreateMap<PrefabManager, PrefabManagerModel>().ReverseMap();
 
             CreateMap<Transform2D, Transform2DModel>().ReverseMap();
             CreateMap<ColorSelector, ColorSelectorModel>().ReverseMap();
 
 
             CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap();
-
             CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap();
             CreateMap<IntegerValue, IntegerValueModel>().ReverseMap();
             CreateMap<FloatValue, FloatValueModel>().ReverseMap();

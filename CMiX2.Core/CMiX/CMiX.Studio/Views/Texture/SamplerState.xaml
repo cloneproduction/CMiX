@@ -13,14 +13,14 @@
         <BaseControls:ComboBox       
             Position="Top"
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
-            SelectedItem="{Binding AddressU}"
+            SelectedItem="{Binding AddressU.Value}"
             Caption="Address U"/>
 
         <BaseControls:ComboBox
             Position="Bottom"
             Margin="0, 1, 0, 0"
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}" 
-            SelectedItem="{Binding AddressV}"
+            SelectedItem="{Binding AddressV.Value}"
             Caption="V"/>
 
         <BaseControls:ColorSelector 

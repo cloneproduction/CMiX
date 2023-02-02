@@ -11,9 +11,17 @@ namespace CMiX.Core.Presentation.ViewModels.Network
 {
     public static class ControlMessenger
     {
-
         private static IMapper Mapper;
         public static bool CanSend = true;
+
+        static ControlMessenger()
+        {
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile(new MappingProfile());
+            });
+
+            Mapper = config.CreateMapper();
+        }
 
         public static void Receive(IIDObject iDObject, MessageRequestControl message)
         {
@@ -25,21 +33,13 @@ namespace CMiX.Core.Presentation.ViewModels.Network
             CanSend = true;
         }
 
-        public static void Send(IControl control)
+        public static void Send<T>(IControl control) where T : IModel
         {
-            //if(control is FloatValue floatValue)
-            //{
-            //    if (CanSend)
-            //    {
-            //        var model = Mapper.Map<FloatValueModel>(floatValue);
-            //        WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(model), MessageType.Out);
-            //    }
-                    
-            //    return;
-            //}
-
             if (CanSend)
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(control.GetModel()), MessageType.Out);
+            {
+                var model = Mapper.Map<T>(control);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(model), MessageType.Out);
+            }     
         }
     }
 }

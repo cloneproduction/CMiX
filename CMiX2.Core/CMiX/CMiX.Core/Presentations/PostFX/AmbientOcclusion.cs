@@ -52,20 +52,5 @@ namespace CMiX.Core.Presentation.ViewModels
 
             return ambientOcclusionModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            AmbientOcclusionModel ambientOcclusionModel = model as AmbientOcclusionModel;
-
-            this.ID = ambientOcclusionModel.ID;
-            this.IsEnabled.SetViewModel(ambientOcclusionModel.IsEnabled);
-            this.Samples.SetViewModel(ambientOcclusionModel.Samples);
-            this.ProjectionScale.SetViewModel(ambientOcclusionModel.ProjectionScale);
-            this.Intensity.SetViewModel(ambientOcclusionModel.Intensity);
-            this.SampleBias.SetViewModel(ambientOcclusionModel.SampleBias);
-            this.BlurCount.SetViewModel(ambientOcclusionModel.BlurCount);
-            this.BlurRadius.SetViewModel(ambientOcclusionModel.BlurRadius);
-            this.EdgeSharpness.SetViewModel(ambientOcclusionModel.EdgeSharpness);
-        }
     }
 }

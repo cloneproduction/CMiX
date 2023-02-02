@@ -203,19 +203,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         }
 
 
-        public void SetViewModel(IModel model)
-        {
-            MasterBeatModel masterBeatModel = model as MasterBeatModel;
-
-            this.ID = masterBeatModel.ID;
-            this.Period = masterBeatModel.Period;
-            this.Periods = masterBeatModel.Periods;
-            this.BeatIndex = masterBeatModel.BeatIndex;
-
-            Pause.SetViewModel(masterBeatModel.Pause);
-            Resync.SetViewModel(masterBeatModel.ResyncModel);
-        }
-
         public IModel GetModel()
         {
             MasterBeatModel model = new MasterBeatModel();

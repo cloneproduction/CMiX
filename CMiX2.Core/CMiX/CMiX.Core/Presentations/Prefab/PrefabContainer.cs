@@ -69,16 +69,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             }
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            PrefabContainerModel prefabSlotModel = model as PrefabContainerModel;
-            this.ID = prefabSlotModel.ID;
-
-            if(Prefab != null)
-                Prefab.SetViewModel(prefabSlotModel);
-        }
-
         public IModel GetModel()
         {
             PrefabContainerModel prefabSlotModel = new PrefabContainerModel();

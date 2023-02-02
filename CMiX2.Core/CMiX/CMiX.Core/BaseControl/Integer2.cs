@@ -27,14 +27,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public IntegerValue Y { get; set; }
 
 
-        public void SetViewModel(IModel model)
-        {
-            Integer2Model counterModel = model as Integer2Model;
-            this.ID = counterModel.ID;
-            X.SetViewModel(counterModel.X);
-            Y.SetViewModel(counterModel.Y);
-        }
-
         public IModel GetModel()
         {
             Integer2Model model = new Integer2Model();

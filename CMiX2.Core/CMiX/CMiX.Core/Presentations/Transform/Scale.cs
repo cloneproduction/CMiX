@@ -52,17 +52,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return model;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            ScaleModel scaleModel = model as ScaleModel;
-
-            this.ID = scaleModel.ID;
-            this.Uniform.SetViewModel(scaleModel.Uniform);
-            this.Visible.SetViewModel(scaleModel.Visible);
-            this.XYZ.SetViewModel(scaleModel.XYZ);
-            this.Mode.SetViewModel(scaleModel.Mode);
-        }
-
         public void Dispose()
         {
             

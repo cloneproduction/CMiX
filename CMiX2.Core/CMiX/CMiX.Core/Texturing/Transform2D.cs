@@ -41,16 +41,5 @@ namespace CMiX.Core.Presentation.ViewModels
             return transform2DModel;
 
         }
-
-        public void SetViewModel(IModel model)
-        {
-            Transform2DModel transform2DModel = model as Transform2DModel;
-
-            ID = transform2DModel.ID;
-            UniformScale.SetViewModel(transform2DModel.UniformScale);
-            Translate.SetViewModel(transform2DModel.Translate);
-            Scale.SetViewModel(transform2DModel.Scale);
-            Rotate.SetViewModel(transform2DModel.Rotate);
-        }
     }
 }

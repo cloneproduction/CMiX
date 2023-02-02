@@ -111,25 +111,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return meshModelModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            MeshModel meshModelModel = new MeshModel();
-            this.ID = meshModelModel.ID;
-
-            MeshTypeSelector.SetViewModel(meshModelModel.MeshTypeSelector);
-
-            Scale.SetViewModel(meshModelModel.Scale);
-            Offset.SetViewModel(meshModelModel.Offset);
-            Radius.SetViewModel(meshModelModel.Radius);
-            Height.SetViewModel(meshModelModel.Height);
-            Thickness.SetViewModel(meshModelModel.Thickness);
-            Tessellation.SetViewModel(meshModelModel.Tessellation);
-            TessellationXY.SetViewModel(meshModelModel.TessellationXY);
-            GenerateBackFace.SetViewModel(meshModelModel.GenerateBackFace);
-            Visibility.SetViewModel(meshModelModel.Visibility);
-
-            TransformModifierManager.SetViewModel(meshModelModel.TransformModifierManager);
-        }
 
         public void Dispose()
         {

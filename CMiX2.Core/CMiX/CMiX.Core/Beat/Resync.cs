@@ -52,12 +52,6 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if (null != handler) handler(this, EventArgs.Empty);
         }
 
-        public void SetViewModel(IModel model)
-        {
-            ResyncModel resyncModel = model as ResyncModel;
-            this.ID = resyncModel.ID;
-        }
-
         public IModel GetModel()
         {
             ResyncModel model = new ResyncModel();

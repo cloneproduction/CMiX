@@ -65,25 +65,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _enabled, value);
         }
 
-
-        public void SetViewModel(IModel model)
-        {
-            TriColorModel triColorModel = model as TriColorModel;
-            ID = triColorModel.ID;
-            Name = triColorModel.Name;
-
-            Visible.SetViewModel(triColorModel.Visible);
-            Control.SetViewModel(triColorModel.Control);
-            ColorA.SetViewModel(triColorModel.ColorA);
-            ColorB.SetViewModel(triColorModel.ColorB);
-            ColorC.SetViewModel(triColorModel.ColorC);
-            Smooth.SetViewModel(triColorModel.Smooth);
-            Center.SetViewModel(triColorModel.Center);
-            SingleChannel.SetViewModel(triColorModel.SingleChannel);
-            ClampColor.SetViewModel(triColorModel.ClampColor);
-
-        }
-
         public IModel GetModel()
         {
             TriColorModel triColorModel = new TriColorModel();

@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels
             {
                 SetProperty(ref _value, value);
                 if(IsActive)
-                    ControlMessenger.Send(this);
+                    ControlMessenger.Send<GenericValueModel<T>>(this);
             }
         }
 
@@ -41,13 +41,6 @@ namespace CMiX.Core.Presentation.ViewModels
             model.ID = this.ID;
             model.Value = this.Value;
             return model;
-        }
-
-        public void SetViewModel(IModel model)
-        {
-            GenericValueModel<T> genericValueModel = model as GenericValueModel<T>;
-            this.ID = genericValueModel.ID;
-            this.Value = genericValueModel.Value;
         }
 
         public void Receive(MessageRequestControl message)

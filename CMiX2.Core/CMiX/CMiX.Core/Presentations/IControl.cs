@@ -7,7 +7,6 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface IControl : IIDObject
     {
-        void SetViewModel(IModel model);
         IModel GetModel();
     }
 }

@@ -28,16 +28,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public GenericValue<EasingFunction> Function { get; set; }
         public GenericValue<EasingMode> Mode { get; set; }
 
-
-        public void SetViewModel(IModel model)
-        {
-            EasingModel easingModel = model as EasingModel;
-            this.ID = easingModel.ID;
-            this.IsEnabled.SetViewModel(easingModel.IsEnabled);
-            this.Function.SetViewModel(easingModel.Function);
-            this.Mode.SetViewModel(easingModel.Mode);
-        }
-
         public IModel GetModel()
         {
             EasingModel model = new EasingModel();

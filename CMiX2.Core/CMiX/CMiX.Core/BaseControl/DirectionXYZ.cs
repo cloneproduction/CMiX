@@ -74,15 +74,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return directionXYZModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            DirectionXYZModel directionXYZModel = model as DirectionXYZModel;
-            this.ID = directionXYZModel.ID;
-            DirectionX = directionXYZModel.DirectionX;
-            DirectionY = directionXYZModel.DirectionY;
-            DirectionZ = directionXYZModel.DirectionZ;
-        }
-
         public void Receive(MessageRequestControl message)
         {
             if (message.ID == this.ID && !message.HasReceivedResponse)

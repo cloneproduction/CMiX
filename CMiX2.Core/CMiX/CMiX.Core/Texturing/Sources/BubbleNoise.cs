@@ -63,17 +63,6 @@ namespace CMiX.Core.Presentation.ViewModels
             return gradientModel;
         }
 
-        public void SetViewModel(IModel model)
-        {
-            BubbleNoiseModel gradientModel = model as BubbleNoiseModel;
-            Resolution.SetViewModel(gradientModel.Resolution);
-            BackgroundColor.SetViewModel(gradientModel.BackgroundColor);
-            BubbleColor.SetViewModel(gradientModel.BubbleColor);
-            Speed.SetViewModel(gradientModel.Speed);
-            Frequency.SetViewModel(gradientModel.Frequency);
-            Contrast.SetViewModel(gradientModel.Contrast);
-        }
-
         public void Dispose()
         {
             throw new NotImplementedException();

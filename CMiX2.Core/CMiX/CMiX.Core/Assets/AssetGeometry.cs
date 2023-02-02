@@ -62,11 +62,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             set => SetProperty(ref _path, value);
         }
 
-
-
-
-
-
         public IModel GetModel()
         {
             var assetModel = new AssetGeometryModel();
@@ -76,14 +71,6 @@ namespace CMiX.Core.Presentation.ViewModels.Assets
             assetModel.Ponderation = this.Ponderation;
 
             return assetModel;
-        }
-
-        public void SetViewModel(IModel model)
-        {
-            AssetGeometryModel assetGeometryModel = model as AssetGeometryModel;
-            this.Name = assetGeometryModel.Name;
-            this.Path = assetGeometryModel.Path;
-            this.Ponderation = assetGeometryModel.Ponderation;
         }
     }
 }

@@ -30,13 +30,5 @@ namespace CMiX.Core.Presentation.ViewModels
 
             return videoInModel;
         }
-
-        public void SetViewModel(IModel model)
-        {
-            VideoInModel videoInModel = model as VideoInModel;
-            this.ID = videoInModel.ID;
-            this.SizeX.SetViewModel(videoInModel.SizeX);
-            this.SizeY.SetViewModel(videoInModel.SizeY);
-        }
     }
 }
