@@ -81,13 +81,13 @@ namespace CMiX.Core.Presentation.ViewModels
 
         private void SaveProject()
         {
-            if (!string.IsNullOrEmpty(FolderPath))
-            {
-                var data = Serializer.Serialize(Project.GetModel());
-                File.WriteAllBytes(FolderPath, data);
-                return;
-            }
-            SaveAsProject();
+            //if (!string.IsNullOrEmpty(FolderPath))
+            //{
+            //    var data = Serializer.Serialize(Project.GetModel());
+            //    File.WriteAllBytes(FolderPath, data);
+            //    return;
+            //}
+            //SaveAsProject();
         }
 
         private void SaveAsProject()

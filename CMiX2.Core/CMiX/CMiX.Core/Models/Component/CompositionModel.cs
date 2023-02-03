@@ -18,27 +18,22 @@ namespace CMiX.Core.Models
             ID = Guid.NewGuid();
 
             ComponentModels = new ObservableCollection<IComponentModel>();
-            MasterBeatModel = new MasterBeatModel();
-            CameraModel = new CameraModel();
-            VisibilityModel = new VisibilityModel();
+            MasterBeat = new MasterBeatModel();
+            Visibility = new VisibilityModel();
             CameraManagerModel = new PrefabManagerModel();
             OutputSettings = new OutputSettingsModel();
             TextureModifierManager = new ModifierManagerModel();
             MaterialManager = new PrefabManagerModel();
-
             LayerManager = new PrefabManagerModel();
         }
 
 
-        public VisibilityModel VisibilityModel { get; set; }
-        public MasterBeatModel MasterBeatModel { get; set; }
-        public CameraModel CameraModel { get; set; }
+        public VisibilityModel Visibility { get; set; }
+        public MasterBeatModel MasterBeat { get; set; }
 
 
         public string Name { get; set; }
         public Guid ID { get; set; }
-        public bool IsVisible { get; set; }
-        public string Address { get; set; }
 
 
         public ObservableCollection<IComponentModel> ComponentModels { get; set; }

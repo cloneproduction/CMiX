@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
 
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
 
-            TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService));
+            TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);
             ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
             CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager, compositionService);
             LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager, compositionService);
@@ -63,33 +63,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             get => _selectedTabItemIndex;
             set => SetProperty(ref _selectedTabItemIndex, value);
-        }
-
-
-        public override IModel GetModel()
-        {
-            LayerModel model = new LayerModel();
-
-            model.ID = ID;
-            model.Name = Name;
-            model.Opacity = (FloatValueModel)Opacity.GetModel();
-
-            model.ModelEntityManager = (PrefabManagerModel)ModelEntityManager.GetModel();
-            model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
-            model.CameraEntityManager = (PrefabManagerModel)CameraEntityManager.GetModel();
-            model.LightEntityManager = (PrefabManagerModel)LightEntityManager.GetModel();
-
-            model.BackgroundColor = (ColorSelectorModel)BackgroundColor.GetModel();
-            model.Visibility = (BooleanValueModel)Visibility.GetModel();
-            model.IsMask = (BooleanValueModel)IsMask.GetModel();
-
-            model.MaskChannelModel = (GenericValueModel<MaskChannel>)this.MaskChannel.GetModel();
-            model.MaskModeModel = (GenericValueModel<MaskMode>)this.MaskMode.GetModel();
-            model.BlendModeModel = (GenericValueModel<BlendModeEnum>)this.BlendMode.GetModel();
-
-            model.AmbientOcclusion = (AmbientOcclusionModel)AmbientOcclusion.GetModel();
-
-            return model;
         }
     }
 }

@@ -32,7 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
             Projection = new BooleanValue(cameraModel.Projection);
 
-            CameraTransformModifierManager = new ModifierManager(cameraModel.CameraTransformModifierManager, new CameraTransformModifierFactory(compositionService));
+            CameraTransformModifierManager = new ModifierManager(cameraModel.CameraTransformModifierManager, new CameraTransformModifierFactory(compositionService), compositionService);
         }
 
 

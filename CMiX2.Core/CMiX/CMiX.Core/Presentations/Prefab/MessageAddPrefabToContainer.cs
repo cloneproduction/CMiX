@@ -16,11 +16,11 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         {
 
         }
-        public MessageAddPrefabToContainer(Guid id, IPrefabContainer container)
+        public MessageAddPrefabToContainer(Guid id, IPrefabModel container)
         {
             ID = id;
             ContainerID = container.ID;
-            Model = container.Prefab?.GetModel() as IPrefabModel;
+            Model = container;
         }
 
         public Guid ID { get; set; }

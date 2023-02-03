@@ -69,15 +69,15 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             }
         }
 
-        public IModel GetModel()
-        {
-            PrefabContainerModel prefabSlotModel = new PrefabContainerModel();
-            prefabSlotModel.ID = ID;
+        //public IModel GetModel()
+        //{
+        //    PrefabContainerModel prefabSlotModel = new PrefabContainerModel();
+        //    prefabSlotModel.ID = ID;
 
-            if (Prefab != null)
-                prefabSlotModel.PrefabModel = (IPrefabModel)Prefab.GetModel();
+        //    if (Prefab != null)
+        //        prefabSlotModel.PrefabModel = (IPrefabModel)Prefab.GetModel();
 
-            return prefabSlotModel;
-        }
+        //    return prefabSlotModel;
+        //}
     }
 }

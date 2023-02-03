@@ -20,8 +20,6 @@ namespace CMiX.Core.Models
             Uniform = new FloatValueModel(1.0f);
 
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
-
-            TransformModifier = new ModifierManagerModel();
         }
 
         public Guid ID { get; set; }
@@ -33,6 +31,5 @@ namespace CMiX.Core.Models
 
         public BooleanValueModel Visible { get; set; }
         public GenericValueModel<ModifierMode> Mode { get; internal set; }
-        public ModifierManagerModel TransformModifier { get; internal set; }
     }
 }

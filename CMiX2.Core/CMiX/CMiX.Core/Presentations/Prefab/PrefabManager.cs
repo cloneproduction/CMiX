@@ -221,14 +221,17 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
             prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
             SelectedItem = prefabContainer;
 
-            Send(new MessageAddPrefab(this.ID, prefabContainer));
+            var containerModel = CompositionService.Mapper.Map<IPrefabModel>(prefabContainer);
+            Send(new MessageAddPrefab(this.ID, containerModel));
         }
 
 
         public virtual void AddItem()
         {
             PrefabContainer prefabContainer = CreatePrefabContainer();
-            Send(new MessageAddPrefab(this.ID, prefabContainer));
+
+            var containerModel = CompositionService.Mapper.Map<PrefabContainerModel>(prefabContainer);
+            Send(new MessageAddPrefab(this.ID, containerModel.Prefab));
         }
 
         int nameCount = 0;
@@ -236,7 +239,9 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         public void AddEmptyItem()
         {
             PrefabContainer prefab = CreateEmptyPrefabContainer();
-            Send(new MessageAddPrefab(this.ID, prefab));
+
+            var containerModel = CompositionService.Mapper.Map<IPrefabModel>(prefab);
+            Send(new MessageAddPrefab(this.ID, containerModel));
         }
 
 

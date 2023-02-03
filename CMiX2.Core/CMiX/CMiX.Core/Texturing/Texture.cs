@@ -17,8 +17,8 @@ namespace CMiX.Core.Presentation.ViewModels
             Name = this.GetType().Name;
 
             IsEnabled = new BooleanValue(textureModel.IsEnabled);
-            TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory(compositionService));
-            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService));
+            TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);
+            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService), compositionService);
             SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
 
             ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);

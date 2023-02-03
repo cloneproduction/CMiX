@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 
 namespace CMiX.Core.Presentation.ViewModels.Prefab
@@ -12,11 +13,12 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         {
 
         }
-        public MessageAddPrefab(Guid id, IPrefabContainer container)
+
+        public MessageAddPrefab(Guid id, IPrefabModel container)
         {
             ID = id;
             ContainerID = container.ID;
-            Model = container.Prefab?.GetModel() as IPrefabModel;
+            Model = container;
         }
 
         public Guid ID { get; set; }

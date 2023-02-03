@@ -18,8 +18,8 @@ namespace CMiX.Core.Presentation.ViewModels
             this.ID = maskModel.ID;
 
             IsEnabled = new BooleanValue(maskModel.IsEnabled);
-            TextureModifierManager = new ModifierManager(maskModel.ModifierManagerModel, new TextureFilterFactory(compositionService));
-            TextureTransformModifierManager = new ModifierManager(maskModel.TextureTransformModifierManager, new ModifierFactory(compositionService));
+            TextureModifierManager = new ModifierManager(maskModel.ModifierManagerModel, new TextureFilterFactory(compositionService), compositionService);
+            TextureTransformModifierManager = new ModifierManager(maskModel.TextureTransformModifierManager, new ModifierFactory(compositionService), compositionService);
             SamplerState = new SamplerState(maskModel.SamplerState, compositionService);
             Invert = new BooleanValue(maskModel.Invert);
 

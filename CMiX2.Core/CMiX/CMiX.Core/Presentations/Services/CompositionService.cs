@@ -1,6 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using AutoMapper;
+using CMiX.Core.Mapper;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Prefab;
@@ -13,6 +15,12 @@ namespace CMiX.Core.Presentation.ViewModels.Service
     {
         public CompositionService(IPrefabDataBase prefabDataBase)
         {
+            var config = new MapperConfiguration(cfg => {
+                cfg.AddProfile(new MappingProfile());
+            });
+
+            Mapper = config.CreateMapper();
+
             ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
             
             //Guid LayerManagerID = Guid.Parse("00000000-0000-0000-0000-000000000002");
@@ -45,14 +53,8 @@ namespace CMiX.Core.Presentation.ViewModels.Service
             IsActive = true;
         }
 
-        //public CompositionService(IPrefabDataBase prefabDataBase) : this(prefabDataBase)
-        //{
-        //    //DialogService = dialogService;
-        //}
-
-
+        public IMapper Mapper { get; set; }
         public Guid ID { get; set; }
-        //public IDialogService DialogService { get; set; }
         public IPrefabDataBase PrefabDataBase { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
 

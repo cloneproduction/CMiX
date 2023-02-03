@@ -7,5 +7,6 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public interface IPrefabModel : IModel
     {
+
     }
 }

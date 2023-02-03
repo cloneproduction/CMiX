@@ -38,7 +38,7 @@ namespace CMiX.Core.Presentation.ViewModels
             GenerateBackFace = new BooleanValue(meshModel.GenerateBackFace);
             Visibility = new BooleanValue(meshModel.Visibility);
 
-            TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new ModifierFactory(compositionService));
+            TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new ModifierFactory(compositionService), compositionService);
         }
 
 

@@ -9,8 +9,12 @@ using System.Threading.Tasks;
 using AutoMapper;
 using CMiX.Core.Models;
 using CMiX.Core.Models.BaseControls;
+using CMiX.Core.Models.Beat;
+using CMiX.Core.Models.Component;
+using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
+using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
@@ -39,6 +43,13 @@ namespace CMiX.Core.Mapper
             CreateMap<TypeWriter, TypeWriterModel>().ReverseMap();
 
 
+            CreateMap<Translate, TranslateModel>().ReverseMap();
+            CreateMap<Scale, ScaleModel>().ReverseMap();
+            CreateMap<Rotation, RotationModel>().ReverseMap();
+            CreateMap<GenericValue<ModifierMode>, GenericValueModel<ModifierMode>>().ReverseMap();
+
+            CreateMap<IModifier, TransformSRTModel>().ReverseMap();
+
             CreateMap<ProceduralSelector, ProceduralSelectorModel>().ReverseMap();
             CreateMap<GenericValue<TextureSourceName>, GenericValueModel<TextureSourceName>>().ReverseMap();
             CreateMap<Gradient, GradientModel>().ReverseMap();
@@ -48,8 +59,32 @@ namespace CMiX.Core.Mapper
 
             CreateMap<Transform2D, Transform2DModel>().ReverseMap();
             CreateMap<ColorSelector, ColorSelectorModel>().ReverseMap();
+            CreateMap<OutputSettings, OutputSettingsModel>().ReverseMap();
+
+            CreateMap<PrefabManager<Layer>, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager<Entity>, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager<Camera>, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager<LightEntity>, PrefabManagerModel>().ReverseMap();
+
+            CreateMap<PrefabContainer, PrefabContainerModel>().ReverseMap();
+
+            //CreateMap<IComponent, IComponentModel>().ReverseMap();
+            CreateMap<IPrefab, IPrefabModel>()
+                .Include<Composition, CompositionModel>()
+                .Include<Layer, LayerModel>()
+                .ReverseMap();
+
+            //CreateMap<Component, ComponentModel>().ReverseMap();
+            CreateMap<Layer, LayerModel>().ReverseMap();
+            CreateMap<Composition, CompositionModel>().ReverseMap();
+
+            //CreateMap<Composition, IPrefabModel>().As<CompositionModel>();
 
 
+            CreateMap<AmbientOcclusion, AmbientOcclusionModel>().ReverseMap();
+            CreateMap<MasterBeat, MasterBeatModel>().ReverseMap();
+
+            CreateMap<Vector3, Vector3Model>().ReverseMap();
             CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap();
             CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap();
             CreateMap<IntegerValue, IntegerValueModel>().ReverseMap();

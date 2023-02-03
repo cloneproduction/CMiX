@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TransformSRT : ObservableObject, IControl, ITransformModifier
+    public partial class TransformSRT : ObservableObject, IControl, IModifier
     {
         public TransformSRT(TransformSRTModel transformModel)
         {
@@ -30,13 +30,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue Visible { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
 
-
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
 
         public IModel GetModel()
         {

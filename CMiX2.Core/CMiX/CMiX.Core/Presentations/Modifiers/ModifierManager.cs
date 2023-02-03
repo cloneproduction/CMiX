@@ -10,6 +10,7 @@ using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -19,9 +20,10 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class ModifierManager : ObservableRecipient, IRecipient<MessageRequestControl>, IControl, IDropTarget, IDragSource
     {
-        public ModifierManager(ModifierManagerModel modifierManagerModel, IModifierFactory modifierFactory)
+        public ModifierManager(ModifierManagerModel modifierManagerModel, IModifierFactory modifierFactory, CompositionService compositionService)
         {
             this.ID = modifierManagerModel.ID;
+            CompositionService = compositionService;
 
             Modifiers = new ObservableCollection<IModifier>();
             Factory = modifierFactory;
@@ -40,6 +42,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public ICommand DragHandlerDownCommand { get; set; }
         public ICommand DragHandlerUpCommand { get; set; }
         public BooleanValue Visibility { get; set; }
+        public CompositionService CompositionService { get; set; }
 
 
         private bool _dragHandlerIsPressed;
@@ -73,7 +76,9 @@ namespace CMiX.Core.Presentation.ViewModels
         public void Add(IModifier modifier)
         {
             Modifiers.Add(modifier);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddModifier(this.ID, modifier.GetModel()), MessageType.Out);
+            var pouet = CompositionService.Mapper.Map<TransformSRTModel>(modifier);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddModifier(this.ID, pouet), MessageType.Out);
+            Console.WriteLine();
         }
 
 

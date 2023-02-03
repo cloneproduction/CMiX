@@ -25,7 +25,7 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             Mesh = new Mesh(entityModel.Mesh, compositionService);
             MaterialManager = new PrefabManager<Material>(entityModel.MaterialManager, compositionService);
 
-            ModifierManager = new ModifierManager(entityModel.ModifierManager, new ModifierFactory(compositionService));
+            ModifierManager = new ModifierManager(entityModel.ModifierManager, new ModifierFactory(compositionService), compositionService);
             IsActive = true;
         }
 
