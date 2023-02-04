@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -38,19 +37,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-
-        public IModel GetModel()
-        {
-            ScaleModel model = new ScaleModel();
-
-            model.ID = this.ID;
-            model.Uniform = (FloatValueModel)this.Uniform.GetModel();
-            model.Visible = (BooleanValueModel)this.Visible.GetModel();
-            model.XYZ = (Vector3Model)this.XYZ.GetModel();
-            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
-
-            return model;
-        }
 
         public void Dispose()
         {

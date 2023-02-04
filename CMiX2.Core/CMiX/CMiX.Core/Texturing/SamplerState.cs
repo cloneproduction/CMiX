@@ -3,8 +3,6 @@
 
 using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -24,23 +22,12 @@ namespace CMiX.Core.Presentation.ViewModels
             IsActive = true;
         }
 
+
         public Guid ID { get; set; }
 
         public ColorSelector BorderColor { get; set; }
         public GenericValue<TextureAddressMode> AddressU { get; set; }
         public GenericValue<TextureAddressMode> AddressV { get; set; }
-
-
-        public IModel GetModel()
-        {
-            SamplerStateModel samplerStateModel = new SamplerStateModel();
-
-            samplerStateModel.ID = ID;
-
-            samplerStateModel.BorderColor = (ColorSelectorModel)BorderColor.GetModel();
-
-            return samplerStateModel;
-        }
 
 
         public void Receive(MessageRequestControl message)

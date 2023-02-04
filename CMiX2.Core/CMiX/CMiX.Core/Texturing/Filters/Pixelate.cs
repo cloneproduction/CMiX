@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -34,19 +32,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             get => _isExpanded;
             set => SetProperty(ref _isExpanded, value);
-        }
-
-        public IModel GetModel()
-        {
-            PixelateModel pixelateModel = new PixelateModel();
-
-            pixelateModel.ID = ID;
-            pixelateModel.Name = Name;
-            pixelateModel.Visible = (BooleanValueModel)Visible.GetModel();
-            pixelateModel.Control = (FloatValueModel)Control.GetModel();
-            pixelateModel.Factor = (Vector2Model)Factor.GetModel();
-
-            return pixelateModel;
         }
 
         public void Dispose()

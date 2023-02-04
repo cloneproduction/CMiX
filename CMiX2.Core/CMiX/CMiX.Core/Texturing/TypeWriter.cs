@@ -1,10 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -63,26 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public void TextInputLostFocus()
         {
             //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, false), MessageType.Internal);
-        }
-
-        public IModel GetModel()
-        {
-            TypeWriterModel typeWriterModel = new TypeWriterModel();
-
-            typeWriterModel.ID = ID;
-            typeWriterModel.StringControl = (StringValueModel)this.StringControl.GetModel();
-
-            typeWriterModel.FontColor = (ColorSelectorModel)this.FontColor.GetModel();
-            typeWriterModel.BackgroundColor = (ColorSelectorModel)this.BackgroundColor.GetModel();
-
-            typeWriterModel.Resolution = (Integer2Model)this.Resolution.GetModel();
-            typeWriterModel.Position = (Vector2Model)this.Position.GetModel();
-
-            typeWriterModel.FontSize = (FloatValueModel)this.FontSize.GetModel();
-            typeWriterModel.FontFamily = (StringValueModel)this.FontFamily.GetModel();
-            typeWriterModel.Style = (GenericValueModel<FontStyle>)this.Style.GetModel();
-
-            return typeWriterModel;
         }
     }
 }

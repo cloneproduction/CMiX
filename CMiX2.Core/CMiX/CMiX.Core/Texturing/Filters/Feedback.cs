@@ -24,18 +24,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue Factor { get; set; }
 
 
-        public IModel GetModel()
-        {
-            FeedbackModel feedbackModel = new FeedbackModel();
-
-            feedbackModel.ID = ID;
-            feedbackModel.Name = Name;
-            feedbackModel.Visible = (BooleanValueModel)Visible.GetModel();
-            feedbackModel.Factor = (FloatValueModel)Factor.GetModel();
-
-            return feedbackModel;
-        }
-
         public void Dispose()
         {
 

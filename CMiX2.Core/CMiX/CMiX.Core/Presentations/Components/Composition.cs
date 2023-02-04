@@ -2,20 +2,16 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Models;
-using CMiX.Core.Models.Beat;
-using CMiX.Core.Models.Component;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public partial class Composition : Component, IPrefab
+    public class Composition : Component, IPrefab
     {
         public Composition(CompositionModel compositionModel, CompositionService compositionService)
         {
@@ -30,17 +26,22 @@ namespace CMiX.Core.Presentation.ViewModels.Components
             IsActive = true;
         }
 
+
         public CompositionService CompositionService { get; set; }
         public PrefabManager<Layer> LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public ModifierManager TextureModifierManager { get; set; }
 
-        [ObservableProperty]
-        private MasterBeat masterBeat;
 
-        partial void OnMasterBeatChanged(MasterBeat value)
+        private MasterBeat _masterBeat;
+        public MasterBeat MasterBeat
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageChangePrefab(this.ID, value, nameof(MasterBeat)), MessageType.Out);
+            get => _masterBeat;
+            set
+            {
+                SetProperty(ref _masterBeat, value);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageChangePrefab(this.ID, value, nameof(MasterBeat)), MessageType.Out);
+            }
         }
     }
 }

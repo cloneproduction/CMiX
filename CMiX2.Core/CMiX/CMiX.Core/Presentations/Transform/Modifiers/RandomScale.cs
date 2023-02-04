@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -63,25 +61,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public void Dispose()
         {
             BeatModifier.Dispose();
-        }
-
-        public IModel GetModel()
-        {
-            RandomScaleModel model = new RandomScaleModel();
-            model.ID = this.ID;
-            model.Name = this.Name;
-            
-            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
-
-            model.Visible = (BooleanValueModel)this.Visible.GetModel();
-            model.Spread = (BooleanValueModel)this.Spread.GetModel();
-            model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
-            model.CounterModel = (IntegerValueModel)this.Counter.GetModel();
-            model.EasingModel = (EasingModel)this.Easing.GetModel();
-            model.Scale = (Vector3Model)this.Scale.GetModel();
-            model.UniformXYZ = (FloatValueModel)this.UniformXYZ.GetModel();
-
-            return model;
         }
     }
 }

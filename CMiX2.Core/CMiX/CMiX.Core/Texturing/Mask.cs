@@ -1,11 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.Assets;
-using CMiX.Core.Presentation.ViewModels.Assets;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -46,8 +42,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public TypeWriter TypeWriter { get; set; }
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
-        //public ImageSelector ImageSelector { get; set; }
-        //public VideoSelector VideoSelector { get; set; }
         public ProceduralSelector ProceduralSelector { get; set; }
 
 
@@ -56,28 +50,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             get => _isExpanded;
             set => SetProperty(ref _isExpanded, value);
-        }
-
-
-        public IModel GetModel()
-        {
-            MaskModel model = new MaskModel();
-
-            model.ID = this.ID;
-
-            model.IsEnabled = (BooleanValueModel)this.IsEnabled.GetModel();
-            model.Invert = (BooleanValueModel)this.Invert.GetModel();
-
-            model.ModifierManagerModel = (ModifierManagerModel)this.TextureModifierManager.GetModel();
-            model.TextureTransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
-            model.VideoPlayerModel = (VideoPlayerModel)this.VideoPlayer.GetModel();
-            model.SelectedAssetType = (IntegerValueModel)this.SelectedAssetType.GetModel();
-            model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
-            model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
-            model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();
-            model.TransformTexture = (TransformTextureModel)this.TransformTexture.GetModel();
-
-            return model;
         }
     }
 }

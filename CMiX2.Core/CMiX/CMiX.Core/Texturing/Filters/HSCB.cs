@@ -32,6 +32,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public TextureFilterName Name { get; set; }
         public FloatValue Control { get; set; }
 
+
         private bool _enabled;
         public bool Enabled
         {
@@ -45,23 +46,6 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             get => _isExpanded;
             set => SetProperty(ref _isExpanded, value);
-        }
-
-
-        public IModel GetModel()
-        {
-            HSCBModel HSCBModel = new HSCBModel();
-
-            HSCBModel.ID = ID;
-            HSCBModel.Name = Name;
-
-            HSCBModel.Visible = (BooleanValueModel)Visible.GetModel();
-            HSCBModel.HueModel = (FloatValueModel)Hue.GetModel();
-            HSCBModel.SaturationModel = (FloatValueModel)Saturation.GetModel();
-            HSCBModel.ConstrastModel = (FloatValueModel)Contrast.GetModel();
-            HSCBModel.BrightnessModel = (FloatValueModel)Brightness.GetModel();
-
-            return HSCBModel;
         }
 
 

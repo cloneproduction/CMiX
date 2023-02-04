@@ -36,17 +36,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         {
             this.Components.Add(component);
         }
-
-        //public override IModel GetModel()
-        //{
-        //    ProjectModel model = new ProjectModel();
-
-        //    model.Name = this.Name;
-
-        //    foreach (IAsset asset in this.Assets)
-        //        model.AssetModels.Add((IAssetModel)asset.GetModel());
-
-        //    return model;
-        //}
     }
 }

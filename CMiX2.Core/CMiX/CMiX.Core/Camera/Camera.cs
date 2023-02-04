@@ -1,11 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -73,26 +70,5 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue FarClip { get; set; }
         public BooleanValue Projection { get; set; }
 
-
-        public IModel GetModel()
-        {
-            CameraModel cameraModel = new CameraModel();
-            cameraModel.ID = this.ID;
-            cameraModel.CameraTransformModifierManager = (ModifierManagerModel)CameraTransformModifierManager.GetModel();
-            cameraModel.FOV = (FloatValueModel)FOV.GetModel();
-            cameraModel.Distance = (FloatValueModel)Distance.GetModel();
-
-            cameraModel.Yaw = (FloatValueModel)Yaw.GetModel();
-            cameraModel.Pitch = (FloatValueModel)Pitch.GetModel();
-
-            cameraModel.Target = (Vector3Model)Target.GetModel();
-
-            cameraModel.NearClip = (FloatValueModel)NearClip.GetModel();
-            cameraModel.FarClip = (FloatValueModel)FarClip.GetModel();
-
-            cameraModel.Projection = (BooleanValueModel)Projection.GetModel();
-
-            return cameraModel;
-        }
     }
 }

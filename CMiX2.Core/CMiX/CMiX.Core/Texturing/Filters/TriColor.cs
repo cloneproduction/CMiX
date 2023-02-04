@@ -1,14 +1,13 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class TriColor : ObservableObject, ITextureFilter
+    public partial class TriColor : ObservableObject, ITextureFilter
     {
         public TriColor(TriColorModel triColorModel, CompositionService compositionService)
         {
@@ -51,38 +50,12 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue ClampColor { get; set; }
 
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
 
-        private bool _enabled;
-        public bool Enabled
-        {
-            get => _enabled;
-            set => SetProperty(ref _enabled, value);
-        }
+        [ObservableProperty]
+        private bool enabled;
 
-        public IModel GetModel()
-        {
-            TriColorModel triColorModel = new TriColorModel();
-            triColorModel.ID = ID;
-            triColorModel.Name = Name;
-
-            triColorModel.Visible = (BooleanValueModel)Visible.GetModel();
-            triColorModel.Control = (FloatValueModel)Control.GetModel();
-            triColorModel.ColorA = (ColorSelectorModel)ColorA.GetModel();
-            triColorModel.ColorB = (ColorSelectorModel)ColorB.GetModel();
-            triColorModel.ColorC = (ColorSelectorModel)ColorC.GetModel();
-            triColorModel.Smooth = (FloatValueModel)Smooth.GetModel();
-            triColorModel.Center = (FloatValueModel)Center.GetModel();
-            triColorModel.SingleChannel = (BooleanValueModel)SingleChannel.GetModel();
-            triColorModel.ClampColor = (BooleanValueModel)ClampColor.GetModel();
-
-            return triColorModel;
-        }
 
         public void Dispose()
         {

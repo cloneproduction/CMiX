@@ -90,31 +90,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public IModel GetModel()
-        {
-            MaterialModel model = new MaterialModel();
-            model.ID = this.ID;
-
-            model.Texture = (TextureModel)Texture.GetModel();
-            model.Mask = (MaskModel)Mask.GetModel();
-            model.MaskChannelSelector = (GenericValueModel<MaskChannel>)MaskChannelSelector.GetModel();
-
-            model.Pipeline = (GenericValueModel<PipelineType>)Pipeline.GetModel();
-            model.CullMode = (GenericValueModel<CullModeType>)CullMode.GetModel();
-            model.Transparency = (GenericValueModel<TransparencyType>)Transparency.GetModel();
-
-            model.Metalness = (FloatValueModel)Metalness.GetModel();
-            model.Specularity = (FloatValueModel)Specularity.GetModel();
-            model.Glossiness = (FloatValueModel)Glossiness.GetModel();
-            model.Alpha = (FloatValueModel)Alpha.GetModel();
-
-            model.IsShadowCaster = (BooleanValueModel)IsShadowCaster.GetModel();
-
-            model.ColorModel = (ColorSelectorModel)Color.GetModel();
-            
-            return model;
-        }
-
         public void Dispose()
         {
 

@@ -24,6 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
         public TextureFilterName Name { get; set; }
         public BooleanValue Visible { get; set; }
 
+
         private bool _enabled;
         public bool Enabled
         {
@@ -38,18 +39,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-
-        public IModel GetModel()
-        {
-            BlurModel blurModel = new BlurModel();
-            blurModel.ID = ID;
-            blurModel.Name = Name;
-
-            blurModel.Strength = (FloatValueModel)Strength.GetModel();
-            blurModel.Visible = (BooleanValueModel)Visible.GetModel();
-
-            return blurModel;
-        }
 
         public void Dispose()
         {

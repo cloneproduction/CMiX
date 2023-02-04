@@ -1,12 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Input;
-using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -239,7 +236,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         public void AddEmptyItem()
         {
             PrefabContainer prefab = CreateEmptyPrefabContainer();
-
             var containerModel = CompositionService.Mapper.Map<IPrefabModel>(prefab);
             Send(new MessageAddPrefab(this.ID, containerModel));
         }
@@ -314,13 +310,6 @@ namespace CMiX.Core.Presentation.ViewModels.Prefab
         {
             if (message.ID == this.ID && !message.HasReceivedResponse)
                 message.Reply(this);
-        }
-
-        public IModel GetModel()
-        {
-            PrefabManagerModel prefabManagerModel = new PrefabManagerModel();
-            prefabManagerModel.ID = this.ID;
-            return prefabManagerModel;
         }
 
         public IPrefab GetPrefab(Guid guid)

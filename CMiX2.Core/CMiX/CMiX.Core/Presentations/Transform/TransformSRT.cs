@@ -10,10 +10,10 @@ namespace CMiX.Core.Presentation.ViewModels
     {
         public TransformSRT(TransformSRTModel transformModel)
         {
-            this.IsExpanded = true;
-            this.ID = transformModel.ID;
-            this.Visible = new BooleanValue(transformModel.Visible);
+            isExpanded = true;
+            ID = transformModel.ID;
 
+            Visible = new BooleanValue(transformModel.Visible);
             Uniform = new FloatValue(transformModel.Uniform);
             Translate = new Translate(transformModel.Translate);
             Scale = new Scale(transformModel.Scale);
@@ -30,22 +30,10 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue Visible { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
 
+
         [ObservableProperty]
         private bool isExpanded;
 
-        public IModel GetModel()
-        {
-            TransformSRTModel model = new TransformSRTModel();
-
-            model.ID = this.ID;
-            model.Uniform = (FloatValueModel)this.Uniform.GetModel();
-            model.Translate = (TranslateModel)this.Translate.GetModel();
-            model.Scale = (ScaleModel)this.Scale.GetModel();
-            model.Rotation = (RotationModel)this.Rotation.GetModel();
-            model.Mode = (GenericValueModel<ModifierMode>)this.Mode.GetModel();
-
-            return model;
-        }
 
         public void Dispose()
         {

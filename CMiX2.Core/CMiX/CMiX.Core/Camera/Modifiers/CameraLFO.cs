@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -41,26 +40,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public Easing Easing { get; set; }
         public FloatValue From { get; set; }
         public FloatValue To { get; set; }
-
-
-        public IModel GetModel()
-        {
-            CameraLFOModel cameraLFOModel = new CameraLFOModel();
-
-            cameraLFOModel.ID = ID;
-            cameraLFOModel.Visible = (BooleanValueModel)Visible.GetModel();
-            cameraLFOModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            cameraLFOModel.Yaw = (BooleanValueModel)Yaw.GetModel();
-            cameraLFOModel.Pitch = (BooleanValueModel)Pitch.GetModel();
-            cameraLFOModel.Zoom = (BooleanValueModel)Zoom.GetModel();
-            cameraLFOModel.PingPong = (BooleanValueModel)PingPong.GetModel();
-            cameraLFOModel.Axis = (GenericValueModel<CameraAxis>)Axis.GetModel();
-            cameraLFOModel.Easing = (EasingModel)Easing.GetModel();
-            cameraLFOModel.From = (FloatValueModel)From.GetModel();
-            cameraLFOModel.To = (FloatValueModel)To.GetModel();
-
-            return cameraLFOModel;
-        }
 
 
         public void Dispose()

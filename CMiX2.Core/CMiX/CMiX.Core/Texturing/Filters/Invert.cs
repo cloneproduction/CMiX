@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class Invert : ObservableObject, ITextureFilter
+    public partial class Invert : ObservableObject, ITextureFilter
     {
         public Invert(InvertModel invertModel)
         {
@@ -30,28 +30,9 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue Control { get; set; }
 
 
+        [ObservableProperty]
+        private bool isExpanded;
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
-
-
-        public IModel GetModel()
-        {
-            InvertModel invertModel = new InvertModel();
-
-            invertModel.ID = ID;
-            invertModel.Name = Name;
-
-            invertModel.Factor = (FloatValueModel)Factor.GetModel();
-            invertModel.Visible = (BooleanValueModel)Visible.GetModel();
-            invertModel.InvertAlpha = (BooleanValueModel)InvertAlpha.GetModel();
-            invertModel.InvertChannelSelector = (GenericValueModel<InvertChannel>)InvertChannelSelector.GetModel();
-            return invertModel;
-        }
 
         public void Dispose()
         {

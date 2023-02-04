@@ -74,25 +74,5 @@ namespace CMiX.Core.Presentation.ViewModels
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
         public ProceduralSelector ProceduralSelector { get; set; }
-
-
-        public IModel GetModel()
-        {
-            TextureModel model = new TextureModel();
-
-            model.ID = this.ID;
-
-            model.IsEnabled = (BooleanValueModel)this.IsEnabled.GetModel();
-            model.TextureModifierManager = (ModifierManagerModel)this.TextureModifierManager.GetModel();
-            model.TextureTransformModifierManager = (ModifierManagerModel)this.TextureTransformModifierManager.GetModel();
-            model.VideoPlayer = (VideoPlayerModel)this.VideoPlayer.GetModel();
-            model.SelectedAssetType = (IntegerValueModel)this.SelectedAssetType.GetModel();
-            model.TypeWriter = (TypeWriterModel)this.TypeWriter.GetModel();
-            model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
-            model.ProceduralSelector = (ProceduralSelectorModel)this.ProceduralSelector.GetModel();
-            model.TransformTexture = (TransformTextureModel)this.TransformTexture.GetModel();
-
-            return model;
-        }
     }
 }

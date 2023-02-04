@@ -31,18 +31,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-        public IModel GetModel()
-        {
-            EchoModel echoModel = new EchoModel();
-
-            echoModel.ID = ID;
-            echoModel.Name = Name;
-            echoModel.Visible = (BooleanValueModel)Visible.GetModel();
-            echoModel.Factor = (FloatValueModel)Factor.GetModel();
-
-            return echoModel;
-        }
-
         public void Dispose()
         {
 

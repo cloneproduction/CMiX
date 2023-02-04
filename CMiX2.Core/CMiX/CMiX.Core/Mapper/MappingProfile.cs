@@ -1,17 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using AutoMapper;
 using CMiX.Core.Models;
 using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Models.Beat;
 using CMiX.Core.Models.Component;
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Beat;
@@ -25,7 +19,6 @@ namespace CMiX.Core.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<Entity, EntityModel>().ReverseMap();
             CreateMap<Mesh, MeshModel>().ReverseMap();
             CreateMap<ModifierManager, ModifierManagerModel>().ReverseMap();
             CreateMap<Texture, TextureModel>().ReverseMap();
@@ -35,13 +28,12 @@ namespace CMiX.Core.Mapper
             CreateMap<Button, ButtonModel>().ReverseMap();
 
             CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
+
             CreateMap<GenericValue<TextureAddressMode>, GenericValueModel<TextureAddressMode>>().ReverseMap();
             CreateMap<GenericValue<FontStyle>, GenericValueModel<FontStyle>>().ReverseMap();
-
             CreateMap<GenericValue<BlendModeEnum>, GenericValueModel<BlendModeEnum>>().ReverseMap();
 
             CreateMap<TypeWriter, TypeWriterModel>().ReverseMap();
-
 
             CreateMap<Translate, TranslateModel>().ReverseMap();
             CreateMap<Scale, ScaleModel>().ReverseMap();
@@ -58,6 +50,8 @@ namespace CMiX.Core.Mapper
             CreateMap<TransformTexture, TransformTextureModel>().ReverseMap();
 
             CreateMap<Transform2D, Transform2DModel>().ReverseMap();
+            CreateMap<TransformSRT, TransformSRTModel>().ReverseMap();
+
             CreateMap<ColorSelector, ColorSelectorModel>().ReverseMap();
             CreateMap<OutputSettings, OutputSettingsModel>().ReverseMap();
 
@@ -65,21 +59,25 @@ namespace CMiX.Core.Mapper
             CreateMap<PrefabManager<Entity>, PrefabManagerModel>().ReverseMap();
             CreateMap<PrefabManager<Camera>, PrefabManagerModel>().ReverseMap();
             CreateMap<PrefabManager<LightEntity>, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager<Material>, PrefabManagerModel>().ReverseMap();
 
             CreateMap<PrefabContainer, PrefabContainerModel>().ReverseMap();
 
-            //CreateMap<IComponent, IComponentModel>().ReverseMap();
             CreateMap<IPrefab, IPrefabModel>()
                 .Include<Composition, CompositionModel>()
                 .Include<Layer, LayerModel>()
+                .Include<Entity, EntityModel>()
+                .Include<Camera, CameraModel>()
+                .Include<LightEntity, LightEntityModel>()
+                .Include<Material, MaterialModel>()
                 .ReverseMap();
 
-            //CreateMap<Component, ComponentModel>().ReverseMap();
+            CreateMap<Entity, EntityModel>().ReverseMap();
             CreateMap<Layer, LayerModel>().ReverseMap();
             CreateMap<Composition, CompositionModel>().ReverseMap();
-
-            //CreateMap<Composition, IPrefabModel>().As<CompositionModel>();
-
+            CreateMap<Camera, CameraModel>().ReverseMap();
+            CreateMap<LightEntity, LightEntityModel>().ReverseMap();
+            CreateMap<Material, MaterialModel>().ReverseMap();
 
             CreateMap<AmbientOcclusion, AmbientOcclusionModel>().ReverseMap();
             CreateMap<MasterBeat, MasterBeatModel>().ReverseMap();

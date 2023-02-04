@@ -27,19 +27,5 @@ namespace CMiX.Core.Presentation.ViewModels
         public Vector2 Translate { get; set; }
         public Vector2 Scale { get; set; }
         public FloatValue Rotate { get; set; }
-
-        public IModel GetModel()
-        {
-            Transform2DModel transform2DModel = new Transform2DModel();
-
-            transform2DModel.ID = ID;
-            transform2DModel.UniformScale = (FloatValueModel)UniformScale.GetModel();
-            transform2DModel.Translate = (Vector2Model)Translate.GetModel();
-            transform2DModel.Scale = (Vector2Model)Scale.GetModel();
-            transform2DModel.Rotate = (FloatValueModel)Rotate.GetModel();
-
-            return transform2DModel;
-
-        }
     }
 }

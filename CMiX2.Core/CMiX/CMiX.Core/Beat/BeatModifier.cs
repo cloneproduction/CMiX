@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
@@ -65,7 +64,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public void Reset()
         {
             BeatIndex = 0;
-            SendMessage();
+            ControlMessenger.Send<BeatModifierModel>(this);
         }
 
         public void Multiply()
@@ -73,7 +72,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if (BeatIndex <= minIndex)
                 return;
             BeatIndex--;
-            SendMessage();
+            ControlMessenger.Send<BeatModifierModel>(this);
         }
 
         public void Divide()
@@ -81,30 +80,12 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             if (BeatIndex >= maxIndex)
                 return;
             BeatIndex++;
-            SendMessage();
-        }
-
-        public void SendMessage()
-        {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
-        }
-
-        public IModel GetModel()
-        {
-            BeatModifierModel model = new BeatModifierModel();
-            model.ID = this.ID;
-            model.BeatIndex = this.BeatIndex;
-            model.ChanceToHit = (FloatValueModel)ChanceToHit.GetModel();
-            return model;
+            ControlMessenger.Send<BeatModifierModel>(this);
         }
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == this.ID)
-            {
-                if (!message.HasReceivedResponse)
-                    message.Reply(this);
-            }
+            ControlMessenger.Receive(this, message);
         }
 
         public void Dispose()

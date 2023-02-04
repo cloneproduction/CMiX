@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Windows.Media;
 using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
@@ -11,7 +10,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
+    public partial class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
@@ -21,35 +20,23 @@ namespace CMiX.Core.Presentation.ViewModels
             this.IsActive = true;
         }
 
+
         public Guid ID { get; set; }
 
-        private Color _selectedColor;
-        public Color SelectedColor
-        {
-            get => _selectedColor;
-            set
-            {
-                SetProperty(ref _selectedColor, value);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
-            }
-        }
+        [ObservableProperty]
+        private Color selectedColor;
 
-        public IModel GetModel()
+
+        partial void OnSelectedColorChanged(Color color)
         {
-            ColorSelectorModel model = new ColorSelectorModel();
-            model.ID = this.ID;
-            model.SelectedColor = this.SelectedColor.ToString();
-            return model;
+            Console.WriteLine("SelectedColorChanged = " + color);
+            if (IsActive)
+                ControlMessenger.Send<ColorSelectorModel>(this);
         }
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == this.ID && !message.HasReceivedResponse)
-            {
-                message.Reply(this);
-                Console.WriteLine(SelectedColor);
-            }
-
+            ControlMessenger.Receive(this, message);
         }
     }
 }

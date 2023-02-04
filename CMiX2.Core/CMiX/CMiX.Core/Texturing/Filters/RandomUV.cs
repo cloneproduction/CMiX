@@ -98,32 +98,5 @@ namespace CMiX.Core.Presentation.ViewModels
         {
             BeatModifier.Dispose();
         }
-
-        public IModel GetModel()
-        {
-            RandomUVModel model = new RandomUVModel();
-            model.ID = this.ID;
-            model.Name = this.Name;
-
-            model.Visible = (BooleanValueModel)this.Visible.GetModel();
-
-            model.BeatModifierModel = (BeatModifierModel)this.BeatModifier.GetModel();
-            model.EasingModel = (EasingModel)this.Easing.GetModel();
-
-            model.Location = (Vector2Model)this.Location.GetModel();
-
-            model.RandomizeLocation = (BooleanValueModel)this.RandomizeLocation.GetModel();
-
-            model.Scale = (Vector2Model)this.Scale.GetModel();
-            model.Uniform = (FloatValueModel)this.Uniform.GetModel();
-            model.RandomizeScale = (BooleanValueModel)this.RandomizeLocation.GetModel();
-
-            model.Rotation = (FloatValueModel)this.Rotation.GetModel();
-
-            model.RandomizeRotation = (BooleanValueModel)this.RandomizeLocation.GetModel();
-
-            model.SamplerState = (SamplerStateModel)this.SamplerState.GetModel();
-            return model;
-        }
     }
 }

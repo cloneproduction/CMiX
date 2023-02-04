@@ -25,16 +25,5 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public CompositionService CompositionService { get; set; }
         public Integer2 Resolution { get; set; }
         public ColorSelector BackgroundColor { get; set; }
-
-        public IModel GetModel()
-        {
-            OutputSettingsModel outputPropertiesModel = new OutputSettingsModel();
-
-            outputPropertiesModel.ID = ID;
-            outputPropertiesModel.Resolution = (Integer2Model)Resolution.GetModel();
-            outputPropertiesModel.BackgroundColor = (ColorSelectorModel)BackgroundColor.GetModel();
-
-            return outputPropertiesModel;
-        }
     }
 }

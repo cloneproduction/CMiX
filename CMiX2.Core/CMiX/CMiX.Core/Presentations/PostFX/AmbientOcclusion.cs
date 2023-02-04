@@ -35,22 +35,5 @@ namespace CMiX.Core.Presentation.ViewModels
         public IntegerValue BlurCount { get; set; }
         public FloatValue BlurRadius { get; set; }
         public FloatValue EdgeSharpness { get; set; }
-
-        public IModel GetModel()
-        {
-            AmbientOcclusionModel ambientOcclusionModel = new AmbientOcclusionModel();
-
-            ambientOcclusionModel.ID = ID;
-            ambientOcclusionModel.IsEnabled = (BooleanValueModel)IsEnabled.GetModel();
-            ambientOcclusionModel.Samples = (IntegerValueModel)Samples.GetModel();
-            ambientOcclusionModel.ProjectionScale = (FloatValueModel)ProjectionScale.GetModel();
-            ambientOcclusionModel.Intensity = (FloatValueModel)Intensity.GetModel();
-            ambientOcclusionModel.SampleBias = (FloatValueModel)SampleBias.GetModel();
-            ambientOcclusionModel.BlurCount = (IntegerValueModel)BlurCount.GetModel();
-            ambientOcclusionModel.BlurRadius = (FloatValueModel)BlurRadius.GetModel();
-            ambientOcclusionModel.EdgeSharpness = (FloatValueModel)EdgeSharpness.GetModel();
-
-            return ambientOcclusionModel;
-        }
     }
 }

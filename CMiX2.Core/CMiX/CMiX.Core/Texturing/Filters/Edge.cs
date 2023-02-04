@@ -46,21 +46,6 @@ namespace CMiX.Core.Presentation.ViewModels
         }
 
 
-        public IModel GetModel()
-        {
-            EdgeModel edgeModel = new EdgeModel();
-
-            edgeModel.ID = ID;
-            edgeModel.Name = Name;
-
-            edgeModel.Control = (FloatValueModel)Control.GetModel();
-            edgeModel.Visible = (BooleanValueModel)Visible.GetModel();
-            edgeModel.Radius = (FloatValueModel)Radius.GetModel();
-            edgeModel.Brightness = (FloatValueModel)Brightness.GetModel();
-
-            return edgeModel;
-        }
-
         public void Dispose()
         {
 

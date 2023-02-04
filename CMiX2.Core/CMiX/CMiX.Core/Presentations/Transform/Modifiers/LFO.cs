@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class LFO : ObservableObject, IControl, IBeatModifiable, ITransformModifier, IDisposable
+    public partial class LFO : ObservableObject, IControl, IBeatModifiable, ITransformModifier, IDisposable
     {
         public LFO(LFOModel lfoModel, CompositionService compositionService)
         {
@@ -56,12 +56,9 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue To { get; set; }
 
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
+
 
         private string _name;
         public string Name
@@ -70,30 +67,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _name, value);
         }
 
-        public IModel GetModel()
-        {
-            LFOModel lfoModel = new LFOModel();
-
-            lfoModel.ID = this.ID;
-
-            lfoModel.Visible = (BooleanValueModel)Visible.GetModel();
-            lfoModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            lfoModel.PingPong = (BooleanValueModel)PingPong.GetModel();
-
-            lfoModel.XAxis = (BooleanValueModel)XAxis.GetModel();
-            lfoModel.YAxis = (BooleanValueModel)YAxis.GetModel();
-            lfoModel.ZAxis = (BooleanValueModel)ZAxis.GetModel();
-
-            lfoModel.TransformType = (GenericValueModel<TransformType>)TransformType.GetModel();
-            lfoModel.Mode = (GenericValueModel<ModifierMode>)Mode.GetModel();
-
-            lfoModel.Easing = (EasingModel)Easing.GetModel();
-
-            lfoModel.From = (FloatValueModel)From.GetModel();
-            lfoModel.To = (FloatValueModel)To.GetModel();
-
-            return lfoModel;
-        }
 
         public void Dispose()
         {

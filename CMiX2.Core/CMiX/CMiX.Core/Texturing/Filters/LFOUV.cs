@@ -54,31 +54,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public SamplerState SamplerState { get; set; }
 
 
-        public IModel GetModel()
-        {
-            LFOUVModel lfoModel = new LFOUVModel();
-
-            lfoModel.ID = this.ID;
-
-            lfoModel.Visible = (BooleanValueModel)Visible.GetModel();
-            lfoModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            lfoModel.PingPong = (BooleanValueModel)PingPong.GetModel();
-
-            lfoModel.XAxis = (BooleanValueModel)XAxis.GetModel();
-            lfoModel.YAxis = (BooleanValueModel)YAxis.GetModel();
-            lfoModel.ZAxis = (BooleanValueModel)ZAxis.GetModel();
-
-            lfoModel.TransformType = (GenericValueModel<TransformType>)TransformType.GetModel();
-
-            lfoModel.Easing = (EasingModel)Easing.GetModel();
-
-            lfoModel.From = (FloatValueModel)From.GetModel();
-            lfoModel.To = (FloatValueModel)To.GetModel();
-            lfoModel.SamplerState = (SamplerStateModel)SamplerState.GetModel();
-
-            return lfoModel;
-        }
-
         public void Dispose()
         {
             //throw new NotImplementedException();

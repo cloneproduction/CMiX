@@ -90,28 +90,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue Visibility { get; set; }
 
 
-        public IModel GetModel()
-        {
-            MeshModel meshModelModel = new MeshModel();
-            meshModelModel.ID = ID;
-
-            meshModelModel.MeshTypeSelector = (GenericValueModel<MeshType>)MeshTypeSelector.GetModel();
-
-            meshModelModel.Scale = (Vector3Model)Scale.GetModel();
-            meshModelModel.Offset = (Vector3Model)Offset.GetModel();
-            meshModelModel.Radius = (FloatValueModel)Radius.GetModel();
-            meshModelModel.Height = (FloatValueModel)Height.GetModel();
-            meshModelModel.Thickness = (FloatValueModel)Thickness.GetModel();
-            meshModelModel.Tessellation = (IntegerValueModel)Tessellation.GetModel();
-            meshModelModel.TessellationXY = (Integer2Model)TessellationXY.GetModel();
-            meshModelModel.GenerateBackFace = (BooleanValueModel)GenerateBackFace.GetModel();
-            meshModelModel.Visibility = (BooleanValueModel)Visibility.GetModel();
-            meshModelModel.TransformModifierManager = (ModifierManagerModel)TransformModifierManager.GetModel();
-
-            return meshModelModel;
-        }
-
-
         public void Dispose()
         {
 

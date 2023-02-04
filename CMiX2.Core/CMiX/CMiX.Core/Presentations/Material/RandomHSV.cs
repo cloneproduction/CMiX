@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -52,23 +51,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public void Dispose()
         {
             BeatModifier.Dispose();
-        }
-
-        public IModel GetModel()
-        {
-            RandomHSVModel randomHSVModel = new RandomHSVModel();
-
-            randomHSVModel.ID = ID;
-            randomHSVModel.Hue = (FloatValueModel)Hue.GetModel();
-            randomHSVModel.Saturation = (FloatValueModel)Saturation.GetModel();
-            randomHSVModel.Value = (FloatValueModel)Value.GetModel();
-            randomHSVModel.Alpha = (FloatValueModel)Alpha.GetModel();
-
-            randomHSVModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            randomHSVModel.Easing = (EasingModel)Easing.GetModel();
-            randomHSVModel.Mode = (GenericValueModel<ModifierMode>)Mode.GetModel();
-
-            return randomHSVModel;
         }
     }
 }

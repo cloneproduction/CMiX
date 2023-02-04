@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentation.ViewModels.Components
 {
-    public class Entity : ObservableRecipient, IPrefab, IRecipient<MessageRequestControl>
+    public partial class Entity : ObservableRecipient, IPrefab, IRecipient<MessageRequestControl>
     {
         public Entity(EntityModel entityModel, CompositionService compositionService)
         {
@@ -33,26 +33,15 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
 
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
+        [ObservableProperty]
+        private string name;
 
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
+        [ObservableProperty]
+        private bool isRenaming;
+
+        [ObservableProperty]
+        private bool isSelected;
 
 
         public PrefabManager<Material> MaterialManager { get; set; }
@@ -60,17 +49,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public ModifierManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
 
-
-        public IModel GetModel()
-        {
-            EntityModel entityModel = new EntityModel() ;
-            entityModel.ID = ID;
-            entityModel.Mesh = (MeshModel)Mesh.GetModel();
-            entityModel.TransformSRT = (TransformSRTModel)TransformSRT.GetModel();
-            entityModel.MaterialManager = (PrefabManagerModel)MaterialManager.GetModel();
-            entityModel.ModifierManager = (ModifierManagerModel)ModifierManager.GetModel();
-            return entityModel;
-        }
 
         public void Receive(MessageRequestControl message)
         {

@@ -44,21 +44,6 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue Width { get; set; }
 
 
-        public IModel GetModel()
-        {
-            CameraRandomModel cameraRandomModel = new CameraRandomModel();
-
-            cameraRandomModel.ID = ID;
-            cameraRandomModel.Visible = (BooleanValueModel)Visible.GetModel();
-            cameraRandomModel.BeatModifier = (BeatModifierModel)BeatModifier.GetModel();
-            cameraRandomModel.PingPong = (BooleanValueModel)PingPong.GetModel();
-            cameraRandomModel.Axis = (GenericValueModel<CameraAxis>)Axis.GetModel();
-            cameraRandomModel.Easing = (EasingModel)Easing.GetModel();
-            cameraRandomModel.Width = (FloatValueModel)Width.GetModel();
-
-            return cameraRandomModel;
-        }
-
         public void Dispose()
         {
 

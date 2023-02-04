@@ -1,10 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Windows.Input;
 using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -12,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels
 {
-    public class LightEntity : ObservableObject, IEntity, IPrefab
+    public partial class LightEntity : ObservableObject, IEntity, IPrefab
     {
         public LightEntity(LightEntityModel lightEntityModel, CompositionService compositionService)
         {
@@ -49,48 +47,15 @@ namespace CMiX.Core.Presentation.ViewModels
         public BooleanValue Visibility { get; set; }
 
 
+        [ObservableProperty]
+        private bool isRenaming;
 
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
+        [ObservableProperty]
+        private string name;
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
+        [ObservableProperty]
+        private bool isSelected;
 
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
-
-
-        public IModel GetModel()
-        {
-            LightEntityModel lightEntityModel = new LightEntityModel();
-
-            lightEntityModel.Name = Name;
-            lightEntityModel.ID = ID;
-
-            lightEntityModel.LightColor = (ColorSelectorModel)LightColor.GetModel();
-            lightEntityModel.Position = (Vector3Model)Position.GetModel();
-            lightEntityModel.Target = (Vector3Model)Target.GetModel();
-            lightEntityModel.Radius = (FloatValueModel)Radius.GetModel();
-            lightEntityModel.Angle = (FloatValueModel)Angle.GetModel();
-            lightEntityModel.Softness = (FloatValueModel)Softness.GetModel();
-            lightEntityModel.Intensity = (FloatValueModel)Intensity.GetModel();
-            lightEntityModel.LightTypeSelector = (GenericValueModel<LightType>)LightTypeSelector.GetModel();
-            lightEntityModel.Visibility = (BooleanValueModel)Visibility.GetModel();
-
-            return lightEntityModel;
-        }
 
         public void Dispose()
         {

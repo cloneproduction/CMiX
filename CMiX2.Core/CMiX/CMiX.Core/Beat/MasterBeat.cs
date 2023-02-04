@@ -1,12 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Windows.Input;
-using CMiX.Core.Models;
 using CMiX.Core.Models.Beat;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.Controls;
@@ -54,6 +50,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
         public ICommand TapCommand { get; }
         public CompositionService CompositionService { get; set; }
         public BooleanValue Pause { get; set; }
+
 
         private bool _isSelected;
         public bool IsSelected
@@ -121,7 +118,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
             Period = Periods[Index + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
             OnPropertyChanged("Period");
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(this.GetModel()), MessageType.Out);
+            ControlMessenger.Send<MasterBeatModel>(this);
         }
 
 
@@ -198,24 +195,7 @@ namespace CMiX.Core.Presentation.ViewModels.Beat
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == this.ID && !message.HasReceivedResponse)
-                message.Reply(this);
-        }
-
-
-        public IModel GetModel()
-        {
-            MasterBeatModel model = new MasterBeatModel();
-
-            model.ID = this.ID;
-            model.Period = this.Period;
-            model.Periods = this.Periods;
-            model.BeatIndex = this.BeatIndex;
-
-            model.ResyncModel = (ResyncModel)this.Resync.GetModel();
-            model.Pause = (BooleanValueModel)this.Pause.GetModel();
-
-            return model;
+            ControlMessenger.Receive(this, message);
         }
     }
 }

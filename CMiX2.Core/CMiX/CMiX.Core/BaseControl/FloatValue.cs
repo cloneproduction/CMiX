@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using AutoMapper;
 using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
@@ -16,11 +15,12 @@ namespace CMiX.Core.Presentation.ViewModels
         public FloatValue(FloatValueModel floatValueModel)
         {
             this.ID = floatValueModel.ID;
-            this.Value = floatValueModel.Value;
+            this.value = floatValueModel.Value;
             this.IsActive = true;
         }
 
         public Guid ID { get; set; }
+
 
         [ObservableProperty]
         private float value;
@@ -30,14 +30,6 @@ namespace CMiX.Core.Presentation.ViewModels
             Console.WriteLine("FloatValueChanged = " + value);
             if (IsActive)
                 ControlMessenger.Send<FloatValueModel>(this);
-        }
-
-        public IModel GetModel()
-        {
-            FloatValueModel model = new FloatValueModel();
-            model.ID = this.ID;
-            model.Value = this.Value;
-            return model;
         }
 
         public void Receive(MessageRequestControl message)

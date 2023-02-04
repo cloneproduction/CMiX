@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels.Beat;
 using CMiX.Core.Presentation.ViewModels.Service;
@@ -55,25 +54,6 @@ namespace CMiX.Core.Presentation.ViewModels
             set => SetProperty(ref _isExpanded, value);
         }
 
-
-        public IModel GetModel()
-        {
-            LinearXYZModel linearXYZModel = new LinearXYZModel();
-
-            linearXYZModel.Name = Name;
-            linearXYZModel.ID = ID;
-            linearXYZModel.Visible = (BooleanValueModel)Visible.GetModel();
-
-            linearXYZModel.Width = (FloatValueModel)Width.GetModel();
-            linearXYZModel.CounterModel = (IntegerValueModel)Counter.GetModel();
-            linearXYZModel.BeatModifierModel = (BeatModifierModel)BeatModifier.GetModel();
-            linearXYZModel.DirectionXYZModel = (DirectionXYZModel)DirectionXYZ.GetModel();
-            linearXYZModel.Phase = (FloatValueModel)Phase.GetModel();
-            linearXYZModel.Mode =(GenericValueModel<ModifierMode>)Mode.GetModel();
-            linearXYZModel.TransformTypeSelector = (GenericValueModel<TransformType>)TransformTypeSelector.GetModel();
-
-            return linearXYZModel;
-        }
 
         public void Dispose()
         {
