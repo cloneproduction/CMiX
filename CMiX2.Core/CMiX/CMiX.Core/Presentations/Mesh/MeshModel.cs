@@ -2,8 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
+using CMiX.Core.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 
 namespace CMiX.Core.Presentation.ViewModels

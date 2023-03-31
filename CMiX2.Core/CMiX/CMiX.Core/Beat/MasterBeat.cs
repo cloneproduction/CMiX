@@ -3,12 +3,12 @@
 
 using System.Diagnostics;
 using System.Windows.Input;
-using CMiX.Core.Models.Beat;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.Controls;
 using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;

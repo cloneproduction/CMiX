@@ -3,6 +3,7 @@
 
 using System.Collections.ObjectModel;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Networking.Messenger;
 
 namespace CMiX.Core.Presentation.ViewModels.Network
 {

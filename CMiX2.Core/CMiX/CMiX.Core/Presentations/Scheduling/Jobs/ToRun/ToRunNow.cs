@@ -1,6 +1,5 @@
 ﻿using System;
-using CMiX.Core.Models;
-using CMiX.Core.Models.Scheduling;
+using CMiX.Core.Presentations.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 

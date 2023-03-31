@@ -1,16 +1,13 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
-using System.Linq;
 using System.Windows;
 using System.Windows.Input;
-using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Network;
 using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -76,9 +73,8 @@ namespace CMiX.Core.Presentation.ViewModels
         public void Add(IModifier modifier)
         {
             Modifiers.Add(modifier);
-            var pouet = CompositionService.Mapper.Map<TransformSRTModel>(modifier);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddModifier(this.ID, pouet), MessageType.Out);
-            Console.WriteLine();
+            var model = this.Factory.CreateModel(modifier);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddModifier(this.ID, model), MessageType.Out);
         }
 
 
@@ -95,15 +91,6 @@ namespace CMiX.Core.Presentation.ViewModels
             this.Remove(modifier);
         }
 
-        public IModel GetModel()
-        {
-            ModifierManagerModel modifierManagerModel = new ModifierManagerModel();
-
-            modifierManagerModel.ID = this.ID;
-            modifierManagerModel.Visibility = (BooleanValueModel)Visibility.GetModel();
-
-            return modifierManagerModel;
-        }
 
         public void Receive(MessageRequestControl message)
         {

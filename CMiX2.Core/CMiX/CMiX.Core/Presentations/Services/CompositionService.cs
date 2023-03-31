@@ -4,9 +4,11 @@
 using AutoMapper;
 using CMiX.Core.Mapper;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Services;
+using CMiX.Core.Presentations.Components.Composition;
+using CMiX.Core.Presentations.Components.Entity;
+using CMiX.Core.Presentations.Components.Layer;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Service

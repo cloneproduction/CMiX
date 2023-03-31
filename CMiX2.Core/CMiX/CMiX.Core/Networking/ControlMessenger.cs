@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.Mapper;
-using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 

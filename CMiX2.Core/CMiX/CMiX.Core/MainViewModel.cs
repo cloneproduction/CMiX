@@ -15,9 +15,11 @@ using CommunityToolkit.Mvvm.Messaging;
 using System.Windows.Input;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentations.Transform;
+using CMiX.Core.Presentations.Components.Project;
 
 namespace CMiX.Core.Presentation.ViewModels
-{ 
+{
     public class MainViewModel
     {
         public MainViewModel(IProject project, IMessageService messageService, IMapper mapper)

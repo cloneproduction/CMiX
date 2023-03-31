@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Models;
+using CMiX.Core.Presentations.Modifiers;
 
 namespace CMiX.Core.Presentation.ViewModels.Modifiers
 {
@@ -10,5 +10,6 @@ namespace CMiX.Core.Presentation.ViewModels.Modifiers
     {
         IModifier Create(Type modifierType);
         IModifier Create(IModifierModel modifierModel);
+        IModifierModel CreateModel(IModifier modifier);
     }
 }

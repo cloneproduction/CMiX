@@ -26,7 +26,6 @@ namespace CMiX.Core.Presentation.ViewModels
 
             AssetManager = new AssetManager(dialogService);
 
-            BeatManager = new BeatManager(project);
             SchedulerManager = new SchedulerManager(project, dialogService);
             PlaylistEditor = new PlaylistEditor(project);
             MainMenu = new MainMenu(project, dialogService);
@@ -48,7 +47,7 @@ namespace CMiX.Core.Presentation.ViewModels
 
         public IDialogService DialogService { get; set; }
         public IProject Project { get; set; }
-        public BeatManager BeatManager { get; set; }
+        //public BeatManager BeatManager { get; set; }
         public ServerManager ServerManager { get; set; }
         public PlaylistEditor PlaylistEditor { get; set; }
         public AssetManager AssetManager { get; set; }

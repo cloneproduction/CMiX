@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
-using CMiX.Core.Models;
+using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentation.ViewModels.Assets

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows.Input;
 using CMiX.Core.Models.Scheduler;
-using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentations.Components.Composition;
+using CMiX.Core.Presentations.Components.Project;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

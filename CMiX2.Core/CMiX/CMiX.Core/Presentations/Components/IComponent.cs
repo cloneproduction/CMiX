@@ -4,7 +4,7 @@
 using System;
 using System.Collections.ObjectModel;
 
-namespace CMiX.Core.Presentation.ViewModels.Components
+namespace CMiX.Core.Presentation.Components
 {
     public interface IComponent : IIDObject, IDisposable
     {

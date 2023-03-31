@@ -3,7 +3,7 @@
 
 using System;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentation
 {
     public interface IIDObject
     {

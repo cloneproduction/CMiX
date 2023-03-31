@@ -4,9 +4,9 @@
 using System.IO;
 using System.Windows.Input;
 using Ceras;
-using CMiX.Core.Models;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentations.Components.Project;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;

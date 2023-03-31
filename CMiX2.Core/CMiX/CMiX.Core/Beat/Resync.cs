@@ -3,10 +3,8 @@
 
 using System;
 using System.Windows.Input;
-using CMiX.Core.Models;
-using CMiX.Core.Models.Beat;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentations.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;

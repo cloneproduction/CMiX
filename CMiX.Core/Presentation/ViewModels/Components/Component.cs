@@ -134,8 +134,6 @@ namespace CMiX.Core.Presentation.ViewModels.Components
         public abstract IModel GetModel();
 
 
-
-
         public IPrefab RequestPrefab(Guid id)
         {
             return WeakReferenceMessenger.Default.Send(new MessageRequestPrefab(id), MessageType.Internal).Response;

@@ -2,16 +2,31 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using CMiX.Core.Models;
-using CMiX.Core.Models.BaseControls;
-using CMiX.Core.Models.Beat;
-using CMiX.Core.Models.Component;
+using CMiX.Core.BaseControl;
+using CMiX.Core.Camera;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Presentation.ViewModels.BaseControl;
 using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentations.Beat;
+using CMiX.Core.Presentations.Components.Composition;
+using CMiX.Core.Presentations.Components.Entity;
+using CMiX.Core.Presentations.Components.Layer;
+using CMiX.Core.Presentations.Entities.Lights;
+using CMiX.Core.Presentations.Material;
+using CMiX.Core.Presentations.Modifiers.Transform;
+using CMiX.Core.Presentations.PostFX;
+using CMiX.Core.Presentations.Texturing;
+using CMiX.Core.Presentations.Texturing.Sampling;
+using CMiX.Core.Presentations.Transform;
+using CMiX.Core.Texturing;
+using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Texturing.Sources.BubbleNoise;
+using CMiX.Core.Texturing.Sources.Gradient;
+using CMiX.Core.Texturing.Sources.TypeWriter;
+using CMiX.Core.Texturing.Sources.VideoIn;
+using CMiX.Core.Texturing.Sources.VideoPlayer;
 
 namespace CMiX.Core.Mapper
 {
@@ -20,7 +35,11 @@ namespace CMiX.Core.Mapper
         public MappingProfile()
         {
             CreateMap<Mesh, MeshModel>().ReverseMap();
+
             CreateMap<ModifierManager, ModifierManagerModel>().ReverseMap();
+            CreateMap<Blur, BlurModel>().ReverseMap();
+
+
             CreateMap<Texture, TextureModel>().ReverseMap();
             CreateMap<VideoIn, VideoInModel>().ReverseMap();
             CreateMap<VideoPlayer, VideoPlayerModel>().ReverseMap();

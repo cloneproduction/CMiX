@@ -3,7 +3,8 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Models.Scheduling;
+using CMiX.Core.Presentations.Components.Project;
+using CMiX.Core.Presentations.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 //using MvvmDialogs;

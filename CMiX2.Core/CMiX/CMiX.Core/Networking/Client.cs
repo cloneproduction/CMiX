@@ -4,8 +4,8 @@
 using System;
 using System.Threading.Tasks;
 using Ceras;
-using CMiX.Core.Models;
 using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.Components.Project;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
 

@@ -4,10 +4,10 @@
 using AutoMapper;
 using CMiX.Core.Mapper;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
 using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Modifiers.Message;
+using CMiX.Core.Presentations.Prefab.Message;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Networking.Messages

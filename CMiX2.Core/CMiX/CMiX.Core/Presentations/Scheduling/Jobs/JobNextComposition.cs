@@ -1,7 +1,6 @@
 ﻿using System;
-using CMiX.Core.Models;
-using CMiX.Core.Models.Scheduling;
-using CMiX.Core.Presentation.ViewModels.Components;
+using CMiX.Core.Presentations.Components.Composition;
+using CMiX.Core.Presentations.Scheduling;
 using FluentScheduler;
 
 namespace CMiX.Core.Presentation.ViewModels.Scheduling

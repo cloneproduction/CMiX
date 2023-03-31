@@ -1,10 +1,10 @@
 ﻿using Ceras;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Components;
 using CMiX.Core.Presentation.ViewModels.Prefab;
 using CMiX.Core.Presentation.ViewModels.Scheduling;
 using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentation.ViewModels.Services;
+using CMiX.Core.Presentations.Components.Project;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Console
