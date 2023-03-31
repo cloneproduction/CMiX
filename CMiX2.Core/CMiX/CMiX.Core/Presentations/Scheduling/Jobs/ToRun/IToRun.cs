@@ -4,7 +4,7 @@
 using System;
 using FluentScheduler;
 
-namespace CMiX.Core.Presentation.ViewModels.Scheduling
+namespace CMiX.Core.Presentations.ViewModels.Scheduling
 {
     public interface IToRun
     {

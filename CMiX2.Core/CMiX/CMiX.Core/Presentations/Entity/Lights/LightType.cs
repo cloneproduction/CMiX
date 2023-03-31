@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public enum LightType
     {

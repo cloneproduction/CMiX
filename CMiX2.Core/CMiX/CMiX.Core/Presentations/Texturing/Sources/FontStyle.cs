@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Core.Texturing.Sources.TypeWriter
+namespace CMiX.Core.Presentations.Texturing.Sources
 {
     public enum FontStyle
     {

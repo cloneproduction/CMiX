@@ -2,9 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
-using CMiX.Core.Presentation.Controls;
+using CMiX.Core.Presentations.Controls;
 
-namespace CMiX.Core.Presentation.ViewModels.Beat
+namespace CMiX.Core.Presentations.Beat
 {
     public interface IBeat
     {

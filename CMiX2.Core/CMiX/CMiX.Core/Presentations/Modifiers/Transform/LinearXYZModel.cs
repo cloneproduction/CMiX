@@ -3,7 +3,7 @@
 
 using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.Beat;
 
 namespace CMiX.Core.Presentations.Modifiers.Transform

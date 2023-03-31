@@ -1,11 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Windows.Input;
-using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentations.Prefabs;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public interface IPrefabManager
     {

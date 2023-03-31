@@ -3,15 +3,16 @@
 
 using AutoMapper;
 using CMiX.Core.Mapper;
-using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentation.ViewModels.Services;
-using CMiX.Core.Presentations.Components.Composition;
-using CMiX.Core.Presentations.Components.Entity;
-using CMiX.Core.Presentations.Components.Layer;
+using CMiX.Core.Presentations.Beat;
+using CMiX.Core.Presentations.Components;
+using CMiX.Core.Presentations.Materials;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.Services;
+using CMiX.Core.Presentations.Texturing;
+using CMiX.Core.Presentations.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels.Service
+namespace CMiX.Core.Presentations.Service
 {
     public class CompositionService : ObservableRecipient, IService
     {

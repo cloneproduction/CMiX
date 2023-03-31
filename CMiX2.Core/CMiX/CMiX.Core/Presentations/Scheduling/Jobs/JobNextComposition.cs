@@ -1,9 +1,8 @@
-﻿using System;
-using CMiX.Core.Presentations.Components.Composition;
+﻿using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Scheduling;
 using FluentScheduler;
 
-namespace CMiX.Core.Presentation.ViewModels.Scheduling
+namespace CMiX.Core.Presentations.ViewModels.Scheduling
 {
     public class JobNextComposition : Job
     {

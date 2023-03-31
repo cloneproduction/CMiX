@@ -1,20 +1,17 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.Linq;
 using System.Windows;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.Messaging;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.Presentations.Prefab
+namespace CMiX.Core.Presentations.Prefabs
 {
     public class DraggablePrefabManager<T> :
         PrefabManager<T>,

@@ -4,7 +4,7 @@
 using System;
 using CMiX.Core.Presentations.Modifiers;
 
-namespace CMiX.Core.Presentation.ViewModels.Modifiers
+namespace CMiX.Core.Presentations.ViewModels.Modifiers
 {
     public interface IModifierFactory
     {

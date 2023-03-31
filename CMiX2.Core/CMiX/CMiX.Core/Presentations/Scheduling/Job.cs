@@ -5,7 +5,7 @@ using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
-namespace CMiX.Core.Presentation.ViewModels.Scheduling
+namespace CMiX.Core.Presentations.ViewModels.Scheduling
 {
     public abstract class Job : ObservableObject, IJob
     {

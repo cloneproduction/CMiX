@@ -3,7 +3,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 
 namespace CMiX.Core.Presentations.Modifiers.Transform
 {

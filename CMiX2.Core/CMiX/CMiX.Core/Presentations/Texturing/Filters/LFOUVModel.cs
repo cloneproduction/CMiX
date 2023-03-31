@@ -3,7 +3,7 @@
 
 using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.Animation;
 using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Modifiers.Transform;
@@ -28,7 +28,7 @@ namespace CMiX.Core.Texturing.Filters
 
             PingPong = new BooleanValueModel();
 
-            TransformType = new GenericValueModel<TransformType>(Presentation.ViewModels.TransformType.Translate);
+            TransformType = new GenericValueModel<TransformType>(Presentations.ViewModels.TransformType.Translate);
             Easing = new EasingModel();
 
             From = new FloatValueModel(0.0f);

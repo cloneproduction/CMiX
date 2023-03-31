@@ -1,14 +1,13 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentations.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class BooleanValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {

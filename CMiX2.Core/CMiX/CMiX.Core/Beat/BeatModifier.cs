@@ -3,14 +3,14 @@
 
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Presentations.Beat;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.ViewModels.Beat
+namespace CMiX.Core.Presentations.Beat
 {
     public class BeatModifier : ObservableRecipient, 
         IRecipient<MessageRequestControl>,

@@ -2,13 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Texturing.Sources.BubbleNoise;
-using CMiX.Core.Texturing.Sources.Gradient;
+using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.Texturing.Sources;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class ProceduralSelector : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {

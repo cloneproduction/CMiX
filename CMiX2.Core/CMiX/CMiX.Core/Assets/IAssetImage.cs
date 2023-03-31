@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Core.Presentation.ViewModels.Assets
+namespace CMiX.Core.Presentations.ViewModels.Assets
 {
     public interface IAssetImage : IAsset
     {

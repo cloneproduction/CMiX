@@ -4,13 +4,14 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentations.Prefab.Message;
+using CMiX.Core.Presentations.Components;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.Prefabs.Message;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.Components
+namespace CMiX.Core.Presentations.ViewModels.Components
 {
     public abstract class Component : 
         ObservableRecipient,

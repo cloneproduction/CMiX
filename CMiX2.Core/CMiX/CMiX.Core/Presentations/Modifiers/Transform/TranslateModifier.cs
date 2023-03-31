@@ -3,8 +3,8 @@
 
 using System.Linq;
 using System.Windows.Media.Media3D;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.Beat;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.Modifiers.Transform

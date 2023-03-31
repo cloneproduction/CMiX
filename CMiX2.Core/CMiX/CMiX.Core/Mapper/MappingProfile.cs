@@ -3,30 +3,24 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Camera;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentations.Materials;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Presentations.Beat;
-using CMiX.Core.Presentations.Components.Composition;
-using CMiX.Core.Presentations.Components.Entity;
-using CMiX.Core.Presentations.Components.Layer;
+using CMiX.Core.Presentations.ViewModels.Modifiers;
+using CMiX.Core.Presentations.Beat;
+using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Entities.Lights;
-using CMiX.Core.Presentations.Material;
 using CMiX.Core.Presentations.Modifiers.Transform;
 using CMiX.Core.Presentations.PostFX;
 using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.Texturing.Sampling;
+using CMiX.Core.Presentations.Texturing.Sources;
 using CMiX.Core.Presentations.Transform;
+using CMiX.Core.Presentations.ViewModels.Components;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sources.BubbleNoise;
-using CMiX.Core.Texturing.Sources.Gradient;
-using CMiX.Core.Texturing.Sources.TypeWriter;
-using CMiX.Core.Texturing.Sources.VideoIn;
-using CMiX.Core.Texturing.Sources.VideoPlayer;
 
 namespace CMiX.Core.Mapper
 {

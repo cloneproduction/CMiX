@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using MvvmDialogs;
-using CMiX.Core.Presentation.Views.Dialogs;
+using CMiX.Core.Presentations.Views.Dialogs;
 using System.ComponentModel;
 
 namespace CMiX.Studio.Views.BaseControl

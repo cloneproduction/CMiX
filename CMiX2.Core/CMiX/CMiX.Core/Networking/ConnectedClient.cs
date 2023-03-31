@@ -3,7 +3,7 @@
 
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels.Network
+namespace CMiX.Core.Presentations.Network
 {
     public class ConnectedClient : ObservableObject
     {

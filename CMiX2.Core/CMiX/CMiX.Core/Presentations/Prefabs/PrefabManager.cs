@@ -5,12 +5,14 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Prefabs.Message;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.Prefabs
+namespace CMiX.Core.Presentations.Prefabs
 {
     public class PrefabManager<T> : ObservableRecipient, IPrefabManager, IControl, IRecipient<MessageRequestControl> where T : class, IPrefab
     {

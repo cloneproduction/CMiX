@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Core.Presentation.ViewModels.Beat
+namespace CMiX.Core.Presentations.Beat
 {
     public class BeatResyncEventArgs : EventArgs
     {

@@ -3,19 +3,18 @@
 
 using System.Windows.Media;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentations.Materials;
+using CMiX.Core.Presentations.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.Materials
+namespace CMiX.Core.Presentations.ViewModels
 {
     public partial class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
             this.ID = colorSelectorModel.ID;
-            SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
+            selectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
 
             this.IsActive = true;
         }

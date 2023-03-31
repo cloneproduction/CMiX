@@ -3,7 +3,7 @@
 
 using System.Windows.Controls;
 
-namespace CMiX.Core.Presentation.Views
+namespace CMiX.Core.Presentations.Views
 {
     public partial class FileSelector : UserControl
     {

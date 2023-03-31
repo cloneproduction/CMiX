@@ -4,7 +4,7 @@
 using CMiX.Core.Presentations.Modifiers.Transform;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public partial class TransformSRT : ObservableObject, IControl, IModifier
     {

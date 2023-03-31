@@ -3,7 +3,7 @@
 
 using System.Windows.Media;
 
-namespace CMiX.Core.Presentations.Materials
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class ColorSelectorModel : IModel
     {

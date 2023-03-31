@@ -4,7 +4,7 @@
 using System;
 using CMiX.Core.BaseControl;
 
-namespace CMiX.Core.Texturing.Sources.VideoPlayer
+namespace CMiX.Core.Presentations.Texturing.Sources
 {
     public class VideoPlayerModel : IModel
     {

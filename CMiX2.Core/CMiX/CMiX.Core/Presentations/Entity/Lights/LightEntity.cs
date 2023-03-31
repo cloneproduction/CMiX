@@ -2,13 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
-using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.Entities.Lights;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public partial class LightEntity : ObservableObject, IEntity, IPrefab
     {

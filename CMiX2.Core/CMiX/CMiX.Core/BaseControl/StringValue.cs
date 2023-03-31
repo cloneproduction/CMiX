@@ -4,11 +4,11 @@
 using System;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Network;
+using CMiX.Core.Presentations.Network;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.ViewModels.BaseControl
+namespace CMiX.Core.Presentations.ViewModels.BaseControl
 {
     public class StringValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {

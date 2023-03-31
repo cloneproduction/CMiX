@@ -3,7 +3,7 @@
 
 using CMiX.Core.BaseControl;
 
-namespace CMiX.Core.Presentation.ViewModels.Modifiers
+namespace CMiX.Core.Presentations.ViewModels.Modifiers
 {
     public class ModifierManagerModel : IModel
     {

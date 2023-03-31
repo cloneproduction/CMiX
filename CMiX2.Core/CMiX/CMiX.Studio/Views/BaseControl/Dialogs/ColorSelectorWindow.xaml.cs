@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace CMiX.Core.Presentation.Views.Dialogs
+namespace CMiX.Core.Presentations.Views.Dialogs
 {
     public partial class ColorSelectorWindow : Window
     {

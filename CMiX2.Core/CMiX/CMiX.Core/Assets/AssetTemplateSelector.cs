@@ -4,7 +4,7 @@
 using System.Windows;
 using System.Windows.Controls;
 
-namespace CMiX.Core.Presentation.ViewModels.Assets
+namespace CMiX.Core.Presentations.ViewModels.Assets
 {
     public class AssetTemplateSelector : DataTemplateSelector
     {

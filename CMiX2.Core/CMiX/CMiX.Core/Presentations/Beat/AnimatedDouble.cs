@@ -4,7 +4,7 @@
 using System;
 using System.Windows;
 
-namespace CMiX.Core.Presentation.Controls
+namespace CMiX.Core.Presentations.Controls
 {
     public class AnimatedDouble : DependencyObject
     {

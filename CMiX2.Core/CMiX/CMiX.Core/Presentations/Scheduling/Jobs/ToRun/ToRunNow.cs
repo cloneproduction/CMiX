@@ -3,7 +3,7 @@ using CMiX.Core.Presentations.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using FluentScheduler;
 
-namespace CMiX.Core.Presentation.ViewModels.Scheduling
+namespace CMiX.Core.Presentations.ViewModels.Scheduling
 {
     public class ToRunNow : ObservableObject, IToRun//, IScheduleInterface<Schedule>
     {

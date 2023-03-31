@@ -2,14 +2,14 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.Texturing.Sources.TypeWriter
+namespace CMiX.Core.Presentations.Texturing.Sources
 {
     public class TypeWriter : ObservableRecipient, IControl
     {

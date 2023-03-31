@@ -5,15 +5,16 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentations.Modifiers;
+using CMiX.Core.Presentations.Modifiers.Message;
+using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class ModifierManager : ObservableRecipient, IRecipient<MessageRequestControl>, IControl, IDropTarget, IDragSource
     {

@@ -2,13 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Beat;
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.Texturing.Sampling;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class LFOUV : ObservableObject, IControl, IBeatModifiable, ITextureFilter, IDisposable
     {

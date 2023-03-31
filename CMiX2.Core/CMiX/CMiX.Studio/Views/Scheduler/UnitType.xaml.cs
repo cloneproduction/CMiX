@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX.Core.Presentation.Views.Scheduling
+namespace CMiX.Core.Presentations.Views.Scheduling
 {
     public partial class UnitType : UserControl
     {

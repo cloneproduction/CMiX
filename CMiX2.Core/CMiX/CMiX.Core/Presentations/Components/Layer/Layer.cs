@@ -1,12 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentation.Components;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentation.ViewModels.Service;
 using CMiX.Core.Presentations.Texturing;
-using CMiX.Core.Presentations.Texturing.Mask;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.Texturing;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.Components;
+using CMiX.Core.Presentations.Service;
 
 namespace CMiX.Core.Presentations.Components
 {

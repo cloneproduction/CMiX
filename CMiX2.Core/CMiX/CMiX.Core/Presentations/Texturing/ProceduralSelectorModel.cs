@@ -1,12 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Texturing.Sources.BubbleNoise;
-using CMiX.Core.Texturing.Sources.Gradient;
+using CMiX.Core.Presentations.Texturing.Sources;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class ProceduralSelectorModel : IModel
     {

@@ -3,13 +3,13 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Presentations.Components.Project;
+using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 //using MvvmDialogs;
 
-namespace CMiX.Core.Presentation.ViewModels.Scheduling
+namespace CMiX.Core.Presentations.ViewModels.Scheduling
 {
     public class SchedulerManager : ObservableRecipient
     {
@@ -19,9 +19,6 @@ namespace CMiX.Core.Presentation.ViewModels.Scheduling
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
             PlaylistEditor = new PlaylistEditor(project);
             JobEditor = new JobEditor(project);
-
-            //Messenger.Register(this, MessageType.In);
-
             IsActive = true;
             AddJobCommand = new RelayCommand(AddJob);
             AddItemCommand = new RelayCommand(CreateScheduler);

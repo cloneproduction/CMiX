@@ -3,7 +3,7 @@
 
 using System;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 
 namespace CMiX.Core.Presentations.Modifiers.Message
 {

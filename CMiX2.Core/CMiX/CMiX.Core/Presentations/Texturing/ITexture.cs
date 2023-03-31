@@ -2,13 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Presentation.ViewModels.Assets;
+using CMiX.Core.Presentations.ViewModels.Assets;
 using CMiX.Core.Presentations.Texturing.Sampling;
-using CMiX.Core.Texturing.Sources.TypeWriter;
-using CMiX.Core.Texturing.Sources.VideoIn;
-using CMiX.Core.Texturing.Sources.VideoPlayer;
+using CMiX.Core.Presentations.Texturing.Sources;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public interface ITexture : IIDObject
     {

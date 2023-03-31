@@ -3,7 +3,7 @@
 
 using System;
 
-namespace CMiX.Core.Presentation.Prefab
+namespace CMiX.Core.Presentations.Prefabs
 {
     public class PrefabManagerModel : IModel
     {

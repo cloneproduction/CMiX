@@ -3,12 +3,12 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Presentation.ViewModels.Components;
-using CMiX.Core.Presentations.Components.Project;
+using CMiX.Core.Presentations.Components;
+using CMiX.Core.Presentations.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.Presentation.ViewModels.Beat
+namespace CMiX.Core.Presentations.Beat
 {
     public class BeatManager : ObservableRecipient
     {

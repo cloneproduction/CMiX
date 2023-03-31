@@ -4,7 +4,7 @@
 using CMiX.Core.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels.BaseControl
+namespace CMiX.Core.Presentations.ViewModels.BaseControl
 {
     public class Vector2 : ObservableObject, IControl
     {

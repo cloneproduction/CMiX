@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 
-namespace CMiX.Core.Presentation.Controls
+namespace CMiX.Core.Presentations.Controls
 {
     public class MasterBeatController : Control
     {

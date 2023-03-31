@@ -4,7 +4,7 @@
 using System;
 using CMiX.Core.Networking.Messages;
 
-namespace CMiX.Core.Presentations.Prefab.Message
+namespace CMiX.Core.Presentations.Prefabs.Message
 {
     public class MessageMovePrefab : IMessagePrefab
     {

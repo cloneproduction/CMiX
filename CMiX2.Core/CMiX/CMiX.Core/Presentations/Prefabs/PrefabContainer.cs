@@ -5,7 +5,7 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.Prefabs
+namespace CMiX.Core.Presentations.Prefabs
 {
     public class PrefabContainer : ObservableObject, IPrefabContainer
     {

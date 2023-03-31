@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Core.Presentation.ViewModels.Services
+namespace CMiX.Core.Presentations.Services
 {
     public interface IService
     {

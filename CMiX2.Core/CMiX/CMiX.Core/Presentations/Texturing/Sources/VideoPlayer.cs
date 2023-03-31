@@ -1,12 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Texturing.Sources.VideoPlayer
+namespace CMiX.Core.Presentations.Texturing.Sources
 {
     public class VideoPlayer : ObservableRecipient, IControl
     {

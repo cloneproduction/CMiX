@@ -5,7 +5,7 @@ using System;
 using CMiX.Core.Presentations.PostFX;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class AmbientOcclusion : ObservableObject, IControl
     {

@@ -1,11 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentation.ViewModels.Prefab;
+using CMiX.Core.Presentations.Prefabs;
 
-namespace CMiX.Core.Presentations.Prefab.Message
+namespace CMiX.Core.Presentations.Prefabs.Message
 {
     public class MessageChangePrefab : IMessagePrefab
     {

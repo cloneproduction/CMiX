@@ -2,13 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentations.Material;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.Modifiers;
+using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.PostFX;
 using CMiX.Core.Presentations.Texturing;
-using CMiX.Core.Presentations.Texturing.Mask;
 
 namespace CMiX.Core.Presentations.Components
 {

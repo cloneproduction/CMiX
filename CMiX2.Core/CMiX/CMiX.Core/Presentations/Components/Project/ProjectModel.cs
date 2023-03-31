@@ -4,7 +4,7 @@
 using System.Collections.ObjectModel;
 using CMiX.Core.Assets;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels.Scheduling;
+using CMiX.Core.Presentations.ViewModels.Scheduling;
 using CMiX.Core.Presentations.Scheduling;
 
 namespace CMiX.Core.Presentations.Components

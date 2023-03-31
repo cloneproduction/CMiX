@@ -3,12 +3,12 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Presentations.Components.Project;
+using CMiX.Core.Presentations.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 //using MvvmDialogs;
 
-namespace CMiX.Core.Presentation.ViewModels.Scheduling
+namespace CMiX.Core.Presentations.ViewModels.Scheduling
 {
     public class JobEditor : ObservableObject//, IModalDialogViewModel
     {

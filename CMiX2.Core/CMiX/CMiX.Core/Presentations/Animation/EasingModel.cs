@@ -3,7 +3,7 @@
 
 using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 
 namespace CMiX.Core.Presentations.Animation
 {

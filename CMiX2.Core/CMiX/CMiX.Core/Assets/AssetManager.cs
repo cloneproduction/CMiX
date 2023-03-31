@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.Presentation.ViewModels.Assets
+namespace CMiX.Core.Presentations.ViewModels.Assets
 {
     public class AssetManager : ObservableRecipient, IDropTarget, IDragSource
     {

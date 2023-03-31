@@ -7,7 +7,7 @@ using System.ComponentModel;
 using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels.Assets
+namespace CMiX.Core.Presentations.ViewModels.Assets
 {
     public class AssetDirectory : ObservableObject, IAsset, IDisposable
     {

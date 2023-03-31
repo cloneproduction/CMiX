@@ -3,7 +3,7 @@
 
 using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.Animation;
 using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Texturing.Sampling;

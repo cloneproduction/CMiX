@@ -6,7 +6,7 @@ using CMiX.Core.Mapper;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.ViewModels.Network
+namespace CMiX.Core.Presentations.Network
 {
     public static class ControlMessenger
     {

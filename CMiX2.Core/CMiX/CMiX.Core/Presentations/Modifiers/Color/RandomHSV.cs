@@ -1,9 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Beat;
-using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.Beat;
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.Modifiers.Transform;
 using CommunityToolkit.Mvvm.ComponentModel;
 

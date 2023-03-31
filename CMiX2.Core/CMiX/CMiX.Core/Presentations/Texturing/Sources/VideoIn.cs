@@ -3,11 +3,11 @@
 
 using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
+using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Texturing.Sources.VideoIn
+namespace CMiX.Core.Presentations.Texturing.Sources
 {
     public class VideoIn : ObservableRecipient, IControl
     {

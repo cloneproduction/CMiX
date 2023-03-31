@@ -7,7 +7,7 @@ using CMiX.Core.Presentations.Prefabs.Message;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentation.Prefabs
+namespace CMiX.Core.Presentations.Prefabs
 {
     public class PrefabRepository<T> : ObservableObject, IRecipient<MessageRequestPrefab> where T : IPrefab
     {

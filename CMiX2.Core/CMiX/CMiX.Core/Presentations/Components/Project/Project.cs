@@ -2,12 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using CMiX.Core.Presentation;
-using CMiX.Core.Presentation.ViewModels.Assets;
-using CMiX.Core.Presentation.ViewModels.Components;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentation.ViewModels.Scheduling;
-using CMiX.Core.Presentation.ViewModels.Service;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.ViewModels.Assets;
+using CMiX.Core.Presentations.ViewModels.Components;
+using CMiX.Core.Presentations.ViewModels.Scheduling;
+using CMiX.Core.Presentations.Service;
 
 namespace CMiX.Core.Presentations.Components
 {

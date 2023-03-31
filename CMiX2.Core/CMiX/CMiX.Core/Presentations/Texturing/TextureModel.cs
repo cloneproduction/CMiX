@@ -1,16 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Models.Assets;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.Modifiers;
 using CMiX.Core.Presentations.Texturing.Sampling;
+using CMiX.Core.Presentations.Texturing.Sources;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sources.VideoPlayer;
 
-namespace CMiX.Core.Texturing
+namespace CMiX.Core.Presentations.Texturing
 {
     public class TextureModel : IPrefabModel
     {
@@ -33,8 +32,6 @@ namespace CMiX.Core.Texturing
             TypeWriter = new TypeWriterModel();
             TransformTexture = new TransformTextureModel();
         }
-
-
 
 
         public Guid ID { get; set; }

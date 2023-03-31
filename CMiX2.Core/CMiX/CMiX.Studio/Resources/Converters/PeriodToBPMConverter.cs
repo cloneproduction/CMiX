@@ -6,8 +6,8 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using CMiX.Core.Presentation.Controls;
-using CMiX.Core.Presentation.ViewModels.Beat;
+using CMiX.Core.Presentations.Controls;
+using CMiX.Core.Presentations.Beat;
 
 namespace CMiX.Studio.Converters
 {

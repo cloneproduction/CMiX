@@ -4,7 +4,7 @@
 
 using CMiX.Core.Networking.Messenger;
 
-namespace CMiX.Core.Presentation.ViewModels.Network
+namespace CMiX.Core.Presentations.Network
 {
     public class ServerFactory
     {

@@ -1,12 +1,11 @@
-﻿using System;
-using System.Windows.Input;
-using CMiX.Core.Models.Scheduler;
-using CMiX.Core.Presentations.Components.Composition;
-using CMiX.Core.Presentations.Components.Project;
+﻿using System.Windows.Input;
+using CMiX.Core.Presentations.Components;
+using CMiX.Core.Presentations.Scheduling;
+using CMiX.Core.Presentations.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.Presentation.ViewModels.Scheduling
+namespace CMiX.Core.Presentations.ViewModels.Scheduling
 {
     public class PlaylistEditor : ObservableObject
     {

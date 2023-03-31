@@ -5,10 +5,10 @@ using System;
 using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Media.Animation;
-using CMiX.Core.Presentation.Controls;
+using CMiX.Core.Presentations.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentation.ViewModels
+namespace CMiX.Core.Presentations.ViewModels
 {
     public class BeatAnimations : ObservableObject
     {

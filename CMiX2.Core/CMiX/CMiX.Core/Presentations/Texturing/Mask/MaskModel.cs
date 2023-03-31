@@ -4,13 +4,13 @@
 using System;
 using CMiX.Core.Assets;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Modifiers;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.Modifiers;
 using CMiX.Core.Presentations.Texturing.Sampling;
+using CMiX.Core.Presentations.Texturing.Sources;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sources.VideoPlayer;
 
-namespace CMiX.Core.Presentations.Texturing.Mask
+namespace CMiX.Core.Presentations.Texturing
 {
     public class MaskModel : IModel
     {

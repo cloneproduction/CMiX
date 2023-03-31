@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 
-namespace CMiX.Core.Presentation
+namespace CMiX.Core.Presentations
 {
     public class SortableObservableCollection<T> : ObservableCollection<T>
     {

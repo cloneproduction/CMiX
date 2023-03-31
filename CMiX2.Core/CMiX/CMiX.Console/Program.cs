@@ -1,10 +1,11 @@
 ﻿using Ceras;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentation.ViewModels.Scheduling;
-using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Presentation.ViewModels.Services;
-using CMiX.Core.Presentations.Components.Project;
+using CMiX.Core.Presentations.Components;
+using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.Services;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.Scheduling;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Console

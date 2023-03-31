@@ -2,8 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControl;
-using CMiX.Core.Models.BaseControls;
-using CMiX.Core.Presentations.Material;
+using CMiX.Core.Presentations.ViewModels;
 
 namespace CMiX.Core.Presentations.Texturing.Sampling
 {
