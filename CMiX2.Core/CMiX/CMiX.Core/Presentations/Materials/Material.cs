@@ -6,17 +6,21 @@ using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentations.Materials
 {
-    public class Material : ObservableRecipient, IRecipient<MessageRequestControl>, IPrefab, IDisposable
+    public partial class Material : ObservableRecipient, IRecipient<MessageRequestControl>, IPrefab, IDisposable
     {
         public Material(MaterialModel materialModel, CompositionService compositionService)
         {
             this.ID = materialModel.ID;
-            Name = this.GetType().Name;
+            Name = new StringValue(materialModel.Name);
+            IsSelected = new BooleanValue(materialModel.IsSelected);
+            IsRenaming = new BooleanValue(materialModel.IsRenaming);
+
             CompositionService = compositionService;
 
             Texture = new Texture(materialModel.Texture, compositionService);
@@ -45,49 +49,22 @@ namespace CMiX.Core.Presentations.Materials
         public Texture Texture { get; set; }
         public  TransformSRT TransformSRT { get; set; }
         public ColorSelector Color { get; set; }
-
-
         public Mask Mask { get; set; }
         public GenericValue<MaskChannel> MaskChannelSelector { get; set; }
         public GenericValue<PipelineType> Pipeline { get; set; }
         public GenericValue<TransparencyType> Transparency { get; set; }
         public GenericValue<CullModeType> CullMode { get; set; }
-
         public FloatValue Metalness { get; set; }
         public FloatValue Specularity { get; set; }
         public FloatValue Glossiness { get; set; }
         public FloatValue Alpha { get; set; }
         public BooleanValue IsShadowCaster { get; set; }
+        public StringValue Name { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public BooleanValue IsSelected { get; set; }
 
-
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
-
-        private string _isExpanded;
-        public string IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
-
+        [ObservableProperty]
+        private string isExpanded;
 
         public void Dispose()
         {

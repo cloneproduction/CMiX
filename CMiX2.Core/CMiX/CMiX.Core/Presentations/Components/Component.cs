@@ -7,6 +7,7 @@ using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Prefabs.Message;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -23,11 +24,9 @@ namespace CMiX.Core.Presentations.ViewModels.Components
         public Component()
         {
             IsExpanded = false;
-            Name = this.GetType().Name;
             RenameCommand = new RelayCommand(Rename);
             Components = new ObservableCollection<IComponent>();
-
-            this.IsActive = true;
+            IsActive = true;
         }
 
         public ICommand RenameCommand { get; set; }
@@ -40,26 +39,10 @@ namespace CMiX.Core.Presentations.ViewModels.Components
             set => SetProperty(ref _id, value);
         }
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
+        public StringValue Name { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public BooleanValue IsSelected { get; set; }
 
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
 
         private bool _isExpanded;
         public bool IsExpanded
@@ -99,7 +82,7 @@ namespace CMiX.Core.Presentations.ViewModels.Components
 
         private void Rename()
         {
-            this.IsRenaming = true;
+            this.IsRenaming.Value = true;
         }
 
 

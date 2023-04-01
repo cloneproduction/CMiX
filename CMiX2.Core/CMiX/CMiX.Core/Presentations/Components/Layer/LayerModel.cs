@@ -2,12 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControl;
+using CMiX.Core.Presentations.PostFX;
 using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.ViewModels.Modifiers;
-using CMiX.Core.Presentations.Texturing;
-using CMiX.Core.Presentations.PostFX;
-using CMiX.Core.Presentations.Texturing;
 
 namespace CMiX.Core.Presentations.Components
 {
@@ -16,7 +15,9 @@ namespace CMiX.Core.Presentations.Components
         public LayerModel()
         {
             ID = Guid.NewGuid();
-            Name = "Layer";
+            Name = new StringValueModel("Layer");
+            IsSelected = new BooleanValueModel(false);
+            IsRenaming = new BooleanValueModel(false);
 
             Visibility = new BooleanValueModel();
             IsMask = new BooleanValueModel();
@@ -42,7 +43,7 @@ namespace CMiX.Core.Presentations.Components
         }
 
         public Guid ID { get; set; }
-        public string Name { get; set; }
+        public StringValueModel Name { get; set; }
 
         public FloatValueModel Opacity { get; set; }
         public BooleanValueModel Visibility { get; set; }
@@ -59,5 +60,7 @@ namespace CMiX.Core.Presentations.Components
         public PrefabManagerModel CameraEntityManager { get; internal set; }
         public PrefabManagerModel LightEntityManager { get; internal set; }
         public BooleanValueModel IsMask { get; internal set; }
+        public BooleanValueModel IsRenaming { get; internal set; }
+        public BooleanValueModel IsSelected { get; internal set; }
     }
 }

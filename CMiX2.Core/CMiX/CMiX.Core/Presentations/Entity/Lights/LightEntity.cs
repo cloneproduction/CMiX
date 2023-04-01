@@ -15,8 +15,9 @@ namespace CMiX.Core.Presentations.ViewModels
         public LightEntity(LightEntityModel lightEntityModel, CompositionService compositionService)
         {
             ID = lightEntityModel.ID;
-            Name = this.GetType().Name;
-            IsRenaming = false;
+            Name = new StringValue(lightEntityModel.Name);
+            IsRenaming = new BooleanValue(lightEntityModel.IsRenaming);
+            IsSelected = new BooleanValue(lightEntityModel.IsSelected);
             CompositionService = compositionService;
 
             LightColor = new ColorSelector(lightEntityModel.LightColor);
@@ -29,12 +30,11 @@ namespace CMiX.Core.Presentations.ViewModels
 
             LightTypeSelector = new GenericValue<LightType>(lightEntityModel.LightTypeSelector);
             Visibility = new BooleanValue(lightEntityModel.Visibility);
+            IsSelected = new BooleanValue(lightEntityModel.IsSelected);
+            Name = new StringValue(lightEntityModel.Name);
         }
 
-        public ICommand OpenColorSelectorCommand { get; set; }
-
         public Guid ID { get; set; }
-
         public CompositionService CompositionService { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
         public ColorSelector LightColor { get; set; }
@@ -45,16 +45,9 @@ namespace CMiX.Core.Presentations.ViewModels
         public FloatValue Softness { get; set; }
         public FloatValue Intensity { get; set; }
         public BooleanValue Visibility { get; set; }
-
-
-        [ObservableProperty]
-        private bool isRenaming;
-
-        [ObservableProperty]
-        private string name;
-
-        [ObservableProperty]
-        private bool isSelected;
+        public StringValue Name { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public BooleanValue IsSelected { get; set; }
 
 
         public void Dispose()

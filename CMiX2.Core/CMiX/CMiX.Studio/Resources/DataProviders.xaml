@@ -4,7 +4,12 @@
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentations.ViewModels;assembly=CMiX.Core"
     xmlns:TransformModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Transform;assembly=CMiX.Core"
+    xmlns:Materials="clr-namespace:CMiX.Core.Presentations.Materials;assembly=CMiX.Core"
+    xmlns:Presentations="clr-namespace:CMiX.Core.Presentations;assembly=CMiX.Core"
+    xmlns:Texturing="clr-namespace:CMiX.Core.Presentations.Texturing;assembly=CMiX.Core"
+    xmlns:Modifiers="clr-namespace:CMiX.Core.Presentations.Modifiers;assembly=CMiX.Core"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase">
+    
 
     <ObjectDataProvider x:Key="LightType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
@@ -42,15 +47,15 @@
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
-    <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type TransformModifiers:ModifierMode}">
+    <ObjectDataProvider x:Key="ModifierMode" MethodName="GetValues" ObjectType="{x:Type Modifiers:ModifierMode}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:ModifierMode"/>
+            <x:Type TypeName="Modifiers:ModifierMode"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
     <ObjectDataProvider x:Key="TextureAddressMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:TextureAddressMode"/>
+            <x:Type TypeName="Texturing:TextureAddressMode"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
@@ -68,25 +73,25 @@
 
     <ObjectDataProvider x:Key="FontStyle" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:FontStyle"/>
+            <x:Type TypeName="Presentations:FontStyle"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
     <ObjectDataProvider x:Key="PipelineType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:PipelineType"/>
+            <x:Type TypeName="Materials:PipelineType"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
     <ObjectDataProvider x:Key="TransparencyType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:TransparencyType"/>
+            <x:Type TypeName="Materials:TransparencyType"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
     <ObjectDataProvider x:Key="CullModeType" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:CullModeType"/>
+            <x:Type TypeName="Materials:CullModeType"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
@@ -98,19 +103,19 @@
 
     <ObjectDataProvider x:Key="BlendMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:BlendModeEnum"/>
+            <x:Type TypeName="Texturing:BlendModeEnum"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
     <ObjectDataProvider x:Key="MaskMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:MaskMode"/>
+            <x:Type TypeName="Texturing:MaskMode"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
     <ObjectDataProvider x:Key="MaskChannel" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="ViewModels:MaskChannel"/>
+            <x:Type TypeName="Texturing:MaskChannel"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
     

@@ -25,6 +25,9 @@ namespace CMiX.Core.Presentations.ViewModels
             GenerateBackFace = new BooleanValueModel(true);
             Visibility = new BooleanValueModel(true);
             TransformModifierManager = new ModifierManagerModel();
+            Name = new StringValueModel("Mesh");
+            IsRenaming = new BooleanValueModel(false);
+            IsSelected = new BooleanValueModel(false);
         }
 
         public Guid ID { get; set; }
@@ -39,5 +42,8 @@ namespace CMiX.Core.Presentations.ViewModels
         public BooleanValueModel GenerateBackFace { get; internal set; }
         public BooleanValueModel Visibility { get; internal set; }
         public ModifierManagerModel TransformModifierManager { get; internal set; }
+        public StringValueModel Name { get; internal set; }
+        public BooleanValueModel IsRenaming { get; internal set; }
+        public BooleanValueModel IsSelected { get; internal set; }
     }
 }

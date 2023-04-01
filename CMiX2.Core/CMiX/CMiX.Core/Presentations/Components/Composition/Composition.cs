@@ -2,13 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Prefabs.Message;
-using CMiX.Core.Presentations.Prefabs;
-using CMiX.Core.Presentations.ViewModels;
-using CMiX.Core.Presentations.Beat;
-using CMiX.Core.Presentations.ViewModels.Components;
 using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
+using CMiX.Core.Presentations.ViewModels.Components;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentations.Components
@@ -19,7 +19,9 @@ namespace CMiX.Core.Presentations.Components
         {
             ID = compositionModel.ID;
             CompositionService = compositionService;
-
+            Name = new StringValue(compositionModel.Name);
+            IsSelected = new BooleanValue(compositionModel.IsSelected);
+            IsRenaming = new BooleanValue(compositionModel.IsRenaming);
             OutputSettings = new OutputSettings(compositionModel.OutputSettings, compositionService);
             LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
             TextureModifierManager = new ModifierManager(compositionModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);

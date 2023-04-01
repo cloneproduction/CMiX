@@ -3,6 +3,8 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.Prefabs
@@ -37,9 +39,9 @@ namespace CMiX.Core.Presentations.Prefabs
             }
         }
 
-        public bool IsRenaming
+        public BooleanValue IsRenaming
         {
-            get => Prefab != null ? Prefab.IsRenaming : false;
+            get => Prefab?.IsRenaming;// Prefab != null ? Prefab.IsRenaming.Value : Prefab.IsRenaming;
             set
             {
                 if(Prefab != null)
@@ -47,7 +49,9 @@ namespace CMiX.Core.Presentations.Prefabs
             }
         }
 
-        public string Name
+
+
+        public StringValue Name
         {
             get => Prefab?.Name;
             set
@@ -57,25 +61,15 @@ namespace CMiX.Core.Presentations.Prefabs
             }
         }
 
-        public bool IsSelected
+
+        public BooleanValue IsSelected
         {
-            get => Prefab != null ? Prefab.IsSelected : false;
+            get => Prefab?.IsSelected;// Prefab != null ? Prefab.IsSelected.Value : false;
             set
             {
                 if (Prefab != null)
                     Prefab.IsSelected = value;
             }
         }
-
-        //public IModel GetModel()
-        //{
-        //    PrefabContainerModel prefabSlotModel = new PrefabContainerModel();
-        //    prefabSlotModel.ID = ID;
-
-        //    if (Prefab != null)
-        //        prefabSlotModel.PrefabModel = (IPrefabModel)Prefab.GetModel();
-
-        //    return prefabSlotModel;
-        //}
     }
 }

@@ -2,30 +2,32 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Views="clr-namespace:CMiX.Studio.Views"
                     xmlns:ViewModels="clr-namespace:CMiX.Core.Presentations.ViewModels;assembly=CMiX.Core"
-                    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Color;assembly=CMiX.Core">
+                    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Color;assembly=CMiX.Core"
+                    xmlns:TransformModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Transform;assembly=CMiX.Core"
+                    xmlns:CameraModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Camera;assembly=CMiX.Core">
     
     <!--ENTITY MODIFIERS-->
     <DataTemplate DataType="{x:Type ColorModifiers:RandomHSV}">
         <Views:RandomHSV DataContext="{Binding}"/>
     </DataTemplate>
-                
-    <DataTemplate DataType="{x:Type ViewModels:LinearXYZ}">
+
+    <DataTemplate DataType="{x:Type TransformModifiers:LinearXYZ}">
         <Views:LinearXYZ DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:RandomXYZ}">
+    <DataTemplate DataType="{x:Type TransformModifiers:RandomXYZ}">
         <Views:RandomXYZ DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:LFO}">
+    <DataTemplate DataType="{x:Type TransformModifiers:LFO}">
         <Views:LFO DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:Stepper}">
+    <DataTemplate DataType="{x:Type TransformModifiers:Stepper}">
         <Views:Stepper DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:RandomScale}">
+    <DataTemplate DataType="{x:Type TransformModifiers:RandomScale}">
         <Views:RandomScale DataContext="{Binding}"/>
     </DataTemplate>
 
@@ -46,11 +48,11 @@
     </DataTemplate>
 
     <!--CAMERA MODIFIERS-->
-    <DataTemplate DataType="{x:Type ViewModels:CameraLFO}">
+    <DataTemplate DataType="{x:Type CameraModifiers:CameraLFO}">
         <Views:CameraLFO DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:CameraRandom}">
+    <DataTemplate DataType="{x:Type CameraModifiers:CameraRandom}">
         <Views:CameraRandom DataContext="{Binding}"/>
     </DataTemplate>
 </ResourceDictionary>

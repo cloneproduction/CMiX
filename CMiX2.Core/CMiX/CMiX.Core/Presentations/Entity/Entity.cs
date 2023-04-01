@@ -9,6 +9,7 @@ using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.Modifiers.Transform;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Components
 {
@@ -17,7 +18,9 @@ namespace CMiX.Core.Presentations.Components
         public Entity(EntityModel entityModel, CompositionService compositionService)
         {
             ID = entityModel.ID;
-            name = GetType().Name + ID.ToString();
+            Name = new StringValue(entityModel.Name);
+            IsSelected = new BooleanValue(entityModel.IsSelected);
+            IsRenaming = new BooleanValue(entityModel.IsRenaming);
             CompositionService = compositionService;
 
             TransformSRT = new TransformSRT(entityModel.TransformSRT);
@@ -32,15 +35,9 @@ namespace CMiX.Core.Presentations.Components
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
 
-
-        [ObservableProperty]
-        private string name;
-
-        [ObservableProperty]
-        private bool isRenaming;
-
-        [ObservableProperty]
-        private bool isSelected;
+        public StringValue Name { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public BooleanValue IsSelected { get; set; }
 
 
         public PrefabManager<Material> MaterialManager { get; set; }

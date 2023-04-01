@@ -87,7 +87,7 @@
             <Button 
                 Style="{StaticResource ButtonItemControl}"
                 Command="{Binding CreateCommand}" 
-                CommandParameter="{x:Type ViewModels:RandomXYZ}" 
+                CommandParameter="{x:Type TransformModifiers:RandomXYZ}" 
                 Grid.Column="1"
                 VerticalAlignment="Center" 
                 Width="120" 
@@ -97,7 +97,7 @@
             <Button 
                 Style="{StaticResource ButtonItemControl}"
                 Command="{Binding CreateCommand}" 
-                CommandParameter="{x:Type ViewModels:RandomScale}" 
+                CommandParameter="{x:Type TransformModifiers:RandomScale}" 
                 Grid.Row="1"
                 Grid.Column="0"
                 VerticalAlignment="Center" 
@@ -114,7 +114,7 @@
             <Button 
                 Style="{StaticResource ButtonItemControl}"
                 Command="{Binding CreateCommand}" 
-                CommandParameter="{x:Type ViewModels:LinearXYZ}" 
+                CommandParameter="{x:Type TransformModifiers:LinearXYZ}" 
                 Grid.Column="0"
                 VerticalAlignment="Center" 
                 Width="120" 
@@ -124,7 +124,7 @@
             <Button 
                 Style="{StaticResource ButtonItemControl}"
                 Command="{Binding CreateCommand}" 
-                CommandParameter="{x:Type ViewModels:LFO}" 
+                CommandParameter="{x:Type TransformModifiers:LFO}" 
                 Grid.Column="2"
                 VerticalAlignment="Center" 
                 Width="120" 
@@ -134,7 +134,7 @@
             <Button 
                 Style="{StaticResource ButtonItemControl}"
                 Command="{Binding CreateCommand}" 
-                CommandParameter="{x:Type ViewModels:Stepper}" 
+                CommandParameter="{x:Type TransformModifiers:Stepper}" 
                 Grid.Column="2"
                 VerticalAlignment="Center" 
                 Width="120" 

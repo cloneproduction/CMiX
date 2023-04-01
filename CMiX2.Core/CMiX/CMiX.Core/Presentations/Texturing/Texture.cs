@@ -9,6 +9,7 @@ using CMiX.Core.Presentations.Service;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Texturing
 {
@@ -17,7 +18,9 @@ namespace CMiX.Core.Presentations.Texturing
         public Texture(TextureModel textureModel, CompositionService compositionService)
         {
             this.ID = textureModel.ID;
-            Name = this.GetType().Name;
+            Name = new StringValue(textureModel.Name);
+            IsSelected = new BooleanValue(textureModel.IsSelected);
+            IsRenaming = new BooleanValue(textureModel.IsRenaming);
 
             IsEnabled = new BooleanValue(textureModel.IsEnabled);
             TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);
@@ -50,28 +53,9 @@ namespace CMiX.Core.Presentations.Texturing
             set => SetProperty(ref _isExpanded, value);
         }
 
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
-
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
-
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
-
+        public BooleanValue IsSelected { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public StringValue Name { get; set; }
         public IntegerValue SelectedAssetType { get; set; }
         public TypeWriter TypeWriter { get; set; }
         public VideoIn VideoIn { get; set; }

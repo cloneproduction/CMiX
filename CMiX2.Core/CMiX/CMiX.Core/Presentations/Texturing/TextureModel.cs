@@ -31,6 +31,9 @@ namespace CMiX.Core.Presentations.Texturing
             SamplerState = new SamplerStateModel();
             TypeWriter = new TypeWriterModel();
             TransformTexture = new TransformTextureModel();
+            Name = new StringValueModel("Texture");
+            IsSelected = new BooleanValueModel(false);
+            IsRenaming = new BooleanValueModel(false);
         }
 
 
@@ -47,5 +50,8 @@ namespace CMiX.Core.Presentations.Texturing
         public SamplerStateModel SamplerState { get; internal set; }
         public ProceduralSelectorModel ProceduralSelector { get; internal set; }
         public TransformTextureModel TransformTexture { get; internal set; }
+        public StringValueModel Name { get; internal set; }
+        public BooleanValueModel IsSelected { get; internal set; }
+        public BooleanValueModel IsRenaming { get; internal set; }
     }
 }

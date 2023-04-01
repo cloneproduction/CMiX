@@ -1,12 +1,13 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections.ObjectModel;
+using CMiX.Core.BaseControl;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Components
 {
     public interface IComponentModel : IModel
     {
-        string Name { get; set; }
+        StringValueModel Name { get; set; }
     }
 }

@@ -12,6 +12,7 @@ using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Beat
 {
@@ -50,33 +51,12 @@ namespace CMiX.Core.Presentations.Beat
         public ICommand TapCommand { get; }
         public CompositionService CompositionService { get; set; }
         public BooleanValue Pause { get; set; }
-
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
-
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
-
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
+        public BooleanValue IsSelected { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public StringValue Name { get; set; }
 
         public BeatAnimations BeatAnimations { get; set; }
         public Resync Resync { get; set; }
-
 
         private readonly List<float> tapPeriods;
         private readonly List<float> tapTime;

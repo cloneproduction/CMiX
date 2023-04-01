@@ -161,10 +161,10 @@ namespace CMiX.Core.Presentations.Prefabs
         public PrefabContainer CreatePrefabContainer()
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
-            prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+            prefab.Name.Value = prefab.GetType().Name + "." + nameCount.ToString("000");
             nameCount++;
 
-            prefab.IsSelected = true;
+            prefab.IsSelected.Value = true;
             PrefabRepository?.AddPrefab((T)prefab);
 
             PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel());
@@ -191,10 +191,10 @@ namespace CMiX.Core.Presentations.Prefabs
             if (prefabModel != null)
             {
                 IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
-                prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+                prefab.Name.Value = prefab.GetType().Name + "." + nameCount.ToString("000");
                 nameCount++;
 
-                prefab.IsSelected = true;
+                prefab.IsSelected.Value = true;
                 PrefabRepository?.AddPrefab((T)prefab);
                 ((PrefabContainer)container).Prefab = (T)prefab;
             }
@@ -210,9 +210,9 @@ namespace CMiX.Core.Presentations.Prefabs
         public void AddItemToContainer(PrefabContainer prefabContainer)
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
-            prefab.Name = prefab.GetType().Name + "." + nameCount.ToString("000");
+            prefab.Name.Value = prefab.GetType().Name + "." + nameCount.ToString("000");
             nameCount++;
-            prefab.IsSelected = true;
+            prefab.IsSelected.Value = true;
             PrefabRepository?.AddPrefab((T)prefab);
 
             prefabContainer.Prefab = (T)prefab;
@@ -305,7 +305,7 @@ namespace CMiX.Core.Presentations.Prefabs
             Prefabs.Move(oldIndex, newIndex);
         }
 
-        public void Rename() => SelectedItem.IsRenaming = true;
+        public void Rename() => SelectedItem.IsRenaming.Value = true;
 
         public void Receive(MessageRequestControl message)
         {

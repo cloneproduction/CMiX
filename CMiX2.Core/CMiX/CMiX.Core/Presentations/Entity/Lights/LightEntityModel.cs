@@ -23,10 +23,13 @@ namespace CMiX.Core.Presentations.Entities.Lights
             Intensity = new FloatValueModel(1.0f);
             LightTypeSelector = new GenericValueModel<LightType>(LightType.AmbientLight);
             Visibility = new BooleanValueModel();
+            IsSelected = new BooleanValueModel(false);
+            Name = new StringValueModel("Light " + ID.ToString());
+            IsRenaming = new BooleanValueModel(false);
         }
 
         public Guid ID { get; set; }
-        public string Name { get; set; }
+        public StringValueModel Name { get; set; }
 
         public ColorSelectorModel LightColor { get; set; }
         public Vector3Model Position { get; set; }
@@ -37,5 +40,7 @@ namespace CMiX.Core.Presentations.Entities.Lights
         public FloatValueModel Intensity { get; set; }
         public GenericValueModel<LightType> LightTypeSelector { get; internal set; }
         public BooleanValueModel Visibility { get; internal set; }
+        public BooleanValueModel IsSelected { get; internal set; }
+        public BooleanValueModel IsRenaming { get; set; }
     }
 }

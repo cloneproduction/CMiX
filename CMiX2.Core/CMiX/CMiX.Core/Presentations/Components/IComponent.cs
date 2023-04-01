@@ -3,16 +3,19 @@
 
 using System;
 using System.Collections.ObjectModel;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Components
 {
     public interface IComponent : IIDObject, IDisposable
     {
         ObservableCollection<IComponent> Components { get; set; }
-        bool IsSelected { get; set; }
-        bool IsRenaming { get; set; }
 
-        string Name { get; set; }
+        BooleanValue IsSelected { get; set; }
+        BooleanValue IsRenaming { get; set; }
+        StringValue Name { get; set; }
+
         void AddComponent(IComponent component);
         void RemoveComponent(IComponent component);
         void RemoveComponent(Guid componentID);

@@ -19,9 +19,16 @@ namespace CMiX.Core.Presentations.ViewModels.BaseControl
             IsActive = true;
         }
 
+        public StringValue(string name)
+        {
+            this.name = name;
+        }
+
         public Guid ID { get; set; }
 
         private string _value;
+        private string name;
+
         public string Value
         {
             get => _value;

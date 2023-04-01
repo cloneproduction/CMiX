@@ -3,23 +3,23 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentations.Materials;
-using CMiX.Core.Presentations.Prefabs;
-using CMiX.Core.Presentations.ViewModels;
-using CMiX.Core.Presentations.ViewModels.BaseControl;
-using CMiX.Core.Presentations.Beat;
-using CMiX.Core.Presentations.ViewModels.Modifiers;
+using CMiX.Core.Presentations;
 using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Entities.Lights;
+using CMiX.Core.Presentations.Materials;
+using CMiX.Core.Presentations.Modifiers;
 using CMiX.Core.Presentations.Modifiers.Transform;
 using CMiX.Core.Presentations.PostFX;
+using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.Texturing.Sampling;
 using CMiX.Core.Presentations.Texturing.Sources;
 using CMiX.Core.Presentations.Transform;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Presentations.ViewModels.Components;
-using CMiX.Core.Texturing;
+using CMiX.Core.Presentations.ViewModels.Modifiers;
 using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Mapper
@@ -74,6 +74,9 @@ namespace CMiX.Core.Mapper
             CreateMap<PrefabManager<LightEntity>, PrefabManagerModel>().ReverseMap();
             CreateMap<PrefabManager<Material>, PrefabManagerModel>().ReverseMap();
 
+            CreateMap<IPrefabContainer, PrefabContainerModel>()
+                .Include<PrefabContainer, PrefabContainerModel>();
+
             CreateMap<PrefabContainer, PrefabContainerModel>().ReverseMap();
 
             CreateMap<IPrefab, IPrefabModel>()
@@ -85,6 +88,7 @@ namespace CMiX.Core.Mapper
                 .Include<Material, MaterialModel>()
                 .ReverseMap();
 
+            CreateMap<Component, ComponentModel>().ReverseMap();
             CreateMap<Entity, EntityModel>().ReverseMap();
             CreateMap<Layer, LayerModel>().ReverseMap();
             CreateMap<Composition, CompositionModel>().ReverseMap();

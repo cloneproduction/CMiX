@@ -14,40 +14,28 @@ namespace CMiX.Core.Presentations.ViewModels
         {
             ID = Guid.NewGuid();
             BeatModifierModel = new BeatModifierModel();
-
             FOV = new FloatValueModel();
             FOV.Value = 0.09f;
-
             Distance = new FloatValueModel();
             Distance.Value = -10f;
-
             Yaw = new FloatValueModel(0.0f);
-
             Pitch = new FloatValueModel(0.0f);
-
             Target = new Vector3Model();
-
             FarClip = new FloatValueModel(100f);
             NearClip = new FloatValueModel(0.05f);
-
             Projection = new BooleanValueModel();
             CameraTransformModifierManager = new ModifierManagerModel();
-            Name = "Camera";
+            Name = new StringValueModel("Camera");
         }
 
         public Guid ID { get; set; }
-
-
         public BeatModifierModel BeatModifierModel { get; set; }
-
         public FloatValueModel FOV { get; set; }
         public FloatValueModel Distance { get; set; }
-
         public FloatValueModel Yaw { get; set; }
         public FloatValueModel Pitch { get; set; }
-
         public Vector3Model Target { get; set; }
-        public string Name { get; internal set; }
+        public StringValueModel Name { get; internal set; }
         public FloatValueModel NearClip { get; internal set; }
         public FloatValueModel FarClip { get; internal set; }
         public BooleanValueModel Projection { get; internal set; }

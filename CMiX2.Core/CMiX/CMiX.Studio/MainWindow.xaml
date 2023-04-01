@@ -113,46 +113,6 @@
                     VerticalAlignment="Stretch" 
                     Style="{StaticResource TabControlLayerPanel}">
 
-                    <TabItem Style="{StaticResource TabItemVerticalPanel}">
-
-                        <TabItem.Header>
-                            <Image Margin="8" ToolTip="Assets" Source="{StaticResource LayerScene}" />
-                        </TabItem.Header>
-
-                        <Border Visibility="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="0.4*"/>
-                                    <RowDefinition />
-                                </Grid.RowDefinitions>
-
-                                <Border Grid.Row="1"
-                                    Background="{DynamicResource HighDarkerColor}"
-                                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                                    BorderThickness="0, 2"
-                                    Visibility="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                                    <ComponentViews:Layer 
-                                        Margin="0, 0, 0, 0" 
-                                        DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem.Prefab}"/>
-                                </Border>
-
-                                <Views:LayerManager 
-                                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                                    BorderThickness="0, 2, 0, 0"
-                                    Grid.Row="0"  
-                                    DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager}"/>
-
-                                <GridSplitter 
-                                    Grid.Row="0" 
-                                    VerticalAlignment="Bottom" 
-                                    Margin="0, -4" 
-                                    Height="8" 
-                                    Style="{StaticResource GridSplitter}"/>
-                            </Grid>
-                        </Border>
-
-                    </TabItem>
-
                     <TabItem>
 
                         <TabItem.Header>
@@ -195,6 +155,48 @@
                         </Border>
 
                     </TabItem>
+                    
+                    <TabItem Style="{StaticResource TabItemVerticalPanel}">
+
+                        <TabItem.Header>
+                            <Image Margin="8" ToolTip="Assets" Source="{StaticResource LayerScene}" />
+                        </TabItem.Header>
+
+                        <Border Visibility="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.4*"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="1"
+                                    Background="{DynamicResource HighDarkerColor}"
+                                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                                    BorderThickness="0, 2"
+                                    Visibility="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                    <ComponentViews:Layer 
+                                        Margin="0, 0, 0, 0" 
+                                        DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem.Prefab}"/>
+                                </Border>
+
+                                <Views:LayerManager 
+                                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                                    BorderThickness="0, 2, 0, 0"
+                                    Grid.Row="0"  
+                                    DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager}"/>
+
+                                <GridSplitter 
+                                    Grid.Row="0" 
+                                    VerticalAlignment="Bottom" 
+                                    Margin="0, -4" 
+                                    Height="8" 
+                                    Style="{StaticResource GridSplitter}"/>
+                            </Grid>
+                        </Border>
+
+                    </TabItem>
+
+
 
                     <TabItem>
                         <TabItem.Header>

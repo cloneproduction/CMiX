@@ -12,54 +12,25 @@ namespace CMiX.Core.Presentations.ViewModels
     {
         public Camera(CameraModel cameraModel, CompositionService compositionService)
         {
-            this.ID = cameraModel.ID;
-
-            Name = cameraModel.Name;
+            ID = cameraModel.ID;
+            Name = new StringValue(cameraModel.Name);
             FOV = new FloatValue(cameraModel.FOV);
             Distance = new FloatValue(cameraModel.Distance);
-
             Yaw = new FloatValue(cameraModel.Yaw);
             Pitch = new FloatValue(cameraModel.Pitch);
-
             Target = new Vector3(cameraModel.Target);
-
             NearClip = new FloatValue(cameraModel.NearClip);
             FarClip = new FloatValue(cameraModel.FarClip);
-
             Projection = new BooleanValue(cameraModel.Projection);
-
             CameraTransformModifierManager = new ModifierManager(cameraModel.CameraTransformModifierManager, new CameraTransformModifierFactory(compositionService), compositionService);
         }
-
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
         public ModifierManager CameraTransformModifierManager { get; set; }
-
-
-
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
-        private bool _isSelected;
-        public bool IsSelected
-        {
-            get => _isSelected;
-            set => SetProperty(ref _isSelected, value);
-        }
-
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
-
-
+        public BooleanValue IsSelected { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public StringValue Name { get; set; }
         public FloatValue FOV { get; set; }
         public FloatValue Distance { get; set; }
         public FloatValue Yaw { get; set; }
@@ -68,6 +39,5 @@ namespace CMiX.Core.Presentations.ViewModels
         public FloatValue NearClip { get; set; }
         public FloatValue FarClip { get; set; }
         public BooleanValue Projection { get; set; }
-
     }
 }

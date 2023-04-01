@@ -15,6 +15,9 @@ namespace CMiX.Core.Presentations.Materials
         public MaterialModel()
         {
             ID = Guid.NewGuid();
+            Name = new StringValueModel("Material");
+            IsSelected = new BooleanValueModel(false);
+            IsRenaming = new BooleanValueModel(false);
 
             ColorModel = new ColorSelectorModel();
             Texture = new TextureModel();
@@ -53,5 +56,8 @@ namespace CMiX.Core.Presentations.Materials
         public FloatValueModel Alpha { get; internal set; }
         public BooleanValueModel IsShadowCaster { get; internal set; }
         public GenericValueModel<MaskChannel> MaskChannelSelector { get; internal set; }
+        public StringValueModel Name { get; internal set; }
+        public BooleanValueModel IsSelected { get; internal set; }
+        public BooleanValueModel IsRenaming { get; internal set; }
     }
 }

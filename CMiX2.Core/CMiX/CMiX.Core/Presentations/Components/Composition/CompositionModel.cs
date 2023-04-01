@@ -19,6 +19,9 @@ namespace CMiX.Core.Presentations.Components
             OutputSettings = new OutputSettingsModel();
             TextureModifierManager = new ModifierManagerModel();
             LayerManager = new PrefabManagerModel();
+            Name = new StringValueModel("Composition");
+            IsSelected = new BooleanValueModel(false);
+            IsRenaming = new BooleanValueModel(false);
         }
 
 
@@ -26,12 +29,14 @@ namespace CMiX.Core.Presentations.Components
         public MasterBeatModel MasterBeat { get; set; }
 
 
-        public string Name { get; set; }
+        public StringValueModel Name { get; set; }
         public Guid ID { get; set; }
 
 
         public OutputSettingsModel OutputSettings { get; set; }
         public ModifierManagerModel TextureModifierManager { get; internal set; }
         public PrefabManagerModel LayerManager { get; set; }
+        public BooleanValueModel IsSelected { get; internal set; }
+        public BooleanValueModel IsRenaming { get; internal set; }
     }
 }
