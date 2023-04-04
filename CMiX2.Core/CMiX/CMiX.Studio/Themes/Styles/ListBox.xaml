@@ -69,7 +69,7 @@
                             x:Name="editableTextBox"
                             Foreground="{DynamicResource TextBase}"
                             Height="20" 
-                            Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            Text="{Binding Path=Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                     </Border>
                     

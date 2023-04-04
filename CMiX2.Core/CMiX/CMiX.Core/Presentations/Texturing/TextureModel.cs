@@ -42,16 +42,16 @@ namespace CMiX.Core.Presentations.Texturing
         public ModifierManagerModel TextureModifierManager { get; set; }
         public ModifierManagerModel TextureTransformModifierManager { get; set; }
 
-        public BooleanValueModel IsEnabled { get; internal set; }
+        public BooleanValueModel IsEnabled { get; set; }
         public VideoPlayerModel VideoPlayer { get; set; }
-        public VideoInModel VideoIn { get; internal set; }
-        public IntegerValueModel SelectedAssetType { get; internal set; }
-        public TypeWriterModel TypeWriter { get; internal set; }
-        public SamplerStateModel SamplerState { get; internal set; }
-        public ProceduralSelectorModel ProceduralSelector { get; internal set; }
-        public TransformTextureModel TransformTexture { get; internal set; }
-        public StringValueModel Name { get; internal set; }
-        public BooleanValueModel IsSelected { get; internal set; }
-        public BooleanValueModel IsRenaming { get; internal set; }
+        public VideoInModel VideoIn { get; set; }
+        public IntegerValueModel SelectedAssetType { get; set; }
+        public TypeWriterModel TypeWriter { get; set; }
+        public SamplerStateModel SamplerState { get; set; }
+        public ProceduralSelectorModel ProceduralSelector { get; set; }
+        public TransformTextureModel TransformTexture { get; set; }
+        public StringValueModel Name { get; set; }
+        public BooleanValueModel IsSelected { get; set; }
+        public BooleanValueModel IsRenaming { get; set; }
     }
 }

@@ -20,7 +20,8 @@
         
         <Panels:IndentedExpander 
             Header="Surface" 
-            Indentation="16">
+            Indentation="16"
+            IsExpanded="{Binding IsExpanded}">
             
             <StackPanel Margin="8">
 
@@ -36,8 +37,8 @@
                 
                 <BaseControls:ColorSelector 
                     Caption="Base Color" 
-                    SelectedColor="{Binding Color.SelectedColor}"
-                    ViewModel="{Binding Color}"/>
+                    SelectedColor="{Binding BaseColor.SelectedColor}"
+                    ViewModel="{Binding BaseColor}"/>
 
                 <BaseControls:ComboBox    
                     Margin="0, 8"

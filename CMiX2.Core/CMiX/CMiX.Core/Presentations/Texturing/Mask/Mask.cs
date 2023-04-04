@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.Texturing
 {
-    public class Mask : ObservableObject, ITexture
+    public partial class Mask : ObservableObject, ITexture
     {
         public Mask(MaskModel maskModel, CompositionService compositionService)
         {
@@ -27,6 +27,7 @@ namespace CMiX.Core.Presentations.Texturing
             SelectedAssetType = new IntegerValue(maskModel.SelectedAssetType);
             TypeWriter = new TypeWriter(maskModel.TypeWriter, compositionService);
             ProceduralSelector = new ProceduralSelector(maskModel.ProceduralSelector, compositionService);
+
             TransformTexture = new TransformTexture(maskModel.TransformTexture, compositionService);
         }
 
@@ -45,11 +46,7 @@ namespace CMiX.Core.Presentations.Texturing
         public ProceduralSelector ProceduralSelector { get; set; }
 
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
     }
 }

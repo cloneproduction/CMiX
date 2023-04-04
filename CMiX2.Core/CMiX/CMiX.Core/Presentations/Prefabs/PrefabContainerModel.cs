@@ -11,16 +11,22 @@ namespace CMiX.Core.Presentations.Prefabs
         {
             ID = id;
             IsSelected = new BooleanValueModel(false);
+            IsRenaming = new BooleanValueModel(false);
+            Name = new StringValueModel();
         }
 
         public PrefabContainerModel()
         {
             ID = Guid.NewGuid();
             IsSelected = new BooleanValueModel(false);
+            IsRenaming= new BooleanValueModel(false);
+            Name = new StringValueModel();
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel IsSelected { get; internal set; }
+        public BooleanValueModel IsSelected { get; set; }
+        public BooleanValueModel IsRenaming { get; set; }
+        public StringValueModel Name { get; set; }
         public IPrefabModel Prefab { get; set; }
     }
 }

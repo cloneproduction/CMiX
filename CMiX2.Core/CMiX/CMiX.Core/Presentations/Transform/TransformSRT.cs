@@ -13,7 +13,6 @@ namespace CMiX.Core.Presentations.ViewModels
         {
             isExpanded = true;
             ID = transformModel.ID;
-
             Visible = new BooleanValue(transformModel.Visible);
             Uniform = new FloatValue(transformModel.Uniform);
             Translate = new Translate(transformModel.Translate);
@@ -21,7 +20,6 @@ namespace CMiX.Core.Presentations.ViewModels
             Rotation = new Rotation(transformModel.Rotation);
             Mode = new GenericValue<ModifierMode>(transformModel.Mode);
         }
-
 
         public Guid ID { get; set; }
         public FloatValue Uniform { get; set; }
@@ -35,10 +33,9 @@ namespace CMiX.Core.Presentations.ViewModels
         [ObservableProperty]
         private bool isExpanded;
 
-
         public void Dispose()
         {
-
+            throw new NotImplementedException();
         }
     }
 }

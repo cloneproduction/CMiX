@@ -12,7 +12,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentations.Materials
 {
-    public partial class Material : ObservableRecipient, IRecipient<MessageRequestControl>, IPrefab, IDisposable
+    public partial class Material : ObservableRecipient, IPrefab, IDisposable
     {
         public Material(MaterialModel materialModel, CompositionService compositionService)
         {
@@ -24,6 +24,7 @@ namespace CMiX.Core.Presentations.Materials
             CompositionService = compositionService;
 
             Texture = new Texture(materialModel.Texture, compositionService);
+            BaseColor = new ColorSelector(materialModel.BaseColor);
 
             Mask = new Mask(materialModel.Mask, compositionService);
             MaskChannelSelector = new GenericValue<MaskChannel>(materialModel.MaskChannelSelector);
@@ -38,17 +39,15 @@ namespace CMiX.Core.Presentations.Materials
             Alpha = new FloatValue(materialModel.Alpha);
             IsShadowCaster = new BooleanValue(materialModel.IsShadowCaster);
 
+            isExpanded = false;
             IsActive = true;
-
-            Color = new ColorSelector(materialModel.ColorModel);
         }
 
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
         public Texture Texture { get; set; }
-        public  TransformSRT TransformSRT { get; set; }
-        public ColorSelector Color { get; set; }
+        public ColorSelector BaseColor { get; set; }
         public Mask Mask { get; set; }
         public GenericValue<MaskChannel> MaskChannelSelector { get; set; }
         public GenericValue<PipelineType> Pipeline { get; set; }
@@ -64,17 +63,11 @@ namespace CMiX.Core.Presentations.Materials
         public BooleanValue IsSelected { get; set; }
 
         [ObservableProperty]
-        private string isExpanded;
+        private bool isExpanded;
 
         public void Dispose()
         {
 
-        }
-
-        public void Receive(MessageRequestControl message)
-        {
-            if (message.ID == this.ID && !message.HasReceivedResponse)
-                message.Reply(this);
         }
     }
 }

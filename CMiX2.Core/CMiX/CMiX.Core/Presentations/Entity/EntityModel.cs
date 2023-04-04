@@ -29,15 +29,13 @@ namespace CMiX.Core.Presentations.Components
             ID = id;
         }
 
-        public StringValueModel Name { get; set; }
         public Guid ID { get; set; }
-
-
-        public TransformSRTModel TransformSRT { get; internal set; }
-        public MeshModel Mesh { get; internal set; }
-        public PrefabManagerModel MaterialManager { get; internal set; }
-        public ModifierManagerModel ModifierManager { get; internal set; }
-        public BooleanValueModel IsSelected { get; internal set; }
-        public BooleanValueModel IsRenaming { get; internal set; }
+        public StringValueModel Name { get; set; }
+        public TransformSRTModel TransformSRT { get; set; }
+        public MeshModel Mesh { get; set; }
+        public PrefabManagerModel MaterialManager { get; set; }
+        public ModifierManagerModel ModifierManager { get; set; }
+        public BooleanValueModel IsSelected { get; set; }
+        public BooleanValueModel IsRenaming { get; set; }
     }
 }

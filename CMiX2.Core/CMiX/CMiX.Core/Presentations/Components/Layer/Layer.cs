@@ -61,7 +61,6 @@ namespace CMiX.Core.Presentations.Components
         public ColorSelector BackgroundColor { get; set; }
 
 
-
         private int _selectedTabItemIndex;
         public int SelectedTabItemIndex
         {

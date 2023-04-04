@@ -63,7 +63,9 @@
                     DataContext="{Binding }"
                     Grid.Row="3" 
                     ItemsSource="{Binding Prefabs}"
-                    SelectedItem="{Binding SelectedItem}"/>
+                    SelectedItem="{Binding SelectedItem}">
+
+                </ListBox>
 
             </DockPanel>
 

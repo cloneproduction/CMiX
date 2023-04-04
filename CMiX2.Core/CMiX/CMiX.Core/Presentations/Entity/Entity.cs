@@ -26,7 +26,6 @@ namespace CMiX.Core.Presentations.Components
             TransformSRT = new TransformSRT(entityModel.TransformSRT);
             Mesh = new Mesh(entityModel.Mesh, compositionService);
             MaterialManager = new PrefabManager<Material>(entityModel.MaterialManager, compositionService);
-
             ModifierManager = new ModifierManager(entityModel.ModifierManager, new ModifierFactory(compositionService), compositionService);
             IsActive = true;
         }
@@ -34,12 +33,9 @@ namespace CMiX.Core.Presentations.Components
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }
-
         public StringValue Name { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
-
-
         public PrefabManager<Material> MaterialManager { get; set; }
         public TransformSRT TransformSRT { get; set; }
         public ModifierManager ModifierManager { get; set; }

@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class Translate : ObservableObject, ITransformModifier
+    public class Translate : ObservableObject, IModifier
     {
         public Translate(TranslateModel translateModel) 
         {

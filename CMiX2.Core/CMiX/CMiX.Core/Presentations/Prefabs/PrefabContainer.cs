@@ -14,11 +14,14 @@ namespace CMiX.Core.Presentations.Prefabs
         public PrefabContainer(PrefabContainerModel prefabContainerModel)
         {
             this.ID = prefabContainerModel.ID;
+            IsRenaming = new BooleanValue(prefabContainerModel.IsRenaming);
+            IsSelected = new BooleanValue(prefabContainerModel.IsSelected);
+            Name = new StringValue(prefabContainerModel.Name);
         }
 
 
         public event PropertyChangedEventHandler PrefabChanged;
-        protected void OnPrefabChanged([CallerMemberName] string prefab = null)
+        protected void OnPrefabChanged([CallerMemberName] string? prefab = null)
         {
             PrefabChanged?.Invoke(this, new PropertyChangedEventArgs(prefab));
         }
@@ -41,7 +44,7 @@ namespace CMiX.Core.Presentations.Prefabs
 
         public BooleanValue IsRenaming
         {
-            get => Prefab?.IsRenaming;// Prefab != null ? Prefab.IsRenaming.Value : Prefab.IsRenaming;
+            get => Prefab.IsRenaming;
             set
             {
                 if(Prefab != null)
@@ -53,7 +56,7 @@ namespace CMiX.Core.Presentations.Prefabs
 
         public StringValue Name
         {
-            get => Prefab?.Name;
+            get => Prefab.Name;
             set
             {
                 if (Prefab != null)
@@ -64,7 +67,7 @@ namespace CMiX.Core.Presentations.Prefabs
 
         public BooleanValue IsSelected
         {
-            get => Prefab?.IsSelected;// Prefab != null ? Prefab.IsSelected.Value : false;
+            get => Prefab.IsSelected;
             set
             {
                 if (Prefab != null)

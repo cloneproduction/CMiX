@@ -2,11 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControl;
-using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.Prefabs;
+using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.ViewModels.Modifiers;
-using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Presentations.Materials
 {
@@ -19,7 +18,7 @@ namespace CMiX.Core.Presentations.Materials
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
 
-            ColorModel = new ColorSelectorModel();
+            BaseColor = new ColorSelectorModel("#ffff00ff");
             Texture = new TextureModel();
             Mask = new MaskModel();
             MaskChannelSelector = new GenericValueModel<MaskChannel>(MaskChannel.Luma);
@@ -40,7 +39,7 @@ namespace CMiX.Core.Presentations.Materials
 
         public Guid ID { get; set; }
 
-        public ColorSelectorModel ColorModel { get; set; }
+        public ColorSelectorModel BaseColor { get; set; }
 
         public TextureModel Texture { get; set; }
         public MaskModel Mask { get; set; }

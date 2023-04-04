@@ -15,10 +15,10 @@ namespace CMiX.Core.Presentations.ViewModels
         {
             ID = transformTextureModel.ID;
             Name = transformTextureModel.Name;
-            IsExpanded = true;
             Visible = new BooleanValue(transformTextureModel.Visible);
             SamplerState = new SamplerState(transformTextureModel.SamplerStateModel, compositionService);
             Transform2D = new Transform2D(transformTextureModel.Transform2D, compositionService);
+            isExpanded = true;
         }
 
         public Guid ID { get; set; }

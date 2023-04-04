@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Media;
-
 namespace CMiX.Core.Presentations.ViewModels
 {
     public class ColorSelectorModel : IModel
@@ -10,12 +8,12 @@ namespace CMiX.Core.Presentations.ViewModels
         public ColorSelectorModel()
         {
             ID = Guid.NewGuid();
-            SelectedColor = "#FFFFFFFF";// (Color)ColorConverter.ConvertFromString("#FFFFFFFF");
+            SelectedColor = "#FFFFFFFF";
         }
 
         public ColorSelectorModel(string ColorHEX) : this()
         {
-            SelectedColor = ColorHEX;// (Color)ColorConverter.ConvertFromString(ColorHEX);
+            SelectedColor = ColorHEX;
         }
 
         public Guid ID { get; set; }

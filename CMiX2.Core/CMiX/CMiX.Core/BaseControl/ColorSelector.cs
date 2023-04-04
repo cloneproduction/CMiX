@@ -9,28 +9,30 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public partial class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
+    public class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
         public ColorSelector(ColorSelectorModel colorSelectorModel)
         {
-            this.ID = colorSelectorModel.ID;
-            selectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
-
-            this.IsActive = true;
+            ID = colorSelectorModel.ID;
+            SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
+            IsActive = true;
         }
 
 
         public Guid ID { get; set; }
 
-        [ObservableProperty]
-        private Color selectedColor;
 
-
-        partial void OnSelectedColorChanged(Color color)
+        private Color _selectedColor;
+        public Color SelectedColor
         {
-            Console.WriteLine("SelectedColorChanged = " + color);
-            if (IsActive)
-                ControlMessenger.Send<ColorSelectorModel>(this);
+            get => _selectedColor;
+            set
+            {
+                SetProperty(ref _selectedColor, value);
+                if (IsActive)
+                    ControlMessenger.Send<ColorSelectorModel>(this);
+                Console.WriteLine(value);
+            }
         }
 
         public void Receive(MessageRequestControl message)
