@@ -15,22 +15,22 @@ namespace CMiX.Core.Presentations.Components
         public Layer(LayerModel layerModel, CompositionService compositionService)
         {
             ID = layerModel.ID;
-            Name = new StringValue(layerModel.Name);
-            IsRenaming = new BooleanValue(layerModel.IsRenaming);
-            IsSelected = new BooleanValue(layerModel.IsSelected);
+            Name = new StringValue(layerModel.Name, compositionService);
+            IsRenaming = new BooleanValue(layerModel.IsRenaming, compositionService);
+            IsSelected = new BooleanValue(layerModel.IsSelected, compositionService);
 
             CompositionService = compositionService;
 
-            Visibility = new BooleanValue(layerModel.Visibility);
-            IsMask = new BooleanValue(layerModel.IsMask);
+            Visibility = new BooleanValue(layerModel.Visibility, compositionService);
+            IsMask = new BooleanValue(layerModel.IsMask, compositionService);
 
-            Opacity = new FloatValue(layerModel.Opacity);
+            Opacity = new FloatValue(layerModel.Opacity, compositionService);
 
             BackgroundColor = new ColorSelector(layerModel.BackgroundColor);
 
-            MaskChannel = new GenericValue<MaskChannel>(layerModel.MaskChannelModel);
-            BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendModeModel);
-            MaskMode = new GenericValue<MaskMode>(layerModel.MaskModeModel);
+            MaskChannel = new GenericValue<MaskChannel>(layerModel.MaskChannelModel, compositionService);
+            BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendModeModel, compositionService);
+            MaskMode = new GenericValue<MaskMode>(layerModel.MaskModeModel, compositionService);
 
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
 

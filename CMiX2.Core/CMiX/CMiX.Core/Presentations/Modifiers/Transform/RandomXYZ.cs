@@ -16,27 +16,27 @@ namespace CMiX.Core.Presentations.Modifiers.Transform
             ID = randomXYZModel.ID;
             Name = randomXYZModel.Name;
 
-            Counter = new IntegerValue(randomXYZModel.CounterModel);
-            Visible = new BooleanValue(randomXYZModel.Visible);
+            Counter = new IntegerValue(randomXYZModel.CounterModel, compositionService);
+            Visible = new BooleanValue(randomXYZModel.Visible, compositionService);
 
-            Easing = new Easing(randomXYZModel.EasingModel);
+            Easing = new Easing(randomXYZModel.EasingModel, compositionService);
             BeatModifier = new BeatModifier(randomXYZModel.BeatModifierModel, compositionService);
 
-            Mode = new GenericValue<ModifierMode>(randomXYZModel.Mode);
+            Mode = new GenericValue<ModifierMode>(randomXYZModel.Mode, compositionService);
 
-            RandomizeLocation = new BooleanValue(randomXYZModel.RandomizeLocation);
+            RandomizeLocation = new BooleanValue(randomXYZModel.RandomizeLocation, compositionService);
             RandomizeLocation.Value = true;
-            Location = new Vector3(randomXYZModel.Location);
+            Location = new Vector3(randomXYZModel.Location, compositionService);
 
-            RandomizeScale = new BooleanValue(randomXYZModel.RandomizeScale);
+            RandomizeScale = new BooleanValue(randomXYZModel.RandomizeScale, compositionService);
             RandomizeScale.Value = true;
-            Scale = new Vector3(randomXYZModel.Scale);
+            Scale = new Vector3(randomXYZModel.Scale, compositionService);
 
-            RandomizeRotation = new BooleanValue(randomXYZModel.RandomizeScale);
+            RandomizeRotation = new BooleanValue(randomXYZModel.RandomizeScale, compositionService);
             RandomizeRotation.Value = true;
-            Rotation = new Vector3(randomXYZModel.Rotation);
+            Rotation = new Vector3(randomXYZModel.Rotation, compositionService);
 
-            Spread = new BooleanValue(randomXYZModel.Spread);
+            Spread = new BooleanValue(randomXYZModel.Spread, compositionService);
 
             IsExpanded = true;
         }

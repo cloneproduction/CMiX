@@ -4,6 +4,7 @@
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -12,14 +13,16 @@ namespace CMiX.Core.Presentations.ViewModels
     public partial class FloatValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
 
-        public FloatValue(FloatValueModel floatValueModel)
+        public FloatValue(FloatValueModel floatValueModel, CompositionService compositionService)
         {
             ID = floatValueModel.ID;
             value = floatValueModel.Value;
+            ControlMessenger = compositionService.ControlMessenger;
             IsActive = true;
         }
 
         public Guid ID { get; set; }
+        private ControlMessenger ControlMessenger { get; set; }
 
         [ObservableProperty]
         private float value;

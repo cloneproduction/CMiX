@@ -83,7 +83,6 @@ namespace CMiX.Core.Services
                 Console.WriteLine("Server " + e.Client.IpPort + " connected");
                 ServerIsConnected = true;
             }
-
         }
 
 

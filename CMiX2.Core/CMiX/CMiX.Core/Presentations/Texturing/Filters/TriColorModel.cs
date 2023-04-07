@@ -15,9 +15,9 @@ namespace CMiX.Core.Texturing.Filters
 
             Visible = new BooleanValueModel(true);
             Control = new FloatValueModel(1.0f);
-            ColorA = new ColorSelectorModel();
-            ColorB = new ColorSelectorModel();
-            ColorC = new ColorSelectorModel();
+            ColorA = new ColorSelectorModel("#FFFF00FF");
+            ColorB = new ColorSelectorModel("#FFFF00FF");
+            ColorC = new ColorSelectorModel("#FFFF00FF");
             Smooth = new FloatValueModel();
             Center = new FloatValueModel();
             SingleChannel = new BooleanValueModel();

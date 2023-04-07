@@ -6,6 +6,7 @@ using System.Windows.Input;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -13,27 +14,16 @@ namespace CMiX.Core.Presentations.ViewModels
 {
     public class Integer2 : ObservableRecipient, IControl
     {
-        public Integer2(Integer2Model integer2Model)
+        public Integer2(Integer2Model integer2Model, CompositionService compositionService)
         {
             ID = integer2Model.ID;
-            X = new IntegerValue(integer2Model.X);
-            Y = new IntegerValue(integer2Model.Y);
+            X = new IntegerValue(integer2Model.X, compositionService);
+            Y = new IntegerValue(integer2Model.Y, compositionService);
             IsActive = true;
         }
 
         public Guid ID { get; set; }
-
         public IntegerValue X { get; set; }
         public IntegerValue Y { get; set; }
-
-
-        public IModel GetModel()
-        {
-            Integer2Model model = new Integer2Model();
-            model.ID = this.ID;
-            model.X = (IntegerValueModel)X.GetModel();
-            model.Y = (IntegerValueModel)Y.GetModel();
-            return model;
-        }
     }
 }

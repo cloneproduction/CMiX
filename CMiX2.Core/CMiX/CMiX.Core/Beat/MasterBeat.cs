@@ -22,6 +22,7 @@ namespace CMiX.Core.Presentations.Beat
         {
             this.ID = masterBeatModel.ID;
             CompositionService = compositionService;
+            ControlMessenger = compositionService.ControlMessenger;
 
             Index = 0;
             Period = 1000;
@@ -31,7 +32,7 @@ namespace CMiX.Core.Presentations.Beat
 
             BeatAnimations = new BeatAnimations();
             Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
-            Pause = new BooleanValue(masterBeatModel.Pause);
+            Pause = new BooleanValue(masterBeatModel.Pause, compositionService);
 
             UpdatePeriods(Period);
             SetAnimatedDouble();
@@ -43,7 +44,7 @@ namespace CMiX.Core.Presentations.Beat
             IsActive = true;
         }
 
-
+        private ControlMessenger ControlMessenger { get; set; }
         public Guid ID { get; set; }
         public ICommand ResetCommand { get;  }
         public ICommand MultiplyCommand { get;  }

@@ -5,6 +5,7 @@ using System;
 using System.Windows.Input;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -13,7 +14,7 @@ namespace CMiX.Core.Presentations.ViewModels
 {
     public class Button : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public Button(ButtonModel buttonModel)
+        public Button(ButtonModel buttonModel, CompositionService compositionService)
         {
             this.ID = buttonModel.ID;
             ClickCommand = new RelayCommand(OnClick);

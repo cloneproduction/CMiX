@@ -4,6 +4,7 @@
 using System.Windows.Media;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -11,14 +12,15 @@ namespace CMiX.Core.Presentations.ViewModels
 {
     public class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public ColorSelector(ColorSelectorModel colorSelectorModel)
+        public ColorSelector(ColorSelectorModel colorSelectorModel, CompositionService compositionService)
         {
             ID = colorSelectorModel.ID;
             SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
+            ControlMessenger = compositionService.ControlMessenger;
             IsActive = true;
         }
 
-
+        private ControlMessenger ControlMessenger { get; set; }
         public Guid ID { get; set; }
 
 

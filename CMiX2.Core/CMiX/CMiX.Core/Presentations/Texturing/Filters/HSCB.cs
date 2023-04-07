@@ -7,19 +7,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class HSCB : ObservableObject, ITextureFilter
+    public partial class HSCB : ObservableObject, ITextureFilter
     {
         public HSCB(HSCBModel HSCBModel)
         {
             this.ID = HSCBModel.ID;
-
             Name = HSCBModel.Name;
             Visible = new BooleanValue(HSCBModel.Visible);
-            Hue = new FloatValue(HSCBModel.HueModel);
-            Saturation = new FloatValue(HSCBModel.SaturationModel);
-            Contrast = new FloatValue(HSCBModel.ConstrastModel);
-            Brightness = new FloatValue(HSCBModel.BrightnessModel);
-            IsExpanded = true;
+            Hue = new FloatValue(HSCBModel.Hue);
+            Saturation = new FloatValue(HSCBModel.Saturation);
+            Contrast = new FloatValue(HSCBModel.Contrast);
+            Brightness = new FloatValue(HSCBModel.Brightness);
+            isExpanded = true;
         }
 
         public Guid ID { get; set; }
@@ -33,20 +32,11 @@ namespace CMiX.Core.Presentations.ViewModels
         public FloatValue Control { get; set; }
 
 
-        private bool _enabled;
-        public bool Enabled
-        {
-            get => _enabled;
-            set => SetProperty(ref _enabled, value);
-        }
+        [ObservableProperty]
+        private bool enabled;
 
-
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
 
 
         public void Dispose()

@@ -17,9 +17,9 @@ namespace CMiX.Core.Presentations.Materials
         public Material(MaterialModel materialModel, CompositionService compositionService)
         {
             this.ID = materialModel.ID;
-            Name = new StringValue(materialModel.Name);
-            IsSelected = new BooleanValue(materialModel.IsSelected);
-            IsRenaming = new BooleanValue(materialModel.IsRenaming);
+            Name = new StringValue(materialModel.Name, compositionService);
+            IsSelected = new BooleanValue(materialModel.IsSelected, compositionService);
+            IsRenaming = new BooleanValue(materialModel.IsRenaming, compositionService);
 
             CompositionService = compositionService;
 
@@ -33,16 +33,15 @@ namespace CMiX.Core.Presentations.Materials
             CullMode = new GenericValue<CullModeType>(materialModel.CullMode);
             Transparency = new GenericValue<TransparencyType>(materialModel.Transparency);
 
-            Metalness = new FloatValue(materialModel.Metalness);
-            Specularity = new FloatValue(materialModel.Specularity);
-            Glossiness = new FloatValue(materialModel.Glossiness);
-            Alpha = new FloatValue(materialModel.Alpha);
-            IsShadowCaster = new BooleanValue(materialModel.IsShadowCaster);
+            Metalness = new FloatValue(materialModel.Metalness, compositionService);
+            Specularity = new FloatValue(materialModel.Specularity, compositionService);
+            Glossiness = new FloatValue(materialModel.Glossiness, compositionService);
+            Alpha = new FloatValue(materialModel.Alpha, compositionService);
+            IsShadowCaster = new BooleanValue(materialModel.IsShadowCaster, compositionService);
 
             isExpanded = false;
             IsActive = true;
         }
-
 
         public Guid ID { get; set; }
         public CompositionService CompositionService { get; set; }

@@ -12,9 +12,9 @@ namespace CMiX.Core.Presentations.Texturing.Sampling
         public SamplerState(SamplerStateModel samplerStateModel, CompositionService compositionService)
         {
             ID = samplerStateModel.ID;
-            BorderColor = new ColorSelector(samplerStateModel.BorderColor);
-            AddressU = new GenericValue<TextureAddressMode>(samplerStateModel.AddressU);
-            AddressV = new GenericValue<TextureAddressMode>(samplerStateModel.AddressV);
+            BorderColor = new ColorSelector(samplerStateModel.BorderColor, compositionService);
+            AddressU = new GenericValue<TextureAddressMode>(samplerStateModel.AddressU, compositionService);
+            AddressV = new GenericValue<TextureAddressMode>(samplerStateModel.AddressV, compositionService);
             IsActive = true;
         }
 

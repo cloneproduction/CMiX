@@ -6,6 +6,7 @@ using CMiX.Core.Mapper;
 using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Materials;
+using CMiX.Core.Presentations.Network;
 using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Services;
 using CMiX.Core.Presentations.Texturing;
@@ -18,8 +19,16 @@ namespace CMiX.Core.Presentations.Service
     {
         public CompositionService(IPrefabDataBase prefabDataBase)
         {
-            var config = new MapperConfiguration(cfg => {
+            var mappingProfile = new MappingProfile();
+
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.AddProfile(new MappingProfile());
+
+                foreach (var profile in mappingProfile.Profiles)
+                {
+                    cfg.AddProfile(profile);
+                }
             });
 
             Mapper = config.CreateMapper();
@@ -60,16 +69,14 @@ namespace CMiX.Core.Presentations.Service
         public Guid ID { get; set; }
         public IPrefabDataBase PrefabDataBase { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
+        public ControlMessenger ControlMessenger { get; set; }
 
- 
         public IPrefab GetPrefab(Guid id)
         {
             return PrefabDataBase.Prefabs.FirstOrDefault(x => x.ID == id);
         }
 
         public PrefabManager<MasterBeat> MasterBeatManager { get; set; }
-
-
         public PrefabRepository<Layer> LayerRepository { get; set; }
         public PrefabRepository<Composition> CompositionRepository { get; set; }
         public PrefabRepository<MasterBeat> MasterBeatRepository { get; set; }

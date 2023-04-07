@@ -16,12 +16,8 @@ namespace CMiX.Core.Networking.Messages
     {
         public MessageProcessor(CompositionService compositionService)
         {
-            var config = new MapperConfiguration(cfg => {
-                cfg.AddProfile(new MappingProfile());
-            });
-
-            IMapper Mapper = config.CreateMapper();
-
+            IMapper Mapper = compositionService.Mapper;
+            ControlMessenger = compositionService.ControlMessenger;
 
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
 
@@ -42,6 +38,7 @@ namespace CMiX.Core.Networking.Messages
         }
 
         private Dictionary<Type, IMessageHandler> MessageHandlers { get; set;}
+        private ControlMessenger ControlMessenger { get; set; }
 
         public void ProcessMessage(IMessage message)
         {

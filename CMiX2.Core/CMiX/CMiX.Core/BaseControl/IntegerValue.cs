@@ -1,11 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Windows.Input;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -14,20 +14,21 @@ namespace CMiX.Core.Presentations.ViewModels
 {
     public class IntegerValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public IntegerValue(IntegerValueModel counterModel)
+        public IntegerValue(IntegerValueModel counterModel, CompositionService compositionService)
         {
             ID = counterModel.ID;
             Value = counterModel.Value;
 
             AddCommand = new RelayCommand(Add);
             SubCommand = new RelayCommand(Sub);
+            ControlMessenger = compositionService.ControlMessenger;
 
             IsActive = true;
         }
 
-
         public ICommand AddCommand { get; }
         public ICommand SubCommand { get; }
+        public ControlMessenger ControlMessenger { get; set; }
 
         private int _value;
         public int Value
@@ -58,7 +59,6 @@ namespace CMiX.Core.Presentations.ViewModels
             model.Value = this.Value;
             return model;
         }
-
 
         public void Receive(MessageRequestControl message)
         {

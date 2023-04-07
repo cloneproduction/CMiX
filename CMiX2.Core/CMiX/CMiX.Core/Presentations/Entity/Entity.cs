@@ -18,9 +18,9 @@ namespace CMiX.Core.Presentations.Components
         public Entity(EntityModel entityModel, CompositionService compositionService)
         {
             ID = entityModel.ID;
-            Name = new StringValue(entityModel.Name);
-            IsSelected = new BooleanValue(entityModel.IsSelected);
-            IsRenaming = new BooleanValue(entityModel.IsRenaming);
+            Name = new StringValue(entityModel.Name, compositionService);
+            IsSelected = new BooleanValue(entityModel.IsSelected, compositionService);
+            IsRenaming = new BooleanValue(entityModel.IsRenaming, compositionService);
             CompositionService = compositionService;
 
             TransformSRT = new TransformSRT(entityModel.TransformSRT);

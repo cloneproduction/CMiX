@@ -16,6 +16,7 @@ using CMiX.Core.Presentations.Modifiers.Transform;
 using CMiX.Core.Presentations.PostFX;
 using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Texturing;
+using CMiX.Core.Presentations.Texturing.Filters;
 using CMiX.Core.Presentations.Texturing.Sampling;
 using CMiX.Core.Presentations.Texturing.Sources;
 using CMiX.Core.Presentations.Transform;
@@ -23,7 +24,6 @@ using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Presentations.ViewModels.Components;
 using CMiX.Core.Presentations.ViewModels.Modifiers;
-using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Mapper
 {
@@ -31,10 +31,12 @@ namespace CMiX.Core.Mapper
     {
         public MappingProfile()
         {
-            CreateMap<ColorSelector, ColorSelectorModel>()
-                .ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => src.SelectedColor.ToString()))
-                .ReverseMap().ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => (Color)ColorConverter.ConvertFromString(src.SelectedColor)));
+            Profiles = new List<Profile>();
+            Profiles.Add(new FiltersMappingProfile());
+            Profiles.Add(new MaskMappingProfile());
 
+            //CreateMap<GenericValue<MaskChannel>, GenericValueModel<MaskChannel>>().ReverseMap();
+            CreateMap<GenericValue<TransformType>, GenericValueModel<TransformType>>().ReverseMap();
 
             CreateMap<Mesh, MeshModel>().ReverseMap();
             CreateMap<GenericValue<MeshType>, GenericValueModel<MeshType>>().ReverseMap();
@@ -45,10 +47,8 @@ namespace CMiX.Core.Mapper
             CreateMap<GenericValue<EasingMode>, GenericValueModel<EasingMode>>().ReverseMap();
             CreateMap<GenericValue<EasingFunction>, GenericValueModel<EasingFunction>>().ReverseMap();
 
-
             CreateMap<ModifierManager, ModifierManagerModel>().ReverseMap();
             CreateMap<RandomHSV, RandomHSVModel>().ReverseMap();
-            CreateMap<Blur, BlurModel>().ReverseMap();
 
 
             CreateMap<Texture, TextureModel>().ReverseMap();
@@ -57,9 +57,14 @@ namespace CMiX.Core.Mapper
 
             CreateMap<Button, ButtonModel>().ReverseMap();
 
-            CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
 
+            CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
             CreateMap<GenericValue<TextureAddressMode>, GenericValueModel<TextureAddressMode>>().ReverseMap();
+            CreateMap<ColorSelector, ColorSelectorModel>()
+                .ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => src.SelectedColor.ToString()))
+                .ReverseMap().ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => (Color)ColorConverter.ConvertFromString(src.SelectedColor)));
+
+
             CreateMap<GenericValue<FontStyle>, GenericValueModel<FontStyle>>().ReverseMap();
             CreateMap<GenericValue<BlendModeEnum>, GenericValueModel<BlendModeEnum>>().ReverseMap();
 
@@ -71,14 +76,10 @@ namespace CMiX.Core.Mapper
             CreateMap<Rotation, RotationModel>().ReverseMap();
             CreateMap<GenericValue<ModifierMode>, GenericValueModel<ModifierMode>>().ReverseMap();
 
-            
-
             CreateMap<ProceduralSelector, ProceduralSelectorModel>().ReverseMap();
             CreateMap<GenericValue<TextureSourceName>, GenericValueModel<TextureSourceName>>().ReverseMap();
             CreateMap<Gradient, GradientModel>().ReverseMap();
             CreateMap<BubbleNoise, BubbleNoiseModel>().ReverseMap();
-
-            CreateMap<TransformTexture, TransformTextureModel>().ReverseMap();
 
             CreateMap<Transform2D, Transform2DModel>().ReverseMap();
 
@@ -94,8 +95,8 @@ namespace CMiX.Core.Mapper
             CreateMap<GenericValue<TransparencyType>, GenericValueModel<TransparencyType>>().ReverseMap();
             CreateMap<GenericValue<CullModeType>, GenericValueModel<CullModeType>>().ReverseMap();
 
-            CreateMap<Mask, MaskModel>().ReverseMap();
-            CreateMap<GenericValue<MaskChannel>, GenericValueModel<MaskChannel>>().ReverseMap();
+
+
 
             CreateMap<PrefabContainer, PrefabContainerModel>().ReverseMap();
 
@@ -120,7 +121,6 @@ namespace CMiX.Core.Mapper
             CreateMap<LightEntity, LightEntityModel>().ReverseMap();
             CreateMap<Material, MaterialModel>().ReverseMap();
 
-
             CreateMap<AmbientOcclusion, AmbientOcclusionModel>().ReverseMap();
             CreateMap<MasterBeat, MasterBeatModel>().ReverseMap();
 
@@ -132,5 +132,7 @@ namespace CMiX.Core.Mapper
             CreateMap<BooleanValue, BooleanValueModel>().ReverseMap();
             CreateMap<StringValue, StringValueModel>().ReverseMap();
         }
+
+        public List<Profile> Profiles { get; set; }
     }
 }

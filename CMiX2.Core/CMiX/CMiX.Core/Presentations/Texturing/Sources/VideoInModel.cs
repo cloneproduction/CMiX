@@ -3,7 +3,7 @@
 
 using CMiX.Core.BaseControl;
 
-namespace CMiX.Core.Texturing.Filters
+namespace CMiX.Core.Presentations.Texturing.Sources
 {
     public class VideoInModel : IModel
     {

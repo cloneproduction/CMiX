@@ -19,9 +19,9 @@ namespace CMiX.Core.Presentations.Components
         {
             ID = compositionModel.ID;
             CompositionService = compositionService;
-            Name = new StringValue(compositionModel.Name);
-            IsSelected = new BooleanValue(compositionModel.IsSelected);
-            IsRenaming = new BooleanValue(compositionModel.IsRenaming);
+            Name = new StringValue(compositionModel.Name, compositionService);
+            IsSelected = new BooleanValue(compositionModel.IsSelected, compositionService);
+            IsRenaming = new BooleanValue(compositionModel.IsRenaming, compositionService);
             OutputSettings = new OutputSettings(compositionModel.OutputSettings, compositionService);
             LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
             TextureModifierManager = new ModifierManager(compositionModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);
@@ -30,12 +30,10 @@ namespace CMiX.Core.Presentations.Components
             IsActive = true;
         }
 
-
         public CompositionService CompositionService { get; set; }
         public PrefabManager<Layer> LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public ModifierManager TextureModifierManager { get; set; }
-
 
         private MasterBeat _masterBeat;
         public MasterBeat MasterBeat

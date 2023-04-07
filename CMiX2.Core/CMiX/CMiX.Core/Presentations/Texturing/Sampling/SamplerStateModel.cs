@@ -13,7 +13,7 @@ namespace CMiX.Core.Presentations.Texturing.Sampling
             ID = Guid.NewGuid();
             AddressU = new GenericValueModel<TextureAddressMode>(TextureAddressMode.Mirror);
             AddressV = new GenericValueModel<TextureAddressMode>(TextureAddressMode.Mirror);
-            BorderColor = new ColorSelectorModel();
+            BorderColor = new ColorSelectorModel("#FFFF00FF");
         }
 
         public Guid ID { get; set; }

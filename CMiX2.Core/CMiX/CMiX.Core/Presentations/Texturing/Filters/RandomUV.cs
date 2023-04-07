@@ -11,28 +11,28 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class RandomUV : ObservableObject, IBeatModifiable, ITextureFilter
+    public partial class RandomUV : ObservableObject, IBeatModifiable, ITextureFilter
     {
         public RandomUV(RandomUVModel randomUVModel, CompositionService compositionService)
         {
             this.ID = randomUVModel.ID;
             this.Name = randomUVModel.Name;
-            IsExpanded = true;
+            isExpanded = true;
 
-            Visible = new BooleanValue(randomUVModel.Visible);
+            Visible = new BooleanValue(randomUVModel.Visible, compositionService);
 
-            Easing = new Easing(randomUVModel.EasingModel);
+            Easing = new Easing(randomUVModel.EasingModel, compositionService);
             BeatModifier = new BeatModifier(randomUVModel.BeatModifierModel, compositionService);
             SamplerState = new SamplerState(randomUVModel.SamplerState, compositionService);
-            RandomizeLocation = new BooleanValue(randomUVModel.RandomizeLocation);
+            RandomizeLocation = new BooleanValue(randomUVModel.RandomizeLocation, compositionService);
             Location = new Vector2(randomUVModel.Location);
 
-            RandomizeScale = new BooleanValue(randomUVModel.RandomizeScale);
-            Uniform = new FloatValue(randomUVModel.Uniform);
+            RandomizeScale = new BooleanValue(randomUVModel.RandomizeScale, compositionService);
+            Uniform = new FloatValue(randomUVModel.Uniform, compositionService);
             Scale = new Vector2(randomUVModel.Scale);
 
-            RandomizeRotation = new BooleanValue(randomUVModel.RandomizeScale);
-            Rotation = new FloatValue(randomUVModel.Rotation);
+            RandomizeRotation = new BooleanValue(randomUVModel.RandomizeScale, compositionService);
+            Rotation = new FloatValue(randomUVModel.Rotation, compositionService);
         }
 
 
@@ -59,12 +59,9 @@ namespace CMiX.Core.Presentations.ViewModels
         public SamplerState SamplerState { get; set; }
 
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
+
 
         private bool _randomizeLocationIsExpanded;
         public bool RandomizeLocationIsExpanded

@@ -16,7 +16,7 @@ namespace CMiX.Core.Presentations.ViewModels
 {
     public class MainViewModel
     {
-        public MainViewModel(IProject project, IMessageService messageService, IMapper mapper)
+        public MainViewModel(IProject project, IMessageService messageService)
         {
             Project = project;
             ServerManager = new ServerManager(messageService);
@@ -32,12 +32,12 @@ namespace CMiX.Core.Presentations.ViewModels
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
 
 
-            Mapper = mapper;
+            //Mapper = mapper;
 
             Transform2D trans = new Transform2D(new Transform2DModel(), null);
         }
 
-        public IMapper Mapper { get; set; }
+        //public IMapper Mapper { get; set; }
         public ICommand OpenProjectCommand { get; set; }
 
 

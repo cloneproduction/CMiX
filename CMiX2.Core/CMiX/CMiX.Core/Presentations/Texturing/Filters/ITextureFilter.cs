@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public interface ITextureFilter : IModifier, IDisposable
+    public interface ITextureFilter : IModifier
     {
         TextureFilterName Name { get; set; }
     }

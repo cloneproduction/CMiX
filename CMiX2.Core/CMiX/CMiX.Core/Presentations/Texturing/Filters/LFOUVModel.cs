@@ -15,42 +15,34 @@ namespace CMiX.Core.Texturing.Filters
         public LFOUVModel()
         {
             ID = Guid.NewGuid();
-
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
-
+            Name = TextureFilterName.LFOUV;
             Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
-
+            PingPong = new BooleanValueModel();
             XAxis = new BooleanValueModel();
             YAxis = new BooleanValueModel();
             ZAxis = new BooleanValueModel();
-
-            PingPong = new BooleanValueModel();
-
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
             TransformType = new GenericValueModel<TransformType>(Presentations.ViewModels.TransformType.Translate);
             Easing = new EasingModel();
-
             From = new FloatValueModel(0.0f);
             To = new FloatValueModel(1.0f);
-
-            Name = TextureFilterName.LFOUV;
             SamplerState = new SamplerStateModel();
         }
 
-        public BooleanValueModel PingPong { get; set; }
         public Guid ID { get; set; }
+        public TextureFilterName Name { get; set; }
         public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
-
+        public BooleanValueModel PingPong { get; set; }
         public BooleanValueModel XAxis { get; set; }
         public BooleanValueModel YAxis { get; set; }
         public BooleanValueModel ZAxis { get; set; }
+        public GenericValueModel<ModifierMode> Mode { get; set; }
         public GenericValueModel<TransformType> TransformType { get; set; }
+        public EasingModel Easing { get; set; }
         public FloatValueModel From { get; set; }
         public FloatValueModel To { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; internal set; }
-        public EasingModel Easing { get; internal set; }
-        public TextureFilterName Name { get; internal set; }
-        public SamplerStateModel SamplerState { get; internal set; }
+        public SamplerStateModel SamplerState { get; set; }
     }
 }

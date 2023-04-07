@@ -1,10 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.Modifiers.Transform
@@ -13,45 +12,38 @@ namespace CMiX.Core.Presentations.Modifiers.Transform
     {
         public LFO(LFOModel lfoModel, CompositionService compositionService)
         {
-            Name = lfoModel.Name;
+            name = lfoModel.Name;
             ID = lfoModel.ID;
 
-            Mode = new GenericValue<ModifierMode>(lfoModel.Mode);
+            Mode = new GenericValue<ModifierMode>(lfoModel.Mode, compositionService);
 
-            Visible = new BooleanValue(lfoModel.Visible);
+            Visible = new BooleanValue(lfoModel.Visible, compositionService);
             BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
 
-            XAxis = new BooleanValue(lfoModel.XAxis);
-            YAxis = new BooleanValue(lfoModel.YAxis);
-            ZAxis = new BooleanValue(lfoModel.ZAxis);
+            XAxis = new BooleanValue(lfoModel.XAxis, compositionService);
+            YAxis = new BooleanValue(lfoModel.YAxis, compositionService);
+            ZAxis = new BooleanValue(lfoModel.ZAxis, compositionService);
 
-            PingPong = new BooleanValue(lfoModel.PingPong);
-            TransformType = new GenericValue<TransformType>(lfoModel.TransformType);
-            Easing = new Easing(lfoModel.Easing);
+            PingPong = new BooleanValue(lfoModel.PingPong, compositionService);
+            TransformType = new GenericValue<TransformType>(lfoModel.TransformType, compositionService);
+            Easing = new Easing(lfoModel.Easing, compositionService);
 
-            From = new FloatValue(lfoModel.From);
-            To = new FloatValue(lfoModel.To);
+            From = new FloatValue(lfoModel.From, compositionService);
+            To = new FloatValue(lfoModel.To, compositionService);
 
-            IsExpanded = true;
+            isExpanded = true;
         }
-
 
         public Guid ID { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
-
         public BooleanValue Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
-
         public BooleanValue PingPong { get; set; }
-
         public BooleanValue XAxis { get; set; }
         public BooleanValue YAxis { get; set; }
         public BooleanValue ZAxis { get; set; }
-
-
         public GenericValue<TransformType> TransformType { get; set; }
         public Easing Easing { get; set; }
-
         public FloatValue From { get; set; }
         public FloatValue To { get; set; }
 
@@ -59,18 +51,12 @@ namespace CMiX.Core.Presentations.Modifiers.Transform
         [ObservableProperty]
         private bool isExpanded;
 
-
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
-
+        [ObservableProperty]
+        private string name;
 
         public void Dispose()
         {
-            //throw new NotImplementedException();
+
         }
     }
 }

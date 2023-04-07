@@ -13,15 +13,15 @@ namespace CMiX.Core.Presentations.ViewModels
         public Camera(CameraModel cameraModel, CompositionService compositionService)
         {
             ID = cameraModel.ID;
-            Name = new StringValue(cameraModel.Name);
-            FOV = new FloatValue(cameraModel.FOV);
-            Distance = new FloatValue(cameraModel.Distance);
-            Yaw = new FloatValue(cameraModel.Yaw);
-            Pitch = new FloatValue(cameraModel.Pitch);
-            Target = new Vector3(cameraModel.Target);
-            NearClip = new FloatValue(cameraModel.NearClip);
-            FarClip = new FloatValue(cameraModel.FarClip);
-            Projection = new BooleanValue(cameraModel.Projection);
+            Name = new StringValue(cameraModel.Name, compositionService);
+            FOV = new FloatValue(cameraModel.FOV, compositionService);
+            Distance = new FloatValue(cameraModel.Distance, compositionService);
+            Yaw = new FloatValue(cameraModel.Yaw, compositionService);
+            Pitch = new FloatValue(cameraModel.Pitch, compositionService);
+            Target = new Vector3(cameraModel.Target, compositionService);
+            NearClip = new FloatValue(cameraModel.NearClip, compositionService);
+            FarClip = new FloatValue(cameraModel.FarClip, compositionService);
+            Projection = new BooleanValue(cameraModel.Projection, compositionService);
             CameraTransformModifierManager = new ModifierManager(cameraModel.CameraTransformModifierManager, new CameraTransformModifierFactory(compositionService), compositionService);
         }
 

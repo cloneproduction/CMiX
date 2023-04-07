@@ -5,7 +5,7 @@ using CMiX.Core.BaseControl;
 using CMiX.Core.Presentations;
 using CMiX.Core.Presentations.ViewModels;
 
-namespace CMiX.Core.Texturing.Filters
+namespace CMiX.Core.Presentations.Texturing.Sources
 {
     public class TypeWriterModel : IModel
     {

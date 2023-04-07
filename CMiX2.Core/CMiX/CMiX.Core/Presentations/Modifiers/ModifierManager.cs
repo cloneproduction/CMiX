@@ -25,7 +25,7 @@ namespace CMiX.Core.Presentations.ViewModels
 
             Modifiers = new ObservableCollection<IModifier>();
             Factory = modifierFactory;
-            Visibility = new BooleanValue(modifierManagerModel.Visibility);
+            Visibility = new BooleanValue(modifierManagerModel.Visibility, compositionService);
 
             CreateCommand = new RelayCommand<Type>(Create);
             RemoveCommand = new RelayCommand<IModifier>(Remove);

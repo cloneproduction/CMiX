@@ -15,8 +15,8 @@ namespace CMiX.Core.Presentations.ViewModels
         {
             ID = transformTextureModel.ID;
             Name = transformTextureModel.Name;
-            Visible = new BooleanValue(transformTextureModel.Visible);
-            SamplerState = new SamplerState(transformTextureModel.SamplerStateModel, compositionService);
+            Visible = new BooleanValue(transformTextureModel.Visible, compositionService);
+            SamplerState = new SamplerState(transformTextureModel.SamplerState, compositionService);
             Transform2D = new Transform2D(transformTextureModel.Transform2D, compositionService);
             isExpanded = true;
         }

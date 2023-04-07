@@ -8,21 +8,29 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentations.Network
 {
-    public static class ControlMessenger
+    public class ControlMessenger
     {
-        private static IMapper Mapper;
-        public static bool CanSend = true;
+        private IMapper Mapper;
+        public bool CanSend = true;
 
-        static ControlMessenger()
+        public ControlMessenger()
         {
-            var config = new MapperConfiguration(cfg => {
+            var mappingProfile = new MappingProfile();
+
+            var config = new MapperConfiguration(cfg =>
+            {
                 cfg.AddProfile(new MappingProfile());
+
+                foreach (var profile in mappingProfile.Profiles)
+                {
+                    cfg.AddProfile(profile);
+                }
             });
 
             Mapper = config.CreateMapper();
         }
 
-        public static void Receive(IIDObject iDObject, MessageRequestControl message)
+        public void Receive(IIDObject iDObject, MessageRequestControl message)
         {
             CanSend = false;
 
@@ -32,7 +40,7 @@ namespace CMiX.Core.Presentations.Network
             CanSend = true;
         }
 
-        public static void Send<T>(IControl control) where T : IModel
+        public void Send<T>(IControl control) where T : IModel
         {
             if (CanSend)
             {

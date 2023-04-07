@@ -4,6 +4,7 @@
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -11,15 +12,16 @@ namespace CMiX.Core.Presentations.ViewModels
 {
     public class BooleanValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public BooleanValue(BooleanValueModel booleanValue)
+        public BooleanValue(BooleanValueModel booleanValue, CompositionService compositionService)
         {
             this.ID = booleanValue.ID;
             Value = booleanValue.Value;
-
+            ControlMessenger = compositionService.ControlMessenger;
             IsActive = true;
         }
 
         public Guid ID { get; set; }
+        private ControlMessenger ControlMessenger { get; set; }
 
         private bool _value;
         public bool Value

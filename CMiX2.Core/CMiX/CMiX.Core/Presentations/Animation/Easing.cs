@@ -8,40 +8,24 @@ using CMiX.Core.Presentations.Network;
 using CMiX.Core.Presentations.Animation;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
+using CMiX.Core.Presentations.Service;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class Easing : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
+    public class Easing : ObservableRecipient, IControl
     {
-        public Easing(EasingModel easingModel)
+        public Easing(EasingModel easingModel, CompositionService compositionService)
         {
             this.ID = easingModel.ID;
-            IsEnabled = new BooleanValue(easingModel.IsEnabled);
+            IsEnabled = new BooleanValue(easingModel.IsEnabled, compositionService);
             Mode = new GenericValue<EasingMode>(easingModel.Mode);
             Function = new GenericValue<EasingFunction>(easingModel.Function);
             IsActive = true;
         }
 
-
         public Guid ID { get; set; }
-
         public BooleanValue IsEnabled { get; set; }
         public GenericValue<EasingFunction> Function { get; set; }
         public GenericValue<EasingMode> Mode { get; set; }
-
-        public IModel GetModel()
-        {
-            EasingModel model = new EasingModel();
-            model.ID = this.ID;
-            model.IsEnabled = (BooleanValueModel)IsEnabled.GetModel();
-            model.Function = (GenericValueModel<EasingFunction>)this.Function.GetModel();
-            model.Mode = (GenericValueModel<EasingMode>)this.Mode.GetModel();
-            return model;
-        }
-
-        public void Receive(MessageRequestControl message)
-        {
-            ControlMessenger.Receive(this, message);
-        }
     }
 }

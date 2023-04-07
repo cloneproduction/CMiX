@@ -11,26 +11,26 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public partial class Mesh : ObservableRecipient, IRecipient<MessageRequestControl>, IEntity, IPrefab
+    public partial class Mesh : ObservableRecipient, IEntity, IPrefab
     {
         public Mesh(MeshModel meshModel, CompositionService compositionService)
         {
             ID = meshModel.ID;
-            Name = new StringValue(meshModel.Name);
-            IsRenaming = new BooleanValue(meshModel.IsRenaming);
-            IsSelected = new BooleanValue(meshModel.IsSelected);
-            isExpanded = true;
-            MeshTypeSelector = new GenericValue<MeshType>(meshModel.MeshTypeSelector);
-            Scale = new Vector3(meshModel.Scale);
-            Offset = new Vector3(meshModel.Offset);
-            Radius = new FloatValue(meshModel.Radius);
-            Height = new FloatValue(meshModel.Height);
-            Thickness = new FloatValue(meshModel.Thickness);
-            Tessellation = new IntegerValue(meshModel.Tessellation);
-            TessellationXY = new Integer2(meshModel.TessellationXY);
-            GenerateBackFace = new BooleanValue(meshModel.GenerateBackFace);
-            Visibility = new BooleanValue(meshModel.Visibility);
+            Name = new StringValue(meshModel.Name, compositionService);
+            IsRenaming = new BooleanValue(meshModel.IsRenaming, compositionService);
+            IsSelected = new BooleanValue(meshModel.IsSelected, compositionService);
+            MeshTypeSelector = new GenericValue<MeshType>(meshModel.MeshTypeSelector, compositionService);
+            Scale = new Vector3(meshModel.Scale, compositionService);
+            Offset = new Vector3(meshModel.Offset, compositionService);
+            Radius = new FloatValue(meshModel.Radius, compositionService);
+            Height = new FloatValue(meshModel.Height, compositionService);
+            Thickness = new FloatValue(meshModel.Thickness, compositionService);
+            Tessellation = new IntegerValue(meshModel.Tessellation, compositionService);
+            TessellationXY = new Integer2(meshModel.TessellationXY, compositionService);
+            GenerateBackFace = new BooleanValue(meshModel.GenerateBackFace, compositionService);
+            Visibility = new BooleanValue(meshModel.Visibility, compositionService);
             TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new ModifierFactory(compositionService), compositionService);
+            isExpanded = true;
         }
 
         [ObservableProperty]
@@ -52,16 +52,9 @@ namespace CMiX.Core.Presentations.ViewModels
         public BooleanValue GenerateBackFace { get; set; }
         public BooleanValue Visibility { get; set; }
 
-
         public void Dispose()
         {
 
-        }
-
-        public void Receive(MessageRequestControl message)
-        {
-            if (message.ID == this.ID)
-                message.Reply(this);
         }
     }
 }

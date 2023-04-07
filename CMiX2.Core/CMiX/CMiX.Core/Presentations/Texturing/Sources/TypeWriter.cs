@@ -5,7 +5,6 @@ using System.Windows.Input;
 using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Presentations.Service;
-using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

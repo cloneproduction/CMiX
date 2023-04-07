@@ -13,19 +13,19 @@ namespace CMiX.Core.Presentations.Modifiers.Camera
         {
             ID = lfoModel.ID;
 
-            Visible = new BooleanValue(lfoModel.Visible);
+            Visible = new BooleanValue(lfoModel.Visible, compositionService);
             BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
 
-            Yaw = new BooleanValue(lfoModel.Yaw);
-            Pitch = new BooleanValue(lfoModel.Pitch);
-            Zoom = new BooleanValue(lfoModel.Zoom);
+            Yaw = new BooleanValue(lfoModel.Yaw, compositionService);
+            Pitch = new BooleanValue(lfoModel.Pitch, compositionService);
+            Zoom = new BooleanValue(lfoModel.Zoom, compositionService);
 
-            PingPong = new BooleanValue(lfoModel.PingPong);
-            Axis = new GenericValue<CameraAxis>(lfoModel.Axis);
-            Easing = new Easing(lfoModel.Easing);
+            PingPong = new BooleanValue(lfoModel.PingPong, compositionService);
+            Axis = new GenericValue<CameraAxis>(lfoModel.Axis, compositionService);
+            Easing = new Easing(lfoModel.Easing, compositionService);
 
-            From = new FloatValue(lfoModel.From);
-            To = new FloatValue(lfoModel.To);
+            From = new FloatValue(lfoModel.From, compositionService);
+            To = new FloatValue(lfoModel.To, compositionService);
         }
 
 

@@ -5,6 +5,7 @@ using System;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -12,10 +13,11 @@ namespace CMiX.Core.Presentations.ViewModels.BaseControl
 {
     public class StringValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public StringValue(StringValueModel stringValueModel)
+        public StringValue(StringValueModel stringValueModel, CompositionService compositionService)
         {
             ID = stringValueModel.ID;
             Value = stringValueModel.Value;
+            ControlMessenger = compositionService.ControlMessenger;
             IsActive = true;
         }
 
@@ -24,6 +26,7 @@ namespace CMiX.Core.Presentations.ViewModels.BaseControl
             this.name = name;
         }
 
+        private ControlMessenger ControlMessenger { get; set; }
         public Guid ID { get; set; }
 
         private string _value;
@@ -50,8 +53,7 @@ namespace CMiX.Core.Presentations.ViewModels.BaseControl
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == this.ID && !message.HasReceivedResponse)
-                message.Reply(this);
+            ControlMessenger.Receive(this, message);
         }
     }
 }

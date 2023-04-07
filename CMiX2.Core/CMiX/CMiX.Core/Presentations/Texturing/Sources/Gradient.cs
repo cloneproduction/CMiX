@@ -14,11 +14,11 @@ namespace CMiX.Core.Presentations.Texturing.Sources
         {
             ID = gradientModel.ID;
             CompositionService = compositionService;
-            Resolution = new Integer2(gradientModel.Resolution);
-            From = new ColorSelector(gradientModel.From);
-            To = new ColorSelector(gradientModel.To);
-            Gamma = new FloatValue(gradientModel.Gamma);
-            Horizontal = new BooleanValue(gradientModel.Horizontal);
+            Resolution = new Integer2(gradientModel.Resolution, compositionService);
+            From = new ColorSelector(gradientModel.From, compositionService);
+            To = new ColorSelector(gradientModel.To, compositionService);
+            Gamma = new FloatValue(gradientModel.Gamma, compositionService);
+            Horizontal = new BooleanValue(gradientModel.Horizontal, compositionService);
         }
 
         public ICommand OpenColorSelectorCommand { get; set; }

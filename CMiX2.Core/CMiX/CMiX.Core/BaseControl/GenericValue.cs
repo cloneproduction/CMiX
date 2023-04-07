@@ -5,6 +5,7 @@ using System;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -12,15 +13,16 @@ namespace CMiX.Core.Presentations.ViewModels
 {
     public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public GenericValue(GenericValueModel<T> genericValueModel)
+        public GenericValue(GenericValueModel<T> genericValueModel, CompositionService compositionService)
         {
-            this.ID = genericValueModel.ID;
-            this.Value = genericValueModel.Value;
-            this.IsActive = true;
+            ID = genericValueModel.ID;
+            Value = genericValueModel.Value;
+            ControlMessenger = compositionService.ControlMessenger;
+            IsActive = true;
         }
 
         public Guid ID { get; set; }
-
+        private ControlMessenger ControlMessenger { get; set; }
 
         private T _value;
         public T Value
@@ -33,7 +35,6 @@ namespace CMiX.Core.Presentations.ViewModels
                     ControlMessenger.Send<GenericValueModel<T>>(this);
             }
         }
-
 
         public IModel GetModel()
         {

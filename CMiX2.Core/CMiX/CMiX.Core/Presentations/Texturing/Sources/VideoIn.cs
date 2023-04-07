@@ -4,7 +4,6 @@
 using System;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Presentations.ViewModels;
-using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.Texturing.Sources

@@ -43,14 +43,14 @@ namespace CMiX
         private void ConfigureServices(IServiceCollection services)
         {
 
-            var config = new MapperConfiguration(cfg => {
-                cfg.AddProfile(new MappingProfile());
-            });
-            //config.AssertConfigurationIsValid();
+            //var config = new MapperConfiguration(cfg => {
+            //    cfg.AddProfile(new MappingProfile());
+            //});
+            ////config.AssertConfigurationIsValid();
 
-            IMapper mapper = config.CreateMapper();
+            //IMapper mapper = config.CreateMapper();
 
-            services.AddSingleton(mapper);
+            //services.AddSingleton(mapper);
 
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IService, CompositionService>();

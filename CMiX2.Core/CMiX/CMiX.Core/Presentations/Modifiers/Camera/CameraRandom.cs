@@ -14,14 +14,14 @@ namespace CMiX.Core.Presentations.Modifiers.Camera
         {
             ID = randomModel.ID;
 
-            Visible = new BooleanValue(randomModel.Visible);
+            Visible = new BooleanValue(randomModel.Visible, compositionService);
             BeatModifier = new BeatModifier(randomModel.BeatModifier, compositionService);
 
-            PingPong = new BooleanValue(randomModel.PingPong);
-            Axis = new GenericValue<CameraAxis>(randomModel.Axis);
-            Easing = new Easing(randomModel.Easing);
+            PingPong = new BooleanValue(randomModel.PingPong, compositionService);
+            Axis = new GenericValue<CameraAxis>(randomModel.Axis, compositionService);
+            Easing = new Easing(randomModel.Easing, compositionService);
 
-            Width = new FloatValue(randomModel.Width);
+            Width = new FloatValue(randomModel.Width, compositionService);
             IsExpanded = true;
         }
 

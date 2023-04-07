@@ -17,19 +17,18 @@ namespace CMiX.Core.Presentations.Texturing
         public Texture(TextureModel textureModel, CompositionService compositionService)
         {
             this.ID = textureModel.ID;
-            Name = new StringValue(textureModel.Name);
-            IsSelected = new BooleanValue(textureModel.IsSelected);
-            IsRenaming = new BooleanValue(textureModel.IsRenaming);
-            IsEnabled = new BooleanValue(textureModel.IsEnabled);
+            Name = new StringValue(textureModel.Name, compositionService);
+            IsSelected = new BooleanValue(textureModel.IsSelected, compositionService);
+            IsRenaming = new BooleanValue(textureModel.IsRenaming, compositionService);
+            IsEnabled = new BooleanValue(textureModel.IsEnabled, compositionService);
             TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);
             TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService), compositionService);
             ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);
             VideoIn = new VideoIn(textureModel.VideoIn);
-            VideoPlayer = new VideoPlayer(textureModel.VideoPlayer);
-            SelectedAssetType = new IntegerValue(textureModel.SelectedAssetType);
+            VideoPlayer = new VideoPlayer(textureModel.VideoPlayer, compositionService);
+            SelectedAssetType = new IntegerValue(textureModel.SelectedAssetType, compositionService);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);
             TransformTexture = new TransformTexture(textureModel.TransformTexture, compositionService);
-            SamplerState = new SamplerState(textureModel.SamplerState, compositionService);
             isExpanded = false;
         }
 
