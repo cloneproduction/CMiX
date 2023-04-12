@@ -3,22 +3,23 @@
 
 using CMiX.Core.Presentations.Modifiers;
 using CMiX.Core.Presentations.Modifiers.Transform;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
     public partial class TransformSRT : ObservableObject, IControl, IModifier
     {
-        public TransformSRT(TransformSRTModel transformModel)
+        public TransformSRT(TransformSRTModel transformModel, CompositionService compositionService)
         {
             isExpanded = true;
             ID = transformModel.ID;
-            Visible = new BooleanValue(transformModel.Visible);
-            Uniform = new FloatValue(transformModel.Uniform);
-            Translate = new Translate(transformModel.Translate);
-            Scale = new Scale(transformModel.Scale);
-            Rotation = new Rotation(transformModel.Rotation);
-            Mode = new GenericValue<ModifierMode>(transformModel.Mode);
+            Visible = new BooleanValue(transformModel.Visible, compositionService);
+            Uniform = new FloatValue(transformModel.Uniform, compositionService);
+            Translate = new Translate(transformModel.Translate, compositionService);
+            Scale = new Scale(transformModel.Scale, compositionService);
+            Rotation = new Rotation(transformModel.Rotation, compositionService);
+            Mode = new GenericValue<ModifierMode>(transformModel.Mode, compositionService);
         }
 
         public Guid ID { get; set; }
@@ -28,7 +29,6 @@ namespace CMiX.Core.Presentations.ViewModels
         public Rotation Rotation { get; set; }
         public BooleanValue Visible { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
-
 
         [ObservableProperty]
         private bool isExpanded;

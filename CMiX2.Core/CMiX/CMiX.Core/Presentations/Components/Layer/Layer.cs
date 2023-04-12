@@ -18,45 +18,32 @@ namespace CMiX.Core.Presentations.Components
             Name = new StringValue(layerModel.Name, compositionService);
             IsRenaming = new BooleanValue(layerModel.IsRenaming, compositionService);
             IsSelected = new BooleanValue(layerModel.IsSelected, compositionService);
-
             CompositionService = compositionService;
-
             Visibility = new BooleanValue(layerModel.Visibility, compositionService);
             IsMask = new BooleanValue(layerModel.IsMask, compositionService);
-
             Opacity = new FloatValue(layerModel.Opacity, compositionService);
-
-            BackgroundColor = new ColorSelector(layerModel.BackgroundColor);
-
+            BackgroundColor = new ColorSelector(layerModel.BackgroundColor, compositionService);
             MaskChannel = new GenericValue<MaskChannel>(layerModel.MaskChannelModel, compositionService);
             BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendModeModel, compositionService);
             MaskMode = new GenericValue<MaskMode>(layerModel.MaskModeModel, compositionService);
-
-            AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
-
+            AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion, compositionService);
             TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);
             ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
             CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager, compositionService);
             LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager, compositionService);
         }
 
-
         public CompositionService CompositionService { get; set; }
         public BooleanValue Visibility { get; set; }
         public BooleanValue IsMask { get; set; }
-
         public PrefabManager<Entity> ModelEntityManager { get; set; }
         public PrefabManager<Camera> CameraEntityManager { get; set; }
         public PrefabManager<LightEntity> LightEntityManager { get; set; }
         public ModifierManager TextureModifierManager { get; set; }
-
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
-
         public AmbientOcclusion AmbientOcclusion { get; set; }
-
-
         public FloatValue Opacity { get; set; }
         public ColorSelector BackgroundColor { get; set; }
 

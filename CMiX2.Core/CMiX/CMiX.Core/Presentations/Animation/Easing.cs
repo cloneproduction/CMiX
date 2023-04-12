@@ -18,9 +18,8 @@ namespace CMiX.Core.Presentations.ViewModels
         {
             this.ID = easingModel.ID;
             IsEnabled = new BooleanValue(easingModel.IsEnabled, compositionService);
-            Mode = new GenericValue<EasingMode>(easingModel.Mode);
-            Function = new GenericValue<EasingFunction>(easingModel.Function);
-            IsActive = true;
+            Mode = new GenericValue<EasingMode>(easingModel.Mode, compositionService);
+            Function = new GenericValue<EasingFunction>(easingModel.Function, compositionService);
         }
 
         public Guid ID { get; set; }

@@ -151,44 +151,43 @@ namespace CMiX.Core.Presentations.Modifiers.Transform
 
         private Rotation CreateRotation()
         {
-            return new Rotation(new RotationModel());
+            return new Rotation(new RotationModel(), CompositionService);
         }
 
         private Rotation CreateRotation(RotationModel rotationModel)
         {
-            return new Rotation(rotationModel);
+            return new Rotation(rotationModel, CompositionService);
         }
 
 
         private Scale CreateScale()
         {
-            return new Scale(new ScaleModel());
+            return new Scale(new ScaleModel(), CompositionService);
         }
 
         private Scale CreateScale(ScaleModel scaleModel)
         {
-            return new Scale(scaleModel);
+            return new Scale(scaleModel, CompositionService);
         }
-
 
         private Translate CreateTranslate()
         {
-            return new Translate(new TranslateModel());
+            return new Translate(new TranslateModel(), CompositionService);
         }
 
         private Translate CreateTranslate(TranslateModel translateModel)
         {
-            return new Translate(translateModel);
+            return new Translate(translateModel, CompositionService);
         }
 
         private TransformSRT CreateTransformSRT()
         {
-            return new TransformSRT(new TransformSRTModel());
+            return new TransformSRT(new TransformSRTModel(), CompositionService);
         }
 
         private TransformSRT CreateTransformSRT(TransformSRTModel transformSRTModel)
         {
-            return new TransformSRT(transformSRTModel);
+            return new TransformSRT(transformSRTModel, CompositionService);
         }
 
         private RandomScale CreateRandomScale()
@@ -200,7 +199,6 @@ namespace CMiX.Core.Presentations.Modifiers.Transform
         {
             return new RandomScale(randomScaleModel, CompositionService);
         }
-
 
         private RandomXYZ CreateRandomXYZ()
         {

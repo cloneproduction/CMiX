@@ -20,10 +20,19 @@ namespace CMiX.Core.Presentations.ViewModels
             IsActive = true;
         }
 
+        public BooleanValue(bool directionX, CompositionService compositionService)
+        {
+            this.directionX = directionX;
+            this.compositionService = compositionService;
+        }
+
         public Guid ID { get; set; }
         private ControlMessenger ControlMessenger { get; set; }
 
         private bool _value;
+        private bool directionX;
+        private CompositionService compositionService;
+
         public bool Value
         {
             get => _value;

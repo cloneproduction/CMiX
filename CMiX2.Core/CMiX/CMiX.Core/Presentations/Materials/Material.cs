@@ -20,19 +20,14 @@ namespace CMiX.Core.Presentations.Materials
             Name = new StringValue(materialModel.Name, compositionService);
             IsSelected = new BooleanValue(materialModel.IsSelected, compositionService);
             IsRenaming = new BooleanValue(materialModel.IsRenaming, compositionService);
-
             CompositionService = compositionService;
-
             Texture = new Texture(materialModel.Texture, compositionService);
-            BaseColor = new ColorSelector(materialModel.BaseColor);
-
+            BaseColor = new ColorSelector(materialModel.BaseColor, compositionService);
             Mask = new Mask(materialModel.Mask, compositionService);
-            MaskChannelSelector = new GenericValue<MaskChannel>(materialModel.MaskChannelSelector);
-
-            Pipeline = new GenericValue<PipelineType>(materialModel.Pipeline);
-            CullMode = new GenericValue<CullModeType>(materialModel.CullMode);
-            Transparency = new GenericValue<TransparencyType>(materialModel.Transparency);
-
+            MaskChannelSelector = new GenericValue<MaskChannel>(materialModel.MaskChannelSelector, compositionService);
+            Pipeline = new GenericValue<PipelineType>(materialModel.Pipeline, compositionService);
+            CullMode = new GenericValue<CullModeType>(materialModel.CullMode, compositionService);
+            Transparency = new GenericValue<TransparencyType>(materialModel.Transparency, compositionService);
             Metalness = new FloatValue(materialModel.Metalness, compositionService);
             Specularity = new FloatValue(materialModel.Specularity, compositionService);
             Glossiness = new FloatValue(materialModel.Glossiness, compositionService);

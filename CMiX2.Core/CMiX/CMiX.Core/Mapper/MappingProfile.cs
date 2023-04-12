@@ -111,6 +111,7 @@ namespace CMiX.Core.Mapper
                 .Include<Camera, CameraModel>()
                 .Include<LightEntity, LightEntityModel>()
                 .Include<Material, MaterialModel>()
+                .Include<MasterBeat, MasterBeatModel>()
                 .ReverseMap();
 
             CreateMap<Component, ComponentModel>().ReverseMap();

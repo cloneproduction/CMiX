@@ -2,21 +2,21 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class Blur : ObservableObject, ITextureFilter
+    public partial class Blur : ObservableObject, ITextureFilter
     {
-        public Blur(BlurModel blurModel)
+        public Blur(BlurModel blurModel, CompositionService compositionService)
         {
             ID = blurModel.ID;
             Name = blurModel.Name;
-            IsExpanded = true;
-
-            Strength = new FloatValue(blurModel.Strength);
-            Visible = new BooleanValue(blurModel.Visible);
+            isExpanded = true;
+            Strength = new FloatValue(blurModel.Strength, compositionService);
+            Visible = new BooleanValue(blurModel.Visible, compositionService);
         }
 
         public Guid ID { get; set; }
@@ -24,21 +24,11 @@ namespace CMiX.Core.Presentations.ViewModels
         public TextureFilterName Name { get; set; }
         public BooleanValue Visible { get; set; }
 
+        [ObservableProperty]
+        private bool enabled;
 
-        private bool _enabled;
-        public bool Enabled
-        {
-            get => _enabled;
-            set => SetProperty(ref _enabled, value);
-        }
-
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
-
+        [ObservableProperty]
+        private bool isExpanded;
 
         public void Dispose()
         {

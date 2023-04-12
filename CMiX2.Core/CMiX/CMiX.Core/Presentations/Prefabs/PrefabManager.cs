@@ -150,7 +150,7 @@ namespace CMiX.Core.Presentations.Prefabs
 
         public PrefabContainer CreateEmptyPrefabContainer()
         {
-            PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel());
+            PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel(), CompositionService);
             prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
             Prefabs.Add(prefabContainer);
             SelectedItem = prefabContainer;
@@ -167,7 +167,7 @@ namespace CMiX.Core.Presentations.Prefabs
             prefab.IsSelected.Value = true;
             PrefabRepository?.AddPrefab((T)prefab);
 
-            PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel());
+            PrefabContainer prefabContainer = new PrefabContainer(new PrefabContainerModel(), CompositionService);
             prefabContainer.Prefab = (T)prefab;
             prefabContainer.PrefabChanged += PrefabContainer_PrefabChanged;
             Prefabs.Add(prefabContainer);
@@ -185,7 +185,7 @@ namespace CMiX.Core.Presentations.Prefabs
             if (container == null)
             {
                 addToContainer = true;
-                container = new PrefabContainer(new PrefabContainerModel(containerID));
+                container = new PrefabContainer(new PrefabContainerModel(containerID), CompositionService);
             }
 
             if (prefabModel != null)

@@ -3,29 +3,29 @@
 
 using System;
 using CMiX.Core.Presentations.PostFX;
+using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
     public class AmbientOcclusion : ObservableObject, IControl
     {
-        public AmbientOcclusion(AmbientOcclusionModel ambientOcclusionModel)
+        public AmbientOcclusion(AmbientOcclusionModel ambientOcclusionModel, CompositionService compositionService)
         {
             ID = ambientOcclusionModel.ID;
-            IsEnabled = new BooleanValue(ambientOcclusionModel.IsEnabled);
-            Samples = new IntegerValue(ambientOcclusionModel.Samples);
-            ProjectionScale = new FloatValue(ambientOcclusionModel.ProjectionScale);
-            Intensity = new FloatValue(ambientOcclusionModel.Intensity);
-            SampleBias = new FloatValue(ambientOcclusionModel.SampleBias);
-            SampleRadius = new FloatValue(ambientOcclusionModel.SampleRadius);
-            BlurCount = new IntegerValue(ambientOcclusionModel.BlurCount);
-            BlurRadius = new FloatValue(ambientOcclusionModel.BlurRadius);
-            EdgeSharpness = new FloatValue(ambientOcclusionModel.EdgeSharpness);
+            IsEnabled = new BooleanValue(ambientOcclusionModel.IsEnabled, compositionService);
+            Samples = new IntegerValue(ambientOcclusionModel.Samples, compositionService);
+            ProjectionScale = new FloatValue(ambientOcclusionModel.ProjectionScale, compositionService);
+            Intensity = new FloatValue(ambientOcclusionModel.Intensity, compositionService);
+            SampleBias = new FloatValue(ambientOcclusionModel.SampleBias, compositionService);
+            SampleRadius = new FloatValue(ambientOcclusionModel.SampleRadius, compositionService);
+            BlurCount = new IntegerValue(ambientOcclusionModel.BlurCount, compositionService);
+            BlurRadius = new FloatValue(ambientOcclusionModel.BlurRadius, compositionService);
+            EdgeSharpness = new FloatValue(ambientOcclusionModel.EdgeSharpness, compositionService);
         }
 
 
         public Guid ID { get; set; }
-
         public BooleanValue IsEnabled { get; set; }
         public IntegerValue Samples { get; set; }
         public FloatValue ProjectionScale { get; set; }

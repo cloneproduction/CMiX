@@ -2,25 +2,25 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class Edge : ObservableObject, ITextureFilter
+    public partial class Edge : ObservableObject, ITextureFilter
     {
 
-        public Edge(EdgeModel edgeModel)
+        public Edge(EdgeModel edgeModel, CompositionService compositionService)
         {
             ID = edgeModel.ID;
             Name = edgeModel.Name;
-            Visible = new BooleanValue(edgeModel.Visible);
-            Radius = new FloatValue(edgeModel.Radius);
-            Brightness = new FloatValue(edgeModel.Brightness);
-            Control = new FloatValue(edgeModel.Control);
-            IsExpanded = true;
+            Visible = new BooleanValue(edgeModel.Visible, compositionService);
+            Radius = new FloatValue(edgeModel.Radius, compositionService);
+            Brightness = new FloatValue(edgeModel.Brightness, compositionService);
+            Control = new FloatValue(edgeModel.Control, compositionService);
+            isExpanded = true;
         }
-
 
         public TextureFilterName Name { get; set; }
         public Guid ID { get; set; }
@@ -29,22 +29,11 @@ namespace CMiX.Core.Presentations.ViewModels
         public FloatValue Control { get; set; }
         public BooleanValue Visible { get; set; }
 
+        [ObservableProperty]
+        private bool enabled;
 
-        private bool _enabled;
-        public bool Enabled
-        {
-            get => _enabled;
-            set => SetProperty(ref _enabled, value);
-        }
-
-
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
-
+        [ObservableProperty]
+        private bool isExpanded;
 
         public void Dispose()
         {

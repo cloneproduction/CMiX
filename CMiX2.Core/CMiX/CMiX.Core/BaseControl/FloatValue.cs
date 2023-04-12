@@ -16,7 +16,7 @@ namespace CMiX.Core.Presentations.ViewModels
         public FloatValue(FloatValueModel floatValueModel, CompositionService compositionService)
         {
             ID = floatValueModel.ID;
-            value = floatValueModel.Value;
+            Value = floatValueModel.Value;
             ControlMessenger = compositionService.ControlMessenger;
             IsActive = true;
         }
@@ -24,14 +24,16 @@ namespace CMiX.Core.Presentations.ViewModels
         public Guid ID { get; set; }
         private ControlMessenger ControlMessenger { get; set; }
 
-        [ObservableProperty]
-        private float value;
-
-        partial void OnValueChanged(float value)
+        private float _value;
+        public float Value
         {
-            Console.WriteLine("FloatValueChanged = " + value);
-            if (IsActive)
-                ControlMessenger.Send<FloatValueModel>(this);
+            get => _value;
+            set
+            {
+                SetProperty(ref _value, value);
+                if (IsActive)
+                    ControlMessenger.Send<IntegerValueModel>(this);
+            }
         }
 
         public void Receive(MessageRequestControl message)

@@ -61,7 +61,7 @@
                 Background="Transparent"
                 Style="{StaticResource ButtonRounded}"
                 Command="{Binding TapCommand}"
-                Content="{Binding Period, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}"/>
+                Content="{Binding Period.Value, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}"/>
         </Grid>
 
     </DockPanel>

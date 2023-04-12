@@ -26,9 +26,15 @@ namespace CMiX.Core.Presentations.ViewModels
             IsActive = true;
         }
 
+        public IntegerValue(int value)
+        {
+            this.Value = value;
+        }
+
         public ICommand AddCommand { get; }
         public ICommand SubCommand { get; }
         public ControlMessenger ControlMessenger { get; set; }
+
 
         private int _value;
         public int Value
@@ -50,14 +56,6 @@ namespace CMiX.Core.Presentations.ViewModels
         {
             if (Value > 1)
                 Value -= 1;
-        }
-
-        public IModel GetModel()
-        {
-            IntegerValueModel model = new IntegerValueModel();
-            model.ID = this.ID;
-            model.Value = this.Value;
-            return model;
         }
 
         public void Receive(MessageRequestControl message)

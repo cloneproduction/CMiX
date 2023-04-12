@@ -3,61 +3,68 @@
 
 using System.Diagnostics;
 using System.Windows.Input;
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Controls;
 using CMiX.Core.Presentations.Prefabs;
-using CMiX.Core.Presentations.ViewModels;
-using CMiX.Core.Presentations.Network;
 using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
-using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Beat
 {
-    public class MasterBeat : ObservableRecipient, IRecipient<MessageRequestControl>, IPrefab
+    public class MasterBeat : ObservableRecipient, IPrefab
     {
         public MasterBeat(MasterBeatModel masterBeatModel, CompositionService compositionService)
         {
-            this.ID = masterBeatModel.ID;
-            CompositionService = compositionService;
-            ControlMessenger = compositionService.ControlMessenger;
+            ID = masterBeatModel.ID;
 
-            Index = 0;
-            Period = 1000;
+            Index = new IntegerValue(masterBeatModel.Index, compositionService);
+            Period = new FloatValue(masterBeatModel.Period, compositionService);
+            BeatIndex = new IntegerValue(masterBeatModel.BeatIndex, compositionService);
+
+            Pause = new BooleanValue(masterBeatModel.Pause, compositionService);
+
             Periods = new float[15];
             tapPeriods = new List<float>();
             tapTime = new List<float>();
 
             BeatAnimations = new BeatAnimations();
             Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
-            Pause = new BooleanValue(masterBeatModel.Pause, compositionService);
 
-            UpdatePeriods(Period);
+            float Multiplier = 1.0f / 128.0f;
+            for (int i = 0; i < Periods.Length; i++)
+            {
+                Periods[i] = Multiplier * Period.Value;
+                Multiplier *= 2;
+            }
+
+            BeatAnimations.MakeStoryBoard(Periods);
             SetAnimatedDouble();
 
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
             TapCommand = new RelayCommand(Tap);
-
-            IsActive = true;
         }
 
-        private ControlMessenger ControlMessenger { get; set; }
+
         public Guid ID { get; set; }
+
         public ICommand ResetCommand { get;  }
         public ICommand MultiplyCommand { get;  }
         public ICommand DivideCommand { get;}
         public ICommand TapCommand { get; }
-        public CompositionService CompositionService { get; set; }
+
         public BooleanValue Pause { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }
-
         public BeatAnimations BeatAnimations { get; set; }
         public Resync Resync { get; set; }
+        public IntegerValue Index { get; set; }
+        public IntegerValue BeatIndex { get; set; }
+        public FloatValue Period { get; set; }
+
 
         private readonly List<float> tapPeriods;
         private readonly List<float> tapTime;
@@ -73,17 +80,6 @@ namespace CMiX.Core.Presentations.Beat
             set => SetProperty(ref _animatedDouble, value);
         }
 
-        public int Index { get; set; }
-        public int BeatIndex { get; set; }
-
-
-        private float _period;
-        public float Period
-        {
-            get => _period;
-            set => SetProperty(ref _period, value);
-        }
-
 
         private float[] _periods;
         public float[] Periods
@@ -95,36 +91,35 @@ namespace CMiX.Core.Presentations.Beat
 
         private void SetAnimatedDouble()
         {
-            BeatIndex = Index + (Periods.Length - 1) / 2;
-            Period = Periods[Index + (Periods.Length - 1) / 2];
-            AnimatedDouble = BeatAnimations.AnimatedDoubles[Index + (Periods.Length - 1) / 2];
-            OnPropertyChanged("Period");
-            ControlMessenger.Send<MasterBeatModel>(this);
+            BeatIndex.Value = Index.Value + (Periods.Length - 1) / 2;
+            //Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
+            AnimatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
+            //OnPropertyChanged("Period");
         }
 
 
         public void Multiply()
         {
-            if (Index <= minIndex)
+            if (Index.Value <= minIndex)
                 return;
-            Index--;
+            Index.Value--;
             SetAnimatedDouble();
         }
 
         public void Divide()
         {
-            if (Index >= maxIndex)
+            if (Index.Value >= maxIndex)
                 return;
-            Index++;
+            Index.Value++;
             SetAnimatedDouble();
         }
 
         public void Tap()
         {
             UpdatePeriods(GetMasterPeriod());
-            Index = 0;
+            Index.Value = 0;
             SetAnimatedDouble();
-            OnPropertyChanged("Period");
+            //OnPropertyChanged("Period");
         }
 
 
@@ -161,22 +156,17 @@ namespace CMiX.Core.Presentations.Beat
 
         private void UpdatePeriods(float period)
         {
-            Period = period;
+            Period.Value = period;
             if (period > 0)
             {
                 float Multiplier = 1.0f / 128.0f;
                 for (int i = 0; i < Periods.Length; i++)
                 {
-                    Periods[i] = Multiplier * Period;
+                    Periods[i] = Multiplier * Period.Value;
                     Multiplier *= 2;
                 }
                 BeatAnimations.MakeStoryBoard(Periods);
             }
-        }
-
-        public void Receive(MessageRequestControl message)
-        {
-            ControlMessenger.Receive(this, message);
         }
     }
 }

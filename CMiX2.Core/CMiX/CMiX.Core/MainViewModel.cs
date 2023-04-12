@@ -30,11 +30,6 @@ namespace CMiX.Core.Presentations.ViewModels
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
-
-
-            //Mapper = mapper;
-
-            Transform2D trans = new Transform2D(new Transform2DModel(), null);
         }
 
         //public IMapper Mapper { get; set; }

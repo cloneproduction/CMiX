@@ -24,7 +24,7 @@ namespace CMiX.Core.Presentations.Texturing
             TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory(compositionService), compositionService);
             TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory(compositionService), compositionService);
             ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector, compositionService);
-            VideoIn = new VideoIn(textureModel.VideoIn);
+            VideoIn = new VideoIn(textureModel.VideoIn, compositionService);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayer, compositionService);
             SelectedAssetType = new IntegerValue(textureModel.SelectedAssetType, compositionService);
             TypeWriter = new TypeWriter(textureModel.TypeWriter, compositionService);

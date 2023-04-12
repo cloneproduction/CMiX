@@ -1,21 +1,21 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class Echo : ObservableObject, ITextureFilter
+    public partial class Echo : ObservableObject, ITextureFilter
     {
-        public Echo(EchoModel echoModel)
+        public Echo(EchoModel echoModel, CompositionService compositionService)
         {
             ID = echoModel.ID;
-            Visible = new BooleanValue(echoModel.Visible);
             Name = echoModel.Name;
-            Factor = new FloatValue(echoModel.Factor);
-
-            IsExpanded = true;
+            Visible = new BooleanValue(echoModel.Visible, compositionService);
+            Factor = new FloatValue(echoModel.Factor, compositionService);
+            isExpanded = true;
         }
 
         public TextureFilterName Name { get; set; }
@@ -23,13 +23,8 @@ namespace CMiX.Core.Presentations.ViewModels
         public Guid ID { get; set; }
         public FloatValue Factor { get; set; }
 
-
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
 
         public void Dispose()
         {

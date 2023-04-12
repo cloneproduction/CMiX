@@ -13,10 +13,10 @@ namespace CMiX.Core.Presentations.Transform
         {
             ID = transform2DModel.ID;
 
-            UniformScale = new FloatValue(transform2DModel.UniformScale);
-            Translate = new Vector2(transform2DModel.Translate);
-            Scale = new Vector2(transform2DModel.Scale);
-            Rotate = new FloatValue(transform2DModel.Rotate);
+            UniformScale = new FloatValue(transform2DModel.UniformScale, compositionService);
+            Translate = new Vector2(transform2DModel.Translate, compositionService);
+            Scale = new Vector2(transform2DModel.Scale, compositionService);
+            Rotate = new FloatValue(transform2DModel.Rotate, compositionService);
         }
 
         public Guid ID { get; set; }

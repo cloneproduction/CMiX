@@ -25,64 +25,40 @@ namespace CMiX.Core.Presentations.ViewModels
             BeatModifier = new BeatModifier(randomUVModel.BeatModifierModel, compositionService);
             SamplerState = new SamplerState(randomUVModel.SamplerState, compositionService);
             RandomizeLocation = new BooleanValue(randomUVModel.RandomizeLocation, compositionService);
-            Location = new Vector2(randomUVModel.Location);
-
+            Location = new Vector2(randomUVModel.Location, compositionService);
             RandomizeScale = new BooleanValue(randomUVModel.RandomizeScale, compositionService);
             Uniform = new FloatValue(randomUVModel.Uniform, compositionService);
-            Scale = new Vector2(randomUVModel.Scale);
-
+            Scale = new Vector2(randomUVModel.Scale, compositionService);
             RandomizeRotation = new BooleanValue(randomUVModel.RandomizeScale, compositionService);
             Rotation = new FloatValue(randomUVModel.Rotation, compositionService);
         }
 
-
-        public BooleanValue Visible { get; set; }
-
-
         public Guid ID { get; set; }
+        public BooleanValue Visible { get; set; }
         public TextureFilterName Name { get; set; }
-
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-
-
         public BooleanValue RandomizeLocation { get; set; }
         public Vector2 Location { get; set; }
-
         public BooleanValue RandomizeScale { get; set; }
         public Vector2 Scale { get; set; }
         public FloatValue Uniform { get; set; }
-
         public BooleanValue RandomizeRotation { get; set; }
         public FloatValue Rotation { get; set; }
-
         public SamplerState SamplerState { get; set; }
-
 
         [ObservableProperty]
         private bool isExpanded;
 
+        [ObservableProperty]
+        private bool randomizeLocationIsExpanded;
 
-        private bool _randomizeLocationIsExpanded;
-        public bool RandomizeLocationIsExpanded
-        {
-            get => _randomizeLocationIsExpanded;
-            set => SetProperty(ref _randomizeLocationIsExpanded, value);
-        }
+        [ObservableProperty]
+        private bool randomizeScaleIsExpanded;
 
-        private bool _randomizeScaleIsExpanded;
-        public bool RandomizeScaleIsExpanded
-        {
-            get => _randomizeScaleIsExpanded;
-            set => SetProperty(ref _randomizeScaleIsExpanded, value);
-        }
+        [ObservableProperty]
+        private bool randomizeRotationIsExpanded;
 
-        private bool _randomizeRotationIsExpanded;
-        public bool RandomizeRotationIsExpanded
-        {
-            get => _randomizeRotationIsExpanded;
-            set => SetProperty(ref _randomizeRotationIsExpanded, value);
-        }
 
         private ModifierMode _selectedModifierType;
         public ModifierMode SelectedModifierType

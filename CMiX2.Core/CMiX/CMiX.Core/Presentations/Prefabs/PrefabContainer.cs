@@ -3,6 +3,7 @@
 
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,12 +12,12 @@ namespace CMiX.Core.Presentations.Prefabs
 {
     public class PrefabContainer : ObservableObject, IPrefabContainer
     {
-        public PrefabContainer(PrefabContainerModel prefabContainerModel)
+        public PrefabContainer(PrefabContainerModel prefabContainerModel, CompositionService compositionService)
         {
             this.ID = prefabContainerModel.ID;
-            IsRenaming = new BooleanValue(prefabContainerModel.IsRenaming);
-            IsSelected = new BooleanValue(prefabContainerModel.IsSelected);
-            Name = new StringValue(prefabContainerModel.Name);
+            IsRenaming = new BooleanValue(prefabContainerModel.IsRenaming, compositionService);
+            IsSelected = new BooleanValue(prefabContainerModel.IsSelected, compositionService);
+            Name = new StringValue(prefabContainerModel.Name, compositionService);
         }
 
 
@@ -26,9 +27,7 @@ namespace CMiX.Core.Presentations.Prefabs
             PrefabChanged?.Invoke(this, new PropertyChangedEventArgs(prefab));
         }
 
-
         public Guid ID { get; set; }
-
 
         private IPrefab _prefab;
         public IPrefab Prefab
@@ -52,8 +51,6 @@ namespace CMiX.Core.Presentations.Prefabs
             }
         }
 
-
-
         public StringValue Name
         {
             get => Prefab.Name;
@@ -63,7 +60,6 @@ namespace CMiX.Core.Presentations.Prefabs
                     Prefab.Name = value;
             }
         }
-
 
         public BooleanValue IsSelected
         {

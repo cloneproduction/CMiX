@@ -19,9 +19,9 @@ namespace CMiX.Core.Presentations.Texturing
             IsEnabled = new BooleanValue(maskModel.IsEnabled, compositionService);
             TextureModifierManager = new ModifierManager(maskModel.ModifierManagerModel, new TextureFilterFactory(compositionService), compositionService);
             TextureTransformModifierManager = new ModifierManager(maskModel.TextureTransformModifierManager, new ModifierFactory(compositionService), compositionService);
-            SamplerState = new SamplerState(maskModel.SamplerState);
+            SamplerState = new SamplerState(maskModel.SamplerState, compositionService);
             Invert = new BooleanValue(maskModel.Invert, compositionService);
-            VideoIn = new VideoIn(maskModel.VideoIn);
+            VideoIn = new VideoIn(maskModel.VideoIn, compositionService);
             VideoPlayer = new VideoPlayer(maskModel.VideoPlayerModel, compositionService);
             SelectedAssetType = new IntegerValue(maskModel.SelectedAssetType, compositionService);
             TypeWriter = new TypeWriter(maskModel.TypeWriter, compositionService);

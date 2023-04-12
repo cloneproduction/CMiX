@@ -16,18 +16,18 @@ namespace CMiX.Core.Presentations.Modifiers.Transform
             ID = randomScaleModel.ID;
             Name = randomScaleModel.Name;
 
-            Counter = new IntegerValue(randomScaleModel.CounterModel);
-            Visible = new BooleanValue(randomScaleModel.Visible);
+            Counter = new IntegerValue(randomScaleModel.CounterModel, compositionService);
+            Visible = new BooleanValue(randomScaleModel.Visible, compositionService);
 
-            Easing = new Easing(randomScaleModel.EasingModel);
+            Easing = new Easing(randomScaleModel.EasingModel, compositionService);
             BeatModifier = new BeatModifier(randomScaleModel.BeatModifierModel, compositionService);
 
-            Mode = new GenericValue<ModifierMode>(randomScaleModel.Mode);
+            Mode = new GenericValue<ModifierMode>(randomScaleModel.Mode, compositionService);
 
-            Scale = new Vector3(randomScaleModel.Scale);
-            UniformXYZ = new FloatValue(randomScaleModel.UniformXYZ);
+            Scale = new Vector3(randomScaleModel.Scale, compositionService);
+            UniformXYZ = new FloatValue(randomScaleModel.UniformXYZ, compositionService);
 
-            Spread = new BooleanValue(randomScaleModel.Spread);
+            Spread = new BooleanValue(randomScaleModel.Spread, compositionService);
 
             IsExpanded = true;
         }

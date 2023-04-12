@@ -5,16 +5,17 @@ using CMiX.Core.BaseControl;
 
 namespace CMiX.Core.Presentations.Beat
 {
-    public class BeatModifierModel : BeatModel, IModel
+    public class BeatModifierModel : IModel
     {
         public BeatModifierModel()
         {
             ID = Guid.NewGuid();
-            ChanceToHit = new FloatValueModel { Value = 100.0f };
-            BeatIndex = 0;
+            ChanceToHit = new FloatValueModel(100);
+            BeatIndex = new IntegerValueModel(0);
         }
 
-        public int BeatIndex { get; set; }
+        public Guid ID { get; set; }
+        public IntegerValueModel BeatIndex { get; set; }
         public FloatValueModel ChanceToHit { get; set; }
     }
 }

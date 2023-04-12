@@ -1,23 +1,23 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {
-    public class Pixelate : ObservableObject, ITextureFilter
+    public partial class Pixelate : ObservableObject, ITextureFilter
     {
-        public Pixelate(PixelateModel pixelateModel)
+        public Pixelate(PixelateModel pixelateModel, CompositionService compositionService)
         {
             ID = pixelateModel.ID;
-            Visible = new BooleanValue(pixelateModel.Visible);
             Name = pixelateModel.Name;
-            Control = new FloatValue(pixelateModel.Control);
-            Factor = new Vector2(pixelateModel.Factor);
-
-            IsExpanded = true;
+            Visible = new BooleanValue(pixelateModel.Visible, compositionService);
+            Control = new FloatValue(pixelateModel.Control, compositionService);
+            Factor = new Vector2(pixelateModel.Factor, compositionService);
+            isExpanded = true;
         }
 
         public TextureFilterName Name { get; set; }
@@ -27,12 +27,8 @@ namespace CMiX.Core.Presentations.ViewModels
         public Vector2 Factor { get; set; }
         public FloatValue Control { get; set; }
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool isExpanded;
 
         public void Dispose()
         {

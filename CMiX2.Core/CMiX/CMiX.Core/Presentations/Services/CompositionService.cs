@@ -63,6 +63,7 @@ namespace CMiX.Core.Presentations.Service
             MasterBeatManager = new PrefabManager<MasterBeat>(MasterBeatManagerID, this, MasterBeatRepository);
 
             IsActive = true;
+            ControlMessenger = new ControlMessenger();
         }
 
         public IMapper Mapper { get; set; }

@@ -21,28 +21,28 @@ namespace CMiX.Core.Presentations.ViewModels
         public IModifier Create(Type modifierType)
         {
             if(modifierType == typeof(HSCB))
-                return new HSCB(new HSCBModel());
+                return new HSCB(new HSCBModel(), CompositionService);
 
-            if(modifierType == typeof(Invert))
-                return new Invert(new InvertModel());
+            if (modifierType == typeof(Invert))
+                return new Invert(new InvertModel(), CompositionService);
 
             if(modifierType == typeof(Blur))
-                return new Blur(new BlurModel());
+                return new Blur(new BlurModel(), CompositionService);
 
-            if(modifierType == typeof(Edge))
-                return new Edge(new EdgeModel());
+            if (modifierType == typeof(Edge))
+                return new Edge(new EdgeModel(), CompositionService);
 
-            if(modifierType == typeof(TransformTexture))
+            if (modifierType == typeof(TransformTexture))
                 return new TransformTexture(new TransformTextureModel(), CompositionService);
 
             if (modifierType == typeof(Pixelate))
-                return new Pixelate(new PixelateModel());
+                return new Pixelate(new PixelateModel(), CompositionService);
 
             if (modifierType == typeof(Echo))
-                return new Echo(new EchoModel());
+                return new Echo(new EchoModel(), CompositionService);
 
             if (modifierType == typeof(Feedback))
-                return new Feedback(new FeedbackModel());
+                return new Feedback(new FeedbackModel(), CompositionService);
 
             if (modifierType == typeof(TriColor))
                 return new TriColor(new TriColorModel(), CompositionService);
@@ -59,28 +59,28 @@ namespace CMiX.Core.Presentations.ViewModels
         public IModifier Create(IModifierModel modifierModel)
         {
             if (modifierModel is HSCBModel hSCBModel)
-                return new HSCB(hSCBModel);
+                return new HSCB(hSCBModel, CompositionService);
 
             if(modifierModel is InvertModel invertModel)
-                return new Invert(invertModel);
+                return new Invert(invertModel, CompositionService);
 
             if (modifierModel is BlurModel blurModel)
-                return new Blur(blurModel);
+                return new Blur(blurModel, CompositionService);
 
             if (modifierModel is EdgeModel edgeModel)
-                return new Edge(edgeModel);
+                return new Edge(edgeModel, CompositionService);
 
             if (modifierModel is TransformTextureModel modelTexture)
                 return new TransformTexture(modelTexture, CompositionService);
 
             if (modifierModel is PixelateModel pixelateModel)
-                return new Pixelate(pixelateModel);
+                return new Pixelate(pixelateModel, CompositionService);
 
             if (modifierModel is EchoModel echoModel)
-                return new Echo(echoModel);
+                return new Echo(echoModel, CompositionService);
 
             if (modifierModel is FeedbackModel feedbackModel)
-                return new Feedback(feedbackModel);
+                return new Feedback(feedbackModel, CompositionService);
 
             if (modifierModel is TriColorModel triColorModel)
                 return new TriColor(triColorModel, CompositionService);

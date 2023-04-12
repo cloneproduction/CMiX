@@ -44,7 +44,7 @@ namespace CMiX.Studio.Converters
             if (masterBeat == null)
                 return DependencyProperty.UnsetValue;
 
-            return String.Format("{0:C0}", (60000 / masterBeat.Periods[beatIndex + masterBeat.BeatIndex]).ToString());
+            return String.Format("{0:C0}", (60000 / masterBeat.Periods[beatIndex + masterBeat.BeatIndex.Value]).ToString());
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -66,7 +66,7 @@ namespace CMiX.Studio.Converters
             if(masterBeat == null)
                 return DependencyProperty.UnsetValue;
 
-            return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex + masterBeat.BeatIndex].AnimationPosition;
+            return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex + masterBeat.BeatIndex.Value].AnimationPosition;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
