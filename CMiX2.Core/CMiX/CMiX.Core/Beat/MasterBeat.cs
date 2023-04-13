@@ -21,8 +21,7 @@ namespace CMiX.Core.Presentations.Beat
 
             Index = new IntegerValue(masterBeatModel.Index, compositionService);
             Period = new FloatValue(masterBeatModel.Period, compositionService);
-            BeatIndex = new IntegerValue(masterBeatModel.BeatIndex, compositionService);
-
+            BeatIndex = new IntegerValue(masterBeatModel.BeatIndex, compositionService)
             Pause = new BooleanValue(masterBeatModel.Pause, compositionService);
 
             Periods = new float[15];
