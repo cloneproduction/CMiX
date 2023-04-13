@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Beat;
 using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Entities.Lights;
@@ -37,8 +38,8 @@ namespace CMiX.Core.Presentations.Prefabs
             if (type == typeof(Camera))
                 return new Camera(new CameraModel(), CompositionService);
 
-            if (type == typeof(Mesh))
-                return new Mesh(new MeshModel(), CompositionService);
+            //if (type == typeof(Mesh))
+            //    return new Mesh(new MeshModel(), CompositionService);
 
             if (type == typeof(LightEntity))
                 return new LightEntity(new LightEntityModel(), CompositionService);
@@ -69,8 +70,8 @@ namespace CMiX.Core.Presentations.Prefabs
             if(prefabModel is CameraModel cameraModel)
                 return new Camera(cameraModel, CompositionService);
 
-            if(prefabModel is MeshModel meshModel)
-                return new Mesh(meshModel, CompositionService);
+            //if(prefabModel is MeshModel meshModel)
+            //    return new Mesh(meshModel, CompositionService);
 
             if(prefabModel is LightEntityModel lightEntityModel)
                 return new LightEntity(lightEntityModel, CompositionService);

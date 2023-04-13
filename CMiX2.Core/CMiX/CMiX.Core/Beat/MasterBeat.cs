@@ -3,7 +3,7 @@
 
 using System.Diagnostics;
 using System.Windows.Input;
-using CMiX.Core.Presentations.Controls;
+using CMiX.Core.Beat;
 using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.ViewModels;

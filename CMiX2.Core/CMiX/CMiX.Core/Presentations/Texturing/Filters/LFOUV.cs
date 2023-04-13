@@ -5,6 +5,7 @@ using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Modifiers;
 using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.Texturing.Sampling;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 

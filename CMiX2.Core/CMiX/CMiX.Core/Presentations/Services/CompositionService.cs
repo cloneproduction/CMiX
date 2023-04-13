@@ -55,7 +55,6 @@ namespace CMiX.Core.Presentations.Service
             LayerRepository = new PrefabRepository<Layer>(prefabDataBase);
             EntityRepository = new PrefabRepository<Entity>(prefabDataBase);
             MaterialRepository = new PrefabRepository<Material>(prefabDataBase);
-            MeshRepository = new PrefabRepository<Mesh>(prefabDataBase);
             LightEntityRepository = new PrefabRepository<LightEntity>(prefabDataBase);
             CameraRepository = new PrefabRepository<Camera>(prefabDataBase);
             MasterBeatRepository = new PrefabRepository<MasterBeat>(prefabDataBase);
@@ -85,7 +84,6 @@ namespace CMiX.Core.Presentations.Service
         public PrefabRepository<Material> MaterialRepository { get; set; }
         public PrefabRepository<Texture> TextureRepository { get; set; }
         public PrefabRepository<LightEntity> LightEntityRepository { get; set; }
-        public PrefabRepository<Mesh> MeshRepository { get; set; }
         public PrefabRepository<Camera> CameraRepository { get; set; }
     }
 }

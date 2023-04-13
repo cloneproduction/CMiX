@@ -4,6 +4,7 @@
 using System;
 using CMiX.Core.Presentations.PostFX;
 using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels

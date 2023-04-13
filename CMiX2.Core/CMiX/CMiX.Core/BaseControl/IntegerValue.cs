@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentations.ViewModels
+namespace CMiX.Core.Presentations.ViewModels.BaseControl
 {
     public class IntegerValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
@@ -26,15 +26,9 @@ namespace CMiX.Core.Presentations.ViewModels
             IsActive = true;
         }
 
-        public IntegerValue(int value)
-        {
-            this.Value = value;
-        }
-
         public ICommand AddCommand { get; }
         public ICommand SubCommand { get; }
         public ControlMessenger ControlMessenger { get; set; }
-
 
         private int _value;
         public int Value
@@ -45,6 +39,7 @@ namespace CMiX.Core.Presentations.ViewModels
                 SetProperty(ref _value, value);
                 if(IsActive)
                     ControlMessenger.Send<IntegerValueModel>(this);
+                Console.WriteLine(value);
             }
         }
 

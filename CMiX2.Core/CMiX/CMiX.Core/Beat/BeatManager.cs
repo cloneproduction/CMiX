@@ -1,10 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Presentations.Components;
-using CMiX.Core.Presentations.ViewModels.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -31,18 +29,6 @@ namespace CMiX.Core.Presentations.Beat
         public ICommand TapCommand { get; }
         public ICommand ResyncCommand { get; }
 
-
-        public ObservableCollection<IComponent> Components
-        {
-            get => Project.Components;
-        }
-
-        private Component _selectedComponent;
-        public Component SelectedComponent
-        {
-            get => _selectedComponent;
-            set => SetProperty(ref _selectedComponent, value);
-        }
 
         public void Reset()
         {

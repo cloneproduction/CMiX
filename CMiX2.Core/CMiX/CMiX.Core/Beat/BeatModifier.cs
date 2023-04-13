@@ -2,8 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
+using CMiX.Core.Beat;
 using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 

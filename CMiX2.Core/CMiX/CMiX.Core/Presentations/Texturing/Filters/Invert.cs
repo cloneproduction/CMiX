@@ -3,6 +3,7 @@
 
 using System;
 using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 

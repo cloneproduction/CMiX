@@ -20,19 +20,16 @@ namespace CMiX.Core.Presentations.ViewModels
             IsActive = true;
         }
 
-        public BooleanValue(bool directionX, CompositionService compositionService)
+        public BooleanValue(bool value, CompositionService compositionService)
         {
-            this.directionX = directionX;
-            this.compositionService = compositionService;
+            this.Value = value;
+            this.ControlMessenger = compositionService.ControlMessenger;
         }
 
         public Guid ID { get; set; }
         private ControlMessenger ControlMessenger { get; set; }
 
         private bool _value;
-        private bool directionX;
-        private CompositionService compositionService;
-
         public bool Value
         {
             get => _value;
@@ -41,16 +38,8 @@ namespace CMiX.Core.Presentations.ViewModels
                 SetProperty(ref _value, value);
                 if(IsActive)
                     ControlMessenger.Send<BooleanValueModel>(this);
+                Console.WriteLine(value);
             }
-        }
-
-
-        public IModel GetModel()
-        {
-            BooleanValueModel model = new BooleanValueModel();
-            model.ID = this.ID;
-            model.Value = this.Value;
-            return model;
         }
 
         public void Receive(MessageRequestControl message)

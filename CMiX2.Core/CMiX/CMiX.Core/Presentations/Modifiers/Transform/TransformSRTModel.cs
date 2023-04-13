@@ -4,6 +4,7 @@
 using CMiX.Core.BaseControl;
 using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Transform;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Modifiers.Transform
 {

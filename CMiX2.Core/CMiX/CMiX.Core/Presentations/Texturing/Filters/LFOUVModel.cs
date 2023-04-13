@@ -2,11 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControl;
+using CMiX.Core.Beat;
 using CMiX.Core.Presentations.Animation;
-using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Modifiers;
 using CMiX.Core.Presentations.Texturing.Sampling;
 using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Texturing.Filters
 {

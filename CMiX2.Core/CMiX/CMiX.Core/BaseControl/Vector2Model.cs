@@ -3,7 +3,7 @@
 
 using System;
 
-namespace CMiX.Core.BaseControl
+namespace CMiX.Core.Presentations.ViewModels.BaseControl
 {
     public class Vector2Model : IModel
     {

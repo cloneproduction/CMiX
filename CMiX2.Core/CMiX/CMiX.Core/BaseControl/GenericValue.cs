@@ -33,6 +33,7 @@ namespace CMiX.Core.Presentations.ViewModels
                 SetProperty(ref _value, value);
                 if(IsActive)
                     ControlMessenger.Send<GenericValueModel<T>>(this);
+                Console.WriteLine(value);
             }
         }
 

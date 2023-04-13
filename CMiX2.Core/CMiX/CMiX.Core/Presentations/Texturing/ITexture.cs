@@ -3,6 +3,7 @@
 
 using CMiX.Core.Presentations.Texturing.Sampling;
 using CMiX.Core.Presentations.Texturing.Sources;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.ViewModels
 {

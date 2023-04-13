@@ -1,18 +1,16 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.BaseControl;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Presentations.Network;
 using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentations.ViewModels
+namespace CMiX.Core.Presentations.ViewModels.BaseControl
 {
-    public partial class FloatValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
+    public class FloatValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-
         public FloatValue(FloatValueModel floatValueModel, CompositionService compositionService)
         {
             ID = floatValueModel.ID;
@@ -32,7 +30,8 @@ namespace CMiX.Core.Presentations.ViewModels
             {
                 SetProperty(ref _value, value);
                 if (IsActive)
-                    ControlMessenger.Send<IntegerValueModel>(this);
+                    ControlMessenger.Send<FloatValueModel>(this);
+                Console.WriteLine(value);
             }
         }
 

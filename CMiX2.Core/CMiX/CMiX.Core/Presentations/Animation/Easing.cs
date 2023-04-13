@@ -1,14 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using CMiX.Core.BaseControl;
-using CMiX.Core.Networking.Messages;
-using CMiX.Core.Presentations.Network;
 using CMiX.Core.Presentations.Animation;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Messaging;
 using CMiX.Core.Presentations.Service;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.ViewModels
 {

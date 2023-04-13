@@ -5,6 +5,7 @@ using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.Service;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Presentations.Modifiers.Camera
 {

@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControl;
 using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 
 namespace CMiX.Core.Texturing.Filters
 {
