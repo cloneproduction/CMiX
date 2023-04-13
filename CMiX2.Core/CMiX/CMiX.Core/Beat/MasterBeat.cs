@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentations.Beat
             tapTime = new List<float>();
 
             BeatAnimations = new BeatAnimations();
-            Resync = new Resync(BeatAnimations, masterBeatModel.ResyncModel);
+            Resync = new Button(masterBeatModel.Resync, compositionService);
 
             float Multiplier = 1.0f / 128.0f;
             for (int i = 0; i < Periods.Length; i++)
@@ -60,7 +60,7 @@ namespace CMiX.Core.Presentations.Beat
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }
         public BeatAnimations BeatAnimations { get; set; }
-        public Resync Resync { get; set; }
+        public Button Resync { get; set; }
         public IntegerValue Index { get; set; }
         public IntegerValue BeatIndex { get; set; }
         public FloatValue Period { get; set; }
@@ -92,7 +92,7 @@ namespace CMiX.Core.Presentations.Beat
         private void SetAnimatedDouble()
         {
             BeatIndex.Value = Index.Value + (Periods.Length - 1) / 2;
-            //Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
+            Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
             //OnPropertyChanged("Period");
         }

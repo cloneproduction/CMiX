@@ -4,7 +4,6 @@
 using System.Windows.Input;
 using CMiX.Core.Beat;
 using CMiX.Core.Presentations.Service;
-using CMiX.Core.Presentations.ViewModels;
 using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -16,6 +15,7 @@ namespace CMiX.Core.Presentations.Beat
         public BeatModifier(BeatModifierModel beatModifierModel, CompositionService compositionService)
         {
             ID = beatModifierModel.ID;
+            CompositionService = compositionService;
             BeatIndex = new IntegerValue(beatModifierModel.BeatIndex, compositionService);
             ChanceToHit = new FloatValue(beatModifierModel.ChanceToHit, compositionService);
 
@@ -24,6 +24,7 @@ namespace CMiX.Core.Presentations.Beat
             DivideCommand = new RelayCommand(Divide);
         }
 
+        public CompositionService CompositionService { get; set; }
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }

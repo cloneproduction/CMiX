@@ -12,7 +12,7 @@ namespace CMiX.Core.Beat
         public MasterBeatModel()
         {
             ID = Guid.NewGuid();
-            ResyncModel = new ResyncModel();
+            Resync = new ButtonModel();
             Pause = new BooleanValueModel(false);
             Index = new IntegerValueModel(0);
             BeatIndex = new IntegerValueModel(0);
@@ -20,7 +20,7 @@ namespace CMiX.Core.Beat
         }
 
         public Guid ID { get; set; }
-        public ResyncModel ResyncModel { get; set; }
+        public ButtonModel Resync { get; set; }
         public BooleanValueModel Pause { get; set; }
         public IntegerValueModel Index { get; set; }
         public IntegerValueModel BeatIndex { get; set; }

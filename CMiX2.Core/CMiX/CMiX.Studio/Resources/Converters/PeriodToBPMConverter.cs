@@ -37,13 +37,13 @@ namespace CMiX.Studio.Converters
             if (values[0] == null || values[1] == null || values[2] == null)
                 return "0";
 
-            var beatIndex = (IntegerValue)values[1];
+            var beatIndex = (int)values[1];
             var masterBeat = values[2] as MasterBeat;
 
             if (masterBeat == null)
                 return DependencyProperty.UnsetValue;
 
-            return String.Format("{0:C0}", (60000 / masterBeat.Periods[beatIndex.Value + masterBeat.BeatIndex.Value]).ToString());
+            return String.Format("{0:C0}", (60000 / masterBeat.Periods[beatIndex + masterBeat.BeatIndex.Value]).ToString());
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -59,13 +59,13 @@ namespace CMiX.Studio.Converters
             if (values[0] == null || values[1] == null)
                 return DependencyProperty.UnsetValue;
 
-            var beatIndex = (IntegerValue)values[0];
+            var beatIndex = (int)values[0];
             var masterBeat = values[1] as MasterBeat;
 
             if(masterBeat == null)
                 return DependencyProperty.UnsetValue;
 
-            return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex.Value + masterBeat.BeatIndex.Value].AnimationPosition;
+            return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex + masterBeat.BeatIndex.Value].AnimationPosition;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

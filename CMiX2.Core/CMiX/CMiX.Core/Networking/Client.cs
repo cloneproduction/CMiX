@@ -57,7 +57,6 @@ namespace CMiX.Core.Services
         {
             var projectModel = Serializer.Deserialize<ProjectModel>(arg.Data);
             Console.WriteLine("Data size is " + arg.Data.Length);
-            Console.WriteLine("ProjectModel had " + projectModel.ComponentModels.Count + "Components");
             Console.WriteLine("Client received the request of type :  " + projectModel.GetType());
             return new SyncResponse(arg, "Client receive the request, send the ProjectModel back to Server");
         }

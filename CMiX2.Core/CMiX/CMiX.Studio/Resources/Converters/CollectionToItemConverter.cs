@@ -1,11 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Beat;
 using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Data;
+using CMiX.Core.Beat;
 
 namespace CMiX.Studio.Converters
 {

@@ -8,7 +8,7 @@ using CMiX.Core.Beat;
 
 namespace CMiX.Core.Presentations.Components
 {
-    public class CompositionModel : IComponentModel, IPrefabModel
+    public class CompositionModel : IPrefabModel
     {
         public CompositionModel()
         {

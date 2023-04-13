@@ -9,7 +9,7 @@ using CMiX.Core.BaseControl;
 
 namespace CMiX.Core.Presentations.Components
 {
-    public class EntityModel : IComponentModel, IPrefabModel
+    public class EntityModel : IPrefabModel
     {
         public EntityModel()
         {
