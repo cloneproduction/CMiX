@@ -1,10 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentations.ViewModels.Modifiers;
-using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.Modifiers;
 using CMiX.Core.Presentations.Modifiers.Camera;
+using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels.Modifiers;
 
 namespace CMiX.Core.Presentations.ViewModels
 {

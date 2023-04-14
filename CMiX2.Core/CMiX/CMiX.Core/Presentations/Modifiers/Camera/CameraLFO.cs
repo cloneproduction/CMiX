@@ -13,18 +13,14 @@ namespace CMiX.Core.Presentations.Modifiers.Camera
         public CameraLFO(CameraLFOModel lfoModel, CompositionService compositionService)
         {
             ID = lfoModel.ID;
-
             Visible = new BooleanValue(lfoModel.Visible, compositionService);
             BeatModifier = new BeatModifier(lfoModel.BeatModifier, compositionService);
-
             Yaw = new BooleanValue(lfoModel.Yaw, compositionService);
             Pitch = new BooleanValue(lfoModel.Pitch, compositionService);
             Zoom = new BooleanValue(lfoModel.Zoom, compositionService);
-
             PingPong = new BooleanValue(lfoModel.PingPong, compositionService);
             Axis = new GenericValue<CameraAxis>(lfoModel.Axis, compositionService);
             Easing = new Easing(lfoModel.Easing, compositionService);
-
             From = new FloatValue(lfoModel.From, compositionService);
             To = new FloatValue(lfoModel.To, compositionService);
         }

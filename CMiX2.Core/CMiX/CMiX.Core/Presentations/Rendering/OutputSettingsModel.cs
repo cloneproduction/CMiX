@@ -4,7 +4,7 @@
 using CMiX.Core.BaseControl;
 using CMiX.Core.Presentations.ViewModels;
 
-namespace CMiX.Core.Presentations.Components
+namespace CMiX.Core.Presentations.Rendering
 {
     public class OutputSettingsModel : IModel
     {

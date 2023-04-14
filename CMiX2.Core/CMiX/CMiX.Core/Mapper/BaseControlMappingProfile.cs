@@ -13,6 +13,8 @@ namespace CMiX.Core.Mapper
     {
         public BaseControlMappingProfile()
         {
+            CreateMap<Button, ButtonModel>().ReverseMap();
+
             CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap();
             CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap();
             CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap();

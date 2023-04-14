@@ -31,7 +31,6 @@ namespace CMiX.Core.Presentations.Modifiers.Camera
         public BooleanValueModel Yaw { get; set; }
         public BooleanValueModel Pitch { get; set; }
         public BooleanValueModel Zoom { get; set; }
-
         public BooleanValueModel PingPong { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }

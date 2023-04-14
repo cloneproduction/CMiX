@@ -5,6 +5,7 @@ using CMiX.Core.BaseControl;
 using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.ViewModels.Modifiers;
 using CMiX.Core.Beat;
+using CMiX.Core.Presentations.Rendering;
 
 namespace CMiX.Core.Presentations.Components
 {

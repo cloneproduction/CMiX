@@ -21,7 +21,7 @@ namespace CMiX.Core.Presentations.Beat
 
             Index = new IntegerValue(masterBeatModel.Index, compositionService);
             Period = new FloatValue(masterBeatModel.Period, compositionService);
-            BeatIndex = new IntegerValue(masterBeatModel.BeatIndex, compositionService)
+            BeatIndex = new IntegerValue(masterBeatModel.BeatIndex, compositionService);
             Pause = new BooleanValue(masterBeatModel.Pause, compositionService);
 
             Periods = new float[15];
@@ -93,6 +93,7 @@ namespace CMiX.Core.Presentations.Beat
             BeatIndex.Value = Index.Value + (Periods.Length - 1) / 2;
             Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
             AnimatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
+            Console.WriteLine();
             //OnPropertyChanged("Period");
         }
 

@@ -13,6 +13,7 @@ namespace CMiX.Core.Mapper
     {
         public TransformMappingProfile()
         {
+            CreateMap<Transform2D, Transform2DModel>().ReverseMap();
             CreateMap<GenericValue<TransformType>, GenericValueModel<TransformType>>().ReverseMap();
             CreateMap<TransformSRT, TransformSRTModel>().ReverseMap();
             CreateMap<Translate, TranslateModel>().ReverseMap();

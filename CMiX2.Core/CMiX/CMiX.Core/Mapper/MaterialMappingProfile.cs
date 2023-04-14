@@ -13,6 +13,7 @@ namespace CMiX.Core.Mapper
     {
         public MaterialMappingProfile()
         {
+            CreateMap<PrefabManager<Material>, PrefabManagerModel>().ReverseMap();
             CreateMap<Material, MaterialModel>().ReverseMap();
             CreateMap<GenericValue<PipelineType>, GenericValueModel<PipelineType>>().ReverseMap();
             CreateMap<GenericValue<TransparencyType>, GenericValueModel<TransparencyType>>().ReverseMap();

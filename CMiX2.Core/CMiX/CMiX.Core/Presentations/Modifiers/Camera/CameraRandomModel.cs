@@ -25,7 +25,6 @@ namespace CMiX.Core.Presentations.Modifiers.Camera
 
         public Guid ID { get; set; }
         public BooleanValueModel Visible { get; set; }
-
         public BooleanValueModel PingPong { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }

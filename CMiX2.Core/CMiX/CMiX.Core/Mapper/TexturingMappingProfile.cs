@@ -4,6 +4,7 @@
 using AutoMapper;
 using CMiX.Core.BaseControl;
 using CMiX.Core.Presentations.Texturing;
+using CMiX.Core.Presentations.Texturing.Sampling;
 using CMiX.Core.Presentations.ViewModels;
 
 namespace CMiX.Core.Mapper
@@ -15,6 +16,9 @@ namespace CMiX.Core.Mapper
             CreateMap<Texture, TextureModel>().ReverseMap();
             CreateMap<ProceduralSelector, ProceduralSelectorModel>().ReverseMap();
             CreateMap<GenericValue<BlendModeEnum>, GenericValueModel<BlendModeEnum>>().ReverseMap();
+
+            CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
+            CreateMap<GenericValue<TextureAddressMode>, GenericValueModel<TextureAddressMode>>().ReverseMap();
         }
     }
 }

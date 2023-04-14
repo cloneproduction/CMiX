@@ -1,105 +1,64 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Presentations.ViewModels;
-using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Service;
+using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Presentations.ViewModels.BaseControl;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.Modifiers.Transform
 {
-    public class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier
+    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier
     {
         public RandomXYZ(RandomXYZModel randomXYZModel, CompositionService compositionService)
         {
             ID = randomXYZModel.ID;
             Name = randomXYZModel.Name;
-
-            Counter = new IntegerValue(randomXYZModel.CounterModel, compositionService);
+            Counter = new IntegerValue(randomXYZModel.Counter, compositionService);
             Visible = new BooleanValue(randomXYZModel.Visible, compositionService);
-
-            Easing = new Easing(randomXYZModel.EasingModel, compositionService);
-            BeatModifier = new BeatModifier(randomXYZModel.BeatModifierModel, compositionService);
-
+            Easing = new Easing(randomXYZModel.Easing, compositionService);
+            BeatModifier = new BeatModifier(randomXYZModel.BeatModifier, compositionService);
             Mode = new GenericValue<ModifierMode>(randomXYZModel.Mode, compositionService);
-
             RandomizeLocation = new BooleanValue(randomXYZModel.RandomizeLocation, compositionService);
             RandomizeLocation.Value = true;
             Location = new Vector3(randomXYZModel.Location, compositionService);
-
             RandomizeScale = new BooleanValue(randomXYZModel.RandomizeScale, compositionService);
             RandomizeScale.Value = true;
             Scale = new Vector3(randomXYZModel.Scale, compositionService);
-
             RandomizeRotation = new BooleanValue(randomXYZModel.RandomizeScale, compositionService);
             RandomizeRotation.Value = true;
             Rotation = new Vector3(randomXYZModel.Rotation, compositionService);
-
-            Spread = new BooleanValue(randomXYZModel.Spread, compositionService);
-
-            IsExpanded = true;
+            isExpanded = true;
         }
 
-        public BooleanValue Visible { get; set; }
-
-
+       
         public Guid ID { get; set; }
+        public BooleanValue Visible { get; set; }
         public TransformModifierNames Name { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
-
-
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public IntegerValue Counter { get; set; }
-        public BooleanValue Spread { get; set; }
-
-
         public BooleanValue RandomizeLocation { get; set; }
         public Vector3 Location { get; set; }
-
         public BooleanValue RandomizeScale { get; set; }
         public Vector3 Scale { get; set; }
-
         public BooleanValue RandomizeRotation { get; set; }
         public Vector3 Rotation { get; set; }
 
 
+        [ObservableProperty]
+        private bool isExpanded;
 
-        private bool _isExpanded;
-        public bool IsExpanded
-        {
-            get => _isExpanded;
-            set => SetProperty(ref _isExpanded, value);
-        }
+        [ObservableProperty]
+        private bool randomizeLocationIsExpanded;
 
-        private bool _randomizeLocationIsExpanded;
-        public bool RandomizeLocationIsExpanded
-        {
-            get => _randomizeLocationIsExpanded;
-            set => SetProperty(ref _randomizeLocationIsExpanded, value);
-        }
+        [ObservableProperty]
+        private bool randomizeScaleIsExpanded;
 
-        private bool _randomizeScaleIsExpanded;
-        public bool RandomizeScaleIsExpanded
-        {
-            get => _randomizeScaleIsExpanded;
-            set => SetProperty(ref _randomizeScaleIsExpanded, value);
-        }
-
-        private bool _randomizeRotationIsExpanded;
-        public bool RandomizeRotationIsExpanded
-        {
-            get => _randomizeRotationIsExpanded;
-            set => SetProperty(ref _randomizeRotationIsExpanded, value);
-        }
-
-        private ModifierMode _selectedModifierType;
-        public ModifierMode SelectedModifierType
-        {
-            get => _selectedModifierType;
-            set => SetProperty(ref _selectedModifierType, value);
-        }
+        [ObservableProperty]
+        private bool randomizeRotationIsExpanded;
 
 
         public void Dispose()

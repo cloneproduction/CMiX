@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.Mapper;
-using CMiX.Core.Presentations.Beat;
 using CMiX.Core.Presentations.Components;
 using CMiX.Core.Presentations.Materials;
 using CMiX.Core.Presentations.Network;
@@ -11,11 +10,10 @@ using CMiX.Core.Presentations.Prefabs;
 using CMiX.Core.Presentations.Services;
 using CMiX.Core.Presentations.Texturing;
 using CMiX.Core.Presentations.ViewModels;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Presentations.Service
 {
-    public class CompositionService : ObservableRecipient, IService
+    public class CompositionService : IService
     {
         public CompositionService(IPrefabDataBase prefabDataBase)
         {
@@ -35,20 +33,7 @@ namespace CMiX.Core.Presentations.Service
 
             ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
             
-            //Guid LayerManagerID = Guid.Parse("00000000-0000-0000-0000-000000000002");
-            //Guid ModelEntityManagerID = Guid.Parse("00000000-0000-0000-0000-000000000003");
-            //Guid TextureManagerID = Guid.Parse("00000000-0000-0000-0000-000000000004");
-            //Guid ColorationManagerID = Guid.Parse("00000000-0000-0000-0000-000000000005");
-            //Guid MaterialManagerID = Guid.Parse("00000000-0000-0000-0000-000000000006");
-            //Guid MeshManagerID = Guid.Parse("00000000-0000-0000-0000-000000000007");
-            //Guid LightEntityManagerID = Guid.Parse("00000000-0000-0000-0000-000000000008");
-            //Guid CameraManagerID = Guid.Parse("00000000-0000-0000-0000-000000000009");
-            //Guid TransformManagerID = Guid.Parse("00000000-0000-0000-0000-000000000010");
-            //Guid TextureTransformID = Guid.Parse("00000000-0000-0000-0000-000000000011");
-            Guid MasterBeatManagerID = Guid.Parse("00000000-0000-0000-0000-000000000012");
-
             PrefabDataBase = prefabDataBase;
-            
             PrefabFactory = new PrefabFactory(this);
 
             CompositionRepository = new PrefabRepository<Composition>(prefabDataBase);
@@ -57,11 +42,7 @@ namespace CMiX.Core.Presentations.Service
             MaterialRepository = new PrefabRepository<Material>(prefabDataBase);
             LightEntityRepository = new PrefabRepository<LightEntity>(prefabDataBase);
             CameraRepository = new PrefabRepository<Camera>(prefabDataBase);
-            MasterBeatRepository = new PrefabRepository<MasterBeat>(prefabDataBase);
 
-            MasterBeatManager = new PrefabManager<MasterBeat>(MasterBeatManagerID, this, MasterBeatRepository);
-
-            IsActive = true;
             ControlMessenger = new ControlMessenger();
         }
 
@@ -76,10 +57,8 @@ namespace CMiX.Core.Presentations.Service
             return PrefabDataBase.Prefabs.FirstOrDefault(x => x.ID == id);
         }
 
-        public PrefabManager<MasterBeat> MasterBeatManager { get; set; }
         public PrefabRepository<Layer> LayerRepository { get; set; }
         public PrefabRepository<Composition> CompositionRepository { get; set; }
-        public PrefabRepository<MasterBeat> MasterBeatRepository { get; set; }
         public PrefabRepository<Entity> EntityRepository { get; set; }
         public PrefabRepository<Material> MaterialRepository { get; set; }
         public PrefabRepository<Texture> TextureRepository { get; set; }

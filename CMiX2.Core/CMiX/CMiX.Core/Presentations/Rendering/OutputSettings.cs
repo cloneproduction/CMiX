@@ -5,7 +5,7 @@ using CMiX.Core.Presentations.Service;
 using CMiX.Core.Presentations.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentations.Components
+namespace CMiX.Core.Presentations.Rendering
 {
     public class OutputSettings : ObservableObject, IControl
     {
