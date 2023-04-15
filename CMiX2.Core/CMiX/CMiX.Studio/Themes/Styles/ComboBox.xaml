@@ -312,7 +312,7 @@
                                 Background="{DynamicResource HighHighDarkerColor}"
                                 SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
                                 TextElement.Foreground="{DynamicResource TextBase}"
-                                Text="{Binding SelectedItem.Name, Mode=TwoWay,  RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/>
+                                Text="{Binding SelectedItem.Name.Value, Mode=TwoWay,  RelativeSource={RelativeSource AncestorType={x:Type ComboBox}}}"/>
 
                     </DockPanel>
                     <ControlTemplate.Triggers>
