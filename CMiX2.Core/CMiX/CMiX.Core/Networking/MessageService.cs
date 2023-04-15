@@ -5,9 +5,8 @@ using System.Collections.ObjectModel;
 using Ceras;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Messenger;
-using CMiX.Core.Presentations.Network;
-using CMiX.Core.Presentations.Service;
-using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.Network;
+using CMiX.Core.ViewModels;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -42,11 +41,9 @@ namespace CMiX.Core.Presentation.ViewModels
             Messenger.Register<IMessage, int>(this, MessageType.Out, (r, m) => SendMessage(m));
         }
 
-
         private CerasSerializer Serializer { get; set; }
         public Client Client { get; set; }
         public ObservableCollection<Server> Servers { get; set; }
-
 
         public void StartClient(Settings settings)
         {

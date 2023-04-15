@@ -4,11 +4,11 @@
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messenger;
-using CMiX.Core.Presentations.ViewModels;
+using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.Presentations.Network
+namespace CMiX.Core.Network
 {
     public class ServerManager : ObservableObject
     {

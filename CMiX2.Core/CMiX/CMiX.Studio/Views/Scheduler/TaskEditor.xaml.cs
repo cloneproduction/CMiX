@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace CMiX.Core.Presentations.Views.Scheduling
+namespace CMiX.Core.Views.Scheduling
 {
     public partial class TaskEditor : Window
     {

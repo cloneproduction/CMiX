@@ -9,7 +9,7 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 
-namespace CMiX.Core.Presentations.Controls
+namespace CMiX.Core.Controls
 {
     public class CMiXPopup : Popup
     {

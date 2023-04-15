@@ -4,14 +4,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Beat="clr-namespace:CMiX.Core.Presentations.Beat;assembly=CMiX.Core"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-    d:DataContext="{d:DesignInstance Type={x:Type Beat:BeatModifier}, IsDesignTimeCreatable=False}"
+
     d:DesignHeight="84.326"
     d:DesignWidth="360.914"
     mc:Ignorable="d">
-
+    <!--d:DataContext="{d:DesignInstance Type={x:Type Animations:BeatModifier}, IsDesignTimeCreatable=False}"-->
     <StackPanel>
 
         <Views:BeatControls DataContext="{Binding}"/>

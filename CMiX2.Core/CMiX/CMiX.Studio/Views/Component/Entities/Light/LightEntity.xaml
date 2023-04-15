@@ -3,9 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentations.ViewModels;assembly=CMiX.Core"
+             xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
@@ -58,19 +59,19 @@
                 <Style TargetType="ContentControl">
                     <Style.Triggers>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.PointLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.PointLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource PointLightTemplate}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.SpotLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.SpotLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource SpotLightTemplate}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.AmbientLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.AmbientLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource AmbientLightTemplate}"/>
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.DirectionalLight}">
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.DirectionalLight}">
                             <Setter Property="ContentTemplate" Value="{StaticResource DirectionalLightTemplate}"/>
                         </DataTrigger>
 

@@ -4,7 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ViewModels="clr-namespace:CMiX.Core.Presentations.ViewModels;assembly=CMiX.Core"
+    xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
@@ -27,7 +27,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static ViewModels:TextureSourceName.Image}">
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Image}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -45,7 +45,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static ViewModels:TextureSourceName.Video}">
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Video}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -70,7 +70,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static ViewModels:TextureSourceName.Text}">
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Text}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -87,7 +87,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static ViewModels:TextureSourceName.Input}">
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Input}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -103,7 +103,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static ViewModels:TextureSourceName.Gradient}">
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Gradient}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -119,7 +119,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static ViewModels:TextureSourceName.BubbleNoise}">
+                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.BubbleNoise}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>

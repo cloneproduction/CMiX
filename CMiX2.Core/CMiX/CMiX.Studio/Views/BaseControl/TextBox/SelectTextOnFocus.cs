@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace CMiX.Core.Presentations.Controls
+namespace CMiX.Core.Controls
 {
     /// <summary>
     /// Attached dependency property

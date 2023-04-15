@@ -1,10 +1,11 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-                    xmlns:ViewModels="clr-namespace:CMiX.Core.Presentations.ViewModels;assembly=CMiX.Core"
-                    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Color;assembly=CMiX.Core"
-                    xmlns:TransformModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Transform;assembly=CMiX.Core"
-                    xmlns:CameraModifiers="clr-namespace:CMiX.Core.Presentations.Modifiers.Camera;assembly=CMiX.Core">
+                    xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
+                    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
+                    xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
+                    xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
+                    xmlns:CameraModifiers="clr-namespace:CMiX.Core.Rendering.Cameras.Modifiers;assembly=CMiX.Core">
     
     <!--ENTITY MODIFIERS-->
     <DataTemplate DataType="{x:Type ColorModifiers:RandomHSV}">
@@ -31,19 +32,19 @@
         <Views:RandomScale DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:TransformSRT}">
+    <DataTemplate DataType="{x:Type Transformation:TransformSRT}">
         <Views:TransformSRT DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:Translate}">
+    <DataTemplate DataType="{x:Type Transformation:Translate}">
         <Views:Translate DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:Scale}">
+    <DataTemplate DataType="{x:Type Transformation:Scale}">
         <Views:Scale DataContext="{Binding}"/>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type ViewModels:Rotation}">
+    <DataTemplate DataType="{x:Type Transformation:Rotation}">
         <Views:Rotation DataContext="{Binding}"/>
     </DataTemplate>
 

@@ -5,7 +5,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Windows.Data;
-using CMiX.Core.Beat;
+using CMiX.Core.Animations;
 
 namespace CMiX.Studio.Converters
 {

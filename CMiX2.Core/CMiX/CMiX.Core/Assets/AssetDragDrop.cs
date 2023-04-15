@@ -3,7 +3,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace CMiX.Core.Presentations.ViewModels.Assets
+namespace CMiX.Core.ViewModels.Assets
 {
     public class AssetDragDrop
     {

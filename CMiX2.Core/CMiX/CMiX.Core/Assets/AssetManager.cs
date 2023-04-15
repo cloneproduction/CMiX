@@ -5,11 +5,12 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
+using CMiX.Core.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.Presentations.ViewModels.Assets
+namespace CMiX.Core.ViewModels.Assets
 {
     public class AssetManager : ObservableRecipient, IDropTarget, IDragSource
     {

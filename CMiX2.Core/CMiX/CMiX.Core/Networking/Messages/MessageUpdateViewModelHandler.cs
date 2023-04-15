@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using CMiX.Core.Presentations;
 
 namespace CMiX.Core.Networking.Messages
 {

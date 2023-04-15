@@ -4,7 +4,7 @@
 using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentations.ViewModels.Assets
+namespace CMiX.Core.ViewModels.Assets
 {
     public class AssetGeometry : ObservableObject, IAsset
     {

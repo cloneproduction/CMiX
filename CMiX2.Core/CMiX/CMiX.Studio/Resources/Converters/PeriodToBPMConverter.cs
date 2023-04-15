@@ -5,8 +5,7 @@ using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using CMiX.Core.Presentations.Beat;
-using CMiX.Core.Presentations.ViewModels.BaseControl;
+using CMiX.Core.Animations;
 
 namespace CMiX.Studio.Converters
 {

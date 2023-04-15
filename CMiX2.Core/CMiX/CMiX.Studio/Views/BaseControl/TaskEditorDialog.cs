@@ -3,7 +3,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using CMiX.Core.Presentations.Views.Scheduling;
+using CMiX.Core.Views.Scheduling;
 using MvvmDialogs;
 
 namespace CMiX.Studio.Views.Dialogs

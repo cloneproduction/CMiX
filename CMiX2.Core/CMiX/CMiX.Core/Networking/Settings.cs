@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 //using MvvmDialogs;
 
-namespace CMiX.Core.Presentations.ViewModels
+namespace CMiX.Core.ViewModels
 {
     public class Settings : ObservableObject//, IModalDialogViewModel
     {

@@ -1,0 +1,25 @@
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using CMiX.Core.BaseControls;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace CMiX.Core.Texturing.Sampling
+{
+    public class SamplerState : ObservableRecipient, IControl
+    {
+        public SamplerState(SamplerStateModel samplerStateModel)
+        {
+            ID = samplerStateModel.ID;
+            BorderColor = new ColorSelector(samplerStateModel.BorderColor);
+            AddressU = new GenericValue<TextureAddressMode>(samplerStateModel.AddressU);
+            AddressV = new GenericValue<TextureAddressMode>(samplerStateModel.AddressV);
+            IsActive = true;
+        }
+
+        public Guid ID { get; set; }
+        public ColorSelector BorderColor { get; set; }
+        public GenericValue<TextureAddressMode> AddressU { get; set; }
+        public GenericValue<TextureAddressMode> AddressV { get; set; }
+    }
+}

@@ -2,12 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using CMiX.Core.Mapper;
-using CMiX.Core.Presentations;
-using CMiX.Core.Presentations.Modifiers.Message;
-using CMiX.Core.Presentations.Network;
-using CMiX.Core.Presentations.Prefabs.Message;
-using CMiX.Core.Presentations.Service;
+using CMiX.Core.Modifiers.Message;
+using CMiX.Core.Prefabs.Message;
+using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Networking.Messages
@@ -18,20 +15,15 @@ namespace CMiX.Core.Networking.Messages
         {
             IMapper Mapper = compositionService.Mapper;
             ControlMessenger = compositionService.ControlMessenger;
-
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
-
             MessageHandlers.Add(typeof(MessageUpdateViewModel), new MessageUpdateViewModelHandler(Mapper));
             MessageHandlers.Add(typeof(MessageChangePrefab), new MessageChangePrefabHandler(compositionService));
-
             MessageHandlers.Add(typeof(MessageAddPrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageRemovePrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageMovePrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessagePrefabOrderChange), new MessagePrefabOrderChangeHandler());
             MessageHandlers.Add(typeof(MessageSelectPrefab), new MessagePrefabManagerHandler());
-
             MessageHandlers.Add(typeof(MessagePrefabContainerChanged), new MessagePrefabContainerChangedHandler(compositionService));
-
             MessageHandlers.Add(typeof(MessageAddModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageMoveModifier), new MessageModifierManagerHandler());

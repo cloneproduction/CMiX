@@ -2,18 +2,18 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using CMiX.Core.Mapper;
+using CMiX.Core.Mapping;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Presentations.Network
+namespace CMiX.Core.Networking
 {
     public class ControlMessenger
     {
-        private IMapper Mapper;
-        public bool CanSend = true;
+        public static IMapper Mapper;
+        public static bool CanSend = true;
 
-        public ControlMessenger()
+        static ControlMessenger()
         {
             var mappingProfile = new MappingProfile();
 
@@ -30,7 +30,7 @@ namespace CMiX.Core.Presentations.Network
             Mapper = config.CreateMapper();
         }
 
-        public void Receive(IIDObject iDObject, MessageRequestControl message)
+        public static void Receive(IIDObject iDObject, MessageRequestControl message)
         {
             CanSend = false;
 
@@ -40,7 +40,7 @@ namespace CMiX.Core.Presentations.Network
             CanSend = true;
         }
 
-        public void Send<T>(IControl control) where T : IModel
+        public static void Send<T>(IControl control) where T : IModel
         {
             if (CanSend)
             {

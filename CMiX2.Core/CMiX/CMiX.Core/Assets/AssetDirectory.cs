@@ -1,13 +1,13 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using CMiX.Core.Assets;
+using CMiX.Core.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Presentations.ViewModels.Assets
+namespace CMiX.Core.ViewModels.Assets
 {
     public class AssetDirectory : ObservableObject, IAsset, IDisposable
     {

@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX.Core.Presentations.Views.Scheduling
+namespace CMiX.Core.Views.Scheduling
 {
     /// <summary>
     /// Interaction logic for ToRunEvery.xaml

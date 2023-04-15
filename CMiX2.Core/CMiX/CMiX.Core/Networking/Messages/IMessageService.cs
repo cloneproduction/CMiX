@@ -5,7 +5,7 @@ using System.Collections.ObjectModel;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Messenger;
 
-namespace CMiX.Core.Presentations.Network
+namespace CMiX.Core.Network
 {
     public interface IMessageService
     {
