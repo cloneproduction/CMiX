@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Prefabs
 {
-    public class PrefabContainerModel : IModel
+    public class PrefabContainerModel : IPrefabModel
     {
         public PrefabContainerModel(Guid id)
         {

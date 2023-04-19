@@ -13,11 +13,11 @@ namespace CMiX.Core.Prefabs
         ICommand RenameCommand { get; }
 
         void AddItem();
-        void DeleteItem(PrefabContainer prefabContainer);
+        void DeleteItem(IPrefab prefabContainer);
         void DeleteItem(Guid id);
         void Rename();
         IPrefab GetPrefab(Guid guid);
-        void AddPrefab(Guid containerID, IPrefabModel prefabModel);
+        void AddPrefab(IPrefabModel prefabModel);
         void MovePrefab(int oldIndex, int newIndex);
         void SelectPrefab(Guid prefabID);
         void ChangePrefab(Guid containerID, Guid prefabID);

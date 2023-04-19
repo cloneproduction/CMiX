@@ -18,16 +18,16 @@ namespace CMiX.Core.Prefabs.Message
 
         public bool Handle(IControl control, IMessage message)
         {
-            if (message is MessagePrefabContainerChanged msg)
-            {
-                var manager = control as IPrefabManager;
-                if (manager != null)
-                {
-                    var container = manager.GetPrefab(msg.ContainerID) as IPrefabContainer;
-                    container.Prefab = CompositionService.GetPrefab(msg.PrefabID);
-                    return true;
-                }
-            }
+            //if (message is MessagePrefabContainerChanged msg)
+            //{
+            //    var manager = control as IPrefabManager;
+            //    if (manager != null)
+            //    {
+            //        var prefab = manager.GetPrefab(msg.ContainerID);
+            //        container.Prefab = CompositionService.GetPrefab(msg.PrefabID);
+            //        return true;
+            //    }
+            //}
             return false;
         }
     }

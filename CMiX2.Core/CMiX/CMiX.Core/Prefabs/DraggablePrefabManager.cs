@@ -29,12 +29,12 @@ namespace CMiX.Core.Prefabs
 
         private void Prefabs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
         {
-            var col = sender as ObservableCollection<PrefabContainer>;
+            var col = sender as ObservableCollection<IPrefab>;
 
             if (col == null)
                 return;
 
-            UpdateComponentOrder((from x in col select x.Prefab.ID).Distinct().ToList());
+            UpdateComponentOrder((from x in col select x.ID).Distinct().ToList());
         }
 
 
@@ -48,14 +48,14 @@ namespace CMiX.Core.Prefabs
         public override void AddItem()
         {
             base.AddItem();
-            UpdateComponentOrder((from x in Prefabs select x.Prefab.ID).Distinct().ToList());
+            UpdateComponentOrder((from x in Prefabs select x.ID).Distinct().ToList());
         }
 
 
-        public override void DeleteItem(PrefabContainer prefab)
+        public override void DeleteItem(IPrefab prefab)
         {
             base.DeleteItem(prefab);
-            UpdateComponentOrder((from x in Prefabs select x.Prefab.ID).Distinct().ToList());
+            UpdateComponentOrder((from x in Prefabs select x.ID).Distinct().ToList());
         }
 
         public void UpdateComponentOrder(IList<Guid> ids)

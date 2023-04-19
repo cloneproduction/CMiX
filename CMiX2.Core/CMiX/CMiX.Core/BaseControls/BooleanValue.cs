@@ -18,7 +18,7 @@ namespace CMiX.Core.BaseControls
             IsActive = true;
         }
 
-        public BooleanValue(bool value, CompositionService compositionService)
+        public BooleanValue(bool value)
         {
             Value = value;
         }

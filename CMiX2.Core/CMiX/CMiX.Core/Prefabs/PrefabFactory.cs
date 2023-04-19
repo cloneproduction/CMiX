@@ -22,6 +22,9 @@ namespace CMiX.Core.Prefabs
 
         public IPrefab CreatePrefab(Type type)
         {
+            if (type == typeof(EmptyPrefab))
+                return new EmptyPrefab(new EmptyPrefabModel());
+
             if (type == typeof(Layer))
                 return new Layer(new LayerModel(), CompositionService);
 
@@ -48,6 +51,9 @@ namespace CMiX.Core.Prefabs
 
         public IPrefab CreatePrefab(IPrefabModel prefabModel)
         {
+            if (prefabModel is EmptyPrefabModel emptyPrefabModel)
+                return new EmptyPrefab(emptyPrefabModel);
+
             if (prefabModel is LayerModel layerModel)
                 return new Layer(layerModel, CompositionService);
 

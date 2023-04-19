@@ -176,14 +176,14 @@
                                     Visibility="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                                     <ComponentViews:Layer 
                                         Margin="0, 0, 0, 0" 
-                                        DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem.Prefab}"/>
+                                        DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem}"/>
                                 </Border>
 
                                 <Views:LayerManager 
                                     BorderBrush="{DynamicResource SuperHighDarkerColor}"
                                     BorderThickness="0, 2, 0, 0"
                                     Grid.Row="0"  
-                                    DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager}"/>
+                                    DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager}"/>
 
                                 <GridSplitter 
                                     Grid.Row="0" 

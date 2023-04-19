@@ -104,7 +104,7 @@
                     <ComboBox.ItemTemplate>
                         <ItemContainerTemplate>
                             <Border>
-                                <TextBlock Text="{Binding Name}"/>
+                                <TextBlock Text="{Binding Name.Value}"/>
                             </Border>
                         </ItemContainerTemplate>
                     </ComboBox.ItemTemplate>
@@ -114,7 +114,7 @@
                     <Border Background="{DynamicResource HighHighDarkerColor}" CornerRadius="0, 2, 2, 0">
                         <TextBox Padding="4, 0" 
                                  Background="Transparent" 
-                                 Text="{Binding SelectedItem.Name, ElementName=prefabCombobox}"/>
+                                 Text="{Binding SelectedItem.Name.Value, ElementName=prefabCombobox}"/>
                     </Border>
 
                     <Button Height="22" Content="New">

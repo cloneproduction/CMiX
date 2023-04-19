@@ -20,15 +20,15 @@ namespace CMiX.Core.Networking.Messages
 
                 if (message is MessageAddPrefab messageAddPrefab)
                 {
-                    prefabManager.AddPrefab(messageAddPrefab.ContainerID, messageAddPrefab.Model);
+                    prefabManager.AddPrefab(messageAddPrefab.Model);
                     return true;
                 }
 
-                if (message is MessageAddPrefabToContainer messageAddPrefabToContainer)
-                {
-                    prefabManager.AddPrefab(messageAddPrefabToContainer.ContainerID, messageAddPrefabToContainer.Model);
-                    return true;
-                }
+                //if (message is MessageAddPrefabToContainer messageAddPrefabToContainer)
+                //{
+                //    prefabManager.AddPrefab(messageAddPrefabToContainer.ContainerID, messageAddPrefabToContainer.Model);
+                //    return true;
+                //}
 
                 if (message is MessageRemovePrefab messageRemovePrefab)
                 {

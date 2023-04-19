@@ -17,7 +17,11 @@ namespace CMiX.Core.BaseControls
             IsActive = true;
         }
 
-        private ControlMessenger ControlMessenger { get; set; }
+        public StringValue(string value)
+        {
+            Value = value;
+        }
+
         public Guid ID { get; set; }
 
         private string _value;

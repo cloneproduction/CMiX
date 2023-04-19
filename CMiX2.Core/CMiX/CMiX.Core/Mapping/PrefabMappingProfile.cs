@@ -19,9 +19,8 @@ namespace CMiX.Core.Mapping
             CreateMap<PrefabManager<Entity>, PrefabManagerModel>().ReverseMap();
             CreateMap<PrefabManager<LightEntity>, PrefabManagerModel>().ReverseMap();
 
-            CreateMap<PrefabContainer, PrefabContainerModel>().ReverseMap();
-
             CreateMap<IPrefab, IPrefabModel>()
+                .Include<EmptyPrefab, EmptyPrefabModel>()
                 .Include<Composition, CompositionModel>()
                 .Include<Layer, LayerModel>()
                 .Include<Entity, EntityModel>()
@@ -30,6 +29,7 @@ namespace CMiX.Core.Mapping
                 .Include<Material, MaterialModel>()
                 .ReverseMap();
 
+            CreateMap<EmptyPrefab, EmptyPrefabModel>().ReverseMap();
             CreateMap<Entity, EntityModel>().ReverseMap();
             CreateMap<Layer, LayerModel>().ReverseMap();
             CreateMap<Composition, CompositionModel>().ReverseMap();
