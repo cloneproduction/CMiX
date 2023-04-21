@@ -24,12 +24,6 @@ namespace CMiX.Core.Networking.Messages
                     return true;
                 }
 
-                //if (message is MessageAddPrefabToContainer messageAddPrefabToContainer)
-                //{
-                //    prefabManager.AddPrefab(messageAddPrefabToContainer.ContainerID, messageAddPrefabToContainer.Model);
-                //    return true;
-                //}
-
                 if (message is MessageRemovePrefab messageRemovePrefab)
                 {
                     prefabManager.DeleteItem(messageRemovePrefab.PrefabID);
@@ -42,11 +36,11 @@ namespace CMiX.Core.Networking.Messages
                     return true;
                 }
 
-                if (message is MessageSelectPrefab messageSelectPrefab)
-                {
-                    prefabManager.SelectPrefab(messageSelectPrefab.PrefabID);
-                    return true;
-                }
+                //if (message is MessageSelectPrefab messageSelectPrefab)
+                //{
+                //    prefabManager.SelectPrefab(messageSelectPrefab.PrefabID);
+                //    return true;
+                //}
 
             }
 

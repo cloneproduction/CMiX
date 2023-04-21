@@ -138,15 +138,15 @@
                                     <StackPanel>
 
                                         <Panels:IndentedExpander Header="Beat Modifiers">
-                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.ModifierManager}"/>
+                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.ModifierManager}"/>
                                         </Panels:IndentedExpander>
 
                                         <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">
-                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.TextureModifierManager}"/>
+                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionManager.SelectedItem.TextureModifierManager}"/>
                                         </Panels:IndentedExpander>
 
                                         <Panels:IndentedExpander Header="Render Settings" DockPanel.Dock="Top">
-                                            <ComponentViews:CompositionSettings Margin="8" DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.OutputSettings}"/>
+                                            <ComponentViews:CompositionSettings Margin="8" DataContext="{Binding Project.CompositionManager.SelectedItem.OutputSettings}"/>
                                         </Panels:IndentedExpander>
 
                                     </StackPanel>
@@ -173,7 +173,7 @@
                                     Background="{DynamicResource HighDarkerColor}"
                                     BorderBrush="{DynamicResource SuperHighDarkerColor}"
                                     BorderThickness="0, 2"
-                                    Visibility="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                    Visibility="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                                     <ComponentViews:Layer 
                                         Margin="0, 0, 0, 0" 
                                         DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem}"/>

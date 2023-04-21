@@ -52,12 +52,12 @@
 
     <Converters:LeftMarginMultiplierConverter x:Key="LeftMarginMultiplier"/>
     <Converters:MultiplyConverter x:Key="MultiplyConverter"/>
-    <Converters:DataTypeConverter x:Key="DataTypeConverter"/>
 
     <Converters:PeriodToBPMConverter x:Key="PeriodToBPM"/>
     <Converters:MultiPeriodToBPMConverter x:Key="MultiPeriodToBPM"/>
     <Converters:MultiPeriodToBeatAnimationConverter x:Key="MultiPeriodToBeatAnimation"/>
-    
+    <Converters:DataTypeConverter x:Key="DataToType"/>
+
     <Converters:ColorToNoAlphaConverter x:Key="ColorToNoAlpha"/>
     <Converters:TypeToVisibilityConverter x:Key="TypeToVisibility"/>
 

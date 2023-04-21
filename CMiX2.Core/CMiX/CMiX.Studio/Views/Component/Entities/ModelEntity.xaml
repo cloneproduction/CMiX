@@ -45,7 +45,7 @@
                             </Style.Triggers>
                         </Style>
                     </Border.Style>
-                    <Views:Material DataContext="{Binding MaterialManager.SelectedItem.Prefab}"/>
+                    <Views:Material DataContext="{Binding MaterialManager.SelectedItem}"/>
                 </Border>
                 
             </StackPanel>
