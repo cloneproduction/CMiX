@@ -4,10 +4,10 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Entities.Lights;
 using CMiX.Core.Materials;
-using CMiX.Core.Texturing;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
+using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Prefabs
 {
@@ -20,31 +20,41 @@ namespace CMiX.Core.Prefabs
 
         private CompositionService CompositionService { get; set; }
 
+        private int nameCount = 0;
+
+        private IPrefab Build(IPrefab prefab)
+        {
+            prefab.Name.Value = prefab.GetType().Name + "." + nameCount.ToString("000");
+            nameCount++;
+            prefab.IsSelected.Value = true;
+            return prefab;
+        }
+
         public IPrefab CreatePrefab(Type type)
         {
             if (type == typeof(EmptyPrefab))
-                return new EmptyPrefab(new EmptyPrefabModel());
+                return Build(new EmptyPrefab(new EmptyPrefabModel()));
 
             if (type == typeof(Layer))
-                return new Layer(new LayerModel(), CompositionService);
+                return Build(new Layer(new LayerModel(), CompositionService));
 
             if (type == typeof(Composition))
-                return new Composition(new CompositionModel(), CompositionService);
+                return Build(new Composition(new CompositionModel(), CompositionService));
 
             if (type == typeof(Entity))
-                return new Entity(new EntityModel(), CompositionService);
+                return Build(new Entity(new EntityModel(), CompositionService));
 
             if (type == typeof(Camera))
-                return new Camera(new CameraModel());
+                return Build(new Camera(new CameraModel()));
 
             if (type == typeof(LightEntity))
-                return new LightEntity(new LightEntityModel(), CompositionService);
+                return Build(new LightEntity(new LightEntityModel(), CompositionService));
 
             if (type == typeof(Texture))
-                return new Texture(new TextureModel());
+                return Build(new Texture(new TextureModel()));
 
             if (type == typeof(Material))
-                return new Material(new MaterialModel());
+                return Build(new Material(new MaterialModel()));
 
             return null;
         }
@@ -52,28 +62,28 @@ namespace CMiX.Core.Prefabs
         public IPrefab CreatePrefab(IPrefabModel prefabModel)
         {
             if (prefabModel is EmptyPrefabModel emptyPrefabModel)
-                return new EmptyPrefab(emptyPrefabModel);
+                return Build(new EmptyPrefab(emptyPrefabModel));
 
             if (prefabModel is LayerModel layerModel)
-                return new Layer(layerModel, CompositionService);
+                return Build(new Layer(layerModel, CompositionService));
 
             if (prefabModel is CompositionModel compositionModel)
-                return new Composition(compositionModel, CompositionService);
+                return Build(new Composition(compositionModel, CompositionService));
 
             if (prefabModel is EntityModel entityModel)
-                return new Entity(entityModel, CompositionService);
+                return Build(new Entity(entityModel, CompositionService));
 
             if (prefabModel is CameraModel cameraModel)
-                return new Camera(cameraModel);
+                return Build(new Camera(cameraModel));
 
             if (prefabModel is LightEntityModel lightEntityModel)
-                return new LightEntity(lightEntityModel, CompositionService);
+                return Build(new LightEntity(lightEntityModel, CompositionService));
 
             if (prefabModel is TextureModel textureModel)
-                return new Texture(textureModel);
+                return Build(new Texture(textureModel));
 
             if (prefabModel is MaterialModel materialModel)
-                return new Material(materialModel);
+                return Build(new Material(materialModel));
 
             return null;
         }

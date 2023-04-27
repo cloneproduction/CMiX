@@ -36,11 +36,11 @@ namespace CMiX.Core.Networking.Messages
                     return true;
                 }
 
-                //if (message is MessageSelectPrefab messageSelectPrefab)
-                //{
-                //    prefabManager.SelectPrefab(messageSelectPrefab.PrefabID);
-                //    return true;
-                //}
+                if (message is MessageReplaceSelectedPrefab messageReplaceSelectedPrefab)
+                {
+                    prefabManager.ReplaceSelectedPrefab(messageReplaceSelectedPrefab.SelectedPrefabID, messageReplaceSelectedPrefab.NewPrefabID);
+                    return true;
+                }
 
             }
 

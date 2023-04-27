@@ -17,13 +17,12 @@ namespace CMiX.Core.Networking.Messages
             ControlMessenger = compositionService.ControlMessenger;
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
             MessageHandlers.Add(typeof(MessageUpdateViewModel), new MessageUpdateViewModelHandler(Mapper));
-            MessageHandlers.Add(typeof(MessageChangePrefab), new MessageChangePrefabHandler(compositionService));
+            //MessageHandlers.Add(typeof(MessageChangePrefab), new MessageChangePrefabHandler(compositionService));
             MessageHandlers.Add(typeof(MessageAddPrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageRemovePrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageMovePrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessagePrefabOrderChange), new MessagePrefabOrderChangeHandler());
-            MessageHandlers.Add(typeof(MessageSelectPrefab), new MessagePrefabManagerHandler());
-            MessageHandlers.Add(typeof(MessagePrefabContainerChanged), new MessagePrefabContainerChangedHandler(compositionService));
+            MessageHandlers.Add(typeof(MessageReplaceSelectedPrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageAddModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageMoveModifier), new MessageModifierManagerHandler());

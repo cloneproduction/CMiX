@@ -18,5 +18,6 @@ namespace CMiX.Core.Prefabs
         IPrefab GetPrefab(Guid guid);
         void AddPrefab(IPrefabModel prefabModel);
         void MovePrefab(int oldIndex, int newIndex);
+        void ReplaceSelectedPrefab(Guid selectedPrefabID, Guid newPrefabID);
     }
 }

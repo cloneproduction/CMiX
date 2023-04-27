@@ -35,12 +35,12 @@
                 DockPanel.Dock="Bottom"
                 SelectedItem="{Binding SelectedItem.Prefab}">
 
-                <ComboBox.ItemsSource>
+                <!--<ComboBox.ItemsSource>
                     <CompositeCollection>
                         <CollectionContainer Collection="{Binding Path=Data, Source={StaticResource ModelEntityProxy}}" />
                         <CollectionContainer Collection="{Binding Path=Data, Source={StaticResource LightEntityProxy}}" />
                     </CompositeCollection>
-                </ComboBox.ItemsSource>
+                </ComboBox.ItemsSource>-->
 
                 <!--<i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">

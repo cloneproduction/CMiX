@@ -2,26 +2,25 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Prefabs.Message
 {
-    public class MessageChangePrefab : IMessagePrefab
+    public class MessageReplaceSelectedPrefab : IMessagePrefab
     {
-        public MessageChangePrefab()
+        public MessageReplaceSelectedPrefab()
         {
 
         }
 
-        public MessageChangePrefab(Guid id, IPrefab prefab, string propertyName)
+        public MessageReplaceSelectedPrefab(Guid id, Guid selectedPrefabID, Guid newPrefabID)
         {
             ID = id;
-            PrefabID = prefab.ID;
-            PropertyName = propertyName;
+            SelectedPrefabID = selectedPrefabID;
+            NewPrefabID = newPrefabID;
         }
 
         public Guid ID { get; set; }
-        public Guid PrefabID { get; set; }
-        public string PropertyName { get; internal set; }
+        public Guid SelectedPrefabID { get; set; }
+        public Guid NewPrefabID { get; set; }
     }
 }

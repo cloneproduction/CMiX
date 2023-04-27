@@ -96,11 +96,6 @@ namespace CMiX.Core.Prefabs
         public virtual void AddItem()
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
-
-            prefab.Name.Value = prefab.GetType().Name + "." + nameCount.ToString("000");
-            nameCount++;
-            prefab.IsSelected.Value = true;
-
             PrefabRepository?.AddPrefab((T)prefab);
 
             if (SelectedItem is EmptyPrefab)
@@ -149,17 +144,13 @@ namespace CMiX.Core.Prefabs
                 return;
 
             Prefabs.Remove(prefab);
-
-            if (prefab is not EmptyPrefab)
-                PrefabRepository?.RemovePrefab((T)prefab);
+            Console.WriteLine("Item oftype" + prefab.GetType().ToString() + " Deleted");
         }
 
         public void ReplaceSelectedPrefab(IPrefab prefab)
         {
             if (prefab == null)
                 return;
-
-            var index = SelectedIndex;
 
             if (Prefabs.Count <= 0)
             {
@@ -168,13 +159,15 @@ namespace CMiX.Core.Prefabs
                 return;
             }
 
-            Prefabs[index] = prefab;
+            Prefabs[SelectedIndex] = prefab;
             SelectedItem = prefab;
+            Send(new MessageReplaceSelectedPrefab(ID, SelectedItem.ID, prefab.ID));
         }
 
-        public void ReplaceSelectedPrefab(Guid oldPrefabID, Guid newPrefabID)
+        public void ReplaceSelectedPrefab(Guid selectedPrefabID, Guid newPrefabID)
         {
-            var oldPrefab = PrefabRepository.GetPrefab(oldPrefabID);
+            var prefab = PrefabRepository.GetPrefab(newPrefabID);
+            ReplaceSelectedPrefab(prefab);
         }
 
         public void AddPrefab(IPrefabModel prefabModel)
@@ -183,10 +176,6 @@ namespace CMiX.Core.Prefabs
                 return;
 
             IPrefab prefab = PrefabFactory.CreatePrefab(prefabModel);
-
-            prefab.Name.Value = prefab.GetType().Name + "." + nameCount.ToString("000");
-            nameCount++;
-            prefab.IsSelected.Value = true;
 
             if(prefab is not EmptyPrefab)
                 PrefabRepository?.AddPrefab((T)prefab);
@@ -199,14 +188,13 @@ namespace CMiX.Core.Prefabs
         {
             IPrefab prefab = new EmptyPrefab();
             Prefabs.Add(prefab);
-
             SelectedItem = prefab;
             Send(new MessageAddPrefab(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
         }
 
         public void MovePrefab(int oldIndex, int newIndex)
         {
-            if (Prefabs.Count <= 0)
+            if (Prefabs.Count == 0)
                 return;
 
             Prefabs.Move(oldIndex, newIndex);
@@ -225,13 +213,14 @@ namespace CMiX.Core.Prefabs
 
         public void Receive(MessageRequestControl message)
         {
-            if (message.ID == ID && !message.HasReceivedResponse)
-                message.Reply(this);
+            ControlMessenger.Receive(this, message);
         }
 
         public IPrefab GetPrefab(Guid guid)
         {
             return Prefabs.FirstOrDefault(x => x.ID == guid);
         }
+
+
     }
 }
