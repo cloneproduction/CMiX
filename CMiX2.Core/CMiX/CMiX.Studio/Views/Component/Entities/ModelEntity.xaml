@@ -27,7 +27,7 @@
         <Panels:IndentedExpander Header="Material">
             <StackPanel>
                 <Manager:PrefabManagerComboBox 
-                    ItemsSource="{Binding MaterialManager.Prefabs}"
+                    ItemsSource="{Binding MaterialManager.PrefabRepository.Prefabs}"
                     SelectedItem="{Binding MaterialManager.SelectedItem}"
                     AddItemCommand="{Binding MaterialManager.AddItemCommand}"/>
                 <Border Visibility="{Binding MaterialManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">

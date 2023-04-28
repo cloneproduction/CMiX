@@ -4,8 +4,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ViewModels="clr-namespace:CMiX.Core.Components;assembly=CMiX.Core"
-    xmlns:Views="clr-namespace:CMiX.Core.Views"
     d:DesignHeight="46.5"
     d:DesignWidth="226.667"
     mc:Ignorable="d">
@@ -23,10 +21,10 @@
                     <Border.Opacity>
                         <MultiBinding Converter="{StaticResource MultiPeriodToBeatAnimation}">
                             <Binding Path="BeatIndex.Value"/>
-                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.Prefab.MasterBeat" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
+                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.MasterBeat" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
                             <!--<Binding Path="CompositionService.MasterBeatManager.SelectedItem.Prefab"/>-->
                             <!--The third binding is only to continuously update as the animation position keeps moving otherwise it would update only on BeatIndex Change or MasterBeat Change-->
-                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.Prefab.MasterBeat.AnimatedDouble.AnimationPosition" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
+                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.MasterBeat.AnimatedDouble.AnimationPosition" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
                         </MultiBinding>
                     </Border.Opacity>
 
@@ -39,9 +37,9 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource MultiPeriodToBPM}">
                             <!--<Binding Path="DataContext.MasterBeat" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType={x:Type MainWindow}}"/>-->
-                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.Prefab.MasterBeat.Period.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
+                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.MasterBeat.Period.Value" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
                             <Binding Path="BeatIndex.Value"/>
-                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.Prefab.MasterBeat" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
+                            <Binding Path="DataContext.Project.CompositionManager.SelectedItem.MasterBeat" RelativeSource="{RelativeSource Mode=FindAncestor, AncestorType=Window}"/>
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>

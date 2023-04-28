@@ -80,6 +80,7 @@ namespace CMiX.Core.Animations
             Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
             animatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
             Console.WriteLine();
+            OnPropertyChanged(nameof(AnimatedDouble));
             //OnPropertyChanged("Period");
         }
 
@@ -103,7 +104,6 @@ namespace CMiX.Core.Animations
             UpdatePeriods(GetMasterPeriod());
             Index.Value = 0;
             SetAnimatedDouble();
-            //OnPropertyChanged("Period");
         }
 
         Stopwatch sw = new Stopwatch();

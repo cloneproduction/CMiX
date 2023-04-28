@@ -23,7 +23,7 @@ namespace CMiX.Core.Compositing
             IsRenaming = new BooleanValue(entityModel.IsRenaming);
             TransformSRT = new TransformSRT(entityModel.TransformSRT);
             Mesh = new Mesh(entityModel.Mesh);
-            MaterialManager = new PrefabManager<Material>(entityModel.MaterialManager, compositionService);
+            MaterialManager = new PrefabManager<Material>(entityModel.MaterialManager, compositionService, compositionService.MaterialRepository);
             ModifierManager = new ModifierManager(entityModel.ModifierManager, new ModifierFactory());
             IsActive = true;
         }

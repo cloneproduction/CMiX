@@ -30,6 +30,11 @@ namespace CMiX.Core.Prefabs
             IsActive = true;
         }
 
+        public PrefabManager(PrefabManagerModel prefabManagerModel, CompositionService compositionService, PrefabRepository<T> prefabRepository) : this(prefabManagerModel, compositionService)
+        {
+            PrefabRepository = prefabRepository;
+        }
+
         public PrefabManager(Guid id, CompositionService compositionService)
         {
             ID = id;

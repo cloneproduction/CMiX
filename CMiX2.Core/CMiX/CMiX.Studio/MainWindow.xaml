@@ -100,7 +100,7 @@
                 DockPanel.Dock="Bottom" 
                 Background="{DynamicResource HighDarkerColor}">
 
-                <Beat:MasterBeatControl DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.MasterBeat}"/>
+                <Beat:MasterBeatControl DataContext="{Binding Project.CompositionManager.SelectedItem.MasterBeat}"/>
 
             </Border>
 
