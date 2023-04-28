@@ -26,7 +26,7 @@ namespace CMiX.Core.Texturing
             IsEnabled = new BooleanValueModel();
             SelectedAssetType = new IntegerValueModel(0);
             TypeWriter = new TypeWriterModel();
-            ProceduralSelector = new ProceduralSelectorModel();
+            TextureSourceSelector = new TextureSourceSelectorModel();
             TransformTexture = new TransformTextureModel();
         }
 
@@ -42,7 +42,7 @@ namespace CMiX.Core.Texturing
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
         public BooleanValueModel Invert { get; internal set; }
-        public ProceduralSelectorModel ProceduralSelector { get; set; }
+        public TextureSourceSelectorModel TextureSourceSelector { get; set; }
         public TransformTextureModel TransformTexture { get; set; }
     }
 }

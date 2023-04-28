@@ -11,11 +11,11 @@
              d:DesignHeight="486" d:DesignWidth="322.667">
 
     <StackPanel>
-        
+
         <Panels:IndentedExpander Header="Transform">
             <Views:TransformSRT DataContext="{Binding TransformSRT}"/>
         </Panels:IndentedExpander>
-        
+
         <Panels:IndentedExpander Header="Modifiers">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
@@ -23,31 +23,16 @@
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
         </Panels:IndentedExpander>
-        
+
         <Panels:IndentedExpander Header="Material">
             <StackPanel>
                 <Manager:PrefabManagerComboBox 
                     ItemsSource="{Binding MaterialManager.Prefabs}"
                     SelectedItem="{Binding MaterialManager.SelectedItem}"
                     AddItemCommand="{Binding MaterialManager.AddItemCommand}"/>
-
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="Visibility" Value="Visible"/>
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding MaterialManager.SelectedItem}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding MaterialManager.SelectedItem.Prefab}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
+                <Border Visibility="{Binding MaterialManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                     <Views:Material DataContext="{Binding MaterialManager.SelectedItem}"/>
                 </Border>
-                
             </StackPanel>
         </Panels:IndentedExpander>
 
@@ -56,4 +41,5 @@
         </Panels:IndentedExpander>
 
     </StackPanel>
+
 </UserControl>

@@ -23,7 +23,7 @@ namespace CMiX.Core.Texturing
             IsEnabled = new BooleanValue(textureModel.IsEnabled);
             TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory());
             TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory());
-            ProceduralSelector = new ProceduralSelector(textureModel.ProceduralSelector);
+            TextureSourceSelector = new TextureSourceSelector(textureModel.TextureSourceSelector);
             VideoIn = new VideoIn(textureModel.VideoIn);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayer);
             SelectedAssetType = new IntegerValue(textureModel.SelectedAssetType);
@@ -44,7 +44,7 @@ namespace CMiX.Core.Texturing
         public TypeWriter TypeWriter { get; set; }
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
-        public ProceduralSelector ProceduralSelector { get; set; }
+        public TextureSourceSelector TextureSourceSelector { get; set; }
         public SamplerState SamplerState { get; set; }
 
         [ObservableProperty]

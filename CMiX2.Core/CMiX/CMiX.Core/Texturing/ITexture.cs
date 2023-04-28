@@ -18,6 +18,6 @@ namespace CMiX.Core.Texturing
         TypeWriter TypeWriter { get; set; }
         VideoIn VideoIn { get; set; }
         VideoPlayer VideoPlayer { get; set; }
-        ProceduralSelector ProceduralSelector { get; set; }
+        TextureSourceSelector TextureSourceSelector { get; set; }
     }
 }

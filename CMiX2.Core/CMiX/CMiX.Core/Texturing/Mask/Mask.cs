@@ -25,7 +25,7 @@ namespace CMiX.Core.Texturing
             VideoPlayer = new VideoPlayer(maskModel.VideoPlayerModel);
             SelectedAssetType = new IntegerValue(maskModel.SelectedAssetType);
             TypeWriter = new TypeWriter(maskModel.TypeWriter);
-            ProceduralSelector = new ProceduralSelector(maskModel.ProceduralSelector);
+            TextureSourceSelector = new TextureSourceSelector(maskModel.TextureSourceSelector);
             TransformTexture = new TransformTexture(maskModel.TransformTexture);
         }
 
@@ -40,7 +40,7 @@ namespace CMiX.Core.Texturing
         public TypeWriter TypeWriter { get; set; }
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
-        public ProceduralSelector ProceduralSelector { get; set; }
+        public TextureSourceSelector TextureSourceSelector { get; set; }
 
 
         [ObservableProperty]

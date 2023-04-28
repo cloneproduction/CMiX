@@ -2,16 +2,16 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Texturing;
-using CMiX.Core.Texturing.Mixers;
-using CMiX.Core.ViewModels;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
+using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Texturing.Mixers;
+using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Compositing
 {

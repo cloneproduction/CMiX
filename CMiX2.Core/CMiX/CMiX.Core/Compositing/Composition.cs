@@ -26,7 +26,6 @@ namespace CMiX.Core.Compositing
             MasterBeat = new MasterBeat(compositionModel.MasterBeat);
         }
 
-
         public Guid ID { get; set; }
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }

@@ -17,7 +17,7 @@
         <BaseControls:ComboBox
             Margin="8, 8, 8, 0"
             Caption="Type"
-            SelectedItem="{Binding ProceduralSelector.ProceduralName.Value, Converter={StaticResource EnumToString}}"
+            SelectedItem="{Binding TextureSourceSelector.ProceduralName.Value, Converter={StaticResource EnumToString}}"
             ItemsSource="{Binding Source={StaticResource TextureSourceName}}"/>
 
         <Grid Margin="8">
@@ -27,7 +27,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Image}">
+                            <DataTrigger Binding="{Binding TextureSourceSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Image}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -45,7 +45,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Video}">
+                            <DataTrigger Binding="{Binding TextureSourceSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Video}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -70,7 +70,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Text}">
+                            <DataTrigger Binding="{Binding TextureSourceSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Text}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -87,7 +87,7 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Input}">
+                            <DataTrigger Binding="{Binding TextureSourceSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Input}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
@@ -103,14 +103,14 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Gradient}">
+                            <DataTrigger Binding="{Binding TextureSourceSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.Gradient}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
 
-                <Views:Gradient DataContext="{Binding ProceduralSelector.Gradient}"/>
+                <Views:Gradient DataContext="{Binding TextureSourceSelector.Gradient}"/>
 
             </Border>
 
@@ -119,14 +119,14 @@
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
                         <Style.Triggers>
-                            <DataTrigger Binding="{Binding ProceduralSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.BubbleNoise}">
+                            <DataTrigger Binding="{Binding TextureSourceSelector.ProceduralName.Value}" Value="{x:Static TextureSource:TextureSourceName.BubbleNoise}">
                                 <Setter Property="Visibility" Value="Visible" />
                             </DataTrigger>
                         </Style.Triggers>
                     </Style>
                 </Border.Style>
 
-                <Views:BubbleNoise DataContext="{Binding ProceduralSelector.BubbleNoise}"/>
+                <Views:BubbleNoise DataContext="{Binding TextureSourceSelector.BubbleNoise}"/>
 
             </Border>
         </Grid>

@@ -15,7 +15,7 @@ namespace CMiX.Core.Texturing
         public TextureModel()
         {
             ID = Guid.NewGuid();
-            ProceduralSelector = new ProceduralSelectorModel();
+            TextureSourceSelector = new TextureSourceSelectorModel();
             VideoPlayer = new VideoPlayerModel();
             TextureModifierManager = new ModifierManagerModel();
             TextureTransformModifierManager = new ModifierManagerModel();
@@ -39,7 +39,7 @@ namespace CMiX.Core.Texturing
         public IntegerValueModel SelectedAssetType { get; set; }
         public TypeWriterModel TypeWriter { get; set; }
         public SamplerStateModel SamplerState { get; set; }
-        public ProceduralSelectorModel ProceduralSelector { get; set; }
+        public TextureSourceSelectorModel TextureSourceSelector { get; set; }
         public TransformTextureModel TransformTexture { get; set; }
         public StringValueModel Name { get; set; }
         public BooleanValueModel IsSelected { get; set; }

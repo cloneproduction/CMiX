@@ -7,9 +7,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public class ProceduralSelector : ObservableRecipient, IControl
+    public class TextureSourceSelector : ObservableRecipient, IControl
     {
-        public ProceduralSelector(ProceduralSelectorModel proceduralTextureSelectorModel)
+        public TextureSourceSelector(TextureSourceSelectorModel proceduralTextureSelectorModel)
         {
             ID = proceduralTextureSelectorModel.ID;
             ProceduralName = new GenericValue<TextureSourceName>(proceduralTextureSelectorModel.ProceduralName);

@@ -5,9 +5,9 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class ProceduralSelectorModel : IModel
+    public class TextureSourceSelectorModel : IModel
     {
-        public ProceduralSelectorModel()
+        public TextureSourceSelectorModel()
         {
             ID = Guid.NewGuid();
             ProceduralName = new GenericValueModel<TextureSourceName>(TextureSourceName.Gradient);
