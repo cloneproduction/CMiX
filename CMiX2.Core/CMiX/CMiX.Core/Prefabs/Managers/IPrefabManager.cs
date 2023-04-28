@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefabs.Managers
 {
     public interface IPrefabManager
     {

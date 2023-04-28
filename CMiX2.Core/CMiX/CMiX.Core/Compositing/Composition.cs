@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing.Filters;

@@ -5,11 +5,12 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Windows;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.Messaging;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefabs.Managers
 {
     public class DraggablePrefabManager<T> :
         PrefabManager<T>,

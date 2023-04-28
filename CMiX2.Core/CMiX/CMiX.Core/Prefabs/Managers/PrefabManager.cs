@@ -5,7 +5,8 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Message;
+using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -59,7 +60,6 @@ namespace CMiX.Core.Prefabs
         public ICommand AddEmptyItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
 
-        int nameCount = 0;
 
         [ObservableProperty]
         private ObservableCollection<IPrefab> prefabs;

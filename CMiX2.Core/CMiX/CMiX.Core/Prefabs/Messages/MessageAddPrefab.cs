@@ -1,18 +1,18 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 
-namespace CMiX.Core.Prefabs.Message
+namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageAddPrefabToContainer : IMessagePrefab
+    public class MessageAddPrefab : IMessagePrefab
     {
-        public MessageAddPrefabToContainer()
+        public MessageAddPrefab()
         {
 
         }
-        public MessageAddPrefabToContainer(Guid id, IPrefabModel container)
+
+        public MessageAddPrefab(Guid id, IPrefabModel container)
         {
             ID = id;
             ContainerID = container.ID;

@@ -2,18 +2,23 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Prefabs;
-using CommunityToolkit.Mvvm.Messaging.Messages;
 
-namespace CMiX.Core.Prefabs.Message
+namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageRequestPrefab : RequestMessage<IPrefab>
+    public class MessageRemovePrefab : IMessagePrefab
     {
+        public MessageRemovePrefab()
+        {
 
-        public MessageRequestPrefab(Guid id)
+        }
+
+        public MessageRemovePrefab(Guid id, IPrefab prefab)
         {
             ID = id;
+            PrefabID = prefab.ID;
         }
 
         public Guid ID { get; set; }
+        public Guid PrefabID { get; set; }
     }
 }

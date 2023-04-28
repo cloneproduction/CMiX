@@ -3,7 +3,7 @@
 
 using System.Collections.ObjectModel;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Message;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 

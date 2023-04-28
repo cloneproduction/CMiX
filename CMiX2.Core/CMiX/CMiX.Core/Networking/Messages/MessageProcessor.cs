@@ -3,7 +3,7 @@
 
 using AutoMapper;
 using CMiX.Core.Modifiers.Message;
-using CMiX.Core.Prefabs.Message;
+using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.Messaging;
 

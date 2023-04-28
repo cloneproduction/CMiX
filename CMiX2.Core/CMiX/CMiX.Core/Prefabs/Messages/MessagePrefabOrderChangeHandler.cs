@@ -1,9 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Prefabs;
+using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Core.Networking.Messages
+namespace CMiX.Core.Prefabs.Messages
 {
     public class MessagePrefabOrderChangeHandler : IMessageHandler
     {
@@ -14,7 +15,7 @@ namespace CMiX.Core.Networking.Messages
 
         public bool Handle(IControl control, IMessage message)
         {
-            if(control is IPrefabManagerDraggable prefabManagerDraggable)
+            if (control is IPrefabManagerDraggable prefabManagerDraggable)
             {
                 if (message is MessagePrefabOrderChange msg)
                 {

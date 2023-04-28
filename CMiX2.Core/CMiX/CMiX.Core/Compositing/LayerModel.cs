@@ -4,6 +4,7 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Mixers;

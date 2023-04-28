@@ -8,6 +8,7 @@ using CMiX.Core.Entities.Lights;
 using CMiX.Core.Materials;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Mapping
 {

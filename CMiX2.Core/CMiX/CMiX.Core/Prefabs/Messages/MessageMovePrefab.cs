@@ -2,9 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Networking.Messages;
 
-namespace CMiX.Core.Prefabs.Message
+namespace CMiX.Core.Prefabs.Messages
 {
     public class MessageMovePrefab : IMessagePrefab
     {

@@ -6,6 +6,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.ViewModels;
 using CMiX.Core.Transformation;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Compositing
 {

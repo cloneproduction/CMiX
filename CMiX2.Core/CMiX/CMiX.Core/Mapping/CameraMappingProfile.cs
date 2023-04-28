@@ -4,6 +4,7 @@
 using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 
 namespace CMiX.Core.Mapping

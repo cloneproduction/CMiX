@@ -1,17 +1,17 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Input;
+using System;
 
-namespace CMiX.Core.Networking.Messages
+namespace CMiX.Core.Prefabs.Managers
 {
-    public class MessageKeyPressed
+    public class PrefabManagerModel : IModel
     {
-        public MessageKeyPressed(Key key)
+        public PrefabManagerModel()
         {
-            Key = key;
+            ID = Guid.NewGuid();
         }
 
-        public Key Key { get; set; }
+        public Guid ID { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Materials;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Mapping
 {

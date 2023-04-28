@@ -1,10 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Prefabs.Message;
-using CMiX.Core.Prefabs;
+using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Core.Networking.Messages
+namespace CMiX.Core.Prefabs.Messages
 {
     internal class MessagePrefabManagerHandler : IMessageHandler
     {
@@ -15,7 +15,7 @@ namespace CMiX.Core.Networking.Messages
 
         public bool Handle(IControl control, IMessage message)
         {
-            if(control is IPrefabManager prefabManager)
+            if (control is IPrefabManager prefabManager)
             {
 
                 if (message is MessageAddPrefab messageAddPrefab)

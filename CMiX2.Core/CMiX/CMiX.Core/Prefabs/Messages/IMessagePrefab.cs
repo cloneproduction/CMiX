@@ -3,13 +3,15 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CMiX.Core.Networking.Messages;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefabs.Messages
 {
-    public interface IPrefabManagerDraggable : IPrefabManager
+    public interface IMessagePrefab : IMessage
     {
-        void UpdateComponentOrder(IList<Guid> ids);
-        ObservableCollection<Guid> PrefabOrder { get; set; }
+
     }
 }
