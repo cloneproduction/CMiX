@@ -81,7 +81,6 @@ namespace CMiX.Core.Animations
             animatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
             Console.WriteLine();
             OnPropertyChanged(nameof(AnimatedDouble));
-            //OnPropertyChanged("Period");
         }
 
         public void Multiply()
