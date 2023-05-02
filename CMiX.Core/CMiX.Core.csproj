@@ -3,16 +3,17 @@
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
+    <OutputPath>..\lib</OutputPath>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Ceras" Version="4.1.7" />
-    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.1.0" />
+    <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.0" />
     <PackageReference Include="FluentScheduler" Version="5.5.1" />
     <PackageReference Include="gong-wpf-dragdrop" Version="3.2.1" />
-    <PackageReference Include="WatsonTcp" Version="5.1.0" />
+    <PackageReference Include="WatsonTcp" Version="5.1.1" />
   </ItemGroup>
 
 </Project>
