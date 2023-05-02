@@ -1,9 +1,10 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net6.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <OutputPath>..\lib</OutputPath>
+      <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+      <ImplicitUsings>enable</ImplicitUsings>
+     <OutputPath>..\lib</OutputPath>
     <Nullable>disable</Nullable>
   </PropertyGroup>
 
