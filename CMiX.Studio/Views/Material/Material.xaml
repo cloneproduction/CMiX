@@ -4,11 +4,11 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     md:DialogServiceViews.IsRegistered="True"
     d:DesignHeight="749.181"
@@ -20,7 +20,8 @@
         
         <Panels:IndentedExpander 
             Header="Surface" 
-            Indentation="16">
+            Indentation="16"
+            IsExpanded="{Binding IsExpanded}">
             
             <StackPanel Margin="8">
 
@@ -36,8 +37,8 @@
                 
                 <BaseControls:ColorSelector 
                     Caption="Base Color" 
-                    SelectedColor="{Binding Color.SelectedColor}"
-                    ViewModel="{Binding Color}"/>
+                    SelectedColor="{Binding BaseColor.SelectedColor}"
+                    ViewModel="{Binding BaseColor}"/>
 
                 <BaseControls:ComboBox    
                     Margin="0, 8"
@@ -73,10 +74,10 @@
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static ViewModels:PipelineType.Specular}">
+                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static Materials:PipelineType.Specular}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
-                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static ViewModels:PipelineType.Metallic}">
+                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static Materials:PipelineType.Metallic}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -98,7 +99,7 @@
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static ViewModels:PipelineType.Specular}">
+                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static Materials:PipelineType.Specular}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
                             </Style.Triggers>
@@ -120,7 +121,7 @@
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedBottom}">
                             <Setter Property="Visibility" Value="Collapsed"/>
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static ViewModels:PipelineType.Metallic}">
+                                <DataTrigger Binding="{Binding Pipeline.Value}"  Value="{x:Static Materials:PipelineType.Metallic}">
                                     <Setter Property="Visibility" Value="Visible"/>
                                 </DataTrigger>
                             </Style.Triggers>

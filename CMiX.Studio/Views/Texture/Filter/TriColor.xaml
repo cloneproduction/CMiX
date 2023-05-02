@@ -13,18 +13,18 @@
 
         <BaseControl:ColorSelector 
             Position="Top"
-            SelectedColor="{Binding ColorA.SelectedColor}"
+            SelectedColor="{Binding ColorA.SelectedColor, Converter={StaticResource EnumToString}}"
             Caption="Color A"/>
 
         <BaseControl:ColorSelector 
             Position="Middle"
             Margin="0, 1"
-            SelectedColor="{Binding ColorB.SelectedColor}"
+            SelectedColor="{Binding ColorB.SelectedColor, Converter={StaticResource EnumToString}}"
             Caption="Color B"/>
 
         <BaseControl:ColorSelector 
             Position="Bottom"
-            SelectedColor="{Binding ColorC.SelectedColor}"
+            SelectedColor="{Binding ColorC.SelectedColor, Converter={StaticResource EnumToString}}"
             Caption="Color C"/>
         
         <BaseControl:ToggleButton 

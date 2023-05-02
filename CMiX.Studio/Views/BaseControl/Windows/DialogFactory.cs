@@ -2,9 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using CMiX.Core.Presentation.Views;
-using CMiX.Core.Presentation.Views.Dialogs;
-using CMiX.Core.Presentation.Views.Scheduling;
+using CMiX.Core.Views;
+using CMiX.Core.Views.Dialogs;
+using CMiX.Core.Views.Scheduling;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;
 using MvvmDialogs.FrameworkDialogs;

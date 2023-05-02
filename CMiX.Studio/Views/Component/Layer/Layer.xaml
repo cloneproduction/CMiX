@@ -8,10 +8,26 @@
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
+             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
+             xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" d:DesignHeight="639.46" d:DesignWidth="351.206">
 
+    <UserControl.Resources>
+        <ResourceDictionary>
+            
+            <DataTemplate DataType="{x:Type Compositing:Entity}">
+                <Views:ModelEntity DataContext="{Binding}"/>
+            </DataTemplate>
+            
+            <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
+                <Border/>
+            </DataTemplate>
+            
+        </ResourceDictionary>
+    </UserControl.Resources>
+    
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <i:Interaction.Behaviors>
             <Behaviors:ScrollViewerBehavior/>
@@ -27,24 +43,7 @@
                     <TabItem IsSelected="True" Header="Entity">
                         <StackPanel>
                             <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}"/>
-
-                            <Border>
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding ModelEntityManager.SelectedItem}" Value="{x:Null}">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding ModelEntityManager.SelectedItem.Prefab}" Value="{x:Null}">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <Views:ModelEntity DataContext="{Binding ModelEntityManager.SelectedItem.Prefab}"/>
-                            </Border>
-
+                            <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding }"/>
                         </StackPanel>
                     </TabItem>
 
@@ -60,13 +59,13 @@
                                             <DataTrigger Binding="{Binding CameraEntityManager.SelectedItem}" Value="{x:Null}">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                             </DataTrigger>
-                                            <DataTrigger Binding="{Binding CameraEntityManager.SelectedItem.Prefab}" Value="{x:Null}">
+                                            <DataTrigger Binding="{Binding CameraEntityManager.SelectedItem}" Value="{x:Type Prefabs:EmptyPrefab}">
                                                 <Setter Property="Visibility" Value="Collapsed"/>
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <Views:Camera DataContext="{Binding CameraEntityManager.SelectedItem.Prefab}"/>
+                                <Views:Camera DataContext="{Binding CameraEntityManager.SelectedItem}"/>
                             </Border>
 
                         </StackPanel>
@@ -84,6 +83,7 @@
                             <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
                         </StackPanel>
                     </TabItem>
+                    
                 </TabControl>
             </DockPanel>
 

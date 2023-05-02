@@ -4,8 +4,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
-             xmlns:Filters="clr-namespace:CMiX.Studio.Views"
+             xmlns:FiltersView="clr-namespace:CMiX.Studio.Views"
+             xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:dd="urn:gong-wpf-dragdrop"
              x:Name="textureFilterManager"
@@ -50,7 +50,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:HSCB}" 
+                            CommandParameter="{x:Type Filters:HSCB}" 
                             Grid.Column="0"
                             VerticalAlignment="Center" 
                             Width="120" 
@@ -60,7 +60,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Invert}" 
+                            CommandParameter="{x:Type Filters:Invert}" 
                             Grid.Column="1"
                             VerticalAlignment="Center" 
                             Width="120" 
@@ -70,7 +70,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:TriColor}" 
+                            CommandParameter="{x:Type Filters:TriColor}" 
                             Grid.Column="1"
                             Grid.Row="2"
                             VerticalAlignment="Center" 
@@ -84,7 +84,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Edge}" 
+                            CommandParameter="{x:Type Filters:Edge}" 
                             Grid.Column="0"
                             Grid.Row="1"
                             VerticalAlignment="Center" 
@@ -95,7 +95,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:TransformTexture}" 
+                            CommandParameter="{x:Type Filters:TransformTexture}" 
                             Grid.Column="1"
                             Grid.Row="1"
                             VerticalAlignment="Center" 
@@ -106,7 +106,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:RandomUV}" 
+                            CommandParameter="{x:Type Filters:RandomUV}" 
                             Grid.Column="1"
                             Grid.Row="1"
                             VerticalAlignment="Center" 
@@ -117,7 +117,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:LFOUV}" 
+                            CommandParameter="{x:Type Filters:LFOUV}" 
                             Grid.Column="1"
                             Grid.Row="1"
                             VerticalAlignment="Center" 
@@ -128,7 +128,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Pixelate}" 
+                            CommandParameter="{x:Type Filters:Pixelate}" 
                             Grid.Column="2"
                             Grid.Row="1"
                             VerticalAlignment="Center" 
@@ -143,7 +143,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Blur}" 
+                            CommandParameter="{x:Type Filters:Blur}" 
                             Grid.Column="2"
                             VerticalAlignment="Center" 
                             Width="120" 
@@ -153,7 +153,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Echo}" 
+                            CommandParameter="{x:Type Filters:Echo}" 
                             Grid.Column="2"
                             Grid.Row="2"
                             VerticalAlignment="Center" 
@@ -164,7 +164,7 @@
                         <Button 
                             Style="{StaticResource ButtonItemControl}"
                             Command="{Binding CreateCommand}" 
-                            CommandParameter="{x:Type ViewModels:Feedback}" 
+                            CommandParameter="{x:Type Filters:Feedback}" 
                             Grid.Column="2"
                             Grid.Row="3"
                             VerticalAlignment="Center" 
@@ -187,48 +187,48 @@
             
             <ItemsControl.Resources>
                 
-                <DataTemplate DataType="{x:Type ViewModels:HSCB}">
-                    <Filters:HSCB DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:HSCB}">
+                    <FiltersView:HSCB DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:Invert}">
-                    <Filters:Invert DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:Invert}">
+                    <FiltersView:Invert DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:Blur}">
-                    <Filters:Blur DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:Blur}">
+                    <FiltersView:Blur DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:Edge}">
-                    <Filters:Edge DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:Edge}">
+                    <FiltersView:Edge DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:TransformTexture}">
-                    <Filters:TransformTexture DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:TransformTexture}">
+                    <FiltersView:TransformTexture DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:Pixelate}">
-                    <Filters:Pixelate DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:Pixelate}">
+                    <FiltersView:Pixelate DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:Echo}">
-                    <Filters:Echo DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:Echo}">
+                    <FiltersView:Echo DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:Feedback}">
-                    <Filters:Feedback DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:Feedback}">
+                    <FiltersView:Feedback DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:TriColor}">
-                    <Filters:TriColor DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:TriColor}">
+                    <FiltersView:TriColor DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:RandomUV}">
-                    <Filters:RandomUV DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:RandomUV}">
+                    <FiltersView:RandomUV DataContext="{Binding}"/>
                 </DataTemplate>
 
-                <DataTemplate DataType="{x:Type ViewModels:LFOUV}">
-                    <Filters:LFOUV DataContext="{Binding}"/>
+                <DataTemplate DataType="{x:Type Filters:LFOUV}">
+                    <FiltersView:LFOUV DataContext="{Binding}"/>
                 </DataTemplate>
                 
             </ItemsControl.Resources>

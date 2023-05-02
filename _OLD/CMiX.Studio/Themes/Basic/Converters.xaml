@@ -1,0 +1,68 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Converters="clr-namespace:CMiX.Studio.ValueConverters">
+
+    <Converters:EnumToStringConverter x:Key="EnumToString" />
+    <Converters:RangeValueToStringConverter x:Key="RangeValueToString" />
+    <Converters:IntToNormalizedDoubleConverter x:Key="IntToNormalizedDoubleConverter" />
+    <Converters:HueToColorConverter x:Key="HueToColor" />
+    <Converters:DoubleToColorSatConverter x:Key="ColorToSatInverted" />
+    <Converters:ColorToDoubleConverter x:Key="ColorToDouble" />
+
+    <Converters:ColorToBrushConverter x:Key="ColorToBrush"/>
+    <Converters:ColorToSaturationConverter x:Key="ColorToSaturation"/>
+    <Converters:ColorToHueOnlyConverter x:Key="ColorToHueOnly"/>
+
+    <Converters:ColorToValueOnlyConverter x:Key="ColorToValueOnly"/>
+    <Converters:ColorToHueValueOnlyConverter x:Key="ColorToHueValueOnly"/>
+    <Converters:ColorToHueSatOnlyConverter x:Key="ColorToHueSatOnly"/>
+    
+    
+    <Converters:ColorToSaturationAsDoubleConverter x:Key="ColorToSaturationAsDouble"/>
+    <Converters:ColorToValueAsDoubleConverter x:Key="ColorToValueAsDouble"/>
+    
+    
+    <Converters:ColorToRedAsDoubleConverter x:Key="ColorToRedAsDouble"/>
+    <Converters:ColorToGreenAsDoubleConverter x:Key="ColorToGreenAsDouble"/>
+    <Converters:ColorToBlueAsDoubleConverter x:Key="ColorToBlueAsDouble"/>
+    <Converters:ColorToHSVAsDoubleConverter x:Key="ColorToHSVAsDouble"/>
+    <Converters:ValToColorConverter x:Key="ValToColor" />
+    
+    
+    <Converters:DoubleToInvertedConverter x:Key="DoubleToInverted" />
+    <Converters:DoubleToStringPercentConverter x:Key="DoubleToStringPercent"/>
+    <Converters:ByteToNormalizedDoubleConverter x:Key="ByteToNormalizedDouble"/>
+    
+    <Converters:DoubleToStringConverter x:Key="DoubleToString"/>
+    <Converters:ColorToHexConverter x:Key="ColorToHex"/>
+    <Converters:DoubleToDividedConverter x:Key="DoubleToDivided"/>
+    <Converters:ByteToStringConverter x:Key="ByteToString"/>
+    <Converters:ColorToSliderBgColorConverter x:Key="ColorToSliderBgColor"/>
+    <Converters:IntToStringWithMaxConverter x:Key="IntToStringWithMax"/>
+    
+
+    <Converters:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
+    <Converters:NullToVisibilityConverter x:Key="NullToVisibility"/>
+    <Converters:NotNullToBoolConverter x:Key="NotNullToBool"/>
+    <Converters:NullToBoolConverter x:Key="NullToBool"/>
+    <Converters:IsNullConverter x:Key="IsNull"/>
+    <Converters:PathToFilenameConverter x:Key="PathToFileName" />
+    <Converters:ColorToHSVControledConverter x:Key="ColorToHSVControled"/>
+
+    <Converters:LeftMarginMultiplierConverter x:Key="LeftMarginMultiplier"/>
+    <Converters:MultiplyConverter x:Key="MultiplyConverter"/>
+    <Converters:DataTypeConverter x:Key="DataTypeConverter"/>
+
+    <Converters:PeriodToBPMConverter x:Key="PeriodToBPM"/>
+    <Converters:MultiPeriodToBPMConverter x:Key="MultiPeriodToBPM"/>
+    <Converters:MultiPeriodToBeatAnimationConverter x:Key="MultiPeriodToBeatAnimation"/>
+    
+    <Converters:ColorToNoAlphaConverter x:Key="ColorToNoAlpha"/>
+    <Converters:TypeToVisibilityConverter x:Key="TypeToVisibility"/>
+    <Converters:ValueDataTemplateConverter x:Key="ValueDataTemplate"/>
+
+    <Converters:FontFamilyToStringConverter x:Key="FontFamilyToString"/>
+    <Converters:TypeToNameConverter x:Key="TypeToName"/>
+    <Converters:IndentationConverter x:Key="Indentation"/>
+    <!--<Converters:ComponentVisibilityConverter x:Key="ComponentVisibility"/>-->
+</ResourceDictionary>

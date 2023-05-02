@@ -32,6 +32,15 @@
             DockPanel.Dock="Right"/>
 
         <Button
+            Margin="2, 0"
+            Background="Transparent"
+            Style="{StaticResource ButtonRounded}"
+            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
+            Command="{Binding MultiplyCommand}"
+            Content="+"
+            DockPanel.Dock="Right"/>
+
+        <Button
             Background="Transparent"
             Margin="2, 0"
             Style="{StaticResource ButtonRounded}"
@@ -40,14 +49,7 @@
             Content="-"
             DockPanel.Dock="Right"/>
 
-        <Button
-            Margin="2, 0"
-            Background="Transparent"
-            Style="{StaticResource ButtonRounded}"
-            Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-            Command="{Binding MultiplyCommand}"
-            Content="+"
-            DockPanel.Dock="Right"/>
+
 
         <Grid Margin="2, 0"                                 >
             <Border 
@@ -61,7 +63,7 @@
                 Background="Transparent"
                 Style="{StaticResource ButtonRounded}"
                 Command="{Binding TapCommand}"
-                Content="{Binding Period, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}"/>
+                Content="{Binding Period.Value, Converter={StaticResource PeriodToBPM}, Mode=TwoWay, UpdateSourceTrigger=LostFocus, StringFormat=F0}"/>
         </Grid>
 
     </DockPanel>

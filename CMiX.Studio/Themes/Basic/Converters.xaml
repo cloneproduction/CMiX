@@ -1,6 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Converters="clr-namespace:CMiX.Studio.ValueConverters">
+                    xmlns:Converters="clr-namespace:CMiX.Studio.Converters">
 
     <Converters:EnumToStringConverter x:Key="EnumToString" />
     <Converters:RangeValueToStringConverter x:Key="RangeValueToString" />
@@ -16,8 +16,9 @@
     <Converters:ColorToValueOnlyConverter x:Key="ColorToValueOnly"/>
     <Converters:ColorToHueValueOnlyConverter x:Key="ColorToHueValueOnly"/>
     <Converters:ColorToHueSatOnlyConverter x:Key="ColorToHueSatOnly"/>
-    
-    
+
+    <Converters:ColorDrawingToMediaColorConverter x:Key="ColorDrawingToMediaColor"/>
+
     <Converters:ColorToSaturationAsDoubleConverter x:Key="ColorToSaturationAsDouble"/>
     <Converters:ColorToValueAsDoubleConverter x:Key="ColorToValueAsDouble"/>
     
@@ -51,15 +52,14 @@
 
     <Converters:LeftMarginMultiplierConverter x:Key="LeftMarginMultiplier"/>
     <Converters:MultiplyConverter x:Key="MultiplyConverter"/>
-    <Converters:DataTypeConverter x:Key="DataTypeConverter"/>
 
     <Converters:PeriodToBPMConverter x:Key="PeriodToBPM"/>
     <Converters:MultiPeriodToBPMConverter x:Key="MultiPeriodToBPM"/>
     <Converters:MultiPeriodToBeatAnimationConverter x:Key="MultiPeriodToBeatAnimation"/>
-    
+    <Converters:DataTypeConverter x:Key="DataToType"/>
+
     <Converters:ColorToNoAlphaConverter x:Key="ColorToNoAlpha"/>
     <Converters:TypeToVisibilityConverter x:Key="TypeToVisibility"/>
-    <Converters:ValueDataTemplateConverter x:Key="ValueDataTemplate"/>
 
     <Converters:FontFamilyToStringConverter x:Key="FontFamilyToString"/>
     <Converters:TypeToNameConverter x:Key="TypeToName"/>

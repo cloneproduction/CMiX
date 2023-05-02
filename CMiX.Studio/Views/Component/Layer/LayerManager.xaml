@@ -4,7 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:Components="clr-namespace:CMiX.Core.Presentation.ViewModels.Components;assembly=CMiX.Core"
+             xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
              xmlns:dd="urn:gong-wpf-dragdrop" 
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" d:DesignHeight="210.285" d:DesignWidth="298.727" >
@@ -14,12 +14,10 @@
         <DockPanel>
 
             <Border DockPanel.Dock="Bottom" 
-                    Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}"
-                    BorderThickness="0, 1, 0, 0" 
-                    BorderBrush="{DynamicResource SuperHighDarkerColor}">
+                    Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
                 
                 <StackPanel 
-                    DataContext="{Binding SelectedItem.Prefab}" 
+                    DataContext="{Binding SelectedItem}" 
                     Margin="8">
 
                     <Controls:CMiXSlider
@@ -38,7 +36,6 @@
                         ViewModel="{Binding BackgroundColor}"/>
 
                     <Border>
-
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Visibility" Value="Visible"/>
@@ -52,12 +49,10 @@
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
-
                         <BaseControls:ComboBox
                             Caption="Blend Mode"
                             SelectedItem="{Binding BlendMode.Value, Converter={StaticResource EnumToString}}"
                             ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
-
                     </Border>
 
                     <Border>
@@ -106,7 +101,7 @@
                         Background="Transparent"
                         Style="{StaticResource ButtonRounded}"
                         Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Components:Layer}"
+                        CommandParameter="{x:Type Compositing:Layer}"
                         Margin="2"
                         Height="20">
                         <Button.Content>
@@ -163,6 +158,7 @@
                         Grid.Row="3" 
                         Style="{StaticResource LayerListBoxStyle}"
                         SelectedItem="{Binding SelectedItem}"
+                        SelectedIndex="{Binding SelectedIndex}"
                         VirtualizingStackPanel.IsVirtualizing="False"
                         ItemsSource="{Binding Prefabs}">
 
@@ -179,7 +175,7 @@
                                         <ToggleButton
                                             Padding="4"
                                             Margin="4"
-                                            IsChecked="{Binding Prefab.Visibility.Value}">
+                                            IsChecked="{Binding Visibility.Value}">
 
                                             <ToggleButton.Style>
                                                 <Style TargetType="{x:Type ToggleButton}">
@@ -209,7 +205,7 @@
                                         </ToggleButton>
                                     </Border>
 
-                                    <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding Prefab.IsMask.Value}">
+                                    <ToggleButton DockPanel.Dock="Right" IsChecked="{Binding IsMask.Value}">
                                         <ToggleButton.Style>
                                             <Style TargetType="{x:Type ToggleButton}">
                                                 <Setter Property="Template">
@@ -240,7 +236,7 @@
                                         x:Name="editableTextBox"
                                         Foreground="{DynamicResource TextBase}"
                                         Height="20" 
-                                        Text="{Binding Path=Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                                        Text="{Binding Path=Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
 
                                 </DockPanel>
                             </DataTemplate>

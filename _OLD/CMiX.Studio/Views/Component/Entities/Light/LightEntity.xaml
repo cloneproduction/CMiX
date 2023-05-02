@@ -1,0 +1,83 @@
+﻿<UserControl x:Class="CMiX.Studio.Views.LightEntity"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:ViewModels="clr-namespace:CMiX.Core.Presentation.ViewModels;assembly=CMiX.Core"
+             xmlns:Views="clr-namespace:CMiX.Studio.Views"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             md:DialogServiceViews.IsRegistered="True"
+             mc:Ignorable="d" 
+             d:DesignHeight="193.179" d:DesignWidth="275.094">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <DataTemplate x:Key="PointLightTemplate">
+                <Views:LightPoint DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="SpotLightTemplate">
+                <Views:LightSpot DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="AmbientLightTemplate">
+                <Views:LightAmbient DataContext="{Binding}"/>
+            </DataTemplate>
+
+            <DataTemplate x:Key="DirectionalLightTemplate">
+                <Views:LightDirectional DataContext="{Binding}"/>
+            </DataTemplate>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+
+    <StackPanel>
+
+        <BaseControls:ColorSelector 
+            SelectedColor="{Binding LightColor.SelectedColor}" 
+            Caption="Color"/>
+
+        <BaseControls:DragValue 
+            Margin="0, 8" 
+            Caption="Intensity" 
+            Value="{Binding Intensity.Value}"/>
+
+        <BaseControls:ComboBox 
+            Caption="Type"                
+            SelectedItem="{Binding LightTypeSelector.Value}"              
+            ItemsSource="{Binding Source={StaticResource MeshType}}"/>
+
+        <ContentControl
+            Margin="0, 8, 0, 0"
+            DataContext="{Binding}"
+            Content="{Binding}">
+            <ContentControl.Style>
+                <Style TargetType="ContentControl">
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.PointLight}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource PointLightTemplate}"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.SpotLight}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource SpotLightTemplate}"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.AmbientLight}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource AmbientLightTemplate}"/>
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static ViewModels:LightType.DirectionalLight}">
+                            <Setter Property="ContentTemplate" Value="{StaticResource DirectionalLightTemplate}"/>
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </ContentControl.Style>
+        </ContentControl>
+
+    </StackPanel>
+</UserControl>

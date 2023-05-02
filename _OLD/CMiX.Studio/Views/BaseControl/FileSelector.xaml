@@ -1,0 +1,86 @@
+﻿<UserControl x:Class="CMiX.Core.Presentation.Views.FileSelector"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Converters="clr-namespace:CMiX.Studio.ValueConverters"
+             xmlns:MVVM.Views="clr-namespace:CMiX.Core.Presentation.Views"
+             xmlns:dd="urn:gong-wpf-dragdrop"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+
+    <!--<UserControl.Resources>
+        <ResourceDictionary>
+            <Converters:PathToFilenameConverter x:Key="PathToFileName" />
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <DockPanel DockPanel.Dock="Top" Margin="4">
+            <Menu
+                Grid.Row="0"
+                Grid.Column="1"
+                Height="15"
+                HorizontalAlignment="Right"
+                DockPanel.Dock="Right"
+                FlowDirection="RightToLeft"
+                Focusable="False">
+                <MenuItem
+                    Width="15"
+                    Height="15"
+                    Padding="6"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center"
+                    Focusable="False"
+                    FontSize="11"
+                    Header="...">
+                    <MenuItem
+                        Command="{Binding ClearSelectedCommand}"
+                        FontSize="11"
+                        Header="Clear Selected"
+                        Template="{StaticResource SubMenuItemBase}" />
+                    <MenuItem
+                        Command="{Binding ClearUnselectedCommand}"
+                        FontSize="11"
+                        Header="Clear Unselected"
+                        Template="{DynamicResource SubMenuItemBase}" />
+                    <Separator 
+                        HorizontalAlignment="Stretch" 
+                        Background="{StaticResource Color}" />
+                    <MenuItem
+                        Command="{Binding ClearAllCommand}"
+                        FontSize="11"
+                        Header="Clear All"
+                        Template="{StaticResource SubMenuItemBase}" />
+                </MenuItem>
+            </Menu>
+
+        </DockPanel>
+        <ListBox
+            VerticalAlignment="Stretch"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Stretch"
+            VerticalContentAlignment="Stretch"
+            ScrollViewer.VerticalScrollBarVisibility="Auto"
+            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+            SelectedItem="{Binding SelectedFileNameItem}"
+            ItemsSource="{Binding FilePaths}"
+            SelectionMode="{Binding SelectionMode}"
+            AllowDrop="True"
+            dd:DragDrop.IsDragSource="True"
+            dd:DragDrop.IsDropTarget="True"
+            dd:DragDrop.DragHandler="{Binding}"
+            dd:DragDrop.DropHandler="{Binding}">
+            <ListBox.Resources>
+                <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource {x:Type ListBoxItem}}">
+                    <Setter Property="IsSelected" Value="{Binding FileIsSelected, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                </Style>
+            </ListBox.Resources>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <MVVM.Views:FileNameItem/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </DockPanel>-->
+</UserControl>

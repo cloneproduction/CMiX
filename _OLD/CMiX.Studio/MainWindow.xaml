@@ -1,0 +1,228 @@
+﻿<Window
+    x:Class="CMiX.Studio.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+    xmlns:ComponentViews="clr-namespace:CMiX.Studio.Views.Component"
+    xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
+    xmlns:Scheduling="clr-namespace:CMiX.Studio.Views.Scheduler"
+    xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
+    Focusable="True"
+    Width="400"
+    Height="1000"
+    Style="{StaticResource MainWindowStyle}"
+    mc:Ignorable="d">
+
+    <Window.InputBindings>
+
+        <KeyBinding 
+            Modifiers="Ctrl"
+            Key="O" 
+            Command="{Binding OpenProjectCommand}" />
+        <KeyBinding 
+            Modifiers="Ctrl"
+            Key="S" 
+            Command="{Binding SaveProjectCommand}" />
+        <KeyBinding 
+            Modifiers="Ctrl+Shift"
+            Key="S" 
+            Command="{Binding SaveAsProjectCommand}" />
+        <KeyBinding 
+            Key="D1"
+            Command="{Binding KeyPressedCommand}" CommandParameter="{x:Static Key.D1}"/>
+        <KeyBinding 
+            Key="D2"
+            Command="{Binding KeyPressedCommand}" CommandParameter="{x:Static Key.D2}"/>
+        <KeyBinding 
+            Key="D3"
+            Command="{Binding KeyPressedCommand}" CommandParameter="{x:Static Key.D3}"/>
+        <KeyBinding 
+            Key="D4"
+            Command="{Binding KeyPressedCommand}" CommandParameter="{x:Static Key.D4}"/>
+        <KeyBinding 
+            Key="D5"
+            Command="{Binding KeyPressedCommand}" CommandParameter="{x:Static Key.D5}"/>
+
+    </Window.InputBindings>
+
+
+    <Border Background="{DynamicResource HighHighDarkerColor}">
+        <DockPanel>
+
+            <Border 
+                DockPanel.Dock="Top" 
+                Background="{DynamicResource SuperHighDarkerColor}">
+                
+                <DockPanel LastChildFill="False">
+                    
+                    <Windows:MainWindowController 
+                        DataContext="{Binding MainWindowController}"
+                        DockPanel.Dock="Right"/>
+                    
+                    <Menus:MainMenu 
+                        DataContext="{Binding MainMenu}"
+                        DockPanel.Dock="Left"/>
+                    
+                </DockPanel>
+            </Border>
+
+            <Border
+                Height="30" 
+                BorderThickness="2, 0, 2, 2" 
+                BorderBrush="{DynamicResource SuperHighDarkerColor}" 
+                DockPanel.Dock="Bottom" 
+                Background="{DynamicResource SuperHighDarkerColor}">
+                
+                <DockPanel LastChildFill="False" Opacity="0.5">
+                    
+                    <TextBlock 
+                        DockPanel.Dock="Right" 
+                        Padding="8" 
+                        Text="CMiX"/>
+                    
+                    <TextBlock 
+                        DockPanel.Dock="Left" 
+                        Padding="8" 
+                        Text="CloneProduction"/>
+                    
+                </DockPanel>
+                
+            </Border>
+            
+            <Border 
+                BorderBrush="{DynamicResource SuperHighDarkerColor}" 
+                BorderThickness="2, 0" 
+                Padding="8"
+                DockPanel.Dock="Bottom" 
+                Background="{DynamicResource HighDarkerColor}">
+
+                <Beat:MasterBeatControl DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.MasterBeat}"/>
+
+            </Border>
+
+            <Border 
+                BorderBrush="{DynamicResource SuperHighDarkerColor}" 
+                BorderThickness="2, 2, 2, 0">
+                
+                <TabControl 
+                    DockPanel.Dock="Top" 
+                    VerticalAlignment="Stretch" 
+                    Style="{StaticResource TabControlLayerPanel}">
+                    
+                    <TabItem Style="{StaticResource TabItemVerticalPanel}">
+
+                        <TabItem.Header>
+                            <Image Margin="8" ToolTip="Assets" Source="{StaticResource LayerScene}" />
+                        </TabItem.Header>
+
+                        <Border Visibility="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="0.4*"/>
+                                    <RowDefinition />
+                                </Grid.RowDefinitions>
+
+                                <Border Grid.Row="1"
+                                    Background="{DynamicResource HighDarkerColor}"
+                                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                                    BorderThickness="0, 2"
+                                    Visibility="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                    <ComponentViews:Layer 
+                                        Margin="0, 0, 0, 0" 
+                                        DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager.SelectedItem.Prefab}"/>
+                                </Border>
+
+                                <Views:LayerManager 
+                                    BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                                    BorderThickness="0, 2, 0, 0"
+                                    Grid.Row="0"  
+                                    DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.LayerManager}"/>
+
+                                <GridSplitter 
+                                    Grid.Row="0" 
+                                    VerticalAlignment="Bottom" 
+                                    Margin="0, -4" 
+                                    Height="8" 
+                                    Style="{StaticResource GridSplitter}"/>
+                            </Grid>
+                        </Border>
+
+                    </TabItem>
+                    
+                    <TabItem>
+
+                        <TabItem.Header>
+                            <Image Margin="8" ToolTip="Assets" Source="{StaticResource Composition}" />
+                        </TabItem.Header>
+
+                        <Border 
+                            VerticalAlignment="Stretch" 
+                            BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                            BorderThickness="0, 1, 0, 0"
+                            Background="{DynamicResource HighDarkerColor}">
+                            
+                            <DockPanel>
+                                
+                                <Views:Outliner 
+                                    VerticalAlignment="Top" 
+                                    DockPanel.Dock="Top" 
+                                    Margin="8" 
+                                    Grid.Column="1"  
+                                    DataContext="{Binding Project.CompositionManager}"/>
+
+                                <Border Visibility="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                    <StackPanel>
+
+                                        <Panels:IndentedExpander Header="Beat Modifiers">
+                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.Prefab.ModifierManager}"/>
+                                        </Panels:IndentedExpander>
+
+                                        <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">
+                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.TextureModifierManager}"/>
+                                        </Panels:IndentedExpander>
+
+                                        <Panels:IndentedExpander Header="Render Settings" DockPanel.Dock="Top">
+                                            <ComponentViews:CompositionSettings Margin="8" DataContext="{Binding Project.CompositionManager.SelectedItem.Prefab.OutputSettings}"/>
+                                        </Panels:IndentedExpander>
+
+                                    </StackPanel>
+                                </Border>
+                            </DockPanel>
+                        </Border>
+
+                    </TabItem>
+
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image Margin="8" ToolTip="Assets" Source="{StaticResource Resources}" />
+                        </TabItem.Header>
+                        <Views:AssetManager DataContext="{Binding AssetManager}"/>
+                    </TabItem>
+                    
+                    <TabItem Style="{StaticResource TabItemVerticalPanel}">
+
+                        <TabItem.Header>
+                            <Image Margin="8" ToolTip="Assets" Source="{StaticResource Network}" />
+                        </TabItem.Header>
+
+                        <Border Background="{DynamicResource HighDarkerColor}">
+                            <StackPanel>
+                                <Views:ServerManager DataContext="{Binding ServerManager}"/>
+                                <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}"/>
+                                <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}"/>
+                            </StackPanel>
+                        </Border>
+
+                    </TabItem>
+
+                </TabControl>
+            </Border>
+
+        </DockPanel>
+    </Border>
+
+</Window>

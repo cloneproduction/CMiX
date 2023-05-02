@@ -46,7 +46,7 @@
                     ItemsSource="{Binding ItemsSource, ElementName=prefabManagerComboBox}">
                     <ComboBox.ItemTemplate>
                         <ItemContainerTemplate>
-                            <TextBlock Text="{Binding Name}"/>
+                            <TextBlock Text="{Binding Name.Value}"/>
                         </ItemContainerTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>

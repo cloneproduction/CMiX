@@ -1,18 +1,17 @@
-﻿using Ceras;
+﻿using System;
+using System.Windows;
+using Ceras;
+using CMiX.Core.Components;
+using CMiX.Core.Network;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Presentation.ViewModels;
-using CMiX.Core.Presentation.ViewModels.Components;
-using CMiX.Core.Presentation.ViewModels.Network;
-using CMiX.Core.Presentation.ViewModels.Prefab;
-using CMiX.Core.Presentation.ViewModels.Service;
-using CMiX.Core.Presentation.ViewModels.Services;
+using CMiX.Core.Services;
+using CMiX.Core.ViewModels;
 using CMiX.Studio.Views;
 using CMiX.Studio.Views.Dialogs;
 using Microsoft.Extensions.DependencyInjection;
 using MvvmDialogs;
 using MvvmDialogs.DialogFactories;
-using MvvmDialogs.DialogTypeLocators;
-using System;
-using System.Windows;
 
 namespace CMiX
 {
@@ -22,6 +21,7 @@ namespace CMiX
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             ServiceProvider = serviceCollection.BuildServiceProvider();
@@ -39,11 +39,21 @@ namespace CMiX
 
         private void ConfigureServices(IServiceCollection services)
         {
+
+            //var config = new MapperConfiguration(cfg => {
+            //    cfg.AddProfile(new MappingProfile());
+            //});
+            ////config.AssertConfigurationIsValid();
+
+            //IMapper mapper = config.CreateMapper();
+
+            //services.AddSingleton(mapper);
+
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IService, CompositionService>();
             services.AddSingleton<IPrefabDataBase, PrefabDataBase>();
             services.AddSingleton<IDialogFactory, DialogFactory>();
-            services.AddSingleton<IDialogTypeLocator, CustomTypeLocator>();
+            //services.AddSingleton<IDialogTypeLocator, CustomTypeLocator>();
 
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<IMessageService, MessageService>();
