@@ -29,10 +29,5 @@ namespace CMiX.Core.Components
         //public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
         public SortableObservableCollection<IAsset> Assets { get; set; }
         public PrefabManager<Composition> CompositionManager { get; set; }
-
-        //public void Dispose()
-        //{
-
-        //}
     }
 }
