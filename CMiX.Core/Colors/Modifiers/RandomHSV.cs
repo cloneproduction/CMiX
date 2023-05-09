@@ -4,12 +4,11 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Colors.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier
+    public partial class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier, IEase
     {
         public RandomHSV(RandomHSVModel randomHSVModel)
         {

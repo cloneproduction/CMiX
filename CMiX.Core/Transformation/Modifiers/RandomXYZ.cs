@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier
+    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier, IEase
     {
         public RandomXYZ(RandomXYZModel randomXYZModel)
         {
