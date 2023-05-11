@@ -12,6 +12,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 using GongSolutions.Wpf.DragDrop;
+using WatsonTcp;
 
 namespace CMiX.Core.Modifiers
 {
@@ -28,6 +29,8 @@ namespace CMiX.Core.Modifiers
             IsActive = true;
         }
 
+
+
         public Guid ID { get; set; }
         public ICommand CreateCommand { get; set; }
         public ICommand RemoveCommand { get; set; }
@@ -37,6 +40,10 @@ namespace CMiX.Core.Modifiers
 
         [ObservableProperty]
         private bool dragHandlerIsPressed;
+
+        public event EventHandler<IModifierModel> ModifierCreated;
+        public event EventHandler<(int, int)> ModifierMoved;
+        public event EventHandler<Guid> ModifierRemoved;
 
         private ObservableCollection<IModifier> _modifiers;
         public ObservableCollection<IModifier> Modifiers
@@ -57,6 +64,7 @@ namespace CMiX.Core.Modifiers
         {
             IModifier filter = Factory.Create(modifierModel);
             Add(filter);
+            ModifierCreated?.Invoke(this, modifierModel);
         }
 
         public void Add(IModifier modifier)
@@ -77,6 +85,7 @@ namespace CMiX.Core.Modifiers
         {
             var modifier = Modifiers.FirstOrDefault(x => x.ID == id);
             this.Remove(modifier);
+            ModifierRemoved?.Invoke(this, id);
         }
 
         public void Receive(MessageRequestControl message)
@@ -135,6 +144,7 @@ namespace CMiX.Core.Modifiers
         public void Move(int oldIndex, int newIndex)
         {
             Modifiers.Move(oldIndex, newIndex);
+            ModifierMoved?.Invoke(this, (oldIndex, newIndex));
         }
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)

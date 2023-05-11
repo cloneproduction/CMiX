@@ -5,6 +5,6 @@ namespace CMiX.Core
 {
     public interface IControl : IIDObject
     {
-
+        
     }
 }
