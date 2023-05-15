@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sampling;
 using CMiX.Core.Texturing.Sources;
 
@@ -19,5 +20,6 @@ namespace CMiX.Core.Texturing
         VideoIn VideoIn { get; set; }
         VideoPlayer VideoPlayer { get; set; }
         TextureSourceSelector TextureSourceSelector { get; set; }
+        TransformTexture TransformTexture { get; set; }
     }
 }
