@@ -15,7 +15,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IPrefab
+    public partial class Layer : ObservableObject, IPrefab, IModifiable
     {
         public Layer(LayerModel layerModel, CompositionService compositionService)
         {
@@ -32,7 +32,7 @@ namespace CMiX.Core.Compositing
             BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendModeModel);
             MaskMode = new GenericValue<MaskMode>(layerModel.MaskModeModel);
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
-            TextureModifierManager = new ModifierManager(layerModel.TextureModifierManager, new TextureFilterFactory());
+            ModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
             ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
             CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager.ID, compositionService, compositionService.CameraRepository);
             LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager.ID, compositionService, compositionService.LightEntityRepository);
@@ -48,7 +48,7 @@ namespace CMiX.Core.Compositing
         public PrefabManager<Entity> ModelEntityManager { get; set; }
         public PrefabManager<Camera> CameraEntityManager { get; set; }
         public PrefabManager<LightEntity> LightEntityManager { get; set; }
-        public ModifierManager TextureModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }

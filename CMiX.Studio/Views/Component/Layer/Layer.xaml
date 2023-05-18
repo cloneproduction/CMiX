@@ -78,7 +78,7 @@
                     <TabItem Header="PostFX">
                         <StackPanel>
                             <Panels:IndentedExpander Header="Filter">
-                                <Views:TextureFilter  DataContext="{Binding TextureModifierManager}"/>
+                                <Views:TextureFilter  DataContext="{Binding ModifierManager}"/>
                             </Panels:IndentedExpander>
                             <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
                         </StackPanel>

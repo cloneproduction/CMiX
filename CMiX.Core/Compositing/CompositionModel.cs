@@ -19,7 +19,7 @@ namespace CMiX.Core.Compositing
             MasterBeat = new MasterBeatModel();
             Visibility = new BooleanValueModel();
             OutputSettings = new OutputSettingsModel();
-            TextureModifierManager = new ModifierManagerModel();
+            ModifierManager = new ModifierManagerModel();
             LayerManager = new PrefabManagerModel();
             Name = new StringValueModel("Composition");
             IsSelected = new BooleanValueModel(false);
@@ -31,7 +31,7 @@ namespace CMiX.Core.Compositing
         public MasterBeatModel MasterBeat { get; set; }
         public StringValueModel Name { get; set; }
         public OutputSettingsModel OutputSettings { get; set; }
-        public ModifierManagerModel TextureModifierManager { get; internal set; }
+        public ModifierManagerModel ModifierManager { get; internal set; }
         public PrefabManagerModel LayerManager { get; set; }
         public BooleanValueModel IsSelected { get; internal set; }
         public BooleanValueModel IsRenaming { get; internal set; }

@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : ObservableRecipient, IPrefab
+    public partial class Entity : ObservableRecipient, IPrefab, IModifiable
     {
         public Entity(EntityModel entityModel, CompositionService compositionService)
         {

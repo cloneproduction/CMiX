@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Materials
 {
-    public partial class Material : ObservableRecipient, IPrefab, IDisposable
+    public partial class Material : ObservableRecipient, IPrefab
     {
         public Material(MaterialModel materialModel)
         {
@@ -51,10 +51,5 @@ namespace CMiX.Core.Materials
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

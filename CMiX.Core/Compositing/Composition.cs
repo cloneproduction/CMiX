@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public class Composition : ObservableObject, IPrefab
+    public class Composition : ObservableObject, IPrefab, IModifiable
     {
         public Composition(CompositionModel compositionModel, CompositionService compositionService)
         {
@@ -23,7 +23,7 @@ namespace CMiX.Core.Compositing
             IsRenaming = new BooleanValue(compositionModel.IsRenaming);
             OutputSettings = new OutputSettings(compositionModel.OutputSettings);
             LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
-            TextureModifierManager = new ModifierManager(compositionModel.TextureModifierManager, new TextureFilterFactory());
+            ModifierManager = new ModifierManager(compositionModel.ModifierManager, new TextureFilterFactory());
             MasterBeat = new MasterBeat(compositionModel.MasterBeat);
         }
 
@@ -33,7 +33,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue IsRenaming { get; set; }
         public PrefabManager<Layer> LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
-        public ModifierManager TextureModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public MasterBeat MasterBeat { get; set; }
     }
 }

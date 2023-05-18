@@ -9,12 +9,10 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Core.Texturing
 {
-    public interface ITexture : IIDObject
+    public interface ITexture : IModifiable
     {
         BooleanValue IsEnabled { get; set; }
-        ModifierManager TextureModifierManager { get; set; }
         IntegerValue SelectedAssetType { get; set; }
-        ModifierManager TextureTransformModifierManager { get; set; }
         SamplerState SamplerState { get; set; }
         TypeWriter TypeWriter { get; set; }
         VideoIn VideoIn { get; set; }

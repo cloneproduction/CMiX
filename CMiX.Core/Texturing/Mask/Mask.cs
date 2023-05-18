@@ -17,7 +17,7 @@ namespace CMiX.Core.Texturing
         {
             ID = maskModel.ID;
             IsEnabled = new BooleanValue(maskModel.IsEnabled);
-            TextureModifierManager = new ModifierManager(maskModel.ModifierManagerModel, new TextureFilterFactory());
+            ModifierManager = new ModifierManager(maskModel.ModifierManagerModel, new TextureFilterFactory());
             TextureTransformModifierManager = new ModifierManager(maskModel.TextureTransformModifierManager, new ModifierFactory());
             SamplerState = new SamplerState(maskModel.SamplerState);
             Invert = new BooleanValue(maskModel.Invert);
@@ -30,7 +30,7 @@ namespace CMiX.Core.Texturing
         }
 
         public Guid ID { get; set; }
-        public ModifierManager TextureModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public ModifierManager TextureTransformModifierManager { get; set; }
         public BooleanValue IsEnabled { get; set; }
         public BooleanValue Invert { get; set; }

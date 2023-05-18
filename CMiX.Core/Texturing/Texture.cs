@@ -7,12 +7,11 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sampling;
 using CMiX.Core.Texturing.Sources;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class Texture : ObservableObject, ITexture, IPrefab
+    public partial class Texture : ObservableObject, ITexture, IPrefab, IModifiable
     {
         public Texture(TextureModel textureModel)
         {
@@ -21,8 +20,7 @@ namespace CMiX.Core.Texturing
             IsSelected = new BooleanValue(textureModel.IsSelected);
             IsRenaming = new BooleanValue(textureModel.IsRenaming);
             IsEnabled = new BooleanValue(textureModel.IsEnabled);
-            TextureModifierManager = new ModifierManager(textureModel.TextureModifierManager, new TextureFilterFactory());
-            TextureTransformModifierManager = new ModifierManager(textureModel.TextureTransformModifierManager, new ModifierFactory());
+            ModifierManager = new ModifierManager(textureModel.ModifierManager, new TextureFilterFactory());
             TextureSourceSelector = new TextureSourceSelector(textureModel.TextureSourceSelector);
             VideoIn = new VideoIn(textureModel.VideoIn);
             VideoPlayer = new VideoPlayer(textureModel.VideoPlayer);
@@ -33,8 +31,7 @@ namespace CMiX.Core.Texturing
         }
 
         public Guid ID { get; set; }
-        public ModifierManager TextureModifierManager { get; set; }
-        public ModifierManager TextureTransformModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public BooleanValue IsEnabled { get; set; }
         public TransformTexture TransformTexture { get; set; }
         public BooleanValue IsSelected { get; set; }

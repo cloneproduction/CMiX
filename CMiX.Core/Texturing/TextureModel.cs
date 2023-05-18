@@ -17,7 +17,7 @@ namespace CMiX.Core.Texturing
             ID = Guid.NewGuid();
             TextureSourceSelector = new TextureSourceSelectorModel();
             VideoPlayer = new VideoPlayerModel();
-            TextureModifierManager = new ModifierManagerModel();
+            ModifierManager = new ModifierManagerModel();
             TextureTransformModifierManager = new ModifierManagerModel();
             VideoIn = new VideoInModel();
             IsEnabled = new BooleanValueModel();
@@ -31,7 +31,7 @@ namespace CMiX.Core.Texturing
         }
 
         public Guid ID { get; set; }
-        public ModifierManagerModel TextureModifierManager { get; set; }
+        public ModifierManagerModel ModifierManager { get; set; }
         public ModifierManagerModel TextureTransformModifierManager { get; set; }
         public BooleanValueModel IsEnabled { get; set; }
         public VideoPlayerModel VideoPlayer { get; set; }

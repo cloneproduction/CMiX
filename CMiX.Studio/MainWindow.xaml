@@ -142,7 +142,7 @@
                                         </Panels:IndentedExpander>
 
                                         <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">
-                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionManager.SelectedItem.TextureModifierManager}"/>
+                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionManager.SelectedItem.ModifierManager}"/>
                                         </Panels:IndentedExpander>
 
                                         <Panels:IndentedExpander Header="Render Settings" DockPanel.Dock="Top">
