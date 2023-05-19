@@ -14,7 +14,7 @@ namespace CMiX.Core.Transformation
             Translate = new Vector2Model(0.0f, 0.0f);
             Scale = new Vector2Model(1.0f, 1.0f);
             Rotate = new FloatValueModel(0.0f);
-            UniformScale = new FloatValueModel(0.0f);
+            UniformScale = new FloatValueModel(1.0f);
         }
 
         public Guid ID { get; set; }

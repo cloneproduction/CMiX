@@ -19,15 +19,14 @@ namespace CMiX.Core.ViewModels
             Project = project;
             ServerManager = new ServerManager(messageService);
             MainWindowController = new MainWindowController();
-            AssetManager = new AssetManager();
-            BeatManager = new BeatManager(project);
+            AssetManager = new AssetManager(project);
             MainMenu = new MainMenu(project);
+
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
         public IProject Project { get; set; }
-        public BeatManager BeatManager { get; set; }
         public ServerManager ServerManager { get; set; }
         public AssetManager AssetManager { get; set; }
         public MainMenu MainMenu { get; set; }

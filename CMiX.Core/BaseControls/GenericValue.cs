@@ -32,14 +32,6 @@ namespace CMiX.Core.BaseControls
             }
         }
 
-        public IModel GetModel()
-        {
-            var model = new GenericValueModel<T>(Value);
-            model.ID = ID;
-            model.Value = Value;
-            return model;
-        }
-
         public void Receive(MessageRequestControl message)
         {
             ControlMessenger.Receive(this, message);

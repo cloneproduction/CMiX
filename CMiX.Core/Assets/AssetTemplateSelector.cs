@@ -18,7 +18,7 @@ namespace CMiX.Core.ViewModels.Assets
             if(item == null)
                 return null;
 
-            if (item is AssetImage)
+            if (item is Asset)
                 return AssetTextureTemplate;
             else if (item is AssetGeometry)
                 return AssetGeometryTemplate;

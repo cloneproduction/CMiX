@@ -2,10 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
+using CMiX.Core.Assets;
 using CMiX.Core.BaseControls;
-using CMiX.Core.ViewModels;
+using CMiX.Core.Texturing.Sources;
+using CMiX.Core.ViewModels.Assets;
 
-namespace CMiX.Core.Texturing.Sources
+namespace CMiX.Core.Mapping
 {
     public class SourceMappingProfile : Profile
     {
@@ -17,6 +19,11 @@ namespace CMiX.Core.Texturing.Sources
             CreateMap<TypeWriter, TypeWriterModel>().ReverseMap();
             CreateMap<VideoIn, VideoInModel>().ReverseMap();
             CreateMap<VideoPlayer, VideoPlayerModel>().ReverseMap();
+            CreateMap<Image, ImageModel>().ReverseMap();
+
+            CreateMap<IAsset, IAssetModel>().ReverseMap();
+
+            CreateMap<GenericValue<Asset>, GenericValueModel<Asset>>().ReverseMap();
         }
     }
 }

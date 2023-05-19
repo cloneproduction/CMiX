@@ -16,14 +16,12 @@ namespace CMiX.Core.ViewModels.Assets
         public AssetVideo(string name, string path)
         {
             Name = name;
-            Path = path;
+            FilePath = path;
         }
 
         public AssetVideo(IAssetModel assetModel)
         {
             this.Name = assetModel.Name;
-            this.Path = assetModel.Path;
-            this.Ponderation = assetModel.Ponderation;
         }
 
 
@@ -41,13 +39,6 @@ namespace CMiX.Core.ViewModels.Assets
             set => SetProperty(ref _name, value);
         }
 
-        private string _ponderation;
-        public string Ponderation
-        {
-            get => _ponderation;
-            set => SetProperty(ref _ponderation, value);
-        }
-
         private bool _isRenaming;
         public bool IsRenaming
         {
@@ -62,24 +53,11 @@ namespace CMiX.Core.ViewModels.Assets
             set => SetProperty(ref _isSelected, value);
         }
 
-        private string _path;
-        public string Path
+        private string _filePath;
+        public string FilePath
         {
-            get => _path;
-            set => SetProperty(ref _path, value);
-        }
-
-
-
-        public IModel GetModel()
-        {
-            IAssetModel assetModel = new AssetVideoModel();
-
-            assetModel.Name = this.Name;
-            assetModel.Path = this.Path;
-            assetModel.Ponderation = this.Ponderation;
-
-            return assetModel;
+            get => _filePath;
+            set => SetProperty(ref _filePath, value);
         }
     }
 }

@@ -3,7 +3,6 @@
 
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 

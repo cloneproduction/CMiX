@@ -88,7 +88,7 @@
             </HierarchicalDataTemplate>
 
 
-            <DataTemplate x:Key="AssetTextureTemplate" DataType="{x:Type Assets:AssetImage}">
+            <DataTemplate x:Key="AssetTextureTemplate" DataType="{x:Type Assets:Asset}">
                 <Border Style="{StaticResource BaseBorderStyle}">
                     <DockPanel Margin="0, 1">
                         <Image Margin="8" Opacity="0.9" DockPanel.Dock="Left" Source="{StaticResource Texture}"/>
@@ -160,12 +160,38 @@
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Border Background="{DynamicResource HighDarkerColor}">
-        <DockPanel>
-            <TabControl Margin="8" Style="{StaticResource InLineTabControlStyle}" DockPanel.Dock="Top">
-                
-                <TabItem Header="Videos">
-                    <ListBox 
+    <Border Background="{DynamicResource HighDarkerColor}"
+            dd:DragDrop.IsDropTarget="True"
+            dd:DragDrop.DropHandler="{Binding}">
+        <StackPanel>
+            <Expander Header="Images">
+                <ListBox 
+                    DockPanel.Dock="Top"
+                    Background="Transparent"
+                    SelectionMode="Extended"
+                    AlternationCount="2"
+                    ItemsSource="{Binding ImageAssets}"
+                    dd:DragDrop.IsDropTarget="True"
+                    dd:DragDrop.DropHandler="{Binding}">
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <TextBlock  Text="{Binding Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                    <ListBox.ItemContainerStyle>
+                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemAlternationStyle}">
+                                <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+
+                </ListBox>
+            </Expander>
+            <Expander Header="Videos">
+                <ListBox 
                         DockPanel.Dock="Top"
                         Background="Transparent"
                         SelectionMode="Extended"
@@ -174,55 +200,24 @@
                         dd:DragDrop.IsDropTarget="True"
                         dd:DragDrop.DropHandler="{Binding}">
 
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                    <TextBlock  Text="{Binding Name}"/>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <TextBlock  Text="{Binding Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
 
-                        <!--<ListBox.ItemContainerStyle>
+                    <ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemAlternationStyle}">
                                 <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
                             </Style>
-                        </ListBox.ItemContainerStyle>-->
+                        </ListBox.ItemContainerStyle>
 
-                    </ListBox>
-                </TabItem>
-                
-                <TabItem Header="Images">
-                    <Border Margin="0, 8">
-                        <ListBox 
-                            DockPanel.Dock="Top"
-                            Background="Transparent"
-                            SelectionMode="Extended"
-                            AlternationCount="2"
-                            ItemsSource="{Binding ImageAssets}"
-                            dd:DragDrop.IsDropTarget="True"
-                            dd:DragDrop.DropHandler="{Binding}">
-
-                            <ListBox.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                        <TextBlock  Text="{Binding Name}"/>
-                                    </Border>
-                                </DataTemplate>
-                            </ListBox.ItemTemplate>
-
-                            <!--<ListBox.ItemContainerStyle>
-                            <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemAlternationStyle}">
-                                <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
-                            </Style>
-                        </ListBox.ItemContainerStyle>-->
-
-                        </ListBox>
-                    </Border>
-
-                </TabItem>
-                
-                <TabItem Header="Geometry">
-                    <ListBox 
+                </ListBox>
+            </Expander>
+            <Expander Header="Geometries">
+                <ListBox 
                         DockPanel.Dock="Top"
                         Background="Transparent"
                         SelectionMode="Extended"
@@ -231,65 +226,22 @@
                         dd:DragDrop.IsDropTarget="True"
                         dd:DragDrop.DropHandler="{Binding}">
 
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                                    <TextBlock  Text="{Binding Name}"/>
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
+                                <TextBlock  Text="{Binding Name}"/>
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
 
-                        <!--<ListBox.ItemContainerStyle>
+                    <!--<ListBox.ItemContainerStyle>
                             <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemAlternationStyle}">
                                 <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
                             </Style>
                         </ListBox.ItemContainerStyle>-->
 
-                    </ListBox>
-                </TabItem>
-
-            </TabControl>
-            <!--<ComboBox DockPanel.Dock="Top"
-                      Height="25"
-                      SelectedItem="{Binding SelectedAssetType}"
-                      ItemsSource="{Binding Source={StaticResource assetTypes}}"/>-->
-            <!--<ListBox 
-                DockPanel.Dock="Top"
-                Background="Transparent"
-                SelectionMode="Extended"
-                AlternationCount="2"
-                dd:DragDrop.IsDropTarget="True"
-                dd:DragDrop.DropHandler="{Binding}">
-
-                <ListBox.Resources>
-                    <Style TargetType="{x:Type ListBox}" BasedOn="{StaticResource {x:Type ListBox}}">
-                        <Setter Property="ItemsSource" Value="{Binding ImageAssets}"/>
-                        <Style.Triggers>
-                            <DataTrigger Binding="{Binding SelectedAssetType}" Value="{x:Static Assets:AssetTypes.Geometry}">
-                                <Setter Property="ItemsSource" Value="{Binding GeometryAssets}"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding SelectedAssetType}" Value="{x:Static Assets:AssetTypes.Images}">
-                                <Setter Property="ItemsSource" Value="{Binding ImageAssets}"/>
-                            </DataTrigger>
-                        </Style.Triggers>
-                    </Style>
-                </ListBox.Resources>
-
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border Height="20" VerticalAlignment="Center" HorizontalAlignment="Stretch">
-                            <TextBlock  Text="{Binding Name}"/>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-                
-                <ListBox.ItemContainerStyle>
-                    <Style TargetType="{x:Type ListBoxItem}" BasedOn="{StaticResource ListBoxItemAlternationStyle}">
-                        <Setter Property="IsSelected" Value="{Binding Mode=TwoWay, Path=IsSelected}"/>
-                    </Style>
-                </ListBox.ItemContainerStyle>
-                
-            </ListBox>-->
-        </DockPanel>
+                </ListBox>
+            </Expander>
+        </StackPanel>
     </Border>
 </UserControl>

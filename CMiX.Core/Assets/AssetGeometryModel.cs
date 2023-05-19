@@ -14,11 +14,11 @@ namespace CMiX.Core.Assets
         }
 
         public Guid ID { get; set; }
-        public string Path { get; set; }
+        public string FilePath { get; set; }
         public string Name { get; set; }
         public bool IsSelected { get; set; }
         public string Ponderation { get; set; }
-
-        public ObservableCollection<IAssetModel> AssetModels { get; set; }
+        public bool FileExist { get; set; }
+        public bool IsRenaming { get; set; }
     }
 }

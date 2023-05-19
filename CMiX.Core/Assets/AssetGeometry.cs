@@ -16,7 +16,7 @@ namespace CMiX.Core.ViewModels.Assets
         public AssetGeometry(string name, string path)
         {
             Name = name;
-            Path = path;
+            FilePath = path;
         }
 
 
@@ -55,22 +55,11 @@ namespace CMiX.Core.ViewModels.Assets
             set => SetProperty(ref _isSelected, value);
         }
 
-        private string _path;
-        public string Path
+        private string _filePath;
+        public string FilePath
         {
-            get => _path;
-            set => SetProperty(ref _path, value);
-        }
-
-        public IModel GetModel()
-        {
-            var assetModel = new AssetGeometryModel();
-
-            assetModel.Name = this.Name;
-            assetModel.Path = this.Path;
-            assetModel.Ponderation = this.Ponderation;
-
-            return assetModel;
+            get => _filePath;
+            set => SetProperty(ref _filePath, value);
         }
     }
 }

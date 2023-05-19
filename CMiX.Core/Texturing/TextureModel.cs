@@ -18,7 +18,6 @@ namespace CMiX.Core.Texturing
             TextureSourceSelector = new TextureSourceSelectorModel();
             VideoPlayer = new VideoPlayerModel();
             ModifierManager = new ModifierManagerModel();
-            TextureTransformModifierManager = new ModifierManagerModel();
             VideoIn = new VideoInModel();
             IsEnabled = new BooleanValueModel();
             SelectedAssetType = new IntegerValueModel(0);
@@ -32,7 +31,6 @@ namespace CMiX.Core.Texturing
 
         public Guid ID { get; set; }
         public ModifierManagerModel ModifierManager { get; set; }
-        public ModifierManagerModel TextureTransformModifierManager { get; set; }
         public BooleanValueModel IsEnabled { get; set; }
         public VideoPlayerModel VideoPlayer { get; set; }
         public VideoInModel VideoIn { get; set; }

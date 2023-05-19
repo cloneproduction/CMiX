@@ -3,7 +3,6 @@
 
 using System.Collections.Specialized;
 using System.ComponentModel;
-using CMiX.Core.Assets;
 using CMiX.Core.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -61,11 +60,11 @@ namespace CMiX.Core.ViewModels.Assets
             set => SetProperty(ref _isSelected, value);
         }
 
-        private string _path;
-        public string Path
+        private string _filePath;
+        public string FilePath
         {
-            get => _path;
-            set => SetProperty(ref _path, value);
+            get => _filePath;
+            set => SetProperty(ref _filePath, value);
         }
 
         private bool _isRoot = false;
@@ -101,7 +100,6 @@ namespace CMiX.Core.ViewModels.Assets
         public void SortAssets()
         {
             Assets.Sort(c => c.Name);
-            Assets.Sort(c => c.Ponderation.ToString());
         }
 
         public void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
@@ -135,16 +133,16 @@ namespace CMiX.Core.ViewModels.Assets
             this.Assets.Clear();
         }
 
-        public IModel GetModel()
-        {
-            IAssetModel directoryAssetModel = new AssetDirectoryModel() as IAssetModel;
+        //public IModel GetModel()
+        //{
+        //    IAssetModel directoryAssetModel = new AssetDirectoryModel() as IAssetModel;
 
-            directoryAssetModel.Name = this.Name;
-            foreach (var asset in this.Assets)
-            {
-                directoryAssetModel.AssetModels.Add(asset.GetModel() as IAssetModel);
-            }
-            return directoryAssetModel as IModel;
-        }
+        //    directoryAssetModel.Name = this.Name;
+        //    foreach (var asset in this.Assets)
+        //    {
+        //        directoryAssetModel.AssetModels.Add(asset.GetModel() as IAssetModel);
+        //    }
+        //    return directoryAssetModel as IModel;
+        //}
     }
 }

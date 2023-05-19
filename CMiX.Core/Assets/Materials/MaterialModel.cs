@@ -45,17 +45,17 @@ namespace CMiX.Core.Materials
 
         public ModifierManagerModel ModifierManager { get; set; }
 
-        public GenericValueModel<PipelineType> Pipeline { get; internal set; }
-        public GenericValueModel<CullModeType> CullMode { get; internal set; }
-        public GenericValueModel<TransparencyType> Transparency { get; internal set; }
-        public FloatValueModel Metalness { get; internal set; }
-        public FloatValueModel Specularity { get; internal set; }
-        public FloatValueModel Glossiness { get; internal set; }
-        public FloatValueModel Alpha { get; internal set; }
-        public BooleanValueModel IsShadowCaster { get; internal set; }
-        public GenericValueModel<MaskChannel> MaskChannelSelector { get; internal set; }
-        public StringValueModel Name { get; internal set; }
-        public BooleanValueModel IsSelected { get; internal set; }
-        public BooleanValueModel IsRenaming { get; internal set; }
+        public GenericValueModel<PipelineType> Pipeline { get; set; }
+        public GenericValueModel<CullModeType> CullMode { get; set; }
+        public GenericValueModel<TransparencyType> Transparency { get; set; }
+        public FloatValueModel Metalness { get; set; }
+        public FloatValueModel Specularity { get; set; }
+        public FloatValueModel Glossiness { get; set; }
+        public FloatValueModel Alpha { get; set; }
+        public BooleanValueModel IsShadowCaster { get; set; }
+        public GenericValueModel<MaskChannel> MaskChannelSelector { get; set; }
+        public StringValueModel Name { get; set; }
+        public BooleanValueModel IsSelected { get; set; }
+        public BooleanValueModel IsRenaming { get; set; }
     }
 }

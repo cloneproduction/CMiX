@@ -13,11 +13,13 @@ namespace CMiX.Core.Texturing.Sources
             ProceduralName = new GenericValueModel<TextureSourceName>(TextureSourceName.Gradient);
             Gradient = new GradientModel();
             BubbleNoise = new BubbleNoiseModel();
+            Image = new ImageModel();
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<TextureSourceName> ProceduralName { get; internal set; }
-        public GradientModel Gradient { get; internal set; }
-        public BubbleNoiseModel BubbleNoise { get; internal set; }
+        public GenericValueModel<TextureSourceName> ProceduralName { get; set; }
+        public GradientModel Gradient { get; set; }
+        public BubbleNoiseModel BubbleNoise { get; set; }
+        public ImageModel Image { get; set; }
     }
 }

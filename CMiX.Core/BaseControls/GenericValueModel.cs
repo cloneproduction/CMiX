@@ -9,7 +9,7 @@ namespace CMiX.Core.BaseControls
     {
         public GenericValueModel()
         {
-
+            ID = Guid.NewGuid();
         }
 
         public GenericValueModel(T selected)

@@ -20,6 +20,7 @@ namespace CMiX.Core.Mapping
 
             CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
             CreateMap<GenericValue<TextureAddressMode>, GenericValueModel<TextureAddressMode>>().ReverseMap();
+
         }
     }
 }

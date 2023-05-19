@@ -6,6 +6,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Collections;
+using CMiX.Core.Components;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
@@ -14,15 +15,13 @@ namespace CMiX.Core.ViewModels.Assets
 {
     public class AssetManager : ObservableRecipient, IDropTarget, IDragSource
     {
-        public AssetManager()
+        public AssetManager(IProject project)
         {
-            AssetFactory = new AssetFactory();
+            Project = project;
 
-
-            //Assets = new SortableObservableCollection<IAsset>();
-            VideoAssets = new SortableObservableCollection<AssetVideo>();
-            ImageAssets = new SortableObservableCollection<AssetImage>();
-            GeometryAssets = new SortableObservableCollection<AssetGeometry>();
+            VideoAssets = new SortableObservableCollection<Asset>();
+            ImageAssets = new SortableObservableCollection<Asset>();
+            GeometryAssets = new SortableObservableCollection<Asset>();
 
 
             SelectedItems = new ObservableCollection<IAsset>();
@@ -34,7 +33,7 @@ namespace CMiX.Core.ViewModels.Assets
             RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
-        private AssetFactory AssetFactory { get; set; }
+        public IProject Project { get; set; }
 
 
         public ICommand RenameAssetCommand { get; set; }
@@ -81,11 +80,9 @@ namespace CMiX.Core.ViewModels.Assets
         }
 
 
-        //public SortableObservableCollection<IAsset> Assets { get; set; }
-
-        public SortableObservableCollection<AssetVideo> VideoAssets { get; set; }
-        public SortableObservableCollection<AssetImage> ImageAssets { get; set; }
-        public SortableObservableCollection<AssetGeometry> GeometryAssets { get; set; }
+        public SortableObservableCollection<Asset> VideoAssets { get; set; }
+        public SortableObservableCollection<Asset> ImageAssets { get; set; }
+        public SortableObservableCollection<Asset> GeometryAssets { get; set; }
 
 
         public void RenameAsset()
@@ -204,46 +201,27 @@ namespace CMiX.Core.ViewModels.Assets
 
             if (File.Exists(path))
             {
-                string filePath = Path.GetFullPath(path);
-                string fileType = Path.GetExtension(filePath).ToUpper().TrimStart('.');
-                string fileName = Path.GetFileName(filePath);
-                var asset = AssetFactory.CreateAsset(fileType, fileName, filePath);
-                LoadAsset(asset);
-            }
+                string fileType = Path.GetExtension(path).ToUpper().TrimStart('.');
 
-            if (Directory.Exists(path))
-            {
-                var directoryInfo = new DirectoryInfo(path);
-                CreateAssetFromDirectory(directoryInfo);
-            }
-        }
+                if(fileType == "PNG" || fileType == "JPG" || fileType == "JPEG")
+                {
+                    ImageAssets.Add(new Asset(path));
+                    return;
+                }
 
+                if(fileType == "OBJ")
+                {
+                    GeometryAssets.Add(new Asset(path));
+                    return;
+                }
 
-        private void LoadAsset(IAsset asset)
-        {
-            switch (asset)
-            {
-                case AssetGeometry assetGeometry:
-                    GeometryAssets.Add(assetGeometry);
-                    break;
-
-                case AssetImage assetTexture:
-                    ImageAssets.Add(assetTexture);
-                    break;
-
-                case AssetVideo assetVideo:
-                    VideoAssets.Add(assetVideo);
-                    break;
+                if(fileType == "MOV")
+                {
+                    VideoAssets.Add(new Asset(path));
+                    return;
+                }
             }
         }
-
-
-        //public void SortAssets()
-        //{
-        //    Assets.Sort(c => c.Name);
-        //    Assets.Sort(c => c.Ponderation.ToString());
-        //}
-
 
         public void DragOver(IDropInfo dropInfo)
         {
