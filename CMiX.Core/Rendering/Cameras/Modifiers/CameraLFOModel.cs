@@ -12,6 +12,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public CameraLFOModel()
         {
             ID = Guid.NewGuid();
+
             Visible = new BooleanValueModel(true);
             Yaw = new BooleanValueModel(false);
             Pitch = new BooleanValueModel(false);

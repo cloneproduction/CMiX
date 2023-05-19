@@ -1,7 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Networking;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
@@ -56,6 +59,14 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 
         public IModifierModel CreateModel(IModifier modifier)
         {
+            var type = modifier.GetType();
+
+            if (type == typeof(CameraLFO))
+                return ControlMessenger.Mapper.Map<CameraLFOModel>(modifier);
+
+            if (type == typeof(CameraRandom))
+                return ControlMessenger.Mapper.Map<CameraRandomModel>(modifier);
+
             return null;
         }
     }

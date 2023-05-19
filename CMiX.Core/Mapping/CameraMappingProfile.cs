@@ -6,6 +6,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Cameras.Modifiers;
 
 namespace CMiX.Core.Mapping
 {
@@ -16,6 +17,9 @@ namespace CMiX.Core.Mapping
             CreateMap<Camera, CameraModel>().ReverseMap();
             CreateMap<PrefabManager<Camera>, PrefabManagerModel>().ReverseMap();
             CreateMap<GenericValue<CameraAxis>, GenericValueModel<CameraAxis>>().ReverseMap();
+
+            CreateMap<CameraLFO, CameraLFOModel>().ReverseMap();
+            CreateMap<CameraRandom, CameraRandomModel>().ReverseMap();
         }
     }
 }

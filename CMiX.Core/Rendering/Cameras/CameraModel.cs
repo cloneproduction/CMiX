@@ -24,7 +24,7 @@ namespace CMiX.Core.Rendering.Cameras
             FarClip = new FloatValueModel(100f);
             NearClip = new FloatValueModel(0.05f);
             Projection = new BooleanValueModel();
-            CameraTransformModifierManager = new ModifierManagerModel();
+            ModifierManager = new ModifierManagerModel();
             Name = new StringValueModel("Camera");
         }
 
@@ -39,7 +39,7 @@ namespace CMiX.Core.Rendering.Cameras
         public FloatValueModel NearClip { get; set; }
         public FloatValueModel FarClip { get; set; }
         public BooleanValueModel Projection { get; set; }
-        public ModifierManagerModel CameraTransformModifierManager { get; set; }
+        public ModifierManagerModel ModifierManager { get; set; }
         public BooleanValueModel IsSelected { get; set; }
         public BooleanValueModel IsRenaming { get; set; }
     }

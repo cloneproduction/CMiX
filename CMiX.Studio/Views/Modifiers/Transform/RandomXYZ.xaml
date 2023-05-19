@@ -62,10 +62,10 @@
             </Expander.Header>
 
             <BaseControls:VectorXYZ 
-                IsEnabled="{Binding RandomizeLocation.Value}"
+                IsEnabled="{Binding RandomizeScale.Value}"
                 Margin="8"
-                Caption="Location" 
-                DataContext="{Binding Location}"/>
+                Caption="Scale" 
+                DataContext="{Binding Scale}"/>
 
         </Expander>
 

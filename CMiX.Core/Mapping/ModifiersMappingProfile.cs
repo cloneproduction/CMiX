@@ -5,7 +5,6 @@ using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Rendering.Cameras.Modifiers;
 using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Mapping
@@ -16,6 +15,7 @@ namespace CMiX.Core.Mapping
         {
             CreateMap<ModifierManager, ModifierManagerModel>().ReverseMap();
             CreateMap<IModifier, IModifierModel>().ReverseMap();
+
             CreateMap<GenericValue<ModifierMode>, GenericValueModel<ModifierMode>>().ReverseMap();
             CreateMap<RandomHSV, RandomHSVModel>().ReverseMap();
             CreateMap<RandomXYZ, RandomXYZModel>().ReverseMap();
@@ -24,8 +24,6 @@ namespace CMiX.Core.Mapping
             CreateMap<LFO, LFOModel>().ReverseMap();
             CreateMap<Stepper, StepperModel>().ReverseMap();
 
-            CreateMap<CameraLFO, CameraLFOModel>().ReverseMap();
-            CreateMap<CameraRandom, CameraRandomModel>().ReverseMap();
         }
     }
 }
