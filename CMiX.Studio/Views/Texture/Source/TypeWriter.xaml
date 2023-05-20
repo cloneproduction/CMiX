@@ -13,16 +13,16 @@
     <StackPanel>
 
         <TextBox Height="44" 
-                 Text="{Binding StringControl.Text, UpdateSourceTrigger=PropertyChanged}" 
+                 Text="{Binding StringControl.Value, UpdateSourceTrigger=PropertyChanged}" 
                  Style="{StaticResource TypeWriterStyle}">
-            <i:Interaction.Triggers>
+            <!--<i:Interaction.Triggers>
                 <i:EventTrigger  EventName="LostFocus">
                     <i:InvokeCommandAction Command="{Binding TextInputLostFocusCommand}" CommandParameter="{Binding ., ElementName=textBox1}" />
                 </i:EventTrigger>
                 <i:EventTrigger  EventName="GotFocus">
                     <i:InvokeCommandAction Command="{Binding TextInputGotFocusCommand}" CommandParameter="{Binding ., ElementName=textBox1}" />
                 </i:EventTrigger>
-            </i:Interaction.Triggers>
+            </i:Interaction.Triggers>-->
         </TextBox>
 
         <BaseControl:ComboBox 

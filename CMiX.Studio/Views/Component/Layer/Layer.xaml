@@ -38,16 +38,22 @@
 
                 <TabControl TabStripPlacement="Left" 
                             Background="{DynamicResource HighHighDarkerColor}" 
-                            Style="{StaticResource InLineTabControlStyle}">
+                            Style="{StaticResource TabControlVerticalPanel}">
 
-                    <TabItem IsSelected="True" Header="Entity">
+                    <TabItem IsSelected="True">
+                        <TabItem.Header>
+                            <Image Source="{StaticResource Entity}" Margin="8"/>
+                        </TabItem.Header>
                         <StackPanel>
                             <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}"/>
                             <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding }"/>
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem Header="Camera">
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image Source="{StaticResource Camera}" Margin="8"/>
+                        </TabItem.Header>
                         <StackPanel>
                             <Views:PrefabSlotManager Margin="8" DataContext="{Binding CameraEntityManager}"/>
 
@@ -71,11 +77,17 @@
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem Header="Light">
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image Source="{StaticResource MeshLight}" Margin="8"/>
+                        </TabItem.Header>
                         <Views:PrefabSlotManager Margin="8" DataContext="{Binding LightEntityManager}"/>
                     </TabItem>
 
-                    <TabItem Header="PostFX">
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image Source="{StaticResource PostFX}" Margin="8"/>
+                        </TabItem.Header>
                         <StackPanel>
                             <Panels:IndentedExpander Header="Filter">
                                 <Views:TextureFilter  DataContext="{Binding ModifierManager}"/>
