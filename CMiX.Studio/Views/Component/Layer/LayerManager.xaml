@@ -51,7 +51,7 @@
                         </Border.Style>
                         <BaseControls:ComboBox
                             Caption="Blend Mode"
-                            SelectedItem="{Binding BlendMode.Value, Converter={StaticResource EnumToString}}"
+                            SelectedItem="{Binding BlendMode.Value}"
                             ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
                     </Border>
 
@@ -75,7 +75,7 @@
 
                             <BaseControls:ComboBox 
                                 Caption="Mask Mode"
-                                SelectedItem="{Binding MaskMode.Value, Converter={StaticResource EnumToString}}"
+                                SelectedItem="{Binding MaskMode.Value}"
                                 ItemsSource="{Binding Source={StaticResource MaskMode}}"/>
 
                             <BaseControls:ComboBox 

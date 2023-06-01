@@ -28,9 +28,9 @@ namespace CMiX.Core.Compositing
             IsMask = new BooleanValue(layerModel.IsMask);
             Opacity = new FloatValue(layerModel.Opacity);
             BackgroundColor = new ColorSelector(layerModel.BackgroundColor);
-            MaskChannel = new GenericValue<MaskChannel>(layerModel.MaskChannelModel);
-            BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendModeModel);
-            MaskMode = new GenericValue<MaskMode>(layerModel.MaskModeModel);
+            MaskChannel = new GenericValue<MaskChannel>(layerModel.MaskChannel);
+            BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendMode);
+            MaskMode = new GenericValue<MaskMode>(layerModel.MaskMode);
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
             ModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
             ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);

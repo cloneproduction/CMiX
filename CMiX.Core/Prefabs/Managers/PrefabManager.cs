@@ -163,16 +163,31 @@ namespace CMiX.Core.Prefabs
                 SelectedItem = prefab;
                 return;
             }
-
+            var selectedPrefab = Prefabs[SelectedIndex];
             Prefabs[SelectedIndex] = prefab;
             SelectedItem = prefab;
-            Send(new MessageReplaceSelectedPrefab(ID, SelectedItem.ID, prefab.ID));
+            Send(new MessageReplaceSelectedPrefab(ID, selectedPrefab.ID, prefab.ID));
         }
 
         public void ReplaceSelectedPrefab(Guid selectedPrefabID, Guid newPrefabID)
         {
             var prefab = PrefabRepository.GetPrefab(newPrefabID);
-            ReplaceSelectedPrefab(prefab);
+
+            var selected = Prefabs.FirstOrDefault(x => x.ID == selectedPrefabID);
+            var index = Prefabs.IndexOf(selected);
+
+            if (prefab == null)
+                return;
+
+            if (Prefabs.Count <= 0)
+            {
+                Prefabs.Add(prefab);
+                SelectedItem = prefab;
+                return;
+            }
+
+            Prefabs[index] = prefab;
+            SelectedItem = prefab;
         }
 
         public void AddPrefab(IPrefabModel prefabModel)
