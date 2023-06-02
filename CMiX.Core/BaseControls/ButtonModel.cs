@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public class ButtonModel : IModel
+    public class ButtonModel : IControlModel
     {
         public ButtonModel()
         {

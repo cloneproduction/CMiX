@@ -27,10 +27,5 @@ namespace CMiX.Core.Texturing.Sources
         public ColorSelector To { get; set; }
         public FloatValue Gamma { get; set; }
         public BooleanValue Horizontal { get; set; }
-
-        public void Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

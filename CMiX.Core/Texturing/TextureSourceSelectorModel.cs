@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class TextureSourceSelectorModel : IModel
+    public class TextureSourceSelectorModel : IControlModel
     {
         public TextureSourceSelectorModel()
         {

@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Scheduling
 {
-    public sealed class JobSchedulerModel : IModel
+    public sealed class JobSchedulerModel : IControlModel
     {
         public JobSchedulerModel()
         {

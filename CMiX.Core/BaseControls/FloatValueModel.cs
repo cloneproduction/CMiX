@@ -4,7 +4,7 @@
 namespace CMiX.Core.BaseControls
 {
 
-    public class FloatValueModel : IModel
+    public class FloatValueModel : IControlModel
     {
         public FloatValueModel()
         {

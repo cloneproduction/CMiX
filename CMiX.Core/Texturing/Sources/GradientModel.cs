@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class GradientModel : IModel
+    public class GradientModel : IControlModel
     {
         public GradientModel()
         {

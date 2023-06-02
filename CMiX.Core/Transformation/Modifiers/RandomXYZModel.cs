@@ -12,7 +12,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public RandomXYZModel()
         {
             ID = Guid.NewGuid();
-            Name = TransformModifierNames.RandomXY;
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
             Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
@@ -39,7 +38,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public BooleanValueModel RandomizeRotation { get; set; }
         public Vector3Model Rotation { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
-        public TransformModifierNames Name { get; set; }
         public FloatValueModel Uniform { get; internal set; }
     }
 }

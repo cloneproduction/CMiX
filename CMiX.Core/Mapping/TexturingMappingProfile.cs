@@ -4,7 +4,6 @@
 using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Texturing;
-using CMiX.Core.Texturing.Mixers;
 using CMiX.Core.Texturing.Sampling;
 using CMiX.Core.Texturing.Sources;
 

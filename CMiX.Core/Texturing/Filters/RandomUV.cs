@@ -4,14 +4,13 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Transformation.Modifiers;
-using CMiX.Core.ViewModels;
 using CMiX.Core.Texturing.Sampling;
+using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : ObservableObject, IBeatModifiable, ITextureFilter, IEase
+    public partial class RandomUV : ObservableObject, IBeatModifiable, IModifier, IEase
     {
         public RandomUV(RandomUVModel randomUVModel)
         {
@@ -21,8 +20,8 @@ namespace CMiX.Core.Texturing.Filters
 
             Visible = new BooleanValue(randomUVModel.Visible);
 
-            Easing = new Easing(randomUVModel.EasingModel);
-            BeatModifier = new BeatModifier(randomUVModel.BeatModifierModel);
+            Easing = new Easing(randomUVModel.Easing);
+            BeatModifier = new BeatModifier(randomUVModel.BeatModifier);
             SamplerState = new SamplerState(randomUVModel.SamplerState);
             RandomizeLocation = new BooleanValue(randomUVModel.RandomizeLocation);
             Location = new Vector2(randomUVModel.Location);
@@ -46,6 +45,7 @@ namespace CMiX.Core.Texturing.Filters
         public BooleanValue RandomizeRotation { get; set; }
         public FloatValue Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded;

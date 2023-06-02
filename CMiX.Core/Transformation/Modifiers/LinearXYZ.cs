@@ -4,7 +4,6 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
@@ -14,21 +13,19 @@ namespace CMiX.Core.Transformation.Modifiers
         public LinearXYZ(LinearXYZModel linearXYZModel)
         {
             ID = linearXYZModel.ID;
-            Name = linearXYZModel.Name;
             Mode = new GenericValue<ModifierMode>(linearXYZModel.Mode);
             Visible = new BooleanValue(linearXYZModel.Visible);
             Width = new FloatValue(linearXYZModel.Width);
             Phase = new FloatValue(linearXYZModel.Phase);
-            Counter = new IntegerValue(linearXYZModel.CounterModel);
+            Counter = new IntegerValue(linearXYZModel.Counter);
             TransformTypeSelector = new GenericValue<TransformType>(linearXYZModel.TransformTypeSelector);
-            DirectionXYZ = new DirectionXYZ(linearXYZModel.DirectionXYZModel);
-            BeatModifier = new BeatModifier(linearXYZModel.BeatModifierModel);
+            DirectionXYZ = new DirectionXYZ(linearXYZModel.DirectionXYZ);
+            BeatModifier = new BeatModifier(linearXYZModel.BeatModifier);
             isExpanded = true;
         }
 
         public Guid ID { get; set; }
         public BooleanValue Visible { get; set; }
-        public TransformModifierNames Name { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
         public GenericValue<TransformType> TransformTypeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }

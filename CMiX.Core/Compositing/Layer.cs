@@ -9,7 +9,6 @@ using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Mixers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -28,11 +27,14 @@ namespace CMiX.Core.Compositing
             IsMask = new BooleanValue(layerModel.IsMask);
             Opacity = new FloatValue(layerModel.Opacity);
             BackgroundColor = new ColorSelector(layerModel.BackgroundColor);
+
             MaskChannel = new GenericValue<MaskChannel>(layerModel.MaskChannel);
             BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendMode);
             MaskMode = new GenericValue<MaskMode>(layerModel.MaskMode);
+
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
             ModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
+
             ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
             CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager.ID, compositionService, compositionService.CameraRepository);
             LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager.ID, compositionService, compositionService.LightEntityRepository);

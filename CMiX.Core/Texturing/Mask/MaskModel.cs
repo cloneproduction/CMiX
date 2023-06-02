@@ -10,15 +10,13 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Core.Texturing
 {
-    public class MaskModel : IModel
+    public class MaskModel : IControlModel
     {
         public MaskModel()
         {
             ID = Guid.NewGuid();
-            TextureSelectorModel = new ImageSelectorModel();
-            VideoSelectorModel = new VideoSelectorModel();
-            VideoPlayerModel = new VideoPlayerModel();
-            ModifierManagerModel = new ModifierManagerModel();
+            VideoPlayer = new VideoPlayerModel();
+            ModifierManager = new ModifierManagerModel();
             TextureTransformModifierManager = new ModifierManagerModel();
             SamplerState = new SamplerStateModel();
             VideoIn = new VideoInModel();
@@ -31,12 +29,10 @@ namespace CMiX.Core.Texturing
         }
 
         public Guid ID { get; set; }
-        public ModifierManagerModel ModifierManagerModel { get; set; }
+        public ModifierManagerModel ModifierManager { get; set; }
         public ModifierManagerModel TextureTransformModifierManager { get; set; }
-        public ImageSelectorModel TextureSelectorModel { get; set; }
-        public BooleanValueModel IsEnabled { get; internal set; }
-        public VideoSelectorModel VideoSelectorModel { get; internal set; }
-        public VideoPlayerModel VideoPlayerModel { get; set; }
+        public BooleanValueModel IsEnabled { get; set; }
+        public VideoPlayerModel VideoPlayer { get; set; }
         public VideoInModel VideoIn { get; internal set; }
         public IntegerValueModel SelectedAssetType { get; internal set; }
         public TypeWriterModel TypeWriter { get; internal set; }

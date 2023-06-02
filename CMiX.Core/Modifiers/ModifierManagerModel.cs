@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Modifiers
 {
-    public class ModifierManagerModel : IModel
+    public class ModifierManagerModel : IControlModel
     {
         public ModifierManagerModel()
         {

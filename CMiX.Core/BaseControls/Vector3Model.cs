@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public class Vector3Model : IModel
+    public class Vector3Model : IControlModel
     {
         public Vector3Model()
         {

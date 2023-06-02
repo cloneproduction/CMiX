@@ -35,7 +35,7 @@ namespace CMiX.Core.ViewModels.Scheduling
         }
 
 
-        public IModel GetModel()
+        public IControlModel GetModel()
         {
             JobSchedulerModel jobSchedulerModel = new JobSchedulerModel();
             jobSchedulerModel.ID = this.ID;

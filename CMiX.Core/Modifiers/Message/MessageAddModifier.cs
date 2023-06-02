@@ -13,13 +13,13 @@ namespace CMiX.Core.Modifiers.Message
 
         }
 
-        public MessageAddModifier(Guid parentID, IModel model)
+        public MessageAddModifier(Guid parentID, IControlModel model)
         {
             ID = parentID;
             Model = model;
         }
 
         public Guid ID { get; set; }
-        public IModel Model { get; set; }
+        public IControlModel Model { get; set; }
     }
 }

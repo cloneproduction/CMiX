@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public interface IPrefabManagerModel : IModel
+    public interface IPrefabManagerModel : IControlModel
     {
 
     }

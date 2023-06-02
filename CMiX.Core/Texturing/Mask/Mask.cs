@@ -17,12 +17,12 @@ namespace CMiX.Core.Texturing
         {
             ID = maskModel.ID;
             IsEnabled = new BooleanValue(maskModel.IsEnabled);
-            ModifierManager = new ModifierManager(maskModel.ModifierManagerModel, new TextureFilterFactory());
+            ModifierManager = new ModifierManager(maskModel.ModifierManager, new TextureFilterFactory());
             TextureTransformModifierManager = new ModifierManager(maskModel.TextureTransformModifierManager, new ModifierFactory());
             SamplerState = new SamplerState(maskModel.SamplerState);
             Invert = new BooleanValue(maskModel.Invert);
             VideoIn = new VideoIn(maskModel.VideoIn);
-            VideoPlayer = new VideoPlayer(maskModel.VideoPlayerModel);
+            VideoPlayer = new VideoPlayer(maskModel.VideoPlayer);
             SelectedAssetType = new IntegerValue(maskModel.SelectedAssetType);
             TypeWriter = new TypeWriter(maskModel.TypeWriter);
             TextureSourceSelector = new TextureSourceSelector(maskModel.TextureSourceSelector);

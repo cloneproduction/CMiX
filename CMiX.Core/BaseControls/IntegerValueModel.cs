@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.BaseControls
 {
-    public class IntegerValueModel : IModel
+    public class IntegerValueModel : IControlModel
     {
         public IntegerValueModel()
         {

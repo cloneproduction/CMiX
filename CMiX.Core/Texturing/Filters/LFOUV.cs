@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LFOUV : ObservableObject, ITextureFilter, IBeatModifiable
+    public partial class LFOUV : ObservableObject, IModifier, IBeatModifiable
     {
         public LFOUV(LFOUVModel lfoUVModel)
         {

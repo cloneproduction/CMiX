@@ -6,7 +6,7 @@ using CMiX.Core.ViewModels.Assets;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class ImageModel : IModel
+    public class ImageModel : IControlModel
     {
         public ImageModel()
         {

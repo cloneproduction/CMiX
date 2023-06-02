@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class TypeWriterModel : IModel
+    public class TypeWriterModel : IControlModel
     {
         public TypeWriterModel()
         {

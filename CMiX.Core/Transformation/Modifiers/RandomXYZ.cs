@@ -4,17 +4,15 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier, IEase
+    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier, IEase, ISpreadable
     {
         public RandomXYZ(RandomXYZModel randomXYZModel)
         {
             ID = randomXYZModel.ID;
-            Name = randomXYZModel.Name;
             Counter = new IntegerValue(randomXYZModel.Counter);
             Visible = new BooleanValue(randomXYZModel.Visible);
             Easing = new Easing(randomXYZModel.Easing);
@@ -31,7 +29,6 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public Guid ID { get; set; }
         public BooleanValue Visible { get; set; }
-        public TransformModifierNames Name { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }

@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Scheduling
 {
-    public class PlaylistModel : IModel
+    public class PlaylistModel : IControlModel
     {
         public PlaylistModel()
         {

@@ -78,7 +78,7 @@ namespace CMiX.Core.ViewModels.Scheduling
         }
 
 
-        public IModel GetModel()
+        public IControlModel GetModel()
         {
             PlaylistModel playlistModel = new PlaylistModel();
             playlistModel.ID = this.ID;

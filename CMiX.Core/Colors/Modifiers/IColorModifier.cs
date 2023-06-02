@@ -6,7 +6,7 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public interface IColorModifier : IControl, IModifier
+    public interface IColorModifier : IModifier
     {
         GenericValue<ModifierMode> Mode { get; set; }
     }

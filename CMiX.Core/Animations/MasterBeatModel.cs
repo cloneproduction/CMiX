@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Animations
 {
-    public class MasterBeatModel : IModel
+    public class MasterBeatModel : IControlModel
     {
         public MasterBeatModel()
         {

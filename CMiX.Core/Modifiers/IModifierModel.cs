@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Modifiers
 {
-    public interface IModifierModel : IModel
+    public interface IModifierModel : IControlModel
     {
         BooleanValueModel Visible { get; set; }
     }

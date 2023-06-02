@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Assets
 {
-    public interface IAssetModel : IModel
+    public interface IAssetModel : IControlModel
     {
         bool FileExist { get; set; }
         string Name { get; set; }

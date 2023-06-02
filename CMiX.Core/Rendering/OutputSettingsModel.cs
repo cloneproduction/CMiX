@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Rendering
 {
-    public class OutputSettingsModel : IModel
+    public class OutputSettingsModel : IControlModel
     {
         public OutputSettingsModel()
         {

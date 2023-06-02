@@ -2,23 +2,22 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class EchoModel : ITextureFilterModel
+    public class EchoModel : IModifierModel
     {
         public EchoModel()
         {
             ID = Guid.NewGuid();
             Visible = new BooleanValueModel(true);
             Factor = new FloatValueModel(0.9f);
-            Name = TextureFilterName.Echo;
         }
 
         public BooleanValueModel Visible { get; set; }
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public TextureFilterName Name { get; set; }
         public FloatValueModel Factor { get; set; }
     }
 }

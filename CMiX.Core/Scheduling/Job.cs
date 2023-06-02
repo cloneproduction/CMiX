@@ -40,6 +40,6 @@ namespace CMiX.Core.ViewModels.Scheduling
         }
 
         public abstract void Execute();
-        public abstract IModel GetModel();
+        public abstract IControlModel GetModel();
     }
 }

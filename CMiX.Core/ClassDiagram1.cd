@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="CMiX.Core.Prefabs.Managers.DraggablePrefabManager&lt;T&gt;" Collapsed="true">
+    <Position X="5.25" Y="16.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAEgAAAARIgQCAAAAQAAAQABgACgAAAAAAAAAIAAQAA=</HashCode>
+      <FileName>Prefabs\Managers\DraggablePrefabManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CMiX.Core.Prefabs.PrefabManager&lt;T&gt;" Collapsed="true">
+    <Position X="5.25" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BQAEAAAgAQAAiAAACUAAIAAA8AAAgACQAAAhAAAQgAA=</HashCode>
+      <FileName>Prefabs\Managers\PrefabManager.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="CMiX.Core.ViewModels.Scheduling.JobNextComposition" Collapsed="true">
+    <Position X="5.25" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AgAgAAAAAACAgg4AAAAAAAAAAAAAAIAAAAAAAAAAAAA=</HashCode>
+      <FileName>Scheduling\Jobs\JobNextComposition.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CMiX.Core.ViewModels.Scheduling.Job" Collapsed="true">
+    <Position X="5.25" Y="9.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgQIAAAAACAAARAAACAAAQACAAAAAAAAAAAAAAAAAQ=</HashCode>
+      <FileName>Scheduling\Job.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Interface Name="CMiX.Core.IControl">
+    <Position X="16" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IControl.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.IControlModel">
+    <Position X="18.25" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>IControlModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.ViewModels.ITextureSource">
+    <Position X="14" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Texturing\Sources\ITextureSource.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.ViewModels.Assets.IAsset">
+    <Position X="23.75" Y="17.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAEAAAAAAAAAQAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\IAsset.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Assets.IAssetModel">
+    <Position X="18.25" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAEAAAAAAAAAQAAAAAAAAAAABAAAAAAAA=</HashCode>
+      <FileName>Assets\IAssetModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Colors.Modifiers.IColorModifier">
+    <Position X="20" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Colors\Modifiers\IColorModifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Modifiers.IModifiable" Collapsed="true">
+    <Position X="10.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Modifiers\IModifiable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Modifiers.IModifier" Collapsed="true">
+    <Position X="18" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Modifiers\IModifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Modifiers.IModifierModel">
+    <Position X="20.5" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>Modifiers\IModifierModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Networking.Messages.IMessage" Collapsed="true">
+    <Position X="8.5" Y="9.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Networking\Messages\IMessage.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Prefabs.Managers.IPrefabManager" Collapsed="true">
+    <Position X="8.75" Y="15.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAgAAAAgAAAAQAAAAAA8AAAAAAAAAAgAAAAgAA=</HashCode>
+      <FileName>Prefabs\Managers\IPrefabManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Prefabs.Managers.IPrefabManagerDraggable">
+    <Position X="8.75" Y="16.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Prefabs\Managers\IPrefabManagerDraggable.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Prefabs.Managers.IPrefabManagerModel" Collapsed="true">
+    <Position X="16" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Prefabs\Managers\IPrefabManagerModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Prefabs.IPrefab">
+    <Position X="16" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABAAAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Prefabs\IPrefab.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Prefabs.IPrefabModel" Collapsed="true">
+    <Position X="13.75" Y="20" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Prefabs\IPrefabModel.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Prefabs.Messages.IMessagePrefab" Collapsed="true">
+    <Position X="8.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Prefabs\Messages\IMessagePrefab.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Rendering.Cameras.Modifiers.ICameraModifier">
+    <Position X="18" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Rendering\Cameras\Modifiers\ICameraModifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Texturing.ITexture" Collapsed="true">
+    <Position X="10.5" Y="10.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAgAAAAgAAAAAMAAAAEAAJAAAAAAAAAAAEAAAA=</HashCode>
+      <FileName>Texturing\ITexture.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="CMiX.Core.Transformation.Modifiers.ITransformModifier">
+    <Position X="16" Y="11.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Transformation\Modifiers\ITransformModifier.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

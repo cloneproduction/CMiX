@@ -9,7 +9,7 @@ using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class LFOUVModel : ITextureFilterModel
+    public class LFOUVModel : IModifierModel
     {
         public LFOUVModel()
         {

@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing.Sampling
 {
-    public class SamplerStateModel : IModel
+    public class SamplerStateModel : IControlModel
     {
         public SamplerStateModel()
         {

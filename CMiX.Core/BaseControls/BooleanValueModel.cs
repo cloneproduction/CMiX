@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public class BooleanValueModel : IModel
+    public class BooleanValueModel : IControlModel
     {
         public BooleanValueModel()
         {

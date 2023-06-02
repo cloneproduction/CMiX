@@ -2,10 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class TriColorModel : ITextureFilterModel
+    public class TriColorModel : IModifierModel
     {
         public TriColorModel()
         {

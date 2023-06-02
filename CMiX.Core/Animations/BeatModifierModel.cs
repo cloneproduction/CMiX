@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifierModel : IModel
+    public class BeatModifierModel : IControlModel
     {
         public BeatModifierModel()
         {

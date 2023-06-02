@@ -51,7 +51,7 @@ namespace CMiX.Core.ViewModels.Scheduling
         }
 
 
-        public IModel GetModel()
+        public IControlModel GetModel()
         {
             CompositionSchedulerModel compositionSchedulerModel = new CompositionSchedulerModel();
             compositionSchedulerModel.ID = this.ID;

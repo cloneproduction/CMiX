@@ -6,7 +6,7 @@ using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Animations
 {
-    public class EasingModel : IModel
+    public class EasingModel : IControlModel
     {
         public EasingModel()
         {

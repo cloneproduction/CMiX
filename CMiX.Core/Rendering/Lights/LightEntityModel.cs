@@ -2,13 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Lights;
 
 namespace CMiX.Core.Entities.Lights
 {
-    public class LightEntityModel : IEntityModel, IPrefabModel
+    public class LightEntityModel : IPrefabModel
     {
         public LightEntityModel()
         {

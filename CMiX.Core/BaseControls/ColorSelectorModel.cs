@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public class ColorSelectorModel : IModel
+    public class ColorSelectorModel : IControlModel
     {
         public ColorSelectorModel()
         {

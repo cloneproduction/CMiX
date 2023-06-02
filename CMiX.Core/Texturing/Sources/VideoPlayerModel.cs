@@ -6,7 +6,7 @@ using CMiX.Core.ViewModels.Assets;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class VideoPlayerModel : IModel
+    public class VideoPlayerModel : IControlModel
     {
         public VideoPlayerModel()
         {

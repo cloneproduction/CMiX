@@ -97,7 +97,7 @@
                 </Border>
             </DataTemplate>
             
-            <DataTemplate x:Key="AssetVideoTemplate" DataType="{x:Type Assets:AssetVideo}">
+            <!--<DataTemplate x:Key="AssetVideoTemplate" DataType="{x:Type Assets:AssetVideo}">
                 <Border Style="{StaticResource BaseBorderStyle}">
                     <DockPanel Margin="0, 1">
                         <Image Margin="8" Opacity="0.9" DockPanel.Dock="Left" Source="{StaticResource Texture}"/>
@@ -113,14 +113,14 @@
                         <TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
                     </DockPanel>
                 </Border>
-            </DataTemplate>
+            </DataTemplate>-->
 
-            <Assets:AssetTemplateSelector             
+            <!--<Assets:AssetTemplateSelector             
                 x:Key="AssetTemplateSelector" 
                 AssetTextureTemplate="{StaticResource AssetTextureTemplate}"
                 AssetGeometryTemplate="{StaticResource AssetGeometryTemplate}" 
                 AssetDirectoryTemplate="{StaticResource AssetDirectoryTemplate}"
-                AssetVideoTemplate="{StaticResource AssetVideoTemplate}"/>
+                AssetVideoTemplate="{StaticResource AssetVideoTemplate}"/>-->
 
             <ContextMenu x:Key="ResourceContextMenu" Style="{StaticResource ContextMenuDefault}" Width="175">
                 <MenuItem

@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class VideoInModel : IModel
+    public class VideoInModel : IControlModel
     {
         public VideoInModel()
         {

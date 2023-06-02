@@ -20,10 +20,5 @@ namespace CMiX.Core.Texturing.Sources
         public Integer2 Resolution { get; set; }
         public Guid ID { get; set; }
         public GenericValue<Asset> Asset { get; set; }
-
-        public void Dispose()
-        {
-
-        }
     }
 }

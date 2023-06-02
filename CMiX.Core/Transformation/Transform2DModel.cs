@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Transformation
 {
-    public class Transform2DModel : IModel
+    public class Transform2DModel : IControlModel
     {
         public Transform2DModel()
         {

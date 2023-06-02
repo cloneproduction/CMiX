@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.BaseControls
 {
-    public class GenericValueModel<T> : IModel
+    public class GenericValueModel<T> : IControlModel
     {
         public GenericValueModel()
         {

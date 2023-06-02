@@ -6,7 +6,7 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public interface ITransformModifier : IModifier, IControl, IDisposable
+    public interface ITransformModifier : IModifier
     {
         GenericValue<ModifierMode> Mode { get; set; }
     }

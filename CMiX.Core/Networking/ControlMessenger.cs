@@ -30,7 +30,7 @@ namespace CMiX.Core.Networking
             Mapper = config.CreateMapper();
         }
 
-        public static void Receive(IIDObject iDObject, MessageRequestControl message)
+        public static void Receive(IControl iDObject, MessageRequestControl message)
         {
             CanSend = false;
 
@@ -40,7 +40,7 @@ namespace CMiX.Core.Networking
             CanSend = true;
         }
 
-        public static void Send<T>(IControl control) where T : IModel
+        public static void Send<T>(IControl control) where T : IControlModel
         {
             if (CanSend)
             {

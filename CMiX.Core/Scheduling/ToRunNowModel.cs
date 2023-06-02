@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Scheduling
 {
-    public sealed class ToRunNowModel : IModel
+    public sealed class ToRunNowModel : IControlModel
     {
         public ToRunNowModel()
         {

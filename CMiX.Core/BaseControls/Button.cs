@@ -32,7 +32,7 @@ namespace CMiX.Core.BaseControls
 
         public Guid ID { get; set; }
 
-        public IModel GetModel()
+        public IControlModel GetModel()
         {
             var buttonModel = new ButtonModel();
             buttonModel.ID = ID;

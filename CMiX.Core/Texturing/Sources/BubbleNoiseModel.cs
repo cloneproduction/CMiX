@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class BubbleNoiseModel : IModel
+    public class BubbleNoiseModel : IControlModel
     {
         public BubbleNoiseModel()
         {

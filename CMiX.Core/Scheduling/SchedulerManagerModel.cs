@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Scheduling
 {
-    public class SchedulerManagerModel : IModel
+    public class SchedulerManagerModel : IControlModel
     {
         public SchedulerManagerModel()
         {

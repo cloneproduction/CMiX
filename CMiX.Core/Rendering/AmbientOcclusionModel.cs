@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Rendering
 {
-    public class AmbientOcclusionModel : IModel
+    public class AmbientOcclusionModel : IControlModel
     {
         public AmbientOcclusionModel()
         {

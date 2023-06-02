@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public class DirectionXYZModel : IModel
+    public class DirectionXYZModel : IControlModel
     {
         public DirectionXYZModel()
         {

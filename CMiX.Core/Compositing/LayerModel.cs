@@ -7,7 +7,6 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
-using CMiX.Core.Texturing.Mixers;
 
 namespace CMiX.Core.Compositing
 {
@@ -19,8 +18,8 @@ namespace CMiX.Core.Compositing
             Name = new StringValueModel("Layer");
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
-            Visibility = new BooleanValueModel();
-            IsMask = new BooleanValueModel();
+            Visibility = new BooleanValueModel(false);
+            IsMask = new BooleanValueModel(false);
             Opacity = new FloatValueModel(1.0f);
             BackgroundColor = new ColorSelectorModel("#ffff00ff");
             AmbientOcclusion = new AmbientOcclusionModel();

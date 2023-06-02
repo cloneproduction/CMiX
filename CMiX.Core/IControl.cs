@@ -3,8 +3,8 @@
 
 namespace CMiX.Core
 {
-    public interface IControl : IIDObject
+    public interface IControl
     {
-        
+        Guid ID { get; set; }
     }
 }

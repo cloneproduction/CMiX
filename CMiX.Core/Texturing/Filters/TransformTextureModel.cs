@@ -4,10 +4,11 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Transformation;
 using CMiX.Core.Texturing.Sampling;
+using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class TransformTextureModel : ITextureFilterModel
+    public class TransformTextureModel : IModifierModel
     {
         public TransformTextureModel()
         {

@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class PrefabManagerModel : IModel
+    public class PrefabManagerModel : IControlModel
     {
         public PrefabManagerModel()
         {

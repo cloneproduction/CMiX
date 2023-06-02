@@ -9,7 +9,7 @@ using CMiX.Core.ViewModels.Scheduling;
 
 namespace CMiX.Core.Components
 {
-    public class ProjectModel : IModel
+    public class ProjectModel : IControlModel
     {
         public ProjectModel()
         {

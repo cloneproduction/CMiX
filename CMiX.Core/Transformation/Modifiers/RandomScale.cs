@@ -8,31 +8,27 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomScale : ObservableObject, IBeatModifiable, ITransformModifier, IEase
+    public partial class RandomScale : ObservableObject, IBeatModifiable, ITransformModifier, IEase, ISpreadable
     {
         public RandomScale(RandomScaleModel randomScaleModel)
         {
             ID = randomScaleModel.ID;
-            Name = randomScaleModel.Name;
-            Counter = new IntegerValue(randomScaleModel.CounterModel);
+            Counter = new IntegerValue(randomScaleModel.Counter);
             Visible = new BooleanValue(randomScaleModel.Visible);
-            Easing = new Easing(randomScaleModel.EasingModel);
-            BeatModifier = new BeatModifier(randomScaleModel.BeatModifierModel);
+            Easing = new Easing(randomScaleModel.Easing);
+            BeatModifier = new BeatModifier(randomScaleModel.BeatModifier);
             Mode = new GenericValue<ModifierMode>(randomScaleModel.Mode);
             Scale = new Vector3(randomScaleModel.Scale);
             UniformXYZ = new FloatValue(randomScaleModel.UniformXYZ);
-            Spread = new BooleanValue(randomScaleModel.Spread);
             isExpanded = true;
         }
 
         public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
-        public TransformModifierNames Name { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public IntegerValue Counter { get; set; }
-        public BooleanValue Spread { get; set; }
         public Vector3 Scale { get; set; }
         public FloatValue UniformXYZ { get; set; }
 

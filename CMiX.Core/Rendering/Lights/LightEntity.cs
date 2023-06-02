@@ -2,15 +2,14 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Compositing;
-using CMiX.Core.Prefabs;
 using CMiX.Core.Entities.Lights;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Lights
 {
-    public partial class LightEntity : ObservableObject, IEntity, IPrefab
+    public partial class LightEntity : ObservableObject, IPrefab
     {
         public LightEntity(LightEntityModel lightEntityModel, CompositionService compositionService)
         {

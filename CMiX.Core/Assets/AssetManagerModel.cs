@@ -6,7 +6,7 @@ using System.Collections.ObjectModel;
 
 namespace CMiX.Core.Assets
 {
-    public class AssetManagerModel : IModel
+    public class AssetManagerModel : IControlModel
     {
         public AssetManagerModel()
         {

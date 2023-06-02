@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Models
 {
-    public class ColorPickerModel : IModel
+    public class ColorPickerModel : IControlModel
     {
         public ColorPickerModel()
         {
