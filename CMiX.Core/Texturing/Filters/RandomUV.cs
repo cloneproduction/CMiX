@@ -15,7 +15,6 @@ namespace CMiX.Core.Texturing.Filters
         public RandomUV(RandomUVModel randomUVModel)
         {
             ID = randomUVModel.ID;
-            Name = randomUVModel.Name;
             isExpanded = true;
 
             Visible = new BooleanValue(randomUVModel.Visible);
@@ -34,7 +33,6 @@ namespace CMiX.Core.Texturing.Filters
 
         public Guid ID { get; set; }
         public BooleanValue Visible { get; set; }
-        public TextureFilterName Name { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public BooleanValue RandomizeLocation { get; set; }
