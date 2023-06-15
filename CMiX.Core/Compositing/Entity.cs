@@ -18,6 +18,7 @@ namespace CMiX.Core.Compositing
         public Entity(EntityModel entityModel, CompositionService compositionService)
         {
             ID = entityModel.ID;
+            CompositionService = compositionService;
             Name = new StringValue(entityModel.Name);
             IsSelected = new BooleanValue(entityModel.IsSelected);
             IsRenaming = new BooleanValue(entityModel.IsRenaming);
@@ -36,5 +37,6 @@ namespace CMiX.Core.Compositing
         public TransformSRT TransformSRT { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
+        public CompositionService CompositionService { get; set; }
     }
 }

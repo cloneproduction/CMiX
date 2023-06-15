@@ -18,6 +18,7 @@ namespace CMiX.Core.Compositing
         public Composition(CompositionModel compositionModel, CompositionService compositionService)
         {
             ID = compositionModel.ID;
+            CompositionService = compositionService;
             Name = new StringValue(compositionModel.Name);
             IsSelected = new BooleanValue(compositionModel.IsSelected);
             IsRenaming = new BooleanValue(compositionModel.IsRenaming);
@@ -35,5 +36,6 @@ namespace CMiX.Core.Compositing
         public OutputSettings OutputSettings { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public MasterBeat MasterBeat { get; set; }
+        public CompositionService CompositionService { get; set; }
     }
 }
