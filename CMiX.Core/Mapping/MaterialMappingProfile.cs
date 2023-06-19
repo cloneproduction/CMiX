@@ -3,9 +3,9 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefabs;
+using CMiX.Core.Prefab;
 using CMiX.Core.Materials;
-using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefab.Managers;
 
 namespace CMiX.Core.Mapping
 {
@@ -13,7 +13,7 @@ namespace CMiX.Core.Mapping
     {
         public MaterialMappingProfile()
         {
-            CreateMap<PrefabManager<Material>, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabSelector<Material>, PrefabSelectorModel>().ReverseMap();
             CreateMap<Material, MaterialModel>().ReverseMap();
             CreateMap<GenericValue<PipelineType>, GenericValueModel<PipelineType>>().ReverseMap();
             CreateMap<GenericValue<TransparencyType>, GenericValueModel<TransparencyType>>().ReverseMap();

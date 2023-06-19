@@ -3,8 +3,8 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefab;
+using CMiX.Core.Prefab.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Cameras.Modifiers;
 

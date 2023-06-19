@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 
-namespace CMiX.Core.Prefabs.Managers
+namespace CMiX.Core.Prefab.Managers
 {
     public interface IPrefabManager
     {
@@ -18,6 +18,5 @@ namespace CMiX.Core.Prefabs.Managers
         IPrefab GetPrefab(Guid guid);
         void AddPrefab(IPrefabModel prefabModel);
         void MovePrefab(int oldIndex, int newIndex);
-        void ReplaceSelectedPrefab(Guid selectedPrefabID, Guid newPrefabID);
     }
 }

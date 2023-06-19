@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using CMiX.Core.Networking.Messages;
 
-namespace CMiX.Core.Prefabs.Messages
+namespace CMiX.Core.Prefab.Messages
 {
     public class MessagePrefabOrderChange : IMessage
     {

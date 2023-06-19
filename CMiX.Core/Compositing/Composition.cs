@@ -4,8 +4,8 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefab;
+using CMiX.Core.Prefab.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing.Filters;
@@ -26,6 +26,8 @@ namespace CMiX.Core.Compositing
             LayerManager = new DraggablePrefabManager<Layer>(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
             ModifierManager = new ModifierManager(compositionModel.ModifierManager, new TextureFilterFactory());
             MasterBeat = new MasterBeat(compositionModel.MasterBeat);
+
+            CompositionService.MasterBeat = MasterBeat;
         }
 
         public Guid ID { get; set; }

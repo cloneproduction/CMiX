@@ -4,7 +4,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
+             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
              mc:Ignorable="d" 
              x:Name="prefabSlotManager"
              d:DesignHeight="215.334" d:DesignWidth="255.001">
@@ -127,16 +127,20 @@
                             <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRoundedRight}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
                                 <Setter Property="Command" Value="{Binding AddItemCommand}"/>
+                                <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>
+
                                 <Style.Triggers>
                                     
                                     <DataTrigger Binding="{Binding SelectedItem}" Value="{x:Null}">
                                         <Setter Property="Visibility" Value="Visible" />
                                         <Setter Property="Command" Value="{Binding AddItemCommand}"/>
+                                        <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>
                                     </DataTrigger>
 
                                     <DataTrigger Binding="{Binding SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
                                         <Setter Property="Visibility" Value="Visible" />
                                         <Setter Property="Command" Value="{Binding AddItemCommand}"/>
+                                        <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>
                                     </DataTrigger>
                                     
                                 </Style.Triggers>

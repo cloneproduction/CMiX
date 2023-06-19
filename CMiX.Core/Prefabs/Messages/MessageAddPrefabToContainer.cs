@@ -1,9 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Prefabs;
+using CMiX.Core.Prefab;
 
-namespace CMiX.Core.Prefabs.Messages
+namespace CMiX.Core.Prefab.Messages
 {
     public class MessageAddPrefabToContainer : IMessagePrefab
     {

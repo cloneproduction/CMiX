@@ -8,7 +8,7 @@
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
+             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
              xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
@@ -46,7 +46,7 @@
                         </TabItem.Header>
                         <StackPanel>
                             <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}"/>
-                            <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding }"/>
+                            <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding}"/>
                         </StackPanel>
                     </TabItem>
 

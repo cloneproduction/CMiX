@@ -22,12 +22,19 @@
 
         <Panels:IndentedExpander Header="Material">
             <StackPanel>
-                <Manager:PrefabManagerComboBox 
-                    ItemsSource="{Binding MaterialManager.PrefabRepository.Prefabs}"
-                    SelectedItem="{Binding MaterialManager.SelectedItem}"
-                    AddItemCommand="{Binding MaterialManager.AddItemCommand}"/>
-                <Border Visibility="{Binding MaterialManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                    <Views:Material DataContext="{Binding MaterialManager.SelectedItem}"/>
+
+                <Manager:PrefabManagerComboBox
+                    DataContext="{Binding MaterialSelector}"
+                    ItemsSource="{Binding PrefabRepository.Prefabs}"
+                    AddItemCommand="{Binding AddItemCommand}"
+                    SelectedItem="{Binding SelectedItem}"
+                    SelectionChangedCommand="{Binding SelectedItemChangedCommand}"
+                    SelectionChangedCommandParameter="{Binding SelectedItem}"/>
+                    <!--SelectionChangedCommand="{Binding SelectedItemChangedCommand}"
+                    SelectionChangedCommandParameter="{Binding SelectedItem}"-->
+                    
+                <Border Visibility="{Binding Material, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                    <Views:Material DataContext="{Binding MaterialSelector.SelectedItem}"/>
                 </Border>
             </StackPanel>
         </Panels:IndentedExpander>

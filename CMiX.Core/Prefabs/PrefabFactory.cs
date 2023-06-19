@@ -9,7 +9,7 @@ using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefab
 {
     public class PrefabFactory
     {

@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LinearXYZ : ObservableObject, IControl, ITransformModifier, IDisposable
+    public partial class LinearXYZ : ObservableObject, IControl, ITransformModifier, IDisposable, ISpreadable
     {
         public LinearXYZ(LinearXYZModel linearXYZModel)
         {

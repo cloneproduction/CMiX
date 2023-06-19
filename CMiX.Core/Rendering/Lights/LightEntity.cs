@@ -3,7 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Entities.Lights;
-using CMiX.Core.Prefabs;
+using CMiX.Core.Prefab;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 

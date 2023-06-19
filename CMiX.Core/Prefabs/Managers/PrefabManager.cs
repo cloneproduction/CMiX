@@ -5,14 +5,14 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Prefab.Messages;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefab
 {
     public partial class PrefabManager<T> : ObservableRecipient, IPrefabManager, IControl, IRecipient<MessageRequestControl> where T : class, IPrefab
     {
@@ -21,7 +21,7 @@ namespace CMiX.Core.Prefabs
             ID = prefabManagerModel.ID;
             PrefabFactory = compositionService.PrefabFactory;
             Prefabs = new ObservableCollection<IPrefab>();
-            SelectionChangedCommand = new RelayCommand<IPrefab>(ReplaceSelectedPrefab);
+            SelectionChangedCommand = new RelayCommand<IPrefab>(SelectionChanged);
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
             AddItemCommand = new RelayCommand(AddItem);
@@ -40,7 +40,7 @@ namespace CMiX.Core.Prefabs
             ID = id;
             PrefabFactory = new PrefabFactory(compositionService);
             Prefabs = new ObservableCollection<IPrefab>();
-            SelectionChangedCommand = new RelayCommand<IPrefab>(ReplaceSelectedPrefab);
+            SelectionChangedCommand = new RelayCommand<IPrefab>(SelectionChanged);
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
             AddItemCommand = new RelayCommand(AddItem);
@@ -152,42 +152,42 @@ namespace CMiX.Core.Prefabs
             Console.WriteLine("Item oftype" + prefab.GetType().ToString() + " Deleted");
         }
 
-        public void ReplaceSelectedPrefab(IPrefab prefab)
+        public void SelectionChanged(IPrefab prefab)
         {
-            if (prefab == null)
-                return;
+            //if (prefab == null)
+            //    return;
 
-            if (Prefabs.Count <= 0)
-            {
-                Prefabs.Add(prefab);
-                SelectedItem = prefab;
-                return;
-            }
-            var selectedPrefab = Prefabs[SelectedIndex];
-            Prefabs[SelectedIndex] = prefab;
-            SelectedItem = prefab;
-            Send(new MessageReplaceSelectedPrefab(ID, selectedPrefab.ID, prefab.ID));
+            //if (Prefabs.Count <= 0)
+            //{
+            //    Prefabs.Add(prefab);
+            //    SelectedItem = prefab;
+            //    return;
+            //}
+            //var selectedPrefab = Prefabs[SelectedIndex];
+            //Prefabs[SelectedIndex] = prefab;
+            //SelectedItem = prefab;
+            //Send(new MessageSelectedPrefabChanged(ID, selectedPrefab.ID, prefab.ID));
         }
 
-        public void ReplaceSelectedPrefab(Guid selectedPrefabID, Guid newPrefabID)
+        public void SelectionChanged(Guid selectedPrefabID, Guid newPrefabID)
         {
-            var prefab = PrefabRepository.GetPrefab(newPrefabID);
+            //var prefab = PrefabRepository.GetPrefab(newPrefabID);
 
-            var selected = Prefabs.FirstOrDefault(x => x.ID == selectedPrefabID);
-            var index = Prefabs.IndexOf(selected);
+            //var selected = Prefabs.FirstOrDefault(x => x.ID == selectedPrefabID);
+            //var index = Prefabs.IndexOf(selected);
 
-            if (prefab == null)
-                return;
+            //if (prefab == null)
+            //    return;
 
-            if (Prefabs.Count <= 0)
-            {
-                Prefabs.Add(prefab);
-                SelectedItem = prefab;
-                return;
-            }
+            //if (Prefabs.Count <= 0)
+            //{
+            //    Prefabs.Add(prefab);
+            //    SelectedItem = prefab;
+            //    return;
+            //}
 
-            Prefabs[index] = prefab;
-            SelectedItem = prefab;
+            //Prefabs[index] = prefab;
+            //SelectedItem = prefab;
         }
 
         public void AddPrefab(IPrefabModel prefabModel)

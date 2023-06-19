@@ -3,11 +3,11 @@
 
 using System.Collections.ObjectModel;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Prefab.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefab
 {
     public class PrefabRepository<T> : ObservableObject, IRecipient<MessageRequestPrefab> where T : IPrefab
     {

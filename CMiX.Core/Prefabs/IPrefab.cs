@@ -3,7 +3,7 @@
 
 using CMiX.Core.BaseControls;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefab
 {
     public interface IPrefab : IControl
     {

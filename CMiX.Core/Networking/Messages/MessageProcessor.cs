@@ -2,8 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
+using CMiX.Core.Materials;
 using CMiX.Core.Modifiers.Message;
-using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Prefab.Messages;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -14,22 +15,21 @@ namespace CMiX.Core.Networking.Messages
         public MessageProcessor(CompositionService compositionService)
         {
             IMapper Mapper = compositionService.Mapper;
-            ControlMessenger = compositionService.ControlMessenger;
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
             MessageHandlers.Add(typeof(MessageUpdateViewModel), new MessageUpdateViewModelHandler(Mapper));
-            //MessageHandlers.Add(typeof(MessageChangePrefab), new MessageChangePrefabHandler(compositionService));
             MessageHandlers.Add(typeof(MessageAddPrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageRemovePrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageMovePrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessagePrefabOrderChange), new MessagePrefabOrderChangeHandler());
-            MessageHandlers.Add(typeof(MessageReplaceSelectedPrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageAddModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageMoveModifier), new MessageModifierManagerHandler());
+
+            MessageHandlers.Add(typeof(MessageSelectedPrefabChanged), new MessageSelectorHandler<Material>());
+            MessageHandlers.Add(typeof(MessageSelectorAddPrefab), new MessageSelectorHandler<Material>());
         }
 
         private Dictionary<Type, IMessageHandler> MessageHandlers { get; set;}
-        private ControlMessenger ControlMessenger { get; set; }
 
         public void ProcessMessage(IMessage message)
         {
@@ -47,10 +47,6 @@ namespace CMiX.Core.Networking.Messages
             ControlMessenger.CanSend = true;
 
             Console.WriteLine("WARNING ! Message " + message.GetType().Name + " wasn't handled");
-            if (message is MessageUpdateViewModel messageUpdateViewModel)
-            {
-                Console.WriteLine( messageUpdateViewModel.Model.GetType().Name);
-            }
         }
     }
 }

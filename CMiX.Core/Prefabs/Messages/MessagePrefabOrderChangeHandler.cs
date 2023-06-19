@@ -2,9 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefab.Managers;
 
-namespace CMiX.Core.Prefabs.Messages
+namespace CMiX.Core.Prefab.Messages
 {
     public class MessagePrefabOrderChangeHandler : IMessageHandler
     {

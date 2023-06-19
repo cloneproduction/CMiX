@@ -3,7 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefabs;
+using CMiX.Core.Prefab;
 
 namespace CMiX.Core.Transformation
 {

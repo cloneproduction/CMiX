@@ -1,6 +1,6 @@
 ﻿using Ceras;
 using CMiX.Core.Components;
-using CMiX.Core.Prefabs;
+using CMiX.Core.Prefab;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;

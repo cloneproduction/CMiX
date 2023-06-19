@@ -3,7 +3,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
+             xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              x:Name="prefabManagerComboBox"
              mc:Ignorable="d" 
              d:DesignHeight="58" d:DesignWidth="236">
@@ -44,6 +45,12 @@
                     DockPanel.Dock="Left" 
                     SelectedItem="{Binding SelectedItem, ElementName=prefabManagerComboBox}"
                     ItemsSource="{Binding ItemsSource, ElementName=prefabManagerComboBox}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand, ElementName=prefabManagerComboBox}"  
+                                                   CommandParameter="{Binding SelectionChangedCommandParameter, ElementName=prefabManagerComboBox}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ComboBox.ItemTemplate>
                         <ItemContainerTemplate>
                             <TextBlock Text="{Binding Name.Value}"/>

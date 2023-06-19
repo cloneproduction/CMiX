@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace CMiX.Core.Prefabs.Managers
+namespace CMiX.Core.Prefab.Managers
 {
     public interface IPrefabManagerDraggable : IPrefabManager
     {

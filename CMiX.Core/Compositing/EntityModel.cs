@@ -3,10 +3,10 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefabs;
-using CMiX.Core.ViewModels;
+using CMiX.Core.Prefab;
+using CMiX.Core.Prefab.Managers;
 using CMiX.Core.Transformation;
-using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Compositing
 {
@@ -19,7 +19,7 @@ namespace CMiX.Core.Compositing
             TransformSRT = new TransformSRTModel();
             ModifierManager = new ModifierManagerModel();
             Mesh = new MeshModel();
-            MaterialManager = new PrefabManagerModel();
+            MaterialSelector = new PrefabSelectorModel();
             Name = new StringValueModel("Entity " + ID.ToString());
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
@@ -34,9 +34,9 @@ namespace CMiX.Core.Compositing
         public StringValueModel Name { get; set; }
         public TransformSRTModel TransformSRT { get; set; }
         public MeshModel Mesh { get; set; }
-        public PrefabManagerModel MaterialManager { get; set; }
         public ModifierManagerModel ModifierManager { get; set; }
         public BooleanValueModel IsSelected { get; set; }
         public BooleanValueModel IsRenaming { get; set; }
+        public PrefabSelectorModel MaterialSelector { get; set; }
     }
 }
