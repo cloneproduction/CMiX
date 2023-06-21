@@ -40,6 +40,7 @@ namespace CMiX.Core.Prefab.Managers
                 return;
 
             SelectedItem = PrefabFactory.CreatePrefab(prefabModel);
+            PrefabRepository?.AddPrefab((T)SelectedItem);
         }
 
 
