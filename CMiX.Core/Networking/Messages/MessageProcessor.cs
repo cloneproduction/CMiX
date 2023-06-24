@@ -20,6 +20,8 @@ namespace CMiX.Core.Networking.Messages
             MessageHandlers.Add(typeof(MessageAddPrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageRemovePrefab), new MessagePrefabManagerHandler());
             MessageHandlers.Add(typeof(MessageMovePrefab), new MessagePrefabManagerHandler());
+            MessageHandlers.Add(typeof(MessageReplacePrefab), new MessagePrefabManagerHandler());
+
             MessageHandlers.Add(typeof(MessagePrefabOrderChange), new MessagePrefabOrderChangeHandler());
             MessageHandlers.Add(typeof(MessageAddModifier), new MessageModifierManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveModifier), new MessageModifierManagerHandler());

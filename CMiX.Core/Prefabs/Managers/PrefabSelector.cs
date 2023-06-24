@@ -75,9 +75,6 @@ namespace CMiX.Core.Prefab.Managers
             set
             {
                 SetProperty(ref _selectedItem, value);
-                //if (IsActive && value != null)
-                    //Send(new MessageSelectedPrefabChanged(ID, SelectedItem.ID));
-                //Console.WriteLine(value);
             }
         }
 

@@ -35,6 +35,12 @@ namespace CMiX.Core.Prefab.Messages
                     prefabManager.MovePrefab(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
                     return true;
                 }
+
+                if (message is MessageReplacePrefab messageSelectedPrefabChanged)
+                {
+                    prefabManager.ReplaceItem(messageSelectedPrefabChanged.OldPrefabID, messageSelectedPrefabChanged.NewPrefabID);
+                    return true;
+                }
             }
 
             return false;
