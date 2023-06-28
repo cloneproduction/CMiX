@@ -16,25 +16,6 @@ namespace CMiX.Core.Prefab
 {
     public partial class PrefabManager<T> : ObservableRecipient, IPrefabManager, IControl, IRecipient<MessageRequestControl> where T : class, IPrefab
     {
-        public PrefabManager(PrefabManagerModel prefabManagerModel, CompositionService compositionService)
-        {
-            ID = prefabManagerModel.ID;
-            PrefabFactory = compositionService.PrefabFactory;
-            Prefabs = new ObservableCollection<IPrefab>();
-            SelectionChangedCommand = new RelayCommand<IPrefab>(ReplaceItem);
-            ItemUpCommand = new RelayCommand(ItemUp);
-            ItemDownCommand = new RelayCommand(ItemDown);
-            AddItemCommand = new RelayCommand(AddItem);
-            AddEmptyItemCommand = new RelayCommand(AddEmptyPrefab);
-            DeleteItemCommand = new RelayCommand<IPrefab>(DeleteItem);
-            IsActive = true;
-        }
-
-        public PrefabManager(PrefabManagerModel prefabManagerModel, CompositionService compositionService, PrefabRepository<T> prefabRepository) : this(prefabManagerModel, compositionService)
-        {
-            PrefabRepository = prefabRepository;
-        }
-
         public PrefabManager(Guid id, CompositionService compositionService)
         {
             ID = id;
