@@ -166,18 +166,16 @@ namespace CMiX.Core.Prefab
                 return;
             }
 
+            var oldPrefab = Prefabs[SelectedIndex];
             Prefabs[SelectedIndex] = prefab;
             SelectedItem = prefab;
 
-            Send(new MessageReplacePrefab(ID, Prefabs[SelectedIndex].ID, prefab.ID));
+            Send(new MessageReplacePrefab(ID, oldPrefab.ID, prefab.ID));
         }
 
         public void ReplaceItem(Guid oldPrefabID, Guid newPrefabID)
         {
             var prefab = PrefabRepository.GetPrefab(newPrefabID);
-
-            var selected = Prefabs.FirstOrDefault(x => x.ID == oldPrefabID);
-            var index = Prefabs.IndexOf(selected);
 
             if (prefab == null)
                 return;
@@ -188,6 +186,9 @@ namespace CMiX.Core.Prefab
                 SelectedItem = prefab;
                 return;
             }
+
+            var selected = Prefabs.FirstOrDefault(x => x.ID == oldPrefabID);
+            var index = Prefabs.IndexOf(selected);
 
             Prefabs[index] = prefab;
             SelectedItem = prefab;
