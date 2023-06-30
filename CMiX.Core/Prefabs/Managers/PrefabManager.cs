@@ -39,6 +39,7 @@ namespace CMiX.Core.Prefab
         public Guid ID { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
         public PrefabRepository<T> PrefabRepository { get; set; }
+
         public ICommand SelectionChangedCommand { get; set; }
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
@@ -131,7 +132,6 @@ namespace CMiX.Core.Prefab
                 return;
 
             Prefabs.Remove(prefab);
-            Console.WriteLine("Item oftype" + prefab.GetType().ToString() + " Deleted");
         }
 
 
