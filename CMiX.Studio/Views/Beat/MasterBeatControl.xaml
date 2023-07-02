@@ -15,7 +15,7 @@
             Background="Transparent"
             Style="{StaticResource ButtonRounded}"
             Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-            Command="{Binding Resync.ResyncCommand}"
+            Command="{Binding Resync.ClickCommand}"
             DockPanel.Dock="Right">
             <Button.Content>
                 <Image Margin="16" Source="{StaticResource Reset}"/>

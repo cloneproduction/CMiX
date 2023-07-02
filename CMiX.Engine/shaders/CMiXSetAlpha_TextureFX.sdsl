@@ -8,7 +8,6 @@ shader CMiXSetAlpha_TextureFX : FilterBase
     [Default(1, 1, 1, 1)]
     compose ComputeFloat4 AlphaMask;
 
-    //[EnumType("VL.Stride.Effects.Common.Channels")]
     int TextureChannel;
 
     [Default(1.0f)]
@@ -35,12 +34,8 @@ shader CMiXSetAlpha_TextureFX : FilterBase
             case 7 : alpha = alphaMask.b; break; //BLUE
         }
 
-        //if(Invert) alpha = 1.0 - alpha;
-
         float a = Invert ? 1.0 - alpha : alpha;
-        //if(KeepOriginal) alpha *= col.a;
-        //alpha *= Opacity.Compute();
 
-        return float4(col.rgb, a);
+        return float4(col.rgb, col.a * a);
     }
 };

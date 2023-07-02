@@ -10,7 +10,7 @@ namespace CMiX.Core.Texturing.Sources
         public TextureSourceSelectorModel()
         {
             ID = Guid.NewGuid();
-            ProceduralName = new GenericValueModel<TextureSourceName>(TextureSourceName.Gradient);
+            ProceduralName = new GenericValueModel<TextureSourceName>(TextureSourceName.BubbleNoise);
             Gradient = new GradientModel();
             BubbleNoise = new BubbleNoiseModel();
             Image = new ImageModel();

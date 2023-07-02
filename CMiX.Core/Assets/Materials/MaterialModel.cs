@@ -17,7 +17,7 @@ namespace CMiX.Core.Materials
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
 
-            BaseColor = new ColorSelectorModel("#ffff00ff");
+            BaseColor = new ColorSelectorModel("#ffffffff");
             Texture = new TextureModel();
             Mask = new MaskModel();
             MaskChannelSelector = new GenericValueModel<MaskChannel>(MaskChannel.Luma);

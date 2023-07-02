@@ -105,13 +105,13 @@
         </CollectionViewSource.SortDescriptions>
     </CollectionViewSource>
 
-    <ObjectDataProvider x:Key="BlendMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider x:Key="BlendMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="Texturing:BlendModeEnum"/>
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
-    <ObjectDataProvider x:Key="MaskMode" MethodName="GetNames" ObjectType="{x:Type System:Enum}">
+    <ObjectDataProvider x:Key="MaskMode" MethodName="GetValues" ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="Texturing:MaskMode"/>
         </ObjectDataProvider.MethodParameters>

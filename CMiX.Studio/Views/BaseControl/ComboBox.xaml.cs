@@ -21,7 +21,7 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         public static readonly DependencyProperty ItemsSourceProperty =
-        DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(ComboBox), new FrameworkPropertyMetadata(null));
+        DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(ComboBox));
         public IEnumerable ItemsSource
         {
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }

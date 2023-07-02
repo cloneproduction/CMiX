@@ -30,8 +30,6 @@
                     SelectedItem="{Binding SelectedItem}"
                     SelectionChangedCommand="{Binding SelectedItemChangedCommand}"
                     SelectionChangedCommandParameter="{Binding SelectedItem}"/>
-                    <!--SelectionChangedCommand="{Binding SelectedItemChangedCommand}"
-                    SelectionChangedCommandParameter="{Binding SelectedItem}"-->
 
                 <Border Visibility="{Binding MaterialSelector.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                     <Views:Material DataContext="{Binding MaterialSelector.SelectedItem}"/>

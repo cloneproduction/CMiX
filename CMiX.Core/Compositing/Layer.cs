@@ -18,6 +18,8 @@ namespace CMiX.Core.Compositing
     {
         public Layer(LayerModel layerModel, CompositionService compositionService)
         {
+            
+
             ID = layerModel.ID;
             Name = new StringValue(layerModel.Name);
             IsRenaming = new BooleanValue(layerModel.IsRenaming);

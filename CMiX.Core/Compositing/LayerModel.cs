@@ -21,9 +21,9 @@ namespace CMiX.Core.Compositing
             Visibility = new BooleanValueModel(false);
             IsMask = new BooleanValueModel(false);
             Opacity = new FloatValueModel(1.0f);
-            BackgroundColor = new ColorSelectorModel("#ffff00ff");
+            BackgroundColor = new ColorSelectorModel("#ff333333");
             AmbientOcclusion = new AmbientOcclusionModel();
-            BlendMode = new GenericValueModel<BlendModeEnum>(BlendModeEnum.Normal);
+            BlendMode = new GenericValueModel<BlendModeEnum>(Texturing.BlendModeEnum.Normal);
             MaskChannel = new GenericValueModel<MaskChannel>(Texturing.MaskChannel.Alpha);
             MaskMode = new GenericValueModel<MaskMode>(Texturing.MaskMode.AllBelow);
             ModifierManager = new ModifierManagerModel();
@@ -44,14 +44,14 @@ namespace CMiX.Core.Compositing
         public ModifierManagerModel ModifierManager { get; set; }
         public ColorSelectorModel BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
-        public GenericValueModel<BlendModeEnum> BlendMode { get; internal set; }
-        public GenericValueModel<MaskMode> MaskMode { get; internal set; }
-        public GenericValueModel<MaskChannel> MaskChannel { get; internal set; }
-        public PrefabManagerModel ModelEntityManager { get; internal set; }
-        public PrefabManagerModel CameraEntityManager { get; internal set; }
-        public PrefabManagerModel LightEntityManager { get; internal set; }
-        public BooleanValueModel IsMask { get; internal set; }
-        public BooleanValueModel IsRenaming { get; internal set; }
-        public BooleanValueModel IsSelected { get; internal set; }
+        public GenericValueModel<BlendModeEnum> BlendMode { get; set; }
+        public GenericValueModel<MaskMode> MaskMode { get; set; }
+        public GenericValueModel<MaskChannel> MaskChannel { get; set; }
+        public PrefabManagerModel ModelEntityManager { get; set; }
+        public PrefabManagerModel CameraEntityManager { get; set; }
+        public PrefabManagerModel LightEntityManager { get; set; }
+        public BooleanValueModel IsMask { get; set; }
+        public BooleanValueModel IsRenaming { get; set; }
+        public BooleanValueModel IsSelected { get; set; }
     }
 }

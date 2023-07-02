@@ -4,7 +4,6 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -12,7 +11,19 @@ namespace CMiX.Core.Transformation.Modifiers
     {
         public StepperModel()
         {
-
+            ID = Guid.NewGuid();
+            Visible = new BooleanValueModel(true);
+            StepCount = new IntegerValueModel(2);
+            To = new FloatValueModel(1.0f);
+            From = new FloatValueModel(-1.0f);
+            Easing = new EasingModel();
+            TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
+            PingPong = new BooleanValueModel(false);
+            XAxis = new BooleanValueModel(true);
+            YAxis = new BooleanValueModel(false);
+            ZAxis = new BooleanValueModel(false);
+            BeatModifier = new BeatModifierModel();
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
         }
 
         public Guid ID { get; set; }

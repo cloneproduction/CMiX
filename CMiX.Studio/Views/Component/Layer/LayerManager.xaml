@@ -51,7 +51,7 @@
                         </Border.Style>
                         <BaseControls:ComboBox
                             Caption="Blend Mode"
-                            SelectedItem="{Binding BlendMode.Value}"
+                            SelectedItem="{Binding BlendMode.Value, Mode=TwoWay}"
                             ItemsSource="{Binding Source={StaticResource BlendMode}}"/>
                     </Border>
 

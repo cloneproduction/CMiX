@@ -19,7 +19,7 @@ namespace CMiX.Core.Prefab
         public PrefabManager(Guid id, CompositionService compositionService)
         {
             ID = id;
-            PrefabFactory = new PrefabFactory(compositionService);
+            PrefabFactory = compositionService.PrefabFactory;
             Prefabs = new ObservableCollection<IPrefab>();
             SelectionChangedCommand = new RelayCommand<IPrefab>(ReplaceItem);
             ItemUpCommand = new RelayCommand(ItemUp);

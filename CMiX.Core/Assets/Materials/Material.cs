@@ -14,6 +14,7 @@ namespace CMiX.Core.Materials
         {
 
         }
+
         public Material(MaterialModel materialModel)
         {
             this.ID = materialModel.ID;
