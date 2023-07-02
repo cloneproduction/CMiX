@@ -14,6 +14,8 @@ namespace CMiX.Core.Mapping
         public ModifiersMappingProfile()
         {
             CreateMap<ModifierManager, ModifierManagerModel>().ReverseMap();
+            CreateMap<ModifierModeSelector, ModifierModeSelectorModel>().ReverseMap();
+
             CreateMap<IModifier, IModifierModel>().ReverseMap();
 
             CreateMap<GenericValue<ModifierMode>, GenericValueModel<ModifierMode>>().ReverseMap();

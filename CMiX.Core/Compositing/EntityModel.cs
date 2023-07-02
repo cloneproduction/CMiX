@@ -23,6 +23,7 @@ namespace CMiX.Core.Compositing
             Name = new StringValueModel("Entity " + ID.ToString());
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
+            Visibility = new BooleanValueModel(false);
         }
 
         public EntityModel(Guid id) : this()
@@ -38,5 +39,6 @@ namespace CMiX.Core.Compositing
         public BooleanValueModel IsSelected { get; set; }
         public BooleanValueModel IsRenaming { get; set; }
         public PrefabSelectorModel MaterialSelector { get; set; }
+        public BooleanValueModel Visibility { get; internal set; }
     }
 }

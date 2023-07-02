@@ -13,12 +13,9 @@ namespace CMiX.Core.Transformation.Modifiers
         {
             Name = "LFO";
             ID = Guid.NewGuid();
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
             Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
-            XAxis = new BooleanValueModel();
-            YAxis = new BooleanValueModel();
-            ZAxis = new BooleanValueModel();
+            DirectionXYZ = new DirectionXYZModel();
             PingPong = new BooleanValueModel();
             TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
             Easing = new EasingModel();
@@ -31,13 +28,11 @@ namespace CMiX.Core.Transformation.Modifiers
         public Guid ID { get; set; }
         public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
-        public BooleanValueModel XAxis { get; set; }
-        public BooleanValueModel YAxis { get; set; }
-        public BooleanValueModel ZAxis { get; set; }
+
         public GenericValueModel<TransformType> TransformType { get; set; }
         public FloatValueModel From { get; set; }
         public FloatValueModel To { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; internal set; }
         public EasingModel Easing { get; internal set; }
+        public DirectionXYZModel DirectionXYZ { get; internal set; }
     }
 }

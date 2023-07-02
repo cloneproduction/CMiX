@@ -19,11 +19,10 @@ namespace CMiX.Core.Transformation.Modifiers
             Easing = new EasingModel();
             TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
             PingPong = new BooleanValueModel(false);
-            XAxis = new BooleanValueModel(true);
-            YAxis = new BooleanValueModel(false);
-            ZAxis = new BooleanValueModel(false);
             BeatModifier = new BeatModifierModel();
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
+            ModifierModeSelector = new ModifierModeSelectorModel();
+            DirectionXYZ = new DirectionXYZModel();
         }
 
         public Guid ID { get; set; }
@@ -34,10 +33,9 @@ namespace CMiX.Core.Transformation.Modifiers
         public EasingModel Easing { get; set; }
         public GenericValueModel<TransformType> TransformType { get; set; }
         public BooleanValueModel PingPong { get; set; }
-        public BooleanValueModel ZAxis { get; set; }
-        public BooleanValueModel YAxis { get; set; }
-        public BooleanValueModel XAxis { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<ModifierMode> Mode { get; set; }
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
+        public DirectionXYZModel DirectionXYZ { get; internal set; }
     }
 }

@@ -23,6 +23,7 @@ namespace CMiX.Core.Mapping
             CreateMap<ColorSelector, ColorSelectorModel>()
                 .ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => src.SelectedColor.ToString()))
                 .ReverseMap().ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => (Color)ColorConverter.ConvertFromString(src.SelectedColor)));
+            CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap();
         }
     }
 }

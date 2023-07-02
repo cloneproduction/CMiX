@@ -12,23 +12,21 @@ namespace CMiX.Core.Transformation.Modifiers
         public RandomScaleModel()
         {
             ID = Guid.NewGuid();
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
             Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
-            Counter = new IntegerValueModel(1);
             Easing = new EasingModel();
             Scale = new Vector3Model();
             UniformXYZ = new FloatValueModel();
+            ModifierModeSelector = new ModifierModeSelectorModel();
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; set; }
         public BooleanValueModel Visible { get; set; }
         public EasingModel Easing { get; set; }
-        public IntegerValueModel Counter { get; set; }
         public BooleanValueModel RandomizeScale { get; set; }
         public Vector3Model Scale { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public FloatValueModel UniformXYZ { get; set; }
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
     }
 }

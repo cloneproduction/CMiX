@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Scale : ObservableObject, ITransformModifier
+    public partial class Scale : ObservableObject, IModifier
     {
         public Scale(ScaleModel scaleModel)
         {
@@ -17,7 +17,6 @@ namespace CMiX.Core.Transformation
             Uniform = new FloatValue(scaleModel.Uniform);
             XYZ = new Vector3(scaleModel.XYZ);
             Visible = new BooleanValue(scaleModel.Visible);
-            Mode = new GenericValue<ModifierMode>(scaleModel.Mode);
             isExpanded = true;
         }
 
@@ -25,7 +24,6 @@ namespace CMiX.Core.Transformation
         public FloatValue Uniform { get; set; }
         public Vector3 XYZ { get; set; }
         public BooleanValue Visible { get; set; }
-        public GenericValue<ModifierMode> Mode { get; set; }
 
         [ObservableProperty]
         private bool isExpanded;

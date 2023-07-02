@@ -157,7 +157,7 @@
                 
             </Panels:IndentedExpander.Header>
 
-                <StackPanel>
+                <StackPanel IsEnabled="{Binding Mask.IsEnabled.Value}">
                     
                     <BaseControls:ComboBox
                         Caption="MaskChannel"

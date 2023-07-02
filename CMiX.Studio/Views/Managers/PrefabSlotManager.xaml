@@ -5,6 +5,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
+             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              x:Name="prefabSlotManager"
              d:DesignHeight="215.334" d:DesignWidth="255.001">
@@ -67,7 +68,6 @@
                     ItemsSource="{Binding Prefabs}"
                     SelectedItem="{Binding SelectedItem}"
                     SelectedIndex="{Binding SelectedIndex}">
-
                 </ListBox>
 
             </DockPanel>

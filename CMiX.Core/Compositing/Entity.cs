@@ -26,6 +26,7 @@ namespace CMiX.Core.Compositing
             Mesh = new Mesh(entityModel.Mesh);
             MaterialSelector = new PrefabSelector<Material>(entityModel.MaterialSelector, compositionService, compositionService.MaterialRepository);
             ModifierManager = new ModifierManager(entityModel.ModifierManager, new ModifierFactory());
+            Visibility = new BooleanValue(entityModel.Visibility);
             IsActive = true;
         }
 
@@ -33,6 +34,7 @@ namespace CMiX.Core.Compositing
         public StringValue Name { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
+        public BooleanValue Visibility { get; set; }
         public TransformSRT TransformSRT { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }

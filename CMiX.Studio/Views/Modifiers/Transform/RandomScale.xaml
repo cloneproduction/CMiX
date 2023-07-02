@@ -5,21 +5,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
              mc:Ignorable="d" 
              d:DesignHeight="548" d:DesignWidth="461.333">
 
     <StackPanel>
         <StackPanel Margin="8">
-            
-            <BaseControls:ComboBox
-                Caption="Type"
-                SelectedItem="{Binding Mode.Value}"
-                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
 
-            <BaseControls:IntegerValue 
-                Caption="Count"
-                Margin="0, 8"
-                Value="{Binding Counter.Value}"/>
+            <Modifiers:ModifierModeSelector 
+                Margin="0, 0, 0, 8"
+                DataContext="{Binding ModifierModeSelector}"/>
 
             <Views:BeatModifier 
                 DataContext="{Binding BeatModifier}"/>

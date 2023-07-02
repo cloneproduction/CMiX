@@ -8,16 +8,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ITransformModifier, IEase, ISpreadable
+    public partial class RandomXYZ : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
         public RandomXYZ(RandomXYZModel randomXYZModel)
         {
             ID = randomXYZModel.ID;
-            Counter = new IntegerValue(randomXYZModel.Counter);
+            ModifierModeSelector = new ModifierModeSelector(randomXYZModel.ModifierModeSelector);
             Visible = new BooleanValue(randomXYZModel.Visible);
             Easing = new Easing(randomXYZModel.Easing);
             BeatModifier = new BeatModifier(randomXYZModel.BeatModifier);
-            Mode = new GenericValue<ModifierMode>(randomXYZModel.Mode);
             RandomizeLocation = new BooleanValue(randomXYZModel.RandomizeLocation);
             Location = new Vector3(randomXYZModel.Location);
             RandomizeScale = new BooleanValue(randomXYZModel.RandomizeScale);
@@ -29,10 +28,9 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public Guid ID { get; set; }
         public BooleanValue Visible { get; set; }
-        public GenericValue<ModifierMode> Mode { get; set; }
+        public ModifierModeSelector ModifierModeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public IntegerValue Counter { get; set; }
         public BooleanValue RandomizeLocation { get; set; }
         public Vector3 Location { get; set; }
         public BooleanValue RandomizeScale { get; set; }

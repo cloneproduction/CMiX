@@ -9,13 +9,8 @@
 
     <StackPanel Margin="8">
 
-        <BaseControls:ComboBox  
-            Caption="Type"
-            SelectedItem="{Binding Mode.Value}"
-            ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-
         <BaseControls:DragValue 
-            Margin="0, 8"
+            Margin="0, 0, 0, 8"
             Caption="Uniform" 
             Value="{Binding Uniform.Value}"/>
 

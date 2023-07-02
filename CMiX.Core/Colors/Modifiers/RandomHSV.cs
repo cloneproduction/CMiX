@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier, IEase
+    public partial class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier
     {
         public RandomHSV(RandomHSVModel randomHSVModel)
         {

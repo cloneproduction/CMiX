@@ -5,7 +5,6 @@ namespace CMiX.Core.Modifiers
 {
     public enum ModifierMode
     {
-        //AsGroup,
         PerInstance,
         ToSpread
     }

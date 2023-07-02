@@ -12,14 +12,14 @@
 
     <StackPanel>
 
-        <Panels:IndentedExpander Header="Mesh">
-            <Component:Mesh DataContext="{Binding Mesh}" Margin="8"/>
+        <Panels:IndentedExpander Header="Modifiers">
+            <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:EntityModifierSelectionPanel DataContext="{Binding }"/>
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
         </Panels:IndentedExpander>
-        
-        <Panels:IndentedExpander Header="Transform">
-            <Views:TransformSRT DataContext="{Binding TransformSRT}"/>
-        </Panels:IndentedExpander>
-
+    
         <Panels:IndentedExpander Header="Material">
             <StackPanel>
 
@@ -36,13 +36,13 @@
                 </Border>
             </StackPanel>
         </Panels:IndentedExpander>
+
+        <!--<Panels:IndentedExpander Header="Transform">
+            <Views:TransformSRT DataContext="{Binding TransformSRT}"/>
+        </Panels:IndentedExpander>-->
         
-        <Panels:IndentedExpander Header="Modifiers">
-            <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                <Views:ModifierManager.SelectionPanel>
-                    <Views:EntityModifierSelectionPanel DataContext="{Binding }"/>
-                </Views:ModifierManager.SelectionPanel>
-            </Views:ModifierManager>
+        <Panels:IndentedExpander Header="Mesh">
+            <Component:Mesh DataContext="{Binding Mesh}" Margin="8"/>
         </Panels:IndentedExpander>
 
     </StackPanel>

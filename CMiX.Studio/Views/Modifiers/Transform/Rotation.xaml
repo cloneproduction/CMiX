@@ -7,18 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="145.023" d:DesignWidth="357.03">
 
-    <StackPanel Margin="8">
-        
-        <BaseControls:ComboBox  
-            Margin="0, 0, 0, 8"
-            Caption="Type"
-            SelectedItem="{Binding Mode.Value}"
-            ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-
         <BaseControls:VectorXYZ 
+            Margin="8"
             Caption="Rotation"
             DataContext="{Binding XYZ}"/>
-
-    </StackPanel>
 
 </UserControl>

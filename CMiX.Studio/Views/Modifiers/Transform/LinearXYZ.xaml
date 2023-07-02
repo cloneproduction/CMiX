@@ -3,23 +3,18 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="314" d:DesignWidth="258.667">
 
     <StackPanel Margin="8">
 
-        <BaseControls:ComboBox  
-            Caption="Type"
-            SelectedItem="{Binding Mode.Value}"
-            ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-
-        <BaseControls:IntegerValue 
-            Margin="0, 8"
-            Value="{Binding Counter.Value}"/>
+        <Modifiers:ModifierModeSelector
+            DataContext="{Binding ModifierModeSelector}"/>
 
         <BaseControls:ComboBox  
-            Margin="0, 0, 0, 1"
+            Margin="0, 8, 0, 1"
             Caption="Transform"
             Position="Top"
             SelectedItem="{Binding TransformTypeSelector.Value}"
@@ -32,11 +27,13 @@
 
         <BaseControls:DragValue 
             Caption="Width" 
-            Margin="0, 8" 
+            Position="Top"
+            Margin="0, 8, 0, 1" 
             Value="{Binding Width.Value}"/>
 
         <BaseControls:DragValue 
             Caption="Phase" 
+            Position="Bottom"
             Value="{Binding Phase.Value}"/>
 
     </StackPanel>

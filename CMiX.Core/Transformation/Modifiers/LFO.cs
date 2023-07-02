@@ -9,18 +9,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LFO : ObservableObject, IBeatModifiable, ITransformModifier
+    public partial class LFO : ObservableObject, IBeatModifiable, IModifier
     {
         public LFO(LFOModel lfoModel)
         {
             name = lfoModel.Name;
             ID = lfoModel.ID;
-            Mode = new GenericValue<ModifierMode>(lfoModel.Mode);
             Visible = new BooleanValue(lfoModel.Visible);
             BeatModifier = new BeatModifier(lfoModel.BeatModifier);
-            XAxis = new BooleanValue(lfoModel.XAxis);
-            YAxis = new BooleanValue(lfoModel.YAxis);
-            ZAxis = new BooleanValue(lfoModel.ZAxis);
+            DirectionXYZ = new DirectionXYZ(lfoModel.DirectionXYZ);
             PingPong = new BooleanValue(lfoModel.PingPong);
             TransformType = new GenericValue<TransformType>(lfoModel.TransformType);
             Easing = new Easing(lfoModel.Easing);
@@ -30,13 +27,10 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; }
-        public GenericValue<ModifierMode> Mode { get; set; }
         public BooleanValue Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public BooleanValue PingPong { get; set; }
-        public BooleanValue XAxis { get; set; }
-        public BooleanValue YAxis { get; set; }
-        public BooleanValue ZAxis { get; set; }
+        public DirectionXYZ DirectionXYZ { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
         public Easing Easing { get; set; }
         public FloatValue From { get; set; }

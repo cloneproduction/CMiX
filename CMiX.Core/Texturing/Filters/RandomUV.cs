@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : ObservableObject, IBeatModifiable, IModifier, IEase
+    public partial class RandomUV : ObservableObject, IBeatModifiable, IModifier
     {
         public RandomUV(RandomUVModel randomUVModel)
         {
@@ -18,7 +18,6 @@ namespace CMiX.Core.Texturing.Filters
             isExpanded = true;
 
             Visible = new BooleanValue(randomUVModel.Visible);
-
             Easing = new Easing(randomUVModel.Easing);
             BeatModifier = new BeatModifier(randomUVModel.BeatModifier);
             SamplerState = new SamplerState(randomUVModel.SamplerState);

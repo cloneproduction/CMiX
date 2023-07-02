@@ -4,22 +4,20 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class Stepper : ObservableObject, IBeatModifiable, ITransformModifier, IEase
+    public partial class Stepper : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
         public Stepper(StepperModel stepperModel)
         {
             ID = stepperModel.ID;
-            Mode = new GenericValue<ModifierMode>(stepperModel.Mode);
+            ModifierModeSelector = new ModifierModeSelector(stepperModel.ModifierModeSelector);
             Visible = new BooleanValue(stepperModel.Visible);
             BeatModifier = new BeatModifier(stepperModel.BeatModifier);
-            XAxis = new BooleanValue(stepperModel.XAxis);
-            YAxis = new BooleanValue(stepperModel.YAxis);
-            ZAxis = new BooleanValue(stepperModel.ZAxis);
+            DirectionXYZ = new DirectionXYZ(stepperModel.DirectionXYZ);
+
             PingPong = new BooleanValue(stepperModel.PingPong);
             TransformType = new GenericValue<TransformType>(stepperModel.TransformType);
             Easing = new Easing(stepperModel.Easing);
@@ -30,14 +28,12 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; }
+        public ModifierModeSelector ModifierModeSelector { get; set; }
         public IntegerValue StepCount { get; set; }
-        public GenericValue<ModifierMode> Mode { get; set; }
         public BooleanValue Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public BooleanValue PingPong { get; set; }
-        public BooleanValue XAxis { get; set; }
-        public BooleanValue YAxis { get; set; }
-        public BooleanValue ZAxis { get; set; }
+        public DirectionXYZ DirectionXYZ { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
         public Easing Easing { get; set; }
         public FloatValue From { get; set; }
@@ -48,7 +44,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public void Dispose()
         {
-            //throw new NotImplementedException();
+
         }
     }
 }
