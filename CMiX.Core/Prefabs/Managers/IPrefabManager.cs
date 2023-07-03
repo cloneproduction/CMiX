@@ -2,23 +2,19 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
+using CMiX.Core.Collections;
 
 namespace CMiX.Core.Prefab.Managers
 {
-    public interface IPrefabManager
+    public interface IPrefabManager : ICollectionManager
     {
         Guid ID { get; set; }
         ICommand AddItemCommand { get; set; }
         ICommand DeleteItemCommand { get; set; }
 
-        void AddItem();
+        void AddItem(Type type);
         void DeleteItem(IPrefab prefabContainer);
-        void DeleteItem(Guid id);
         void Rename();
         IPrefab GetPrefab(Guid guid);
-        void AddPrefab(IPrefabModel prefabModel);
-        void MovePrefab(int oldIndex, int newIndex);
-
-        void ReplaceItem(Guid oldPrefabID, Guid newPrefabID);
     }
 }

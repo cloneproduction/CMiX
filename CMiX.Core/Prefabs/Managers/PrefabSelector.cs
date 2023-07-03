@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
+using CMiX.Core.Collections;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefab.Messages;
@@ -12,9 +13,9 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefab.Managers
 {
-    public partial class PrefabSelector<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl> where T : class, IPrefab
+    public partial class PrefabSelector<T> : ObservableRecipient, ICollectionManager, IRecipient<MessageRequestControl> where T : class, IPrefab
     {
-        public PrefabSelector(PrefabSelectorModel prefabSelectorModel, CompositionService compositionService, PrefabRepository<T> prefabRepository)
+        public PrefabSelector(PrefabSelectorModel prefabSelectorModel, CompositionService compositionService, PrefabRepository prefabRepository)
         {
             ID = prefabSelectorModel.ID;
             PrefabRepository = prefabRepository;
@@ -29,23 +30,37 @@ namespace CMiX.Core.Prefab.Managers
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
             PrefabRepository?.AddPrefab((T)prefab);
-            Send(new MessageSelectorAddPrefab(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
+            Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
             SelectedItem = (T)prefab;
         }
 
-        public void AddPrefab(IPrefabModel prefabModel)
+        public void AddItem(IControlModel controlModel)
         {
-            if (prefabModel == null)
-                return;
-
-            SelectedItem = PrefabFactory.CreatePrefab(prefabModel);
-            PrefabRepository?.AddPrefab((T)SelectedItem);
+            if(controlModel is IPrefabModel prefabModel)
+            {
+                SelectedItem = PrefabFactory.CreatePrefab(prefabModel);
+                PrefabRepository?.AddPrefab((T)SelectedItem);
+            }
         }
 
-
-        private void DeleteItem()
+        public void DeleteItem()
         {
 
+        }
+
+        public void DeleteItem(Guid id)
+        {
+
+        }
+
+        public void MoveItem(int oldIndex, int newIndex)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ReplaceItem(Guid oldItemID, Guid newItemID)
+        {
+            throw new NotImplementedException();
         }
 
         public void SelectedItemChanged(IPrefab prefab)
@@ -85,7 +100,7 @@ namespace CMiX.Core.Prefab.Managers
 
         public Guid ID { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
-        public PrefabRepository<T> PrefabRepository { get; set; }
+        public PrefabRepository PrefabRepository { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand RemoveItemCommand { get; set; }
         public ICommand SelectedItemChangedCommand { get; set; }
@@ -95,5 +110,7 @@ namespace CMiX.Core.Prefab.Managers
         {
             ControlMessenger.Receive(this, message);
         }
+
+
     }
 }

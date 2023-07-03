@@ -12,13 +12,13 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Prefab.Managers
 {
-    public class DraggablePrefabManager<T> :
-        PrefabManager<T>,
+    public class DraggablePrefabManager :
+        PrefabManager,
         IPrefabManagerDraggable,
         IDropTarget,
-        IDragSource where T : class, IPrefab
+        IDragSource //where T : class, IPrefab
     {
-        public DraggablePrefabManager(Guid id, CompositionService compositionService, PrefabRepository<T> prefabRepository) : base(id, compositionService)
+        public DraggablePrefabManager(Guid id, CompositionService compositionService, PrefabRepository prefabRepository) : base(id, compositionService)
         {
             PrefabRepository = prefabRepository;
             Prefabs.CollectionChanged += Prefabs_CollectionChanged;
@@ -46,9 +46,9 @@ namespace CMiX.Core.Prefab.Managers
             set => SetProperty(ref _prefabOrder, value);
         }
 
-        public override void AddItem()
+        public override void AddItem(Type type)
         {
-            base.AddItem();
+            base.AddItem(type);
             UpdateComponentOrder((from x in Prefabs select x.ID).Distinct().ToList());
         }
 
@@ -66,7 +66,7 @@ namespace CMiX.Core.Prefab.Managers
             {
                 PrefabOrder.Add(id);
             }
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessagePrefabOrderChange(ID, PrefabOrder), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageItemOrderChange(ID, PrefabOrder), MessageType.Out);
         }
 
         public void StartDrag(IDragInfo dragInfo)

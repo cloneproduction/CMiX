@@ -2,25 +2,25 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.Generic;
-using CMiX.Core.Networking.Messages;
 
 namespace CMiX.Core.Prefab.Messages
 {
-    public class MessagePrefabOrderChange : IMessage
+    public class MessageMoveItem : IMessagePrefab
     {
-        public MessagePrefabOrderChange()
+        public MessageMoveItem()
         {
 
         }
 
-        public MessagePrefabOrderChange(Guid id, IList<Guid> ids)
+        public MessageMoveItem(Guid id, int oldIndex, int newIndex)
         {
             ID = id;
-            IDs = ids;
+            OldIndex = oldIndex;
+            NewIndex = newIndex;
         }
 
         public Guid ID { get; set; }
-        public IList<Guid> IDs { get; set; }
+        public int OldIndex { get; set; }
+        public int NewIndex { get; set; }
     }
 }

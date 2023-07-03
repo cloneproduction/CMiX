@@ -17,7 +17,7 @@ namespace CMiX.Core.Prefab.Messages
         {
             if (control is IPrefabManagerDraggable prefabManagerDraggable)
             {
-                if (message is MessagePrefabOrderChange msg)
+                if (message is MessageItemOrderChange msg)
                 {
                     prefabManagerDraggable.UpdateComponentOrder(msg.IDs);
                     return true;

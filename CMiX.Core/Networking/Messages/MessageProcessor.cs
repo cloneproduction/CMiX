@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.Materials;
-using CMiX.Core.Modifiers.Message;
 using CMiX.Core.Prefab.Messages;
 using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.Messaging;
@@ -14,24 +13,20 @@ namespace CMiX.Core.Networking.Messages
     {
         public MessageProcessor(CompositionService compositionService)
         {
-            IMapper Mapper = compositionService.Mapper;
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
-            MessageHandlers.Add(typeof(MessageUpdateViewModel), new MessageUpdateViewModelHandler(Mapper));
-            MessageHandlers.Add(typeof(MessageAddPrefab), new MessagePrefabManagerHandler());
-            MessageHandlers.Add(typeof(MessageRemovePrefab), new MessagePrefabManagerHandler());
-            MessageHandlers.Add(typeof(MessageMovePrefab), new MessagePrefabManagerHandler());
-            MessageHandlers.Add(typeof(MessageReplacePrefab), new MessagePrefabManagerHandler());
 
-            MessageHandlers.Add(typeof(MessagePrefabOrderChange), new MessagePrefabOrderChangeHandler());
-            MessageHandlers.Add(typeof(MessageAddModifier), new MessageModifierManagerHandler());
-            MessageHandlers.Add(typeof(MessageRemoveModifier), new MessageModifierManagerHandler());
-            MessageHandlers.Add(typeof(MessageMoveModifier), new MessageModifierManagerHandler());
+            MessageHandlers.Add(typeof(MessageValueChange), new MessageValueChangeHandler(compositionService.Mapper));
 
+            MessageHandlers.Add(typeof(MessageAddItem), new MessageCollectionManagerHandler());
+            MessageHandlers.Add(typeof(MessageRemoveItem), new MessageCollectionManagerHandler());
+            MessageHandlers.Add(typeof(MessageMoveItem), new MessageCollectionManagerHandler());
+            MessageHandlers.Add(typeof(MessageReplaceItem), new MessageCollectionManagerHandler());
+
+            MessageHandlers.Add(typeof(MessageItemOrderChange), new MessagePrefabOrderChangeHandler());
             MessageHandlers.Add(typeof(MessageSelectedPrefabChanged), new MessageSelectorHandler<Material>());
-            MessageHandlers.Add(typeof(MessageSelectorAddPrefab), new MessageSelectorHandler<Material>());
         }
 
-        private Dictionary<Type, IMessageHandler> MessageHandlers { get; set;}
+        private Dictionary<Type, IMessageHandler> MessageHandlers { get; set; }
 
         public void ProcessMessage(IMessage message)
         {
@@ -39,7 +34,7 @@ namespace CMiX.Core.Networking.Messages
 
             ControlMessenger.CanSend = false;
 
-            if (msg.HasReceivedResponse && MessageHandlers[message.GetType()].Handle((IControl)msg.Response, message))
+            if (msg.HasReceivedResponse && MessageHandlers[message.GetType()].Handle(msg.Response, message))
             {
                 Console.WriteLine("Message " + message.GetType().Name + " handled");
                 ControlMessenger.CanSend = true;

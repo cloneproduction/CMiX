@@ -1,42 +1,43 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Collections;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefab.Managers;
 
 namespace CMiX.Core.Prefab.Messages
 {
-    internal class MessagePrefabManagerHandler : IMessageHandler
+    internal class MessageCollectionManagerHandler : IMessageHandler
     {
-        public MessagePrefabManagerHandler()
+        public MessageCollectionManagerHandler()
         {
 
         }
 
         public bool Handle(IControl control, IMessage message)
         {
-            if (control is IPrefabManager prefabManager)
+            if (control is ICollectionManager prefabManager)
             {
 
-                if (message is MessageAddPrefab messageAddPrefab)
+                if (message is MessageAddItem messageAddPrefab)
                 {
-                    prefabManager.AddPrefab(messageAddPrefab.Model);
+                    prefabManager.AddItem(messageAddPrefab.Model);
                     return true;
                 }
 
-                if (message is MessageRemovePrefab messageRemovePrefab)
+                if (message is MessageRemoveItem messageRemovePrefab)
                 {
-                    prefabManager.DeleteItem(messageRemovePrefab.PrefabID);
+                    prefabManager.DeleteItem(messageRemovePrefab.Control);
                     return true;
                 }
 
-                if (message is MessageMovePrefab messageMovePrefab)
+                if (message is MessageMoveItem messageMovePrefab)
                 {
-                    prefabManager.MovePrefab(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                    prefabManager.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
                     return true;
                 }
 
-                if (message is MessageReplacePrefab messageSelectedPrefabChanged)
+                if (message is MessageReplaceItem messageSelectedPrefabChanged)
                 {
                     prefabManager.ReplaceItem(messageSelectedPrefabChanged.OldPrefabID, messageSelectedPrefabChanged.NewPrefabID);
                     return true;

@@ -15,17 +15,13 @@ namespace CMiX.Core.Components
         public Project(CompositionService compositionService)
         {
             Assets = new SortableObservableCollection<IAsset>();
-            //CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
-            //Playlists = new ObservableCollection<Playlist>();
             CompositionService = compositionService;
             var CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
-            CompositionManager = new PrefabManager<Composition>(CompositionManagerID, compositionService, compositionService.CompositionRepository);
+            CompositionManager = new PrefabManager(CompositionManagerID, compositionService, compositionService.CompositionRepository);
         }
 
         public CompositionService CompositionService { get; set; }
-        //public ObservableCollection<Playlist> Playlists { get; set; }
-        //public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
         public SortableObservableCollection<IAsset> Assets { get; set; }
-        public PrefabManager<Composition> CompositionManager { get; set; }
+        public PrefabManager CompositionManager { get; set; }
     }
 }

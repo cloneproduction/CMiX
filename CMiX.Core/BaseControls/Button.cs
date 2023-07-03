@@ -26,7 +26,7 @@ namespace CMiX.Core.BaseControls
         protected virtual void OnClick()
         {
             Click?.Invoke(this, null);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(GetModel()), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageValueChange(GetModel()), MessageType.Out);
         }
 
 

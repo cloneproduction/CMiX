@@ -6,14 +6,14 @@ using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Networking.Messages
 {
-    public class MessageUpdateViewModel : IMessage
+    public class MessageValueChange : IMessage
     {
-        public MessageUpdateViewModel()
+        public MessageValueChange()
         {
 
         }
 
-        public MessageUpdateViewModel(IControlModel model)
+        public MessageValueChange(IControlModel model)
         {
             Model = model;
             ID = model.ID;

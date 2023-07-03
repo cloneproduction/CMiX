@@ -3,20 +3,54 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
              mc:Ignorable="d" 
-             d:DesignHeight="30.346" d:DesignWidth="362.548">
+             d:DesignHeight="33.235" d:DesignWidth="294.326">
 
     <DockPanel Height="22">
-        <ComboBox 
+
+        <DockPanel>
+
+            <Button 
+                x:Name="deleteItemButton"
+                DockPanel.Dock="Right" 
+                Width="20" 
+                Style="{StaticResource ButtonRoundedRight}"
+                Command="{Binding DeleteItemCommand}"
+                CommandParameter="{Binding SelectedItem}"
+                Content="-">
+            </Button>
+
+            <Button 
+                DockPanel.Dock="Right" 
+                Width="20" 
+                Margin="1, 0"
+                Style="{StaticResource ButtonStraight}"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Compositing:Composition}"
+                Content="+">
+            </Button>
+
+            <ComboBox 
                 Style="{StaticResource ComboBoxWithButton}"
                 SelectedItem="{Binding SelectedItem}"
                 ItemsSource="{Binding Prefabs}">
-            <ComboBox.ItemTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding Name.Value}"/>
-                </DataTemplate>
-            </ComboBox.ItemTemplate>
-        </ComboBox>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name.Value}"/>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+
+            <Controls:EditableTextBox 
+                Background="{DynamicResource HighHighDarkerColor}"
+                SnapsToDevicePixels="True"
+                TextElement.Foreground="{DynamicResource TextBase}"
+                Text="{Binding SelectedItem.Name.Value}"/>
+
+        </DockPanel>
+
     </DockPanel>
 
 </UserControl>

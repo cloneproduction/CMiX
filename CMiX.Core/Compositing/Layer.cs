@@ -37,9 +37,9 @@ namespace CMiX.Core.Compositing
             AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
             ModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
 
-            ModelEntityManager = new PrefabManager<Entity>(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
-            CameraEntityManager = new PrefabManager<Camera>(layerModel.CameraEntityManager.ID, compositionService, compositionService.CameraRepository);
-            LightEntityManager = new PrefabManager<LightEntity>(layerModel.LightEntityManager.ID, compositionService, compositionService.LightEntityRepository);
+            ModelEntityManager = new PrefabManager(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
+            CameraEntityManager = new PrefabManager(layerModel.CameraEntityManager.ID, compositionService, compositionService.CameraRepository);
+            LightEntityManager = new PrefabManager(layerModel.LightEntityManager.ID, compositionService, compositionService.LightEntityRepository);
         }
 
         public Guid ID { get; set; }
@@ -49,9 +49,9 @@ namespace CMiX.Core.Compositing
         public CompositionService CompositionService { get; set; }
         public BooleanValue Visibility { get; set; }
         public BooleanValue IsMask { get; set; }
-        public PrefabManager<Entity> ModelEntityManager { get; set; }
-        public PrefabManager<Camera> CameraEntityManager { get; set; }
-        public PrefabManager<LightEntity> LightEntityManager { get; set; }
+        public PrefabManager ModelEntityManager { get; set; }
+        public PrefabManager CameraEntityManager { get; set; }
+        public PrefabManager LightEntityManager { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }

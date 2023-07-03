@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefab
 {
-    public class PrefabRepository<T> : ObservableObject, IRecipient<MessageRequestPrefab> where T : IPrefab
+    public class PrefabRepository : ObservableObject, IRecipient<MessageRequestPrefab>
     {
         public PrefabRepository(IPrefabDataBase prefabDataBase)
         {
@@ -31,13 +31,13 @@ namespace CMiX.Core.Prefab
         }
 
 
-        public void AddPrefab(T prefab)
+        public void AddPrefab(IPrefab prefab)
         {
             PrefabDataBase.Prefabs.Add(prefab);
             Prefabs.Add(prefab);
         }
 
-        public void RemovePrefab(T prefab)
+        public void RemovePrefab(IPrefab prefab)
         {
             PrefabDataBase.Prefabs.Remove(prefab);
             Prefabs.Remove(prefab);

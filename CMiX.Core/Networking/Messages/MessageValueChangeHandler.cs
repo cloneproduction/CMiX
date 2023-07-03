@@ -5,9 +5,9 @@ using AutoMapper;
 
 namespace CMiX.Core.Networking.Messages
 {
-    public class MessageUpdateViewModelHandler : IMessageHandler
+    public class MessageValueChangeHandler : IMessageHandler
     {
-        public MessageUpdateViewModelHandler(IMapper mapper)
+        public MessageValueChangeHandler(IMapper mapper)
         {
             Mapper = mapper;
         }
@@ -16,7 +16,7 @@ namespace CMiX.Core.Networking.Messages
 
         public bool Handle(IControl control, IMessage message)
         {
-            if (message is MessageUpdateViewModel messageUpdateViewModel)
+            if (message is MessageValueChange messageUpdateViewModel)
             {
                 Mapper.Map(messageUpdateViewModel.Model, control);
                 return true;

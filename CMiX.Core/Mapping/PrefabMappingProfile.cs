@@ -16,9 +16,9 @@ namespace CMiX.Core.Mapping
     {
         public PrefabMappingProfile()
         {
-            CreateMap<PrefabManager<Layer>, PrefabManagerModel>().ReverseMap();
-            CreateMap<PrefabManager<Entity>, PrefabManagerModel>().ReverseMap();
-            CreateMap<PrefabManager<LightEntity>, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager, PrefabManagerModel>().ReverseMap();
 
             CreateMap<IPrefab, IPrefabModel>()
                 .Include<EmptyPrefab, EmptyPrefabModel>()

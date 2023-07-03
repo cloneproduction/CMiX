@@ -45,7 +45,7 @@ namespace CMiX.Core.Networking
             if (CanSend)
             {
                 var model = Mapper.Map<T>(control);
-                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageUpdateViewModel(model), MessageType.Out);
+                WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageValueChange(model), MessageType.Out);
             }     
         }
     }

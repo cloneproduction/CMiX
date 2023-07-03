@@ -3,13 +3,8 @@
 
 using AutoMapper;
 using CMiX.Core.Animations;
-using CMiX.Core.Compositing;
 using CMiX.Core.Mapping;
-using CMiX.Core.Materials;
-using CMiX.Core.Networking;
 using CMiX.Core.Prefab;
-using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Rendering.Lights;
 
 namespace CMiX.Core.Services
 {
@@ -35,46 +30,42 @@ namespace CMiX.Core.Services
             
             PrefabDataBase = prefabDataBase;
             PrefabFactory = new PrefabFactory(this);
-            CompositionRepository = new PrefabRepository<Composition>(prefabDataBase);
-            LayerRepository = new PrefabRepository<Layer>(prefabDataBase);
+            CompositionRepository = new PrefabRepository(prefabDataBase);
+            LayerRepository = new PrefabRepository(prefabDataBase);
 
-            EntityRepository = new PrefabRepository<Entity>(prefabDataBase);
-            //EntityManager = new PrefabManager<Entity>(ID, this, this.EntityRepository);
+            EntityRepository = new PrefabRepository(prefabDataBase);
 
-            MaterialRepository = new PrefabRepository<Material>(prefabDataBase);
-            MaterialManager = new PrefabManager<Material>(ID, this, this.MaterialRepository);
+            MaterialRepository = new PrefabRepository(prefabDataBase);
+            MaterialManager = new PrefabManager(ID, this, this.MaterialRepository);
 
-            LightEntityRepository = new PrefabRepository<LightEntity>(prefabDataBase);
-            CameraRepository = new PrefabRepository<Camera>(prefabDataBase);
-            //ControlMessenger = new ControlMessenger();
+            LightEntityRepository = new PrefabRepository(prefabDataBase);
+            CameraRepository = new PrefabRepository(prefabDataBase);
         }
 
         public Guid ID { get; set; }
         public IMapper Mapper { get; set; }
         public IPrefabDataBase PrefabDataBase { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
-        //public ControlMessenger ControlMessenger { get; set; }
-        public PrefabRepository<Layer> LayerRepository { get; set; }
-        public PrefabRepository<Composition> CompositionRepository { get; set; }
+        public PrefabRepository LayerRepository { get; set; }
+        public PrefabRepository CompositionRepository { get; set; }
 
         public MasterBeat MasterBeat { get; set; }
 
         //ENTITY
-        public PrefabRepository<Entity> EntityRepository { get; set; }
-        //public PrefabManager<Entity> EntityManager { get; set; }
+        public PrefabRepository EntityRepository { get; set; }
 
 
         //MATERIAL
-        public PrefabRepository<Material> MaterialRepository { get; set; }
-        public PrefabManager<Material> MaterialManager { get; set; }
+        public PrefabRepository MaterialRepository { get; set; }
+        public PrefabManager MaterialManager { get; set; }
 
 
         //CAMERA
-        public PrefabRepository<Camera> CameraRepository { get; set; }
-        public PrefabManager<Camera> CameraManager { get; set; }
+        public PrefabRepository CameraRepository { get; set; }
+        public PrefabManager CameraManager { get; set; }
 
 
-        public PrefabRepository<LightEntity> LightEntityRepository { get; set; }
+        public PrefabRepository LightEntityRepository { get; set; }
 
 
         public IPrefab GetPrefab(Guid id)

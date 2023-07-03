@@ -5,9 +5,10 @@ using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers.Message;
+using CMiX.Core.Collections;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefab.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -15,7 +16,7 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Modifiers
 {
-    public partial class ModifierManager : ObservableRecipient, IRecipient<MessageRequestControl>, IControl, IDropTarget, IDragSource
+    public partial class ModifierManager : ObservableRecipient, ICollectionManager, IRecipient<MessageRequestControl>, IControl, IDropTarget, IDragSource
     {
         public ModifierManager(ModifierManagerModel modifierManagerModel, IModifierFactory modifierFactory)
         {
@@ -59,28 +60,31 @@ namespace CMiX.Core.Modifiers
             Add(filter);
         }
 
-        public void Create(IModifierModel modifierModel)
+        public void AddItem(IControlModel controlModel)
         {
-            IModifier filter = Factory.Create(modifierModel);
-            Add(filter);
-            ModifierCreated?.Invoke(this, modifierModel);
+            if(controlModel is IModifierModel modifierModel)
+            {
+                IModifier filter = Factory.Create(modifierModel);
+                Add(filter);
+                ModifierCreated?.Invoke(this, modifierModel);
+            }
         }
 
         public void Add(IModifier modifier)
         {
             Modifiers.Add(modifier);
             var model = this.Factory.CreateModel(modifier);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddModifier(this.ID, model), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddItem(this.ID, model), MessageType.Out);
         }
 
         public void Remove(IModifier modifier)
         {
             Modifiers.Remove(modifier);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveModifier(this.ID, modifier), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveItem(this.ID, modifier), MessageType.Out);
             modifier.Dispose();
         }
 
-        public void Remove(Guid id)
+        public void DeleteItem(Guid id)
         {
             var modifier = Modifiers.FirstOrDefault(x => x.ID == id);
             this.Remove(modifier);
@@ -130,20 +134,25 @@ namespace CMiX.Core.Modifiers
             }
 
             Modifiers.Move(sourceIndex, targetIndex);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMoveModifier(this.ID, sourceIndex, targetIndex), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMoveItem(this.ID, sourceIndex, targetIndex), MessageType.Out);
         }
 
         public void MoveOnDrop(int sourceIndex, int targetIndex)
         {
             targetIndex -= 1;
             Modifiers.Move(sourceIndex, targetIndex);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMoveModifier(this.ID, sourceIndex, targetIndex), MessageType.Out);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageMoveItem(this.ID, sourceIndex, targetIndex), MessageType.Out);
         }
 
-        public void Move(int oldIndex, int newIndex)
+        public void MoveItem(int oldIndex, int newIndex)
         {
             Modifiers.Move(oldIndex, newIndex);
             ModifierMoved?.Invoke(this, (oldIndex, newIndex));
+        }
+
+        public void ReplaceItem(Guid oldItemID, Guid newItemID)
+        {
+
         }
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)

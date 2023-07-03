@@ -15,7 +15,7 @@ namespace CMiX.Core.Mapping
         public CameraMappingProfile()
         {
             CreateMap<Camera, CameraModel>().ReverseMap();
-            CreateMap<PrefabManager<Camera>, PrefabManagerModel>().ReverseMap();
+            CreateMap<PrefabManager, PrefabManagerModel>().ReverseMap();
             CreateMap<GenericValue<CameraAxis>, GenericValueModel<CameraAxis>>().ReverseMap();
 
             CreateMap<CameraLFO, CameraLFOModel>().ReverseMap();

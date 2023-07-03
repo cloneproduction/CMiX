@@ -17,11 +17,6 @@ namespace CMiX.Core.Prefab.Messages
         {
             if (control is PrefabSelector<T> prefabSelector)
             {
-                if(message is MessageSelectorAddPrefab messageAddPrefab)
-                {
-                    prefabSelector.AddPrefab(messageAddPrefab.Model);
-                }
-
                 if (message is MessageSelectedPrefabChanged messageSelectedPrefabChanged)
                 {
                     prefabSelector.SelectedItemChanged(messageSelectedPrefabChanged.SelectedPrefabID);

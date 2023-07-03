@@ -5,7 +5,7 @@ using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Networking.Messages
 {
-    public class MessageRequestControl : RequestMessage<object>
+    public class MessageRequestControl : RequestMessage<IControl>
     {
         public MessageRequestControl(IMessage message)
         {
