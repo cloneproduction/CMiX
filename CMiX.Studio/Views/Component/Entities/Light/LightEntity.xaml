@@ -3,10 +3,10 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
+             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
@@ -16,11 +16,11 @@
         <ResourceDictionary>
 
             <DataTemplate x:Key="PointLightTemplate">
-                <Views:LightPoint DataContext="{Binding}"/>
+                <Views:LightPoint Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="SpotLightTemplate">
-                <Views:LightSpot DataContext="{Binding}"/>
+                <Views:LightSpot Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
             <DataTemplate x:Key="AmbientLightTemplate">
@@ -28,7 +28,7 @@
             </DataTemplate>
 
             <DataTemplate x:Key="DirectionalLightTemplate">
-                <Views:LightDirectional DataContext="{Binding}"/>
+                <Views:LightDirectional Margin="0, 8, 0, 0" DataContext="{Binding}"/>
             </DataTemplate>
 
         </ResourceDictionary>
@@ -37,48 +37,63 @@
 
     <StackPanel>
 
-        <BaseControls:ColorSelector 
-            SelectedColor="{Binding LightColor.SelectedColor}" 
-            Caption="Color"/>
+        <Panels:IndentedExpander Header="Modifiers">
+            <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:CameraModifierSelectionPanel DataContext="{Binding }"/>
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+        </Panels:IndentedExpander>
 
-        <BaseControls:DragValue 
-            Margin="0, 8" 
-            Caption="Intensity" 
-            Value="{Binding Intensity.Value}"/>
+        <Panels:IndentedExpander Header="Settings" Indentation="0">
+            <StackPanel Margin="8">
+                
+                <BaseControls:ColorSelector 
+                    Caption="Color"
+                    SelectedColor="{Binding LightColor.SelectedColor}" 
+                    ViewModel="{Binding LightColor}"/>
 
-        <BaseControls:ComboBox 
-            Caption="Type"                
-            SelectedItem="{Binding LightTypeSelector.Value}"              
-            ItemsSource="{Binding Source={StaticResource MeshType}}"/>
+                <BaseControls:DragValue 
+                    Margin="0, 8" 
+                    Caption="Intensity" 
+                    Value="{Binding Intensity.Value}"/>
 
-        <ContentControl
-            Margin="0, 8, 0, 0"
-            DataContext="{Binding}"
-            Content="{Binding}">
-            <ContentControl.Style>
-                <Style TargetType="ContentControl">
-                    <Style.Triggers>
+                <BaseControls:ComboBox 
+                    Caption="Type"                
+                    SelectedItem="{Binding LightTypeSelector.Value}"              
+                    ItemsSource="{Binding Source={StaticResource LightType}}"/>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.PointLight}">
-                            <Setter Property="ContentTemplate" Value="{StaticResource PointLightTemplate}"/>
-                        </DataTrigger>
+                <ContentControl
+                    Margin="0, 0, 0, 0"
+                    DataContext="{Binding}"
+                    Content="{Binding}">
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.SpotLight}">
-                            <Setter Property="ContentTemplate" Value="{StaticResource SpotLightTemplate}"/>
-                        </DataTrigger>
+                    <ContentControl.Style>
+                        <Style TargetType="ContentControl">
+                            <Style.Triggers>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.AmbientLight}">
-                            <Setter Property="ContentTemplate" Value="{StaticResource AmbientLightTemplate}"/>
-                        </DataTrigger>
+                                <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.PointLight}">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource PointLightTemplate}"/>
+                                </DataTrigger>
 
-                        <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.DirectionalLight}">
-                            <Setter Property="ContentTemplate" Value="{StaticResource DirectionalLightTemplate}"/>
-                        </DataTrigger>
+                                <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.SpotLight}">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource SpotLightTemplate}"/>
+                                </DataTrigger>
 
-                    </Style.Triggers>
-                </Style>
-            </ContentControl.Style>
-        </ContentControl>
+                                <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.AmbientLight}">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource AmbientLightTemplate}"/>
+                                </DataTrigger>
 
+                                <DataTrigger Binding="{Binding LightTypeSelector.Value}" Value="{x:Static Lights:LightType.DirectionalLight}">
+                                    <Setter Property="ContentTemplate" Value="{StaticResource DirectionalLightTemplate}"/>
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </ContentControl.Style>
+                </ContentControl>
+            </StackPanel>
+ 
+        </Panels:IndentedExpander>
     </StackPanel>
 </UserControl>

@@ -27,7 +27,7 @@ namespace CMiX.Core.Mapping
             Profiles.Add(new MeshMappingProfile());
             Profiles.Add(new RenderingMappingProfile());
             Profiles.Add(new BeatMappingProfile());
-
+            Profiles.Add(new LightMappingProfile());
             CreateMap<GenericValue<FontStyle>, GenericValueModel<FontStyle>>().ReverseMap();
         }
 

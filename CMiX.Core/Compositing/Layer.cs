@@ -4,8 +4,6 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
-using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
@@ -18,8 +16,6 @@ namespace CMiX.Core.Compositing
     {
         public Layer(LayerModel layerModel, CompositionService compositionService)
         {
-            
-
             ID = layerModel.ID;
             Name = new StringValue(layerModel.Name);
             IsRenaming = new BooleanValue(layerModel.IsRenaming);
@@ -38,8 +34,6 @@ namespace CMiX.Core.Compositing
             ModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
 
             ModelEntityManager = new PrefabManager(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
-            CameraEntityManager = new PrefabManager(layerModel.CameraEntityManager.ID, compositionService, compositionService.CameraRepository);
-            LightEntityManager = new PrefabManager(layerModel.LightEntityManager.ID, compositionService, compositionService.LightEntityRepository);
         }
 
         public Guid ID { get; set; }
@@ -50,8 +44,6 @@ namespace CMiX.Core.Compositing
         public BooleanValue Visibility { get; set; }
         public BooleanValue IsMask { get; set; }
         public PrefabManager ModelEntityManager { get; set; }
-        public PrefabManager CameraEntityManager { get; set; }
-        public PrefabManager LightEntityManager { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }

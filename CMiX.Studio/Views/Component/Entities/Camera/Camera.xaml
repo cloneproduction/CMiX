@@ -13,6 +13,14 @@
     mc:Ignorable="d">
 
     <StackPanel>
+
+        <Panels:IndentedExpander Header="Modifiers">
+            <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:CameraModifierSelectionPanel DataContext="{Binding }"/>
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+        </Panels:IndentedExpander>
         
         <Panels:IndentedExpander Header="Settings" Indentation="0">
             
@@ -66,14 +74,6 @@
 
         </Panels:IndentedExpander>
         
-        <Panels:IndentedExpander Header="Modifiers">
-            <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                <Views:ModifierManager.SelectionPanel>
-                    <Views:CameraModifierSelectionPanel DataContext="{Binding }"/>
-                </Views:ModifierManager.SelectionPanel>
-            </Views:ModifierManager>
-        </Panels:IndentedExpander>
-
     </StackPanel>
 
 </UserControl>

@@ -9,25 +9,17 @@
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
+             
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
+             
              xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+             
+             xmlns:Views1="clr-namespace:CMiX.Studio.Views.Component.Entities"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" d:DesignHeight="639.46" d:DesignWidth="351.206">
 
-    <UserControl.Resources>
-        <ResourceDictionary>
-            
-            <DataTemplate DataType="{x:Type Compositing:Entity}">
-                <Views:ModelEntity DataContext="{Binding}"/>
-            </DataTemplate>
-            
-            <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
-                <Border/>
-            </DataTemplate>
-            
-        </ResourceDictionary>
-    </UserControl.Resources>
-    
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <i:Interaction.Behaviors>
             <Behaviors:ScrollViewerBehavior/>
@@ -45,44 +37,35 @@
                             <Image Source="{StaticResource Entity}" Margin="8"/>
                         </TabItem.Header>
                         <StackPanel>
-                            <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}"/>
-                            <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding}"/>
+                            <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}">
+                                <Views:PrefabSlotManager.SelectionPanel>
+                                    <Views1:EntitySelectionPanel/>
+                                </Views:PrefabSlotManager.SelectionPanel>
+                            </Views:PrefabSlotManager>
+                            <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding}">
+                                <ContentControl.Resources>
+                                    <DataTemplate DataType="{x:Type Compositing:Entity}">
+                                        <Views:ModelEntity DataContext="{Binding}"/>
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
+                                        <Border/>
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type Cameras:Camera}">
+                                        <Views:Camera DataContext="{Binding}"/>
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type Lights:LightEntity}">
+                                        <Views:LightEntity DataContext="{Binding}"/>
+                                    </DataTemplate>
+                                </ContentControl.Resources>
+                            </ContentControl>
                         </StackPanel>
                     </TabItem>
 
-                    <TabItem>
-                        <TabItem.Header>
-                            <Image Source="{StaticResource Camera}" Margin="8"/>
-                        </TabItem.Header>
-                        <StackPanel>
-                            <Views:PrefabSlotManager Margin="8" DataContext="{Binding CameraEntityManager}"/>
 
-                            <Border>
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding CameraEntityManager.SelectedItem}" Value="{x:Null}">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding CameraEntityManager.SelectedItem}" Value="{x:Type Prefabs:EmptyPrefab}">
-                                                <Setter Property="Visibility" Value="Collapsed"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <Views:Camera DataContext="{Binding CameraEntityManager.SelectedItem}"/>
-                            </Border>
 
-                        </StackPanel>
-                    </TabItem>
-
-                    <TabItem>
-                        <TabItem.Header>
-                            <Image Source="{StaticResource MeshLight}" Margin="8"/>
-                        </TabItem.Header>
-                        <Views:PrefabSlotManager Margin="8" DataContext="{Binding LightEntityManager}"/>
-                    </TabItem>
 
                     <TabItem>
                         <TabItem.Header>
