@@ -3,8 +3,10 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Entities.Lights;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
 using CMiX.Core.Services;
+using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Lights
@@ -14,6 +16,7 @@ namespace CMiX.Core.Rendering.Lights
         public LightEntity(LightEntityModel lightEntityModel, CompositionService compositionService)
         {
             ID = lightEntityModel.ID;
+
             Name = new StringValue(lightEntityModel.Name);
             IsRenaming = new BooleanValue(lightEntityModel.IsRenaming);
             IsSelected = new BooleanValue(lightEntityModel.IsSelected);
@@ -29,9 +32,12 @@ namespace CMiX.Core.Rendering.Lights
             Visibility = new BooleanValue(lightEntityModel.Visibility);
             IsSelected = new BooleanValue(lightEntityModel.IsSelected);
             Name = new StringValue(lightEntityModel.Name);
+
+            ModifierManager = new ModifierManager(lightEntityModel.ModifierManager, new ModifierFactory());
         }
 
         public Guid ID { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public CompositionService CompositionService { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
         public ColorSelector LightColor { get; set; }

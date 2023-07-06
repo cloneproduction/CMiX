@@ -26,6 +26,8 @@ namespace CMiX.Core.Mapping
             CreateMap<LFO, LFOModel>().ReverseMap();
             CreateMap<Stepper, StepperModel>().ReverseMap();
 
+            CreateMap<RandomPosition, RandomPositionModel>().ReverseMap();
+
         }
     }
 }

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
 using CMiX.Core.Rendering.Lights;
 
@@ -24,6 +25,7 @@ namespace CMiX.Core.Entities.Lights
             IsSelected = new BooleanValueModel(false);
             Name = new StringValueModel("Light " + ID.ToString());
             IsRenaming = new BooleanValueModel(false);
+            ModifierManager = new ModifierManagerModel();
         }
 
         public Guid ID { get; set; }
@@ -40,5 +42,6 @@ namespace CMiX.Core.Entities.Lights
         public BooleanValueModel Visibility { get; set; }
         public BooleanValueModel IsSelected { get; set; }
         public BooleanValueModel IsRenaming { get; set; }
+        public ModifierManagerModel ModifierManager { get; internal set; }
     }
 }

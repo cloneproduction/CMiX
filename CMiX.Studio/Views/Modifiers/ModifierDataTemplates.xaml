@@ -1,11 +1,12 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Views="clr-namespace:CMiX.Studio.Views"
-                    xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
                     xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
+                    xmlns:CameraModifiers="clr-namespace:CMiX.Core.Rendering.Cameras.Modifiers;assembly=CMiX.Core"
                     xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
                     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
-                    xmlns:CameraModifiers="clr-namespace:CMiX.Core.Rendering.Cameras.Modifiers;assembly=CMiX.Core">
+                    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+                    xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light">
+    
     
     <!--ENTITY MODIFIERS-->
     <DataTemplate DataType="{x:Type ColorModifiers:RandomHSV}">
@@ -48,6 +49,7 @@
         <Views:Rotation DataContext="{Binding}"/>
     </DataTemplate>
 
+    
     <!--CAMERA MODIFIERS-->
     <DataTemplate DataType="{x:Type CameraModifiers:CameraLFO}">
         <Views:CameraLFO DataContext="{Binding}"/>
@@ -56,4 +58,11 @@
     <DataTemplate DataType="{x:Type CameraModifiers:CameraRandom}">
         <Views:CameraRandom DataContext="{Binding}"/>
     </DataTemplate>
+
+    
+    <!--LIGHT MODIFIERS-->
+    <DataTemplate DataType="{x:Type TransformModifiers:RandomPosition}">
+        <LightModifiers:RandomPosition DataContext="{Binding}"/>
+    </DataTemplate>
+    
 </ResourceDictionary>

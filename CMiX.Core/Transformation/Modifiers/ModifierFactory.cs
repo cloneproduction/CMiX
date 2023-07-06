@@ -23,6 +23,9 @@ namespace CMiX.Core.Transformation.Modifiers
             if (modifierType == typeof(RandomXYZ))
                 return CreateRandomXYZ();
 
+            if (modifierType == typeof(RandomPosition))
+                return CreateRandomPosition();
+
             if (modifierType == typeof(LinearXYZ))
                 return CreateLinearXYZ();
 
@@ -57,6 +60,9 @@ namespace CMiX.Core.Transformation.Modifiers
 
             if (modifierModel is RandomXYZModel randomXYZModel)
                 return CreateRandomXYZ(randomXYZModel);
+
+            if (modifierModel is RandomPositionModel randomPositionModel)
+                return CreateRandomPosition(randomPositionModel);
 
             if (modifierModel is LinearXYZModel linearXYZModel)
                 return CreateLinearXYZ(linearXYZModel);
@@ -94,6 +100,9 @@ namespace CMiX.Core.Transformation.Modifiers
 
             if (type == typeof(RandomXYZ))
                 return ControlMessenger.Mapper.Map<RandomXYZModel>(modifier);
+
+            if (type == typeof(RandomPosition))
+                return ControlMessenger.Mapper.Map<RandomPositionModel>(modifier);
 
             if (type == typeof(LinearXYZ))
                 return ControlMessenger.Mapper.Map<LinearXYZModel>(modifier);
@@ -201,6 +210,18 @@ namespace CMiX.Core.Transformation.Modifiers
         {
             return new RandomXYZ(randomXYZModel);
         }
+
+
+        private RandomPosition CreateRandomPosition()
+        {
+            return new RandomPosition(new RandomPositionModel());
+        }
+
+        private RandomPosition CreateRandomPosition(RandomPositionModel randomPositionModel)
+        {
+            return new RandomPosition(randomPositionModel);
+        }
+
 
         private LFO CreateLFO()
         {

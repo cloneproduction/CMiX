@@ -40,7 +40,7 @@
         <Panels:IndentedExpander Header="Modifiers">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
-                    <Views:CameraModifierSelectionPanel DataContext="{Binding }"/>
+                    <Views:LightModifierSelectionPanel DataContext="{Binding }"/>
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
         </Panels:IndentedExpander>
