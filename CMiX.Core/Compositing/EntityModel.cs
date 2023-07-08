@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
 using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Texturing;
 using CMiX.Core.Transformation;
 using CMiX.Core.ViewModels;
 
@@ -24,6 +25,7 @@ namespace CMiX.Core.Compositing
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
             Visibility = new BooleanValueModel(false);
+            BaseColor = new ColorSelectorModel("#ffffffff");
         }
 
         public EntityModel(Guid id) : this()
@@ -40,5 +42,6 @@ namespace CMiX.Core.Compositing
         public BooleanValueModel IsRenaming { get; set; }
         public PrefabSelectorModel MaterialSelector { get; set; }
         public BooleanValueModel Visibility { get; internal set; }
+        public ColorSelectorModel BaseColor { get; internal set; }
     }
 }

@@ -17,7 +17,6 @@ namespace CMiX.Core.Materials
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
 
-            BaseColor = new ColorSelectorModel("#ffffffff");
             Texture = new TextureModel();
             Mask = new MaskModel();
             MaskChannelSelector = new GenericValueModel<MaskChannel>(MaskChannel.Luma);
@@ -37,8 +36,6 @@ namespace CMiX.Core.Materials
         }
 
         public Guid ID { get; set; }
-
-        public ColorSelectorModel BaseColor { get; set; }
 
         public TextureModel Texture { get; set; }
         public MaskModel Mask { get; set; }

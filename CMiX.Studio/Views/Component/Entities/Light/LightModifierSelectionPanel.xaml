@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Modifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
+             xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
@@ -20,6 +21,17 @@
             Height="22" 
             Content="Random Position"/>
 
+        <Button 
+            Style="{StaticResource ButtonItemControl}"
+            Command="{Binding CreateCommand}" 
+            CommandParameter="{x:Type ColorModifiers:RandomHSV}" 
+            Grid.Row="0"
+            Grid.Column="0"
+            VerticalAlignment="Center" 
+            Width="120" 
+            Height="22" 
+            Content="Random HSV"/>
+        
     </StackPanel>
     
 </UserControl>

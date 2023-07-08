@@ -22,7 +22,7 @@ namespace CMiX.Core.Materials
             IsSelected = new BooleanValue(materialModel.IsSelected);
             IsRenaming = new BooleanValue(materialModel.IsRenaming);
             Texture = new Texture(materialModel.Texture);
-            BaseColor = new ColorSelector(materialModel.BaseColor);
+            
             Mask = new Mask(materialModel.Mask);
             MaskChannelSelector = new GenericValue<MaskChannel>(materialModel.MaskChannelSelector);
             Pipeline = new GenericValue<PipelineType>(materialModel.Pipeline);
@@ -39,7 +39,7 @@ namespace CMiX.Core.Materials
 
         public Guid ID { get; set; }
         public Texture Texture { get; set; }
-        public ColorSelector BaseColor { get; set; }
+        
         public Mask Mask { get; set; }
         public GenericValue<MaskChannel> MaskChannelSelector { get; set; }
         public GenericValue<PipelineType> Pipeline { get; set; }

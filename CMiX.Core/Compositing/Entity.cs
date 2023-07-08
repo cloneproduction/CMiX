@@ -28,6 +28,8 @@ namespace CMiX.Core.Compositing
             ModifierManager = new ModifierManager(entityModel.ModifierManager, new ModifierFactory());
             Visibility = new BooleanValue(entityModel.Visibility);
             IsActive = true;
+
+            BaseColor = new ColorSelector(entityModel.BaseColor);
         }
 
         public Guid ID { get; set; }
@@ -39,6 +41,7 @@ namespace CMiX.Core.Compositing
         public ModifierManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public PrefabSelector<Material> MaterialSelector { get; set; }
+        public ColorSelector BaseColor { get; set; }
 
     }
 }

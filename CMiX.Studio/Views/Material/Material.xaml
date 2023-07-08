@@ -35,10 +35,7 @@
                     Minimum="0"
                     Value="{Binding Alpha.Value}"/>
                 
-                <BaseControls:ColorSelector 
-                    Caption="Base Color" 
-                    SelectedColor="{Binding BaseColor.SelectedColor}"
-                    ViewModel="{Binding BaseColor}"/>
+
 
                 <BaseControls:ComboBox    
                     Margin="0, 8"

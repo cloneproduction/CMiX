@@ -7,6 +7,9 @@
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
              xmlns:Manager="clr-namespace:CMiX.Studio.Views.Managers"
+             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+             md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" 
              d:DesignHeight="486" d:DesignWidth="322.667">
 
@@ -19,9 +22,15 @@
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
         </Panels:IndentedExpander>
-    
+
         <Panels:IndentedExpander Header="Material">
             <StackPanel>
+
+                <BaseControls:ColorSelector 
+                    Margin="8, 8, 8, 0"
+                    Caption="Base Color" 
+                    SelectedColor="{Binding BaseColor.SelectedColor}"
+                    ViewModel="{Binding BaseColor}"/>
 
                 <Manager:PrefabManagerComboBox
                     DataContext="{Binding MaterialSelector}"
@@ -37,10 +46,6 @@
             </StackPanel>
         </Panels:IndentedExpander>
 
-        <!--<Panels:IndentedExpander Header="Transform">
-            <Views:TransformSRT DataContext="{Binding TransformSRT}"/>
-        </Panels:IndentedExpander>-->
-        
         <Panels:IndentedExpander Header="Mesh">
             <Component:Mesh DataContext="{Binding Mesh}" Margin="8"/>
         </Panels:IndentedExpander>
