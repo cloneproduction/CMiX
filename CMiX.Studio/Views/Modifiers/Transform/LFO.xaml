@@ -11,13 +11,13 @@
     <StackPanel>
         <StackPanel Margin="8">
 
-            <basecontrol:ComboBox 
+            <!--<basecontrol:ComboBox 
                 Caption="Type" 
                 SelectedItem="{Binding Mode.Value}" 
-                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
+                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>-->
 
             <Views:BeatModifier 
-                Margin="0, 8"
+                Margin="0, 0, 0, 8"
                 DataContext="{Binding BeatModifier}"/>
 
             <basecontrol:DragValue 
@@ -44,9 +44,9 @@
 
             <basecontrol:AxisSelector3D 
                 Margin="0, 2, 0, 0"
-                XIsChecked="{Binding XAxis.Value}"
-                YIsChecked="{Binding YAxis.Value}"
-                ZIsChecked="{Binding ZAxis.Value}"/>
+                XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
+                YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
+                ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}"/>
 
         </StackPanel>
 

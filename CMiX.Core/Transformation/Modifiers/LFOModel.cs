@@ -28,11 +28,10 @@ namespace CMiX.Core.Transformation.Modifiers
         public Guid ID { get; set; }
         public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
-
         public GenericValueModel<TransformType> TransformType { get; set; }
         public FloatValueModel From { get; set; }
         public FloatValueModel To { get; set; }
-        public EasingModel Easing { get; internal set; }
-        public DirectionXYZModel DirectionXYZ { get; internal set; }
+        public EasingModel Easing { get; set; }
+        public DirectionXYZModel DirectionXYZ { get; set; }
     }
 }

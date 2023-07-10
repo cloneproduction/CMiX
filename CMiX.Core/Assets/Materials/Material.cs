@@ -33,7 +33,10 @@ namespace CMiX.Core.Materials
             Glossiness = new FloatValue(materialModel.Glossiness);
             Alpha = new FloatValue(materialModel.Alpha);
             IsShadowCaster = new BooleanValue(materialModel.IsShadowCaster);
+
             isExpanded = false;
+            surfaceIsExpanded = false;
+
             IsActive = true;
         }
 
@@ -56,5 +59,8 @@ namespace CMiX.Core.Materials
 
         [ObservableProperty]
         private bool isExpanded;
+
+        [ObservableProperty]
+        private bool surfaceIsExpanded;
     }
 }

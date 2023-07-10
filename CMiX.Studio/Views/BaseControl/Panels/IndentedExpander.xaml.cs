@@ -11,7 +11,7 @@ namespace CMiX.Studio.Views.BaseControl.Panels
         }
 
         public static readonly DependencyProperty IndentationProperty =
-        DependencyProperty.Register("Indentation", typeof(int), typeof(IndentedExpander), new PropertyMetadata(0));
+        DependencyProperty.Register("Indentation", typeof(int), typeof(IndentedExpander), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public int Indentation
         {
             get { return (int)GetValue(IndentationProperty); }
@@ -27,7 +27,7 @@ namespace CMiX.Studio.Views.BaseControl.Panels
         }
 
         public static readonly DependencyProperty IsExpandedProperty =
-        DependencyProperty.Register("IsExpanded", typeof(bool), typeof(IndentedExpander), new PropertyMetadata(false));
+        DependencyProperty.Register("IsExpanded", typeof(bool), typeof(IndentedExpander), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public bool IsExpanded
         {
             get { return (bool)GetValue(IsExpandedProperty); }

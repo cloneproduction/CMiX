@@ -14,15 +14,14 @@ namespace CMiX.Core.Texturing.Filters
         public TransformTexture(TransformTextureModel transformTextureModel)
         {
             ID = transformTextureModel.ID;
-            Name = transformTextureModel.Name;
             Visible = new BooleanValue(transformTextureModel.Visible);
             SamplerState = new SamplerState(transformTextureModel.SamplerState);
             Transform2D = new Transform2D(transformTextureModel.Transform2D);
-            isExpanded = true;
+
+            isExpanded = false;
         }
 
         public Guid ID { get; set; }
-        public TextureFilterName Name { get; set; }
         public SamplerState SamplerState { get; set; }
         public Transform2D Transform2D { get; set; }
         public BooleanValue Visible { get; set; }

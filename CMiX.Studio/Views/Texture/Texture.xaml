@@ -131,9 +131,9 @@
             </Border>
         </Grid>
 
-        <Panels:IndentedExpander Indentation="24" Header="Transform">
+        <!--<Panels:IndentedExpander Indentation="24" Header="Transform">
             <Views:TransformTexture DataContext="{Binding TransformTexture}"/>
-        </Panels:IndentedExpander>
+        </Panels:IndentedExpander>-->
 
         <Panels:IndentedExpander Indentation="24" Header="Filter">
             <Views:TextureFilter DataContext="{Binding ModifierManager}"/>

@@ -7,9 +7,16 @@
              mc:Ignorable="d" 
              x:Name="counter"
              Background="Transparent"
-             d:DesignHeight="27.555" d:DesignWidth="659.111">
+             d:DesignHeight="31.222" d:DesignWidth="665.444">
 
-    <Border>
+    <BaseControl:DragValue
+                Grid.Column="1"
+                SmallChange="1.0"
+                LargeChange="1.0"
+                IsInteger="True"
+                Value="{Binding Value, ElementName=counter}"/>
+
+    <!--<Border>
         <Border.Style>
             <Style TargetType="{x:Type Border}">
                 <Style.Triggers>
@@ -40,8 +47,9 @@
                 HorizontalAlignment="Right" 
                 Margin="8, 0"/>
 
-            <Grid Grid.Column="1">
 
+            -->
+    <!--<Border Grid.Column="1">
 
                 <Border x:Name="mainBorder" 
                         CornerRadius="2"
@@ -109,9 +117,10 @@
                         </DockPanel>
                     </Grid>
                 </Border>
-            </Grid>
+            </Border>-->
+    <!--
 
         </Grid>
-    </Border>
+    </Border>-->
 
 </UserControl>

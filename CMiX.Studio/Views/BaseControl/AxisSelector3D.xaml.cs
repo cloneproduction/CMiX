@@ -26,7 +26,7 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         public static readonly DependencyProperty XIsCheckedProperty =
-        DependencyProperty.Register("XIsChecked", typeof(bool), typeof(AxisSelector3D), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("XIsChecked", typeof(bool), typeof(AxisSelector3D), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public bool XIsChecked
         {
             get { return (bool)GetValue(XIsCheckedProperty); }

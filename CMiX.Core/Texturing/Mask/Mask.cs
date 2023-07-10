@@ -27,6 +27,8 @@ namespace CMiX.Core.Texturing
             TypeWriter = new TypeWriter(maskModel.TypeWriter);
             TextureSourceSelector = new TextureSourceSelector(maskModel.TextureSourceSelector);
             TransformTexture = new TransformTexture(maskModel.TransformTexture);
+
+            isExpanded = false;
         }
 
         public Guid ID { get; set; }

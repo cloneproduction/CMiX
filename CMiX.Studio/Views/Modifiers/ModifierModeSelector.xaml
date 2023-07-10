@@ -27,10 +27,16 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
+
+            <!--<BaseControls:DragValue
+                Caption="Count"
+                Position="Bottom"
+                Value="{Binding Count.Value}"/>-->
             <BaseControls:IntegerValue 
                 Caption="Count"
                 Position="Bottom"
                 Value="{Binding Count.Value}"/>
+            
         </Border>
     </StackPanel>
 </UserControl>

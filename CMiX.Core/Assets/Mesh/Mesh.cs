@@ -27,7 +27,7 @@ namespace CMiX.Core.ViewModels
             GenerateBackFace = new BooleanValue(meshModel.GenerateBackFace);
             Visibility = new BooleanValue(meshModel.Visibility);
             TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new ModifierFactory());
-            isExpanded = true;
+            isExpanded = false;
         }
 
         [ObservableProperty]

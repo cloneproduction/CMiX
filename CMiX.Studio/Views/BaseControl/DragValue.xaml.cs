@@ -66,39 +66,15 @@ namespace CMiX.Studio.Views.BaseControl
                     SetCursorPos(ScreenWidth - 1, Convert.ToInt32(currentPoint.Y));
 
                 if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
-                    newValue = this.Value + offset.X * 0.001;
+                    newValue = this.Value + offset.X * SmallChange;
                 else
-                    newValue = this.Value + offset.X * 0.01;
+                    newValue = this.Value + offset.X * LargeChange;
+
 
                 this.Value = newValue;
                 _lastPoint = GetMousePosition();
             }
         }
-
-        //protected override void OnPreviewMouseUp(MouseButtonEventArgs e)
-        //{
-        //    var mouseUpPos = e.GetPosition(this);
-        //    Border.ReleaseMouseCapture();
-
-        //    if (_mouseDownPos == mouseUpPos)
-        //        OnSwitchToEditingMode();
-
-        //    if (_mouseDownPos != null && IsEditing == false)
-        //    {
-
-        //        Point pointToScreen;
-
-        //        double YPos = ActualHeight / 2;
-        //        double XPos = MathUtils.Map(this.Value, this.Minimum, this.Maximum, 0, ActualWidth);
-
-        //        if (XPos >= ActualWidth)
-        //            XPos -= 1;
-
-        //        pointToScreen = this.PointToScreen(new Point(XPos, YPos));
-        //        SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
-        //    }
-        //    _mouseDownPos = null;
-        //}
 
 
         private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -111,7 +87,6 @@ namespace CMiX.Studio.Views.BaseControl
 
             if (_mouseDownPos != null && IsEditing == false)
             {
-
                 Point pointToScreen;
 
                 double YPos = ActualHeight / 2;
@@ -124,20 +99,6 @@ namespace CMiX.Studio.Views.BaseControl
                 SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
             }
             _mouseDownPos = null;
-
-            //var mouseUpPos = e.GetPosition(this);
-            //borderValueDisplay.ReleaseMouseCapture();
-
-            //if (_mouseDownPos == mouseUpPos)
-            //    OnSwitchToEditingMode();
-
-            //if (_mouseDownPos != null && IsEditing == false)
-            //{
-            //    Point pointToScreen = this.PointToScreen(new Point(ActualWidth / 2, ActualHeight / 2));
-            //    SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
-            //}
-
-            //_mouseDownPos = null;
         }
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
@@ -191,13 +152,19 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Value += 0.001;
+            //if (this.Value <= Maximum && this.Value >= Minimum)
+            //    return;
+
+            this.Value += SmallChange;
             e.Handled = true;
         }
 
         private void SubButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Value -= 0.001;
+            //if (this.Value <= Maximum && this.Value >= Minimum)
+            //    return;
+
+            this.Value -= SmallChange;
             e.Handled = true;
         }
 
@@ -312,13 +279,25 @@ namespace CMiX.Studio.Views.BaseControl
             ValueInput.Text = this.Value.ToString();
         }
 
-        public static readonly DependencyProperty IsEditingProperty =
-        DependencyProperty.Register("IsEditing", typeof(bool), typeof(DragValue), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public bool IsEditing
+
+        public static readonly DependencyProperty MaximumProperty =
+        DependencyProperty.Register("Maximum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(1000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public double Maximum
         {
-            get { return (bool)GetValue(IsEditingProperty); }
-            set { SetValue(IsEditingProperty, value); }
+            get { return (double)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
         }
+
+
+        public static readonly DependencyProperty MinimumProperty =
+        DependencyProperty.Register("Minimum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(-1000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public double Minimum
+        {
+            get { return (double)GetValue(MinimumProperty); }
+            set { SetValue(MinimumProperty, value); }
+        }
+
+
 
         public static readonly DependencyProperty ValueProperty =
         DependencyProperty.Register("Value", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -328,6 +307,34 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(ValueProperty, value); }
         }
 
+
+        public static readonly DependencyProperty SmallChangeProperty =
+        DependencyProperty.Register("SmallChange", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(0.001, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public double SmallChange
+        {
+            get { return (double)GetValue(SmallChangeProperty); }
+            set { SetValue(SmallChangeProperty, value); }
+        }
+
+
+        public static readonly DependencyProperty LargeChangeProperty =
+        DependencyProperty.Register("LargeChange", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(0.01, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public double LargeChange
+        {
+            get { return (double)GetValue(LargeChangeProperty); }
+            set { SetValue(LargeChangeProperty, value); }
+        }
+
+
+        public static readonly DependencyProperty IsEditingProperty =
+        DependencyProperty.Register("IsEditing", typeof(bool), typeof(DragValue), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public bool IsEditing
+        {
+            get { return (bool)GetValue(IsEditingProperty); }
+            set { SetValue(IsEditingProperty, value); }
+        }
+
+
         public static readonly DependencyProperty PositionProperty =
         DependencyProperty.Register("Position", typeof(ControlPosition), typeof(DragValue), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public ControlPosition Position
@@ -336,6 +343,7 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(PositionProperty, value); }
         }
 
+
         public static readonly DependencyProperty CaptionProperty =
         DependencyProperty.Register("Caption", typeof(string), typeof(DragValue), new FrameworkPropertyMetadata(String.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public string Caption
@@ -343,5 +351,15 @@ namespace CMiX.Studio.Views.BaseControl
             get { return (string)GetValue(CaptionProperty); }
             set { SetValue(CaptionProperty, value); }
         }
+
+        public static readonly DependencyProperty IsIntegerProperty =
+        DependencyProperty.Register("IsInteger", typeof(bool), typeof(DragValue), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public bool IsInteger
+        {
+            get { return (bool)GetValue(IsIntegerProperty); }
+            set { SetValue(IsIntegerProperty, value); }
+        }
+
+
     }
 }

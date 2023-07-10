@@ -42,6 +42,5 @@ namespace CMiX.Core.Compositing
         public Mesh Mesh { get; set; }
         public PrefabSelector<Material> MaterialSelector { get; set; }
         public ColorSelector BaseColor { get; set; }
-
     }
 }

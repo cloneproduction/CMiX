@@ -4,25 +4,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
-    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     md:DialogServiceViews.IsRegistered="True"
-    d:DesignHeight="749.181"
-    d:DesignWidth="282.55"
+    d:DesignHeight="202.514"
+    d:DesignWidth="239.883"
     mc:Ignorable="d">
 
 
     <StackPanel>
-        
+
         <Panels:IndentedExpander 
             Header="Surface" 
             Indentation="16"
-            IsExpanded="{Binding IsExpanded}">
-            
+            IsExpanded="{Binding SurfaceIsExpanded}">
+
             <StackPanel Margin="8">
 
                 <Controls:CMiXSlider 
@@ -34,7 +34,7 @@
                     Maximum="1"
                     Minimum="0"
                     Value="{Binding Alpha.Value}"/>
-                
+
 
 
                 <BaseControls:ComboBox    
@@ -66,7 +66,7 @@
                     Minimum="0"
                     Position="Top" 
                     Value="{Binding Glossiness.Value}">
-                    
+
                     <Controls:CMiXSlider.Style>
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -80,7 +80,7 @@
                             </Style.Triggers>
                         </Style>
                     </Controls:CMiXSlider.Style>
-                    
+
                 </Controls:CMiXSlider>
 
                 <Controls:CMiXSlider 
@@ -91,7 +91,7 @@
                     Minimum="0"
                     Margin="0, 0, 0, 8"
                     Value="{Binding Specularity.Value}">
-                    
+
                     <Controls:CMiXSlider.Style>
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedTop}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -102,7 +102,7 @@
                             </Style.Triggers>
                         </Style>
                     </Controls:CMiXSlider.Style>
-                    
+
                 </Controls:CMiXSlider>
 
                 <Controls:CMiXSlider 
@@ -113,7 +113,7 @@
                     Maximum="2"
                     Minimum="0"
                     Value="{Binding Metalness.Value}">
-                    
+
                     <Controls:CMiXSlider.Style>
                         <Style TargetType="Controls:CMiXSlider" BasedOn="{StaticResource SliderRoundedBottom}">
                             <Setter Property="Visibility" Value="Collapsed"/>
@@ -124,52 +124,52 @@
                             </Style.Triggers>
                         </Style>
                     </Controls:CMiXSlider.Style>
-                    
+
                 </Controls:CMiXSlider>
-                
+
             </StackPanel>
-            
+
         </Panels:IndentedExpander>
-        
-        <Panels:IndentedExpander Header="Texture" Indentation="16">
+
+        <Panels:IndentedExpander Header="Texture" Indentation="16" IsExpanded="{Binding Texture.IsExpanded}">
             <Views:Texture DataContext="{Binding Texture}"/>
         </Panels:IndentedExpander>
-        
-        <Panels:IndentedExpander IsExpanded="{Binding Mask.IsExpanded}" Indentation="16">
+
+        <Panels:IndentedExpander Indentation="16" IsExpanded="{Binding Mask.IsExpanded}">
             <Panels:IndentedExpander.Header>
                 <DockPanel>
-                    
+
                     <ToggleButton
                         Style="{StaticResource ToggleButtonIcon}"
                         Height="14"
                         Width="14"
                         IsChecked="{Binding Path=DataContext.Mask.IsEnabled.Value}"/>
-                    
+
                     <TextBlock 
                         Text="Mask" 
                         Margin="8, 0" 
                         Foreground="{DynamicResource TextBase}"/>
-                    
+
                 </DockPanel>
-                
+
             </Panels:IndentedExpander.Header>
 
-                <StackPanel IsEnabled="{Binding Mask.IsEnabled.Value}">
-                    
-                    <BaseControls:ComboBox
+            <StackPanel IsEnabled="{Binding Mask.IsEnabled.Value}">
+
+                <BaseControls:ComboBox
                         Caption="MaskChannel"
                         Margin="8"
                         SelectedItem="{Binding MaskChannelSelector.Value}" 
                         ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
 
-                    <BaseControls:ToggleButton
+                <BaseControls:ToggleButton
                         Caption="Invert" 
                         IsChecked="{Binding Mask.Invert.Value}"/>
 
-                    <Views:Texture 
+                <Views:Texture 
                         DataContext="{Binding Mask}"/>
-                    
-                </StackPanel>
+
+            </StackPanel>
 
         </Panels:IndentedExpander>
 

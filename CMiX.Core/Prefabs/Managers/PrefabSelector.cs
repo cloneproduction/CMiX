@@ -97,6 +97,9 @@ namespace CMiX.Core.Prefab.Managers
         [ObservableProperty]
         private int selectedIndex;
 
+        [ObservableProperty]
+        private bool isExpanded;
+
 
         public Guid ID { get; set; }
         public PrefabFactory PrefabFactory { get; set; }

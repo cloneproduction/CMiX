@@ -35,20 +35,8 @@
             x:Name="mainBorder" 
             Grid.Column="1" 
             BorderBrush="Transparent" 
-            Background="{DynamicResource DarkColor}"
-            AttachedProperties:MouseDownHelper.IsEnabled="True">
-            <Border.Style>
-                <Style TargetType="{x:Type Border}">
-                    <Style.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Cursor" Value="SizeWE"/>
-                        </Trigger>
-                        <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
-                            <Setter Property="Cursor" Value="None"/>
-                        </Trigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
+            Background="{DynamicResource DarkColor}">
+
             <Border.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Border.OpacityMask>
@@ -60,9 +48,11 @@
                     HorizontalAlignment="Left"
                     DockPanel.Dock="Left"
                     Width="{Binding ActualHeight, ElementName=dragValue}">
+                    
                     <Button.Content>
                         <Image Margin="42" Source="{DynamicResource Sub}" Opacity="0.5"/>
                     </Button.Content>
+                    
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStraight}">
                             <Setter Property="Border.Visibility" Value="Hidden"/>
@@ -73,6 +63,7 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
+                    
                 </Button>
 
                 <Button 
@@ -80,9 +71,11 @@
                     HorizontalAlignment="Right"
                     DockPanel.Dock="Right"
                     Width="{Binding ActualHeight, ElementName=dragValue}">
+                    
                     <Button.Content>
                         <Image Margin="42" Source="{DynamicResource Add}" Opacity="0.5"/>
                     </Button.Content>
+                    
                     <Button.Style>
                         <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonStraight}">
                             <Setter Property="Border.Visibility" Value="Hidden"/>
@@ -93,42 +86,78 @@
                             </Style.Triggers>
                         </Style>
                     </Button.Style>
+                    
                 </Button>
 
-                <Border>
-                    <Grid>
-                        <TextBox 
+
+                <Grid>
+                    <TextBox 
                         x:Name="ValueInput" 
                         Height="{Binding ActualHeight, ElementName=dragValue}"
                         Background="{DynamicResource HighDarkerColor}"
-                        HorizontalAlignment="Stretch"
-                        Text="{Binding Value, ElementName=dragValue, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=LostFocus}"/>
+                        HorizontalContentAlignment="Center"
+                        HorizontalAlignment="Stretch">
+                        
+                        <TextBox.Style>
+                            <Style TargetType="{x:Type TextBox}" BasedOn="{StaticResource {x:Type TextBox}}">
+                                <Setter Property="Text" Value="{Binding Value, StringFormat=' {0:N2}', ElementName=dragValue, UpdateSourceTrigger=LostFocus}"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsInteger, ElementName=dragValue}" Value="True">
+                                        <Setter Property="Text" Value="{Binding Value, StringFormat=' {0:N0}', ElementName=dragValue, UpdateSourceTrigger=LostFocus}"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                        
+                    </TextBox>
 
+                    
                         <Border 
-                        x:Name="borderValueDisplay" 
-                        VerticalAlignment="Stretch"
-                        Background="{DynamicResource DarkColor}">
+                            x:Name="borderValueDisplay" 
+                            VerticalAlignment="Stretch"
+                            AttachedProperties:MouseDownHelper.IsEnabled="True">
 
                             <Border.Style>
-                                <Style TargetType="Border">
-                                    <Setter Property="VerticalAlignment" Value="Center"/>
-                                    <Setter Property="Visibility" Value="Visible"/>
+                                <Style TargetType="{x:Type Border}">
+                                    <Setter Property="Background" Value="{DynamicResource DarkColor}"/>
                                     <Style.Triggers>
+                                        
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="SizeWE"/>
+                                            <Setter Property="Background" Value="{DynamicResource LightColor}"/>
+                                        </Trigger>
+                                        
+                                        <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
+                                            <Setter Property="Cursor" Value="None"/>
+                                        </Trigger>
+                                        
                                         <DataTrigger  Binding="{Binding IsEditing, ElementName=dragValue}" Value="True">
                                             <Setter Property="Visibility" Value="Hidden"/>
                                         </DataTrigger>
+                                        
                                     </Style.Triggers>
                                 </Style>
                             </Border.Style>
 
-                            <Label 
+                        <Label 
                             x:Name="valueDisplay" 
                             Padding="0"
-                            Content="{Binding Value, Converter={StaticResource DoubleToString}, ElementName=dragValue}"/>
-                        </Border>
-                    </Grid>
-                </Border>
+                            Background="Transparent"
+                            Content="{Binding Value, ElementName=dragValue}">
+                            <Label.Style>
+                                <Style TargetType="{x:Type Label}" BasedOn="{StaticResource {x:Type Label}}">
+                                    <Setter Property="ContentStringFormat" Value="{}{0:N2}"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsInteger, ElementName=dragValue}" Value="True">
+                                            <Setter Property="ContentStringFormat" Value="{}{0:N0}"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Label.Style>
+                        </Label>
 
+                    </Border>
+                    </Grid>
 
             </DockPanel>
 

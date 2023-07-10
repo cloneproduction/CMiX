@@ -15,7 +15,7 @@
 
     <StackPanel>
 
-        <Panels:IndentedExpander Header="Modifiers">
+        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManager.IsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:EntityModifierSelectionPanel DataContext="{Binding }"/>
@@ -23,7 +23,7 @@
             </Views:ModifierManager>
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Material">
+        <Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialSelector.IsExpanded}">
             <StackPanel>
 
                 <BaseControls:ColorSelector 
@@ -46,7 +46,7 @@
             </StackPanel>
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Mesh">
+        <Panels:IndentedExpander Header="Mesh" IsExpanded="{Binding Mesh.IsExpanded}">
             <Component:Mesh DataContext="{Binding Mesh}" Margin="8"/>
         </Panels:IndentedExpander>
 

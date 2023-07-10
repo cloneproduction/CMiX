@@ -27,6 +27,7 @@ namespace CMiX.Core.Texturing
             SelectedAssetType = new IntegerValue(textureModel.SelectedAssetType);
             TypeWriter = new TypeWriter(textureModel.TypeWriter);
             TransformTexture = new TransformTexture(textureModel.TransformTexture);
+
             isExpanded = false;
         }
 
