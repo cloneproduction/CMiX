@@ -10,10 +10,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="99.333" d:DesignWidth="217.333">
 
-    <StackPanel Grid.Column="1">
+    <StackPanel>
 
-
-        <Button 
+        <Button
             Style="{StaticResource ButtonItemControl}"
             Command="{Binding AddItemCommand}" 
             CommandParameter="{x:Type Compositing:Entity}" 
@@ -21,8 +20,15 @@
             Grid.Column="1"
             VerticalAlignment="Center" 
             Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22" 
-            Content="Entity"/>
+            Height="22">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Margin="0, 0, 8, 0" Height="12" Width="12" Opacity="0.7"  Source="{DynamicResource Geometry}"/>
+                    <TextBlock Text="Entity"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
 
         <Button 
             Style="{StaticResource ButtonItemControl}"
@@ -32,8 +38,16 @@
             Grid.Column="1"
             VerticalAlignment="Center" 
             Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22" 
-            Content="Camera"/>
+            Height="22" >
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Margin="0, 0, 8, 0" Height="12" Width="12" Opacity="0.7"  Source="{DynamicResource Camera}"/>
+                    <TextBlock Text="Camera"/>
+                </StackPanel>
+
+            </Button.Content>
+        </Button>
+
 
         <Button 
             Style="{StaticResource ButtonItemControl}"
@@ -43,8 +57,15 @@
             Grid.Column="2"
             VerticalAlignment="Center" 
             Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22" 
-            Content="Light"/>
+            Height="22" >
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image Margin="0, 0, 8, 0" Height="12" Width="12" Opacity="0.7"  Source="{DynamicResource MeshLight}"/>
+                    <TextBlock Text="Light"/>
+                </StackPanel>
+            </Button.Content>
+        </Button>
 
     </StackPanel>
+    
 </UserControl>

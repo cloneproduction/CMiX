@@ -55,6 +55,7 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void Border_PreviewMouseMove(object sender, MouseEventArgs e)
         {
+
             if (_mouseDownPos != null)
             {
                 var currentPoint = GetMousePosition();
@@ -70,10 +71,16 @@ namespace CMiX.Studio.Views.BaseControl
                 else
                     newValue = this.Value + offset.X * LargeChange;
 
+                if(newValue >= Maximum)
+                    newValue = Maximum;
+
+                if (newValue <= Minimum)
+                    newValue = Minimum;
 
                 this.Value = newValue;
                 _lastPoint = GetMousePosition();
             }
+   
         }
 
 
@@ -257,7 +264,15 @@ namespace CMiX.Studio.Views.BaseControl
                 return;
             }
 
-            this.Value = Double.Parse(ValueInput.Text);
+            var newValue = Double.Parse(ValueInput.Text);
+
+            if (newValue >= Maximum)
+                newValue = Maximum;
+
+            if (newValue <= Minimum)
+                newValue = Minimum;
+
+            this.Value = newValue;
         }
 
         public void CancelUpdateValue()

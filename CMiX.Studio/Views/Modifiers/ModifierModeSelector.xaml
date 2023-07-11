@@ -28,15 +28,15 @@
                 </Style>
             </Border.Style>
 
-            <!--<BaseControls:DragValue
+            <BaseControls:DragValue
                 Caption="Count"
                 Position="Bottom"
-                Value="{Binding Count.Value}"/>-->
-            <BaseControls:IntegerValue 
-                Caption="Count"
-                Position="Bottom"
+                Minimum="1"
+                IsInteger="True"
+                SmallChange="1.0"
+                LargeChange="1.0"
                 Value="{Binding Count.Value}"/>
-            
+
         </Border>
     </StackPanel>
 </UserControl>

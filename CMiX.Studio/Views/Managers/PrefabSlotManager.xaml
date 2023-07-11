@@ -5,7 +5,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
-             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
              xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
              mc:Ignorable="d" 
              x:Name="prefabSlotManager"
@@ -64,11 +63,12 @@
                 <ListBox 
                     x:Name="prefabListBox"
                     Height="100" 
-                    DataContext="{Binding }"
+                    DataContext="{Binding}"
                     Grid.Row="3" 
                     ItemsSource="{Binding Prefabs}"
                     SelectedItem="{Binding SelectedItem}"
                     SelectedIndex="{Binding SelectedIndex}">
+                    
                 </ListBox>
 
             </DockPanel>
@@ -126,21 +126,15 @@
                         <ToggleButton.Style>
                             <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonRoundedRight}">
                                 <Setter Property="Visibility" Value="Collapsed"/>
-                                <!--<Setter Property="Command" Value="{Binding AddItemCommand}"/>
-                                <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>-->
 
                                 <Style.Triggers>
 
                                     <DataTrigger Binding="{Binding SelectedItem}" Value="{x:Null}">
                                         <Setter Property="Visibility" Value="Visible" />
-                                        <!--<Setter Property="Command" Value="{Binding AddItemCommand}"/>
-                                        <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>-->
                                     </DataTrigger>
 
                                     <DataTrigger Binding="{Binding SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
                                         <Setter Property="Visibility" Value="Visible" />
-                                        <!--<Setter Property="Command" Value="{Binding AddItemCommand}"/>
-                                        <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>-->
                                     </DataTrigger>
 
                                 </Style.Triggers>
@@ -161,7 +155,7 @@
                             BorderThickness="1, 0, 1, 2"
                             BorderBrush="{DynamicResource Shadow}"
                             CornerRadius="{DynamicResource CornerRadiusBottom}" 
-                            Padding="2, 0, 2, 2"
+                            Padding="2, 4, 2, 2"
                             Background="{DynamicResource HighHighDarkerColor}">
 
                             <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
@@ -169,33 +163,7 @@
                         </Border>
 
                     </Popup>
-                    <!--<Button Height="22" 
-                            Content="New">
-                        <Button.Style>
-                            <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRoundedRight}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
-                                <Setter Property="Command" Value="{Binding AddItemCommand}"/>
-                                <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>
 
-                                <Style.Triggers>
-                                    
-                                    <DataTrigger Binding="{Binding SelectedItem}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                        <Setter Property="Command" Value="{Binding AddItemCommand}"/>
-                                        <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                        <Setter Property="Command" Value="{Binding AddItemCommand}"/>
-                                        <Setter Property="CommandParameter" Value="{Binding Component, ElementName=prefabSlotManager}"/>
-                                    </DataTrigger>
-                                    
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
-                    </Button>-->
-                    
                 </Grid>
             </DockPanel>
 

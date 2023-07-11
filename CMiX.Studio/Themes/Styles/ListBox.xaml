@@ -2,7 +2,10 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
                     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
-                    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl">
+                    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+                    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+                    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+                    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core">
 
     
     <ResourceDictionary.MergedDictionaries>
@@ -13,6 +16,7 @@
 
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}"/>
+
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate  TargetType="{x:Type ListBox}">
@@ -35,6 +39,115 @@
     </Style>
 
 
+
+
+    <ControlTemplate x:Key="EmptyPrefabTemplate" TargetType="{x:Type ListBoxItem}">
+        <Border
+            x:Name="Bd"
+            Background="{DynamicResource HighDarkerColor}"
+            SnapsToDevicePixels="True"
+            CornerRadius="2"
+            Margin="1"
+            Padding="2, 0, 0, 0"
+            TextBlock.Foreground="{DynamicResource TextBase}">
+        </Border>
+
+        <ControlTemplate.Triggers>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
+            </MultiTrigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    
+    
+    <ControlTemplate x:Key="CameraPrefabTemplate" TargetType="{x:Type ListBoxItem}">
+        <Border
+            x:Name="Bd"
+            Background="{DynamicResource HighDarkerColor}"
+            SnapsToDevicePixels="True"
+            CornerRadius="2"
+            Margin="1"
+            Padding="2, 0, 0, 0"
+            TextBlock.Foreground="{DynamicResource TextBase}">
+
+            <DockPanel>
+
+                <ToggleButton
+                    DockPanel.Dock="Right"
+                    Height="15"
+                    Padding="4"
+                    Margin="4"
+                    IsChecked="{Binding Visibility.Value}">
+
+                    <ToggleButton.Style>
+                        <Style TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ToggleButton}">
+                                        <Border
+                                            x:Name="border"
+                                            Margin="0"
+                                            Opacity="0.6"
+                                            Padding="1"
+                                            Background="Transparent"
+                                            SnapsToDevicePixels="True">
+                                            <Image x:Name="image" Source="{DynamicResource Visible}"/>
+                                        </Border>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsChecked" Value="True">
+                                                <Setter TargetName="image" Property="Source" Value="{DynamicResource NotVisible}"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
+                        </Style>
+                    </ToggleButton.Style>
+
+                </ToggleButton>
+
+
+                <Controls:EditableTextBox 
+                                x:Name="editableTextBox"
+                                Height="20"
+                                Foreground="{DynamicResource TextBase}"
+                                Text="{Binding Path=Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+
+                    <Controls:EditableTextBox.Style>
+                        <Style TargetType="{x:Type Controls:EditableTextBox}">
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
+                                    <Setter Property="IsEnabled" Value="False" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Controls:EditableTextBox.Style>
+
+                </Controls:EditableTextBox>
+            </DockPanel>
+
+        </Border>
+
+        <ControlTemplate.Triggers>
+
+            <MultiTrigger>
+                <MultiTrigger.Conditions>
+                    <Condition Property="IsSelected" Value="True" />
+                </MultiTrigger.Conditions>
+                <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
+            </MultiTrigger>
+
+        </ControlTemplate.Triggers>
+    </ControlTemplate>
+
+    
+    
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
@@ -60,7 +173,7 @@
                     
                     <Border
                         x:Name="Bd"
-                        Background="{DynamicResource HighDarkerColor}"
+                        Background="Transparent"
                         SnapsToDevicePixels="True"
                         CornerRadius="2"
                         Margin="1"
@@ -69,6 +182,28 @@
 
                         <DockPanel>
 
+                            <Image Margin="4, 0" Height="12" Width="12" Opacity="0.7">
+                                <Image.Style>
+                                    <Style TargetType="{x:Type Image}">
+                                        <Style.Triggers>
+
+                                            <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Compositing:Entity}">
+                                                <Setter Property="Source" Value="{DynamicResource Geometry}"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Lights:LightEntity}">
+                                                <Setter Property="Source" Value="{DynamicResource MeshLight}"/>
+                                            </DataTrigger>
+
+                                            <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Cameras:Camera}">
+                                                <Setter Property="Source" Value="{DynamicResource Camera}"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Image.Style>
+                            </Image>
+
+                            
                             <ToggleButton
                                 DockPanel.Dock="Right"
                                 Height="15"
@@ -82,23 +217,31 @@
                                             <Setter.Value>
                                                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                                                     <Border
-                                                                x:Name="border"
-                                                                Margin="0"
-                                                                Opacity="0.6"
-                                                                Padding="1"
-                                                                Background="Transparent"
-                                                                SnapsToDevicePixels="True">
+                                                        x:Name="border"
+                                                        Margin="0"
+                                                        Opacity="0.6"
+                                                        Padding="1"
+                                                        Background="Transparent"
+                                                        SnapsToDevicePixels="True">
                                                         <Image x:Name="image" Source="{DynamicResource Visible}"/>
                                                     </Border>
                                                     <ControlTemplate.Triggers>
+                                                        
                                                         <Trigger Property="IsChecked" Value="True">
                                                             <Setter TargetName="image" Property="Source" Value="{DynamicResource NotVisible}"/>
                                                         </Trigger>
+                                                        
+                                                        <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                            <Setter Property="IsEnabled" Value="False"/>
+                                                        </DataTrigger>
+
                                                     </ControlTemplate.Triggers>
                                                 </ControlTemplate>
                                             </Setter.Value>
                                         </Setter>
                                     </Style>
+
                                 </ToggleButton.Style>
 
                             </ToggleButton>

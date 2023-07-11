@@ -4,19 +4,16 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
+             xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
              xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
-             
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" 
-             
-             xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-             xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
-             
              xmlns:Views1="clr-namespace:CMiX.Studio.Views.Component.Entities"
+             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
              md:DialogServiceViews.IsRegistered="True"
              mc:Ignorable="d" d:DesignHeight="639.46" d:DesignWidth="351.206">
 
@@ -37,11 +34,13 @@
                             <Image Source="{StaticResource Entity}" Margin="8"/>
                         </TabItem.Header>
                         <StackPanel>
+                            
                             <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}">
                                 <Views:PrefabSlotManager.SelectionPanel>
                                     <Views1:EntitySelectionPanel/>
                                 </Views:PrefabSlotManager.SelectionPanel>
                             </Views:PrefabSlotManager>
+                            
                             <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding}">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type Compositing:Entity}">
