@@ -3,22 +3,14 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     public partial class CameraRandom : ObservableObject, ICameraModifier, IBeatModifiable
     {
-        public CameraRandom(CameraRandomModel randomModel)
+        public CameraRandom()
         {
-            ID = randomModel.ID;
-            Visible = new BooleanValue(randomModel.Visible);
-            BeatModifier = new BeatModifier(randomModel.BeatModifier);
-            PingPong = new BooleanValue(randomModel.PingPong);
-            Axis = new GenericValue<CameraAxis>(randomModel.Axis);
-            Easing = new Easing(randomModel.Easing);
-            Width = new FloatValue(randomModel.Width);
             isExpanded = true;
         }
 
@@ -32,10 +24,5 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

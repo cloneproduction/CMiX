@@ -9,15 +9,14 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class HSCB : ObservableObject, IModifier
     {
-        public HSCB(HSCBModel HSCBModel)
+        public HSCB()
         {
-            ID = HSCBModel.ID;
-            Name = HSCBModel.Name;
-            Visible = new BooleanValue(HSCBModel.Visible);
-            Hue = new FloatValue(HSCBModel.Hue);
-            Saturation = new FloatValue(HSCBModel.Saturation);
-            Contrast = new FloatValue(HSCBModel.Contrast);
-            Brightness = new FloatValue(HSCBModel.Brightness);
+            ID = Guid.NewGuid();
+            Visible = new BooleanValue();
+            Hue = new FloatValue();
+            Saturation = new FloatValue();
+            Contrast = new FloatValue();
+            Brightness = new FloatValue();
             isExpanded = true;
         }
 
@@ -27,7 +26,6 @@ namespace CMiX.Core.Texturing.Filters
         public FloatValue Saturation { get; set; }
         public FloatValue Contrast { get; set; }
         public FloatValue Brightness { get; set; }
-        public TextureFilterName Name { get; set; }
         public FloatValue Control { get; set; }
 
         [ObservableProperty]
@@ -35,10 +33,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

@@ -2,6 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+using System.Windows;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefab.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -33,7 +35,7 @@ namespace CMiX.Core.Prefab
 
         public void AddPrefab(IPrefab prefab)
         {
-            PrefabDataBase.Prefabs.Add(prefab);
+            //PrefabDataBase.Prefabs.Add(prefab);
             Prefabs.Add(prefab);
         }
 

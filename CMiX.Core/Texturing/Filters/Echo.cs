@@ -9,24 +9,20 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Echo : ObservableObject, IModifier
     {
-        public Echo(EchoModel echoModel)
+        public Echo()
         {
-            ID = echoModel.ID;
-            Visible = new BooleanValue(echoModel.Visible);
-            Factor = new FloatValue(echoModel.Factor);
+            ID = Guid.NewGuid();
+            Visible = new BooleanValue();
+            Factor = new FloatValue();
             isExpanded = true;
         }
 
-        public BooleanValue Visible { get; set; }
         public Guid ID { get; set; }
+        public BooleanValue Visible { get; set; }
         public FloatValue Factor { get; set; }
 
         [ObservableProperty]
         private bool isExpanded;
 
-        public void Dispose()
-        {
-
-        }
     }
 }

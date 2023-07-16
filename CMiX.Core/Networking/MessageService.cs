@@ -15,7 +15,7 @@ namespace CMiX.Core.Presentation.ViewModels
 {
     public class MessageService : ObservableRecipient, IMessageService
     {
-        public MessageService(CompositionService compositionService, CerasSerializer serializer)
+        public MessageService(CerasSerializer serializer)
         {
             Servers = new ObservableCollection<Server>();
             Serializer = serializer;
@@ -24,7 +24,7 @@ namespace CMiX.Core.Presentation.ViewModels
             Client.DataReceived += Client_DataReceived;
             IsActive = true;
 
-            MessageProcessor = new MessageProcessor(compositionService);
+            MessageProcessor = new MessageProcessor();
         }
 
         public MessageProcessor MessageProcessor { get; set; }

@@ -9,19 +9,14 @@ namespace CMiX.Core.Prefab
     {
         public EmptyPrefab()
         {
-            ID = Guid.NewGuid();
             IsSelected = new BooleanValue(false);
             IsRenaming = new BooleanValue(false);
             Name = new StringValue(String.Empty);
-        }
-        public EmptyPrefab(EmptyPrefabModel emptyPrefabModel) : this()
-        {
-            ID = emptyPrefabModel.ID;
         }
 
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
     }
 }

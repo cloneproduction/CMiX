@@ -10,11 +10,8 @@ namespace CMiX.Core.Transformation
 {
     public partial class Translate : ObservableObject, IModifier
     {
-        public Translate(TranslateModel translateModel) 
+        public Translate()
         {
-            this.ID = translateModel.ID;
-            this.Visible = new BooleanValue(translateModel.Visible);
-            XYZ = new Vector3(translateModel.XYZ);
             isExpanded = true;
         }
 
@@ -24,10 +21,5 @@ namespace CMiX.Core.Transformation
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

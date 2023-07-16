@@ -11,19 +11,17 @@ namespace CMiX.Core.Texturing.Filters
     {
         public Invert(InvertModel invertModel)
         {
-            ID = invertModel.ID;
-            Name = invertModel.Name;
+            ID = Guid.NewGuid();
 
-            Factor = new FloatValue(invertModel.Factor);
-            Visible = new BooleanValue(invertModel.Visible);
-            InvertAlpha = new BooleanValue(invertModel.InvertAlpha);
-            InvertChannelSelector = new GenericValue<InvertChannel>(invertModel.InvertChannelSelector);
+            Factor = new FloatValue();
+            Visible = new BooleanValue();
+            InvertAlpha = new BooleanValue();
+            InvertChannelSelector = new GenericValue<InvertChannel>();
             isExpanded = true;
         }
 
         public Guid ID { get; set; }
         public FloatValue Factor { get; set; }
-        public TextureFilterName Name { get; set; }
         public BooleanValue Visible { get; set; }
         public BooleanValue InvertAlpha { get; set; }
         public GenericValue<InvertChannel> InvertChannelSelector { get; set; }
@@ -31,10 +29,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

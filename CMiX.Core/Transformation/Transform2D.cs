@@ -7,14 +7,14 @@ namespace CMiX.Core.Transformation
 {
     public class Transform2D : IControl
     {
-        public Transform2D(Transform2DModel transform2DModel)
+        public Transform2D()
         {
-            ID = transform2DModel.ID;
+            ID = Guid.NewGuid();
 
-            UniformScale = new FloatValue(transform2DModel.UniformScale);
-            Translate = new Vector2(transform2DModel.Translate);
-            Scale = new Vector2(transform2DModel.Scale);
-            Rotate = new FloatValue(transform2DModel.Rotate);
+            UniformScale = new FloatValue();
+            Translate = new Vector2();
+            Scale = new Vector2();
+            Rotate = new FloatValue();
         }
 
         public Guid ID { get; set; }

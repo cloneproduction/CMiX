@@ -10,11 +10,11 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class Image : ObservableObject, ITextureSource
     {
-        public Image(ImageModel imageModel)
+        public Image()
         {
-            ID = imageModel.ID;
-            Resolution = new Integer2(imageModel.Resolution);
-            Asset = new GenericValue<Asset>(imageModel.Asset);
+            ID = Guid.NewGuid();
+            Resolution = new Integer2();
+            Asset = new GenericValue<Asset>();
         }
 
         public Integer2 Resolution { get; set; }

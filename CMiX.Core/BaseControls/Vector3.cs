@@ -7,17 +7,14 @@ namespace CMiX.Core.BaseControls
 {
     public partial class Vector3 : ObservableObject, IControl
     {
-        public Vector3(Vector3Model vectorXYZModel)
+        public Vector3()
         {
-            ID = vectorXYZModel.ID;
-            name = vectorXYZModel.Name;
-
-            X = new FloatValue(vectorXYZModel.X);
-            Y = new FloatValue(vectorXYZModel.Y);
-            Z = new FloatValue(vectorXYZModel.Z);
+            X = new FloatValue();
+            Y = new FloatValue();
+            Z = new FloatValue();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         [ObservableProperty]
         private string name;

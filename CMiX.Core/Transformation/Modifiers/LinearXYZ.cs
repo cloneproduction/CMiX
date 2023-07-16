@@ -9,19 +9,11 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class LinearXYZ : ObservableObject, IModifier, ISpreadable
     {
-        public LinearXYZ(LinearXYZModel linearXYZModel)
+        public LinearXYZ()
         {
-            ID = linearXYZModel.ID;
-            
-            Visible = new BooleanValue(linearXYZModel.Visible);
-            ModifierModeSelector = new ModifierModeSelector(linearXYZModel.ModifierModeSelector);
-            Width = new FloatValue(linearXYZModel.Width);
-            Phase = new FloatValue(linearXYZModel.Phase);
-            TransformTypeSelector = new GenericValue<TransformType>(linearXYZModel.TransformTypeSelector);
-            DirectionXYZ = new DirectionXYZ(linearXYZModel.DirectionXYZ);
-
             isExpanded = true;
         }
+
 
         public Guid ID { get; set; }
         public BooleanValue Visible { get; set; }
@@ -34,10 +26,5 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

@@ -17,37 +17,37 @@ namespace CMiX.Core.Texturing.Filters
         public IModifier Create(Type modifierType)
         {
             if (modifierType == typeof(HSCB))
-                return new HSCB(new HSCBModel());
+                return ControlMessenger.Mapper.Map<HSCB>(new HSCBModel());
 
             if (modifierType == typeof(Invert))
-                return new Invert(new InvertModel());
+                return ControlMessenger.Mapper.Map<Invert>(new InvertModel());
 
             if (modifierType == typeof(Blur))
-                return new Blur(new BlurModel());
+                return ControlMessenger.Mapper.Map<Blur>(new BlurModel());
 
             if (modifierType == typeof(Edge))
-                return new Edge(new EdgeModel());
+                return ControlMessenger.Mapper.Map<Edge>(new EdgeModel());
 
             if (modifierType == typeof(TransformTexture))
-                return new TransformTexture(new TransformTextureModel());
+                return ControlMessenger.Mapper.Map<TransformTexture>(new TransformTextureModel());
 
             if (modifierType == typeof(Pixelate))
-                return new Pixelate(new PixelateModel());
+                return ControlMessenger.Mapper.Map<Pixelate>(new PixelateModel());
 
             if (modifierType == typeof(Echo))
-                return new Echo(new EchoModel());
+                return ControlMessenger.Mapper.Map<Echo>(new EchoModel());
 
             if (modifierType == typeof(Feedback))
-                return new Feedback(new FeedbackModel());
+                return ControlMessenger.Mapper.Map<Feedback>(new FeedbackModel());
 
             if (modifierType == typeof(TriColor))
-                return new TriColor(new TriColorModel());
+                return ControlMessenger.Mapper.Map<TriColor>(new TriColorModel());
 
             if (modifierType == typeof(RandomUV))
-                return new RandomUV(new RandomUVModel());
+                return ControlMessenger.Mapper.Map<RandomUV>(new RandomUVModel());
 
             if (modifierType == typeof(LFOUV))
-                return new LFOUV(new LFOUVModel());
+                return ControlMessenger.Mapper.Map<LFOUV>(new LFOUVModel());
 
             return null;
         }
@@ -55,37 +55,37 @@ namespace CMiX.Core.Texturing.Filters
         public IModifier Create(IModifierModel modifierModel)
         {
             if (modifierModel is HSCBModel hSCBModel)
-                return new HSCB(hSCBModel);
+                return ControlMessenger.Mapper.Map<HSCB>(hSCBModel);
 
             if (modifierModel is InvertModel invertModel)
-                return new Invert(invertModel);
+                return ControlMessenger.Mapper.Map<Invert>(invertModel);
 
             if (modifierModel is BlurModel blurModel)
-                return new Blur(blurModel);
+                return ControlMessenger.Mapper.Map<Blur>(blurModel);
 
             if (modifierModel is EdgeModel edgeModel)
-                return new Edge(edgeModel);
+                return ControlMessenger.Mapper.Map<Edge>(edgeModel);
 
             if (modifierModel is TransformTextureModel modelTexture)
-                return new TransformTexture(modelTexture);
+                return ControlMessenger.Mapper.Map<TransformTexture>(modelTexture);
 
             if (modifierModel is PixelateModel pixelateModel)
-                return new Pixelate(pixelateModel);
+                return ControlMessenger.Mapper.Map<Pixelate>(pixelateModel);
 
             if (modifierModel is EchoModel echoModel)
-                return new Echo(echoModel);
+                return ControlMessenger.Mapper.Map<Echo>(echoModel);
 
             if (modifierModel is FeedbackModel feedbackModel)
-                return new Feedback(feedbackModel);
+                return ControlMessenger.Mapper.Map<Feedback>(feedbackModel);
 
             if (modifierModel is TriColorModel triColorModel)
-                return new TriColor(triColorModel);
+                return ControlMessenger.Mapper.Map<TriColor>(triColorModel);
 
             if (modifierModel is RandomUVModel randomUVModel)
-                return new RandomUV(randomUVModel);
+                return ControlMessenger.Mapper.Map<RandomUV>(randomUVModel);
 
             if (modifierModel is LFOUVModel lfoUVModel)
-                return new LFOUV(lfoUVModel);
+                return ControlMessenger.Mapper.Map<LFOUV>(lfoUVModel);
 
             return null;
         }

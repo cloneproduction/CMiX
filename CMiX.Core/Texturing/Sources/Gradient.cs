@@ -10,14 +10,14 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class Gradient : ObservableObject, ITextureSource
     {
-        public Gradient(GradientModel gradientModel)
+        public Gradient()
         {
-            ID = gradientModel.ID;
-            Resolution = new Integer2(gradientModel.Resolution);
-            From = new ColorSelector(gradientModel.From);
-            To = new ColorSelector(gradientModel.To);
-            Gamma = new FloatValue(gradientModel.Gamma);
-            Horizontal = new BooleanValue(gradientModel.Horizontal);
+            ID = Guid.NewGuid();
+            Resolution = new Integer2();
+            From = new ColorSelector();
+            To = new ColorSelector();
+            Gamma = new FloatValue();
+            Horizontal = new BooleanValue();
         }
 
         public ICommand OpenColorSelectorCommand { get; set; }

@@ -13,30 +13,28 @@ namespace CMiX.Core.Rendering.Lights
 {
     public partial class LightEntity : ObservableObject, IPrefab
     {
-        public LightEntity(LightEntityModel lightEntityModel, CompositionService compositionService)
+        public LightEntity(CompositionService compositionService)
         {
-            ID = lightEntityModel.ID;
-
-            Name = new StringValue(lightEntityModel.Name);
-            IsRenaming = new BooleanValue(lightEntityModel.IsRenaming);
-            IsSelected = new BooleanValue(lightEntityModel.IsSelected);
             CompositionService = compositionService;
-            LightColor = new ColorSelector(lightEntityModel.LightColor);
-            Position = new Vector3(lightEntityModel.Position);
-            Target = new Vector3(lightEntityModel.Target);
-            Radius = new FloatValue(lightEntityModel.Radius);
-            Angle = new FloatValue(lightEntityModel.Angle);
-            Softness = new FloatValue(lightEntityModel.Softness);
-            Intensity = new FloatValue(lightEntityModel.Intensity);
-            LightTypeSelector = new GenericValue<LightType>(lightEntityModel.LightTypeSelector);
-            Visibility = new BooleanValue(lightEntityModel.Visibility);
-            IsSelected = new BooleanValue(lightEntityModel.IsSelected);
-            Name = new StringValue(lightEntityModel.Name);
 
-            ModifierManager = new ModifierManager(lightEntityModel.ModifierManager, new ModifierFactory());
+            IsRenaming = new BooleanValue();
+            IsSelected = new BooleanValue();
+            LightColor = new ColorSelector();
+            Position = new Vector3();
+            Target = new Vector3();
+            Radius = new FloatValue();
+            Angle = new FloatValue();
+            Softness = new FloatValue();
+            Intensity = new FloatValue();
+            LightTypeSelector = new GenericValue<LightType>();
+            Visibility = new BooleanValue();
+            IsSelected = new BooleanValue();
+            Name = new StringValue();
+
+            ModifierManager = new ModifierManager(new ModifierFactory());
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ModifierManager ModifierManager { get; set; }
         public CompositionService CompositionService { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
@@ -51,11 +49,5 @@ namespace CMiX.Core.Rendering.Lights
         public StringValue Name { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
-
-
-        public void Dispose()
-        {
-            
-        }
     }
 }

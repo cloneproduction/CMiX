@@ -1,10 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
-using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
@@ -18,10 +16,10 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public IModifier Create(Type modifierType)
         {
             if (modifierType == typeof(CameraLFO))
-                return CreateCameraLFO();
+                return ControlMessenger.Mapper.Map<CameraLFO>(new CameraLFOModel());
 
             if (modifierType == typeof(CameraRandom))
-                return CreateCameraRandom();
+                return ControlMessenger.Mapper.Map<CameraRandom>(new CameraRandomModel());
 
             return null;
         }
@@ -29,32 +27,12 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public IModifier Create(IModifierModel modifierModel)
         {
             if (modifierModel is CameraLFOModel cameraLFOModel)
-                return CreateCameraLFO(cameraLFOModel);
+                return ControlMessenger.Mapper.Map<CameraLFO>(cameraLFOModel);
 
             if (modifierModel is CameraRandomModel cameraRandomModel)
-                return CreateCameraRandom(cameraRandomModel);
+                return ControlMessenger.Mapper.Map<CameraRandom>(cameraRandomModel);
 
             return null;
-        }
-
-        private CameraLFO CreateCameraLFO()
-        {
-            return new CameraLFO(new CameraLFOModel());
-        }
-
-        private CameraLFO CreateCameraLFO(CameraLFOModel cameraLFOModel)
-        {
-            return new CameraLFO(cameraLFOModel);
-        }
-
-        private CameraRandom CreateCameraRandom()
-        {
-            return new CameraRandom(new CameraRandomModel());
-        }
-
-        private CameraRandom CreateCameraRandom(CameraRandomModel cameraRandomModel)
-        {
-            return new CameraRandom(cameraRandomModel);
         }
 
         public IModifierModel CreateModel(IModifier modifier)

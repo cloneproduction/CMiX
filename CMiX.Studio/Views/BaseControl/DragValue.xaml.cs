@@ -296,7 +296,7 @@ namespace CMiX.Studio.Views.BaseControl
 
 
         public static readonly DependencyProperty MaximumProperty =
-        DependencyProperty.Register("Maximum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(1000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("Maximum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(10000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public double Maximum
         {
             get { return (double)GetValue(MaximumProperty); }
@@ -305,7 +305,7 @@ namespace CMiX.Studio.Views.BaseControl
 
 
         public static readonly DependencyProperty MinimumProperty =
-        DependencyProperty.Register("Minimum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(-1000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("Minimum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(-10000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public double Minimum
         {
             get { return (double)GetValue(MinimumProperty); }

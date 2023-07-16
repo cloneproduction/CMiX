@@ -3,18 +3,17 @@
 
 using CMiX.Core.Materials;
 using CMiX.Core.Prefab.Messages;
-using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Networking.Messages
 {
     public class MessageProcessor
     {
-        public MessageProcessor(CompositionService compositionService)
+        public MessageProcessor()
         {
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
 
-            MessageHandlers.Add(typeof(MessageValueChange), new MessageValueChangeHandler(compositionService.Mapper));
+            MessageHandlers.Add(typeof(MessageValueChange), new MessageValueChangeHandler());
 
             MessageHandlers.Add(typeof(MessageAddItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveItem), new MessageCollectionManagerHandler());

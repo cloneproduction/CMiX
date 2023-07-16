@@ -11,7 +11,7 @@ namespace CMiX.Core.Rendering
         {
             ID = Guid.NewGuid();
 
-            IsEnabled = new BooleanValueModel();
+            IsEnabled = new BooleanValueModel(false);
             Samples = new IntegerValueModel(13);
             ProjectionScale = new FloatValueModel(0.5f);
             Intensity = new FloatValueModel(0.2f);

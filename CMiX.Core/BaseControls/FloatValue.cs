@@ -10,11 +10,15 @@ namespace CMiX.Core.BaseControls
 {
     public class FloatValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public FloatValue(FloatValueModel floatValueModel)
+        public FloatValue()
         {
-            ID = floatValueModel.ID;
-            Value = floatValueModel.Value;
+            ID = Guid.NewGuid();
             IsActive = true;
+        }
+
+        public FloatValue(float value) : this()
+        {
+            Value = value;
         }
 
         public Guid ID { get; set; }

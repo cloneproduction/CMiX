@@ -2,29 +2,27 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Rendering;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.ViewModels
 {
     public class AmbientOcclusion : ObservableObject, IControl
     {
-        public AmbientOcclusion(AmbientOcclusionModel ambientOcclusionModel)
+        public AmbientOcclusion()
         {
-            ID = ambientOcclusionModel.ID;
-            IsEnabled = new BooleanValue(ambientOcclusionModel.IsEnabled);
-            Samples = new IntegerValue(ambientOcclusionModel.Samples);
-            ProjectionScale = new FloatValue(ambientOcclusionModel.ProjectionScale);
-            Intensity = new FloatValue(ambientOcclusionModel.Intensity);
-            SampleBias = new FloatValue(ambientOcclusionModel.SampleBias);
-            SampleRadius = new FloatValue(ambientOcclusionModel.SampleRadius);
-            BlurCount = new IntegerValue(ambientOcclusionModel.BlurCount);
-            BlurRadius = new FloatValue(ambientOcclusionModel.BlurRadius);
-            EdgeSharpness = new FloatValue(ambientOcclusionModel.EdgeSharpness);
+            IsEnabled = new BooleanValue();
+            Samples = new IntegerValue(13);
+            ProjectionScale = new FloatValue(0.5f);
+            Intensity = new FloatValue(0.2f);
+            SampleBias = new FloatValue(0.01f);
+            SampleRadius = new FloatValue(1.0f);
+            BlurCount = new IntegerValue(2);
+            BlurRadius = new FloatValue(1.85f);
+            EdgeSharpness = new FloatValue(3.0f);
         }
 
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue IsEnabled { get; set; }
         public IntegerValue Samples { get; set; }
         public FloatValue ProjectionScale { get; set; }

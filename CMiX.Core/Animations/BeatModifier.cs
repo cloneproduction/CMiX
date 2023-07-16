@@ -8,13 +8,14 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifier : ObservableRecipient, IControl, IDisposable
+    public class BeatModifier : ObservableRecipient, IControl
     {
-        public BeatModifier(BeatModifierModel beatModifierModel)
+        public BeatModifier()
         {
-            ID = beatModifierModel.ID;
-            BeatIndex = new IntegerValue(beatModifierModel.BeatIndex);
-            ChanceToHit = new FloatValue(beatModifierModel.ChanceToHit);
+            ID = Guid.NewGuid();
+            BeatIndex = new IntegerValue();
+            ChanceToHit = new FloatValue();
+
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
@@ -48,11 +49,6 @@ namespace CMiX.Core.Animations
             if (BeatIndex.Value >= maxIndex)
                 return;
             BeatIndex.Value++;
-        }
-
-        public void Dispose()
-        {
-
         }
     }
 }

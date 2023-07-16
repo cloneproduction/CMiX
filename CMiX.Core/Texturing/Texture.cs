@@ -13,25 +13,22 @@ namespace CMiX.Core.Texturing
 {
     public partial class Texture : ObservableObject, ITexture, IPrefab, IModifiable
     {
-        public Texture(TextureModel textureModel)
+        public Texture()
         {
-            this.ID = textureModel.ID;
-            Name = new StringValue(textureModel.Name);
-            IsSelected = new BooleanValue(textureModel.IsSelected);
-            IsRenaming = new BooleanValue(textureModel.IsRenaming);
-            IsEnabled = new BooleanValue(textureModel.IsEnabled);
-            ModifierManager = new ModifierManager(textureModel.ModifierManager, new TextureFilterFactory());
-            TextureSourceSelector = new TextureSourceSelector(textureModel.TextureSourceSelector);
-            VideoIn = new VideoIn(textureModel.VideoIn);
-            VideoPlayer = new VideoPlayer(textureModel.VideoPlayer);
-            SelectedAssetType = new IntegerValue(textureModel.SelectedAssetType);
-            TypeWriter = new TypeWriter(textureModel.TypeWriter);
-            TransformTexture = new TransformTexture(textureModel.TransformTexture);
-
-            isExpanded = false;
+            Name = new StringValue();
+            IsSelected = new BooleanValue();
+            IsRenaming = new BooleanValue();
+            IsEnabled = new BooleanValue();
+            ModifierManager = new ModifierManager(new TextureFilterFactory());
+            TextureSourceSelector = new TextureSourceSelector();
+            VideoIn = new VideoIn();
+            VideoPlayer = new VideoPlayer();
+            SelectedAssetType = new IntegerValue();
+            TypeWriter = new TypeWriter();
+            TransformTexture = new TransformTexture();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ModifierManager ModifierManager { get; set; }
         public BooleanValue IsEnabled { get; set; }
         public TransformTexture TransformTexture { get; set; }
@@ -46,6 +43,6 @@ namespace CMiX.Core.Texturing
         public SamplerState SamplerState { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = false;
     }
 }

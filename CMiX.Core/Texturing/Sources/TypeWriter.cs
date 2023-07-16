@@ -10,17 +10,16 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class TypeWriter : ObservableRecipient, IControl
     {
-        public TypeWriter(TypeWriterModel typeWriterModel)
+        public TypeWriter()
         {
-            ID = typeWriterModel.ID;
-            StringControl = new StringValue(typeWriterModel.StringControl);
-            FontFamily = new StringValue(typeWriterModel.FontFamily);
-            FontSize = new FloatValue(typeWriterModel.FontSize);
-            Style = new GenericValue<FontStyle>(typeWriterModel.Style);
-            FontColor = new ColorSelector(typeWriterModel.FontColor);
-            BackgroundColor = new ColorSelector(typeWriterModel.BackgroundColor);
-            Resolution = new Integer2(typeWriterModel.Resolution);
-            Position = new Vector2(typeWriterModel.Position);
+            StringControl = new StringValue();
+            FontFamily = new StringValue();
+            FontSize = new FloatValue();
+            Style = new GenericValue<FontStyle>();
+            FontColor = new ColorSelector();
+            BackgroundColor = new ColorSelector();
+            Resolution = new Integer2();
+            Position = new Vector2();
             TextInputGotFocusCommand = new RelayCommand(TextInputGotFocus);
             TextInputLostFocusCommand = new RelayCommand(TextInputLostFocus);
         }
@@ -28,7 +27,7 @@ namespace CMiX.Core.Texturing.Sources
         public ICommand TextInputGotFocusCommand { get; set; }
         public ICommand TextInputLostFocusCommand { get; set; }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public StringValue StringControl { get; set; }
         public GenericValue<FontStyle> Style { get; set; }
         public StringValue FontFamily { get; set; }

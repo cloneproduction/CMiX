@@ -11,6 +11,11 @@ namespace CMiX.Core.BaseControls
 {
     public class Button : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
+        public Button()
+        {
+            IsActive = true;
+        }
+
         public Button(ButtonModel buttonModel)
         {
             ID = buttonModel.ID;

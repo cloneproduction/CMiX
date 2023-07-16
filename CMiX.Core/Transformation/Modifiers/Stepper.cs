@@ -10,20 +10,8 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class Stepper : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public Stepper(StepperModel stepperModel)
+        public Stepper()
         {
-            ID = stepperModel.ID;
-            ModifierModeSelector = new ModifierModeSelector(stepperModel.ModifierModeSelector);
-            Visible = new BooleanValue(stepperModel.Visible);
-            BeatModifier = new BeatModifier(stepperModel.BeatModifier);
-            DirectionXYZ = new DirectionXYZ(stepperModel.DirectionXYZ);
-
-            PingPong = new BooleanValue(stepperModel.PingPong);
-            TransformType = new GenericValue<TransformType>(stepperModel.TransformType);
-            Easing = new Easing(stepperModel.Easing);
-            From = new FloatValue(stepperModel.From);
-            To = new FloatValue(stepperModel.To);
-            StepCount = new IntegerValue(stepperModel.StepCount);
             isExpanded = true;
         }
 
@@ -41,10 +29,5 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

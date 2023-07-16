@@ -9,24 +9,15 @@ namespace CMiX.Core.Texturing.Filters
 {
     public class Feedback : ObservableObject, IModifier
     {
-        public Feedback(FeedbackModel feedBackModel)
+        public Feedback()
         {
-            ID = feedBackModel.ID;
-            Name = feedBackModel.Name;
-            Visible = new BooleanValue(feedBackModel.Visible);
-            Factor = new FloatValue(feedBackModel.Factor);
+            ID = Guid.NewGuid();
+            Visible = new BooleanValue();
+            Factor = new FloatValue();
         }
 
-
-        public TextureFilterName Name { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
-        public Guid ID { get; set; }
         public FloatValue Factor { get; set; }
-
-
-        public void Dispose()
-        {
-
-        }
     }
 }

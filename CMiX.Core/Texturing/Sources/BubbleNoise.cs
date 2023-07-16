@@ -9,15 +9,15 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class BubbleNoise : ObservableObject, ITextureSource
     {
-        public BubbleNoise(BubbleNoiseModel bubbleNoiseModel)
+        public BubbleNoise()
         {
-            ID = bubbleNoiseModel.ID;
-            Resolution = new Integer2(bubbleNoiseModel.Resolution);
-            Speed = new FloatValue(bubbleNoiseModel.Speed);
-            Frequency = new FloatValue(bubbleNoiseModel.Frequency);
-            Contrast = new FloatValue(bubbleNoiseModel.Contrast);
-            BackgroundColor = new ColorSelector(bubbleNoiseModel.BackgroundColor);
-            BubbleColor = new ColorSelector(bubbleNoiseModel.BubbleColor);
+            ID = Guid.NewGuid();
+            Resolution = new Integer2();
+            Speed = new FloatValue();
+            Frequency = new FloatValue();
+            Contrast = new FloatValue();
+            BackgroundColor = new ColorSelector();
+            BubbleColor = new ColorSelector();
         }
 
         public Guid ID { get; set; }
@@ -27,10 +27,5 @@ namespace CMiX.Core.Texturing.Sources
         public FloatValue Contrast { get; set; }
         public ColorSelector BackgroundColor { get; set; }
         public ColorSelector BubbleColor { get; set; }
-
-        public void Dispose()
-        {
-
-        }
     }
 }

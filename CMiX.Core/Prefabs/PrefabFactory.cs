@@ -4,6 +4,7 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Entities.Lights;
 using CMiX.Core.Materials;
+using CMiX.Core.Networking;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
@@ -32,58 +33,58 @@ namespace CMiX.Core.Prefab
 
         public IPrefab CreatePrefab(Type type)
         {
+            if (type == typeof(Composition))
+                return Build(new Composition(CompositionService));
+
             if (type == typeof(EmptyPrefab))
-                return Build(new EmptyPrefab(new EmptyPrefabModel()));
+                return Build(new EmptyPrefab());
 
             if (type == typeof(Layer))
-                return Build(new Layer(new LayerModel(), CompositionService));
-
-            if (type == typeof(Composition))
-                return Build(new Composition(new CompositionModel(), CompositionService));
+                return Build(new Layer(CompositionService));
 
             if (type == typeof(Entity))
-                return Build(new Entity(new EntityModel(), CompositionService));
+                return Build(new Entity(CompositionService));
 
             if (type == typeof(Camera))
-                return Build(new Camera(new CameraModel()));
+                return Build(new Camera());
 
             if (type == typeof(LightEntity))
-                return Build(new LightEntity(new LightEntityModel(), CompositionService));
+                return Build(new LightEntity(CompositionService));
 
             if (type == typeof(Texture))
-                return Build(new Texture(new TextureModel()));
+                return Build(new Texture());
 
             if (type == typeof(Material))
-                return Build(new Material(new MaterialModel()));
+                return Build(new Material());
 
             return null;
         }
 
         public IPrefab CreatePrefab(IPrefabModel prefabModel)
         {
+            if (prefabModel is CompositionModel compositionModel)
+                return Build(ControlMessenger.Mapper.Map(compositionModel, new Composition(CompositionService)));
+
             if (prefabModel is EmptyPrefabModel emptyPrefabModel)
-                return Build(new EmptyPrefab(emptyPrefabModel));
+                return Build(ControlMessenger.Mapper.Map(emptyPrefabModel, new EmptyPrefab()));
 
             if (prefabModel is LayerModel layerModel)
-                return Build(new Layer(layerModel, CompositionService));
-
-            if (prefabModel is CompositionModel compositionModel)
-                return Build(new Composition(compositionModel, CompositionService));
+                return Build(ControlMessenger.Mapper.Map(layerModel, new Layer(CompositionService)));
 
             if (prefabModel is EntityModel entityModel)
-                return Build(new Entity(entityModel, CompositionService));
+                return Build(ControlMessenger.Mapper.Map(entityModel, new Entity(CompositionService)));
 
             if (prefabModel is CameraModel cameraModel)
-                return Build(new Camera(cameraModel));
+                return Build(ControlMessenger.Mapper.Map(cameraModel, new Camera()));
 
             if (prefabModel is LightEntityModel lightEntityModel)
-                return Build(new LightEntity(lightEntityModel, CompositionService));
+                return Build(ControlMessenger.Mapper.Map(lightEntityModel, new LightEntity(CompositionService)));
 
             if (prefabModel is TextureModel textureModel)
-                return Build(new Texture(textureModel));
+                return Build(ControlMessenger.Mapper.Map(textureModel, new Texture()));
 
             if (prefabModel is MaterialModel materialModel)
-                return Build(new Material(materialModel));
+                return Build(ControlMessenger.Mapper.Map(materialModel, new Material()));
 
             return null;
         }

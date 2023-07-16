@@ -12,22 +12,9 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class LFOUV : ObservableObject, IModifier, IBeatModifiable
     {
-        public LFOUV(LFOUVModel lfoUVModel)
+        public LFOUV()
         {
-            ID = lfoUVModel.ID;
-            Name = lfoUVModel.Name;
-            BeatModifier = new BeatModifier(lfoUVModel.BeatModifier);
-            Visible = new BooleanValue(lfoUVModel.Visible);
-            XAxis = new BooleanValue(lfoUVModel.XAxis);
-            YAxis = new BooleanValue(lfoUVModel.YAxis);
-            ZAxis = new BooleanValue(lfoUVModel.ZAxis);
-            PingPong = new BooleanValue(lfoUVModel.PingPong);
-            Mode = new GenericValue<ModifierMode>(lfoUVModel.Mode);
-            TransformType = new GenericValue<TransformType>(lfoUVModel.TransformType);
-            Easing = new Easing(lfoUVModel.Easing);
-            From = new FloatValue(lfoUVModel.From);
-            To = new FloatValue(lfoUVModel.To);
-            SamplerState = new SamplerState(lfoUVModel.SamplerState);
+            isExpanded = true;
         }
 
         public Guid ID { get; set; }
@@ -47,10 +34,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-            //throw new NotImplementedException();
-        }
     }
 }

@@ -6,6 +6,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefab;
 using CMiX.Core.Materials;
 using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Services;
 
 namespace CMiX.Core.Mapping
 {

@@ -7,18 +7,16 @@ namespace CMiX.Core.Networking.Messages
 {
     public class MessageValueChangeHandler : IMessageHandler
     {
-        public MessageValueChangeHandler(IMapper mapper)
+        public MessageValueChangeHandler()
         {
-            Mapper = mapper;
-        }
 
-        private IMapper Mapper { get; set; }
+        }
 
         public bool Handle(IControl control, IMessage message)
         {
             if (message is MessageValueChange messageUpdateViewModel)
             {
-                Mapper.Map(messageUpdateViewModel.Model, control);
+                ControlMessenger.Mapper.Map(messageUpdateViewModel.Model, control);
                 return true;
             }
 

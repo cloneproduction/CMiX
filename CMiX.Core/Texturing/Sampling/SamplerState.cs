@@ -8,16 +8,15 @@ namespace CMiX.Core.Texturing.Sampling
 {
     public class SamplerState : ObservableRecipient, IControl
     {
-        public SamplerState(SamplerStateModel samplerStateModel)
+        public SamplerState()
         {
-            ID = samplerStateModel.ID;
-            BorderColor = new ColorSelector(samplerStateModel.BorderColor);
-            AddressU = new GenericValue<TextureAddressMode>(samplerStateModel.AddressU);
-            AddressV = new GenericValue<TextureAddressMode>(samplerStateModel.AddressV);
+            BorderColor = new ColorSelector();
+            AddressU = new GenericValue<TextureAddressMode>();
+            AddressV = new GenericValue<TextureAddressMode>();
             IsActive = true;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ColorSelector BorderColor { get; set; }
         public GenericValue<TextureAddressMode> AddressU { get; set; }
         public GenericValue<TextureAddressMode> AddressV { get; set; }

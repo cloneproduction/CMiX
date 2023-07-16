@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows.Media;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
@@ -14,29 +15,29 @@ namespace CMiX.Core.Compositing
 {
     public partial class Layer : ObservableObject, IPrefab, IModifiable
     {
-        public Layer(LayerModel layerModel, CompositionService compositionService)
+        public Layer(CompositionService compositionService)
         {
-            ID = layerModel.ID;
-            Name = new StringValue(layerModel.Name);
-            IsRenaming = new BooleanValue(layerModel.IsRenaming);
-            IsSelected = new BooleanValue(layerModel.IsSelected);
             CompositionService = compositionService;
-            Visibility = new BooleanValue(layerModel.Visibility);
-            IsMask = new BooleanValue(layerModel.IsMask);
-            Opacity = new FloatValue(layerModel.Opacity);
-            BackgroundColor = new ColorSelector(layerModel.BackgroundColor);
+            Name = new StringValue();
+            IsRenaming = new BooleanValue();
+            IsSelected = new BooleanValue();
 
-            MaskChannel = new GenericValue<MaskChannel>(layerModel.MaskChannel);
-            BlendMode = new GenericValue<BlendModeEnum>(layerModel.BlendMode);
-            MaskMode = new GenericValue<MaskMode>(layerModel.MaskMode);
+            Visibility = new BooleanValue();
+            IsMask = new BooleanValue(false);
+            Opacity = new FloatValue(1.0f);
+            BackgroundColor = new ColorSelector(Color.FromArgb(255, 128, 128, 128));
 
-            AmbientOcclusion = new AmbientOcclusion(layerModel.AmbientOcclusion);
-            ModifierManager = new ModifierManager(layerModel.ModifierManager, new TextureFilterFactory());
+            MaskChannel = new GenericValue<MaskChannel>();
+            BlendMode = new GenericValue<BlendModeEnum>();
+            MaskMode = new GenericValue<MaskMode>();
 
-            ModelEntityManager = new PrefabManager(layerModel.ModelEntityManager.ID, compositionService, compositionService.EntityRepository);
+            AmbientOcclusion = new AmbientOcclusion();
+            ModifierManager = new ModifierManager(new TextureFilterFactory());
+
+            ModelEntityManager = new PrefabManager(compositionService);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public StringValue Name { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }

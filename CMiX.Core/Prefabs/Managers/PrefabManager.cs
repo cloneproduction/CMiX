@@ -2,6 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -14,12 +16,10 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefab
 {
-    public partial class PrefabManager : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl> 
+    public partial class PrefabManager : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManager(Guid id, CompositionService compositionService)
+        public PrefabManager(CompositionService compositionService)// : this()
         {
-            ID = id;
-            PrefabFactory = compositionService.PrefabFactory;
             Prefabs = new ObservableCollection<IPrefab>();
             SelectionChangedCommand = new RelayCommand<IPrefab>(ReplaceItem);
             ItemUpCommand = new RelayCommand(ItemUp);
@@ -28,15 +28,32 @@ namespace CMiX.Core.Prefab
             AddEmptyItemCommand = new RelayCommand(AddEmptyPrefab);
             DeleteItemCommand = new RelayCommand<IPrefab>(DeleteItem);
             IsActive = true;
+
+            PrefabRepository = compositionService.PrefabRepository;
+            PrefabFactory = new PrefabFactory(compositionService);
+
+            //PrefabCollectionView = CollectionViewSource.GetDefaultView(compositionService.PrefabRepository.Prefabs);
+            //PrefabCollectionView.Filter = FilterPrefab;
         }
 
-        public PrefabManager(Guid id, CompositionService compositionService, PrefabRepository prefabRepository) : this(id, compositionService)
+        //public ICollectionView PrefabCollectionView { get; }
+
+        //public Type FilterType { get; set; } 
+
+        //private bool FilterPrefab(object obj)
+        //{
+        //    if(obj.GetType() == FilterType)
+        //        return true;
+
+        //    return false;
+        //}
+
+        public PrefabManager(Guid id, CompositionService compositionService) : this(compositionService)
         {
-            PrefabRepository = prefabRepository;
+            ID = id;
         }
 
-
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabFactory PrefabFactory { get; set; }
         public PrefabRepository PrefabRepository { get; set; }
 
@@ -46,6 +63,8 @@ namespace CMiX.Core.Prefab
         public ICommand AddItemCommand { get; set; }
         public ICommand AddEmptyItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
+
+
 
 
         [ObservableProperty]

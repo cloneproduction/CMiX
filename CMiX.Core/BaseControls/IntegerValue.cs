@@ -12,13 +12,15 @@ namespace CMiX.Core.BaseControls
 {
     public class IntegerValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public IntegerValue(IntegerValueModel counterModel)
+        public IntegerValue()
         {
-            ID = counterModel.ID;
-            Value = counterModel.Value;
-            AddCommand = new RelayCommand(Add);
-            SubCommand = new RelayCommand(Sub);
+            ID = Guid.NewGuid();
             IsActive = true;
+        }
+
+        public IntegerValue(int value)
+        {
+            Value = value;
         }
 
         public ICommand AddCommand { get; }

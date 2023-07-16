@@ -7,15 +7,14 @@ namespace CMiX.Core.BaseControls
 {
     public class DirectionXYZ : ObservableRecipient, IControl
     {
-        public DirectionXYZ(DirectionXYZModel directionXYZModel)
+        public DirectionXYZ()
         {
-            ID = directionXYZModel.ID;
-            DirectionX = new BooleanValue(directionXYZModel.DirectionX);
-            DirectionY = new BooleanValue(directionXYZModel.DirectionY);
-            DirectionZ = new BooleanValue(directionXYZModel.DirectionZ);
+            DirectionX = new BooleanValue();
+            DirectionY = new BooleanValue();
+            DirectionZ = new BooleanValue();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue DirectionX { get; set; }
         public BooleanValue DirectionY { get; set; }
         public BooleanValue DirectionZ { get; set; }

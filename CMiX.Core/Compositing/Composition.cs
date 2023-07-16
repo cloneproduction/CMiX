@@ -15,22 +15,22 @@ namespace CMiX.Core.Compositing
 {
     public class Composition : ObservableObject, IPrefab, IModifiable
     {
-        public Composition(CompositionModel compositionModel, CompositionService compositionService)
+        public Composition(CompositionService compositionService)
         {
-            ID = compositionModel.ID;
             CompositionService = compositionService;
-            Name = new StringValue(compositionModel.Name);
-            IsSelected = new BooleanValue(compositionModel.IsSelected);
-            IsRenaming = new BooleanValue(compositionModel.IsRenaming);
-            OutputSettings = new OutputSettings(compositionModel.OutputSettings);
-            LayerManager = new DraggablePrefabManager(compositionModel.LayerManager.ID, compositionService, compositionService.LayerRepository);
-            ModifierManager = new ModifierManager(compositionModel.ModifierManager, new TextureFilterFactory());
-            MasterBeat = new MasterBeat(compositionModel.MasterBeat);
-
+            MasterBeat = new MasterBeat();
             CompositionService.MasterBeat = MasterBeat;
+            LayerManager = new DraggablePrefabManager(compositionService);
+
+            Name = new StringValue();
+            IsSelected = new BooleanValue();
+            IsRenaming = new BooleanValue();
+            OutputSettings = new OutputSettings();
+
+            ModifierManager = new ModifierManager(new TextureFilterFactory());
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }

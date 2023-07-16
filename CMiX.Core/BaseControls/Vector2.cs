@@ -7,15 +7,13 @@ namespace CMiX.Core.BaseControls
 {
     public class Vector2 : ObservableObject, IControl
     {
-        public Vector2(Vector2Model vector2Model)
+        public Vector2()
         {
-            ID = vector2Model.ID;
-            X = new FloatValue(vector2Model.X);
-            Y = new FloatValue(vector2Model.Y);
+            X = new FloatValue();
+            Y = new FloatValue();
         }
 
-        public Guid ID { get; set; }
-
+        public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValue X { get; set; }
         public FloatValue Y { get; set; }
     }

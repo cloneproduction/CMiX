@@ -10,30 +10,28 @@ namespace CMiX.Core.ViewModels
 {
     public partial class Mesh : ObservableRecipient
     {
-        public Mesh(MeshModel meshModel)
+        public Mesh()
         {
-            ID = meshModel.ID;
-            Name = new StringValue(meshModel.Name);
-            IsRenaming = new BooleanValue(meshModel.IsRenaming);
-            IsSelected = new BooleanValue(meshModel.IsSelected);
-            MeshTypeSelector = new GenericValue<MeshType>(meshModel.MeshTypeSelector);
-            Scale = new Vector3(meshModel.Scale);
-            Offset = new Vector3(meshModel.Offset);
-            Radius = new FloatValue(meshModel.Radius);
-            Height = new FloatValue(meshModel.Height);
-            Thickness = new FloatValue(meshModel.Thickness);
-            Tessellation = new IntegerValue(meshModel.Tessellation);
-            TessellationXY = new Integer2(meshModel.TessellationXY);
-            GenerateBackFace = new BooleanValue(meshModel.GenerateBackFace);
-            Visibility = new BooleanValue(meshModel.Visibility);
-            TransformModifierManager = new ModifierManager(meshModel.TransformModifierManager, new ModifierFactory());
-            isExpanded = false;
+            Name = new StringValue();
+            IsRenaming = new BooleanValue();
+            IsSelected = new BooleanValue();
+            MeshTypeSelector = new GenericValue<MeshType>();
+            Scale = new Vector3();
+            Offset = new Vector3();
+            Radius = new FloatValue();
+            Height = new FloatValue();
+            Thickness = new FloatValue();
+            Tessellation = new IntegerValue();
+            TessellationXY = new Integer2();
+            GenerateBackFace = new BooleanValue();
+            Visibility = new BooleanValue();
+            TransformModifierManager = new ModifierManager(new ModifierFactory());
         }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = false;
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }
@@ -48,10 +46,5 @@ namespace CMiX.Core.ViewModels
         public Integer2 TessellationXY { get; set; }
         public BooleanValue GenerateBackFace { get; set; }
         public BooleanValue Visibility { get; set; }
-
-        public void Dispose()
-        {
-
-        }
     }
 }

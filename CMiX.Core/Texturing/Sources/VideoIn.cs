@@ -8,14 +8,13 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class VideoIn : ObservableRecipient, IControl
     {
-        public VideoIn(VideoInModel videoInModel)
+        public VideoIn()
         {
-            ID = videoInModel.ID;
-            SizeX = new IntegerValue(videoInModel.SizeX);
-            SizeY = new IntegerValue(videoInModel.SizeY);
+            SizeX = new IntegerValue();
+            SizeY = new IntegerValue();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public IntegerValue SizeX { get; set; }
         public IntegerValue SizeY { get; set; }
     }

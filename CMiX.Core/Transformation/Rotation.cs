@@ -11,11 +11,8 @@ namespace CMiX.Core.Transformation
 {
     public partial class Rotation : ObservableObject, IModifier
     {
-        public Rotation(RotationModel rotationModel)
+        public Rotation()
         {
-            ID = rotationModel.ID;
-            XYZ = new Vector3(rotationModel.XYZ);
-            Visible = new BooleanValue(rotationModel.Visible);
             isExpanded = true;
         }
 
@@ -25,10 +22,5 @@ namespace CMiX.Core.Transformation
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

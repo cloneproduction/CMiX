@@ -10,17 +10,9 @@ namespace CMiX.Core.Colors.Modifiers
 {
     public partial class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier
     {
-        public RandomHSV(RandomHSVModel randomHSVModel)
+        public RandomHSV()
         {
-            ID = randomHSVModel.ID;
-            Visible = new BooleanValue(randomHSVModel.Visible);
-            Hue = new FloatValue(randomHSVModel.Hue);
-            Saturation = new FloatValue(randomHSVModel.Saturation);
-            Value = new FloatValue(randomHSVModel.Value);
-            Alpha = new FloatValue(randomHSVModel.Alpha);
-            BeatModifier = new BeatModifier(randomHSVModel.BeatModifier);
-            Easing = new Easing(randomHSVModel.Easing);
-            Mode = new GenericValue<ModifierMode>(randomHSVModel.Mode);
+            isExpanded = true;
         }
 
         public BooleanValue Visible { get; set; }
@@ -35,10 +27,5 @@ namespace CMiX.Core.Colors.Modifiers
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-            BeatModifier.Dispose();
-        }
     }
 }

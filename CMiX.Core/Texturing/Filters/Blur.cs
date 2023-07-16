@@ -9,18 +9,15 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Blur : ObservableObject, IModifier
     {
-        public Blur(BlurModel blurModel)
+        public Blur()
         {
-            ID = blurModel.ID;
-            Name = blurModel.Name;
             isExpanded = true;
-            Strength = new FloatValue(blurModel.Strength);
-            Visible = new BooleanValue(blurModel.Visible);
+            Strength = new FloatValue();
+            Visible = new BooleanValue();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValue Strength { get; set; }
-        public TextureFilterName Name { get; set; }
         public BooleanValue Visible { get; set; }
 
         [ObservableProperty]
@@ -28,10 +25,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

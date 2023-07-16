@@ -9,26 +9,25 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public class Camera : ObservableObject, IPrefab, IModifiable
+    public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
-        public Camera(CameraModel cameraModel)
+        public Camera()
         {
-            ID = cameraModel.ID;
-            IsSelected = new BooleanValue(cameraModel.IsSelected);
-            IsRenaming = new BooleanValue(cameraModel.IsRenaming);
-            Name = new StringValue(cameraModel.Name);
-            FOV = new FloatValue(cameraModel.FOV);
-            Distance = new FloatValue(cameraModel.Distance);
-            Yaw = new FloatValue(cameraModel.Yaw);
-            Pitch = new FloatValue(cameraModel.Pitch);
-            Target = new Vector3(cameraModel.Target);
-            NearClip = new FloatValue(cameraModel.NearClip);
-            FarClip = new FloatValue(cameraModel.FarClip);
-            Projection = new BooleanValue(cameraModel.Projection);
-            ModifierManager = new ModifierManager(cameraModel.ModifierManager, new CameraTransformModifierFactory());
+            IsSelected = new BooleanValue();
+            IsRenaming = new BooleanValue();
+            Name = new StringValue();
+            FOV = new FloatValue();
+            Distance = new FloatValue();
+            Yaw = new FloatValue();
+            Pitch = new FloatValue();
+            Target = new Vector3();
+            NearClip = new FloatValue();
+            FarClip = new FloatValue();
+            Projection = new BooleanValue();
+            ModifierManager = new ModifierManager(new CameraTransformModifierFactory());
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ModifierManager ModifierManager { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
@@ -41,5 +40,8 @@ namespace CMiX.Core.Rendering.Cameras
         public FloatValue NearClip { get; set; }
         public FloatValue FarClip { get; set; }
         public BooleanValue Projection { get; set; }
+
+        [ObservableProperty]
+        bool isExpanded = false;
     }
 }

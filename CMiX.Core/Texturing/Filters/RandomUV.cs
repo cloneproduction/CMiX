@@ -5,29 +5,15 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Texturing.Sampling;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
     public partial class RandomUV : ObservableObject, IBeatModifiable, IModifier
     {
-        public RandomUV(RandomUVModel randomUVModel)
+        public RandomUV()
         {
-            ID = randomUVModel.ID;
             isExpanded = true;
-
-            Visible = new BooleanValue(randomUVModel.Visible);
-            Easing = new Easing(randomUVModel.Easing);
-            BeatModifier = new BeatModifier(randomUVModel.BeatModifier);
-            SamplerState = new SamplerState(randomUVModel.SamplerState);
-            RandomizeLocation = new BooleanValue(randomUVModel.RandomizeLocation);
-            Location = new Vector2(randomUVModel.Location);
-            RandomizeScale = new BooleanValue(randomUVModel.RandomizeScale);
-            Uniform = new FloatValue(randomUVModel.Uniform);
-            Scale = new Vector2(randomUVModel.Scale);
-            RandomizeRotation = new BooleanValue(randomUVModel.RandomizeScale);
-            Rotation = new FloatValue(randomUVModel.Rotation);
         }
 
         public Guid ID { get; set; }
@@ -62,11 +48,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             get => _selectedModifierType;
             set => SetProperty(ref _selectedModifierType, value);
-        }
-
-        public void Dispose()
-        {
-            BeatModifier.Dispose();
         }
     }
 }

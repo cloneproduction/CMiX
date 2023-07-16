@@ -13,25 +13,22 @@ namespace CMiX.Core.Texturing
 {
     public partial class Mask : ObservableObject, ITexture
     {
-        public Mask(MaskModel maskModel)
+        public Mask()
         {
-            ID = maskModel.ID;
-            IsEnabled = new BooleanValue(maskModel.IsEnabled);
-            ModifierManager = new ModifierManager(maskModel.ModifierManager, new TextureFilterFactory());
-            TextureTransformModifierManager = new ModifierManager(maskModel.TextureTransformModifierManager, new ModifierFactory());
-            SamplerState = new SamplerState(maskModel.SamplerState);
-            Invert = new BooleanValue(maskModel.Invert);
-            VideoIn = new VideoIn(maskModel.VideoIn);
-            VideoPlayer = new VideoPlayer(maskModel.VideoPlayer);
-            SelectedAssetType = new IntegerValue(maskModel.SelectedAssetType);
-            TypeWriter = new TypeWriter(maskModel.TypeWriter);
-            TextureSourceSelector = new TextureSourceSelector(maskModel.TextureSourceSelector);
-            TransformTexture = new TransformTexture(maskModel.TransformTexture);
-
-            isExpanded = false;
+            IsEnabled = new BooleanValue();
+            ModifierManager = new ModifierManager(new TextureFilterFactory());
+            TextureTransformModifierManager = new ModifierManager(new ModifierFactory());
+            SamplerState = new SamplerState();
+            Invert = new BooleanValue();
+            VideoIn = new VideoIn();
+            VideoPlayer = new VideoPlayer();
+            SelectedAssetType = new IntegerValue();
+            TypeWriter = new TypeWriter();
+            TextureSourceSelector = new TextureSourceSelector();
+            TransformTexture = new TransformTexture();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ModifierManager ModifierManager { get; set; }
         public ModifierManager TextureTransformModifierManager { get; set; }
         public BooleanValue IsEnabled { get; set; }
@@ -46,6 +43,6 @@ namespace CMiX.Core.Texturing
 
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = false;
     }
 }

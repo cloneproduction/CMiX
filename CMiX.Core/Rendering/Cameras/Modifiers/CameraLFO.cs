@@ -9,19 +9,9 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     public class CameraLFO : IModifier, IBeatModifiable
     {
-        public CameraLFO(CameraLFOModel lfoModel)
+        public CameraLFO()
         {
-            ID = lfoModel.ID;
-            Visible = new BooleanValue(lfoModel.Visible);
-            BeatModifier = new BeatModifier(lfoModel.BeatModifier);
-            Yaw = new BooleanValue(lfoModel.Yaw);
-            Pitch = new BooleanValue(lfoModel.Pitch);
-            Zoom = new BooleanValue(lfoModel.Zoom);
-            PingPong = new BooleanValue(lfoModel.PingPong);
-            Axis = new GenericValue<CameraAxis>(lfoModel.Axis);
-            Easing = new Easing(lfoModel.Easing);
-            From = new FloatValue(lfoModel.From);
-            To = new FloatValue(lfoModel.To);
+            
         }
 
 
@@ -36,11 +26,5 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public Easing Easing { get; set; }
         public FloatValue From { get; set; }
         public FloatValue To { get; set; }
-
-
-        public void Dispose()
-        {
-
-        }
     }
 }

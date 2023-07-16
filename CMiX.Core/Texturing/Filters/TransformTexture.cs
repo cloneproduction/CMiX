@@ -11,27 +11,19 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class TransformTexture : ObservableObject, IModifier
     {
-        public TransformTexture(TransformTextureModel transformTextureModel)
+        public TransformTexture()
         {
-            ID = transformTextureModel.ID;
-            Visible = new BooleanValue(transformTextureModel.Visible);
-            SamplerState = new SamplerState(transformTextureModel.SamplerState);
-            Transform2D = new Transform2D(transformTextureModel.Transform2D);
-
-            isExpanded = false;
+            Visible = new BooleanValue();
+            SamplerState = new SamplerState();
+            Transform2D = new Transform2D();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public SamplerState SamplerState { get; set; }
         public Transform2D Transform2D { get; set; }
         public BooleanValue Visible { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
+        private bool isExpanded = true;
     }
 }

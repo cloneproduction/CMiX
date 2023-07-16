@@ -4,7 +4,6 @@
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
-using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -18,37 +17,37 @@ namespace CMiX.Core.Transformation.Modifiers
         public IModifier Create(Type modifierType)
         {
             if (modifierType == typeof(RandomHSV))
-                return CreateRandomHSV();
+                return ControlMessenger.Mapper.Map<RandomHSV>(new RandomHSVModel());
 
             if (modifierType == typeof(RandomXYZ))
-                return CreateRandomXYZ();
+                return ControlMessenger.Mapper.Map<RandomXYZ>(new RandomXYZModel());
 
             if (modifierType == typeof(RandomPosition))
-                return CreateRandomPosition();
+                return ControlMessenger.Mapper.Map<RandomPosition>(new RandomPositionModel());
 
             if (modifierType == typeof(LinearXYZ))
-                return CreateLinearXYZ();
+                return ControlMessenger.Mapper.Map<LinearXYZ>(new LinearXYZModel());
 
             if (modifierType == typeof(LFO))
-                return CreateLFO();
+                return ControlMessenger.Mapper.Map<LFO>(new LFOModel());
 
             if (modifierType == typeof(RandomScale))
-                return CreateRandomScale();
+                return ControlMessenger.Mapper.Map<RandomScale>(new RandomScaleModel());
 
             if (modifierType == typeof(TransformSRT))
-                return CreateTransformSRT();
+                return ControlMessenger.Mapper.Map<TransformSRT>(new TransformSRTModel());
 
             if (modifierType == typeof(Translate))
-                return CreateTranslate();
+                return ControlMessenger.Mapper.Map<Translate>(new TranslateModel());
 
             if (modifierType == typeof(Scale))
-                return CreateScale();
+                return ControlMessenger.Mapper.Map<Scale>(new ScaleModel());
 
             if (modifierType == typeof(Rotation))
-                return CreateRotation();
+                return ControlMessenger.Mapper.Map<Rotation>(new RotationModel());
 
             if (modifierType == typeof(Stepper))
-                return CreateStepper();
+                return ControlMessenger.Mapper.Map<Stepper>(new StepperModel());
 
             return null;
         }
@@ -56,37 +55,37 @@ namespace CMiX.Core.Transformation.Modifiers
         public IModifier Create(IModifierModel modifierModel)
         {
             if (modifierModel is RandomHSVModel randomHSVModel)
-                return CreateRandomHSV(randomHSVModel);
+                return ControlMessenger.Mapper.Map<RandomHSV>(randomHSVModel);
 
             if (modifierModel is RandomXYZModel randomXYZModel)
-                return CreateRandomXYZ(randomXYZModel);
+                return ControlMessenger.Mapper.Map<RandomXYZ>(randomXYZModel);
 
             if (modifierModel is RandomPositionModel randomPositionModel)
-                return CreateRandomPosition(randomPositionModel);
+                return ControlMessenger.Mapper.Map<RandomPosition>(randomPositionModel);
 
             if (modifierModel is LinearXYZModel linearXYZModel)
-                return CreateLinearXYZ(linearXYZModel);
+                return ControlMessenger.Mapper.Map<LinearXYZ>(linearXYZModel);
 
             if (modifierModel is LFOModel lfoModel)
-                return CreateLFO(lfoModel);
+                return ControlMessenger.Mapper.Map<LFO>(lfoModel);
 
             if (modifierModel is RandomScaleModel randomScaleModel)
-                return CreateRandomScale(randomScaleModel);
+                return ControlMessenger.Mapper.Map<RandomScale>(randomScaleModel);
 
             if (modifierModel is TransformSRTModel transformSRTModel)
-                return CreateTransformSRT(transformSRTModel);
+                return ControlMessenger.Mapper.Map<TransformSRT>(transformSRTModel);
 
             if (modifierModel is TranslateModel translateModel)
-                return CreateTranslate(translateModel);
+                return ControlMessenger.Mapper.Map<Translate>(translateModel);
 
             if (modifierModel is ScaleModel scaleModel)
-                return CreateScale(scaleModel);
+                return ControlMessenger.Mapper.Map<Scale>(scaleModel);
 
             if (modifierModel is RotationModel rotationModel)
-                return CreateRotation(rotationModel);
+                return ControlMessenger.Mapper.Map<Rotation>(rotationModel);
 
             if (modifierModel is StepperModel stepperModel)
-                return CreateStepper(stepperModel);
+                return ControlMessenger.Mapper.Map<Stepper>(stepperModel);
 
             return null;
         }
@@ -129,128 +128,6 @@ namespace CMiX.Core.Transformation.Modifiers
                 return ControlMessenger.Mapper.Map<StepperModel>(modifier);
 
             return null;
-        }
-
-        private RandomHSV CreateRandomHSV()
-        {
-            return new RandomHSV(new RandomHSVModel());
-        }
-
-        private RandomHSV CreateRandomHSV(RandomHSVModel randomHSVModel)
-        {
-            return new RandomHSV(randomHSVModel);
-        }
-
-        private RandomUV CreateRandomXY()
-        {
-            return new RandomUV(new RandomUVModel());
-        }
-
-        private RandomUV CreateRandomXY(RandomUVModel randomXYZModel)
-        {
-            return new RandomUV(randomXYZModel);
-        }
-
-        private Rotation CreateRotation()
-        {
-            return new Rotation(new RotationModel());
-        }
-
-        private Rotation CreateRotation(RotationModel rotationModel)
-        {
-            return new Rotation(rotationModel);
-        }
-
-        private Scale CreateScale()
-        {
-            return new Scale(new ScaleModel());
-        }
-
-        private Scale CreateScale(ScaleModel scaleModel)
-        {
-            return new Scale(scaleModel);
-        }
-
-        private Translate CreateTranslate()
-        {
-            return new Translate(new TranslateModel());
-        }
-
-        private Translate CreateTranslate(TranslateModel translateModel)
-        {
-            return new Translate(translateModel);
-        }
-
-        private TransformSRT CreateTransformSRT()
-        {
-            return new TransformSRT(new TransformSRTModel());
-        }
-
-        private TransformSRT CreateTransformSRT(TransformSRTModel transformSRTModel)
-        {
-            return new TransformSRT(transformSRTModel);
-        }
-
-        private RandomScale CreateRandomScale()
-        {
-            return new RandomScale(new RandomScaleModel());
-        }
-
-        private RandomScale CreateRandomScale(RandomScaleModel randomScaleModel)
-        {
-            return new RandomScale(randomScaleModel);
-        }
-
-        private RandomXYZ CreateRandomXYZ()
-        {
-            return new RandomXYZ(new RandomXYZModel());
-        }
-
-        private RandomXYZ CreateRandomXYZ(RandomXYZModel randomXYZModel)
-        {
-            return new RandomXYZ(randomXYZModel);
-        }
-
-
-        private RandomPosition CreateRandomPosition()
-        {
-            return new RandomPosition(new RandomPositionModel());
-        }
-
-        private RandomPosition CreateRandomPosition(RandomPositionModel randomPositionModel)
-        {
-            return new RandomPosition(randomPositionModel);
-        }
-
-
-        private LFO CreateLFO()
-        {
-            return new LFO(new LFOModel());
-        }
-
-        private LFO CreateLFO(LFOModel randomXYZModel)
-        {
-            return new LFO(randomXYZModel);
-        }
-
-        private LinearXYZ CreateLinearXYZ()
-        {
-            return new LinearXYZ(new LinearXYZModel());
-        }
-
-        private LinearXYZ CreateLinearXYZ(LinearXYZModel linearXYZModel)
-        {
-            return new LinearXYZ(linearXYZModel);
-        }
-
-        private Stepper CreateStepper()
-        {
-            return new Stepper(new StepperModel());
-        }
-
-        private Stepper CreateStepper(StepperModel stepperModel)
-        {
-            return new Stepper(stepperModel);
         }
     }
 }

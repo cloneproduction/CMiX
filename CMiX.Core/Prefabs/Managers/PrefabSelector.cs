@@ -1,7 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.ComponentModel;
+using System.Text.RegularExpressions;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Threading;
 using CMiX.Core.Collections;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -15,11 +20,11 @@ namespace CMiX.Core.Prefab.Managers
 {
     public partial class PrefabSelector<T> : ObservableRecipient, ICollectionManager, IRecipient<MessageRequestControl> where T : class, IPrefab
     {
-        public PrefabSelector(PrefabSelectorModel prefabSelectorModel, CompositionService compositionService, PrefabRepository prefabRepository)
+        public PrefabSelector(CompositionService compositionService)
         {
-            ID = prefabSelectorModel.ID;
-            PrefabRepository = prefabRepository;
-            PrefabFactory = compositionService.PrefabFactory;
+            PrefabRepository = compositionService.PrefabRepository;
+            PrefabFactory = new PrefabFactory(compositionService);
+
             AddItemCommand = new RelayCommand(AddItem);
             RemoveItemCommand = new RelayCommand(DeleteItem);
             SelectedItemChangedCommand = new RelayCommand<IPrefab>(SelectedItemChanged);
@@ -36,6 +41,7 @@ namespace CMiX.Core.Prefab.Managers
 
         public void AddItem(IControlModel controlModel)
         {
+
             if(controlModel is IPrefabModel prefabModel)
             {
                 SelectedItem = PrefabFactory.CreatePrefab(prefabModel);
@@ -101,7 +107,7 @@ namespace CMiX.Core.Prefab.Managers
         private bool isExpanded;
 
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabFactory PrefabFactory { get; set; }
         public PrefabRepository PrefabRepository { get; set; }
         public ICommand AddItemCommand { get; set; }

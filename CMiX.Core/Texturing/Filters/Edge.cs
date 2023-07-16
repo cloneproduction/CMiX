@@ -9,18 +9,16 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Edge : ObservableObject, IModifier
     {
-        public Edge(EdgeModel edgeModel)
+        public Edge( )
         {
-            ID = edgeModel.ID;
-            Name = edgeModel.Name;
-            Visible = new BooleanValue(edgeModel.Visible);
-            Radius = new FloatValue(edgeModel.Radius);
-            Brightness = new FloatValue(edgeModel.Brightness);
-            Control = new FloatValue(edgeModel.Control);
+            ID = Guid.NewGuid();
+            Visible = new BooleanValue();
+            Radius = new FloatValue();
+            Brightness = new FloatValue();
+            Control = new FloatValue();
             isExpanded = true;
         }
 
-        public TextureFilterName Name { get; set; }
         public Guid ID { get; set; }
         public FloatValue Radius { get; set; }
         public FloatValue Brightness { get; set; }
@@ -32,10 +30,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

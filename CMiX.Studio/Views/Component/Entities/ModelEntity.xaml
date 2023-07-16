@@ -13,6 +13,12 @@
              mc:Ignorable="d" 
              d:DesignHeight="486" d:DesignWidth="322.667">
 
+    <!--<UserControl.Resources>
+        <CollectionViewSource x:Key="FilteredItems" 
+                                Source="{Binding PrefabRepository.Prefabs}"
+                                IsLiveFilteringRequested="True"
+                                Filter="CollectionViewSource_Filter" />
+    </UserControl.Resources>-->
     <StackPanel>
 
         <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManager.IsExpanded}">
@@ -34,15 +40,28 @@
 
                 <Manager:PrefabManagerComboBox
                     DataContext="{Binding MaterialSelector}"
-                    ItemsSource="{Binding PrefabRepository.Prefabs}"
+
                     AddItemCommand="{Binding AddItemCommand}"
                     SelectedItem="{Binding SelectedItem}"
                     SelectionChangedCommand="{Binding SelectedItemChangedCommand}"
-                    SelectionChangedCommandParameter="{Binding SelectedItem}"/>
+                    SelectionChangedCommandParameter="{Binding SelectedItem}">
+                    <Manager:PrefabManagerComboBox.ItemsSource>
+                        <Binding>
+                            <Binding.Source>
+                                <CollectionViewSource
+                                    Source="{Binding PrefabRepository.Prefabs}"
+                                    IsLiveFilteringRequested="True"
+                                    Filter="CollectionViewSource_Filter" />
+                            </Binding.Source>
+                        </Binding>
+                    </Manager:PrefabManagerComboBox.ItemsSource>
+
+                </Manager:PrefabManagerComboBox>
 
                 <Border Visibility="{Binding MaterialSelector.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                     <Views:Material DataContext="{Binding MaterialSelector.SelectedItem}"/>
                 </Border>
+                
             </StackPanel>
         </Panels:IndentedExpander>
 

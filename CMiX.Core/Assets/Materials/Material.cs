@@ -12,37 +12,28 @@ namespace CMiX.Core.Materials
     {
         public Material()
         {
+            Name = new StringValue();
 
-        }
-
-        public Material(MaterialModel materialModel)
-        {
-            this.ID = materialModel.ID;
-            Name = new StringValue(materialModel.Name);
-            IsSelected = new BooleanValue(materialModel.IsSelected);
-            IsRenaming = new BooleanValue(materialModel.IsRenaming);
-            Texture = new Texture(materialModel.Texture);
+            IsSelected = new BooleanValue();
+            IsRenaming = new BooleanValue();
+            Texture = new Texture();
             
-            Mask = new Mask(materialModel.Mask);
-            MaskChannelSelector = new GenericValue<MaskChannel>(materialModel.MaskChannelSelector);
-            Pipeline = new GenericValue<PipelineType>(materialModel.Pipeline);
-            CullMode = new GenericValue<CullModeType>(materialModel.CullMode);
-            Transparency = new GenericValue<TransparencyType>(materialModel.Transparency);
-            Metalness = new FloatValue(materialModel.Metalness);
-            Specularity = new FloatValue(materialModel.Specularity);
-            Glossiness = new FloatValue(materialModel.Glossiness);
-            Alpha = new FloatValue(materialModel.Alpha);
-            IsShadowCaster = new BooleanValue(materialModel.IsShadowCaster);
-
-            isExpanded = false;
-            surfaceIsExpanded = false;
+            Mask = new Mask();
+            MaskChannelSelector = new GenericValue<MaskChannel>();
+            Pipeline = new GenericValue<PipelineType>(PipelineType.Constant);
+            CullMode = new GenericValue<CullModeType>(CullModeType.Back);
+            Transparency = new GenericValue<TransparencyType>(TransparencyType.CutOff);
+            Metalness = new FloatValue(0.5f);
+            Specularity = new FloatValue(0.5f);
+            Glossiness = new FloatValue(0.5f);
+            Alpha = new FloatValue(1.0f);
+            IsShadowCaster = new BooleanValue(false);
 
             IsActive = true;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public Texture Texture { get; set; }
-        
         public Mask Mask { get; set; }
         public GenericValue<MaskChannel> MaskChannelSelector { get; set; }
         public GenericValue<PipelineType> Pipeline { get; set; }
@@ -58,9 +49,9 @@ namespace CMiX.Core.Materials
         public BooleanValue IsSelected { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = false;
 
         [ObservableProperty]
-        private bool surfaceIsExpanded;
+        private bool surfaceIsExpanded = false;
     }
 }

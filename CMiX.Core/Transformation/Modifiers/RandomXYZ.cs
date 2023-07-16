@@ -10,19 +10,8 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class RandomXYZ : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public RandomXYZ(RandomXYZModel randomXYZModel)
+        public RandomXYZ()
         {
-            ID = randomXYZModel.ID;
-            ModifierModeSelector = new ModifierModeSelector(randomXYZModel.ModifierModeSelector);
-            Visible = new BooleanValue(randomXYZModel.Visible);
-            Easing = new Easing(randomXYZModel.Easing);
-            BeatModifier = new BeatModifier(randomXYZModel.BeatModifier);
-            RandomizeLocation = new BooleanValue(randomXYZModel.RandomizeLocation);
-            Location = new Vector3(randomXYZModel.Location);
-            RandomizeScale = new BooleanValue(randomXYZModel.RandomizeScale);
-            Scale = new Vector3(randomXYZModel.Scale);
-            RandomizeRotation = new BooleanValue(randomXYZModel.RandomizeScale);
-            Rotation = new Vector3(randomXYZModel.Rotation);
             isExpanded = true;
         }
 
@@ -38,6 +27,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public BooleanValue RandomizeRotation { get; set; }
         public Vector3 Rotation { get; set; }
 
+
         [ObservableProperty]
         private bool isExpanded;
 
@@ -49,10 +39,5 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool randomizeRotationIsExpanded;
-
-        public void Dispose()
-        {
-            BeatModifier.Dispose();
-        }
     }
 }

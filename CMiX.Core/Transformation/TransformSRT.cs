@@ -9,16 +9,9 @@ namespace CMiX.Core.Transformation
 {
     public partial class TransformSRT : ObservableObject, IControl, IModifier
     {
-        public TransformSRT(TransformSRTModel transformModel)
+        public TransformSRT()
         {
             isExpanded = true;
-            ID = transformModel.ID;
-            Visible = new BooleanValue(transformModel.Visible);
-            Uniform = new FloatValue(transformModel.Uniform);
-            Translate = new Translate(transformModel.Translate);
-            Scale = new Scale(transformModel.Scale);
-            Rotation = new Rotation(transformModel.Rotation);
-            Mode = new GenericValue<ModifierMode>(transformModel.Mode);
         }
 
         public Guid ID { get; set; }
@@ -31,10 +24,5 @@ namespace CMiX.Core.Transformation
 
         [ObservableProperty]
         private bool isExpanded;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

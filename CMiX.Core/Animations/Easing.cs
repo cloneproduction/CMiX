@@ -8,12 +8,9 @@ namespace CMiX.Core.Animations
 {
     public class Easing : ObservableRecipient, IControl
     {
-        public Easing(EasingModel easingModel)
+        public Easing()
         {
-            this.ID = easingModel.ID;
-            IsEnabled = new BooleanValue(easingModel.IsEnabled);
-            Mode = new GenericValue<EasingMode>(easingModel.Mode);
-            Function = new GenericValue<EasingFunction>(easingModel.Function);
+            
         }
 
         public Guid ID { get; set; }

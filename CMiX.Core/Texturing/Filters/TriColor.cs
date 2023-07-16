@@ -9,24 +9,23 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class TriColor : ObservableObject, IModifier
     {
-        public TriColor(TriColorModel triColorModel)
+        public TriColor()
         {
-            ID = triColorModel.ID;
-            Name = triColorModel.Name;
+            ID = Guid.NewGuid();
             isExpanded = true;
 
-            Visible = new BooleanValue(triColorModel.Visible);
-            Control = new FloatValue(triColorModel.Control);
+            Visible = new BooleanValue();
+            Control = new FloatValue();
 
-            ColorA = new ColorSelector(triColorModel.ColorA);
-            ColorB = new ColorSelector(triColorModel.ColorB);
-            ColorC = new ColorSelector(triColorModel.ColorC);
+            ColorA = new ColorSelector();
+            ColorB = new ColorSelector();
+            ColorC = new ColorSelector();
 
-            Smooth = new FloatValue(triColorModel.Smooth);
-            Center = new FloatValue(triColorModel.Center);
+            Smooth = new FloatValue();
+            Center = new FloatValue();
 
-            SingleChannel = new BooleanValue(triColorModel.SingleChannel);
-            ClampColor = new BooleanValue(triColorModel.ClampColor);
+            SingleChannel = new BooleanValue();
+            ClampColor = new BooleanValue();
         }
 
         public Guid ID { get; set; }
@@ -46,10 +45,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool enabled;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

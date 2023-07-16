@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Materials;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,14 +10,17 @@ namespace CMiX.Core.BaseControls
 {
     public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public GenericValue(GenericValueModel<T> genericValueModel)
+        public GenericValue()
         {
-            ID = genericValueModel.ID;
-            Value = genericValueModel.Value;
             IsActive = true;
         }
 
-        public Guid ID { get; set; }
+        public GenericValue(T value)
+        {
+            Value = value;
+        }
+
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         private T _value;
         public T Value

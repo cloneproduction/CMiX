@@ -11,11 +11,16 @@ namespace CMiX.Core.BaseControls
 {
     public class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public ColorSelector(ColorSelectorModel colorSelectorModel)
+        public ColorSelector()
         {
-            ID = colorSelectorModel.ID;
-            SelectedColor = (Color)ColorConverter.ConvertFromString(colorSelectorModel.SelectedColor);
+            ID = Guid.NewGuid();
             IsActive = true;
+            SelectedColor = Color.FromArgb(255, 255, 0, 255);
+        }
+
+        public ColorSelector(Color color) : this()
+        {
+            SelectedColor = color;
         }
 
         public Guid ID { get; set; }

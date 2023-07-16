@@ -18,36 +18,33 @@ namespace CMiX.Core.Modifiers
 {
     public partial class ModifierManager : ObservableRecipient, ICollectionManager, IRecipient<MessageRequestControl>, IControl, IDropTarget, IDragSource
     {
-        public ModifierManager(ModifierManagerModel modifierManagerModel, IModifierFactory modifierFactory)
+        public ModifierManager(IModifierFactory modifierFactory)
         {
-            ID = modifierManagerModel.ID;
-            Modifiers = new ObservableCollection<IModifier>();
             Factory = modifierFactory;
-            Visibility = new BooleanValue(modifierManagerModel.Visibility);
+            Modifiers = new ObservableCollection<IModifier>();
+            Visibility = new BooleanValue();
+
             CreateCommand = new RelayCommand<Type>(Create);
             RemoveCommand = new RelayCommand<IModifier>(Remove);
+
             IsActive = true;
-            isExpanded = false;
         }
 
 
-
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ICommand CreateCommand { get; set; }
         public ICommand RemoveCommand { get; set; }
         public ICommand DragHandlerDownCommand { get; set; }
         public ICommand DragHandlerUpCommand { get; set; }
         public BooleanValue Visibility { get; set; }
 
+
         [ObservableProperty]
         private bool dragHandlerIsPressed;
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = false;
 
-        //public event EventHandler<IModifierModel> ModifierCreated;
-        //public event EventHandler<(int, int)> ModifierMoved;
-        //public event EventHandler<Guid> ModifierRemoved;
 
         private ObservableCollection<IModifier> _modifiers;
         public ObservableCollection<IModifier> Modifiers
@@ -70,7 +67,6 @@ namespace CMiX.Core.Modifiers
             {
                 IModifier filter = Factory.Create(modifierModel);
                 Add(filter);
-                //ModifierCreated?.Invoke(this, modifierModel);
             }
         }
 
@@ -85,14 +81,12 @@ namespace CMiX.Core.Modifiers
         {
             Modifiers.Remove(modifier);
             WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageRemoveItem(this.ID, modifier), MessageType.Out);
-            modifier.Dispose();
         }
 
         public void DeleteItem(Guid id)
         {
             var modifier = Modifiers.FirstOrDefault(x => x.ID == id);
             this.Remove(modifier);
-            //ModifierRemoved?.Invoke(this, id);
         }
 
         public void Receive(MessageRequestControl message)
@@ -151,7 +145,6 @@ namespace CMiX.Core.Modifiers
         public void MoveItem(int oldIndex, int newIndex)
         {
             Modifiers.Move(oldIndex, newIndex);
-            //ModifierMoved?.Invoke(this, (oldIndex, newIndex));
         }
 
         public void ReplaceItem(Guid oldItemID, Guid newItemID)

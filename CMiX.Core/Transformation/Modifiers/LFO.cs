@@ -10,18 +10,8 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class LFO : ObservableObject, IBeatModifiable, IModifier
     {
-        public LFO(LFOModel lfoModel)
+        public LFO()
         {
-            name = lfoModel.Name;
-            ID = lfoModel.ID;
-            Visible = new BooleanValue(lfoModel.Visible);
-            BeatModifier = new BeatModifier(lfoModel.BeatModifier);
-            DirectionXYZ = new DirectionXYZ(lfoModel.DirectionXYZ);
-            PingPong = new BooleanValue(lfoModel.PingPong);
-            TransformType = new GenericValue<TransformType>(lfoModel.TransformType);
-            Easing = new Easing(lfoModel.Easing);
-            From = new FloatValue(lfoModel.From);
-            To = new FloatValue(lfoModel.To);
             isExpanded = true;
         }
 
@@ -35,16 +25,10 @@ namespace CMiX.Core.Transformation.Modifiers
         public FloatValue From { get; set; }
         public FloatValue To { get; set; }
 
-
         [ObservableProperty]
         private bool isExpanded;
 
         [ObservableProperty]
         private string name;
-
-        public void Dispose()
-        {
-
-        }
     }
 }

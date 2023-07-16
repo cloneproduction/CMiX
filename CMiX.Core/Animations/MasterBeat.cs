@@ -11,21 +11,21 @@ namespace CMiX.Core.Animations
 {
     public partial class MasterBeat : ObservableRecipient
     {
-        public MasterBeat(MasterBeatModel masterBeatModel)
+        public MasterBeat()
         {
-            ID = masterBeatModel.ID;
-
-            Index = new IntegerValue(masterBeatModel.Index);
-            Period = new FloatValue(masterBeatModel.Period);
-            BeatIndex = new IntegerValue(masterBeatModel.BeatIndex);
-            Pause = new BooleanValue(masterBeatModel.Pause);
+            ID = Guid.NewGuid();
+            Index = new IntegerValue();
+            Period = new FloatValue();
+            BeatIndex = new IntegerValue();
+            Pause = new BooleanValue();
+            Resync = new Button();
 
             Periods = new float[15];
             tapPeriods = new List<float>();
             tapTime = new List<float>();
 
             BeatAnimations = new BeatAnimations();
-            Resync = new Button(masterBeatModel.Resync);
+
 
             var Multiplier = 1.0f / 128.0f;
             for (var i = 0; i < Periods.Length; i++)
