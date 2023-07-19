@@ -4,8 +4,6 @@
 using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Transformation;
-using CMiX.Core.Transformation.Modifiers;
-using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Mapping
 {

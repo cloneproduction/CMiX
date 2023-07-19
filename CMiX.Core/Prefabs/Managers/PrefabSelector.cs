@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -29,12 +30,27 @@ namespace CMiX.Core.Prefab.Managers
             RemoveItemCommand = new RelayCommand(DeleteItem);
             SelectedItemChangedCommand = new RelayCommand<IPrefab>(SelectedItemChanged);
             IsActive = true;
+
+            Prefabs = new ObservableCollection<IPrefab>(PrefabRepository.Prefabs.Where(x => x.GetType() == typeof(T)));
+        }
+
+
+        private ObservableCollection<IPrefab> _prefabs;
+        public ObservableCollection<IPrefab> Prefabs
+        {
+            get => _prefabs;
+            set
+            {
+                SetProperty(ref _prefabs, value);
+            }
         }
 
         private void AddItem()
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(typeof(T));
+
             PrefabRepository?.AddPrefab((T)prefab);
+            Prefabs.Add(prefab);
             Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
             SelectedItem = (T)prefab;
         }
@@ -46,6 +62,7 @@ namespace CMiX.Core.Prefab.Managers
             {
                 SelectedItem = PrefabFactory.CreatePrefab(prefabModel);
                 PrefabRepository?.AddPrefab((T)SelectedItem);
+                Prefabs.Add(SelectedItem);
             }
         }
 
@@ -119,7 +136,5 @@ namespace CMiX.Core.Prefab.Managers
         {
             ControlMessenger.Receive(this, message);
         }
-
-
     }
 }

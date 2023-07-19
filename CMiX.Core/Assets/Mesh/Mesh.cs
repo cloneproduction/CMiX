@@ -18,11 +18,11 @@ namespace CMiX.Core.ViewModels
             MeshTypeSelector = new GenericValue<MeshType>();
             Scale = new Vector3();
             Offset = new Vector3();
-            Radius = new FloatValue();
-            Height = new FloatValue();
-            Thickness = new FloatValue();
-            Tessellation = new IntegerValue();
-            TessellationXY = new Integer2();
+            Radius = new FloatValue(1.0f);
+            Height = new FloatValue(1.0f);
+            Thickness = new FloatValue(1.0f);
+            Tessellation = new IntegerValue(16);
+            TessellationXY = new Integer2(16, 16);
             GenerateBackFace = new BooleanValue();
             Visibility = new BooleanValue();
             TransformModifierManager = new ModifierManager(new ModifierFactory());

@@ -31,22 +31,8 @@ namespace CMiX.Core.Prefab
 
             PrefabRepository = compositionService.PrefabRepository;
             PrefabFactory = new PrefabFactory(compositionService);
-
-            //PrefabCollectionView = CollectionViewSource.GetDefaultView(compositionService.PrefabRepository.Prefabs);
-            //PrefabCollectionView.Filter = FilterPrefab;
         }
 
-        //public ICollectionView PrefabCollectionView { get; }
-
-        //public Type FilterType { get; set; } 
-
-        //private bool FilterPrefab(object obj)
-        //{
-        //    if(obj.GetType() == FilterType)
-        //        return true;
-
-        //    return false;
-        //}
 
         public PrefabManager(Guid id, CompositionService compositionService) : this(compositionService)
         {
@@ -63,9 +49,6 @@ namespace CMiX.Core.Prefab
         public ICommand AddItemCommand { get; set; }
         public ICommand AddEmptyItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
-
-
-
 
         [ObservableProperty]
         private ObservableCollection<IPrefab> prefabs;

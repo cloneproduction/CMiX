@@ -40,12 +40,12 @@
 
                 <Manager:PrefabManagerComboBox
                     DataContext="{Binding MaterialSelector}"
-
+                    ItemsSource="{Binding Prefabs}"
                     AddItemCommand="{Binding AddItemCommand}"
                     SelectedItem="{Binding SelectedItem}"
                     SelectionChangedCommand="{Binding SelectedItemChangedCommand}"
                     SelectionChangedCommandParameter="{Binding SelectedItem}">
-                    <Manager:PrefabManagerComboBox.ItemsSource>
+                    <!--<Manager:PrefabManagerComboBox.ItemsSource>
                         <Binding>
                             <Binding.Source>
                                 <CollectionViewSource
@@ -54,7 +54,7 @@
                                     Filter="CollectionViewSource_Filter" />
                             </Binding.Source>
                         </Binding>
-                    </Manager:PrefabManagerComboBox.ItemsSource>
+                    </Manager:PrefabManagerComboBox.ItemsSource>-->
 
                 </Manager:PrefabManagerComboBox>
 

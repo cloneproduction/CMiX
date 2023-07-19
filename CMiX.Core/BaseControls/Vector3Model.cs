@@ -7,16 +7,9 @@ namespace CMiX.Core.BaseControls
     {
         public Vector3Model()
         {
-            ID = Guid.NewGuid();
-
             X = new FloatValueModel();
             Y = new FloatValueModel();
             Z = new FloatValueModel();
-        }
-
-        public Vector3Model(string name) : this()
-        {
-            Name = name;
         }
 
         public Vector3Model(float x, float y, float z) : this()
@@ -26,17 +19,7 @@ namespace CMiX.Core.BaseControls
             Z.Value = z;
         }
 
-        public Vector3Model(string name, float x, float y, float z) : this()
-        {
-            Name = name;
-            X.Value = x;
-            Y.Value = y;
-            Z.Value = z;
-        }
-
-        public Guid ID { get; set; }
-        public string Name { get; set; }
-
+        public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValueModel X { get; set; }
         public FloatValueModel Y { get; set; }
         public FloatValueModel Z { get; set; }

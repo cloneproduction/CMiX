@@ -3,7 +3,6 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
@@ -13,9 +12,11 @@ namespace CMiX.Core.Transformation
         public Translate()
         {
             isExpanded = true;
+            XYZ = new Vector3 ();
+            Visible = new BooleanValue(false);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public Vector3 XYZ { get; set; }
         public BooleanValue Visible { get; set; }
 

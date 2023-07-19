@@ -14,9 +14,11 @@ namespace CMiX.Core.Transformation
         public Rotation()
         {
             isExpanded = true;
+            XYZ = new Vector3(1.0f, 1.0f, 1.0f);
+            Visible = new BooleanValue();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public Vector3 XYZ { get; set; }
         public BooleanValue Visible { get; set; }
 

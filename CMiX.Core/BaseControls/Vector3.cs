@@ -14,11 +14,14 @@ namespace CMiX.Core.BaseControls
             Z = new FloatValue();
         }
 
+        public Vector3(float x, float y, float z) : this()
+        {
+            X.Value = x;
+            Y.Value = y;
+            Z.Value = z;
+        }
+
         public Guid ID { get; set; } = Guid.NewGuid();
-
-        [ObservableProperty]
-        private string name;
-
         public FloatValue X { get; set; }
         public FloatValue Y { get; set; }
         public FloatValue Z { get; set; }

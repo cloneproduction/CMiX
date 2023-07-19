@@ -14,8 +14,8 @@ namespace CMiX.Core.Entities.Lights
         {
             ID = Guid.NewGuid();
             LightColor = new ColorSelectorModel();
-            Position = new Vector3Model(nameof(Position), 0.0f, 2.0f, 0.0f);
-            Target = new Vector3Model(nameof(Target), 0.001f, 0.0f, 0.0f);
+            Position = new Vector3Model(0.0f, 2.0f, 0.0f);
+            Target = new Vector3Model(0.001f, 0.0f, 0.0f);
             Radius = new FloatValueModel(5.0f);
             Angle = new FloatValueModel(0.25f);
             Softness = new FloatValueModel(0.01f);
