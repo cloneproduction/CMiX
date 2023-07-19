@@ -24,6 +24,7 @@
             <BaseControls:CMiXSlider 
                 Grid.Column="1"
                 Margin="0, 1, 0, 0" 
+                Maximum="1"
                 Caption="Chance To Hit" 
                 Position="Bottom" 
                 Value="{Binding ChanceToHit.Value}"/>

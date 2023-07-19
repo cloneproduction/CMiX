@@ -11,7 +11,6 @@ namespace CMiX.Core.Texturing.Filters
         public TriColorModel()
         {
             ID = Guid.NewGuid();
-            Name = TextureFilterName.TriColor;
 
             Visible = new BooleanValueModel(true);
             Control = new FloatValueModel(1.0f);
@@ -24,7 +23,6 @@ namespace CMiX.Core.Texturing.Filters
             ClampColor = new BooleanValueModel();
         }
 
-        public TextureFilterName Name { get; set; }
         public Guid ID { get; set; }
         public BooleanValueModel Visible { get; set; }
         public FloatValueModel Control { get; set; }

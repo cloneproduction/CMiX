@@ -14,7 +14,7 @@ namespace CMiX.Core.Services
         public CompositionService(IPrefabDataBase prefabDataBase)
         {
             PrefabRepository = new PrefabRepository(prefabDataBase);
-            MasterBeat = ControlMessenger.Mapper.Map<MasterBeat>(new MasterBeatModel());
+            MasterBeat = new MasterBeat();
         }
 
         public PrefabRepository PrefabRepository { get; set; }

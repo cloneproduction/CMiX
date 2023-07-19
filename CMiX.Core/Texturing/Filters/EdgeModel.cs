@@ -10,19 +10,16 @@ namespace CMiX.Core.Texturing.Filters
     {
         public EdgeModel()
         {
-            ID = Guid.NewGuid();
-            Name = TextureFilterName.Edge;
             Radius = new FloatValueModel(1.0f);
             Brightness = new FloatValueModel(1.0f);
             Visible = new BooleanValueModel(true);
             Control = new FloatValueModel(1.0f);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValueModel Visible { get; set; }
         public FloatValueModel Radius { get; set; }
         public FloatValueModel Brightness { get; set; }
         public FloatValueModel Control { get; set; }
-        public TextureFilterName Name { get; internal set; }
     }
 }

@@ -11,123 +11,36 @@ namespace CMiX.Core.Texturing.Filters
     {
         public TextureFilterFactory()
         {
-
+            typePairs.Add(typeof(HSCB), typeof(HSCBModel));
+            typePairs.Add(typeof(Invert), typeof(InvertModel));
+            typePairs.Add(typeof(Blur), typeof(BlurModel));
+            typePairs.Add(typeof(Edge), typeof(EdgeModel));
+            typePairs.Add(typeof(TransformTexture), typeof(TransformTextureModel));
+            typePairs.Add(typeof(Pixelate), typeof(PixelateModel));
+            typePairs.Add(typeof(Echo), typeof(EchoModel));
+            typePairs.Add(typeof(Feedback), typeof(FeedbackModel));
+            typePairs.Add(typeof(TriColor), typeof(TriColorModel));
+            typePairs.Add(typeof(RandomUV), typeof(RandomUVModel));
+            typePairs.Add(typeof(LFOUV), typeof(LFOUVModel));
         }
+
+        private Dictionary<Type, Type> typePairs = new Dictionary<Type, Type>();
 
         public IModifier Create(Type modifierType)
         {
-            if (modifierType == typeof(HSCB))
-                return ControlMessenger.Mapper.Map<HSCB>(new HSCBModel());
-
-            if (modifierType == typeof(Invert))
-                return ControlMessenger.Mapper.Map<Invert>(new InvertModel());
-
-            if (modifierType == typeof(Blur))
-                return ControlMessenger.Mapper.Map<Blur>(new BlurModel());
-
-            if (modifierType == typeof(Edge))
-                return ControlMessenger.Mapper.Map<Edge>(new EdgeModel());
-
-            if (modifierType == typeof(TransformTexture))
-                return ControlMessenger.Mapper.Map<TransformTexture>(new TransformTextureModel());
-
-            if (modifierType == typeof(Pixelate))
-                return ControlMessenger.Mapper.Map<Pixelate>(new PixelateModel());
-
-            if (modifierType == typeof(Echo))
-                return ControlMessenger.Mapper.Map<Echo>(new EchoModel());
-
-            if (modifierType == typeof(Feedback))
-                return ControlMessenger.Mapper.Map<Feedback>(new FeedbackModel());
-
-            if (modifierType == typeof(TriColor))
-                return ControlMessenger.Mapper.Map<TriColor>(new TriColorModel());
-
-            if (modifierType == typeof(RandomUV))
-                return ControlMessenger.Mapper.Map<RandomUV>(new RandomUVModel());
-
-            if (modifierType == typeof(LFOUV))
-                return ControlMessenger.Mapper.Map<LFOUV>(new LFOUVModel());
-
-            return null;
+            return (IModifier)Activator.CreateInstance(modifierType);
         }
 
         public IModifier Create(IModifierModel modifierModel)
         {
-            if (modifierModel is HSCBModel hSCBModel)
-                return ControlMessenger.Mapper.Map<HSCB>(hSCBModel);
-
-            if (modifierModel is InvertModel invertModel)
-                return ControlMessenger.Mapper.Map<Invert>(invertModel);
-
-            if (modifierModel is BlurModel blurModel)
-                return ControlMessenger.Mapper.Map<Blur>(blurModel);
-
-            if (modifierModel is EdgeModel edgeModel)
-                return ControlMessenger.Mapper.Map<Edge>(edgeModel);
-
-            if (modifierModel is TransformTextureModel modelTexture)
-                return ControlMessenger.Mapper.Map<TransformTexture>(modelTexture);
-
-            if (modifierModel is PixelateModel pixelateModel)
-                return ControlMessenger.Mapper.Map<Pixelate>(pixelateModel);
-
-            if (modifierModel is EchoModel echoModel)
-                return ControlMessenger.Mapper.Map<Echo>(echoModel);
-
-            if (modifierModel is FeedbackModel feedbackModel)
-                return ControlMessenger.Mapper.Map<Feedback>(feedbackModel);
-
-            if (modifierModel is TriColorModel triColorModel)
-                return ControlMessenger.Mapper.Map<TriColor>(triColorModel);
-
-            if (modifierModel is RandomUVModel randomUVModel)
-                return ControlMessenger.Mapper.Map<RandomUV>(randomUVModel);
-
-            if (modifierModel is LFOUVModel lfoUVModel)
-                return ControlMessenger.Mapper.Map<LFOUV>(lfoUVModel);
-
-            return null;
+            Type viewModelType = typePairs.FirstOrDefault(x => x.Value == modifierModel.GetType()).Key;
+            return (IModifier)ControlMessenger.Mapper.Map(modifierModel, modifierModel.GetType(), viewModelType);
         }
 
         public IModifierModel CreateModel(IModifier modifier)
         {
-            var type = modifier.GetType();
-
-            if (type == typeof(HSCB))
-                return ControlMessenger.Mapper.Map<HSCBModel>(modifier);
-
-            if (type == typeof(Invert))
-                return ControlMessenger.Mapper.Map<InvertModel>(modifier);
-
-            if (type == typeof(Blur))
-                return ControlMessenger.Mapper.Map<BlurModel>(modifier);
-
-            if (type == typeof(Edge))
-                return ControlMessenger.Mapper.Map<EdgeModel>(modifier);
-
-            if (type == typeof(TransformTexture))
-                return ControlMessenger.Mapper.Map<TransformTextureModel>(modifier);
-
-            if (type == typeof(Pixelate))
-                return ControlMessenger.Mapper.Map<PixelateModel>(modifier);
-
-            if (type == typeof(Echo))
-                return ControlMessenger.Mapper.Map<EchoModel>(modifier);
-
-            if (type == typeof(Feedback))
-                return ControlMessenger.Mapper.Map<FeedbackModel>(modifier);
-
-            if (type == typeof(TriColor))
-                return ControlMessenger.Mapper.Map<TriColorModel>(modifier);
-
-            if (type == typeof(RandomUV))
-                return ControlMessenger.Mapper.Map<RandomUVModel>(modifier);
-
-            if (type == typeof(LFOUV))
-                return ControlMessenger.Mapper.Map<LFOUVModel>(modifier);
-
-            return null;
+            Type modelType = typePairs.GetValueOrDefault(modifier.GetType());
+            return (IModifierModel)ControlMessenger.Mapper.Map(modifier, modifier.GetType(), modelType);
         }
     }
 }

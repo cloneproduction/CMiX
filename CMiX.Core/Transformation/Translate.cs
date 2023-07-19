@@ -11,9 +11,8 @@ namespace CMiX.Core.Transformation
     {
         public Translate()
         {
-            isExpanded = true;
-            XYZ = new Vector3 ();
-            Visible = new BooleanValue(false);
+            XYZ = new Vector3();
+            Visible = new BooleanValue(true);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -21,6 +20,6 @@ namespace CMiX.Core.Transformation
         public BooleanValue Visible { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

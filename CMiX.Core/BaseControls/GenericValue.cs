@@ -15,7 +15,7 @@ namespace CMiX.Core.BaseControls
             IsActive = true;
         }
 
-        public GenericValue(T value)
+        public GenericValue(T value) : this()
         {
             Value = value;
         }

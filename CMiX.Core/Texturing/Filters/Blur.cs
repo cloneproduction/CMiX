@@ -12,16 +12,14 @@ namespace CMiX.Core.Texturing.Filters
         public Blur()
         {
             isExpanded = true;
-            Strength = new FloatValue();
-            Visible = new BooleanValue();
+            Strength = new FloatValue(0.5f);
+            Visible = new BooleanValue(true);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValue Strength { get; set; }
         public BooleanValue Visible { get; set; }
 
-        [ObservableProperty]
-        private bool enabled;
 
         [ObservableProperty]
         private bool isExpanded;

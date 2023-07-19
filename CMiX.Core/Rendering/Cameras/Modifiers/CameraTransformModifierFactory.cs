@@ -10,42 +10,26 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
     {
         public CameraTransformModifierFactory()
         {
-
+            typePairs.Add(typeof(CameraLFO), typeof(CameraLFOModel));
+            typePairs.Add(typeof(CameraRandom), typeof(CameraRandomModel));
         }
+
+        private Dictionary<Type, Type> typePairs = new Dictionary<Type, Type>();
 
         public IModifier Create(Type modifierType)
         {
-            if (modifierType == typeof(CameraLFO))
-                return ControlMessenger.Mapper.Map<CameraLFO>(new CameraLFOModel());
-
-            if (modifierType == typeof(CameraRandom))
-                return ControlMessenger.Mapper.Map<CameraRandom>(new CameraRandomModel());
-
-            return null;
+            return (IModifier)Activator.CreateInstance(modifierType);
         }
-
         public IModifier Create(IModifierModel modifierModel)
         {
-            if (modifierModel is CameraLFOModel cameraLFOModel)
-                return ControlMessenger.Mapper.Map<CameraLFO>(cameraLFOModel);
-
-            if (modifierModel is CameraRandomModel cameraRandomModel)
-                return ControlMessenger.Mapper.Map<CameraRandom>(cameraRandomModel);
-
-            return null;
+            Type viewModelType = typePairs.FirstOrDefault(x => x.Value == modifierModel.GetType()).Key;
+            return (IModifier)ControlMessenger.Mapper.Map(modifierModel, modifierModel.GetType(), viewModelType);
         }
 
         public IModifierModel CreateModel(IModifier modifier)
         {
-            var type = modifier.GetType();
-
-            if (type == typeof(CameraLFO))
-                return ControlMessenger.Mapper.Map<CameraLFOModel>(modifier);
-
-            if (type == typeof(CameraRandom))
-                return ControlMessenger.Mapper.Map<CameraRandomModel>(modifier);
-
-            return null;
+            Type modelType = typePairs.GetValueOrDefault(modifier.GetType());
+            return (IModifierModel)ControlMessenger.Mapper.Map(modifier, modifier.GetType(), modelType);
         }
     }
 }

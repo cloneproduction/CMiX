@@ -5,7 +5,6 @@ using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
@@ -14,11 +13,10 @@ namespace CMiX.Core.BaseControls
     {
         public IntegerValue()
         {
-            ID = Guid.NewGuid();
             IsActive = true;
         }
 
-        public IntegerValue(int value)
+        public IntegerValue(int value) : this()
         {
             Value = value;
         }
@@ -39,7 +37,7 @@ namespace CMiX.Core.BaseControls
             }
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         private void Add() => Value += 1;
 

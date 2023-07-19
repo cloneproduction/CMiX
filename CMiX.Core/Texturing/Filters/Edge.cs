@@ -11,24 +11,19 @@ namespace CMiX.Core.Texturing.Filters
     {
         public Edge( )
         {
-            ID = Guid.NewGuid();
-            Visible = new BooleanValue();
-            Radius = new FloatValue();
-            Brightness = new FloatValue();
-            Control = new FloatValue();
-            isExpanded = true;
+            Visible = new BooleanValue(true);
+            Radius = new FloatValue(0.2f);
+            Brightness = new FloatValue(0.2f);
+            Control = new FloatValue(1.0f);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValue Radius { get; set; }
         public FloatValue Brightness { get; set; }
         public FloatValue Control { get; set; }
         public BooleanValue Visible { get; set; }
 
         [ObservableProperty]
-        private bool enabled;
-
-        [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

@@ -7,17 +7,19 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class Feedback : ObservableObject, IModifier
+    public partial class Feedback : ObservableObject, IModifier
     {
         public Feedback()
         {
-            ID = Guid.NewGuid();
-            Visible = new BooleanValue();
-            Factor = new FloatValue();
+            Visible = new BooleanValue(true);
+            Factor = new FloatValue(0.9f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
         public FloatValue Factor { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

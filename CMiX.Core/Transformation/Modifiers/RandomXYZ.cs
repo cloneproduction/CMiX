@@ -12,10 +12,19 @@ namespace CMiX.Core.Transformation.Modifiers
     {
         public RandomXYZ()
         {
-            isExpanded = true;
+            Visible = new BooleanValue(true);
+            ModifierModeSelector = new ModifierModeSelector();
+            BeatModifier = new BeatModifier();
+            Easing = new Easing();
+            RandomizeLocation = new BooleanValue(true);
+            Location = new Vector3(0.0f, 0.0f, 0.0f);
+            RandomizeScale = new BooleanValue(true);
+            Scale = new Vector3(1.0f, 1.0f, 1.0f);
+            RandomizeRotation = new BooleanValue(true);
+            Rotation = new Vector3(0.0f, 0.0f, 0.0f);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
@@ -29,7 +38,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
 
         [ObservableProperty]
         private bool randomizeLocationIsExpanded;

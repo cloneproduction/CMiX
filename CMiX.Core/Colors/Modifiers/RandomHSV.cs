@@ -12,11 +12,18 @@ namespace CMiX.Core.Colors.Modifiers
     {
         public RandomHSV()
         {
-            isExpanded = true;
+            Visible = new BooleanValue(true);
+            Hue = new FloatValue();
+            Saturation = new FloatValue();
+            Value = new FloatValue();
+            Alpha = new FloatValue();
+            BeatModifier = new BeatModifier();
+            Easing = new Easing();
+            Mode = new GenericValue<ModifierMode>();
         }
 
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
-        public Guid ID { get; set; }
         public FloatValue Hue { get; set; }
         public FloatValue Saturation { get; set; }
         public FloatValue Value { get; set; }
@@ -26,6 +33,6 @@ namespace CMiX.Core.Colors.Modifiers
         public GenericValue<ModifierMode> Mode { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

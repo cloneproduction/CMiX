@@ -13,10 +13,9 @@ namespace CMiX.Core.Animations
     {
         public MasterBeat()
         {
-            ID = Guid.NewGuid();
-            Index = new IntegerValue();
-            Period = new FloatValue();
-            BeatIndex = new IntegerValue();
+            Index = new IntegerValue(0);
+            Period = new FloatValue(1000);
+            BeatIndex = new IntegerValue(0);
             Pause = new BooleanValue();
             Resync = new Button();
 
@@ -42,7 +41,7 @@ namespace CMiX.Core.Animations
             TapCommand = new RelayCommand(Tap);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ICommand ResetCommand { get; }
         public ICommand MultiplyCommand { get; }
         public ICommand DivideCommand { get; }

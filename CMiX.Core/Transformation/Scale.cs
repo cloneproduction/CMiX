@@ -11,10 +11,14 @@ namespace CMiX.Core.Transformation
     {
         public Scale()
         {
+            Uniform = new FloatValue(0);
+            XYZ = new Vector3(1.0f, 1.0f, 1.0f);
+            Visible = new BooleanValue(true);
+
             isExpanded = true;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValue Uniform { get; set; }
         public Vector3 XYZ { get; set; }
         public BooleanValue Visible { get; set; }

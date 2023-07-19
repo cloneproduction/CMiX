@@ -9,18 +9,15 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Invert : ObservableObject, IModifier
     {
-        public Invert(InvertModel invertModel)
+        public Invert()
         {
-            ID = Guid.NewGuid();
-
-            Factor = new FloatValue();
-            Visible = new BooleanValue();
+            Factor = new FloatValue(1.0f);
+            Visible = new BooleanValue(true);
             InvertAlpha = new BooleanValue();
             InvertChannelSelector = new GenericValue<InvertChannel>();
-            isExpanded = true;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValue Factor { get; set; }
         public BooleanValue Visible { get; set; }
         public BooleanValue InvertAlpha { get; set; }
@@ -28,6 +25,6 @@ namespace CMiX.Core.Texturing.Filters
         public FloatValue Control { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

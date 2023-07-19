@@ -11,11 +11,17 @@ namespace CMiX.Core.Transformation.Modifiers
     {
         public LinearXYZ()
         {
-            isExpanded = true;
+            Visible = new BooleanValue(true);
+            ModifierModeSelector = new ModifierModeSelector();
+            TransformTypeSelector = new GenericValue<TransformType>();
+            Width = new FloatValue(0);
+            Phase = new FloatValue(0);
+            DirectionXYZ = new DirectionXYZ();
         }
 
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+
         public BooleanValue Visible { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<TransformType> TransformTypeSelector { get; set; }
@@ -25,6 +31,6 @@ namespace CMiX.Core.Transformation.Modifiers
 
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

@@ -11,16 +11,14 @@ namespace CMiX.Core.Texturing.Filters
     {
         public HSCB()
         {
-            ID = Guid.NewGuid();
-            Visible = new BooleanValue();
+            Visible = new BooleanValue(true);
             Hue = new FloatValue();
-            Saturation = new FloatValue();
+            Saturation = new FloatValue(1.0f);
             Contrast = new FloatValue();
             Brightness = new FloatValue();
-            isExpanded = true;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
         public FloatValue Hue { get; set; }
         public FloatValue Saturation { get; set; }
@@ -29,9 +27,6 @@ namespace CMiX.Core.Texturing.Filters
         public FloatValue Control { get; set; }
 
         [ObservableProperty]
-        private bool enabled;
-
-        [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

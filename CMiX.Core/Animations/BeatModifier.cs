@@ -12,9 +12,8 @@ namespace CMiX.Core.Animations
     {
         public BeatModifier()
         {
-            ID = Guid.NewGuid();
-            BeatIndex = new IntegerValue();
-            ChanceToHit = new FloatValue();
+            BeatIndex = new IntegerValue(0);
+            ChanceToHit = new FloatValue(1);
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -25,7 +24,7 @@ namespace CMiX.Core.Animations
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public FloatValue ChanceToHit { get; set; }
         public IntegerValue BeatIndex { get; set; }
 

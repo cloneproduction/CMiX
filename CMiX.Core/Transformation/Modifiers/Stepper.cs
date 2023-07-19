@@ -12,10 +12,19 @@ namespace CMiX.Core.Transformation.Modifiers
     {
         public Stepper()
         {
-            isExpanded = true;
+            ModifierModeSelector = new ModifierModeSelector();
+            StepCount = new IntegerValue(4);
+            Visible = new BooleanValue(true);
+            BeatModifier = new BeatModifier();
+            PingPong = new BooleanValue(false);
+            DirectionXYZ = new DirectionXYZ();
+            TransformType = new GenericValue<TransformType>();
+            Easing = new Easing();
+            From = new FloatValue(0.0f);
+            To = new FloatValue(1.0f);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public IntegerValue StepCount { get; set; }
         public BooleanValue Visible { get; set; }
@@ -28,6 +37,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public FloatValue To { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

@@ -29,7 +29,6 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; }
-        public TextureFilterName Name { get; set; }
         public BooleanValue Visible { get; set; }
         public FloatValue Control { get; set; }
         public FloatValue Smooth { get; set; }

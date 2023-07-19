@@ -11,8 +11,6 @@ namespace CMiX.Core.Texturing.Filters
         public InvertModel()
         {
             ID = Guid.NewGuid();
-
-            Name = TextureFilterName.Invert;
             Factor = new FloatValueModel(1.0f);
             InvertChannelSelector = new GenericValueModel<InvertChannel>(InvertChannel.Value);
             InvertAlpha = new BooleanValueModel();
@@ -24,7 +22,6 @@ namespace CMiX.Core.Texturing.Filters
         public FloatValueModel Factor { get; set; }
         public BooleanValueModel Visible { get; set; }
         public GenericValueModel<InvertChannel> InvertChannelSelector { get; set; }
-        public TextureFilterName Name { get; set; }
         public BooleanValueModel InvertAlpha { get; internal set; }
         public FloatValueModel Control { get; set; }
     }

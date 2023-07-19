@@ -12,10 +12,14 @@ namespace CMiX.Core.Transformation.Modifiers
     {
         public RandomPosition()
         {
-            isExpanded = true;
+            Visible = new BooleanValue(true);
+            ModifierModeSelector = new ModifierModeSelector();
+            BeatModifier = new BeatModifier();
+            Easing = new Easing();
+            Location = new Vector3();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
@@ -23,6 +27,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public Vector3 Location { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

@@ -26,9 +26,11 @@ namespace CMiX.Core.Rendering.Cameras
             Projection = new BooleanValueModel();
             ModifierManager = new ModifierManagerModel();
             Name = new StringValueModel("Camera");
+            Visibility = new BooleanValueModel(true);
         }
 
         public Guid ID { get; set; }
+        public BooleanValueModel Visibility { get; set; }
         public BeatModifierModel BeatModifierModel { get; set; }
         public FloatValueModel FOV { get; set; }
         public FloatValueModel Distance { get; set; }

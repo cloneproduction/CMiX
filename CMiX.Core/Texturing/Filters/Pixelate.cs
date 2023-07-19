@@ -11,19 +11,17 @@ namespace CMiX.Core.Texturing.Filters
     {
         public Pixelate()
         {
-            ID = Guid.NewGuid();
-            Visible = new BooleanValue();
-            Control = new FloatValue();
-            Factor = new Vector2();
-            isExpanded = true;
+            Visible = new BooleanValue(true);
+            Control = new FloatValue(1.0f);
+            Factor = new Vector2(0.2f, 0.2f);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
         public Vector2 Factor { get; set; }
         public FloatValue Control { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

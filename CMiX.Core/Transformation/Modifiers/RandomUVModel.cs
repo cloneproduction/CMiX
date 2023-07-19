@@ -14,7 +14,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public RandomUVModel()
         {
             ID = Guid.NewGuid();
-            Name = TextureFilterName.RandomUV;
             Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
             CounterModel = new IntegerValueModel(1);
@@ -41,7 +40,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public BooleanValueModel RandomizeRotation { get; set; }
         public FloatValueModel Rotation { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
-        public TextureFilterName Name { get; set; }
         public SamplerStateModel SamplerState { get; set; }
     }
 }

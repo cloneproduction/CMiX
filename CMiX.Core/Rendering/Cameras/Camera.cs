@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
@@ -25,9 +26,11 @@ namespace CMiX.Core.Rendering.Cameras
             FarClip = new FloatValue();
             Projection = new BooleanValue();
             ModifierManager = new ModifierManager(new CameraTransformModifierFactory());
+            Visibility = new BooleanValue(false);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public BooleanValue Visibility { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }

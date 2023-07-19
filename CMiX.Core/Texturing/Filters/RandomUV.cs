@@ -13,10 +13,20 @@ namespace CMiX.Core.Texturing.Filters
     {
         public RandomUV()
         {
-            isExpanded = true;
+            Visible = new BooleanValue(true);
+            BeatModifier = new BeatModifier();
+            Easing = new Easing();
+            RandomizeLocation = new BooleanValue(true);
+            Location = new Vector2(0.0f, 0.0f);
+            RandomizeScale = new BooleanValue(true);
+            Scale = new Vector2(1.0f, 1.0f);
+            Uniform = new FloatValue();
+            RandomizeRotation = new BooleanValue(true);
+            Rotation = new FloatValue();
+            SamplerState = new SamplerState();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
@@ -31,7 +41,7 @@ namespace CMiX.Core.Texturing.Filters
 
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
 
         [ObservableProperty]
         private bool randomizeLocationIsExpanded;
@@ -41,13 +51,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool randomizeRotationIsExpanded;
-
-
-        private ModifierMode _selectedModifierType;
-        public ModifierMode SelectedModifierType
-        {
-            get => _selectedModifierType;
-            set => SetProperty(ref _selectedModifierType, value);
-        }
     }
 }

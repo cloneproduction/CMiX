@@ -11,123 +11,36 @@ namespace CMiX.Core.Transformation.Modifiers
     {
         public ModifierFactory()
         {
-
+            typePairs.Add(typeof(RandomHSV), typeof(RandomHSVModel));
+            typePairs.Add(typeof(RandomXYZ), typeof(RandomXYZModel));
+            typePairs.Add(typeof(RandomPosition), typeof(RandomPositionModel));
+            typePairs.Add(typeof(LinearXYZ), typeof(LinearXYZModel));
+            typePairs.Add(typeof(LFO), typeof(LFOModel));
+            typePairs.Add(typeof(RandomScale), typeof(RandomScaleModel));
+            typePairs.Add(typeof(TransformSRT), typeof(TransformSRTModel));
+            typePairs.Add(typeof(Translate), typeof(TranslateModel));
+            typePairs.Add(typeof(Scale), typeof(ScaleModel));
+            typePairs.Add(typeof(Rotation), typeof(RotationModel));
+            typePairs.Add(typeof(Stepper), typeof(StepperModel));
         }
+
+        private Dictionary<Type, Type> typePairs = new Dictionary<Type, Type>();
 
         public IModifier Create(Type modifierType)
         {
-            if (modifierType == typeof(RandomHSV))
-                return ControlMessenger.Mapper.Map<RandomHSV>(new RandomHSVModel());
-
-            if (modifierType == typeof(RandomXYZ))
-                return ControlMessenger.Mapper.Map<RandomXYZ>(new RandomXYZModel());
-
-            if (modifierType == typeof(RandomPosition))
-                return ControlMessenger.Mapper.Map<RandomPosition>(new RandomPositionModel());
-
-            if (modifierType == typeof(LinearXYZ))
-                return ControlMessenger.Mapper.Map<LinearXYZ>(new LinearXYZModel());
-
-            if (modifierType == typeof(LFO))
-                return ControlMessenger.Mapper.Map<LFO>(new LFOModel());
-
-            if (modifierType == typeof(RandomScale))
-                return ControlMessenger.Mapper.Map<RandomScale>(new RandomScaleModel());
-
-            if (modifierType == typeof(TransformSRT))
-                return ControlMessenger.Mapper.Map<TransformSRT>(new TransformSRTModel());
-
-            if (modifierType == typeof(Translate))
-                return ControlMessenger.Mapper.Map<Translate>(new TranslateModel());
-
-            if (modifierType == typeof(Scale))
-                return ControlMessenger.Mapper.Map<Scale>(new ScaleModel());
-
-            if (modifierType == typeof(Rotation))
-                return ControlMessenger.Mapper.Map<Rotation>(new RotationModel());
-
-            if (modifierType == typeof(Stepper))
-                return ControlMessenger.Mapper.Map<Stepper>(new StepperModel());
-
-            return null;
+            return (IModifier)Activator.CreateInstance(modifierType);
         }
 
         public IModifier Create(IModifierModel modifierModel)
         {
-            if (modifierModel is RandomHSVModel randomHSVModel)
-                return ControlMessenger.Mapper.Map<RandomHSV>(randomHSVModel);
-
-            if (modifierModel is RandomXYZModel randomXYZModel)
-                return ControlMessenger.Mapper.Map<RandomXYZ>(randomXYZModel);
-
-            if (modifierModel is RandomPositionModel randomPositionModel)
-                return ControlMessenger.Mapper.Map<RandomPosition>(randomPositionModel);
-
-            if (modifierModel is LinearXYZModel linearXYZModel)
-                return ControlMessenger.Mapper.Map<LinearXYZ>(linearXYZModel);
-
-            if (modifierModel is LFOModel lfoModel)
-                return ControlMessenger.Mapper.Map<LFO>(lfoModel);
-
-            if (modifierModel is RandomScaleModel randomScaleModel)
-                return ControlMessenger.Mapper.Map<RandomScale>(randomScaleModel);
-
-            if (modifierModel is TransformSRTModel transformSRTModel)
-                return ControlMessenger.Mapper.Map<TransformSRT>(transformSRTModel);
-
-            if (modifierModel is TranslateModel translateModel)
-                return ControlMessenger.Mapper.Map<Translate>(translateModel);
-
-            if (modifierModel is ScaleModel scaleModel)
-                return ControlMessenger.Mapper.Map<Scale>(scaleModel);
-
-            if (modifierModel is RotationModel rotationModel)
-                return ControlMessenger.Mapper.Map<Rotation>(rotationModel);
-
-            if (modifierModel is StepperModel stepperModel)
-                return ControlMessenger.Mapper.Map<Stepper>(stepperModel);
-
-            return null;
+            Type viewModelType = typePairs.FirstOrDefault(x => x.Value == modifierModel.GetType()).Key;
+            return (IModifier)ControlMessenger.Mapper.Map(modifierModel, modifierModel.GetType(), viewModelType);
         }
 
         public IModifierModel CreateModel(IModifier modifier)
         {
-            var type = modifier.GetType();
-
-            if (type == typeof(RandomHSV))
-                return ControlMessenger.Mapper.Map<RandomHSVModel>(modifier);
-
-            if (type == typeof(RandomXYZ))
-                return ControlMessenger.Mapper.Map<RandomXYZModel>(modifier);
-
-            if (type == typeof(RandomPosition))
-                return ControlMessenger.Mapper.Map<RandomPositionModel>(modifier);
-
-            if (type == typeof(LinearXYZ))
-                return ControlMessenger.Mapper.Map<LinearXYZModel>(modifier);
-
-            if (type == typeof(LFO))
-                return ControlMessenger.Mapper.Map<LFOModel>(modifier);
-
-            if (type == typeof(RandomScale))
-                return ControlMessenger.Mapper.Map<RandomScaleModel>(modifier);
-
-            if (type == typeof(TransformSRT))
-                return ControlMessenger.Mapper.Map<TransformSRTModel>(modifier);
-
-            if (type == typeof(Translate))
-                return ControlMessenger.Mapper.Map<TranslateModel>(modifier);
-
-            if (type == typeof(Scale))
-                return ControlMessenger.Mapper.Map<ScaleModel>(modifier);
-
-            if (type == typeof(Rotation))
-                return ControlMessenger.Mapper.Map<RotationModel>(modifier);
-
-            if (type == typeof(Stepper))
-                return ControlMessenger.Mapper.Map<StepperModel>(modifier);
-
-            return null;
+            Type modelType = typePairs.GetValueOrDefault(modifier.GetType());
+            return (IModifierModel)ControlMessenger.Mapper.Map(modifier, modifier.GetType(), modelType);
         }
     }
 }

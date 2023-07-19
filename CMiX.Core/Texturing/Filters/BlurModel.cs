@@ -11,8 +11,6 @@ namespace CMiX.Core.Texturing.Filters
         public BlurModel()
         {
             ID = Guid.NewGuid();
-
-            Name = TextureFilterName.Blur;
             Visible = new BooleanValueModel(true);
             Strength = new FloatValueModel();
         }
@@ -20,6 +18,5 @@ namespace CMiX.Core.Texturing.Filters
         public Guid ID { get; set; }
         public FloatValueModel Strength { get; set; }
         public BooleanValueModel Visible { get; set; }
-        public TextureFilterName Name { get; set; }
     }
 }

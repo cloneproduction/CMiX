@@ -14,7 +14,6 @@ namespace CMiX.Core.Texturing.Filters
         public LFOUVModel()
         {
             ID = Guid.NewGuid();
-            Name = TextureFilterName.LFOUV;
             Visible = new BooleanValueModel(true);
             BeatModifier = new BeatModifierModel();
             PingPong = new BooleanValueModel();
@@ -30,7 +29,6 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; }
-        public TextureFilterName Name { get; set; }
         public BooleanValueModel Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public BooleanValueModel PingPong { get; set; }

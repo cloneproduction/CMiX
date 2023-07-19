@@ -10,7 +10,6 @@ namespace CMiX.Core.Animations
     {
         public MasterBeatModel()
         {
-            ID = Guid.NewGuid();
             Resync = new ButtonModel();
             Pause = new BooleanValueModel(false);
             Index = new IntegerValueModel(0);
@@ -18,7 +17,7 @@ namespace CMiX.Core.Animations
             Period = new FloatValueModel(1000);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ButtonModel Resync { get; set; }
         public BooleanValueModel Pause { get; set; }
         public IntegerValueModel Index { get; set; }

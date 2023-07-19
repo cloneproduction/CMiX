@@ -10,9 +10,6 @@ namespace CMiX.Core.Texturing.Filters
     {
         public HSCBModel()
         {
-            ID = Guid.NewGuid();
-            Name = TextureFilterName.HSCB;
-
             Visible = new BooleanValueModel(true);
             Hue = new FloatValueModel();
             Saturation = new FloatValueModel(1.0f);
@@ -21,13 +18,12 @@ namespace CMiX.Core.Texturing.Filters
             Control = new FloatValueModel();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValueModel Visible { get; set; }
         public FloatValueModel Hue { get; set; }
         public FloatValueModel Saturation { get; set; }
         public FloatValueModel Contrast { get; set; }
         public FloatValueModel Brightness { get; set; }
         public FloatValueModel Control { get; set; }
-        public TextureFilterName Name { get; set; }
     }
 }

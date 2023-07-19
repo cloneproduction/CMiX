@@ -10,7 +10,7 @@ namespace CMiX.Core.Modifiers
         public ModifierModeSelector()
         {
             Mode = new GenericValue<ModifierMode>();
-            Count = new IntegerValue();
+            Count = new IntegerValue(1);
         }
 
         public GenericValue<ModifierMode> Mode { get; set; }
