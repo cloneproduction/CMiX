@@ -11,7 +11,7 @@ namespace CMiX.Core.Transformation
     {
         public Scale()
         {
-            Uniform = new FloatValue(0);
+            Uniform = new FloatValue(1.0f);
             XYZ = new Vector3(1.0f, 1.0f, 1.0f);
             Visible = new BooleanValue(true);
 

@@ -23,7 +23,7 @@ namespace CMiX.Core.Compositing
             IsRenaming = new BooleanValue();
             Mesh = new Mesh();
             MaterialSelector = new PrefabSelector<Material>(compositionService);
-            ModifierManager = new ModifierManager(new ModifierFactory());
+            ModifierManager = new ModifierManager(new EntityModifierFactory());
             Visibility = new BooleanValue();
             BaseColor = new ColorSelector(Color.FromArgb(255, 255, 255, 255));
 

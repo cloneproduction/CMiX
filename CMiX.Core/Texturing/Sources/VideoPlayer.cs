@@ -12,11 +12,11 @@ namespace CMiX.Core.Texturing.Sources
     {
         public VideoPlayer()
         {
-            Resolution = new Integer2();
-            SeekFrame = new IntegerValue();
-            Play = new BooleanValue();
+            Resolution = new Integer2(0, 0);
+            SeekFrame = new IntegerValue(0);
+            Play = new BooleanValue(true);
             DoSeek = new Button();
-            Asset = new GenericValue<Asset>();
+            Asset = new GenericValue<Asset>(null);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

@@ -16,7 +16,7 @@ namespace CMiX.Core.ViewModels
             IsRenaming = new BooleanValue();
             IsSelected = new BooleanValue();
             MeshTypeSelector = new GenericValue<MeshType>();
-            Scale = new Vector3();
+            Scale = new Vector3(1.0f, 1.0f, 1.0f);
             Offset = new Vector3();
             Radius = new FloatValue(1.0f);
             Height = new FloatValue(1.0f);

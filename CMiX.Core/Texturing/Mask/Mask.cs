@@ -17,7 +17,7 @@ namespace CMiX.Core.Texturing
         {
             IsEnabled = new BooleanValue();
             ModifierManager = new ModifierManager(new TextureFilterFactory());
-            TextureTransformModifierManager = new ModifierManager(new ModifierFactory());
+            TextureTransformModifierManager = new ModifierManager(new EntityModifierFactory());
             SamplerState = new SamplerState();
             Invert = new BooleanValue();
             VideoIn = new VideoIn();

@@ -13,7 +13,7 @@ namespace CMiX.Core.Texturing.Filters
     {
         public TransformTexture()
         {
-            Visible = new BooleanValue();
+            Visible = new BooleanValue(true);
             SamplerState = new SamplerState();
             Transform2D = new Transform2D();
         }

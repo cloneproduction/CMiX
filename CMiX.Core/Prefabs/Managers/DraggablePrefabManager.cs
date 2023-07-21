@@ -2,12 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefab.Messages;
 using CMiX.Core.Services;
-using CommunityToolkit.Mvvm.Messaging;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Prefab.Managers
@@ -20,32 +17,19 @@ namespace CMiX.Core.Prefab.Managers
         public DraggablePrefabManager(CompositionService compositionService) : base(compositionService)
         {
             PrefabRepository = compositionService.PrefabRepository;
-            Prefabs.CollectionChanged += Prefabs_CollectionChanged;
             PrefabOrder = new ObservableCollection<Guid>();
 
             IsActive = true;
         }
 
-        public DraggablePrefabManager(Guid id, CompositionService compositionService) : base(id, compositionService)
-        {
-            ID = id;
-            PrefabRepository = compositionService.PrefabRepository;
-            Prefabs.CollectionChanged += Prefabs_CollectionChanged;
-            PrefabOrder = new ObservableCollection<Guid>();
+        //public DraggablePrefabManager(Guid id, CompositionService compositionService) : base(id, compositionService)
+        //{
+        //    ID = id;
+        //    PrefabRepository = compositionService.PrefabRepository;
+        //    PrefabOrder = new ObservableCollection<Guid>();
 
-            IsActive = true;
-        }
-
-
-        private void Prefabs_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            var col = sender as ObservableCollection<IPrefab>;
-
-            if (col == null)
-                return;
-
-            UpdateComponentOrder((from x in col select x.ID).Distinct().ToList());
-        }
+        //    IsActive = true;
+        //}
 
 
         private ObservableCollection<Guid> _prefabOrder;
@@ -53,29 +37,6 @@ namespace CMiX.Core.Prefab.Managers
         {
             get => _prefabOrder;
             set => SetProperty(ref _prefabOrder, value);
-        }
-
-        public override void AddItem(Type type)
-        {
-            base.AddItem(type);
-            UpdateComponentOrder((from x in Prefabs select x.ID).Distinct().ToList());
-        }
-
-
-        public override void DeleteItem(IPrefab prefab)
-        {
-            base.DeleteItem(prefab);
-            UpdateComponentOrder((from x in Prefabs select x.ID).Distinct().ToList());
-        }
-
-        public void UpdateComponentOrder(IList<Guid> ids)
-        {
-            PrefabOrder.Clear();
-            foreach (var id in ids)
-            {
-                PrefabOrder.Add(id);
-            }
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageItemOrderChange(ID, PrefabOrder), MessageType.Out);
         }
 
         public void StartDrag(IDragInfo dragInfo)
@@ -112,13 +73,14 @@ namespace CMiX.Core.Prefab.Managers
                 return;
             }
 
-            Prefabs.Move(sourceIndex, targetIndex);
+            Move(sourceIndex, targetIndex + 1);
         }
 
         private void Move(int sourceIndex, int targetIndex)
         {
             targetIndex -= 1;
             Prefabs.Move(sourceIndex, targetIndex);
+            Send(new MessageMoveItem(ID, sourceIndex, targetIndex));
         }
 
         public void DragOver(IDropInfo dropInfo)

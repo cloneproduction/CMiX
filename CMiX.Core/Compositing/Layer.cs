@@ -30,6 +30,7 @@ namespace CMiX.Core.Compositing
             MaskChannel = new GenericValue<MaskChannel>();
             BlendMode = new GenericValue<BlendModeEnum>();
             MaskMode = new GenericValue<MaskMode>();
+            Invert = new BooleanValue(false);
 
             AmbientOcclusion = new AmbientOcclusion();
             ModifierManager = new ModifierManager(new TextureFilterFactory());
@@ -39,6 +40,7 @@ namespace CMiX.Core.Compositing
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public StringValue Name { get; set; }
+        public BooleanValue Invert { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
         public CompositionService CompositionService { get; set; }

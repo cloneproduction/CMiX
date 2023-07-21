@@ -31,7 +31,7 @@ namespace CMiX.Core.Rendering.Lights
             IsSelected = new BooleanValue();
             Name = new StringValue();
 
-            ModifierManager = new ModifierManager(new ModifierFactory());
+            ModifierManager = new ModifierManager(new EntityModifierFactory());
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

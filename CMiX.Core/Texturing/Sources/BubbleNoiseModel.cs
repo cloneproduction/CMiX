@@ -9,7 +9,6 @@ namespace CMiX.Core.Texturing.Sources
     {
         public BubbleNoiseModel()
         {
-            ID = Guid.NewGuid();
             Resolution = new Integer2Model(512, 512);
             Speed = new FloatValueModel(0.0f);
             Frequency = new FloatValueModel(3.5f);
@@ -18,7 +17,7 @@ namespace CMiX.Core.Texturing.Sources
             BubbleColor = new ColorSelectorModel("#FFFFFFFF");
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         public Integer2Model Resolution { get; set; }
         public FloatValueModel Speed { get; set; }

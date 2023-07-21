@@ -9,15 +9,13 @@ namespace CMiX.Core.Transformation
     {
         public Transform2D()
         {
-            ID = Guid.NewGuid();
-
-            UniformScale = new FloatValue();
-            Translate = new Vector2();
-            Scale = new Vector2();
-            Rotate = new FloatValue();
+            UniformScale = new FloatValue(1.0f);
+            Translate = new Vector2(0.0f, 0.0f);
+            Scale = new Vector2(1.0f, 1.0f);
+            Rotate = new FloatValue(0.0f);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         public FloatValue UniformScale { get; set; }
         public Vector2 Translate { get; set; }

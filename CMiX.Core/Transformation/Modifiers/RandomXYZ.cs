@@ -19,7 +19,7 @@ namespace CMiX.Core.Transformation.Modifiers
             RandomizeLocation = new BooleanValue(true);
             Location = new Vector3(0.0f, 0.0f, 0.0f);
             RandomizeScale = new BooleanValue(true);
-            Scale = new Vector3(1.0f, 1.0f, 1.0f);
+            Scale = new Vector3(0.0f, 0.0f, 0.0f);
             RandomizeRotation = new BooleanValue(true);
             Rotation = new Vector3(0.0f, 0.0f, 0.0f);
         }

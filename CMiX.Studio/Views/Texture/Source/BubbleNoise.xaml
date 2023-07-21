@@ -30,11 +30,13 @@
         <BaseControls:ColorSelector 
             Caption="Background" 
             Margin="0, 8, 0, 1"
+            ViewModel="{Binding BackgroundColor}"
             SelectedColor="{Binding BackgroundColor.SelectedColor}" 
             Position="Top"/>
             
         <BaseControls:ColorSelector 
             Caption="Bubble" 
+            ViewModel="{Binding BubbleColor}"
             SelectedColor="{Binding BubbleColor.SelectedColor}" 
             Position="Bottom"/>
 

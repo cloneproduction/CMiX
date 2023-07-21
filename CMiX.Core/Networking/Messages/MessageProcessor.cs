@@ -14,13 +14,10 @@ namespace CMiX.Core.Networking.Messages
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
 
             MessageHandlers.Add(typeof(MessageValueChange), new MessageValueChangeHandler());
-
             MessageHandlers.Add(typeof(MessageAddItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageMoveItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageReplaceItem), new MessageCollectionManagerHandler());
-
-            MessageHandlers.Add(typeof(MessageItemOrderChange), new MessagePrefabOrderChangeHandler());
             MessageHandlers.Add(typeof(MessageSelectedPrefabChanged), new MessageSelectorHandler<Material>());
         }
 

@@ -26,6 +26,7 @@ namespace CMiX.Core.Compositing
             BlendMode = new GenericValueModel<BlendModeEnum>(Texturing.BlendModeEnum.Normal);
             MaskChannel = new GenericValueModel<MaskChannel>(Texturing.MaskChannel.Alpha);
             MaskMode = new GenericValueModel<MaskMode>(Texturing.MaskMode.AllBelow);
+            Invert = new BooleanValueModel(false);
             ModifierManager = new ModifierManagerModel();
             ModelEntityManager = new PrefabManagerModel();
             CameraEntityManager = new PrefabManagerModel();
@@ -41,6 +42,7 @@ namespace CMiX.Core.Compositing
         public StringValueModel Name { get; set; }
         public FloatValueModel Opacity { get; set; }
         public BooleanValueModel Visibility { get; set; }
+        public BooleanValueModel Invert { get; set; }
         public ModifierManagerModel ModifierManager { get; set; }
         public ColorSelectorModel BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
