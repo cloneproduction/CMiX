@@ -34,8 +34,6 @@ namespace CMiX.Console
 
         private static void ConfigureServices(IServiceCollection services)
         {
-
-            services.AddSingleton<IPrefabDataBase, PrefabDataBase>();
             services.AddSingleton<IService, CompositionService>();
             services.AddSingleton<CompositionService>();
             services.AddSingleton<Project>();

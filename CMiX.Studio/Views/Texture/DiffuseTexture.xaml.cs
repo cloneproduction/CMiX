@@ -1,12 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CMiX.Studio.Views
 {
-    public partial class Texture : UserControl
+    public partial class DiffuseTexture : UserControl
     {
-        public Texture()
+        public DiffuseTexture()
         {
             InitializeComponent();
         }

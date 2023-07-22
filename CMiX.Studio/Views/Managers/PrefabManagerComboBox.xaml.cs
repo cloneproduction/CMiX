@@ -45,6 +45,16 @@ namespace CMiX.Studio.Views.Managers
             set { SetValue(AddItemCommandProperty, value); }
         }
 
+
+        public static readonly DependencyProperty AddItemCommandParameterProperty =
+        DependencyProperty.Register("AddItemCommandParameter", typeof(object), typeof(PrefabManagerComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public object AddItemCommandParameter
+        {
+            get { return (object)GetValue(AddItemCommandParameterProperty); }
+            set { SetValue(AddItemCommandParameterProperty, value); }
+        }
+
+
         public static readonly DependencyProperty SelectionChangedCommandProperty =
         DependencyProperty.Register("SelectionChangedCommand", typeof(ICommand), typeof(PrefabManagerComboBox), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public ICommand SelectionChangedCommand

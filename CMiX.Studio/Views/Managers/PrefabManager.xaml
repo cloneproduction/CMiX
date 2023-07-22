@@ -35,19 +35,6 @@
                 DockPanel.Dock="Bottom"
                 SelectedItem="{Binding SelectedItem.Prefab}">
 
-                <!--<ComboBox.ItemsSource>
-                    <CompositeCollection>
-                        <CollectionContainer Collection="{Binding Path=Data, Source={StaticResource ModelEntityProxy}}" />
-                        <CollectionContainer Collection="{Binding Path=Data, Source={StaticResource LightEntityProxy}}" />
-                    </CompositeCollection>
-                </ComboBox.ItemsSource>-->
-
-                <!--<i:Interaction.Triggers>
-                    <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=EntityCombobox, Path=SelectedItem}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>-->
-
                 <ComboBox.Style>
                     <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
                         <Style.Triggers>

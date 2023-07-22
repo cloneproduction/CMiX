@@ -9,6 +9,7 @@ using CMiX.Core.Materials;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Mapping
 {
@@ -25,7 +26,7 @@ namespace CMiX.Core.Mapping
                 .Include<Entity, EntityModel>()
                 .Include<Camera, CameraModel>()
                 .Include<LightEntity, LightEntityModel>()
-                .Include<Material, MaterialModel>()
+                .Include<Texture, TextureModel>()
                 .ReverseMap();
 
             CreateMap<EmptyPrefab, EmptyPrefabModel>().ReverseMap();

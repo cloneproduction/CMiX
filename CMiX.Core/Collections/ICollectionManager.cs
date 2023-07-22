@@ -9,5 +9,6 @@ namespace CMiX.Core.Collections
         void MoveItem(int oldIndex, int newIndex);
         void DeleteItem(Guid id);
         void ReplaceItem(Guid oldItemID, Guid newItemID);
+        void SelectedItemChanged(Guid id);
     }
 }

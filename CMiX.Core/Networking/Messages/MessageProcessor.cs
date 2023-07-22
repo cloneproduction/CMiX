@@ -18,7 +18,7 @@ namespace CMiX.Core.Networking.Messages
             MessageHandlers.Add(typeof(MessageRemoveItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageMoveItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageReplaceItem), new MessageCollectionManagerHandler());
-            MessageHandlers.Add(typeof(MessageSelectedPrefabChanged), new MessageSelectorHandler<Material>());
+            MessageHandlers.Add(typeof(MessageSelectedItemChanged), new MessageCollectionManagerHandler());
         }
 
         private Dictionary<Type, IMessageHandler> MessageHandlers { get; set; }

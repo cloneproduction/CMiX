@@ -3,7 +3,6 @@ using System.Windows;
 using Ceras;
 using CMiX.Core.Components;
 using CMiX.Core.Network;
-using CMiX.Core.Prefab;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
@@ -39,26 +38,12 @@ namespace CMiX
 
         private void ConfigureServices(IServiceCollection services)
         {
-
-            //var config = new MapperConfiguration(cfg => {
-            //    cfg.AddProfile(new MappingProfile());
-            //});
-            ////config.AssertConfigurationIsValid();
-
-            //IMapper mapper = config.CreateMapper();
-
-            //services.AddSingleton(mapper);
-
             services.AddSingleton<IDialogService, DialogService>();
             services.AddSingleton<IService, CompositionService>();
-            services.AddSingleton<IPrefabDataBase, PrefabDataBase>();
             services.AddSingleton<IDialogFactory, DialogFactory>();
-            //services.AddSingleton<IDialogTypeLocator, CustomTypeLocator>();
-
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<IMessageService, MessageService>();
             services.AddSingleton<IProject, Project>();
-
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<CompositionService>();

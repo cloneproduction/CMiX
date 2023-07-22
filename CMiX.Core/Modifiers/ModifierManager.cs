@@ -215,5 +215,10 @@ namespace CMiX.Core.Modifiers
 
             //Filters.Move()
         }
+
+        public void SelectedItemChanged(Guid id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

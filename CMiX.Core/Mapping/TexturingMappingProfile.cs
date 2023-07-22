@@ -14,12 +14,14 @@ namespace CMiX.Core.Mapping
         public TexturingMappingProfile()
         {
             CreateMap<Texture, TextureModel>().ReverseMap();
+            CreateMap<DiffuseTexture, DiffuseTextureModel>().ReverseMap();
+            CreateMap<MaskTexture, MaskTextureModel>().ReverseMap();
+
             CreateMap<TextureSourceSelector, TextureSourceSelectorModel>().ReverseMap();
             CreateMap<GenericValue<BlendModeEnum>, GenericValueModel<BlendModeEnum>>().ReverseMap();
 
             CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
             CreateMap<GenericValue<TextureAddressMode>, GenericValueModel<TextureAddressMode>>().ReverseMap();
-
         }
     }
 }

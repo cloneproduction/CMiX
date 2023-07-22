@@ -14,7 +14,6 @@ namespace CMiX.Core.Texturing
     {
         public MaskModel()
         {
-            ID = Guid.NewGuid();
             VideoPlayer = new VideoPlayerModel();
             ModifierManager = new ModifierManagerModel();
             TextureTransformModifierManager = new ModifierManagerModel();
@@ -26,9 +25,12 @@ namespace CMiX.Core.Texturing
             TypeWriter = new TypeWriterModel();
             TextureSourceSelector = new TextureSourceSelectorModel();
             TransformTexture = new TransformTextureModel();
+
+            MaskChannel = new GenericValueModel<MaskChannel>();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<MaskChannel> MaskChannel { get; set; }
         public ModifierManagerModel ModifierManager { get; set; }
         public ModifierManagerModel TextureTransformModifierManager { get; set; }
         public BooleanValueModel IsEnabled { get; set; }

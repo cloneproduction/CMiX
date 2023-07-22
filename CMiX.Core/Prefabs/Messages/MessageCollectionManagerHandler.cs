@@ -3,7 +3,6 @@
 
 using CMiX.Core.Collections;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefab.Managers;
 
 namespace CMiX.Core.Prefab.Messages
 {
@@ -40,6 +39,12 @@ namespace CMiX.Core.Prefab.Messages
                 if (message is MessageReplaceItem messageSelectedPrefabChanged)
                 {
                     prefabManager.ReplaceItem(messageSelectedPrefabChanged.OldPrefabID, messageSelectedPrefabChanged.NewPrefabID);
+                    return true;
+                }
+
+                if (message is MessageSelectedItemChanged messageSelectedItemChanged)
+                {
+                    prefabManager.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID);
                     return true;
                 }
             }

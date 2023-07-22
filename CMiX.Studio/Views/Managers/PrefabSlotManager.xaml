@@ -83,7 +83,7 @@
                     
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DropDownClosed">
-                            <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" CommandParameter="{Binding ElementName=prefabCombobox, Path=SelectedItem}"/>
+                            <i:InvokeCommandAction Command="{Binding Path=SelectedItemChangedCommand}" CommandParameter="{Binding ElementName=prefabCombobox, Path=SelectedItem}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     

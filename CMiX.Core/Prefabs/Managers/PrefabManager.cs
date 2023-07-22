@@ -2,6 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -16,10 +19,11 @@ namespace CMiX.Core.Prefab
 {
     public partial class PrefabManager : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManager(CompositionService compositionService)// : this()
+        public PrefabManager(CompositionService compositionService)
         {
             Prefabs = new ObservableCollection<IPrefab>();
-            SelectionChangedCommand = new RelayCommand<IPrefab>(ReplaceItem);
+            ReplaceItemCommand = new RelayCommand<IPrefab>(ReplaceItem);
+            SelectedItemChangedCommand = new RelayCommand<IPrefab>(SelectedItemChanged);
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
             AddItemCommand = new RelayCommand<Type>(AddItem);
@@ -29,6 +33,13 @@ namespace CMiX.Core.Prefab
 
             PrefabRepository = compositionService.PrefabRepository;
             PrefabFactory = new PrefabFactory(compositionService);
+
+            collectionView = CollectionViewSource.GetDefaultView(PrefabRepository.Prefabs);
+        }
+
+        public PrefabManager(CompositionService compositionService, Type type) : this(compositionService)
+        {
+            Prefabs = new ObservableCollection<IPrefab>(PrefabRepository.Prefabs.Where(x => x.GetType() == type));
         }
 
         public PrefabManager(Guid id, CompositionService compositionService) : this(compositionService)
@@ -40,7 +51,11 @@ namespace CMiX.Core.Prefab
         public PrefabFactory PrefabFactory { get; set; }
         public PrefabRepository PrefabRepository { get; set; }
 
-        public ICommand SelectionChangedCommand { get; set; }
+        [ObservableProperty]
+        private ICollectionView collectionView;
+
+        public ICommand SelectedItemChangedCommand { get; set; }
+        public ICommand ReplaceItemCommand { get; set; }
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
@@ -56,6 +71,8 @@ namespace CMiX.Core.Prefab
         [ObservableProperty]
         private int selectedIndex;
 
+        [ObservableProperty]
+        private bool isExpanded;
 
         public void ItemUp()
         {
@@ -81,17 +98,36 @@ namespace CMiX.Core.Prefab
 
         public virtual void AddItem(Type type)
         {
-            IPrefab prefab = PrefabFactory.CreatePrefab(type);
-            PrefabRepository?.AddPrefab(prefab);
+            Application.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
+            {
+                IPrefab prefab = PrefabFactory.CreatePrefab(type);
+                PrefabRepository?.AddPrefab(prefab);
 
-            if (SelectedItem is EmptyPrefab)
-                Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
-            else
-                Prefabs.Add(prefab);
+                if (SelectedItem is EmptyPrefab)
+                    Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
+                else
+                    Prefabs.Add(prefab);
+
+                SelectedItem = prefab;
+                Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
+            });
+        }
+
+
+        public void SelectedItemChanged(IPrefab prefab)
+        {
+            if (prefab == null)
+                return;
 
             SelectedItem = prefab;
-            Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
+            Send(new MessageSelectedItemChanged(ID, SelectedItem.ID));
         }
+
+        public void SelectedItemChanged(Guid selectedItemID)
+        {
+            SelectedItem = PrefabRepository.GetPrefab(selectedItemID);
+        }
+
 
         public virtual void DeleteItem(IPrefab prefab)
         {

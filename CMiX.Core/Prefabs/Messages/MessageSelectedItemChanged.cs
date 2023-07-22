@@ -3,14 +3,14 @@
 
 namespace CMiX.Core.Prefab.Messages
 {
-    public class MessageSelectedPrefabChanged : IMessagePrefab
+    public class MessageSelectedItemChanged : IMessagePrefab
     {
-        public MessageSelectedPrefabChanged()
+        public MessageSelectedItemChanged()
         {
 
         }
 
-        public MessageSelectedPrefabChanged(Guid id, Guid selectedPrefabID)
+        public MessageSelectedItemChanged(Guid id, Guid selectedPrefabID)
         {
             ID = id;
             SelectedPrefabID = selectedPrefabID;

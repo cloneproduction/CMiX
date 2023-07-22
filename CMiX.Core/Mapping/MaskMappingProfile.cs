@@ -11,7 +11,7 @@ namespace CMiX.Core.Mapping
     {
         public MaskMappingProfile()
         {
-            CreateMap<Mask, MaskModel>().ReverseMap();
+            CreateMap<MaskTexture, MaskModel>().ReverseMap();
             CreateMap<GenericValue<MaskChannel>, GenericValueModel<MaskChannel>>().ReverseMap();
             CreateMap<GenericValue<MaskMode>, GenericValueModel<MaskMode>>().ReverseMap();
         }

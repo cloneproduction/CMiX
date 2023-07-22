@@ -54,9 +54,6 @@ namespace CMiX.Core.Prefab
             if (type == typeof(Texture))
                 return Build(new Texture());
 
-            if (type == typeof(Material))
-                return Build(new Material());
-
             return null;
         }
 
@@ -82,9 +79,6 @@ namespace CMiX.Core.Prefab
 
             if (prefabModel is TextureModel textureModel)
                 return Build(ControlMessenger.Mapper.Map(textureModel, new Texture()));
-
-            if (prefabModel is MaterialModel materialModel)
-                return Build(ControlMessenger.Mapper.Map(materialModel, new Material()));
 
             return null;
         }

@@ -34,6 +34,7 @@
                     Grid.Column="2" 
                     DockPanel.Dock="Right" 
                     Command="{Binding AddItemCommand, ElementName=prefabManagerComboBox}"
+                    CommandParameter="{Binding AddItemCommandParameter, ElementName=prefabManagerComboBox}"
                     Style="{StaticResource ButtonStraight}">
                     <Button.Content>
                         <Image Margin="42" Source="{DynamicResource Add}" Opacity="0.5"/>
