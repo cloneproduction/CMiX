@@ -14,7 +14,7 @@ namespace CMiX.Core.Texturing
     {
         public MaskTexture(CompositionService compositionService)
         {
-            TextureManager = new PrefabManager(compositionService, typeof(Texture));
+            TextureManager = new PrefabManager<Texture>(compositionService);
 
             TransformTexture = new TransformTexture();
             SamplerState = new SamplerState();
@@ -26,7 +26,7 @@ namespace CMiX.Core.Texturing
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue IsEnabled { get; set; }
-        public PrefabManager TextureManager { get; set; }
+        public PrefabManager<Texture> TextureManager { get; set; }
 
         public TransformTexture TransformTexture { get; set; }
         public SamplerState SamplerState { get; set; }

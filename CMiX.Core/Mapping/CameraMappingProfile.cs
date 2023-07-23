@@ -3,8 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefab;
-using CMiX.Core.Prefab.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Cameras.Modifiers;
 
@@ -15,7 +13,7 @@ namespace CMiX.Core.Mapping
         public CameraMappingProfile()
         {
             CreateMap<Camera, CameraModel>().ReverseMap();
-            CreateMap<PrefabManager, PrefabManagerModel>().ReverseMap();
+
             CreateMap<GenericValue<CameraAxis>, GenericValueModel<CameraAxis>>().ReverseMap();
 
             CreateMap<CameraLFO, CameraLFOModel>().ReverseMap();

@@ -78,7 +78,7 @@
                 <ComboBox x:Name="prefabCombobox"
                             Height="22"
                             DockPanel.Dock="Left"
-                            ItemsSource="{Binding PrefabRepository.Prefabs}"
+                            ItemsSource="{Binding Repository}"
                             SelectedValue="{Binding SelectedItem, Mode=OneWay}">
                     
                     <i:Interaction.Triggers>

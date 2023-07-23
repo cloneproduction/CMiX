@@ -1,10 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Windows;
-using System.Windows.Data;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -17,11 +15,11 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefab
 {
-    public partial class PrefabManager : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
+    public partial class PrefabManager<T> : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
         public PrefabManager(CompositionService compositionService)
         {
-            Prefabs = new ObservableCollection<IPrefab>();
+            //Prefabs = new ObservableCollection<IPrefab>();
             ReplaceItemCommand = new RelayCommand<IPrefab>(ReplaceItem);
             SelectedItemChangedCommand = new RelayCommand<IPrefab>(SelectedItemChanged);
             ItemUpCommand = new RelayCommand(ItemUp);
@@ -34,12 +32,7 @@ namespace CMiX.Core.Prefab
             PrefabRepository = compositionService.PrefabRepository;
             PrefabFactory = new PrefabFactory(compositionService);
 
-            collectionView = CollectionViewSource.GetDefaultView(PrefabRepository.Prefabs);
-        }
-
-        public PrefabManager(CompositionService compositionService, Type type) : this(compositionService)
-        {
-            Prefabs = new ObservableCollection<IPrefab>(PrefabRepository.Prefabs.Where(x => x.GetType() == type));
+            Prefabs = compositionService.PrefabRepository.GetRepository(typeof(T));
         }
 
         public PrefabManager(Guid id, CompositionService compositionService) : this(compositionService)
@@ -47,12 +40,12 @@ namespace CMiX.Core.Prefab
             ID = id;
         }
 
+
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabFactory PrefabFactory { get; set; }
         public PrefabRepository PrefabRepository { get; set; }
 
-        [ObservableProperty]
-        private ICollectionView collectionView;
+        //public ObservableCollection<IPrefab> Repository { get; set; }
 
         public ICommand SelectedItemChangedCommand { get; set; }
         public ICommand ReplaceItemCommand { get; set; }
@@ -98,19 +91,16 @@ namespace CMiX.Core.Prefab
 
         public virtual void AddItem(Type type)
         {
-            Application.Current.Dispatcher.Invoke((Action)delegate // <--- HERE
-            {
-                IPrefab prefab = PrefabFactory.CreatePrefab(type);
-                PrefabRepository?.AddPrefab(prefab);
+            IPrefab prefab = PrefabFactory.CreatePrefab(type);
+            PrefabRepository?.AddPrefab(prefab);
 
-                if (SelectedItem is EmptyPrefab)
-                    Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
-                else
-                    Prefabs.Add(prefab);
+            if (SelectedItem is EmptyPrefab)
+                Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
+            else
+                Prefabs.Add(prefab);
 
-                SelectedItem = prefab;
-                Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
-            });
+            SelectedItem = prefab;
+            Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
         }
 
 

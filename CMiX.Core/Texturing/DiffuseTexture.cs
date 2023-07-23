@@ -13,13 +13,13 @@ namespace CMiX.Core.Texturing
     {
         public DiffuseTexture(CompositionService compositionService)
         {
-            TextureManager = new PrefabManager(compositionService, typeof(Texture));
+            TextureManager = new PrefabManager<Texture>(compositionService);
             TransformTexture = new TransformTexture();
             SamplerState = new SamplerState();
         }
 
         public Guid ID { get ; set; } = Guid.NewGuid();
-        public PrefabManager TextureManager { get; set; }
+        public PrefabManager<Texture> TextureManager { get; set; }
         public TransformTexture TransformTexture { get; set; }
         public SamplerState SamplerState { get; set; }
 

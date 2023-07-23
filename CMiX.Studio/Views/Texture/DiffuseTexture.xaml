@@ -17,7 +17,7 @@
     <StackPanel>
         <Manager:PrefabManagerComboBox
             DataContext="{Binding TextureManager}"
-            ItemsSource="{Binding CollectionView}"
+            ItemsSource="{Binding Prefabs}"
             AddItemCommand="{Binding AddItemCommand}"
             AddItemCommandParameter="{x:Type Texturing:Texture}"
             SelectedItem="{Binding SelectedItem}"
