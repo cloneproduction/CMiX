@@ -25,12 +25,12 @@ namespace CMiX.Core.Texturing
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue IsEnabled { get; set; }
-        public PrefabManager<Texture> TextureManager { get; set; }
 
+        public PrefabManager<Texture> TextureManager { get; set; }
         public TransformTexture TransformTexture { get; set; }
         public SamplerState SamplerState { get; set; }
 
+        public BooleanValue IsEnabled { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
         public BooleanValue Invert { get; set; }
 

@@ -11,14 +11,13 @@ namespace CMiX.Core.Texturing
     {
         public TextureSourceSelector()
         {
-            ID = Guid.NewGuid();
             ProceduralName = new GenericValue<TextureSourceName>();
             Gradient = new Gradient();
             BubbleNoise = new BubbleNoise();
             Image = new Image();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<TextureSourceName> ProceduralName { get; set; }
         public Gradient Gradient { get; set; }
         public BubbleNoise BubbleNoise { get; set; }

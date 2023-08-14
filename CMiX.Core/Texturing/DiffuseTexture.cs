@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class DiffuseTexture : ObservableObject, IControl
+    public partial class DiffuseTexture : ObservableObject, ITexture
     {
         public DiffuseTexture(CompositionService compositionService)
         {
