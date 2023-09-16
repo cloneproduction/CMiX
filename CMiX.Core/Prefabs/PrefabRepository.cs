@@ -12,7 +12,7 @@ namespace CMiX.Core.Prefab
     {
         public PrefabRepository()
         {
-            Prefabs = new ObservableCollection<IPrefab>();
+            //Prefabs = new ObservableCollection<IPrefab>();
 
             Compositions = new ObservableCollection<IPrefab>();
             Layers = new ObservableCollection<IPrefab>();
@@ -20,7 +20,7 @@ namespace CMiX.Core.Prefab
             Textures = new ObservableCollection<IPrefab>();
         }
 
-        public ObservableCollection<IPrefab> Prefabs { get; set; }
+        //public ObservableCollection<IPrefab> Prefabs { get; set; }
 
 
         public ObservableCollection<IPrefab> Compositions { get; set; }
@@ -31,17 +31,32 @@ namespace CMiX.Core.Prefab
 
         public void AddPrefab(IPrefab prefab)
         {
-            Prefabs.Add(prefab);
+            Type type = typeof(IPrefab);
+
+            if (prefab is Composition composition)
+                Compositions.Add(composition);
+
+            if (prefab is Layer layer)
+                Layers.Add(layer);
+
+            if (prefab is Entity entity)
+                Entities.Add(entity);
+
+            if (prefab is Texture texture)
+                Textures.Add(texture);
+
+            //Prefabs.Add(prefab);
         }
 
         public void RemovePrefab(IPrefab prefab)
         {
-            Prefabs.Remove(prefab);
+            //Prefabs.Remove(prefab);
         }
 
-        public IPrefab GetPrefab(Guid id)
+        public IPrefab GetPrefab(Type type, Guid id)
         {
-            return Prefabs.FirstOrDefault(x => x.ID == id);
+            var repo = GetRepository(type);
+            return repo.FirstOrDefault(x => x.ID == id);
         }
 
         public ObservableCollection<IPrefab> GetRepository(Type type)

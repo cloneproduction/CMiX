@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace CMiX.Studio.Views
@@ -19,5 +20,15 @@ namespace CMiX.Studio.Views
         // Using a DependencyProperty as the backing store for InnerContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectionPanelProperty =
         DependencyProperty.Register("SelectionPanel", typeof(FrameworkElement), typeof(PrefabSlotManager), new UIPropertyMetadata(null));
+
+        public IEnumerable ItemsSource
+        {
+            get { return (IEnumerable)GetValue(ItemsSourceProperty); }
+            set { SetValue(ItemsSourceProperty, value); }
+        }
+
+        public static readonly DependencyProperty ItemsSourceProperty =
+            DependencyProperty.Register("ItemsSource", typeof(IEnumerable),
+                typeof(PrefabSlotManager), new PropertyMetadata(null));
     }
 }

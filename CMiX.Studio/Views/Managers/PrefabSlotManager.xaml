@@ -68,7 +68,11 @@
                     ItemsSource="{Binding Prefabs}"
                     SelectedItem="{Binding SelectedItem}"
                     SelectedIndex="{Binding SelectedIndex}">
-                    
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}"/> <!--CommandParameter="{Binding ElementName=prefabCombobox, Path=SelectedItem}"/>-->
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                 </ListBox>
 
             </DockPanel>
@@ -78,7 +82,7 @@
                 <ComboBox x:Name="prefabCombobox"
                             Height="22"
                             DockPanel.Dock="Left"
-                            ItemsSource="{Binding Repository}"
+                            ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
                             SelectedValue="{Binding SelectedItem, Mode=OneWay}">
                     
                     <i:Interaction.Triggers>

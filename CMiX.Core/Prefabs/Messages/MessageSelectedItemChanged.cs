@@ -10,13 +10,15 @@ namespace CMiX.Core.Prefab.Messages
 
         }
 
-        public MessageSelectedItemChanged(Guid id, Guid selectedPrefabID)
+        public MessageSelectedItemChanged(Guid id, Guid selectedPrefabID, int index)
         {
             ID = id;
             SelectedPrefabID = selectedPrefabID;
+            Index = index;
         }
 
         public Guid ID { get; set; }
         public Guid SelectedPrefabID { get; set; }
+        public int Index { get; set; }
     }
 }

@@ -35,7 +35,7 @@
                         </TabItem.Header>
                         <StackPanel>
                             
-                            <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}">
+                            <Views:PrefabSlotManager Margin="8" ItemsSource="{Binding PrefabRepository.Entities}" DataContext="{Binding ModelEntityManager}">
                                 <Views:PrefabSlotManager.SelectionPanel>
                                     <Views1:EntitySelectionPanel/>
                                 </Views:PrefabSlotManager.SelectionPanel>

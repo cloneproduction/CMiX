@@ -36,15 +36,15 @@ namespace CMiX.Core.Prefab.Messages
                     return true;
                 }
 
-                if (message is MessageReplaceItem messageSelectedPrefabChanged)
+                if (message is MessageReplaceEmptyPrefab messageSelectedPrefabChanged)
                 {
-                    prefabManager.ReplaceItem(messageSelectedPrefabChanged.OldPrefabID, messageSelectedPrefabChanged.NewPrefabID);
+                    prefabManager.ReplaceEmptyPrefab(messageSelectedPrefabChanged.emptyPrefabID, messageSelectedPrefabChanged.ControlModel);
                     return true;
                 }
 
                 if (message is MessageSelectedItemChanged messageSelectedItemChanged)
                 {
-                    prefabManager.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID);
+                    prefabManager.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
                     return true;
                 }
             }

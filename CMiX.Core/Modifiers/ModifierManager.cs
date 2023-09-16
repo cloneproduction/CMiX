@@ -61,6 +61,13 @@ namespace CMiX.Core.Modifiers
             Add(filter);
         }
 
+        public void Add(IModifier modifier)
+        {
+            Modifiers.Add(modifier);
+            var model = this.Factory.CreateModel(modifier);
+            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddItem(this.ID, model), MessageType.Out);
+        }
+
         public void AddItem(IControlModel controlModel)
         {
             if(controlModel is IModifierModel modifierModel)
@@ -70,12 +77,6 @@ namespace CMiX.Core.Modifiers
             }
         }
 
-        public void Add(IModifier modifier)
-        {
-            Modifiers.Add(modifier);
-            var model = this.Factory.CreateModel(modifier);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddItem(this.ID, model), MessageType.Out);
-        }
 
         public void Remove(IModifier modifier)
         {
@@ -147,7 +148,7 @@ namespace CMiX.Core.Modifiers
             Modifiers.Move(oldIndex, newIndex);
         }
 
-        public void ReplaceItem(Guid oldItemID, Guid newItemID)
+        public void ReplaceEmptyPrefab(Guid emptyPrefabID, IControlModel controlModel)
         {
 
         }
@@ -216,7 +217,7 @@ namespace CMiX.Core.Modifiers
             //Filters.Move()
         }
 
-        public void SelectedItemChanged(Guid id)
+        public void SelectedItemChanged(Guid id, int index)
         {
             throw new NotImplementedException();
         }
