@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections;
 using System.Collections.ObjectModel;
 using CMiX.Core.Compositing;
 using CMiX.Core.Texturing;
@@ -12,16 +11,19 @@ namespace CMiX.Core.Prefab
     {
         public PrefabRepository()
         {
-            //Prefabs = new ObservableCollection<IPrefab>();
-
             Compositions = new ObservableCollection<IPrefab>();
             Layers = new ObservableCollection<IPrefab>();
             Entities = new ObservableCollection<IPrefab>();
             Textures = new ObservableCollection<IPrefab>();
+
+            Repositories = new List<ObservableCollection<IPrefab>>();
+            Repositories.Add(Compositions);
+            Repositories.Add(Layers);
+            Repositories.Add(Entities);
+            Repositories.Add(Textures);
         }
 
-        //public ObservableCollection<IPrefab> Prefabs { get; set; }
-
+        public List<ObservableCollection<IPrefab>> Repositories { get; set; }
 
         public ObservableCollection<IPrefab> Compositions { get; set; }
         public ObservableCollection<IPrefab> Layers { get; set; }
@@ -44,13 +46,23 @@ namespace CMiX.Core.Prefab
 
             if (prefab is Texture texture)
                 Textures.Add(texture);
-
-            //Prefabs.Add(prefab);
         }
 
         public void RemovePrefab(IPrefab prefab)
         {
-            //Prefabs.Remove(prefab);
+            Type type = typeof(IPrefab);
+
+            if (prefab is Composition composition)
+                Compositions.Remove(composition);
+
+            if (prefab is Layer layer)
+                Layers.Remove(layer);
+
+            if (prefab is Entity entity)
+                Entities.Remove(entity);
+
+            if (prefab is Texture texture)
+                Textures.Remove(texture);
         }
 
         public IPrefab GetPrefab(Type type, Guid id)
