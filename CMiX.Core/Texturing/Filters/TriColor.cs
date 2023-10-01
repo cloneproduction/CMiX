@@ -7,11 +7,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class TriColor : ObservableObject, IModifier
+    public partial class TriColor : ObservableObject, ITextureModifier
     {
         public TriColor()
         {
-            ID = Guid.NewGuid();
             isExpanded = true;
 
             Visible = new BooleanValue();
@@ -28,7 +27,7 @@ namespace CMiX.Core.Texturing.Filters
             ClampColor = new BooleanValue();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visible { get; set; }
         public FloatValue Control { get; set; }
         public FloatValue Smooth { get; set; }

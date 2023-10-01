@@ -9,7 +9,7 @@ namespace CMiX.Core.Texturing
 {
     public interface ITexture : IControl
     {
-        PrefabManager<Texture> TextureManager { get; set; }
+        PrefabManagerBase<Texture> TextureManager { get; set; }
         TransformTexture TransformTexture { get; set; }
         SamplerState SamplerState { get; set; }
     }

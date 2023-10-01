@@ -3,6 +3,8 @@
 
 using System.Collections.ObjectModel;
 using CMiX.Core.Compositing;
+using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Prefab
@@ -15,12 +17,16 @@ namespace CMiX.Core.Prefab
             Layers = new ObservableCollection<IPrefab>();
             Entities = new ObservableCollection<IPrefab>();
             Textures = new ObservableCollection<IPrefab>();
+            Cameras = new ObservableCollection<IPrefab>();
+            Lights = new ObservableCollection<IPrefab>();
 
             Repositories = new List<ObservableCollection<IPrefab>>();
             Repositories.Add(Compositions);
             Repositories.Add(Layers);
             Repositories.Add(Entities);
             Repositories.Add(Textures);
+            Repositories.Add(Cameras);
+            Repositories.Add(Lights);
         }
 
         public List<ObservableCollection<IPrefab>> Repositories { get; set; }
@@ -29,7 +35,8 @@ namespace CMiX.Core.Prefab
         public ObservableCollection<IPrefab> Layers { get; set; }
         public ObservableCollection<IPrefab> Entities { get; set; }
         public ObservableCollection<IPrefab> Textures { get; set; }
-
+        public ObservableCollection<IPrefab> Cameras { get; set; }
+        public ObservableCollection<IPrefab> Lights { get; set; }
 
         public void AddPrefab(IPrefab prefab)
         {
@@ -46,6 +53,12 @@ namespace CMiX.Core.Prefab
 
             if (prefab is Texture texture)
                 Textures.Add(texture);
+
+            if(prefab is Camera camera)
+                Cameras.Add(camera);
+
+            if (prefab is LightEntity lightEntity)
+                Lights.Add(lightEntity);
         }
 
         public void RemovePrefab(IPrefab prefab)
@@ -63,6 +76,12 @@ namespace CMiX.Core.Prefab
 
             if (prefab is Texture texture)
                 Textures.Remove(texture);
+
+            if (prefab is Camera camera)
+                Cameras.Remove(camera);
+
+            if (prefab is LightEntity lightEntity)
+                Lights.Remove(lightEntity);
         }
 
         public IPrefab GetPrefab(Type type, Guid id)
@@ -84,6 +103,12 @@ namespace CMiX.Core.Prefab
 
             if(type == typeof(Texture))
                 return Textures;
+
+            if (type == typeof(Camera))
+                return Cameras;
+
+            if (type == typeof(LightEntity))
+                return Lights;
 
             return null;
         }

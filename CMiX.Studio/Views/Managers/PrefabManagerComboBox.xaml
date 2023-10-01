@@ -1,67 +1,73 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.Managers.PrefabManagerComboBox"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties" 
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             x:Name="prefabManagerComboBox"
-             mc:Ignorable="d" 
-             d:DesignHeight="58" d:DesignWidth="236">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Managers.PrefabManagerComboBox"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="prefabManagerComboBox"
+    d:DesignHeight="58"
+    d:DesignWidth="236"
+    mc:Ignorable="d">
 
-    
-    <Grid 
-        DockPanel.Dock="Left" 
-        Margin="8" 
-        Height="22">
-            
+
+    <Grid
+        Height="22"
+        Margin="8"
+        DockPanel.Dock="Left">
+
         <Border
-            x:Name="mask" 
-            Grid.Column="1" 
-            Background="{DynamicResource HighHighDarkerColor}" 
-            Style="{StaticResource BorderMask}"
-            AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=prefabManagerComboBox}"/>
-            
+            x:Name="mask"
+            Grid.Column="1"
+            AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=prefabManagerComboBox}"
+            Background="{DynamicResource HighHighDarkerColor}"
+            Style="{StaticResource BorderMask}" />
+
         <Border>
             <Border.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=mask}"/>
+                <VisualBrush Visual="{Binding ElementName=mask}" />
             </Border.OpacityMask>
 
             <DockPanel>
 
                 <Button
-                    Margin="1, 0, 0, 0"
-                    Grid.Column="2" 
-                    DockPanel.Dock="Right" 
+                    Grid.Column="2"
+                    Margin="1,0,0,0"
                     Command="{Binding AddItemCommand, ElementName=prefabManagerComboBox}"
                     CommandParameter="{Binding AddItemCommandParameter, ElementName=prefabManagerComboBox}"
+                    DockPanel.Dock="Right"
                     Style="{StaticResource ButtonStraight}">
                     <Button.Content>
-                        <Image Margin="42" Source="{DynamicResource Add}" Opacity="0.5"/>
+                        <Image
+                            Margin="42"
+                            Opacity="0.5"
+                            Source="{DynamicResource Add}" />
                     </Button.Content>
                 </Button>
 
                 <ComboBox
                     Grid.Column="0"
-                    DockPanel.Dock="Left" 
-                    SelectedItem="{Binding SelectedItem, ElementName=prefabManagerComboBox}"
-                    ItemsSource="{Binding ItemsSource, ElementName=prefabManagerComboBox}">
+                    DockPanel.Dock="Left"
+                    IsSynchronizedWithCurrentItem="True"
+                    ItemsSource="{Binding ItemsSource, ElementName=prefabManagerComboBox}"
+                    SelectedIndex="{Binding SelectedIndex, ElementName=prefabManagerComboBox, Mode=TwoWay}"
+                    SelectedItem="{Binding SelectedItem, ElementName=prefabManagerComboBox, Mode=TwoWay}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand, ElementName=prefabManagerComboBox}"  
-                                                   CommandParameter="{Binding SelectionChangedCommandParameter, ElementName=prefabManagerComboBox}"/>
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand, ElementName=prefabManagerComboBox}" CommandParameter="{Binding SelectionChangedCommandParameter, ElementName=prefabManagerComboBox}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ComboBox.ItemTemplate>
                         <ItemContainerTemplate>
-                            <TextBlock Text="{Binding Name.Value}"/>
+                            <TextBlock Text="{Binding Name.Value}" />
                         </ItemContainerTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
 
             </DockPanel>
         </Border>
-            
+
     </Grid>
 
 </UserControl>

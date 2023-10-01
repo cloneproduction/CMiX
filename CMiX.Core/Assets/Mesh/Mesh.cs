@@ -3,16 +3,17 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Transformation.Modifiers;
+using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.ViewModels
 {
     public partial class Mesh : ObservableRecipient
     {
-        public Mesh()
+        public Mesh(CompositionService compositionService)
         {
             Name = new StringValue();
+
             IsRenaming = new BooleanValue();
             IsSelected = new BooleanValue();
             MeshTypeSelector = new GenericValue<MeshType>();
@@ -25,7 +26,6 @@ namespace CMiX.Core.ViewModels
             TessellationXY = new Integer2(16, 16);
             GenerateBackFace = new BooleanValue();
             Visibility = new BooleanValue();
-            TransformModifierManager = new ModifierManager(new ModifierFactory());
         }
 
         [ObservableProperty]
@@ -35,7 +35,6 @@ namespace CMiX.Core.ViewModels
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }
-        public ModifierManager TransformModifierManager { get; set; }
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Offset { get; set; }

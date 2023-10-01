@@ -5,9 +5,9 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public class CameraTransformModifierFactory : ModifierFactory
+    public class CameraModifierFactory : ModifierFactory
     {
-        public CameraTransformModifierFactory()
+        public CameraModifierFactory()
         {
             TypePairs.Add(typeof(CameraLFO), typeof(CameraLFOModel));
             TypePairs.Add(typeof(CameraRandom), typeof(CameraRandomModel));

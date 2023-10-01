@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Edge : ObservableObject, IModifier
+    public partial class Edge : ObservableObject, ITextureModifier
     {
         public Edge( )
         {

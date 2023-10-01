@@ -3,7 +3,6 @@
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Entities.Lights;
-using CMiX.Core.Materials;
 using CMiX.Core.Networking;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
@@ -46,13 +45,13 @@ namespace CMiX.Core.Prefab
                 return Build(new Entity(CompositionService));
 
             if (type == typeof(Camera))
-                return Build(new Camera());
+                return Build(new Camera(CompositionService));
 
             if (type == typeof(LightEntity))
                 return Build(new LightEntity(CompositionService));
 
             if (type == typeof(Texture))
-                return Build(new Texture());
+                return Build(new Texture(CompositionService));
 
             return null;
         }
@@ -72,13 +71,13 @@ namespace CMiX.Core.Prefab
                 return Build(ControlMessenger.Mapper.Map(entityModel, new Entity(CompositionService)));
 
             if (prefabModel is CameraModel cameraModel)
-                return Build(ControlMessenger.Mapper.Map(cameraModel, new Camera()));
+                return Build(ControlMessenger.Mapper.Map(cameraModel, new Camera(CompositionService)));
 
             if (prefabModel is LightEntityModel lightEntityModel)
                 return Build(ControlMessenger.Mapper.Map(lightEntityModel, new LightEntity(CompositionService)));
 
             if (prefabModel is TextureModel textureModel)
-                return Build(ControlMessenger.Mapper.Map(textureModel, new Texture()));
+                return Build(ControlMessenger.Mapper.Map(textureModel, new Texture(CompositionService)));
 
             return null;
         }

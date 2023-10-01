@@ -1,37 +1,36 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
-using CMiX.Core.Rendering.Cameras.Modifiers;
+using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public partial class Camera : ObservableObject, IPrefab, IModifiable
+    public partial class Camera : ObservableObject, IPrefab, IModifiable<Camera>
     {
-        public Camera()
+        public Camera(CompositionService compositionService)
         {
-            IsSelected = new BooleanValue();
-            IsRenaming = new BooleanValue();
-            Name = new StringValue();
-            FOV = new FloatValue();
-            Distance = new FloatValue();
-            Yaw = new FloatValue();
-            Pitch = new FloatValue();
+            IsSelected = new BooleanValue(false);
+            IsRenaming = new BooleanValue(false);
+            Name = new StringValue("Camera");
+            FOV = new FloatValue(0.09f);
+            Distance = new FloatValue(10f);
+            Yaw = new FloatValue(0.0f);
+            Pitch = new FloatValue(0.0f);
             Target = new Vector3();
-            NearClip = new FloatValue();
-            FarClip = new FloatValue();
+            NearClip = new FloatValue(0.05f);
+            FarClip = new FloatValue(100f);
             Projection = new BooleanValue();
-            ModifierManager = new ModifierManager(new CameraTransformModifierFactory());
+            ModifierManager = new ModifierManager<Camera>(compositionService);
             Visibility = new BooleanValue(false);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visibility { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager<Camera> ModifierManager { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }

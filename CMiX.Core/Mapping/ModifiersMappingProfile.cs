@@ -4,7 +4,11 @@
 using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Colors.Modifiers;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Mapping
@@ -13,7 +17,11 @@ namespace CMiX.Core.Mapping
     {
         public ModifiersMappingProfile()
         {
-            CreateMap<ModifierManager, ModifierManagerModel>().ReverseMap();
+            CreateMap<ModifierManager<ITextureModifier>, ModifierManagerModel>().ReverseMap();
+            CreateMap<ModifierManager<Entity>, ModifierManagerModel>().ReverseMap();
+            CreateMap<ModifierManager<Camera>, ModifierManagerModel>().ReverseMap();
+            CreateMap<ModifierManager<LightEntity>, ModifierManagerModel>().ReverseMap();
+
             CreateMap<ModifierModeSelector, ModifierModeSelectorModel>().ReverseMap();
 
             CreateMap<IModifier, IModifierModel>().ReverseMap();
@@ -27,7 +35,6 @@ namespace CMiX.Core.Mapping
             CreateMap<Stepper, StepperModel>().ReverseMap();
 
             CreateMap<RandomPosition, RandomPositionModel>().ReverseMap();
-
         }
     }
 }

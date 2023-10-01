@@ -6,24 +6,24 @@ using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
 using CMiX.Core.Services;
-using CMiX.Core.Transformation.Modifiers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : ObservableRecipient, IPrefab, IModifiable
+    public partial class Entity : ObservableRecipient, IPrefab, IModifiable<Entity>
     {
         public Entity(CompositionService compositionService)
         {
             Name = new StringValue();
+            Visibility = new BooleanValue();
             IsSelected = new BooleanValue();
             IsRenaming = new BooleanValue();
-            Mesh = new Mesh();
+
+            Mesh = new Mesh(compositionService);
             Material = new Material(compositionService);
 
-            ModifierManager = new ModifierManager(new EntityModifierFactory());
-            Visibility = new BooleanValue();
+            ModifierManager = new ModifierManager<Entity>(compositionService);
 
             IsActive = true;
         }
@@ -33,7 +33,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue Visibility { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager<Entity> ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
     }

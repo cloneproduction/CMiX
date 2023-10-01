@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public class Composition : ObservableObject, IPrefab, IModifiable
+    public class Composition : ObservableObject, IPrefab, IModifiable<ITextureModifier>
     {
         public Composition(CompositionService compositionService)
         {
@@ -27,7 +27,7 @@ namespace CMiX.Core.Compositing
             IsRenaming = new BooleanValue();
             OutputSettings = new OutputSettings();
 
-            ModifierManager = new ModifierManager(new TextureFilterFactory());
+            ModifierManager = new ModifierManager<ITextureModifier>(compositionService);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -36,7 +36,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue IsRenaming { get; set; }
         public PrefabManager<Layer> LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager<ITextureModifier> ModifierManager { get; set; }
         public MasterBeat MasterBeat { get; set; }
         public CompositionService CompositionService { get; set; }
     }

@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Invert : ObservableObject, IModifier
+    public partial class Invert : ObservableObject, ITextureModifier
     {
         public Invert()
         {

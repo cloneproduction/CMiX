@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking;
@@ -19,7 +18,6 @@ namespace CMiX.Core.Prefab
     {
         public PrefabManager(CompositionService compositionService)
         {
-            //ReplaceItemCommand = new RelayCommand<IPrefab>(ReplaceItem);
             SelectedItemChangedCommand = new RelayCommand<IPrefab>(SelectedItemChanged);
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
@@ -29,9 +27,9 @@ namespace CMiX.Core.Prefab
             IsActive = true;
 
             PrefabRepository = compositionService.PrefabRepository;
-            PrefabFactory = new PrefabFactory(compositionService);
+            PrefabFactory = compositionService.PrefabFactory;
 
-            Prefabs = new ObservableCollection<IPrefab>(); //compositionService.PrefabRepository.GetRepository(typeof(T))
+            Prefabs = new ObservableCollection<IPrefab>();
         }
 
         public PrefabManager(Guid id, CompositionService compositionService) : this(compositionService)
@@ -45,12 +43,12 @@ namespace CMiX.Core.Prefab
         public PrefabRepository PrefabRepository { get; set; }
 
         public ICommand SelectedItemChangedCommand { get; set; }
-        public ICommand ReplaceItemCommand { get; set; }
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand AddEmptyItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
+
 
         [ObservableProperty]
         private ObservableCollection<IPrefab> prefabs;
@@ -63,6 +61,7 @@ namespace CMiX.Core.Prefab
 
         [ObservableProperty]
         private bool isExpanded;
+
 
         public void ItemUp()
         {
@@ -136,15 +135,13 @@ namespace CMiX.Core.Prefab
             int index = Prefabs.IndexOf(emptyPrefab);
             IPrefab prefab = Prefabs.ToList().Find(x => x.ID == emptyPrefabID);
 
-            if (prefab is EmptyPrefab)
-            {
-                prefab = PrefabFactory.CreatePrefab((IPrefabModel)controlModel);
-                Prefabs[index] = prefab;
-                PrefabRepository.AddPrefab(prefab);
-            }
+            if (prefab is not EmptyPrefab)
+                return;
+
+            prefab = PrefabFactory.CreatePrefab((IPrefabModel)controlModel);
+            Prefabs[index] = prefab;
+            PrefabRepository.AddPrefab(prefab);
         }
-
-
 
 
         public void SelectedItemChanged(IPrefab prefab)
@@ -155,10 +152,20 @@ namespace CMiX.Core.Prefab
             if (SelectedItem == null)
                 return;
 
+            if (Prefabs.Count == 0)
+                return;
+
+            if (SelectedIndex < 0)
+                return;
+
+            if (SelectedIndex >= Prefabs.Count)
+                return;
+
             var index = SelectedIndex;
 
             Prefabs[index] = prefab;
             SelectedIndex = index;
+            SelectedItem = prefab;
 
             Send(new MessageSelectedItemChanged(ID, prefab.ID, index));
         }
@@ -170,8 +177,19 @@ namespace CMiX.Core.Prefab
             if (prefab == null)
                 return;
 
+            if (index < 0)
+                return;
+
+            if (Prefabs.Count == 0)
+                return;
+
+            if (index >= Prefabs.Count)
+                return;
+
+            SelectedIndex = index; // Prefabs.IndexOf(prefab);
+            SelectedItem = prefab;
+
             Prefabs[index] = prefab;
-            //SelectedIndex = index;
         }
 
 
@@ -215,49 +233,6 @@ namespace CMiX.Core.Prefab
             Prefabs.Remove(prefab);
         }
 
-
-        //public void ReplaceItem(IPrefab prefab)
-        //{
-        //    //if (prefab == null)
-        //    //    return;
-
-        //    //if (Prefabs.Count <= 0)
-        //    //{
-        //    //    Prefabs.Add(prefab);
-        //    //    SelectedItem = prefab;
-        //    //    return;
-        //    //}
-
-        //    //var oldPrefab = Prefabs[SelectedIndex];
-        //    //Prefabs[SelectedIndex] = prefab;
-        //    //SelectedItem = prefab;
-
-        //    //Send(new MessageReplaceItem(ID, oldPrefab.ID, prefab.ID));
-        //}
-
-        //public void ReplaceEmptyItem(Guid oldPrefabID, Guid newPrefabID)
-        //{
-        //    //var prefab = PrefabRepository.GetPrefab(typeof(T), newPrefabID);
-
-        //    //if (prefab == null)
-        //    //    return;
-
-        //    //if (Prefabs.Count <= 0)
-        //    //{
-        //    //    Prefabs.Add(prefab);
-        //    //    SelectedItem = prefab;
-        //    //    return;
-        //    //}
-
-        //    //var selected = Prefabs.FirstOrDefault(x => x.ID == oldPrefabID);
-        //    //var index = Prefabs.IndexOf(selected);
-
-        //    //Prefabs[index] = prefab;
-        //    //SelectedItem = prefab;
-        //}
-
-
-
         public void MoveItem(int oldIndex, int newIndex)
         {
             if (Prefabs.Count == 0)
@@ -280,11 +255,6 @@ namespace CMiX.Core.Prefab
         public void Receive(MessageRequestControl message)
         {
             ControlMessenger.Receive(this, message);
-        }
-
-        public IPrefab GetPrefab(Guid guid)
-        {
-            return Prefabs.FirstOrDefault(x => x.ID == guid);
         }
     }
 }

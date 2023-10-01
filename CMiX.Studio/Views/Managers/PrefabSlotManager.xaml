@@ -1,76 +1,89 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.PrefabSlotManager"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
-             xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
-             mc:Ignorable="d" 
-             x:Name="prefabSlotManager"
-             d:DesignHeight="215.334" d:DesignWidth="255.001">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.PrefabSlotManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
+    xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="prefabSlotManager"
+    d:DesignHeight="215.334"
+    d:DesignWidth="255.001"
+    mc:Ignorable="d">
 
     <Border Background="{DynamicResource HighDarkerColor}">
         <StackPanel>
             <DockPanel HorizontalAlignment="Stretch">
 
-                <DockPanel LastChildFill="False"
-                           Margin="4, 0, 0, 0" 
-                           DockPanel.Dock="Right">
+                <DockPanel
+                    Margin="4,0,0,0"
+                    DockPanel.Dock="Right"
+                    LastChildFill="False">
 
-                    <Button DockPanel.Dock="Top"
-                            Height="20"
-                            Content="+" 
-                            Style="{StaticResource ButtonRoundedTop}"
-                            Command="{Binding AddEmptyItemCommand}"/>
+                    <Button
+                        Height="20"
+                        Command="{Binding AddEmptyItemCommand}"
+                        Content="+"
+                        DockPanel.Dock="Top"
+                        Style="{StaticResource ButtonRoundedTop}" />
 
-                    <Button x:Name="deleteItemButton"
-                            DockPanel.Dock="Top"
-                            Height="20"
-                            Content="-"
-                            Margin="0, 1, 0, 0"
-                            Style="{StaticResource ButtonRoundedBottom}"
-                            Command="{Binding DeleteItemCommand}"
-                            CommandParameter="{Binding SelectedItem}"/>
+                    <Button
+                        x:Name="deleteItemButton"
+                        Height="20"
+                        Margin="0,1,0,0"
+                        Command="{Binding DeleteItemCommand}"
+                        CommandParameter="{Binding SelectedItem}"
+                        Content="-"
+                        DockPanel.Dock="Top"
+                        Style="{StaticResource ButtonRoundedBottom}" />
 
-                    <Button x:Name="moveItemDownButton"
-                            DockPanel.Dock="Bottom"
-                            Height="20"
-                            Width="21"
-                            Style="{StaticResource ButtonRoundedBottom}"
-                            Padding="8"
-                            Command="{Binding ItemDownCommand}">
-                        
+                    <Button
+                        x:Name="moveItemDownButton"
+                        Width="21"
+                        Height="20"
+                        Padding="8"
+                        Command="{Binding ItemDownCommand}"
+                        DockPanel.Dock="Bottom"
+                        Style="{StaticResource ButtonRoundedBottom}">
+
                         <Button.Content>
-                            <Image Source="{DynamicResource ArrowDown}" Margin="20" Opacity="0.7"/>
+                            <Image
+                                Margin="20"
+                                Opacity="0.7"
+                                Source="{DynamicResource ArrowDown}" />
                         </Button.Content>
                     </Button>
-                    
-                    <Button x:Name="moveItemUpButton"
-                            DockPanel.Dock="Bottom"
-                            Height="20"
-                            Margin="0, 0, 0, 1"
-                            Style="{StaticResource ButtonRoundedTop}"
-                            Command="{Binding ItemUpCommand}">
-                        
+
+                    <Button
+                        x:Name="moveItemUpButton"
+                        Height="20"
+                        Margin="0,0,0,1"
+                        Command="{Binding ItemUpCommand}"
+                        DockPanel.Dock="Bottom"
+                        Style="{StaticResource ButtonRoundedTop}">
+
                         <Button.Content>
-                            <Image Source="{DynamicResource ArrowUp}" Margin="20" Opacity="0.7"/>
+                            <Image
+                                Margin="20"
+                                Opacity="0.7"
+                                Source="{DynamicResource ArrowUp}" />
                         </Button.Content>
                     </Button>
 
                 </DockPanel>
 
-                <ListBox 
+                <ListBox
                     x:Name="prefabListBox"
-                    Height="100" 
+                    Grid.Row="3"
+                    Height="100"
                     DataContext="{Binding}"
-                    Grid.Row="3" 
                     ItemsSource="{Binding Prefabs}"
-                    SelectedItem="{Binding SelectedItem}"
-                    SelectedIndex="{Binding SelectedIndex}">
+                    SelectedIndex="{Binding SelectedIndex}"
+                    SelectedItem="{Binding SelectedItem}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}"/> <!--CommandParameter="{Binding ElementName=prefabCombobox, Path=SelectedItem}"/>-->
+                            <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                 </ListBox>
@@ -78,22 +91,23 @@
             </DockPanel>
 
 
-            <DockPanel Margin="0, 8, 0, 0" >
-                <ComboBox x:Name="prefabCombobox"
-                            Height="22"
-                            DockPanel.Dock="Left"
-                            ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
-                            SelectedValue="{Binding SelectedItem, Mode=OneWay}">
-                    
+            <DockPanel Margin="0,8,0,0">
+                <ComboBox
+                    x:Name="prefabCombobox"
+                    Height="22"
+                    DockPanel.Dock="Left"
+                    ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
+                    SelectedValue="{Binding SelectedItem}">
+
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="DropDownClosed">
-                            <i:InvokeCommandAction Command="{Binding Path=SelectedItemChangedCommand}" CommandParameter="{Binding ElementName=prefabCombobox, Path=SelectedItem}"/>
+                            <i:InvokeCommandAction Command="{Binding Path=SelectedItemChangedCommand}" CommandParameter="{Binding ElementName=prefabCombobox, Path=SelectedItem}" />
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    
+
                     <ComboBox.Style>
 
-                        <Style TargetType="{x:Type ComboBox}" BasedOn="{StaticResource ComboBoxButton}">
+                        <Style BasedOn="{StaticResource ComboBoxButton}" TargetType="{x:Type ComboBox}">
                             <Style.Triggers>
 
                                 <MultiDataTrigger>
@@ -111,7 +125,7 @@
                     <ComboBox.ItemTemplate>
                         <ItemContainerTemplate>
                             <Border>
-                                <TextBlock Text="{Binding Name.Value}"/>
+                                <TextBlock Text="{Binding Name.Value}" />
                             </Border>
                         </ItemContainerTemplate>
                     </ComboBox.ItemTemplate>
@@ -121,15 +135,19 @@
                 <Grid DockPanel.Dock="Right">
 
                     <Border Background="{DynamicResource HighHighDarkerColor}" CornerRadius="0, 2, 2, 0">
-                        <TextBox Padding="4, 0" 
-                                 Background="Transparent" 
-                                 Text="{Binding SelectedItem.Name.Value, ElementName=prefabCombobox}"/>
+                        <TextBox
+                            Padding="4,0"
+                            Background="Transparent"
+                            Text="{Binding SelectedItem.Name.Value, ElementName=prefabCombobox}" />
                     </Border>
 
-                    <ToggleButton x:Name="PopUpToggle" Height="22" Content="New">
+                    <ToggleButton
+                        x:Name="PopUpToggle"
+                        Height="22"
+                        Content="New">
                         <ToggleButton.Style>
-                            <Style TargetType="{x:Type ToggleButton}" BasedOn="{StaticResource ToggleButtonRoundedRight}">
-                                <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style BasedOn="{StaticResource ToggleButtonRoundedRight}" TargetType="{x:Type ToggleButton}">
+                                <Setter Property="Visibility" Value="Collapsed" />
 
                                 <Style.Triggers>
 
@@ -147,22 +165,22 @@
                     </ToggleButton>
 
                     <Popup
-                        AllowsTransparency="True"
-                        Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
                         Width="{Binding ActualWidth, ElementName=PopUpToggle}"
-                        Placement="Bottom"
-                        PlacementTarget="{Binding ElementName=PopUpToggle}"
+                        Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
+                        AllowsTransparency="True"
                         FlowDirection="LeftToRight"
-                        IsOpen="{Binding IsChecked, ElementName=PopUpToggle}">
+                        IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
+                        Placement="Bottom"
+                        PlacementTarget="{Binding ElementName=PopUpToggle}">
 
-                        <Border 
-                            BorderThickness="1, 0, 1, 2"
+                        <Border
+                            Padding="2,4,2,2"
+                            Background="{DynamicResource HighHighDarkerColor}"
                             BorderBrush="{DynamicResource Shadow}"
-                            CornerRadius="{DynamicResource CornerRadiusBottom}" 
-                            Padding="2, 4, 2, 2"
-                            Background="{DynamicResource HighHighDarkerColor}">
+                            BorderThickness="1,0,1,2"
+                            CornerRadius="{DynamicResource CornerRadiusBottom}">
 
-                            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
+                            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
                         </Border>
 

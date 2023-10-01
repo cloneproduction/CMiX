@@ -9,11 +9,10 @@ namespace CMiX.Core.Modifiers
     {
         public ModifierManagerModel()
         {
-            this.ID = Guid.NewGuid();
             Visibility = new BooleanValueModel(true);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValueModel Visibility { get; internal set; }
     }
 }

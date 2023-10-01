@@ -1,34 +1,92 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.DiffuseTexture"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
-    xmlns:Manager="clr-namespace:CMiX.Studio.Views.Managers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     d:DesignHeight="197.334"
     d:DesignWidth="314"
+    md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
     <StackPanel>
-        <Manager:PrefabManagerComboBox
-            DataContext="{Binding TextureManager}"
-            ItemsSource="{Binding Prefabs}"
-            AddItemCommand="{Binding AddItemCommand}"
-            AddItemCommandParameter="{x:Type Texturing:Texture}"
-            SelectedItem="{Binding SelectedItem}"
-            SelectionChangedCommand="{Binding SelectedItemChangedCommand}"
-            SelectionChangedCommandParameter="{Binding SelectedItem}"/>
 
-        <BaseControls:ComboBox
-            Margin="8, 0, 8, 0"
-            Caption="Type"
-            SelectedItem="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.ProceduralName.Value, Converter={StaticResource EnumToString}}"
-            ItemsSource="{Binding Source={StaticResource TextureSourceName}}"/>
+        <!--  THIS WAS IN CONTROL CALLED PrefabManagerComboBox but binding wasn't working correctly  -->
+        <Grid
+            Height="22"
+            Margin="8"
+            DockPanel.Dock="Left">
+
+            <Border
+                x:Name="mask"
+                Grid.Column="1"
+                AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=prefabManagerComboBox}"
+                Background="{DynamicResource HighHighDarkerColor}"
+                Style="{StaticResource BorderMask}" />
+
+            <Border>
+                <Border.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=mask}" />
+                </Border.OpacityMask>
+
+                <DockPanel>
+
+                    <Button
+                        Grid.Column="2"
+                        Margin="1,0,0,0"
+                        Command="{Binding TextureManager.AddItemCommand}"
+                        CommandParameter="{x:Type Texturing:Texture}"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource ButtonStraight}">
+                        <Button.Content>
+                            <Image
+                                Margin="42"
+                                Opacity="0.5"
+                                Source="{DynamicResource Add}" />
+                        </Button.Content>
+                    </Button>
+
+                    <ComboBox
+                        Grid.Column="0"
+                        DockPanel.Dock="Left"
+                        ItemsSource="{Binding TextureManager.PrefabRepository.Textures}"
+                        SelectedIndex="{Binding TextureManager.SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        SelectedItem="{Binding TextureManager.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding TextureManager.SelectedItemChangedCommand}" CommandParameter="{Binding TextureManager.SelectedItem}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ComboBox.ItemTemplate>
+                            <ItemContainerTemplate>
+                                <TextBlock Text="{Binding Name.Value}" />
+                            </ItemContainerTemplate>
+                        </ComboBox.ItemTemplate>
+                    </ComboBox>
+
+                </DockPanel>
+            </Border>
+
+        </Grid>
+
+
+
+        <Border Visibility="{Binding Path=TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+            <BaseControls:ComboBox
+                Margin="8,0,8,0"
+                Caption="Type"
+                ItemsSource="{Binding Source={StaticResource TextureSourceName}}"
+                SelectedItem="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.ProceduralName.Value, Mode=TwoWay, Converter={StaticResource EnumToString}}" />
+        </Border>
+
 
         <Grid Margin="8">
 
@@ -44,9 +102,7 @@
                     </Style>
                 </Border.Style>
 
-                <Views:PathSelector 
-                    ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                    SelectedItem="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.Image.Asset.Value}"/>
+                <Views:PathSelector ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" SelectedItem="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.Image.Asset.Value}" />
 
             </Border>
 
@@ -64,13 +120,13 @@
 
                 <StackPanel>
 
-                    <Views:PathSelector 
-                            SelectedItem="{Binding Path=TextureManager.SelectedItem.VideoPlayer.Asset.Value}"
-                            ItemsSource="{Binding Path=DataContext.AssetManager.VideoAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
-                            Grid.Column="1"
-                            Height="22"/>
+                    <Views:PathSelector
+                        Grid.Column="1"
+                        Height="22"
+                        ItemsSource="{Binding Path=DataContext.AssetManager.VideoAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+                        SelectedItem="{Binding Path=TextureManager.SelectedItem.VideoPlayer.Asset.Value}" />
 
-                    <Views:VideoPlayer Margin="0, 8, 0, 0" DataContext="{Binding Path=TextureManager.SelectedItem.VideoPlayer}"/>
+                    <Views:VideoPlayer Margin="0,8,0,0" DataContext="{Binding Path=TextureManager.SelectedItem.VideoPlayer}" />
 
                 </StackPanel>
             </Border>
@@ -87,10 +143,9 @@
                     </Style>
                 </Border.Style>
 
-                <Views:TypeWriter DataContext="{Binding Path=TextureManager.SelectedItem.TypeWriter}"/>
+                <Views:TypeWriter DataContext="{Binding Path=TextureManager.SelectedItem.TypeWriter}" />
 
             </Border>
-
 
             <Border>
                 <Border.Style>
@@ -104,7 +159,7 @@
                     </Style>
                 </Border.Style>
 
-                <Views:VideoIn DataContext="{Binding Path=TextureManager.SelectedItem.VideoIn}"/>
+                <Views:VideoIn DataContext="{Binding Path=TextureManager.SelectedItem.VideoIn}" />
 
             </Border>
 
@@ -120,7 +175,35 @@
                     </Style>
                 </Border.Style>
 
-                <Views:Gradient DataContext="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.Gradient}"/>
+                <StackPanel>
+
+
+                    <BaseControls:DragValue
+                        Margin="0,0,0,8"
+                        Caption="Gamma"
+                        Value="{Binding Path=TextureManager.SelectedItem.Gradient.Gamma.Value}" />
+
+                    <BaseControls:ColorSelector
+                        Caption="From"
+                        Position="Top"
+                        SelectedColor="{Binding Path=TextureManager.SelectedItem.Gradient.From.SelectedColor}"
+                        ViewModel="{Binding Path=TextureManager.SelectedItem.Gradient.From}" />
+
+                    <BaseControls:ColorSelector
+                        Margin="0,1,0,0"
+                        Caption="To"
+                        Position="Bottom"
+                        SelectedColor="{Binding Path=TextureManager.SelectedItem.Gradient.To.SelectedColor}"
+                        ViewModel="{Binding Path=TextureManager.SelectedItem.Gradient.To}" />
+
+                    <BaseControls:ToggleButton
+                        Margin="0,8"
+                        Caption="Horizontal"
+                        IsChecked="{Binding Path=TextureManager.SelectedItem.Gradient.Horizontal.Value}" />
+
+                    <BaseControls:Integer2Value Caption="Resolution" DataContext="{Binding Path=TextureManager.SelectedItem.Gradient.Resolution}" />
+
+                </StackPanel>
 
             </Border>
 
@@ -136,13 +219,55 @@
                     </Style>
                 </Border.Style>
 
-                <Views:BubbleNoise DataContext="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.BubbleNoise}"/>
+                <StackPanel>
+
+                    <BaseControls:DragValue
+                        Caption="Speed"
+                        Position="Top"
+                        Value="{Binding Path=TextureManager.SelectedItem.BubbleNoise.Speed.Value}" />
+
+                    <BaseControls:DragValue
+                        Margin="0,1"
+                        Caption="Frequency"
+                        Position="Middle"
+                        Value="{Binding Path=TextureManager.SelectedItem.BubbleNoise.Frequency.Value}" />
+
+                    <BaseControls:DragValue
+                        Caption="Contrast"
+                        Position="Bottom"
+                        Value="{Binding Path=TextureManager.SelectedItem.BubbleNoise.Contrast.Value}" />
+
+                    <BaseControls:ColorSelector
+                        Margin="0,8,0,1"
+                        Caption="Background"
+                        Position="Top"
+                        SelectedColor="{Binding Path=TextureManager.SelectedItem.BubbleNoise.BackgroundColor.SelectedColor}"
+                        ViewModel="{Binding Path=TextureManager.SelectedItem.BubbleNoise.BackgroundColor}" />
+
+                    <BaseControls:ColorSelector
+                        Caption="Bubble"
+                        Position="Bottom"
+                        SelectedColor="{Binding Path=TextureManager.SelectedItem.BubbleNoise.BubbleColor.SelectedColor}"
+                        ViewModel="{Binding Path=TextureManager.SelectedItem.BubbleNoise.BubbleColor}" />
+
+                    <BaseControls:Integer2Value
+                        Margin="0,8,0,0"
+                        Caption="Resolution"
+                        DataContext="{Binding Path=TextureManager.SelectedItem.BubbleNoise.Resolution}" />
+
+                </StackPanel>
+
+                <!--<Views:BubbleNoise DataContext="{Binding Path=TextureManager.SelectedItem.BubbleNoise}" />-->
 
             </Border>
+
         </Grid>
 
-        <Panels:IndentedExpander Indentation="24" Header="Filter" IsExpanded="{Binding Path=TextureManager.IsExpanded, Mode=OneWay}">
-            <Views:TextureFilter DataContext="{Binding Path=TextureManager.SelectedItem.ModifierManager}"/>
+        <Panels:IndentedExpander
+            Header="Filter"
+            Indentation="24"
+            IsExpanded="{Binding Path=TextureManager.IsExpanded, Mode=OneWay}">
+            <Views:TextureFilter DataContext="{Binding Path=TextureManager.SelectedItem.ModifierManager}" />
         </Panels:IndentedExpander>
 
     </StackPanel>

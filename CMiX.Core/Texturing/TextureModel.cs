@@ -14,7 +14,6 @@ namespace CMiX.Core.Texturing
     {
         public TextureModel()
         {
-            ID = Guid.NewGuid();
             TextureSourceSelector = new TextureSourceSelectorModel();
             VideoPlayer = new VideoPlayerModel();
             ModifierManager = new ModifierManagerModel();
@@ -27,11 +26,18 @@ namespace CMiX.Core.Texturing
             Name = new StringValueModel("Texture");
             IsSelected = new BooleanValueModel(false);
             IsRenaming = new BooleanValueModel(false);
+            Gradient = new GradientModel();
+            BubbleNoise = new BubbleNoiseModel();
+            Image = new ImageModel();
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ModifierManagerModel ModifierManager { get; set; }
         public BooleanValueModel IsEnabled { get; set; }
+
+        public GradientModel Gradient { get; set; }
+        public ImageModel Image { get; set; }
+        public BubbleNoiseModel BubbleNoise { get; set; }
         public VideoPlayerModel VideoPlayer { get; set; }
         public VideoInModel VideoIn { get; set; }
         public IntegerValueModel SelectedAssetType { get; set; }

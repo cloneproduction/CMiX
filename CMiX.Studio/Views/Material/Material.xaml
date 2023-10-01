@@ -1,34 +1,130 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.Material"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="417.514"
+    d:DesignWidth="236.883"
     md:DialogServiceViews.IsRegistered="True"
-    d:DesignHeight="202.514"
-    d:DesignWidth="239.883"
     mc:Ignorable="d">
 
     <StackPanel>
-        
-        <BaseControls:ColorSelector 
-            Margin="8"
-            Caption="Base Color" 
-            SelectedColor="{Binding BaseColor.SelectedColor}"
-            ViewModel="{Binding BaseColor}"/>
 
-        <Panels:IndentedExpander Header="Texture" Indentation="8" IsExpanded="{Binding DiffuseTexture.IsExpanded}">
-            <Views:DiffuseTexture DataContext="{Binding DiffuseTexture}"/>
+        <BaseControls:ColorSelector
+            Margin="8"
+            Caption="Base Color"
+            SelectedColor="{Binding BaseColor.SelectedColor}"
+            ViewModel="{Binding BaseColor}" />
+
+        <Panels:IndentedExpander Header="Settings" Indentation="8">
+            <StackPanel>
+                <Border>
+                    <StackPanel>
+                        <BaseControls:CMiXSlider
+                            Margin="8"
+                            Caption="Alpha"
+                            Maximum="1"
+                            Minimum="0"
+                            Value="{Binding Alpha.Value}" />
+                    </StackPanel>
+                </Border>
+
+                <BaseControls:ComboBox
+                    Margin="8,0,8,1"
+                    Caption="Cull Mode"
+                    ItemsSource="{Binding Source={StaticResource CullModeType}}"
+                    Position="top"
+                    SelectedItem="{Binding CullMode.Value}" />
+
+                <BaseControls:ComboBox
+                    Margin="8,0,8,8"
+                    Caption="Transparency"
+                    ItemsSource="{Binding Source={StaticResource TransparencyType}}"
+                    Position="Bottom"
+                    SelectedItem="{Binding Transparency.Value}" />
+
+                <BaseControls:ToggleButton Caption="Is Shadow Caster" IsChecked="{Binding IsShadowCaster.Value}" />
+
+                <BaseControls:ComboBox
+                    Margin="8"
+                    Caption="Pipeline"
+                    ItemsSource="{Binding Source={StaticResource PipelineType}}"
+                    SelectedItem="{Binding Pipeline.Value}" />
+
+                <Border>
+
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Pipeline.Value}" Value="{x:Static Materials:PipelineType.Metallic}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel>
+                        <BaseControls:CMiXSlider
+                            Margin="8,0,8,8"
+                            Caption="Metalness"
+                            Maximum="1"
+                            Minimum="0"
+                            Position="Top"
+                            Value="{Binding Metalness.Value}" />
+                    </StackPanel>
+                </Border>
+
+                <Border Margin="8,0,8,8">
+
+                    <Border.Style>
+                        <Style TargetType="Border">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=Pipeline.Value}" Value="{x:Static Materials:PipelineType.Specular}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Border.Style>
+
+                    <StackPanel>
+                        <BaseControls:CMiXSlider
+                            Margin="0,0,0,1"
+                            Caption="Specularity"
+                            Maximum="1"
+                            Minimum="0"
+                            Position="Top"
+                            Value="{Binding Specularity.Value}" />
+
+                        <BaseControls:CMiXSlider
+                            Caption="Glossiness"
+                            Maximum="1"
+                            Minimum="0"
+                            Position="Bottom"
+                            Value="{Binding Glossiness.Value}" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
         </Panels:IndentedExpander>
 
 
-            <Views:MaskTexture DataContext="{Binding MaskTexture}"/>
 
-        
+        <Panels:IndentedExpander
+            Header="Texture"
+            Indentation="8"
+            IsExpanded="{Binding DiffuseTexture.IsExpanded}">
+            <Views:DiffuseTexture DataContext="{Binding DiffuseTexture}" />
+        </Panels:IndentedExpander>
+
+        <Views:MaskTexture DataContext="{Binding MaskTexture}" />
+
     </StackPanel>
 
 </UserControl>

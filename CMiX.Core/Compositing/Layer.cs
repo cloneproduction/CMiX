@@ -13,7 +13,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IPrefab, IModifiable
+    public partial class Layer : ObservableObject, IPrefab, IModifiable<ITextureModifier>
     {
         public Layer(CompositionService compositionService)
         {
@@ -33,7 +33,7 @@ namespace CMiX.Core.Compositing
             Invert = new BooleanValue(false);
 
             AmbientOcclusion = new AmbientOcclusion();
-            ModifierManager = new ModifierManager(new TextureFilterFactory());
+            ModifierManager = new ModifierManager<ITextureModifier>(compositionService);
 
             ModelEntityManager = new PrefabManager<Entity>(compositionService);
         }
@@ -47,7 +47,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue Visibility { get; set; }
         public BooleanValue IsMask { get; set; }
         public PrefabManager<Entity> ModelEntityManager { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager<ITextureModifier> ModifierManager { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }

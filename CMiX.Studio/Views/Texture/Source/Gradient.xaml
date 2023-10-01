@@ -1,43 +1,42 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.Gradient"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             md:DialogServiceViews.IsRegistered="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="162.555" d:DesignWidth="270.31">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Gradient"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="162.555"
+    d:DesignWidth="270.31"
+    mc:Ignorable="d">
 
-    <StackPanel>
-        
-        <BaseControl:DragValue 
-                Caption="Gamma" 
-                Margin="0, 0, 0, 8"
-                Value="{Binding Gamma.Value}"/>
+    <StackPanel >
 
-        <BaseControl:ColorSelector 
-                Caption="From"
-                Position="Top"
-                ViewModel="{Binding From}"
-                SelectedColor="{Binding From.SelectedColor}"/>
+        <BaseControl:DragValue
+            Margin="0,0,0,8"
+            Caption="Gamma"
+            Value="{Binding Gamma.Value}" />
 
-        <BaseControl:ColorSelector 
-                Margin="0, 1, 0, 0"
-                Caption="To"
-                Position="Bottom"
-                ViewModel="{Binding To}"
-                SelectedColor="{Binding To.SelectedColor}"/>
+        <BaseControl:ColorSelector
+            Caption="From"
+            Position="Top"
+            SelectedColor="{Binding Path=From.SelectedColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            ViewModel="{Binding Path=From}" />
 
-        <BaseControl:ToggleButton 
-                Margin="0, 8"
-                IsChecked="{Binding Horizontal.Value}"
-                Caption="Horizontal"/>
+        <!--<BaseControl:ColorSelector
+            Margin="0,1,0,0"
+            Caption="To"
+            Position="Bottom"
+            SelectedColor="{Binding To.SelectedColor}"
+            ViewModel="{Binding To}" />
 
-        <BaseControl:Integer2Value 
-                Caption="Resolution"
-                DataContext="{Binding Resolution}"/>
+        <BaseControl:ToggleButton
+            Margin="0,8"
+            Caption="Horizontal"
+            IsChecked="{Binding Horizontal.Value}" />
+
+        <BaseControl:Integer2Value Caption="Resolution" DataContext="{Binding Resolution}" />-->
 
     </StackPanel>
-    
+
 </UserControl>

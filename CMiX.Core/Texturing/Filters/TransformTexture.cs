@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class TransformTexture : ObservableObject, IModifier
+    public partial class TransformTexture : ObservableObject, ITextureModifier
     {
         public TransformTexture()
         {

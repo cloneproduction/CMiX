@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Feedback : ObservableObject, IModifier
+    public partial class Feedback : ObservableObject, ITextureModifier
     {
         public Feedback()
         {

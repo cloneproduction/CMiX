@@ -3,6 +3,7 @@
 
 using CMiX.Core.Collections;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefab.Managers;
 
 namespace CMiX.Core.Prefab.Messages
 {
@@ -15,27 +16,30 @@ namespace CMiX.Core.Prefab.Messages
 
         public bool Handle(IControl control, IMessage message)
         {
-            if (control is ICollectionManager prefabManager)
+            if (control is ICollectionManager collectionManager)
             {
 
                 if (message is MessageAddItem messageAddPrefab)
                 {
-                    prefabManager.AddItem(messageAddPrefab.Model);
+                    collectionManager.AddItem(messageAddPrefab.Model);
                     return true;
                 }
 
                 if (message is MessageRemoveItem messageRemovePrefab)
                 {
-                    prefabManager.DeleteItem(messageRemovePrefab.Control);
+                    collectionManager.DeleteItem(messageRemovePrefab.Control);
                     return true;
                 }
 
                 if (message is MessageMoveItem messageMovePrefab)
                 {
-                    prefabManager.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                    collectionManager.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
                     return true;
                 }
+            }
 
+            if(control is IPrefabManager prefabManager)
+            {
                 if (message is MessageReplaceEmptyPrefab messageSelectedPrefabChanged)
                 {
                     prefabManager.ReplaceEmptyPrefab(messageSelectedPrefabChanged.emptyPrefabID, messageSelectedPrefabChanged.ControlModel);

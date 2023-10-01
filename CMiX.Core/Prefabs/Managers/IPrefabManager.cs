@@ -8,13 +8,13 @@ namespace CMiX.Core.Prefab.Managers
 {
     public interface IPrefabManager : ICollectionManager
     {
-        Guid ID { get; set; }
         ICommand AddItemCommand { get; set; }
-        ICommand DeleteItemCommand { get; set; }
+        //ICommand DeleteItemCommand { get; set; }
 
         void AddItem(Type type);
-        void DeleteItem(IPrefab prefabContainer);
+        void ReplaceEmptyPrefab(Guid emptyPrefabID, IControlModel controlModel);
+        void SelectedItemChanged(Guid id, int index);
+
         void Rename();
-        IPrefab GetPrefab(Guid guid);
     }
 }

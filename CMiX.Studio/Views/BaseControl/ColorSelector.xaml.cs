@@ -1,11 +1,10 @@
-﻿using System.Windows;
-using System;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using MvvmDialogs;
-using CMiX.Core.Views.Dialogs;
+﻿using System;
 using System.ComponentModel;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
+using CMiX.Core.Views.Dialogs;
+using MvvmDialogs;
 
 namespace CMiX.Studio.Views.BaseControl
 {

@@ -14,8 +14,6 @@ namespace CMiX.Core.Compositing
     {
         public CompositionModel()
         {
-            ID = Guid.NewGuid();
-
             MasterBeat = new MasterBeatModel();
             Visibility = new BooleanValueModel();
             OutputSettings = new OutputSettingsModel();
@@ -26,14 +24,14 @@ namespace CMiX.Core.Compositing
             IsRenaming = new BooleanValueModel(false);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValueModel Visibility { get; set; }
         public MasterBeatModel MasterBeat { get; set; }
         public StringValueModel Name { get; set; }
         public OutputSettingsModel OutputSettings { get; set; }
-        public ModifierManagerModel ModifierManager { get; internal set; }
+        public ModifierManagerModel ModifierManager { get; set; }
         public PrefabManagerModel LayerManager { get; set; }
-        public BooleanValueModel IsSelected { get; internal set; }
-        public BooleanValueModel IsRenaming { get; internal set; }
+        public BooleanValueModel IsSelected { get; set; }
+        public BooleanValueModel IsRenaming { get; set; }
     }
 }

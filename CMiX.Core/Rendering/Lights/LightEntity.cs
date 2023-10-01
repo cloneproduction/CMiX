@@ -2,11 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Entities.Lights;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
 using CMiX.Core.Services;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Lights
@@ -17,25 +15,24 @@ namespace CMiX.Core.Rendering.Lights
         {
             CompositionService = compositionService;
 
-            IsRenaming = new BooleanValue();
-            IsSelected = new BooleanValue();
+            IsRenaming = new BooleanValue(false);
+            IsSelected = new BooleanValue(false);
             LightColor = new ColorSelector();
-            Position = new Vector3();
-            Target = new Vector3();
-            Radius = new FloatValue();
-            Angle = new FloatValue();
-            Softness = new FloatValue();
-            Intensity = new FloatValue();
-            LightTypeSelector = new GenericValue<LightType>();
+            Position = new Vector3(0.0f, 2.0f, 0.0f);
+            Target = new Vector3(0.001f, 0.0f, 0.0f);
+            Radius = new FloatValue(5.0f);
+            Angle = new FloatValue(0.25f);
+            Softness = new FloatValue(0.01f);
+            Intensity = new FloatValue(1.0f);
+            LightTypeSelector = new GenericValue<LightType>(LightType.AmbientLight);
             Visibility = new BooleanValue();
-            IsSelected = new BooleanValue();
-            Name = new StringValue();
+            Name = new StringValue("Light");
 
-            ModifierManager = new ModifierManager(new EntityModifierFactory());
+            ModifierManager = new ModifierManager<LightEntity>(compositionService);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public ModifierManager ModifierManager { get; set; }
+        public ModifierManager<LightEntity> ModifierManager { get; set; }
         public CompositionService CompositionService { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
         public ColorSelector LightColor { get; set; }
@@ -49,5 +46,12 @@ namespace CMiX.Core.Rendering.Lights
         public StringValue Name { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
+
+
+        [ObservableProperty]
+        private bool settingsIsExpanded;
+
+        [ObservableProperty]
+        private bool modifierIsExpanded;
     }
 }

@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Blur : ObservableObject, IModifier
+    public partial class Blur : ObservableObject, ITextureModifier
     {
         public Blur()
         {

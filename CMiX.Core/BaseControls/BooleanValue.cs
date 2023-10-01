@@ -13,7 +13,6 @@ namespace CMiX.Core.BaseControls
     {
         public BooleanValue()
         {
-            ID = Guid.NewGuid();
             IsActive = true;
         }
 
@@ -22,7 +21,7 @@ namespace CMiX.Core.BaseControls
             Value = value;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         private bool _value;
         public bool Value

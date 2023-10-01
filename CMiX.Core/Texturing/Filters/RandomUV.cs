@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : ObservableObject, IBeatModifiable, IModifier
+    public partial class RandomUV : ObservableObject, IBeatModifiable, ITextureModifier
     {
         public RandomUV()
         {
