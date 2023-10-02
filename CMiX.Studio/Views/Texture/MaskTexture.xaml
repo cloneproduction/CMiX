@@ -1,26 +1,29 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.MaskTexture"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl" 
-             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
-             mc:Ignorable="d" 
-             d:DesignHeight="207.333" d:DesignWidth="252">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.MaskTexture"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="207.333"
+    d:DesignWidth="252"
+    mc:Ignorable="d">
 
     <Panels:IndentedExpander Indentation="8" IsExpanded="{Binding IsExpanded}">
+
         <Panels:IndentedExpander.Header>
+
             <DockPanel>
 
                 <ToggleButton
-
-                    Style="{StaticResource ToggleButtonIcon}"
-                    Height="14"
                     Width="14"
-                    IsChecked="{Binding Path=DataContext.IsEnabled.Value}"/>
+                    Height="14"
+                    IsChecked="{Binding Path=DataContext.IsEnabled.Value}"
+                    Style="{StaticResource ToggleButtonIcon}" />
 
-                <TextBlock Text="Mask" Margin="8, 0"/>
+                <TextBlock Margin="8,0" Text="Mask" />
 
             </DockPanel>
 
@@ -29,16 +32,14 @@
         <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
             <BaseControls:ComboBox
-                Caption="MaskChannel"
                 Margin="8"
-                SelectedItem="{Binding MaskChannel.Value}" 
-                ItemsSource="{Binding Source={StaticResource MaskChannel}}"/>
+                Caption="MaskChannel"
+                ItemsSource="{Binding Source={StaticResource MaskChannel}}"
+                SelectedItem="{Binding MaskChannel.Value}" />
 
-            <BaseControls:ToggleButton
-                Caption="Invert" 
-                IsChecked="{Binding Invert.Value}"/>
+            <BaseControls:ToggleButton Caption="Invert" IsChecked="{Binding Invert.Value}" />
 
-            <Views:DiffuseTexture DataContext="{Binding }"/>
+            <Views:DiffuseTexture DataContext="{Binding}" />
 
         </StackPanel>
     </Panels:IndentedExpander>

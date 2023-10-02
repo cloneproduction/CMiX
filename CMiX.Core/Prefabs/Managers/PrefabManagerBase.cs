@@ -44,8 +44,8 @@ namespace CMiX.Core.Prefab
         [ObservableProperty]
         private IPrefab selectedItem;
 
-        [ObservableProperty]
-        private int selectedIndex;
+        //[ObservableProperty]
+        //private int selectedIndex;
 
         [ObservableProperty]
         private bool isExpanded;
@@ -83,7 +83,7 @@ namespace CMiX.Core.Prefab
             if (SelectedItem == null)
                 return;
 
-            var index = SelectedIndex;
+            var index = 0;// SelectedIndex;
 
             Send(new MessageSelectedItemChanged(ID, prefab.ID, index));
 

@@ -74,23 +74,29 @@
 
                 </DockPanel>
             </Border>
-
         </Grid>
 
-
-
-        <Border Visibility="{Binding Path=TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+        <Border>
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Path=TextureManager.SelectedItem}" Value="{x:Null}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
             <BaseControls:ComboBox
-                Margin="8,0,8,0"
+                Margin="8,0,8,8"
                 Caption="Type"
                 ItemsSource="{Binding Source={StaticResource TextureSourceName}}"
                 SelectedItem="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.ProceduralName.Value, Mode=TwoWay, Converter={StaticResource EnumToString}}" />
         </Border>
 
+        <Grid Margin="8,0,8,8">
 
-        <Grid Margin="8">
-
-            <Border>
+            <Border Margin="0">
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -164,6 +170,7 @@
             </Border>
 
             <Border>
+
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -176,7 +183,6 @@
                 </Border.Style>
 
                 <StackPanel>
-
 
                     <BaseControls:DragValue
                         Margin="0,0,0,8"
@@ -208,6 +214,7 @@
             </Border>
 
             <Border>
+
                 <Border.Style>
                     <Style TargetType="Border">
                         <Setter Property="Visibility" Value="Collapsed" />
@@ -257,8 +264,6 @@
 
                 </StackPanel>
 
-                <!--<Views:BubbleNoise DataContext="{Binding Path=TextureManager.SelectedItem.BubbleNoise}" />-->
-
             </Border>
 
         </Grid>
@@ -266,7 +271,7 @@
         <Panels:IndentedExpander
             Header="Filter"
             Indentation="24"
-            IsExpanded="{Binding Path=TextureManager.IsExpanded, Mode=OneWay}">
+            IsExpanded="{Binding Path=TextureManager.IsExpanded}">
             <Views:TextureFilter DataContext="{Binding Path=TextureManager.SelectedItem.ModifierManager}" />
         </Panels:IndentedExpander>
 

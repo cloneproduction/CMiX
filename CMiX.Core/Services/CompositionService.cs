@@ -7,6 +7,8 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefab;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Cameras.Modifiers;
+using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Rendering.Lights.Modifiers;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Transformation.Modifiers;
@@ -37,6 +39,9 @@ namespace CMiX.Core.Services
 
             if (type == typeof(Camera))
                 return new CameraModifierFactory();
+
+            if (type == typeof(LightEntity))
+                return new LightModifierFactory();
 
             return null;
         }

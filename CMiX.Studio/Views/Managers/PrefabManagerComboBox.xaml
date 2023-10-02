@@ -49,10 +49,8 @@
                 <ComboBox
                     Grid.Column="0"
                     DockPanel.Dock="Left"
-                    IsSynchronizedWithCurrentItem="True"
                     ItemsSource="{Binding ItemsSource, ElementName=prefabManagerComboBox}"
-                    SelectedIndex="{Binding SelectedIndex, ElementName=prefabManagerComboBox, Mode=TwoWay}"
-                    SelectedItem="{Binding SelectedItem, ElementName=prefabManagerComboBox, Mode=TwoWay}">
+                    SelectedItem="{Binding SelectedItem, ElementName=prefabManagerComboBox}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand, ElementName=prefabManagerComboBox}" CommandParameter="{Binding SelectionChangedCommandParameter, ElementName=prefabManagerComboBox}" />
