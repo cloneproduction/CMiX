@@ -5,7 +5,6 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="prefabSlotManager"
     d:DesignHeight="215.334"
@@ -80,13 +79,7 @@
                     DataContext="{Binding}"
                     ItemsSource="{Binding Prefabs}"
                     SelectedIndex="{Binding SelectedIndex}"
-                    SelectedItem="{Binding SelectedItem}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding Path=SelectionChangedCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListBox>
+                    SelectedItem="{Binding SelectedItem}" />
 
             </DockPanel>
 
@@ -98,12 +91,6 @@
                     DockPanel.Dock="Left"
                     ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
                     SelectedValue="{Binding SelectedItem}">
-
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="DropDownClosed">
-                            <i:InvokeCommandAction Command="{Binding Path=SelectedItemChangedCommand}" CommandParameter="{Binding ElementName=prefabCombobox, Path=SelectedItem}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
 
                     <ComboBox.Style>
 

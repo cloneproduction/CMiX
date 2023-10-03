@@ -51,11 +51,6 @@
                     DockPanel.Dock="Left"
                     ItemsSource="{Binding ItemsSource, ElementName=prefabManagerComboBox}"
                     SelectedItem="{Binding SelectedItem, ElementName=prefabManagerComboBox}">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand, ElementName=prefabManagerComboBox}" CommandParameter="{Binding SelectionChangedCommandParameter, ElementName=prefabManagerComboBox}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
                     <ComboBox.ItemTemplate>
                         <ItemContainerTemplate>
                             <TextBlock Text="{Binding Name.Value}" />

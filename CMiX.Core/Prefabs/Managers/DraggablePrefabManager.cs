@@ -4,17 +4,16 @@
 using System.Collections.ObjectModel;
 using System.Windows;
 using CMiX.Core.Prefab.Messages;
-using CMiX.Core.Services;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Prefab.Managers
 {
-    public class DraggablePrefabManager<T> : PrefabManager<T>,
+    public class DraggablePrefabManager : PrefabManager,
         IPrefabManagerDraggable,
         IDropTarget,
         IDragSource
     {
-        public DraggablePrefabManager(CompositionService compositionService) : base(compositionService)
+        public DraggablePrefabManager(PrefabRepository prefabRepository, PrefabFactory prefabFactory) : base(prefabRepository, prefabFactory)
         {
             PrefabOrder = new ObservableCollection<Guid>();
             IsActive = true;

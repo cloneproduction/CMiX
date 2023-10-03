@@ -1,86 +1,89 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.Component.Layer"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-             xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
-             xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
-             xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
-             xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:Views1="clr-namespace:CMiX.Studio.Views.Component.Entities"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             md:DialogServiceViews.IsRegistered="True"
-             mc:Ignorable="d" d:DesignHeight="639.46" d:DesignWidth="351.206">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Component.Layer"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
+    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:Prefabs="clr-namespace:CMiX.Core.Prefab;assembly=CMiX.Core"
+    xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Views1="clr-namespace:CMiX.Studio.Views.Component.Entities"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="639.46"
+    d:DesignWidth="351.206"
+    md:DialogServiceViews.IsRegistered="True"
+    mc:Ignorable="d">
 
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
         <i:Interaction.Behaviors>
-            <Behaviors:ScrollViewerBehavior/>
+            <Behaviors:ScrollViewerBehavior />
         </i:Interaction.Behaviors>
 
         <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">
             <DockPanel>
 
-                <TabControl TabStripPlacement="Left" 
-                            Background="{DynamicResource HighHighDarkerColor}" 
-                            Style="{StaticResource TabControlVerticalPanel}">
+                <TabControl
+                    Background="{DynamicResource HighHighDarkerColor}"
+                    Style="{StaticResource TabControlVerticalPanel}"
+                    TabStripPlacement="Left">
 
                     <TabItem IsSelected="True">
                         <TabItem.Header>
-                            <Image Source="{StaticResource Entity}" Margin="8"/>
+                            <Image Margin="8" Source="{StaticResource Entity}" />
                         </TabItem.Header>
                         <StackPanel>
-                            
-                            <Views:PrefabSlotManager Margin="8" ItemsSource="{Binding PrefabRepository.Entities}" DataContext="{Binding ModelEntityManager}">
+
+                            <Views:PrefabSlotManager
+                                Margin="8"
+                                DataContext="{Binding ModelEntityManager}"
+                                ItemsSource="{Binding PrefabRepository.Prefabs}">
                                 <Views:PrefabSlotManager.SelectionPanel>
-                                    <Views1:EntitySelectionPanel/>
+                                    <Views1:EntitySelectionPanel />
                                 </Views:PrefabSlotManager.SelectionPanel>
                             </Views:PrefabSlotManager>
-                            
-                            <ContentControl DataContext="{Binding ModelEntityManager.SelectedItem}" Content="{Binding}">
+
+                            <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type Compositing:Entity}">
-                                        <Views:ModelEntity DataContext="{Binding}"/>
+                                        <Views:ModelEntity DataContext="{Binding}" />
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
-                                        <Border/>
+                                        <Border />
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type Cameras:Camera}">
-                                        <Views:Camera DataContext="{Binding}"/>
+                                        <Views:Camera DataContext="{Binding}" />
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                                        <Views:LightEntity DataContext="{Binding}"/>
+                                        <Views:LightEntity DataContext="{Binding}" />
                                     </DataTemplate>
                                 </ContentControl.Resources>
                             </ContentControl>
                         </StackPanel>
                     </TabItem>
 
-
-
-
                     <TabItem>
                         <TabItem.Header>
-                            <Image Source="{StaticResource PostFX}" Margin="8"/>
+                            <Image Margin="8" Source="{StaticResource PostFX}" />
                         </TabItem.Header>
                         <StackPanel>
                             <Panels:IndentedExpander Header="Filter">
-                                <Views:TextureFilter  DataContext="{Binding ModifierManager}"/>
+                                <Views:TextureFilter DataContext="{Binding ModifierManager}" />
                             </Panels:IndentedExpander>
-                            <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}"/>
+                            <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
                         </StackPanel>
                     </TabItem>
-                    
+
                 </TabControl>
             </DockPanel>
-
 
         </Border>
     </ScrollViewer>

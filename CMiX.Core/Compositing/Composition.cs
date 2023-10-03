@@ -20,7 +20,7 @@ namespace CMiX.Core.Compositing
             CompositionService = compositionService;
             MasterBeat = new MasterBeat();
             CompositionService.MasterBeat = MasterBeat;
-            LayerManager = new DraggablePrefabManager<Layer>(compositionService);
+            LayerManager = new DraggablePrefabManager(compositionService.CompositionRepository, compositionService.PrefabFactory);
 
             Name = new StringValue();
             IsSelected = new BooleanValue();
@@ -34,7 +34,7 @@ namespace CMiX.Core.Compositing
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
-        public PrefabManager<Layer> LayerManager { get; set; }
+        public PrefabManager LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public ModifierManager<ITextureModifier> ModifierManager { get; set; }
         public MasterBeat MasterBeat { get; set; }

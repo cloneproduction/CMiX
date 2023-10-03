@@ -7,18 +7,16 @@ using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefab.Managers;
 using CMiX.Core.Prefab.Messages;
-using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefab
 {
-    public partial class PrefabManager<T> : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
+    public partial class PrefabManager : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManager(CompositionService compositionService)
+        public PrefabManager(PrefabRepository prefabRepository, PrefabFactory prefabFactory)
         {
-            SelectedItemChangedCommand = new RelayCommand<IPrefab>(SelectedItemChanged);
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
             AddItemCommand = new RelayCommand<Type>(AddItem);
@@ -26,13 +24,13 @@ namespace CMiX.Core.Prefab
             DeleteItemCommand = new RelayCommand<IPrefab>(DeleteItem);
             IsActive = true;
 
-            PrefabRepository = compositionService.PrefabRepository;
-            PrefabFactory = compositionService.PrefabFactory;
+            PrefabRepository = prefabRepository;
+            PrefabFactory = prefabFactory;
 
             Prefabs = new ObservableCollection<IPrefab>();
         }
 
-        public PrefabManager(Guid id, CompositionService compositionService) : this(compositionService)
+        public PrefabManager(Guid id, PrefabRepository prefabRepository, PrefabFactory prefabFactory) : this(prefabRepository, prefabFactory)
         {
             ID = id;
         }
@@ -42,7 +40,6 @@ namespace CMiX.Core.Prefab
         public PrefabFactory PrefabFactory { get; set; }
         public PrefabRepository PrefabRepository { get; set; }
 
-        public ICommand SelectedItemChangedCommand { get; set; }
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
@@ -125,7 +122,7 @@ namespace CMiX.Core.Prefab
         {
             IPrefab prefab = new EmptyPrefab();
             Prefabs.Add(prefab);
-            SelectedItem = prefab;
+            SelectedIndex = Prefabs.Count - 1;
             Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
         }
 
@@ -144,9 +141,9 @@ namespace CMiX.Core.Prefab
         }
 
 
-        public void SelectedItemChanged(IPrefab prefab)
+        partial void OnSelectedItemChanged(IPrefab oldValue, IPrefab newValue)
         {
-            if (prefab == null)
+            if (newValue == null)
                 return;
 
             if (SelectedItem == null)
@@ -163,16 +160,16 @@ namespace CMiX.Core.Prefab
 
             var index = SelectedIndex;
 
-            Prefabs[index] = prefab;
+            //Prefabs[index] = newValue;
             SelectedIndex = index;
-            SelectedItem = prefab;
+            SelectedItem = newValue;
 
-            Send(new MessageSelectedItemChanged(ID, prefab.ID, index));
+            Send(new MessageSelectedItemChanged(ID, newValue.ID, index));
         }
 
         public void SelectedItemChanged(Guid selectedItemID, int index)
         {
-            var prefab = PrefabRepository.GetPrefab(typeof(T), selectedItemID);
+            var prefab = PrefabRepository.GetPrefab(selectedItemID);
 
             if (prefab == null)
                 return;
@@ -186,10 +183,9 @@ namespace CMiX.Core.Prefab
             if (index >= Prefabs.Count)
                 return;
 
-            SelectedIndex = index; // Prefabs.IndexOf(prefab);
+            //Prefabs[index] = prefab;
+            SelectedIndex = index;
             SelectedItem = prefab;
-
-            Prefabs[index] = prefab;
         }
 
 

@@ -3,7 +3,7 @@
   <Class Name="CMiX.Core.Prefab.Managers.DraggablePrefabManager&lt;T&gt;" Collapsed="true">
     <Position X="5.25" Y="16.75" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAEgAAAARIgQCAAAAQAAAQABgACgAAAAAAAAAIAAQAA=</HashCode>
+      <HashCode>AAEgAAAARIgQCAAAAAAAAAABAACgAAAAAAAAAIAAQAA=</HashCode>
       <FileName>Prefabs\Managers\DraggablePrefabManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -11,7 +11,7 @@
   <Class Name="CMiX.Core.Prefab.PrefabManager&lt;T&gt;" Collapsed="true">
     <Position X="5.25" Y="15.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BQAEAAAgAQAAiAAACUAAIAAA8AAAgACQAAAhAAAQgAA=</HashCode>
+      <HashCode>BQAkAAAAAQCAiAAACUAAIABAoAAAgACQAAABAAAQgAE=</HashCode>
       <FileName>Prefabs\Managers\PrefabManager.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" />
@@ -46,7 +46,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="CMiX.Core.ViewModels.ITextureSource">
-    <Position X="14" Y="8.75" Width="1.5" />
+    <Position X="13" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Texturing\Sources\ITextureSource.cs</FileName>
@@ -67,13 +67,13 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="CMiX.Core.Colors.Modifiers.IColorModifier">
-    <Position X="20" Y="11.75" Width="1.5" />
+    <Position X="21.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Colors\Modifiers\IColorModifier.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CMiX.Core.Modifiers.IModifiable" Collapsed="true">
+  <Interface Name="CMiX.Core.Modifiers.IModifiable&lt;T&gt;" Collapsed="true">
     <Position X="10.5" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
@@ -81,7 +81,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="CMiX.Core.Modifiers.IModifier" Collapsed="true">
-    <Position X="18" Y="8.75" Width="1.5" />
+    <Position X="20.25" Y="9.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAA=</HashCode>
       <FileName>Modifiers\IModifier.cs</FileName>
@@ -104,14 +104,14 @@
   <Interface Name="CMiX.Core.Prefab.Managers.IPrefabManager" Collapsed="true">
     <Position X="8.75" Y="15.25" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>BAAAAAAgAAAAgAAAAQAAAAAA8AAAAAAAAAAgAAAAgAA=</HashCode>
+      <HashCode>BAAAAAAAAACAAAAAAAAAAAAAgAAAAAAAAAAAAAAQgAA=</HashCode>
       <FileName>Prefabs\Managers\IPrefabManager.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="CMiX.Core.Prefab.Managers.IPrefabManagerDraggable">
     <Position X="8.75" Y="16.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAQAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Prefabs\Managers\IPrefabManagerDraggable.cs</FileName>
     </TypeIdentifier>
   </Interface>
@@ -123,7 +123,7 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="CMiX.Core.Prefab.IPrefab">
-    <Position X="16" Y="8.75" Width="1.5" />
+    <Position X="16.75" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Prefabs\IPrefab.cs</FileName>
@@ -144,24 +144,17 @@
     </TypeIdentifier>
   </Interface>
   <Interface Name="CMiX.Core.Rendering.Cameras.Modifiers.ICameraModifier">
-    <Position X="18" Y="11.75" Width="1.5" />
+    <Position X="19.25" Y="11.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Rendering\Cameras\Modifiers\ICameraModifier.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="CMiX.Core.Texturing.ITexture" Collapsed="true">
-    <Position X="10.5" Y="10.75" Width="1.5" />
+    <Position X="15" Y="11" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAgAAAAgAAAAAMAAAAEAAJAAAAAAAAAAAEAAAA=</HashCode>
+      <HashCode>AAAAAAAgAAAAAAAABAAAAAAAAAAAAAAAAAAAAAEAAAA=</HashCode>
       <FileName>Texturing\ITexture.cs</FileName>
-    </TypeIdentifier>
-  </Interface>
-  <Interface Name="CMiX.Core.Transformation.Modifiers.ITransformModifier">
-    <Position X="16" Y="11.75" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Transformation\Modifiers\ITransformModifier.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Font Name="Segoe UI" Size="9" />

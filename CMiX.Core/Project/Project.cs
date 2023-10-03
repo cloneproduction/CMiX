@@ -18,11 +18,11 @@ namespace CMiX.Core.Components
             CompositionService = compositionService;
             var CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
 
-            CompositionManager = new PrefabManager<Composition>(CompositionManagerID, compositionService);
+            CompositionManager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, compositionService.PrefabFactory);
         }
 
         public CompositionService CompositionService { get; set; }
         public SortableObservableCollection<IAsset> Assets { get; set; }
-        public PrefabManager<Composition> CompositionManager { get; set; }
+        public PrefabManagerBase CompositionManager { get; set; }
     }
 }

@@ -3,7 +3,6 @@
 
 using System.Windows.Media;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefab;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;

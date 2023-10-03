@@ -57,14 +57,13 @@
                     <ComboBox
                         Grid.Column="0"
                         DockPanel.Dock="Left"
-                        ItemsSource="{Binding TextureManager.PrefabRepository.Textures}"
-                        SelectedIndex="{Binding TextureManager.SelectedIndex, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        SelectedItem="{Binding TextureManager.SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-                        <i:Interaction.Triggers>
+                        ItemsSource="{Binding TextureManager.PrefabRepository.Prefabs}"
+                        SelectedItem="{Binding TextureManager.SelectedItem}">
+                        <!--<i:Interaction.Triggers>
                             <i:EventTrigger EventName="SelectionChanged">
                                 <i:InvokeCommandAction Command="{Binding TextureManager.SelectedItemChangedCommand}" CommandParameter="{Binding TextureManager.SelectedItem}" />
                             </i:EventTrigger>
-                        </i:Interaction.Triggers>
+                        </i:Interaction.Triggers>-->
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>
                                 <TextBlock Text="{Binding Name.Value}" />
