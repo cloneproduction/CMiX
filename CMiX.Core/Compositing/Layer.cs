@@ -35,7 +35,7 @@ namespace CMiX.Core.Compositing
             AmbientOcclusion = new AmbientOcclusion();
             ModifierManager = new ModifierManager<ITextureModifier>(compositionService);
 
-            ModelEntityManager = new PrefabManager(compositionService.LayerRepository, compositionService.PrefabFactory);
+            ModelEntityManager = new PrefabManagerSlot(compositionService.LayerRepository, compositionService.PrefabFactory);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -46,7 +46,7 @@ namespace CMiX.Core.Compositing
         public CompositionService CompositionService { get; set; }
         public BooleanValue Visibility { get; set; }
         public BooleanValue IsMask { get; set; }
-        public PrefabManager ModelEntityManager { get; set; }
+        public PrefabManagerSlot ModelEntityManager { get; set; }
         public ModifierManager<ITextureModifier> ModifierManager { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }

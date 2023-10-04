@@ -59,11 +59,6 @@
                         DockPanel.Dock="Left"
                         ItemsSource="{Binding TextureManager.PrefabRepository.Prefabs}"
                         SelectedItem="{Binding TextureManager.SelectedItem}">
-                        <!--<i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding TextureManager.SelectedItemChangedCommand}" CommandParameter="{Binding TextureManager.SelectedItem}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>-->
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>
                                 <TextBlock Text="{Binding Name.Value}" />
@@ -107,7 +102,9 @@
                     </Style>
                 </Border.Style>
 
-                <Views:PathSelector ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" SelectedItem="{Binding Path=TextureManager.SelectedItem.TextureSourceSelector.Image.Asset.Value}" />
+                <Views:PathSelector 
+                    ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" 
+                    SelectedItem="{Binding Path=TextureManager.SelectedItem.Image.Asset.Value}" />
 
             </Border>
 

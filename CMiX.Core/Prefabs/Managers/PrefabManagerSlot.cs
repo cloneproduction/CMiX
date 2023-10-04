@@ -13,9 +13,9 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefab
 {
-    public partial class PrefabManager : ObservableRecipient, IPrefabCollectionManager, IRecipient<MessageRequestControl>
+    public partial class PrefabManagerSlot : ObservableRecipient, IPrefabCollectionManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManager(PrefabRepository prefabRepository, PrefabFactory prefabFactory)
+        public PrefabManagerSlot(PrefabRepository prefabRepository, PrefabFactory prefabFactory)
         {
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
@@ -30,7 +30,7 @@ namespace CMiX.Core.Prefab
             Prefabs = new ObservableCollection<IPrefab>();
         }
 
-        public PrefabManager(Guid id, PrefabRepository prefabRepository, PrefabFactory prefabFactory) : this(prefabRepository, prefabFactory)
+        public PrefabManagerSlot(Guid id, PrefabRepository prefabRepository, PrefabFactory prefabFactory) : this(prefabRepository, prefabFactory)
         {
             ID = id;
         }
@@ -160,7 +160,7 @@ namespace CMiX.Core.Prefab
 
             var index = SelectedIndex;
 
-            //Prefabs[index] = newValue;
+            Prefabs[index] = newValue;
 
             SelectedIndex = index;
             SelectedItem = newValue;
@@ -184,7 +184,7 @@ namespace CMiX.Core.Prefab
             if (index >= Prefabs.Count)
                 return;
 
-            //Prefabs[index] = prefab;
+            Prefabs[index] = prefab;
 
             SelectedIndex = index;
             SelectedItem = prefab;
