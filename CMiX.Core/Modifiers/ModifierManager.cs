@@ -9,7 +9,6 @@ using CMiX.Core.Collections;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefab.Messages;
-using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -17,11 +16,11 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Modifiers
 {
-    public partial class ModifierManager<T> : ObservableRecipient, ICollectionManager, IRecipient<MessageRequestControl>, IDropTarget, IDragSource
+    public partial class ModifierManager : ObservableRecipient, ICollectionManager, IRecipient<MessageRequestControl>, IDropTarget, IDragSource
     {
-        public ModifierManager(CompositionService compositionService)
+        public ModifierManager(ModifierFactory modifierFactory)
         {
-            Factory = compositionService.GetFactory(typeof(T));
+            Factory = modifierFactory;
             Modifiers = new ObservableCollection<IModifier>();
             Visibility = new BooleanValue();
 
@@ -29,8 +28,6 @@ namespace CMiX.Core.Modifiers
             RemoveCommand = new RelayCommand<IModifier>(Remove);
 
             IsActive = true;
-
-            Console.WriteLine("ModifierManager ID " + ID);
         }
 
 

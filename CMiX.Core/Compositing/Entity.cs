@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : ObservableRecipient, IPrefab, IModifiable<Entity>
+    public partial class Entity : ObservableRecipient, IPrefab, IModifiable
     {
         public Entity(CompositionService compositionService)
         {
@@ -23,7 +23,7 @@ namespace CMiX.Core.Compositing
             Mesh = new Mesh(compositionService);
             Material = new Material(compositionService);
 
-            ModifierManager = new ModifierManager<Entity>(compositionService);
+            ModifierManager = compositionService.GetModifierManager<Entity>();
 
             IsActive = true;
         }
@@ -33,7 +33,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue Visibility { get; set; }
-        public ModifierManager<Entity> ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
     }

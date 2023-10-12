@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class Texture : ObservableObject, IPrefab, IModifiable<ITextureModifier>
+    public partial class Texture : ObservableObject, IPrefab, IModifiable
     {
         public Texture(CompositionService compositionService)
         {
@@ -27,7 +27,7 @@ namespace CMiX.Core.Texturing
             VideoPlayer = new VideoPlayer();
             SelectedAssetType = new IntegerValue();
             TypeWriter = new TypeWriter();
-            ModifierManager = new ModifierManager<ITextureModifier>(compositionService);
+            ModifierManager = compositionService.GetModifierManager<ITextureModifier>();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -43,7 +43,7 @@ namespace CMiX.Core.Texturing
 
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
-        public ModifierManager<ITextureModifier> ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = false;

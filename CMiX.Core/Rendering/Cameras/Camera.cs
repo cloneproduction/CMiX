@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public partial class Camera : ObservableObject, IPrefab, IModifiable<Camera>
+    public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
         public Camera(CompositionService compositionService)
         {
@@ -24,13 +24,14 @@ namespace CMiX.Core.Rendering.Cameras
             NearClip = new FloatValue(0.05f);
             FarClip = new FloatValue(100f);
             Projection = new BooleanValue();
-            ModifierManager = new ModifierManager<Camera>(compositionService);
             Visibility = new BooleanValue(false);
+
+            ModifierManager = compositionService.GetModifierManager<Camera>();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visibility { get; set; }
-        public ModifierManager<Camera> ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }

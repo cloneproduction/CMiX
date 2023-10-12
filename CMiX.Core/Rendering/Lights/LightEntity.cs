@@ -13,8 +13,6 @@ namespace CMiX.Core.Rendering.Lights
     {
         public LightEntity(CompositionService compositionService)
         {
-            CompositionService = compositionService;
-
             IsRenaming = new BooleanValue(false);
             IsSelected = new BooleanValue(false);
             LightColor = new ColorSelector();
@@ -28,12 +26,11 @@ namespace CMiX.Core.Rendering.Lights
             Visibility = new BooleanValue();
             Name = new StringValue("Light");
 
-            ModifierManager = new ModifierManager<LightEntity>(compositionService);
+            ModifierManager = compositionService.GetModifierManager<LightEntity>();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public ModifierManager<LightEntity> ModifierManager { get; set; }
-        public CompositionService CompositionService { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
         public ColorSelector LightColor { get; set; }
         public Vector3 Position { get; set; }

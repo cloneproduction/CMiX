@@ -3,8 +3,8 @@
 
 namespace CMiX.Core.Modifiers
 {
-    public interface IModifiable<T>
+    public interface IModifiable
     {
-        ModifierManager<T> ModifierManager { get; set; }
+        ModifierManager ModifierManager { get; set; }
     }
 }

@@ -14,11 +14,9 @@ namespace CMiX.Core.Texturing
     {
         public MaskTexture(CompositionService compositionService)
         {
-            TextureManager = new PrefabManagerBase(compositionService.EntityRepository, compositionService.PrefabFactory);
-
+            TextureManager = compositionService.GetPrefabManager<ITexture>();
             TransformTexture = new TransformTexture();
             SamplerState = new SamplerState();
-
             Invert = new BooleanValue();
             MaskChannel = new GenericValue<MaskChannel>();
             IsEnabled = new BooleanValue(false);
@@ -29,7 +27,6 @@ namespace CMiX.Core.Texturing
         public PrefabManagerBase TextureManager { get; set; }
         public TransformTexture TransformTexture { get; set; }
         public SamplerState SamplerState { get; set; }
-
         public BooleanValue IsEnabled { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
         public BooleanValue Invert { get; set; }

@@ -13,11 +13,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IPrefab, IModifiable<ITextureModifier>
+    public partial class Layer : ObservableObject, IPrefab, IModifiable
     {
         public Layer(CompositionService compositionService)
         {
-            CompositionService = compositionService;
             Name = new StringValue();
             IsRenaming = new BooleanValue();
             IsSelected = new BooleanValue();
@@ -33,9 +32,9 @@ namespace CMiX.Core.Compositing
             Invert = new BooleanValue(false);
 
             AmbientOcclusion = new AmbientOcclusion();
-            ModifierManager = new ModifierManager<ITextureModifier>(compositionService);
 
-            ModelEntityManager = new PrefabManagerSlot(compositionService.LayerRepository, compositionService.PrefabFactory);
+            ModifierManager = compositionService.GetModifierManager<ITextureModifier>();
+            ModelEntityManager = compositionService.GetPrefabManagerSlot<Layer>();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -43,11 +42,10 @@ namespace CMiX.Core.Compositing
         public BooleanValue Invert { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
-        public CompositionService CompositionService { get; set; }
         public BooleanValue Visibility { get; set; }
         public BooleanValue IsMask { get; set; }
         public PrefabManagerSlot ModelEntityManager { get; set; }
-        public ModifierManager<ITextureModifier> ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }

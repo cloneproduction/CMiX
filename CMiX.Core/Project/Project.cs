@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Collections;
-using CMiX.Core.Compositing;
 using CMiX.Core.Prefab;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels.Assets;
@@ -16,9 +15,7 @@ namespace CMiX.Core.Components
         {
             Assets = new SortableObservableCollection<IAsset>();
             CompositionService = compositionService;
-            var CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
-
-            CompositionManager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, compositionService.PrefabFactory);
+            CompositionManager = compositionService.GetPrefabManager<Project>();
         }
 
         public CompositionService CompositionService { get; set; }

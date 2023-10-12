@@ -22,11 +22,11 @@ namespace CMiX.Core.Materials
             CullMode = new GenericValue<CullModeType>(CullModeType.Back);
             Transparency = new GenericValue<TransparencyType>(TransparencyType.CutOff);
 
-            Metalness = new FloatValue(0.5f);
-            Specularity = new FloatValue(0.5f);
-            Glossiness = new FloatValue(0.5f);
-            Alpha = new FloatValue(1.0f);
-            IsShadowCaster = new BooleanValue(false);
+            Metalness = compositionService.GetFloatControl(0.5f);
+            Specularity = compositionService.GetFloatControl(0.5f);
+            Glossiness = compositionService.GetFloatControl(0.5f);
+            Alpha = compositionService.GetFloatControl(1.0f);
+            IsShadowCaster = compositionService.GetBooleanControl(false);
 
             BaseColor = new ColorSelector(Color.FromArgb(255, 255, 255, 255));
             DiffuseTexture = new DiffuseTexture(compositionService);
@@ -39,7 +39,6 @@ namespace CMiX.Core.Materials
 
         public DiffuseTexture DiffuseTexture { get; set; }
         public MaskTexture MaskTexture { get; set; }
-
         public ColorSelector BaseColor { get; set; }
         public GenericValue<PipelineType> Pipeline { get; set; }
         public GenericValue<TransparencyType> Transparency { get; set; }

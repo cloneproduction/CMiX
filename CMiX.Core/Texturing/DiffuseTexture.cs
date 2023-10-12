@@ -13,7 +13,7 @@ namespace CMiX.Core.Texturing
     {
         public DiffuseTexture(CompositionService compositionService)
         {
-            TextureManager = new PrefabManagerBase(compositionService.EntityRepository, compositionService.PrefabFactory);
+            TextureManager = compositionService.GetPrefabManager<ITexture>();
             TransformTexture = new TransformTexture();
             SamplerState = new SamplerState();
         }
