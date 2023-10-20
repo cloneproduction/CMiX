@@ -1,6 +1,5 @@
 ﻿using Ceras;
 using CMiX.Core.Components;
-using CMiX.Core.Prefab;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
@@ -24,7 +23,6 @@ namespace CMiX.Console
 
 
             Project project = serviceProvider.GetRequiredService<Project>();
-            project.CompositionService = compositionService;
 
             SchedulerManager schedulerManager = new SchedulerManager(project);
 

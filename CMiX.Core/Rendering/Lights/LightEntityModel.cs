@@ -3,7 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Lights;
 
 namespace CMiX.Core.Entities.Lights

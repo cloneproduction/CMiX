@@ -9,16 +9,16 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class ColorSelector : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
+    public class ColorValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public ColorSelector()
+        public ColorValue()
         {
             ID = Guid.NewGuid();
             IsActive = true;
             SelectedColor = Color.FromArgb(255, 255, 0, 255);
         }
 
-        public ColorSelector(Color color) : this()
+        public ColorValue(Color color) : this()
         {
             SelectedColor = color;
         }

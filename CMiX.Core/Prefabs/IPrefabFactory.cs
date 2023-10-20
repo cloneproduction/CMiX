@@ -3,12 +3,10 @@
 
 namespace CMiX.Core.Prefabs
 {
-    public class EmptyPrefabModel : IPrefabModel
+    public interface IPrefabFactory
     {
-        public EmptyPrefabModel()
-        {
-            ID = Guid.NewGuid();
-        }
-        public Guid ID { get; set; }
+        IPrefab CreatePrefab(PrefabService prefabService);
+        IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel);
+        bool AppliesTo(Type type);
     }
 }

@@ -13,16 +13,16 @@ namespace CMiX.Core.Texturing.Sources
         public Gradient()
         {
             Resolution = new Integer2(512, 512);
-            From = new ColorSelector(Color.FromArgb(255, 255, 255, 255));
-            To = new ColorSelector(Color.FromArgb(255, 0, 0, 0));
+            From = new ColorValue(Color.FromArgb(255, 255, 255, 255));
+            To = new ColorValue(Color.FromArgb(255, 0, 0, 0));
             Gamma = new FloatValue(2.2f);
             Horizontal = new BooleanValue();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2 Resolution { get; set; }
-        public ColorSelector From { get; set; }
-        public ColorSelector To { get; set; }
+        public ColorValue From { get; set; }
+        public ColorValue To { get; set; }
         public FloatValue Gamma { get; set; }
         public BooleanValue Horizontal { get; set; }
     }

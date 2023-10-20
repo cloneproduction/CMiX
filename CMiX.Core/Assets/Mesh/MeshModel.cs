@@ -3,7 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.ViewModels
 {

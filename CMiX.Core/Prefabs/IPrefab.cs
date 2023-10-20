@@ -3,10 +3,11 @@
 
 using CMiX.Core.BaseControls;
 
-namespace CMiX.Core.Prefab
+namespace CMiX.Core.Prefabs
 {
     public interface IPrefab : IControl
     {
+        BooleanValue Visibility { get; set; }
         BooleanValue IsSelected { get; set; }
         BooleanValue IsRenaming { get; set; }
         StringValue Name { get; set; }

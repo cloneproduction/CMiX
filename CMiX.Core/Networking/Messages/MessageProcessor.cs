@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Materials;
-using CMiX.Core.Prefab.Messages;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Networking.Messages

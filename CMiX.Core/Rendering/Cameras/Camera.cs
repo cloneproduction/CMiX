@@ -3,38 +3,38 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
-using CMiX.Core.Services;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras
 {
     public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
-        public Camera(CompositionService compositionService)
+        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ModifierManager modifierManager)
         {
-            IsSelected = new BooleanValue(false);
-            IsRenaming = new BooleanValue(false);
-            Name = new StringValue("Camera");
-            FOV = new FloatValue(0.09f);
-            Distance = new FloatValue(10f);
-            Yaw = new FloatValue(0.0f);
-            Pitch = new FloatValue(0.0f);
-            Target = new Vector3();
-            NearClip = new FloatValue(0.05f);
-            FarClip = new FloatValue(100f);
-            Projection = new BooleanValue();
-            Visibility = new BooleanValue(false);
+            IsSelected = prefabService.IsSelected;
+            IsRenaming = prefabService.IsRenaming;
+            Name = prefabService.Name;
+            Visibility = prefabService.Visibility;
 
-            ModifierManager = compositionService.GetModifierManager<Camera>();
+            FOV = cameraSettings.FOV;
+            Distance = cameraSettings.Distance;
+            Yaw = cameraSettings.Yaw;
+            Pitch = cameraSettings.Pitch;
+            Target = cameraSettings.Target;
+            NearClip = cameraSettings.NearClip;
+            FarClip = cameraSettings.FarClip;
+            Projection = cameraSettings.Projection;
+
+            ModifierManager = modifierManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public BooleanValue Visibility { get; set; }
-        public ModifierManager ModifierManager { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }
+
         public FloatValue FOV { get; set; }
         public FloatValue Distance { get; set; }
         public FloatValue Yaw { get; set; }
@@ -43,6 +43,8 @@ namespace CMiX.Core.Rendering.Cameras
         public FloatValue NearClip { get; set; }
         public FloatValue FarClip { get; set; }
         public BooleanValue Projection { get; set; }
+
+        public ModifierManager ModifierManager { get; set; }
 
         [ObservableProperty]
         bool isExpanded = false;

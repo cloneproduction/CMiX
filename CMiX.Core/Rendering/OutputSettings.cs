@@ -12,11 +12,11 @@ namespace CMiX.Core.Rendering
         public OutputSettings()
         {
             Resolution = new Integer2(1920, 1080);
-            BackgroundColor = new ColorSelector(Color.FromArgb(255, 0, 0, 0));
+            BackgroundColor = new ColorValue(Color.FromArgb(255, 0, 0, 0));
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2 Resolution { get; set; }
-        public ColorSelector BackgroundColor { get; set; }
+        public ColorValue BackgroundColor { get; set; }
     }
 }

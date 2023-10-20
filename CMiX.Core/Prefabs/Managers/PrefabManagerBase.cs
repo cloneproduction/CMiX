@@ -4,25 +4,22 @@
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefab.Managers;
-using CMiX.Core.Prefab.Messages;
-using CMiX.Core.Services;
+using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Prefab
+namespace CMiX.Core.Prefabs
 {
     public partial class PrefabManagerBase : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
         public PrefabManagerBase(PrefabRepository prefabRepository, PrefabFactory prefabFactory)
         {
             AddItemCommand = new RelayCommand<Type>(AddItem);
-
-            IsActive = true;
-
             PrefabRepository = prefabRepository;
             PrefabFactory = prefabFactory;
+            IsActive = true;
         }
 
         public PrefabManagerBase(Guid id, PrefabRepository prefabRepository, PrefabFactory prefabFactory) : this(prefabRepository, prefabFactory)
@@ -55,8 +52,6 @@ namespace CMiX.Core.Prefab
             var prefabModel = ControlMessenger.Mapper.Map<IPrefabModel>(prefab);
 
             Send(new MessageAddItem(ID, prefabModel));
-
-
         }
 
         public void AddItem(IControlModel controlModel)

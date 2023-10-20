@@ -16,8 +16,8 @@ namespace CMiX.Core.Texturing.Sources
             Speed = new FloatValue(0.0f);
             Frequency = new FloatValue(3.5f);
             Contrast = new FloatValue(0.15f);
-            BackgroundColor = new ColorSelector(Color.FromArgb(255, 255, 255, 255));
-            BubbleColor = new ColorSelector(Color.FromArgb(255, 0, 0, 0));
+            BackgroundColor = new ColorValue(Color.FromArgb(255, 255, 255, 255));
+            BubbleColor = new ColorValue(Color.FromArgb(255, 0, 0, 0));
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -25,7 +25,7 @@ namespace CMiX.Core.Texturing.Sources
         public FloatValue Speed { get; set; }
         public FloatValue Frequency { get; set; }
         public FloatValue Contrast { get; set; }
-        public ColorSelector BackgroundColor { get; set; }
-        public ColorSelector BubbleColor { get; set; }
+        public ColorValue BackgroundColor { get; set; }
+        public ColorValue BubbleColor { get; set; }
     }
 }

@@ -11,35 +11,29 @@ namespace CMiX.Core.Materials
 {
     public partial class Material : ObservableRecipient, IControl
     {
-        public Material(CompositionService compositionService)
+        public Material(DiffuseTexture diffuseTexture, MaskTexture maskTexture)
         {
-            Name = new StringValue();
-
-            IsSelected = new BooleanValue();
-            IsRenaming = new BooleanValue();
-
             Pipeline = new GenericValue<PipelineType>(PipelineType.Constant);
             CullMode = new GenericValue<CullModeType>(CullModeType.Back);
             Transparency = new GenericValue<TransparencyType>(TransparencyType.CutOff);
 
-            Metalness = compositionService.GetFloatControl(0.5f);
-            Specularity = compositionService.GetFloatControl(0.5f);
-            Glossiness = compositionService.GetFloatControl(0.5f);
-            Alpha = compositionService.GetFloatControl(1.0f);
-            IsShadowCaster = compositionService.GetBooleanControl(false);
+            Metalness = new FloatValue(0.5f);
+            Specularity = new FloatValue(0.5f);
+            Glossiness = new FloatValue(0.5f);
+            Alpha = new FloatValue(1.0f);
+            IsShadowCaster = new BooleanValue(false);
 
-            BaseColor = new ColorSelector(Color.FromArgb(255, 255, 255, 255));
-            DiffuseTexture = new DiffuseTexture(compositionService);
-            MaskTexture = new MaskTexture(compositionService);
+            BaseColor = new ColorValue(Color.FromArgb(255, 255, 255, 255));
+            DiffuseTexture = diffuseTexture;
+            MaskTexture = maskTexture;
 
             IsActive = true;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-
         public DiffuseTexture DiffuseTexture { get; set; }
         public MaskTexture MaskTexture { get; set; }
-        public ColorSelector BaseColor { get; set; }
+        public ColorValue BaseColor { get; set; }
         public GenericValue<PipelineType> Pipeline { get; set; }
         public GenericValue<TransparencyType> Transparency { get; set; }
         public GenericValue<CullModeType> CullMode { get; set; }
@@ -48,9 +42,6 @@ namespace CMiX.Core.Materials
         public FloatValue Glossiness { get; set; }
         public FloatValue Alpha { get; set; }
         public BooleanValue IsShadowCaster { get; set; }
-        public StringValue Name { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public BooleanValue IsSelected { get; set; }
 
 
         [ObservableProperty]

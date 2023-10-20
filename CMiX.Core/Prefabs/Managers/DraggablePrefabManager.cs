@@ -3,10 +3,10 @@
 
 using System.Collections.ObjectModel;
 using System.Windows;
-using CMiX.Core.Prefab.Messages;
+using CMiX.Core.Prefabs.Messages;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.Prefab.Managers
+namespace CMiX.Core.Prefabs.Managers
 {
     public class DraggablePrefabManager : PrefabManager,
         IPrefabManagerDraggable,

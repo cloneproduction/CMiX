@@ -8,7 +8,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Collections;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefab.Messages;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;

@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sampling;
 using CommunityToolkit.Mvvm.ComponentModel;

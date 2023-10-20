@@ -4,33 +4,31 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering;
-using CMiX.Core.Services;
-using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
     public class Composition : ObservableObject, IPrefab, IModifiable
     {
-        public Composition(CompositionService compositionService)
+        public Composition(PrefabService prefabService, MasterBeat masterBeat, PrefabManager prefabManager, ModifierManager modifierManager, OutputSettings outputSettings)
         {
-            MasterBeat = compositionService.MasterBeat;
-
-            Name = new StringValue();
-            IsSelected = new BooleanValue();
-            IsRenaming = new BooleanValue();
-            OutputSettings = new OutputSettings();
-
-            LayerManager = compositionService.GetPrefabManagerDraggable<Composition>();
-            ModifierManager = compositionService.GetModifierManager<ITextureModifier>();
+            Name = prefabService.Name;
+            IsSelected = prefabService.IsSelected;
+            IsRenaming = prefabService.IsRenaming;
+            Visibility = prefabService.Visibility;
+            MasterBeat = masterBeat;
+            OutputSettings = outputSettings;
+            LayerManager = prefabManager;
+            ModifierManager = modifierManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
+        public BooleanValue Visibility { get; set; }
         public PrefabManager LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public ModifierManager ModifierManager { get; set; }

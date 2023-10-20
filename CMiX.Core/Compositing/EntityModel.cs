@@ -4,7 +4,7 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
+using CMiX.Core.Prefabs;
 using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Compositing

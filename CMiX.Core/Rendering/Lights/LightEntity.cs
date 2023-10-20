@@ -3,47 +3,50 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
-using CMiX.Core.Services;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Lights
 {
     public partial class LightEntity : ObservableObject, IPrefab
     {
-        public LightEntity(CompositionService compositionService)
+        public LightEntity(PrefabService prefabService, LightSettings lightSettings, ModifierManager modifierManager)
         {
-            IsRenaming = new BooleanValue(false);
-            IsSelected = new BooleanValue(false);
-            LightColor = new ColorSelector();
-            Position = new Vector3(0.0f, 2.0f, 0.0f);
-            Target = new Vector3(0.001f, 0.0f, 0.0f);
-            Radius = new FloatValue(5.0f);
-            Angle = new FloatValue(0.25f);
-            Softness = new FloatValue(0.01f);
-            Intensity = new FloatValue(1.0f);
-            LightTypeSelector = new GenericValue<LightType>(LightType.AmbientLight);
-            Visibility = new BooleanValue();
-            Name = new StringValue("Light");
+            Name = prefabService.Name;
+            IsRenaming = prefabService.IsRenaming;
+            IsSelected = prefabService.IsSelected;
+            Visibility = prefabService.Visibility;
 
-            ModifierManager = compositionService.GetModifierManager<LightEntity>();
+            LightColor = lightSettings.LightColor;
+            Position = lightSettings.Position;
+            Target = lightSettings.Target;
+            Radius = lightSettings.Radius;
+            Angle = lightSettings.Angle;
+            Softness = lightSettings.Softness;
+            Intensity = lightSettings.Intensity;
+            LightTypeSelector = new GenericValue<LightType>(LightType.AmbientLight);
+
+            ModifierManager = modifierManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public ModifierManager ModifierManager { get; set; }
+        public BooleanValue Visibility { get; set; }
+        public StringValue Name { get; set; }
+        public BooleanValue IsRenaming { get; set; }
+        public BooleanValue IsSelected { get; set; }
+
+
         public GenericValue<LightType> LightTypeSelector { get; set; }
-        public ColorSelector LightColor { get; set; }
+        public ColorValue LightColor { get; set; }
         public Vector3 Position { get; set; }
         public Vector3 Target { get; set; }
         public FloatValue Radius { get; set; }
         public FloatValue Angle { get; set; }
         public FloatValue Softness { get; set; }
         public FloatValue Intensity { get; set; }
-        public BooleanValue Visibility { get; set; }
-        public StringValue Name { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public BooleanValue IsSelected { get; set; }
 
+
+        public ModifierManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool settingsIsExpanded;

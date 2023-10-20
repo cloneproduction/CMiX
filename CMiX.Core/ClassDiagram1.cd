@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="CMiX.Core.Prefab.Managers.DraggablePrefabManager&lt;T&gt;" Collapsed="true">
+  <Class Name="CMiX.Core.Prefabs.Managers.DraggablePrefabManager&lt;T&gt;" Collapsed="true">
     <Position X="5.25" Y="16.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAEgAAAARIgQCAAAAAAAAAABAACgAAAAAAAAAIAAQAA=</HashCode>
@@ -8,7 +8,7 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" />
   </Class>
-  <Class Name="CMiX.Core.Prefab.PrefabManager&lt;T&gt;" Collapsed="true">
+  <Class Name="CMiX.Core.Prefabs.PrefabManager&lt;T&gt;" Collapsed="true">
     <Position X="5.25" Y="15.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BQAkAAAAAQCAiAAACUAAIABAoAAAgACQAAABAAAQgAE=</HashCode>
@@ -101,42 +101,42 @@
       <FileName>Networking\Messages\IMessage.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CMiX.Core.Prefab.Managers.IPrefabManager" Collapsed="true">
+  <Interface Name="CMiX.Core.Prefabs.Managers.IPrefabManager" Collapsed="true">
     <Position X="8.75" Y="15.25" Width="1.5" />
     <TypeIdentifier>
       <HashCode>BAAAAAAAAACAAAAAAAAAAAAAgAAAAAAAAAAAAAAQgAA=</HashCode>
       <FileName>Prefabs\Managers\IPrefabManager.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CMiX.Core.Prefab.Managers.IPrefabManagerDraggable">
+  <Interface Name="CMiX.Core.Prefabs.Managers.IPrefabManagerDraggable">
     <Position X="8.75" Y="16.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Prefabs\Managers\IPrefabManagerDraggable.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CMiX.Core.Prefab.Managers.IPrefabManagerModel" Collapsed="true">
+  <Interface Name="CMiX.Core.Prefabs.Managers.IPrefabManagerModel" Collapsed="true">
     <Position X="16" Y="20" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Prefabs\Managers\IPrefabManagerModel.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CMiX.Core.Prefab.IPrefab">
+  <Interface Name="CMiX.Core.Prefabs.IPrefab">
     <Position X="16.75" Y="11" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAABAAAAEAAAAAAAAAQAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Prefabs\IPrefab.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CMiX.Core.Prefab.IPrefabModel" Collapsed="true">
+  <Interface Name="CMiX.Core.Prefabs.IPrefabModel" Collapsed="true">
     <Position X="13.75" Y="20" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>Prefabs\IPrefabModel.cs</FileName>
     </TypeIdentifier>
   </Interface>
-  <Interface Name="CMiX.Core.Prefab.Messages.IMessagePrefab" Collapsed="true">
+  <Interface Name="CMiX.Core.Prefabs.Messages.IMessagePrefab" Collapsed="true">
     <Position X="8.5" Y="10.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>

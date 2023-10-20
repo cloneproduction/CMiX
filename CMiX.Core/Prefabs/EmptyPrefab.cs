@@ -3,17 +3,19 @@
 
 using CMiX.Core.BaseControls;
 
-namespace CMiX.Core.Prefab
+namespace CMiX.Core.Prefabs
 {
     public class EmptyPrefab : IPrefab
     {
-        public EmptyPrefab()
+        public EmptyPrefab(PrefabService prefabService)
         {
-            IsSelected = new BooleanValue(false);
-            IsRenaming = new BooleanValue(false);
-            Name = new StringValue(String.Empty);
+            IsSelected = prefabService.IsSelected;
+            IsRenaming = prefabService.IsRenaming;
+            Name = prefabService.Name;
+            Visibility = prefabService.Visibility;
         }
 
+        public BooleanValue Visibility { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public StringValue Name { get; set; }

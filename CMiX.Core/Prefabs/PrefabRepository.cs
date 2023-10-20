@@ -3,7 +3,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace CMiX.Core.Prefab
+namespace CMiX.Core.Prefabs
 {
     public class PrefabRepository 
     {

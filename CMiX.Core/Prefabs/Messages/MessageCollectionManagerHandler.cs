@@ -3,9 +3,9 @@
 
 using CMiX.Core.Collections;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Core.Prefab.Messages
+namespace CMiX.Core.Prefabs.Messages
 {
     internal class MessageCollectionManagerHandler : IMessageHandler
     {

@@ -4,8 +4,8 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
-using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 
 namespace CMiX.Core.Compositing

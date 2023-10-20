@@ -1,85 +1,53 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Compositing;
-using CMiX.Core.Entities.Lights;
-using CMiX.Core.Networking;
-using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Rendering.Lights;
-using CMiX.Core.Services;
-using CMiX.Core.Texturing;
+using CMiX.Core.BaseControls;
 
-namespace CMiX.Core.Prefab
+namespace CMiX.Core.Prefabs
 {
     public class PrefabFactory
     {
-        public PrefabFactory(CompositionService compositionService)
+        public PrefabFactory(List<IPrefabFactory> prefabFactories)
         {
-            CompositionService = compositionService;
+            Factories = prefabFactories;
         }
 
-        private CompositionService CompositionService { get; set; }
+        public List<IPrefabFactory> Factories { get; set; }
 
         private int nameCount = 0;
 
-        private IPrefab Build(IPrefab prefab)
+        PrefabService CreatePrefabService(Type type)
         {
-            prefab.Name.Value = prefab.GetType().Name + "." + nameCount.ToString("000");
+            var name = new StringValue(type.Name + "." + nameCount.ToString("000"));
+            var isRenaming = new BooleanValue(false);
+            var isSelected = new BooleanValue(true);
+            var visibility = new BooleanValue(true);
+
             nameCount++;
-            prefab.IsSelected.Value = true;
-            return prefab;
+
+            return new PrefabService(name, isRenaming, isSelected, visibility);
         }
 
         public IPrefab CreatePrefab(Type type)
         {
-            if (type == typeof(Composition))
-                return Build(new Composition(CompositionService));
+            var factory = this.Factories.FirstOrDefault(factory => factory.AppliesTo(type));
 
-            if (type == typeof(EmptyPrefab))
-                return Build(new EmptyPrefab());
+            if (factory == null)
+                throw new InvalidOperationException($"{type} not registered");
 
-            if (type == typeof(Layer))
-                return Build(new Layer(CompositionService));
-
-            if (type == typeof(Entity))
-                return Build(new Entity(CompositionService));
-
-            if (type == typeof(Camera))
-                return Build(new Camera(CompositionService));
-
-            if (type == typeof(LightEntity))
-                return Build(new LightEntity(CompositionService));
-
-            if (type == typeof(Texture))
-                return Build(new Texture(CompositionService));
-
-            return null;
+            var prefabService = CreatePrefabService(type);
+            return factory.CreatePrefab(prefabService);
         }
 
         public IPrefab CreatePrefab(IPrefabModel prefabModel)
         {
-            if (prefabModel is CompositionModel compositionModel)
-                return Build(ControlMessenger.Mapper.Map(compositionModel, new Composition(CompositionService)));
+            var factory = this.Factories.FirstOrDefault(factory => factory.AppliesTo(prefabModel.GetType()));
 
-            if (prefabModel is EmptyPrefabModel emptyPrefabModel)
-                return Build(ControlMessenger.Mapper.Map(emptyPrefabModel, new EmptyPrefab()));
+            if (factory == null)
+                throw new InvalidOperationException($"{prefabModel.GetType()} not registered");
 
-            if (prefabModel is LayerModel layerModel)
-                return Build(ControlMessenger.Mapper.Map(layerModel, new Layer(CompositionService)));
-
-            if (prefabModel is EntityModel entityModel)
-                return Build(ControlMessenger.Mapper.Map(entityModel, new Entity(CompositionService)));
-
-            if (prefabModel is CameraModel cameraModel)
-                return Build(ControlMessenger.Mapper.Map(cameraModel, new Camera(CompositionService)));
-
-            if (prefabModel is LightEntityModel lightEntityModel)
-                return Build(ControlMessenger.Mapper.Map(lightEntityModel, new LightEntity(CompositionService)));
-
-            if (prefabModel is TextureModel textureModel)
-                return Build(ControlMessenger.Mapper.Map(textureModel, new Texture(CompositionService)));
-
-            return null;
+            var prefabService = CreatePrefabService(prefabModel.GetType());
+            return factory.CreatePrefab(prefabService);
         }
     }
 }

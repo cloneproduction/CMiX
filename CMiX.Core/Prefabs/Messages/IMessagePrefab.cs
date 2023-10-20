@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CMiX.Core.Networking.Messages;
 
-namespace CMiX.Core.Prefab.Messages
+namespace CMiX.Core.Prefabs.Messages
 {
     public interface IMessagePrefab : IMessage
     {

@@ -5,7 +5,7 @@ using CMiX.Core.Networking;
 
 namespace CMiX.Core.Modifiers
 {
-    public class ModifierFactory : IModifierFactory
+    public abstract class ModifierFactory : IModifierFactory
     {
 
         public Dictionary<Type, Type> TypePairs = new Dictionary<Type, Type>();

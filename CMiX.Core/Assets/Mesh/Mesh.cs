@@ -2,20 +2,14 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
-using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.ViewModels
 {
     public partial class Mesh : ObservableRecipient
     {
-        public Mesh(CompositionService compositionService)
+        public Mesh()
         {
-            Name = new StringValue();
-
-            IsRenaming = new BooleanValue();
-            IsSelected = new BooleanValue();
             MeshTypeSelector = new GenericValue<MeshType>();
             Scale = new Vector3(1.0f, 1.0f, 1.0f);
             Offset = new Vector3();
@@ -32,9 +26,6 @@ namespace CMiX.Core.ViewModels
         private bool isExpanded = false;
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue IsRenaming { get; set; }
-        public StringValue Name { get; set; }
-        public BooleanValue IsSelected { get; set; }
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Offset { get; set; }

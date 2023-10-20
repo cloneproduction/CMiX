@@ -2,8 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefab;
-using CMiX.Core.Services;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sampling;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,9 +11,9 @@ namespace CMiX.Core.Texturing
 {
     public partial class MaskTexture : ObservableObject, ITexture
     {
-        public MaskTexture(CompositionService compositionService)
+        public MaskTexture(PrefabManagerBase prefabManagerBase)
         {
-            TextureManager = compositionService.GetPrefabManager<ITexture>();
+            TextureManager = prefabManagerBase;
             TransformTexture = new TransformTexture();
             SamplerState = new SamplerState();
             Invert = new BooleanValue();

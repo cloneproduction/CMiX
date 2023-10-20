@@ -16,8 +16,8 @@ namespace CMiX.Core.Texturing.Sources
             FontFamily = new StringValue();
             FontSize = new FloatValue();
             Style = new GenericValue<FontStyle>();
-            FontColor = new ColorSelector();
-            BackgroundColor = new ColorSelector();
+            FontColor = new ColorValue();
+            BackgroundColor = new ColorValue();
             Resolution = new Integer2();
             Position = new Vector2();
             TextInputGotFocusCommand = new RelayCommand(TextInputGotFocus);
@@ -32,8 +32,8 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<FontStyle> Style { get; set; }
         public StringValue FontFamily { get; set; }
         public FloatValue FontSize { get; set; }
-        public ColorSelector FontColor { get; set; }
-        public ColorSelector BackgroundColor { get; set; }
+        public ColorValue FontColor { get; set; }
+        public ColorValue BackgroundColor { get; set; }
         public Integer2 Resolution { get; set; }
         public Vector2 Position { get; set; }
 

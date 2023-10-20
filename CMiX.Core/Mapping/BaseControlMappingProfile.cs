@@ -31,7 +31,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Integer2Model, Integer2>().ConstructUsing(src => new Integer2());
 
 
-            CreateMap<ColorSelector, ColorSelectorModel>()
+            CreateMap<ColorValue, ColorSelectorModel>()
                 .ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => src.SelectedColor.ToString()))
                 .ReverseMap().ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => (Color)ColorConverter.ConvertFromString(src.SelectedColor)));
 

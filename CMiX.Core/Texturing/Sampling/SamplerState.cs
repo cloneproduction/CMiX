@@ -10,14 +10,14 @@ namespace CMiX.Core.Texturing.Sampling
     {
         public SamplerState()
         {
-            BorderColor = new ColorSelector();
+            BorderColor = new ColorValue();
             AddressU = new GenericValue<TextureAddressMode>();
             AddressV = new GenericValue<TextureAddressMode>();
             IsActive = true;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public ColorSelector BorderColor { get; set; }
+        public ColorValue BorderColor { get; set; }
         public GenericValue<TextureAddressMode> AddressU { get; set; }
         public GenericValue<TextureAddressMode> AddressV { get; set; }
     }

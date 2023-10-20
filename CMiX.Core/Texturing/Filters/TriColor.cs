@@ -16,9 +16,9 @@ namespace CMiX.Core.Texturing.Filters
             Visible = new BooleanValue();
             Control = new FloatValue();
 
-            ColorA = new ColorSelector();
-            ColorB = new ColorSelector();
-            ColorC = new ColorSelector();
+            ColorA = new ColorValue();
+            ColorB = new ColorValue();
+            ColorC = new ColorValue();
 
             Smooth = new FloatValue();
             Center = new FloatValue();
@@ -32,9 +32,9 @@ namespace CMiX.Core.Texturing.Filters
         public FloatValue Control { get; set; }
         public FloatValue Smooth { get; set; }
         public FloatValue Center { get; set; }
-        public ColorSelector ColorA { get; set; }
-        public ColorSelector ColorB { get; set; }
-        public ColorSelector ColorC { get; set; }
+        public ColorValue ColorA { get; set; }
+        public ColorValue ColorB { get; set; }
+        public ColorValue ColorC { get; set; }
         public BooleanValue SingleChannel { get; set; }
         public BooleanValue ClampColor { get; set; }
 

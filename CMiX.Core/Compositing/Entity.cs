@@ -4,8 +4,7 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
-using CMiX.Core.Services;
+using CMiX.Core.Prefabs;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -13,18 +12,17 @@ namespace CMiX.Core.Compositing
 {
     public partial class Entity : ObservableRecipient, IPrefab, IModifiable
     {
-        public Entity(CompositionService compositionService)
+        public Entity(PrefabService prefabService, Mesh mesh, Material material, ModifierManager modifierManager)
         {
-            Name = new StringValue();
-            Visibility = new BooleanValue();
-            IsSelected = new BooleanValue();
-            IsRenaming = new BooleanValue();
+            Name = prefabService.Name;
+            Visibility = prefabService.Visibility;
+            IsSelected = prefabService.IsSelected;
+            IsRenaming = prefabService.IsRenaming;
 
-            Mesh = new Mesh(compositionService);
-            Material = new Material(compositionService);
+            Mesh = mesh;
+            Material = material;
 
-            ModifierManager = compositionService.GetModifierManager<Entity>();
-
+            ModifierManager = modifierManager;
             IsActive = true;
         }
 

@@ -4,7 +4,7 @@
 using System.Windows.Input;
 using CMiX.Core.Collections;
 
-namespace CMiX.Core.Prefab.Managers
+namespace CMiX.Core.Prefabs.Managers
 {
     public interface IPrefabManager : ICollectionManager
     {

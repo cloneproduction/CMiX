@@ -3,9 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Prefab;
-using CMiX.Core.Services;
-using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -13,11 +11,12 @@ namespace CMiX.Core.Texturing
 {
     public partial class Texture : ObservableObject, IPrefab, IModifiable
     {
-        public Texture(CompositionService compositionService)
+        public Texture(PrefabService prefabService, ModifierManager modifierManager)
         {
-            Name = new StringValue();
-            IsSelected = new BooleanValue();
-            IsRenaming = new BooleanValue();
+            Name = prefabService.Name;
+            IsSelected = prefabService.IsSelected;
+            IsRenaming = prefabService.IsRenaming;
+            Visibility = prefabService.Visibility;
 
             TextureSourceSelector = new TextureSourceSelector();
             Gradient = new Gradient();
@@ -27,13 +26,16 @@ namespace CMiX.Core.Texturing
             VideoPlayer = new VideoPlayer();
             SelectedAssetType = new IntegerValue();
             TypeWriter = new TypeWriter();
-            ModifierManager = compositionService.GetModifierManager<ITextureModifier>();
+
+            ModifierManager = modifierManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
+        public BooleanValue Visibility { get; set; }
+
         public BubbleNoise BubbleNoise { get; set; }
         public Image Image { get; set; }
         public TextureSourceSelector TextureSourceSelector { get; set; }

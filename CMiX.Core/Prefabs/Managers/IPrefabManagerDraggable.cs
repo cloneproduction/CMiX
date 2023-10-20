@@ -3,7 +3,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace CMiX.Core.Prefab.Managers
+namespace CMiX.Core.Prefabs.Managers
 {
     public interface IPrefabManagerDraggable : IPrefabManager
     {

@@ -5,13 +5,13 @@ using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefab.Managers;
-using CMiX.Core.Prefab.Messages;
+using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Prefab
+namespace CMiX.Core.Prefabs
 {
     public partial class PrefabManager : ObservableRecipient, IPrefabCollectionManager, IRecipient<MessageRequestControl>
     {
@@ -120,7 +120,7 @@ namespace CMiX.Core.Prefab
 
         public void AddEmptyPrefab()
         {
-            IPrefab prefab = new EmptyPrefab();
+            IPrefab prefab = PrefabFactory.CreatePrefab(typeof(EmptyPrefab));
             Prefabs.Add(prefab);
             SelectedIndex = Prefabs.Count - 1;
             Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));

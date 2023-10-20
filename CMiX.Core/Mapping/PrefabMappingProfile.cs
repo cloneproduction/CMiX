@@ -3,12 +3,12 @@
 
 using AutoMapper;
 using CMiX.Core.Compositing;
-using CMiX.Core.Prefab;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Entities.Lights;
 using CMiX.Core.Materials;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
-using CMiX.Core.Prefab.Managers;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Mapping

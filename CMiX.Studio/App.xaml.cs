@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using Ceras;
 using CMiX.Core.Components;
+using CMiX.Core.Compositing;
 using CMiX.Core.Network;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
@@ -25,13 +28,24 @@ namespace CMiX
             ConfigureServices(serviceCollection);
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
+
             CompositionService compositionService = ServiceProvider.GetRequiredService<CompositionService>();
-            Project project = new Project(compositionService);
+
+            Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            var compositionFactory = new CompositionFactory(compositionService.CompositionRepository, compositionService.MasterBeat);
+
+            var factories = new List<IPrefabFactory>();
+            factories.Add(compositionFactory);
+            var factory = new PrefabFactory(factories);
+
+            var manager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, factory);
+            Project project = new Project(manager);
 
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
-            var mainViewModel = ServiceProvider.GetRequiredService<MainViewModel>();
-            mainViewModel.Project = project;
+            var messageService = new MessageService(new CerasSerializer()); ;
+            var mainViewModel = new MainViewModel(project, messageService);// ServiceProvider.GetRequiredService<MainViewModel>();
+
             mainWindow.DataContext = mainViewModel;
             mainWindow.Show();
         }
@@ -43,7 +57,7 @@ namespace CMiX
             services.AddSingleton<IDialogFactory, DialogFactory>();
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<IMessageService, MessageService>();
-            services.AddSingleton<IProject, Project>();
+            //services.AddSingleton<IProject, Project>();
             services.AddSingleton<MainWindow>();
             services.AddSingleton<MainViewModel>();
             services.AddSingleton<CompositionService>();
