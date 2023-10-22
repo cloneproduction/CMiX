@@ -7,7 +7,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Scheduling;
 using CMiX.Core.ViewModels.Scheduling;
 
-namespace CMiX.Core.Components
+namespace CMiX.Core.Compositing
 {
     public class ProjectModel : IControlModel
     {

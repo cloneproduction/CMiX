@@ -1,5 +1,7 @@
 ﻿using Ceras;
-using CMiX.Core.Components;
+using CMiX.Core.Animations;
+using CMiX.Core.Compositing;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
@@ -17,14 +19,21 @@ namespace CMiX.Console
 
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            CompositionService compositionService = serviceProvider.GetRequiredService<CompositionService>();
             MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
             messageService.StartClient(new Settings("127.0.0.1", 8080));
 
+            CompositionService compositionService = serviceProvider.GetRequiredService<CompositionService>();
 
-            Project project = serviceProvider.GetRequiredService<Project>();
+            var masterBeat = new MasterBeat();
 
-            SchedulerManager schedulerManager = new SchedulerManager(project);
+            var compositionFactory = new CompositionFactory(masterBeat, compositionService);
+            var factories = new List<IPrefabFactory>();
+            factories.Add(compositionFactory);
+            var factory = new PrefabFactory(factories);
+
+            Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
+            var manager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, factory);
+            Project project = new Project(manager);
 
             System.Console.ReadLine();
         }

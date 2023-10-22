@@ -15,6 +15,11 @@ namespace CMiX.Core.Prefabs
 {
     public partial class PrefabManager : ObservableRecipient, IPrefabCollectionManager, IRecipient<MessageRequestControl>
     {
+        public PrefabManager()
+        {
+            
+        }
+
         public PrefabManager(PrefabRepository prefabRepository, PrefabFactory prefabFactory)
         {
             ItemUpCommand = new RelayCommand(ItemUp);

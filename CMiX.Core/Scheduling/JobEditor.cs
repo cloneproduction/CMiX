@@ -3,16 +3,15 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Components;
+using CMiX.Core.Compositing;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-//using MvvmDialogs;
 
 namespace CMiX.Core.ViewModels.Scheduling
 {
     public class JobEditor : ObservableObject//, IModalDialogViewModel
     {
-        public JobEditor(IProject project)
+        public JobEditor(Project project)
         {
             //Playlists = project.Playlists;
             ToRunType = new ToRunType();

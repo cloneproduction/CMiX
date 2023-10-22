@@ -8,6 +8,7 @@ using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.ViewModels;
@@ -16,12 +17,12 @@ namespace CMiX.Core.Compositing
 {
     public class LayerFactory : IPrefabFactory
     {
-        public LayerFactory(PrefabRepository layerRepository)
+        public LayerFactory(CompositionService compositionService)
         {
-            PrefabRepository = layerRepository;
+            CompositionService = compositionService;
         }
 
-        PrefabRepository PrefabRepository { get; set; }
+        CompositionService CompositionService { get; set; }
 
         public bool AppliesTo(Type type)
         {
@@ -39,12 +40,19 @@ namespace CMiX.Core.Compositing
             var layerMaskService = new LayerMaskService();
 
             var factories = new List<IPrefabFactory>();
-            var entityFactory = new EntityFactory(PrefabRepository);
-            var lightFactory = new LightFactory(PrefabRepository);
-            var cameraFactory = new CameraFactory();
+            var entityFactory = new EntityFactory(CompositionService);
+            var lightFactory = new LightFactory(CompositionService);
+            var cameraFactory = new CameraFactory(CompositionService);
+            var emptyPrefabFactory = new EmptyPrefabFactory();
+
+            factories.Add(entityFactory); 
+            factories.Add(lightFactory); 
+            factories.Add(cameraFactory);
+            factories.Add(emptyPrefabFactory);
+
             var prefabFactory = new PrefabFactory(factories);
 
-            var prefabSlotManager = new PrefabManagerSlot(PrefabRepository, prefabFactory);
+            var prefabSlotManager = new PrefabManagerSlot(CompositionService.LayerRepository, prefabFactory);
             var modifierManager = new ModifierManager(new TextureModifierFactory());
 
             return new Layer(prefabService, layerService, layerMaskService, prefabSlotManager, modifierManager);

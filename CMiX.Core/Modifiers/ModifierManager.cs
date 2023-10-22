@@ -18,6 +18,10 @@ namespace CMiX.Core.Modifiers
 {
     public partial class ModifierManager : ObservableRecipient, ICollectionManager, IRecipient<MessageRequestControl>, IDropTarget, IDragSource
     {
+        public ModifierManager()
+        {
+            
+        }
         public ModifierManager(ModifierFactory modifierFactory)
         {
             Factory = modifierFactory;

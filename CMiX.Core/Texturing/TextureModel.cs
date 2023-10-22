@@ -4,9 +4,9 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sampling;
+using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Core.Texturing
 {
@@ -14,6 +14,7 @@ namespace CMiX.Core.Texturing
     {
         public TextureModel()
         {
+            Visibility = new BooleanValueModel(true);
             TextureSourceSelector = new TextureSourceSelectorModel();
             VideoPlayer = new VideoPlayerModel();
             ModifierManager = new ModifierManagerModel();
@@ -48,5 +49,6 @@ namespace CMiX.Core.Texturing
         public StringValueModel Name { get; set; }
         public BooleanValueModel IsSelected { get; set; }
         public BooleanValueModel IsRenaming { get; set; }
+        public BooleanValueModel Visibility { get; set; }
     }
 }

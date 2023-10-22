@@ -30,24 +30,28 @@ namespace CMiX.Core.Prefabs
 
         public IPrefab CreatePrefab(Type type)
         {
-            var factory = this.Factories.FirstOrDefault(factory => factory.AppliesTo(type));
+            var factory = Factories.FirstOrDefault(factory => factory.AppliesTo(type));
 
             if (factory == null)
                 throw new InvalidOperationException($"{type} not registered");
 
             var prefabService = CreatePrefabService(type);
-            return factory.CreatePrefab(prefabService);
+            var prefab = factory.CreatePrefab(prefabService);
+            return prefab;
         }
 
         public IPrefab CreatePrefab(IPrefabModel prefabModel)
         {
-            var factory = this.Factories.FirstOrDefault(factory => factory.AppliesTo(prefabModel.GetType()));
+            var factory = Factories.FirstOrDefault(factory => factory.AppliesTo(prefabModel.GetType()));
 
             if (factory == null)
                 throw new InvalidOperationException($"{prefabModel.GetType()} not registered");
 
             var prefabService = CreatePrefabService(prefabModel.GetType());
-            return factory.CreatePrefab(prefabService);
+            var prefab = factory.CreatePrefab(prefabService, prefabModel);
+            prefab.Name.Value = prefabModel.Name.Value;
+            return prefab;
+            //return ControlMessenger.Mapper.Map<IPrefab>(prefabModel);
         }
     }
 }

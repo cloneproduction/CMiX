@@ -3,7 +3,7 @@
 
 using System.Windows.Input;
 using Ceras;
-using CMiX.Core.Components;
+using CMiX.Core.Compositing;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -11,7 +11,7 @@ namespace CMiX.Core.ViewModels
 {
     public class MainMenu : ObservableRecipient
     {
-        public MainMenu(IProject project)
+        public MainMenu(Project project)
         {
             Project = project;
             Serializer = new CerasSerializer();
@@ -28,7 +28,7 @@ namespace CMiX.Core.ViewModels
 
 
         public CerasSerializer Serializer { get; set; }
-        public IProject Project { get; set; }
+        public Project Project { get; set; }
         public ICommand NewProjectCommand { get; }
         public ICommand SaveProjectCommand { get; }
         public ICommand SaveAsProjectCommand { get; }

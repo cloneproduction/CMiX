@@ -14,14 +14,14 @@ namespace CMiX.Core.Compositing
     {
         public CompositionModel()
         {
+            Name = new StringValueModel("Composition");
+            IsSelected = new BooleanValueModel(false);
+            IsRenaming = new BooleanValueModel(false);
             MasterBeat = new MasterBeatModel();
             Visibility = new BooleanValueModel();
             OutputSettings = new OutputSettingsModel();
             ModifierManager = new ModifierManagerModel();
             LayerManager = new PrefabManagerModel();
-            Name = new StringValueModel("Composition");
-            IsSelected = new BooleanValueModel(false);
-            IsRenaming = new BooleanValueModel(false);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

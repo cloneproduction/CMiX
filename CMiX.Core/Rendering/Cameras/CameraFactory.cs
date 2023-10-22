@@ -5,17 +5,18 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras.Modifiers;
+using CMiX.Core.Services;
 
 namespace CMiX.Core.Rendering.Cameras
 {
     public class CameraFactory : IPrefabFactory
     {
-        public CameraFactory()
+        public CameraFactory(CompositionService compositionService)
         {
-
+            CompositionService = compositionService;
         }
 
-        PrefabRepository PrefabRepository { get; set; }
+        CompositionService CompositionService { get; set; }
 
         public bool AppliesTo(Type type)
         {

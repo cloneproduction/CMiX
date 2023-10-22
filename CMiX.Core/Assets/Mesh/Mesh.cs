@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.ViewModels
 {
-    public partial class Mesh : ObservableRecipient
+    public partial class Mesh : ObservableRecipient, IControl
     {
         public Mesh()
         {

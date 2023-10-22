@@ -6,17 +6,18 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Lights.Modifiers;
+using CMiX.Core.Services;
 
 namespace CMiX.Core.Rendering.Lights
 {
     public class LightFactory : IPrefabFactory
     {
-        public LightFactory(PrefabRepository prefabRepository)
+        public LightFactory(CompositionService compositionService)
         {
-            PrefabRepository = prefabRepository;
+            CompositionService = compositionService;
         }
 
-        PrefabRepository PrefabRepository { get; set; }
+        CompositionService CompositionService { get; set; }
 
         public bool AppliesTo(Type type)
         {

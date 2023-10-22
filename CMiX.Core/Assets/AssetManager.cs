@@ -6,7 +6,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Collections;
-using CMiX.Core.Components;
+using CMiX.Core.Compositing;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
@@ -15,7 +15,7 @@ namespace CMiX.Core.ViewModels.Assets
 {
     public class AssetManager : ObservableRecipient, IDropTarget, IDragSource
     {
-        public AssetManager(IProject project)
+        public AssetManager(Project project)
         {
             Project = project;
 
@@ -33,7 +33,7 @@ namespace CMiX.Core.ViewModels.Assets
             RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
-        public IProject Project { get; set; }
+        public Project Project { get; set; }
 
 
         public ICommand RenameAssetCommand { get; set; }

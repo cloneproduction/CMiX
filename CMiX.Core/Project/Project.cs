@@ -6,9 +6,9 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.Components
+namespace CMiX.Core.Compositing
 {
-    public class Project : ObservableObject, IProject
+    public class Project : ObservableObject
     {
         public Project(PrefabManagerBase prefabManagerBase)
         {

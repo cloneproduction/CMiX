@@ -5,6 +5,7 @@ using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using CMiX.Core.Transformation.Modifiers;
 using CMiX.Core.ViewModels;
@@ -13,12 +14,12 @@ namespace CMiX.Core.Compositing
 {
     public class EntityFactory : IPrefabFactory
     {
-        public EntityFactory(PrefabRepository prefabRepository)
+        public EntityFactory(CompositionService compositionService)
         {
-            PrefabRepository = prefabRepository;
+            CompositionService = compositionService;
         }
 
-        PrefabRepository PrefabRepository { get; set; }
+        CompositionService CompositionService{ get; set; }
 
         public bool AppliesTo(Type type)
         {
@@ -28,13 +29,13 @@ namespace CMiX.Core.Compositing
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
             var factories = new List<IPrefabFactory>();
-            var textureFactory = new TextureFactory();
+            var textureFactory = new TextureFactory(CompositionService);
             factories.Add(textureFactory);
 
             var prefabFactory = new PrefabFactory(factories);
 
-            var maskTexture = new MaskTexture(new PrefabManagerBase(PrefabRepository, prefabFactory));
-            var diffuseTexture = new DiffuseTexture(new PrefabManagerBase(PrefabRepository, prefabFactory));
+            var maskTexture = new MaskTexture(new PrefabManagerBase(CompositionService.EntityRepository, prefabFactory));
+            var diffuseTexture = new DiffuseTexture(new PrefabManagerBase(CompositionService.EntityRepository, prefabFactory));
             var material = new Material(diffuseTexture, maskTexture);
             var mesh = new Mesh();
             var modifierManager = new ModifierManager(new EntityModifierFactory());

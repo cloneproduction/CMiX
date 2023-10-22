@@ -1,6 +1,5 @@
 ﻿using System.Windows.Input;
 using CMiX.Core.Compositing;
-using CMiX.Core.Components;
 using CMiX.Core.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -9,7 +8,7 @@ namespace CMiX.Core.ViewModels.Scheduling
 {
     public class PlaylistEditor : ObservableObject
     {
-        public PlaylistEditor(IProject project)
+        public PlaylistEditor(Project project)
         {
             Project = project;
 
@@ -26,7 +25,7 @@ namespace CMiX.Core.ViewModels.Scheduling
         int plCreateIndex = 0;
 
 
-        public IProject Project { get; set; }
+        public Project Project { get; set; }
         public ICommand AddCompositionToPlaylistCommand { get; set; }
         public ICommand RemoveCompositionFromPlaylistCommand { get; set; }
         public ICommand AddItemCommand { get; set; }

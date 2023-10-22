@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using Ceras;
-using CMiX.Core.Components;
+using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Network;
 using CMiX.Core.Prefabs;
@@ -23,21 +23,20 @@ namespace CMiX
 
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-
             var serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
             ServiceProvider = serviceCollection.BuildServiceProvider();
 
-
             CompositionService compositionService = ServiceProvider.GetRequiredService<CompositionService>();
 
-            Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
-            var compositionFactory = new CompositionFactory(compositionService.CompositionRepository, compositionService.MasterBeat);
+            var masterBeat = new MasterBeat();
 
+            var compositionFactory = new CompositionFactory(masterBeat, compositionService);
             var factories = new List<IPrefabFactory>();
             factories.Add(compositionFactory);
             var factory = new PrefabFactory(factories);
 
+            Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
             var manager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, factory);
             Project project = new Project(manager);
 

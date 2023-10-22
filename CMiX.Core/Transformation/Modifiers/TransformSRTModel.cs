@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation
 {
-    public class TransformSRTModel : IPrefabModel, IModifierModel
+    public class TransformSRTModel : IControlModel, IModifierModel
     {
         public TransformSRTModel()
         {

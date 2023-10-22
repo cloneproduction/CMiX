@@ -7,20 +7,21 @@ using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
+using CMiX.Core.Services;
 using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Compositing
 {
     public class CompositionFactory : IPrefabFactory
     {
-        public CompositionFactory(PrefabRepository prefabRepository, MasterBeat masterBeat)
+        public CompositionFactory(MasterBeat masterBeat, CompositionService compositionService)
         {
-            PrefabRepository = prefabRepository;
+            CompositionService = compositionService;
             MasterBeat = masterBeat;
         }
 
+        CompositionService CompositionService { get; set; }
         MasterBeat MasterBeat { get; set; }
-        PrefabRepository PrefabRepository { get; set; }
 
         public bool AppliesTo(Type type)
         {
@@ -30,10 +31,10 @@ namespace CMiX.Core.Compositing
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
             var factories = new List<IPrefabFactory>();
-            factories.Add(new LayerFactory(PrefabRepository));
-
+            factories.Add(new LayerFactory(CompositionService));
             var prefabFactory = new PrefabFactory(factories);
-            var prefabManagerDraggable = new DraggablePrefabManager(PrefabRepository, prefabFactory);
+
+            var prefabManagerDraggable = new DraggablePrefabManager(CompositionService.CompositionRepository, prefabFactory);
             var modifierManager = new ModifierManager(new TextureModifierFactory());
             var outputSettings = new OutputSettings();
 

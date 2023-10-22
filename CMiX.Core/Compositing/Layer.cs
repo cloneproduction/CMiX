@@ -23,6 +23,11 @@ namespace CMiX.Core.Compositing
             IsSelected = prefabService.IsSelected;
             Visibility = prefabService.Visibility;
 
+            Opacity = layerService.Opacity;
+            BackgroundColor = layerService.BackgroundColor;
+            BlendMode = layerService.BlendMode;
+            AmbientOcclusion = layerService.AmbientOcclusion;
+
             IsMask = layerMaskService.IsMask;
             MaskChannel = layerMaskService.MaskChannel;
             MaskMode = layerMaskService.MaskMode;
@@ -30,11 +35,6 @@ namespace CMiX.Core.Compositing
 
             ModifierManager = modifierManager;
             ModelEntityManager = prefabManagerSlot;
-
-            Opacity = layerService.Opacity;
-            BackgroundColor = layerService.BackgroundColor;
-            BlendMode = layerService.BlendMode;
-            AmbientOcclusion = layerService.AmbientOcclusion;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

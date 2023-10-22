@@ -4,17 +4,19 @@
 using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Services;
 using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Texturing
 {
     public class TextureFactory : IPrefabFactory
     {
-        public TextureFactory() 
+        public TextureFactory(CompositionService compositionService) 
         { 
-        
+            CompositionService = compositionService;
         }
 
+        CompositionService CompositionService { get; }
         public bool AppliesTo(Type type)
         {
             return (typeof(Texture).Equals(type) || typeof(TextureModel).Equals(type));

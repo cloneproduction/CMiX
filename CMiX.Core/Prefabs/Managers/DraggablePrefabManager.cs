@@ -13,6 +13,11 @@ namespace CMiX.Core.Prefabs.Managers
         IDropTarget,
         IDragSource
     {
+        public DraggablePrefabManager()
+        {
+            
+        }
+
         public DraggablePrefabManager(PrefabRepository prefabRepository, PrefabFactory prefabFactory) : base(prefabRepository, prefabFactory)
         {
             PrefabOrder = new ObservableCollection<Guid>();

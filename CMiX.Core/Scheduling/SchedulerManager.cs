@@ -3,7 +3,7 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Components;
+using CMiX.Core.Compositing;
 using CMiX.Core.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -13,7 +13,7 @@ namespace CMiX.Core.ViewModels.Scheduling
 {
     public class SchedulerManager : ObservableRecipient
     {
-        public SchedulerManager(IProject project)
+        public SchedulerManager(Project project)
         {
             Project = project;
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
@@ -25,7 +25,7 @@ namespace CMiX.Core.ViewModels.Scheduling
             DeleteItemCommand = new RelayCommand(DeleteScheduler);
         }
 
-        public IProject Project { get; set; }
+        public Project Project { get; set; }
 
         //public SchedulerManager(IProject project) : this(project)
         //{
