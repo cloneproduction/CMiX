@@ -50,9 +50,9 @@ namespace CMiX.Core.Compositing
             factories.Add(cameraFactory);
             factories.Add(emptyPrefabFactory);
 
-            var prefabFactory = new PrefabFactory(factories);
+            var prefabFactory = new PrefabFactory(factories, CompositionService.LayerRepository);
 
-            var prefabSlotManager = new PrefabManagerSlot(CompositionService.LayerRepository, prefabFactory);
+            var prefabSlotManager = new PrefabManagerSlot(prefabFactory);
             var modifierManager = new ModifierManager(new TextureModifierFactory());
 
             return new Layer(prefabService, layerService, layerMaskService, prefabSlotManager, modifierManager);

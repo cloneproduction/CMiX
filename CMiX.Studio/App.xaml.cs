@@ -34,16 +34,16 @@ namespace CMiX
             var compositionFactory = new CompositionFactory(masterBeat, compositionService);
             var factories = new List<IPrefabFactory>();
             factories.Add(compositionFactory);
-            var factory = new PrefabFactory(factories);
+
+            var factory = new PrefabFactory(factories, compositionService.CompositionRepository);
 
             Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
             var manager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, factory);
             Project project = new Project(manager);
 
-
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             var messageService = new MessageService(new CerasSerializer()); ;
-            var mainViewModel = new MainViewModel(project, messageService);// ServiceProvider.GetRequiredService<MainViewModel>();
+            var mainViewModel = new MainViewModel(project, compositionService, messageService);// ServiceProvider.GetRequiredService<MainViewModel>();
 
             mainWindow.DataContext = mainViewModel;
             mainWindow.Show();

@@ -29,7 +29,8 @@ namespace CMiX.Console
             var compositionFactory = new CompositionFactory(masterBeat, compositionService);
             var factories = new List<IPrefabFactory>();
             factories.Add(compositionFactory);
-            var factory = new PrefabFactory(factories);
+
+            var factory = new PrefabFactory(factories, compositionService.CompositionRepository);
 
             Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
             var manager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, factory);

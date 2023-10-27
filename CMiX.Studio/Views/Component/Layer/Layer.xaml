@@ -42,7 +42,8 @@
                             <Views:PrefabSlotManager
                                 Margin="8"
                                 DataContext="{Binding ModelEntityManager}"
-                                ItemsSource="{Binding PrefabRepository.Prefabs}">
+                                ItemsSource="{Binding Path=CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}">
+                                <!--  ItemsSource="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"  -->
                                 <Views:PrefabSlotManager.SelectionPanel>
                                     <Views1:EntitySelectionPanel />
                                 </Views:PrefabSlotManager.SelectionPanel>

@@ -12,7 +12,11 @@ namespace CMiX.Core.Compositing
 {
     public class Composition : ObservableObject, IPrefab, IModifiable
     {
-        public Composition(PrefabService prefabService, MasterBeat masterBeat, PrefabManager prefabManager, ModifierManager modifierManager, OutputSettings outputSettings)
+        public Composition(PrefabService prefabService, 
+                           MasterBeat masterBeat, 
+                           PrefabManager prefabManager, 
+                           ModifierManager modifierManager, 
+                           OutputSettings outputSettings)
         {
             Name = prefabService.Name;
             IsSelected = prefabService.IsSelected;

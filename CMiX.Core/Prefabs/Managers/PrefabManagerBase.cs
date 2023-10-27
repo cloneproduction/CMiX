@@ -14,15 +14,14 @@ namespace CMiX.Core.Prefabs
 {
     public partial class PrefabManagerBase : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManagerBase(PrefabRepository prefabRepository, PrefabFactory prefabFactory)
+        public PrefabManagerBase(PrefabFactory prefabFactory)
         {
             AddItemCommand = new RelayCommand<Type>(AddItem);
-            PrefabRepository = prefabRepository;
             PrefabFactory = prefabFactory;
             IsActive = true;
         }
 
-        public PrefabManagerBase(Guid id, PrefabRepository prefabRepository, PrefabFactory prefabFactory) : this(prefabRepository, prefabFactory)
+        public PrefabManagerBase(Guid id, PrefabRepository prefabRepository, PrefabFactory prefabFactory) : this(prefabFactory)
         {
             ID = id;
         }
@@ -30,8 +29,6 @@ namespace CMiX.Core.Prefabs
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabFactory PrefabFactory { get; set; }
-        public PrefabRepository PrefabRepository { get; set; }
-
         public ICommand AddItemCommand { get; set; }
 
 
@@ -46,7 +43,6 @@ namespace CMiX.Core.Prefabs
         public virtual void AddItem(Type type)
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(type);
-            PrefabRepository.AddPrefab(prefab);
             SelectedItem = prefab;
 
             var prefabModel = ControlMessenger.Mapper.Map<IPrefabModel>(prefab);
@@ -60,7 +56,6 @@ namespace CMiX.Core.Prefabs
                 return;
 
             IPrefab prefab = PrefabFactory.CreatePrefab((IPrefabModel)controlModel);
-            PrefabRepository.AddPrefab(prefab);
 
             SelectedItem = prefab;
         }
@@ -81,15 +76,15 @@ namespace CMiX.Core.Prefabs
 
         public void SelectedItemChanged(Guid selectedItemID, int index)
         {
-            var prefab = PrefabRepository.GetPrefab(selectedItemID);
+            //var prefab = PrefabRepository.GetPrefab(selectedItemID);
 
-            if (prefab == null)
-                return;
+            //if (prefab == null)
+            //    return;
 
-            if (index < 0)
-                return;
+            //if (index < 0)
+            //    return;
 
-            SelectedItem = prefab;
+            //SelectedItem = prefab;
         }
 
 

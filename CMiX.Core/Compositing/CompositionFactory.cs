@@ -32,9 +32,9 @@ namespace CMiX.Core.Compositing
         {
             var factories = new List<IPrefabFactory>();
             factories.Add(new LayerFactory(CompositionService));
-            var prefabFactory = new PrefabFactory(factories);
+            var prefabFactory = new PrefabFactory(factories, CompositionService.CompositionRepository);
 
-            var prefabManagerDraggable = new DraggablePrefabManager(CompositionService.CompositionRepository, prefabFactory);
+            var prefabManagerDraggable = new DraggablePrefabManager(prefabFactory);
             var modifierManager = new ModifierManager(new TextureModifierFactory());
             var outputSettings = new OutputSettings();
 

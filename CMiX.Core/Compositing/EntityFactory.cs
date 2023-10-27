@@ -19,7 +19,7 @@ namespace CMiX.Core.Compositing
             CompositionService = compositionService;
         }
 
-        CompositionService CompositionService{ get; set; }
+        CompositionService CompositionService { get; set; }
 
         public bool AppliesTo(Type type)
         {
@@ -32,10 +32,10 @@ namespace CMiX.Core.Compositing
             var textureFactory = new TextureFactory(CompositionService);
             factories.Add(textureFactory);
 
-            var prefabFactory = new PrefabFactory(factories);
+            var prefabFactory = new PrefabFactory(factories, CompositionService.EntityRepository);
 
-            var maskTexture = new MaskTexture(new PrefabManagerBase(CompositionService.EntityRepository, prefabFactory));
-            var diffuseTexture = new DiffuseTexture(new PrefabManagerBase(CompositionService.EntityRepository, prefabFactory));
+            var maskTexture = new MaskTexture(new PrefabManagerBase(prefabFactory));
+            var diffuseTexture = new DiffuseTexture(new PrefabManagerBase(prefabFactory));
             var material = new Material(diffuseTexture, maskTexture);
             var mesh = new Mesh();
             var modifierManager = new ModifierManager(new EntityModifierFactory());
