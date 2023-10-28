@@ -7,12 +7,12 @@ namespace CMiX.Core.Prefabs
 {
     public class PrefabFactory
     {
-        public PrefabFactory(List<IPrefabFactory> prefabFactories)
+        public PrefabFactory()
         {
-            Factories = prefabFactories;
+
         }
 
-        public List<IPrefabFactory> Factories { get; set; }
+        List<IPrefabFactory> Factories { get; set; }
 
         private int nameCount = 0;
 
@@ -27,6 +27,14 @@ namespace CMiX.Core.Prefabs
             nameCount++;
 
             return new PrefabService(id, name, isRenaming, isSelected, visibility);
+        }
+
+        public void RegisterFactory(IPrefabFactory prefabFactory)
+        {
+            if(Factories == null)
+                Factories = new List<IPrefabFactory>();
+
+            Factories.Add(prefabFactory);
         }
 
         public IPrefab CreatePrefab(Type type)
@@ -58,7 +66,15 @@ namespace CMiX.Core.Prefabs
 
         public IPrefab GetPrefab(Guid id)
         {
-            var prefab = Factories.FirstOrDefault(x => x.GetPrefab(id) != null).GetPrefab(id);
+            if (Factories == null)
+                return null;
+
+            var factory = Factories.FirstOrDefault(x => x.GetPrefab(id) != null);
+
+            if (factory == null)
+                return null;
+
+            var prefab = factory.GetPrefab(id);
             return prefab;
         }
     }

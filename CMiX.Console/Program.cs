@@ -26,13 +26,12 @@ namespace CMiX.Console
             var masterBeat = new MasterBeat();
 
             var compositionFactory = new CompositionFactory(masterBeat, compositionService);
-            var factories = new List<IPrefabFactory>();
-            factories.Add(compositionFactory);
 
-            var factory = new PrefabFactory(factories);
+            var factory = new PrefabFactory();
+            factory.RegisterFactory(compositionFactory);
 
             Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
-            var manager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, factory);
+            var manager = new PrefabManagerBase(CompositionManagerID, factory);
             Project project = new Project(manager);
 
             System.Console.ReadLine();

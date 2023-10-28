@@ -156,22 +156,22 @@ namespace CMiX.Core.Prefabs
 
         public void SelectedItemChanged(Guid selectedItemID, int index)
         {
-            //var prefab = PrefabRepository.GetPrefab(selectedItemID);
+            var prefab = PrefabFactory.GetPrefab(selectedItemID);
 
-            //if (prefab == null)
-            //    return;
+            if (prefab == null)
+                return;
 
-            //if (index < 0)
-            //    return;
+            if (index < 0)
+                return;
 
-            //if (Prefabs.Count == 0)
-            //    return;
+            if (Prefabs.Count == 0)
+                return;
 
-            //if (index >= Prefabs.Count)
-            //    return;
+            if (index >= Prefabs.Count)
+                return;
 
-            //SelectedIndex = index;
-            //SelectedItem = prefab;
+            SelectedIndex = index;
+            SelectedItem = prefab;
         }
 
 

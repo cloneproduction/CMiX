@@ -27,12 +27,10 @@ namespace CMiX.Core.Compositing
         PrefabRepository CompositionRepository { get; set; }
         CompositionService CompositionService { get; set; }
 
-
         public bool AppliesTo(Type type)
         {
             return (typeof(Layer).Equals(type) || typeof(LayerModel).Equals(type));
         }
-
 
         public IPrefab GetPrefab(Guid id)
         {
@@ -41,24 +39,21 @@ namespace CMiX.Core.Compositing
 
         PrefabManagerSlot CreatePrefabManager()
         {
-            var factories = new List<IPrefabFactory>();
             var entityFactory = new EntityFactory(CompositionService);
             var lightFactory = new LightFactory(CompositionService);
             var cameraFactory = new CameraFactory(CompositionService);
             var emptyPrefabFactory = new EmptyPrefabFactory();
 
-            factories.Add(entityFactory);
-            factories.Add(lightFactory);
-            factories.Add(cameraFactory);
-            factories.Add(emptyPrefabFactory);
-
-            var prefabFactory = new PrefabFactory(factories);
+            var prefabFactory = new PrefabFactory();
+            prefabFactory.RegisterFactory(entityFactory);
+            prefabFactory.RegisterFactory(lightFactory);
+            prefabFactory.RegisterFactory(cameraFactory);
+            prefabFactory.RegisterFactory(emptyPrefabFactory);
 
             var prefabSlotManager = new PrefabManagerSlot(prefabFactory);
 
             return prefabSlotManager;
         }
-
 
         LayerService CreateLayerService()
         {
@@ -84,6 +79,7 @@ namespace CMiX.Core.Compositing
         {
             var textureModifierFactory = new TextureModifierFactory();
             var modifierManager = new ModifierManager(textureModifierFactory);
+
             return modifierManager;
         }
 

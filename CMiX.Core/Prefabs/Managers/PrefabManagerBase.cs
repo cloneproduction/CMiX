@@ -14,20 +14,16 @@ namespace CMiX.Core.Prefabs
 {
     public partial class PrefabManagerBase : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManagerBase(PrefabFactory prefabFactory)
+        public PrefabManagerBase(Guid id, PrefabFactory prefabFactory)
         {
+            ID = id;
             AddItemCommand = new RelayCommand<Type>(AddItem);
             PrefabFactory = prefabFactory;
             IsActive = true;
         }
 
-        public PrefabManagerBase(Guid id, PrefabRepository prefabRepository, PrefabFactory prefabFactory) : this(prefabFactory)
-        {
-            ID = id;
-        }
 
-
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
         public ICommand AddItemCommand { get; set; }
 
@@ -38,7 +34,6 @@ namespace CMiX.Core.Prefabs
         [ObservableProperty]
         private bool isExpanded;
 
- 
 
         public virtual void AddItem(Type type)
         {
@@ -76,15 +71,15 @@ namespace CMiX.Core.Prefabs
 
         public void SelectedItemChanged(Guid selectedItemID, int index)
         {
-            //var prefab = PrefabRepository.GetPrefab(selectedItemID);
+            var prefab = PrefabFactory.GetPrefab(selectedItemID);
 
-            //if (prefab == null)
-            //    return;
+            if (prefab == null)
+                return;
 
-            //if (index < 0)
-            //    return;
+            if (index < 0)
+                return;
 
-            //SelectedItem = prefab;
+            SelectedItem = prefab;
         }
 
 

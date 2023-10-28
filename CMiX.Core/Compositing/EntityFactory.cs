@@ -35,14 +35,13 @@ namespace CMiX.Core.Compositing
 
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
-            var factories = new List<IPrefabFactory>();
             var textureFactory = new TextureFactory(CompositionService);
-            factories.Add(textureFactory);
 
-            var prefabFactory = new PrefabFactory(factories);
+            var prefabFactory = new PrefabFactory();
+            prefabFactory.RegisterFactory(textureFactory);
 
-            var maskTexture = new MaskTexture(new PrefabManagerBase(prefabFactory));
-            var diffuseTexture = new DiffuseTexture(new PrefabManagerBase(prefabFactory));
+            var maskTexture = new MaskTexture(new PrefabManagerBase(Guid.NewGuid(), prefabFactory));
+            var diffuseTexture = new DiffuseTexture(new PrefabManagerBase(Guid.NewGuid(), prefabFactory));
 
             var material = new Material(diffuseTexture, maskTexture);
             var mesh = new Mesh();

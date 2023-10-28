@@ -37,9 +37,8 @@ namespace CMiX.Core.Compositing
 
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
-            var factories = new List<IPrefabFactory>();
-            factories.Add(new LayerFactory(CompositionService));
-            var prefabFactory = new PrefabFactory(factories);
+            var prefabFactory = new PrefabFactory();
+            prefabFactory.RegisterFactory(new LayerFactory(CompositionService));
 
             var prefabManagerDraggable = new DraggablePrefabManager(prefabFactory);
             var modifierManager = new ModifierManager(new TextureModifierFactory());

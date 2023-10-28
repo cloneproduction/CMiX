@@ -15,6 +15,7 @@ namespace CMiX.Core.Compositing
     {
         public Entity(PrefabService prefabService, Mesh mesh, Material material, ICollectionManager modifierManager)
         {
+            ID = prefabService.ID;
             Name = prefabService.Name;
             Visibility = prefabService.Visibility;
             IsSelected = prefabService.IsSelected;
@@ -27,7 +28,7 @@ namespace CMiX.Core.Compositing
             IsActive = true;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public StringValue Name { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
