@@ -14,10 +14,10 @@ namespace CMiX.Core.Rendering.Lights
     {
         public LightFactory(CompositionService compositionService)
         {
-            CompositionService = compositionService;
+            LayerRepository = compositionService.LayerRepository;
         }
 
-        CompositionService CompositionService { get; set; }
+        PrefabRepository LayerRepository { get; set; }
 
         public bool AppliesTo(Type type)
         {
@@ -28,12 +28,18 @@ namespace CMiX.Core.Rendering.Lights
         {
             var lightSettings = new LightSettings();
             var modifierManager = new ModifierManager(new LightModifierFactory());
-            return new LightEntity(prefabService, lightSettings, modifierManager);
+            var lightEntity = new LightEntity(prefabService, lightSettings, modifierManager);
+            LayerRepository.AddPrefab(lightEntity);
+
+            return lightEntity;
         }
 
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)
         {
-            return ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            var lightEntity = ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            LayerRepository.AddPrefab(lightEntity);
+
+            return lightEntity;
         }
     }
 }

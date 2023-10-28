@@ -16,10 +16,12 @@ namespace CMiX.Core.Compositing
     {
         public CompositionFactory(MasterBeat masterBeat, CompositionService compositionService)
         {
+            ProjectRepository = compositionService.ProjectRepository;
             CompositionService = compositionService;
             MasterBeat = masterBeat;
         }
 
+        PrefabRepository ProjectRepository { get; set; }
         CompositionService CompositionService { get; set; }
         MasterBeat MasterBeat { get; set; }
 
@@ -32,18 +34,23 @@ namespace CMiX.Core.Compositing
         {
             var factories = new List<IPrefabFactory>();
             factories.Add(new LayerFactory(CompositionService));
-            var prefabFactory = new PrefabFactory(factories, CompositionService.CompositionRepository);
+            var prefabFactory = new PrefabFactory(factories);
 
             var prefabManagerDraggable = new DraggablePrefabManager(prefabFactory);
             var modifierManager = new ModifierManager(new TextureModifierFactory());
             var outputSettings = new OutputSettings();
+            var composition = new Composition(prefabService, MasterBeat, prefabManagerDraggable, modifierManager, outputSettings);
+            ProjectRepository.AddPrefab(composition);
 
-            return new Composition(prefabService, MasterBeat, prefabManagerDraggable, modifierManager, outputSettings);
+            return composition;
         }
 
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)
         {
-            return ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            var composition = ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            ProjectRepository.AddPrefab(composition);
+
+            return composition;
         }
     }
 }

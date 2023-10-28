@@ -7,13 +7,11 @@ namespace CMiX.Core.Prefabs
 {
     public class PrefabFactory
     {
-        public PrefabFactory(List<IPrefabFactory> prefabFactories, PrefabRepository prefabRepository)
+        public PrefabFactory(List<IPrefabFactory> prefabFactories)
         {
             Factories = prefabFactories;
-            PrefabRepository = prefabRepository;
         }
 
-        public PrefabRepository PrefabRepository { get; set; }
         public List<IPrefabFactory> Factories { get; set; }
 
         private int nameCount = 0;
@@ -40,7 +38,6 @@ namespace CMiX.Core.Prefabs
             var prefabService = CreatePrefabService(type);
             var prefab = factory.CreatePrefab(prefabService);
 
-            PrefabRepository.AddPrefab(prefab);
             return prefab;
         }
 
@@ -55,9 +52,7 @@ namespace CMiX.Core.Prefabs
             var prefab = factory.CreatePrefab(prefabService, prefabModel);
             prefab.Name.Value = prefabModel.Name.Value;
 
-            PrefabRepository.AddPrefab(prefab);
             return prefab;
-            //return ControlMessenger.Mapper.Map<IPrefab>(prefabModel);
         }
     }
 }

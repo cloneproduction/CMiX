@@ -13,11 +13,10 @@ namespace CMiX.Core.Rendering.Cameras
     {
         public CameraFactory(CompositionService compositionService)
         {
-            CompositionService = compositionService;
+            EntityRepository = compositionService.EntityRepository;
         }
 
-        CompositionService CompositionService { get; set; }
-
+        PrefabRepository EntityRepository { get; set; }
         public bool AppliesTo(Type type)
         {
             return (typeof(Camera).Equals(type) || typeof(CameraModel).Equals(type));
@@ -27,12 +26,18 @@ namespace CMiX.Core.Rendering.Cameras
         {
             var cameraSettings = new CameraSettings();
             var modifierManager = new ModifierManager(new CameraModifierFactory());
-            return new Camera(prefabService, cameraSettings, modifierManager);
+            var camera = new Camera(prefabService, cameraSettings, modifierManager);
+            EntityRepository.AddPrefab(camera);
+
+            return camera;
         }
 
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)
         {
-            return ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            var camera = ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            EntityRepository.AddPrefab(camera);
+
+            return camera;
         }
     }
 }

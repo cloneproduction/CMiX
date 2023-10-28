@@ -20,6 +20,7 @@ namespace CMiX.Core.ViewModels
             MainWindowController = new MainWindowController();
             AssetManager = new AssetManager(project);
             MainMenu = new MainMenu(project);
+            CompositionService = compositionService;
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);

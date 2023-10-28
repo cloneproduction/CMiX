@@ -5,7 +5,6 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
-using CMiX.Core.ViewModels.Scheduling;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Console
@@ -30,7 +29,7 @@ namespace CMiX.Console
             var factories = new List<IPrefabFactory>();
             factories.Add(compositionFactory);
 
-            var factory = new PrefabFactory(factories, compositionService.CompositionRepository);
+            var factory = new PrefabFactory(factories);
 
             Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
             var manager = new PrefabManagerBase(CompositionManagerID, compositionService.ProjectRepository, factory);
