@@ -12,6 +12,11 @@ namespace CMiX.Core.Prefabs
         
         }
 
+        public IPrefab GetPrefab(Guid id)
+        {
+            return null;
+        }
+
         public bool AppliesTo(Type type)
         {
             return (typeof(EmptyPrefab).Equals(type) || typeof(EmptyPrefabModel).Equals(type));

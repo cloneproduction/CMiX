@@ -19,6 +19,11 @@ namespace CMiX.Core.Rendering.Lights
 
         PrefabRepository LayerRepository { get; set; }
 
+        public IPrefab GetPrefab(Guid id)
+        {
+            return LayerRepository.GetPrefab(id);
+        }
+
         public bool AppliesTo(Type type)
         {
             return (typeof(LightEntity).Equals(type) || typeof(LightEntityModel).Equals(type));

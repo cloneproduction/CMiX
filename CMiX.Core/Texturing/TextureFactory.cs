@@ -17,6 +17,12 @@ namespace CMiX.Core.Texturing
         }
 
         PrefabRepository PrefabRepository { get; }
+
+        public IPrefab GetPrefab(Guid id)
+        {
+            return PrefabRepository.GetPrefab(id);
+        }
+
         public bool AppliesTo(Type type)
         {
             return (typeof(Texture).Equals(type) || typeof(TextureModel).Equals(type));

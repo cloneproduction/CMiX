@@ -17,6 +17,12 @@ namespace CMiX.Core.Rendering.Cameras
         }
 
         PrefabRepository EntityRepository { get; set; }
+
+        public IPrefab GetPrefab(Guid id)
+        {
+            return EntityRepository.GetPrefab(id);
+        }
+
         public bool AppliesTo(Type type)
         {
             return (typeof(Camera).Equals(type) || typeof(CameraModel).Equals(type));

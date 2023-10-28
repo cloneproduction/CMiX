@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
@@ -13,6 +14,7 @@ namespace CMiX.Core.Texturing
     {
         public Texture(PrefabService prefabService, ModifierManager modifierManager)
         {
+            ID = prefabService.ID;
             Name = prefabService.Name;
             IsSelected = prefabService.IsSelected;
             IsRenaming = prefabService.IsRenaming;
@@ -30,7 +32,7 @@ namespace CMiX.Core.Texturing
             ModifierManager = modifierManager;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public StringValue Name { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
@@ -45,7 +47,7 @@ namespace CMiX.Core.Texturing
 
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ICollectionManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = false;

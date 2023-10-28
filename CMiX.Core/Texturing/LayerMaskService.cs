@@ -7,12 +7,12 @@ namespace CMiX.Core.Texturing
 {
     public class LayerMaskService
     {
-        public LayerMaskService() 
+        public LayerMaskService(BooleanValue isMask, GenericValue<MaskChannel> maskChannel, GenericValue<MaskMode> maskMode, BooleanValue invert) 
         {
-            IsMask = new BooleanValue(false);
-            MaskChannel = new GenericValue<MaskChannel>();
-            MaskMode = new GenericValue<MaskMode>();
-            Invert = new BooleanValue(false);
+            IsMask = isMask;
+            MaskChannel = maskChannel;
+            MaskMode = maskMode;
+            Invert = invert;
         }
 
         public BooleanValue Invert { get; set; }

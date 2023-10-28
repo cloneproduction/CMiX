@@ -5,6 +5,7 @@ namespace CMiX.Core.Prefabs
 {
     public interface IPrefabFactory
     {
+        IPrefab GetPrefab(Guid id);
         IPrefab CreatePrefab(PrefabService prefabService);
         IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel);
         bool AppliesTo(Type type);

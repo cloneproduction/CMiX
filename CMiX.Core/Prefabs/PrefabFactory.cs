@@ -18,6 +18,7 @@ namespace CMiX.Core.Prefabs
 
         PrefabService CreatePrefabService(Type type)
         {
+            var id = Guid.NewGuid();
             var name = new StringValue(type.Name + "." + nameCount.ToString("000"));
             var isRenaming = new BooleanValue(false);
             var isSelected = new BooleanValue(true);
@@ -25,7 +26,7 @@ namespace CMiX.Core.Prefabs
 
             nameCount++;
 
-            return new PrefabService(name, isRenaming, isSelected, visibility);
+            return new PrefabService(id, name, isRenaming, isSelected, visibility);
         }
 
         public IPrefab CreatePrefab(Type type)
@@ -52,6 +53,12 @@ namespace CMiX.Core.Prefabs
             var prefab = factory.CreatePrefab(prefabService, prefabModel);
             prefab.Name.Value = prefabModel.Name.Value;
 
+            return prefab;
+        }
+
+        public IPrefab GetPrefab(Guid id)
+        {
+            var prefab = Factories.FirstOrDefault(x => x.GetPrefab(id) != null).GetPrefab(id);
             return prefab;
         }
     }

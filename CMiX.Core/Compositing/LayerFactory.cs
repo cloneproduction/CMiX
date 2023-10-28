@@ -3,6 +3,7 @@
 
 using System.Windows.Media;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
@@ -20,47 +21,92 @@ namespace CMiX.Core.Compositing
         public LayerFactory(CompositionService compositionService)
         {
             CompositionService = compositionService;
+            CompositionRepository = compositionService.CompositionRepository;
         }
 
+        PrefabRepository CompositionRepository { get; set; }
         CompositionService CompositionService { get; set; }
+
 
         public bool AppliesTo(Type type)
         {
             return (typeof(Layer).Equals(type) || typeof(LayerModel).Equals(type));
         }
 
-        public IPrefab CreatePrefab(PrefabService prefabService)
+
+        public IPrefab GetPrefab(Guid id)
         {
-            var opacity = new FloatValue(1.0f);
-            var backgroundColor = new ColorValue(Color.FromArgb(255, 128, 128, 128));
-            var blendMode = new GenericValue<BlendModeEnum>(BlendModeEnum.Normal);
-            var ambientOcclusion = new AmbientOcclusion();
+            return CompositionRepository.GetPrefab(id);
+        }
 
-            var layerService = new LayerService(opacity, backgroundColor, blendMode, ambientOcclusion);
-            var layerMaskService = new LayerMaskService();
-
+        PrefabManagerSlot CreatePrefabManager()
+        {
             var factories = new List<IPrefabFactory>();
             var entityFactory = new EntityFactory(CompositionService);
             var lightFactory = new LightFactory(CompositionService);
             var cameraFactory = new CameraFactory(CompositionService);
             var emptyPrefabFactory = new EmptyPrefabFactory();
 
-            factories.Add(entityFactory); 
-            factories.Add(lightFactory); 
+            factories.Add(entityFactory);
+            factories.Add(lightFactory);
             factories.Add(cameraFactory);
             factories.Add(emptyPrefabFactory);
 
             var prefabFactory = new PrefabFactory(factories);
 
             var prefabSlotManager = new PrefabManagerSlot(prefabFactory);
-            var modifierManager = new ModifierManager(new TextureModifierFactory());
 
-            return new Layer(prefabService, layerService, layerMaskService, prefabSlotManager, modifierManager);
+            return prefabSlotManager;
+        }
+
+
+        LayerService CreateLayerService()
+        {
+            var opacity = new FloatValue(1.0f);
+            var backgroundColor = new ColorValue(Color.FromArgb(255, 128, 128, 128));
+            var blendMode = new GenericValue<BlendModeEnum>(BlendModeEnum.Normal);
+            var ambientOcclusion = new AmbientOcclusion();
+
+            return new LayerService(opacity, backgroundColor, blendMode, ambientOcclusion);
+        }
+
+        LayerMaskService CreateMaskService()
+        {
+            var isMask = new BooleanValue(false);
+            var maskChannel = new GenericValue<MaskChannel>();
+            var maskMode = new GenericValue<MaskMode>();
+            var invert = new BooleanValue(false);
+
+            return new LayerMaskService(isMask, maskChannel, maskMode, invert);
+        }
+
+        ICollectionManager CreateTextureModifierManager()
+        {
+            var textureModifierFactory = new TextureModifierFactory();
+            var modifierManager = new ModifierManager(textureModifierFactory);
+            return modifierManager;
+        }
+
+        public IPrefab CreatePrefab(PrefabService prefabService)
+        {
+            var layerService = CreateLayerService();
+            var layerMaskService = CreateMaskService();
+            var prefabManager = CreatePrefabManager();
+            var textureModifierManager = CreateTextureModifierManager();
+            
+            var layer = new Layer(prefabService, layerService, layerMaskService, prefabManager, textureModifierManager);
+
+            CompositionRepository.AddPrefab(layer);
+
+            return layer;
         }
 
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)
         {
-            return ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            var layer = ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            CompositionRepository.AddPrefab(layer);
+
+            return layer;
         }
     }
 }

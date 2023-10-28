@@ -25,6 +25,11 @@ namespace CMiX.Core.Compositing
         CompositionService CompositionService { get; set; }
         MasterBeat MasterBeat { get; set; }
 
+        public IPrefab GetPrefab(Guid id)
+        {
+            return ProjectRepository.GetPrefab(id);
+        }
+
         public bool AppliesTo(Type type)
         {
             return (typeof(Composition).Equals(type) || typeof(CompositionModel).Equals(type));
@@ -40,6 +45,7 @@ namespace CMiX.Core.Compositing
             var modifierManager = new ModifierManager(new TextureModifierFactory());
             var outputSettings = new OutputSettings();
             var composition = new Composition(prefabService, MasterBeat, prefabManagerDraggable, modifierManager, outputSettings);
+
             ProjectRepository.AddPrefab(composition);
 
             return composition;

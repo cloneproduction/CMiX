@@ -23,6 +23,11 @@ namespace CMiX.Core.Compositing
         CompositionService CompositionService { get; set; }
         PrefabRepository LayerRepository { get; set; }
 
+        public IPrefab GetPrefab(Guid id)
+        {
+            return LayerRepository.GetPrefab(id);
+        }
+
         public bool AppliesTo(Type type)
         {
             return (typeof(Entity).Equals(type) || typeof(EntityModel).Equals(type));
@@ -38,10 +43,12 @@ namespace CMiX.Core.Compositing
 
             var maskTexture = new MaskTexture(new PrefabManagerBase(prefabFactory));
             var diffuseTexture = new DiffuseTexture(new PrefabManagerBase(prefabFactory));
+
             var material = new Material(diffuseTexture, maskTexture);
             var mesh = new Mesh();
             var modifierManager = new ModifierManager(new EntityModifierFactory());
             var entity = new Entity(prefabService, mesh, material, modifierManager);
+
             LayerRepository.AddPrefab(entity);
 
             return entity;
@@ -50,6 +57,7 @@ namespace CMiX.Core.Compositing
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)
         {
             var entity = ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+
             LayerRepository.AddPrefab(entity);
 
             return entity;

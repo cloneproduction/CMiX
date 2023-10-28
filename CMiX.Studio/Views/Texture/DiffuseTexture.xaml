@@ -57,7 +57,7 @@
                     <ComboBox
                         Grid.Column="0"
                         DockPanel.Dock="Left"
-                        ItemsSource="{Binding TextureManager.PrefabRepository.Prefabs}"
+                        ItemsSource="{Binding Path=DataContext.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                         SelectedItem="{Binding TextureManager.SelectedItem}">
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>
@@ -102,9 +102,7 @@
                     </Style>
                 </Border.Style>
 
-                <Views:PathSelector 
-                    ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" 
-                    SelectedItem="{Binding Path=TextureManager.SelectedItem.Image.Asset.Value}" />
+                <Views:PathSelector ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" SelectedItem="{Binding Path=TextureManager.SelectedItem.Image.Asset.Value}" />
 
             </Border>
 

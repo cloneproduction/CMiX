@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,8 +11,9 @@ namespace CMiX.Core.Rendering.Cameras
 {
     public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
-        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ModifierManager modifierManager)
+        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ICollectionManager modifierManager)
         {
+            ID = prefabService.ID;
             IsSelected = prefabService.IsSelected;
             IsRenaming = prefabService.IsRenaming;
             Name = prefabService.Name;
@@ -29,7 +31,7 @@ namespace CMiX.Core.Rendering.Cameras
             ModifierManager = modifierManager;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public BooleanValue Visibility { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
@@ -44,7 +46,7 @@ namespace CMiX.Core.Rendering.Cameras
         public FloatValue FarClip { get; set; }
         public BooleanValue Projection { get; set; }
 
-        public ModifierManager ModifierManager { get; set; }
+        public ICollectionManager ModifierManager { get; set; }
 
         [ObservableProperty]
         bool isExpanded = false;

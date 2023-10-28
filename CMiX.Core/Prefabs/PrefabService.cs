@@ -7,14 +7,16 @@ namespace CMiX.Core.Prefabs
 {
     public class PrefabService
     {
-        public PrefabService(StringValue name, BooleanValue isRenaming, BooleanValue isSelected, BooleanValue visibility)
+        public PrefabService(Guid id, StringValue name, BooleanValue isRenaming, BooleanValue isSelected, BooleanValue visibility)
         {
+            ID = id;
             Name = name;
             IsRenaming = isRenaming;
             IsSelected = isSelected;
             Visibility = visibility;
         }
 
+        public Guid ID { get; set; }
         public StringValue Name { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }

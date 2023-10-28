@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Collections;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
@@ -12,7 +13,7 @@ namespace CMiX.Core.Compositing
 {
     public partial class Entity : ObservableRecipient, IPrefab, IModifiable
     {
-        public Entity(PrefabService prefabService, Mesh mesh, Material material, ModifierManager modifierManager)
+        public Entity(PrefabService prefabService, Mesh mesh, Material material, ICollectionManager modifierManager)
         {
             Name = prefabService.Name;
             Visibility = prefabService.Visibility;
@@ -31,7 +32,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue Visibility { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ICollectionManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
     }

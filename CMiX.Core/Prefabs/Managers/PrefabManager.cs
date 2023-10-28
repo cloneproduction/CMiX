@@ -23,8 +23,6 @@ namespace CMiX.Core.Prefabs
             AddEmptyItemCommand = new RelayCommand(AddEmptyPrefab);
             DeleteItemCommand = new RelayCommand<IPrefab>(DeleteItem);
             IsActive = true;
-
-            //PrefabRepository = prefabRepository;
             PrefabFactory = prefabFactory;
 
             Prefabs = new ObservableCollection<IPrefab>();
@@ -32,8 +30,6 @@ namespace CMiX.Core.Prefabs
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabFactory PrefabFactory { get; set; }
-        //public PrefabRepository PrefabRepository { get; set; }
-
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
@@ -80,8 +76,6 @@ namespace CMiX.Core.Prefabs
         public virtual void AddItem(Type type)
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(type);
-            //PrefabRepository.AddPrefab(prefab);
-
             var prefabModel = ControlMessenger.Mapper.Map<IPrefabModel>(prefab);
 
             if (SelectedItem is EmptyPrefab emptyPrefab)
@@ -104,7 +98,6 @@ namespace CMiX.Core.Prefabs
                 return;
 
             IPrefab prefab = PrefabFactory.CreatePrefab((IPrefabModel)controlModel);
-            //PrefabRepository.AddPrefab(prefab);
 
             if (SelectedItem is EmptyPrefab)
                 Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
@@ -131,7 +124,6 @@ namespace CMiX.Core.Prefabs
 
             prefab = PrefabFactory.CreatePrefab((IPrefabModel)controlModel);
             Prefabs[index] = prefab;
-            //PrefabRepository.AddPrefab(prefab);
         }
 
 
