@@ -22,6 +22,7 @@ namespace CMiX.Core.Prefabs
             AddItemCommand = new RelayCommand<Type>(AddItem);
             AddEmptyItemCommand = new RelayCommand(AddEmptyPrefab);
             DeleteItemCommand = new RelayCommand<IPrefab>(DeleteItem);
+            //SelectionChangedCommand = new RelayCommand(SelectionChanged);
             IsActive = true;
 
             PrefabFactory = prefabFactory;
@@ -37,6 +38,7 @@ namespace CMiX.Core.Prefabs
         public ICommand AddItemCommand { get; set; }
         public ICommand AddEmptyItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
+        public ICommand SelectionChangedCommand { get; set; }
 
 
         [ObservableProperty]
@@ -130,15 +132,39 @@ namespace CMiX.Core.Prefabs
         }
 
 
-        partial void OnSelectedItemChanged(IPrefab oldValue, IPrefab newValue)
+
+        partial void OnSelectedItemChanged(IPrefab value)
         {
-            if (newValue == null)
+            var index = SelectedIndex;
+
+            if (Prefabs.Count == 0)
+            {
+                if(value != null)
+                {
+                    if(index < 0)
+                    {
+                        Prefabs.Add(value);
+                    }
+                    else
+                    {
+                        Prefabs[index] = value;
+                    }
+                    
+
+                    SelectedIndex = index;
+                    SelectedItem = value;
+
+                    Send(new MessageSelectedItemChanged(ID, value.ID, index));
+                }
+
+                return;
+            }
+
+
+            if (value == null)
                 return;
 
             if (SelectedItem == null)
-                return;
-
-            if (Prefabs.Count == 0)
                 return;
 
             if (SelectedIndex < 0)
@@ -147,36 +173,52 @@ namespace CMiX.Core.Prefabs
             if (SelectedIndex >= Prefabs.Count)
                 return;
 
-            var index = SelectedIndex;
 
-            Prefabs[index] = newValue;
+            Prefabs[index] = value;
 
             SelectedIndex = index;
-            SelectedItem = newValue;
+            SelectedItem = value;
 
-            Send(new MessageSelectedItemChanged(ID, newValue.ID, index));
+            Send(new MessageSelectedItemChanged(ID, value.ID, index));
         }
 
         public void SelectedItemChanged(Guid selectedItemID, int index)
         {
-            //var prefab = PrefabRepository.GetPrefab(selectedItemID);
+            var prefab = PrefabFactory.GetPrefab(selectedItemID);
 
-            //if (prefab == null)
-            //    return;
+            if (Prefabs.Count == 0)
+            {
+                if(prefab != null)
+                {
+                    if (index < 0)
+                    {
+                        Prefabs.Add(prefab);
+                    }
+                    else
+                    {
+                        Prefabs[index] = prefab;
+                    }
 
-            //if (index < 0)
-            //    return;
+                    SelectedIndex = index;
+                    SelectedItem = prefab;
+                }
+            } 
 
-            //if (Prefabs.Count == 0)
-            //    return;
 
-            //if (index >= Prefabs.Count)
-            //    return;
+            if (prefab == null)
+                return;
 
-            //Prefabs[index] = prefab;
+            if (index < 0)
+                return;
 
-            //SelectedIndex = index;
-            //SelectedItem = prefab;
+            if (index >= Prefabs.Count)
+                return;
+
+
+            Prefabs[index] = prefab;
+
+            SelectedIndex = index;
+            SelectedItem = prefab;
         }
 
 

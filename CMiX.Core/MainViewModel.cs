@@ -13,20 +13,20 @@ namespace CMiX.Core.ViewModels
 {
     public class MainViewModel
     {
-        public MainViewModel(Project project, CompositionService compositionService, IMessageService messageService)
+        public MainViewModel(Project project, PrefabRepositories prefabRepositories, ServerManager serverManager, AssetManager assetManager, MainWindowController mainWindowController, MainMenu mainMenu)
         {
             Project = project;
-            ServerManager = new ServerManager(messageService);
-            MainWindowController = new MainWindowController();
-            AssetManager = new AssetManager(project);
-            MainMenu = new MainMenu(project);
-            CompositionService = compositionService;
+            ServerManager = serverManager;
+            MainWindowController = mainWindowController;
+            AssetManager = assetManager;
+            MainMenu = mainMenu;
+            PrefabRepositories = prefabRepositories;
 
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
             WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
-        public CompositionService CompositionService { get; set; }
+        public PrefabRepositories PrefabRepositories { get; set; }
         public Project Project { get; set; }
         public ServerManager ServerManager { get; set; }
         public AssetManager AssetManager { get; set; }

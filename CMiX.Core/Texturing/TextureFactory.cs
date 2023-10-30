@@ -11,9 +11,9 @@ namespace CMiX.Core.Texturing
 {
     public class TextureFactory : IPrefabFactory
     {
-        public TextureFactory(CompositionService compositionService) 
+        public TextureFactory(PrefabRepositories prefabRepositories) 
         {
-            PrefabRepository = compositionService.EntityRepository;
+            PrefabRepository = prefabRepositories.EntityRepository;
         }
 
         PrefabRepository PrefabRepository { get; }

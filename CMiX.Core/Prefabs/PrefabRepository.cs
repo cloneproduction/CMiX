@@ -12,6 +12,7 @@ namespace CMiX.Core.Prefabs
             Prefabs = new ObservableCollection<IPrefab>();
         }
 
+        private int nameCount = 0;
         public ObservableCollection<IPrefab> Prefabs { get; set; }
 
         public void AddPrefab(IPrefab prefab)

@@ -14,13 +14,13 @@ namespace CMiX.Core.Compositing
 {
     public class EntityFactory : IPrefabFactory
     {
-        public EntityFactory(CompositionService compositionService)
+        public EntityFactory(PrefabRepositories prefabRepositories)
         {
-            CompositionService = compositionService;
-            LayerRepository = compositionService.LayerRepository;
+            PrefabRepositories = prefabRepositories;
+            LayerRepository = prefabRepositories.LayerRepository;
         }
 
-        CompositionService CompositionService { get; set; }
+        PrefabRepositories PrefabRepositories { get; set; }
         PrefabRepository LayerRepository { get; set; }
 
         public IPrefab GetPrefab(Guid id)
@@ -35,7 +35,8 @@ namespace CMiX.Core.Compositing
 
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
-            var textureFactory = new TextureFactory(CompositionService);
+            
+            var textureFactory = new TextureFactory(PrefabRepositories);
 
             var prefabFactory = new PrefabFactory();
             prefabFactory.RegisterFactory(textureFactory);
@@ -46,6 +47,7 @@ namespace CMiX.Core.Compositing
             var material = new Material(diffuseTexture, maskTexture);
             var mesh = new Mesh();
             var modifierManager = new ModifierManager(new EntityModifierFactory());
+
             var entity = new Entity(prefabService, mesh, material, modifierManager);
 
             LayerRepository.AddPrefab(entity);

@@ -57,7 +57,7 @@
                     <ComboBox
                         Grid.Column="0"
                         DockPanel.Dock="Left"
-                        ItemsSource="{Binding Path=DataContext.CompositionService.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                        ItemsSource="{Binding Path=DataContext.PrefabRepositories.EntityRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                         SelectedItem="{Binding TextureManager.SelectedItem}">
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>

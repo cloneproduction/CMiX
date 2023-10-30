@@ -5,6 +5,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="prefabSlotManager"
     d:DesignHeight="215.334"
@@ -91,6 +92,12 @@
                     DockPanel.Dock="Left"
                     ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
                     SelectedValue="{Binding SelectedItem}">
+
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
 
                     <ComboBox.Style>
 

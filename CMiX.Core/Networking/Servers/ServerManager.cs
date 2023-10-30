@@ -3,6 +3,7 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
+using Ceras;
 using CMiX.Core.Networking.Messenger;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,17 +11,16 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Network
 {
-    public class ServerManager : ObservableObject
+    public partial class ServerManager : ObservableObject
     {
-        public ServerManager(IMessageService messageService)
+        public ServerManager(ServerFactory serverFactory, CerasSerializer cerasSerializer)
         {
-            MessageService = messageService;
-
-            ServerFactory = new ServerFactory();
+            ServerFactory = serverFactory;
 
             Settings settings = new Settings("127.0.0.1", 8080);
-            var server = new Server(settings);
-            MessageService.Servers.Add(server);
+            var server = new Server(settings, cerasSerializer);
+            Servers = new ObservableCollection<Server>();
+            Servers.Add(server);
 
             AddItemCommand = new RelayCommand(AddServer);
             DeleteItemCommand = new RelayCommand(DeleteServer);
@@ -28,30 +28,16 @@ namespace CMiX.Core.Network
             EditMessengerSettingsCommand = new RelayCommand<Server>(EditMessengerSettings);
         }
 
-
         public ICommand EditMessengerSettingsCommand { get; }
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand RenameServerCommand { get; set; }
 
-
         private ServerFactory ServerFactory { get; set; }
-        public IMessageService MessageService { get; set; }
+        public ObservableCollection<Server> Servers { get; set; }
 
-
-        public ObservableCollection<Server> Servers
-        {
-            get => MessageService.Servers;
-        }
-
-
+        [ObservableProperty]
         private Server _selectedServer;
-        public Server SelectedServer
-        {
-            get => _selectedServer;
-            set => SetProperty(ref _selectedServer, value);
-        }
-
 
         public void EditMessengerSettings(Server server)
         {
@@ -63,8 +49,8 @@ namespace CMiX.Core.Network
 
         public void AddServer()
         {
-            var messenger = ServerFactory.CreateServer();
-            MessageService.Servers.Add(messenger);
+            //var messenger = ServerFactory.CreateServer();
+            //MessageService.Servers.Add(messenger);
         }
 
         private void DeleteServer()
@@ -72,11 +58,11 @@ namespace CMiX.Core.Network
             if (SelectedServer != null)
             {
                 SelectedServer.Stop();
-                MessageService.Servers.Remove(SelectedServer);
+                Servers.Remove(SelectedServer);
 
-                if (MessageService.Servers.Count > 0)
+                if (Servers.Count > 0)
                 {
-                    SelectedServer = MessageService.Servers[0];
+                    SelectedServer = Servers[0];
                     return;
                 }
 

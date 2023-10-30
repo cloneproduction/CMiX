@@ -14,15 +14,15 @@ namespace CMiX.Core.Compositing
 {
     public class CompositionFactory : IPrefabFactory
     {
-        public CompositionFactory(MasterBeat masterBeat, CompositionService compositionService)
+        public CompositionFactory(MasterBeat masterBeat, PrefabRepositories prefabRepositories)
         {
-            ProjectRepository = compositionService.ProjectRepository;
-            CompositionService = compositionService;
+            ProjectRepository = prefabRepositories.ProjectRepository;
+            PrefabRepositories = prefabRepositories;
             MasterBeat = masterBeat;
         }
 
         PrefabRepository ProjectRepository { get; set; }
-        CompositionService CompositionService { get; set; }
+        PrefabRepositories PrefabRepositories { get; set; }
         MasterBeat MasterBeat { get; set; }
 
         public IPrefab GetPrefab(Guid id)
@@ -38,7 +38,7 @@ namespace CMiX.Core.Compositing
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
             var prefabFactory = new PrefabFactory();
-            prefabFactory.RegisterFactory(new LayerFactory(CompositionService));
+            prefabFactory.RegisterFactory(new LayerFactory(PrefabRepositories));
 
             var prefabManagerDraggable = new DraggablePrefabManager(prefabFactory);
             var modifierManager = new ModifierManager(new TextureModifierFactory());

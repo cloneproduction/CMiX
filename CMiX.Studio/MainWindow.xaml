@@ -138,7 +138,7 @@
                                     <StackPanel>
 
                                         <Panels:IndentedExpander Header="Beat Modifiers">
-                                            <Views:TextureFilter  DataContext="{Binding Project.CompositionService.CompositionManager.SelectedItem.ModifierManager}"/>
+                                            <Views:TextureFilter  DataContext="{Binding Project.PrefabRepositories.CompositionManager.SelectedItem.ModifierManager}"/>
                                         </Panels:IndentedExpander>
 
                                         <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">

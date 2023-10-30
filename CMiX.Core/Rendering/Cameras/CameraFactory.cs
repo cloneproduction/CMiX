@@ -11,9 +11,9 @@ namespace CMiX.Core.Rendering.Cameras
 {
     public class CameraFactory : IPrefabFactory
     {
-        public CameraFactory(CompositionService compositionService)
+        public CameraFactory(PrefabRepositories prefabRepositories)
         {
-            EntityRepository = compositionService.EntityRepository;
+            EntityRepository = prefabRepositories.EntityRepository;
         }
 
         PrefabRepository EntityRepository { get; set; }

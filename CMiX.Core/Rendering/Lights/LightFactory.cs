@@ -12,9 +12,9 @@ namespace CMiX.Core.Rendering.Lights
 {
     public class LightFactory : IPrefabFactory
     {
-        public LightFactory(CompositionService compositionService)
+        public LightFactory(PrefabRepositories prefabRepositories)
         {
-            LayerRepository = compositionService.LayerRepository;
+            LayerRepository = prefabRepositories.LayerRepository;
         }
 
         PrefabRepository LayerRepository { get; set; }

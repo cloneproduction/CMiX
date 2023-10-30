@@ -12,6 +12,13 @@ namespace CMiX.Core.Prefabs
 
         }
 
+
+        public PrefabFactory(List<IPrefabFactory> factories)
+        {
+            Factories = factories;
+        }
+
+
         List<IPrefabFactory> Factories { get; set; }
 
         private int nameCount = 0;
@@ -22,7 +29,7 @@ namespace CMiX.Core.Prefabs
             var name = new StringValue(type.Name + "." + nameCount.ToString("000"));
             var isRenaming = new BooleanValue(false);
             var isSelected = new BooleanValue(true);
-            var visibility = new BooleanValue(true);
+            var visibility = new BooleanValue(false);
 
             nameCount++;
 

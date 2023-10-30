@@ -1,10 +1,13 @@
 ﻿using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
+using CMiX.Core.Network;
+using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Presentation.ViewModels;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
+using CMiX.Core.ViewModels.Assets;
+using CMiX.Core.ViewModels.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Console
@@ -15,36 +18,33 @@ namespace CMiX.Console
         {
             ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
-
             ServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            MessageService messageService = serviceProvider.GetRequiredService<MessageService>();
-            messageService.StartClient(new Settings("127.0.0.1", 8080));
-
-            CompositionService compositionService = serviceProvider.GetRequiredService<CompositionService>();
-
-            var masterBeat = new MasterBeat();
-
-            var compositionFactory = new CompositionFactory(masterBeat, compositionService);
-
-            var factory = new PrefabFactory();
-            factory.RegisterFactory(compositionFactory);
-
-            Guid CompositionManagerID = Guid.Parse("00000000-0000-0000-0000-000000000001");
-            var manager = new PrefabManagerBase(CompositionManagerID, factory);
-            Project project = new Project(manager);
+            serviceProvider.GetRequiredService<Client>().Start(new Settings("127.0.0.1", 8080));
+            var project = serviceProvider.GetRequiredService<Project>();
 
             System.Console.ReadLine();
         }
 
-
         private static void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IService, CompositionService>();
-            services.AddSingleton<CompositionService>();
-            services.AddSingleton<Project>();
             services.AddSingleton<CerasSerializer>();
-            services.AddSingleton<MessageService>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<Project>();
+            services.AddSingleton<PrefabRepositories>();
+            services.AddSingleton<MasterBeat>();
+            services.AddSingleton<CompositionFactory>();
+            services.AddSingleton<AssetManager>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<ServerManager>();
+            services.AddSingleton<MainWindowController>();
+            services.AddSingleton<MainMenu>();
+            services.AddSingleton<Client>();
+            services.AddSingleton<MessageProcessor>();
+            services.AddSingleton<ServerFactory>();
+
+            services.AddSingleton(x => new PrefabFactory(new List<IPrefabFactory> { x.GetRequiredService<CompositionFactory>() }));
+            services.AddSingleton(x => new PrefabManagerBase(Guid.Parse("00000000-0000-0000-0000-000000000001"), x.GetRequiredService<PrefabFactory>()));
         }
     }
 }

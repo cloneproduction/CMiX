@@ -18,14 +18,14 @@ namespace CMiX.Core.Compositing
 {
     public class LayerFactory : IPrefabFactory
     {
-        public LayerFactory(CompositionService compositionService)
+        public LayerFactory(PrefabRepositories prefabRepositories)
         {
-            CompositionService = compositionService;
-            CompositionRepository = compositionService.CompositionRepository;
+            PrefabRepositories = prefabRepositories;
+            CompositionRepository = prefabRepositories.CompositionRepository;
         }
 
         PrefabRepository CompositionRepository { get; set; }
-        CompositionService CompositionService { get; set; }
+        PrefabRepositories PrefabRepositories { get; set; }
 
         public bool AppliesTo(Type type)
         {
@@ -39,9 +39,9 @@ namespace CMiX.Core.Compositing
 
         PrefabManagerSlot CreatePrefabManager()
         {
-            var entityFactory = new EntityFactory(CompositionService);
-            var lightFactory = new LightFactory(CompositionService);
-            var cameraFactory = new CameraFactory(CompositionService);
+            var entityFactory = new EntityFactory(PrefabRepositories);
+            var lightFactory = new LightFactory(PrefabRepositories);
+            var cameraFactory = new CameraFactory(PrefabRepositories);
             var emptyPrefabFactory = new EmptyPrefabFactory();
 
             var prefabFactory = new PrefabFactory();

@@ -7,34 +7,22 @@ using System.Net.Sockets;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using CMiX.Core.ViewModels;
+using Ceras;
 using CMiX.Core.Network;
+using CMiX.Core.Networking.Messages;
+using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using WatsonTcp;
 
 namespace CMiX.Core.Networking.Messenger
 {
-    public class Server : ObservableObject
+    public class Server : ObservableRecipient
     {
-        public Server(int id)
+        public Server(Settings settings, CerasSerializer cerasSerializer)
         {
-            ClientIsConnected = false;
-            ServerIsRunning = false;
-            DataSent = false;
-
-            Name = $"Server ({id})";
-            Status = "Disconnected";
-            ConnectedClients = new ObservableCollection<ConnectedClient>();
-            Statistics = new ServerStatistics();
-
-            PauseCommand = new RelayCommand(Pause);
-            EditSettingsCommand = new RelayCommand(EditSettings);
-            ApplySettingsCommand = new RelayCommand(Apply);
-        }
-
-        public Server(Settings settings)
-        {
+            Serializer = cerasSerializer;
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
@@ -49,6 +37,22 @@ namespace CMiX.Core.Networking.Messenger
             PauseCommand = new RelayCommand(Pause);
             EditSettingsCommand = new RelayCommand(EditSettings);
             ApplySettingsCommand = new RelayCommand(Apply);
+
+            IsActive= true;
+        }
+
+        public CerasSerializer Serializer { get; set; }
+
+        protected override void OnActivated()
+        {
+            this.Messenger.Register<IMessage, int>(this, MessageType.Out, (r, m) => SendMessage(m));
+        }
+
+        public void SendMessage(IMessage message)
+        {
+            Console.WriteLine("MessageService SendMessage of type " + message.GetType().Name);
+            var data = Serializer.Serialize(message);
+            this.Send(data);
         }
 
         public ICommand ApplySettingsCommand { get; }

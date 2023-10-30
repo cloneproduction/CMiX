@@ -5,9 +5,9 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Services
 {
-    public class CompositionService : IService
+    public class PrefabRepositories : IService
     {
-        public CompositionService()
+        public PrefabRepositories()
         {
             ProjectRepository = new PrefabRepository();
             CompositionRepository = new PrefabRepository();

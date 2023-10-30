@@ -3,6 +3,7 @@
 
 using Ceras;
 using CMiX.Core.Compositing;
+using CMiX.Core.Networking.Messages;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
@@ -11,34 +12,24 @@ namespace CMiX.Core.Services
 {
     public class Client : ObservableRecipient
     {
-        public Client()
+        public Client(CerasSerializer cerasSerializer, MessageProcessor messageProcessor)
         {
-            Serializer = new CerasSerializer();
+            Serializer = cerasSerializer;
             ServerIsConnected = false;
+            MessageProcessor = messageProcessor;
         }
 
-
-        public event EventHandler<DataEventArgs> DataReceived;
-        private void OnDataReceived(object sender, DataEventArgs e)
-        {
-            DataReceived?.Invoke(sender, e);
-        }
-
-
+        private MessageProcessor MessageProcessor { get; set; }
         private CerasSerializer Serializer { get; set; }
+        public WatsonTcpClient WatsonTcpClient { get; set; }
+
         public string IP { get; set; }
         public int Port { get; set; }
         public bool IsRunning { get; private set; }
         public bool ServerIsConnected { get; set; }
         public string DeconnectionReason { get; set; }
 
-        public string Address
-        {
-            get { return String.Format("tcp://{0}:{1}", IP, Port); }
-        }
 
-
-        public WatsonTcpClient WatsonTcpClient { get; set; }
         public void Start(Settings settings)
         {
             if(WatsonTcpClient != null)
@@ -64,7 +55,8 @@ namespace CMiX.Core.Services
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             Console.WriteLine("Message Data Received by Clients");
-            OnDataReceived(sender, new DataEventArgs(e.Data));
+            IMessage message = Serializer.Deserialize<IMessage>(e.Data);
+            MessageProcessor.ProcessMessage(message);
         }
 
         private void ServerDisconnected(object sender, DisconnectionEventArgs e)
