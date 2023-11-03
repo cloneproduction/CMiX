@@ -10,17 +10,19 @@ namespace CMiX.Core.BaseControls
 {
     public class StringValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public StringValue()
+        public StringValue(string value)
         {
             ID = Guid.NewGuid();
             IsActive = true;
-        }
-
-        public StringValue(string value) : this()
-        {
             Value = value;
         }
 
+        public StringValue(string value, ControlMessenger controlMessenger) : this(value)
+        {
+            ControlMessenger = controlMessenger;
+        }
+
+        ControlMessenger ControlMessenger { get; set; }
         public Guid ID { get; set; }
 
         private string _value;
@@ -31,7 +33,7 @@ namespace CMiX.Core.BaseControls
             {
                 SetProperty(ref _value, value);
                 if (IsActive)
-                    ControlMessenger.Send<StringValueModel>(this);
+                    ControlMessenger.Send(this);
             }
         }
 

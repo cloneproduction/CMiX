@@ -7,6 +7,6 @@ namespace CMiX.Core.Modifiers
 {
     public interface IModifiable
     {
-        ICollectionManager ModifierManager { get; set; }
+        ModifierManager ModifierManager { get; set; }
     }
 }

@@ -16,7 +16,7 @@ namespace CMiX.Core.Transformation.Modifiers
             BeatModifier = new BeatModifier();
             Easing = new Easing();
             Scale = new Vector3();
-            UniformXYZ = new FloatValue();
+            UniformXYZ = new FloatValue(0.0f);
             ModifierModeSelector = new ModifierModeSelector();
         }
 

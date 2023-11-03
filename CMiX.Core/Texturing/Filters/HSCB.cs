@@ -11,10 +11,10 @@ namespace CMiX.Core.Texturing.Filters
         public HSCB()
         {
             Visible = new BooleanValue(true);
-            Hue = new FloatValue();
+            Hue = new FloatValue(0.0f);
             Saturation = new FloatValue(1.0f);
-            Contrast = new FloatValue();
-            Brightness = new FloatValue();
+            Contrast = new FloatValue(0.0f);
+            Brightness = new FloatValue(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

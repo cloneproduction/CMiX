@@ -13,7 +13,7 @@ namespace CMiX.Core.Compositing
 {
     public partial class Entity : ObservableRecipient, IPrefab, IModifiable
     {
-        public Entity(PrefabService prefabService, Mesh mesh, Material material, ICollectionManager modifierManager)
+        public Entity(PrefabService prefabService, Mesh mesh, Material material, ModifierManager modifierManager)
         {
             ID = prefabService.ID;
             Name = prefabService.Name;
@@ -33,7 +33,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue IsSelected { get; set; }
         public BooleanValue Visibility { get; set; }
-        public ICollectionManager ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
     }

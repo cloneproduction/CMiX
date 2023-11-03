@@ -10,15 +10,15 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class Stepper : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public Stepper()
+        public Stepper(ModifierModeSelector modifierModeSelector, IntegerValue stepCount, BooleanValue visible, BeatModifier beatModifier)
         {
             ModifierModeSelector = new ModifierModeSelector();
-            StepCount = new IntegerValue(4);
-            Visible = new BooleanValue(true);
-            BeatModifier = new BeatModifier();
+            StepCount = stepCount;// new IntegerValue(4);
+            Visible = visible; // new BooleanValue(true);
+            BeatModifier = beatModifier; // new BeatModifier();
             PingPong = new BooleanValue(false);
-            DirectionXYZ = new DirectionXYZ();
             TransformType = new GenericValue<TransformType>();
+            DirectionXYZ = new DirectionXYZ();
             Easing = new Easing();
             From = new FloatValue(0.0f);
             To = new FloatValue(1.0f);

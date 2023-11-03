@@ -16,7 +16,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
             PingPong = new BooleanValue();
             Axis = new GenericValue<CameraAxis>();
             Easing = new Easing();
-            Width = new FloatValue();
+            Width = new FloatValue(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

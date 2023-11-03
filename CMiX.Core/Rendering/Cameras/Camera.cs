@@ -11,7 +11,7 @@ namespace CMiX.Core.Rendering.Cameras
 {
     public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
-        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ICollectionManager modifierManager)
+        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ModifierManager modifierManager)
         {
             ID = prefabService.ID;
             IsSelected = prefabService.IsSelected;
@@ -46,7 +46,7 @@ namespace CMiX.Core.Rendering.Cameras
         public FloatValue FarClip { get; set; }
         public BooleanValue Projection { get; set; }
 
-        public ICollectionManager ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
 
         [ObservableProperty]
         bool isExpanded = false;

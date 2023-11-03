@@ -48,7 +48,7 @@ namespace CMiX.Core.Networking.Messenger
             this.Messenger.Register<IMessage, int>(this, MessageType.Out, (r, m) => SendMessage(m));
         }
 
-        public void SendMessage(IMessage message)
+        void SendMessage(IMessage message)
         {
             Console.WriteLine("MessageService SendMessage of type " + message.GetType().Name);
             var data = Serializer.Serialize(message);

@@ -13,17 +13,14 @@ namespace CMiX.Core.Network
 {
     public partial class ServerManager : ObservableObject
     {
-        public ServerManager(ServerFactory serverFactory, CerasSerializer cerasSerializer)
+        public ServerManager(ServerFactory serverFactory)
         {
             ServerFactory = serverFactory;
 
-            Settings settings = new Settings("127.0.0.1", 8080);
-            var server = new Server(settings, cerasSerializer);
             Servers = new ObservableCollection<Server>();
-            Servers.Add(server);
 
-            AddItemCommand = new RelayCommand(AddServer);
-            DeleteItemCommand = new RelayCommand(DeleteServer);
+            AddItemCommand = new RelayCommand<Settings>(AddNewServer);
+            DeleteItemCommand = new RelayCommand<Server>(DeleteServer);
             RenameServerCommand = new RelayCommand<Server>(RenameServer);
             EditMessengerSettingsCommand = new RelayCommand<Server>(EditMessengerSettings);
         }
@@ -36,6 +33,7 @@ namespace CMiX.Core.Network
         private ServerFactory ServerFactory { get; set; }
         public ObservableCollection<Server> Servers { get; set; }
 
+
         [ObservableProperty]
         private Server _selectedServer;
 
@@ -47,18 +45,18 @@ namespace CMiX.Core.Network
             //    server.SetSettings(settings);
         }
 
-        public void AddServer()
+        public void AddNewServer(Settings settings)
         {
-            //var messenger = ServerFactory.CreateServer();
-            //MessageService.Servers.Add(messenger);
+            var server = ServerFactory.CreateServer(settings);
+            Servers.Add(server);
         }
 
-        private void DeleteServer()
+        private void DeleteServer(Server server)
         {
-            if (SelectedServer != null)
+            if (server != null)
             {
-                SelectedServer.Stop();
-                Servers.Remove(SelectedServer);
+                server.Stop();
+                Servers.Remove(server);
 
                 if (Servers.Count > 0)
                 {

@@ -26,7 +26,7 @@ namespace CMiX.Core.Texturing
             Image = new Image();
             VideoIn = new VideoIn();
             VideoPlayer = new VideoPlayer();
-            SelectedAssetType = new IntegerValue();
+            SelectedAssetType = new IntegerValue(0);
             TypeWriter = new TypeWriter();
 
             ModifierManager = modifierManager;
@@ -47,7 +47,7 @@ namespace CMiX.Core.Texturing
 
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
-        public ICollectionManager ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = false;

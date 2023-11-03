@@ -9,9 +9,9 @@ namespace CMiX.Core.BaseControls
     {
         public Vector3()
         {
-            X = new FloatValue();
-            Y = new FloatValue();
-            Z = new FloatValue();
+            X = new FloatValue(0.0f);
+            Y = new FloatValue(0.0f);
+            Z = new FloatValue(0.0f);
         }
 
         public Vector3(float x, float y, float z) : this()

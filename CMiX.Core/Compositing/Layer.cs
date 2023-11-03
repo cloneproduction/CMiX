@@ -17,7 +17,7 @@ namespace CMiX.Core.Compositing
                      LayerService layerService,
                      LayerMaskService layerMaskService,
                      PrefabManagerSlot prefabManagerSlot,
-                     ICollectionManager modifierManager)
+                     ModifierManager modifierManager)
         {
             ID = prefabService.ID;
             Name = prefabService.Name;
@@ -51,7 +51,7 @@ namespace CMiX.Core.Compositing
         public GenericValue<MaskChannel> MaskChannel { get; set; }
 
         public PrefabManagerSlot ModelEntityManager { get; set; }
-        public ICollectionManager ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
 
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }

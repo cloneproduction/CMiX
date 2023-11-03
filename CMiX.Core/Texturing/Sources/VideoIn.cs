@@ -10,8 +10,8 @@ namespace CMiX.Core.Texturing.Sources
     {
         public VideoIn()
         {
-            SizeX = new IntegerValue();
-            SizeY = new IntegerValue();
+            SizeX = new IntegerValue(0);
+            SizeY = new IntegerValue(0);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

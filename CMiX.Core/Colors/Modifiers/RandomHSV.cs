@@ -13,10 +13,10 @@ namespace CMiX.Core.Colors.Modifiers
         public RandomHSV()
         {
             Visible = new BooleanValue(true);
-            Hue = new FloatValue();
-            Saturation = new FloatValue();
-            Value = new FloatValue();
-            Alpha = new FloatValue();
+            Hue = new FloatValue(0.0f);
+            Saturation = new FloatValue(0.0f);
+            Value = new FloatValue(0.0f);
+            Alpha = new FloatValue(0.0f);
             BeatModifier = new BeatModifier();
             Easing = new Easing();
             Mode = new GenericValue<ModifierMode>();

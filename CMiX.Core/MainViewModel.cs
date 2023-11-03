@@ -3,11 +3,9 @@
 
 using CMiX.Core.Compositing;
 using CMiX.Core.Network;
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels.Assets;
 using CMiX.Core.ViewModels.Windows;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.ViewModels
 {
@@ -21,9 +19,6 @@ namespace CMiX.Core.ViewModels
             AssetManager = assetManager;
             MainMenu = mainMenu;
             PrefabRepositories = prefabRepositories;
-
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.Internal);
-            WeakReferenceMessenger.Default.RegisterAll(this, MessageType.In);
         }
 
         public PrefabRepositories PrefabRepositories { get; set; }

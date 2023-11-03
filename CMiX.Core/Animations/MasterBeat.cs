@@ -4,6 +4,7 @@
 using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Networking;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -11,13 +12,13 @@ namespace CMiX.Core.Animations
 {
     public partial class MasterBeat : ObservableRecipient
     {
-        public MasterBeat()
+        public MasterBeat(IntegerValue index, FloatValue period, IntegerValue beatIndex, BooleanValue pause, Button resync)
         {
-            Index = new IntegerValue(0);
-            Period = new FloatValue(1000);
-            BeatIndex = new IntegerValue(0);
-            Pause = new BooleanValue();
-            Resync = new Button();
+            Index = index;
+            Period = period;// new FloatValue(1000);
+            BeatIndex = beatIndex;// new IntegerValue(0);
+            Pause = pause;// new BooleanValue(false, controlMessenger);
+            Resync = resync; // new Button();
 
             Periods = new float[15];
             tapPeriods = new List<float>();

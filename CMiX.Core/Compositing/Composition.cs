@@ -17,7 +17,7 @@ namespace CMiX.Core.Compositing
         public Composition(PrefabService prefabService, 
                            MasterBeat masterBeat,
                            IPrefabCollectionManager prefabManager, 
-                           ICollectionManager modifierManager, 
+                           ModifierManager modifierManager, 
                            OutputSettings outputSettings)
         {
             ID = prefabManager.ID;
@@ -38,7 +38,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue Visibility { get; set; }
         public IPrefabCollectionManager LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
-        public ICollectionManager ModifierManager { get; set; }
+        public ModifierManager ModifierManager { get; set; }
         public MasterBeat MasterBeat { get; set; }
     }
 }

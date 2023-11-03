@@ -10,9 +10,10 @@
         "dependencies": {
           "AutoMapper": "12.0.1",
           "Ceras": "4.1.7",
-          "CommunityToolkit.Mvvm": "8.2.0",
+          "CommunityToolkit.Mvvm": "8.2.2",
           "FluentScheduler": "5.5.1",
-          "WatsonTcp": "5.1.2",
+          "Microsoft.Extensions.DependencyInjection": "7.0.0",
+          "WatsonTcp": "5.1.7",
           "gong-wpf-dragdrop": "3.2.1"
         },
         "runtime": {
@@ -42,11 +43,11 @@
           }
         }
       },
-      "CommunityToolkit.Mvvm/8.2.0": {
+      "CommunityToolkit.Mvvm/8.2.2": {
         "runtime": {
           "lib/net6.0/CommunityToolkit.Mvvm.dll": {
             "assemblyVersion": "8.2.0.0",
-            "fileVersion": "8.2.0.1"
+            "fileVersion": "8.2.2.1"
           }
         }
       },
@@ -67,6 +68,25 @@
         }
       },
       "Microsoft.CSharp/4.7.0": {},
+      "Microsoft.Extensions.DependencyInjection/7.0.0": {
+        "dependencies": {
+          "Microsoft.Extensions.DependencyInjection.Abstractions": "7.0.0"
+        },
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
+          }
+        }
+      },
+      "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0": {
+        "runtime": {
+          "lib/net6.0/Microsoft.Extensions.DependencyInjection.Abstractions.dll": {
+            "assemblyVersion": "7.0.0.0",
+            "fileVersion": "7.0.22.51805"
+          }
+        }
+      },
       "System.Buffers/4.5.0": {},
       "System.Runtime.CompilerServices.Unsafe/6.0.0": {},
       "System.Text.Encodings.Web/7.0.0": {
@@ -100,14 +120,14 @@
           }
         }
       },
-      "WatsonTcp/5.1.2": {
+      "WatsonTcp/5.1.7": {
         "dependencies": {
           "System.Text.Json": "7.0.0"
         },
         "runtime": {
           "lib/net6.0/WatsonTcp.dll": {
-            "assemblyVersion": "5.1.2.0",
-            "fileVersion": "5.1.2.0"
+            "assemblyVersion": "5.1.7.0",
+            "fileVersion": "5.1.7.0"
           }
         }
       }
@@ -133,12 +153,12 @@
       "path": "ceras/4.1.7",
       "hashPath": "ceras.4.1.7.nupkg.sha512"
     },
-    "CommunityToolkit.Mvvm/8.2.0": {
+    "CommunityToolkit.Mvvm/8.2.2": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-F883u+B0AVUkRZS+VQBiZEJiqlGiiQhGA8Ejy1/Y8fl4ecBmSd+HYuDso0iiUhh+UxRDjp2aTQ7jGkuL2S4NrA==",
-      "path": "communitytoolkit.mvvm/8.2.0",
-      "hashPath": "communitytoolkit.mvvm.8.2.0.nupkg.sha512"
+      "sha512": "sha512-r0g0k9tGYdrnz8R7T3x5UiokDffeevzK/2P/9SBL6fqLgN8B157MIi/bVUWI1KAz6ZorZrK9AdABCWUeXZZsvA==",
+      "path": "communitytoolkit.mvvm/8.2.2",
+      "hashPath": "communitytoolkit.mvvm.8.2.2.nupkg.sha512"
     },
     "FluentScheduler/5.5.1": {
       "type": "package",
@@ -160,6 +180,20 @@
       "sha512": "sha512-pTj+D3uJWyN3My70i2Hqo+OXixq3Os2D1nJ2x92FFo6sk8fYS1m1WLNTs0Dc1uPaViH0YvEEwvzddQ7y4rhXmA==",
       "path": "microsoft.csharp/4.7.0",
       "hashPath": "microsoft.csharp.4.7.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-elNeOmkeX3eDVG6pYVeV82p29hr+UKDaBhrZyWvWLw/EVZSYEkZlQdkp0V39k/Xehs2Qa0mvoCvkVj3eQxNQ1Q==",
+      "path": "microsoft.extensions.dependencyinjection/7.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.7.0.0.nupkg.sha512"
+    },
+    "Microsoft.Extensions.DependencyInjection.Abstractions/7.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-h3j/QfmFN4S0w4C2A6X7arXij/M/OVw3uQHSOFxnND4DyAzO1F9eMX7Eti7lU/OkSthEE0WzRsfT/Dmx86jzCw==",
+      "path": "microsoft.extensions.dependencyinjection.abstractions/7.0.0",
+      "hashPath": "microsoft.extensions.dependencyinjection.abstractions.7.0.0.nupkg.sha512"
     },
     "System.Buffers/4.5.0": {
       "type": "package",
@@ -189,12 +223,12 @@
       "path": "system.text.json/7.0.0",
       "hashPath": "system.text.json.7.0.0.nupkg.sha512"
     },
-    "WatsonTcp/5.1.2": {
+    "WatsonTcp/5.1.7": {
       "type": "package",
       "serviceable": true,
-      "sha512": "sha512-rnz1r7h7M1cbEwJZBWfg89etyVntHkmE65vTg5JSiOQjyMyzmtinWFfdNhJlyTErEVgZ6CX1PhGLdDvDIDFgow==",
-      "path": "watsontcp/5.1.2",
-      "hashPath": "watsontcp.5.1.2.nupkg.sha512"
+      "sha512": "sha512-DcVv7CNj1BzbvWzf+nXJed9ykp0tc2hf7LtDCT1B/tnvazkfosKtFY4DWJnV2cB1FStNtIL8k6NVSnck2BelRw==",
+      "path": "watsontcp/5.1.7",
+      "hashPath": "watsontcp.5.1.7.nupkg.sha512"
     }
   }
 }

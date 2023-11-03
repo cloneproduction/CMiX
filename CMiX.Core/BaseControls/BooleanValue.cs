@@ -3,7 +3,6 @@
 
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Services;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -11,17 +10,23 @@ namespace CMiX.Core.BaseControls
 {
     public class BooleanValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public BooleanValue()
-        {
-            IsActive = true;
-        }
+        //public BooleanValue(bool value)
+        //{
+        //    ID = Guid.NewGuid();
+        //    Value = value;
+        //    IsActive = true;
+        //}
 
-        public BooleanValue(bool value) : this()
+        public BooleanValue(bool value, ControlMessenger controlMessenger)// : this(value)
         {
+            ID = Guid.NewGuid();
             Value = value;
+            IsActive = true;
+            ControlMessenger = controlMessenger;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        ControlMessenger ControlMessenger { get; set; }
+        public Guid ID { get; set; }
 
         private bool _value;
         public bool Value
@@ -31,7 +36,7 @@ namespace CMiX.Core.BaseControls
             {
                 SetProperty(ref _value, value);
                 if (IsActive)
-                    ControlMessenger.Send<BooleanValueModel>(this);
+                    ControlMessenger.Send(this);
                 Console.WriteLine(value);
             }
         }

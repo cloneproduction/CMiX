@@ -20,9 +20,9 @@ namespace CMiX.Core.Texturing.Filters
             Location = new Vector2(0.0f, 0.0f);
             RandomizeScale = new BooleanValue(true);
             Scale = new Vector2(1.0f, 1.0f);
-            Uniform = new FloatValue();
+            Uniform = new FloatValue(0.0f);
             RandomizeRotation = new BooleanValue(true);
-            Rotation = new FloatValue();
+            Rotation = new FloatValue(0.0f);
             SamplerState = new SamplerState();
         }
 

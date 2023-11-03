@@ -11,16 +11,14 @@ namespace CMiX.Core.BaseControls
 {
     public class IntegerValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public IntegerValue()
+        public IntegerValue(int value, ControlMessenger controlMessenger)
         {
             IsActive = true;
-        }
-
-        public IntegerValue(int value) : this()
-        {
             Value = value;
+            ControlMessenger = controlMessenger;
         }
 
+        ControlMessenger ControlMessenger { get; set; }
         public ICommand AddCommand { get; }
         public ICommand SubCommand { get; }
 
@@ -32,7 +30,7 @@ namespace CMiX.Core.BaseControls
             {
                 SetProperty(ref _value, value);
                 if (IsActive)
-                    ControlMessenger.Send<IntegerValueModel>(this);
+                    ControlMessenger.Send(this);
                 Console.WriteLine(value);
             }
         }

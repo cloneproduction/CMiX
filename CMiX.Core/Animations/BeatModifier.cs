@@ -3,6 +3,7 @@
 
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Networking;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -10,9 +11,9 @@ namespace CMiX.Core.Animations
 {
     public class BeatModifier : ObservableRecipient, IControl
     {
-        public BeatModifier()
+        public BeatModifier(ControlMessenger controlMessenger)
         {
-            BeatIndex = new IntegerValue(0);
+            BeatIndex = new IntegerValue(0, controlMessenger);
             ChanceToHit = new FloatValue(1);
 
             ResetCommand = new RelayCommand(Reset);

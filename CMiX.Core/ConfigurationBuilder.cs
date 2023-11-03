@@ -1,45 +1,39 @@
-﻿using System;
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using System;
 using System.Collections.Generic;
-using System.Windows;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Network;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs;
 using CMiX.Core.Services;
-using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
 using CMiX.Core.ViewModels.Windows;
-using CMiX.Studio.Views.Dialogs;
+using CMiX.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using MvvmDialogs;
-using MvvmDialogs.DialogFactories;
+using CMiX.Core.Prefabs;
 
-namespace CMiX
+namespace CMiX.Core
 {
-    public partial class App : Application
+    public class ConfigurationBuilder
     {
-        private void Application_Startup(object sender, StartupEventArgs e)
+        public ConfigurationBuilder()
         {
-            var serviceCollection = new ServiceCollection();
+            ServiceCollection serviceCollection = new ServiceCollection();
             ConfigureServices(serviceCollection);
-            var serviceProvider = serviceCollection.BuildServiceProvider();
-
-            serviceProvider.GetRequiredService<ServerManager>().AddNewServer(new Settings("127.0.0.1", 8080));
-            var mainWindow = serviceProvider.GetRequiredService<Studio.Views.MainWindow> ();
-            mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
-            mainWindow.Show();
+            ServiceProvider = serviceCollection.BuildServiceProvider();
+            ServiceProvider.GetRequiredService<Client>().Start(new Settings("127.0.0.1", 8080));
         }
 
         private void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton<IDialogService, DialogService>();
-            services.AddSingleton<IDialogFactory, DialogFactory>();
-            services.AddSingleton<Studio.Views.MainWindow>();
-
-            services.AddSingleton<MainViewModel>();
             services.AddSingleton<CerasSerializer>();
+            services.AddSingleton<MainViewModel>();
             services.AddSingleton<Project>();
             services.AddSingleton<PrefabRepositories>();
             services.AddSingleton<MasterBeat>();
@@ -53,8 +47,10 @@ namespace CMiX
             services.AddSingleton<MessageProcessor>();
             services.AddSingleton<ServerFactory>();
 
-            services.AddSingleton(x => new PrefabFactory(new List<IPrefabFactory> {x.GetRequiredService<CompositionFactory>()}));
+            services.AddSingleton(x => new PrefabFactory(new List<IPrefabFactory> { x.GetRequiredService<CompositionFactory>() }));
             services.AddSingleton(x => new PrefabManagerBase(Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00"), x.GetRequiredService<PrefabFactory>()));
         }
+
+        public ServiceProvider ServiceProvider { get; set; }
     }
 }

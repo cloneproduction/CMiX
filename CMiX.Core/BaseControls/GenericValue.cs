@@ -10,17 +10,15 @@ namespace CMiX.Core.BaseControls
 {
     public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public GenericValue()
-        {
-            IsActive = true;
-        }
-
-        public GenericValue(T value) : this()
+        public GenericValue(T value, ControlMessenger controlMessenger)
         {
             Value = value;
+            IsActive = true;
+            ID = Guid.NewGuid();
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
+        ControlMessenger ControlMessenger { get; set; }
 
         private T _value;
         public T Value
@@ -30,7 +28,7 @@ namespace CMiX.Core.BaseControls
             {
                 SetProperty(ref _value, value);
                 if (IsActive)
-                    ControlMessenger.Send<GenericValueModel<T>>(this);
+                    ControlMessenger.Send(this);
                 Console.WriteLine(value);
             }
         }

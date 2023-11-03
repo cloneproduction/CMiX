@@ -12,14 +12,15 @@ namespace CMiX.Core.Texturing.Sources
     {
         public TypeWriter()
         {
-            StringControl = new StringValue();
-            FontFamily = new StringValue();
-            FontSize = new FloatValue();
+            StringControl = new StringValue(String.Empty);
+            FontFamily = new StringValue("Arial");
+            FontSize = new FloatValue(0.0f);
             Style = new GenericValue<FontStyle>();
             FontColor = new ColorValue();
             BackgroundColor = new ColorValue();
             Resolution = new Integer2();
             Position = new Vector2();
+
             TextInputGotFocusCommand = new RelayCommand(TextInputGotFocus);
             TextInputLostFocusCommand = new RelayCommand(TextInputLostFocus);
         }

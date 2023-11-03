@@ -10,10 +10,10 @@ namespace CMiX.Core.Networking
 {
     public class ControlMessenger
     {
-        public static IMapper Mapper;
-        public static bool CanSend = true;
+        public IMapper Mapper;
+        public bool CanSend = true;
 
-        static ControlMessenger()
+        public ControlMessenger()
         {
             var mappingProfile = new MappingProfile();
 
@@ -30,7 +30,7 @@ namespace CMiX.Core.Networking
             Mapper = config.CreateMapper();
         }
 
-        public static void Receive(IControl iDObject, MessageRequestControl message)
+        public void Receive(IControl iDObject, MessageRequestControl message)
         {
             CanSend = false;
 
@@ -40,11 +40,11 @@ namespace CMiX.Core.Networking
             CanSend = true;
         }
 
-        public static void Send<T>(IControl control) where T : IControlModel
+        public void Send(IControl control)
         {
             if (CanSend)
             {
-                var model = Mapper.Map<T>(control);
+                var model = Mapper.Map<IControlModel>(control);
                 WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageValueChange(model), MessageType.Out);
             }     
         }

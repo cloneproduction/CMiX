@@ -9,8 +9,8 @@ namespace CMiX.Core.BaseControls
     {
         public Integer2()
         {
-            X = new IntegerValue();
-            Y = new IntegerValue();
+            X = new IntegerValue(0);
+            Y = new IntegerValue(0);
             IsActive = true;
         }
 
@@ -18,6 +18,7 @@ namespace CMiX.Core.BaseControls
         {
             X.Value = x;
             Y.Value = y;
+            IsActive = true;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

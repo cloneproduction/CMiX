@@ -3,7 +3,6 @@
 
 using System.Windows.Media;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
@@ -18,12 +17,14 @@ namespace CMiX.Core.Compositing
 {
     public class LayerFactory : IPrefabFactory
     {
-        public LayerFactory(PrefabRepositories prefabRepositories)
+        public LayerFactory(PrefabRepositories prefabRepositories, ControlMessenger controlMessenger)
         {
             PrefabRepositories = prefabRepositories;
             CompositionRepository = prefabRepositories.CompositionRepository;
+            ControlMessenger = controlMessenger;
         }
 
+        ControlMessenger ControlMessenger { get; set; }
         PrefabRepository CompositionRepository { get; set; }
         PrefabRepositories PrefabRepositories { get; set; }
 
@@ -58,7 +59,7 @@ namespace CMiX.Core.Compositing
         LayerService CreateLayerService()
         {
             var opacity = new FloatValue(1.0f);
-            var backgroundColor = new ColorValue(Color.FromArgb(255, 128, 128, 128));
+            var backgroundColor = new ColorValue(Color.FromArgb(255, 128, 128, 128), ControlMessenger);
             var blendMode = new GenericValue<BlendModeEnum>(BlendModeEnum.Normal);
             var ambientOcclusion = new AmbientOcclusion();
 
@@ -67,15 +68,15 @@ namespace CMiX.Core.Compositing
 
         LayerMaskService CreateMaskService()
         {
-            var isMask = new BooleanValue(false);
+            var isMask = new BooleanValue(false, ControlMessenger);
             var maskChannel = new GenericValue<MaskChannel>();
             var maskMode = new GenericValue<MaskMode>();
-            var invert = new BooleanValue(false);
+            var invert = new BooleanValue(false, ControlMessenger);
 
             return new LayerMaskService(isMask, maskChannel, maskMode, invert);
         }
 
-        ICollectionManager CreateTextureModifierManager()
+        ModifierManager CreateTextureModifierManager()
         {
             var textureModifierFactory = new TextureModifierFactory();
             var modifierManager = new ModifierManager(textureModifierFactory);

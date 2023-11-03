@@ -4,6 +4,7 @@
 using AutoMapper;
 using System.Windows.Media;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Mapping
 {
@@ -11,6 +12,17 @@ namespace CMiX.Core.Mapping
     {
         public BaseControlMappingProfile()
         {
+            //CreateMap<IControl, IControlModel>().ReverseMap();
+
+            CreateMap<IControl, IControlModel>()
+                .Include<GenericValue<BlendModeEnum>, GenericValueModel<BlendModeEnum>>()
+                .Include<IntegerValue, IntegerValueModel>()
+                .Include<FloatValue, FloatValueModel>()
+                .Include<BooleanValue, BooleanValueModel>()
+                .Include<StringValue, StringValueModel>()
+                .Include<ColorValue, ColorSelectorModel>()
+                .ReverseMap();
+
             CreateMap<Button, ButtonModel>().ReverseMap();
 
 

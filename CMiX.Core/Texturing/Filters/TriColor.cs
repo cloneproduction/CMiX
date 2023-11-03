@@ -14,14 +14,14 @@ namespace CMiX.Core.Texturing.Filters
             isExpanded = true;
 
             Visible = new BooleanValue();
-            Control = new FloatValue();
+            Control = new FloatValue(0.0f);
 
             ColorA = new ColorValue();
             ColorB = new ColorValue();
             ColorC = new ColorValue();
 
-            Smooth = new FloatValue();
-            Center = new FloatValue();
+            Smooth = new FloatValue(0.0f);
+            Center = new FloatValue(0.0f);
 
             SingleChannel = new BooleanValue();
             ClampColor = new BooleanValue();

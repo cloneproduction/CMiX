@@ -55,14 +55,13 @@ namespace CMiX.Core.Prefabs
             SelectedItem = prefab;
         }
 
-
         partial void OnSelectedItemChanged(IPrefab oldValue, IPrefab newValue)
         {
-            if (newValue == null)
-                return;
+            if(oldValue ==  newValue) return;
 
-            if (SelectedItem == null)
-                return;
+            if (newValue == null) return;
+
+            if (SelectedItem == null) return;
 
             Send(new MessageSelectedItemChanged(ID, newValue.ID, 0));
 
@@ -81,7 +80,6 @@ namespace CMiX.Core.Prefabs
 
             SelectedItem = prefab;
         }
-
 
         public void Rename()
         {

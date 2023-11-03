@@ -11,18 +11,23 @@ namespace CMiX.Core.BaseControls
 {
     public class ColorValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public ColorValue()
+        //public ColorValue()
+        //{
+        //    ID = Guid.NewGuid();
+        //    IsActive = true;
+        //    SelectedColor = Color.FromArgb(255, 255, 0, 255);
+        //}
+
+        public ColorValue(Color color, ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
             IsActive = true;
-            SelectedColor = Color.FromArgb(255, 255, 0, 255);
-        }
-
-        public ColorValue(Color color) : this()
-        {
             SelectedColor = color;
+            ControlMessenger = controlMessenger;
+
         }
 
+        ControlMessenger ControlMessenger { get; set; }
         public Guid ID { get; set; }
 
         private Color _selectedColor;
@@ -33,7 +38,7 @@ namespace CMiX.Core.BaseControls
             {
                 SetProperty(ref _selectedColor, value);
                 if (IsActive)
-                    ControlMessenger.Send<ColorSelectorModel>(this);
+                    ControlMessenger.Send(this);
                 Console.WriteLine(value);
             }
         }

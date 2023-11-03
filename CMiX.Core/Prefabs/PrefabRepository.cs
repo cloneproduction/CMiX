@@ -18,6 +18,7 @@ namespace CMiX.Core.Prefabs
         public void AddPrefab(IPrefab prefab)
         {
             Prefabs.Add(prefab);
+            Console.WriteLine("PrefabRepository Count is " + Prefabs.Count().ToString());
         }
 
         public void RemovePrefab(IPrefab prefab)
