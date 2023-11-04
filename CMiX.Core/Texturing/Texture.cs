@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
@@ -12,23 +11,32 @@ namespace CMiX.Core.Texturing
 {
     public partial class Texture : ObservableObject, IPrefab, IModifiable
     {
-        public Texture(PrefabService prefabService, ModifierManager modifierManager)
+        public Texture(
+            PrefabService prefabService, 
+            ModifierManager modifierManager,
+            TextureSourceSelector textureSourceSelector,
+            Gradient gradient,
+            BubbleNoise bubbleNoise,
+            Image image,
+            VideoIn videoIn,
+            VideoPlayer videoPlayer,
+            IntegerValue selectedAssetType,
+            TypeWriter typeWriter
+            )
         {
             ID = prefabService.ID;
             Name = prefabService.Name;
             IsSelected = prefabService.IsSelected;
             IsRenaming = prefabService.IsRenaming;
             Visibility = prefabService.Visibility;
-
-            TextureSourceSelector = new TextureSourceSelector();
-            Gradient = new Gradient();
-            BubbleNoise = new BubbleNoise();
-            Image = new Image();
-            VideoIn = new VideoIn();
-            VideoPlayer = new VideoPlayer();
-            SelectedAssetType = new IntegerValue(0);
-            TypeWriter = new TypeWriter();
-
+            TextureSourceSelector = textureSourceSelector;
+            Gradient = gradient;
+            BubbleNoise = bubbleNoise;
+            Image = image;
+            VideoIn = videoIn;
+            VideoPlayer = videoPlayer;
+            SelectedAssetType = selectedAssetType;
+            TypeWriter = typeWriter;
             ModifierManager = modifierManager;
         }
 

@@ -10,18 +10,28 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class Stepper : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public Stepper(ModifierModeSelector modifierModeSelector, IntegerValue stepCount, BooleanValue visible, BeatModifier beatModifier)
+        public Stepper( ModifierModeSelector modifierModeSelector, 
+                        IntegerValue stepCount, 
+                        BooleanValue visible, 
+                        BeatModifier beatModifier,
+                        BooleanValue pingPong,
+                        GenericValue<TransformType> transformType,
+                        DirectionXYZ directionXYZ,
+                        Easing easing,
+                        FloatValue from,
+                        FloatValue to
+            )
         {
-            ModifierModeSelector = new ModifierModeSelector();
+            ModifierModeSelector = modifierModeSelector; // new ModifierModeSelector();
             StepCount = stepCount;// new IntegerValue(4);
             Visible = visible; // new BooleanValue(true);
             BeatModifier = beatModifier; // new BeatModifier();
-            PingPong = new BooleanValue(false);
-            TransformType = new GenericValue<TransformType>();
-            DirectionXYZ = new DirectionXYZ();
-            Easing = new Easing();
-            From = new FloatValue(0.0f);
-            To = new FloatValue(1.0f);
+            PingPong = pingPong; // new BooleanValue(false);
+            TransformType = transformType;// new GenericValue<TransformType>();
+            DirectionXYZ = directionXYZ;// new DirectionXYZ();
+            Easing = easing;// new Easing();
+            From = from;// new FloatValue(0.0f);
+            To = to; // new FloatValue(1.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

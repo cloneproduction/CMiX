@@ -86,7 +86,7 @@ namespace CMiX.Core.Prefabs
             if (SelectedItem is EmptyPrefab emptyPrefab)
             {
                 Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
-                Send(new MessageReplaceEmptyPrefab(ID, prefabModel, emptyPrefab));
+                Send(new MessageReplacePrefab(ID, prefabModel, emptyPrefab));
             }
             else
             {

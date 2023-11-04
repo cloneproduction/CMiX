@@ -9,10 +9,10 @@ namespace CMiX.Core.Transformation
 {
     public partial class Translate : ObservableObject, IModifier
     {
-        public Translate()
+        public Translate(BooleanValue visible, Vector3 xyz)
         {
-            XYZ = new Vector3();
-            Visible = new BooleanValue(true);
+            XYZ = xyz;
+            Visible = visible;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

@@ -9,11 +9,11 @@ namespace CMiX.Core.Transformation
 {
     public partial class Scale : ObservableObject, IModifier
     {
-        public Scale()
+        public Scale(FloatValue uniform, Vector3 xyz, BooleanValue visible)
         {
-            Uniform = new FloatValue(1.0f);
-            XYZ = new Vector3(1.0f, 1.0f, 1.0f);
-            Visible = new BooleanValue(true);
+            Uniform = uniform; // new FloatValue(1.0f);
+            XYZ = xyz; // new Vector3(1.0f, 1.0f, 1.0f);
+            Visible = visible; // new BooleanValue(true);
 
             isExpanded = true;
         }

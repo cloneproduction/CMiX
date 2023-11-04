@@ -10,18 +10,30 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class RandomXYZ : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public RandomXYZ()
+        public RandomXYZ(
+            BooleanValue visible,
+            BeatModifier beatModifier,
+            Easing easing,
+            ModifierModeSelector modifierModeSelector,
+            BooleanValue randomizeLocation,
+            Vector3 location,
+            BooleanValue randomizeScale,
+            Vector3 scale,
+            BooleanValue randomizeRotation,
+            Vector3 rotation)
         {
-            Visible = new BooleanValue(true);
-            ModifierModeSelector = new ModifierModeSelector();
-            BeatModifier = new BeatModifier();
-            Easing = new Easing();
-            RandomizeLocation = new BooleanValue(true);
-            Location = new Vector3(0.0f, 0.0f, 0.0f);
-            RandomizeScale = new BooleanValue(true);
-            Scale = new Vector3(0.0f, 0.0f, 0.0f);
-            RandomizeRotation = new BooleanValue(true);
-            Rotation = new Vector3(0.0f, 0.0f, 0.0f);
+            Visible = visible;
+            BeatModifier = beatModifier;
+            Easing = easing;
+            ModifierModeSelector = modifierModeSelector;
+            
+           
+            RandomizeLocation = randomizeLocation;
+            Location = location; // new Vector3(0.0f, 0.0f, 0.0f);
+            RandomizeScale = randomizeScale; // new BooleanValue(true);
+            Scale = scale; // new Vector3(0.0f, 0.0f, 0.0f);
+            RandomizeRotation = randomizeLocation;// new BooleanValue(true);
+            Rotation = rotation;// new Vector3(0.0f, 0.0f, 0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

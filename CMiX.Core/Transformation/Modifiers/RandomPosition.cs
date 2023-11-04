@@ -10,13 +10,13 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class RandomPosition : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public RandomPosition()
+        public RandomPosition(BooleanValue visible, ModifierModeSelector modifierModeSelector, BeatModifier beatModifier, Easing easing, Vector3 location)
         {
-            Visible = new BooleanValue(true);
-            ModifierModeSelector = new ModifierModeSelector();
-            BeatModifier = new BeatModifier();
-            Easing = new Easing();
-            Location = new Vector3();
+            Visible = visible;
+            ModifierModeSelector = modifierModeSelector;
+            BeatModifier = beatModifier;
+            Easing = easing;
+            Location = location;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

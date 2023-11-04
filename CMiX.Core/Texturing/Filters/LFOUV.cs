@@ -11,19 +11,32 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class LFOUV : ObservableObject, ITextureModifier, IBeatModifiable
     {
-        public LFOUV()
+        public LFOUV(
+            BooleanValue visible, 
+            BeatModifier beatModifier, 
+            Easing easing, 
+            ModifierModeSelector modifierModeSelector, 
+            BooleanValue pingPong, 
+            BooleanValue xAxis, 
+            BooleanValue yAxis, 
+            BooleanValue zAxis, 
+            FloatValue from,
+            FloatValue to,
+            SamplerState samplerState)
         {
-            BeatModifier = new BeatModifier();
-            Visible = new BooleanValue(true);
-            PingPong = new BooleanValue(false);
-            XAxis = new BooleanValue();
-            YAxis = new BooleanValue();
-            ZAxis = new BooleanValue();
-            ModifierModeSelector = new ModifierModeSelector();
-            Easing = new Easing();
-            From = new FloatValue(0.0f);
-            To = new FloatValue(1.0f);
-            SamplerState = new SamplerState();
+            Visible = visible;
+            BeatModifier = beatModifier;
+            Easing = easing;
+            ModifierModeSelector = modifierModeSelector;
+
+            PingPong = pingPong;
+            XAxis = xAxis;
+            YAxis = yAxis;
+            ZAxis = zAxis;
+
+            From = from; // new FloatValue(0.0f);
+            To = to; // new FloatValue(1.0f);
+            SamplerState = samplerState;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

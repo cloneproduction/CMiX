@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Numerics;
 using CMiX.Core.BaseControls;
 using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
@@ -10,13 +11,13 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class VideoPlayer : ObservableObject, ITextureSource
     {
-        public VideoPlayer()
+        public VideoPlayer(Integer2 resolution, IntegerValue seekFrame, BooleanValue play, Button doSeek, GenericValue<Asset> asset)
         {
-            Resolution = new Integer2(0, 0);
-            SeekFrame = new IntegerValue(0);
-            Play = new BooleanValue(true);
-            DoSeek = new Button();
-            Asset = new GenericValue<Asset>(null);
+            Resolution = resolution;// new Integer2(0, 0);
+            SeekFrame = seekFrame; // new IntegerValue(0);
+            Play = play; // new BooleanValue(true);
+            DoSeek = doSeek; // new Button();
+            Asset = asset; // new GenericValue<Asset>(null);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

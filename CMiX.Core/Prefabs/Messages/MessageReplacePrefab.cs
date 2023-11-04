@@ -3,14 +3,14 @@
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageReplaceEmptyPrefab : IMessagePrefab
+    public class MessageReplacePrefab : IMessagePrefab
     {
-        public MessageReplaceEmptyPrefab()
+        public MessageReplacePrefab()
         {
 
         }
 
-        public MessageReplaceEmptyPrefab(Guid id, IControlModel controlModel, EmptyPrefab emptyPrefab)
+        public MessageReplacePrefab(Guid id, IControlModel controlModel, EmptyPrefab emptyPrefab)
         {
             ID = id;
             ControlModel = controlModel;

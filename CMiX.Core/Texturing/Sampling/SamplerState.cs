@@ -8,11 +8,11 @@ namespace CMiX.Core.Texturing.Sampling
 {
     public class SamplerState : ObservableRecipient, IControl
     {
-        public SamplerState()
+        public SamplerState(ColorValue borderColor, GenericValue<TextureAddressMode> addresseU, GenericValue<TextureAddressMode> addresseV)
         {
-            BorderColor = new ColorValue();
-            AddressU = new GenericValue<TextureAddressMode>();
-            AddressV = new GenericValue<TextureAddressMode>();
+            BorderColor = borderColor;// new ColorValue();
+            AddressU = addresseU;// new GenericValue<TextureAddressMode>();
+            AddressV = addresseV;// new GenericValue<TextureAddressMode>();
             IsActive = true;
         }
 

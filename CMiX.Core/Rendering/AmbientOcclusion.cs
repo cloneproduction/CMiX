@@ -8,17 +8,26 @@ namespace CMiX.Core.ViewModels
 {
     public class AmbientOcclusion : ObservableObject, IControl
     {
-        public AmbientOcclusion()
+        public AmbientOcclusion(
+                    BooleanValue isEnable, 
+                    IntegerValue samples, 
+                    FloatValue projectionScale, 
+                    FloatValue intensity, 
+                    FloatValue sampleBias, 
+                    FloatValue sampleRadius, 
+                    IntegerValue blurCount, 
+                    FloatValue blurRadius, 
+                    FloatValue edgeSharpness)
         {
-            IsEnabled = new BooleanValue();
-            Samples = new IntegerValue(13);
-            ProjectionScale = new FloatValue(0.5f);
-            Intensity = new FloatValue(0.2f);
-            SampleBias = new FloatValue(0.01f);
-            SampleRadius = new FloatValue(1.0f);
-            BlurCount = new IntegerValue(2);
-            BlurRadius = new FloatValue(1.85f);
-            EdgeSharpness = new FloatValue(3.0f);
+            IsEnabled = isEnable;
+            Samples = samples; // new IntegerValue(13);
+            ProjectionScale = projectionScale; // new FloatValue(0.5f);
+            Intensity = intensity; // new FloatValue(0.2f);
+            SampleBias = sampleBias; // new FloatValue(0.01f);
+            SampleRadius = sampleRadius; // new FloatValue(1.0f);
+            BlurCount = blurCount; // new IntegerValue(2);
+            BlurRadius = blurRadius; // new FloatValue(1.85f);
+            EdgeSharpness = edgeSharpness; // new FloatValue(3.0f);
         }
 
 

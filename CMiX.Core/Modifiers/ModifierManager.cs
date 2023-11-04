@@ -27,7 +27,7 @@ namespace CMiX.Core.Modifiers
         {
             Factory = modifierFactory;
             Modifiers = new ObservableCollection<IModifier>();
-            Visibility = new BooleanValue();
+            //Visibility = new BooleanValue();
 
             CreateCommand = new RelayCommand<Type>(Create);
             RemoveCommand = new RelayCommand<IModifier>(Remove);

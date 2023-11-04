@@ -13,21 +13,21 @@ namespace CMiX.Core.Networking
         public IMapper Mapper;
         public bool CanSend = true;
 
-        public ControlMessenger()
+        public ControlMessenger(IMapper mapper)
         {
-            var mappingProfile = new MappingProfile();
+            //var mappingProfile = new MappingProfile();
 
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile(new MappingProfile());
+            //var config = new MapperConfiguration(cfg =>
+            //{
+            //    cfg.AddProfile(new MappingProfile());
 
-                foreach (var profile in mappingProfile.Profiles)
-                {
-                    cfg.AddProfile(profile);
-                }
-            });
-
-            Mapper = config.CreateMapper();
+            //    foreach (var profile in mappingProfile.Profiles)
+            //    {
+            //        cfg.AddProfile(profile);
+            //    }
+            //});
+            //Mapper = config.CreateMapper();
+            Mapper = mapper;
         }
 
         public void Receive(IControl iDObject, MessageRequestControl message)

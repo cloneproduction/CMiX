@@ -15,21 +15,24 @@ namespace CMiX.Core.Prefabs
 {
     public partial class PrefabManager : ObservableRecipient, IPrefabCollectionManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManager(PrefabFactory prefabFactory)
+        public PrefabManager(PrefabFactory prefabFactory, PrefabManagerMessenger prefabManagerMessenger)
         {
+            Prefabs = new ObservableCollection<IPrefab>();
+
+            PrefabManagerMessenger = prefabManagerMessenger;
+            PrefabFactory = prefabFactory;
+
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
             AddItemCommand = new RelayCommand<Type>(AddItem);
             AddEmptyItemCommand = new RelayCommand(AddEmptyPrefab);
             DeleteItemCommand = new RelayCommand<IPrefab>(DeleteItem);
             IsActive = true;
-            PrefabFactory = prefabFactory;
-
-            Prefabs = new ObservableCollection<IPrefab>();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabFactory PrefabFactory { get; set; }
+        public PrefabManagerMessenger PrefabManagerMessenger { get; set; }
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
@@ -81,12 +84,12 @@ namespace CMiX.Core.Prefabs
             if (SelectedItem is EmptyPrefab emptyPrefab)
             {
                 Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
-                Send(new MessageReplaceEmptyPrefab(ID, prefabModel, emptyPrefab));
+                PrefabManagerMessenger.SendReplaceEmptyPrefab(ID, prefab, emptyPrefab);
             }
             else
             {
                 Prefabs.Add(prefab);
-                Send(new MessageAddItem(ID, prefabModel));
+                PrefabManagerMessenger.SendAddItem(ID, prefab);
             }
 
             SelectedItem = prefab;

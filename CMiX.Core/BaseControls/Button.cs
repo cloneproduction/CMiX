@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Controls;
 using System.Windows.Input;
-using AutoMapper;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -14,13 +12,15 @@ namespace CMiX.Core.BaseControls
 {
     public class Button : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public Button()
+        public Button(ControlMessenger controlMessenger)
         {
+            ControlMessenger = controlMessenger;
             ClickCommand = new RelayCommand(OnClick);
             IsActive = true;
         }
 
         public ICommand ClickCommand { get; set; }
+        ControlMessenger ControlMessenger { get; set; }
 
         public delegate void ClickEventHandler(object source, EventArgs args);
         public event ClickEventHandler Click;

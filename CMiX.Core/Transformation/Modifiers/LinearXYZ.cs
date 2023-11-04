@@ -9,14 +9,14 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class LinearXYZ : ObservableObject, IModifier, ISpreadable
     {
-        public LinearXYZ()
+        public LinearXYZ(BooleanValue visible, ModifierModeSelector modifierModeSelector, GenericValue<TransformType> transformType, FloatValue width, FloatValue phase, DirectionXYZ directionXYZ)
         {
-            Visible = new BooleanValue(true);
-            ModifierModeSelector = new ModifierModeSelector();
-            TransformTypeSelector = new GenericValue<TransformType>();
-            Width = new FloatValue(0);
-            Phase = new FloatValue(0);
-            DirectionXYZ = new DirectionXYZ();
+            Visible = visible;
+            ModifierModeSelector = modifierModeSelector;
+            TransformTypeSelector = transformType;
+            Width = width;
+            Phase = phase;
+            DirectionXYZ = directionXYZ;
         }
 
 

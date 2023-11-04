@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Security.Policy;
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
@@ -10,15 +11,24 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     public partial class CameraLFO : ObservableObject, IModifier, IBeatModifiable
     {
-        public CameraLFO()
+        public CameraLFO(
+                    BooleanValue visible, 
+                    BeatModifier beatModifier, 
+                    Easing easing, 
+                    BooleanValue pingPong, 
+                    GenericValue<CameraAxis> axis, 
+                    FloatValue from, 
+                    FloatValue to
+                    )
         {
-            Visible = new BooleanValue(true);
-            BeatModifier = new BeatModifier();
-            PingPong = new BooleanValue();
-            Axis = new GenericValue<CameraAxis>();
-            Easing = new Easing();
-            From = new FloatValue(0.0f);
-            To = new FloatValue(1.0f);
+            Visible = visible;
+            BeatModifier = beatModifier;
+            Easing = easing;
+
+            PingPong = pingPong;
+            Axis = axis;
+            From = from;// new FloatValue(0.0f);
+            To = to;// new FloatValue(1.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

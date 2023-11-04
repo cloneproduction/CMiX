@@ -10,16 +10,17 @@ namespace CMiX.Core.Colors.Modifiers
 {
     public partial class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier
     {
-        public RandomHSV()
+        public RandomHSV(BooleanValue visible, BeatModifier beatModifier, Easing easing, GenericValue<ModifierMode> mode, FloatValue hue, FloatValue saturation, FloatValue value, FloatValue alpha)
         {
-            Visible = new BooleanValue(true);
-            Hue = new FloatValue(0.0f);
-            Saturation = new FloatValue(0.0f);
-            Value = new FloatValue(0.0f);
-            Alpha = new FloatValue(0.0f);
-            BeatModifier = new BeatModifier();
-            Easing = new Easing();
-            Mode = new GenericValue<ModifierMode>();
+            Visible = visible;
+            BeatModifier = beatModifier;
+            Easing = easing;
+            Mode = mode;
+
+            Hue = hue;
+            Saturation = saturation;
+            Value = value;
+            Alpha = alpha;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

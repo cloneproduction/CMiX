@@ -7,21 +7,15 @@ namespace CMiX.Core.BaseControls
 {
     public class Integer2 : ObservableRecipient, IControl
     {
-        public Integer2()
+        public Integer2(IntegerValue x, IntegerValue y)
         {
-            X = new IntegerValue(0);
-            Y = new IntegerValue(0);
+            ID = Guid.NewGuid();
+            X = x;
+            Y = y;
             IsActive = true;
         }
 
-        public Integer2(int x, int y) : this()
-        {
-            X.Value = x;
-            Y.Value = y;
-            IsActive = true;
-        }
-
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public IntegerValue X { get; set; }
         public IntegerValue Y { get; set; }
     }

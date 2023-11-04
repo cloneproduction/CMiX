@@ -10,14 +10,15 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class RandomScale : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public RandomScale()
+        public RandomScale(BooleanValue visible, BeatModifier beatModifier, Easing easing, ModifierModeSelector modifierModeSelector, Vector3 scale, FloatValue uniformXYZ)
         {
-            Visible = new BooleanValue(true);
-            BeatModifier = new BeatModifier();
-            Easing = new Easing();
-            Scale = new Vector3();
-            UniformXYZ = new FloatValue(0.0f);
-            ModifierModeSelector = new ModifierModeSelector();
+            Visible = visible;
+            BeatModifier = beatModifier;
+            Easing = easing;
+            ModifierModeSelector = modifierModeSelector;
+
+            Scale = scale;
+            UniformXYZ = uniformXYZ; // new FloatValue(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

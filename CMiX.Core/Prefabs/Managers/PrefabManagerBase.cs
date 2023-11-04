@@ -2,21 +2,20 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
-using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefabs.Managers
 {
     public partial class PrefabManagerBase : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManagerBase(Guid id, PrefabFactory prefabFactory)
+        public PrefabManagerBase(Guid id, PrefabFactory prefabFactory, PrefabManagerMessenger prefabManagerMessenger)
         {
             ID = id;
+            PrefabManagerMessenger = prefabManagerMessenger;
             AddItemCommand = new RelayCommand<Type>(AddItem);
             PrefabFactory = prefabFactory;
             IsActive = true;
@@ -26,6 +25,7 @@ namespace CMiX.Core.Prefabs
         public Guid ID { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
         public ICommand AddItemCommand { get; set; }
+        PrefabManagerMessenger PrefabManagerMessenger { get; set;}
 
 
         [ObservableProperty]
@@ -39,10 +39,7 @@ namespace CMiX.Core.Prefabs
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(type);
             SelectedItem = prefab;
-
-            var prefabModel = ControlMessenger.Mapper.Map<IPrefabModel>(prefab);
-
-            Send(new MessageAddItem(ID, prefabModel));
+            PrefabManagerMessenger.SendAddItem(ID, prefab);
         }
 
         public void AddItem(IControlModel controlModel)
@@ -63,9 +60,8 @@ namespace CMiX.Core.Prefabs
 
             if (SelectedItem == null) return;
 
-            Send(new MessageSelectedItemChanged(ID, newValue.ID, 0));
-
             SelectedItem = newValue;
+            PrefabManagerMessenger.SendSelectedItemChanged(ID, newValue, 0);
         }
 
         public void SelectedItemChanged(Guid selectedItemID, int index)
@@ -87,14 +83,10 @@ namespace CMiX.Core.Prefabs
                 SelectedItem.IsRenaming.Value = true;
         }
 
-        public void Send(IMessage message)
-        {
-            WeakReferenceMessenger.Default.Send(message, MessageType.Out);
-        }
 
         public void Receive(MessageRequestControl message)
         {
-            ControlMessenger.Receive(this, message);
+            PrefabManagerMessenger.Receive(this, message);
         }
 
 

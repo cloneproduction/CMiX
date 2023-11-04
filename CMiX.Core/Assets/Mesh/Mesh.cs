@@ -8,18 +8,27 @@ namespace CMiX.Core.ViewModels
 {
     public partial class Mesh : ObservableRecipient, IControl
     {
-        public Mesh()
+        public Mesh(GenericValue<MeshType> meshTypeSelector, 
+            Vector3 scale, 
+            Vector3 offset,
+            FloatValue radius,
+            FloatValue height,
+            FloatValue thickness,
+            IntegerValue tessellation,
+            Integer2 tessellationXY,
+            BooleanValue generateBackFace,
+            BooleanValue visibility)
         {
-            MeshTypeSelector = new GenericValue<MeshType>();
-            Scale = new Vector3(1.0f, 1.0f, 1.0f);
-            Offset = new Vector3();
-            Radius = new FloatValue(1.0f);
-            Height = new FloatValue(1.0f);
-            Thickness = new FloatValue(1.0f);
-            Tessellation = new IntegerValue(16);
-            TessellationXY = new Integer2(16, 16);
-            GenerateBackFace = new BooleanValue();
-            Visibility = new BooleanValue();
+            MeshTypeSelector = meshTypeSelector;// new GenericValue<MeshType>();
+            Scale = scale; // new Vector3(1.0f, 1.0f, 1.0f);
+            Offset = offset; // new Vector3();
+            Radius = radius; // new FloatValue(1.0f);
+            Height = height; // new FloatValue(1.0f);
+            Thickness = thickness; // new FloatValue(1.0f);
+            Tessellation = tessellation; // new IntegerValue(16);
+            TessellationXY = tessellationXY; // new Integer2(16, 16);
+            GenerateBackFace = generateBackFace; // new BooleanValue();
+            Visibility = visibility; // new BooleanValue();
         }
 
         [ObservableProperty]

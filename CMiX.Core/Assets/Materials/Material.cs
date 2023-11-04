@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Media;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -11,21 +9,34 @@ namespace CMiX.Core.Materials
 {
     public partial class Material : ObservableRecipient, IControl
     {
-        public Material(DiffuseTexture diffuseTexture, MaskTexture maskTexture)
+        public Material(
+            DiffuseTexture diffuseTexture, 
+            MaskTexture maskTexture, 
+            GenericValue<PipelineType> pipeline, 
+            GenericValue<CullModeType> cullMode, 
+            GenericValue<TransparencyType> transparency,
+            FloatValue metalness,
+            FloatValue specularity,
+            FloatValue glossiness,
+            FloatValue alpha,
+            BooleanValue isShadowCaster,
+            ColorValue baseColor
+            )
         {
-            Pipeline = new GenericValue<PipelineType>(PipelineType.Constant);
-            CullMode = new GenericValue<CullModeType>(CullModeType.Back);
-            Transparency = new GenericValue<TransparencyType>(TransparencyType.CutOff);
-
-            Metalness = new FloatValue(0.5f);
-            Specularity = new FloatValue(0.5f);
-            Glossiness = new FloatValue(0.5f);
-            Alpha = new FloatValue(1.0f);
-            IsShadowCaster = new BooleanValue(false);
-
-            BaseColor = new ColorValue(Color.FromArgb(255, 255, 255, 255));
             DiffuseTexture = diffuseTexture;
             MaskTexture = maskTexture;
+
+            Pipeline = pipeline; // new GenericValue<PipelineType>(PipelineType.Constant);
+            CullMode = cullMode; // new GenericValue<CullModeType>(CullModeType.Back);
+            Transparency = transparency; // new GenericValue<TransparencyType>(TransparencyType.CutOff);
+
+            Metalness = metalness; // new FloatValue(0.5f);
+            Specularity = specularity; // new FloatValue(0.5f);
+            Glossiness = glossiness; // new FloatValue(0.5f);
+            Alpha = alpha; // new FloatValue(1.0f);
+            IsShadowCaster = isShadowCaster; // new BooleanValue(false);
+
+            BaseColor = baseColor; // new ColorValue(Color.FromArgb(255, 255, 255, 255));
 
             IsActive = true;
         }

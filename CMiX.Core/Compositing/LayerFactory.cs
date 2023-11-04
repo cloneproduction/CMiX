@@ -56,12 +56,27 @@ namespace CMiX.Core.Compositing
             return prefabSlotManager;
         }
 
+        AmbientOcclusion CreateAmbientOcclusion()
+        {
+            var isEnabled = new BooleanValue(false, ControlMessenger);
+            var samples = new IntegerValue(13, ControlMessenger);
+            var projectionScale = new FloatValue(0.5f, ControlMessenger);
+            var intensity = new FloatValue(0.2f, ControlMessenger);
+            var sampleBias = new FloatValue(0.01f, ControlMessenger);
+            var sampleRadius = new FloatValue(1.0f, ControlMessenger);
+            var blurCount = new IntegerValue(2, ControlMessenger);
+            var blurRadius = new FloatValue(1.85f, ControlMessenger);
+            var edgeSharpness = new FloatValue(3.0f, ControlMessenger);
+
+            return new AmbientOcclusion(isEnabled, samples, projectionScale, intensity, sampleBias, sampleRadius, blurCount, blurRadius, edgeSharpness);
+        }
+
         LayerService CreateLayerService()
         {
             var opacity = new FloatValue(1.0f);
             var backgroundColor = new ColorValue(Color.FromArgb(255, 128, 128, 128), ControlMessenger);
-            var blendMode = new GenericValue<BlendModeEnum>(BlendModeEnum.Normal);
-            var ambientOcclusion = new AmbientOcclusion();
+            var blendMode = new GenericValue<BlendModeEnum>(BlendModeEnum.Normal, ControlMessenger);
+            var ambientOcclusion = CreateAmbientOcclusion();
 
             return new LayerService(opacity, backgroundColor, blendMode, ambientOcclusion);
         }
@@ -69,8 +84,8 @@ namespace CMiX.Core.Compositing
         LayerMaskService CreateMaskService()
         {
             var isMask = new BooleanValue(false, ControlMessenger);
-            var maskChannel = new GenericValue<MaskChannel>();
-            var maskMode = new GenericValue<MaskMode>();
+            var maskChannel = new GenericValue<MaskChannel>(MaskChannel.Luma, ControlMessenger);
+            var maskMode = new GenericValue<MaskMode>(MaskMode.OneBelow, ControlMessenger);
             var invert = new BooleanValue(false, ControlMessenger);
 
             return new LayerMaskService(isMask, maskChannel, maskMode, invert);

@@ -9,14 +9,14 @@ namespace CMiX.Core.Transformation
 {
     public partial class TransformSRT : ObservableObject, IControl, IModifier
     {
-        public TransformSRT()
+        public TransformSRT(FloatValue uniform, Translate translate, Scale scale, Rotation rotation, BooleanValue visible, GenericValue<ModifierMode> mode)
         {
-            Uniform = new FloatValue(1.0f);
-            Translate = new Translate();
-            Scale = new Scale();
-            Rotation = new Rotation();
-            Visible = new BooleanValue(true);
-            Mode = new GenericValue<ModifierMode>();
+            Uniform = uniform; // new FloatValue(1.0f);
+            Translate = translate;
+            Scale = scale;
+            Rotation = rotation;
+            Visible = visible;
+            Mode = mode;
             isExpanded = true;
         }
 

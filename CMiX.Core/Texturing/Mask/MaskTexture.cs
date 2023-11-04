@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Texturing.Sampling;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,14 +11,20 @@ namespace CMiX.Core.Texturing
 {
     public partial class MaskTexture : ObservableObject, ITexture
     {
-        public MaskTexture(PrefabManagerBase prefabManagerBase)
+        public MaskTexture(
+            PrefabManagerBase prefabManagerBase, 
+            TransformTexture transformTexture, 
+            SamplerState samplerState, 
+            BooleanValue invert, 
+            GenericValue<MaskChannel> maskChannel, 
+            BooleanValue isEnabled)
         {
             TextureManager = prefabManagerBase;
-            TransformTexture = new TransformTexture();
-            SamplerState = new SamplerState();
-            Invert = new BooleanValue();
-            MaskChannel = new GenericValue<MaskChannel>();
-            IsEnabled = new BooleanValue(false);
+            TransformTexture = transformTexture;
+            SamplerState = samplerState;
+            Invert = invert;
+            MaskChannel = maskChannel;
+            IsEnabled = isEnabled;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

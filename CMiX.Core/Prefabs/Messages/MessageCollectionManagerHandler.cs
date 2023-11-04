@@ -40,7 +40,7 @@ namespace CMiX.Core.Prefabs.Messages
 
             if(control is IPrefabManager prefabManager)
             {
-                if (message is MessageReplaceEmptyPrefab messageSelectedPrefabChanged)
+                if (message is MessageReplacePrefab messageSelectedPrefabChanged)
                 {
                     prefabManager.ReplaceEmptyPrefab(messageSelectedPrefabChanged.emptyPrefabID, messageSelectedPrefabChanged.ControlModel);
                     return true;

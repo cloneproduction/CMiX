@@ -11,11 +11,11 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class TransformTexture : ObservableObject, ITextureModifier
     {
-        public TransformTexture()
+        public TransformTexture(BooleanValue visible, SamplerState samplerState, Transform2D transform2D)
         {
-            Visible = new BooleanValue(true);
-            SamplerState = new SamplerState();
-            Transform2D = new Transform2D();
+            Visible = visible;
+            SamplerState = samplerState;
+            Transform2D = transform2D;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

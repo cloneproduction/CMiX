@@ -10,19 +10,27 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class TypeWriter : ObservableRecipient, IControl
     {
-        public TypeWriter()
+        public TypeWriter(
+                    StringValue stringControl, 
+                    StringValue fontFamily, 
+                    FloatValue fontSize, 
+                    GenericValue<FontStyle> fontStyle, 
+                    ColorValue fontColor, 
+                    ColorValue backgroundColor, 
+                    Integer2 resolution, 
+                    Vector2 position)
         {
-            StringControl = new StringValue(String.Empty);
-            FontFamily = new StringValue("Arial");
-            FontSize = new FloatValue(0.0f);
-            Style = new GenericValue<FontStyle>();
-            FontColor = new ColorValue();
-            BackgroundColor = new ColorValue();
-            Resolution = new Integer2();
-            Position = new Vector2();
+            StringControl = stringControl;// new StringValue(String.Empty);
+            FontFamily = fontFamily;// new StringValue("Arial");
+            FontSize = fontSize;// new FloatValue(0.0f);
+            Style = fontStyle;// new GenericValue<FontStyle>();
+            FontColor = fontColor;// new ColorValue();
+            BackgroundColor = backgroundColor;// new ColorValue();
+            Resolution = resolution;// new Integer2();
+            Position = position;// new Vector2();
 
-            TextInputGotFocusCommand = new RelayCommand(TextInputGotFocus);
-            TextInputLostFocusCommand = new RelayCommand(TextInputLostFocus);
+            //TextInputGotFocusCommand = new RelayCommand(TextInputGotFocus);
+            //TextInputLostFocusCommand = new RelayCommand(TextInputLostFocus);
         }
 
         public ICommand TextInputGotFocusCommand { get; set; }
@@ -38,13 +46,13 @@ namespace CMiX.Core.Texturing.Sources
         public Integer2 Resolution { get; set; }
         public Vector2 Position { get; set; }
 
-        public void TextInputGotFocus()
-        {
-            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, true), MessageType.In);
-        }
-        public void TextInputLostFocus()
-        {
-            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, false), MessageType.Internal);
-        }
+        //public void TextInputGotFocus()
+        //{
+        //    //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, true), MessageType.In);
+        //}
+        //public void TextInputLostFocus()
+        //{
+        //    //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageTextInputFocusState(this, false), MessageType.Internal);
+        //}
     }
 }

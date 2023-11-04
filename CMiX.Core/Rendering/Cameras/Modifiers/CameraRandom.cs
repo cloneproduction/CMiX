@@ -9,14 +9,15 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     public partial class CameraRandom : ObservableObject, ICameraModifier, IBeatModifiable
     {
-        public CameraRandom()
+        public CameraRandom(BooleanValue visible, BeatModifier beatModifier, Easing easing, BooleanValue pingPong, GenericValue<CameraAxis> axis, FloatValue width)
         {
-            Visible = new BooleanValue(true);
-            BeatModifier = new BeatModifier();
-            PingPong = new BooleanValue();
-            Axis = new GenericValue<CameraAxis>();
-            Easing = new Easing();
-            Width = new FloatValue(0.0f);
+            Visible = visible;
+            BeatModifier = beatModifier;
+            Easing = easing;
+
+            PingPong = pingPong;
+            Axis = axis;
+            Width = width; // new FloatValue(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

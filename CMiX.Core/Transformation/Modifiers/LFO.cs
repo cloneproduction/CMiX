@@ -10,16 +10,24 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class LFO : ObservableObject, IBeatModifiable, IModifier
     {
-        public LFO()
+        public LFO(BooleanValue visible,
+            BeatModifier beatModifier,
+            BooleanValue pingPong,
+            DirectionXYZ directionXYZ,
+            GenericValue<TransformType> transformType,
+            Easing easing,
+            FloatValue from,
+            FloatValue to
+            )
         {
-            Visible = new BooleanValue(true);
-            BeatModifier = new BeatModifier();
-            PingPong = new BooleanValue();
-            DirectionXYZ = new DirectionXYZ();
-            TransformType = new GenericValue<TransformType>();
-            Easing = new Easing();
-            From = new FloatValue(0.0f);
-            To = new FloatValue(1.0f);
+            Visible = visible; // new BooleanValue(true);
+            BeatModifier = beatModifier;// new BeatModifier();
+            PingPong = pingPong;// new BooleanValue();
+            DirectionXYZ = directionXYZ;// new DirectionXYZ();
+            TransformType = transformType;// new GenericValue<TransformType>();
+            Easing = easing;// new Easing();
+            From = from;// new FloatValue(0.0f);
+            To = to; // new FloatValue(1.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

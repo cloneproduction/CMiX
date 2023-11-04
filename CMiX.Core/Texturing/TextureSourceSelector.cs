@@ -9,10 +9,10 @@ namespace CMiX.Core.Texturing
 {
     public class TextureSourceSelector : ObservableRecipient, IControl
     {
-        public TextureSourceSelector()
+        public TextureSourceSelector(GenericValue<TextureSourceName> proceduralName, Gradient gradient)
         {
-            ProceduralName = new GenericValue<TextureSourceName>(TextureSourceName.Gradient);
-            Gradient = new Gradient();
+            ProceduralName = proceduralName; // new GenericValue<TextureSourceName>(TextureSourceName.Gradient);
+            Gradient = gradient;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
