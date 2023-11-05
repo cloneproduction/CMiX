@@ -23,9 +23,10 @@ namespace CMiX.Core.Modifiers
         IDropTarget, 
         IDragSource
     {
-        public ModifierManager(ModifierFactory modifierFactory)
+        public ModifierManager(ModifierFactory modifierFactory, ManagerMessenger managerMessenger)
         {
             Factory = modifierFactory;
+            ManagerMessenger = managerMessenger;
             Modifiers = new ObservableCollection<IModifier>();
             //Visibility = new BooleanValue();
 
@@ -42,6 +43,7 @@ namespace CMiX.Core.Modifiers
         public ICommand DragHandlerDownCommand { get; set; }
         public ICommand DragHandlerUpCommand { get; set; }
         public BooleanValue Visibility { get; set; }
+        public ManagerMessenger ManagerMessenger { get; set; }
 
 
         [ObservableProperty]
@@ -70,7 +72,7 @@ namespace CMiX.Core.Modifiers
         {
             Modifiers.Add(modifier);
             var model = this.Factory.CreateModel(modifier);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddItem(this.ID, model), MessageType.Out);
+            ManagerMessenger.SendAddItem(ID, model);
         }
 
         public void AddItem(IControlModel controlModel)
@@ -97,7 +99,7 @@ namespace CMiX.Core.Modifiers
 
         public void Receive(MessageRequestControl message)
         {
-            ControlMessenger.Receive(this, message);
+            ManagerMessenger.Receive(this, message);
         }
 
         public void StartDrag(IDragInfo dragInfo)

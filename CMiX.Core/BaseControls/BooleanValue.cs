@@ -10,17 +10,9 @@ namespace CMiX.Core.BaseControls
 {
     public class BooleanValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        //public BooleanValue(bool value)
-        //{
-        //    ID = Guid.NewGuid();
-        //    Value = value;
-        //    IsActive = true;
-        //}
-
-        public BooleanValue(bool value, ControlMessenger controlMessenger)// : this(value)
+        public BooleanValue(ControlMessenger controlMessenger)// : this(value)
         {
             ID = Guid.NewGuid();
-            Value = value;
             IsActive = true;
             ControlMessenger = controlMessenger;
         }

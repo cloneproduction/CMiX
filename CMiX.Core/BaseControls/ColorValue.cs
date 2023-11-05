@@ -18,11 +18,11 @@ namespace CMiX.Core.BaseControls
         //    SelectedColor = Color.FromArgb(255, 255, 0, 255);
         //}
 
-        public ColorValue(Color color, ControlMessenger controlMessenger)
+        public ColorValue(ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
             IsActive = true;
-            SelectedColor = color;
+            //SelectedColor = color;
             ControlMessenger = controlMessenger;
 
         }

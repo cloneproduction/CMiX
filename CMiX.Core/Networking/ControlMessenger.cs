@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using CMiX.Core.Mapping;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -15,18 +14,6 @@ namespace CMiX.Core.Networking
 
         public ControlMessenger(IMapper mapper)
         {
-            //var mappingProfile = new MappingProfile();
-
-            //var config = new MapperConfiguration(cfg =>
-            //{
-            //    cfg.AddProfile(new MappingProfile());
-
-            //    foreach (var profile in mappingProfile.Profiles)
-            //    {
-            //        cfg.AddProfile(profile);
-            //    }
-            //});
-            //Mapper = config.CreateMapper();
             Mapper = mapper;
         }
 

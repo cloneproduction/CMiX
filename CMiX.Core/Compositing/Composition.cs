@@ -3,7 +3,6 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -16,7 +15,7 @@ namespace CMiX.Core.Compositing
     {
         public Composition(PrefabService prefabService, 
                            MasterBeat masterBeat,
-                           IPrefabCollectionManager prefabManager, 
+                           PrefabManager prefabManager, 
                            ModifierManager modifierManager, 
                            OutputSettings outputSettings)
         {
@@ -36,7 +35,7 @@ namespace CMiX.Core.Compositing
         public BooleanValue IsSelected { get; set; }
         public BooleanValue IsRenaming { get; set; }
         public BooleanValue Visibility { get; set; }
-        public IPrefabCollectionManager LayerManager { get; set; }
+        public PrefabManager LayerManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public ModifierManager ModifierManager { get; set; }
         public MasterBeat MasterBeat { get; set; }

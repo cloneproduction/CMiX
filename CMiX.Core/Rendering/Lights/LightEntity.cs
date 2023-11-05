@@ -24,7 +24,7 @@ namespace CMiX.Core.Rendering.Lights
             Angle = lightSettings.Angle;
             Softness = lightSettings.Softness;
             Intensity = lightSettings.Intensity;
-            LightTypeSelector = new GenericValue<LightType>(LightType.AmbientLight);
+            LightTypeSelector = lightSettings.LightTypeSelector;
 
             ModifierManager = modifierManager;
         }

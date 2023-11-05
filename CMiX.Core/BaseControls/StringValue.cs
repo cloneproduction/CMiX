@@ -10,16 +10,11 @@ namespace CMiX.Core.BaseControls
 {
     public class StringValue : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public StringValue(string value)
-        {
-            ID = Guid.NewGuid();
-            IsActive = true;
-            Value = value;
-        }
-
-        public StringValue(string value, ControlMessenger controlMessenger) : this(value)
+        public StringValue(ControlMessenger controlMessenger)
         {
             ControlMessenger = controlMessenger;
+            ID = Guid.NewGuid();
+            IsActive = true;
         }
 
         ControlMessenger ControlMessenger { get; set; }

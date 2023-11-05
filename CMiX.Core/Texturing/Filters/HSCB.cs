@@ -8,13 +8,13 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class HSCB : ObservableObject, ITextureModifier
     {
-        public HSCB()
+        public HSCB(BooleanValue visible, FloatValue hue, FloatValue saturation, FloatValue contrast, FloatValue brightness)
         {
-            Visible = new BooleanValue(true);
-            Hue = new FloatValue(0.0f);
-            Saturation = new FloatValue(1.0f);
-            Contrast = new FloatValue(0.0f);
-            Brightness = new FloatValue(0.0f);
+            Visible = visible; // new BooleanValue(true);
+            Hue = hue; // new FloatValue(0.0f);
+            Saturation = saturation; // new FloatValue(1.0f);
+            Contrast = contrast; // new FloatValue(0.0f);
+            Brightness = brightness; // new FloatValue(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

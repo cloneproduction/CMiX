@@ -39,17 +39,18 @@ namespace CMiX.Core.Compositing
 
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
-            var prefabFactory = new PrefabFactory();
-            prefabFactory.RegisterFactory(new LayerFactory(PrefabRepositories, ControlMessenger));
+            //var prefabFactory = new PrefabFactory();
+            //prefabFactory.RegisterFactory(new LayerFactory(PrefabRepositories, ControlMessenger));
 
-            var prefabManagerDraggable = new DraggablePrefabManager(prefabFactory);
-            var modifierManager = new ModifierManager(new TextureModifierFactory());
-            var outputSettings = new OutputSettings();
-            var composition = new Composition(prefabService, MasterBeat, prefabManagerDraggable, modifierManager, outputSettings);
+            //var prefabManagerDraggable = new DraggablePrefabManager(prefabFactory);
+            //var modifierManager = new ModifierManager(new TextureModifierFactory());
+            //var outputSettings = new OutputSettings();
+            //var composition = new Composition(prefabService, MasterBeat, prefabManagerDraggable, modifierManager, outputSettings);
 
-            ProjectRepository.AddPrefab(composition);
+            //ProjectRepository.AddPrefab(composition);
 
-            return composition;
+            //return composition;
+            return null;
         }
 
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)

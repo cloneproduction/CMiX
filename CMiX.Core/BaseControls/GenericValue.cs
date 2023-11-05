@@ -10,9 +10,8 @@ namespace CMiX.Core.BaseControls
 {
     public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
     {
-        public GenericValue(T value, ControlMessenger controlMessenger)
+        public GenericValue(ControlMessenger controlMessenger)
         {
-            Value = value;
             IsActive = true;
             ID = Guid.NewGuid();
         }

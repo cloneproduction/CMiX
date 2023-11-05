@@ -7,16 +7,16 @@ namespace CMiX.Core.Rendering.Lights
 {
     public class LightSettings
     {
-        public LightSettings() 
+        public LightSettings(ColorValue lightColor, Vector3 position, Vector3 target, FloatValue radius, FloatValue angle, FloatValue softness, FloatValue intensity, GenericValue<LightType> lightTypeSelector) 
         {
-            LightColor = new ColorValue();
-            Position = new Vector3(0.0f, 2.0f, 0.0f);
-            Target = new Vector3(0.001f, 0.0f, 0.0f);
-            Radius = new FloatValue(5.0f);
-            Angle = new FloatValue(0.25f);
-            Softness = new FloatValue(0.01f);
-            Intensity = new FloatValue(1.0f);
-            LightTypeSelector = new GenericValue<LightType>(LightType.AmbientLight);
+            LightColor = lightColor; // new ColorValue();
+            Position = position;// new Vector3(0.0f, 2.0f, 0.0f);
+            Target = target;// new Vector3(0.001f, 0.0f, 0.0f);
+            Radius = radius;// new FloatValue(5.0f);
+            Angle = angle;// new FloatValue(0.25f);
+            Softness = softness;// new FloatValue(0.01f);
+            Intensity = intensity;// new FloatValue(1.0f);
+            LightTypeSelector = lightTypeSelector;// new GenericValue<LightType>(LightType.AmbientLight);
         }
 
         public GenericValue<LightType> LightTypeSelector { get; set; }

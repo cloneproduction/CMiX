@@ -12,7 +12,7 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public partial class PrefabManagerBase : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManagerBase(Guid id, PrefabFactory prefabFactory, PrefabManagerMessenger prefabManagerMessenger)
+        public PrefabManagerBase(Guid id, PrefabFactory prefabFactory, ManagerMessenger prefabManagerMessenger)
         {
             ID = id;
             PrefabManagerMessenger = prefabManagerMessenger;
@@ -25,7 +25,7 @@ namespace CMiX.Core.Prefabs.Managers
         public Guid ID { get; set; }
         public PrefabFactory PrefabFactory { get; set; }
         public ICommand AddItemCommand { get; set; }
-        PrefabManagerMessenger PrefabManagerMessenger { get; set;}
+        ManagerMessenger PrefabManagerMessenger { get; set;}
 
 
         [ObservableProperty]

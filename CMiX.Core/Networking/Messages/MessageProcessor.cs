@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using AutoMapper;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -8,11 +9,11 @@ namespace CMiX.Core.Networking.Messages
 {
     public class MessageProcessor
     {
-        public MessageProcessor()
+        public MessageProcessor(IMapper mapper)
         {
             MessageHandlers = new Dictionary<Type, IMessageHandler>();
 
-            MessageHandlers.Add(typeof(MessageValueChange), new MessageValueChangeHandler());
+            MessageHandlers.Add(typeof(MessageValueChange), new MessageValueChangeHandler(mapper));
             MessageHandlers.Add(typeof(MessageAddItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageRemoveItem), new MessageCollectionManagerHandler());
             MessageHandlers.Add(typeof(MessageMoveItem), new MessageCollectionManagerHandler());
@@ -27,16 +28,16 @@ namespace CMiX.Core.Networking.Messages
         {
             var msg = WeakReferenceMessenger.Default.Send(new MessageRequestControl(message));
 
-            ControlMessenger.CanSend = false;
+            //ControlMessenger.CanSend = false;
 
             if (msg.HasReceivedResponse && MessageHandlers[message.GetType()].Handle(msg.Response, message))
             {
                 Console.WriteLine("Message " + message.GetType().Name + " handled");
-                ControlMessenger.CanSend = true;
+                //ControlMessenger.CanSend = true;
                 return;
             }
 
-            ControlMessenger.CanSend = true;
+            //ControlMessenger.CanSend = true;
 
             Console.WriteLine("WARNING ! Message " + message.GetType().Name + " wasn't handled");
         }

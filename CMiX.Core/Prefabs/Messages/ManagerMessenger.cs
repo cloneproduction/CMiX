@@ -7,9 +7,9 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class PrefabManagerMessenger
+    public class ManagerMessenger
     {
-        public PrefabManagerMessenger(IMapper mapper)
+        public ManagerMessenger(IMapper mapper)
         {
             Mapper = mapper;
             CanSend = true;
@@ -32,6 +32,12 @@ namespace CMiX.Core.Prefabs.Messages
         void Send(IMessage message)
         {
             WeakReferenceMessenger.Default.Send(message, MessageType.Out);
+        }
+
+        public void SendAddItem(Guid id, IControlModel prefab)
+        {
+            var message = new MessageAddItem(id, Mapper.Map<IControlModel>(prefab));
+            Send(message);
         }
 
         public void SendAddItem(Guid id, IPrefab prefab)

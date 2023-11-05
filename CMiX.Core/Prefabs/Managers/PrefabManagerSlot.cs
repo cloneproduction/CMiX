@@ -3,20 +3,19 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
-namespace CMiX.Core.Prefabs
+namespace CMiX.Core.Prefabs.Managers
 {
     public partial class PrefabManagerSlot : ObservableRecipient, IPrefabCollectionManager, IRecipient<MessageRequestControl>
     {
-        public PrefabManagerSlot(PrefabFactory prefabFactory)
+        public PrefabManagerSlot(PrefabFactory prefabFactory, ManagerMessenger managerMessenger)
         {
+            ManagerMessenger = managerMessenger;
             ItemUpCommand = new RelayCommand(ItemUp);
             ItemDownCommand = new RelayCommand(ItemDown);
             AddItemCommand = new RelayCommand<Type>(AddItem);
@@ -32,6 +31,7 @@ namespace CMiX.Core.Prefabs
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabFactory PrefabFactory { get; set; }
+        public ManagerMessenger ManagerMessenger { get; set; }
 
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
@@ -81,17 +81,15 @@ namespace CMiX.Core.Prefabs
         {
             IPrefab prefab = PrefabFactory.CreatePrefab(type);
 
-            var prefabModel = ControlMessenger.Mapper.Map<IPrefabModel>(prefab);
-
             if (SelectedItem is EmptyPrefab emptyPrefab)
             {
                 Prefabs[Prefabs.IndexOf(SelectedItem)] = prefab;
-                Send(new MessageReplacePrefab(ID, prefabModel, emptyPrefab));
+                ManagerMessenger.SendReplaceEmptyPrefab(ID, prefab, emptyPrefab);
             }
             else
             {
                 Prefabs.Add(prefab);
-                Send(new MessageAddItem(ID, prefabModel));
+                ManagerMessenger.SendAddItem(ID, prefab);
             }
 
             SelectedItem = prefab;
@@ -115,7 +113,7 @@ namespace CMiX.Core.Prefabs
             IPrefab prefab = PrefabFactory.CreatePrefab(typeof(EmptyPrefab));
             Prefabs.Add(prefab);
             SelectedIndex = Prefabs.Count - 1;
-            Send(new MessageAddItem(ID, ControlMessenger.Mapper.Map<IPrefabModel>(prefab)));
+            ManagerMessenger.SendAddItem(ID, prefab);
         }
 
         public void ReplaceEmptyPrefab(Guid emptyPrefabID, IControlModel controlModel)
@@ -283,7 +281,7 @@ namespace CMiX.Core.Prefabs
 
         public void Receive(MessageRequestControl message)
         {
-            ControlMessenger.Receive(this, message);
+            ManagerMessenger.Receive(this, message);
         }
     }
 }

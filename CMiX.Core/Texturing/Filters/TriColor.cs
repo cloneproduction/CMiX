@@ -2,29 +2,28 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
     public partial class TriColor : ObservableObject, ITextureModifier
     {
-        public TriColor()
+        public TriColor(BooleanValue visible, FloatValue control, ColorValue colorA, ColorValue colorB, ColorValue colorC, FloatValue smooth, FloatValue center, BooleanValue singleChannel, BooleanValue clampColor)
         {
             isExpanded = true;
 
-            Visible = new BooleanValue();
-            Control = new FloatValue(0.0f);
+            Visible = visible;
+            Control = control;
 
-            ColorA = new ColorValue();
-            ColorB = new ColorValue();
-            ColorC = new ColorValue();
+            ColorA = colorA;
+            ColorB = colorB;
+            ColorC = colorC;
 
-            Smooth = new FloatValue(0.0f);
-            Center = new FloatValue(0.0f);
+            Smooth = smooth;
+            Center = center;
 
-            SingleChannel = new BooleanValue();
-            ClampColor = new BooleanValue();
+            SingleChannel = singleChannel;
+            ClampColor = clampColor;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

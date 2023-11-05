@@ -8,11 +8,11 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Pixelate : ObservableObject, ITextureModifier
     {
-        public Pixelate()
+        public Pixelate(BooleanValue visible, FloatValue control, Vector2 factor)
         {
-            Visible = new BooleanValue(true);
-            Control = new FloatValue(1.0f);
-            Factor = new Vector2(0.2f, 0.2f);
+            Visible = visible; // new BooleanValue(true);
+            Control = control; // new FloatValue(1.0f);
+            Factor = factor; // new Vector2(0.2f, 0.2f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

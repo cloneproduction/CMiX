@@ -2,19 +2,18 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
     public partial class Edge : ObservableObject, ITextureModifier
     {
-        public Edge( )
+        public Edge(BooleanValue visible, FloatValue radius, FloatValue brightness, FloatValue control)
         {
-            Visible = new BooleanValue(true);
-            Radius = new FloatValue(0.2f);
-            Brightness = new FloatValue(0.2f);
-            Control = new FloatValue(1.0f);
+            Visible = visible;
+            Radius = radius;
+            Brightness = brightness;
+            Control = control;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

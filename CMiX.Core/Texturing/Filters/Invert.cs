@@ -9,12 +9,12 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Invert : ObservableObject, ITextureModifier
     {
-        public Invert()
+        public Invert(BooleanValue visible, FloatValue factor, BooleanValue invertAlpha, GenericValue<InvertChannel> invertChannel)
         {
-            Factor = new FloatValue(1.0f);
-            Visible = new BooleanValue(true);
-            InvertAlpha = new BooleanValue();
-            InvertChannelSelector = new GenericValue<InvertChannel>();
+            Visible = visible;
+            Factor = factor;
+            InvertAlpha = invertAlpha;
+            InvertChannelSelector = invertChannel;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

@@ -7,9 +7,9 @@ namespace CMiX.Core.Prefabs
 {
     public class PrefabService
     {
-        public PrefabService(Guid id, StringValue name, BooleanValue isRenaming, BooleanValue isSelected, BooleanValue visibility)
+        public PrefabService(StringValue name, BooleanValue isRenaming, BooleanValue isSelected, BooleanValue visibility)
         {
-            ID = id;
+            ID = Guid.NewGuid();
             Name = name;
             IsRenaming = isRenaming;
             IsSelected = isSelected;

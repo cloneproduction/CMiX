@@ -34,13 +34,13 @@ namespace CMiX.Core.Mapping
 
             //this is necessary because they have multiple constructor so they must be specified when mapping
             CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model());
-            CreateMap<Vector3Model, Vector3>().ConstructUsing(src => new Vector3());
+            CreateMap<Vector3Model, Vector3>().ReverseMap();//.ConstructUsing(src => new Vector3());
 
             CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model());
-            CreateMap<Vector2Model, Vector2>().ConstructUsing(src => new Vector2());
+            CreateMap<Vector2Model, Vector2>().ReverseMap();//.ConstructUsing(src => new Vector2());
 
             CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model());
-            CreateMap<Integer2Model, Integer2>().ConstructUsing(src => new Integer2());
+            CreateMap<Integer2Model, Integer2>();//.ConstructUsing(src => new Integer2());
 
 
             CreateMap<ColorValue, ColorSelectorModel>()

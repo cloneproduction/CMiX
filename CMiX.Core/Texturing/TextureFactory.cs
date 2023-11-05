@@ -35,36 +35,39 @@ namespace CMiX.Core.Texturing
 
         Gradient CreateGradient(ControlMessenger controlMessenger)
         {
-            var x = new IntegerValue(512, controlMessenger);
-            var y = new IntegerValue(512, controlMessenger);
-            var resolution = new Integer2(x, y);
+            //var x = new IntegerValue(512, controlMessenger);
+            //var y = new IntegerValue(512, controlMessenger);
+            //var resolution = new Integer2(x, y);
 
-            var from = new ColorValue(Color.FromArgb(255, 255, 255, 255), controlMessenger);
-            var to = new ColorValue(Color.FromArgb(255, 0, 0, 0), controlMessenger);
-            var gamma = new FloatValue(2.2f, controlMessenger);
-            var horizontal = new BooleanValue(false, controlMessenger);
+            //var from = new ColorValue(Color.FromArgb(255, 255, 255, 255), controlMessenger);
+            //var to = new ColorValue(Color.FromArgb(255, 0, 0, 0), controlMessenger);
+            //var gamma = new FloatValue(2.2f, controlMessenger);
+            //var horizontal = new BooleanValue(false, controlMessenger);
 
-            return new Gradient(resolution, from, to, gamma, horizontal);
+            //return new Gradient(resolution, from, to, gamma, horizontal);
+
+            return null;
         }
 
         public IPrefab CreatePrefab(PrefabService prefabService)
         {
-            var controlMessenger = new ControlMessenger(Mapper);
+            //var controlMessenger = new ControlMessenger(Mapper);
 
-            var modifierManager = new ModifierManager(new TextureModifierFactory());
+            //var modifierManager = new ModifierManager(new TextureModifierFactory());
 
-            var textureSourceSelector = new TextureSourceSelector();
-            var gradient = CreateGradient(controlMessenger);
-            var bubbleNoise = new BubbleNoise();
-            var image = new Image();
-            var videoIn = new VideoIn();
-            var videoPlayer = new VideoPlayer();
-            var selectedAssetType = new IntegerValue();
-            var typeWriter = new TypeWriter();
-            var texture = new Texture(prefabService, modifierManager);
+            //var textureSourceSelector = new TextureSourceSelector();
+            //var gradient = CreateGradient(controlMessenger);
+            //var bubbleNoise = new BubbleNoise();
+            //var image = new Image();
+            //var videoIn = new VideoIn();
+            //var videoPlayer = new VideoPlayer();
+            //var selectedAssetType = new IntegerValue();
+            //var typeWriter = new TypeWriter();
+            //var texture = new Texture(prefabService, modifierManager);
 
-            PrefabRepository.AddPrefab(texture);
-            return texture;
+            //PrefabRepository.AddPrefab(texture);
+            //return texture;
+            return null;
         }
 
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)

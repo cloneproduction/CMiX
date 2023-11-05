@@ -1,16 +1,19 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using AutoMapper;
 using CMiX.Core.Networking;
 
 namespace CMiX.Core.Prefabs
 {
     public class EmptyPrefabFactory : IPrefabFactory
     {
-        public EmptyPrefabFactory() 
+        public EmptyPrefabFactory(IMapper mapper) 
         { 
-        
+            Mapper = mapper;
         }
+
+        IMapper Mapper { get; }
 
         public IPrefab GetPrefab(Guid id)
         {
@@ -29,7 +32,7 @@ namespace CMiX.Core.Prefabs
 
         public IPrefab CreatePrefab(PrefabService prefabService, IPrefabModel prefabModel)
         {
-            return ControlMessenger.Mapper.Map(prefabModel, CreatePrefab(prefabService));
+            return Mapper.Map(prefabModel, CreatePrefab(prefabService));
         }
     }
 }

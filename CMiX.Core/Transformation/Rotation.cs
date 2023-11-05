@@ -11,11 +11,11 @@ namespace CMiX.Core.Transformation
 {
     public partial class Rotation : ObservableObject, IModifier
     {
-        public Rotation()
+        public Rotation(BooleanValue visible, Vector3 xyz)
         {
+            Visible = visible;
+            XYZ = xyz;
             isExpanded = true;
-            XYZ = new Vector3(0.0f, 0.0f, 0.0f);
-            Visible = new BooleanValue(true);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

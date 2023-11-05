@@ -11,10 +11,9 @@ namespace CMiX.Core.BaseControls
 {
     public class IntegerValue : ObservableRecipient, IRecipient<MessageRequestControl>, IControl
     {
-        public IntegerValue(int value, ControlMessenger controlMessenger)
+        public IntegerValue(ControlMessenger controlMessenger)
         {
             IsActive = true;
-            Value = value;
             ControlMessenger = controlMessenger;
         }
 

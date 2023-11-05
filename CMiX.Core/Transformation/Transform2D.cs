@@ -7,12 +7,12 @@ namespace CMiX.Core.Transformation
 {
     public class Transform2D : IControl
     {
-        public Transform2D()
+        public Transform2D(FloatValue uniformScale, Vector2 translate, Vector2 scale, FloatValue rotate)
         {
-            UniformScale = new FloatValue(1.0f);
-            Translate = new Vector2(0.0f, 0.0f);
-            Scale = new Vector2(1.0f, 1.0f);
-            Rotate = new FloatValue(0.0f);
+            UniformScale = uniformScale;// new FloatValue(1.0f);
+            Translate = translate; // new Vector2(0.0f, 0.0f);
+            Scale = scale; // new Vector2(1.0f, 1.0f);
+            Rotate = rotate;// new FloatValue(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

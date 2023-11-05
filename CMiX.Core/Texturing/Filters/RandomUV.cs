@@ -3,7 +3,6 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Texturing.Sampling;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -11,19 +10,29 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class RandomUV : ObservableObject, IBeatModifiable, ITextureModifier
     {
-        public RandomUV()
+        public RandomUV(BooleanValue visible, 
+                        BeatModifier beatModifier,
+                        Easing easing,
+                        BooleanValue randomizeLocation,
+                        Vector2 location,
+                        BooleanValue randomizeScale,
+                        Vector2 scale,
+                        FloatValue uniform,
+                        BooleanValue randomizeRotation,
+                        FloatValue rotation,
+                        SamplerState samplerState)
         {
-            Visible = new BooleanValue(true);
-            BeatModifier = new BeatModifier();
-            Easing = new Easing();
-            RandomizeLocation = new BooleanValue(true);
-            Location = new Vector2(0.0f, 0.0f);
-            RandomizeScale = new BooleanValue(true);
-            Scale = new Vector2(1.0f, 1.0f);
-            Uniform = new FloatValue(0.0f);
-            RandomizeRotation = new BooleanValue(true);
-            Rotation = new FloatValue(0.0f);
-            SamplerState = new SamplerState();
+            Visible = visible;
+            BeatModifier = beatModifier;
+            Easing = easing;
+            RandomizeLocation = randomizeLocation;
+            Location = location;
+            RandomizeScale = randomizeScale;
+            Scale = scale;
+            Uniform = uniform;
+            RandomizeRotation = randomizeRotation;
+            Rotation = rotation;
+            SamplerState = samplerState;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

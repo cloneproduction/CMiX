@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Media;
 using CMiX.Core.BaseControls;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,14 +9,14 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class BubbleNoise : ObservableObject, ITextureSource
     {
-        public BubbleNoise()
+        public BubbleNoise(Integer2 resolution, FloatValue speed, FloatValue frequency, FloatValue contrast, ColorValue backgroundColor, ColorValue bubbleColor)
         {
-            Resolution = new Integer2(512, 512);
-            Speed = new FloatValue(0.0f);
-            Frequency = new FloatValue(3.5f);
-            Contrast = new FloatValue(0.15f);
-            BackgroundColor = new ColorValue(Color.FromArgb(255, 255, 255, 255));
-            BubbleColor = new ColorValue(Color.FromArgb(255, 0, 0, 0));
+            Resolution = resolution; // new Integer2(512, 512);
+            Speed = speed;// new FloatValue(0.0f);
+            Frequency = frequency; // new FloatValue(3.5f);
+            Contrast = contrast;// new FloatValue(0.15f);
+            BackgroundColor = backgroundColor; // new ColorValue(Color.FromArgb(255, 255, 255, 255));
+            BubbleColor = bubbleColor; // new ColorValue(Color.FromArgb(255, 0, 0, 0));
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

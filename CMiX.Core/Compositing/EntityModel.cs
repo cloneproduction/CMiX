@@ -23,10 +23,10 @@ namespace CMiX.Core.Compositing
             Material = new MaterialModel();
         }
 
-        public EntityModel(Guid id) : this()
-        {
-            ID = id;
-        }
+        //public EntityModel(Guid id) : this()
+        //{
+        //    ID = id;
+        //}
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public StringValueModel Name { get; set; }
