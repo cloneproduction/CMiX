@@ -11,27 +11,27 @@ namespace CMiX.Core.Rendering
         {
             ID = Guid.NewGuid();
 
-            IsEnabled = new BooleanValueModel(false);
-            Samples = new IntegerValueModel(13);
-            ProjectionScale = new FloatValueModel(0.5f);
-            Intensity = new FloatValueModel(0.2f);
-            SampleBias = new FloatValueModel(0.01f);
-            SampleRadius = new FloatValueModel(1.0f);
-            BlurCount = new IntegerValueModel(2);
-            BlurRadius = new FloatValueModel(1.85f);
-            EdgeSharpness = new FloatValueModel(3.0f);
+            IsEnabled = new GenericValueModel<bool>(false);
+            Samples = new GenericValueModel<int>(13);
+            ProjectionScale = new GenericValueModel<float>(0.5f);
+            Intensity = new GenericValueModel<float>(0.2f);
+            SampleBias = new GenericValueModel<float>(0.01f);
+            SampleRadius = new GenericValueModel<float>(1.0f);
+            BlurCount = new GenericValueModel<int>(2);
+            BlurRadius = new GenericValueModel<float>(1.85f);
+            EdgeSharpness = new GenericValueModel<float>(3.0f);
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel IsEnabled { get; set; }
-        public IntegerValueModel Samples { get; set; }
-        public FloatValueModel ProjectionScale { get; set; }
-        public FloatValueModel Intensity { get; set; }
-        public FloatValueModel SampleBias { get; set; }
-        public FloatValueModel SampleRadius { get; set; }
-        public IntegerValueModel BlurCount { get; set; }
-        public FloatValueModel BlurRadius { get; set; }
-        public FloatValueModel EdgeSharpness { get; set; }
+        public GenericValueModel<bool> IsEnabled { get; set; }
+        public GenericValueModel<int> Samples { get; set; }
+        public GenericValueModel<float> ProjectionScale { get; set; }
+        public GenericValueModel<float> Intensity { get; set; }
+        public GenericValueModel<float> SampleBias { get; set; }
+        public GenericValueModel<float> SampleRadius { get; set; }
+        public GenericValueModel<int> BlurCount { get; set; }
+        public GenericValueModel<float> BlurRadius { get; set; }
+        public GenericValueModel<float> EdgeSharpness { get; set; }
 
     }
 }

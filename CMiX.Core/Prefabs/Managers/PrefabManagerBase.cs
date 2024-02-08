@@ -10,63 +10,151 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public partial class PrefabManagerBase : ObservableRecipient, IPrefabManager, IRecipient<MessageRequestControl>
+    public partial class PrefabManagerBase : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public PrefabManagerBase(Guid id, PrefabFactory prefabFactory, ManagerMessenger prefabManagerMessenger)
+        public PrefabManagerBase(ManagerData managerData, ControlFactory controlFactory, ManagerMessenger managerMessenger)
         {
-            ID = id;
-            PrefabManagerMessenger = prefabManagerMessenger;
+            ManagerMessenger = managerMessenger;
+            ControlFactory = controlFactory;
+            ManagerData = managerData;
+            ManagerData.PropertyChanged += ManagerData_PropertyChanged;
             AddItemCommand = new RelayCommand<Type>(AddItem);
-            PrefabFactory = prefabFactory;
+            DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
+
             IsActive = true;
         }
 
+        private void ManagerData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            ManagerMessenger.SendSelectedItemChanged(ManagerData.ID, ManagerData.SelectedItem, ManagerData.SelectedIndex);
+        }
 
         public Guid ID { get; set; }
-        public PrefabFactory PrefabFactory { get; set; }
         public ICommand AddItemCommand { get; set; }
-        ManagerMessenger PrefabManagerMessenger { get; set;}
+        public ICommand DeleteItemCommand { get; set; }
 
+        ManagerMessenger ManagerMessenger { get; set; }
+        ControlFactory ControlFactory { get; set; }
+        public ManagerData ManagerData { get; set; }
 
-        [ObservableProperty]
-        private IPrefab selectedItem;
-
-        [ObservableProperty]
-        private bool isExpanded;
-
-
-        public virtual void AddItem(Type type)
+        public void AddItem(Type type)
         {
-            IPrefab prefab = PrefabFactory.CreatePrefab(type);
-            SelectedItem = prefab;
-            PrefabManagerMessenger.SendAddItem(ID, prefab);
+            var prefab = ControlFactory.Create(type);
+            var items = ManagerData.Items;
+
+            if (ManagerData.SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefab pre)
+            {
+                items[items.IndexOf(ManagerData.SelectedItem)] = prefab;
+                ManagerMessenger.SendReplaceEmptyPrefab(ManagerData.ID, pre, emptyPrefab);
+            }
+            else
+            {
+                items.Add(prefab);
+                ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
+            }
+
+            ManagerData.SelectedItem = prefab;
         }
 
         public void AddItem(IControlModel controlModel)
         {
-            if (controlModel is not IPrefabModel prefabModel)
-                return;
+            var selectedItem = ManagerData.SelectedItem;
+            var items = ManagerData.Items;
 
-            IPrefab prefab = PrefabFactory.CreatePrefab((IPrefabModel)controlModel);
+            var prefab = ControlFactory.Create(controlModel);
 
-            SelectedItem = prefab;
+            if (selectedItem is EmptyPrefab)
+                items[items.IndexOf(selectedItem)] = prefab;
+            else
+                items.Add(prefab);
+
+            ManagerData.SelectedItem = prefab;
         }
 
-        partial void OnSelectedItemChanged(IPrefab oldValue, IPrefab newValue)
+        public void DeleteItem(Guid id)
         {
-            if(oldValue ==  newValue) return;
+            var prefab = ManagerData.Items.FirstOrDefault(x => x.ID == id);
 
-            if (newValue == null) return;
+            if (prefab == null)
+                return;
 
-            if (SelectedItem == null) return;
+            ManagerData.Items.Remove(prefab);
+        }
 
-            SelectedItem = newValue;
-            PrefabManagerMessenger.SendSelectedItemChanged(ID, newValue, 0);
+        public void DeleteItem(IControl control)
+        {
+            var index = ManagerData.SelectedIndex;
+
+            if (control == null)
+                return;
+
+            ManagerData.Items.RemoveAt(index);
+            ManagerMessenger.SendMessageRemoveItem(ManagerData.ID, control);
+
+            if (ManagerData.Items.Count == 0)
+            {
+                ManagerData.SelectedItem = null;
+                ManagerData.SelectedIndex = -1;
+                return;
+            }
+
+            if (index == 0)
+            {
+                ManagerData.SelectedItem = ManagerData.Items[0];
+                return;
+            }
+
+            if (index > 0)
+            {
+                ManagerData.SelectedIndex = index - 1;
+                return;
+            }
+        }
+
+        public void MoveItem(int oldIndex, int newIndex)
+        {
+            var items = ManagerData.Items;
+
+            if (items.Count == 0)
+                return;
+
+            items.Move(oldIndex, newIndex);
+        }
+
+        public void SelectedItemIsRenaming()
+        {
+            var prefab = ManagerData.SelectedItem as IPrefab;
+            prefab.IsRenaming.Value = true;
+        }
+
+        public void OnSelectedItemChanged(IControl oldValue, IControl newValue)
+        {
+            if (newValue == null)
+                return;
+
+            if (ManagerData.SelectedItem == null)
+                return;
+
+            if (ManagerData.Items.Count == 0)
+                return;
+
+            if (ManagerData.SelectedIndex < 0)
+                return;
+
+            if (ManagerData.SelectedIndex >= ManagerData.Items.Count)
+                return;
+
+            var index = ManagerData.SelectedIndex;
+
+            ManagerData.SelectedIndex = index;
+            ManagerData.SelectedItem = newValue;
+
+            ManagerMessenger.SendSelectedItemChanged(ManagerData.ID, newValue, index);
         }
 
         public void SelectedItemChanged(Guid selectedItemID, int index)
         {
-            var prefab = PrefabFactory.GetPrefab(selectedItemID);
+            var prefab = ControlFactory.GetPrefab(selectedItemID);
 
             if (prefab == null)
                 return;
@@ -74,35 +162,29 @@ namespace CMiX.Core.Prefabs.Managers
             if (index < 0)
                 return;
 
-            SelectedItem = prefab;
+            if (ManagerData.Items.Count == 0)
+                return;
+
+            if (index >= ManagerData.Items.Count)
+                return;
+
+            ManagerData.SelectedIndex = index;
+            ManagerData.SelectedItem = prefab;
         }
+
 
         public void Rename()
         {
-            if(SelectedItem.GetType() != typeof(EmptyPrefab))
-                SelectedItem.IsRenaming.Value = true;
+            if (ManagerData.SelectedItem is IPrefab prefab)
+            {
+                if (prefab.GetType() != typeof(EmptyPrefab))
+                    prefab.IsRenaming.Value = true;
+            }
         }
 
-
-        public void Receive(MessageRequestControl message)
+        public void Receive(IMessage message)
         {
-            PrefabManagerMessenger.Receive(this, message);
-        }
-
-
-        public void MoveItem(int oldIndex, int newIndex)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void DeleteItem(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void ReplaceEmptyPrefab(Guid emptyPrefabID, IControlModel controlModel)
-        {
-            throw new NotImplementedException();
+            ManagerMessenger.Receive(this, message);
         }
     }
 }

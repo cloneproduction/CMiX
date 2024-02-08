@@ -12,7 +12,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public RandomPositionModel()
         {
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
+            Visible = new GenericValueModel<bool>(true);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
             Location = new Vector3Model();
@@ -20,7 +20,7 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
         public EasingModel Easing { get; set; }
         public Vector3Model Location { get; set; }
         public BeatModifierModel BeatModifier { get; set; }

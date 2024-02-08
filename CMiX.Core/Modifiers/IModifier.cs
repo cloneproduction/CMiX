@@ -7,6 +7,6 @@ namespace CMiX.Core.Modifiers
 {
     public interface IModifier : IControl
     {
-        BooleanValue Visible { get; set; }
+        GenericValue<bool> Visible { get; set; }
     }
 }

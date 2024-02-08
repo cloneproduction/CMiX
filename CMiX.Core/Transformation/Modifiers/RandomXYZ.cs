@@ -11,15 +11,15 @@ namespace CMiX.Core.Transformation.Modifiers
     public partial class RandomXYZ : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
         public RandomXYZ(
-            BooleanValue visible,
+            GenericValue<bool> visible,
             BeatModifier beatModifier,
             Easing easing,
             ModifierModeSelector modifierModeSelector,
-            BooleanValue randomizeLocation,
+            GenericValue<bool> randomizeLocation,
             Vector3 location,
-            BooleanValue randomizeScale,
+            GenericValue<bool> randomizeScale,
             Vector3 scale,
-            BooleanValue randomizeRotation,
+            GenericValue<bool> randomizeRotation,
             Vector3 rotation)
         {
             Visible = visible;
@@ -30,22 +30,22 @@ namespace CMiX.Core.Transformation.Modifiers
            
             RandomizeLocation = randomizeLocation;
             Location = location; // new Vector3(0.0f, 0.0f, 0.0f);
-            RandomizeScale = randomizeScale; // new BooleanValue(true);
+            RandomizeScale = randomizeScale; // new GenericValue<bool>(true);
             Scale = scale; // new Vector3(0.0f, 0.0f, 0.0f);
-            RandomizeRotation = randomizeLocation;// new BooleanValue(true);
+            RandomizeRotation = randomizeLocation;// new GenericValue<bool>(true);
             Rotation = rotation;// new Vector3(0.0f, 0.0f, 0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public BooleanValue RandomizeLocation { get; set; }
+        public GenericValue<bool> RandomizeLocation { get; set; }
         public Vector3 Location { get; set; }
-        public BooleanValue RandomizeScale { get; set; }
+        public GenericValue<bool> RandomizeScale { get; set; }
         public Vector3 Scale { get; set; }
-        public BooleanValue RandomizeRotation { get; set; }
+        public GenericValue<bool> RandomizeRotation { get; set; }
         public Vector3 Rotation { get; set; }
 
 

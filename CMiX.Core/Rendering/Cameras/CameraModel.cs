@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Rendering.Cameras
 {
@@ -13,36 +14,39 @@ namespace CMiX.Core.Rendering.Cameras
         public CameraModel()
         {
             ID = Guid.NewGuid();
-            IsSelected = new BooleanValueModel(false);
-            IsRenaming = new BooleanValueModel(false);
+            PrefabService = new PrefabServiceModel();
+            IsSelected = new GenericValueModel<bool>(false);
+            IsRenaming = new GenericValueModel<bool>(false);
             BeatModifierModel = new BeatModifierModel();
-            FOV = new FloatValueModel(0.09f);
-            Distance = new FloatValueModel(-10f);
-            Yaw = new FloatValueModel(0.0f);
-            Pitch = new FloatValueModel(0.0f);
+            FOV = new GenericValueModel<float>(0.09f);
+            Distance = new GenericValueModel<float>(-10f);
+            Yaw = new GenericValueModel<float>(0.0f);
+            Pitch = new GenericValueModel<float>(0.0f);
             Target = new Vector3Model();
-            FarClip = new FloatValueModel(100f);
-            NearClip = new FloatValueModel(0.05f);
-            Projection = new BooleanValueModel();
-            ModifierManager = new ModifierManagerModel();
-            Name = new StringValueModel("Camera");
-            Visibility = new BooleanValueModel(true);
+            FarClip = new GenericValueModel<float>(100f);
+            NearClip = new GenericValueModel<float>(0.05f);
+            Projection = new GenericValueModel<bool>();
+            ModifierManager = new PrefabManagerModel();
+            Name = new GenericValueModel<string>("Camera");
+            Visibility = new GenericValueModel<bool>(true);
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel Visibility { get; set; }
+
+        public PrefabServiceModel PrefabService { get; set; }
+        public GenericValueModel<bool> Visibility { get; set; }
         public BeatModifierModel BeatModifierModel { get; set; }
-        public FloatValueModel FOV { get; set; }
-        public FloatValueModel Distance { get; set; }
-        public FloatValueModel Yaw { get; set; }
-        public FloatValueModel Pitch { get; set; }
+        public GenericValueModel<float> FOV { get; set; }
+        public GenericValueModel<float> Distance { get; set; }
+        public GenericValueModel<float> Yaw { get; set; }
+        public GenericValueModel<float> Pitch { get; set; }
         public Vector3Model Target { get; set; }
-        public StringValueModel Name { get; set; }
-        public FloatValueModel NearClip { get; set; }
-        public FloatValueModel FarClip { get; set; }
-        public BooleanValueModel Projection { get; set; }
-        public ModifierManagerModel ModifierManager { get; set; }
-        public BooleanValueModel IsSelected { get; set; }
-        public BooleanValueModel IsRenaming { get; set; }
+        public GenericValueModel<string> Name { get; set; }
+        public GenericValueModel<float> NearClip { get; set; }
+        public GenericValueModel<float> FarClip { get; set; }
+        public GenericValueModel<bool> Projection { get; set; }
+        public PrefabManagerModel ModifierManager { get; set; }
+        public GenericValueModel<bool> IsSelected { get; set; }
+        public GenericValueModel<bool> IsRenaming { get; set; }
     }
 }

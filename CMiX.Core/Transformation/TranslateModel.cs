@@ -12,11 +12,11 @@ namespace CMiX.Core.Transformation
         {
             ID = Guid.NewGuid();
             XYZ = new Vector3Model();
-            Visible = new BooleanValueModel(true);
+            Visible = new GenericValueModel<bool>(true);
         }
 
         public Guid ID { get; set; }
         public Vector3Model XYZ { get; internal set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
     }
 }

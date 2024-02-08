@@ -15,7 +15,7 @@ namespace CMiX.Studio.Converters
             var hexCode = System.Convert.ToString(value);
             try
             {
-                var color = (Color)ColorConverter.ConvertFromString(hexCode);
+                Color color = (Color)ColorConverter.ConvertFromString(hexCode);
                 return color;
             }
             catch

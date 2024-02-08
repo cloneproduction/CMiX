@@ -5,9 +5,12 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Prefabs
 {
-    public class PrefabService
+    public class PrefabService : IControl
     {
-        public PrefabService(StringValue name, BooleanValue isRenaming, BooleanValue isSelected, BooleanValue visibility)
+        public PrefabService(GenericValue<string> name, 
+                             GenericValue<bool> isRenaming, 
+                             GenericValue<bool> isSelected, 
+                             GenericValue<bool> visibility)
         {
             ID = Guid.NewGuid();
             Name = name;
@@ -17,9 +20,9 @@ namespace CMiX.Core.Prefabs
         }
 
         public Guid ID { get; set; }
-        public StringValue Name { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public BooleanValue IsSelected { get; set; }
-        public BooleanValue Visibility { get; set; }
+        public GenericValue<string> Name { get; set; }
+        public GenericValue<bool> IsRenaming { get; set; }
+        public GenericValue<bool> IsSelected { get; set; }
+        public GenericValue<bool> Visibility { get; set; }
     }
 }

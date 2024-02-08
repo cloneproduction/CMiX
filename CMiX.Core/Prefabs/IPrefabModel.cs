@@ -7,9 +7,10 @@ namespace CMiX.Core.Prefabs
 {
     public interface IPrefabModel : IControlModel
     {
-        BooleanValueModel Visibility { get; set; }
-        BooleanValueModel IsSelected { get; set; }
-        BooleanValueModel IsRenaming { get; set; }
-        StringValueModel Name { get; set; }
+        PrefabServiceModel PrefabService { get; set; }
+        GenericValueModel<bool> Visibility { get; set; }
+        GenericValueModel<bool> IsSelected { get; set; }
+        GenericValueModel<bool> IsRenaming { get; set; }
+        GenericValueModel<string> Name { get; set; }
     }
 }

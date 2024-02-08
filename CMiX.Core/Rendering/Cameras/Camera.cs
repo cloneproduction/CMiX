@@ -2,18 +2,20 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras
 {
     public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
-        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ModifierManager modifierManager)
+        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ReorderablePrefabManager modifierManager)
         {
             ID = prefabService.ID;
+            PrefabService = prefabService;
+
             IsSelected = prefabService.IsSelected;
             IsRenaming = prefabService.IsRenaming;
             Name = prefabService.Name;
@@ -32,21 +34,23 @@ namespace CMiX.Core.Rendering.Cameras
         }
 
         public Guid ID { get; set; }
-        public BooleanValue Visibility { get; set; }
-        public BooleanValue IsSelected { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public StringValue Name { get; set; }
 
-        public FloatValue FOV { get; set; }
-        public FloatValue Distance { get; set; }
-        public FloatValue Yaw { get; set; }
-        public FloatValue Pitch { get; set; }
+        public PrefabService PrefabService { get; set; }
+        public GenericValue<bool> Visibility { get; set; }
+        public GenericValue<bool> IsSelected { get; set; }
+        public GenericValue<bool> IsRenaming { get; set; }
+        public GenericValue<string> Name { get; set; }
+
+        public GenericValue<float> FOV { get; set; }
+        public GenericValue<float> Distance { get; set; }
+        public GenericValue<float> Yaw { get; set; }
+        public GenericValue<float> Pitch { get; set; }
         public Vector3 Target { get; set; }
-        public FloatValue NearClip { get; set; }
-        public FloatValue FarClip { get; set; }
-        public BooleanValue Projection { get; set; }
+        public GenericValue<float> NearClip { get; set; }
+        public GenericValue<float> FarClip { get; set; }
+        public GenericValue<bool> Projection { get; set; }
 
-        public ModifierManager ModifierManager { get; set; }
+        public ReorderablePrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
         bool isExpanded = false;

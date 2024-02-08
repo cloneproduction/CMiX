@@ -13,28 +13,28 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         {
             ID = Guid.NewGuid();
 
-            Visible = new BooleanValueModel(true);
-            Yaw = new BooleanValueModel(false);
-            Pitch = new BooleanValueModel(false);
-            Zoom = new BooleanValueModel(false);
-            PingPong = new BooleanValueModel(false);
+            Visible = new GenericValueModel<bool>(true);
+            Yaw = new GenericValueModel<bool>(false);
+            Pitch = new GenericValueModel<bool>(false);
+            Zoom = new GenericValueModel<bool>(false);
+            PingPong = new GenericValueModel<bool>(false);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
-            From = new FloatValueModel(0.0f);
-            To = new FloatValueModel(1.0f);
+            From = new GenericValueModel<float>(0.0f);
+            To = new GenericValueModel<float>(1.0f);
             Axis = new GenericValueModel<CameraAxis>(CameraAxis.Zoom);
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel Visible { get; set; }
-        public BooleanValueModel Yaw { get; set; }
-        public BooleanValueModel Pitch { get; set; }
-        public BooleanValueModel Zoom { get; set; }
-        public BooleanValueModel PingPong { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
+        public GenericValueModel<bool> Yaw { get; set; }
+        public GenericValueModel<bool> Pitch { get; set; }
+        public GenericValueModel<bool> Zoom { get; set; }
+        public GenericValueModel<bool> PingPong { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }
-        public FloatValueModel From { get; set; }
-        public FloatValueModel To { get; set; }
+        public GenericValueModel<float> From { get; set; }
+        public GenericValueModel<float> To { get; set; }
         public GenericValueModel<CameraAxis> Axis { get; set; }
     }
 }

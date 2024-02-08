@@ -12,13 +12,13 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
     public partial class CameraLFO : ObservableObject, IModifier, IBeatModifiable
     {
         public CameraLFO(
-                    BooleanValue visible, 
+                    GenericValue<bool> visible, 
                     BeatModifier beatModifier, 
                     Easing easing, 
-                    BooleanValue pingPong, 
+                    GenericValue<bool> pingPong, 
                     GenericValue<CameraAxis> axis, 
-                    FloatValue from, 
-                    FloatValue to
+                    GenericValue<float> from, 
+                    GenericValue<float> to
                     )
         {
             Visible = visible;
@@ -27,18 +27,18 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 
             PingPong = pingPong;
             Axis = axis;
-            From = from;// new FloatValue(0.0f);
-            To = to;// new FloatValue(1.0f);
+            From = from;// new GenericValue<float>(0.0f);
+            To = to;// new GenericValue<float>(1.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
-        public BooleanValue PingPong { get; set; }
+        public GenericValue<bool> PingPong { get; set; }
         public GenericValue<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
-        public FloatValue From { get; set; }
-        public FloatValue To { get; set; }
+        public GenericValue<float> From { get; set; }
+        public GenericValue<float> To { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

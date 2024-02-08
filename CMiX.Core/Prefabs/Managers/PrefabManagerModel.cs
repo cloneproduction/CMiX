@@ -8,8 +8,11 @@ namespace CMiX.Core.Prefabs.Managers
         public PrefabManagerModel()
         {
             ID = Guid.NewGuid();
+            ManagerData = new ManagerDataModel();
         }
 
         public Guid ID { get; set; }
+
+        public ManagerDataModel ManagerData { get; set; }
     }
 }

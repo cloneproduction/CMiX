@@ -10,12 +10,12 @@ namespace CMiX.Core.Animations
         public BeatModifierModel()
         {
             ID = Guid.NewGuid();
-            ChanceToHit = new FloatValueModel(100);
-            BeatIndex = new IntegerValueModel(0);
+            ChanceToHit = new GenericValueModel<float>(100);
+            BeatIndex = new GenericValueModel<int>(0);
         }
 
         public Guid ID { get; set; }
-        public IntegerValueModel BeatIndex { get; set; }
-        public FloatValueModel ChanceToHit { get; set; }
+        public GenericValueModel<int> BeatIndex { get; set; }
+        public GenericValueModel<float> ChanceToHit { get; set; }
     }
 }

@@ -2,28 +2,40 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class HSCB : ObservableObject, ITextureModifier
+    public partial class HSCB : ObservableObject, IControl//, IModifier//, ITextureModifier
     {
-        public HSCB(BooleanValue visible, FloatValue hue, FloatValue saturation, FloatValue contrast, FloatValue brightness)
+        public HSCB()
         {
-            Visible = visible; // new BooleanValue(true);
-            Hue = hue; // new FloatValue(0.0f);
-            Saturation = saturation; // new FloatValue(1.0f);
-            Contrast = contrast; // new FloatValue(0.0f);
-            Brightness = brightness; // new FloatValue(0.0f);
+            
+        }
+        public HSCB(GenericValue<bool> visible, 
+                    GenericValue<float> hue, 
+                    GenericValue<float> saturation, 
+                    GenericValue<float> contrast, 
+                    GenericValue<float> brightness, 
+                    GenericValue<float> control)
+        {
+            ID = Guid.NewGuid();
+            Visible = visible;
+            Hue = hue;
+            Saturation = saturation;
+            Contrast = contrast; 
+            Brightness = brightness;
+            Control = control;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
-        public FloatValue Hue { get; set; }
-        public FloatValue Saturation { get; set; }
-        public FloatValue Contrast { get; set; }
-        public FloatValue Brightness { get; set; }
-        public FloatValue Control { get; set; }
+        public Guid ID { get; set; }
+        public GenericValue<bool> Visible { get; set; }
+        public GenericValue<float> Hue { get; set; }
+        public GenericValue<float> Saturation { get; set; }
+        public GenericValue<float> Contrast { get; set; }
+        public GenericValue<float> Brightness { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

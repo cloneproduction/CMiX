@@ -7,6 +7,6 @@ namespace CMiX.Core.Modifiers
 {
     public interface IModifierModel : IControlModel
     {
-        BooleanValueModel Visible { get; set; }
+        GenericValueModel<bool> Visible { get; set; }
     }
 }

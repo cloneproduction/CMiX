@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using Ceras;
-using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,15 +10,13 @@ namespace CMiX.Core.Services
 {
     public class Client : ObservableRecipient
     {
-        public Client(CerasSerializer cerasSerializer, MessageProcessor messageProcessor)
+        public Client(MessageProcessor messageProcessor)
         {
-            Serializer = cerasSerializer;
             ServerIsConnected = false;
             MessageProcessor = messageProcessor;
         }
 
         private MessageProcessor MessageProcessor { get; set; }
-        private CerasSerializer Serializer { get; set; }
         public WatsonTcpClient WatsonTcpClient { get; set; }
 
         public string IP { get; set; }
@@ -44,19 +40,18 @@ namespace CMiX.Core.Services
                 _ = TryToConnect(WatsonTcpClient);
         }
 
-        private SyncResponse SyncRequestReceived(SyncRequest arg)
-        {
-            var projectModel = Serializer.Deserialize<ProjectModel>(arg.Data);
-            Console.WriteLine("Data size is " + arg.Data.Length);
-            Console.WriteLine("Client received the request of type :  " + projectModel.GetType());
-            return new SyncResponse(arg, "Client receive the request, send the ProjectModel back to Server");
-        }
+        //private SyncResponse SyncRequestReceived(SyncRequest arg)
+        //{
+        //    var projectModel = Serializer.Deserialize<ProjectModel>(arg.Data);
+        //    Console.WriteLine("Data size is " + arg.Data.Length);
+        //    Console.WriteLine("Client received the request of type :  " + projectModel.GetType());
+        //    return new SyncResponse(arg, "Client receive the request, send the ProjectModel back to Server");
+        //}
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
+            MessageProcessor.ProcessMessage(e.Data);
             Console.WriteLine("Message Data Received by Clients");
-            IMessage message = Serializer.Deserialize<IMessage>(e.Data);
-            MessageProcessor.ProcessMessage(message);
         }
 
         private void ServerDisconnected(object sender, DisconnectionEventArgs e)
@@ -69,11 +64,11 @@ namespace CMiX.Core.Services
 
         private void ServerConnected(object sender, ConnectionEventArgs e)
         {
-            if(e.Client != null)
-            {
-                Console.WriteLine("Server " + e.Client.IpPort + " connected");
-                ServerIsConnected = true;
-            }
+            if (e.Client == null)
+                return;
+
+            ServerIsConnected = true;
+            Console.WriteLine("Server " + e.Client.IpPort + " connected");
         }
 
 

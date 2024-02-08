@@ -10,10 +10,11 @@ namespace CMiX.Core.Animations
 {
     public class BeatModifier : ObservableRecipient, IControl
     {
-        public BeatModifier(IntegerValue beatIndex, FloatValue chanceToHit)
+        public BeatModifier(MasterBeat masterBeat, GenericValue<int> beatIndex, GenericValue<float> chanceToHit)
         {
-            BeatIndex = beatIndex;// new IntegerValue(0, controlMessenger);
-            ChanceToHit = chanceToHit;// new FloatValue(1);
+            BeatIndex = beatIndex;// new GenericValue<int>(0, controlMessenger);
+            ChanceToHit = chanceToHit;// new GenericValue<float>(1);
+            MasterBeat = masterBeat;
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -25,8 +26,9 @@ namespace CMiX.Core.Animations
         public ICommand DivideCommand { get; set; }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public FloatValue ChanceToHit { get; set; }
-        public IntegerValue BeatIndex { get; set; }
+        public MasterBeat MasterBeat { get; set; }
+        public GenericValue<float> ChanceToHit { get; set; }
+        public GenericValue<int> BeatIndex { get; set; }
 
         private int maxIndex = 4;
         private int minIndex = -4;

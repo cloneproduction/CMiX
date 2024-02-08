@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageAddItem : IMessagePrefab
+    public class MessageAddItem : IMessageManager
     {
         public MessageAddItem()
         {

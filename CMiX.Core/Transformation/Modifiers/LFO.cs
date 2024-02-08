@@ -10,35 +10,35 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class LFO : ObservableObject, IBeatModifiable, IModifier
     {
-        public LFO(BooleanValue visible,
+        public LFO(GenericValue<bool> visible,
             BeatModifier beatModifier,
-            BooleanValue pingPong,
+            GenericValue<bool> pingPong,
             DirectionXYZ directionXYZ,
             GenericValue<TransformType> transformType,
             Easing easing,
-            FloatValue from,
-            FloatValue to
+            GenericValue<float> from,
+            GenericValue<float> to
             )
         {
-            Visible = visible; // new BooleanValue(true);
+            Visible = visible; // new GenericValue<bool>(true);
             BeatModifier = beatModifier;// new BeatModifier();
-            PingPong = pingPong;// new BooleanValue();
+            PingPong = pingPong;// new GenericValue<bool>();
             DirectionXYZ = directionXYZ;// new DirectionXYZ();
             TransformType = transformType;// new GenericValue<TransformType>();
             Easing = easing;// new Easing();
-            From = from;// new FloatValue(0.0f);
-            To = to; // new FloatValue(1.0f);
+            From = from;// new GenericValue<float>(0.0f);
+            To = to; // new GenericValue<float>(1.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
-        public BooleanValue PingPong { get; set; }
+        public GenericValue<bool> PingPong { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
         public Easing Easing { get; set; }
-        public FloatValue From { get; set; }
-        public FloatValue To { get; set; }
+        public GenericValue<float> From { get; set; }
+        public GenericValue<float> To { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

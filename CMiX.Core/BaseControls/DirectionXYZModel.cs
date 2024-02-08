@@ -8,13 +8,13 @@ namespace CMiX.Core.BaseControls
         public DirectionXYZModel()
         {
             ID = Guid.NewGuid();
-            DirectionX = new BooleanValueModel(true);
-            DirectionY = new BooleanValueModel(false);
-            DirectionZ = new BooleanValueModel(false);
+            DirectionX = new GenericValueModel<bool>(true);
+            DirectionY = new GenericValueModel<bool>(false);
+            DirectionZ = new GenericValueModel<bool>(false);
         }
         public Guid ID { get; set; }
-        public BooleanValueModel DirectionX { get; set; }
-        public BooleanValueModel DirectionY { get; set; }
-        public BooleanValueModel DirectionZ { get; set; }
+        public GenericValueModel<bool> DirectionX { get; set; }
+        public GenericValueModel<bool> DirectionY { get; set; }
+        public GenericValueModel<bool> DirectionZ { get; set; }
     }
 }

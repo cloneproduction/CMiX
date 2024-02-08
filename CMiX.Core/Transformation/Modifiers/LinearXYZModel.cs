@@ -12,10 +12,10 @@ namespace CMiX.Core.Transformation.Modifiers
         public LinearXYZModel()
         {
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
+            Visible = new GenericValueModel<bool>(true);
             BeatModifier = new BeatModifierModel();
-            Width = new FloatValueModel();
-            Phase = new FloatValueModel();
+            Width = new GenericValueModel<float>();
+            Phase = new GenericValueModel<float>();
             DirectionXYZ = new DirectionXYZModel();
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
             Mode.Value = ModifierMode.ToSpread;
@@ -24,11 +24,11 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
-        public FloatValueModel Width { get; set; }
+        public GenericValueModel<float> Width { get; set; }
         public DirectionXYZModel DirectionXYZ { get; set; }
-        public FloatValueModel Phase { get; set; }
+        public GenericValueModel<float> Phase { get; set; }
         public GenericValueModel<ModifierMode> Mode { get; set; }
         public GenericValueModel<TransformType> TransformTypeSelector { get; set; }
         public ModifierModeSelectorModel ModifierModeSelector { get; set; }

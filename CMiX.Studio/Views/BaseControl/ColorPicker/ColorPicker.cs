@@ -47,14 +47,12 @@ namespace CMiX.Studio.Views.BaseControl
         private ValueColorSlider _vSlider;
 
 
-        public static readonly DependencyProperty SelectedColorProperty =
-            DependencyProperty.Register(nameof(SelectedColor), typeof(Color), typeof(ColorPicker),
-            new FrameworkPropertyMetadata(Colors.Red, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault,
-            OnSelectedColorChanged));
-        public Color SelectedColor
+        public static readonly DependencyProperty ValueProperty =
+            DependencyProperty.Register(nameof(Value), typeof(Color), typeof(ColorPicker), new FrameworkPropertyMetadata(Colors.Red, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSelectedColorChanged));
+        public Color Value
         {
-            get { return (Color)GetValue(SelectedColorProperty); }
-            set { SetValue(SelectedColorProperty, value); }
+            get { return (Color)GetValue(ValueProperty); }
+            set { SetValue(ValueProperty, value); }
         }
 
 
@@ -97,7 +95,7 @@ namespace CMiX.Studio.Views.BaseControl
         {
             _lock = true;
 
-            SelectedColor = color;
+            Value = color;
 
             _lock = false;
         }

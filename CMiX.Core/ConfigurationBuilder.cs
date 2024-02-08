@@ -3,20 +3,17 @@
 
 using AutoMapper;
 using Ceras;
-using CMiX.Core.Animations;
-using CMiX.Core.BaseControls;
+using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Entities.Lights;
 using CMiX.Core.Mapping;
-using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Network;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Rendering;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing;
@@ -33,102 +30,112 @@ namespace CMiX.Core
     {
         public ConfigurationBuilder()
         {
-            //ServiceCollection serviceCollection = new ServiceCollection();
-            //ConfigureServices(serviceCollection);
-            //ServiceProvider = serviceCollection.BuildServiceProvider();
-            //ServiceProvider.GetRequiredService<Client>().Start(new Settings("127.0.0.1", 8080));
+
         }
+
+        public IServiceCollection ServiceProvider { get; set; }
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSingleton(x =>
+            services.AddSingleton<CerasSerializer>();
+            services.AddSingleton<MainViewModel>();
+            
+            services.AddSingleton<AssetManager>();
+            services.AddSingleton<MainViewModel>();
+            services.AddSingleton<MainWindowController>();
+            services.AddSingleton<MainMenu>();
+            services.AddSingleton<Client>();
+
+            services.AddSingleton<ServerFactory>();
+            services.AddSingleton<ServerManager>();
+            services.AddSingleton<ServerRepository>();
+
+            ////////
+            services.AddSingleton<MessageProcessor>();
+            services.AddSingleton<ControlMessenger>();
+  
+
+            MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
+
+            services.AddTransient(x =>
             {
-                var mappingProfile = new MappingProfile();
+                mapperConfigurationExpression.AddProfile(new BaseControlMappingProfile());
+                mapperConfigurationExpression.AddProfile(new PrefabMappingProfile());
 
-                var config = new MapperConfiguration(cfg =>
-                {
-                    cfg.AddProfile(new MappingProfile());
-
-                    foreach (var profile in mappingProfile.Profiles)
-                    {
-                        cfg.AddProfile(profile);
-                    }
-                });
+                var config = new MapperConfiguration(mapperConfigurationExpression);
                 return config.CreateMapper();
             });
 
 
-            services.AddSingleton<CerasSerializer>();
-            services.AddSingleton<MainViewModel>();
-            services.AddSingleton<Project>();
-            services.AddSingleton<PrefabRepositories>();
-            services.AddSingleton<MasterBeat>();
-            services.AddSingleton<CompositionFactory>();
-            services.AddSingleton<AssetManager>();
-            services.AddSingleton<MainViewModel>();
-            services.AddSingleton<ServerManager>();
-            services.AddSingleton<MainWindowController>();
-            services.AddSingleton<MainMenu>();
-            services.AddSingleton<Client>();
-            services.AddSingleton<MessageProcessor>();
-            services.AddSingleton<ServerFactory>();
+            var controlConfigurator = new ControlConfigurator(mapperConfigurationExpression, services);
 
-            ////////
-            services.AddSingleton<ManagerMessenger>();
-            services.AddSingleton<ControlMessenger>();
+            controlConfigurator.Register(new BaseControlPairProfile());
+            controlConfigurator.Register(new TransformPairProfile());
+            controlConfigurator.Register(new BeatPairProfile());
+            controlConfigurator.Register(new TexturePairProfile());
+            controlConfigurator.Register(new TexturingPairProfile());
+            controlConfigurator.Register(new AnimationPairProfile());
+            controlConfigurator.Register(new MaterialPairProfile());
+            controlConfigurator.Register(new MaskPairProfile());
+            controlConfigurator.Register(new MeshPairProfile());
+            controlConfigurator.Register(new RenderingPairProfile());
+            controlConfigurator.Register(new CameraPairProfile());
+            controlConfigurator.Register(new ModifierPairProfile());
 
-            ////////
-            services.AddTransient<BooleanValue>();
-            services.AddTransient<FloatValue>();
-            services.AddTransient<StringValue>();
-            services.AddTransient<IntegerValue>();
-            services.AddTransient<Button>();
-            services.AddTransient<Integer2>();
-            services.AddTransient<ColorValue>();
+            controlConfigurator.Register(new ManagerPairProfile());
 
 
-            services.AddTransient<PrefabService>();
-            services.AddTransient<OutputSettings>();
+            ///NEED TO REGISTER TWICE ????
+            ///
+            /////////ENTITY MODIFIERS
+            var entityModifiers = new EntityModifierPairProfile();
+            controlConfigurator.Register(entityModifiers);
+            controlConfigurator.Register(entityModifiers);
 
-            services.AddSingleton<TextureModifierFactory>();
 
-            services.AddTransient<Composition>(x =>
-                new Composition(x.GetRequiredService<PrefabService>(), x.GetRequiredService<MasterBeat>(), x.GetRequiredService<PrefabManager>(), new ModifierManager(x.GetRequiredService<TextureModifierFactory>(), x.GetRequiredService<ManagerMessenger>()), x.GetRequiredService<OutputSettings>()));
-            
-            services.AddTransient<Layer>();
+            /////////TEXTURE MODIFIERS
+            var textureModifiers = new TextureModifierPairProfile();
+            controlConfigurator.Register(textureModifiers);
+            controlConfigurator.Register(textureModifiers);
 
-            services.AddTransient<Entity>(x => 
-                new Entity(x.GetRequiredService<PrefabService>(), x.GetRequiredService<Mesh>(), x.GetRequiredService<Material>(), new ModifierManager(new EntityModifierFactory(), x.GetRequiredService<ManagerMessenger>())));
 
-            services.AddTransient<PrefabManagerSlot>();
-            services.AddTransient<PrefabManager>();
-
-            services.AddTransient<Mesh>();
-            services.AddTransient<Material>();
-
-            //services.AddSingleton(x => new PrefabFactory(new List<IPrefabFactory> { x.GetRequiredService<CompositionFactory>() }));
-            services.AddSingleton(x => new PrefabManagerBase(Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00"), x.GetRequiredService<PrefabFactory>(), x.GetRequiredService<ManagerMessenger>()));
-
-            services.AddSingleton<PrefabFactory>(ctx =>
+            services.AddSingleton(x =>
             {
-                var factories = new Dictionary<Type, Func<IPrefab>>()
+                var mapper = x.GetRequiredService<IMapper>();
+
+                Dictionary<Type, Func<IControl>> controlFactory = new Dictionary<Type, Func<IControl>>()
                 {
-                    [typeof(Composition)] = () => ctx.GetRequiredService<Composition>(),
-                    [typeof(CompositionModel)] = () => ctx.GetRequiredService<Composition>(),
-                    [typeof(Layer)] = () => ctx.GetRequiredService<Layer>(),
-                    [typeof(LayerModel)] = () => ctx.GetRequiredService<Layer>(),
-                    [typeof(Entity)] = () => ctx.GetRequiredService<Entity>(),
-                    [typeof(EntityModel)] = () => ctx.GetRequiredService<Entity>(),
-                    [typeof(LightEntity)] = () => ctx.GetRequiredService<LightEntity>(),
-                    [typeof(LightEntityModel)] = () => ctx.GetRequiredService<LightEntity>(),
-                    [typeof(Texture)] = () => ctx.GetRequiredService<Texture>(),
-                    [typeof(TextureModel)] = () => ctx.GetRequiredService<Texture>()
+                    [typeof(EmptyPrefab)] = () => mapper.Map<IControlModel, IControl>(new EmptyPrefabModel(), x.GetRequiredService<EmptyPrefab>()),
+                    [typeof(Composition)] = () => mapper.Map<IControlModel, IControl>(new CompositionModel(), x.GetRequiredService<Composition>()),
+                    [typeof(Layer)] = () => mapper.Map<IControlModel, IControl>(new LayerModel(), x.GetRequiredService<Layer>()),
+                    [typeof(Entity)] = () => mapper.Map<IControlModel, IControl>(new EntityModel(), x.GetRequiredService<Entity>()),
+                    [typeof(LightEntity)] = () => mapper.Map<IControlModel, IControl>(new LightEntityModel(), x.GetRequiredService<LightEntity>()),
+                    [typeof(Texture)] = () => mapper.Map<IControlModel, IControl>(new TextureModel(), x.GetRequiredService<Texture>()),
+
+                    [typeof(HSCB)] = () => mapper.Map<IControlModel, IControl>(new HSCBModel(), x.GetRequiredService<HSCB>()),
+                    [typeof(Blur)] = () => mapper.Map<IControlModel, IControl>(new BlurModel(), x.GetRequiredService<Blur>()),
+                    [typeof(RandomHSV)] = () => mapper.Map<IControlModel, IControl>(new RandomHSVModel(), x.GetRequiredService<RandomHSV>()),
                 };
 
-                return new PrefabFactory(factories, ctx.GetRequiredService<PrefabRepositories>());
-            });
-        }
 
-        public ServiceProvider ServiceProvider { get; set; }
+                Dictionary<Type, Func<IControlModel, IControl>> controlModelFactory = new Dictionary<Type, Func<IControlModel, IControl>>()
+                {
+                    [typeof(EmptyPrefabModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<EmptyPrefab>()),
+                    [typeof(CompositionModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Composition>()),
+                    [typeof(LayerModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Layer>()),
+                    [typeof(EntityModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Entity>()),
+                    [typeof(LightEntityModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<LightEntity>()),
+                    [typeof(TextureModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Texture>()),
+
+                    [typeof(HSCBModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<HSCB>()),
+                    [typeof(BlurModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Blur>()),
+                    [typeof(RandomHSVModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomHSV>()),
+                };
+
+                return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<PrefabRepositories>());
+            });
+
+            var prefabConfigBuilder = new PrefabConfigurationBuilder(services);
+        }
     }
 }

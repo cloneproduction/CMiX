@@ -11,12 +11,12 @@ namespace CMiX.Core.Texturing.Filters
         public FeedbackModel()
         {
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
-            Factor = new FloatValueModel();
+            Visible = new GenericValueModel<bool>(true);
+            Factor = new GenericValueModel<float>();
         }
 
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
         public Guid ID { get; set; }
-        public FloatValueModel Factor { get; set; }
+        public GenericValueModel<float> Factor { get; set; }
     }
 }

@@ -3,17 +3,20 @@
 
 using Ceras;
 using CMiX.Core.Networking.Messenger;
+using CMiX.Core.Networking.Servers;
 using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Network
 {
     public class ServerFactory
     {
-        public ServerFactory(CerasSerializer cerasSerializer)
+        public ServerFactory(ServerRepository serverRepository, CerasSerializer cerasSerializer)
         {
             Serializer = cerasSerializer;
+            ServerRepository = serverRepository;
         }
 
+        ServerRepository ServerRepository { get; set; }
         CerasSerializer Serializer { get; set; }
 
         int ID = 0;
@@ -22,6 +25,7 @@ namespace CMiX.Core.Network
         {
             var server = new Server(settings, Serializer);
             ID++;
+            ServerRepository.AddServer(server);
             return server;
         }
     }

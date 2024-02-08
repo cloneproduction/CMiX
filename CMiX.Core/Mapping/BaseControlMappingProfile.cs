@@ -2,9 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using System.Windows.Media;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Mapping
 {
@@ -12,41 +10,22 @@ namespace CMiX.Core.Mapping
     {
         public BaseControlMappingProfile()
         {
-            //CreateMap<IControl, IControlModel>().ReverseMap();
-
             CreateMap<IControl, IControlModel>()
-                .Include<GenericValue<BlendModeEnum>, GenericValueModel<BlendModeEnum>>()
-                .Include<IntegerValue, IntegerValueModel>()
-                .Include<FloatValue, FloatValueModel>()
-                .Include<BooleanValue, BooleanValueModel>()
-                .Include<StringValue, StringValueModel>()
-                .Include<ColorValue, ColorSelectorModel>()
+                .Include<Integer2, Integer2Model>()
+                .Include<Vector2, Vector2Model>()
+                .Include<Vector3, Vector3Model>()
+                .Include<DirectionXYZ, DirectionXYZModel>()
+                .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
                 .ReverseMap();
+
+            CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap();
 
             CreateMap<Button, ButtonModel>().ReverseMap();
 
-
-
-            CreateMap<IntegerValue, IntegerValueModel>().ReverseMap();
-            CreateMap<FloatValue, FloatValueModel>().ReverseMap();
-            CreateMap<BooleanValue, BooleanValueModel>().ReverseMap();
-            CreateMap<StringValue, StringValueModel>().ReverseMap();
-
             //this is necessary because they have multiple constructor so they must be specified when mapping
-            CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model());
-            CreateMap<Vector3Model, Vector3>().ReverseMap();//.ConstructUsing(src => new Vector3());
-
-            CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model());
-            CreateMap<Vector2Model, Vector2>().ReverseMap();//.ConstructUsing(src => new Vector2());
-
-            CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model());
-            CreateMap<Integer2Model, Integer2>();//.ConstructUsing(src => new Integer2());
-
-
-            CreateMap<ColorValue, ColorSelectorModel>()
-                .ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => src.SelectedColor.ToString()))
-                .ReverseMap().ForMember(dest => dest.SelectedColor, opt => opt.MapFrom(src => (Color)ColorConverter.ConvertFromString(src.SelectedColor)));
-
+            CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap();
+            CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap();
+            CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap();
             CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap();
         }
     }

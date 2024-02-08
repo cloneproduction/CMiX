@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Transformation.Modifiers;
 using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Mapping
@@ -12,19 +11,19 @@ namespace CMiX.Core.Mapping
     {
         public FiltersMappingProfile()
         {
-            CreateMap<TriColor, TriColorModel>().ReverseMap();
-            CreateMap<Edge, EdgeModel>().ReverseMap();
-            CreateMap<RandomUV, RandomUVModel>().ReverseMap();
-            CreateMap<HSCB, HSCBModel>().ReverseMap();
-            CreateMap<Invert, InvertModel>().ReverseMap();
+
+            var textureModifierPairs = new Dictionary<Type, Type>();
+
+            foreach (var textureModifierPair in textureModifierPairs)
+            {
+                CreateMap<IControl, IControlModel>()
+                    .Include(textureModifierPair.Key, textureModifierPair.Value)
+                    .ReverseMap();
+
+                CreateMap(textureModifierPair.Key, textureModifierPair.Value).ReverseMap();
+            }
+
             CreateMap<GenericValue<InvertChannel>, GenericValueModel<InvertChannel>>().ReverseMap();
-            CreateMap<LFOUV, LFOUVModel>().ReverseMap();
-            CreateMap<Pixelate, PixelateModel>().ReverseMap();
-            CreateMap<Blur, BlurModel>().ReverseMap();
-            CreateMap<Echo, EchoModel>().ReverseMap();
-            CreateMap<Feedback, FeedbackModel>().ReverseMap();
-            CreateMap<Blur, BlurModel>().ReverseMap();
-            CreateMap<TransformTexture, TransformTextureModel>().ReverseMap();
         }
     }
 }

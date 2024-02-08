@@ -4,7 +4,6 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Texturing.Sampling;
 using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Texturing.Filters
@@ -14,32 +13,32 @@ namespace CMiX.Core.Texturing.Filters
         public LFOUVModel()
         {
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
+            Visible = new GenericValueModel<bool>(true);
             BeatModifier = new BeatModifierModel();
-            PingPong = new BooleanValueModel();
-            XAxis = new BooleanValueModel();
-            YAxis = new BooleanValueModel();
-            ZAxis = new BooleanValueModel();
+            PingPong = new GenericValueModel<bool>();
+            XAxis = new GenericValueModel<bool>();
+            YAxis = new GenericValueModel<bool>();
+            ZAxis = new GenericValueModel<bool>();
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
             TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
             Easing = new EasingModel();
-            From = new FloatValueModel(0.0f);
-            To = new FloatValueModel(1.0f);
+            From = new GenericValueModel<float>(0.0f);
+            To = new GenericValueModel<float>(1.0f);
             SamplerState = new SamplerStateModel();
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
-        public BooleanValueModel PingPong { get; set; }
-        public BooleanValueModel XAxis { get; set; }
-        public BooleanValueModel YAxis { get; set; }
-        public BooleanValueModel ZAxis { get; set; }
+        public GenericValueModel<bool> PingPong { get; set; }
+        public GenericValueModel<bool> XAxis { get; set; }
+        public GenericValueModel<bool> YAxis { get; set; }
+        public GenericValueModel<bool> ZAxis { get; set; }
         public GenericValueModel<ModifierMode> Mode { get; set; }
         public GenericValueModel<TransformType> TransformType { get; set; }
         public EasingModel Easing { get; set; }
-        public FloatValueModel From { get; set; }
-        public FloatValueModel To { get; set; }
+        public GenericValueModel<float> From { get; set; }
+        public GenericValueModel<float> To { get; set; }
         public SamplerStateModel SamplerState { get; set; }
     }
 }

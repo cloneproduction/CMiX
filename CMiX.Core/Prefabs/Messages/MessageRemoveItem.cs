@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageRemoveItem : IMessagePrefab
+    public class MessageRemoveItem : IMessageManager
     {
         public MessageRemoveItem()
         {

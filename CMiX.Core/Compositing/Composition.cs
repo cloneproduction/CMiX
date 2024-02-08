@@ -7,19 +7,20 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public class Composition : ObservableObject, IPrefab, IModifiable
+    public class Composition : IPrefab, IModifiable
     {
         public Composition(PrefabService prefabService, 
                            MasterBeat masterBeat,
-                           PrefabManager prefabManager, 
-                           ModifierManager modifierManager, 
+                           ReorderablePrefabManager prefabManager, 
+                           ReorderablePrefabManager modifierManager, 
                            OutputSettings outputSettings)
         {
-            ID = prefabManager.ID;
+            ID = prefabService.ID;
+
+            PrefabService = prefabService;
             Name = prefabService.Name;
             IsSelected = prefabService.IsSelected;
             IsRenaming = prefabService.IsRenaming;
@@ -31,13 +32,17 @@ namespace CMiX.Core.Compositing
         }
 
         public Guid ID { get; set; }
-        public StringValue Name { get; set; }
-        public BooleanValue IsSelected { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public BooleanValue Visibility { get; set; }
-        public PrefabManager LayerManager { get; set; }
+
+        public PrefabService PrefabService { get; set; }
+
+        public GenericValue<string> Name { get; set; }
+        public GenericValue<bool> IsSelected { get; set; }
+        public GenericValue<bool> IsRenaming { get; set; }
+        public GenericValue<bool> Visibility { get; set; }
+
+        public ReorderablePrefabManager LayerManager { get; set; }
+        public ReorderablePrefabManager ModifierManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
-        public ModifierManager ModifierManager { get; set; }
         public MasterBeat MasterBeat { get; set; }
     }
 }

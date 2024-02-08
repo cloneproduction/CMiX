@@ -12,26 +12,26 @@ namespace CMiX.Core.Texturing.Filters
         {
             ID = Guid.NewGuid();
 
-            Visible = new BooleanValueModel(true);
-            Control = new FloatValueModel(1.0f);
-            ColorA = new ColorSelectorModel("#FFFF00FF");
-            ColorB = new ColorSelectorModel("#FFFF00FF");
-            ColorC = new ColorSelectorModel("#FFFF00FF");
-            Smooth = new FloatValueModel();
-            Center = new FloatValueModel();
-            SingleChannel = new BooleanValueModel();
-            ClampColor = new BooleanValueModel();
+            Visible = new GenericValueModel<bool>(true);
+            Control = new GenericValueModel<float>(1.0f);
+            ColorA = new GenericValueModel<string>("#FFFF00FF");
+            ColorB = new GenericValueModel<string>("#FFFF00FF");
+            ColorC = new GenericValueModel<string>("#FFFF00FF");
+            Smooth = new GenericValueModel<float>();
+            Center = new GenericValueModel<float>();
+            SingleChannel = new GenericValueModel<bool>();
+            ClampColor = new GenericValueModel<bool>();
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel Visible { get; set; }
-        public FloatValueModel Control { get; set; }
-        public ColorSelectorModel ColorA { get; set; }
-        public ColorSelectorModel ColorB { get; set; }
-        public ColorSelectorModel ColorC { get; set; }
-        public FloatValueModel Smooth { get; set; }
-        public FloatValueModel Center { get; set; }
-        public BooleanValueModel SingleChannel { get; set; }
-        public BooleanValueModel ClampColor { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
+        public GenericValueModel<float> Control { get; set; }
+        public GenericValueModel<string> ColorA { get; set; }
+        public GenericValueModel<string> ColorB { get; set; }
+        public GenericValueModel<string> ColorC { get; set; }
+        public GenericValueModel<float> Smooth { get; set; }
+        public GenericValueModel<float> Center { get; set; }
+        public GenericValueModel<bool> SingleChannel { get; set; }
+        public GenericValueModel<bool> ClampColor { get; set; }
     }
 }

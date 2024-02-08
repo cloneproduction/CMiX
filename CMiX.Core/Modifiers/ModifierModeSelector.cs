@@ -6,15 +6,16 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Modifiers
 {
-    public class ModifierModeSelector
+    public class ModifierModeSelector : IControl
     {
-        public ModifierModeSelector(GenericValue<ModifierMode> mode, IntegerValue count)
+        public ModifierModeSelector(GenericValue<ModifierMode> mode, GenericValue<int> count)
         {
             Mode = mode; // new GenericValue<ModifierMode>();
-            Count = count; // new IntegerValue(1);
+            Count = count; // new GenericValue<int>(1);
         }
 
         public GenericValue<ModifierMode> Mode { get; set; }
-        public IntegerValue Count { get; set; }
+        public GenericValue<int> Count { get; set; }
+        public Guid ID { get; set; }
     }
 }

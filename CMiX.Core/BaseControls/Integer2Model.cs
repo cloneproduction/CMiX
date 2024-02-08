@@ -14,13 +14,13 @@ namespace CMiX.Core.BaseControls
 
         public Integer2Model(int x, int y) : this()
         {
-            X = new IntegerValueModel(x);
-            Y = new IntegerValueModel(y);
+            X = new GenericValueModel<int>(x);
+            Y = new GenericValueModel<int>(y);
         }
 
         public Guid ID { get; set; }
 
-        public IntegerValueModel X { get; set; }
-        public IntegerValueModel Y { get; set; }
+        public GenericValueModel<int> X { get; set; }
+        public GenericValueModel<int> Y { get; set; }
     }
 }

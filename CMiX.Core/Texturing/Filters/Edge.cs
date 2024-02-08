@@ -8,7 +8,10 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Edge : ObservableObject, ITextureModifier
     {
-        public Edge(BooleanValue visible, FloatValue radius, FloatValue brightness, FloatValue control)
+        public Edge(GenericValue<bool> visible, 
+                    GenericValue<float> radius, 
+                    GenericValue<float> brightness, 
+                    GenericValue<float> control)
         {
             Visible = visible;
             Radius = radius;
@@ -17,10 +20,10 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public FloatValue Radius { get; set; }
-        public FloatValue Brightness { get; set; }
-        public FloatValue Control { get; set; }
-        public BooleanValue Visible { get; set; }
+        public GenericValue<float> Radius { get; set; }
+        public GenericValue<float> Brightness { get; set; }
+        public GenericValue<float> Control { get; set; }
+        public GenericValue<bool> Visible { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

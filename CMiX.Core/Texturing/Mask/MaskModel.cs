@@ -3,8 +3,8 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sampling;
 using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Core.Texturing
@@ -14,13 +14,13 @@ namespace CMiX.Core.Texturing
         public MaskModel()
         {
             VideoPlayer = new VideoPlayerModel();
-            ModifierManager = new ModifierManagerModel();
-            TextureTransformModifierManager = new ModifierManagerModel();
+            ModifierManager = new PrefabManagerModel();
+            TextureTransformModifierManager = new PrefabManagerModel();
             SamplerState = new SamplerStateModel();
             VideoIn = new VideoInModel();
-            Invert = new BooleanValueModel();
-            IsEnabled = new BooleanValueModel();
-            SelectedAssetType = new IntegerValueModel(0);
+            Invert = new GenericValueModel<bool>();
+            IsEnabled = new GenericValueModel<bool>();
+            SelectedAssetType = new GenericValueModel<int>(0);
             TypeWriter = new TypeWriterModel();
             TextureSourceSelector = new TextureSourceSelectorModel();
             TransformTexture = new TransformTextureModel();
@@ -30,15 +30,15 @@ namespace CMiX.Core.Texturing
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<MaskChannel> MaskChannel { get; set; }
-        public ModifierManagerModel ModifierManager { get; set; }
-        public ModifierManagerModel TextureTransformModifierManager { get; set; }
-        public BooleanValueModel IsEnabled { get; set; }
+        public PrefabManagerModel ModifierManager { get; set; }
+        public PrefabManagerModel TextureTransformModifierManager { get; set; }
+        public GenericValueModel<bool> IsEnabled { get; set; }
         public VideoPlayerModel VideoPlayer { get; set; }
         public VideoInModel VideoIn { get; internal set; }
-        public IntegerValueModel SelectedAssetType { get; internal set; }
+        public GenericValueModel<int> SelectedAssetType { get; internal set; }
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
-        public BooleanValueModel Invert { get; internal set; }
+        public GenericValueModel<bool> Invert { get; internal set; }
         public TextureSourceSelectorModel TextureSourceSelector { get; set; }
         public TransformTextureModel TransformTexture { get; set; }
     }

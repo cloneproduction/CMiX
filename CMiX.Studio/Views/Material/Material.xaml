@@ -14,13 +14,14 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
+
     <StackPanel>
 
         <BaseControls:ColorSelector
             Margin="8"
             Caption="Base Color"
-            SelectedColor="{Binding BaseColor.SelectedColor}"
-            ViewModel="{Binding BaseColor}" />
+            SelectedColor="{Binding MaterialSettings.BaseColor.Value, Converter={StaticResource ColorToHex}}"
+            ViewModel="{Binding MaterialSettings.BaseColor}" />
 
         <Panels:IndentedExpander Header="Settings" Indentation="8">
             <StackPanel>
@@ -31,7 +32,7 @@
                             Caption="Alpha"
                             Maximum="1"
                             Minimum="0"
-                            Value="{Binding Alpha.Value}" />
+                            Value="{Binding MaterialSettings.Alpha.Value}" />
                     </StackPanel>
                 </Border>
 
@@ -40,22 +41,22 @@
                     Caption="Cull Mode"
                     ItemsSource="{Binding Source={StaticResource CullModeType}}"
                     Position="top"
-                    SelectedItem="{Binding CullMode.Value}" />
+                    SelectedItem="{Binding MaterialSettings.CullMode.Value}" />
 
                 <BaseControls:ComboBox
                     Margin="8,0,8,8"
                     Caption="Transparency"
                     ItemsSource="{Binding Source={StaticResource TransparencyType}}"
                     Position="Bottom"
-                    SelectedItem="{Binding Transparency.Value}" />
+                    SelectedItem="{Binding MaterialSettings.Transparency.Value}" />
 
-                <BaseControls:ToggleButton Caption="Is Shadow Caster" IsChecked="{Binding IsShadowCaster.Value}" />
+                <BaseControls:ToggleButton Caption="Is Shadow Caster" IsChecked="{Binding MaterialSettings.IsShadowCaster.Value}" />
 
                 <BaseControls:ComboBox
                     Margin="8"
                     Caption="Pipeline"
                     ItemsSource="{Binding Source={StaticResource PipelineType}}"
-                    SelectedItem="{Binding Pipeline.Value}" />
+                    SelectedItem="{Binding MaterialSettings.Pipeline.Value}" />
 
                 <Border>
 
@@ -63,7 +64,7 @@
                         <Style TargetType="Border">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=Pipeline.Value}" Value="{x:Static Materials:PipelineType.Metallic}">
+                                <DataTrigger Binding="{Binding Path=MaterialSettings.Pipeline.Value}" Value="{x:Static Materials:PipelineType.Metallic}">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -77,7 +78,7 @@
                             Maximum="1"
                             Minimum="0"
                             Position="Top"
-                            Value="{Binding Metalness.Value}" />
+                            Value="{Binding MaterialSettings.Metalness.Value}" />
                     </StackPanel>
                 </Border>
 
@@ -87,7 +88,7 @@
                         <Style TargetType="Border">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=Pipeline.Value}" Value="{x:Static Materials:PipelineType.Specular}">
+                                <DataTrigger Binding="{Binding Path=MaterialSettings.Pipeline.Value}" Value="{x:Static Materials:PipelineType.Specular}">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
                             </Style.Triggers>
@@ -101,14 +102,14 @@
                             Maximum="1"
                             Minimum="0"
                             Position="Top"
-                            Value="{Binding Specularity.Value}" />
+                            Value="{Binding MaterialSettings.Specularity.Value}" />
 
                         <BaseControls:CMiXSlider
                             Caption="Glossiness"
                             Maximum="1"
                             Minimum="0"
                             Position="Bottom"
-                            Value="{Binding Glossiness.Value}" />
+                            Value="{Binding MaterialSettings.Glossiness.Value}" />
                     </StackPanel>
                 </Border>
             </StackPanel>

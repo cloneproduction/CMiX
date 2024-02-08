@@ -10,7 +10,7 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class RandomPosition : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public RandomPosition(BooleanValue visible, ModifierModeSelector modifierModeSelector, BeatModifier beatModifier, Easing easing, Vector3 location)
+        public RandomPosition(GenericValue<bool> visible, ModifierModeSelector modifierModeSelector, BeatModifier beatModifier, Easing easing, Vector3 location)
         {
             Visible = visible;
             ModifierModeSelector = modifierModeSelector;
@@ -20,7 +20,7 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }

@@ -3,22 +3,21 @@
 
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sampling;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
     public partial class DiffuseTexture : ObservableObject, ITexture
     {
-        public DiffuseTexture(PrefabManagerBase prefabManagerBase, TransformTexture transformTexture, SamplerState samplerState)
+        public DiffuseTexture(PrefabManager prefabManager, TransformTexture transformTexture, SamplerState samplerState)
         {
-            TextureManager = prefabManagerBase;
+            TextureManager = prefabManager;
             TransformTexture = transformTexture;
             SamplerState = samplerState;
         }
 
         public Guid ID { get ; set; } = Guid.NewGuid();
-        public PrefabManagerBase TextureManager { get; set; }
+        public PrefabManager TextureManager { get; set; }
         public TransformTexture TransformTexture { get; set; }
         public SamplerState SamplerState { get; set; }
 

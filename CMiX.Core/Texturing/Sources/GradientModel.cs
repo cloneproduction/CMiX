@@ -11,18 +11,18 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = Guid.NewGuid();
             Resolution = new Integer2Model(512, 512);
-            From = new ColorSelectorModel("#FFFFFFFF");
-            To = new ColorSelectorModel("#FF000000");
-            Gamma = new FloatValueModel(2.2f);
-            Horizontal = new BooleanValueModel(false);
+            From = new GenericValueModel<string>("#FFFFFFFF");
+            To = new GenericValueModel<string>("#FF000000");
+            Gamma = new GenericValueModel<float>(2.2f);
+            Horizontal = new GenericValueModel<bool>(false);
         }
 
         public Guid ID { get; set; }
         public Integer2Model Resolution { get; set; }
-        public FloatValueModel Gamma { get; set; }
-        public ColorSelectorModel From { get; set; }
-        public ColorSelectorModel To { get; set; }
-        public BooleanValueModel Horizontal { get; set; }
-        public ColorSelectorModel BackgroundColor { get; set; }
+        public GenericValueModel<float> Gamma { get; set; }
+        public GenericValueModel<string> From { get; set; }
+        public GenericValueModel<string> To { get; set; }
+        public GenericValueModel<bool> Horizontal { get; set; }
+        public GenericValueModel<string> BackgroundColor { get; set; }
     }
 }

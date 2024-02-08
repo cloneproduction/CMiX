@@ -1,7 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -48,7 +50,7 @@ namespace CMiX.Core.Networking.Messenger
             this.Messenger.Register<IMessage, int>(this, MessageType.Out, (r, m) => SendMessage(m));
         }
 
-        void SendMessage(IMessage message)
+        public void SendMessage(IMessage message)
         {
             Console.WriteLine("MessageService SendMessage of type " + message.GetType().Name);
             var data = Serializer.Serialize(message);
@@ -183,11 +185,15 @@ namespace CMiX.Core.Networking.Messenger
                 Status = "Disconnected";
         }
 
+
+        Guid id;
+
         private void ClientConnected(object sender, ConnectionEventArgs e)
         {
             Console.WriteLine("Client connected: " + e.Client.IpPort);
             var connectedClient = new ConnectedClient(e.Client.IpPort);
             ipPort = e.Client.IpPort;
+
             Application.Current.Dispatcher.Invoke(delegate
             {
                 ConnectedClients.Add(connectedClient);
@@ -197,12 +203,13 @@ namespace CMiX.Core.Networking.Messenger
 
             if (ClientIsConnected)
                 Status = "Connected";
+
+            id = e.Client.Guid;
         }
 
 
         private SyncResponse SyncRequestReceived(SyncRequest arg)
         {
-
             return new SyncResponse(arg, "Hello back at you from Server!");
         }
 
@@ -223,17 +230,16 @@ namespace CMiX.Core.Networking.Messenger
         //    }
         //}
 
-
-        public async void Send(byte[] data)
+        async void Send(byte[] data)
         {
             if (WatsonTcpServer != null)
             {
                 foreach (var connectedClient in ConnectedClients)
                 {
-                    await WatsonTcpServer.SendAsync(connectedClient.IPPORT, data);
-                    //    var success = WatsonTcpServer.Send(connectedClient.IPPORT, data);
-                    //    if (success)
-                    //        Console.WriteLine("WatsonTcpServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length + "to address : " + $"{IP}:{Port}");
+                    await WatsonTcpServer.SendAsync(id, data);
+                    //var success = WatsonTcpServer.Send(connectedClient.IPPORT, data);
+                    //if (success)
+                    //    Debug.WriteLine("WatsonTcpServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length + "to address : " + $"{IP}:{Port}");
                 }
                 Statistics.Update(WatsonTcpServer);
             }
@@ -265,7 +271,7 @@ namespace CMiX.Core.Networking.Messenger
             if (WatsonTcpServer != null)
             {
                 WatsonTcpServer.Stop();
-                WatsonTcpServer.DisconnectClients();
+                //WatsonTcpServer.Dispose();
                 WatsonTcpServer.Events.ClientConnected -= ClientConnected;
                 WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
                 WatsonTcpServer.Events.MessageReceived -= MessageReceived;

@@ -8,17 +8,17 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Pixelate : ObservableObject, ITextureModifier
     {
-        public Pixelate(BooleanValue visible, FloatValue control, Vector2 factor)
+        public Pixelate(GenericValue<bool> visible, GenericValue<float> control, Vector2 factor)
         {
-            Visible = visible; // new BooleanValue(true);
-            Control = control; // new FloatValue(1.0f);
+            Visible = visible; // new GenericValue<bool>(true);
+            Control = control; // new GenericValue<float>(1.0f);
             Factor = factor; // new Vector2(0.2f, 0.2f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public Vector2 Factor { get; set; }
-        public FloatValue Control { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Compositing
@@ -13,28 +14,26 @@ namespace CMiX.Core.Compositing
     {
         public EntityModel()
         {
-            ModifierManager = new ModifierManagerModel();
+            PrefabService = new PrefabServiceModel();
+            ModifierManager = new PrefabManagerModel();
             Mesh = new MeshModel();
-            Name = new StringValueModel("Entity " + ID.ToString());
-            IsSelected = new BooleanValueModel(false);
-            IsRenaming = new BooleanValueModel(false);
-            Visibility = new BooleanValueModel(false);
+            Name = new GenericValueModel<string>("Entity " + ID.ToString());
+            IsSelected = new GenericValueModel<bool>(false);
+            IsRenaming = new GenericValueModel<bool>(false);
+            Visibility = new GenericValueModel<bool>(false);
 
             Material = new MaterialModel();
         }
 
-        //public EntityModel(Guid id) : this()
-        //{
-        //    ID = id;
-        //}
-
         public Guid ID { get; set; } = Guid.NewGuid();
-        public StringValueModel Name { get; set; }
+
+        public PrefabServiceModel PrefabService { get; set; }
+        public GenericValueModel<string> Name { get; set; }
         public MeshModel Mesh { get; set; }
         public MaterialModel Material { get; set; }
-        public ModifierManagerModel ModifierManager { get; set; }
-        public BooleanValueModel IsSelected { get; set; }
-        public BooleanValueModel IsRenaming { get; set; }
-        public BooleanValueModel Visibility { get; set; }
+        public PrefabManagerModel ModifierManager { get; set; }
+        public GenericValueModel<bool> IsSelected { get; set; }
+        public GenericValueModel<bool> IsRenaming { get; set; }
+        public GenericValueModel<bool> Visibility { get; set; }
     }
 }

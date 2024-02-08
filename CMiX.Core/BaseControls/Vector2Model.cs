@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-
 namespace CMiX.Core.BaseControls
 {
     public class Vector2Model : IControlModel
@@ -11,8 +9,8 @@ namespace CMiX.Core.BaseControls
         {
             ID = Guid.NewGuid();
 
-            X = new FloatValueModel();
-            Y = new FloatValueModel();
+            X = new GenericValueModel<float>(0.0f);
+            Y = new GenericValueModel<float>(0.0f);
         }
 
         public Vector2Model(float x, float y) : this()
@@ -23,7 +21,7 @@ namespace CMiX.Core.BaseControls
 
 
         public Guid ID { get; set; }
-        public FloatValueModel X { get; set; }
-        public FloatValueModel Y { get; set; }
+        public GenericValueModel<float> X { get; set; }
+        public GenericValueModel<float> Y { get; set; }
     }
 }

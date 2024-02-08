@@ -8,6 +8,7 @@
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
+    xmlns:Texture="clr-namespace:CMiX.Studio.Views.Texture"
     xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Views1="clr-namespace:CMiX.Studio.Views.Component.Entities"
@@ -42,14 +43,14 @@
                             <Views:PrefabSlotManager
                                 Margin="8"
                                 DataContext="{Binding ModelEntityManager}"
-                                ItemsSource="{Binding Path=DataContext.PrefabRepositories.LayerRepository.Prefabs, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                ItemsSource="{Binding Path=DataContext.PrefabRepositories.LayerRepository.Controls, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
 
                                 <Views:PrefabSlotManager.SelectionPanel>
                                     <Views1:EntitySelectionPanel />
                                 </Views:PrefabSlotManager.SelectionPanel>
                             </Views:PrefabSlotManager>
 
-                            <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
+                            <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.ManagerData.SelectedItem}">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type Compositing:Entity}">
                                         <Views:ModelEntity DataContext="{Binding}" />
@@ -77,7 +78,11 @@
                         </TabItem.Header>
                         <StackPanel>
                             <Panels:IndentedExpander Header="Filter">
-                                <Views:TextureFilter DataContext="{Binding ModifierManager}" />
+                                <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                                    <Views:ModifierManager.SelectionPanel>
+                                        <Texture:TextureFilterSelectionPanel DataContext="{Binding}" />
+                                    </Views:ModifierManager.SelectionPanel>
+                                </Views:ModifierManager>
                             </Panels:IndentedExpander>
                             <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
                         </StackPanel>

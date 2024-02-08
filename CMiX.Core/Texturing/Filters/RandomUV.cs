@@ -3,23 +3,22 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Texturing.Sampling;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
     public partial class RandomUV : ObservableObject, IBeatModifiable, ITextureModifier
     {
-        public RandomUV(BooleanValue visible, 
+        public RandomUV(GenericValue<bool> visible, 
                         BeatModifier beatModifier,
                         Easing easing,
-                        BooleanValue randomizeLocation,
+                        GenericValue<bool> randomizeLocation,
                         Vector2 location,
-                        BooleanValue randomizeScale,
+                        GenericValue<bool> randomizeScale,
                         Vector2 scale,
-                        FloatValue uniform,
-                        BooleanValue randomizeRotation,
-                        FloatValue rotation,
+                        GenericValue<float> uniform,
+                        GenericValue<bool> randomizeRotation,
+                        GenericValue<float> rotation,
                         SamplerState samplerState)
         {
             Visible = visible;
@@ -36,16 +35,16 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public BooleanValue RandomizeLocation { get; set; }
+        public GenericValue<bool> RandomizeLocation { get; set; }
         public Vector2 Location { get; set; }
-        public BooleanValue RandomizeScale { get; set; }
+        public GenericValue<bool> RandomizeScale { get; set; }
         public Vector2 Scale { get; set; }
-        public FloatValue Uniform { get; set; }
-        public BooleanValue RandomizeRotation { get; set; }
-        public FloatValue Rotation { get; set; }
+        public GenericValue<float> Uniform { get; set; }
+        public GenericValue<bool> RandomizeRotation { get; set; }
+        public GenericValue<float> Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
 
 

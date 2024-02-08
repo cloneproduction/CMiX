@@ -4,6 +4,7 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
 
 namespace CMiX.Core.Entities.Lights
@@ -12,36 +13,40 @@ namespace CMiX.Core.Entities.Lights
     {
         public LightEntityModel()
         {
-            ID = Guid.NewGuid();
-            LightColor = new ColorSelectorModel();
+            
+            PrefabService = new PrefabServiceModel();
+            ID = PrefabService.ID;
+            LightColor = new GenericValueModel<string>();
             Position = new Vector3Model(0.0f, 2.0f, 0.0f);
             Target = new Vector3Model(0.001f, 0.0f, 0.0f);
-            Radius = new FloatValueModel(5.0f);
-            Angle = new FloatValueModel(0.25f);
-            Softness = new FloatValueModel(0.01f);
-            Intensity = new FloatValueModel(1.0f);
+            Radius = new GenericValueModel<float>(5.0f);
+            Angle = new GenericValueModel<float>(0.25f);
+            Softness = new GenericValueModel<float>(0.01f);
+            Intensity = new GenericValueModel<float>(1.0f);
             LightTypeSelector = new GenericValueModel<LightType>(LightType.AmbientLight);
-            Visibility = new BooleanValueModel();
-            IsSelected = new BooleanValueModel(false);
-            Name = new StringValueModel("Light " + ID.ToString());
-            IsRenaming = new BooleanValueModel(false);
-            ModifierManager = new ModifierManagerModel();
+            Visibility = new GenericValueModel<bool>();
+            IsSelected = new GenericValueModel<bool>(false);
+            Name = new GenericValueModel<string>("Light " + ID.ToString());
+            IsRenaming = new GenericValueModel<bool>(false);
+            ModifierManager = new PrefabManagerModel();
         }
 
         public Guid ID { get; set; }
-        public StringValueModel Name { get; set; }
 
-        public ColorSelectorModel LightColor { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
+        public GenericValueModel<string> Name { get; set; }
+
+        public GenericValueModel<string> LightColor { get; set; }
         public Vector3Model Position { get; set; }
         public Vector3Model Target { get; set; }
-        public FloatValueModel Radius { get; set; }
-        public FloatValueModel Angle { get; set; }
-        public FloatValueModel Softness { get; set; }
-        public FloatValueModel Intensity { get; set; }
+        public GenericValueModel<float> Radius { get; set; }
+        public GenericValueModel<float> Angle { get; set; }
+        public GenericValueModel<float> Softness { get; set; }
+        public GenericValueModel<float> Intensity { get; set; }
         public GenericValueModel<LightType> LightTypeSelector { get; set; }
-        public BooleanValueModel Visibility { get; set; }
-        public BooleanValueModel IsSelected { get; set; }
-        public BooleanValueModel IsRenaming { get; set; }
-        public ModifierManagerModel ModifierManager { get; internal set; }
+        public GenericValueModel<bool> Visibility { get; set; }
+        public GenericValueModel<bool> IsSelected { get; set; }
+        public GenericValueModel<bool> IsRenaming { get; set; }
+        public PrefabManagerModel ModifierManager { get; internal set; }
     }
 }

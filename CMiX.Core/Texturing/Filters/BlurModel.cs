@@ -11,12 +11,12 @@ namespace CMiX.Core.Texturing.Filters
         public BlurModel()
         {
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
-            Strength = new FloatValueModel();
+            Visible = new GenericValueModel<bool>(true);
+            Strength = new GenericValueModel<float>();
         }
 
         public Guid ID { get; set; }
-        public FloatValueModel Strength { get; set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<float> Strength { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
     }
 }

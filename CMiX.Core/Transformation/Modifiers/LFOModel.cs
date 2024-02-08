@@ -13,24 +13,24 @@ namespace CMiX.Core.Transformation.Modifiers
         {
             Name = "LFO";
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
+            Visible = new GenericValueModel<bool>(true);
             BeatModifier = new BeatModifierModel();
             DirectionXYZ = new DirectionXYZModel();
-            PingPong = new BooleanValueModel();
+            PingPong = new GenericValueModel<bool>();
             TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
             Easing = new EasingModel();
-            From = new FloatValueModel(0.0f);
-            To = new FloatValueModel(1.0f);
+            From = new GenericValueModel<float>(0.0f);
+            To = new GenericValueModel<float>(1.0f);
         }
 
         public string Name { get; set; }
-        public BooleanValueModel PingPong { get; set; }
+        public GenericValueModel<bool> PingPong { get; set; }
         public Guid ID { get; set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<TransformType> TransformType { get; set; }
-        public FloatValueModel From { get; set; }
-        public FloatValueModel To { get; set; }
+        public GenericValueModel<float> From { get; set; }
+        public GenericValueModel<float> To { get; set; }
         public EasingModel Easing { get; set; }
         public DirectionXYZModel DirectionXYZ { get; set; }
     }

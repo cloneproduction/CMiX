@@ -10,7 +10,7 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class RandomScale : ObservableObject, IBeatModifiable, IModifier, ISpreadable
     {
-        public RandomScale(BooleanValue visible, BeatModifier beatModifier, Easing easing, ModifierModeSelector modifierModeSelector, Vector3 scale, FloatValue uniformXYZ)
+        public RandomScale(GenericValue<bool> visible, BeatModifier beatModifier, Easing easing, ModifierModeSelector modifierModeSelector, Vector3 scale, GenericValue<float> uniformXYZ)
         {
             Visible = visible;
             BeatModifier = beatModifier;
@@ -18,15 +18,15 @@ namespace CMiX.Core.Transformation.Modifiers
             ModifierModeSelector = modifierModeSelector;
 
             Scale = scale;
-            UniformXYZ = uniformXYZ; // new FloatValue(0.0f);
+            UniformXYZ = uniformXYZ; // new GenericValue<float>(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public Vector3 Scale { get; set; }
-        public FloatValue UniformXYZ { get; set; }
+        public GenericValue<float> UniformXYZ { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
 
         [ObservableProperty]

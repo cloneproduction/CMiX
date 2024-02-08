@@ -1,45 +1,24 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using AutoMapper;
-using CMiX.Core.Prefabs.Messages;
+using Ceras;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Networking.Messages
 {
     public class MessageProcessor
     {
-        public MessageProcessor(IMapper mapper)
+        public MessageProcessor(CerasSerializer cerasSerializer)
         {
-            MessageHandlers = new Dictionary<Type, IMessageHandler>();
-
-            MessageHandlers.Add(typeof(MessageValueChange), new MessageValueChangeHandler(mapper));
-            MessageHandlers.Add(typeof(MessageAddItem), new MessageCollectionManagerHandler());
-            MessageHandlers.Add(typeof(MessageRemoveItem), new MessageCollectionManagerHandler());
-            MessageHandlers.Add(typeof(MessageMoveItem), new MessageCollectionManagerHandler());
-            MessageHandlers.Add(typeof(MessageReplacePrefab), new MessageCollectionManagerHandler());
-            MessageHandlers.Add(typeof(MessageSelectedItemChanged), new MessageCollectionManagerHandler());
-            MessageHandlers.Add(typeof(MessageOnClick), new MessageOnClickHandler());
+            Serializer = cerasSerializer;
         }
 
-        private Dictionary<Type, IMessageHandler> MessageHandlers { get; set; }
+        public CerasSerializer Serializer { get; set; }
 
-        public void ProcessMessage(IMessage message)
+        public void ProcessMessage(byte[] data)
         {
-            var msg = WeakReferenceMessenger.Default.Send(new MessageRequestControl(message));
-
-            //ControlMessenger.CanSend = false;
-
-            if (msg.HasReceivedResponse && MessageHandlers[message.GetType()].Handle(msg.Response, message))
-            {
-                Console.WriteLine("Message " + message.GetType().Name + " handled");
-                //ControlMessenger.CanSend = true;
-                return;
-            }
-
-            //ControlMessenger.CanSend = true;
-
-            Console.WriteLine("WARNING ! Message " + message.GetType().Name + " wasn't handled");
+            IMessage message = Serializer.Deserialize<IMessage>(data);
+            WeakReferenceMessenger.Default.Send(message);
         }
     }
 }

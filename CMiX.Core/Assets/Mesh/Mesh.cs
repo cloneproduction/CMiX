@@ -9,26 +9,26 @@ namespace CMiX.Core.ViewModels
     public partial class Mesh : ObservableRecipient, IControl
     {
         public Mesh(GenericValue<MeshType> meshTypeSelector, 
-            Vector3 scale, 
-            Vector3 offset,
-            FloatValue radius,
-            FloatValue height,
-            FloatValue thickness,
-            IntegerValue tessellation,
-            Integer2 tessellationXY,
-            BooleanValue generateBackFace,
-            BooleanValue visibility)
+                    Vector3 scale, 
+                    Vector3 offset,
+                    GenericValue<float> radius,
+                    GenericValue<float> height,
+                    GenericValue<float> thickness,
+                    GenericValue<int> tessellation,
+                    Integer2 tessellationXY,
+                    GenericValue<bool> generateBackFace,
+                    GenericValue<bool> visibility)
         {
-            MeshTypeSelector = meshTypeSelector;// new GenericValue<MeshType>();
-            Scale = scale; // new Vector3(1.0f, 1.0f, 1.0f);
-            Offset = offset; // new Vector3();
-            Radius = radius; // new FloatValue(1.0f);
-            Height = height; // new FloatValue(1.0f);
-            Thickness = thickness; // new FloatValue(1.0f);
-            Tessellation = tessellation; // new IntegerValue(16);
-            TessellationXY = tessellationXY; // new Integer2(16, 16);
-            GenerateBackFace = generateBackFace; // new BooleanValue();
-            Visibility = visibility; // new BooleanValue();
+            MeshTypeSelector = meshTypeSelector;
+            Scale = scale;
+            Offset = offset;
+            Radius = radius;
+            Height = height;
+            Thickness = thickness;
+            Tessellation = tessellation;
+            TessellationXY = tessellationXY;
+            GenerateBackFace = generateBackFace;
+            Visibility = visibility;
         }
 
         [ObservableProperty]
@@ -38,12 +38,12 @@ namespace CMiX.Core.ViewModels
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Offset { get; set; }
-        public FloatValue Radius { get; set; }
-        public FloatValue Height { get; set; }
-        public FloatValue Thickness { get; set; }
-        public IntegerValue Tessellation { get; set; }
+        public GenericValue<float> Radius { get; set; }
+        public GenericValue<float> Height { get; set; }
+        public GenericValue<float> Thickness { get; set; }
+        public GenericValue<int> Tessellation { get; set; }
         public Integer2 TessellationXY { get; set; }
-        public BooleanValue GenerateBackFace { get; set; }
-        public BooleanValue Visibility { get; set; }
+        public GenericValue<bool> GenerateBackFace { get; set; }
+        public GenericValue<bool> Visibility { get; set; }
     }
 }

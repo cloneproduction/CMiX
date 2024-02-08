@@ -4,7 +4,6 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sampling;
 
 namespace CMiX.Core.Texturing
 {
@@ -14,18 +13,18 @@ namespace CMiX.Core.Texturing
         {
             TextureManager = new PrefabManagerModel();
             SamplerState = new SamplerStateModel();
-            Invert = new BooleanValueModel();
+            Invert = new GenericValueModel<bool>();
             TransformTexture = new TransformTextureModel();
             MaskChannel = new GenericValueModel<MaskChannel>();
-            IsEnabled = new BooleanValueModel();
+            IsEnabled = new GenericValueModel<bool>();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabManagerModel TextureManager { get; set; }
         public TransformTextureModel TransformTexture { get; set; }
         public SamplerStateModel SamplerState { get; set; }
-        public BooleanValueModel IsEnabled { get; set; }
+        public GenericValueModel<bool> IsEnabled { get; set; }
         public GenericValueModel<MaskChannel> MaskChannel { get; set; }
-        public BooleanValueModel Invert { get; set; }
+        public GenericValueModel<bool> Invert { get; set; }
     }
 }

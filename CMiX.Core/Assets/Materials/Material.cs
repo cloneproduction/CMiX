@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Assets.Materials;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -22,11 +21,7 @@ namespace CMiX.Core.Materials
         public MaskTexture MaskTexture { get; set; }
         public MaterialSettings MaterialSettings { get; set; }
 
-
         [ObservableProperty]
         private bool isExpanded = false;
-
-        [ObservableProperty]
-        private bool surfaceIsExpanded = false;
     }
 }

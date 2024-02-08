@@ -11,13 +11,13 @@ namespace CMiX.Core.Texturing.Filters
         public EchoModel()
         {
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
-            Factor = new FloatValueModel(0.9f);
+            Visible = new GenericValueModel<bool>(true);
+            Factor = new GenericValueModel<float>(0.9f);
         }
 
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
         public bool Enabled { get; set; }
         public Guid ID { get; set; }
-        public FloatValueModel Factor { get; set; }
+        public GenericValueModel<float> Factor { get; set; }
     }
 }

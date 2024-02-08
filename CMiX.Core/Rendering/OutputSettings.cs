@@ -8,7 +8,7 @@ namespace CMiX.Core.Rendering
 {
     public class OutputSettings : ObservableObject, IControl
     {
-        public OutputSettings(Integer2 resolution, ColorValue backgroundColor)
+        public OutputSettings(Integer2 resolution, GenericValue<string> backgroundColor)
         {
             Resolution = resolution;
             BackgroundColor = backgroundColor;
@@ -16,6 +16,6 @@ namespace CMiX.Core.Rendering
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2 Resolution { get; set; }
-        public ColorValue BackgroundColor { get; set; }
+        public GenericValue<string> BackgroundColor { get; set; }
     }
 }

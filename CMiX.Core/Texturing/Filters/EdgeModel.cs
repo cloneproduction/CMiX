@@ -10,16 +10,17 @@ namespace CMiX.Core.Texturing.Filters
     {
         public EdgeModel()
         {
-            Radius = new FloatValueModel(1.0f);
-            Brightness = new FloatValueModel(1.0f);
-            Visible = new BooleanValueModel(true);
-            Control = new FloatValueModel(1.0f);
+            ID = Guid.NewGuid();
+            Radius = new GenericValueModel<float>(1.0f);
+            Brightness = new GenericValueModel<float>(1.0f);
+            Visible = new GenericValueModel<bool>(true);
+            Control = new GenericValueModel<float>(1.0f);
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValueModel Visible { get; set; }
-        public FloatValueModel Radius { get; set; }
-        public FloatValueModel Brightness { get; set; }
-        public FloatValueModel Control { get; set; }
+        public Guid ID { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
+        public GenericValueModel<float> Radius { get; set; }
+        public GenericValueModel<float> Brightness { get; set; }
+        public GenericValueModel<float> Control { get; set; }
     }
 }

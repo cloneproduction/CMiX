@@ -11,14 +11,14 @@ namespace CMiX.Core.Transformation
         public ScaleModel()
         {
             ID = Guid.NewGuid();
-            Uniform = new FloatValueModel(1.0f);
+            Uniform = new GenericValueModel<float>(1.0f);
             XYZ = new Vector3Model(1.0f, 1.0f, 1.0f);
-            Visible = new BooleanValueModel(true);
+            Visible = new GenericValueModel<bool>(true);
         }
 
         public Guid ID { get; set; }
-        public FloatValueModel Uniform { get; set; }
+        public GenericValueModel<float> Uniform { get; set; }
         public Vector3Model XYZ { get; set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
     }
 }

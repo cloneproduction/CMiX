@@ -8,7 +8,7 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class TriColor : ObservableObject, ITextureModifier
     {
-        public TriColor(BooleanValue visible, FloatValue control, ColorValue colorA, ColorValue colorB, ColorValue colorC, FloatValue smooth, FloatValue center, BooleanValue singleChannel, BooleanValue clampColor)
+        public TriColor(GenericValue<bool> visible, GenericValue<float> control, GenericValue<string> colorA, GenericValue<string> colorB, GenericValue<string> colorC, GenericValue<float> smooth, GenericValue<float> center, GenericValue<bool> singleChannel, GenericValue<bool> clampColor)
         {
             isExpanded = true;
 
@@ -27,15 +27,15 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
-        public FloatValue Control { get; set; }
-        public FloatValue Smooth { get; set; }
-        public FloatValue Center { get; set; }
-        public ColorValue ColorA { get; set; }
-        public ColorValue ColorB { get; set; }
-        public ColorValue ColorC { get; set; }
-        public BooleanValue SingleChannel { get; set; }
-        public BooleanValue ClampColor { get; set; }
+        public GenericValue<bool> Visible { get; set; }
+        public GenericValue<float> Control { get; set; }
+        public GenericValue<float> Smooth { get; set; }
+        public GenericValue<float> Center { get; set; }
+        public GenericValue<string> ColorA { get; set; }
+        public GenericValue<string> ColorB { get; set; }
+        public GenericValue<string> ColorC { get; set; }
+        public GenericValue<bool> SingleChannel { get; set; }
+        public GenericValue<bool> ClampColor { get; set; }
 
         [ObservableProperty]
         private bool isExpanded;

@@ -1,68 +1,116 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
-                    xmlns:CameraModifiers="clr-namespace:CMiX.Core.Rendering.Cameras.Modifiers;assembly=CMiX.Core"
-                    xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
-                    xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
-                    xmlns:Views="clr-namespace:CMiX.Studio.Views"
-                    xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:CameraModifiers="clr-namespace:CMiX.Core.Rendering.Cameras.Modifiers;assembly=CMiX.Core"
+    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
+    xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
+    xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light"
+    xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
+    xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views">
+
+
+    <!--  TEXTURE MODIFIERS  -->
+    <DataTemplate DataType="{x:Type Filters:HSCB}">
+        <Views:HSCB DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Invert}">
+        <Views:Invert DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Blur}">
+        <Views:Blur DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Edge}">
+        <Views:Edge DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:TransformTexture}">
+        <Views:TransformTexture DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Pixelate}">
+        <Views:Pixelate DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Echo}">
+        <Views:Echo DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Feedback}">
+        <Views:Feedback DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:TriColor}">
+        <Views:TriColor DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:RandomUV}">
+        <Views:RandomUV DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:LFOUV}">
+        <Views:LFOUV DataContext="{Binding}" />
+    </DataTemplate>
+
     
-    
-    <!--ENTITY MODIFIERS-->
+    <!--  ENTITY MODIFIERS  -->
     <DataTemplate DataType="{x:Type ColorModifiers:RandomHSV}">
-        <Views:RandomHSV DataContext="{Binding}"/>
+        <Views:RandomHSV DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TransformModifiers:LinearXYZ}">
-        <Views:LinearXYZ DataContext="{Binding}"/>
+        <Views:LinearXYZ DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TransformModifiers:RandomXYZ}">
-        <Views:RandomXYZ DataContext="{Binding}"/>
+        <Views:RandomXYZ DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TransformModifiers:LFO}">
-        <Views:LFO DataContext="{Binding}"/>
+        <Views:LFO DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TransformModifiers:Stepper}">
-        <Views:Stepper DataContext="{Binding}"/>
+        <Views:Stepper DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TransformModifiers:RandomScale}">
-        <Views:RandomScale DataContext="{Binding}"/>
+        <Views:RandomScale DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Transformation:TransformSRT}">
-        <Views:TransformSRT DataContext="{Binding}"/>
+        <Views:TransformSRT DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Transformation:Translate}">
-        <Views:Translate DataContext="{Binding}"/>
+        <Views:Translate DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Transformation:Scale}">
-        <Views:Scale DataContext="{Binding}"/>
+        <Views:Scale DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Transformation:Rotation}">
-        <Views:Rotation DataContext="{Binding}"/>
+        <Views:Rotation DataContext="{Binding}" />
     </DataTemplate>
 
-    
-    <!--CAMERA MODIFIERS-->
+
+    <!--  CAMERA MODIFIERS  -->
     <DataTemplate DataType="{x:Type CameraModifiers:CameraLFO}">
-        <Views:CameraLFO DataContext="{Binding}"/>
+        <Views:CameraLFO DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type CameraModifiers:CameraRandom}">
-        <Views:CameraRandom DataContext="{Binding}"/>
+        <Views:CameraRandom DataContext="{Binding}" />
     </DataTemplate>
 
-    
-    <!--LIGHT MODIFIERS-->
+
+    <!--  LIGHT MODIFIERS  -->
     <DataTemplate DataType="{x:Type TransformModifiers:RandomPosition}">
-        <LightModifiers:RandomPosition DataContext="{Binding}"/>
+        <LightModifiers:RandomPosition DataContext="{Binding}" />
     </DataTemplate>
-    
+
 </ResourceDictionary>

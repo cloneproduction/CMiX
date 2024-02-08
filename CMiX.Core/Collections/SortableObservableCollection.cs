@@ -13,7 +13,7 @@ namespace CMiX.Core.Collections
         public SortableObservableCollection(IEnumerable<T> l) : base(l) { }
 
         #region Sorting
-
+        
         /// <summary>
         /// Sorts the items of the collection in ascending order according to a key.
         /// </summary>

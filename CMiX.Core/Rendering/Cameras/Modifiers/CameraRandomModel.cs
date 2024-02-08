@@ -12,22 +12,22 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public CameraRandomModel()
         {
             ID = Guid.NewGuid();
-            Visible = new BooleanValueModel(true);
-            PingPong = new BooleanValueModel(false);
+            Visible = new GenericValueModel<bool>(true);
+            PingPong = new GenericValueModel<bool>(false);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
-            Width = new FloatValueModel(0.0f);
-            To = new FloatValueModel(1.0f);
+            Width = new GenericValueModel<float>(0.0f);
+            To = new GenericValueModel<float>(1.0f);
             Axis = new GenericValueModel<CameraAxis>(CameraAxis.Zoom);
         }
 
         public Guid ID { get; set; }
-        public BooleanValueModel Visible { get; set; }
-        public BooleanValueModel PingPong { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
+        public GenericValueModel<bool> PingPong { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }
-        public FloatValueModel Width { get; set; }
-        public FloatValueModel To { get; set; }
+        public GenericValueModel<float> Width { get; set; }
+        public GenericValueModel<float> To { get; set; }
         public GenericValueModel<CameraAxis> Axis { get; set; }
     }
 }

@@ -10,15 +10,14 @@ namespace CMiX.Studio.Views
             InitializeComponent();
         }
 
+
+        // Using a DependencyProperty as the backing store for InnerContent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SelectionPanelProperty =
+        DependencyProperty.Register("SelectionPanel", typeof(FrameworkElement), typeof(ModifierManager), new UIPropertyMetadata(null));
         public FrameworkElement SelectionPanel
         {
             get { return (FrameworkElement)GetValue(SelectionPanelProperty); }
             set { SetValue(SelectionPanelProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for InnerContent.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectionPanelProperty =
-        DependencyProperty.Register("SelectionPanel", typeof(FrameworkElement), typeof(ModifierManager), new UIPropertyMetadata(null));
-
     }
 }

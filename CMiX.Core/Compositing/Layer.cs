@@ -14,12 +14,14 @@ namespace CMiX.Core.Compositing
     public partial class Layer : ObservableObject, IPrefab, IModifiable
     {
         public Layer(PrefabService prefabService,
-                     LayerService layerService,
+                     LayerSettings layerService,
                      LayerMaskService layerMaskService,
-                     PrefabManagerSlot prefabManagerSlot,
-                     ModifierManager modifierManager)
+                     ReorderablePrefabManager reorderablePrefabManager,
+                     ReorderablePrefabManager modifierManager)
         {
             ID = prefabService.ID;
+
+            PrefabService = prefabService;
             Name = prefabService.Name;
             IsRenaming = prefabService.IsRenaming;
             IsSelected = prefabService.IsSelected;
@@ -36,27 +38,30 @@ namespace CMiX.Core.Compositing
             Invert = layerMaskService.Invert;
 
             ModifierManager = modifierManager;
-            ModelEntityManager = prefabManagerSlot;
+            ModelEntityManager = reorderablePrefabManager;
         }
 
         public Guid ID { get; set; }
-        public StringValue Name { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public BooleanValue IsSelected { get; set; }
-        public BooleanValue Visibility { get; set; }
 
-        public BooleanValue Invert { get; set; }
-        public BooleanValue IsMask { get; set; }
+        public PrefabService PrefabService { get; set; }
+
+        public GenericValue<string> Name { get; set; }
+        public GenericValue<bool> IsRenaming { get; set; }
+        public GenericValue<bool> IsSelected { get; set; }
+        public GenericValue<bool> Visibility { get; set; }
+
+        public GenericValue<bool> Invert { get; set; }
+        public GenericValue<bool> IsMask { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
 
-        public PrefabManagerSlot ModelEntityManager { get; set; }
-        public ModifierManager ModifierManager { get; set; }
+        public ReorderablePrefabManager ModelEntityManager { get; set; }
+        public ReorderablePrefabManager ModifierManager { get; set; }
 
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }
-        public FloatValue Opacity { get; set; }
-        public ColorValue BackgroundColor { get; set; }
+        public GenericValue<float> Opacity { get; set; }
+        public GenericValue<string> BackgroundColor { get; set; }
 
         [ObservableProperty]
         private int selectedTabItemIndex;

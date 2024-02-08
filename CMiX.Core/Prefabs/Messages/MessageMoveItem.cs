@@ -5,7 +5,7 @@ using System;
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageMoveItem : IMessagePrefab
+    public class MessageMoveItem : IMessageManager
     {
         public MessageMoveItem()
         {

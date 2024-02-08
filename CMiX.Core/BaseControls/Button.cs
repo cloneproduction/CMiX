@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class Button : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
+    public class Button : ObservableRecipient, IControl//, IRecipient<MessageRequestControl>
     {
         public Button(ControlMessenger controlMessenger)
         {
@@ -33,9 +33,9 @@ namespace CMiX.Core.BaseControls
 
         public Guid ID { get; set; } = Guid.NewGuid();
 
-        public void Receive(MessageRequestControl message)
-        {
-            ControlMessenger.Receive(this, message);
-        }
+        //public void Receive(MessageRequestControl message)
+        //{
+        //    //ControlMessenger.Receive(this, message);
+        //}
     }
 }

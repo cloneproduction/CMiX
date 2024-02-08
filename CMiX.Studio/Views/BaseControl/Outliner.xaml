@@ -6,8 +6,8 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="33.235"
-    d:DesignWidth="294.326"
+    d:DesignHeight="34.167"
+    d:DesignWidth="248"
     mc:Ignorable="d">
 
     <DockPanel Height="22">
@@ -18,7 +18,7 @@
                 x:Name="deleteItemButton"
                 Width="20"
                 Command="{Binding DeleteItemCommand}"
-                CommandParameter="{Binding SelectedItem}"
+                CommandParameter="{Binding ManagerData.SelectedItem}"
                 Content="-"
                 DockPanel.Dock="Right"
                 Style="{StaticResource ButtonRoundedRight}" />
@@ -33,8 +33,8 @@
                 Style="{StaticResource ButtonStraight}" />
 
             <ComboBox
-                ItemsSource="{Binding PrefabRepository.Prefabs}"
-                SelectedItem="{Binding SelectedItem}"
+                ItemsSource="{Binding ManagerData.Items}"
+                SelectedItem="{Binding ManagerData.SelectedItem}"
                 Style="{StaticResource ComboBoxWithButton}">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
@@ -46,7 +46,7 @@
             <Controls:EditableTextBox
                 Background="{DynamicResource HighHighDarkerColor}"
                 SnapsToDevicePixels="True"
-                Text="{Binding SelectedItem.Name.Value}"
+                Text="{Binding ManagerData.SelectedItem.Name.Value}"
                 TextElement.Foreground="{DynamicResource TextBase}" />
 
         </DockPanel>

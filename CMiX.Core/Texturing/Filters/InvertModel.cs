@@ -11,18 +11,18 @@ namespace CMiX.Core.Texturing.Filters
         public InvertModel()
         {
             ID = Guid.NewGuid();
-            Factor = new FloatValueModel(1.0f);
+            Factor = new GenericValueModel<float>(1.0f);
             InvertChannelSelector = new GenericValueModel<InvertChannel>(InvertChannel.Value);
-            InvertAlpha = new BooleanValueModel();
-            Visible = new BooleanValueModel(true);
-            Control = new FloatValueModel();
+            InvertAlpha = new GenericValueModel<bool>();
+            Visible = new GenericValueModel<bool>(true);
+            Control = new GenericValueModel<float>(1.0f);
         }
 
         public Guid ID { get; set; }
-        public FloatValueModel Factor { get; set; }
-        public BooleanValueModel Visible { get; set; }
+        public GenericValueModel<float> Factor { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
         public GenericValueModel<InvertChannel> InvertChannelSelector { get; set; }
-        public BooleanValueModel InvertAlpha { get; internal set; }
-        public FloatValueModel Control { get; set; }
+        public GenericValueModel<bool> InvertAlpha { get; internal set; }
+        public GenericValueModel<float> Control { get; set; }
     }
 }

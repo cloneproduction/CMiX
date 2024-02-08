@@ -6,7 +6,7 @@ shader CMiXSetAlpha_TextureFX : FilterBase
     bool Invert = true;
 
     [Default(1, 1, 1, 1)]
-    compose ComputeFloat4 AlphaMask;
+    compose ComputeColor AlphaMask;
 
     int TextureChannel;
 

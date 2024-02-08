@@ -23,7 +23,8 @@
 
                     <Button
                         Height="20"
-                        Command="{Binding AddEmptyItemCommand}"
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Prefabs:EmptyPrefab}"
                         Content="+"
                         DockPanel.Dock="Top"
                         Style="{StaticResource ButtonRoundedTop}" />
@@ -33,7 +34,7 @@
                         Height="20"
                         Margin="0,1,0,0"
                         Command="{Binding DeleteItemCommand}"
-                        CommandParameter="{Binding SelectedItem}"
+                        CommandParameter="{Binding ManagerData.SelectedItem}"
                         Content="-"
                         DockPanel.Dock="Top"
                         Style="{StaticResource ButtonRoundedBottom}" />
@@ -78,9 +79,9 @@
                     Grid.Row="3"
                     Height="100"
                     DataContext="{Binding}"
-                    ItemsSource="{Binding Prefabs}"
-                    SelectedIndex="{Binding SelectedIndex}"
-                    SelectedItem="{Binding SelectedItem}" />
+                    ItemsSource="{Binding ManagerData.Items}"
+                    SelectedIndex="{Binding ManagerData.SelectedIndex}"
+                    SelectedItem="{Binding ManagerData.SelectedItem}" />
 
             </DockPanel>
 
@@ -145,11 +146,11 @@
 
                                 <Style.Triggers>
 
-                                    <DataTrigger Binding="{Binding SelectedItem}" Value="{x:Null}">
+                                    <DataTrigger Binding="{Binding ManagerData.SelectedItem}" Value="{x:Null}">
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
 
-                                    <DataTrigger Binding="{Binding SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
+                                    <DataTrigger Binding="{Binding ManagerData.SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
                                         <Setter Property="Visibility" Value="Visible" />
                                     </DataTrigger>
 
@@ -174,7 +175,7 @@
                             BorderThickness="1,0,1,2"
                             CornerRadius="{DynamicResource CornerRadiusBottom}">
 
-                            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding }" />
 
                         </Border>
 

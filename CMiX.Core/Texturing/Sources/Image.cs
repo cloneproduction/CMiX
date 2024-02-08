@@ -17,8 +17,8 @@ namespace CMiX.Core.Texturing.Sources
             Asset = asset;
         }
 
-        public Integer2 Resolution { get; set; }
         public Guid ID { get; set; }
+        public Integer2 Resolution { get; set; }
         public GenericValue<Asset> Asset { get; set; }
     }
 }

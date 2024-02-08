@@ -8,12 +8,17 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<MessageRequestControl>
+    public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<IMessage>
     {
+        public GenericValue()
+        {
+            //NECESSARY FOR AUTOMAPPER OTHERWISE ERROR
+        }
         public GenericValue(ControlMessenger controlMessenger)
         {
-            IsActive = true;
             ID = Guid.NewGuid();
+            ControlMessenger = controlMessenger;
+            IsActive = true;
         }
 
         public Guid ID { get; set; }
@@ -32,7 +37,7 @@ namespace CMiX.Core.BaseControls
             }
         }
 
-        public void Receive(MessageRequestControl message)
+        public void Receive(IMessage message)
         {
             ControlMessenger.Receive(this, message);
         }

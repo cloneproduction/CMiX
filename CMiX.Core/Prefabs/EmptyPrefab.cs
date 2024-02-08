@@ -9,16 +9,19 @@ namespace CMiX.Core.Prefabs
     {
         public EmptyPrefab(PrefabService prefabService)
         {
+            PrefabService = prefabService;
+            ID = prefabService.ID;
             IsSelected = prefabService.IsSelected;
             IsRenaming = prefabService.IsRenaming;
             Name = prefabService.Name;
             Visibility = prefabService.Visibility;
         }
 
-        public BooleanValue Visibility { get; set; }
-        public BooleanValue IsSelected { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public StringValue Name { get; set; }
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabService PrefabService { get; set; }
+        public GenericValue<bool> Visibility { get; set; }
+        public GenericValue<bool> IsSelected { get; set; }
+        public GenericValue<bool> IsRenaming { get; set; }
+        public GenericValue<string> Name { get; set; }
+        public Guid ID { get; set; }
     }
 }

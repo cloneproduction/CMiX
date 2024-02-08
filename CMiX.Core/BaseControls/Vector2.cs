@@ -7,7 +7,7 @@ namespace CMiX.Core.BaseControls
 {
     public class Vector2 : ObservableObject, IControl
     {
-        public Vector2(FloatValue x, FloatValue y)
+        public Vector2(GenericValue<float> x, GenericValue<float> y)
         {
             X = x;
             Y = y;
@@ -20,7 +20,7 @@ namespace CMiX.Core.BaseControls
         //}
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public FloatValue X { get; set; }
-        public FloatValue Y { get; set; }
+        public GenericValue<float> X { get; set; }
+        public GenericValue<float> Y { get; set; }
     }
 }

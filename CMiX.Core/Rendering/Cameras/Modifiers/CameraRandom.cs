@@ -9,7 +9,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     public partial class CameraRandom : ObservableObject, ICameraModifier, IBeatModifiable
     {
-        public CameraRandom(BooleanValue visible, BeatModifier beatModifier, Easing easing, BooleanValue pingPong, GenericValue<CameraAxis> axis, FloatValue width)
+        public CameraRandom(GenericValue<bool> visible, BeatModifier beatModifier, Easing easing, GenericValue<bool> pingPong, GenericValue<CameraAxis> axis, GenericValue<float> width)
         {
             Visible = visible;
             BeatModifier = beatModifier;
@@ -17,16 +17,16 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 
             PingPong = pingPong;
             Axis = axis;
-            Width = width; // new FloatValue(0.0f);
+            Width = width; // new GenericValue<float>(0.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
-        public BooleanValue PingPong { get; set; }
+        public GenericValue<bool> PingPong { get; set; }
         public GenericValue<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
-        public FloatValue Width { get; set; }
+        public GenericValue<float> Width { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

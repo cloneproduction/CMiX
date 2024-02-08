@@ -8,14 +8,14 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class VideoIn : ObservableRecipient, IControl
     {
-        public VideoIn(IntegerValue sizeX, IntegerValue sizeZ)
+        public VideoIn(GenericValue<int> sizeX, GenericValue<int> sizeZ)
         {
-            SizeX = sizeX; // new IntegerValue(0);
-            SizeY = sizeZ; // new IntegerValue(0);
+            SizeX = sizeX; // new GenericValue<int>(0);
+            SizeY = sizeZ; // new GenericValue<int>(0);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public IntegerValue SizeX { get; set; }
-        public IntegerValue SizeY { get; set; }
+        public GenericValue<int> SizeX { get; set; }
+        public GenericValue<int> SizeY { get; set; }
     }
 }

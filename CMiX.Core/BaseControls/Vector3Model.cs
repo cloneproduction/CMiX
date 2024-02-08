@@ -7,21 +7,21 @@ namespace CMiX.Core.BaseControls
     {
         public Vector3Model()
         {
-            X = new FloatValueModel();
-            Y = new FloatValueModel();
-            Z = new FloatValueModel();
+            X = new GenericValueModel<float>();
+            Y = new GenericValueModel<float>();
+            Z = new GenericValueModel<float>();
         }
 
-        public Vector3Model(float x, float y, float z) : this()
+        public Vector3Model(float x, float y, float z)
         {
-            X.Value = x;
-            Y.Value = y;
-            Z.Value = z;
+            X = new GenericValueModel<float>(x);
+            Y = new GenericValueModel<float>(y);
+            Z = new GenericValueModel<float>(z);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public FloatValueModel X { get; set; }
-        public FloatValueModel Y { get; set; }
-        public FloatValueModel Z { get; set; }
+        public GenericValueModel<float> X { get; set; }
+        public GenericValueModel<float> Y { get; set; }
+        public GenericValueModel<float> Z { get; set; }
     }
 }

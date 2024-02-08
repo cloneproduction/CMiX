@@ -4,28 +4,30 @@
 using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Networking;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public partial class MasterBeat : ObservableRecipient
+    public partial class MasterBeat : ObservableRecipient, IControl
     {
-        public MasterBeat(IntegerValue index, FloatValue period, IntegerValue beatIndex, BooleanValue pause, Button resync)
+        public MasterBeat(GenericValue<int> index, 
+                          GenericValue<float> period, 
+                          GenericValue<int> beatIndex, 
+                          GenericValue<bool> pause, 
+                          Button resync)
         {
             Index = index;
-            Period = period;// new FloatValue(1000);
-            BeatIndex = beatIndex;// new IntegerValue(0);
-            Pause = pause;// new BooleanValue(false, controlMessenger);
-            Resync = resync; // new Button();
+            Period = period;
+            BeatIndex = beatIndex;
+            Pause = pause;
+            Resync = resync;
 
             Periods = new float[15];
             tapPeriods = new List<float>();
             tapTime = new List<float>();
 
             BeatAnimations = new BeatAnimations();
-
 
             var Multiplier = 1.0f / 128.0f;
             for (var i = 0; i < Periods.Length; i++)
@@ -47,15 +49,15 @@ namespace CMiX.Core.Animations
         public ICommand MultiplyCommand { get; }
         public ICommand DivideCommand { get; }
         public ICommand TapCommand { get; }
-        public BooleanValue Pause { get; set; }
-        public BooleanValue IsSelected { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public StringValue Name { get; set; }
+        public GenericValue<bool> Pause { get; set; }
+        public GenericValue<bool> IsSelected { get; set; }
+        public GenericValue<bool> IsRenaming { get; set; }
+        public GenericValue<string> Name { get; set; }
         public BeatAnimations BeatAnimations { get; set; }
         public Button Resync { get; set; }
-        public IntegerValue Index { get; set; }
-        public IntegerValue BeatIndex { get; set; }
-        public FloatValue Period { get; set; }
+        public GenericValue<int> Index { get; set; }
+        public GenericValue<int> BeatIndex { get; set; }
+        public GenericValue<float> Period { get; set; }
 
         private readonly List<float> tapPeriods;
         private readonly List<float> tapTime;
@@ -79,7 +81,6 @@ namespace CMiX.Core.Animations
             BeatIndex.Value = Index.Value + (Periods.Length - 1) / 2;
             Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
             animatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
-            Console.WriteLine();
             OnPropertyChanged(nameof(AnimatedDouble));
         }
 

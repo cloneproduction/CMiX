@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Animations
 {
@@ -11,17 +10,18 @@ namespace CMiX.Core.Animations
         public MasterBeatModel()
         {
             Resync = new ButtonModel();
-            Pause = new BooleanValueModel(false);
-            Index = new IntegerValueModel(0);
-            BeatIndex = new IntegerValueModel(0);
-            Period = new FloatValueModel(1000);
+            Pause = new GenericValueModel<bool>(false);
+            Index = new GenericValueModel<int>(3);
+            BeatIndex = new GenericValueModel<int>(0);
+            Period = new GenericValueModel<float>(1000);
+            Console.WriteLine("MasterBeatModel Created");
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public ButtonModel Resync { get; set; }
-        public BooleanValueModel Pause { get; set; }
-        public IntegerValueModel Index { get; set; }
-        public IntegerValueModel BeatIndex { get; set; }
-        public FloatValueModel Period { get; set; }
+        public GenericValueModel<bool> Pause { get; set; }
+        public GenericValueModel<int> Index { get; set; }
+        public GenericValueModel<int> BeatIndex { get; set; }
+        public GenericValueModel<float> Period { get; set; }
     }
 }

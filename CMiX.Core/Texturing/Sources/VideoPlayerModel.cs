@@ -10,18 +10,17 @@ namespace CMiX.Core.Texturing.Sources
     {
         public VideoPlayerModel()
         {
-            SeekFrame = new IntegerValueModel();
+            SeekFrame = new GenericValueModel<int>();
             DoSeek = new ButtonModel();
-            PlayModel = new BooleanValueModel();
-            PlayModel.Value = true;
+            Play = new GenericValueModel<bool>(true);
             Resolution = new Integer2Model(0, 0);
             Asset = new GenericValueModel<Asset>(null);
         }
         public Guid ID { get; set; } = Guid.NewGuid();
 
         public ButtonModel DoSeek { get; set; }
-        public IntegerValueModel SeekFrame { get; set; }
-        public BooleanValueModel PlayModel { get; set; }
+        public GenericValueModel<int> SeekFrame { get; set; }
+        public GenericValueModel<bool> Play { get; set; }
         public GenericValueModel<Asset> Asset { get; set; }
         public Integer2Model Resolution { get; internal set; }
     }

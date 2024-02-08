@@ -8,15 +8,15 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Feedback : ObservableObject, ITextureModifier
     {
-        public Feedback(BooleanValue visible, FloatValue factor)
+        public Feedback(GenericValue<bool> visible, GenericValue<float> factor)
         {
-            Visible = visible; // new BooleanValue(true);
-            Factor = factor; // new FloatValue(0.9f);
+            Visible = visible; // new GenericValue<bool>(true);
+            Factor = factor; // new GenericValue<float>(0.9f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
-        public FloatValue Factor { get; set; }
+        public GenericValue<bool> Visible { get; set; }
+        public GenericValue<float> Factor { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

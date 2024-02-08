@@ -10,14 +10,14 @@ namespace CMiX.Core.Texturing.Filters
     {
         public PixelateModel()
         {
-            Visible = new BooleanValueModel(true);
-            Control = new FloatValueModel(1.0f);
+            Visible = new GenericValueModel<bool>(true);
+            Control = new GenericValueModel<float>(1.0f);
             Factor = new Vector2Model(0.5f, 0.5f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValueModel Visible { get; set; }
-        public FloatValueModel Control { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
+        public GenericValueModel<float> Control { get; set; }
         public Vector2Model Factor { get; set; }
     }
 }

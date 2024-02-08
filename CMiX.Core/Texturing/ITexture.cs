@@ -3,13 +3,12 @@
 
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Texturing.Sampling;
 
 namespace CMiX.Core.Texturing
 {
     public interface ITexture : IControl
     {
-        PrefabManagerBase TextureManager { get; set; }
+        PrefabManager TextureManager { get; set; }
         TransformTexture TransformTexture { get; set; }
         SamplerState SamplerState { get; set; }
     }

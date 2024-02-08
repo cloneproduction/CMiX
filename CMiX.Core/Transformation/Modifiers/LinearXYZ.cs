@@ -9,7 +9,7 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class LinearXYZ : ObservableObject, IModifier, ISpreadable
     {
-        public LinearXYZ(BooleanValue visible, ModifierModeSelector modifierModeSelector, GenericValue<TransformType> transformType, FloatValue width, FloatValue phase, DirectionXYZ directionXYZ)
+        public LinearXYZ(GenericValue<bool> visible, ModifierModeSelector modifierModeSelector, GenericValue<TransformType> transformType, GenericValue<float> width, GenericValue<float> phase, DirectionXYZ directionXYZ)
         {
             Visible = visible;
             ModifierModeSelector = modifierModeSelector;
@@ -22,11 +22,11 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public Guid ID { get; set; } = Guid.NewGuid();
 
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<TransformType> TransformTypeSelector { get; set; }
-        public FloatValue Width { get; set; }
-        public FloatValue Phase { get; set; }
+        public GenericValue<float> Width { get; set; }
+        public GenericValue<float> Phase { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
 

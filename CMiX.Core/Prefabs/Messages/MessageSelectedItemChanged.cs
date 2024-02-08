@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageSelectedItemChanged : IMessagePrefab
+    public class MessageSelectedItemChanged : IMessageManager
     {
         public MessageSelectedItemChanged()
         {

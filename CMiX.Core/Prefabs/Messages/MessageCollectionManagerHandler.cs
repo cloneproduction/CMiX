@@ -1,54 +1,50 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Collections;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    internal class MessageCollectionManagerHandler : IMessageHandler
+    public class MessageCollectionManagerHandler
     {
         public MessageCollectionManagerHandler()
         {
 
         }
 
-        public bool Handle(IControl control, IMessage message)
+        public bool Handle(PrefabManagerBase prefabManagerBase, IMessage message)
         {
-            if (control is ICollectionManager collectionManager)
+            if (message is MessageAddItem messageAddPrefab)
             {
-
-                if (message is MessageAddItem messageAddPrefab)
-                {
-                    collectionManager.AddItem(messageAddPrefab.Model);
-                    return true;
-                }
-
-                if (message is MessageRemoveItem messageRemovePrefab)
-                {
-                    collectionManager.DeleteItem(messageRemovePrefab.Control);
-                    return true;
-                }
-
-                if (message is MessageMoveItem messageMovePrefab)
-                {
-                    collectionManager.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
-                    return true;
-                }
+                prefabManagerBase.AddItem(messageAddPrefab.Model);
+                return true;
             }
 
-            if(control is IPrefabManager prefabManager)
+            if (message is MessageRemoveItem messageRemovePrefab)
+            {
+                prefabManagerBase.DeleteItem(messageRemovePrefab.Control);
+                return true;
+            }
+
+            if (message is MessageMoveItem messageMovePrefab)
+            {
+                prefabManagerBase.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                return true;
+            }
+
+            if (prefabManagerBase is IPrefabManager prefabManager)
             {
                 if (message is MessageReplacePrefab messageSelectedPrefabChanged)
                 {
-                    prefabManager.ReplaceEmptyPrefab(messageSelectedPrefabChanged.emptyPrefabID, messageSelectedPrefabChanged.ControlModel);
+                    if(prefabManager is ReorderablePrefabManager manager)
+                        manager.EmptyPrefabService.ReplaceEmptyPrefab(messageSelectedPrefabChanged.emptyPrefabID, messageSelectedPrefabChanged.ControlModel);
                     return true;
                 }
 
                 if (message is MessageSelectedItemChanged messageSelectedItemChanged)
                 {
-                    prefabManager.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
+                    prefabManagerBase.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
                     return true;
                 }
             }

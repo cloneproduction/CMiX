@@ -9,9 +9,9 @@ namespace CMiX.Core.Transformation
 {
     public partial class TransformSRT : ObservableObject, IControl, IModifier
     {
-        public TransformSRT(FloatValue uniform, Translate translate, Scale scale, Rotation rotation, BooleanValue visible, GenericValue<ModifierMode> mode)
+        public TransformSRT(GenericValue<float> uniform, Translate translate, Scale scale, Rotation rotation, GenericValue<bool> visible, GenericValue<ModifierMode> mode)
         {
-            Uniform = uniform; // new FloatValue(1.0f);
+            Uniform = uniform;
             Translate = translate;
             Scale = scale;
             Rotation = rotation;
@@ -21,11 +21,11 @@ namespace CMiX.Core.Transformation
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public FloatValue Uniform { get; set; }
+        public GenericValue<float> Uniform { get; set; }
         public Translate Translate { get; set; }
         public Scale Scale { get; set; }
         public Rotation Rotation { get; set; }
-        public BooleanValue Visible { get; set; }
+        public GenericValue<bool> Visible { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
 
         [ObservableProperty]

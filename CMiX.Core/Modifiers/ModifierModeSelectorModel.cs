@@ -11,11 +11,11 @@ namespace CMiX.Core.Modifiers
         {
             ID = Guid.NewGuid();
             Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
-            Count = new IntegerValueModel(1);
+            Count = new GenericValueModel<int>(1);
         }
 
         public Guid ID { get; set; }
         public GenericValueModel<ModifierMode> Mode { get; set; }
-        public IntegerValueModel Count { get; set; }
+        public GenericValueModel<int> Count { get; set; }
     }
 }

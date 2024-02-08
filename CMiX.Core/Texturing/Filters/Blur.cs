@@ -8,7 +8,7 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Blur : ObservableObject, ITextureModifier
     {
-        public Blur(BooleanValue visible, FloatValue strength)
+        public Blur(GenericValue<bool> visible, GenericValue<float> strength)
         {
             Strength = strength;
             Visible = visible;
@@ -16,8 +16,8 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public FloatValue Strength { get; set; }
-        public BooleanValue Visible { get; set; }
+        public GenericValue<float> Strength { get; set; }
+        public GenericValue<bool> Visible { get; set; }
 
 
         [ObservableProperty]

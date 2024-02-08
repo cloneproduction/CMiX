@@ -6,24 +6,24 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class HSCBModel : IModifierModel
+    public class HSCBModel : IControlModel//, IModifierModel
     {
         public HSCBModel()
         {
-            Visible = new BooleanValueModel(true);
-            Hue = new FloatValueModel();
-            Saturation = new FloatValueModel(1.0f);
-            Contrast = new FloatValueModel();
-            Brightness = new FloatValueModel();
-            Control = new FloatValueModel();
+            Visible = new GenericValueModel<bool>(true);
+            Hue = new GenericValueModel<float>(0.0f);
+            Saturation = new GenericValueModel<float>(1.0f);
+            Contrast = new GenericValueModel<float>(0.0f);
+            Brightness = new GenericValueModel<float>(0.0f);
+            Control = new GenericValueModel<float>(1.0f);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValueModel Visible { get; set; }
-        public FloatValueModel Hue { get; set; }
-        public FloatValueModel Saturation { get; set; }
-        public FloatValueModel Contrast { get; set; }
-        public FloatValueModel Brightness { get; set; }
-        public FloatValueModel Control { get; set; }
+        public GenericValueModel<bool> Visible { get; set; }
+        public GenericValueModel<float> Hue { get; set; }
+        public GenericValueModel<float> Saturation { get; set; }
+        public GenericValueModel<float> Contrast { get; set; }
+        public GenericValueModel<float> Brightness { get; set; }
+        public GenericValueModel<float> Control { get; set; }
     }
 }

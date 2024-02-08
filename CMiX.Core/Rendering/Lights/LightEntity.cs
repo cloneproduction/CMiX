@@ -4,14 +4,16 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Lights
 {
     public partial class LightEntity : ObservableObject, IPrefab
     {
-        public LightEntity(PrefabService prefabService, LightSettings lightSettings, ModifierManager modifierManager)
+        public LightEntity(PrefabService prefabService, LightSettings lightSettings, ReorderablePrefabManager prefabManager)
         {
+            PrefabService = prefabService;
             Name = prefabService.Name;
             IsRenaming = prefabService.IsRenaming;
             IsSelected = prefabService.IsSelected;
@@ -26,27 +28,26 @@ namespace CMiX.Core.Rendering.Lights
             Intensity = lightSettings.Intensity;
             LightTypeSelector = lightSettings.LightTypeSelector;
 
-            ModifierManager = modifierManager;
+            ModifierManager = prefabManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visibility { get; set; }
-        public StringValue Name { get; set; }
-        public BooleanValue IsRenaming { get; set; }
-        public BooleanValue IsSelected { get; set; }
-
-
+        public PrefabService PrefabService { get; set; }
+        public GenericValue<bool> Visibility { get; set; }
+        public GenericValue<string> Name { get; set; }
+        public GenericValue<bool> IsRenaming { get; set; }
+        public GenericValue<bool> IsSelected { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
-        public ColorValue LightColor { get; set; }
+        public GenericValue<string> LightColor { get; set; }
         public Vector3 Position { get; set; }
         public Vector3 Target { get; set; }
-        public FloatValue Radius { get; set; }
-        public FloatValue Angle { get; set; }
-        public FloatValue Softness { get; set; }
-        public FloatValue Intensity { get; set; }
+        public GenericValue<float> Radius { get; set; }
+        public GenericValue<float> Angle { get; set; }
+        public GenericValue<float> Softness { get; set; }
+        public GenericValue<float> Intensity { get; set; }
 
 
-        public ModifierManager ModifierManager { get; set; }
+        public ReorderablePrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool settingsIsExpanded;

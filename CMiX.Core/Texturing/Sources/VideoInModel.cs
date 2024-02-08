@@ -10,12 +10,12 @@ namespace CMiX.Core.Texturing.Sources
         public VideoInModel()
         {
             ID = Guid.NewGuid();
-            SizeX = new IntegerValueModel(1920);
-            SizeY = new IntegerValueModel(1080);
+            SizeX = new GenericValueModel<int>(1920);
+            SizeY = new GenericValueModel<int>(1080);
         }
 
         public Guid ID { get; set; }
-        public IntegerValueModel SizeX { get; set; }
-        public IntegerValueModel SizeY { get; set; }
+        public GenericValueModel<int> SizeX { get; set; }
+        public GenericValueModel<int> SizeY { get; set; }
     }
 }

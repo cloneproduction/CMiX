@@ -8,7 +8,7 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class Echo : ObservableObject, ITextureModifier
     {
-        public Echo(BooleanValue visible, FloatValue factor)
+        public Echo(GenericValue<bool> visible, GenericValue<float> factor)
         {
             ID = Guid.NewGuid();
             Visible = visible;
@@ -16,8 +16,8 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BooleanValue Visible { get; set; }
-        public FloatValue Factor { get; set; }
+        public GenericValue<bool> Visible { get; set; }
+        public GenericValue<float> Factor { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
