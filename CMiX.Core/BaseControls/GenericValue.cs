@@ -12,7 +12,7 @@ namespace CMiX.Core.BaseControls
     {
         public GenericValue()
         {
-            //NECESSARY FOR AUTOMAPPER OTHERWISE ERROR
+            //NECESSARY FOR AUTOMAPPER OTHERWISE ERROR !!!
         }
         public GenericValue(ControlMessenger controlMessenger)
         {
