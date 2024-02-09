@@ -15,6 +15,8 @@ namespace CMiX.Core.Compositing
         public EntityModel()
         {
             PrefabService = new PrefabServiceModel();
+            ID = PrefabService.ID;
+
             ModifierManager = new PrefabManagerModel();
             Mesh = new MeshModel();
             Name = new GenericValueModel<string>("Entity " + ID.ToString());
@@ -25,7 +27,7 @@ namespace CMiX.Core.Compositing
             Material = new MaterialModel();
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
 
         public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<string> Name { get; set; }

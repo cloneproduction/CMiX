@@ -18,6 +18,7 @@ using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
@@ -115,6 +116,7 @@ namespace CMiX.Core
                     [typeof(HSCB)] = () => mapper.Map<IControlModel, IControl>(new HSCBModel(), x.GetRequiredService<HSCB>()),
                     [typeof(Blur)] = () => mapper.Map<IControlModel, IControl>(new BlurModel(), x.GetRequiredService<Blur>()),
                     [typeof(RandomHSV)] = () => mapper.Map<IControlModel, IControl>(new RandomHSVModel(), x.GetRequiredService<RandomHSV>()),
+                    [typeof(TransformSRT)] = () => mapper.Map<IControlModel, IControl>(new TransformSRTModel(), x.GetRequiredService<TransformSRT>()),
                 };
 
 
@@ -130,6 +132,7 @@ namespace CMiX.Core
                     [typeof(HSCBModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<HSCB>()),
                     [typeof(BlurModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Blur>()),
                     [typeof(RandomHSVModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomHSV>()),
+                    [typeof(TransformSRTModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<TransformSRT>()),
                 };
 
                 return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<PrefabRepositories>());
