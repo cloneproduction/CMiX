@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Materials;
 
 namespace CMiX.Core.Materials
 {
@@ -14,7 +13,7 @@ namespace CMiX.Core.Materials
             BaseColor = new GenericValueModel<string>("#FFFF00FF");
             Alpha = new GenericValueModel<float>(1.0f);
 
-            Pipeline = new GenericValueModel<PipelineType>(PipelineType.Metallic);
+            Pipeline = new GenericValueModel<PipelineType>(PipelineType.Constant);
             CullMode = new GenericValueModel<CullModeType>(CullModeType.Back);
             Transparency = new GenericValueModel<TransparencyType>(TransparencyType.Blend);
 

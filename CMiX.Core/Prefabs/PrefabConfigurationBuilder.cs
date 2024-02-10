@@ -40,26 +40,27 @@ namespace CMiX.Core.Prefabs
             serviceCollection.AddTransient<LightEntity>();
 
 
-            serviceCollection.AddTransient<ControlRepository>();
-            serviceCollection.AddSingleton(ctx =>
-            {
-                var projectRepository = ctx.GetRequiredService<ControlRepository>();
-                var compositionRepository = ctx.GetRequiredService<ControlRepository>();
-                var layerRepository = ctx.GetRequiredService<ControlRepository>();
-                var entityRepository = ctx.GetRequiredService<ControlRepository>();
+            serviceCollection.AddSingleton<ControlRepository>();
 
-                var repositories = new Dictionary<Type, ControlRepository>()
-                {
-                    [typeof(Composition)] = projectRepository,
-                    [typeof(Layer)] = compositionRepository,
-                    [typeof(Entity)] = layerRepository,
-                    [typeof(LightEntity)] = layerRepository,
-                    [typeof(Camera)] = layerRepository,
-                    [typeof(Texture)] = entityRepository
-                };
+            //serviceCollection.AddSingleton((Func<IServiceProvider, Services.ControlRepository>)(ctx =>
+            //{
+            //    var projectRepository = ctx.GetRequiredService<ControlRepository>();
+            //    var compositionRepository = ctx.GetRequiredService<ControlRepository>();
+            //    var layerRepository = ctx.GetRequiredService<ControlRepository>();
+            //    var entityRepository = ctx.GetRequiredService<ControlRepository>();
 
-                return new PrefabRepositories(repositories);
-            });
+            //    var repositories = new Dictionary<Type, ControlRepository>()
+            //    {
+            //        [typeof(Composition)] = projectRepository,
+            //        [typeof(Layer)] = compositionRepository,
+            //        [typeof(Entity)] = layerRepository,
+            //        [typeof(LightEntity)] = layerRepository,
+            //        [typeof(Camera)] = layerRepository,
+            //        [typeof(Texture)] = entityRepository
+            //    };
+
+            //    return new Services.ControlRepository(repositories);
+            //}));
         }
     }
 }

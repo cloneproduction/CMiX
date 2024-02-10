@@ -3,6 +3,7 @@
 
 using AutoMapper;
 using Ceras;
+using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Entities.Lights;
@@ -54,7 +55,12 @@ namespace CMiX.Core
             ////////
             services.AddSingleton<MessageProcessor>();
             services.AddSingleton<ControlMessenger>();
-  
+
+            services.AddSingleton(x =>
+            {
+                var mapper = x.GetRequiredService<IMapper>();
+                return mapper.Map<IControlModel, IControl>(new MasterBeatModel());
+            });
 
             MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
 
@@ -115,8 +121,10 @@ namespace CMiX.Core
 
                     [typeof(HSCB)] = () => mapper.Map<IControlModel, IControl>(new HSCBModel(), x.GetRequiredService<HSCB>()),
                     [typeof(Blur)] = () => mapper.Map<IControlModel, IControl>(new BlurModel(), x.GetRequiredService<Blur>()),
+
                     [typeof(RandomHSV)] = () => mapper.Map<IControlModel, IControl>(new RandomHSVModel(), x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRT)] = () => mapper.Map<IControlModel, IControl>(new TransformSRTModel(), x.GetRequiredService<TransformSRT>()),
+                    [typeof(RandomXYZ)] = () => mapper.Map<IControlModel, IControl>(new RandomXYZModel(), x.GetRequiredService<RandomXYZ>()),
                 };
 
 
@@ -131,11 +139,13 @@ namespace CMiX.Core
 
                     [typeof(HSCBModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<HSCB>()),
                     [typeof(BlurModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Blur>()),
+
                     [typeof(RandomHSVModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRTModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<TransformSRT>()),
+                    [typeof(RandomXYZModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomXYZ>()),
                 };
 
-                return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<PrefabRepositories>());
+                return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<ControlRepository>());
             });
 
             var prefabConfigBuilder = new PrefabConfigurationBuilder(services);

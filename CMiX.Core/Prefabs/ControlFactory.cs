@@ -7,14 +7,14 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlFactory
     {
-        public ControlFactory(Dictionary<Type, Func<IControl>> factories, Dictionary<Type, Func<IControlModel, IControl>> modelToControlFactories, PrefabRepositories prefabRepositories)
+        public ControlFactory(Dictionary<Type, Func<IControl>> factories, Dictionary<Type, Func<IControlModel, IControl>> modelToControlFactories, ControlRepository controlRepository)
         {
             Factories = factories;
             ModelToControlFactories = modelToControlFactories;
-            PrefabRepositories = prefabRepositories;
+            ControlRepository = controlRepository;
         }
 
-        internal PrefabRepositories PrefabRepositories { get; set; }
+        internal ControlRepository ControlRepository { get; set; }
         internal Dictionary<Type, Func<IControlModel, IControl>> ModelToControlFactories { get; set; }
         internal Dictionary<Type, Func<IControl>> Factories { get; set; }
 
@@ -24,7 +24,7 @@ namespace CMiX.Core.Prefabs
                 throw new ArgumentOutOfRangeException(nameof(type), $"type '{type}' is not registered");
 
             var f = factory();
-            PrefabRepositories.AddControl(f);
+            ControlRepository.AddControl(f);
             return f;
         }
 
@@ -36,7 +36,7 @@ namespace CMiX.Core.Prefabs
                 throw new ArgumentOutOfRangeException(nameof(type), $"type '{type}' is not registered");
 
             var f = factory(controlModel);
-            PrefabRepositories.AddControl(f);
+            ControlRepository.AddControl(f);
             return f;
         }
 

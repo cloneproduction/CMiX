@@ -14,7 +14,6 @@ namespace CMiX.Core.Animations
             Index = new GenericValueModel<int>(3);
             BeatIndex = new GenericValueModel<int>(0);
             Period = new GenericValueModel<float>(1000);
-            Console.WriteLine("MasterBeatModel Created");
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
