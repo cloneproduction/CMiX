@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Numerics;
 using AutoMapper;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Servers;
@@ -52,11 +53,7 @@ namespace CMiX.Core.Prefabs.Messages
 
         public void SendSelectedItemChanged(Guid id, IControl control, int index)
         {
-            Guid controlID = Guid.Empty;
-
-            if (control != null)
-                controlID = control.ID;
-
+            Guid controlID = control?.ID ?? Guid.Empty;
             var message = new MessageSelectedItemChanged(id, controlID, index);
             Send(message);
         }
