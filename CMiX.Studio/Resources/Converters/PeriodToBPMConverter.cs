@@ -3,6 +3,7 @@
 
 using System;
 using System.Globalization;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 using CMiX.Core.Animations;
@@ -36,8 +37,8 @@ namespace CMiX.Studio.Converters
             if (values[0] == null || values[1] == null || values[2] == null)
                 return "0";
 
-            var beatIndex = (int)values[1];
-            var masterBeat = values[2] as MasterBeat;
+            var beatIndex = (int)values[0];
+            var masterBeat = values[1] as MasterBeat;
 
             if (masterBeat == null)
                 return DependencyProperty.UnsetValue;
@@ -59,7 +60,7 @@ namespace CMiX.Studio.Converters
                 return DependencyProperty.UnsetValue;
 
             var beatIndex = (int)values[0];
-            var masterBeat = values[1] as MasterBeat;
+            var masterBeat = (MasterBeat)values[1];
 
             if(masterBeat == null)
                 return DependencyProperty.UnsetValue;

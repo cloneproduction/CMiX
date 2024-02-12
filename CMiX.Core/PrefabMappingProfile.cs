@@ -19,7 +19,6 @@ namespace CMiX.Core
             CreateMap(typeof(Layer), typeof(LayerModel)).ReverseMap();
             CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap();
             CreateMap(typeof(Texture), typeof(TextureModel)).ReverseMap();
-            CreateMap(typeof(MasterBeat), typeof(MasterBeatModel)).ReverseMap();
 
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(PrefabService), typeof(PrefabServiceModel))
@@ -28,7 +27,6 @@ namespace CMiX.Core
                 .Include(typeof(Layer), typeof(LayerModel))
                 .Include(typeof(Entity), typeof(EntityModel))
                 .Include(typeof(Texture), typeof(TextureModel))
-                .Include(typeof(MasterBeat), typeof(MasterBeatModel))
                 .ReverseMap();
         }
     }

@@ -9,8 +9,6 @@ namespace CMiX.Core.Mapping
     {
         public AnimationPairProfile()
         {
-            //CreatePair<MasterBeat, MasterBeatModel>();
-            //CreatePair<BeatModifier, BeatModifierModel>();
             CreatePair<Easing, EasingModel>();
         }
     }

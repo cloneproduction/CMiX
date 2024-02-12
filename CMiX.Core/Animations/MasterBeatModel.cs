@@ -14,6 +14,14 @@ namespace CMiX.Core.Animations
             Index = new GenericValueModel<int>(3);
             BeatIndex = new GenericValueModel<int>(0);
             Period = new GenericValueModel<float>(1000);
+
+            Periods = new float[15];
+            var Multiplier = 1.0f / 128.0f;
+            for (var i = 0; i < Periods.Length; i++)
+            {
+                Periods[i] = Multiplier * Period.Value;
+                Multiplier *= 2;
+            }
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -22,5 +30,14 @@ namespace CMiX.Core.Animations
         public GenericValueModel<int> Index { get; set; }
         public GenericValueModel<int> BeatIndex { get; set; }
         public GenericValueModel<float> Period { get; set; }
+
+
+        private float[] _periods;
+
+        public float[] Periods
+        {
+            get { return _periods; }
+            set { _periods = value; }
+        }
     }
 }

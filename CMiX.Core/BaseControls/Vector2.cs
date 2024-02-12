@@ -13,12 +13,6 @@ namespace CMiX.Core.BaseControls
             Y = y;
         }
 
-        //public Vector2(float x, float y) : this()
-        //{
-        //    X.Value = x;
-        //    Y.Value = y;
-        //}
-
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<float> X { get; set; }
         public GenericValue<float> Y { get; set; }

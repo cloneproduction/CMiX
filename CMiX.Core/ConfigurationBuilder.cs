@@ -56,11 +56,7 @@ namespace CMiX.Core
             services.AddSingleton<MessageProcessor>();
             services.AddSingleton<ControlMessenger>();
 
-            services.AddSingleton(x =>
-            {
-                var mapper = x.GetRequiredService<IMapper>();
-                return mapper.Map<IControlModel, IControl>(new MasterBeatModel());
-            });
+
 
             MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
 
@@ -68,10 +64,13 @@ namespace CMiX.Core
             {
                 mapperConfigurationExpression.AddProfile(new BaseControlMappingProfile());
                 mapperConfigurationExpression.AddProfile(new PrefabMappingProfile());
+                mapperConfigurationExpression.AddProfile(new MasterBeatProfile());
 
                 var config = new MapperConfiguration(mapperConfigurationExpression);
                 return config.CreateMapper();
             });
+
+            services.AddSingleton<MasterBeat>();
 
 
             var controlConfigurator = new ControlConfigurator(mapperConfigurationExpression, services);

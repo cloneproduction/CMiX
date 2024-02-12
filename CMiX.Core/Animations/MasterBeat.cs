@@ -23,6 +23,10 @@ namespace CMiX.Core.Animations
             Pause = pause;
             Resync = resync;
 
+            BeatIndex.Value = 0;
+            Index.Value = 3;
+            Period.Value = 1000;
+
             Periods = new float[15];
             tapPeriods = new List<float>();
             tapTime = new List<float>();

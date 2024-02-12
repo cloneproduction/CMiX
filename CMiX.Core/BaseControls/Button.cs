@@ -12,6 +12,10 @@ namespace CMiX.Core.BaseControls
 {
     public class Button : ObservableRecipient, IControl//, IRecipient<MessageRequestControl>
     {
+        public Button()
+        {
+            
+        }
         public Button(ControlMessenger controlMessenger)
         {
             ControlMessenger = controlMessenger;

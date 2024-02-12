@@ -9,7 +9,6 @@ namespace CMiX.Core.Mapping
     {
         public BeatPairProfile()
         {
-            //CreatePair<MasterBeat, MasterBeatModel>();
             CreatePair<BeatModifier, BeatModifierModel>();
         }
     }
