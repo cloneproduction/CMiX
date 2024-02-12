@@ -52,7 +52,12 @@ namespace CMiX.Core.Prefabs.Messages
 
         public void SendSelectedItemChanged(Guid id, IControl control, int index)
         {
-            var message = new MessageSelectedItemChanged(id, control.ID, index);
+            Guid controlID = Guid.Empty;
+
+            if (control != null)
+                controlID = control.ID;
+
+            var message = new MessageSelectedItemChanged(id, controlID, index);
             Send(message);
         }
 

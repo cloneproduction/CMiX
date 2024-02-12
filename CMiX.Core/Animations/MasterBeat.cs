@@ -84,7 +84,7 @@ namespace CMiX.Core.Animations
         {
             BeatIndex.Value = Index.Value + (Periods.Length - 1) / 2;
             Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
-            animatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
+            AnimatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
             OnPropertyChanged(nameof(AnimatedDouble));
         }
 

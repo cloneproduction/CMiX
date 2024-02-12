@@ -130,14 +130,14 @@ namespace CMiX.Core.Prefabs.Managers
             }
 
             ManagerData.Items.Move(sourceIndex, targetIndex);
-            ManagerMessenger.SendMessageMoveItem(this.ID, sourceIndex, targetIndex);
+            ManagerMessenger.SendMessageMoveItem(ManagerData.ID, sourceIndex, targetIndex);
         }
 
         public void MoveOnDrop(int sourceIndex, int targetIndex)
         {
             targetIndex -= 1;
             ManagerData.Items.Move(sourceIndex, targetIndex);
-            ManagerMessenger.SendMessageMoveItem(this.ID, sourceIndex, targetIndex);
+            ManagerMessenger.SendMessageMoveItem(ManagerData.ID, sourceIndex, targetIndex);
         }
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)

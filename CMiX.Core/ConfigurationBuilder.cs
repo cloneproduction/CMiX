@@ -124,7 +124,15 @@ namespace CMiX.Core
                     [typeof(RandomHSV)] = () => mapper.Map<IControlModel, IControl>(new RandomHSVModel(), x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRT)] = () => mapper.Map<IControlModel, IControl>(new TransformSRTModel(), x.GetRequiredService<TransformSRT>()),
                     [typeof(RandomXYZ)] = () => mapper.Map<IControlModel, IControl>(new RandomXYZModel(), x.GetRequiredService<RandomXYZ>()),
-                };
+
+                    [typeof(Scale)] = () => mapper.Map<IControlModel, IControl>(new ScaleModel(), x.GetRequiredService<Scale>()),
+                    [typeof(Rotation)] = () => mapper.Map<IControlModel, IControl>(new RotationModel(), x.GetRequiredService<Rotation>()),
+                    [typeof(Translate)] = () => mapper.Map<IControlModel, IControl>(new TranslateModel(), x.GetRequiredService<Translate>()),
+                    [typeof(LinearXYZ)] = () => mapper.Map<IControlModel, IControl>(new LinearXYZModel(), x.GetRequiredService<LinearXYZ>()),
+                    [typeof(LFO)] = () => mapper.Map<IControlModel, IControl>(new LFOModel(), x.GetRequiredService<LFO>()),
+                    [typeof(RandomScale)] = () => mapper.Map<IControlModel, IControl>(new RandomScaleModel(), x.GetRequiredService<RandomScale>()),
+                    [typeof(Stepper)] = () => mapper.Map<IControlModel, IControl>(new StepperModel(), x.GetRequiredService<Stepper>()),
+            };
 
 
                 Dictionary<Type, Func<IControlModel, IControl>> controlModelFactory = new Dictionary<Type, Func<IControlModel, IControl>>()
@@ -142,6 +150,13 @@ namespace CMiX.Core
                     [typeof(RandomHSVModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRTModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<TransformSRT>()),
                     [typeof(RandomXYZModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomXYZ>()),
+                    [typeof(ScaleModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Scale>()),
+                    [typeof(RotationModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Rotation>()),
+                    [typeof(TranslateModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Translate>()),
+                    [typeof(LinearXYZModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<LinearXYZ>()),
+                    [typeof(LFOModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<LFO>()),
+                    [typeof(RandomScaleModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomScale>()),
+                    [typeof(StepperModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Stepper>()),
                 };
 
                 return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<ControlRepository>());

@@ -54,6 +54,8 @@ namespace CMiX.Core.Prefabs.Managers
             }
 
             ManagerData.SelectedItem = prefab;
+            ManagerData.SelectedIndex = items.IndexOf(prefab);
+            Console.WriteLine();
         }
 
         public void AddItem(IControlModel controlModel)
@@ -71,19 +73,9 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedItem = prefab;
         }
 
-        public void DeleteItem(Guid id)
-        {
-            var prefab = ManagerData.Items.FirstOrDefault(x => x.ID == id);
-
-            if (prefab == null)
-                return;
-
-            ManagerData.Items.Remove(prefab);
-        }
-
         public void DeleteItem(IControl control)
         {
-            var index = ManagerData.SelectedIndex;
+            var index = ManagerData.Items.IndexOf(control);// ManagerData.SelectedIndex;
 
             if (control == null)
                 return;
@@ -101,14 +93,26 @@ namespace CMiX.Core.Prefabs.Managers
             if (index == 0)
             {
                 ManagerData.SelectedItem = ManagerData.Items[0];
+                ManagerData.SelectedIndex = 0;
                 return;
             }
 
             if (index > 0)
             {
+                ManagerData.SelectedItem = ManagerData.Items[index - 1];
                 ManagerData.SelectedIndex = index - 1;
                 return;
             }
+        }
+
+        public void DeleteItem(Guid id)
+        {
+            var prefab = ManagerData.Items.FirstOrDefault(x => x.ID == id);
+
+            if (prefab == null)
+                return;
+
+            ManagerData.Items.Remove(prefab);
         }
 
         public void MoveItem(int oldIndex, int newIndex)
