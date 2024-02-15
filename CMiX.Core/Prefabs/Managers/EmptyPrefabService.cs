@@ -30,13 +30,5 @@ namespace CMiX.Core.Prefabs.Managers
             prefab = PrefabFactory.Create(controlModel);
             ManagerData.Items[index] = prefab;
         }
-
-        //public void AddEmptyPrefab()
-        //{
-        //    IControl prefab = PrefabFactory.Create(typeof(EmptyPrefab));
-        //    ManagerData.Items.Add(prefab);
-        //    ManagerData.SelectedIndex = ManagerData.Items.Count - 1;
-        //    ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
-        //}
     }
 }
