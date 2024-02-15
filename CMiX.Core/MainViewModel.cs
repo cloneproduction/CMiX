@@ -4,7 +4,6 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Network;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Services;
 using CMiX.Core.ViewModels.Assets;
 using CMiX.Core.ViewModels.Windows;
 

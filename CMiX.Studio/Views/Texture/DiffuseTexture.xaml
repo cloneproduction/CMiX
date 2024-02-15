@@ -17,6 +17,7 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
+    
     <StackPanel>
 
         <!--  THIS WAS IN CONTROL CALLED PrefabManagerComboBox but binding wasn't working correctly  -->
@@ -57,7 +58,7 @@
                     <ComboBox
                         Grid.Column="0"
                         DockPanel.Dock="Left"
-                        ItemsSource="{Binding Path=DataContext.PrefabRepositories.EntityRepository.Controls, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
+                        ItemsSource="{Binding Path=DataContext.PrefabRepositories.Textures, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}"
                         SelectedItem="{Binding TextureManager.ManagerData.SelectedItem}">
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>

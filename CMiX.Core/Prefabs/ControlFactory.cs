@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Services;
-
 namespace CMiX.Core.Prefabs
 {
     public class ControlFactory
@@ -40,19 +38,9 @@ namespace CMiX.Core.Prefabs
             return f;
         }
 
-        public IPrefab GetPrefab(Guid id)
+        public IControl GetPrefab(Guid id)
         {
-            //if (Factories == null)
-            //    return null;
-
-            //var factory = Factories.FirstOrDefault(x => x.GetPrefab(id) != null);
-
-            //if (factory == null)
-            //    return null;
-
-            //var prefab = factory.GetPrefab(id);
-            //return prefab;
-            return null;
+            return ControlRepository.GetPrefab(id);
         }
     }
 }

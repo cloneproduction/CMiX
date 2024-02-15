@@ -18,15 +18,7 @@ namespace CMiX.Core.Prefabs.Managers
         ControlFactory PrefabFactory { get; set; }
         ManagerData ManagerData { get; set; }
 
-        public void AddEmptyPrefab()
-        {
-            IControl prefab = PrefabFactory.Create(typeof(EmptyPrefab));
-            ManagerData.Items.Add(prefab);
-            ManagerData.SelectedIndex = ManagerData.Items.Count - 1;
-            ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
-        }
-
-        public void ReplaceEmptyPrefab(Guid emptyPrefabID, IPrefabModel controlModel)
+        public void ReplaceEmptyPrefab(Guid emptyPrefabID, IControlModel controlModel)
         {
             var emptyPrefab = ManagerData.Items.FirstOrDefault(x => x.ID == emptyPrefabID);
             int index = ManagerData.Items.IndexOf(emptyPrefab);
@@ -38,5 +30,13 @@ namespace CMiX.Core.Prefabs.Managers
             prefab = PrefabFactory.Create(controlModel);
             ManagerData.Items[index] = prefab;
         }
+
+        //public void AddEmptyPrefab()
+        //{
+        //    IControl prefab = PrefabFactory.Create(typeof(EmptyPrefab));
+        //    ManagerData.Items.Add(prefab);
+        //    ManagerData.SelectedIndex = ManagerData.Items.Count - 1;
+        //    ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
+        //}
     }
 }

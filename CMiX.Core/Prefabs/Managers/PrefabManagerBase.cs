@@ -160,17 +160,17 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var prefab = ControlFactory.GetPrefab(selectedItemID);
 
-            if (prefab == null)
-                return;
+            //if (prefab == null)
+            //    return;
 
-            if (index < 0)
-                return;
+            //if (index < 0)
+            //    return;
 
-            if (ManagerData.Items.Count == 0)
-                return;
+            //if (ManagerData.Items.Count == 0)
+            //    return;
 
-            if (index >= ManagerData.Items.Count)
-                return;
+            //if (index >= ManagerData.Items.Count)
+            //    return;
 
             ManagerData.SelectedIndex = index;
             ManagerData.SelectedItem = prefab;
