@@ -5,7 +5,6 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     x:Name="CameraControl"
     d:DesignHeight="294.297"
@@ -23,54 +22,8 @@
         </Panels:IndentedExpander>
         
         <Panels:IndentedExpander Header="Settings" Indentation="0" IsExpanded="{Binding IsExpanded}">
-            
-            <Border Margin="8">
-                <StackPanel>
-                    
-                    <BaseControls:DragValue 
-                        Margin="0, 0, 0, 1" 
-                        Position="Top" 
-                        Caption="Distance" 
-                        Value="{Binding Distance.Value}"/>
 
-                    <BaseControls:DragValue 
-                        Caption="FOV" 
-                        Position="Bottom" 
-                        Value="{Binding FOV.Value}"/>
-
-                    <BaseControls:DragValue 
-                        Margin="0, 8, 0, 1" 
-                        Position="Top" 
-                        Caption="Yaw" 
-                        Value="{Binding Yaw.Value}"/>
-
-                    <BaseControls:DragValue 
-                        Caption="Pitch" 
-                        Position="Bottom" 
-                        Value="{Binding Pitch.Value}"/>
-
-                    <BaseControls:VectorXYZ 
-                        Margin="0, 8"
-                        Caption="Target" 
-                        DataContext="{Binding Target}"/>
-
-                    <BaseControls:ToggleButton 
-                        Caption="Orthographic" 
-                        IsChecked="{Binding Projection.Value}"/>
-
-                    <BaseControls:DragValue 
-                        Margin="0, 8, 0, 1" 
-                        Position="Top" 
-                        Caption="Near" 
-                        Value="{Binding NearClip.Value}"/>
-
-                    <BaseControls:DragValue 
-                        Caption="Far" 
-                        Position="Bottom" 
-                        Value="{Binding FarClip.Value}"/>
-                    
-                </StackPanel>
-            </Border>
+            <Views:CameraSettings DataContext="{Binding Settings}"/>
 
         </Panels:IndentedExpander>
         

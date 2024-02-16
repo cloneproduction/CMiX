@@ -73,9 +73,20 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedItem = prefab;
         }
 
+
+        public void ReplaceItem(Guid id, IControlModel controlModel)
+        {
+            IControl item = ManagerData.Items.FirstOrDefault(x => x.ID == id);
+            int index = ManagerData.Items.IndexOf(item);
+
+            IControl prefab = ControlFactory.Create(controlModel);
+            ManagerData.Items[index] = prefab;
+        }
+
+
         public void DeleteItem(IControl control)
         {
-            var index = ManagerData.Items.IndexOf(control);// ManagerData.SelectedIndex;
+            var index = ManagerData.Items.IndexOf(control);
 
             if (control == null)
                 return;
@@ -128,7 +139,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void SelectedItemIsRenaming()
         {
             var prefab = ManagerData.SelectedItem as IPrefab;
-            prefab.IsRenaming.Value = true;
+            prefab.PrefabService.IsRenaming.Value = true;
         }
 
         public void OnSelectedItemChanged(IControl oldValue, IControl newValue)
@@ -182,7 +193,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (ManagerData.SelectedItem is IPrefab prefab)
             {
                 if (prefab.GetType() != typeof(EmptyPrefab))
-                    prefab.IsRenaming.Value = true;
+                    prefab.PrefabService.IsRenaming.Value = true;
             }
         }
 

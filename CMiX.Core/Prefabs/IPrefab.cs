@@ -9,9 +9,9 @@ namespace CMiX.Core.Prefabs
     {
 
         PrefabService PrefabService { get; set; }
-        GenericValue<bool> Visibility { get; set; }
-        GenericValue<bool> IsSelected { get; set; }
-        GenericValue<bool> IsRenaming { get; set; }
-        GenericValue<string> Name { get; set; }
+        //GenericValue<bool> Visibility { get; set; }
+        //GenericValue<bool> IsSelected { get; set; }
+        //GenericValue<bool> IsRenaming { get; set; }
+        //GenericValue<string> Name { get; set; }
     }
 }

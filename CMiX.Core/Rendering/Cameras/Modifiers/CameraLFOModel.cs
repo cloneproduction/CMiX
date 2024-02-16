@@ -3,11 +3,10 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public class CameraLFOModel : IModifierModel
+    public class CameraLFOModel : IControlModel
     {
         public CameraLFOModel()
         {

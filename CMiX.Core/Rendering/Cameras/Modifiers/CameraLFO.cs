@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public partial class CameraLFO : ObservableObject, IModifier, IBeatModifiable
+    public partial class CameraLFO : ObservableObject, IControl, IBeatModifiable
     {
         public CameraLFO(
                     GenericValue<bool> visible, 
@@ -27,8 +27,8 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 
             PingPong = pingPong;
             Axis = axis;
-            From = from;// new GenericValue<float>(0.0f);
-            To = to;// new GenericValue<float>(1.0f);
+            From = from;
+            To = to;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

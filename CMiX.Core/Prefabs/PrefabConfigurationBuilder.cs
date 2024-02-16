@@ -4,9 +4,7 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
-using CMiX.Core.Services;
 using CMiX.Core.Texturing;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -33,7 +31,6 @@ namespace CMiX.Core.Prefabs
             serviceCollection.AddTransient<LayerMaskService>();
 
             serviceCollection.AddTransient<EmptyPrefab>();
-            serviceCollection.AddTransient<EmptyPrefabService>();
 
             serviceCollection.AddTransient<Entity>();
             serviceCollection.AddTransient<Texture>();
@@ -41,26 +38,6 @@ namespace CMiX.Core.Prefabs
 
 
             serviceCollection.AddSingleton<ControlRepository>();
-
-            //serviceCollection.AddSingleton((Func<IServiceProvider, Services.ControlRepository>)(ctx =>
-            //{
-            //    var projectRepository = ctx.GetRequiredService<ControlRepository>();
-            //    var compositionRepository = ctx.GetRequiredService<ControlRepository>();
-            //    var layerRepository = ctx.GetRequiredService<ControlRepository>();
-            //    var entityRepository = ctx.GetRequiredService<ControlRepository>();
-
-            //    var repositories = new Dictionary<Type, ControlRepository>()
-            //    {
-            //        [typeof(Composition)] = projectRepository,
-            //        [typeof(Layer)] = compositionRepository,
-            //        [typeof(Entity)] = layerRepository,
-            //        [typeof(LightEntity)] = layerRepository,
-            //        [typeof(Camera)] = layerRepository,
-            //        [typeof(Texture)] = entityRepository
-            //    };
-
-            //    return new Services.ControlRepository(repositories);
-            //}));
         }
     }
 }

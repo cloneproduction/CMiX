@@ -3,11 +3,10 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public class CameraRandomModel : IModifierModel
+    public class CameraRandomModel : IControlModel
     {
         public CameraRandomModel()
         {

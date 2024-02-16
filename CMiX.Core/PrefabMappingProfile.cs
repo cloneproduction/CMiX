@@ -2,9 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Texturing;
 
 namespace CMiX.Core
@@ -19,6 +19,7 @@ namespace CMiX.Core
             CreateMap(typeof(Layer), typeof(LayerModel)).ReverseMap();
             CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap();
             CreateMap(typeof(Texture), typeof(TextureModel)).ReverseMap();
+            CreateMap(typeof(Camera), typeof(CameraModel)).ReverseMap();
 
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(PrefabService), typeof(PrefabServiceModel))
@@ -27,6 +28,7 @@ namespace CMiX.Core
                 .Include(typeof(Layer), typeof(LayerModel))
                 .Include(typeof(Entity), typeof(EntityModel))
                 .Include(typeof(Texture), typeof(TextureModel))
+                .Include(typeof(Camera), typeof(CameraModel))
                 .ReverseMap();
         }
     }

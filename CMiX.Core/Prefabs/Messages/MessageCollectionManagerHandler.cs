@@ -15,38 +15,28 @@ namespace CMiX.Core.Prefabs.Messages
 
         public bool Handle(PrefabManagerBase prefabManagerBase, IMessage message)
         {
-            if (message is MessageAddItem messageAddPrefab)
+            switch (message)
             {
-                prefabManagerBase.AddItem(messageAddPrefab.Model);
-                return true;
+                case MessageAddItem messageAddPrefab:
+                    prefabManagerBase.AddItem(messageAddPrefab.Model);
+                    return true;
+                case MessageRemoveItem messageRemovePrefab:
+                    prefabManagerBase.DeleteItem(messageRemovePrefab.Control);
+                    return true;
+                case MessageMoveItem messageMovePrefab:
+                    prefabManagerBase.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                    return true;
+                case MessageReplacePrefab messageReplacePrefab:
+                    prefabManagerBase.ReplaceItem(messageReplacePrefab.emptyPrefabID, messageReplacePrefab.ControlModel);
+                    return true;
+                case MessageSelectedItemChanged messageSelectedItemChanged:
+                    prefabManagerBase.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
+                    return true;
+                default:
+                    return false;
+                case null:
+                    throw new ArgumentNullException(nameof(message));
             }
-
-            if (message is MessageRemoveItem messageRemovePrefab)
-            {
-                prefabManagerBase.DeleteItem(messageRemovePrefab.Control);
-                return true;
-            }
-
-            if (message is MessageMoveItem messageMovePrefab)
-            {
-                prefabManagerBase.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
-                return true;
-            }
-
-            if (message is MessageReplacePrefab messageReplacePrefab)
-            {
-                if (prefabManagerBase is ReorderablePrefabManager manager)
-                    manager.EmptyPrefabService.ReplaceEmptyPrefab(messageReplacePrefab.emptyPrefabID, messageReplacePrefab.ControlModel);
-                return true;
-            }
-
-            if (message is MessageSelectedItemChanged messageSelectedItemChanged)
-            {
-                prefabManagerBase.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
-                return true;
-            }
-
-            return false;
         }
     }
 }

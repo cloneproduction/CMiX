@@ -7,17 +7,21 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public partial class CameraRandom : ObservableObject, ICameraModifier, IBeatModifiable
+    public partial class CameraRandom : ObservableObject, IControl, IBeatModifiable
     {
-        public CameraRandom(GenericValue<bool> visible, BeatModifier beatModifier, Easing easing, GenericValue<bool> pingPong, GenericValue<CameraAxis> axis, GenericValue<float> width)
+        public CameraRandom(GenericValue<bool> visible, 
+                            BeatModifier beatModifier, 
+                            Easing easing, 
+                            GenericValue<bool> pingPong, 
+                            GenericValue<CameraAxis> axis, 
+                            GenericValue<float> width)
         {
             Visible = visible;
             BeatModifier = beatModifier;
             Easing = easing;
-
             PingPong = pingPong;
             Axis = axis;
-            Width = width; // new GenericValue<float>(0.0f);
+            Width = width;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

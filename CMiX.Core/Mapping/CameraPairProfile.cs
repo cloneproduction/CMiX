@@ -13,6 +13,7 @@ namespace CMiX.Core.Mapping
             CreatePair<Camera, CameraModel>();
             CreatePair<CameraLFO, CameraLFOModel>();
             CreatePair<CameraRandom, CameraRandomModel>();
+            CreatePair<CameraSettings, CameraSettingsModel>();
         }
     }
 }

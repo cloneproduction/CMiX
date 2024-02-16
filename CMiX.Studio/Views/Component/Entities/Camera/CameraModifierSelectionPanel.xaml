@@ -20,7 +20,7 @@
 
             <Button 
                 Style="{StaticResource ButtonItemControl}"
-                Command="{Binding CreateCommand}" 
+                Command="{Binding AddItemCommand}" 
                 CommandParameter="{x:Type CameraModifiers:CameraLFO}" 
                 Grid.Row="0"
                 Grid.Column="0"
@@ -31,7 +31,7 @@
 
             <Button 
                 Style="{StaticResource ButtonItemControl}"
-                Command="{Binding CreateCommand}" 
+                Command="{Binding AddItemCommand}" 
                 CommandParameter="{x:Type CameraModifiers:CameraRandom}" 
                 Grid.Row="0"
                 Grid.Column="0"

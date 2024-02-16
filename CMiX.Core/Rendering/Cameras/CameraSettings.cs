@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public class CameraSettings
+    public class CameraSettings : IControl
     {
         public CameraSettings(GenericValue<float> distance,
                                 GenericValue<float> fov,
@@ -16,16 +16,17 @@ namespace CMiX.Core.Rendering.Cameras
                                 GenericValue<float> farClip,
                                 GenericValue<bool> projection) 
         {
-            Distance = distance; // new GenericValue<float>(10f);
-            FOV = fov; // new GenericValue<float>(0.09f);
-            Yaw = yaw; // new GenericValue<float>(0.0f);
-            Pitch = pitch; // new GenericValue<float>(0.0f);
-            Target = target; // new Vector3();
-            NearClip = nearClip; // new GenericValue<float>(0.05f);
-            FarClip = farClip; // new GenericValue<float>(100f);
-            Projection = projection; // new GenericValue<bool>();
+            Distance = distance;
+            FOV = fov;
+            Yaw = yaw;
+            Pitch = pitch;
+            Target = target;
+            NearClip = nearClip;
+            FarClip = farClip;
+            Projection = projection;
         }
 
+        public Guid ID { get; set; }
         public GenericValue<float> FOV { get; set; }
         public GenericValue<float> Distance { get; set; }
         public GenericValue<float> Yaw { get; set; }
@@ -34,5 +35,6 @@ namespace CMiX.Core.Rendering.Cameras
         public GenericValue<float> NearClip { get; set; }
         public GenericValue<float> FarClip { get; set; }
         public GenericValue<bool> Projection { get; set; }
+        
     }
 }

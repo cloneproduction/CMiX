@@ -11,10 +11,10 @@ namespace CMiX.Core.Prefabs.Managers
         {
             ManagerData = managerData;
             ManagerReorderService = new ManagerReorderService(managerData, managerMessenger);
-            EmptyPrefabService = new EmptyPrefabService(managerData, controlFactory, managerMessenger);
+            //EmptyPrefabService = new EmptyPrefabService(managerData, controlFactory, managerMessenger);
         }
 
-        public EmptyPrefabService EmptyPrefabService { get; set; }
+        //public EmptyPrefabService EmptyPrefabService { get; set; }
         public ManagerReorderService ManagerReorderService { get; set; }
     }
 }
