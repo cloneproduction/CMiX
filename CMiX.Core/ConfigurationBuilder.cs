@@ -74,7 +74,6 @@ namespace CMiX.Core
 
             services.AddSingleton<MasterBeat>();
 
-
             var controlConfigurator = new ControlConfigurator(mapperConfigurationExpression, services);
 
             controlConfigurator.Register(new BaseControlPairProfile());
@@ -91,6 +90,9 @@ namespace CMiX.Core
             controlConfigurator.Register(new ModifierPairProfile());
 
             controlConfigurator.Register(new ManagerPairProfile());
+
+            controlConfigurator.Register(new LightPairProfile());
+            controlConfigurator.Register(new LightPairProfile());
 
 
             ///NEED TO REGISTER TWICE ????
@@ -109,16 +111,6 @@ namespace CMiX.Core
             var textureModifiers = new TextureModifierPairProfile();
             controlConfigurator.Register(textureModifiers);
             controlConfigurator.Register(textureModifiers);
-
-
-
-
-
-
-
-
-
-
 
 
             services.AddSingleton(x =>
@@ -152,33 +144,24 @@ namespace CMiX.Core
 
                     [typeof(CameraLFO)] = () => mapper.Map(new CameraLFOModel(), x.GetRequiredService<CameraLFO>()),
                     [typeof(CameraRandom)] = () => mapper.Map(new CameraRandomModel(), x.GetRequiredService<CameraRandom>()),
+
+                    [typeof(RandomPosition)] = () => mapper.Map(new RandomPositionModel(), x.GetRequiredService<RandomPosition>()),
             };
-
-
-
-
-
-
-
-
-
-
-
 
                 Dictionary<Type, Func<IControlModel, IControl>> controlModelFactory = new Dictionary<Type, Func<IControlModel, IControl>>()
                 {
-                    [typeof(EmptyPrefabModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<EmptyPrefab>()),
+                    [typeof(EmptyPrefabModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<EmptyPrefab>()),
                     [typeof(CompositionModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Composition>()),
                     [typeof(LayerModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Layer>()),
-                    [typeof(EntityModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Entity>()),
+                    [typeof(EntityModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Entity>()),
                     [typeof(LightEntityModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<LightEntity>()),
-                    [typeof(TextureModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Texture>()),
-                    [typeof(CameraModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Camera>()),
+                    [typeof(TextureModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Texture>()),
+                    [typeof(CameraModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Camera>()),
 
-                    [typeof(HSCBModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<HSCB>()),
-                    [typeof(BlurModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Blur>()),
+                    [typeof(HSCBModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<HSCB>()),
+                    [typeof(BlurModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Blur>()),
 
-                    [typeof(RandomHSVModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomHSV>()),
+                    [typeof(RandomHSVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRTModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<TransformSRT>()),
                     [typeof(RandomXYZModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomXYZ>()),
                     [typeof(ScaleModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Scale>()),
@@ -191,6 +174,8 @@ namespace CMiX.Core
 
                     [typeof(CameraLFOModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<CameraLFO>()),
                     [typeof(CameraRandomModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<CameraRandom>()),
+
+                    [typeof(RandomPositionModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomPosition>()),
                 };
 
                 return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<ControlRepository>());

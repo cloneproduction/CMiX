@@ -21,7 +21,6 @@ namespace CMiX.Core.Prefabs
             serviceCollection.AddTransient<ReorderablePrefabManager>();
             serviceCollection.AddTransient<ManagerReorderService>();
 
-
             serviceCollection.AddSingleton(x => new Project(new PrefabManager(new ManagerData(Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00")), x.GetRequiredService<ControlFactory>(), x.GetRequiredService<ManagerMessenger>())));
 
             serviceCollection.AddTransient<Composition>();
@@ -34,6 +33,7 @@ namespace CMiX.Core.Prefabs
 
             serviceCollection.AddTransient<Entity>();
             serviceCollection.AddTransient<Texture>();
+
             serviceCollection.AddTransient<LightEntity>();
 
 

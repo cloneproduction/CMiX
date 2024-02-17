@@ -10,16 +10,17 @@ namespace CMiX.Core.Rendering.Cameras
 {
     public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
-        public Camera(PrefabService prefabService, CameraSettings cameraSettings, ReorderablePrefabManager modifierManager)
+        public Camera(PrefabService prefabService, 
+                      CameraSettings settings, 
+                      ReorderablePrefabManager modifierManager)
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
-            Settings = cameraSettings;
+            Settings = settings;
             ModifierManager = modifierManager;
         }
 
         public Guid ID { get; set; }
-
         public PrefabService PrefabService { get; set; }
         public CameraSettings Settings { get; set; }
         public ReorderablePrefabManager ModifierManager { get; set; }

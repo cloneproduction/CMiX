@@ -8,7 +8,9 @@ namespace CMiX.Core.Materials
 {
     public partial class Material : ObservableObject, IControl
     {
-        public Material(MaterialSettings materialSettings, DiffuseTexture diffuseTexture, MaskTexture maskTexture)
+        public Material(MaterialSettings materialSettings, 
+                        DiffuseTexture diffuseTexture, 
+                        MaskTexture maskTexture)
         {
             ID = Guid.NewGuid();
             DiffuseTexture = diffuseTexture;
