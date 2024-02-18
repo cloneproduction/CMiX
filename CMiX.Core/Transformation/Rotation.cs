@@ -3,13 +3,11 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Transformation;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Rotation : ObservableObject, IModifier
+    public partial class Rotation : ObservableObject, IControl, IModifier
     {
         public Rotation(GenericValue<bool> visible, Vector3 xyz)
         {

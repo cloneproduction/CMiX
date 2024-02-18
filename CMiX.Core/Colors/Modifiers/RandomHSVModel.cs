@@ -19,7 +19,7 @@ namespace CMiX.Core.Colors.Modifiers
             Visible = new GenericValueModel<bool>(true);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
+            ModifierModeSelector = new ModifierModeSelectorModel();
         }
 
         public Guid ID { get; set; }
@@ -31,7 +31,6 @@ namespace CMiX.Core.Colors.Modifiers
         public GenericValueModel<float> Saturation { get; set; }
         public GenericValueModel<float> Value { get; set; }
         public GenericValueModel<float> Alpha { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; set; }
-
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
     }
 }

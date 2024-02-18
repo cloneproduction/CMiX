@@ -9,7 +9,7 @@ namespace CMiX.Core.Prefabs.Managers
     {
         public PrefabManager(ManagerData managerData, ControlFactory controlFactory, ManagerMessenger managerMessenger) : base (managerData, controlFactory, managerMessenger)
         {
-            Console.WriteLine();
+
         }
     }
 }

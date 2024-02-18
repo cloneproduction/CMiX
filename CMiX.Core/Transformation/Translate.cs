@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Translate : ObservableObject, IModifier
+    public partial class Translate : ObservableObject, IControl, IModifier
     {
         public Translate(GenericValue<bool> visible, Vector3 xyz)
         {

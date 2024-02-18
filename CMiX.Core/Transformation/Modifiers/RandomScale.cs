@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomScale : ObservableObject, IBeatModifiable, IModifier, ISpreadable
+    public partial class RandomScale : ObservableObject, IBeatModifiable, IModifier, ISpreadableModifier
     {
         public RandomScale(GenericValue<bool> visible, BeatModifier beatModifier, Easing easing, ModifierModeSelector modifierModeSelector, Vector3 scale, GenericValue<float> uniformXYZ)
         {

@@ -26,7 +26,7 @@ namespace CMiX.Core.Compositing
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
-        public ReorderablePrefabManager ModifierManager { get; set; }
+        public PrefabManagerBase ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
     }

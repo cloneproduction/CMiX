@@ -11,7 +11,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             CreatePair<ReorderablePrefabManager, PrefabManagerModel>();
             CreatePair<PrefabManager, PrefabManagerModel>();
-            CreatePair<PrefabManagerBase, PrefabManagerModel>();
+            CreatePair<PrefabManager, PrefabManagerModel>();
             CreatePair<ManagerData, ManagerDataModel>();
         }
     }

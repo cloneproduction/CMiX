@@ -23,7 +23,7 @@ namespace CMiX.Core.Rendering.Lights
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public LightSettings Settings { get; set; }
-        public ReorderablePrefabManager ModifierManager { get; set; }
+        public PrefabManagerBase ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool settingsIsExpanded;

@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomPosition : ObservableObject, IBeatModifiable, IModifier, ISpreadable
+    public partial class RandomPosition : ObservableObject, IBeatModifiable, IModifier, ISpreadableModifier
     {
         public RandomPosition(GenericValue<bool> visible, ModifierModeSelector modifierModeSelector, BeatModifier beatModifier, Easing easing, Vector3 location)
         {

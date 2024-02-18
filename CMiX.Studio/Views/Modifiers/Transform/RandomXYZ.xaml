@@ -15,9 +15,13 @@
 
         <StackPanel Margin="8">
 
-            <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
+            <Modifiers:ModifierModeSelector 
+                Margin="0,0,0,8" 
+                DataContext="{Binding ModifierModeSelector}" />
 
-            <Views:BeatModifier DataContext="{Binding BeatModifier}" />
+            <Views:BeatModifier 
+                Margin="0, 0, 0, 4" 
+                DataContext="{Binding BeatModifier}"/>
 
         </StackPanel>
 

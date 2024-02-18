@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomXYZ : ObservableObject, IBeatModifiable, IModifier, ISpreadable
+    public partial class RandomXYZ : ObservableObject, IControl, IBeatModifiable, IModifier, ISpreadableModifier
     {
         public RandomXYZ(
             GenericValue<bool> visible,
@@ -26,14 +26,13 @@ namespace CMiX.Core.Transformation.Modifiers
             BeatModifier = beatModifier;
             Easing = easing;
             ModifierModeSelector = modifierModeSelector;
-            
-           
+
             RandomizeLocation = randomizeLocation;
-            Location = location; // new Vector3(0.0f, 0.0f, 0.0f);
-            RandomizeScale = randomizeScale; // new GenericValue<bool>(true);
-            Scale = scale; // new Vector3(0.0f, 0.0f, 0.0f);
-            RandomizeRotation = randomizeLocation;// new GenericValue<bool>(true);
-            Rotation = rotation;// new Vector3(0.0f, 0.0f, 0.0f);
+            Location = location;
+            RandomizeScale = randomizeScale;
+            Scale = scale;
+            RandomizeRotation = randomizeLocation;
+            Rotation = rotation;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

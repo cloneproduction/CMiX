@@ -23,7 +23,7 @@ namespace CMiX.Core.Rendering.Cameras
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public CameraSettings Settings { get; set; }
-        public ReorderablePrefabManager ModifierManager { get; set; }
+        public PrefabManagerBase ModifierManager { get; set; }
 
         [ObservableProperty]
         bool isExpanded = false;

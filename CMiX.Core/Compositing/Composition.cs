@@ -10,7 +10,7 @@ using CMiX.Core.Rendering;
 
 namespace CMiX.Core.Compositing
 {
-    public class Composition : IPrefab, IModifiable
+    public class Composition : IPrefab
     {
         public Composition(PrefabService prefabService, 
                            MasterBeat masterBeat,

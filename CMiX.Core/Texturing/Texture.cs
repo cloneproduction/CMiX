@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class Texture : ObservableObject, IPrefab, IModifiable
+    public partial class Texture : ObservableObject, IPrefab//, IModifiable
     {
         public Texture(PrefabService prefabService, 
                        ReorderablePrefabManager modifierManager,

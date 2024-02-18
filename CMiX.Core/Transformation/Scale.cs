@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Scale : ObservableObject, IModifier
+    public partial class Scale : ObservableObject, IControl, IModifier
     {
         public Scale(GenericValue<float> uniform, Vector3 xyz, GenericValue<bool> visible)
         {

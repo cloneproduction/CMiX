@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LinearXYZ : ObservableObject, IModifier, ISpreadable
+    public partial class LinearXYZ : ObservableObject, ISpreadableModifier
     {
         public LinearXYZ(GenericValue<bool> visible, ModifierModeSelector modifierModeSelector, GenericValue<TransformType> transformType, GenericValue<float> width, GenericValue<float> phase, DirectionXYZ directionXYZ)
         {

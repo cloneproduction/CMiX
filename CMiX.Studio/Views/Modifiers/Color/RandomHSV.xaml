@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Views="clr-namespace:CMiX.Studio.Views"
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
              mc:Ignorable="d" 
              d:DesignHeight="392" d:DesignWidth="374">
 
@@ -12,13 +13,12 @@
 
         <StackPanel Margin="8">
 
-            <BaseControl:ComboBox 
-                Caption="Type"
-                ItemsSource="{Binding Source={StaticResource ModifierMode}}" 
-                SelectedItem="{Binding Mode.Value}"/>
-            
+            <Modifiers:ModifierModeSelector 
+                Margin="0,0,0,8" 
+                DataContext="{Binding ModifierModeSelector}" />
+
             <Views:BeatModifier 
-                Margin="0, 8" 
+                Margin="0, 0, 0, 8" 
                 DataContext="{Binding BeatModifier}"/>
 
             <BaseControl:DragValue 

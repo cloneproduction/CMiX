@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class Stepper : ObservableObject, IBeatModifiable, IModifier, ISpreadable
+    public partial class Stepper : ObservableObject, IBeatModifiable, IModifier, ISpreadableModifier
     {
         public Stepper( ModifierModeSelector modifierModeSelector, 
                         GenericValue<int> stepCount, 

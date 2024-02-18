@@ -4,26 +4,33 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class RandomHSV : ObservableObject, IBeatModifiable, IColorModifier
+    public partial class RandomHSV : ObservableObject, IControl, IBeatModifiable, IModifier, ISpreadableModifier
     {
-        public RandomHSV(GenericValue<bool> visible, BeatModifier beatModifier, Easing easing, GenericValue<ModifierMode> mode, GenericValue<float> hue, GenericValue<float> saturation, GenericValue<float> value, GenericValue<float> alpha)
+        public RandomHSV(GenericValue<bool> visible, 
+                         BeatModifier beatModifier, 
+                         Easing easing, 
+                         ModifierModeSelector modifierModeSelector, 
+                         GenericValue<float> hue, 
+                         GenericValue<float> saturation, 
+                         GenericValue<float> value, 
+                         GenericValue<float> alpha)
         {
             Visible = visible;
             BeatModifier = beatModifier;
             Easing = easing;
-            Mode = mode;
-
+            ModifierModeSelector = modifierModeSelector;
             Hue = hue;
             Saturation = saturation;
             Value = value;
             Alpha = alpha;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public GenericValue<bool> Visible { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Saturation { get; set; }
@@ -31,7 +38,7 @@ namespace CMiX.Core.Colors.Modifiers
         public GenericValue<float> Alpha { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public GenericValue<ModifierMode> Mode { get; set; }
+        public ModifierModeSelector ModifierModeSelector { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

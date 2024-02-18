@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IPrefab, IModifiable
+    public partial class Layer : ObservableObject, IPrefab
     {
         public Layer(PrefabService prefabService,
                      LayerSettings layerService,
