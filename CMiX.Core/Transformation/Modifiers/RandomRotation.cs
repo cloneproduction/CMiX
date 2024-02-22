@@ -8,19 +8,19 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomPosition : ObservableObject, IBeatModifiable, IModifier, ISpreadableModifier
+    public partial class RandomRotation : ObservableObject, IBeatModifiable, IModifier, ISpreadableModifier
     {
-        public RandomPosition(GenericValue<bool> visible, 
+        public RandomRotation(GenericValue<bool> visible, 
                               ModifierModeSelector modifierModeSelector, 
                               BeatModifier beatModifier, 
                               Easing easing, 
-                              Vector3 location)
+                              Vector3 rotation)
         {
             Visible = visible;
             ModifierModeSelector = modifierModeSelector;
             BeatModifier = beatModifier;
             Easing = easing;
-            Location = location;
+            Rotation = rotation;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -28,7 +28,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
-        public Vector3 Location { get; set; }
+        public Vector3 Rotation { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

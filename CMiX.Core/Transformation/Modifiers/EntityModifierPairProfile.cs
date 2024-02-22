@@ -17,7 +17,10 @@ namespace CMiX.Core.Transformation.Modifiers
             CreatePair<RandomXYZ, RandomXYZModel>();
             CreatePair<LinearXYZ, LinearXYZModel>();
             CreatePair<LFO, LFOModel>();
+
+            CreatePair<RandomRotation, RandomRotationModel>();
             CreatePair<RandomScale, RandomScaleModel>();
+
             CreatePair<Stepper, StepperModel>();
             CreatePair<RandomHSV, RandomHSVModel>();
         }

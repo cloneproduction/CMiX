@@ -119,6 +119,28 @@
                 Content="Random Scale"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomPosition}"
+                Content="Random Translate"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Grid.Row="1"
+                Grid.Column="0"
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomRotation}"
+                Content="Random Rotation"
+                Style="{StaticResource ButtonItemControl}" />
+
         </StackPanel>
 
         <StackPanel Grid.Column="2">

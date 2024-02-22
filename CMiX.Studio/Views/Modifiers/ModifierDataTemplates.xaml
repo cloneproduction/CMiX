@@ -55,7 +55,7 @@
         <Views:LFOUV DataContext="{Binding}" />
     </DataTemplate>
 
-    
+
     <!--  ENTITY MODIFIERS  -->
     <DataTemplate DataType="{x:Type ColorModifiers:RandomHSV}">
         <Views:RandomHSV DataContext="{Binding}" />
@@ -79,6 +79,10 @@
 
     <DataTemplate DataType="{x:Type TransformModifiers:RandomScale}">
         <Views:RandomScale DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type TransformModifiers:RandomRotation}">
+        <Views:RandomRotation DataContext="{Binding}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Transformation:TransformSRT}">

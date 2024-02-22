@@ -146,6 +146,7 @@ namespace CMiX.Core
                     [typeof(CameraRandom)] = () => mapper.Map(new CameraRandomModel(), x.GetRequiredService<CameraRandom>()),
 
                     [typeof(RandomPosition)] = () => mapper.Map(new RandomPositionModel(), x.GetRequiredService<RandomPosition>()),
+                    [typeof(RandomRotation)] = () => mapper.Map(new RandomRotationModel(), x.GetRequiredService<RandomRotation>()),
             };
 
                 Dictionary<Type, Func<IControlModel, IControl>> controlModelFactory = new Dictionary<Type, Func<IControlModel, IControl>>()
@@ -162,20 +163,21 @@ namespace CMiX.Core
                     [typeof(BlurModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Blur>()),
 
                     [typeof(RandomHSVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomHSV>()),
-                    [typeof(TransformSRTModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<TransformSRT>()),
-                    [typeof(RandomXYZModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomXYZ>()),
-                    [typeof(ScaleModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Scale>()),
-                    [typeof(RotationModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Rotation>()),
-                    [typeof(TranslateModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Translate>()),
-                    [typeof(LinearXYZModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<LinearXYZ>()),
-                    [typeof(LFOModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<LFO>()),
-                    [typeof(RandomScaleModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomScale>()),
-                    [typeof(StepperModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<Stepper>()),
+                    [typeof(TransformSRTModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<TransformSRT>()),
+                    [typeof(RandomXYZModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomXYZ>()),
+                    [typeof(ScaleModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Scale>()),
+                    [typeof(RotationModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Rotation>()),
+                    [typeof(TranslateModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Translate>()),
+                    [typeof(LinearXYZModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<LinearXYZ>()),
+                    [typeof(LFOModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<LFO>()),
+                    [typeof(RandomScaleModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomScale>()),
+                    [typeof(StepperModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Stepper>()),
 
-                    [typeof(CameraLFOModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<CameraLFO>()),
-                    [typeof(CameraRandomModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<CameraRandom>()),
+                    [typeof(CameraLFOModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<CameraLFO>()),
+                    [typeof(CameraRandomModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<CameraRandom>()),
 
-                    [typeof(RandomPositionModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<RandomPosition>()),
+                    [typeof(RandomPositionModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomPosition>()),
+                    [typeof(RandomRotationModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomRotation>()),
                 };
 
                 return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<ControlRepository>());
