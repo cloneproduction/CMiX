@@ -14,6 +14,7 @@ namespace CMiX.Core.Mapping
             CreatePair<Integer2, Integer2Model>();
             CreatePair<Vector2, Vector2Model>();
             CreatePair<Vector3, Vector3Model>();
+            CreatePair<DirectionXYZ, DirectionXYZModel>();
         }
     }
 }

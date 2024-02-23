@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
@@ -27,10 +26,6 @@ namespace CMiX.Core.Texturing
             ID = prefabService.ID;
             PrefabService = prefabService;
 
-            Name = prefabService.Name;
-            IsSelected = prefabService.IsSelected;
-            IsRenaming = prefabService.IsRenaming;
-            Visibility = prefabService.Visibility;
             TextureSourceSelector = textureSourceSelector;
             Gradient = gradient;
             BubbleNoise = bubbleNoise;
@@ -45,10 +40,6 @@ namespace CMiX.Core.Texturing
         public Guid ID { get; set; }
 
         public PrefabService PrefabService { get; set; }
-        public GenericValue<string> Name { get; set; }
-        public GenericValue<bool> IsSelected { get; set; }
-        public GenericValue<bool> IsRenaming { get; set; }
-        public GenericValue<bool> Visibility { get; set; }
 
         public BubbleNoise BubbleNoise { get; set; }
         public Image Image { get; set; }

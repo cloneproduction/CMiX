@@ -129,6 +129,7 @@ namespace CMiX.Core
 
                     [typeof(HSCB)] = () => mapper.Map(new HSCBModel(), x.GetRequiredService<HSCB>()),
                     [typeof(Blur)] = () => mapper.Map(new BlurModel(), x.GetRequiredService<Blur>()),
+                    [typeof(RandomUV)] = () => mapper.Map(new RandomUVModel(), x.GetRequiredService<RandomUV>()),
 
                     [typeof(RandomHSV)] = () => mapper.Map(new RandomHSVModel(), x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRT)] = () => mapper.Map(new TransformSRTModel(), x.GetRequiredService<TransformSRT>()),
@@ -161,6 +162,7 @@ namespace CMiX.Core
 
                     [typeof(HSCBModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<HSCB>()),
                     [typeof(BlurModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Blur>()),
+                    [typeof(RandomUVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomUV>()),
 
                     [typeof(RandomHSVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRTModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<TransformSRT>()),

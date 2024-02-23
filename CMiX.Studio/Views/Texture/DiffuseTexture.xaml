@@ -17,7 +17,7 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    
+
     <StackPanel>
 
         <!--  THIS WAS IN CONTROL CALLED PrefabManagerComboBox but binding wasn't working correctly  -->
@@ -62,7 +62,7 @@
                         SelectedItem="{Binding TextureManager.ManagerData.SelectedItem}">
                         <ComboBox.ItemTemplate>
                             <ItemContainerTemplate>
-                                <TextBlock Text="{Binding Name.Value}" />
+                                <TextBlock Text="{Binding PrefabService.Name.Value}" />
                             </ItemContainerTemplate>
                         </ComboBox.ItemTemplate>
                     </ComboBox>
@@ -103,7 +103,7 @@
                     </Style>
                 </Border.Style>
 
-                <Views:PathSelector ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" SelectedItem="{Binding Path=TextureManager.SelectedItem.Image.Asset.Value}" />
+                <Views:PathSelector ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}" SelectedItem="{Binding Path=TextureManager.ManagerData.SelectedItem.Image.Asset.Value}" />
 
             </Border>
 
