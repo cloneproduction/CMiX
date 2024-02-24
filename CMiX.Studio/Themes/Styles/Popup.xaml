@@ -1,17 +1,20 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style x:Key="PopupContentStyle" TargetType="{x:Type ContentControl}">
         <Setter Property="ContentTemplate">
             <Setter.Value>
                 <DataTemplate>
                     <StackPanel>
-                            <Border x:Name="dragBar" 
-                                            Background="Transparent" 
-                                            VerticalAlignment="Stretch" 
-                                            Height="25"
-                                            Margin="0, 4, 0, 4">
-                            <TextBlock Padding="4" Text="Edit Settings" VerticalAlignment="Center" />
+                        <Border
+                            x:Name="dragBar"
+                            Height="25"
+                            Margin="0,4,0,4"
+                            VerticalAlignment="Stretch"
+                            Background="Transparent">
+                            <TextBlock
+                                Padding="4"
+                                VerticalAlignment="Center"
+                                Text="Edit Settings" />
                         </Border>
                         <ContentPresenter />
                     </StackPanel>

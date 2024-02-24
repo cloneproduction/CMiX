@@ -19,9 +19,6 @@ namespace CMiX.Core.Prefabs.Managers
             ID = managerData.ID;
             ManagerMessenger = managerMessenger;
             ManagerData = managerData;
-
-            ItemUpCommand = new RelayCommand(ItemUp);
-            ItemDownCommand = new RelayCommand(ItemDown);
         }
 
         ManagerMessenger ManagerMessenger { get; set; }
@@ -33,29 +30,26 @@ namespace CMiX.Core.Prefabs.Managers
         private bool dragHandlerIsPressed = false;
 
 
-        public ICommand ItemUpCommand { get; set; }
-        public ICommand ItemDownCommand { get; set; }
 
+        //public void ItemUp()
+        //{
+        //    var selectedIndex = ManagerData.SelectedIndex;
+        //    if (selectedIndex <= 0)
+        //        return;
 
-        public void ItemUp()
-        {
-            var selectedIndex = ManagerData.SelectedIndex;
-            if (selectedIndex <= 0)
-                return;
+        //    ManagerData.Items.Move(selectedIndex, selectedIndex - 1);
+        //    ManagerMessenger.SendMessageMoveItem(ManagerData.ID, selectedIndex, selectedIndex + 1);
+        //}
 
-            ManagerData.Items.Move(selectedIndex, selectedIndex - 1);
-            ManagerMessenger.SendMessageMoveItem(ManagerData.ID, selectedIndex, selectedIndex + 1);
-        }
+        //public void ItemDown()
+        //{
+        //    var selectedIndex = ManagerData.SelectedIndex;
+        //    if (selectedIndex == ManagerData.Items.Count - 1)
+        //        return;
 
-        public void ItemDown()
-        {
-            var selectedIndex = ManagerData.SelectedIndex;
-            if (selectedIndex == ManagerData.Items.Count - 1)
-                return;
-
-            ManagerData.Items.Move(selectedIndex, selectedIndex + 1);
-            ManagerMessenger.SendMessageMoveItem(ManagerData.ID, selectedIndex, selectedIndex + 1);
-        }
+        //    ManagerData.Items.Move(selectedIndex, selectedIndex + 1);
+        //    ManagerMessenger.SendMessageMoveItem(ManagerData.ID, selectedIndex, selectedIndex + 1);
+        //}
 
 
 

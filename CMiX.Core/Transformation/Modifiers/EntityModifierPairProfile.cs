@@ -15,6 +15,7 @@ namespace CMiX.Core.Transformation.Modifiers
             CreatePair<Rotation, RotationModel>();
             CreatePair<Translate, TranslateModel>();
             CreatePair<RandomXYZ, RandomXYZModel>();
+            CreatePair<GaussianXYZ, GaussianXYZModel>();
             CreatePair<LinearXYZ, LinearXYZModel>();
             CreatePair<LFO, LFOModel>();
 

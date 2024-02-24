@@ -187,14 +187,14 @@
                     <BaseControls:ColorSelector
                         Caption="From"
                         Position="Top"
-                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.Gradient.From.SelectedColor}"
+                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.Gradient.From.Value, Converter={StaticResource ColorToHex}}"
                         ViewModel="{Binding Path=TextureManager.ManagerData.SelectedItem.Gradient.From}" />
 
                     <BaseControls:ColorSelector
                         Margin="0,1,0,0"
                         Caption="To"
                         Position="Bottom"
-                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.Gradient.To.SelectedColor}"
+                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.Gradient.To.Value, Converter={StaticResource ColorToHex}}"
                         ViewModel="{Binding Path=TextureManager.ManagerData.SelectedItem.Gradient.To}" />
 
                     <BaseControls:ToggleButton
@@ -243,13 +243,13 @@
                         Margin="0,8,0,1"
                         Caption="Background"
                         Position="Top"
-                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.BubbleNoise.BackgroundColor.SelectedColor}"
+                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.BubbleNoise.BackgroundColor.Value, Converter={StaticResource ColorToHex}}"
                         ViewModel="{Binding Path=TextureManager.ManagerData.SelectedItem.BubbleNoise.BackgroundColor}" />
 
                     <BaseControls:ColorSelector
                         Caption="Bubble"
                         Position="Bottom"
-                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.BubbleNoise.BubbleColor.SelectedColor}"
+                        SelectedColor="{Binding Path=TextureManager.ManagerData.SelectedItem.BubbleNoise.BubbleColor.Value, Converter={StaticResource ColorToHex}}"
                         ViewModel="{Binding Path=TextureManager.ManagerData.SelectedItem.BubbleNoise.BubbleColor}" />
 
                     <BaseControls:Integer2Value

@@ -1,104 +1,105 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
-    
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
+
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/ToggleButton.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Button.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Icons.xaml"/>
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/ToggleButton.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Button.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Icons.xaml" />
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke" Color="{DynamicResource Normal}"/>
-    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill" Color="{DynamicResource Normal}"/>
-    <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke" Color="{DynamicResource HighLight}"/>
-    <SolidColorBrush x:Key="Expander.Pressed.Circle.Stroke" Color="{DynamicResource Light}"/>
-    <SolidColorBrush x:Key="Expander.Pressed.Circle.Fill" Color="{DynamicResource Light}"/>
-    <SolidColorBrush x:Key="Expander.Pressed.Arrow.Stroke" Color="{DynamicResource HighLight}"/>
-    <SolidColorBrush x:Key="Expander.Disabled.Circle.Stroke" Color="{DynamicResource Dark}"/>
-    <SolidColorBrush x:Key="Expander.Disabled.Circle.Fill" Color="{DynamicResource Dark}"/>
-    <SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke" Color="{DynamicResource Dark}"/>
-    <SolidColorBrush x:Key="Expander.Static.Circle.Fill" Color="{DynamicResource HighDarker}"/>
-    <SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="{DynamicResource HighDarker}"/>
-    <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="{DynamicResource Light}"/>
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Stroke" Color="{DynamicResource Normal}" />
+    <SolidColorBrush x:Key="Expander.MouseOver.Circle.Fill" Color="{DynamicResource Normal}" />
+    <SolidColorBrush x:Key="Expander.MouseOver.Arrow.Stroke" Color="{DynamicResource HighLight}" />
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Stroke" Color="{DynamicResource Light}" />
+    <SolidColorBrush x:Key="Expander.Pressed.Circle.Fill" Color="{DynamicResource Light}" />
+    <SolidColorBrush x:Key="Expander.Pressed.Arrow.Stroke" Color="{DynamicResource HighLight}" />
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Stroke" Color="{DynamicResource Dark}" />
+    <SolidColorBrush x:Key="Expander.Disabled.Circle.Fill" Color="{DynamicResource Dark}" />
+    <SolidColorBrush x:Key="Expander.Disabled.Arrow.Stroke" Color="{DynamicResource Dark}" />
+    <SolidColorBrush x:Key="Expander.Static.Circle.Fill" Color="{DynamicResource HighDarker}" />
+    <SolidColorBrush x:Key="Expander.Static.Circle.Stroke" Color="{DynamicResource HighDarker}" />
+    <SolidColorBrush x:Key="Expander.Static.Arrow.Stroke" Color="{DynamicResource Light}" />
 
     <Style x:Key="ExpanderHeaderFocusVisual">
         <Setter Property="Control.Template">
             <Setter.Value>
                 <ControlTemplate>
                     <Border>
-                        <Rectangle 
-                            Margin="0" 
-                            SnapsToDevicePixels="true" 
-                            Stroke="Black" 
-                            StrokeThickness="1" 
-                            StrokeDashArray="1 2"/>
+                        <Rectangle
+                            Margin="0"
+                            SnapsToDevicePixels="true"
+                            Stroke="Black"
+                            StrokeDashArray="1 2"
+                            StrokeThickness="1" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
-    <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}" >
+
+    <Style x:Key="ExpanderRightHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border Padding="{TemplateBinding Padding}">
                         <Grid Background="Transparent" SnapsToDevicePixels="False">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="19"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="19" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid>
                                 <Grid.LayoutTransform>
                                     <TransformGroup>
                                         <TransformGroup.Children>
                                             <TransformCollection>
-                                                <RotateTransform Angle="-90"/>
+                                                <RotateTransform Angle="-90" />
                                             </TransformCollection>
                                         </TransformGroup.Children>
                                     </TransformGroup>
                                 </Grid.LayoutTransform>
-                                <Path 
-                                    x:Name="arrow" 
-                                    Data="M 1,1.5 L 4.5,5 L 8,1.5" 
-                                    HorizontalAlignment="Center" 
-                                    SnapsToDevicePixels="false" 
-                                    Stroke="{DynamicResource Expander.Static.Arrow.Stroke}" 
-                                    StrokeThickness="2" 
-                                    VerticalAlignment="Center"/>
+                                <Path
+                                    x:Name="arrow"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                    SnapsToDevicePixels="false"
+                                    Stroke="{DynamicResource Expander.Static.Arrow.Stroke}"
+                                    StrokeThickness="2" />
                             </Grid>
-                            <ContentPresenter 
-                                HorizontalAlignment="Center" 
-                                Margin="0,4,0,0" 
-                                Grid.Row="1" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="True"
-                                VerticalAlignment="Top"/>
+                            <ContentPresenter
+                                Grid.Row="1"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
-                    
+
                     <ControlTemplate.Triggers>
-                        
+
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.MouseOver.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.MouseOver.Arrow.Stroke}" />
                         </Trigger>
-                        
+
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.Pressed.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.Pressed.Arrow.Stroke}" />
                         </Trigger>
-                        
+
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.Disabled.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.Disabled.Arrow.Stroke}" />
                         </Trigger>
-                        
+
                     </ControlTemplate.Triggers>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ExpanderUpHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -106,56 +107,56 @@
                     <Border Padding="{TemplateBinding Padding}">
                         <Grid Background="Transparent" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="19"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="19" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
                             <Grid>
                                 <Grid.LayoutTransform>
                                     <TransformGroup>
                                         <TransformGroup.Children>
                                             <TransformCollection>
-                                                <RotateTransform Angle="180"/>
+                                                <RotateTransform Angle="180" />
                                             </TransformCollection>
                                         </TransformGroup.Children>
                                     </TransformGroup>
                                 </Grid.LayoutTransform>
-                                <Path 
-                                    x:Name="arrow" 
-                                    Data="M 1,1.5 L 4.5,5 L 8,1.5" 
-                                    HorizontalAlignment="Center" 
-                                    SnapsToDevicePixels="false" 
-                                    Stroke="{DynamicResource Expander.Static.Arrow.Stroke}" 
-                                    StrokeThickness="2" 
-                                    VerticalAlignment="Center"/>
+                                <Path
+                                    x:Name="arrow"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                    SnapsToDevicePixels="false"
+                                    Stroke="{DynamicResource Expander.Static.Arrow.Stroke}"
+                                    StrokeThickness="2" />
                             </Grid>
-                            <ContentPresenter 
-                                Grid.Column="1" 
-                                HorizontalAlignment="Left" 
-                                Margin="4,0,0,0" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="True" 
-                                VerticalAlignment="Center"/>
+                            <ContentPresenter
+                                Grid.Column="1"
+                                Margin="4,0,0,0"
+                                HorizontalAlignment="Left"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            <Setter TargetName="arrow" Property="Data" Value="M 1,4.5  L 4.5,1  L 8,4.5" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.MouseOver.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.MouseOver.Arrow.Stroke}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.Pressed.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.Pressed.Arrow.Stroke}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.Disabled.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.Disabled.Arrow.Stroke}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="ExpanderLeftHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
@@ -163,49 +164,49 @@
                     <Border Padding="{TemplateBinding Padding}">
                         <Grid Background="Transparent" SnapsToDevicePixels="False">
                             <Grid.RowDefinitions>
-                                <RowDefinition Height="19"/>
-                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="19" />
+                                <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid>
                                 <Grid.LayoutTransform>
                                     <TransformGroup>
                                         <TransformGroup.Children>
                                             <TransformCollection>
-                                                <RotateTransform Angle="90"/>
+                                                <RotateTransform Angle="90" />
                                             </TransformCollection>
                                         </TransformGroup.Children>
                                     </TransformGroup>
                                 </Grid.LayoutTransform>
-                                <Path 
-                                    x:Name="arrow" 
-                                    Data="M 1,1.5 L 4.5,5 L 8,1.5" 
-                                    HorizontalAlignment="Center" 
-                                    SnapsToDevicePixels="false" 
-                                    Stroke="{DynamicResource Expander.Static.Arrow.Stroke}" 
-                                    StrokeThickness="2" 
-                                    VerticalAlignment="Center"/>
+                                <Path
+                                    x:Name="arrow"
+                                    HorizontalAlignment="Center"
+                                    VerticalAlignment="Center"
+                                    Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                    SnapsToDevicePixels="false"
+                                    Stroke="{DynamicResource Expander.Static.Arrow.Stroke}"
+                                    StrokeThickness="2" />
                             </Grid>
-                            <ContentPresenter 
-                                HorizontalAlignment="Center" 
-                                Margin="0,4,0,0" 
-                                Grid.Row="1" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="True" 
-                                VerticalAlignment="Top"/>
+                            <ContentPresenter
+                                Grid.Row="1"
+                                Margin="0,4,0,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
+                            <Setter TargetName="arrow" Property="Data" Value="M 1,4.5  L 4.5,1  L 8,4.5" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.MouseOver.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.MouseOver.Arrow.Stroke}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.Pressed.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.Pressed.Arrow.Stroke}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Stroke" TargetName="arrow" Value="{DynamicResource Expander.Disabled.Arrow.Stroke}"/>
+                            <Setter TargetName="arrow" Property="Stroke" Value="{DynamicResource Expander.Disabled.Arrow.Stroke}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -217,26 +218,31 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="mainBorder"
-                            Height="25"
-                            Margin="8, 0"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Stretch"
-                            Background="Transparent">
+                    <Border
+                        x:Name="mainBorder"
+                        Height="25"
+                        Margin="8,0"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Background="Transparent">
                         <DockPanel>
-                            <Image x:Name="image" Height="7" Opacity="0.5" Source="{DynamicResource ArrowDown}"/>
-                            <ContentPresenter 
-                                Margin="8, 0"
-                                Grid.Column="1" 
-                                HorizontalAlignment="Stretch" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="True" 
-                                VerticalAlignment="Center"/>
+                            <Image
+                                x:Name="image"
+                                Height="7"
+                                Opacity="0.5"
+                                Source="{DynamicResource ArrowDown}" />
+                            <ContentPresenter
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True" />
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Source" TargetName="image" Value="{DynamicResource ArrowUp}"/>
+                            <Setter TargetName="image" Property="Source" Value="{DynamicResource ArrowUp}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -249,46 +255,43 @@
 
 
     <Style TargetType="{x:Type Expander}">
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Expander}">
-                    <Border BorderBrush="{DynamicResource PanelBorderBackground}" BorderThickness="0, 1, 0, 0">
-                        <Border 
-                            Background="Transparent"
-                            SnapsToDevicePixels="true">
+                    <Border BorderBrush="{DynamicResource PanelBorderBackground}" BorderThickness="0,1,0,0">
+                        <Border Background="Transparent" SnapsToDevicePixels="true">
                             <DockPanel>
 
-                                <ToggleButton 
-                                    x:Name="HeaderSite" 
-                                    ContentTemplate="{TemplateBinding HeaderTemplate}" 
-                                    ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
-                                    Content="{TemplateBinding Header}" 
-                                    DockPanel.Dock="Top" 
+                                <ToggleButton
+                                    x:Name="HeaderSite"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    Content="{TemplateBinding Header}"
+                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                    DockPanel.Dock="Top"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    FontSize="{TemplateBinding FontSize}"
+                                    FontStretch="{TemplateBinding FontStretch}"
+                                    FontStyle="{TemplateBinding FontStyle}"
+                                    FontWeight="{TemplateBinding FontWeight}"
                                     Foreground="{DynamicResource TextBase}"
-                                    FontWeight="{TemplateBinding FontWeight}" 
-                                    FontStyle="{TemplateBinding FontStyle}" 
-                                    FontStretch="{TemplateBinding FontStretch}" 
-                                    FontSize="{TemplateBinding FontSize}" 
-                                    FontFamily="{TemplateBinding FontFamily}" 
-                                    HorizontalContentAlignment="Stretch" 
-                                    IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                    Style="{DynamicResource ExpanderDownHeaderStyle}" 
-                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                    IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Style="{DynamicResource ExpanderDownHeaderStyle}" />
 
-                                <Border Background="{DynamicResource PanelBackground}" 
-                                        HorizontalAlignment="Stretch">
+                                <Border HorizontalAlignment="Stretch" Background="{DynamicResource PanelBackground}">
 
-                                    <ContentPresenter 
-                                        x:Name="ExpandSite" 
-                                        DockPanel.Dock="Bottom" 
-                                        Focusable="false" 
-                                        Visibility="Collapsed" 
+                                    <ContentPresenter
+                                        x:Name="ExpandSite"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        DockPanel.Dock="Bottom"
+                                        Focusable="false"
+                                        Visibility="Collapsed" />
                                 </Border>
 
                             </DockPanel>
@@ -298,11 +301,11 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsExpanded" Value="true">
-                            <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
 
                     </ControlTemplate.Triggers>
@@ -316,43 +319,43 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border 
+                    <Border
                         x:Name="mainBorder"
                         Height="22"
-                        Padding="0, 2"
-                        Background="{DynamicResource HighDarkerColor}" 
+                        Padding="0,2"
+                        Background="{DynamicResource HighDarkerColor}"
                         BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0, 0, 0, 1"
+                        BorderThickness="0,0,0,1"
                         CornerRadius="0">
-                        <Grid Margin="4, 0, 0, 0" SnapsToDevicePixels="False">
+                        <Grid Margin="4,0,0,0" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="19"/>
-                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="19" />
+                                <ColumnDefinition Width="*" />
                             </Grid.ColumnDefinitions>
-                            <Path 
-                                x:Name="arrow" 
-                                Data="M 1,1.5 L 4.5,5 L 8,1.5" 
-                                HorizontalAlignment="Center" 
-                                SnapsToDevicePixels="false" 
-                                Stroke="{DynamicResource TextBase}" 
-                                StrokeThickness="2" 
-                                VerticalAlignment="Center"/>
-                            <ContentPresenter 
-                                Grid.Column="1" 
-                                Margin="4, 0, 0, 0"
-                                HorizontalAlignment="Stretch" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="True" 
-                                VerticalAlignment="Center"/>
+                            <Path
+                                x:Name="arrow"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                                SnapsToDevicePixels="false"
+                                Stroke="{DynamicResource TextBase}"
+                                StrokeThickness="2" />
+                            <ContentPresenter
+                                Grid.Column="1"
+                                Margin="4,0,0,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True" />
                         </Grid>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Data" TargetName="arrow" Value="M 1,4.5  L 4.5,1  L 8,4.5"/>
-                            <Setter Property="CornerRadius" TargetName="mainBorder" Value="0"/>
+                            <Setter TargetName="arrow" Property="Data" Value="M 1,4.5  L 4.5,1  L 8,4.5" />
+                            <Setter TargetName="mainBorder" Property="CornerRadius" Value="0" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="False">
-                            <Setter Property="BorderBrush" TargetName="mainBorder" Value="Transparent"/>
+                            <Setter TargetName="mainBorder" Property="BorderBrush" Value="Transparent" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -361,56 +364,56 @@
     </Style>
 
     <Style x:Key="ItemControlExpander" TargetType="{x:Type Expander}">
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="Margin" Value="0"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Expander}">
-                    <Border 
+                    <Border
                         Background="{DynamicResource HighDarkerColor}"
                         BorderBrush="Transparent"
                         CornerRadius="2"
                         SnapsToDevicePixels="true">
                         <DockPanel>
-                            <ToggleButton 
-                                x:Name="HeaderSite" 
-                                ContentTemplate="{TemplateBinding HeaderTemplate}" 
-                                ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
-                                Content="{TemplateBinding Header}" 
-                                DockPanel.Dock="Top" 
+                            <ToggleButton
+                                x:Name="HeaderSite"
+                                MinWidth="0"
+                                MinHeight="0"
+                                Padding="{TemplateBinding Padding}"
+                                HorizontalContentAlignment="Left"
+                                VerticalContentAlignment="Center"
+                                Content="{TemplateBinding Header}"
+                                ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                DockPanel.Dock="Top"
+                                FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
+                                FontFamily="{TemplateBinding FontFamily}"
+                                FontSize="{TemplateBinding FontSize}"
+                                FontStretch="{TemplateBinding FontStretch}"
+                                FontStyle="{TemplateBinding FontStyle}"
+                                FontWeight="{TemplateBinding FontWeight}"
                                 Foreground="{DynamicResource TextBase}"
-                                FontWeight="{TemplateBinding FontWeight}" 
-                                FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}" 
-                                FontStyle="{TemplateBinding FontStyle}" 
-                                FontStretch="{TemplateBinding FontStretch}" 
-                                FontSize="{TemplateBinding FontSize}" 
-                                FontFamily="{TemplateBinding FontFamily}" 
-                                HorizontalContentAlignment="Left" 
-                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                MinWidth="0" 
-                                MinHeight="0" 
-                                Padding="{TemplateBinding Padding}" 
-                                Style="{DynamicResource ItemControlExpanderHeaderStyle}" 
-                                VerticalContentAlignment="Center"/>
-                            <ContentPresenter 
-                                x:Name="ExpandSite" 
-                                DockPanel.Dock="Bottom" 
-                                Focusable="false" 
-                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
-                                Margin="{TemplateBinding Padding}" 
-                                Visibility="Collapsed" 
-                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                Style="{DynamicResource ItemControlExpanderHeaderStyle}" />
+                            <ContentPresenter
+                                x:Name="ExpandSite"
+                                Margin="{TemplateBinding Padding}"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                DockPanel.Dock="Bottom"
+                                Focusable="false"
+                                Visibility="Collapsed" />
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="true">
-                            <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -420,43 +423,41 @@
 
 
     <Style x:Key="IndentedExpanderStyle" TargetType="{x:Type Expander}">
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
-        <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Expander}">
-                    <Border BorderBrush="{DynamicResource PanelBorderBackground}" BorderThickness="0, 1, 0, 0">
-                        <Border 
-                            Background="Transparent"
-                            SnapsToDevicePixels="true">
+                    <Border BorderBrush="{DynamicResource PanelBorderBackground}" BorderThickness="0,1,0,0">
+                        <Border Background="Transparent" SnapsToDevicePixels="true">
                             <DockPanel>
-                                <ToggleButton 
-                                    x:Name="HeaderSite" 
-                                    AttachedProperties:ExpanderIndentation.Indentation ="{TemplateBinding AttachedProperties:ExpanderIndentation.Indentation}"
-                                    ContentTemplate="{TemplateBinding HeaderTemplate}" 
-                                    ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}" 
-                                    Content="{TemplateBinding Header}" 
-                                    DockPanel.Dock="Top" 
+                                <ToggleButton
+                                    x:Name="HeaderSite"
+                                    HorizontalContentAlignment="Stretch"
+                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                                    AttachedProperties:ExpanderIndentation.Indentation="{TemplateBinding AttachedProperties:ExpanderIndentation.Indentation}"
+                                    Content="{TemplateBinding Header}"
+                                    ContentTemplate="{TemplateBinding HeaderTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
+                                    DockPanel.Dock="Top"
+                                    FontFamily="{TemplateBinding FontFamily}"
+                                    FontSize="{TemplateBinding FontSize}"
+                                    FontStretch="{TemplateBinding FontStretch}"
+                                    FontStyle="{TemplateBinding FontStyle}"
+                                    FontWeight="{TemplateBinding FontWeight}"
                                     Foreground="{DynamicResource TextBase}"
-                                    FontWeight="{TemplateBinding FontWeight}" 
-                                    FontStyle="{TemplateBinding FontStyle}" 
-                                    FontStretch="{TemplateBinding FontStretch}" 
-                                    FontSize="{TemplateBinding FontSize}" 
-                                    FontFamily="{TemplateBinding FontFamily}" 
-                                    HorizontalContentAlignment="Stretch" 
-                                    IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                    Style="{DynamicResource IndentedExpanderStyleHeaderStyle}" 
-                                    VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"/>
-                                <Border Background="{DynamicResource PanelBackground}" HorizontalAlignment="Stretch">
-                                    <ContentPresenter 
-                                        x:Name="ExpandSite" 
-                                        DockPanel.Dock="Bottom" 
-                                        Focusable="false" 
-                                        Visibility="Collapsed" 
+                                    IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                                    Style="{DynamicResource IndentedExpanderStyleHeaderStyle}" />
+                                <Border HorizontalAlignment="Stretch" Background="{DynamicResource PanelBackground}">
+                                    <ContentPresenter
+                                        x:Name="ExpandSite"
                                         HorizontalAlignment="Stretch"
-                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                        DockPanel.Dock="Bottom"
+                                        Focusable="false"
+                                        Visibility="Collapsed" />
                                 </Border>
                             </DockPanel>
                         </Border>
@@ -464,40 +465,45 @@
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsExpanded" Value="true">
-                            <Setter Property="Visibility" TargetName="ExpandSite" Value="Visible"/>
+                            <Setter TargetName="ExpandSite" Property="Visibility" Value="Visible" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    
+
     <Style x:Key="IndentedExpanderStyleHeaderStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="mainBorder"
-                            Margin="{TemplateBinding AttachedProperties:ExpanderIndentation.Indentation}"
-                            Height="25"
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Stretch"
-                            Background="Transparent">
-                        <DockPanel Margin="8, 0, 0, 0">
-                            <Image x:Name="image" Height="7" Opacity="0.5" Source="{DynamicResource ArrowRight}"/>
-                            <ContentPresenter 
-                                Margin="8, 0"
-                                Grid.Column="1" 
-                                HorizontalAlignment="Stretch" 
-                                RecognizesAccessKey="True" 
-                                SnapsToDevicePixels="True" 
-                                VerticalAlignment="Center"/>
+                    <Border
+                        x:Name="mainBorder"
+                        Height="25"
+                        Margin="{TemplateBinding AttachedProperties:ExpanderIndentation.Indentation}"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Center"
+                        Background="Transparent">
+                        <DockPanel Margin="8,0,0,0">
+                            <Image
+                                x:Name="image"
+                                Height="7"
+                                Opacity="0.5"
+                                Source="{DynamicResource ArrowRight}" />
+                            <ContentPresenter
+                                Grid.Column="1"
+                                Margin="8,0"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center"
+                                RecognizesAccessKey="True"
+                                SnapsToDevicePixels="True" />
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsChecked" Value="true">
-                            <Setter Property="Source" TargetName="image" Value="{DynamicResource ArrowDown}"/>
+                            <Setter TargetName="image" Property="Source" Value="{DynamicResource ArrowDown}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

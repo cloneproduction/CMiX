@@ -1,20 +1,40 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <SolidColorBrush x:Key="Shadow" Color="Black" Opacity="0.2"/>
-    <SolidColorBrush x:Key="HighLighting" Color="White" Opacity="0.05"/>
+    <SolidColorBrush
+        x:Key="Shadow"
+        Opacity="0.2"
+        Color="Black" />
+    <SolidColorBrush
+        x:Key="HighLighting"
+        Opacity="0.05"
+        Color="White" />
 
-    <SolidColorBrush x:Key="Accent" Color="#FF5680C2"/>
-    <SolidColorBrush x:Key="AccentInactive" Color="#FF4d6490"/>
-    <!--4d6490-->
+    <SolidColorBrush x:Key="Accent" Color="#FF5680C2" />
+    <SolidColorBrush x:Key="AccentInactive" Color="#FF4d6490" />
+    <!--  4d6490  -->
 
-    <SolidColorBrush x:Key="PanelBackground" Color="Black" Opacity="0.3" />
-    <SolidColorBrush x:Key="PanelBorderBackground" Color="Black" Opacity="0.4" />
-    
-    <SolidColorBrush x:Key="ListBoxBackground" Color="Black" Opacity="0.4" />
-    <SolidColorBrush x:Key="ComboboxBackground" Color="{DynamicResource HighHighDarker}" Opacity="0.90" />
+    <SolidColorBrush
+        x:Key="PanelBackground"
+        Opacity="0.3"
+        Color="Black" />
+    <SolidColorBrush
+        x:Key="PanelBorderBackground"
+        Opacity="0.4"
+        Color="Black" />
 
-    <SolidColorBrush x:Key="ListBoxOutline" Color="Black" Opacity="1.0"/>
+    <SolidColorBrush
+        x:Key="ListBoxBackground"
+        Opacity="0.4"
+        Color="Black" />
+    <SolidColorBrush
+        x:Key="ComboboxBackground"
+        Opacity="0.90"
+        Color="{DynamicResource HighHighDarker}" />
+
+    <SolidColorBrush
+        x:Key="ListBoxOutline"
+        Opacity="1.0"
+        Color="Black" />
 
     <SolidColorBrush x:Key="SuperHighDarkerColor" Color="{DynamicResource SuperHighDarker}" />
     <SolidColorBrush x:Key="HighHighDarkerColor" Color="{DynamicResource HighHighDarker}" />
@@ -25,7 +45,7 @@
     <SolidColorBrush x:Key="LightColor" Color="{DynamicResource Light}" />
     <SolidColorBrush x:Key="HighLightColor" Color="{DynamicResource HighLight}" />
     <SolidColorBrush x:Key="SuperHighLightColor" Color="{DynamicResource SuperHighLight}" />
-    
+
     <SolidColorBrush x:Key="OverColor" Color="{DynamicResource Over}" />
     <SolidColorBrush x:Key="ActiveColor" Color="{DynamicResource Active}" />
     <SolidColorBrush x:Key="TextBase" Color="{DynamicResource Text}" />

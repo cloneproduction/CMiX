@@ -1,25 +1,29 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
-                    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
-                    xmlns:Converters="clr-namespace:CMiX.Studio.Converters">
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Converters="clr-namespace:CMiX.Studio.Converters">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary>
             <Converters:IntToStringConverter x:Key="IntToString" />
 
             <Trigger x:Key="Trigger0" Property="FrameworkElement.IsMouseOver" Value="True">
-                <Setter Property="FrameworkElement.Cursor" Value="Arrow"/>
+                <Setter Property="FrameworkElement.Cursor" Value="Arrow" />
             </Trigger>
 
-            <DataTrigger x:Key="Trigger1" Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
+            <DataTrigger
+                x:Key="Trigger1"
+                Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}"
+                Value="True">
                 <Setter Property="FrameworkElement.Visibility" Value="Hidden" />
             </DataTrigger>
 
             <MultiDataTrigger x:Key="Trigger2">
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
-                    <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True"/>
+                    <Condition Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
+                    <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="FrameworkElement.Visibility" Value="Visible" />
@@ -28,8 +32,8 @@
 
             <MultiDataTrigger x:Key="Trigger3">
                 <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
-                    <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="False"/>
+                    <Condition Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
+                    <Condition Binding="{Binding Path=IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
                 </MultiDataTrigger.Conditions>
                 <MultiDataTrigger.Setters>
                     <Setter Property="FrameworkElement.Visibility" Value="Hidden" />
@@ -102,7 +106,7 @@
             </Setter.Value>
         </Setter>
     </Style>
-    
+
     <Style x:Key="SliderTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Visibility" Value="Hidden"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
@@ -153,8 +157,8 @@
         </Style.Triggers>
     </Style>-->
 
-    
-    
+
+
     <!--<Style x:Key="CMiXCounterStyle" TargetType="Controls:BaseCounter">
         <Setter Property="Focusable" Value="True" />
         <Setter Property="Template">
@@ -162,34 +166,34 @@
                 <ControlTemplate TargetType="Controls:BaseCounter">
                     <Grid>
                         <Border x:Name="borderMask" Style="{DynamicResource BorderMask}"/>
-                        
-                        <Border x:Name="mainBorder" 
+
+                        <Border x:Name="mainBorder"
                                 Style="{StaticResource distanceSliderBorder}">
                             <Border.OpacityMask>
                                 <VisualBrush Visual="{Binding ElementName=borderMask}"/>
                             </Border.OpacityMask>
-                            
+
                             <Grid>
-                                <TextBox x:Name="valueInput" 
+                                <TextBox x:Name="valueInput"
                                     Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                     Style="{StaticResource SliderTextBox}"
                                     Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource IntToString}, UpdateSourceTrigger=LostFocus, RelativeSource={RelativeSource TemplatedParent}}"/>
                                 <DockPanel>
-                                    <Button x:Name="SubButton" 
+                                    <Button x:Name="SubButton"
                                             HorizontalAlignment="Left"
-                                            Content="-" 
+                                            Content="-"
                                             DockPanel.Dock="Left"
                                             Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                             Style="{DynamicResource SliderButton}">
                                     </Button>
-                                    <Button x:Name="AddButton" 
+                                    <Button x:Name="AddButton"
                                             HorizontalAlignment="Right"
-                                            Content="+" 
+                                            Content="+"
                                             DockPanel.Dock="Right"
                                             Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                             Style="{DynamicResource SliderButton}">
                                     </Button>
-                                    <Border x:Name="borderValueDisplay" 
+                                    <Border x:Name="borderValueDisplay"
                                         Background="Transparent">
                                         <Border.Style>
                                             <Style TargetType="Border">
@@ -202,7 +206,7 @@
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
-                                        <Label x:Name="valueDisplay" 
+                                        <Label x:Name="valueDisplay"
                                                 Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                                 Padding="0"
                                                 HorizontalAlignment="Center"
@@ -220,5 +224,5 @@
         </Setter>
     </Style>-->
 
-    
+
 </ResourceDictionary>

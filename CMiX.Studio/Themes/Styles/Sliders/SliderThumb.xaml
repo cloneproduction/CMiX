@@ -1,8 +1,9 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:local="clr-namespace:CMiX.Core.Controls.ColorPicker">
-    
-    
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:CMiX.Core.Controls.ColorPicker">
+
+
     <Style x:Key="SliderRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
         <Setter Property="IsTabStop" Value="false" />
         <Setter Property="Focusable" Value="false" />
@@ -15,45 +16,39 @@
         </Setter>
     </Style>
 
-    
+
     <Style x:Key="SliderHorizontalThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border
-                        BorderBrush="{DynamicResource Color}"
-                        BorderThickness="1, 0">
+                    <Border BorderBrush="{DynamicResource Color}" BorderThickness="1,0">
                         <Rectangle
                             Width="2"
                             Height="20"
-                            Fill="{DynamicResource SuperHighLightColor}">
-                        </Rectangle>
+                            Fill="{DynamicResource SuperHighLightColor}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    
+
     <Style x:Key="SliderVerticalThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Border
-                        BorderBrush="{DynamicResource Color}"
-                        BorderThickness="0, 1">
+                    <Border BorderBrush="{DynamicResource Color}" BorderThickness="0,1">
                         <Rectangle
                             Width="20"
                             Height="2"
-                            Fill="{DynamicResource SuperHighLightColor}">
-                        </Rectangle>
+                            Fill="{DynamicResource SuperHighLightColor}" />
                     </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    
+
 </ResourceDictionary>

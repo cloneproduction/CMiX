@@ -4,59 +4,59 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
 
     <ResourceDictionary.MergedDictionaries>
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Border.xaml"/>
+        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Border.xaml" />
     </ResourceDictionary.MergedDictionaries>
-    
+
     <Style TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="{DynamicResource Color}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
 
                     <Border
                         x:Name="border"
-                        CornerRadius="2"
+                        Padding="4"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Background="{TemplateBinding Background}"
-                        SnapsToDevicePixels="True"
-                        Padding="4">
+                        CornerRadius="2"
+                        SnapsToDevicePixels="True">
 
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
-                            <ContentPresenter Content="{TemplateBinding Content}"/>
+                            <ContentPresenter Content="{TemplateBinding Content}" />
                         </Viewbox>
                     </Border>
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2"/>
+                            <Setter TargetName="border" Property="CornerRadius" Value="2" />
                         </Trigger>
 
                         <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0, 2, 2, 0"/>
+                            <Setter TargetName="border" Property="CornerRadius" Value="0, 2, 2, 0" />
                         </Trigger>
 
                         <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2, 0, 0, 2"/>
+                            <Setter TargetName="border" Property="CornerRadius" Value="2, 0, 0, 2" />
                         </Trigger>
 
                         <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0"/>
+                            <Setter TargetName="border" Property="CornerRadius" Value="0" />
                         </Trigger>
 
                         <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2, 2, 0, 0"/>
+                            <Setter TargetName="border" Property="CornerRadius" Value="2, 2, 0, 0" />
                         </Trigger>
 
                         <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0, 0, 2, 2"/>
+                            <Setter TargetName="border" Property="CornerRadius" Value="0, 0, 2, 2" />
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
@@ -70,7 +70,7 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
@@ -80,7 +80,7 @@
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
@@ -110,7 +110,7 @@
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                        
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -118,27 +118,45 @@
     </Style>
 
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonStraight" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style
+        x:Key="ToggleButtonStraight"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type ToggleButton}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRounded" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style
+        x:Key="ToggleButtonRounded"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type ToggleButton}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRoundedRight" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style
+        x:Key="ToggleButtonRoundedRight"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type ToggleButton}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRoundedLeft" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style
+        x:Key="ToggleButtonRoundedLeft"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type ToggleButton}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRoundedTop" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style
+        x:Key="ToggleButtonRoundedTop"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type ToggleButton}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonRoundedBottom" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style
+        x:Key="ToggleButtonRoundedBottom"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type ToggleButton}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
     </Style>
 
@@ -149,22 +167,22 @@
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="VerticalAlignment" Value="Stretch"/>
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All"/>
-        <Setter Property="HorizontalAlignment" Value="Stretch"/>
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
 
                     <Border
                         x:Name="border"
-                        CornerRadius="2"
+                        Padding="4"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Background="{TemplateBinding Background}"
-                        SnapsToDevicePixels="True"
-                        Padding="4">
-                        <Image x:Name="icon" Source="{DynamicResource IsChecked}"/>
+                        CornerRadius="2"
+                        SnapsToDevicePixels="True">
+                        <Image x:Name="icon" Source="{DynamicResource IsChecked}" />
                     </Border>
 
                     <ControlTemplate.Triggers>
@@ -188,7 +206,7 @@
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
-                                <Setter TargetName="icon" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="icon" Property="Visibility" Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -199,7 +217,7 @@
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
-                                <Setter TargetName="icon" Property="Visibility" Value="Visible"/>
+                                <Setter TargetName="icon" Property="Visibility" Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -210,7 +228,7 @@
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
-                                <Setter TargetName="icon" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="icon" Property="Visibility" Value="Hidden" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -221,7 +239,7 @@
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />
-                                <Setter TargetName="icon" Property="Visibility" Value="Hidden"/>
+                                <Setter TargetName="icon" Property="Visibility" Value="Hidden" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -231,18 +249,24 @@
         </Setter>
     </Style>
 
-    <Style TargetType="{x:Type ToggleButton}" x:Key="ToggleButtonIcon" BasedOn="{StaticResource {x:Type ToggleButton}}">
+    <Style
+        x:Key="ToggleButtonIcon"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="{x:Type ToggleButton}">
         <Setter Property="Border.CornerRadius" Value="2" />
         <Setter Property="Content">
             <Setter.Value>
-                <Run></Run>
+                <Run />
             </Setter.Value>
         </Setter>
         <Style.Triggers>
             <Trigger Property="IsChecked" Value="True">
                 <Setter Property="Content">
                     <Setter.Value>
-                        <Image Opacity="0.75" Margin="2" Source="{DynamicResource IsChecked}"/>
+                        <Image
+                            Margin="2"
+                            Opacity="0.75"
+                            Source="{DynamicResource IsChecked}" />
                     </Setter.Value>
                 </Setter>
             </Trigger>
@@ -253,7 +277,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Padding" Value="3"/>
+        <Setter Property="Padding" Value="3" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
@@ -262,23 +286,27 @@
                         Padding="{TemplateBinding Padding}"
                         Background="{TemplateBinding Background}"
                         SnapsToDevicePixels="True">
-                        <Image x:Name="ImageIcon" Opacity="0.75" Margin="4" Source="{DynamicResource NotVisible}"/>
+                        <Image
+                            x:Name="ImageIcon"
+                            Margin="4"
+                            Opacity="0.75"
+                            Source="{DynamicResource NotVisible}" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource Visible}"/>
+                            <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource Visible}" />
                         </MultiTrigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="false" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource NotVisible}"/>
+                                <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource NotVisible}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -288,22 +316,22 @@
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource Visible}"/>
-                                <Setter TargetName="ImageIcon" Property="Opacity" Value="0.9"/>
+                                <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource Visible}" />
+                                <Setter TargetName="ImageIcon" Property="Opacity" Value="0.9" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="false" />
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource NotVisible}"/>
-                                <Setter TargetName="ImageIcon" Property="Opacity" Value="0.9"/>
+                                <Setter TargetName="ImageIcon" Property="Source" Value="{DynamicResource NotVisible}" />
+                                <Setter TargetName="ImageIcon" Property="Opacity" Value="0.9" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
-                        
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -319,32 +347,32 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="border"
-                        CornerRadius="2"
                         Background="{DynamicResource DarkerColor}"
+                        CornerRadius="2"
                         SnapsToDevicePixels="True">
                         <DockPanel>
-                            <Path 
-                                x:Name="arrow" 
-                                Margin="0, 0, 8, 0"
+                            <Path
+                                x:Name="arrow"
+                                Margin="0,0,8,0"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Data="M 1,1.5 L 4.5,5 L 8,1.5"
                                 DockPanel.Dock="Right"
-                                Data="M 1,1.5 L 4.5,5 L 8,1.5" 
-                                HorizontalAlignment="Center" 
-                                SnapsToDevicePixels="false" 
-                                Stroke="{DynamicResource TextBase}" 
                                 Opacity="0.5"
-                                StrokeThickness="2" 
-                                VerticalAlignment="Center"/>
-                            <TextBlock Padding="8, 4, 4, 4" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, UpdateSourceTrigger=PropertyChanged}"/>
+                                SnapsToDevicePixels="false"
+                                Stroke="{DynamicResource TextBase}"
+                                StrokeThickness="2" />
+                            <TextBlock Padding="8,4,4,4" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
                     </Border>
-                    
+
                     <ControlTemplate.Triggers>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter Property="Background" TargetName="border" Value="{DynamicResource DarkColor}"/>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -352,8 +380,8 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}"/>
-                            <Setter TargetName="arrow" Property="Opacity" Value="1.0"/>
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="arrow" Property="Opacity" Value="1.0" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -361,9 +389,7 @@
                                 <Condition Property="IsChecked" Value="false" />
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-
-                            </MultiTrigger.Setters>
+                            <MultiTrigger.Setters />
                         </MultiTrigger>
 
                     </ControlTemplate.Triggers>
@@ -372,7 +398,7 @@
         </Setter>
     </Style>
 
-    
+
     <Style x:Key="ToggleModifierVisibility" TargetType="{x:Type ToggleButton}">
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -384,7 +410,7 @@
                         Padding="3"
                         Background="Transparent"
                         SnapsToDevicePixels="True">
-                        <Image x:Name="icon" Source="{DynamicResource NotVisible}"/>
+                        <Image x:Name="icon" Source="{DynamicResource NotVisible}" />
                     </Border>
 
                     <ControlTemplate.Triggers>
@@ -392,9 +418,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-
-                            </MultiTrigger.Setters>
+                            <MultiTrigger.Setters />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -402,8 +426,8 @@
                                 <Condition Property="IsChecked" Value="true" />
                                 <Condition Property="IsMouseOver" Value="false" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="icon" Property="Opacity" Value="0.5"/>
-                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource Visible}"/>
+                            <Setter TargetName="icon" Property="Opacity" Value="0.5" />
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource Visible}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -411,8 +435,8 @@
                                 <Condition Property="IsChecked" Value="false" />
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource NotVisible}"/>
-                            <Setter TargetName="icon" Property="Opacity" Value="1.0"/>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource NotVisible}" />
+                            <Setter TargetName="icon" Property="Opacity" Value="1.0" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -420,20 +444,20 @@
                                 <Condition Property="IsChecked" Value="false" />
                                 <Condition Property="IsMouseOver" Value="false" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource NotVisible}"/>
-                            <Setter TargetName="icon" Property="Opacity" Value="0.7"/>
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource NotVisible}" />
+                            <Setter TargetName="icon" Property="Opacity" Value="0.7" />
                         </MultiTrigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="icon" Property="Opacity" Value="1.0"/>
-                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource Visible}"/>
+                            <Setter TargetName="icon" Property="Opacity" Value="1.0" />
+                            <Setter TargetName="icon" Property="Source" Value="{DynamicResource Visible}" />
 
                         </MultiTrigger>
-                        
+
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -444,50 +468,49 @@
 
 
     <Style x:Key="InlineToggleButtonLeft" TargetType="{x:Type ToggleButton}">
-        <Setter Property="VerticalContentAlignment" Value="Center"/>
+        <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="radioButtonBorder" 
-                            Background="{DynamicResource DarkColor}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border x:Name="radioButtonBorder" Background="{DynamicResource DarkColor}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="False"/>
-                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Color}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Color}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -499,48 +522,47 @@
 
     <Style x:Key="InlineToggleButtonRight" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="radioButtonBorder" 
-                            Background="{DynamicResource DarkColor}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border x:Name="radioButtonBorder" Background="{DynamicResource DarkColor}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="False"/>
-                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Color}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Color}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -552,48 +574,47 @@
 
     <Style x:Key="InlineToggleButtonCenter" TargetType="{x:Type ToggleButton}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}"/>
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    <Border x:Name="radioButtonBorder" 
-                            Background="{DynamicResource DarkColor}">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    <Border x:Name="radioButtonBorder" Background="{DynamicResource DarkColor}">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                     </Border>
 
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsEnabled" Value="false">
-                            <Setter Property="Opacity" Value="0.5"/>
+                            <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="False"/>
-                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Color}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Color}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="IsMouseOver" Value="False"/>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="True"/>
-                                <Condition Property="IsMouseOver" Value="True"/>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}"/>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 

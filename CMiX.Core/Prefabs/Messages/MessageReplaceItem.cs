@@ -3,22 +3,22 @@
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageReplacePrefab : IMessageManager
+    public class MessageReplaceItem : IMessageManager
     {
-        public MessageReplacePrefab()
+        public MessageReplaceItem()
         {
 
         }
 
-        public MessageReplacePrefab(Guid id, IControlModel controlModel, EmptyPrefab emptyPrefab)
+        public MessageReplaceItem(Guid id, IControlModel controlModel, int index)
         {
             ID = id;
             ControlModel = controlModel;
-            emptyPrefabID = emptyPrefab.ID;
+            Index = index;
         }
 
         public Guid ID { get; set; }
         public IControlModel ControlModel { get; private set; }
-        public Guid emptyPrefabID { get; private set; }
+        public int Index { get; private set; }
     }
 }

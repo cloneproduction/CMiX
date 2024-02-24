@@ -87,45 +87,35 @@
 
 
             <DockPanel Margin="0,8,0,0">
-                <ComboBox
-                    x:Name="prefabCombobox"
+                <ToggleButton
+                    x:Name="ToggleItemSelection"
                     Height="22"
-                    DockPanel.Dock="Left"
-                    ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}"
-                    SelectedValue="{Binding SelectedItem}">
+                    Margin="0,4"
+                    Background="{DynamicResource DarkerColor}"
+                    IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+                    Style="{StaticResource ToggleTransformModifierMenu}" />
 
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" />
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
+                <Popup
+                    Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
+                    AllowsTransparency="True"
+                    FlowDirection="LeftToRight"
+                    IsOpen="{Binding IsChecked, ElementName=ToggleItemSelection}"
+                    Placement="Bottom"
+                    PlacementTarget="{Binding ElementName=ToggleItemSelection}">
 
-                    <ComboBox.Style>
+                    <ItemsControl ItemsSource="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Height="22"
+                                    Command="{Binding DataContext.ReplaceSelectedItemCommand, ElementName=prefabSlotManager}"
+                                    CommandParameter="{Binding}"
+                                    Content="{Binding PrefabService.Name.Value}" />
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
 
-                        <Style BasedOn="{StaticResource ComboBoxButton}" TargetType="{x:Type ComboBox}">
-                            <Style.Triggers>
-
-                                <MultiDataTrigger>
-                                    <MultiDataTrigger.Conditions>
-                                        <Condition Binding="{Binding ElementName=prefabCombobox, Path=HasItems}" Value="False" />
-                                    </MultiDataTrigger.Conditions>
-                                    <Setter Property="IsEnabled" Value="False" />
-                                </MultiDataTrigger>
-
-                            </Style.Triggers>
-                        </Style>
-
-                    </ComboBox.Style>
-
-                    <ComboBox.ItemTemplate>
-                        <ItemContainerTemplate>
-                            <Border>
-                                <TextBlock Text="{Binding Name.Value}" />
-                            </Border>
-                        </ItemContainerTemplate>
-                    </ComboBox.ItemTemplate>
-
-                </ComboBox>
+                </Popup>
 
                 <Grid DockPanel.Dock="Right">
 
@@ -133,7 +123,7 @@
                         <TextBox
                             Padding="4,0"
                             Background="Transparent"
-                            Text="{Binding SelectedItem.Name.Value, ElementName=prefabCombobox}" />
+                            Text="{Binding DataContext.ManagerData.SelectedItem.PrefabService.Name.Value, ElementName=prefabSlotManager, UpdateSourceTrigger=PropertyChanged}" />
                     </Border>
 
                     <ToggleButton
@@ -175,7 +165,7 @@
                             BorderThickness="1,0,1,2"
                             CornerRadius="{DynamicResource CornerRadiusBottom}">
 
-                            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding }" />
+                            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
 
                         </Border>
 

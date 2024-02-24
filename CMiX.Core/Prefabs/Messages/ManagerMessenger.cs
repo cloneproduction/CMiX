@@ -57,9 +57,9 @@ namespace CMiX.Core.Prefabs.Messages
             Send(message);
         }
 
-        public void SendReplaceEmptyPrefab(Guid id, IPrefab prefab, EmptyPrefab emptyPrefab)
+        public void SendReplaceItem(Guid id, IPrefab newPrefab, int index)
         {
-            var message = new MessageReplacePrefab(id, Mapper.Map<IControlModel>(prefab), emptyPrefab);
+            var message = new MessageReplaceItem(id, Mapper.Map<IControlModel>(newPrefab), index);
             Send(message);
         }
 

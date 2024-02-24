@@ -4,6 +4,9 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Data;
+using CMiX.Core.Compositing;
+using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -17,12 +20,14 @@ namespace CMiX.Core.Prefabs
             Textures = CollectionViewSource.GetDefaultView(Controls);
             Textures.Filter = new Predicate<object>(this.FilterTexture);
 
+            Entities = CollectionViewSource.GetDefaultView(Controls);
+            Entities.Filter = new Predicate<object>(this.FilterEntities);
+
             BindingOperations.EnableCollectionSynchronization(Controls, this);
         }
 
 
-
-        private int nameCount = 0;
+        private int nameCount = 1;
         public ObservableCollection<IControl> Controls { get; set; }
 
 
@@ -34,12 +39,34 @@ namespace CMiX.Core.Prefabs
             return false;
         }
 
+        public bool FilterEntities(object item)
+        {
+            if (item is Camera || item is LightEntity || item is Entity)
+                return true;
+
+            return false;
+        }
+
+
         public void AddControl(IControl control)
         {
             Controls.Add(control);
-            //control.Name.Value = control.GetType().Name + nameCount.ToString();
-            nameCount++;
+            NamePrefab(control);
             Console.WriteLine("PrefabRepository Count is " + Controls.Count().ToString());
+        }
+
+        void NamePrefab(IControl control)
+        {
+            if(control is IPrefab prefab)
+            {
+                var prefabs = Controls.OfType<IPrefab>().ToList();
+
+                if(prefabs.FirstOrDefault(x => x.PrefabService.Name.Value == prefab.PrefabService.Name.Value) != null)
+                {
+                    prefab.PrefabService.Name.Value = control.GetType().Name + "." + string.Format("{0:000}", nameCount);
+                    nameCount++;
+                }
+            }
         }
 
         private ICollectionView _textures;
@@ -47,6 +74,13 @@ namespace CMiX.Core.Prefabs
         {
             get => _textures;
             set => SetProperty(ref _textures, value);
+        }
+
+        private ICollectionView _entities;
+        public ICollectionView Entities
+        {
+            get => _entities;
+            set => SetProperty(ref _entities, value);
         }
 
         public IControl GetPrefab(Guid id)

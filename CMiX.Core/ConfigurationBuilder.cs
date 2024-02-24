@@ -119,6 +119,7 @@ namespace CMiX.Core
 
                 Dictionary<Type, Func<IControl>> controlFactory = new Dictionary<Type, Func<IControl>>()
                 {
+                    ////PREFABS
                     [typeof(EmptyPrefab)] = () => mapper.Map(new EmptyPrefabModel(), x.GetRequiredService<EmptyPrefab>()),
                     [typeof(Composition)] = () => mapper.Map(new CompositionModel(), x.GetRequiredService<Composition>()),
                     [typeof(Layer)] = () => mapper.Map(new LayerModel(), x.GetRequiredService<Layer>()),
@@ -127,13 +128,20 @@ namespace CMiX.Core
                     [typeof(Texture)] = () => mapper.Map(new TextureModel(), x.GetRequiredService<Texture>()),
                     [typeof(Camera)] = () => mapper.Map(new CameraModel(), x.GetRequiredService<Camera>()),
 
+
+                    ////TEXTURE FILTERS
                     [typeof(HSCB)] = () => mapper.Map(new HSCBModel(), x.GetRequiredService<HSCB>()),
                     [typeof(Blur)] = () => mapper.Map(new BlurModel(), x.GetRequiredService<Blur>()),
                     [typeof(RandomUV)] = () => mapper.Map(new RandomUVModel(), x.GetRequiredService<RandomUV>()),
+                    [typeof(Feedback)] = () => mapper.Map(new FeedbackModel(), x.GetRequiredService<Feedback>()),
+                    [typeof(Pixelate)] = () => mapper.Map(new PixelateModel(), x.GetRequiredService<Pixelate>()),
+
 
                     [typeof(RandomHSV)] = () => mapper.Map(new RandomHSVModel(), x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRT)] = () => mapper.Map(new TransformSRTModel(), x.GetRequiredService<TransformSRT>()),
                     [typeof(RandomXYZ)] = () => mapper.Map(new RandomXYZModel(), x.GetRequiredService<RandomXYZ>()),
+                    [typeof(GaussianXYZ)] = () => mapper.Map(new GaussianXYZModel(), x.GetRequiredService<GaussianXYZ>()),
+
 
                     [typeof(Scale)] = () => mapper.Map(new ScaleModel(), x.GetRequiredService<Scale>()),
                     [typeof(Rotation)] = () => mapper.Map(new RotationModel(), x.GetRequiredService<Rotation>()),
@@ -143,8 +151,10 @@ namespace CMiX.Core
                     [typeof(RandomScale)] = () => mapper.Map(new RandomScaleModel(), x.GetRequiredService<RandomScale>()),
                     [typeof(Stepper)] = () => mapper.Map(new StepperModel(), x.GetRequiredService<Stepper>()),
 
+
                     [typeof(CameraLFO)] = () => mapper.Map(new CameraLFOModel(), x.GetRequiredService<CameraLFO>()),
                     [typeof(CameraRandom)] = () => mapper.Map(new CameraRandomModel(), x.GetRequiredService<CameraRandom>()),
+
 
                     [typeof(RandomPosition)] = () => mapper.Map(new RandomPositionModel(), x.GetRequiredService<RandomPosition>()),
                     [typeof(RandomRotation)] = () => mapper.Map(new RandomRotationModel(), x.GetRequiredService<RandomRotation>()),
@@ -152,6 +162,8 @@ namespace CMiX.Core
 
                 Dictionary<Type, Func<IControlModel, IControl>> controlModelFactory = new Dictionary<Type, Func<IControlModel, IControl>>()
                 {
+
+                    ////PREFABS
                     [typeof(EmptyPrefabModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<EmptyPrefab>()),
                     [typeof(CompositionModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Composition>()),
                     [typeof(LayerModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Layer>()),
@@ -160,13 +172,18 @@ namespace CMiX.Core
                     [typeof(TextureModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Texture>()),
                     [typeof(CameraModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Camera>()),
 
+                    ////TEXTURE FILTERS
                     [typeof(HSCBModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<HSCB>()),
                     [typeof(BlurModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Blur>()),
                     [typeof(RandomUVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomUV>()),
+                    [typeof(FeedbackModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Feedback>()),
+                    [typeof(PixelateModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Pixelate>()),
+
 
                     [typeof(RandomHSVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomHSV>()),
                     [typeof(TransformSRTModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<TransformSRT>()),
                     [typeof(RandomXYZModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomXYZ>()),
+                    [typeof(GaussianXYZModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<GaussianXYZ>()),
                     [typeof(ScaleModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Scale>()),
                     [typeof(RotationModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Rotation>()),
                     [typeof(TranslateModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Translate>()),

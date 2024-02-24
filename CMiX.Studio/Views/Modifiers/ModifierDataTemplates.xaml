@@ -69,6 +69,10 @@
         <Views:RandomXYZ DataContext="{Binding}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type TransformModifiers:GaussianXYZ}">
+        <Views:RandomXYZ DataContext="{Binding}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type TransformModifiers:LFO}">
         <Views:LFO DataContext="{Binding}" />
     </DataTemplate>

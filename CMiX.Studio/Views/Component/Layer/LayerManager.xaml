@@ -119,7 +119,7 @@
                         Height="20"
                         Margin="2"
                         Background="Transparent"
-                        Command="{Binding ManagerReorderService.ItemUpCommand}"
+                        Command="{Binding ItemUpCommand}"
                         Style="{StaticResource ButtonRounded}">
                         <Button.Content>
                             <Image
@@ -133,7 +133,7 @@
                         Height="20"
                         Margin="2"
                         Background="Transparent"
-                        Command="{Binding ManagerReorderService.ItemDownCommand}"
+                        Command="{Binding ItemDownCommand}"
                         Style="{StaticResource ButtonRounded}">
                         <Button.Content>
                             <Image
@@ -148,7 +148,7 @@
                         Margin="4"
                         Background="Transparent"
                         Command="{Binding DeleteItemCommand}"
-                        CommandParameter="{Binding SelectedItem}"
+                        CommandParameter="{Binding ManagerData.SelectedItem}"
                         DockPanel.Dock="Right"
                         Style="{StaticResource ButtonRounded}">
                         <Button.Content>

@@ -6,6 +6,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
@@ -29,5 +30,7 @@ namespace CMiX.Core.Compositing
         public PrefabManagerBase ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
+
+
     }
 }
