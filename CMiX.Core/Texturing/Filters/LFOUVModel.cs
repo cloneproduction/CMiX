@@ -16,26 +16,25 @@ namespace CMiX.Core.Texturing.Filters
             Visible = new GenericValueModel<bool>(true);
             BeatModifier = new BeatModifierModel();
             PingPong = new GenericValueModel<bool>();
-            XAxis = new GenericValueModel<bool>();
-            YAxis = new GenericValueModel<bool>();
-            ZAxis = new GenericValueModel<bool>();
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
+            XAxis = new GenericValueModel<bool>(false);
+            YAxis = new GenericValueModel<bool>(true);
+            ZAxis = new GenericValueModel<bool>(false);
             TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
             Easing = new EasingModel();
-            From = new GenericValueModel<float>(0.0f);
+            From = new GenericValueModel<float>(-1.0f);
             To = new GenericValueModel<float>(1.0f);
             SamplerState = new SamplerStateModel();
         }
 
         public Guid ID { get; set; }
         public GenericValueModel<bool> Visible { get; set; }
+        public GenericValueModel<TransformType> TransformType { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<bool> PingPong { get; set; }
         public GenericValueModel<bool> XAxis { get; set; }
         public GenericValueModel<bool> YAxis { get; set; }
         public GenericValueModel<bool> ZAxis { get; set; }
         public GenericValueModel<ModifierMode> Mode { get; set; }
-        public GenericValueModel<TransformType> TransformType { get; set; }
         public EasingModel Easing { get; set; }
         public GenericValueModel<float> From { get; set; }
         public GenericValueModel<float> To { get; set; }

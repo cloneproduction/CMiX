@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Windows.Data;
 using CMiX.Core.Compositing;
 using CMiX.Core.Rendering.Cameras;
@@ -17,15 +16,10 @@ namespace CMiX.Core.Prefabs
         public ControlRepository()
         {
             Controls = new ObservableCollection<IControl>();
-            Textures = CollectionViewSource.GetDefaultView(Controls);
-            Textures.Filter = new Predicate<object>(this.FilterTexture);
-
-            Entities = CollectionViewSource.GetDefaultView(Controls);
-            Entities.Filter = new Predicate<object>(this.FilterEntities);
-
+            Textures = new ObservableCollection<IPrefab>();
+            Entities = new ObservableCollection<IPrefab>();
             BindingOperations.EnableCollectionSynchronization(Controls, this);
         }
-
 
         private int nameCount = 1;
         public ObservableCollection<IControl> Controls { get; set; }
@@ -52,6 +46,7 @@ namespace CMiX.Core.Prefabs
         {
             Controls.Add(control);
             NamePrefab(control);
+            AddToSpecificRepo(control);
             Console.WriteLine("PrefabRepository Count is " + Controls.Count().ToString());
         }
 
@@ -69,15 +64,27 @@ namespace CMiX.Core.Prefabs
             }
         }
 
-        private ICollectionView _textures;
-        public ICollectionView Textures
+
+        void AddToSpecificRepo(IControl control)
+        {
+            var prefab = control as IPrefab;
+
+            if (control is Texture)
+                Textures.Add(prefab);
+
+            if(control is Camera || control is LightEntity || control is Entity)
+                Entities.Add(prefab);
+        }
+
+        private ObservableCollection<IPrefab> _textures;
+        public ObservableCollection<IPrefab> Textures
         {
             get => _textures;
             set => SetProperty(ref _textures, value);
         }
 
-        private ICollectionView _entities;
-        public ICollectionView Entities
+        private ObservableCollection<IPrefab> _entities;
+        public ObservableCollection<IPrefab> Entities
         {
             get => _entities;
             set => SetProperty(ref _entities, value);

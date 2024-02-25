@@ -4,26 +4,28 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
     public partial class LFOUV : ObservableObject, ITextureModifier, IBeatModifiable
     {
-        public LFOUV(
-            GenericValue<bool> visible, 
-            BeatModifier beatModifier, 
-            Easing easing, 
-            ModifierModeSelector modifierModeSelector, 
-            GenericValue<bool> pingPong, 
-            GenericValue<bool> xAxis, 
-            GenericValue<bool> yAxis, 
-            GenericValue<bool> zAxis, 
-            GenericValue<float> from,
-            GenericValue<float> to,
-            SamplerState samplerState)
+        public LFOUV(GenericValue<bool> visible, 
+                     GenericValue<TransformType> transformType, 
+                     BeatModifier beatModifier, 
+                     Easing easing, 
+                     ModifierModeSelector modifierModeSelector, 
+                     GenericValue<bool> pingPong, 
+                     GenericValue<bool> xAxis, 
+                     GenericValue<bool> yAxis, 
+                     GenericValue<bool> zAxis, 
+                     GenericValue<float> from,
+                     GenericValue<float> to,
+                     SamplerState samplerState)
         {
             Visible = visible;
+            TransformType = transformType;
             BeatModifier = beatModifier;
             Easing = easing;
             ModifierModeSelector = modifierModeSelector;
@@ -33,15 +35,15 @@ namespace CMiX.Core.Texturing.Filters
             YAxis = yAxis;
             ZAxis = zAxis;
 
-            From = from; // new GenericValue<float>(0.0f);
-            To = to; // new GenericValue<float>(1.0f);
+            From = from;
+            To = to;
             SamplerState = samplerState;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-
         public BeatModifier BeatModifier { get; set; }
         public GenericValue<bool> Visible { get; set; }
+        public GenericValue<TransformType> TransformType { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public GenericValue<bool> XAxis { get; set; }
         public GenericValue<bool> YAxis { get; set; }

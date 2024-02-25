@@ -2,29 +2,30 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
-using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class Button : ObservableRecipient, IControl//, IRecipient<MessageRequestControl>
+    public class Button : ObservableRecipient, IControl, IRecipient<IMessage>
     {
         public Button()
         {
             
         }
-        public Button(ControlMessenger controlMessenger)
+        public Button(EventMessenger eventMessenger)
         {
-            ControlMessenger = controlMessenger;
+            ID = Guid.NewGuid();
+            EventMessenger = eventMessenger;
             ClickCommand = new RelayCommand(OnClick);
             IsActive = true;
         }
 
         public ICommand ClickCommand { get; set; }
-        ControlMessenger ControlMessenger { get; set; }
+        EventMessenger EventMessenger { get; set; }
 
         public delegate void ClickEventHandler(object source, EventArgs args);
         public event ClickEventHandler Click;
@@ -32,14 +33,15 @@ namespace CMiX.Core.BaseControls
         public void OnClick()
         {
             Click?.Invoke(this, null);
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageOnClick(ID), MessageType.Out);
+            EventMessenger.SendMessageEvent(this.ID);
+
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
 
-        //public void Receive(MessageRequestControl message)
-        //{
-        //    //ControlMessenger.Receive(this, message);
-        //}
+        public void Receive(IMessage message)
+        {
+            EventMessenger.Receive(this, message);
+        }
     }
 }

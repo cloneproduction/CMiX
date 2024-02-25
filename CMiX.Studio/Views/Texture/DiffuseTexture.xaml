@@ -40,6 +40,15 @@
 
                 <DockPanel>
 
+                    <!--<Button
+                        Width="20"
+                        Margin="1,0,0,0"
+                        Command="{Binding TextureManager.DeleteItemCommand}"
+                        CommandParameter="{Binding TextureManager.ManagerData.SelectedItem}"
+                        Content="-"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource ButtonRoundedRight}" />-->
+
                     <Button
                         Grid.Column="2"
                         Margin="1,0,0,0"
@@ -144,7 +153,54 @@
                     </Style>
                 </Border.Style>
 
-                <Views:TypeWriter DataContext="{Binding Path=TextureManager.ManagerData.SelectedItem.TypeWriter}" />
+                <!--<Views:TypeWriter DataContext="{Binding Path=TextureManager.ManagerData.SelectedItem.TypeWriter}" />-->
+
+                <StackPanel>
+
+                    <TextBox
+                        Height="44"
+                        Style="{StaticResource TypeWriterStyle}"
+                        Text="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.StringControl.Value, UpdateSourceTrigger=PropertyChanged}" />
+
+                    <BaseControls:ComboBox
+                        Margin="0,8,0,1"
+                        Caption="Font Family"
+                        ItemsSource="{Binding Source={StaticResource SortedFontsCollection}}"
+                        Position="Top"
+                        SelectedItem="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
+
+                    <BaseControls:ComboBox
+                        Caption="Style"
+                        ItemsSource="{Binding Source={StaticResource FontStyle}}"
+                        Position="Bottom"
+                        SelectedItem="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.Style.Value}" />
+
+                    <BaseControls:DragValue
+                        Margin="0,8"
+                        Caption="Size"
+                        Value="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.FontSize.Value}" />
+
+                    <BaseControls:ColorSelector
+                        Caption="Font Color"
+                        Position="Top"
+                        SelectedColor="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.FontColor.Value}"
+                        ViewModel="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.FontColor}" />
+
+                    <BaseControls:ColorSelector
+                        Margin="0,1,0,0"
+                        Caption="Background Color"
+                        Position="Bottom"
+                        SelectedColor="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.BackgroundColor.Value}"
+                        ViewModel="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.BackgroundColor}" />
+
+                    <BaseControls:Vector2
+                        Margin="0,8"
+                        Caption="Position"
+                        DataContext="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.Position}" />
+
+                    <BaseControls:Integer2Value Caption="Resolution" DataContext="{Binding TextureManager.ManagerData.SelectedItem.TypeWriter.Resolution}" />
+
+                </StackPanel>
 
             </Border>
 

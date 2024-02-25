@@ -12,7 +12,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             ID = Guid.NewGuid();
             Visible = new GenericValueModel<bool>(true);
-            Factor = new GenericValueModel<float>();
+            Factor = new GenericValueModel<float>(0.9f);
         }
 
         public GenericValueModel<bool> Visible { get; set; }

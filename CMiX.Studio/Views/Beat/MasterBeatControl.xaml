@@ -28,7 +28,7 @@
             Background="Transparent"
             Content="P"
             DockPanel.Dock="Right"
-            IsChecked="{Binding Pause.IsChecked}"
+            IsChecked="{Binding Pause.Value}"
             Style="{StaticResource ToggleButtonRounded}" />
 
         <Button

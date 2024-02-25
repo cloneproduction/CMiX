@@ -15,6 +15,7 @@ using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Cameras.Modifiers;
 using CMiX.Core.Rendering.Lights;
@@ -57,6 +58,7 @@ namespace CMiX.Core
             ////////
             services.AddSingleton<MessageProcessor>();
             services.AddSingleton<ControlMessenger>();
+            services.AddSingleton<EventMessenger>();
 
 
 
@@ -131,10 +133,15 @@ namespace CMiX.Core
 
                     ////TEXTURE FILTERS
                     [typeof(HSCB)] = () => mapper.Map(new HSCBModel(), x.GetRequiredService<HSCB>()),
+                    [typeof(Invert)] = () => mapper.Map(new InvertModel(), x.GetRequiredService<Invert>()),
+                    [typeof(Edge)] = () => mapper.Map(new EdgeModel(), x.GetRequiredService<Edge>()),
                     [typeof(Blur)] = () => mapper.Map(new BlurModel(), x.GetRequiredService<Blur>()),
                     [typeof(RandomUV)] = () => mapper.Map(new RandomUVModel(), x.GetRequiredService<RandomUV>()),
                     [typeof(Feedback)] = () => mapper.Map(new FeedbackModel(), x.GetRequiredService<Feedback>()),
                     [typeof(Pixelate)] = () => mapper.Map(new PixelateModel(), x.GetRequiredService<Pixelate>()),
+                    [typeof(LFOUV)] = () => mapper.Map(new LFOUVModel(), x.GetRequiredService<LFOUV>()),
+                    [typeof(Echo)] = () => mapper.Map(new EchoModel(), x.GetRequiredService<Echo>()),
+                    [typeof(TransformTexture)] = () => mapper.Map(new TransformTextureModel(), x.GetRequiredService<TransformTexture>()),
 
 
                     [typeof(RandomHSV)] = () => mapper.Map(new RandomHSVModel(), x.GetRequiredService<RandomHSV>()),
@@ -162,22 +169,26 @@ namespace CMiX.Core
 
                 Dictionary<Type, Func<IControlModel, IControl>> controlModelFactory = new Dictionary<Type, Func<IControlModel, IControl>>()
                 {
-
                     ////PREFABS
                     [typeof(EmptyPrefabModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<EmptyPrefab>()),
                     [typeof(CompositionModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Composition>()),
                     [typeof(LayerModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Layer>()),
                     [typeof(EntityModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Entity>()),
-                    [typeof(LightEntityModel)] = prefabModel => mapper.Map<IControlModel, IControl>(prefabModel, x.GetRequiredService<LightEntity>()),
+                    [typeof(LightEntityModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<LightEntity>()),
                     [typeof(TextureModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Texture>()),
                     [typeof(CameraModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Camera>()),
 
                     ////TEXTURE FILTERS
                     [typeof(HSCBModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<HSCB>()),
+                    [typeof(InvertModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Invert>()),
+                    [typeof(EdgeModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Edge>()),
                     [typeof(BlurModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Blur>()),
                     [typeof(RandomUVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomUV>()),
                     [typeof(FeedbackModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Feedback>()),
                     [typeof(PixelateModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Pixelate>()),
+                    [typeof(LFOUVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<LFOUV>()),
+                    [typeof(EchoModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<Echo>()),
+                    [typeof(TransformTextureModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<TransformTexture>()),
 
 
                     [typeof(RandomHSVModel)] = prefabModel => mapper.Map(prefabModel, x.GetRequiredService<RandomHSV>()),

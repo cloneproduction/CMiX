@@ -1,60 +1,53 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.TypeWriter"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             mc:Ignorable="d"
-             d:DesignHeight="450.779" d:DesignWidth="280.26"
-             md:DialogServiceViews.IsRegistered="True">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.TypeWriter"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="450.779"
+    d:DesignWidth="280.26"
+    md:DialogServiceViews.IsRegistered="True"
+    mc:Ignorable="d">
 
-    <StackPanel>
+    <!--<StackPanel>
 
-        <TextBox Height="44" 
-                 Text="{Binding StringControl.Value, UpdateSourceTrigger=PropertyChanged}" 
+        <TextBox Height="44"
+                 Text="{Binding StringControl.Value, UpdateSourceTrigger=PropertyChanged}"
                  Style="{StaticResource TypeWriterStyle}">
-            <!--<i:Interaction.Triggers>
-                <i:EventTrigger  EventName="LostFocus">
-                    <i:InvokeCommandAction Command="{Binding TextInputLostFocusCommand}" CommandParameter="{Binding ., ElementName=textBox1}" />
-                </i:EventTrigger>
-                <i:EventTrigger  EventName="GotFocus">
-                    <i:InvokeCommandAction Command="{Binding TextInputGotFocusCommand}" CommandParameter="{Binding ., ElementName=textBox1}" />
-                </i:EventTrigger>
-            </i:Interaction.Triggers>-->
         </TextBox>
 
-        <BaseControl:ComboBox 
+        <BaseControl:ComboBox
             Caption="Font Family"
             Position="Top"
-            Margin="0, 8, 0, 1" 
-            ItemsSource="{Binding Source={StaticResource SortedFontsCollection}}" 
+            Margin="0, 8, 0, 1"
+            ItemsSource="{Binding Source={StaticResource SortedFontsCollection}}"
             SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}"/>
 
-        <BaseControl:ComboBox 
+        <BaseControl:ComboBox
             Caption="Style"
             Position="Bottom"
-            ItemsSource="{Binding Source={StaticResource FontStyle}}" 
+            ItemsSource="{Binding Source={StaticResource FontStyle}}"
             SelectedItem="{Binding Style.Value}"/>
 
-        <BaseControl:DragValue 
-            Caption="Size" 
-            Value="{Binding FontSize.Value}" 
+        <BaseControl:DragValue
+            Caption="Size"
+            Value="{Binding FontSize.Value}"
             Margin="0, 8"/>
 
         <BaseControl:ColorSelector
             Caption="Font Color"
             Position="Top"
             ViewModel="{Binding FontColor}"
-            SelectedColor="{Binding FontColor.SelectedColor}"/>
+            SelectedColor="{Binding FontColor.Value}"/>
 
         <BaseControl:ColorSelector
             Caption="Background Color"
             Margin="0, 1, 0, 0"
             Position="Bottom"
             ViewModel="{Binding BackgroundColor}"
-            SelectedColor="{Binding BackgroundColor.SelectedColor}"/>
+            SelectedColor="{Binding BackgroundColor.Value}"/>
 
         <BaseControl:Vector2
             Margin="0, 8"
@@ -65,6 +58,6 @@
             Caption="Resolution"
             DataContext="{Binding Resolution}"/>
 
-    </StackPanel>
+    </StackPanel>-->
 
 </UserControl>

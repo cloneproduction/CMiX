@@ -12,12 +12,6 @@
 
         <StackPanel Margin="8">
 
-            <basecontrol:ComboBox 
-                Margin="0, 0, 0, 8"
-                Caption="Type" 
-                SelectedItem="{Binding Mode.Value}" 
-                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>
-
             <Views:BeatModifier 
                 DataContext="{Binding BeatModifier}"/>
 
@@ -40,11 +34,12 @@
 
             <basecontrol:ComboBox 
                 Caption="Transform" 
+                Position="Top"
                 SelectedItem="{Binding TransformType.Value}" 
                 ItemsSource="{Binding Source={StaticResource TransformType}}"/>
 
             <basecontrol:AxisSelector3D 
-                Margin="0, 2, 0, 0"
+                Margin="0, 1, 0, 0"
                 XIsChecked="{Binding XAxis.Value}"
                 YIsChecked="{Binding YAxis.Value}"
                 ZIsChecked="{Binding ZAxis.Value}"/>
