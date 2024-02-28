@@ -2,16 +2,21 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
+using AutoMapper;
 using Ceras;
 using CMiX.Core.Compositing;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using MvvmDialogs;
+using MvvmDialogs.FrameworkDialogs.OpenFile;
+using MvvmDialogs.FrameworkDialogs.SaveFile;
 
 namespace CMiX.Core.ViewModels
 {
-    public class MainMenu : ObservableRecipient
+    public partial class MainMenu : ObservableRecipient
     {
-        public MainMenu(Project project)
+        public MainMenu(Project project, IMapper mapper, ControlFactory controlFactory)
         {
             Project = project;
             Serializer = new CerasSerializer();
@@ -24,9 +29,16 @@ namespace CMiX.Core.ViewModels
             OpenProjectCommand = new RelayCommand(OpenProject);
             SaveProjectCommand = new RelayCommand(SaveProject);
             SaveAsProjectCommand = new RelayCommand(SaveAsProject);
+
+            DialogService = new DialogService();
+            Mapper = mapper;
+            ControlFactory = controlFactory;
         }
 
 
+        public IMapper Mapper { get; set; }
+        public ControlFactory ControlFactory { get; set; }
+        public DialogService DialogService { get; set; }
         public CerasSerializer Serializer { get; set; }
         public Project Project { get; set; }
         public ICommand NewProjectCommand { get; }
@@ -36,6 +48,10 @@ namespace CMiX.Core.ViewModels
         public ICommand AddCompositionCommand { get; }
         public ICommand AddLayerCommand { get; }
 
+
+
+        [ObservableProperty]
+        private bool path;
 
         public string FolderPath { get; set; }
 
@@ -56,49 +72,52 @@ namespace CMiX.Core.ViewModels
 
         private void OpenProject()
         {
-            //OpenFileDialogSettings settings = new OpenFileDialogSettings();
-            //settings.Filter = "Project (*.cmix)|*.cmix";
 
-            //bool? success = DialogService.ShowOpenFileDialog(this, settings);
-            //if (success == true)
-            //{
-            //    string folderPath = settings.FileName;
-            //    if (settings.FileName.Trim() != string.Empty) // Check if you really have a file name 
-            //    {
-            //        byte[] data = File.ReadAllBytes(folderPath);
-            //        NewProject();
-            //        //map model to viewmodel
-            //        //FolderPath = folderPath;
-            //    }
-            //}
+            OpenFileDialogSettings settings = new OpenFileDialogSettings();
+            settings.Filter = "Project (*.cmix)|*.cmix";
+
+            bool? success = DialogService.ShowOpenFileDialog(this, settings);
+            if (success == true)
+            {
+                string folderPath = settings.FileName;
+                if (settings.FileName.Trim() != string.Empty) // Check if you really have a file name 
+                {
+                    byte[] data = File.ReadAllBytes(folderPath);
+                    var compositionModel = Serializer.Deserialize<CompositionModel>(data);
+                    var composition = ControlFactory.Create(compositionModel);
+                    Project.CompositionManager.ManagerData.SelectedItem = composition;
+                }
+            }
         }
 
         private void SaveProject()
         {
-            //if (!string.IsNullOrEmpty(FolderPath))
-            //{
-            //    var data = Serializer.Serialize(Project.GetModel());
-            //    File.WriteAllBytes(FolderPath, data);
-            //    return;
-            //}
-            //SaveAsProject();
+            if (!string.IsNullOrEmpty(FolderPath))
+            {
+                var model = Mapper.Map(Project.CompositionManager.ManagerData.SelectedItem, typeof(Composition), typeof(CompositionModel));
+                var data = Serializer.Serialize(model);
+                File.WriteAllBytes(FolderPath, data);
+                return;
+            }
+            SaveAsProject();
         }
 
         private void SaveAsProject()
         {
-            //SaveFileDialogSettings settings = new SaveFileDialogSettings();
-            //settings.Filter = "Project (*.cmix)|*.cmix";
-            //settings.DefaultExt = "cmix";
-            //settings.AddExtension = true;
+            SaveFileDialogSettings settings = new SaveFileDialogSettings();
+            settings.Filter = "Composition (*.cmix)|*.cmix";
+            settings.DefaultExt = "cmix";
+            settings.AddExtension = true;
 
-            //bool? success = DialogService.ShowSaveFileDialog(this, settings);
-            //if (success == true)
-            //{
-            //    var data = Serializer.Serialize(Project.GetModel());
-            //    string folderPath = settings.FileName;
-            //    File.WriteAllBytes(folderPath, data);
-            //    FolderPath = folderPath;
-            //}
+            bool? success = DialogService.ShowSaveFileDialog(this, settings);
+            if (success == true)
+            {
+                var model = Mapper.Map(Project.CompositionManager.ManagerData.SelectedItem, typeof(Composition), typeof(CompositionModel));
+                var data = Serializer.Serialize(model);
+                string folderPath = settings.FileName;
+                File.WriteAllBytes(folderPath, data);
+                FolderPath = folderPath;
+            }
         }
     }
 }

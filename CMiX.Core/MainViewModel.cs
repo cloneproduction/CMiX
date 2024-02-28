@@ -11,7 +11,12 @@ namespace CMiX.Core.ViewModels
 {
     public class MainViewModel
     {
-        public MainViewModel(Project project, ControlRepository controlRepository, ServerManager serverManager, AssetManager assetManager, MainWindowController mainWindowController, MainMenu mainMenu)
+        public MainViewModel(Project project, 
+                             ControlRepository controlRepository, 
+                             ServerManager serverManager, 
+                             AssetManager assetManager, 
+                             MainWindowController mainWindowController, 
+                             MainMenu mainMenu)
         {
             Project = project;
             ServerManager = serverManager;

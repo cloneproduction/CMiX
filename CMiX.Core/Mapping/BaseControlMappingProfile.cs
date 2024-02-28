@@ -1,9 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using AutoMapper;
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 
 namespace CMiX.Core.Mapping
 {
@@ -16,6 +18,10 @@ namespace CMiX.Core.Mapping
             CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap();
             CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap();
             CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap();
+            //CreateMap(typeof(ObservableCollection<IControl>), typeof(ObservableCollection<IControlModel>)).ReverseMap();
+            AllowNullCollections = true;
+            //CreateMap<ObservableCollection<IControl>, ObservableCollection<IControlModel>>().ReverseMap();
+
 
             CreateMap<IControl, IControlModel>()
                 .Include<Integer2, Integer2Model>()
@@ -23,9 +29,17 @@ namespace CMiX.Core.Mapping
                 .Include<Vector3, Vector3Model>()
                 .Include<DirectionXYZ, DirectionXYZModel>()
                 .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
+                //.Include(typeof(IEnumerable<IControl>), typeof(IEnumerable<IControlModel>))
                 .ReverseMap();
 
             CreateMap<Button, ButtonModel>().ReverseMap();
+
+            //CreateMap<ObservableCollection<IControl>, List<IControlModel>>().ConvertUsing(source =>
+            //{
+            //    // some complex/expensive process here on the entire user list
+            //    // such as retrieving data from an external database, etc
+            //    return source.Select(Mapper.Map<IControl, IControl>).ToList());
+            //        });
         }
     }
 }

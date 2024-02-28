@@ -22,8 +22,13 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         public Guid ID { get; set; }
-        public ObservableCollection<IControl> Items { get; set; }
 
+        private ObservableCollection<IControl> _items;
+        public ObservableCollection<IControl> Items
+        {
+            get => _items;
+            set => SetProperty(ref _items, value);
+        }
 
         private IControl _selectedItem;
         public IControl SelectedItem
