@@ -7,6 +7,10 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public class PrefabManager : PrefabManagerBase
     {
+        public PrefabManager()
+        {
+            
+        }
         public PrefabManager(ManagerData managerData, ControlFactory controlFactory, ManagerMessenger managerMessenger) : base (managerData, controlFactory, managerMessenger)
         {
 

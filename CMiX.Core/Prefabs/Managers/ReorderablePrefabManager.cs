@@ -7,6 +7,10 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public class ReorderablePrefabManager : PrefabManager
     {
+        public ReorderablePrefabManager()
+        {
+            
+        }
         public ReorderablePrefabManager(ManagerData managerData, ControlFactory controlFactory, ManagerMessenger managerMessenger) : base (managerData, controlFactory, managerMessenger)
         {
             ManagerData = managerData;

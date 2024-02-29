@@ -40,8 +40,8 @@ namespace CMiX.Core.Compositing
         public GenericValue<bool> IsRenaming { get; set; }
         public GenericValue<bool> Visibility { get; set; }
 
-        public PrefabManager LayerManager { get; set; }
-        public PrefabManager ModifierManager { get; set; }
+        public ReorderablePrefabManager LayerManager { get; set; }
+        public ReorderablePrefabManager ModifierManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public MasterBeat MasterBeat { get; set; }
     }

@@ -18,9 +18,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap();
             CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap();
             CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap();
-            //CreateMap(typeof(ObservableCollection<IControl>), typeof(ObservableCollection<IControlModel>)).ReverseMap();
-            AllowNullCollections = true;
-            //CreateMap<ObservableCollection<IControl>, ObservableCollection<IControlModel>>().ReverseMap();
+
 
 
             CreateMap<IControl, IControlModel>()
@@ -29,17 +27,11 @@ namespace CMiX.Core.Mapping
                 .Include<Vector3, Vector3Model>()
                 .Include<DirectionXYZ, DirectionXYZModel>()
                 .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
+                .Include<Layer, LayerModel>()
                 //.Include(typeof(IEnumerable<IControl>), typeof(IEnumerable<IControlModel>))
                 .ReverseMap();
 
             CreateMap<Button, ButtonModel>().ReverseMap();
-
-            //CreateMap<ObservableCollection<IControl>, List<IControlModel>>().ConvertUsing(source =>
-            //{
-            //    // some complex/expensive process here on the entire user list
-            //    // such as retrieving data from an external database, etc
-            //    return source.Select(Mapper.Map<IControl, IControl>).ToList());
-            //        });
         }
     }
 }

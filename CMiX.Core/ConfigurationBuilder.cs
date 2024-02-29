@@ -2,6 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
+using AutoMapper.Collection;
+using AutoMapper.EquivalencyExpression;
 using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
@@ -69,8 +71,11 @@ namespace CMiX.Core
                 mapperConfigurationExpression.AddProfile(new BaseControlMappingProfile());
                 mapperConfigurationExpression.AddProfile(new PrefabMappingProfile());
                 mapperConfigurationExpression.AddProfile(new MasterBeatProfile());
+                mapperConfigurationExpression.AddCollectionMappers();
 
                 var config = new MapperConfiguration(mapperConfigurationExpression);
+
+
                 return config.CreateMapper();
             });
 

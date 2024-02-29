@@ -4,8 +4,10 @@
 using AutoMapper;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Texturing;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core
 {
@@ -30,6 +32,13 @@ namespace CMiX.Core
                 .Include(typeof(Texture), typeof(TextureModel))
                 .Include(typeof(Camera), typeof(CameraModel))
                 .ReverseMap();
+
+            CreateMap<PrefabManagerBase, PrefabManagerModel>();//.AfterMap(x => x.ControlFactory =;
+            CreateMap<ReorderablePrefabManager, PrefabManagerModel>();//.AfterMap(x => x.ControlFactory =;
+            CreateMap<PrefabManager, PrefabManagerModel>();//.AfterMap(x => x.ControlFactory =;
+            //      cfg.CreateMap<Journal, DisplayJournal>()
+            //.ForMember(dest => dest.RefTypeName,
+            //    opt => opt.ResolveUsing<RefTypeNameResolver>()
         }
     }
 }

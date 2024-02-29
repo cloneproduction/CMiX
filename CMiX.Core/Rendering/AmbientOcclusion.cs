@@ -8,6 +8,10 @@ namespace CMiX.Core.ViewModels
 {
     public class AmbientOcclusion : ObservableObject, IControl
     {
+        public AmbientOcclusion()
+        {
+            
+        }
         public AmbientOcclusion(
                     GenericValue<bool> isEnable, 
                     GenericValue<int> samples, 

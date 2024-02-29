@@ -13,6 +13,10 @@ namespace CMiX.Core.Compositing
 {
     public partial class Layer : ObservableObject, IPrefab
     {
+        public Layer()
+        {
+            
+        }
         public Layer(PrefabService prefabService,
                      LayerSettings layerService,
                      LayerMaskService layerMaskService,

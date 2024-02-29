@@ -10,9 +10,13 @@ namespace CMiX.Core.Prefabs.Managers
         public ManagerPairProfile()
         {
             CreatePair<ReorderablePrefabManager, PrefabManagerModel>();
+
             CreatePair<PrefabManager, PrefabManagerModel>();
-            CreatePair<PrefabManager, PrefabManagerModel>();
+            CreatePair<PrefabManagerBase, PrefabManagerModel>();
             CreatePair<ManagerData, ManagerDataModel>();
+
+
+
         }
     }
 }

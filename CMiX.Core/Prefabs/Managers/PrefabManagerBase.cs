@@ -12,12 +12,24 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public partial class PrefabManagerBase : ObservableRecipient, IControl, IRecipient<IMessage>
     {
+        public PrefabManagerBase()
+        {
+            Console.WriteLine();
+
+            AddItemCommand = new RelayCommand<Type>(AddItem);
+            DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
+            ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
+
+            IsActive = true;
+        }
         public PrefabManagerBase(ManagerData managerData, ControlFactory controlFactory, ManagerMessenger managerMessenger)
         {
             ManagerMessenger = managerMessenger;
             ControlFactory = controlFactory;
             ManagerData = managerData;
+
             ManagerData.PropertyChanged += ManagerData_PropertyChanged;
+
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
@@ -83,7 +95,7 @@ namespace CMiX.Core.Prefabs.Managers
         private bool isExpanded;
 
         ManagerMessenger ManagerMessenger { get; set; }
-        ControlFactory ControlFactory { get; set; }
+        public ControlFactory ControlFactory { get; set; }
         public ManagerData ManagerData { get; set; }
 
         public void AddItem(Type type)
