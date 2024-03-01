@@ -44,9 +44,13 @@ namespace CMiX.Core.Prefabs
 
         public void AddControl(IControl control)
         {
+            if (Controls.Any(x => x.ID == control.ID))
+                return;
+
             Controls.Add(control);
             NamePrefab(control);
             AddToSpecificRepo(control);
+
             Console.WriteLine("PrefabRepository Count is " + Controls.Count().ToString());
         }
 
