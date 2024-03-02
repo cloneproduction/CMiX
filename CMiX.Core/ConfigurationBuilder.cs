@@ -2,8 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using AutoMapper.Collection;
-using AutoMapper.EquivalencyExpression;
 using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
@@ -44,6 +42,16 @@ namespace CMiX.Core
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Scan(selector => selector
+                    .FromCallingAssembly()
+                    .AddClasses(classes => classes.AssignableTo<IControl>())
+                    .AsSelfWithInterfaces()
+                    .WithTransientLifetime()
+            );
+
+            var prefabConfigBuilder = new PrefabConfigurationBuilder(services);
+
+
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<MainViewModel>();
             
@@ -61,30 +69,27 @@ namespace CMiX.Core
             services.AddSingleton<MessageProcessor>();
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<EventMessenger>();
-
+            services.AddSingleton<MasterBeat>();
 
 
             MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
 
             services.AddTransient(x =>
             {
-                mapperConfigurationExpression.AddProfile(new BaseControlMappingProfile());
-                mapperConfigurationExpression.AddProfile(new PrefabMappingProfile());
-                mapperConfigurationExpression.AddProfile(new MasterBeatProfile());
-                mapperConfigurationExpression.AddCollectionMappers();
+                mapperConfigurationExpression.AddMaps("CMiX.Core");
+                //mapperConfigurationExpression.AddCollectionMappers();
 
                 var config = new MapperConfiguration(mapperConfigurationExpression);
-
-
                 return config.CreateMapper();
             });
 
-            services.AddSingleton<MasterBeat>();
+
 
             var controlConfigurator = new ControlConfigurator(mapperConfigurationExpression, services);
 
-            controlConfigurator.Register(new BaseControlPairProfile());
-            controlConfigurator.Register(new TransformPairProfile());
+            //PROBLEM IN BaseControlProfile !!!
+            //controlConfigurator.Register(new TransformProfile());
+
             controlConfigurator.Register(new BeatPairProfile());
             controlConfigurator.Register(new TexturePairProfile());
             controlConfigurator.Register(new TexturingPairProfile());
@@ -92,11 +97,9 @@ namespace CMiX.Core
             controlConfigurator.Register(new MaterialPairProfile());
             controlConfigurator.Register(new MaskPairProfile());
             controlConfigurator.Register(new MeshPairProfile());
-            controlConfigurator.Register(new RenderingPairProfile());
-
             controlConfigurator.Register(new ModifierPairProfile());
-
             controlConfigurator.Register(new ManagerPairProfile());
+
 
             controlConfigurator.Register(new LightPairProfile());
             controlConfigurator.Register(new LightPairProfile());
@@ -218,7 +221,7 @@ namespace CMiX.Core
                 return new ControlFactory(controlFactory, controlModelFactory, x.GetRequiredService<ControlRepository>());
             });
 
-            var prefabConfigBuilder = new PrefabConfigurationBuilder(services);
+
         }
     }
 }

@@ -23,16 +23,16 @@ namespace CMiX.Core.Prefabs
 
             serviceCollection.AddSingleton(x => new Project(new PrefabManager(new ManagerData(Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00")), x.GetRequiredService<ControlFactory>(), x.GetRequiredService<ManagerMessenger>())));
 
-            serviceCollection.AddTransient<Composition>();
+            //serviceCollection.AddTransient<Composition>();
 
-            serviceCollection.AddTransient<Layer>();
+            //serviceCollection.AddTransient<Layer>();
             serviceCollection.AddTransient<LayerSettings>();
             serviceCollection.AddTransient<LayerMaskService>();
 
-            serviceCollection.AddTransient<EmptyPrefab>();
+            //serviceCollection.AddTransient<EmptyPrefab>();
 
             serviceCollection.AddTransient<Entity>();
-            serviceCollection.AddTransient<Texture>();
+            //serviceCollection.AddTransient<Texture>();
 
             serviceCollection.AddTransient<LightEntity>();
 

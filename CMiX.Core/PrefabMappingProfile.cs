@@ -7,9 +7,8 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Texturing;
-using Microsoft.Extensions.DependencyInjection;
 
-namespace CMiX.Core
+namespace CMiX.Core.Mapping
 {
     public class PrefabMappingProfile : Profile
     {
@@ -33,12 +32,9 @@ namespace CMiX.Core
                 .Include(typeof(Camera), typeof(CameraModel))
                 .ReverseMap();
 
-            CreateMap<PrefabManagerBase, PrefabManagerModel>();//.AfterMap(x => x.ControlFactory =;
-            CreateMap<ReorderablePrefabManager, PrefabManagerModel>();//.AfterMap(x => x.ControlFactory =;
-            CreateMap<PrefabManager, PrefabManagerModel>();//.AfterMap(x => x.ControlFactory =;
-            //      cfg.CreateMap<Journal, DisplayJournal>()
-            //.ForMember(dest => dest.RefTypeName,
-            //    opt => opt.ResolveUsing<RefTypeNameResolver>()
+            CreateMap<PrefabManagerBase, PrefabManagerModel>();
+            CreateMap<ReorderablePrefabManager, PrefabManagerModel>();
+            CreateMap<PrefabManager, PrefabManagerModel>();
         }
     }
 }

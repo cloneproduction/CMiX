@@ -7,6 +7,10 @@ namespace CMiX.Core.Mapping
 {
     public class ControlMappingProfile: Profile
     {
+        public ControlMappingProfile()
+        {
+            
+        }
         public ControlMappingProfile(Type controlType, Type controlModelType)
         {
             CreateMap(controlType, controlModelType).ReverseMap();
