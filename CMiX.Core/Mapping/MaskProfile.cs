@@ -1,15 +1,16 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Animations;
+using AutoMapper;
+using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Mapping
 {
-    public class BeatPairProfile : ControlPairProfile
+    public class MaskProfile : Profile
     {
-        public BeatPairProfile()
+        public MaskProfile()
         {
-            CreatePair<BeatModifier, BeatModifierModel>();
+            CreateMap<MaskTexture, MaskModel>().ReverseMap();
         }
     }
 }

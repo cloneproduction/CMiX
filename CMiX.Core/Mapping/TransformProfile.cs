@@ -10,9 +10,6 @@ namespace CMiX.Core.Mapping
     {
         public TransformProfile()
         {
-            CreateMap<Scale, ScaleModel>().ReverseMap();
-            CreateMap<Translate, TranslateModel>().ReverseMap();
-            CreateMap<Rotation, RotationModel>().ReverseMap();
             CreateMap<Transform2D, Transform2DModel>().ReverseMap();
             CreateMap<TransformSRT, TransformSRTModel>().ReverseMap();
         }

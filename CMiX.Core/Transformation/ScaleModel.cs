@@ -6,7 +6,7 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Transformation
 {
-    public class ScaleModel : IModifierModel
+    public class ScaleModel : IControlModel, IModifierModel
     {
         public ScaleModel()
         {

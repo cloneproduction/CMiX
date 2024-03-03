@@ -1,15 +1,16 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Animations;
+using AutoMapper;
+using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Mapping
 {
-    public class AnimationPairProfile : ControlPairProfile
+    public class MeshProfile : Profile
     {
-        public AnimationPairProfile()
+        public MeshProfile()
         {
-            CreatePair<Easing, EasingModel>();
+            CreateMap<Mesh, MeshModel>().ReverseMap();
         }
     }
 }

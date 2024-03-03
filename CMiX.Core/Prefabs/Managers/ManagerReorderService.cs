@@ -2,15 +2,14 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows;
-using System.Windows.Input;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Prefabs.Managers
 {
     public partial class ManagerReorderService : ObservableObject,
+                                                 IControl,
                                                  IDropTarget,
                                                  IDragSource
     {
@@ -28,29 +27,6 @@ namespace CMiX.Core.Prefabs.Managers
 
         [ObservableProperty]
         private bool dragHandlerIsPressed = false;
-
-
-
-        //public void ItemUp()
-        //{
-        //    var selectedIndex = ManagerData.SelectedIndex;
-        //    if (selectedIndex <= 0)
-        //        return;
-
-        //    ManagerData.Items.Move(selectedIndex, selectedIndex - 1);
-        //    ManagerMessenger.SendMessageMoveItem(ManagerData.ID, selectedIndex, selectedIndex + 1);
-        //}
-
-        //public void ItemDown()
-        //{
-        //    var selectedIndex = ManagerData.SelectedIndex;
-        //    if (selectedIndex == ManagerData.Items.Count - 1)
-        //        return;
-
-        //    ManagerData.Items.Move(selectedIndex, selectedIndex + 1);
-        //    ManagerMessenger.SendMessageMoveItem(ManagerData.ID, selectedIndex, selectedIndex + 1);
-        //}
-
 
 
         public void StartDrag(IDragInfo dragInfo)

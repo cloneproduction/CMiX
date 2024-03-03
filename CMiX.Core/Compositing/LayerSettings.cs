@@ -7,7 +7,7 @@ using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Compositing
 {
-    public class LayerSettings
+    public class LayerSettings : IControl
     {
         public LayerSettings(GenericValue<float> opacity,
                              GenericValue<string> backgroundColor, 
@@ -24,5 +24,6 @@ namespace CMiX.Core.Compositing
         public AmbientOcclusion AmbientOcclusion { get; set; }
         public GenericValue<float> Opacity { get; set; }
         public GenericValue<string> BackgroundColor { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
     }
 }

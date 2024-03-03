@@ -6,7 +6,7 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Transformation
 {
-    public class RotationModel : IModifierModel
+    public class RotationModel : IControlModel, IModifierModel
     {
         public RotationModel()
         {

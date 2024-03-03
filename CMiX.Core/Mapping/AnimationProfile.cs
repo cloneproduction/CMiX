@@ -1,15 +1,16 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Mapping;
+using AutoMapper;
+using CMiX.Core.Animations;
 
-namespace CMiX.Core.Modifiers
+namespace CMiX.Core.Mapping
 {
-    public class ModifierPairProfile : ControlPairProfile
+    public class AnimationProfile : Profile
     {
-        public ModifierPairProfile()
+        public AnimationProfile()
         {
-            CreatePair<ModifierModeSelector, ModifierModeSelectorModel>();
+            CreateMap<Easing, EasingModel>().ReverseMap();
         }
     }
 }

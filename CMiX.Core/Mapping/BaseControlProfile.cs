@@ -3,6 +3,7 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 
 namespace CMiX.Core.Mapping
 {
@@ -10,21 +11,25 @@ namespace CMiX.Core.Mapping
     {
         public BaseControlProfile()
         {
-            //CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>));
-            //CreateMap<Button, ButtonModel>();
-            //CreateMap<Integer2, Integer2Model>();
-            //CreateMap<Vector2, Vector2Model>();
-            //CreateMap<Vector3, Vector3Model>();
-            //CreateMap<DirectionXYZ, DirectionXYZModel>();
+            CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap();
+            CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap();
+            CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap();
+            CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap();
+            CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap();
 
-            //CreateMap<IControl, IControlModel>()
-            //    .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
-            //    .Include<Button, ButtonModel>()
-            //    .Include<Integer2, Integer2Model>()
-            //    .Include<Vector2, Vector2Model>()
-            //    .Include<Vector3, Vector3Model>()
-            //    .Include<DirectionXYZ, DirectionXYZModel>()
-            //    .ReverseMap();
+
+
+            CreateMap<IControl, IControlModel>()
+                .Include<Integer2, Integer2Model>()
+                .Include<Vector2, Vector2Model>()
+                .Include<Vector3, Vector3Model>()
+                .Include<DirectionXYZ, DirectionXYZModel>()
+                .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
+                .Include<Layer, LayerModel>()
+                //.Include(typeof(IEnumerable<IControl>), typeof(IEnumerable<IControlModel>))
+                .ReverseMap();
+
+            CreateMap<Button, ButtonModel>().ReverseMap();
         }
     }
 }

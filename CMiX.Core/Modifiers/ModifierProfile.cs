@@ -1,15 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Texturing;
+using AutoMapper;
 
-namespace CMiX.Core.Mapping
+namespace CMiX.Core.Modifiers
 {
-    public class MaskPairProfile : ControlPairProfile
+    public class ModifierProfile : Profile
     {
-        public MaskPairProfile()
+        public ModifierProfile()
         {
-            CreatePair<MaskTexture, MaskModel>();
+            CreateMap<ModifierModeSelector, ModifierModeSelectorModel>().ReverseMap();
         }
     }
 }

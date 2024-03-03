@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : IPrefab, IModifiable
+    public partial class Entity : IControl, IPrefab, IModifiable
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh, 
