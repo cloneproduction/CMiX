@@ -17,6 +17,7 @@ namespace CMiX.Core.Mapping
             CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap();
             CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap();
 
+            CreateMap<GenericValue<float>, GenericValueModel<float>>().ReverseMap().AfterMap<ManagerMapperAction>();
 
 
             CreateMap<IControl, IControlModel>()
@@ -25,6 +26,7 @@ namespace CMiX.Core.Mapping
                 .Include<Vector3, Vector3Model>()
                 .Include<DirectionXYZ, DirectionXYZModel>()
                 .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
+                .Include<GenericValue<int>, GenericValueModel<int>>()
                 .Include<Layer, LayerModel>()
                 //.Include(typeof(IEnumerable<IControl>), typeof(IEnumerable<IControlModel>))
                 .ReverseMap();

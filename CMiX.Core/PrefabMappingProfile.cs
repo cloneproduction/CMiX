@@ -31,10 +31,6 @@ namespace CMiX.Core.Mapping
                 .Include(typeof(Texture), typeof(TextureModel))
                 .Include(typeof(Camera), typeof(CameraModel))
                 .ReverseMap();
-
-            CreateMap<PrefabManagerBase, PrefabManagerModel>();
-            CreateMap<ReorderablePrefabManager, PrefabManagerModel>();
-            CreateMap<PrefabManager, PrefabManagerModel>();
         }
     }
 }

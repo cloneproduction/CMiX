@@ -12,13 +12,11 @@ namespace CMiX.Core.Prefabs.Managers
         {
             ID = Guid.NewGuid();
             Items = new ObservableCollection<IControl>();
-            Console.WriteLine("Manager Created Guid : " + ID);
         }
         public ManagerData(Guid id)
         {
             ID = id;
             Items = new ObservableCollection<IControl>();
-            Console.WriteLine("Manager Injected Guid : " + ID);
         }
 
         public Guid ID { get; set; }

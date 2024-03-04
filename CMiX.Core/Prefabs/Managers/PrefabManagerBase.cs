@@ -94,7 +94,7 @@ namespace CMiX.Core.Prefabs.Managers
         [ObservableProperty]
         private bool isExpanded;
 
-        ManagerMessenger ManagerMessenger { get; set; }
+        public ManagerMessenger ManagerMessenger { get; set; }
         public ControlFactory ControlFactory { get; set; }
         public ManagerData ManagerData { get; set; }
 

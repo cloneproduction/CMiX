@@ -2,11 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
+using AutoMapper.EquivalencyExpression;
 using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Entities.Lights;
+using CMiX.Core.Mapping;
 using CMiX.Core.Network;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -76,6 +78,11 @@ namespace CMiX.Core
             services.AddTransient(x =>
             {
                 mapperConfigurationExpression.AddMaps("CMiX.Core");
+                
+                mapperConfigurationExpression.ConstructServicesUsing(t => new ManagerMapperAction(x));
+                //mapperConfigurationExpression.ConstructServicesUsing(t => new ControlMappingAction());
+                //mapperConfigurationExpression.ConstructServicesUsing(t => x);
+                mapperConfigurationExpression.AddCollectionMappers();
 
                 var config = new MapperConfiguration(mapperConfigurationExpression);
                 return config.CreateMapper();

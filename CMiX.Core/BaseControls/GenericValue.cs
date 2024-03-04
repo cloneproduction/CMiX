@@ -22,7 +22,7 @@ namespace CMiX.Core.BaseControls
         }
 
         public Guid ID { get; set; }
-        ControlMessenger ControlMessenger { get; set; }
+        public ControlMessenger ControlMessenger { get; set; }
 
         private T _value;
         public T Value
