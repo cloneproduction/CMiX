@@ -10,7 +10,7 @@ namespace CMiX.Core.Mapping
     {
         public MeshProfile()
         {
-            CreateMap<Mesh, MeshModel>().ReverseMap();
+            CreateMap<Mesh, MeshModel>().ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }
 }

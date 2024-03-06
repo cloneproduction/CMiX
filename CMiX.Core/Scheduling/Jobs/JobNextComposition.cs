@@ -34,7 +34,7 @@ namespace CMiX.Core.ViewModels.Scheduling
                 Next();
             var schedule = JobManager.GetSchedule(this.Name);
             this.NextRun = schedule.NextRun;
-            Console.WriteLine("JobNextComposition NowPlayer : " + CurrentComposition.Name);
+            Console.WriteLine("JobNextComposition NowPlayer : " + CurrentComposition.PrefabService.Name);
         }
 
         public void Next()

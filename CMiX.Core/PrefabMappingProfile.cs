@@ -14,23 +14,33 @@ namespace CMiX.Core.Mapping
     {
         public PrefabMappingProfile()
         {
-            CreateMap(typeof(PrefabService), typeof(PrefabServiceModel)).ReverseMap();
-            CreateMap(typeof(EmptyPrefab), typeof(EmptyPrefabModel)).ReverseMap();
-            CreateMap(typeof(Composition), typeof(CompositionModel)).ReverseMap();
-            CreateMap(typeof(Layer), typeof(LayerModel)).ReverseMap();
-            CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap();
-            CreateMap(typeof(Texture), typeof(TextureModel)).ReverseMap();
-            CreateMap(typeof(Camera), typeof(CameraModel)).ReverseMap();
+            CreateMap(typeof(PrefabService), typeof(PrefabServiceModel)).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap(typeof(EmptyPrefab), typeof(EmptyPrefabModel)).ReverseMap().ConstructUsingServiceLocator();
 
+
+            CreateMap<Composition, CompositionModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Composition, CompositionModel>().ReverseMap().ConstructUsingServiceLocator();
+
+            CreateMap<Layer, LayerModel>().ReverseMap();
+
+            CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap(typeof(Texture), typeof(TextureModel)).ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap(typeof(Camera), typeof(CameraModel)).ReverseMap().ConstructUsingServiceLocator(); ;
+
+            //CreateMap<IPrefab, IPrefabModel>().ConvertUsing<CustomConverter>();
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(PrefabService), typeof(PrefabServiceModel))
+                .ReverseMap().ConstructUsingServiceLocator(); ;
+
+            CreateMap<IControl, IControlModel>()
                 .Include(typeof(EmptyPrefab), typeof(EmptyPrefabModel))
-                .Include(typeof(Composition), typeof(CompositionModel))
+                .Include<Composition, CompositionModel>()
                 .Include(typeof(Layer), typeof(LayerModel))
                 .Include(typeof(Entity), typeof(EntityModel))
                 .Include(typeof(Texture), typeof(TextureModel))
                 .Include(typeof(Camera), typeof(CameraModel))
-                .ReverseMap();
+                .ReverseMap().ConstructUsingServiceLocator();
+            ; ;
         }
     }
 }

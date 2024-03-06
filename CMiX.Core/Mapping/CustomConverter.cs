@@ -7,19 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
-using CMiX.Core.BaseControls;
+using AutoMapper.Execution;
+using CMiX.Core.Compositing;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Mapping
 {
-    public class ControlMappingAction : IMappingAction<GenericValue<int>, GenericValueModel<int>>
+    public class CustomConverter : ITypeConverter<IPrefab, IPrefabModel>
     {
-        public ControlMappingAction()
+        public CustomConverter()
         {
             
         }
-        public void Process(GenericValue<int> source, GenericValueModel<int> destination, ResolutionContext context)
+        public IPrefabModel Convert(IPrefab source, IPrefabModel destination, ResolutionContext context)
         {
-            Console.WriteLine();
+            if (source is Layer)
+                return context.Mapper.Map(source, destination);
+            else return null;
         }
     }
 }

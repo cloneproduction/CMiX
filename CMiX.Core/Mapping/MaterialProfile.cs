@@ -10,8 +10,8 @@ namespace CMiX.Core.Mapping
     {
         public MaterialProfile()
         {
-            CreateMap<Material, MaterialModel>().ReverseMap();
-            CreateMap<MaterialSettings, MaterialSettingsModel>().ReverseMap();
+            CreateMap<Material, MaterialModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<MaterialSettings, MaterialSettingsModel>().ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }
 }

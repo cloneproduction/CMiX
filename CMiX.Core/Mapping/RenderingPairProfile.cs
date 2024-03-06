@@ -11,8 +11,8 @@ namespace CMiX.Core.Mapping
     {
         public RenderingProfile()
         {
-            CreateMap<OutputSettings, OutputSettingsModel>().ReverseMap();
-            CreateMap<AmbientOcclusion, AmbientOcclusionModel>().ReverseMap();
+            CreateMap<OutputSettings, OutputSettingsModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<AmbientOcclusion, AmbientOcclusionModel>().ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }
 }

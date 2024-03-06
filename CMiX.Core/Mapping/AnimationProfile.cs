@@ -10,7 +10,7 @@ namespace CMiX.Core.Mapping
     {
         public AnimationProfile()
         {
-            CreateMap<Easing, EasingModel>().ReverseMap();
+            CreateMap<Easing, EasingModel>().ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

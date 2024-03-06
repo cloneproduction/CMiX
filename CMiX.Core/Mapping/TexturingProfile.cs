@@ -11,12 +11,10 @@ namespace CMiX.Core.Mapping
     {
         public TexturingProfile()
         {
-            CreateMap<DiffuseTexture, DiffuseTextureModel>().ReverseMap();
-            CreateMap<SamplerState, SamplerStateModel>().ReverseMap();
-            CreateMap<TextureSourceSelector, TextureSourceSelectorModel>().ReverseMap();
-            CreateMap<Texture, TextureModel>().ReverseMap();
-            CreateMap<DiffuseTexture, DiffuseTextureModel>().ReverseMap();
-            CreateMap<MaskTexture, MaskTextureModel>().ReverseMap();
+            CreateMap<SamplerState, SamplerStateModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<TextureSourceSelector, TextureSourceSelectorModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<DiffuseTexture, DiffuseTextureModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<MaskTexture, MaskTextureModel>().ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

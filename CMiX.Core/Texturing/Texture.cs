@@ -9,10 +9,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class Texture : ObservableObject, IPrefab//, IModifiable
+    public partial class Texture : ObservableObject, IControl, IPrefab//, IModifiable
     {
-        public Texture(PrefabService prefabService, 
-                       ReorderablePrefabManager modifierManager,
+        public Texture(PrefabService prefabService,
+                       PrefabManager modifierManager,
                        TextureSourceSelector textureSourceSelector,
                        Gradient gradient,
                        BubbleNoise bubbleNoise,
@@ -50,7 +50,7 @@ namespace CMiX.Core.Texturing
 
         public VideoIn VideoIn { get; set; }
         public VideoPlayer VideoPlayer { get; set; }
-        public ReorderablePrefabManager ModifierManager { get; set; }
+        public PrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = false;

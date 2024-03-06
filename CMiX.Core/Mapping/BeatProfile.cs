@@ -10,7 +10,7 @@ namespace CMiX.Core.Mapping
     {
         public BeatProfile()
         {
-            CreateMap<BeatModifier, BeatModifierModel>().ReverseMap();
+            CreateMap<BeatModifier, BeatModifierModel>().ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

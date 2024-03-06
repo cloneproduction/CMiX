@@ -10,7 +10,7 @@ using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Compositing
 {
-    public class EntityModel : IPrefabModel
+    public class EntityModel : IControlModel, IPrefabModel
     {
         public EntityModel()
         {

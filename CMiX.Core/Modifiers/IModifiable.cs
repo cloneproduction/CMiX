@@ -7,6 +7,6 @@ namespace CMiX.Core.Modifiers
 {
     public interface IModifiable
     {
-        PrefabManagerBase ModifierManager { get; set; }
+        PrefabManager ModifierManager { get; set; }
     }
 }

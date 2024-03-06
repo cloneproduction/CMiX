@@ -65,9 +65,7 @@
 
                     <Windows:MainWindowController DataContext="{Binding MainWindowController}" DockPanel.Dock="Right" />
 
-                    <Menus:MainMenu
-                        DataContext="{Binding MainMenu}"
-                        DockPanel.Dock="Left"/>
+                    <Menus:MainMenu DataContext="{Binding MainMenu}" DockPanel.Dock="Left" />
 
                 </DockPanel>
             </Border>

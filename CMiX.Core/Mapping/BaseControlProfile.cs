@@ -11,13 +11,13 @@ namespace CMiX.Core.Mapping
     {
         public BaseControlProfile()
         {
-            CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap();
-            CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap();
-            CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap();
-            CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap();
-            CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap();
-
-            CreateMap<GenericValue<float>, GenericValueModel<float>>().ReverseMap().AfterMap<ManagerMapperAction>();
+            CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Button, ButtonModel>().ReverseMap().ConstructUsingServiceLocator();
+            //CreateMap<GenericValue<float>, GenericValueModel<float>>().ReverseMap().AfterMap<ManagerMapperAction>();
 
 
             CreateMap<IControl, IControlModel>()
@@ -25,13 +25,11 @@ namespace CMiX.Core.Mapping
                 .Include<Vector2, Vector2Model>()
                 .Include<Vector3, Vector3Model>()
                 .Include<DirectionXYZ, DirectionXYZModel>()
+                .Include<Button, ButtonModel>()
                 .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
-                .Include<GenericValue<int>, GenericValueModel<int>>()
-                .Include<Layer, LayerModel>()
-                //.Include(typeof(IEnumerable<IControl>), typeof(IEnumerable<IControlModel>))
-                .ReverseMap();
+                .ReverseMap().ConstructUsingServiceLocator();
 
-            CreateMap<Button, ButtonModel>().ReverseMap();
+
         }
     }
 }

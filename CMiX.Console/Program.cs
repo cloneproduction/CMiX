@@ -19,6 +19,7 @@ namespace CMiX.Console
             ServiceProvider.GetRequiredService<Client>().Start(new Settings("127.0.0.1", 8080));
 
             var project = ServiceProvider.GetService(typeof(Project));
+            var MainMenu = ServiceProvider.GetService(typeof(MainMenu));
 
             System.Console.ReadLine();
         }

@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Prefabs
 {
-    public class EmptyPrefab : IPrefab
+    public class EmptyPrefab : IControl, IPrefab
     {
         public EmptyPrefab(PrefabService prefabService)
         {

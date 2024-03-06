@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs
 {
-    public class ControlRepository :ObservableObject
+    public class ControlRepository : ObservableObject
     {
         public ControlRepository()
         {
@@ -22,7 +22,14 @@ namespace CMiX.Core.Prefabs
         }
 
         private int nameCount = 1;
-        public ObservableCollection<IControl> Controls { get; set; }
+        //public ObservableCollection<IControl> Controls { get; set; }
+
+        private ObservableCollection<IControl> _controls;
+        public ObservableCollection<IControl> Controls
+        {
+            get => _controls;
+            set => SetProperty(ref _controls, value);
+        }
 
 
         public bool FilterTexture(object item)
@@ -50,8 +57,6 @@ namespace CMiX.Core.Prefabs
             Controls.Add(control);
             NamePrefab(control);
             AddToSpecificRepo(control);
-
-            Console.WriteLine("PrefabRepository Count is " + Controls.Count().ToString());
         }
 
         void NamePrefab(IControl control)

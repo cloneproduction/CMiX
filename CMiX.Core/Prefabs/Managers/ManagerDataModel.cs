@@ -10,11 +10,11 @@ namespace CMiX.Core.Prefabs.Managers
         public ManagerDataModel()
         {
             ID = Guid.NewGuid();
-            Items = new ObservableCollection<IControlModel>();
+            Items = new Collection<IControlModel>();
         }
 
         public Guid ID { get; set; }
-        public ObservableCollection<IControlModel> Items { get; set; }
+        public Collection<IControlModel> Items { get; set; }
         public IControlModel SelectedItem { get; set; }
         public int SelectedIndex { get; set; }
     }

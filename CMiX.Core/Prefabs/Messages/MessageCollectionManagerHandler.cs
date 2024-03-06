@@ -13,7 +13,7 @@ namespace CMiX.Core.Prefabs.Messages
 
         }
 
-        public bool Handle(PrefabManagerBase prefabManagerBase, IMessage message)
+        public bool Handle(PrefabManager prefabManagerBase, IMessage message)
         {
             switch (message)
             {

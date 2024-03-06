@@ -9,7 +9,7 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public class LayerModel : IPrefabModel
+    public class LayerModel : IControlModel, IPrefabModel
     {
         public LayerModel()
         {

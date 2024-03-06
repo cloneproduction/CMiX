@@ -8,11 +8,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public partial class Camera : ObservableObject, IPrefab, IModifiable
+    public partial class Camera : ObservableObject, IControl, IPrefab, IModifiable
     {
         public Camera(PrefabService prefabService, 
-                      CameraSettings settings, 
-                      ReorderablePrefabManager modifierManager)
+                      CameraSettings settings,
+                      PrefabManager modifierManager)
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
@@ -23,7 +23,7 @@ namespace CMiX.Core.Rendering.Cameras
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public CameraSettings Settings { get; set; }
-        public PrefabManagerBase ModifierManager { get; set; }
+        public PrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
         bool isExpanded = false;

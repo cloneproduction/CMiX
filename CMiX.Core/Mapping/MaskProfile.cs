@@ -10,7 +10,7 @@ namespace CMiX.Core.Mapping
     {
         public MaskProfile()
         {
-            CreateMap<MaskTexture, MaskModel>().ReverseMap();
+            CreateMap<MaskTexture, MaskModel>().ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }
 }

@@ -7,7 +7,7 @@ using CMiX.Core.Rendering.Lights;
 
 namespace CMiX.Core.Entities.Lights
 {
-    public class LightEntityModel : IPrefabModel
+    public class LightEntityModel : IControlModel, IPrefabModel
     {
         public LightEntityModel()
         {

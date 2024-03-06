@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class DiffuseTexture : ObservableObject, ITexture
+    public partial class DiffuseTexture : ObservableObject, IControl, ITexture
     {
         public DiffuseTexture(PrefabManager prefabManager, TransformTexture transformTexture, SamplerState samplerState)
         {

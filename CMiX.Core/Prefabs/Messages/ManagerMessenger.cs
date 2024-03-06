@@ -24,7 +24,7 @@ namespace CMiX.Core.Prefabs.Messages
 
         private bool CanSend;
 
-        public void Receive(PrefabManagerBase prefabManagerBase, IMessage messagePrefab)
+        public void Receive(PrefabManager prefabManagerBase, IMessage messagePrefab)
         {
             if (messagePrefab is not IMessageManager messageManager)
                 return;

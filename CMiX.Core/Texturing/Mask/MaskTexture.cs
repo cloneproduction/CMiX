@@ -8,15 +8,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class MaskTexture : ObservableObject, ITexture
+    public partial class MaskTexture : ObservableObject, IControl, ITexture
     {
-        public MaskTexture(
-            PrefabManager prefabManager, 
-            TransformTexture transformTexture, 
-            SamplerState samplerState, 
-            GenericValue<bool> invert, 
-            GenericValue<MaskChannel> maskChannel, 
-            GenericValue<bool> isEnabled)
+        public MaskTexture(PrefabManager prefabManager, 
+                           TransformTexture transformTexture, 
+                           SamplerState samplerState, 
+                           GenericValue<bool> invert, 
+                           GenericValue<MaskChannel> maskChannel, 
+                           GenericValue<bool> isEnabled
+                          )
         {
             TextureManager = prefabManager;
             TransformTexture = transformTexture;

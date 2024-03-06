@@ -6,7 +6,7 @@ using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Texturing
 {
-    public interface ITexture : IControl
+    public interface ITexture
     {
         PrefabManager TextureManager { get; set; }
         TransformTexture TransformTexture { get; set; }

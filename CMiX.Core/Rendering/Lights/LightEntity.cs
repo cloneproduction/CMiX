@@ -8,11 +8,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Lights
 {
-    public partial class LightEntity : ObservableObject, IPrefab, IModifiable
+    public partial class LightEntity : ObservableObject, IControl, IPrefab, IModifiable
     {
         public LightEntity(PrefabService prefabService,
-                           LightSettings settings, 
-                           ReorderablePrefabManager modifierManager)
+                           LightSettings settings,
+                           PrefabManager modifierManager)
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
@@ -23,7 +23,7 @@ namespace CMiX.Core.Rendering.Lights
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public LightSettings Settings { get; set; }
-        public PrefabManagerBase ModifierManager { get; set; }
+        public PrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool settingsIsExpanded;

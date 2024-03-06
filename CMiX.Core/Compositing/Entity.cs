@@ -14,8 +14,8 @@ namespace CMiX.Core.Compositing
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh, 
-                      Material material, 
-                      ReorderablePrefabManager modifierManager
+                      Material material,
+                      PrefabManager modifierManager
                      )
         {
             ID = prefabService.ID;
@@ -27,7 +27,7 @@ namespace CMiX.Core.Compositing
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
-        public PrefabManagerBase ModifierManager { get; set; }
+        public PrefabManager ModifierManager { get; set; }
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
 

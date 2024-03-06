@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IPrefab
+    public partial class Layer : ObservableObject, IControl, IPrefab
     {
         public Layer()
         {
@@ -20,8 +20,8 @@ namespace CMiX.Core.Compositing
         public Layer(PrefabService prefabService,
                      LayerSettings layerService,
                      LayerMaskService layerMaskService,
-                     ReorderablePrefabManager reorderablePrefabManager,
-                     ReorderablePrefabManager modifierManager)
+                     PrefabManager reorderablePrefabManager,
+                     PrefabManager modifierManager)
         {
             ID = prefabService.ID;
 
@@ -59,8 +59,8 @@ namespace CMiX.Core.Compositing
         public GenericValue<MaskMode> MaskMode { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
 
-        public ReorderablePrefabManager ModelEntityManager { get; set; }
-        public ReorderablePrefabManager ModifierManager { get; set; }
+        public PrefabManager ModelEntityManager { get; set; }
+        public PrefabManager ModifierManager { get; set; }
 
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }

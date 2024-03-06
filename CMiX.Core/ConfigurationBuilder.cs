@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Reflection;
 using AutoMapper;
 using AutoMapper.EquivalencyExpression;
 using Ceras;
@@ -27,6 +28,7 @@ using CMiX.Core.Transformation.Modifiers;
 using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
 using CMiX.Core.ViewModels.Windows;
+using CMiX.Core.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core
@@ -49,7 +51,7 @@ namespace CMiX.Core
                     .WithTransientLifetime()
             );
 
-            services.AddSingleton(x => new Project(new PrefabManager(new ManagerData(Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00")), x.GetRequiredService<ControlFactory>(), x.GetRequiredService<ManagerMessenger>())));
+            services.AddSingleton(x => new Project(new PrefabManager(new ManagerData() { ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00") }, x.GetRequiredService<ControlFactory>(), x.GetRequiredService<ManagerMessenger>())));
 
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<MainViewModel>();
@@ -69,24 +71,55 @@ namespace CMiX.Core
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<EventMessenger>();
             services.AddSingleton<ManagerMessenger>();
+            services.AddSingleton<MainMenuMessenger>();
 
             services.AddSingleton<MasterBeat>();
 
+            services.AddAutoMapper((provider, opt) =>
+            {
+                opt.AddMaps("CMiX.Core");
+                opt.ConstructServicesUsing(t => ActivatorUtilities.CreateInstance(provider, t));
+            }, Assembly.GetAssembly(typeof(PrefabMappingProfile)));
+
+
+
+            //Mapper.Initialize(m =>
+            //{
+            //    m.ConstructServicesUsing(container.Resolve);
+
+            //    m.CreateMap<Test3, ITest>().ConstructUsingServiceLocator(); // This is important!
+
+            //});
+
+
+
+            //services.AddAutoMapper(cfg =>
+            //{
+            //    cfg.AddMaps("CMiX.Core");
+            //    //cfg.ConstructServicesUsing(services)
+
+            //}, typeof(PrefabMappingProfile).Assembly);
+
+            //, cfg.ConstructServicesUsing);
+            //, 
+            //services.AddAutoMapper(typeof(PrefabMappingProfile).Assembly);
+            //services.AddAutoMapper();
 
             MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
 
-            services.AddTransient(x =>
-            {
-                mapperConfigurationExpression.AddMaps("CMiX.Core");
-                
-                mapperConfigurationExpression.ConstructServicesUsing(t => new ManagerMapperAction(x));
-                //mapperConfigurationExpression.ConstructServicesUsing(t => new ControlMappingAction());
-                //mapperConfigurationExpression.ConstructServicesUsing(t => x);
-                mapperConfigurationExpression.AddCollectionMappers();
+            //services.AddTransient(x =>
+            //{
+            //    mapperConfigurationExpression.AddMaps("CMiX.Core");
+            //    mapperConfigurationExpression.ConstructServicesUsing(t => x.GetR(t));
+            //    mapperConfigurationExpression.AllowNullCollections = true;
+            //    mapperConfigurationExpression.AllowNullDestinationValues = true;
+            //    mapperConfigurationExpression.AddCollectionMappers();
 
-                var config = new MapperConfiguration(mapperConfigurationExpression);
-                return config.CreateMapper();
-            });
+            //    var config = new MapperConfiguration(mapperConfigurationExpression);
+
+            //    //config.AssertConfigurationIsValid();
+            //    return config.CreateMapper();
+            //});
 
 
             //var modifierTypes = Assembly.GetExecutingAssembly()

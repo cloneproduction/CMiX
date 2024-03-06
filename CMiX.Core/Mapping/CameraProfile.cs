@@ -11,17 +11,16 @@ namespace CMiX.Core.Mapping
     {
         public CameraProfile()
         {
-            CreateMap<Camera, CameraModel>().ReverseMap();
-            CreateMap<CameraSettings, CameraSettingsModel>().ReverseMap();
+            CreateMap<CameraSettings, CameraSettingsModel>().ReverseMap().ConstructUsingServiceLocator(); ;
 
 
-            CreateMap<CameraLFO, CameraLFOModel>().ReverseMap();
-            CreateMap<CameraRandom, CameraRandomModel>().ReverseMap();
+            CreateMap<CameraLFO, CameraLFOModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<CameraRandom, CameraRandomModel>().ReverseMap().ConstructUsingServiceLocator(); ;
 
             CreateMap<IControl, IControlModel>()
                 .Include<CameraLFO, CameraLFOModel>()
                 .Include<CameraRandom, CameraRandomModel>()
-                .ReverseMap();
+                .ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }
 }

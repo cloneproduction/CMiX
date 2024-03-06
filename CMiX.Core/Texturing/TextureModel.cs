@@ -10,7 +10,7 @@ using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Core.Texturing
 {
-    public class TextureModel : IPrefabModel
+    public class TextureModel : IControlModel, IPrefabModel
     {
         public TextureModel()
         {
