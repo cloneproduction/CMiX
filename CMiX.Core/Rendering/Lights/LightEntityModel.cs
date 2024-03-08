@@ -3,9 +3,8 @@
 
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Rendering.Lights;
 
-namespace CMiX.Core.Entities.Lights
+namespace CMiX.Core.Rendering.Lights
 {
     public class LightEntityModel : IControlModel, IPrefabModel
     {

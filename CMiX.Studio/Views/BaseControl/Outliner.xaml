@@ -27,7 +27,7 @@
                 Width="20"
                 Margin="1,0"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Compositing:Composition}"
+                CommandParameter="{x:Type Compositing:CompositionModel}"
                 Content="+"
                 DockPanel.Dock="Right"
                 Style="{StaticResource ButtonStraight}" />

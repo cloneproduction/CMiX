@@ -20,7 +20,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Compositing:Entity}"
+            CommandParameter="{x:Type Compositing:EntityModel}"
             Style="{StaticResource ButtonItemControl}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
@@ -43,7 +43,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Cameras:Camera}"
+            CommandParameter="{x:Type Cameras:CameraModel}"
             Style="{StaticResource ButtonItemControl}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
@@ -67,7 +67,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Lights:LightEntity}"
+            CommandParameter="{x:Type Lights:LightEntityModel}"
             Style="{StaticResource ButtonItemControl}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">

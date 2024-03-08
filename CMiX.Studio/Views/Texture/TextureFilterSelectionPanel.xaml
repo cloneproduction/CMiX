@@ -25,7 +25,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:HSCB}"
+                CommandParameter="{x:Type Filters:HSCBModel}"
                 Content="HSCB"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -35,7 +35,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:Invert}"
+                CommandParameter="{x:Type Filters:InvertModel}"
                 Content="Invert"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -60,7 +60,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:Edge}"
+                CommandParameter="{x:Type Filters:EdgeModel}"
                 Content="Edge"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -71,7 +71,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:TransformTexture}"
+                CommandParameter="{x:Type Filters:TransformTextureModel}"
                 Content="Transform"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -82,7 +82,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:RandomUV}"
+                CommandParameter="{x:Type Filters:RandomUVModel}"
                 Content="Random UV"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -93,7 +93,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:LFOUV}"
+                CommandParameter="{x:Type Filters:LFOUVModel}"
                 Content="LFO UV"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -104,7 +104,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:Pixelate}"
+                CommandParameter="{x:Type Filters:PixelateModel}"
                 Content="Pixelate"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -118,7 +118,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:Blur}"
+                CommandParameter="{x:Type Filters:BlurModel}"
                 Content="Blur"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -129,7 +129,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:Echo}"
+                CommandParameter="{x:Type Filters:EchoModel}"
                 Content="Echo"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -140,7 +140,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:Feedback}"
+                CommandParameter="{x:Type Filters:FeedbackModel}"
                 Content="Feedback"
                 Style="{StaticResource ButtonItemControl}" />
 

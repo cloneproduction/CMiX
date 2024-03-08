@@ -29,9 +29,9 @@
                     <Border.Opacity>
                         <MultiBinding Converter="{StaticResource MultiPeriodToBeatAnimation}" UpdateSourceTrigger="PropertyChanged">
                             <Binding Path="BeatIndex.Value" />
-                            <Binding Path="MasterBeat"/>
+                            <Binding Path="MasterBeat" />
                             <!--  The third binding is only to continuously update as the animation position keeps moving otherwise it would update only on BeatIndex Change or MasterBeat Change  -->
-                            <Binding Path="MasterBeat.AnimatedDouble.AnimationPosition"/>
+                            <Binding Path="MasterBeat.AnimatedDouble.AnimationPosition" />
                         </MultiBinding>
                     </Border.Opacity>
 
@@ -44,9 +44,9 @@
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource MultiPeriodToBPM}" UpdateSourceTrigger="PropertyChanged">
                             <Binding Path="BeatIndex.Value" />
-                            <Binding Path="MasterBeat"/>
+                            <Binding Path="MasterBeat" />
                             <!--  The third binding is only to continuously update as the animation position keeps moving otherwise it would update only on BeatIndex Change or MasterBeat Change  -->
-                            <Binding Path="MasterBeat.AnimatedDouble.AnimationPosition"/>
+                            <Binding Path="MasterBeat.AnimatedDouble.AnimationPosition" />
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>

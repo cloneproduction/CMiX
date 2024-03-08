@@ -53,7 +53,7 @@
                         Grid.Column="2"
                         Margin="1,0,0,0"
                         Command="{Binding TextureManager.AddItemCommand}"
-                        CommandParameter="{x:Type Texturing:Texture}"
+                        CommandParameter="{x:Type Texturing:TextureModel}"
                         DockPanel.Dock="Right"
                         Style="{StaticResource ButtonStraight}">
                         <Button.Content>

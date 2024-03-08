@@ -105,7 +105,7 @@
                         Margin="2"
                         Background="Transparent"
                         Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Compositing:Layer}"
+                        CommandParameter="{x:Type Compositing:LayerModel}"
                         Style="{StaticResource ButtonRounded}">
                         <Button.Content>
                             <Image
