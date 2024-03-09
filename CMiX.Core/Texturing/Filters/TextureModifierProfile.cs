@@ -10,16 +10,16 @@ namespace CMiX.Core.Mapping
     {
         public TextureModifierProfile()
         {
-            CreateMap<HSCB, HSCBModel>().ReverseMap();
-            CreateMap<Edge, EdgeModel>().ReverseMap();
-            CreateMap<RandomUV, RandomUVModel>().ReverseMap();
-            CreateMap<Invert, InvertModel>().ReverseMap();
-            CreateMap<LFOUV, LFOUVModel>().ReverseMap();
-            CreateMap<Pixelate, PixelateModel>().ReverseMap();
-            CreateMap<Blur, BlurModel>().ReverseMap();
-            CreateMap<Echo, EchoModel>().ReverseMap();
-            CreateMap<Feedback, FeedbackModel>().ReverseMap();
-            CreateMap<TransformTexture, TransformTextureModel>().ReverseMap();
+            CreateMap<HSCB, HSCBModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Edge, EdgeModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomUV, RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Invert, InvertModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<LFOUV, LFOUVModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Pixelate, PixelateModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Blur, BlurModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Echo, EchoModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Feedback, FeedbackModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<TransformTexture, TransformTextureModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<HSCB, HSCBModel>()
@@ -32,7 +32,7 @@ namespace CMiX.Core.Mapping
                 .Include<Echo, EchoModel>()
                 .Include<Feedback, FeedbackModel>()
                 .Include<TransformTexture, TransformTextureModel>()
-                .ReverseMap();
+                .ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

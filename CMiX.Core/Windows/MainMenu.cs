@@ -77,7 +77,7 @@ namespace CMiX.Core.ViewModels
             ProjectModel projectModel = new ProjectModel();
         }
 
-        public void OpenProject()
+        private void OpenProject()
         {
 
             OpenFileDialogSettings settings = new OpenFileDialogSettings();
@@ -99,12 +99,18 @@ namespace CMiX.Core.ViewModels
             }
         }
 
+        public IControl Composition { get; set; }
+
         public void OpenProject(string filePath)
         {
-            byte[] data = File.ReadAllBytes(filePath);
+            byte[] data = File.ReadAllBytes(filePath); 
             var compositionModel = Serializer.Deserialize<CompositionModel>(data);
             var composition = ControlFactory.Create(compositionModel);
+            Composition = composition;
+
             Project.CompositionManager.ManagerData.SelectedItem = composition;
+            Project.CompositionManager.ManagerData.Items.Insert(0, composition);
+            Project.CompositionManager.ManagerData.SelectedIndex = 0;
         }
 
 

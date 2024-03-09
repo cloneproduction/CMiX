@@ -12,22 +12,27 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public partial class PrefabManager : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public PrefabManager(ManagerData managerData, ControlFactory controlFactory, ManagerMessenger managerMessenger)
+        public PrefabManager(ManagerData managerData,
+                             ControlFactory controlFactory, 
+                             ManagerMessenger managerMessenger)
         {
             ManagerMessenger = managerMessenger;
             ControlFactory = controlFactory;
-            ManagerData = managerData;
 
-            ManagerData.PropertyChanged += ManagerData_PropertyChanged;
+            ManagerData = managerData;
+            ManagerReorderService = new ManagerReorderService(this);
 
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
 
-            ManagerReorderService = new ManagerReorderService(managerData, managerMessenger);
             IsActive = true;
         }
-        
+
+        private void Items_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Console.WriteLine();
+        }
 
         public ManagerReorderService ManagerReorderService { get; set; }
 
@@ -91,15 +96,6 @@ namespace CMiX.Core.Prefabs.Managers
         public ManagerMessenger ManagerMessenger { get; set; }
         public ControlFactory ControlFactory { get; set; }
         public ManagerData ManagerData { get; set; }
-
-
-
-        //private ManagerData _managerData;
-        //public ManagerData ManagerData
-        //{
-        //    get => _managerData;
-        //    set => SetProperty(ref _managerData, value);
-        //}
 
 
         public void AddItem(Type type)

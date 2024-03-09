@@ -2,10 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Reflection;
-using AutoMapper;
 using Ceras;
 using CMiX.Core.Animations;
-using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Mapping;
 using CMiX.Core.Network;
@@ -13,16 +11,8 @@ using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Rendering.Cameras;
-using CMiX.Core.Rendering.Cameras.Modifiers;
-using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Services;
-using CMiX.Core.Texturing;
-using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Transformation;
-using CMiX.Core.Transformation.Modifiers;
 using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
 using CMiX.Core.ViewModels.Windows;
@@ -49,8 +39,7 @@ namespace CMiX.Core
                     .WithTransientLifetime()
             );
 
-            services.AddSingleton(x => new Project(new PrefabManager(new ManagerData() { ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00") }, x.GetRequiredService<ControlFactory>(), x.GetRequiredService<ManagerMessenger>())));
-
+            services.AddSingleton<Project>();
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<MainViewModel>();
 
@@ -71,14 +60,13 @@ namespace CMiX.Core
             services.AddSingleton<ManagerMessenger>();
             services.AddSingleton<MainMenuMessenger>();
 
-            services.AddTransient<MasterBeat>();
+            services.AddSingleton<MasterBeat>();
+            services.AddSingleton<ControlFactory>();
 
             services.AddAutoMapper((provider, opt) =>
             {
-                opt.RecognizeDestinationPrefixes(new[] { "Model" });
                 opt.AddMaps("CMiX.Core");
                 opt.ConstructServicesUsing(t => ActivatorUtilities.CreateInstance(provider, t));
-                //opt.AddConditionalObjectMapper().Where((s, d) => s.Name == d.Name + "Dto");
             }, Assembly.GetAssembly(typeof(PrefabMappingProfile)));
 
 
@@ -105,7 +93,7 @@ namespace CMiX.Core
             //services.AddAutoMapper(typeof(PrefabMappingProfile).Assembly);
             //services.AddAutoMapper();
 
-            MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
+            //MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
 
             //services.AddTransient(x =>
             //{
@@ -133,7 +121,7 @@ namespace CMiX.Core
             //    var t = Type.GetType(modifierTypes + "Model");
             //    Console.WriteLine("POUETPOUET" + t);
             //}
-            services.AddSingleton<ControlFactory>();
+
 
             //services.AddSingleton(x =>
             //{

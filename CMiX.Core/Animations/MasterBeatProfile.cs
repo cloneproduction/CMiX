@@ -9,11 +9,11 @@ namespace CMiX.Core.Animations
     {
         public MasterBeatProfile()
         {
-            CreateMap<MasterBeat, MasterBeatModel>().ReverseMap();
+            CreateMap<MasterBeat, MasterBeatModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(MasterBeat), typeof(MasterBeatModel))
-                .ReverseMap();
+                .ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

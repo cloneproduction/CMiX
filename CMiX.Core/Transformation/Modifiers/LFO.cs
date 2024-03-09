@@ -8,29 +8,32 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LFO : ObservableObject, IBeatModifiable, IModifier
+    public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable, IModifier
     {
         public LFO(GenericValue<bool> visible,
-            BeatModifier beatModifier,
-            GenericValue<bool> pingPong,
-            DirectionXYZ directionXYZ,
-            GenericValue<TransformType> transformType,
-            Easing easing,
-            GenericValue<float> from,
-            GenericValue<float> to
-            )
+                    BeatModifier beatModifier,
+                    GenericValue<bool> pingPong,
+                    DirectionXYZ directionXYZ,
+                    GenericValue<TransformType> transformType,
+                    Easing easing,
+                    GenericValue<float> from,
+                    GenericValue<float> to,
+                    ModifierModeSelector modifierModeSelector
+                    )
         {
-            Visible = visible; // new GenericValue<bool>(true);
-            BeatModifier = beatModifier;// new BeatModifier();
-            PingPong = pingPong;// new GenericValue<bool>();
-            DirectionXYZ = directionXYZ;// new DirectionXYZ();
-            TransformType = transformType;// new GenericValue<TransformType>();
-            Easing = easing;// new Easing();
-            From = from;// new GenericValue<float>(0.0f);
-            To = to; // new GenericValue<float>(1.0f);
+            ModifierModeSelector = modifierModeSelector;
+            Visible = visible;
+            BeatModifier = beatModifier;
+            PingPong = pingPong;
+            DirectionXYZ = directionXYZ;
+            TransformType = transformType;
+            Easing = easing;
+            From = from;
+            To = to;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public GenericValue<bool> PingPong { get; set; }

@@ -51,6 +51,12 @@ namespace CMiX.Core.Prefabs
 
         public void AddControl(IControl control)
         {
+            if (control == null)
+                return;
+
+            if(control is EmptyPrefab) 
+                return;
+
             if (Controls.Any(x => x.ID == control.ID))
                 return;
 

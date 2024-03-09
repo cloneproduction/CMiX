@@ -9,7 +9,7 @@ namespace CMiX.Core.Modifiers
     {
         public ModifierProfile()
         {
-            CreateMap<ModifierModeSelector, ModifierModeSelectorModel>().ReverseMap();
+            CreateMap<ModifierModeSelector, ModifierModeSelectorModel>().ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }
 }

@@ -50,7 +50,6 @@
             dd:DragDrop.IsDragSource="True"
             dd:DragDrop.IsDropTarget="True"
             AllowDrop="True"
-            IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
             ItemsSource="{Binding ManagerData.Items}">
 
             <ItemsControl.Resources>

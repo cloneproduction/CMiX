@@ -21,10 +21,12 @@ namespace CMiX.Core.Transformation.Modifiers
             Easing = new EasingModel();
             From = new GenericValueModel<float>(0.0f);
             To = new GenericValueModel<float>(1.0f);
+            ModifierModeSelector = new ModifierModeSelectorModel();
         }
 
         public string Name { get; set; }
         public GenericValueModel<bool> PingPong { get; set; }
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
         public Guid ID { get; set; }
         public GenericValueModel<bool> Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }

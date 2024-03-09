@@ -9,10 +9,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public class Project : ObservableObject, IControl, IPrefab
+    public class Project : ObservableObject//, IControl, IPrefab
     {
         public Project(PrefabManager prefabManagerBase)
         {
+            prefabManagerBase.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
+            ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
             Assets = new SortableObservableCollection<IAsset>();
             CompositionManager = prefabManagerBase;
         }

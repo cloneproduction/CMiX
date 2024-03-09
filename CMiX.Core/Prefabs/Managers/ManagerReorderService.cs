@@ -13,15 +13,18 @@ namespace CMiX.Core.Prefabs.Managers
                                                  IDropTarget,
                                                  IDragSource
     {
-        public ManagerReorderService(ManagerData managerData, ManagerMessenger managerMessenger)
+        public ManagerReorderService(PrefabManager prefabManager)
         {
-            ID = managerData.ID;
-            ManagerMessenger = managerMessenger;
-            ManagerData = managerData;
+            PrefabManager = prefabManager;
+            ID = prefabManager.ManagerData.ID;
+            //ManagerData = prefabManager.ManagerData;
+            //ManagerMessenger = prefabManager.ManagerMessenger;
         }
 
-        ManagerMessenger ManagerMessenger { get; set; }
-        ManagerData ManagerData { get; set; }
+        //public ManagerData ManagerData { get; set; }
+        //public ManagerMessenger ManagerMessenger { get; set; }
+        public PrefabManager PrefabManager { get; set; }
+
 
         public Guid ID { get; set; }
 
@@ -81,13 +84,13 @@ namespace CMiX.Core.Prefabs.Managers
             var sourceIndex = dropInfo.DragInfo.SourceIndex;
             var targetIndex = dropInfo.InsertIndex;
 
-            if (targetIndex == ManagerData.Items.Count)
+            if (targetIndex == PrefabManager.ManagerData.Items.Count)
             {
                 MoveOnDrop(sourceIndex, targetIndex);
                 return;
             }
 
-            if (targetIndex == ManagerData.Items.Count - 1)
+            if (targetIndex == PrefabManager.ManagerData.Items.Count - 1)
             {
                 MoveOnDrop(sourceIndex, targetIndex);
                 return;
@@ -99,15 +102,15 @@ namespace CMiX.Core.Prefabs.Managers
                 return;
             }
 
-            ManagerData.Items.Move(sourceIndex, targetIndex);
-            ManagerMessenger.SendMessageMoveItem(ManagerData.ID, sourceIndex, targetIndex);
+            PrefabManager.ManagerData.Items.Move(sourceIndex, targetIndex);
+            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
         }
 
         public void MoveOnDrop(int sourceIndex, int targetIndex)
         {
             targetIndex -= 1;
-            ManagerData.Items.Move(sourceIndex, targetIndex);
-            ManagerMessenger.SendMessageMoveItem(ManagerData.ID, sourceIndex, targetIndex);
+            PrefabManager.ManagerData.Items.Move(sourceIndex, targetIndex);
+            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
         }
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)

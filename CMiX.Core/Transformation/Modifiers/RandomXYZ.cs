@@ -10,17 +10,16 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class RandomXYZ : ObservableObject, IControl, IBeatModifiable, IModifier, ISpreadableModifier
     {
-        public RandomXYZ(
-            GenericValue<bool> visible,
-            BeatModifier beatModifier,
-            Easing easing,
-            ModifierModeSelector modifierModeSelector,
-            GenericValue<bool> randomizeLocation,
-            Vector3 location,
-            GenericValue<bool> randomizeScale,
-            Vector3 scale,
-            GenericValue<bool> randomizeRotation,
-            Vector3 rotation)
+        public RandomXYZ(GenericValue<bool> visible,
+                         BeatModifier beatModifier,
+                         Easing easing,
+                         ModifierModeSelector modifierModeSelector,
+                         GenericValue<bool> randomizeLocation,
+                         Vector3 location,
+                         GenericValue<bool> randomizeScale,
+                         Vector3 scale,
+                         GenericValue<bool> randomizeRotation,
+                         Vector3 rotation)
         {
             Visible = visible;
             BeatModifier = beatModifier;

@@ -10,12 +10,12 @@ namespace CMiX.Core.Mapping
     {
         public TextureProfile()
         {
-            CreateMap<Image, ImageModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<Gradient, GradientModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<BubbleNoise, BubbleNoiseModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<TypeWriter, TypeWriterModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<VideoIn, VideoInModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<VideoPlayer, VideoPlayerModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<Image, ImageModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Gradient, GradientModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<BubbleNoise, BubbleNoiseModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<TypeWriter, TypeWriterModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<VideoIn, VideoInModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<VideoPlayer, VideoPlayerModel>().ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

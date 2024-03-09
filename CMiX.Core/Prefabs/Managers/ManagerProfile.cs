@@ -10,19 +10,24 @@ namespace CMiX.Core.Prefabs.Managers
     {
         public ManagerProfile()
         {
-            CreateMap<PrefabManager, PrefabManagerModel>().ReverseMap().ConstructUsingServiceLocator().AfterMap<MappingAction>(); ; ;//.ForMember(d => d.ManagerData, opt => opt.Ignore());//.ForAllMembers(x => x.Ignore());
+            CreateMap<PrefabManager, PrefabManagerModel>()
+                .ReverseMap()
+                .AfterMap<MappingAction>()
+                .ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<PrefabManager, PrefabManagerModel>()
-                .ReverseMap().ConstructUsingServiceLocator() ;
+                .ReverseMap()
+                .ConstructUsingServiceLocator() ;
 
-           
             CreateMap<ManagerData, ManagerDataModel>()
-                .ReverseMap().ConstructUsingServiceLocator();
+                .ReverseMap()
+                .ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<ManagerData, ManagerDataModel>()
-                .ReverseMap().ConstructUsingServiceLocator();
+                .ReverseMap()
+                .ConstructUsingServiceLocator();
         }
     }
 }

@@ -139,7 +139,7 @@
                                     <StackPanel>
 
                                         <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">
-                                            <Views:ModifierManager DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem.ModifierManager}">
+                                            <Views:ModifierManager DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem.TextureFilterManager}">
                                                 <Views:ModifierManager.SelectionPanel>
                                                     <Texture:TextureFilterSelectionPanel DataContext="{Binding}" />
                                                 </Views:ModifierManager.SelectionPanel>

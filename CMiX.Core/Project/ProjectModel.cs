@@ -10,7 +10,7 @@ using CMiX.Core.ViewModels.Scheduling;
 
 namespace CMiX.Core.Compositing
 {
-    public class ProjectModel : IControlModel, IPrefabModel
+    public class ProjectModel// : IControlModel, IPrefabModel
     {
         public ProjectModel()
         {
