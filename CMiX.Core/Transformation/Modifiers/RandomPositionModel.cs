@@ -7,7 +7,7 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class RandomPositionModel : IModifierModel
+    public class RandomPositionModel : IControlModel, IModifierModel
     {
         public RandomPositionModel()
         {
