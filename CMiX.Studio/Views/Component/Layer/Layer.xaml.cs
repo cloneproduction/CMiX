@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 
-namespace CMiX.Studio.Views.Component
+namespace CMiX.Studio.Views
 {
     public partial class Layer : UserControl
     {

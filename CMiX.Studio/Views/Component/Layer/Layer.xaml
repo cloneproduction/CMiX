@@ -1,17 +1,16 @@
 ﻿<UserControl
-    x:Class="CMiX.Studio.Views.Component.Layer"
+    x:Class="CMiX.Studio.Views.Layer"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Entities="clr-namespace:CMiX.Studio.Views.Component.Entities"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
-    xmlns:Texture="clr-namespace:CMiX.Studio.Views.Texture"
     xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:Views1="clr-namespace:CMiX.Studio.Views.Component.Entities"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -46,7 +45,7 @@
                                 ItemsSource="{Binding Path=DataContext.PrefabRepositories.LayerRepository.Controls, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
 
                                 <Views:PrefabSlotManager.SelectionPanel>
-                                    <Views1:EntitySelectionPanel />
+                                    <Entities:EntitySelectionPanel />
                                 </Views:PrefabSlotManager.SelectionPanel>
                             </Views:PrefabSlotManager>
 
@@ -80,7 +79,7 @@
                             <Panels:IndentedExpander Header="Filter">
                                 <Views:ModifierManager DataContext="{Binding ModifierManager}">
                                     <Views:ModifierManager.SelectionPanel>
-                                        <Texture:TextureFilterSelectionPanel DataContext="{Binding}" />
+                                        <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
                                     </Views:ModifierManager.SelectionPanel>
                                 </Views:ModifierManager>
                             </Panels:IndentedExpander>

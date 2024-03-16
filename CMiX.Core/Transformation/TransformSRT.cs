@@ -3,14 +3,16 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class TransformSRT : ObservableObject, IControl, IModifier
+    public partial class TransformSRT : ObservableObject, IPrefab, IControl, IModifier
     {
-        public TransformSRT(GenericValue<float> uniform, Translate translate, Scale scale, Rotation rotation, GenericValue<bool> visible, GenericValue<ModifierMode> mode)
+        public TransformSRT(PrefabService prefabService, GenericValue<float> uniform, Translate translate, Scale scale, Rotation rotation, GenericValue<bool> visible, GenericValue<ModifierMode> mode)
         {
+            PrefabService = prefabService;
             Uniform = uniform;
             Translate = translate;
             Scale = scale;
@@ -27,6 +29,7 @@ namespace CMiX.Core.Transformation
         public Rotation Rotation { get; set; }
         public GenericValue<bool> Visible { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
+        public PrefabService PrefabService { get; set; }
 
         [ObservableProperty]
         private bool isExpanded;

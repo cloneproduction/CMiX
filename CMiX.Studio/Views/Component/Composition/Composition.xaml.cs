@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class CompositionSettings : UserControl
+    public partial class Composition : UserControl
     {
-        public CompositionSettings()
+        public Composition()
         {
             InitializeComponent();
         }

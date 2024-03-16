@@ -1,7 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace CMiX.Studio.Views.Texture
+namespace CMiX.Studio.Views.Texturing
 {
     /// <summary>
-    /// Interaction logic for TextureFilterSelectionPanel.xaml
+    /// Interaction logic for Texture.xaml
     /// </summary>
-    public partial class TextureFilterSelectionPanel : UserControl
+    public partial class Texture : UserControl
     {
-        public TextureFilterSelectionPanel()
+        public Texture()
         {
             InitializeComponent();
         }

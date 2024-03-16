@@ -3,11 +3,9 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
-    xmlns:ComponentViews="clr-namespace:CMiX.Studio.Views.Component"
     xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Scheduling="clr-namespace:CMiX.Studio.Views.Scheduler"
-    xmlns:Texture="clr-namespace:CMiX.Studio.Views.Texture"
+    xmlns:Texturing="clr-namespace:CMiX.Studio.Views.Texturing"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -107,6 +105,7 @@
             <Border BorderBrush="{DynamicResource SuperHighDarkerColor}" BorderThickness="2,2,2,0">
 
                 <TabControl
+                    Grid.Column="1"
                     VerticalAlignment="Stretch"
                     DockPanel.Dock="Top"
                     Style="{StaticResource TabControlLayerPanel}">
@@ -135,23 +134,9 @@
                                     DataContext="{Binding Project.CompositionManager}"
                                     DockPanel.Dock="Top" />
 
-                                <Border Visibility="{Binding Project.CompositionManager.ManagerData.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                                    <StackPanel>
+                                <Views:Composition DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem}" Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
 
-                                        <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">
-                                            <Views:ModifierManager DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem.TextureFilterManager}">
-                                                <Views:ModifierManager.SelectionPanel>
-                                                    <Texture:TextureFilterSelectionPanel DataContext="{Binding}" />
-                                                </Views:ModifierManager.SelectionPanel>
-                                            </Views:ModifierManager>
-                                        </Panels:IndentedExpander>
 
-                                        <Panels:IndentedExpander DockPanel.Dock="Top" Header="Settings">
-                                            <ComponentViews:CompositionSettings Margin="8" DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem.OutputSettings}" />
-                                        </Panels:IndentedExpander>
-
-                                    </StackPanel>
-                                </Border>
                             </DockPanel>
                         </Border>
 
@@ -179,7 +164,7 @@
                                     BorderBrush="{DynamicResource SuperHighDarkerColor}"
                                     BorderThickness="0,2"
                                     Visibility="{Binding Project.CompositionManager.ManagerData.SelectedItem.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                                    <ComponentViews:Layer Margin="0,0,0,0" DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem.LayerManager.ManagerData.SelectedItem}" />
+                                    <Views:Layer Margin="0,0,0,0" DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem.LayerManager.ManagerData.SelectedItem}" />
                                 </Border>
 
                                 <Views:LayerManager
@@ -228,7 +213,76 @@
 
                     </TabItem>
 
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource Texture}"
+                                ToolTip="Assets" />
+                        </TabItem.Header>
+                        <DockPanel>
+                            <ListBox
+                                x:Name="TextureListBox"
+                                Height="120"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding PrefabRepositories.Textures}" />
+
+                            <Texturing:Texture
+                                Margin="0,8,0,0"
+                                DataContext="{Binding SelectedItem, ElementName=TextureListBox}"
+                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+
+                        </DockPanel>
+
+                    </TabItem>
+
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource Entity}"
+                                ToolTip="Assets" />
+                        </TabItem.Header>
+                        <StackPanel>
+                            <ListBox
+                                x:Name="EntitiesListBox"
+                                Height="120"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding PrefabRepositories.Entities}" />
+
+                            <Views:ModelEntity
+                                Margin="0,8,0,0"
+                                DataContext="{Binding SelectedItem, ElementName=EntitiesListBox}"
+                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+                        </StackPanel>
+
+                    </TabItem>
+
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource Camera}"
+                                ToolTip="Assets" />
+                        </TabItem.Header>
+                        <StackPanel>
+                            <ListBox
+                                x:Name="CameraListBox"
+                                Height="120"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding PrefabRepositories.Entities}" />
+
+                            <Views:ModelEntity
+                                Margin="0,8,0,0"
+                                DataContext="{Binding SelectedItem, ElementName=EntitiesListBox}"
+                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+                        </StackPanel>
+
+                    </TabItem>
+
                 </TabControl>
+
+
             </Border>
 
         </DockPanel>
