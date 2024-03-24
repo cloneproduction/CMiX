@@ -30,7 +30,7 @@ namespace CMiX.Core.Transformation.Modifiers
             Location = location;
             RandomizeScale = randomizeScale;
             Scale = scale;
-            RandomizeRotation = randomizeLocation;
+            RandomizeRotation = randomizeRotation;
             Rotation = rotation;
         }
 

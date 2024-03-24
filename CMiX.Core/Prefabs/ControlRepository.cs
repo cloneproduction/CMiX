@@ -18,6 +18,8 @@ namespace CMiX.Core.Prefabs
             Controls = new ObservableCollection<IControl>();
             Textures = new ObservableCollection<IPrefab>();
             Entities = new ObservableCollection<IPrefab>();
+            Cameras = new ObservableCollection<IPrefab>();
+            Lights = new ObservableCollection<IPrefab>();
             BindingOperations.EnableCollectionSynchronization(Controls, this);
         }
 
@@ -87,9 +89,17 @@ namespace CMiX.Core.Prefabs
             if (control is Texture)
                 Textures.Add(prefab);
 
-            if(control is Camera || control is LightEntity || control is Entity)
+            if(control is Camera)
+                Cameras.Add(prefab);
+
+            if (control is LightEntity)
+                Lights.Add(prefab);
+
+            if (control is Entity)
                 Entities.Add(prefab);
         }
+
+
 
         private ObservableCollection<IPrefab> _textures;
         public ObservableCollection<IPrefab> Textures
@@ -103,6 +113,20 @@ namespace CMiX.Core.Prefabs
         {
             get => _entities;
             set => SetProperty(ref _entities, value);
+        }
+
+        private ObservableCollection<IPrefab> _cameras;
+        public ObservableCollection<IPrefab> Cameras
+        {
+            get => _cameras;
+            set => SetProperty(ref _cameras, value);
+        }
+
+        private ObservableCollection<IPrefab> _lights;
+        public ObservableCollection<IPrefab> Lights
+        {
+            get => _lights;
+            set => SetProperty(ref _lights, value);
         }
 
         public IControl GetPrefab(Guid id)

@@ -18,7 +18,8 @@ namespace CMiX.Core.Prefabs
 
         public IControl Create(Type type) 
         {
-            var control = Mapper.Map<IControlModel, IControl>((IControlModel)Activator.CreateInstance(type));
+            var controlModel = (IControlModel)Activator.CreateInstance(type);
+            var control = Mapper.Map<IControlModel, IControl>(controlModel);
             ControlRepository.AddControl(control);
             return control;
         }

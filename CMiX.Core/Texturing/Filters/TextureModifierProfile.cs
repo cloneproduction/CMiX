@@ -20,6 +20,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Echo, EchoModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Feedback, FeedbackModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TransformTexture, TransformTextureModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<TriColor, TriColorModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<HSCB, HSCBModel>()
@@ -32,6 +33,7 @@ namespace CMiX.Core.Mapping
                 .Include<Echo, EchoModel>()
                 .Include<Feedback, FeedbackModel>()
                 .Include<TransformTexture, TransformTextureModel>()
+                .Include<TriColor, TriColorModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

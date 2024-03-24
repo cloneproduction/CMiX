@@ -31,6 +31,7 @@ namespace CMiX.Core.Compositing
             Invert = new GenericValueModel<bool>(false);
             ModifierManager = new PrefabManagerModel();
             ModelEntityManager = new PrefabManagerModel();
+            LayerModifierManager = new PrefabManagerModel();
         }
 
 
@@ -49,6 +50,7 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<MaskMode> MaskMode { get; set; }
 
         public PrefabManagerModel ModifierManager { get; set; }
+        public PrefabManagerModel LayerModifierManager { get; set; }
         public GenericValueModel<string> BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
         public GenericValueModel<BlendModeEnum> BlendMode { get; set; }

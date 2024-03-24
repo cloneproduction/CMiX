@@ -1,67 +1,72 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.TriColor"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             md:DialogServiceViews.IsRegistered="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="246.889" d:DesignWidth="291.555">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.TriColor"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="246.889"
+    d:DesignWidth="291.555"
+    md:DialogServiceViews.IsRegistered="True"
+    mc:Ignorable="d">
 
     <StackPanel Margin="8">
 
-        <BaseControl:ColorSelector 
+        <BaseControl:ColorSelector
+            Caption="Color A"
             Position="Top"
-            SelectedColor="{Binding ColorA.SelectedColor, Converter={StaticResource EnumToString}}"
-            Caption="Color A"/>
+            SelectedColor="{Binding ColorA.Value}"
+            ViewModel="{Binding Path=ColorA}" />
 
-        <BaseControl:ColorSelector 
+        <BaseControl:ColorSelector
+            Margin="0,1"
+            Caption="Color B"
             Position="Middle"
-            Margin="0, 1"
-            SelectedColor="{Binding ColorB.SelectedColor, Converter={StaticResource EnumToString}}"
-            Caption="Color B"/>
+            SelectedColor="{Binding ColorB.Value}"
+            ViewModel="{Binding Path=ColorB}" />
 
-        <BaseControl:ColorSelector 
+        <BaseControl:ColorSelector
+            Caption="Color C"
             Position="Bottom"
-            SelectedColor="{Binding ColorC.SelectedColor, Converter={StaticResource EnumToString}}"
-            Caption="Color C"/>
-        
-        <BaseControl:ToggleButton 
-            IsChecked="{Binding SingleChannel.Value}" 
+            SelectedColor="{Binding ColorC.Value}"
+            ViewModel="{Binding Path=ColorC}" />
+
+        <BaseControl:ToggleButton
+            Margin="0,8,0,0"
             Caption="Single Channel"
-            Margin="0, 8, 0, 0"/>
+            IsChecked="{Binding SingleChannel.Value}" />
 
-        <BaseControl:ToggleButton 
-            IsChecked="{Binding ClampColor.Value}" 
+        <BaseControl:ToggleButton
+            Margin="0,8,0,0"
             Caption="Clamp Color"
-            Margin="0, 8, 0, 0"/>
-        
-        <BaseControl:CMiXSlider 
-            Margin="0, 8, 0, 1" 
-            Caption="Smooth" 
-            Minimum="0.0" 
-            Maximum="1.0" 
-            Value="{Binding Smooth.Value}" 
-            Style="{StaticResource SliderRoundedTop}" 
-            Position="Top"/>
-        
-        <BaseControl:CMiXSlider 
-            Margin="0, 0, 0, 8" 
-            Caption="Center" 
-            Minimum="0.0" 
-            Maximum="1.0" 
-            Value="{Binding Center.Value}" 
-            Style="{StaticResource SliderRoundedBottom}" 
-            Position="Bottom"/>
+            IsChecked="{Binding ClampColor.Value}" />
 
-        <BaseControl:CMiXSlider 
-            Margin="0, 8, 0, 0" 
-            Caption="Control" 
-            Minimum="0.0" 
-            Maximum="1.0" 
-            Value="{Binding Control.Value}" 
-            Position="Default"/>
-        
+        <BaseControl:CMiXSlider
+            Margin="0,8,0,1"
+            Caption="Smooth"
+            Maximum="1.0"
+            Minimum="0.0"
+            Position="Top"
+            Style="{StaticResource SliderRoundedTop}"
+            Value="{Binding Smooth.Value}" />
+
+        <BaseControl:CMiXSlider
+            Margin="0,0,0,8"
+            Caption="Center"
+            Maximum="1.0"
+            Minimum="0.0"
+            Position="Bottom"
+            Style="{StaticResource SliderRoundedBottom}"
+            Value="{Binding Center.Value}" />
+
+        <BaseControl:CMiXSlider
+            Margin="0,8,0,0"
+            Caption="Control"
+            Maximum="1.0"
+            Minimum="0.0"
+            Position="Default"
+            Value="{Binding Control.Value}" />
+
     </StackPanel>
 </UserControl>

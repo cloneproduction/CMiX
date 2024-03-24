@@ -5,7 +5,6 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="prefabSlotManager"
     d:DesignHeight="215.334"
@@ -103,7 +102,22 @@
                     Placement="Bottom"
                     PlacementTarget="{Binding ElementName=ToggleItemSelection}">
 
-                    <ItemsControl ItemsSource="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                    <ItemsControl>
+
+                        <ItemsControl.Resources>
+                            <CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                            <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                            <CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                        </ItemsControl.Resources>
+
+                        <ItemsControl.ItemsSource>
+                            <CompositeCollection>
+                                <CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />
+                                <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
+                                <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
+                            </CompositeCollection>
+                        </ItemsControl.ItemsSource>
+
                         <ItemsControl.ItemTemplate>
                             <DataTemplate>
                                 <Button

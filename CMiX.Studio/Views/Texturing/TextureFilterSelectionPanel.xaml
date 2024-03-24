@@ -39,6 +39,16 @@
                 Content="Invert"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Grid.Column="1"
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Filters:TriColorModel}"
+                Content="TriColor"
+                Style="{StaticResource ButtonItemControl}" />
+
         </StackPanel>
 
         <StackPanel Grid.Column="1">

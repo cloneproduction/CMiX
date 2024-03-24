@@ -76,13 +76,22 @@
                             <Image Margin="8" Source="{StaticResource PostFX}" />
                         </TabItem.Header>
                         <StackPanel>
-                            <Panels:IndentedExpander Header="Filter">
+                            <Panels:IndentedExpander Header="Texture Filters">
                                 <Views:ModifierManager DataContext="{Binding ModifierManager}">
                                     <Views:ModifierManager.SelectionPanel>
                                         <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
                                     </Views:ModifierManager.SelectionPanel>
                                 </Views:ModifierManager>
                             </Panels:IndentedExpander>
+
+                            <Panels:IndentedExpander Header="Modifiers">
+                                <Views:ModifierManager DataContext="{Binding LayerModifierManager}">
+                                    <Views:ModifierManager.SelectionPanel>
+                                        <Views:LayerModifierSelectionPanel DataContext="{Binding}" />
+                                    </Views:ModifierManager.SelectionPanel>
+                                </Views:ModifierManager>
+                            </Panels:IndentedExpander>
+
                             <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
                         </StackPanel>
                     </TabItem>

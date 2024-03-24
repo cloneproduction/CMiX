@@ -8,7 +8,15 @@ namespace CMiX.Core.Texturing.Filters
 {
     public partial class TriColor : ObservableObject, ITextureModifier
     {
-        public TriColor(GenericValue<bool> visible, GenericValue<float> control, GenericValue<string> colorA, GenericValue<string> colorB, GenericValue<string> colorC, GenericValue<float> smooth, GenericValue<float> center, GenericValue<bool> singleChannel, GenericValue<bool> clampColor)
+        public TriColor(GenericValue<bool> visible, 
+                        GenericValue<float> control, 
+                        GenericValue<string> colorA, 
+                        GenericValue<string> colorB, 
+                        GenericValue<string> colorC, 
+                        GenericValue<float> smooth, 
+                        GenericValue<float> center, 
+                        GenericValue<bool> singleChannel, 
+                        GenericValue<bool> clampColor)
         {
             isExpanded = true;
 
@@ -39,8 +47,5 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded;
-
-        [ObservableProperty]
-        private bool enabled;
     }
 }

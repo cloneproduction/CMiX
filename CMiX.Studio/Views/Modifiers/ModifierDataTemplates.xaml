@@ -4,11 +4,17 @@
     xmlns:CameraModifiers="clr-namespace:CMiX.Core.Rendering.Cameras.Modifiers;assembly=CMiX.Core"
     xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
+    xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
     xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light"
     xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views">
 
+    <!--  LAYER MODIFIERS  -->
+
+    <DataTemplate DataType="{x:Type Layering:SelectRandomEntity}">
+        <Views:SelectRandomEntity DataContext="{Binding}" />
+    </DataTemplate>
 
     <!--  TEXTURE MODIFIERS  -->
     <DataTemplate DataType="{x:Type Filters:HSCB}">

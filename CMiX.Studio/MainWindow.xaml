@@ -188,58 +188,6 @@
                         <TabItem.Header>
                             <Image
                                 Margin="8"
-                                Source="{StaticResource Resources}"
-                                ToolTip="Assets" />
-                        </TabItem.Header>
-                        <Views:AssetManager DataContext="{Binding AssetManager}" />
-                    </TabItem>
-
-                    <TabItem Style="{StaticResource TabItemVerticalPanel}">
-
-                        <TabItem.Header>
-                            <Image
-                                Margin="8"
-                                Source="{StaticResource Network}"
-                                ToolTip="Assets" />
-                        </TabItem.Header>
-
-                        <Border Background="{DynamicResource HighDarkerColor}">
-                            <StackPanel>
-                                <Views:ServerManager DataContext="{Binding ServerManager}" />
-                                <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}" />
-                                <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}" />
-                            </StackPanel>
-                        </Border>
-
-                    </TabItem>
-
-                    <TabItem>
-                        <TabItem.Header>
-                            <Image
-                                Margin="8"
-                                Source="{StaticResource Texture}"
-                                ToolTip="Assets" />
-                        </TabItem.Header>
-                        <DockPanel>
-                            <ListBox
-                                x:Name="TextureListBox"
-                                Height="120"
-                                DockPanel.Dock="Top"
-                                ItemsSource="{Binding PrefabRepositories.Textures}" />
-
-                            <Texturing:Texture
-                                Margin="0,8,0,0"
-                                DataContext="{Binding SelectedItem, ElementName=TextureListBox}"
-                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
-
-                        </DockPanel>
-
-                    </TabItem>
-
-                    <TabItem>
-                        <TabItem.Header>
-                            <Image
-                                Margin="8"
                                 Source="{StaticResource Entity}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
@@ -270,18 +218,91 @@
                                 x:Name="CameraListBox"
                                 Height="120"
                                 DockPanel.Dock="Top"
-                                ItemsSource="{Binding PrefabRepositories.Entities}" />
+                                ItemsSource="{Binding PrefabRepositories.Cameras}" />
 
-                            <Views:ModelEntity
+                            <Views:Camera
                                 Margin="0,8,0,0"
-                                DataContext="{Binding SelectedItem, ElementName=EntitiesListBox}"
+                                DataContext="{Binding SelectedItem, ElementName=CameraListBox}"
                                 Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
                         </StackPanel>
 
                     </TabItem>
 
-                </TabControl>
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource MeshLight}"
+                                ToolTip="Assets" />
+                        </TabItem.Header>
+                        <StackPanel>
+                            <ListBox
+                                x:Name="LightListBox"
+                                Height="120"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding PrefabRepositories.Lights}" />
 
+                            <Views:Camera
+                                Margin="0,8,0,0"
+                                DataContext="{Binding SelectedItem, ElementName=LightListBox}"
+                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+                        </StackPanel>
+
+                    </TabItem>
+
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource Texture}"
+                                ToolTip="Assets" />
+                        </TabItem.Header>
+                        <DockPanel>
+                            <ListBox
+                                x:Name="TextureListBox"
+                                Height="120"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding PrefabRepositories.Textures}" />
+
+                            <Texturing:Texture
+                                Margin="0,8,0,0"
+                                DataContext="{Binding SelectedItem, ElementName=TextureListBox}"
+                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+
+                        </DockPanel>
+
+                    </TabItem>
+
+                    <TabItem>
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource Resources}"
+                                ToolTip="Assets" />
+                        </TabItem.Header>
+                        <Views:AssetManager DataContext="{Binding AssetManager}" />
+                    </TabItem>
+
+                    <TabItem Style="{StaticResource TabItemVerticalPanel}">
+
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource Network}"
+                                ToolTip="Assets" />
+                        </TabItem.Header>
+
+                        <Border Background="{DynamicResource HighDarkerColor}">
+                            <StackPanel>
+                                <Views:ServerManager DataContext="{Binding ServerManager}" />
+                                <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}" />
+                                <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}" />
+                            </StackPanel>
+                        </Border>
+
+                    </TabItem>
+
+                </TabControl>
 
             </Border>
 

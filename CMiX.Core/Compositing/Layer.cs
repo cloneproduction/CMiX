@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
@@ -21,7 +20,8 @@ namespace CMiX.Core.Compositing
                      LayerSettings layerService,
                      LayerMaskService layerMaskService,
                      PrefabManager reorderablePrefabManager,
-                     PrefabManager modifierManager)
+                     PrefabManager modifierManager,
+                     PrefabManager layerModifier)
         {
             ID = prefabService.ID;
 
@@ -43,6 +43,7 @@ namespace CMiX.Core.Compositing
 
             ModifierManager = modifierManager;
             ModelEntityManager = reorderablePrefabManager;
+            LayerModifierManager = layerModifier;
         }
 
         public Guid ID { get; set; }
@@ -61,6 +62,7 @@ namespace CMiX.Core.Compositing
 
         public PrefabManager ModelEntityManager { get; set; }
         public PrefabManager ModifierManager { get; set; }
+        public PrefabManager LayerModifierManager { get; set; }
 
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }
