@@ -26551,7 +26551,7 @@
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
                 <Pin Id="EB2lAWkI6O1Pj59qdNpyF9" Name="Node Context" Kind="InputPin" IsHidden="true" />
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="446.66666, 129.33333, 1124.6666, 1050" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="784, 49.333332, 1131.3334, 1328" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
@@ -27190,7 +27190,7 @@
                   <Choice Kind="TypeFlag" Name="Vector2" />
                 </p:TypeAnnotation>
               </Pad>
-              <Pad Id="AtiQBJLA7W5OVbvRwdqwSd" Comment="Offset Scale" Bounds="1737,486,35,28" ShowValueBox="true" isIOBox="true" Value="0.44, 0.29">
+              <Pad Id="AtiQBJLA7W5OVbvRwdqwSd" Comment="Offset Scale" Bounds="1737,486,35,28" ShowValueBox="true" isIOBox="true" Value="0.04, 0">
                 <p:TypeAnnotation LastCategoryFullName="2D" LastDependency="VL.CoreLib.vl">
                   <Choice Kind="TypeFlag" Name="Vector2" />
                 </p:TypeAnnotation>
@@ -27782,6 +27782,14 @@
                   <Choice Kind="TypeFlag" Name="Vector4" />
                 </p:TypeAnnotation>
               </Pad>
+              <Pad Id="ChSxbPMDVceLxfDYu4hJKA" Comment="Apply" Bounds="1811,595,35,35" ShowValueBox="true" isIOBox="true" Value="False">
+                <p:TypeAnnotation LastCategoryFullName="Primitive" LastDependency="VL.CoreLib.vl">
+                  <Choice Kind="ImmutableTypeFlag" Name="Boolean" />
+                </p:TypeAnnotation>
+                <p:ValueBoxSettings>
+                  <p:buttonmode p:Assembly="VL.UI.Forms" p:Type="VL.HDE.PatchEditor.Editors.ButtonModeEnum">Toggle</p:buttonmode>
+                </p:ValueBoxSettings>
+              </Pad>
             </Canvas>
             <ProcessDefinition Id="FM8nvbBcF6aLQcEtA0GWCT">
               <Fragment Id="NGtUY4Yf6cKPDOd637IrWR" Patch="EY24Y5YDHcfPuv2OYdDiK1" Enabled="true" />
@@ -27943,6 +27951,7 @@
             <Link Id="SFhgc5Zlnu9N45e5WJJ4gX" Ids="Q9Wv13elv5hP6RpRSQpg7E,G5hEuxbYZfOMzwUDecqsXS" />
             <Link Id="Jyk5xVEK0FyPBaVXLUOtYL" Ids="HPLYSBVKnFZNYLJ8W7pNxO,LwZGfkqxFQBOZAaFr785QL" />
             <Link Id="ObDxHZSrtG9LNH0HCrBqIF" Ids="Q9Wv13elv5hP6RpRSQpg7E,IcauVZwqc53OQSbHzpWzKV" />
+            <Link Id="Ej7WY15GJF0OTMxTwRnAM7" Ids="ChSxbPMDVceLxfDYu4hJKA,OpxS27rruZQOkc1yZ2NLkT" />
           </Patch>
         </Node>
         <!--
@@ -33685,7 +33694,7 @@
                 </CategoryReference>
                 <Choice Kind="ProcessAppFlag" Name="ControlFactory" />
               </p:NodeReference>
-              <Pin Id="TR86GIcjj4HNbdz9D7VLaj" Name="Node Context" Kind="InputPin" IsHidden="true" />
+              <Pin Id="OUPJLLkju8EOPON8veX1Rv" Name="Node Context" Kind="InputPin" IsHidden="true" />
               <Pin Id="BHIYjaiWPprLZoGI3NufcG" Name="CompositionService" Kind="InputPin" />
               <Pin Id="GnNz9X3erFNOGHWOrvXwmr" Name="Update" Kind="InputPin" />
               <Pin Id="KqnG9Mzgr4ZPYhaEiTWPLe" Name="Output" Kind="StateOutputPin" />
@@ -36322,7 +36331,7 @@
                 <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                 <Choice Kind="ProcessNode" Name="ControlFactory" />
               </p:NodeReference>
-              <Pin Id="CjJBrHUEN4IPzSg838SkXU" Name="Node Context" Kind="InputPin" IsHidden="true" />
+              <Pin Id="VkZStO2tuhWQdTIaVNv7Lj" Name="Node Context" Kind="InputPin" IsHidden="true" />
               <Pin Id="LzGiu93V7LQLDYYRgxj9cW" Name="CompositionService" Kind="InputPin" />
               <Pin Id="JzPqF8JPdYmMMilntkKM5e" Name="Update" Kind="ApplyPin" />
               <Pin Id="DeMWLp6R0X0Ok1dOo7LdGv" Name="Output" Kind="OutputPin" />

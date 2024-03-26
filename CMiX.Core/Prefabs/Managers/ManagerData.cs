@@ -2,18 +2,26 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using CMiX.Core.Networking;
+using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class ManagerData : ObservableObject, IControl
+    public class ManagerData : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public ManagerData()
+        public ManagerData(ManagerMessenger managerMessenger)
         {
             ID = Guid.NewGuid();
             Items = new ObservableCollection<IControl>();
+            ManagerMessenger = managerMessenger;
+            IsActive = true;
         }
 
+
+        public ManagerMessenger ManagerMessenger { get; set; }
         public Guid ID { get; set; }
 
         private ObservableCollection<IControl> _items;
@@ -27,7 +35,13 @@ namespace CMiX.Core.Prefabs.Managers
         public IControl SelectedItem
         {
             get => _selectedItem;
-            set => SetProperty(ref _selectedItem, value);
+            set
+            {
+                SetProperty(ref _selectedItem, value);
+                if (IsActive)
+                    ManagerMessenger.SendSelectedItemChanged(this.ID, SelectedItem, SelectedIndex);
+                Console.WriteLine(value);
+            }
         }
 
         private int _selectedIndex;
@@ -35,6 +49,11 @@ namespace CMiX.Core.Prefabs.Managers
         {
             get => _selectedIndex;
             set => SetProperty(ref _selectedIndex, value);
+        }
+
+        public void Receive(IMessage message)
+        {
+            ManagerMessenger.Receive(this, message);
         }
     }
 }

@@ -24,6 +24,23 @@ namespace CMiX.Core.Prefabs.Messages
 
         private bool CanSend;
 
+
+        public void Receive(ManagerData managerData, IMessage messagePrefab)
+        {
+            if (messagePrefab is not IMessageManager messageManager)
+                return;
+
+            if (managerData.ID != messagePrefab.ID)
+                return;
+
+            CanSend = false;
+            CollectionHandler.Handle(managerData, messagePrefab);
+            CanSend = true;
+
+            Console.WriteLine("Message " + messagePrefab.GetType().Name + " handled by ManagerMessenger");
+        }
+
+
         public void Receive(PrefabManager prefabManagerBase, IMessage messagePrefab)
         {
             if (messagePrefab is not IMessageManager messageManager)
