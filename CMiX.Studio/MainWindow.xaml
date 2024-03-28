@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
     xmlns:Scheduling="clr-namespace:CMiX.Studio.Views.Scheduler"
     xmlns:Texturing="clr-namespace:CMiX.Studio.Views.Texturing"
@@ -132,7 +133,8 @@
                                     Margin="8"
                                     VerticalAlignment="Top"
                                     DataContext="{Binding Project.CompositionManager}"
-                                    DockPanel.Dock="Top" />
+                                    DockPanel.Dock="Top"
+                                    TypeParameter="{x:Type Compositing:CompositionModel}" />
 
                                 <Views:Composition DataContext="{Binding Project.CompositionManager.ManagerData.SelectedItem}" Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
 
@@ -264,10 +266,15 @@
                                 DockPanel.Dock="Top"
                                 ItemsSource="{Binding PrefabRepositories.Textures}" />
 
-                            <Texturing:Texture
-                                Margin="0,8,0,0"
-                                DataContext="{Binding SelectedItem, ElementName=TextureListBox}"
-                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+                            <ContentControl
+                                Margin="8"
+                                Content="{Binding}"
+                                DataContext="{Binding SelectedItem, ElementName=TextureListBox}">
+                                <ContentControl.Resources>
+                                    <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Views/Texturing/Source/TextureSourceDataTemplates.xaml" />
+                                </ContentControl.Resources>
+                            </ContentControl>
+                           
 
                         </DockPanel>
 

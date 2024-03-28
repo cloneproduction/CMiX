@@ -8,9 +8,10 @@
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     d:DesignHeight="162.555"
     d:DesignWidth="270.31"
+    md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    <StackPanel >
+    <StackPanel>
 
         <BaseControl:DragValue
             Margin="0,0,0,8"
@@ -20,14 +21,14 @@
         <BaseControl:ColorSelector
             Caption="From"
             Position="Top"
-            SelectedColor="{Binding Path=From.SelectedColor, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            SelectedColor="{Binding Path=From.Value}"
             ViewModel="{Binding Path=From}" />
 
-        <!--<BaseControl:ColorSelector
+        <BaseControl:ColorSelector
             Margin="0,1,0,0"
             Caption="To"
             Position="Bottom"
-            SelectedColor="{Binding To.SelectedColor}"
+            SelectedColor="{Binding To.Value}"
             ViewModel="{Binding To}" />
 
         <BaseControl:ToggleButton
@@ -35,7 +36,7 @@
             Caption="Horizontal"
             IsChecked="{Binding Horizontal.Value}" />
 
-        <BaseControl:Integer2Value Caption="Resolution" DataContext="{Binding Resolution}" />-->
+        <BaseControl:Integer2Value Caption="Resolution" DataContext="{Binding Resolution}" />
 
     </StackPanel>
 

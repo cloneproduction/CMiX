@@ -2,14 +2,16 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class BubbleNoise : ObservableObject, ITextureSource
+    public class BubbleNoise : ObservableObject, ITextureSource, IPrefab
     {
-        public BubbleNoise(Integer2 resolution, 
+        public BubbleNoise(PrefabService prefabService,
+                           Integer2 resolution, 
                            GenericValue<float> speed, 
                            GenericValue<float> frequency, 
                            GenericValue<float> contrast, 
@@ -17,6 +19,7 @@ namespace CMiX.Core.Texturing.Sources
                            GenericValue<string> bubbleColor)
         {
             ID = Guid.NewGuid();
+            PrefabService = prefabService;
             Resolution = resolution;
             Speed = speed;
             Frequency = frequency;
@@ -27,6 +30,7 @@ namespace CMiX.Core.Texturing.Sources
 
         public Guid ID { get; set; }
         public Integer2 Resolution { get; set; }
+        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Speed { get; set; }
         public GenericValue<float> Frequency { get; set; }
         public GenericValue<float> Contrast { get; set; }

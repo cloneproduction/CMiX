@@ -6,6 +6,7 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="outliner"
     d:DesignHeight="34.167"
     d:DesignWidth="248"
     mc:Ignorable="d">
@@ -27,13 +28,13 @@
                 Width="20"
                 Margin="1,0"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Compositing:CompositionModel}"
+                CommandParameter="{Binding TypeParameter, ElementName=outliner}"
                 Content="+"
                 DockPanel.Dock="Right"
                 Style="{StaticResource ButtonStraight}" />
 
             <ComboBox
-                ItemsSource="{Binding ManagerData.Items}"
+                ItemsSource="{Binding ItemsSource, ElementName=outliner}"
                 SelectedItem="{Binding ManagerData.SelectedItem}"
                 Style="{StaticResource ComboBoxWithButton}">
                 <ComboBox.ItemTemplate>

@@ -11,184 +11,174 @@
     d:DesignWidth="255.001"
     mc:Ignorable="d">
 
-    <Border Background="{DynamicResource HighDarkerColor}">
-        <StackPanel>
-            <DockPanel HorizontalAlignment="Stretch">
+    <StackPanel>
 
-                <DockPanel
-                    Margin="4,0,0,0"
-                    DockPanel.Dock="Right"
-                    LastChildFill="False">
+        <DockPanel HorizontalAlignment="Stretch">
 
-                    <Button
-                        Height="20"
-                        Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Prefabs:EmptyPrefabModel}"
-                        Content="+"
-                        DockPanel.Dock="Top"
-                        Style="{StaticResource ButtonRoundedTop}" />
+            <DockPanel
+                Margin="4,0,0,0"
+                DockPanel.Dock="Right"
+                LastChildFill="False">
 
-                    <Button
-                        x:Name="deleteItemButton"
-                        Height="20"
-                        Margin="0,1,0,0"
-                        Command="{Binding DeleteItemCommand}"
-                        CommandParameter="{Binding ManagerData.SelectedItem}"
-                        Content="-"
-                        DockPanel.Dock="Top"
-                        Style="{StaticResource ButtonRoundedBottom}" />
+                <Button
+                    Height="20"
+                    Command="{Binding AddItemCommand}"
+                    CommandParameter="{x:Type Prefabs:EmptyPrefabModel}"
+                    Content="+"
+                    DockPanel.Dock="Top"
+                    Style="{StaticResource ButtonRoundedTop}" />
 
-                    <Button
-                        x:Name="moveItemDownButton"
-                        Width="21"
-                        Height="20"
-                        Padding="8"
-                        Command="{Binding ItemDownCommand}"
-                        DockPanel.Dock="Bottom"
-                        Style="{StaticResource ButtonRoundedBottom}">
+                <Button
+                    x:Name="deleteItemButton"
+                    Height="20"
+                    Margin="0,1,0,0"
+                    Command="{Binding DeleteItemCommand}"
+                    CommandParameter="{Binding ManagerData.SelectedItem}"
+                    Content="-"
+                    DockPanel.Dock="Top"
+                    Style="{StaticResource ButtonRoundedBottom}" />
 
-                        <Button.Content>
-                            <Image
-                                Margin="20"
-                                Opacity="0.7"
-                                Source="{DynamicResource ArrowDown}" />
-                        </Button.Content>
-                    </Button>
+                <Button
+                    x:Name="moveItemDownButton"
+                    Width="21"
+                    Height="20"
+                    Padding="8"
+                    Command="{Binding ItemDownCommand}"
+                    DockPanel.Dock="Bottom"
+                    Style="{StaticResource ButtonRoundedBottom}">
 
-                    <Button
-                        x:Name="moveItemUpButton"
-                        Height="20"
-                        Margin="0,0,0,1"
-                        Command="{Binding ItemUpCommand}"
-                        DockPanel.Dock="Bottom"
-                        Style="{StaticResource ButtonRoundedTop}">
+                    <Button.Content>
+                        <Image
+                            Margin="20"
+                            Opacity="0.7"
+                            Source="{DynamicResource ArrowDown}" />
+                    </Button.Content>
+                </Button>
 
-                        <Button.Content>
-                            <Image
-                                Margin="20"
-                                Opacity="0.7"
-                                Source="{DynamicResource ArrowUp}" />
-                        </Button.Content>
-                    </Button>
+                <Button
+                    x:Name="moveItemUpButton"
+                    Height="20"
+                    Margin="0,0,0,1"
+                    Command="{Binding ItemUpCommand}"
+                    DockPanel.Dock="Bottom"
+                    Style="{StaticResource ButtonRoundedTop}">
 
-                </DockPanel>
-
-                <ListBox
-                    x:Name="prefabListBox"
-                    Grid.Row="3"
-                    Height="100"
-                    DataContext="{Binding}"
-                    ItemsSource="{Binding ManagerData.Items}"
-                    SelectedIndex="{Binding ManagerData.SelectedIndex}"
-                    SelectedItem="{Binding ManagerData.SelectedItem}" />
+                    <Button.Content>
+                        <Image
+                            Margin="20"
+                            Opacity="0.7"
+                            Source="{DynamicResource ArrowUp}" />
+                    </Button.Content>
+                </Button>
 
             </DockPanel>
 
+            <ListBox
+                x:Name="prefabListBox"
+                Grid.Row="3"
+                Height="100"
+                DataContext="{Binding}"
+                ItemsSource="{Binding ManagerData.Items}"
+                SelectedIndex="{Binding ManagerData.SelectedIndex}"
+                SelectedItem="{Binding ManagerData.SelectedItem}" />
 
-            <DockPanel Margin="0,8,0,0">
-                <ToggleButton
-                    x:Name="ToggleItemSelection"
+        </DockPanel>
+
+        <DockPanel Margin="0,8,0,0">
+            <ToggleButton
+                x:Name="ToggleItemSelection"
+                Width="24"
+                Height="22"
+                Margin="0,4"
+                HorizontalContentAlignment="Center"
+                Background="{DynamicResource DarkerColor}"
+                IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+                Style="{StaticResource ToggleTransformModifierMenu}" />
+
+            <Popup
+                Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
+                AllowsTransparency="True"
+                FlowDirection="LeftToRight"
+                IsOpen="{Binding IsChecked, ElementName=ToggleItemSelection}"
+                Placement="Bottom"
+                PlacementTarget="{Binding ElementName=ToggleItemSelection}">
+
+                <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button
+                                Height="22"
+                                Command="{Binding DataContext.ReplaceSelectedItemCommand, ElementName=prefabSlotManager}"
+                                CommandParameter="{Binding}"
+                                Content="{Binding PrefabService.Name.Value}" />
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+
+            </Popup>
+
+            <Grid DockPanel.Dock="Right">
+
+                <Border
                     Height="22"
-                    Margin="0,4"
-                    Background="{DynamicResource DarkerColor}"
-                    IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
-                    Style="{StaticResource ToggleTransformModifierMenu}" />
+                    Margin="1,0,0,0"
+                    Background="{DynamicResource HighHighDarkerColor}"
+                    CornerRadius="0, 2, 2, 0">
+                    <TextBox
+                        Padding="4,0"
+                        Background="Transparent"
+                        Text="{Binding DataContext.ManagerData.SelectedItem.PrefabService.Name.Value, ElementName=prefabSlotManager, UpdateSourceTrigger=PropertyChanged}" />
+                </Border>
+
+                <ToggleButton
+                    x:Name="PopUpToggle"
+                    Height="22"
+                    Margin="1,0,0,0"
+                    Content="New">
+                    <ToggleButton.Style>
+                        <Style BasedOn="{StaticResource ToggleButtonRoundedRight}" TargetType="{x:Type ToggleButton}">
+                            <Setter Property="Visibility" Value="Collapsed" />
+
+                            <Style.Triggers>
+
+                                <DataTrigger Binding="{Binding ManagerData.SelectedItem}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+
+                                <DataTrigger Binding="{Binding ManagerData.SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+
+                            </Style.Triggers>
+                        </Style>
+                    </ToggleButton.Style>
+                </ToggleButton>
 
                 <Popup
+                    Width="{Binding ActualWidth, ElementName=PopUpToggle}"
                     Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
                     AllowsTransparency="True"
                     FlowDirection="LeftToRight"
-                    IsOpen="{Binding IsChecked, ElementName=ToggleItemSelection}"
+                    IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
                     Placement="Bottom"
-                    PlacementTarget="{Binding ElementName=ToggleItemSelection}">
+                    PlacementTarget="{Binding ElementName=PopUpToggle}">
 
-                    <ItemsControl>
+                    <Border
+                        Padding="2,4,2,2"
+                        Background="{DynamicResource HighHighDarkerColor}"
+                        BorderBrush="{DynamicResource Shadow}"
+                        BorderThickness="1,0,1,2"
+                        CornerRadius="{DynamicResource CornerRadiusBottom}">
 
-                        <ItemsControl.Resources>
-                            <CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                            <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                            <CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                        </ItemsControl.Resources>
+                        <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
 
-                        <ItemsControl.ItemsSource>
-                            <CompositeCollection>
-                                <CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />
-                                <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
-                                <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
-                            </CompositeCollection>
-                        </ItemsControl.ItemsSource>
-
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
-                                <Button
-                                    Height="22"
-                                    Command="{Binding DataContext.ReplaceSelectedItemCommand, ElementName=prefabSlotManager}"
-                                    CommandParameter="{Binding}"
-                                    Content="{Binding PrefabService.Name.Value}" />
-                            </DataTemplate>
-                        </ItemsControl.ItemTemplate>
-                    </ItemsControl>
+                    </Border>
 
                 </Popup>
 
-                <Grid DockPanel.Dock="Right">
+            </Grid>
+        </DockPanel>
 
-                    <Border Background="{DynamicResource HighHighDarkerColor}" CornerRadius="0, 2, 2, 0">
-                        <TextBox
-                            Padding="4,0"
-                            Background="Transparent"
-                            Text="{Binding DataContext.ManagerData.SelectedItem.PrefabService.Name.Value, ElementName=prefabSlotManager, UpdateSourceTrigger=PropertyChanged}" />
-                    </Border>
-
-                    <ToggleButton
-                        x:Name="PopUpToggle"
-                        Height="22"
-                        Content="New">
-                        <ToggleButton.Style>
-                            <Style BasedOn="{StaticResource ToggleButtonRoundedRight}" TargetType="{x:Type ToggleButton}">
-                                <Setter Property="Visibility" Value="Collapsed" />
-
-                                <Style.Triggers>
-
-                                    <DataTrigger Binding="{Binding ManagerData.SelectedItem}" Value="{x:Null}">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-
-                                    <DataTrigger Binding="{Binding ManagerData.SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-
-                                </Style.Triggers>
-                            </Style>
-                        </ToggleButton.Style>
-                    </ToggleButton>
-
-                    <Popup
-                        Width="{Binding ActualWidth, ElementName=PopUpToggle}"
-                        Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
-                        AllowsTransparency="True"
-                        FlowDirection="LeftToRight"
-                        IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
-                        Placement="Bottom"
-                        PlacementTarget="{Binding ElementName=PopUpToggle}">
-
-                        <Border
-                            Padding="2,4,2,2"
-                            Background="{DynamicResource HighHighDarkerColor}"
-                            BorderBrush="{DynamicResource Shadow}"
-                            BorderThickness="1,0,1,2"
-                            CornerRadius="{DynamicResource CornerRadiusBottom}">
-
-                            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
-
-                        </Border>
-
-                    </Popup>
-
-                </Grid>
-            </DockPanel>
-
-        </StackPanel>
-    </Border>
+    </StackPanel>
 
 </UserControl>

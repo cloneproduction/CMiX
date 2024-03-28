@@ -21,14 +21,13 @@ namespace CMiX.Studio.Views
         public static readonly DependencyProperty SelectionPanelProperty =
         DependencyProperty.Register("SelectionPanel", typeof(FrameworkElement), typeof(PrefabSlotManager), new UIPropertyMetadata(null));
 
+
+
+        public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(PrefabSlotManager), new PropertyMetadata(null));
         public IEnumerable ItemsSource
         {
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
-
-        public static readonly DependencyProperty ItemsSourceProperty =
-            DependencyProperty.Register("ItemsSource", typeof(IEnumerable),
-                typeof(PrefabSlotManager), new PropertyMetadata(null));
     }
 }

@@ -7,6 +7,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing;
+using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs
@@ -16,7 +17,7 @@ namespace CMiX.Core.Prefabs
         public ControlRepository()
         {
             Controls = new ObservableCollection<IControl>();
-            Textures = new ObservableCollection<IPrefab>();
+            Textures = new ObservableCollection<ITextureSource>();
             Entities = new ObservableCollection<IPrefab>();
             Cameras = new ObservableCollection<IPrefab>();
             Lights = new ObservableCollection<IPrefab>();
@@ -86,8 +87,8 @@ namespace CMiX.Core.Prefabs
         {
             var prefab = control as IPrefab;
 
-            if (control is Texture)
-                Textures.Add(prefab);
+            if (control is ITextureSource)
+                Textures.Add(prefab as ITextureSource);
 
             if(control is Camera)
                 Cameras.Add(prefab);
@@ -101,8 +102,8 @@ namespace CMiX.Core.Prefabs
 
 
 
-        private ObservableCollection<IPrefab> _textures;
-        public ObservableCollection<IPrefab> Textures
+        private ObservableCollection<ITextureSource> _textures;
+        public ObservableCollection<ITextureSource> Textures
         {
             get => _textures;
             set => SetProperty(ref _textures, value);

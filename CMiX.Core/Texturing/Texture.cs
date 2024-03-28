@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class Texture : ObservableObject, IControl, IPrefab//, IModifiable
+    public partial class Texture : ObservableObject, IControl, IPrefab
     {
         public Texture(PrefabService prefabService,
                        PrefabManager modifierManager,
@@ -20,12 +20,10 @@ namespace CMiX.Core.Texturing
                        VideoIn videoIn,
                        VideoPlayer videoPlayer,
                        GenericValue<int> selectedAssetType,
-                       TypeWriter typeWriter
-                      )
+                       TypeWriter typeWriter)
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
-
             TextureSourceSelector = textureSourceSelector;
             Gradient = gradient;
             BubbleNoise = bubbleNoise;
