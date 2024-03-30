@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,6 +13,7 @@ namespace CMiX.Core.Texturing.Sources
     public class VideoPlayer : ObservableObject, ITextureSource, IPrefab
     {
         public VideoPlayer(PrefabService prefabService,
+                           PrefabManager filterManager,
                            Integer2 resolution, 
                            GenericValue<int> seekFrame, 
                            GenericValue<bool> play, 
@@ -24,6 +26,7 @@ namespace CMiX.Core.Texturing.Sources
             DoSeek = doSeek;
             Asset = asset;
             PrefabService = prefabService;
+            FilterManager = filterManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -33,5 +36,6 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<bool> Play { get; set; }
         public GenericValue<Asset> Asset { get; set; }
         public Integer2 Resolution { get; set; }
+        public PrefabManager FilterManager { get; set; }
     }
 }

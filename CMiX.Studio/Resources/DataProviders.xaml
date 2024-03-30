@@ -97,15 +97,6 @@
     </ObjectDataProvider>
 
     <ObjectDataProvider
-        x:Key="TextureSourceName"
-        MethodName="GetNames"
-        ObjectType="{x:Type TextureSource:TextureSourceName}">
-        <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="TextureSource:TextureSourceName" />
-        </ObjectDataProvider.MethodParameters>
-    </ObjectDataProvider>
-
-    <ObjectDataProvider
         x:Key="FontStyle"
         MethodName="GetValues"
         ObjectType="{x:Type System:Enum}">

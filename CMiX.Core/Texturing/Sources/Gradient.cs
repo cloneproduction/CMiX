@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -11,6 +12,7 @@ namespace CMiX.Core.Texturing.Sources
     public class Gradient : ObservableObject, ITextureSource, IPrefab
     {
         public Gradient(PrefabService prefabService,
+                        PrefabManager filterManager,
                         Integer2 resolution, 
                         GenericValue<string> from, 
                         GenericValue<string> to, 
@@ -23,6 +25,7 @@ namespace CMiX.Core.Texturing.Sources
             To = to;
             Gamma = gamma;
             Horizontal = horizontal;
+            FilterManager = filterManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -32,5 +35,6 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<string> To { get; set; }
         public GenericValue<float> Gamma { get; set; }
         public GenericValue<bool> Horizontal { get; set; }
+        public PrefabManager FilterManager { get; set; }
     }
 }

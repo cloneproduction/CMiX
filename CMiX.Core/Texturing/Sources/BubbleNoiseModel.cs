@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -12,6 +13,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
+            FilterManager = new PrefabManagerModel();
             Resolution = new Integer2Model(512, 512);
             Speed = new GenericValueModel<float>(0.0f);
             Frequency = new GenericValueModel<float>(3.5f);
@@ -23,6 +25,7 @@ namespace CMiX.Core.Texturing.Sources
         public Guid ID { get; set; }
 
         public PrefabServiceModel PrefabService { get; set; }
+        public PrefabManagerModel FilterManager { get; set; }
         public Integer2Model Resolution { get; set; }
         public GenericValueModel<float> Speed { get; set; }
         public GenericValueModel<float> Frequency { get; set; }

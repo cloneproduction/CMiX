@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,10 +12,14 @@ namespace CMiX.Core.Texturing.Sources
 {
     public class Image : ObservableObject, ITextureSource, IPrefab
     {
-        public Image(PrefabService prefabService, Integer2 resolution, GenericValue<Asset> asset)
+        public Image(PrefabService prefabService, 
+                     PrefabManager filterManager,
+                     Integer2 resolution, 
+                     GenericValue<Asset> asset)
         {
             ID = Guid.NewGuid();
             PrefabService = prefabService;
+            FilterManager = filterManager;
             Resolution = resolution;
             Asset = asset;
         }
@@ -23,5 +28,6 @@ namespace CMiX.Core.Texturing.Sources
         public PrefabService PrefabService { get; set; }
         public Integer2 Resolution { get; set; }
         public GenericValue<Asset> Asset { get; set; }
+        public PrefabManager FilterManager { get; set; }
     }
 }

@@ -22,7 +22,6 @@ namespace CMiX.Core.Texturing
             IsEnabled = new GenericValueModel<bool>();
             SelectedAssetType = new GenericValueModel<int>(0);
             TypeWriter = new TypeWriterModel();
-            TextureSourceSelector = new TextureSourceSelectorModel();
             TransformTexture = new TransformTextureModel();
 
             MaskChannel = new GenericValueModel<MaskChannel>();
@@ -39,7 +38,6 @@ namespace CMiX.Core.Texturing
         public TypeWriterModel TypeWriter { get; internal set; }
         public SamplerStateModel SamplerState { get; internal set; }
         public GenericValueModel<bool> Invert { get; internal set; }
-        public TextureSourceSelectorModel TextureSourceSelector { get; set; }
         public TransformTextureModel TransformTexture { get; set; }
     }
 }

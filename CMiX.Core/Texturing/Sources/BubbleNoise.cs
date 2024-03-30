@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -11,6 +12,7 @@ namespace CMiX.Core.Texturing.Sources
     public class BubbleNoise : ObservableObject, ITextureSource, IPrefab
     {
         public BubbleNoise(PrefabService prefabService,
+                           PrefabManager filterManager,
                            Integer2 resolution, 
                            GenericValue<float> speed, 
                            GenericValue<float> frequency, 
@@ -26,6 +28,7 @@ namespace CMiX.Core.Texturing.Sources
             Contrast = contrast;
             BackgroundColor = backgroundColor;
             BubbleColor = bubbleColor;
+            FilterManager = filterManager;
         }
 
         public Guid ID { get; set; }
@@ -36,5 +39,6 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<float> Contrast { get; set; }
         public GenericValue<string> BackgroundColor { get; set; }
         public GenericValue<string> BubbleColor { get; set; }
+        public PrefabManager FilterManager { get; set; }
     }
 }

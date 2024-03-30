@@ -6,7 +6,6 @@ using System.Windows.Data;
 using CMiX.Core.Compositing;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
-using CMiX.Core.Texturing;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -25,30 +24,12 @@ namespace CMiX.Core.Prefabs
         }
 
         private int nameCount = 1;
-        //public ObservableCollection<IControl> Controls { get; set; }
 
         private ObservableCollection<IControl> _controls;
         public ObservableCollection<IControl> Controls
         {
             get => _controls;
             set => SetProperty(ref _controls, value);
-        }
-
-
-        public bool FilterTexture(object item)
-        {
-            if(item is Texture)
-                return true;
-
-            return false;
-        }
-
-        public bool FilterEntities(object item)
-        {
-            if (item is Camera || item is LightEntity || item is Entity)
-                return true;
-
-            return false;
         }
 
 
