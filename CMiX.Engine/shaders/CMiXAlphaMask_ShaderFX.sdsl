@@ -15,8 +15,16 @@ shader CMiXAlphaMask_ShaderFX : ComputeFloat4, Texturing, ShaderUtils, ShaderBas
 
     rgroup PerMaterial 
     {
-        stage Texture2D Texture;
-        stage Texture2D Mask;
+        //stage Texture2D Texture;
+        //stage Texture2D Mask;
+
+        stage Texture2DArray TexArray;
+        stage Texture2DArray MaskTexArray;
+        stage StructuredBuffer<int> TexArrayIndexBuffer;
+        stage StructuredBuffer<int> MaskArrayIndexBuffer;
+
+        stage StructuredBuffer<float4> Color;
+
         stage SamplerState TextureSampler;
         stage SamplerState MaskSampler;
         stage int AlphaChannel = 1;
@@ -42,7 +50,8 @@ shader CMiXAlphaMask_ShaderFX : ComputeFloat4, Texturing, ShaderUtils, ShaderBas
         float2 maskUV = TransformTexCoord(streams.TexCoord, mul(TransformMask[id].Matrix, TransformResult));
         float2 textureUV = TransformTexCoord(streams.TexCoord, mul( TransformTexture[id].Matrix, TransformResult));
 
-        float4 alphaMask = Mask.Sample(MaskSampler, maskUV); 
+        //float4 alphaMask = Mask.Sample(MaskSampler, maskUV); 
+        float4 alphaMask = MaskTexArray.Sample(MaskSampler, float3(maskUV.x, maskUV.y, MaskArrayIndexBuffer[id]));
 
         switch(AlphaChannel)
         {
@@ -83,10 +92,12 @@ shader CMiXAlphaMask_ShaderFX : ComputeFloat4, Texturing, ShaderUtils, ShaderBas
                 break;
         }
 
+        float4 col = TexArray.Sample(TextureSampler, float3(textureUV.x, textureUV.y, TexArrayIndexBuffer[id]));
 
-        float4 col = Texture.Sample(TextureSampler, textureUV);
+
         if(!Invert) alpha = 1 - saturate(alpha);
         if(MaskEnabled) col *= alpha;// * Opacity.Compute();
-        return col;
+
+        return col * Color[id];// * float4(1.0, 0.0, 0.0, 1.0);
     }
 };
