@@ -23,6 +23,7 @@ namespace CMiX.Core.Transformation.Modifiers
             CreateMap<Stepper, StepperModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<RandomHSV, RandomHSVModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<RandomPosition, RandomPositionModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<Grid, GridModel>().ReverseMap().ConstructUsingServiceLocator(); ;
 
             CreateMap<IControl, IControlModel>()
                 .Include<TransformSRT, TransformSRTModel>()
@@ -38,6 +39,7 @@ namespace CMiX.Core.Transformation.Modifiers
                 .Include<Stepper, StepperModel>()
                 .Include<RandomHSV, RandomHSVModel>()
                 .Include<RandomPosition, RandomPositionModel>()
+                .Include<Grid, GridModel>()
                 .ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }

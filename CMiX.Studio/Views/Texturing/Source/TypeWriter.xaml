@@ -11,53 +11,51 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    <!--<StackPanel>
+    <StackPanel>
 
-        <TextBox Height="44"
-                 Text="{Binding StringControl.Value, UpdateSourceTrigger=PropertyChanged}"
-                 Style="{StaticResource TypeWriterStyle}">
-        </TextBox>
+        <TextBox
+            Height="44"
+            Style="{StaticResource TypeWriterStyle}"
+            Text="{Binding StringControl.Value, UpdateSourceTrigger=PropertyChanged}" />
 
         <BaseControl:ComboBox
+            Margin="0,8,0,1"
             Caption="Font Family"
-            Position="Top"
-            Margin="0, 8, 0, 1"
             ItemsSource="{Binding Source={StaticResource SortedFontsCollection}}"
-            SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}"/>
+            Position="Top"
+            SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
         <BaseControl:ComboBox
             Caption="Style"
-            Position="Bottom"
             ItemsSource="{Binding Source={StaticResource FontStyle}}"
-            SelectedItem="{Binding Style.Value}"/>
+            Position="Bottom"
+            SelectedItem="{Binding Style.Value}" />
 
         <BaseControl:DragValue
+            Margin="0,8"
             Caption="Size"
-            Value="{Binding FontSize.Value}"
-            Margin="0, 8"/>
+            Value="{Binding FontSize.Value}" />
 
         <BaseControl:ColorSelector
             Caption="Font Color"
             Position="Top"
-            ViewModel="{Binding FontColor}"
-            SelectedColor="{Binding FontColor.Value}"/>
+            SelectedColor="{Binding FontColor.Value}"
+            ViewModel="{Binding FontColor}" />
 
         <BaseControl:ColorSelector
+            Margin="0,1,0,0"
             Caption="Background Color"
-            Margin="0, 1, 0, 0"
             Position="Bottom"
-            ViewModel="{Binding BackgroundColor}"
-            SelectedColor="{Binding BackgroundColor.Value}"/>
+            SelectedColor="{Binding BackgroundColor.Value}"
+            ViewModel="{Binding BackgroundColor}" />
 
         <BaseControl:Vector2
-            Margin="0, 8"
+            Margin="0,8"
             Caption="Position"
-            DataContext="{Binding Position}"/>
+            DataContext="{Binding Position}" />
 
-        <BaseControl:Integer2Value
-            Caption="Resolution"
-            DataContext="{Binding Resolution}"/>
+        <BaseControl:Integer2Value Caption="Resolution" DataContext="{Binding Resolution}" />
 
-    </StackPanel>-->
+    </StackPanel>
 
 </UserControl>

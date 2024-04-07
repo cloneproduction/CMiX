@@ -2,13 +2,18 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class TypeWriter : ObservableRecipient, IControl
+    public class TypeWriter : ObservableObject, ITextureSource, IPrefab
     {
-        public TypeWriter(GenericValue<string> stringControl, 
+        public TypeWriter(PrefabManager filterManager,
+                          PrefabService prefabService,
+                          GenericValue<string> stringControl, 
                           GenericValue<string> fontFamily, 
                           GenericValue<float> fontSize, 
                           GenericValue<FontStyle> fontStyle,
@@ -17,6 +22,8 @@ namespace CMiX.Core.Texturing.Sources
                           Integer2 resolution, 
                           Vector2 position)
         {
+            FilterManager = filterManager;
+            PrefabService = prefabService;
             StringControl = stringControl;
             FontFamily = fontFamily;
             FontSize = fontSize;
@@ -36,5 +43,8 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<string> BackgroundColor { get; set; }
         public Integer2 Resolution { get; set; }
         public Vector2 Position { get; set; }
+
+        public PrefabManager FilterManager { get; set; }
+        public PrefabService PrefabService { get; set; }
     }
 }

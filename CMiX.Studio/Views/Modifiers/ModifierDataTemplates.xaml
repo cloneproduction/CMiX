@@ -65,6 +65,10 @@
 
 
     <!--  ENTITY MODIFIERS  -->
+    <DataTemplate DataType="{x:Type TransformModifiers:Grid}">
+        <Views:Grid DataContext="{Binding}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type ColorModifiers:RandomHSV}">
         <Views:RandomHSV DataContext="{Binding}" />
     </DataTemplate>

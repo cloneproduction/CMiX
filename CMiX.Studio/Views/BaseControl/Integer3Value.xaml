@@ -1,0 +1,35 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.BaseControl.Integer3Value"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="integer3Value"
+    d:DesignHeight="120.419"
+    d:DesignWidth="539.862"
+    Background="Transparent"
+    mc:Ignorable="d">
+
+    <StackPanel>
+
+        <BaseControl:IntegerValue
+            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value}"
+            Position="Top"
+            Value="{Binding X.Value}" />
+
+        <BaseControl:IntegerValue
+            Margin="0,1,0,0"
+            Caption="Y"
+            Position="Middle"
+            Value="{Binding Y.Value}" />
+
+        <BaseControl:IntegerValue
+            Margin="0,1,0,0"
+            Caption="Y"
+            Position="Bottom"
+            Value="{Binding Z.Value}" />
+
+    </StackPanel>
+
+</UserControl>

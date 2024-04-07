@@ -15,6 +15,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Image, ImageModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Gradient, GradientModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<VideoIn, VideoInModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<TypeWriter, TypeWriterModel>().ReverseMap().ConstructUsingServiceLocator();
 
 
             CreateMap<IControl, IControlModel>()
@@ -23,6 +24,7 @@ namespace CMiX.Core.Mapping
                 .Include<Image, ImageModel>()
                 .Include<Gradient, GradientModel>()
                 .Include<VideoIn, VideoInModel>()
+                .Include<TypeWriter, TypeWriterModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

@@ -165,6 +165,16 @@
                 BorderThickness="0,0,0,1" />
 
             <Button
+                Grid.Column="2"
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:GridModel}"
+                Content="Grid"
+                Style="{StaticResource ButtonItemControl}" />
+            
+            <Button
                 Grid.Column="0"
                 Width="120"
                 Height="22"

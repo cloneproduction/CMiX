@@ -58,6 +58,16 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Sources:TypeWriterModel}"
+            Content="Text"
+            Style="{StaticResource ButtonItemControl}" />
+
+        <Button
+            Grid.Column="0"
+            Width="120"
+            Height="22"
+            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:VideoInModel}"
             Content="Video In"
             Style="{StaticResource ButtonItemControl}" />

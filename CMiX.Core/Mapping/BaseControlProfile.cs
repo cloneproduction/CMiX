@@ -12,6 +12,7 @@ namespace CMiX.Core.Mapping
         public BaseControlProfile()
         {
             CreateMap<Integer2, Integer2Model>().ConstructUsing(src => new Integer2Model()).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Integer3, Integer3Model>().ConstructUsing(src => new Integer3Model()).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -20,6 +21,7 @@ namespace CMiX.Core.Mapping
 
             CreateMap<IControl, IControlModel>()
                 .Include<Integer2, Integer2Model>()
+                .Include<Integer3, Integer3Model>()
                 .Include<Vector2, Vector2Model>()
                 .Include<Vector3, Vector3Model>()
                 .Include<DirectionXYZ, DirectionXYZModel>()
