@@ -92,7 +92,7 @@ namespace CMiX.Core.ViewModels
                     byte[] data = File.ReadAllBytes(folderPath);
                     var compositionModel = Serializer.Deserialize<CompositionModel>(data);
                     var composition = ControlFactory.Create(compositionModel);
-                    Project.CompositionManager.ManagerData.SelectedItem = composition;
+                    Project.CompositionManager.SelectedItem = composition;
 
                     MainMenuMessenger.SendOpenProject(folderPath);
                 }
@@ -108,7 +108,7 @@ namespace CMiX.Core.ViewModels
             var composition = ControlFactory.Create(compositionModel);
             Composition = composition;
 
-            Project.CompositionManager.ManagerData.SelectedItem = composition;
+            Project.CompositionManager.SelectedItem = composition;
             Project.CompositionManager.ManagerData.Items.Insert(0, composition);
             Project.CompositionManager.ManagerData.SelectedIndex = 0;
         }
@@ -136,7 +136,7 @@ namespace CMiX.Core.ViewModels
             bool? success = DialogService.ShowSaveFileDialog(this, settings);
             if (success == true)
             {
-                var model = Mapper.Map(Project.CompositionManager.ManagerData.SelectedItem, typeof(Composition), typeof(CompositionModel));
+                var model = Mapper.Map(Project.CompositionManager.SelectedItem, typeof(Composition), typeof(CompositionModel));
                 var data = Serializer.Serialize(model);
                 string folderPath = settings.FileName;
                 File.WriteAllBytes(folderPath, data);

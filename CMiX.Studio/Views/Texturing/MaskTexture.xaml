@@ -31,15 +31,18 @@
 
         <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
+            <Views:DiffuseTexture DataContext="{Binding}" />
+
             <BaseControls:ComboBox
-                Margin="8"
+                Margin="8,0"
                 Caption="MaskChannel"
                 ItemsSource="{Binding Source={StaticResource MaskChannel}}"
                 SelectedItem="{Binding MaskChannel.Value}" />
 
-            <BaseControls:ToggleButton Caption="Invert" IsChecked="{Binding Invert.Value}" />
-
-            <Views:DiffuseTexture DataContext="{Binding}" />
+            <BaseControls:ToggleButton
+                Margin="8"
+                Caption="Invert"
+                IsChecked="{Binding Invert.Value}" />
 
         </StackPanel>
     </Panels:IndentedExpander>

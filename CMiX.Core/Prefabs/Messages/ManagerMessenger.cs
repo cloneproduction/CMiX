@@ -25,22 +25,6 @@ namespace CMiX.Core.Prefabs.Messages
         private bool CanSend;
 
 
-        public void Receive(ManagerData managerData, IMessage messagePrefab)
-        {
-            if (messagePrefab is not IMessageManager messageManager)
-                return;
-
-            if (managerData.ID != messagePrefab.ID)
-                return;
-
-            CanSend = false;
-            CollectionHandler.Handle(managerData, messagePrefab);
-            CanSend = true;
-
-            Console.WriteLine("Message " + messagePrefab.GetType().Name + " handled by ManagerMessenger");
-        }
-
-
         public void Receive(PrefabManager prefabManagerBase, IMessage messagePrefab)
         {
             if (messagePrefab is not IMessageManager messageManager)
@@ -89,6 +73,12 @@ namespace CMiX.Core.Prefabs.Messages
         internal void SendMessageMoveItem(Guid id, int sourceIndex, int targetIndex)
         {
             var message = new MessageMoveItem(id, sourceIndex, targetIndex);
+            Send(message);
+        }
+
+        internal void SendRemoveSelectedItem(Guid id)
+        {
+            var message = new MessageRemoveSelectedItem(id);
             Send(message);
         }
     }

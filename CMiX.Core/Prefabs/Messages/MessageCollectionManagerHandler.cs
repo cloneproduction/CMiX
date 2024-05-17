@@ -13,21 +13,15 @@ namespace CMiX.Core.Prefabs.Messages
 
         }
 
-        public bool Handle(ManagerData managerData, IMessage message)
-        {
-            if(message is MessageSelectedItemChanged msg)
-            {
-                managerData.SelectedItem = managerData.Items.FirstOrDefault(x => x.ID == msg.SelectedPrefabID);
-                managerData.SelectedIndex = msg.Index;
-                return true;
-            }
-            return false;
-        }
-
         public bool Handle(PrefabManager prefabManagerBase, IMessage message)
         {
             switch (message)
             {
+                case null:
+                    throw new ArgumentNullException(nameof(message));
+                case MessageSelectedItemChanged messageSelectedItemChanged:
+                    prefabManagerBase.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
+                    return true;
                 case MessageAddItem messageAddPrefab:
                     prefabManagerBase.AddItem(messageAddPrefab.Model);
                     return true;
@@ -40,11 +34,11 @@ namespace CMiX.Core.Prefabs.Messages
                 case MessageReplaceItem messageReplaceItem:
                     prefabManagerBase.ReplaceItem(messageReplaceItem.ControlModel, messageReplaceItem.Index);
                     return true;
-
+                case MessageRemoveSelectedItem messageRemoveSelectedItem:
+                    prefabManagerBase.RemoveSelectedItem();
+                    return true;
                 default:
                     return false;
-                case null:
-                    throw new ArgumentNullException(nameof(message));
             }
         }
     }

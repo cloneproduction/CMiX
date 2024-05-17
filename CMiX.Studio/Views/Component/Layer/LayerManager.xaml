@@ -17,9 +17,9 @@
     <Border Background="{DynamicResource HighDarkerColor}">
         <DockPanel>
 
-            <Border DockPanel.Dock="Bottom" Visibility="{Binding ManagerData.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+            <Border DockPanel.Dock="Bottom" Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
 
-                <StackPanel Margin="8" DataContext="{Binding ManagerData.SelectedItem}">
+                <StackPanel Margin="8" DataContext="{Binding SelectedItem}">
 
                     <Controls:CMiXSlider
                         Height="22"
@@ -148,7 +148,7 @@
                         Margin="4"
                         Background="Transparent"
                         Command="{Binding DeleteItemCommand}"
-                        CommandParameter="{Binding ManagerData.SelectedItem}"
+                        CommandParameter="{Binding SelectedItem}"
                         DockPanel.Dock="Right"
                         Style="{StaticResource ButtonRounded}">
                         <Button.Content>
@@ -173,7 +173,7 @@
                         DockPanel.Dock="Top"
                         ItemsSource="{Binding ManagerData.Items}"
                         SelectedIndex="{Binding ManagerData.SelectedIndex}"
-                        SelectedItem="{Binding ManagerData.SelectedItem}"
+                        SelectedItem="{Binding SelectedItem}"
                         Style="{StaticResource LayerListBoxStyle}"
                         VirtualizingStackPanel.IsVirtualizing="False">
 

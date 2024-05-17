@@ -1,36 +1,51 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.ModelEntity"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
-             xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             md:DialogServiceViews.IsRegistered="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="486" d:DesignWidth="322.667">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.ModelEntity"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="486"
+    d:DesignWidth="322.667"
+    md:DialogServiceViews.IsRegistered="True"
+    mc:Ignorable="d">
 
     <StackPanel>
 
         <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManager.IsExpanded}">
-            
+
             <StackPanel>
                 <Views:ModifierManager DataContext="{Binding ModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
-                        <Views:EntityModifierSelectionPanel DataContext="{Binding }"/>
+                        <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
                     </Views:ModifierManager.SelectionPanel>
                 </Views:ModifierManager>
             </StackPanel>
 
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Material" IsExpanded="{Binding Material.IsExpanded}">
-            <Views:Material DataContext="{Binding Material}"/>
+        <Panels:IndentedExpander Header="Material" IsExpanded="true">
+            <!--  {Binding Material.IsExpanded}  -->
+            <StackPanel>
+                <Views:Outliner
+                    Margin="8"
+                    DataContext="{Binding MaterialManager}"
+                    ItemsSource="{Binding ControlRepository.Materials}"
+                    TypeParameter="{x:Type Materials:MaterialModel}" />
+
+                <Border Visibility="{Binding MaterialManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                    <Views:Material DataContext="{Binding MaterialManager.SelectedItem}" />
+                </Border>
+
+            </StackPanel>
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Mesh" IsExpanded="{Binding Mesh.IsExpanded}">
-            <Component:Mesh DataContext="{Binding Mesh}" Margin="8"/>
+            <Component:Mesh Margin="8" DataContext="{Binding Mesh}" />
         </Panels:IndentedExpander>
 
     </StackPanel>

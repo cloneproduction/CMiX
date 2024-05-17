@@ -10,7 +10,7 @@ namespace CMiX.Core.Materials
         public MaterialSettingsModel()
         {
             ID = Guid.NewGuid();
-            BaseColor = new GenericValueModel<string>("#FFFF00FF");
+            BaseColor = new GenericValueModel<string>("#FFFFFFFF");
             Alpha = new GenericValueModel<float>(1.0f);
 
             Pipeline = new GenericValueModel<PipelineType>(PipelineType.Constant);

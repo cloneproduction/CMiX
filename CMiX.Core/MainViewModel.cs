@@ -4,6 +4,7 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Network;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
 using CMiX.Core.ViewModels.Windows;
 
@@ -12,12 +13,19 @@ namespace CMiX.Core.ViewModels
     public class MainViewModel
     {
         public MainViewModel(Project project, 
+                             PrefabManager textureManager,
+                             PrefabManager materialManager,
                              ControlRepository controlRepository, 
                              ServerManager serverManager, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 
                              MainMenu mainMenu)
         {
+            MaterialManager = materialManager;
+            materialManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF02");
+            TextureManager = textureManager;
+            textureManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF01");
+
             Project = project;
             ServerManager = serverManager;
             MainWindowController = mainWindowController;
@@ -26,6 +34,8 @@ namespace CMiX.Core.ViewModels
             PrefabRepositories = controlRepository;
         }
 
+        public PrefabManager TextureManager { get; set; }
+        public PrefabManager MaterialManager { get; set; }
         public ControlRepository PrefabRepositories { get; set; }
         public Project Project { get; set; }
         public ServerManager ServerManager { get; set; }

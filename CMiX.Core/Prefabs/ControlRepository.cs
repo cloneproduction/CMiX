@@ -4,6 +4,7 @@
 using System.Collections.ObjectModel;
 using System.Windows.Data;
 using CMiX.Core.Compositing;
+using CMiX.Core.Materials;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.ViewModels;
@@ -13,15 +14,21 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlRepository : ObservableObject
     {
-        public ControlRepository()
+        public ControlRepository(ControlFactory controlFactory)
         {
+            ControlFactory = controlFactory;
+
             Controls = new ObservableCollection<IControl>();
+            Materials = new ObservableCollection<IPrefab>();
             Textures = new ObservableCollection<ITextureSource>();
             Entities = new ObservableCollection<IPrefab>();
             Cameras = new ObservableCollection<IPrefab>();
             Lights = new ObservableCollection<IPrefab>();
             BindingOperations.EnableCollectionSynchronization(Controls, this);
+
         }
+
+        public ControlFactory ControlFactory { get; set; }
 
         private int nameCount = 1;
 
@@ -31,6 +38,7 @@ namespace CMiX.Core.Prefabs
             get => _controls;
             set => SetProperty(ref _controls, value);
         }
+
 
 
         public void AddControl(IControl control)
@@ -47,6 +55,11 @@ namespace CMiX.Core.Prefabs
             Controls.Add(control);
             NamePrefab(control);
             AddToSpecificRepo(control);
+        }
+
+        public IControl GetControl(Guid id)
+        {
+            return Controls.FirstOrDefault(x => x.ID == id);
         }
 
         void NamePrefab(IControl control)
@@ -79,6 +92,9 @@ namespace CMiX.Core.Prefabs
 
             if (control is Entity)
                 Entities.Add(prefab);
+
+            if (control is Material)
+                Materials.Add(prefab);
         }
 
 
@@ -88,6 +104,13 @@ namespace CMiX.Core.Prefabs
         {
             get => _textures;
             set => SetProperty(ref _textures, value);
+        }
+
+        private ObservableCollection<IPrefab> _materials;
+        public ObservableCollection<IPrefab> Materials
+        {
+            get => _materials;
+            set => SetProperty(ref _materials, value);
         }
 
         private ObservableCollection<IPrefab> _entities;
@@ -109,11 +132,6 @@ namespace CMiX.Core.Prefabs
         {
             get => _lights;
             set => SetProperty(ref _lights, value);
-        }
-
-        public IControl GetPrefab(Guid id)
-        {
-            return Controls.FirstOrDefault(x => x.ID == id);
         }
     }
 }

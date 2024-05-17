@@ -7,33 +7,22 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlFactory
     {
-        public ControlFactory(ControlRepository controlRepository, IMapper mapper)
+        public ControlFactory(IMapper mapper)
         {
-            ControlRepository = controlRepository;
             Mapper = mapper;
         }
 
         internal IMapper Mapper { get; set; }
-        internal ControlRepository ControlRepository { get; set; }
 
         public IControl Create(Type type) 
         {
             var controlModel = (IControlModel)Activator.CreateInstance(type);
-            var control = Mapper.Map<IControlModel, IControl>(controlModel);
-            ControlRepository.AddControl(control);
-            return control;
+            return Mapper.Map<IControlModel, IControl>(controlModel);
         }
 
         public IControl Create(IControlModel controlModel)
         {
-            var control = Mapper.Map<IControlModel, IControl>(controlModel);
-            ControlRepository.AddControl(control);
-            return control;
-        }
-
-        public IControl GetPrefab(Guid id)
-        {
-            return ControlRepository.GetPrefab(id);
+            return Mapper.Map<IControlModel, IControl>(controlModel);
         }
     }
 }

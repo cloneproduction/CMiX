@@ -15,8 +15,7 @@ namespace CMiX.Core.Texturing
                            SamplerState samplerState, 
                            GenericValue<bool> invert, 
                            GenericValue<MaskChannel> maskChannel, 
-                           GenericValue<bool> isEnabled
-                          )
+                           GenericValue<bool> isEnabled)
         {
             TextureManager = prefabManager;
             TransformTexture = transformTexture;

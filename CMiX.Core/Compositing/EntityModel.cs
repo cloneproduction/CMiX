@@ -18,6 +18,7 @@ namespace CMiX.Core.Compositing
             ID = PrefabService.ID;
 
             ModifierManager = new PrefabManagerModel();
+            MaterialManager = new PrefabManagerModel();
             Mesh = new MeshModel();
             Name = new GenericValueModel<string>("Entity " + ID.ToString());
             IsSelected = new GenericValueModel<bool>(false);
@@ -34,6 +35,7 @@ namespace CMiX.Core.Compositing
         public MeshModel Mesh { get; set; }
         public MaterialModel Material { get; set; }
         public PrefabManagerModel ModifierManager { get; set; }
+        public PrefabManagerModel MaterialManager { get; set; }
         public GenericValueModel<bool> IsSelected { get; set; }
         public GenericValueModel<bool> IsRenaming { get; set; }
         public GenericValueModel<bool> Visibility { get; set; }

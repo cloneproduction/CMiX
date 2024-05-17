@@ -58,6 +58,7 @@ namespace CMiX.Core
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<EventMessenger>();
             services.AddSingleton<ManagerMessenger>();
+
             services.AddSingleton<MainMenuMessenger>();
 
             services.AddSingleton<MasterBeat>();
@@ -68,59 +69,6 @@ namespace CMiX.Core
                 opt.AddMaps("CMiX.Core");
                 opt.ConstructServicesUsing(t => ActivatorUtilities.CreateInstance(provider, t));
             }, Assembly.GetAssembly(typeof(PrefabMappingProfile)));
-
-
-
-            //Mapper.Initialize(m =>
-            //{
-            //    m.ConstructServicesUsing(container.Resolve);
-
-            //    m.CreateMap<Test3, ITest>().ConstructUsingServiceLocator(); // This is important!
-
-            //});
-
-
-
-            //services.AddAutoMapper(cfg =>
-            //{
-            //    cfg.AddMaps("CMiX.Core");
-            //    //cfg.ConstructServicesUsing(services)
-
-            //}, typeof(PrefabMappingProfile).Assembly);
-
-            //, cfg.ConstructServicesUsing);
-            //, 
-            //services.AddAutoMapper(typeof(PrefabMappingProfile).Assembly);
-            //services.AddAutoMapper();
-
-            //MapperConfigurationExpression mapperConfigurationExpression = new MapperConfigurationExpression();
-
-            //services.AddTransient(x =>
-            //{
-            //    mapperConfigurationExpression.AddMaps("CMiX.Core");
-            //    mapperConfigurationExpression.ConstructServicesUsing(t => x.GetR(t));
-            //    mapperConfigurationExpression.AllowNullCollections = true;
-            //    mapperConfigurationExpression.AllowNullDestinationValues = true;
-            //    mapperConfigurationExpression.AddCollectionMappers();
-
-            //    var config = new MapperConfiguration(mapperConfigurationExpression);
-
-            //    //config.AssertConfigurationIsValid();
-            //    return config.CreateMapper();
-            //});
-
-
-            //var modifierTypes = Assembly.GetExecutingAssembly()
-            //                .GetTypes()
-            //                .Where(type => typeof(IModifier).IsAssignableFrom(type) && !type.IsInterface);
-
-
-            //foreach (var type in modifierTypes)
-            //{
-
-            //    var t = Type.GetType(modifierTypes + "Model");
-            //    Console.WriteLine("POUETPOUET" + t);
-            //}
         }
     }
 }

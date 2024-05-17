@@ -17,8 +17,8 @@ namespace CMiX.Console
             var ServiceProvider = serviceCollection.BuildServiceProvider();
             ServiceProvider.GetRequiredService<Client>().Start(new Settings("127.0.0.1", 8080));
 
-            //var project = ServiceProvider.GetService(typeof(Project));
-            var MainMenu = ServiceProvider.GetService(typeof(MainMenu));
+            var project = ServiceProvider.GetService(typeof(MainViewModel));
+            //var MainMenu = ServiceProvider.GetService(typeof(MainMenu));
 
             System.Console.ReadLine();
         }

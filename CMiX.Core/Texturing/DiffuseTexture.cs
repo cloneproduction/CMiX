@@ -18,7 +18,6 @@ namespace CMiX.Core.Texturing
 
         public Guid ID { get ; set; } = Guid.NewGuid();
         public PrefabManager TextureManager { get; set; }
-
         public TransformTexture TransformTexture { get; set; }
         public SamplerState SamplerState { get; set; }
 

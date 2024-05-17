@@ -59,7 +59,7 @@
                                 </Views:PrefabSlotManager.SelectionPanel>
                             </Views:PrefabSlotManager>
 
-                            <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.ManagerData.SelectedItem}">
+                            <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
                                 <ContentControl.Resources>
                                     <DataTemplate DataType="{x:Type Compositing:Entity}">
                                         <Views:ModelEntity DataContext="{Binding}" />
