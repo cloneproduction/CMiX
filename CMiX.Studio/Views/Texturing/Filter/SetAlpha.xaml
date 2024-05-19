@@ -11,7 +11,6 @@
 
     <StackPanel Margin="8">
 
-
         <BaseControls:ComboBox
             Margin="0,8"
             Caption="Channel"
@@ -31,6 +30,7 @@
             Maximum="1"
             Minimum="0"
             Value="{Binding Control.Value}" />
+
     </StackPanel>
 
 

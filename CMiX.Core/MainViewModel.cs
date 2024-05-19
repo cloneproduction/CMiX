@@ -15,12 +15,15 @@ namespace CMiX.Core.ViewModels
         public MainViewModel(Project project, 
                              PrefabManager textureManager,
                              PrefabManager materialManager,
+                             PrefabManager entityManager,
                              ControlRepository controlRepository, 
                              ServerManager serverManager, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 
                              MainMenu mainMenu)
         {
+            EntityManager = entityManager;
+            entityManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF03");
             MaterialManager = materialManager;
             materialManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF02");
             TextureManager = textureManager;
@@ -34,6 +37,7 @@ namespace CMiX.Core.ViewModels
             PrefabRepositories = controlRepository;
         }
 
+        public PrefabManager EntityManager { get; set; }
         public PrefabManager TextureManager { get; set; }
         public PrefabManager MaterialManager { get; set; }
         public ControlRepository PrefabRepositories { get; set; }

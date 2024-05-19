@@ -6,14 +6,12 @@
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
     xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light"
-    xmlns:Sources="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views">
 
 
     <!--  LAYER MODIFIERS  -->
-
     <DataTemplate DataType="{x:Type Layering:SelectRandomEntity}">
         <Views:SelectRandomEntity DataContext="{Binding}" />
     </DataTemplate>
