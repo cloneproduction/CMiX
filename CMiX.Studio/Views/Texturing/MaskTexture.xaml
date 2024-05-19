@@ -3,7 +3,6 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,39 +10,21 @@
     d:DesignWidth="252"
     mc:Ignorable="d">
 
-    <Panels:IndentedExpander Indentation="8" IsExpanded="{Binding IsExpanded}">
+    <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
 
-        <Panels:IndentedExpander.Header>
+        <Views:DiffuseTexture DataContext="{Binding}" />
 
-            <DockPanel>
+        <BaseControls:ComboBox
+            Margin="8,0"
+            Caption="MaskChannel"
+            ItemsSource="{Binding Source={StaticResource MaskChannel}}"
+            SelectedItem="{Binding MaskChannel.Value}" />
 
-                <ToggleButton
-                    Width="14"
-                    Height="14"
-                    IsChecked="{Binding Path=DataContext.IsEnabled.Value}"
-                    Style="{StaticResource ToggleButtonIcon}" />
+        <BaseControls:ToggleButton
+            Margin="8"
+            Caption="Invert"
+            IsChecked="{Binding Invert.Value}" />
 
-                <TextBlock Margin="8,0" Text="Mask" />
+    </StackPanel>
 
-            </DockPanel>
-
-        </Panels:IndentedExpander.Header>
-
-        <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
-
-            <Views:DiffuseTexture DataContext="{Binding}" />
-
-            <BaseControls:ComboBox
-                Margin="8,0"
-                Caption="MaskChannel"
-                ItemsSource="{Binding Source={StaticResource MaskChannel}}"
-                SelectedItem="{Binding MaskChannel.Value}" />
-
-            <BaseControls:ToggleButton
-                Margin="8"
-                Caption="Invert"
-                IsChecked="{Binding Invert.Value}" />
-
-        </StackPanel>
-    </Panels:IndentedExpander>
 </UserControl>

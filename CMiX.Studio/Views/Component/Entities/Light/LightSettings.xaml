@@ -1,15 +1,17 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.LightSettings"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
-             mc:Ignorable="d" 
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
-             md:DialogServiceViews.IsRegistered="True"
-             d:DesignHeight="194" d:DesignWidth="254">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.LightSettings"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="194"
+    d:DesignWidth="254"
+    md:DialogServiceViews.IsRegistered="True"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -35,31 +37,25 @@
 
     <StackPanel Margin="8">
 
-        <!--<BaseControls:ColorSelector
-            Margin="8"
-            Caption="Base Color"
-            SelectedColor="{Binding MaterialSettings.BaseColor.Value, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding MaterialSettings.BaseColor}" />-->
-
         <BaseControls:ColorSelector
-                    Caption="Color"
-                    SelectedColor="{Binding LightColor.Value, Converter={StaticResource ColorToHex}}"
-                    ViewModel="{Binding LightColor}" />
+            Caption="Color"
+            SelectedColor="{Binding LightColor.Value, Converter={StaticResource ColorToHex}}"
+            ViewModel="{Binding LightColor}" />
 
         <BaseControls:DragValue
-                    Margin="0,8"
-                    Caption="Intensity"
-                    Value="{Binding Intensity.Value}" />
+            Margin="0,8"
+            Caption="Intensity"
+            Value="{Binding Intensity.Value}" />
 
         <BaseControls:ComboBox
-                    Caption="Type"
-                    ItemsSource="{Binding Source={StaticResource LightType}}"
-                    SelectedItem="{Binding LightTypeSelector.Value}" />
+            Caption="Type"
+            ItemsSource="{Binding Source={StaticResource LightType}}"
+            SelectedItem="{Binding LightTypeSelector.Value}" />
 
         <ContentControl
-                    Margin="0,0,0,0"
-                    Content="{Binding}"
-                    DataContext="{Binding}">
+            Margin="0,0,0,0"
+            Content="{Binding}"
+            DataContext="{Binding}">
 
             <ContentControl.Style>
                 <Style TargetType="ContentControl">

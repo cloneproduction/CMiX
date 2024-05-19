@@ -23,7 +23,7 @@ namespace CMiX.Core.Compositing
 
             IsMask = new GenericValueModel<bool>(false);
             Opacity = new GenericValueModel<float>(1.0f);
-            BackgroundColor = new GenericValueModel<string>("#ff333333");
+            BackgroundColor = new GenericValueModel<string>("#ff111111");
             AmbientOcclusion = new AmbientOcclusionModel();
             BlendMode = new GenericValueModel<BlendModeEnum>(Texturing.BlendModeEnum.Normal);
             MaskChannel = new GenericValueModel<MaskChannel>(Texturing.MaskChannel.Alpha);

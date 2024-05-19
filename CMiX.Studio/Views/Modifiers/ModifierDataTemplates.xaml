@@ -63,6 +63,10 @@
         <Views:LFOUV DataContext="{Binding}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type Filters:SetAlpha}">
+        <Views:SetAlpha DataContext="{Binding}" />
+    </DataTemplate>
+
 
     <!--  ENTITY MODIFIERS  -->
     <DataTemplate DataType="{x:Type TransformModifiers:Grid}">

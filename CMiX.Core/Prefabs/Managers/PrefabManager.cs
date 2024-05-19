@@ -64,39 +64,14 @@ namespace CMiX.Core.Prefabs.Managers
             }
         }
 
-        //public void OnSelectedItemChanged(IControl oldValue, IControl newValue)
-        //{
-        //    if (newValue == null)
-        //        return;
-
-        //    if (SelectedItem == null)
-        //        return;
-
-        //    if (ManagerData.Items.Count == 0)
-        //        return;
-
-        //    if (ManagerData.SelectedIndex < 0)
-        //        return;
-
-        //    if (ManagerData.SelectedIndex >= ManagerData.Items.Count)
-        //        return;
-
-        //    var index = ManagerData.SelectedIndex;
-
-        //    ManagerData.SelectedIndex = index;
-        //    SelectedItem = newValue;
-
-        //    ManagerMessenger.SendSelectedItemChanged(ManagerData.ID, newValue, index);
-        //}
         public void SelectedItemChanged(Guid selectedItemID, int index)
         {
             var control = ControlRepository.GetControl(selectedItemID);
             SelectedItem = control;
             ManagerData.SelectedIndex = index;
-            if (!ManagerData.Items.Contains(control) && control != null)
-            {
+
+            if(!ManagerData.Items.Any(x => x.ID == control.ID) && control != null)
                 ManagerData.Items.Add(SelectedItem);
-            }
         }
 
 
@@ -230,7 +205,6 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void DeleteItem(Guid id)
         {
-            Console.WriteLine();
             var prefab = ManagerData.Items.FirstOrDefault(x => x.ID == id);
             var index = ManagerData.Items.IndexOf(prefab);
 

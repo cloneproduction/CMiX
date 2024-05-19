@@ -21,8 +21,10 @@ namespace CMiX.Core.Mapping
             CreateMap<Feedback, FeedbackModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TransformTexture, TransformTextureModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TriColor, TriColorModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<SetAlpha, SetAlphaModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
+                .Include<SetAlpha, SetAlphaModel>()
                 .Include<HSCB, HSCBModel>()
                 .Include<Edge, EdgeModel>()
                 .Include<RandomUV, RandomUVModel>()

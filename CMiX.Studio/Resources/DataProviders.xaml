@@ -4,6 +4,7 @@
     xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
@@ -162,6 +163,15 @@
         ObjectType="{x:Type System:Enum}">
         <ObjectDataProvider.MethodParameters>
             <x:Type TypeName="Texturing:MaskChannel" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+    <ObjectDataProvider
+        x:Key="AlphaChannel"
+        MethodName="GetValues"
+        ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Filters:AlphaChannel" />
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 

@@ -2,10 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Materials
 {
-    public class MaterialSettings : IControl
+    public partial class MaterialSettings : ObservableObject, IControl
     {
         public MaterialSettings(GenericValue<PipelineType> pipeline,
                                 GenericValue<CullModeType> cullMode,
@@ -41,5 +42,8 @@ namespace CMiX.Core.Materials
         public GenericValue<float> Glossiness { get; set; }
         public GenericValue<float> Alpha { get; set; }
         public GenericValue<bool> IsShadowCaster { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = false;
     }
 }

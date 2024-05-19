@@ -143,6 +143,17 @@
                 Content="Feedback"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Grid.Row="3"
+                Grid.Column="2"
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Filters:SetAlphaModel}"
+                Content="SetAlpha"
+                Style="{StaticResource ButtonItemControl}" />
+
         </StackPanel>
     </Grid>
 </UserControl>
