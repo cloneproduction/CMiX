@@ -15,7 +15,7 @@ namespace CMiX.Core.Materials
 
             Pipeline = new GenericValueModel<PipelineType>(PipelineType.Constant);
             CullMode = new GenericValueModel<CullModeType>(CullModeType.Back);
-            Transparency = new GenericValueModel<TransparencyType>(TransparencyType.Blend);
+            Transparency = new GenericValueModel<TransparencyType>(TransparencyType.CutOff);
 
             Metalness = new GenericValueModel<float>(0.0f);
             Glossiness = new GenericValueModel<float>(0.5f);
