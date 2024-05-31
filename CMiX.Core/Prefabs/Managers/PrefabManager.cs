@@ -68,9 +68,15 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var control = ControlRepository.GetControl(selectedItemID);
             SelectedItem = control;
-            ManagerData.SelectedIndex = index;
 
-            if(!ManagerData.Items.Any(x => x.ID == control.ID) && control != null)
+            if(control == null)
+            {
+                ManagerData.SelectedIndex = -1;
+                return;
+            }
+
+            ManagerData.SelectedIndex = index;
+            if (!ManagerData.Items.Any(x => x.ID == control.ID) && control != null)
                 ManagerData.Items.Add(SelectedItem);
         }
 
@@ -103,8 +109,12 @@ namespace CMiX.Core.Prefabs.Managers
             var prefab = ControlRepository.GetControl(controlModel.ID);
             var items = ManagerData.Items;
 
-            if (prefab == null) 
+            if (prefab == null)
+            {
                 prefab = ControlFactory.Create(controlModel);
+                ControlRepository.AddControl(prefab);
+            }
+
 
             if (ManagerData.Items.Count == 0)
             {

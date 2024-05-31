@@ -363,6 +363,7 @@
                                 DataContext="{Binding TextureManager}"
                                 DockPanel.Dock="Top"
                                 ItemsSource="{Binding ControlRepository.Textures}">
+                                <!--  SelectedItem="{Binding TextureManager.SelectedItem}">  -->
                                 <Views:RepositoryManager.SelectionPanel>
                                     <Views:TextureSelectionPanel />
                                 </Views:RepositoryManager.SelectionPanel>
