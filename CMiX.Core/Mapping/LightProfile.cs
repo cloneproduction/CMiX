@@ -15,6 +15,7 @@ namespace CMiX.Core.Mapping
 
             CreateMap<IControl, IControlModel>()
                 .Include<LightEntity, LightEntityModel>()
+                .Include<LightSettings, LightSettingsModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

@@ -138,6 +138,7 @@
                                     VerticalAlignment="Top"
                                     DataContext="{Binding Project.CompositionManager}"
                                     DockPanel.Dock="Top"
+                                    ItemsSource="{Binding ControlRepository.Compositions}"
                                     TypeParameter="{x:Type Compositing:CompositionModel}" />
 
                                 <Views:Composition DataContext="{Binding Project.CompositionManager.SelectedItem}" Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
@@ -363,36 +364,38 @@
                                 DataContext="{Binding TextureManager}"
                                 DockPanel.Dock="Top"
                                 ItemsSource="{Binding ControlRepository.Textures}">
-                                <!--  SelectedItem="{Binding TextureManager.SelectedItem}">  -->
                                 <Views:RepositoryManager.SelectionPanel>
                                     <Views:TextureSelectionPanel />
                                 </Views:RepositoryManager.SelectionPanel>
                             </Views:RepositoryManager>
 
-                            <Panels:IndentedExpander
-                                Header="Settings"
-                                Indentation="0"
-                                IsExpanded="false">
-                                <ContentControl
-                                    Margin="8"
-                                    Content="{Binding}"
-                                    DataContext="{Binding TextureManager.SelectedItem}">
-                                    <ContentControl.Resources>
-                                        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Views/Texturing/Source/TextureSourceDataTemplates.xaml" />
-                                    </ContentControl.Resources>
-                                </ContentControl>
-                            </Panels:IndentedExpander>
-
-                            <Panels:IndentedExpander
-                                Header="Filter"
-                                Indentation="0"
-                                IsExpanded="{Binding Path=TextureManager.SelectedItem.FilterManager.IsExpanded}">
-                                <Views:ModifierManager DataContext="{Binding Path=TextureManager.SelectedItem.FilterManager}">
-                                    <Views:ModifierManager.SelectionPanel>
-                                        <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
-                                    </Views:ModifierManager.SelectionPanel>
-                                </Views:ModifierManager>
-                            </Panels:IndentedExpander>
+                            <Border Visibility="{Binding Path=TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                <StackPanel>
+                                    <Panels:IndentedExpander
+                                        Header="Settings"
+                                        Indentation="0"
+                                        IsExpanded="false">
+                                        <ContentControl
+                                            Margin="8"
+                                            Content="{Binding}"
+                                            DataContext="{Binding TextureManager.SelectedItem}">
+                                            <ContentControl.Resources>
+                                                <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Views/Texturing/Source/TextureSourceDataTemplates.xaml" />
+                                            </ContentControl.Resources>
+                                        </ContentControl>
+                                    </Panels:IndentedExpander>
+                                    <Panels:IndentedExpander
+                                        Header="Filter"
+                                        Indentation="0"
+                                        IsExpanded="{Binding Path=TextureManager.SelectedItem.FilterManager.IsExpanded}">
+                                        <Views:ModifierManager DataContext="{Binding Path=TextureManager.SelectedItem.FilterManager}">
+                                            <Views:ModifierManager.SelectionPanel>
+                                                <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
+                                            </Views:ModifierManager.SelectionPanel>
+                                        </Views:ModifierManager>
+                                    </Panels:IndentedExpander>
+                                </StackPanel>
+                            </Border>
 
                         </StackPanel>
 
@@ -406,16 +409,21 @@
                                 ToolTip="Assets" />
                         </TabItem.Header>
                         <StackPanel>
-                            <ListBox
-                                x:Name="CameraListBox"
-                                Height="120"
-                                DockPanel.Dock="Top"
-                                ItemsSource="{Binding PrefabRepositories.Cameras}" />
 
-                            <Views:Camera
-                                Margin="0,8,0,0"
-                                DataContext="{Binding SelectedItem, ElementName=CameraListBox}"
-                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+                            <Views:RepositoryManager
+                                Margin="8"
+                                DataContext="{Binding CameraManager}"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding ControlRepository.Cameras}">
+                                <Views:RepositoryManager.SelectionPanel>
+                                    <Views:CameraSelectionPanel />
+                                </Views:RepositoryManager.SelectionPanel>
+                            </Views:RepositoryManager>
+
+                            <Border Visibility="{Binding Path=CameraManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                <Views:Camera Margin="0,8,0,0" DataContext="{Binding Path=CameraManager.SelectedItem}" />
+                            </Border>
+
                         </StackPanel>
 
                     </TabItem>
@@ -428,16 +436,21 @@
                                 ToolTip="Assets" />
                         </TabItem.Header>
                         <StackPanel>
-                            <ListBox
-                                x:Name="LightListBox"
-                                Height="120"
-                                DockPanel.Dock="Top"
-                                ItemsSource="{Binding PrefabRepositories.Lights}" />
 
-                            <Views:Camera
-                                Margin="0,8,0,0"
-                                DataContext="{Binding SelectedItem, ElementName=LightListBox}"
-                                Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+                            <Views:RepositoryManager
+                                Margin="8"
+                                DataContext="{Binding LightManager}"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding ControlRepository.Lights}">
+                                <Views:RepositoryManager.SelectionPanel>
+                                    <Views:LightSelectionPanel />
+                                </Views:RepositoryManager.SelectionPanel>
+                            </Views:RepositoryManager>
+
+                            <Border Visibility="{Binding LightManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                                <Views:LightEntity Margin="0,8,0,0" DataContext="{Binding LightManager.SelectedItem}" />
+                            </Border>
+
                         </StackPanel>
 
                     </TabItem>

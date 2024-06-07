@@ -20,7 +20,7 @@ namespace CMiX.Core.Rendering.Lights
             ModifierManager = modifierManager;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public LightSettings Settings { get; set; }
         public PrefabManager ModifierManager { get; set; }

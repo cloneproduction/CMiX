@@ -19,6 +19,7 @@ namespace CMiX.Core.Prefabs
             ControlFactory = controlFactory;
 
             Controls = new ObservableCollection<IControl>();
+            Compositions = new ObservableCollection<IPrefab>();
             Materials = new ObservableCollection<IPrefab>();
             Textures = new ObservableCollection<ITextureSource>();
             Entities = new ObservableCollection<IPrefab>();
@@ -81,6 +82,9 @@ namespace CMiX.Core.Prefabs
         {
             var prefab = control as IPrefab;
 
+            if (control is Composition)
+                Compositions.Add(prefab);
+
             if (control is ITextureSource)
                 Textures.Add(prefab as ITextureSource);
 
@@ -97,7 +101,12 @@ namespace CMiX.Core.Prefabs
                 Materials.Add(prefab);
         }
 
-
+        private ObservableCollection<IPrefab> _compositions;
+        public ObservableCollection<IPrefab> Compositions
+        {
+            get => _compositions;
+            set => SetProperty(ref _compositions, value);
+        }
 
         private ObservableCollection<ITextureSource> _textures;
         public ObservableCollection<ITextureSource> Textures

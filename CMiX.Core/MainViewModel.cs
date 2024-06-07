@@ -16,12 +16,18 @@ namespace CMiX.Core.ViewModels
                              PrefabManager textureManager,
                              PrefabManager materialManager,
                              PrefabManager entityManager,
+                             PrefabManager cameraManager,
+                             PrefabManager lightManager,
                              ControlRepository controlRepository, 
                              ServerManager serverManager, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 
                              MainMenu mainMenu)
         {
+            LightManager = lightManager;
+            lightManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF04");
+            CameraManager = cameraManager;
+            cameraManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF04");
             EntityManager = entityManager;
             entityManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF03");
             MaterialManager = materialManager;
@@ -37,9 +43,11 @@ namespace CMiX.Core.ViewModels
             PrefabRepositories = controlRepository;
         }
 
+        public PrefabManager LightManager { get; set; }
         public PrefabManager EntityManager { get; set; }
         public PrefabManager TextureManager { get; set; }
         public PrefabManager MaterialManager { get; set; }
+        public PrefabManager CameraManager { get; set; }
         public ControlRepository PrefabRepositories { get; set; }
         public Project Project { get; set; }
         public ServerManager ServerManager { get; set; }
