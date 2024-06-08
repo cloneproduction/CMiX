@@ -5,44 +5,35 @@
     xmlns:CameraModifiers="clr-namespace:CMiX.Core.Rendering.Cameras.Modifiers;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="CameraModifierPanel"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <Grid>
+    <StackPanel Grid.Column="0">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Height="22"
+            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type CameraModifiers:CameraLFOModel}"
+            Content="LFO"
+            Style="{StaticResource ButtonItemControl}" />
 
-        <StackPanel Grid.Column="0">
+        <Button
+            Grid.Row="0"
+            Grid.Column="0"
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Height="22"
+            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type CameraModifiers:CameraRandomModel}"
+            Content="Random"
+            Style="{StaticResource ButtonItemControl}" />
 
-            <Button
-                Grid.Row="0"
-                Grid.Column="0"
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type CameraModifiers:CameraLFOModel}"
-                Content="LFO"
-                Style="{StaticResource ButtonItemControl}" />
+    </StackPanel>
 
-            <Button
-                Grid.Row="0"
-                Grid.Column="0"
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type CameraModifiers:CameraRandomModel}"
-                Content="Random"
-                Style="{StaticResource ButtonItemControl}" />
-
-        </StackPanel>
-
-    </Grid>
 </UserControl>

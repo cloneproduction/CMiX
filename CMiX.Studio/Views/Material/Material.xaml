@@ -16,19 +16,19 @@
 
         <Panels:IndentedExpander
             Header="Settings"
-            Indentation="4"
+            Indentation="0"
             IsExpanded="{Binding MaterialSettings.IsExpanded}">
             <Views:MaterialSettings DataContext="{Binding MaterialSettings}" />
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander
             Header="Texture"
-            Indentation="4"
+            Indentation="0"
             IsExpanded="{Binding DiffuseTexture.IsExpanded}">
             <Views:DiffuseTexture DataContext="{Binding DiffuseTexture}" />
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Indentation="4" IsExpanded="{Binding IsExpanded}">
+        <Panels:IndentedExpander Indentation="0" IsExpanded="{Binding IsExpanded}">
             <Panels:IndentedExpander.Header>
                 <DockPanel>
                     <ToggleButton

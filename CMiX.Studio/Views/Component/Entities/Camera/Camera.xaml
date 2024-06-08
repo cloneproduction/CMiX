@@ -25,9 +25,7 @@
             Header="Settings"
             Indentation="0"
             IsExpanded="{Binding IsExpanded}">
-
             <Views:CameraSettings DataContext="{Binding Settings}" />
-
         </Panels:IndentedExpander>
 
     </StackPanel>

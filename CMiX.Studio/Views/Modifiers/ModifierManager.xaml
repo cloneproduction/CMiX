@@ -24,6 +24,7 @@
             Style="{StaticResource ToggleTransformModifierMenu}" />
 
         <Popup
+            Width="{Binding ActualWidth, ElementName=PopUpToggle}"
             Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=transformModifierManager}"
             AllowsTransparency="True"
             FlowDirection="LeftToRight"

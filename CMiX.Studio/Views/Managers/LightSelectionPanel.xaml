@@ -5,13 +5,13 @@
     xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DesignHeight="28.139"
+    d:DesignWidth="100.648"
     mc:Ignorable="d">
 
     <Button
         Grid.Column="0"
-        Width="120"
+        Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
         Height="22"
         VerticalAlignment="Center"
         Command="{Binding AddItemCommand}"

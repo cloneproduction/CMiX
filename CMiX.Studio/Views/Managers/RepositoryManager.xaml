@@ -25,8 +25,7 @@
 
         </DockPanel>
 
-        <DockPanel Margin="0,8,0,0">
-            <!--  {Binding Path=State, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}  -->
+        <DockPanel Margin="0,8">
             <Popup
                 Behaviors:ClosePopupBehavior.PopupContainer="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 AllowsTransparency="True"
@@ -66,27 +65,10 @@
                     x:Name="PopUpToggle"
                     Height="22"
                     Margin="1,0,0,0"
-                    Content="New">
-                    <!--<ToggleButton.Style>
-                        <Style BasedOn="{StaticResource ToggleButtonRounded}" TargetType="{x:Type ToggleButton}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-
-                            <Style.Triggers>
-
-                                <DataTrigger Binding="{Binding SelectedItem}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-
-                                <DataTrigger Binding="{Binding SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-
-                            </Style.Triggers>
-                        </Style>
-                    </ToggleButton.Style>-->
-                </ToggleButton>
+                    Content="New" />
 
                 <Popup
+                    Width="{Binding ActualWidth, ElementName=PopUpToggle}"
                     Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=repositoryManager}"
                     AllowsTransparency="True"
                     FlowDirection="LeftToRight"
@@ -110,6 +92,9 @@
             </Grid>
         </DockPanel>
 
+        <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+            <ContentControl Content="{Binding EditingPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding SelectedItem}" />
+        </Border>
     </StackPanel>
 
 </UserControl>

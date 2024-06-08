@@ -40,11 +40,13 @@
                         <StackPanel>
 
                             <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}">
+                                
                                 <Views:PrefabSlotManager.Resources>
                                     <CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                     <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                     <CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                 </Views:PrefabSlotManager.Resources>
+                                
                                 <Views:PrefabSlotManager.ItemsSource>
                                     <CompositeCollection>
                                         <CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />
@@ -52,11 +54,11 @@
                                         <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
                                     </CompositeCollection>
                                 </Views:PrefabSlotManager.ItemsSource>
-                                <!--  ItemsSource="{Binding Path=DataContext.PrefabRepositories.LayerRepository.Controls, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">  -->
-
+                                
                                 <Views:PrefabSlotManager.SelectionPanel>
                                     <Entities:EntitySelectionPanel />
                                 </Views:PrefabSlotManager.SelectionPanel>
+                                
                             </Views:PrefabSlotManager>
 
                             <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
