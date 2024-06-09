@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class EntitySelectionPanel : UserControl
+    public partial class Texture : UserControl
     {
-        public EntitySelectionPanel()
+        public Texture()
         {
             InitializeComponent();
         }

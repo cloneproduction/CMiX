@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -20,7 +18,7 @@ using WatsonTcp;
 
 namespace CMiX.Core.Networking.Messenger
 {
-    public class Server : ObservableRecipient
+    public class Server : ObservableRecipient, IControl
     {
         public Server(Settings settings, CerasSerializer cerasSerializer)
         {
@@ -41,9 +39,14 @@ namespace CMiX.Core.Networking.Messenger
             ApplySettingsCommand = new RelayCommand(Apply);
 
             IsActive= true;
+            this.ID = Guid.NewGuid();
         }
 
+        public Guid ID { get; set; }
+        public WatsonTcpServer WatsonTcpServer { get; set; }
+        public ServerStatistics Statistics { get; set; }
         public CerasSerializer Serializer { get; set; }
+        private string ipPort { get; set; }
 
         protected override void OnActivated()
         {
@@ -141,9 +144,6 @@ namespace CMiX.Core.Networking.Messenger
         }
 
 
-        private string ipPort { get; set; }
-        public WatsonTcpServer WatsonTcpServer { get; set; }
-        public ServerStatistics Statistics { get; set; }
 
 
         public Settings GetSettings()
@@ -186,7 +186,8 @@ namespace CMiX.Core.Networking.Messenger
         }
 
 
-        Guid id;
+
+        Guid clientID;
 
         private void ClientConnected(object sender, ConnectionEventArgs e)
         {
@@ -204,7 +205,7 @@ namespace CMiX.Core.Networking.Messenger
             if (ClientIsConnected)
                 Status = "Connected";
 
-            id = e.Client.Guid;
+            clientID = e.Client.Guid;
         }
 
 
@@ -236,7 +237,7 @@ namespace CMiX.Core.Networking.Messenger
             {
                 foreach (var connectedClient in ConnectedClients)
                 {
-                    await WatsonTcpServer.SendAsync(id, data);
+                    await WatsonTcpServer.SendAsync(clientID, data);
                     //var success = WatsonTcpServer.Send(connectedClient.IPPORT, data);
                     //if (success)
                     //    Debug.WriteLine("WatsonTcpServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length + "to address : " + $"{IP}:{Port}");

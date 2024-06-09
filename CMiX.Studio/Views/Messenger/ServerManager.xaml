@@ -1,56 +1,54 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.ServerManager"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:Tools="clr-namespace:CMiX.Studio.Resources"
-             xmlns:Network="clr-namespace:CMiX.Core.Network;assembly=CMiX.Core"
-             xmlns:dd="urn:gong-wpf-dragdrop"
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" 
-             d:DataContext="{d:DesignInstance Type=Network:ServerManager}"
-             md:DialogServiceViews.IsRegistered="True"
-             mc:Ignorable="d" 
-             d:DesignHeight="631.333" d:DesignWidth="290.667">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.ServerManager"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Network="clr-namespace:CMiX.Core.Network;assembly=CMiX.Core"
+    xmlns:Tools="clr-namespace:CMiX.Studio.Resources"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DataContext="{d:DesignInstance Type=Network:ServerManager}"
+    d:DesignHeight="631.333"
+    d:DesignWidth="290.667"
+    md:DialogServiceViews.IsRegistered="True"
+    mc:Ignorable="d">
 
     <UserControl.Resources>
         <ResourceDictionary>
-            <Tools:BindingProxy x:Key="serverManager" Data="{Binding}"/>
+            <Tools:BindingProxy x:Key="serverManager" Data="{Binding}" />
         </ResourceDictionary>
     </UserControl.Resources>
 
 
-    <Border
-        HorizontalAlignment="Stretch"
-        Background="{DynamicResource DarkerColor}">
+    <Border HorizontalAlignment="Stretch" Background="{DynamicResource DarkerColor}">
         <StackPanel>
 
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
+                    <RowDefinition />
+                    <RowDefinition />
                 </Grid.RowDefinitions>
 
                 <ListBox
                     Grid.Row="0"
-                    Margin="8"
-                    SelectedItem="{Binding SelectedServer}"
                     Height="125"
+                    Margin="8"
                     DockPanel.Dock="Top"
-                    ItemsSource="{Binding Servers}">
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <Border Height="20">
-                                    <TextBlock Text="{Binding Name}"  />
-                                </Border>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
+                    ItemsSource="{Binding Servers}"
+                    SelectedItem="{Binding SelectedServer}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border Height="20">
+                                <TextBlock Text="{Binding Name}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
 
 
                 <Border Grid.Row="1" Visibility="{Binding SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                    <Views:Server DataContext="{Binding SelectedServer}" Margin="0"/>
+                    <Views:Server Margin="0" DataContext="{Binding SelectedServer}" />
                 </Border>
             </Grid>
 

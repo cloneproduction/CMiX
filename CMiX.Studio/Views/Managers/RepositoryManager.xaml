@@ -12,7 +12,6 @@
 
     <StackPanel>
 
-        <DockPanel HorizontalAlignment="Stretch">
 
             <ListBox
                 x:Name="prefabListBox"
@@ -23,9 +22,7 @@
                 SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
                 SelectedItem="{Binding SelectedItem}" />
 
-        </DockPanel>
 
-        <DockPanel Margin="0,8">
             <Popup
                 Behaviors:ClosePopupBehavior.PopupContainer="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 AllowsTransparency="True"
@@ -48,7 +45,7 @@
 
             </Popup>
 
-            <Grid DockPanel.Dock="Right">
+            <Grid>
 
                 <Border
                     Height="22"
@@ -90,7 +87,7 @@
                 </Popup>
 
             </Grid>
-        </DockPanel>
+
 
         <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
             <ContentControl Content="{Binding EditingPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding SelectedItem}" />

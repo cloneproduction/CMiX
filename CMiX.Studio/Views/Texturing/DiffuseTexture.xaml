@@ -11,7 +11,6 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-
     <StackPanel>
         <Views:PrefabSlotManager
             Margin="8"
@@ -22,6 +21,7 @@
             </Views:PrefabSlotManager.SelectionPanel>
         </Views:PrefabSlotManager>
 
+        <Views:Texture DataContext="{Binding TextureManager.SelectedItem}" />
     </StackPanel>
 
 </UserControl>

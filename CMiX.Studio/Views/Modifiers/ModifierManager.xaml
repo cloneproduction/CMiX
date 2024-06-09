@@ -19,7 +19,7 @@
             Height="22"
             Margin="0,4"
             Background="{DynamicResource DarkerColor}"
-            Content="Add Modifier"
+            Content="Add"
             IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
             Style="{StaticResource ToggleTransformModifierMenu}" />
 
@@ -30,7 +30,8 @@
             FlowDirection="LeftToRight"
             IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
             Placement="Bottom"
-            PlacementTarget="{Binding ElementName=PopUpToggle}">
+            PlacementTarget="{Binding ElementName=PopUpToggle}"
+            VerticalOffset="0,4">
 
             <Border
                 Padding="2,0,2,2"
