@@ -3,9 +3,9 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using Ceras;
 using CMiX.Core.Networking.Messenger;
-using CMiX.Core.ViewModels;
+using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -13,65 +13,77 @@ namespace CMiX.Core.Network
 {
     public partial class ServerManager : ObservableObject
     {
-        public ServerManager(ServerFactory serverFactory)
+        public ServerManager(ControlFactory controlFactory, ManagerData managerData)
         {
-            ServerFactory = serverFactory;
+            ControlFactory = controlFactory;
+            ManagerData = managerData;
 
             Servers = new ObservableCollection<Server>();
 
-            AddItemCommand = new RelayCommand<Settings>(AddNewServer);
+            AddItemCommand = new RelayCommand<Type>(AddNewServer);
             DeleteItemCommand = new RelayCommand<Server>(DeleteServer);
-            RenameServerCommand = new RelayCommand<Server>(RenameServer);
-            EditMessengerSettingsCommand = new RelayCommand<Server>(EditMessengerSettings);
+            RenameServerCommand = new RelayCommand(RenameServer);
         }
 
-        public ICommand EditMessengerSettingsCommand { get; }
+
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand RenameServerCommand { get; set; }
 
-        private ServerFactory ServerFactory { get; set; }
+        public ControlFactory ControlFactory { get; set; }
         public ObservableCollection<Server> Servers { get; set; }
+        public ManagerData ManagerData { get; set; }
 
 
         [ObservableProperty]
         private Server _selectedServer;
 
-        public void EditMessengerSettings(Server server)
-        {
-            //Settings settings = server.GetSettings();
-            //bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
-            //if (success == true)
-            //    server.SetSettings(settings);
-        }
+        [ObservableProperty]
+        private int _selectedIndex;
 
-        public void AddNewServer(Settings settings)
+
+        public void AddNewServer(Type type)
         {
-            var server = ServerFactory.CreateServer(settings);
-            Servers.Add(server);
+            var server = (Server)ControlFactory.Create(type);
+            ManagerData.Items.Add(server);
         }
 
         private void DeleteServer(Server server)
         {
-            if (server != null)
+            var index = ManagerData.Items.IndexOf(server);
+
+            if (server == null)
+                return;
+
+            server.Stop();
+            ManagerData.Items.Remove(server);
+
+            if (Servers.Count == 0)
             {
-                server.Stop();
-                Servers.Remove(server);
-
-                if (Servers.Count > 0)
-                {
-                    SelectedServer = Servers[0];
-                    return;
-                }
-
                 SelectedServer = null;
+                SelectedIndex = -1;
+                return;
+            }
+
+            if (index == 0)
+            {
+                SelectedServer = Servers[0];
+                SelectedIndex = 0;
+                return;
+            }
+
+            if (index > 0)
+            {
+                SelectedServer = Servers[index - 1];
+                SelectedIndex = index - 1;
+                return;
             }
         }
 
-        private void RenameServer(Server obj)
+        private void RenameServer()
         {
-            if (obj != null)
-                obj.IsRenaming = true;
+            if (SelectedServer is Server server)
+                server.PrefabService.IsRenaming.Value = true;
         }
     }
 }

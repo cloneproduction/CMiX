@@ -360,11 +360,21 @@
                                 ToolTip="Assets" />
                         </TabItem.Header>
 
+
                         <Border Background="{DynamicResource HighDarkerColor}">
                             <StackPanel>
-                                <Views:ServerManager DataContext="{Binding ServerManager}" />
-                                <Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}" />
-                                <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}" />
+                                <Views:PrefabSlotManager DataContext="{Binding ServerManager}">
+                                    <Views:PrefabSlotManager.SelectionPanel>
+                                        <Views:ServerSelectionPanel />
+                                    </Views:PrefabSlotManager.SelectionPanel>
+                                </Views:PrefabSlotManager>
+
+                                <Border Visibility="{Binding ServerManager.SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+                                    <Views:Server DataContext="{Binding ServerManager.SelectedServer}" />
+                                </Border>
+                                <!--<Views:ServerManager DataContext="{Binding ServerManager}" />-->
+                                <!--<Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}" />
+                                <Scheduling:SchedulerManager DataContext="{Binding SchedulerManager}" />-->
                             </StackPanel>
                         </Border>
 

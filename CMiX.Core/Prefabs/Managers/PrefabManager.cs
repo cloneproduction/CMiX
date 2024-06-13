@@ -33,7 +33,6 @@ namespace CMiX.Core.Prefabs.Managers
             IsActive = true;
         }
 
-
         public Guid ID { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }

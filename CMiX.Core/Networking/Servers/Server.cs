@@ -10,32 +10,33 @@ using System.Windows.Input;
 using Ceras;
 using CMiX.Core.Network;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.ViewModels;
+using CMiX.Core.Networking.Servers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using WatsonTcp;
 
 namespace CMiX.Core.Networking.Messenger
 {
-    public class Server : ObservableRecipient, IControl
+    public class Server : ObservableRecipient, IControl, IPrefab
     {
-        public Server(Settings settings, CerasSerializer cerasSerializer)
+
+        public Server(PrefabService prefabService, ServerSettings settings, CerasSerializer cerasSerializer)
         {
             Serializer = cerasSerializer;
+            ServerSettings = settings;
+            PrefabService = prefabService;
+
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
-            SetSettings(settings);
 
-            Name = $"Server (0)";
             Status = "Disconnected";
 
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
 
             PauseCommand = new RelayCommand(Pause);
-            EditSettingsCommand = new RelayCommand(EditSettings);
             ApplySettingsCommand = new RelayCommand(Apply);
 
             IsActive= true;
@@ -43,15 +44,16 @@ namespace CMiX.Core.Networking.Messenger
         }
 
         public Guid ID { get; set; }
+
+        public PrefabService PrefabService { get; set; }
         public WatsonTcpServer WatsonTcpServer { get; set; }
         public ServerStatistics Statistics { get; set; }
+        public ServerSettings ServerSettings { get; set; }
         public CerasSerializer Serializer { get; set; }
+
+
         private string ipPort { get; set; }
 
-        protected override void OnActivated()
-        {
-            this.Messenger.Register<IMessage, int>(this, MessageType.Out, (r, m) => SendMessage(m));
-        }
 
         public void SendMessage(IMessage message)
         {
@@ -62,15 +64,8 @@ namespace CMiX.Core.Networking.Messenger
 
         public ICommand ApplySettingsCommand { get; }
         public ICommand PauseCommand { get; }
-        public ICommand EditSettingsCommand { get; }
 
 
-        private string _name;
-        public string Name
-        {
-            get => _name;
-            set => SetProperty(ref _name, value);
-        }
 
         private string _status;
         public string Status
@@ -79,12 +74,6 @@ namespace CMiX.Core.Networking.Messenger
             set => SetProperty(ref _status, value);
         }
 
-        private string _ip;
-        public string IP
-        {
-            get => _ip;
-            set => SetProperty(ref _ip, value);
-        }
 
         private string _topic;
         public string Topic
@@ -100,19 +89,6 @@ namespace CMiX.Core.Networking.Messenger
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private int _port;
-        public int Port
-        {
-            get => _port;
-            set => SetProperty(ref _port, value);
-        }
-
-        private bool _isRenaming;
-        public bool IsRenaming
-        {
-            get => _isRenaming;
-            set => SetProperty(ref _isRenaming, value);
-        }
 
         private bool _clientIsConnected;
         public bool ClientIsConnected
@@ -127,7 +103,6 @@ namespace CMiX.Core.Networking.Messenger
             get => _serverIsRunning;
             set => SetProperty(ref _serverIsRunning, value);
         }
-
 
         private bool _dataSent;
         public bool DataSent
@@ -144,21 +119,6 @@ namespace CMiX.Core.Networking.Messenger
         }
 
 
-
-
-        public Settings GetSettings()
-        {
-            return new Settings(IP, Port);
-        }
-
-        public void SetSettings(Settings settings)
-        {
-            IP = settings.IP;
-            Port = settings.Port;
-            Start();
-        }
-
-
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             Console.WriteLine("Message from " + e.Client.IpPort + ": " + Encoding.UTF8.GetString(e.Data));
@@ -166,7 +126,7 @@ namespace CMiX.Core.Networking.Messenger
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)
         {
-            Console.WriteLine("Client disconnected: " + IP + ": " + e.Reason.ToString());
+            Console.WriteLine("Client disconnected: " + ServerSettings.IP + ": " + e.Reason.ToString());
 
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -246,18 +206,11 @@ namespace CMiX.Core.Networking.Messenger
             }
         }
 
-        public void EditSettings()
-        {
-            //Settings settings = this.GetSettings();
-            //bool? success = DialogService.ShowDialog<MessengerSettingsWindow>(this, settings);
-            //if (success == true)
-            //    this.SetSettings(settings);
-        }
 
         public void Start()
         {
-            ipPort = $"{IP}:{Port}";
-            WatsonTcpServer = new WatsonTcpServer(IP, Port);
+            ipPort = $"{ServerSettings.IP}:{ServerSettings.Port}";
+            WatsonTcpServer = new WatsonTcpServer(ServerSettings.IP.Value, ServerSettings.Port.Value);
 
             WatsonTcpServer.Events.ClientConnected += ClientConnected;
             WatsonTcpServer.Events.ClientDisconnected += ClientDisconnected;
@@ -290,11 +243,10 @@ namespace CMiX.Core.Networking.Messenger
 
         public void Apply()
         {
-            if (ValidateIPv4(IP) && ValidatePort(IP, Port))
+            if (ValidateIPv4(ServerSettings.IP.Value) && ValidatePort(ServerSettings.IP.Value, ServerSettings.Port.Value))
             {
                 ErrorMessage = "Settings applied succefully !";
                 //CanApply = false;
-                //DialogResult = true;
                 //OkIsFocused = true;
             }
         }

@@ -23,7 +23,7 @@ namespace CMiX
 
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
-            serviceProvider.GetRequiredService<ServerManager>().AddNewServer(new Settings("127.0.0.1", 8080));
+            //serviceProvider.GetRequiredService<ServerManager>().AddNewServer(new ServerSettings("127.0.0.1", 8080));
             var mainWindow = serviceProvider.GetRequiredService<Studio.Views.MainWindow>();
 
             mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();

@@ -21,12 +21,12 @@ namespace CMiX.Core.Network
 
         int ID = 0;
 
-        public Server CreateServer(Settings settings)
-        {
-            var server = new Server(settings, Serializer);
-            ID++;
-            ServerRepository.AddServer(server);
-            return server;
-        }
+        //public Server CreateServer(ServerSettings settings)
+        //{
+        //    var server = new Server(settings, Serializer);
+        //    ID++;
+        //    ServerRepository.AddServer(server);
+        //    return server;
+        //}
     }
 }

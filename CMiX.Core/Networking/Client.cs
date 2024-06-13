@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.ViewModels;
+using CMiX.Core.Networking.Servers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
 
@@ -26,12 +26,12 @@ namespace CMiX.Core.Services
         public string DeconnectionReason { get; set; }
 
 
-        public void Start(Settings settings)
+        public void Start(ServerSettings settings)
         {
             if(WatsonTcpClient != null)
                 WatsonTcpClient.Dispose();
 
-                WatsonTcpClient = new WatsonTcpClient(settings.IP, settings.Port);
+                WatsonTcpClient = new WatsonTcpClient(settings.IP.Value, settings.Port.Value);
                 WatsonTcpClient.Events.ServerConnected += ServerConnected;
                 WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
                 WatsonTcpClient.Events.MessageReceived += MessageReceived;
@@ -70,7 +70,6 @@ namespace CMiX.Core.Services
             ServerIsConnected = true;
             Console.WriteLine("Server " + e.Client.IpPort + " connected");
         }
-
 
         private async Task TryToConnect(WatsonTcpClient watsonTcpClient)
         {

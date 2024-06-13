@@ -47,9 +47,7 @@
                 </ListBox>
 
 
-                <Border Grid.Row="1" Visibility="{Binding SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                    <Views:Server Margin="0" DataContext="{Binding SelectedServer}" />
-                </Border>
+
             </Grid>
 
         </StackPanel>

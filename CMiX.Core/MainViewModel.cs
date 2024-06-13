@@ -1,8 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using Ceras;
 using CMiX.Core.Compositing;
 using CMiX.Core.Network;
+using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
@@ -12,20 +14,22 @@ namespace CMiX.Core.ViewModels
 {
     public class MainViewModel
     {
-        public MainViewModel(Project project, 
+        public MainViewModel(CerasSerializer cerasSerializer,
+                             Project project, 
                              PrefabManager textureManager,
                              PrefabManager materialManager,
                              PrefabManager entityManager,
                              PrefabManager cameraManager,
                              PrefabManager lightManager,
+                             PrefabManager serverManager,
+                             //ServerManager serverManager, 
                              ControlRepository controlRepository, 
-                             ServerManager serverManager, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 
                              MainMenu mainMenu)
         {
             LightManager = lightManager;
-            lightManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF04");
+            lightManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF05");
             CameraManager = cameraManager;
             cameraManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF04");
             EntityManager = entityManager;
@@ -37,12 +41,14 @@ namespace CMiX.Core.ViewModels
 
             Project = project;
             ServerManager = serverManager;
+
             MainWindowController = mainWindowController;
             AssetManager = assetManager;
             MainMenu = mainMenu;
             PrefabRepositories = controlRepository;
         }
 
+        public PrefabManager ServerManager { get; set; }
         public PrefabManager LightManager { get; set; }
         public PrefabManager EntityManager { get; set; }
         public PrefabManager TextureManager { get; set; }
@@ -50,7 +56,7 @@ namespace CMiX.Core.ViewModels
         public PrefabManager CameraManager { get; set; }
         public ControlRepository PrefabRepositories { get; set; }
         public Project Project { get; set; }
-        public ServerManager ServerManager { get; set; }
+
         public AssetManager AssetManager { get; set; }
         public MainMenu MainMenu { get; set; }
         public MainWindowController MainWindowController { get; set; }
