@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Windows.Data;
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
+using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.ViewModels;
@@ -14,10 +15,8 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlRepository : ObservableObject
     {
-        public ControlRepository(ControlFactory controlFactory)
+        public ControlRepository()
         {
-            ControlFactory = controlFactory;
-
             Controls = new ObservableCollection<IControl>();
             Compositions = new ObservableCollection<IPrefab>();
             Materials = new ObservableCollection<IPrefab>();
@@ -25,11 +24,11 @@ namespace CMiX.Core.Prefabs
             Entities = new ObservableCollection<IPrefab>();
             Cameras = new ObservableCollection<IPrefab>();
             Lights = new ObservableCollection<IPrefab>();
+            Servers = new ObservableCollection<IPrefab>();
             BindingOperations.EnableCollectionSynchronization(Controls, this);
-
         }
 
-        public ControlFactory ControlFactory { get; set; }
+
 
         private int nameCount = 1;
 
@@ -99,7 +98,19 @@ namespace CMiX.Core.Prefabs
 
             if (control is Material)
                 Materials.Add(prefab);
+
+            if (control is Server)
+                Servers.Add(prefab);
         }
+
+
+        private ObservableCollection<IPrefab> _servers;
+        public ObservableCollection<IPrefab> Servers
+        {
+            get => _servers;
+            set => SetProperty(ref _servers, value);
+        }
+
 
         private ObservableCollection<IPrefab> _compositions;
         public ObservableCollection<IPrefab> Compositions

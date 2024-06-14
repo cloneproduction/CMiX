@@ -1,11 +1,13 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Networking.Servers;
+using CMiX.Core.Networking.Messenger;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Networking
 {
@@ -14,13 +16,14 @@ namespace CMiX.Core.Networking
         public IMapper Mapper;
         public bool CanSend = true;
 
-        public ControlMessenger(IMapper mapper, ServerRepository serverRepository)
+        public ControlMessenger(IMapper mapper, ControlRepository controlRepository)
         {
             Mapper = mapper;
-            ServerRepository = serverRepository;
+            ServerRepository = controlRepository.Servers;
         }
 
-        ServerRepository ServerRepository { get; set; }
+        ObservableCollection<IPrefab> ServerRepository { get; set; }
+
         public void Receive<T>(GenericValue<T> control, IMessage message)
         {
             CanSend = false;
@@ -40,7 +43,8 @@ namespace CMiX.Core.Networking
             {
                 var message = new MessageValueChange(control.ID, control.Value);
 
-                ServerRepository.GetServers().ForEach(x => x.SendMessage(message));
+                foreach (Server server in ServerRepository)
+                    server.SendMessage(message);
 
                 Debug.WriteLine("Message Sent with Value : " + control.Value);
             }     

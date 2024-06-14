@@ -1,96 +1,43 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.Server"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             mc:Ignorable="d" 
-             xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             md:DialogServiceViews.IsRegistered="True"
-             d:DesignHeight="502.789" d:DesignWidth="325.076">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Server"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    d:DesignHeight="502.789"
+    d:DesignWidth="325.076"
+    md:DialogServiceViews.IsRegistered="True"
+    mc:Ignorable="d">
 
     <StackPanel HorizontalAlignment="Stretch">
-
-        <Expander Header="Settings" >
-            <StackPanel Margin="8">
-                <Button 
-                    Height="25"
-                    Content="Edit"
-                    Command="{Binding EditSettingsCommand}"/>
-                <Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="IP" 
-                        Foreground="{DynamicResource TextBase}"
-                        HorizontalAlignment="Right"
-                        Margin="0, 0, 8, 0"
-                        VerticalAlignment="Center"/>
-                    <TextBlock Padding="4" Grid.Column="1" Text="{Binding IP}"/>
-                </Grid>
-                <Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Port" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{StaticResource TextBase}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
-                    <TextBlock
-                        Padding="4"
-                        Text="{Binding Port}"
-                        Grid.Column="1"
-                        Foreground="{StaticResource TextBase}"/>
-                </Grid>
-                <Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="0.4*"/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Status" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{DynamicResource TextBase}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
-                    <TextBlock
-                        Padding="4"
-                        Text="{Binding Status}"
-                        Grid.Column="1"
-                        Foreground="{DynamicResource TextBase}"/>
-                </Grid>
-                <Button 
-                    Margin="0, 4, 0, 0"
-                    Height="25"
-                    Content =" Resync"
-                    Command="{Binding RequestProjectReSyncCommand}"
-                    CommandParameter="{Binding DataContext.CurrentProject, RelativeSource={RelativeSource AncestorType={x:Type Window}}}"/>
-            </StackPanel>
+        <Button
+            Height="25"
+            Margin="8"
+            Command="{Binding StartCommand}"
+            Content=" Start" />
+        <Expander Header="Settings">
+            <Views:ServerSettings DataContext="{Binding ServerSettings}" />
         </Expander>
 
         <Expander Header="Scheduler">
             <Grid Height="25" Margin="8">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="0.4*"/>
-                    <ColumnDefinition/>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
-                <TextBlock 
-                        Text="" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{DynamicResource TextBase}"
-                        HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
-                <ComboBox
-                        Grid.Column="1"
-                        ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CurrentProject.Components}">
+                <TextBlock
+                    Margin="0,0,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource TextBase}"
+                    Text="" />
+                <ComboBox Grid.Column="1" ItemsSource="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.CurrentProject.Components}">
                     <ComboBox.ItemTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="2, 1" Text="{Binding Name}"/>
+                            <TextBlock Margin="2,1" Text="{Binding Name}" />
                         </DataTemplate>
                     </ComboBox.ItemTemplate>
                 </ComboBox>
@@ -99,18 +46,26 @@
 
         <Expander Header="Clients">
             <ItemsControl
+                MinHeight="50"
                 Margin="8"
-                MinHeight="50" 
                 ItemsSource="{Binding ConnectedClients}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
                             </Grid.ColumnDefinitions>
-                            <TextBlock HorizontalAlignment="Center" Grid.Column="0" Margin="0, 0, 1, 0" Text="{Binding IP}"/>
-                            <TextBlock HorizontalAlignment="Center" Grid.Column="1" Margin="1, 0, 0, 0" Text="{Binding Port}"/>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,1,0"
+                                HorizontalAlignment="Center"
+                                Text="{Binding IP}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="1,0,0,0"
+                                HorizontalAlignment="Center"
+                                Text="{Binding Port}" />
                         </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
@@ -119,42 +74,42 @@
 
         <Expander Header="Statistics">
             <StackPanel Margin="8">
-                <Grid Height="25" Margin="0, 1">
+                <Grid Height="25" Margin="0,1">
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <TextBlock 
-                            Text="Sent Messages Size" 
-                            Margin="0, 0, 8, 0"
-                            Foreground="{DynamicResource TextBase}"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"/>
                     <TextBlock
-                            Padding="4"
-                            HorizontalAlignment="Right"
-                            Text="{Binding Statistics.SentMessagesAverageSize}"
-                            Grid.Column="1"
-                            Foreground="{DynamicResource TextBase}"/>
-                </Grid>
-
-                <Grid Height="25" Margin="0, 1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition/>
-                        <ColumnDefinition/>
-                    </Grid.ColumnDefinitions>
-                    <TextBlock 
-                        Text="Sent Messages" 
-                        Margin="0, 0, 8, 0"
-                        Foreground="{DynamicResource TextBase}"
+                        Margin="0,0,8,0"
                         HorizontalAlignment="Right"
-                        VerticalAlignment="Center"/>
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="Sent Messages Size" />
                     <TextBlock
+                        Grid.Column="1"
                         Padding="4"
                         HorizontalAlignment="Right"
-                        Text="{Binding Statistics.SentMessages}"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Statistics.SentMessagesAverageSize}" />
+                </Grid>
+
+                <Grid Height="25" Margin="0,1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock
+                        Margin="0,0,8,0"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="Sent Messages" />
+                    <TextBlock
                         Grid.Column="1"
-                        Foreground="{DynamicResource TextBase}"/>
+                        Padding="4"
+                        HorizontalAlignment="Right"
+                        Foreground="{DynamicResource TextBase}"
+                        Text="{Binding Statistics.SentMessages}" />
                 </Grid>
             </StackPanel>
 

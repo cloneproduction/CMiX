@@ -7,10 +7,9 @@ namespace CMiX.Core.Networking.Servers
     {
         public ServerModel()
         {
-            
+            ServerSettings = new ServerSettingsModel();
         }
         public Guid ID { get; set; }
-
         public ServerSettingsModel  ServerSettings { get; set; }
     }
 }

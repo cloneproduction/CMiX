@@ -11,8 +11,8 @@ namespace CMiX.Core.Networking
         public ServerSettingsModel()
         {
             ID = Guid.NewGuid();
-            IP = new GenericValueModel<string>();
-            Port = new GenericValueModel<int>();
+            IP = new GenericValueModel<string>("127.0.0.1");
+            Port = new GenericValueModel<int>(8080);
             Message = new GenericValueModel<string>();
         }
 

@@ -6,10 +6,8 @@ using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Mapping;
-using CMiX.Core.Network;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
@@ -44,15 +42,13 @@ namespace CMiX.Core
             services.AddSingleton<MainViewModel>();
 
             services.AddSingleton<ControlRepository>();
+            services.AddSingleton<ControlFactory>();
+
             services.AddSingleton<AssetManager>();
 
             services.AddSingleton<MainWindowController>();
             services.AddSingleton<MainMenu>();
             services.AddSingleton<Client>();
-
-            services.AddSingleton<ServerFactory>();
-            services.AddSingleton<ServerManager>();
-            services.AddSingleton<ServerRepository>();
 
             services.AddSingleton<MessageProcessor>();
             services.AddSingleton<ControlMessenger>();
@@ -62,7 +58,7 @@ namespace CMiX.Core
             services.AddSingleton<MainMenuMessenger>();
 
             services.AddSingleton<MasterBeat>();
-            services.AddSingleton<ControlFactory>();
+
 
             services.AddAutoMapper((provider, opt) =>
             {

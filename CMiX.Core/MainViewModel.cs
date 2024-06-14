@@ -3,8 +3,6 @@
 
 using Ceras;
 using CMiX.Core.Compositing;
-using CMiX.Core.Network;
-using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
@@ -14,15 +12,13 @@ namespace CMiX.Core.ViewModels
 {
     public class MainViewModel
     {
-        public MainViewModel(CerasSerializer cerasSerializer,
-                             Project project, 
+        public MainViewModel(Project project, 
                              PrefabManager textureManager,
                              PrefabManager materialManager,
                              PrefabManager entityManager,
                              PrefabManager cameraManager,
                              PrefabManager lightManager,
                              PrefabManager serverManager,
-                             //ServerManager serverManager, 
                              ControlRepository controlRepository, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 

@@ -363,14 +363,14 @@
 
                         <Border Background="{DynamicResource HighDarkerColor}">
                             <StackPanel>
-                                <Views:PrefabSlotManager DataContext="{Binding ServerManager}">
+                                <Views:PrefabSlotManager Margin="8, 8, 8, 0" DataContext="{Binding ServerManager}">
                                     <Views:PrefabSlotManager.SelectionPanel>
                                         <Views:ServerSelectionPanel />
                                     </Views:PrefabSlotManager.SelectionPanel>
                                 </Views:PrefabSlotManager>
 
-                                <Border Visibility="{Binding ServerManager.SelectedServer, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                                    <Views:Server DataContext="{Binding ServerManager.SelectedServer}" />
+                                <Border Visibility="{Binding ServerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+                                    <Views:Server DataContext="{Binding ServerManager.SelectedItem}" />
                                 </Border>
                                 <!--<Views:ServerManager DataContext="{Binding ServerManager}" />-->
                                 <!--<Scheduling:PlaylistEditor DataContext="{Binding PlaylistEditor}" />

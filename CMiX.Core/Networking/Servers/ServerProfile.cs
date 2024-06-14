@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
+using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Networking.Servers;
 
@@ -12,9 +13,11 @@ namespace CMiX.Core.Mapping
         public ServerProfile()
         {
             CreateMap<Server, ServerModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<ServerSettings, ServerSettingsModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<Server, ServerModel>()
+                .Include<ServerSettings, ServerSettingsModel>()
                 .ReverseMap()
                 .ConstructUsingServiceLocator();
         }

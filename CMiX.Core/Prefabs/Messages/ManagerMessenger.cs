@@ -3,23 +3,23 @@
 
 using AutoMapper;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Networking.Servers;
+using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Prefabs.Messages
 {
     public class ManagerMessenger
     {
-        public ManagerMessenger(IMapper mapper, ServerRepository serverRepository)
+        public ManagerMessenger(IMapper mapper, ControlRepository controlRepository)
         {
             Mapper = mapper;
             CanSend = true;
-            ServerRepository = serverRepository;
+            ControlRepository = controlRepository;
             CollectionHandler = new MessageCollectionManagerHandler();
         }
 
         IMapper Mapper { get; }
-        ServerRepository ServerRepository { get; }
+        ControlRepository ControlRepository { get; }
         public MessageCollectionManagerHandler CollectionHandler { get; set; }
 
         private bool CanSend;
@@ -42,7 +42,8 @@ namespace CMiX.Core.Prefabs.Messages
 
         void Send(IMessage message)
         {
-            ServerRepository.GetServers().ForEach(x => x.SendMessage(message));
+            foreach (Server server in ControlRepository.Servers)
+                server.SendMessage(message);
         }
 
         public void SendAddItem(Guid id, IControl control)

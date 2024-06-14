@@ -1,4 +1,6 @@
 ﻿using CMiX.Core;
+using CMiX.Core.BaseControls;
+using CMiX.Core.Networking.Servers;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,9 +17,11 @@ namespace CMiX.Console
             configurationBuilder.ConfigureServices(serviceCollection);
 
             var ServiceProvider = serviceCollection.BuildServiceProvider();
-            //ServiceProvider.GetRequiredService<Client>().Start(new ServerSettings("127.0.0.1", 8080));
 
-            var project = ServiceProvider.GetService(typeof(MainViewModel));
+
+            ServiceProvider.GetRequiredService<Client>().Start(new ServerSettings(new GenericValue<string>(){Value = "127.0.0.1" }, new GenericValue<int>() { Value = 8080 }));
+
+            var project = ServiceProvider.GetRequiredService(typeof(MainViewModel));
             //var MainMenu = ServiceProvider.GetService(typeof(MainMenu));
 
             System.Console.ReadLine();

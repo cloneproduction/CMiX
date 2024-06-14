@@ -11,15 +11,13 @@ namespace CMiX.Core.Prefabs.Messages
 {
     public class EventMessenger
     {
-        public EventMessenger(IMapper mapper, ServerRepository serverRepository)
+        public EventMessenger(IMapper mapper)
         {
             Mapper = mapper;
             CanSend = true;
-            ServerRepository = serverRepository;
         }
 
         IMapper Mapper { get; }
-        ServerRepository ServerRepository { get; }
         private bool CanSend;
 
         public void Receive(Button button, IMessage message)

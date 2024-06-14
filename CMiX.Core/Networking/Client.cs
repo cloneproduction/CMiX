@@ -19,8 +19,7 @@ namespace CMiX.Core.Services
         private MessageProcessor MessageProcessor { get; set; }
         public WatsonTcpClient WatsonTcpClient { get; set; }
 
-        public string IP { get; set; }
-        public int Port { get; set; }
+
         public bool IsRunning { get; private set; }
         public bool ServerIsConnected { get; set; }
         public string DeconnectionReason { get; set; }

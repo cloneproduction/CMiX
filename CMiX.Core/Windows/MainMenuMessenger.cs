@@ -2,33 +2,33 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Diagnostics;
-using System.Windows.Controls;
 using AutoMapper;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Networking.Servers;
+using CMiX.Core.Networking.Messenger;
+using CMiX.Core.Prefabs;
 using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Windows
 {
     public class MainMenuMessenger
     {
-        public MainMenuMessenger(IMapper mapper, ServerRepository serverRepository)
+        public MainMenuMessenger(IMapper mapper, ControlRepository controlRepository)
         {
             Mapper = mapper;
-            ServerRepository = serverRepository;
+            ControlRepository = controlRepository;
         }
 
         public IMapper Mapper;
         public bool CanSend = true;
-        ServerRepository ServerRepository { get; set; }
+        ControlRepository ControlRepository { get; set; }
 
         public void SendOpenProject(string filePath)
         {
             if (CanSend)
             {
                 var message = new MessageOpenProject(filePath);
-
-                ServerRepository.GetServers().ForEach(x => x.SendMessage(message));
+                foreach (Server server in ControlRepository.Servers)
+                    server.SendMessage(message);
 
                 Debug.WriteLine("Message Sent with Value : " + filePath);
             }

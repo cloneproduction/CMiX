@@ -20,7 +20,6 @@ namespace CMiX.Core.Networking.Messenger
 {
     public class Server : ObservableRecipient, IControl, IPrefab
     {
-
         public Server(PrefabService prefabService, ServerSettings settings, CerasSerializer cerasSerializer)
         {
             Serializer = cerasSerializer;
@@ -36,12 +35,18 @@ namespace CMiX.Core.Networking.Messenger
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
 
+            StartCommand = new RelayCommand(Start);
             PauseCommand = new RelayCommand(Pause);
             ApplySettingsCommand = new RelayCommand(Apply);
 
             IsActive= true;
             this.ID = Guid.NewGuid();
         }
+
+        public ICommand StartCommand { get; }
+        public ICommand ApplySettingsCommand { get; }
+        public ICommand PauseCommand { get; }
+
 
         public Guid ID { get; set; }
 
@@ -54,7 +59,6 @@ namespace CMiX.Core.Networking.Messenger
 
         private string ipPort { get; set; }
 
-
         public void SendMessage(IMessage message)
         {
             Console.WriteLine("MessageService SendMessage of type " + message.GetType().Name);
@@ -62,11 +66,7 @@ namespace CMiX.Core.Networking.Messenger
             this.Send(data);
         }
 
-        public ICommand ApplySettingsCommand { get; }
-        public ICommand PauseCommand { get; }
-
-
-
+ 
         private string _status;
         public string Status
         {
@@ -117,7 +117,6 @@ namespace CMiX.Core.Networking.Messenger
             get => _connectedClients;
             set => SetProperty(ref _connectedClients, value);
         }
-
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {

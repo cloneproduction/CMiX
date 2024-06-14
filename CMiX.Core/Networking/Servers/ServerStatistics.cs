@@ -1,20 +1,19 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
 
 namespace CMiX.Core.Networking.Messenger
 {
-    public class ServerStatistics : ObservableObject
+    public class ServerStatistics : ObservableObject, IControl
     {
         public ServerStatistics()
         {
             SentMessages = 0;
         }
 
-
+        public Guid ID { get; set; }
 
         private long _sentMessages;
         public long SentMessages
@@ -50,6 +49,7 @@ namespace CMiX.Core.Networking.Messenger
             get => _sentMessagesAverageSize;
             set => SetProperty(ref _sentMessagesAverageSize, value);
         }
+
 
         public void Update(WatsonTcpServer watsonTcpServer)
         {
