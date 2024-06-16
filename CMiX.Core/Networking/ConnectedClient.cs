@@ -14,6 +14,13 @@ namespace CMiX.Core.Network
             Port = ipPort.Split(':')[1];
         }
 
+        private Guid _iD;
+        public Guid ID
+        {
+            get => _iD;
+            set => SetProperty(ref _iD, value);
+        }
+
         private string _ipPort;
         public string IPPORT
         {
@@ -40,6 +47,13 @@ namespace CMiX.Core.Network
         {
             get => _ip;
             set => SetProperty(ref _ip, value);
+        }
+
+        private string _name;
+        public string Name
+        {
+            get => _name;
+            set => SetProperty(ref _name, value);
         }
     }
 }

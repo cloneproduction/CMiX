@@ -209,7 +209,7 @@ namespace CMiX.Core.ViewModels.Assets
                     return;
                 }
 
-                if(fileType == "OBJ")
+                if(fileType == "OBJ" || fileType == "FBX")
                 {
                     GeometryAssets.Add(new Asset(path));
                     return;

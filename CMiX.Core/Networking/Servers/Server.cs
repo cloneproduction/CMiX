@@ -22,6 +22,8 @@ namespace CMiX.Core.Networking.Messenger
     {
         public Server(PrefabService prefabService, ServerSettings settings, CerasSerializer cerasSerializer)
         {
+            ID = Guid.NewGuid();
+
             Serializer = cerasSerializer;
             ServerSettings = settings;
             PrefabService = prefabService;
@@ -37,16 +39,19 @@ namespace CMiX.Core.Networking.Messenger
 
             StartCommand = new RelayCommand(Start);
             PauseCommand = new RelayCommand(Pause);
+            RestartCommand = new RelayCommand(Restart);
+            StopCommand = new RelayCommand(Stop);
+
             ApplySettingsCommand = new RelayCommand(Apply);
 
             IsActive= true;
-            this.ID = Guid.NewGuid();
         }
 
         public ICommand StartCommand { get; }
+        public ICommand RestartCommand { get; }
         public ICommand ApplySettingsCommand { get; }
         public ICommand PauseCommand { get; }
-
+        public ICommand StopCommand { get; }
 
         public Guid ID { get; set; }
 
@@ -74,7 +79,6 @@ namespace CMiX.Core.Networking.Messenger
             set => SetProperty(ref _status, value);
         }
 
-
         private string _topic;
         public string Topic
         {
@@ -88,7 +92,6 @@ namespace CMiX.Core.Networking.Messenger
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
         }
-
 
         private bool _clientIsConnected;
         public bool ClientIsConnected
@@ -118,10 +121,12 @@ namespace CMiX.Core.Networking.Messenger
             set => SetProperty(ref _connectedClients, value);
         }
 
+
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             Console.WriteLine("Message from " + e.Client.IpPort + ": " + Encoding.UTF8.GetString(e.Data));
         }
+
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)
         {
@@ -152,8 +157,10 @@ namespace CMiX.Core.Networking.Messenger
         {
             Console.WriteLine("Client connected: " + e.Client.IpPort);
             var connectedClient = new ConnectedClient(e.Client.IpPort);
+            connectedClient.Name = e.Client.Name;
+            connectedClient.ID = e.Client.Guid;
             ipPort = e.Client.IpPort;
-
+            
             Application.Current.Dispatcher.Invoke(delegate
             {
                 ConnectedClients.Add(connectedClient);
@@ -194,6 +201,7 @@ namespace CMiX.Core.Networking.Messenger
         {
             if (WatsonTcpServer != null)
             {
+                //var clients = WatsonTcpServer.ListClients();
                 foreach (var connectedClient in ConnectedClients)
                 {
                     await WatsonTcpServer.SendAsync(clientID, data);
@@ -214,25 +222,41 @@ namespace CMiX.Core.Networking.Messenger
             WatsonTcpServer.Events.ClientConnected += ClientConnected;
             WatsonTcpServer.Events.ClientDisconnected += ClientDisconnected;
             WatsonTcpServer.Events.MessageReceived += MessageReceived;
-            WatsonTcpServer.Callbacks.SyncRequestReceived = SyncRequestReceived;
+            //WatsonTcpServer.Callbacks.SyncRequestReceived = SyncRequestReceived;
             WatsonTcpServer.Start();
             ServerIsRunning = true;
+            Console.WriteLine();
         }
+
+
+        public void Restart()
+        {
+            Stop();
+            Start();
+        }
+
 
         public void Stop()
         {
-            if (WatsonTcpServer != null)
-            {
-                WatsonTcpServer.Stop();
-                //WatsonTcpServer.Dispose();
-                WatsonTcpServer.Events.ClientConnected -= ClientConnected;
-                WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
-                WatsonTcpServer.Events.MessageReceived -= MessageReceived;
-                ClientIsConnected = false;
-                ServerIsRunning = false;
-                WatsonTcpServer.Dispose();
-            }
+            if (WatsonTcpServer == null)
+                return;
+            WatsonTcpServer.Events.ClientConnected -= ClientConnected;
+            WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
+            WatsonTcpServer.Events.MessageReceived -= MessageReceived;
+            WatsonTcpServer.Stop();
+            ClientIsConnected = false;
+            ServerIsRunning = false;
+
+
+            //foreach (var client in ConnectedClients)
+            //{
+            //    WatsonTcpServer.DisconnectClientAsync(client.ID);
+            //}
+
+            //WatsonTcpServer.Dispose();
+            Console.WriteLine();
         }
+
 
         public void Pause()
         {

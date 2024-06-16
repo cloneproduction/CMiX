@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.ViewModels
@@ -17,7 +18,8 @@ namespace CMiX.Core.ViewModels
                     GenericValue<int> tessellation,
                     Integer2 tessellationXY,
                     GenericValue<bool> generateBackFace,
-                    GenericValue<bool> visibility)
+                    GenericValue<bool> visibility,
+                    GenericValue<Asset> geometry)
         {
             MeshTypeSelector = meshTypeSelector;
             Scale = scale;
@@ -29,6 +31,7 @@ namespace CMiX.Core.ViewModels
             TessellationXY = tessellationXY;
             GenerateBackFace = generateBackFace;
             Visibility = visibility;
+            Geometry = geometry;
         }
 
         [ObservableProperty]
@@ -36,6 +39,8 @@ namespace CMiX.Core.ViewModels
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
+
+        public GenericValue<Asset> Geometry { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Offset { get; set; }
         public GenericValue<float> Radius { get; set; }

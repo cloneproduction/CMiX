@@ -35,7 +35,6 @@ namespace CMiX.Core.Services
                 WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
                 WatsonTcpClient.Events.MessageReceived += MessageReceived;
                 WatsonTcpClient.Settings.ConnectTimeoutSeconds = 5;
-
                 _ = TryToConnect(WatsonTcpClient);
         }
 

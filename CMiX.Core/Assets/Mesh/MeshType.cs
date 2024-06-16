@@ -10,6 +10,7 @@ namespace CMiX.Core.ViewModels
         Sphere,
         Torus,
         Cone,
-        Cylinder
+        Cylinder,
+        FromFile
     }
 }

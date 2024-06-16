@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.ViewModels.Assets;
 
 namespace CMiX.Core.ViewModels
 {
@@ -12,6 +13,8 @@ namespace CMiX.Core.ViewModels
             ID = Guid.NewGuid();
 
             MeshTypeSelector = new GenericValueModel<MeshType>(MeshType.Plane);
+
+            Geometry = new GenericValueModel<Asset>(null);
             Scale = new Vector3Model(1.0f, 1.0f, 1.0f);
             Offset = new Vector3Model(0.0f, 0.0f, 0.0f);
             Radius = new GenericValueModel<float>(1.0f);
@@ -29,6 +32,7 @@ namespace CMiX.Core.ViewModels
 
         public Guid ID { get; set; }
         public GenericValueModel<MeshType> MeshTypeSelector { get; internal set; }
+        public GenericValueModel<Asset> Geometry { get; set; }
         public Vector3Model Scale { get; set; }
         public Vector3Model Offset { get; set; }
         public GenericValueModel<float> Radius { get; set; }

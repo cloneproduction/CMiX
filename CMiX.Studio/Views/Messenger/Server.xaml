@@ -13,11 +13,37 @@
     mc:Ignorable="d">
 
     <StackPanel HorizontalAlignment="Stretch">
-        <Button
-            Height="25"
-            Margin="8"
-            Command="{Binding StartCommand}"
-            Content=" Start" />
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                Height="25"
+                Margin="8"
+                Command="{Binding StartCommand}"
+                Content=" Start" />
+            <Button
+                Grid.Column="1"
+                Height="25"
+                Margin="8"
+                Command="{Binding RestartCommand}"
+                Content=" Restart" />
+            <Button
+                Grid.Column="1"
+                Height="25"
+                Margin="8"
+                Command="{Binding RestartCommand}"
+                Content=" Restart" />
+            <Button
+                Grid.Column="2"
+                Height="25"
+                Margin="8"
+                Command="{Binding RestartCommand}"
+                Content=" Stop" />
+        </Grid>
+
         <Expander Header="Settings">
             <Views:ServerSettings DataContext="{Binding ServerSettings}" />
         </Expander>
