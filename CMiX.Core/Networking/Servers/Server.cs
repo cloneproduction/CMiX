@@ -216,6 +216,12 @@ namespace CMiX.Core.Networking.Messenger
 
         public void Start()
         {
+            //if (WatsonTcpServer == null)
+            //    return;
+
+            //if (WatsonTcpServer.IsListening == true)
+
+
             ipPort = $"{ServerSettings.IP}:{ServerSettings.Port}";
             WatsonTcpServer = new WatsonTcpServer(ServerSettings.IP.Value, ServerSettings.Port.Value);
 
@@ -235,29 +241,25 @@ namespace CMiX.Core.Networking.Messenger
             Start();
         }
 
-
         public void Stop()
         {
             if (WatsonTcpServer == null)
                 return;
-            WatsonTcpServer.Events.ClientConnected -= ClientConnected;
-            WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
-            WatsonTcpServer.Events.MessageReceived -= MessageReceived;
+
+            foreach (var client in ConnectedClients)
+                WatsonTcpServer.DisconnectClientAsync(client.ID);
+
             WatsonTcpServer.Stop();
-            ClientIsConnected = false;
-            ServerIsRunning = false;
-
-
-            //foreach (var client in ConnectedClients)
-            //{
-            //    WatsonTcpServer.DisconnectClientAsync(client.ID);
-            //}
-
-            //WatsonTcpServer.Dispose();
-            Console.WriteLine();
+            WatsonTcpServer.Dispose();
+            WatsonTcpServer = null;
         }
 
-
+        //WatsonTcpServer.Events.ClientConnected -= ClientConnected;
+        //WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
+        //WatsonTcpServer.Events.MessageReceived -= MessageReceived;
+        //WatsonTcpServer.Stop();
+        //ClientIsConnected = false;
+        //ServerIsRunning = false;
         public void Pause()
         {
 

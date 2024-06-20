@@ -7,15 +7,14 @@
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="44.685"
-    d:DesignWidth="136.643"
+    d:DesignHeight="77.352"
+    d:DesignWidth="153.31"
     mc:Ignorable="d">
 
     <Border Margin="4,8">
         <StackPanel Grid.Column="2">
 
             <Button
-                Grid.Column="2"
                 Width="120"
                 Height="22"
                 VerticalAlignment="Center"
@@ -24,6 +23,115 @@
                 Content="Grid"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type ColorModifiers:RandomHSVModel}"
+                Content="RandomHSV"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:LinearXYZModel}"
+                Content="LinearXYZ"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomXYZModel}"
+                Content="RandomXYZ"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:GaussianXYZModel}"
+                Content="GaussianXYZ"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:LFOModel}"
+                Content="LFO"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:StepperModel}"
+                Content="Stepper"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomScaleModel}"
+                Content="RandomScale"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomRotationModel}"
+                Content="RandomRotation"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Transformation:TransformSRTModel}"
+                Content="TransformSRT"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Transformation:TranslateModel}"
+                Content="Translate"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Transformation:ScaleModel}"
+                Content="Scale"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Transformation:RotationModel}"
+                Content="Rotation"
+                Style="{StaticResource ButtonItemControl}" />
+
         </StackPanel>
+
     </Border>
 </UserControl>
