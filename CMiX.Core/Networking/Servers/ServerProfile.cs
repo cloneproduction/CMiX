@@ -14,10 +14,12 @@ namespace CMiX.Core.Mapping
         {
             CreateMap<Server, ServerModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<ServerSettings, ServerSettingsModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<ServerManager, ServerManagerModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<Server, ServerModel>()
                 .Include<ServerSettings, ServerSettingsModel>()
+                .Include<ServerManager, ServerManagerModel>()
                 .ReverseMap()
                 .ConstructUsingServiceLocator();
         }

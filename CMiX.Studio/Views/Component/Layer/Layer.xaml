@@ -55,8 +55,16 @@
                                 </Views:PrefabSlotManager.ItemsSource>
 
                                 <Views:PrefabSlotManager.SelectionPanel>
-                                    <Views:EntitySelectionPanel />
+                                    <Views:ButtonOpenSelectionPanel>
+                                        <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                            <Views:EntitySelectionPanel />
+                                        </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                    </Views:ButtonOpenSelectionPanel>
                                 </Views:PrefabSlotManager.SelectionPanel>
+
+                                <!--<Views:PrefabSlotManager.SelectionPanel>
+                                    <Views:EntitySelectionPanel />
+                                </Views:PrefabSlotManager.SelectionPanel>-->
 
                             </Views:PrefabSlotManager>
 

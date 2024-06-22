@@ -144,7 +144,6 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 items[items.IndexOf(emptyPrefab)] = prefab;
                 ManagerMessenger.SendReplaceItem(ManagerData.ID, pre, ManagerData.Items.IndexOf(prefab));
-                Console.WriteLine();
             }
             else
             {

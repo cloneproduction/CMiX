@@ -6,9 +6,11 @@
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     x:Name="prefabSlotManager"
     d:DesignHeight="215.334"
     d:DesignWidth="255.001"
+    md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -130,51 +132,24 @@
                         Text="{Binding DataContext.SelectedItem.PrefabService.Name.Value, ElementName=prefabSlotManager, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <ToggleButton
-                    x:Name="PopUpToggle"
-                    Height="22"
-                    Margin="1,0,0,0"
-                    Content="New">
-                    <ToggleButton.Style>
-                        <Style BasedOn="{StaticResource ToggleButtonRoundedRight}" TargetType="{x:Type ToggleButton}">
+                <Border>
+                    <Border.Style>
+                        <Style TargetType="{x:Type Border}">
                             <Setter Property="Visibility" Value="Collapsed" />
-
                             <Style.Triggers>
-
-                                <DataTrigger Binding="{Binding SelectedItem}" Value="{x:Null}">
+                                <DataTrigger Binding="{Binding Path=SelectedItem}" Value="{x:Null}">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-
-                                <DataTrigger Binding="{Binding SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
+                                <DataTrigger Binding="{Binding Path=SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
                                     <Setter Property="Visibility" Value="Visible" />
                                 </DataTrigger>
-
                             </Style.Triggers>
                         </Style>
-                    </ToggleButton.Style>
-                </ToggleButton>
+                    </Border.Style>
 
-                <Popup
-                    Width="{Binding ActualWidth, ElementName=PopUpToggle}"
-                    Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
-                    AllowsTransparency="True"
-                    FlowDirection="LeftToRight"
-                    IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
-                    Placement="Bottom"
-                    PlacementTarget="{Binding ElementName=PopUpToggle}">
+                    <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
 
-                    <Border
-                        Padding="2,4,2,2"
-                        Background="{DynamicResource HighHighDarkerColor}"
-                        BorderBrush="{DynamicResource Shadow}"
-                        BorderThickness="1,0,1,2"
-                        CornerRadius="{DynamicResource CornerRadiusBottom}">
-
-                        <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
-
-                    </Border>
-
-                </Popup>
+                </Border>
 
             </Grid>
         </DockPanel>

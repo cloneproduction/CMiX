@@ -3,6 +3,7 @@
 
 using Ceras;
 using CMiX.Core.Compositing;
+using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
@@ -18,7 +19,7 @@ namespace CMiX.Core.ViewModels
                              PrefabManager entityManager,
                              PrefabManager cameraManager,
                              PrefabManager lightManager,
-                             PrefabManager serverManager,
+                             ServerManager serverManager,
                              ControlRepository controlRepository, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 
@@ -44,7 +45,7 @@ namespace CMiX.Core.ViewModels
             PrefabRepositories = controlRepository;
         }
 
-        public PrefabManager ServerManager { get; set; }
+        public ServerManager ServerManager { get; set; }
         public PrefabManager LightManager { get; set; }
         public PrefabManager EntityManager { get; set; }
         public PrefabManager TextureManager { get; set; }

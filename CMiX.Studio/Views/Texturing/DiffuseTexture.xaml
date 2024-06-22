@@ -17,7 +17,11 @@
             DataContext="{Binding TextureManager}"
             ItemsSource="{Binding Path=DataContext.PrefabRepositories.Textures, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
             <Views:PrefabSlotManager.SelectionPanel>
-                <Views:TextureSelectionPanel />
+                <Views:ButtonOpenSelectionPanel>
+                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                        <Views:TextureSelectionPanel />
+                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                </Views:ButtonOpenSelectionPanel>
             </Views:PrefabSlotManager.SelectionPanel>
         </Views:PrefabSlotManager>
 

@@ -18,6 +18,11 @@ namespace CMiX.Studio.Views.BaseControl
 
         private IDialogService DialogService { get; set; }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            DialogService.Show<ColorSelectorWindow>((INotifyPropertyChanged)this.DataContext, ViewModel);
+        }
+
         public static readonly DependencyProperty ViewModelProperty =
         DependencyProperty.Register("ViewModel", typeof(INotifyPropertyChanged), typeof(ColorSelector), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public INotifyPropertyChanged ViewModel
@@ -50,9 +55,6 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(SelectedColorProperty, value); }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DialogService.Show<ColorSelectorWindow>((INotifyPropertyChanged)this.DataContext, ViewModel);
-        }
+
     }
 }
