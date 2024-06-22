@@ -8,13 +8,12 @@
     d:DesignWidth="294"
     mc:Ignorable="d">
 
-
     <StackPanel Margin="8">
 
-        <Grid Height="25" Margin="0,1">
+        <Grid Height="25">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*" />
-                <ColumnDefinition />
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock
                 Margin="0,0,8,0"
@@ -27,10 +26,10 @@
                 Padding="4"
                 Text="{Binding IP.Value}" />
         </Grid>
-        <Grid Height="25" Margin="0,1">
+        <Grid Height="25">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*" />
-                <ColumnDefinition />
+                <ColumnDefinition/>
+                <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <TextBlock
                 Margin="0,0,8,0"
@@ -44,9 +43,9 @@
                 Foreground="{StaticResource TextBase}"
                 Text="{Binding Port.Value}" />
         </Grid>
-        <Grid Height="25" Margin="0,1">
+        <Grid Height="25">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="0.4*" />
+                <ColumnDefinition/>
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
             <TextBlock
@@ -54,12 +53,12 @@
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Foreground="{DynamicResource TextBase}"
-                Text="Status" />
+                Text="Client Status" />
             <TextBlock
                 Grid.Column="1"
                 Padding="4"
                 Foreground="{DynamicResource TextBase}"
-                Text="{Binding Status.Value}" />
+                Text="{Binding Status}" />
         </Grid>
     </StackPanel>
 </UserControl>

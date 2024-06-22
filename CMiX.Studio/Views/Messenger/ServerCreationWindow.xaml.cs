@@ -47,8 +47,8 @@ namespace CMiX.Core.Views.Dialogs
         protected override void OnDeactivated(EventArgs e)
         {
             base.OnDeactivated(e);
-            if (!isClosing)
-                Close();
+            //if (!isClosing)
+            //    Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

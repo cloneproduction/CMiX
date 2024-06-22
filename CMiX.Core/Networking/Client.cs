@@ -2,8 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Networking.Messenger;
-using CMiX.Core.Networking.Servers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
 
@@ -19,20 +17,24 @@ namespace CMiX.Core.Services
 
         private MessageProcessor MessageProcessor { get; set; }
         public WatsonTcpClient WatsonTcpClient { get; set; }
-        public ServerSettings ServerSettings { get; set; }
+
         public bool ServerIsConnected { get; set; }
         public string DeconnectionReason { get; set; }
 
         CancellationTokenSource cts;
 
-        public void Start(ServerSettings settings)
+        public int Port { get; set; }
+        public string IP { get; set; }
+
+        public void Start(string IP, int Port)
         {
-            ServerSettings = settings;
+            this.IP = IP;
+            this.Port = Port;
 
             if(WatsonTcpClient != null)
                 WatsonTcpClient.Dispose();
 
-            WatsonTcpClient = new WatsonTcpClient(settings.IP.Value, settings.Port.Value);
+            WatsonTcpClient = new WatsonTcpClient(IP, Port);
 
             //WatsonTcpClient.Keepalive.EnableTcpKeepAlives = true;
             //WatsonTcpClient.Keepalive.TcpKeepAliveInterval = 5;      // seconds to wait before sending subsequent keepalive
@@ -89,7 +91,7 @@ namespace CMiX.Core.Services
                     }
                     catch (Exception)
                     {
-                        Console.WriteLine("Trying to connect to server " + "IP " +  ServerSettings.IP.Value.ToString() + "PORT " + ServerSettings.Port.Value.ToString());
+                        Console.WriteLine("Trying to connect to server " + "IP " +  IP.ToString() + "PORT " + Port.ToString());
                     }
                 }, cancellationToken);
                 await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);

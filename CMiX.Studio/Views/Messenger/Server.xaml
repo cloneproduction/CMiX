@@ -2,7 +2,6 @@
     x:Class="CMiX.Studio.Views.Server"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -13,40 +12,54 @@
     mc:Ignorable="d">
 
     <StackPanel HorizontalAlignment="Stretch">
+
         <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <Button
-                Height="25"
-                Margin="8"
-                Command="{Binding StartCommand}"
-                Content=" Start" />
-            <Button
-                Grid.Column="1"
-                Height="25"
-                Margin="8"
-                Command="{Binding RestartCommand}"
-                Content=" Restart" />
-            <Button
-                Grid.Column="1"
-                Height="25"
-                Margin="8"
-                Command="{Binding RestartCommand}"
-                Content=" Restart" />
-            <Button
-                Grid.Column="2"
-                Height="25"
-                Margin="8"
-                Command="{Binding StopCommand}"
-                Content=" Stop" />
+            <Border>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Visibility" Value="Visible" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ServerIsRunning}" Value="True">
+                                <Setter Property="Visibility" Value="Collapsed" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Button
+                    Width="25"
+                    Height="25"
+                    Margin="8"
+                    Command="{Binding StartCommand}">
+                    <Button.Content>
+                        <Image Margin="4" Source="{StaticResource Play}" />
+                    </Button.Content>
+                </Button>
+            </Border>
+            <Border>
+                <Border.Style>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding ServerIsRunning}" Value="True">
+                                <Setter Property="Visibility" Value="Visible" />
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+                <Button
+                    Grid.Column="1"
+                    Width="25"
+                    Height="25"
+                    Margin="8"
+                    Command="{Binding StopCommand}">
+                    <Button.Content>
+                        <Image Margin="16" Source="{StaticResource Stop}" />
+                    </Button.Content>
+                </Button>
+            </Border>
         </Grid>
 
-        <Expander Header="Settings">
-            <Views:ServerSettings DataContext="{Binding ServerSettings}" />
-        </Expander>
+        <Views:ServerSettings DataContext="{Binding}" />
 
         <Expander Header="Scheduler">
             <Grid Height="25" Margin="8">

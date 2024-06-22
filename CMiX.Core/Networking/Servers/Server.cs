@@ -8,9 +8,9 @@ using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using Ceras;
+using CMiX.Core.BaseControls;
 using CMiX.Core.Network;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -20,12 +20,11 @@ namespace CMiX.Core.Networking.Messenger
 {
     public class Server : ObservableRecipient, IControl, IPrefab
     {
-        public Server(PrefabService prefabService, ServerSettings settings, CerasSerializer cerasSerializer)
+        public Server(PrefabService prefabService, CerasSerializer cerasSerializer)
         {
             ID = Guid.NewGuid();
 
             Serializer = cerasSerializer;
-            ServerSettings = settings;
             PrefabService = prefabService;
 
             ClientIsConnected = false;
@@ -58,7 +57,6 @@ namespace CMiX.Core.Networking.Messenger
         public PrefabService PrefabService { get; set; }
         public WatsonTcpServer WatsonTcpServer { get; set; }
         public ServerStatistics Statistics { get; set; }
-        public ServerSettings ServerSettings { get; set; }
         public CerasSerializer Serializer { get; set; }
 
 
@@ -71,19 +69,16 @@ namespace CMiX.Core.Networking.Messenger
             this.Send(data);
         }
 
- 
+        public GenericValue<string> IP { get; set; }
+        public GenericValue<int> Port { get; set; }
+
+
+
         private string _status;
         public string Status
         {
             get => _status;
             set => SetProperty(ref _status, value);
-        }
-
-        private string _topic;
-        public string Topic
-        {
-            get => _topic;
-            set => SetProperty(ref _topic, value);
         }
 
         private string _errorMessage;
@@ -130,7 +125,7 @@ namespace CMiX.Core.Networking.Messenger
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)
         {
-            Console.WriteLine("Client disconnected: " + ServerSettings.IP + ": " + e.Reason.ToString());
+            Console.WriteLine("Client disconnected: " + IP + ": " + e.Reason.ToString());
 
             Application.Current.Dispatcher.Invoke(delegate
             {
@@ -222,8 +217,8 @@ namespace CMiX.Core.Networking.Messenger
             //if (WatsonTcpServer.IsListening == true)
 
 
-            ipPort = $"{ServerSettings.IP}:{ServerSettings.Port}";
-            WatsonTcpServer = new WatsonTcpServer(ServerSettings.IP.Value, ServerSettings.Port.Value);
+            ipPort = $"{IP}:{Port}";
+            WatsonTcpServer = new WatsonTcpServer(IP.Value, Port.Value);
 
             WatsonTcpServer.Events.ClientConnected += ClientConnected;
             WatsonTcpServer.Events.ClientDisconnected += ClientDisconnected;
@@ -252,6 +247,7 @@ namespace CMiX.Core.Networking.Messenger
             WatsonTcpServer.Stop();
             WatsonTcpServer.Dispose();
             WatsonTcpServer = null;
+            ServerIsRunning = false;
         }
 
         //WatsonTcpServer.Events.ClientConnected -= ClientConnected;
@@ -268,7 +264,7 @@ namespace CMiX.Core.Networking.Messenger
 
         public void Apply()
         {
-            if (ValidateIPv4(ServerSettings.IP.Value) && ValidatePort(ServerSettings.IP.Value, ServerSettings.Port.Value))
+            if (ValidateIPv4(IP.Value) && ValidatePort(IP.Value, Port.Value))
             {
                 ErrorMessage = "Settings applied succefully !";
                 //CanApply = false;

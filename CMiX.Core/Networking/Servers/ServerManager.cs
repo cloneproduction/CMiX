@@ -1,12 +1,16 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Net.Sockets;
+using System.Net;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CMiX.Core.BaseControls;
+using System.Windows;
 
 namespace CMiX.Core.Networking.Servers
 {
@@ -20,6 +24,10 @@ namespace CMiX.Core.Networking.Servers
             ManagerData = managerData;
             ControlRepository = controlRepository;
 
+            IP = "127.0.0.1";
+            Port = 8080;
+
+            AddServerCommand = new RelayCommand<Window>(AddServer);
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
@@ -27,6 +35,7 @@ namespace CMiX.Core.Networking.Servers
         }
 
         public Guid ID { get; set; }
+        public ICommand AddServerCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         //public ICommand RemoveSelectedItemCommand { get; set; }
@@ -41,7 +50,57 @@ namespace CMiX.Core.Networking.Servers
             get => _selectedItem;
             set => SetProperty(ref _selectedItem, value);
         }
-        
+
+        private int _port;
+        public int Port
+        {
+            get => _port;
+            set => SetProperty(ref _port, value);
+        }
+
+        private string _iP;
+        public string IP
+        {
+            get => _iP;
+            set => SetProperty(ref _iP, value);
+        }
+
+        private string _errorMessage;
+        public string ErrorMessage
+        {
+            get => _errorMessage;
+            set => SetProperty(ref _errorMessage, value);
+        }
+
+        private void AddServer(Window window)
+        {
+            if (ValidateIPv4(IP) && ValidatePort(IP, Port))
+            {
+
+                Server server = ControlFactory.Create(typeof(ServerModel)) as Server;
+                server.IP.Value = IP;
+                server.Port.Value = Port;
+
+                ErrorMessage = "Settings applied succefully !";
+                ControlRepository.AddControl(server);
+
+                var items = ManagerData.Items;
+
+                if (SelectedItem is EmptyPrefab emptyPrefab)
+                {
+                    items[items.IndexOf(emptyPrefab)] = server;
+                }
+                else
+                {
+                    items.Add(server);
+                }
+
+                SelectedItem = server;
+                ManagerData.SelectedIndex = items.IndexOf(server);
+
+                window.Close();
+            }
+        }
 
         private void AddItem(Type type)
         {
@@ -113,6 +172,67 @@ namespace CMiX.Core.Networking.Servers
 
             SelectedItem = prefab;
             ManagerData.SelectedIndex = index;
+        }
+
+
+        //public void Apply()
+        //{
+        //    if (ValidateIPv4(IP.Value) && ValidatePort(IP.Value, Port.Value))
+        //    {
+        //        ErrorMessage.Value = "Settings applied succefully !";
+        //    }
+        //}
+
+        public bool ValidatePort(string host, int port)
+        {
+            var ipa = Dns.GetHostAddresses(host)[0];
+            try
+            {
+                var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                sock.Connect(ipa, port);
+                if (sock.Connected == true)  // Port is in use and connection is successful
+                {
+                    ErrorMessage = "Port already in use";
+                    return false;
+                }
+                sock.Close();
+
+            }
+            catch (SocketException ex)
+            {
+                if (ex.ErrorCode == 10061)  // Port is unused and could not establish connection 
+                {
+                    ErrorMessage = string.Empty;
+                    return true;
+                }
+                else
+                    ErrorMessage = ex.Message;
+            }
+            if (port == 0)
+                return false;
+
+            return false;
+        }
+
+        public bool ValidateIPv4(string ipString)
+        {
+            ErrorMessage = string.Empty;
+            if (string.IsNullOrWhiteSpace(ipString))
+            {
+                ErrorMessage = "IP Address is not valid";
+                return false;
+            }
+
+            var splitValues = ipString.Split('.');
+            if (splitValues.Length != 4)
+            {
+                ErrorMessage = "IP Address is not valid";
+                return false;
+            }
+
+            byte tempForParsing;
+
+            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
     }
 }

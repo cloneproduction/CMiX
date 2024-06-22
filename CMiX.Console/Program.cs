@@ -19,7 +19,7 @@ namespace CMiX.Console
             var ServiceProvider = serviceCollection.BuildServiceProvider();
 
 
-            ServiceProvider.GetRequiredService<Client>().Start(new ServerSettings(new GenericValue<string>(){Value = "127.0.0.1" }, new GenericValue<int>() { Value = 8080 }));
+            ServiceProvider.GetRequiredService<Client>().Start("127.0.0.1", 8080);
 
             var project = ServiceProvider.GetRequiredService(typeof(MainViewModel));
             //var MainMenu = ServiceProvider.GetService(typeof(MainMenu));
