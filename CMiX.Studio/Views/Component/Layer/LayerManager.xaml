@@ -31,7 +31,7 @@
                         Value="{Binding Opacity.Value}" />
 
                     <BaseControls:ColorSelector
-                        Margin="0,8"
+                        Margin="0,4"
                         Caption="Background"
                         SelectedColor="{Binding BackgroundColor.Value, Converter={StaticResource ColorToHex}}"
                         ViewModel="{Binding BackgroundColor}" />
@@ -115,33 +115,38 @@
                         </Button.Content>
                     </Button>
 
-                    <Button
-                        Height="20"
-                        Margin="2"
-                        Background="Transparent"
-                        Command="{Binding ItemUpCommand}"
-                        Style="{StaticResource ButtonRounded}">
-                        <Button.Content>
-                            <Image
-                                Margin="16"
-                                Opacity="0.7"
-                                Source="{DynamicResource ArrowUp}" />
-                        </Button.Content>
-                    </Button>
+                    <Border Visibility="{Binding Path=ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Height="20"
+                                Margin="2"
+                                Background="Transparent"
+                                Command="{Binding ItemUpCommand}"
+                                Style="{StaticResource ButtonRounded}">
+                                <Button.Content>
+                                    <Image
+                                        Margin="16"
+                                        Opacity="0.7"
+                                        Source="{DynamicResource ArrowUp}" />
+                                </Button.Content>
+                            </Button>
 
-                    <Button
-                        Height="20"
-                        Margin="2"
-                        Background="Transparent"
-                        Command="{Binding ItemDownCommand}"
-                        Style="{StaticResource ButtonRounded}">
-                        <Button.Content>
-                            <Image
-                                Margin="16"
-                                Opacity="0.7"
-                                Source="{DynamicResource ArrowDown}" />
-                        </Button.Content>
-                    </Button>
+                            <Button
+                                Height="20"
+                                Margin="2"
+                                Background="Transparent"
+                                Command="{Binding ItemDownCommand}"
+                                Style="{StaticResource ButtonRounded}">
+                                <Button.Content>
+                                    <Image
+                                        Margin="16"
+                                        Opacity="0.7"
+                                        Source="{DynamicResource ArrowDown}" />
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
 
                     <Button
                         Height="20"

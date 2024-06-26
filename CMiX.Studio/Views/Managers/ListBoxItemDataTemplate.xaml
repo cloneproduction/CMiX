@@ -1,0 +1,236 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
+    xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
+    xmlns:Servers="clr-namespace:CMiX.Core.Networking.Messenger;assembly=CMiX.Core"
+    xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
+    xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
+
+    <DataTemplate DataType="{x:Type Servers:Server}">
+        <Border
+            x:Name="Bd"
+            Margin="1"
+            Padding="2,0,0,0"
+            Background="Transparent"
+            CornerRadius="2"
+            SnapsToDevicePixels="True"
+            TextBlock.Foreground="{DynamicResource TextBase}">
+
+            <DockPanel>
+
+                <Ellipse
+                    Width="7"
+                    Height="7"
+                    Margin="0,0,4,0">
+                    <Ellipse.Style>
+                        <Style TargetType="Ellipse">
+                            <Setter Property="Fill" Value="Crimson" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=ClientIsConnected}" Value="True">
+                                    <Setter Property="Fill" Value="Green" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Ellipse.Style>
+                </Ellipse>
+
+                <ToggleButton
+                    Height="15"
+                    Margin="0"
+                    Padding="0"
+                    Background="Crimson"
+                    DockPanel.Dock="Right"
+                    IsChecked="{Binding ServerIsRunning}"
+                    Style="{DynamicResource TogglePlayPause}" />
+
+                <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+
+            </DockPanel>
+
+        </Border>
+    </DataTemplate>
+
+    <DataTemplate x:Key="prefabIcons">
+        <Image
+            Width="12"
+            Height="12"
+            Margin="4,0"
+            Opacity="0.7">
+            <Image.Style>
+                <Style TargetType="{x:Type Image}">
+                    <Style.Triggers>
+
+                        <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Compositing:Entity}">
+                            <Setter Property="Source" Value="{DynamicResource Geometry}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Lights:LightEntity}">
+                            <Setter Property="Source" Value="{DynamicResource MeshLight}" />
+                        </DataTrigger>
+
+                        <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Cameras:Camera}">
+                            <Setter Property="Source" Value="{DynamicResource Camera}" />
+                        </DataTrigger>
+
+                    </Style.Triggers>
+                </Style>
+            </Image.Style>
+        </Image>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                DockPanel.Dock="Left"
+                Opacity="0.7"
+                Source="{DynamicResource ColorWheel}" />
+            <Border />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Compositing:Entity}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Geometry}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Lights:LightEntity}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource MeshLight}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Cameras:Camera}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Camera}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+
+
+
+    <!--  TEXTURESOURCE  -->
+
+    <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Texture}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type TextureSource:Image}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Texture}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type TextureSource:Gradient}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Texture}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type TextureSource:TypeWriter}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Texture}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type TextureSource:VideoIn}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Texture}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type TextureSource:VideoPlayer}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource Texture}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+
+    <!--  MATERIAL  -->
+    <DataTemplate DataType="{x:Type Materials:Material}">
+        <DockPanel>
+            <Image
+                Width="12"
+                Height="12"
+                Margin="0,0,4,0"
+                Opacity="0.7"
+                Source="{DynamicResource World}" />
+            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </DockPanel>
+    </DataTemplate>
+
+</ResourceDictionary>

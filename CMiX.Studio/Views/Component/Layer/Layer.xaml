@@ -62,9 +62,16 @@
                                     </Views:ButtonOpenSelectionPanel>
                                 </Views:PrefabSlotManager.SelectionPanel>
 
-                                <!--<Views:PrefabSlotManager.SelectionPanel>
-                                    <Views:EntitySelectionPanel />
-                                </Views:PrefabSlotManager.SelectionPanel>-->
+                                <Views:PrefabSlotManager.ItemTemplate>
+                                    <DockPanel HorizontalAlignment="Stretch">
+                                        <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
+                                        <Ellipse
+                                            Width="5"
+                                            Height="5"
+                                            DockPanel.Dock="Right"
+                                            Fill="Pink" />
+                                    </DockPanel>
+                                </Views:PrefabSlotManager.ItemTemplate>
 
                             </Views:PrefabSlotManager>
 

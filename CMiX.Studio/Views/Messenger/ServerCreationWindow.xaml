@@ -20,9 +20,9 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <TextBlock Text="Create a new server" />
-        <BaseControl:IPBox Margin="0,4" IPAddress="{Binding IP, Mode=TwoWay}" />
-        <Grid Height="25">
+        <TextBlock Margin="0,0,0,8" Text="Create a new server" />
+        <BaseControl:IPBox IPAddress="{Binding IP, Mode=TwoWay}" />
+        <Grid Height="25" Margin="0,4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -34,8 +34,7 @@
             <TextBox Grid.Column="1" Text="{Binding Port}" />
         </Grid>
 
-        <TextBlock Margin="0, 8" Text="{Binding ErrorMessage}" />
-        <Grid >
+        <Grid Margin="0,8,0,0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />

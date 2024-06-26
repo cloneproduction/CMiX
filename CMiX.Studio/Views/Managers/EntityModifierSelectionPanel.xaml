@@ -15,7 +15,7 @@
         <StackPanel Grid.Column="2">
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -24,7 +24,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -33,7 +33,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -42,7 +42,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -51,7 +51,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -60,7 +60,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -69,7 +69,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -78,7 +78,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -87,7 +87,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -96,7 +96,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -105,7 +105,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -114,7 +114,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
@@ -123,7 +123,7 @@
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
-                Width="120"
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"

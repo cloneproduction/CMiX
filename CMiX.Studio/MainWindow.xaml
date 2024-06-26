@@ -81,12 +81,12 @@
 
                     <TextBlock
                         Padding="8"
-                        DockPanel.Dock="Right"
+                        DockPanel.Dock="Left"
                         Text="CMiX" />
 
                     <TextBlock
                         Padding="8"
-                        DockPanel.Dock="Left"
+                        DockPanel.Dock="Right"
                         Text="CloneProduction" />
 
                 </DockPanel>
@@ -198,7 +198,6 @@
 
                             <Views:RepositoryManager
                                 x:Name="EntitiesRepository"
-                                Margin="8"
                                 DataContext="{Binding EntityManager}"
                                 DockPanel.Dock="Top">
 
@@ -257,7 +256,6 @@
 
                         <Views:RepositoryManager
                             x:Name="materialManager"
-                            Margin="8"
                             DataContext="{Binding MaterialManager}"
                             DockPanel.Dock="Top"
                             ItemsSource="{Binding ControlRepository.Materials}">
@@ -282,7 +280,6 @@
 
                         <Views:RepositoryManager
                             x:Name="repositoryManager"
-                            Margin="8"
                             DataContext="{Binding TextureManager}"
                             DockPanel.Dock="Top"
                             ItemsSource="{Binding ControlRepository.Textures}">
@@ -305,7 +302,6 @@
                         </TabItem.Header>
 
                         <Views:RepositoryManager
-                            Margin="8"
                             DataContext="{Binding CameraManager}"
                             DockPanel.Dock="Top"
                             ItemsSource="{Binding ControlRepository.Cameras}">
@@ -313,7 +309,7 @@
                                 <Views:CameraSelectionPanel />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
-                                <Views:Camera Margin="0,8,0,0" DataContext="{Binding}" />
+                                <Views:Camera DataContext="{Binding}" />
                             </Views:RepositoryManager.EditingPanel>
                         </Views:RepositoryManager>
 
@@ -326,10 +322,7 @@
                                 Source="{StaticResource MeshLight}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
-                        <Views:RepositoryManager
-                            Margin="8"
-                            DataContext="{Binding LightManager}"
-                            ItemsSource="{Binding ControlRepository.Lights}">
+                        <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
                             <Views:RepositoryManager.SelectionPanel>
                                 <Views:LightSelectionPanel />
                             </Views:RepositoryManager.SelectionPanel>

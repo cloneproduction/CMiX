@@ -11,14 +11,24 @@
 
     <Border Background="{DynamicResource HighDarkerColor}">
         <StackPanel>
-            <Views:PrefabSlotManager Margin="8,8,8,0" DataContext="{Binding}">
+            <Views:PrefabSlotManager Margin="4" DataContext="{Binding}">
                 <Views:PrefabSlotManager.SelectionPanel>
                     <Views:ServerCreation ViewModel="{Binding}" />
                     <!--<Views:ServerSelectionPanel />-->
                 </Views:PrefabSlotManager.SelectionPanel>
+                <Views:PrefabSlotManager.ItemTemplate>
+                    <DockPanel>
+                        <TextBlock Margin="3,3,3,0" Text="{Binding Path=PrefabService.Name.Value}" />
+                        <Ellipse
+                            Width="5"
+                            Height="5"
+                            DockPanel.Dock="Right"
+                            Fill="Pink" />
+                    </DockPanel>
+                </Views:PrefabSlotManager.ItemTemplate>
             </Views:PrefabSlotManager>
 
-            
+
 
             <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
                 <Views:Server DataContext="{Binding SelectedItem}" />

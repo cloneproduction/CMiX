@@ -13,7 +13,7 @@
 
     <StackPanel HorizontalAlignment="Stretch">
 
-        <Grid>
+        <!--<Grid>
             <Border>
                 <Border.Style>
                     <Style TargetType="{x:Type Border}">
@@ -57,7 +57,7 @@
                     </Button.Content>
                 </Button>
             </Border>
-        </Grid>
+        </Grid>-->
 
         <Views:ServerSettings DataContext="{Binding}" />
 

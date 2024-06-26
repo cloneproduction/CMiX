@@ -22,6 +22,17 @@ namespace CMiX.Studio.Views
         DependencyProperty.Register("SelectionPanel", typeof(FrameworkElement), typeof(PrefabSlotManager), new UIPropertyMetadata(null));
 
 
+        public FrameworkElement ItemTemplate
+        {
+            get { return (FrameworkElement)GetValue(ItemTemplateProperty); }
+            set { SetValue(ItemTemplateProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for InnerContent.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ItemTemplateProperty =
+        DependencyProperty.Register("ItemTemplate", typeof(FrameworkElement), typeof(PrefabSlotManager), new UIPropertyMetadata(null));
+
+
 
         public static readonly DependencyProperty ItemsSourceProperty = DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(PrefabSlotManager), new PropertyMetadata(null));
         public IEnumerable ItemsSource

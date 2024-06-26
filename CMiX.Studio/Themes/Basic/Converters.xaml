@@ -47,6 +47,9 @@
 
     <Converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
     <Converters:NullToVisibilityConverter x:Key="NullToVisibility" />
+    <Converters:CountToVisibilityConverter x:Key="CountToVisibility" />
+
+
     <Converters:NotNullToBoolConverter x:Key="NotNullToBool" />
     <Converters:NullToBoolConverter x:Key="NullToBool" />
     <Converters:IsNullConverter x:Key="IsNull" />

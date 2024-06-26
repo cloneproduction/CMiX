@@ -65,9 +65,8 @@
                         Margin="0,4"
                         CloseModifierCommand="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CloseModifierCommandParameter="{Binding}"
-                        DragHandlerIsPressed="{Binding DataContext.ManagerReorderService.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}">
-                        <ContentPresenter Content="{Binding}" />
-                    </Panels:ModifierPanel>
+                        Content="{Binding}"
+                        DragHandlerIsPressed="{Binding DataContext.ManagerReorderService.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
                 </DataTemplate>
 
             </ItemsControl.ItemTemplate>

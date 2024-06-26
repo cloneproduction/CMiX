@@ -18,7 +18,7 @@ using WatsonTcp;
 
 namespace CMiX.Core.Networking.Messenger
 {
-    public class Server : ObservableRecipient, IControl, IPrefab
+    public partial class Server : ObservableRecipient, IControl, IPrefab
     {
         public Server(PrefabService prefabService, CerasSerializer cerasSerializer)
         {
@@ -95,12 +95,9 @@ namespace CMiX.Core.Networking.Messenger
             set => SetProperty(ref _clientIsConnected, value);
         }
 
+        [ObservableProperty]
         private bool _serverIsRunning;
-        public bool ServerIsRunning
-        {
-            get => _serverIsRunning;
-            set => SetProperty(ref _serverIsRunning, value);
-        }
+
 
         private bool _dataSent;
         public bool DataSent
@@ -116,6 +113,16 @@ namespace CMiX.Core.Networking.Messenger
             set => SetProperty(ref _connectedClients, value);
         }
 
+
+        partial void OnServerIsRunningChanged(bool value)
+        {
+            if(value)
+            {
+                this.Start();
+                return;
+            }
+            Stop();
+        }
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
