@@ -3,20 +3,21 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public partial class CameraRandom : ObservableObject, IControl, IBeatModifiable
+    public partial class CameraRandom : ObservableObject, IControl, IBeatModifiable, IPrefab
     {
-        public CameraRandom(GenericValue<bool> visible, 
+        public CameraRandom(PrefabService prefabService, 
                             BeatModifier beatModifier, 
                             Easing easing, 
                             GenericValue<bool> pingPong, 
                             GenericValue<CameraAxis> axis, 
                             GenericValue<float> width)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
             PingPong = pingPong;
@@ -25,12 +26,13 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public GenericValue<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
         public GenericValue<float> Width { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded = true;

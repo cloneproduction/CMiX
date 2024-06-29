@@ -4,15 +4,16 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class RandomRotationModel : IModifierModel
+    public class RandomRotationModel : IPrefabModel
     {
         public RandomRotationModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
             Rotation = new Vector3Model();
@@ -25,5 +26,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public Vector3Model Rotation { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public ModifierModeSelectorModel ModifierModeSelector { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
     }
 }

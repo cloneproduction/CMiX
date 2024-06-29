@@ -2,10 +2,11 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public interface ICameraModifier : IModifier
+    public interface ICameraModifier : IPrefabModel
     {
     }
 }

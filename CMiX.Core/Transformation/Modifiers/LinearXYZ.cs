@@ -3,15 +3,21 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LinearXYZ : ObservableObject, ISpreadableModifier
+    public partial class LinearXYZ : ObservableObject, IPrefab, ISpreadableModifier
     {
-        public LinearXYZ(GenericValue<bool> visible, ModifierModeSelector modifierModeSelector, GenericValue<TransformType> transformType, GenericValue<float> width, GenericValue<float> phase, DirectionXYZ directionXYZ)
+        public LinearXYZ(PrefabService prefabService, 
+                         ModifierModeSelector modifierModeSelector, 
+                         GenericValue<TransformType> transformType, 
+                         GenericValue<float> width, 
+                         GenericValue<float> phase, 
+                         DirectionXYZ directionXYZ)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
             TransformTypeSelector = transformType;
             Width = width;
@@ -21,8 +27,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
 
         public Guid ID { get; set; } = Guid.NewGuid();
-
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<TransformType> TransformTypeSelector { get; set; }
         public GenericValue<float> Width { get; set; }

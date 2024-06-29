@@ -4,15 +4,21 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomScale : ObservableObject, IBeatModifiable, IModifier, ISpreadableModifier
+    public partial class RandomScale : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier
     {
-        public RandomScale(GenericValue<bool> visible, BeatModifier beatModifier, Easing easing, ModifierModeSelector modifierModeSelector, Vector3 scale, GenericValue<float> uniformXYZ)
+        public RandomScale(PrefabService prefabService, 
+                           BeatModifier beatModifier, 
+                           Easing easing, 
+                           ModifierModeSelector modifierModeSelector, 
+                           Vector3 scale, 
+                           GenericValue<float> uniformXYZ)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
             ModifierModeSelector = modifierModeSelector;
@@ -22,12 +28,12 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public Vector3 Scale { get; set; }
         public GenericValue<float> UniformXYZ { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
+        public PrefabService PrefabService { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

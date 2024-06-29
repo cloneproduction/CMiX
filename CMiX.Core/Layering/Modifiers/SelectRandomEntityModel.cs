@@ -4,21 +4,22 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    public class SelectRandomEntityModel : IControlModel, IModifierModel
+    public class SelectRandomEntityModel : IControlModel, IPrefabModel
     {
         public SelectRandomEntityModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             Easing = new EasingModel();
             BeatModifier = new BeatModifierModel();
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public EasingModel Easing { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
     }

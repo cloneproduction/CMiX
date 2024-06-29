@@ -253,7 +253,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void SelectedItemIsRenaming()
         {
-            var prefab = SelectedItem as IPrefab;
+            var prefab = SelectedItem as IPrefabModel;
             prefab.PrefabService.IsRenaming.Value = true;
         }
 
@@ -262,7 +262,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void Rename()
         {
-            if (SelectedItem is IPrefab prefab)
+            if (SelectedItem is IPrefabModel prefab)
             {
                 if (prefab.GetType() != typeof(EmptyPrefab))
                     prefab.PrefabService.IsRenaming.Value = true;

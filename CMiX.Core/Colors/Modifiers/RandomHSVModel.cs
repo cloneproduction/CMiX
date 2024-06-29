@@ -4,10 +4,11 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public class RandomHSVModel : IModifierModel
+    public class RandomHSVModel : IPrefabModel
     {
         public RandomHSVModel()
         {
@@ -16,15 +17,15 @@ namespace CMiX.Core.Colors.Modifiers
             Saturation = new GenericValueModel<float>();
             Value = new GenericValueModel<float>();
             Alpha = new GenericValueModel<float>();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
             ModifierModeSelector = new ModifierModeSelectorModel();
         }
 
         public Guid ID { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public Vector3Model HSV { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }
         public GenericValueModel<float> Hue { get; set; }

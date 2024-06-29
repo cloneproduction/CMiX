@@ -4,16 +4,17 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class LFOUVModel : IModifierModel
+    public class LFOUVModel : IPrefabModel
     {
         public LFOUVModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             BeatModifier = new BeatModifierModel();
             PingPong = new GenericValueModel<bool>();
             XAxis = new GenericValueModel<bool>(false);
@@ -27,7 +28,7 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<TransformType> TransformType { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<bool> PingPong { get; set; }
@@ -39,5 +40,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<float> From { get; set; }
         public GenericValueModel<float> To { get; set; }
         public SamplerStateModel SamplerState { get; set; }
+
     }
 }

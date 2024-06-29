@@ -4,25 +4,25 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class GaussianXYZ : ObservableObject, IControl, IBeatModifiable, IModifier, ISpreadableModifier
+    public partial class GaussianXYZ : ObservableObject, IControl, IBeatModifiable, IPrefab, ISpreadableModifier
     {
-        public GaussianXYZ(
-            GenericValue<bool> visible,
-            BeatModifier beatModifier,
-            Easing easing,
-            ModifierModeSelector modifierModeSelector,
-            GenericValue<bool> randomizeLocation,
-            Vector3 location,
-            GenericValue<bool> randomizeScale,
-            Vector3 scale,
-            GenericValue<bool> randomizeRotation,
-            Vector3 rotation)
+        public GaussianXYZ(PrefabService prefabService,
+                           BeatModifier beatModifier,
+                           Easing easing,
+                           ModifierModeSelector modifierModeSelector,
+                           GenericValue<bool> randomizeLocation,
+                           Vector3 location,
+                           GenericValue<bool> randomizeScale,
+                           Vector3 scale,
+                           GenericValue<bool> randomizeRotation,
+                           Vector3 rotation)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
             ModifierModeSelector = modifierModeSelector;
@@ -36,7 +36,7 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }

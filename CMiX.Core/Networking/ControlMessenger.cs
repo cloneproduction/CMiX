@@ -22,7 +22,7 @@ namespace CMiX.Core.Networking
             ServerRepository = controlRepository.Servers;
         }
 
-        ObservableCollection<IPrefab> ServerRepository { get; set; }
+        ObservableCollection<Server> ServerRepository { get; set; }
 
         public void Receive<T>(GenericValue<T> control, IMessage message)
         {

@@ -109,7 +109,7 @@ namespace CMiX.Core.Networking.Servers
 
             var items = ManagerData.Items;
 
-            if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefab pre)
+            if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefabModel pre)
             {
                 items[items.IndexOf(emptyPrefab)] = prefab;
             }

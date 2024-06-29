@@ -5,7 +5,7 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public interface ISpreadableModifier : IModifier
+    public interface ISpreadableModifier
     {
         public ModifierModeSelector ModifierModeSelector { get; set; }
     }

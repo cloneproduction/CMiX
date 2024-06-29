@@ -3,16 +3,17 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class TriColorModel : IModifierModel
+    public class TriColorModel : IPrefabModel
     {
         public TriColorModel()
         {
             ID = Guid.NewGuid();
 
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             Control = new GenericValueModel<float>(1.0f);
             ColorA = new GenericValueModel<string>("#FFFF00FF");
             ColorB = new GenericValueModel<string>("#FFFF00FF");
@@ -24,6 +25,7 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<bool> Visible { get; set; }
         public GenericValueModel<float> Control { get; set; }
         public GenericValueModel<string> ColorA { get; set; }

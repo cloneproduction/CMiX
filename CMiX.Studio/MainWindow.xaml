@@ -213,14 +213,11 @@
                                         <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
                                     </CompositeCollection>
                                 </Views:RepositoryManager.ItemsSource>
-
-
                                 <Views:RepositoryManager.SelectionPanel>
                                     <Views:EntitySelectionPanel />
                                 </Views:RepositoryManager.SelectionPanel>
-
-
                             </Views:RepositoryManager>
+
                             <ContentControl Content="{Binding}" DataContext="{Binding EntityManager.SelectedItem}">
                                 <ContentControl.Resources>
 
@@ -357,6 +354,23 @@
 
                     </TabItem>
 
+                    <TabItem Style="{StaticResource TabItemVerticalPanel}">
+
+                        <TabItem.Header>
+                            <Image
+                                Margin="8"
+                                Source="{StaticResource Beat}"
+                                ToolTip="BeatModifiers" />
+
+                        </TabItem.Header>
+
+                        <Views:RepositoryManager DataContext="{Binding BeatManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
+                            <Views:RepositoryManager.SelectionPanel>
+                                <Views:BeatModifierSelectionPanel />
+                            </Views:RepositoryManager.SelectionPanel>
+                        </Views:RepositoryManager>
+
+                    </TabItem>
                 </TabControl>
 
             </Border>

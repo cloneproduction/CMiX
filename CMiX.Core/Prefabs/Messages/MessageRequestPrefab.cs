@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Messaging.Messages;
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class MessageRequestPrefab : RequestMessage<IPrefab>
+    public class MessageRequestPrefab : RequestMessage<IPrefabModel>
     {
 
         public MessageRequestPrefab(Guid id)

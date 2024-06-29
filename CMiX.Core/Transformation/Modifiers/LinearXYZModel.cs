@@ -4,15 +4,16 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class LinearXYZModel : IModifierModel
+    public class LinearXYZModel : IPrefabModel
     {
         public LinearXYZModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             BeatModifier = new BeatModifierModel();
             Width = new GenericValueModel<float>();
             Phase = new GenericValueModel<float>();
@@ -24,7 +25,7 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<float> Width { get; set; }
         public DirectionXYZModel DirectionXYZ { get; set; }

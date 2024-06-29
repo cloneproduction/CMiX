@@ -3,13 +3,14 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : ObservableObject, IBeatModifiable, ITextureModifier
+    public partial class RandomUV : ObservableObject, IPrefab, IBeatModifiable, ITextureModifier
     {
-        public RandomUV(GenericValue<bool> visible, 
+        public RandomUV(PrefabService prefabService, 
                         BeatModifier beatModifier,
                         Easing easing,
                         GenericValue<bool> randomizeLocation,
@@ -21,7 +22,7 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> rotation,
                         SamplerState samplerState)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
             RandomizeLocation = randomizeLocation;
@@ -35,7 +36,7 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public GenericValue<bool> RandomizeLocation { get; set; }

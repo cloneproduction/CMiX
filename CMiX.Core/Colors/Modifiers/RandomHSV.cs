@@ -4,14 +4,15 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class RandomHSV : ObservableObject, IControl, IBeatModifiable, IModifier, ISpreadableModifier
+    public partial class RandomHSV : ObservableObject, IControl, IBeatModifiable, IPrefab, ISpreadableModifier
     {
-        public RandomHSV(GenericValue<bool> visible, 
+        public RandomHSV(PrefabService prefabService, 
                          BeatModifier beatModifier, 
                          Easing easing, 
                          ModifierModeSelector modifierModeSelector, 
@@ -20,7 +21,7 @@ namespace CMiX.Core.Colors.Modifiers
                          GenericValue<float> value, 
                          GenericValue<float> alpha)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
             ModifierModeSelector = modifierModeSelector;
@@ -31,7 +32,7 @@ namespace CMiX.Core.Colors.Modifiers
         }
 
         public Guid ID { get; set; }
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Saturation { get; set; }
         public GenericValue<float> Value { get; set; }
@@ -39,6 +40,7 @@ namespace CMiX.Core.Colors.Modifiers
         public BeatModifier BeatModifier { get; set; }
         public Easing Easing { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded = true;

@@ -5,7 +5,7 @@ using CMiX.Core.Modifiers;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public interface ITextureModifier : IModifier
+    public interface ITextureModifier : IControl
     {
     }
 }

@@ -4,15 +4,16 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class RandomUVModel : IModifierModel
+    public class RandomUVModel : IPrefabModel
     {
         public RandomUVModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             BeatModifier = new BeatModifierModel();
             CounterModel = new GenericValueModel<int>(1);
             Easing = new EasingModel();
@@ -27,7 +28,7 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public EasingModel Easing { get; set; }
         public GenericValueModel<int> CounterModel { get; set; }
         public GenericValueModel<bool> RandomizeLocation { get; set; }

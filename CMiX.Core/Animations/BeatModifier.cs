@@ -3,18 +3,21 @@
 
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifier : ObservableRecipient, IControl
+    public class BeatModifier : ObservableRecipient, IPrefab, IControl
     {
-        public BeatModifier(MasterBeat masterBeat, 
+        public BeatModifier(PrefabService prefabService,
+                            MasterBeat masterBeat, 
                             GenericValue<int> beatIndex, 
                             GenericValue<float> chanceToHit)
         {
             ID = Guid.NewGuid();
+            PrefabService = prefabService;
             BeatIndex = beatIndex;
             ChanceToHit = chanceToHit;
             MasterBeat = masterBeat;
@@ -24,14 +27,13 @@ namespace CMiX.Core.Animations
             DivideCommand = new RelayCommand(Divide);
         }
 
-
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }
 
-
         public Guid ID { get; set; }
         public MasterBeat MasterBeat { get; set; }
+        public PrefabService PrefabService { get; set; }
         public GenericValue<float> ChanceToHit { get; set; }
         public GenericValue<int> BeatIndex { get; set; }
 

@@ -13,13 +13,13 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Mapping
 {
-    public class CustomConverter : ITypeConverter<IPrefab, IPrefabModel>
+    public class CustomConverter : ITypeConverter<IPrefabModel, IPrefabModel>
     {
         public CustomConverter()
         {
             
         }
-        public IPrefabModel Convert(IPrefab source, IPrefabModel destination, ResolutionContext context)
+        public IPrefabModel Convert(IPrefabModel source, IPrefabModel destination, ResolutionContext context)
         {
             if (source is Layer)
                 return context.Mapper.Map(source, destination);

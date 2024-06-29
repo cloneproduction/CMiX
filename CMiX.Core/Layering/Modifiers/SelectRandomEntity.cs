@@ -3,25 +3,26 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    public class SelectRandomEntity : ObservableObject, IControl, IBeatModifiable, IModifier
+    public class SelectRandomEntity : ObservableObject, IControl, IBeatModifiable, IPrefab
     {
-        public SelectRandomEntity(GenericValue<bool> visible,
+        public SelectRandomEntity(PrefabService prefabService,
                                   BeatModifier beatModifier,
                                   Easing easing)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
         }
 
         public Guid ID { get; set; }
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public Easing Easing { get; set; }
         public BeatModifier BeatModifier { get; set; }
+
     }
 }

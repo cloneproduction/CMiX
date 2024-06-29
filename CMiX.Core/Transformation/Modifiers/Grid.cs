@@ -3,19 +3,20 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class Grid : ObservableObject, IControl, IModifier, ISpreadableModifier
+    public partial class Grid : ObservableObject, IControl, IPrefab, ISpreadableModifier
     {
-        public Grid(GenericValue<bool> visible,
+        public Grid(PrefabService prefabService,
                     Vector3 width,
                     Vector3 phase,
                     Integer3 count,
                     ModifierModeSelector modifierModeSelector)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             Width = width;
             Phase = phase;
             Count = count;
@@ -23,12 +24,11 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public Vector3 Width { get; set; }
         public Vector3 Phase { get; set; }
         public Integer3 Count { get; set; }
-
 
         [ObservableProperty]
         private bool isExpanded = true;

@@ -17,7 +17,6 @@ namespace CMiX.Core.Compositing
                            OutputSettings outputSettings)
         {
             ID = prefabService.ID;
-
             PrefabService = prefabService;
             MasterBeat = masterBeat;
             OutputSettings = outputSettings;

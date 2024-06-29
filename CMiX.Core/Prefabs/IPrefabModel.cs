@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Prefabs
 {
-    public interface IPrefabModel
+    public interface IPrefabModel : IControlModel
     {
         PrefabServiceModel PrefabService { get; set; }
     }

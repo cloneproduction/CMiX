@@ -3,6 +3,7 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
@@ -11,7 +12,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public CameraRandomModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             PingPong = new GenericValueModel<bool>(false);
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
@@ -21,7 +22,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<bool> PingPong { get; set; }
         public BeatModifierModel BeatModifier { get; set; }
         public EasingModel Easing { get; set; }

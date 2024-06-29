@@ -4,15 +4,16 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class Stepper : ObservableObject, IBeatModifiable, IModifier, ISpreadableModifier
+    public partial class Stepper : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier
     {
         public Stepper( ModifierModeSelector modifierModeSelector, 
                         GenericValue<int> stepCount, 
-                        GenericValue<bool> visible, 
+                        PrefabService prefabService, 
                         BeatModifier beatModifier,
                         GenericValue<bool> pingPong,
                         GenericValue<TransformType> transformType,
@@ -22,16 +23,16 @@ namespace CMiX.Core.Transformation.Modifiers
                         GenericValue<float> to
             )
         {
-            ModifierModeSelector = modifierModeSelector; // new ModifierModeSelector();
-            StepCount = stepCount;// new GenericValue<int>(4);
-            Visible = visible; // new GenericValue<bool>(true);
-            BeatModifier = beatModifier; // new BeatModifier();
-            PingPong = pingPong; // new GenericValue<bool>(false);
-            TransformType = transformType;// new GenericValue<TransformType>();
-            DirectionXYZ = directionXYZ;// new DirectionXYZ();
-            Easing = easing;// new Easing();
-            From = from;// new GenericValue<float>(0.0f);
-            To = to; // new GenericValue<float>(1.0f);
+            ModifierModeSelector = modifierModeSelector;
+            StepCount = stepCount;
+            PrefabService = prefabService;
+            BeatModifier = beatModifier;
+            PingPong = pingPong;
+            TransformType = transformType;
+            DirectionXYZ = directionXYZ;
+            Easing = easing;
+            From = from;
+            To = to;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -45,6 +46,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Easing Easing { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
+        public PrefabService PrefabService { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

@@ -4,14 +4,15 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LFOUV : ObservableObject, ITextureModifier, IBeatModifiable
+    public partial class LFOUV : ObservableObject, IPrefab, ITextureModifier, IBeatModifiable
     {
-        public LFOUV(GenericValue<bool> visible, 
+        public LFOUV(PrefabService prefabService, 
                      GenericValue<TransformType> transformType, 
                      BeatModifier beatModifier, 
                      Easing easing, 
@@ -24,7 +25,7 @@ namespace CMiX.Core.Texturing.Filters
                      GenericValue<float> to,
                      SamplerState samplerState)
         {
-            Visible = visible;
+            PrefabService = prefabService;
             TransformType = transformType;
             BeatModifier = beatModifier;
             Easing = easing;
@@ -41,8 +42,8 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabService PrefabService { get; set; }
         public BeatModifier BeatModifier { get; set; }
-        public GenericValue<bool> Visible { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public GenericValue<bool> XAxis { get; set; }
@@ -53,6 +54,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
         public SamplerState SamplerState { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded = true;

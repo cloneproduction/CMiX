@@ -4,15 +4,16 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class StepperModel : IModifierModel
+    public class StepperModel : IPrefabModel
     {
         public StepperModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             StepCount = new GenericValueModel<int>(2);
             To = new GenericValueModel<float>(1.0f);
             From = new GenericValueModel<float>(-1.0f);
@@ -26,7 +27,7 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<int> StepCount { get; set; }
         public GenericValueModel<float> To { get; set; }
         public GenericValueModel<float> From { get; set; }
@@ -36,6 +37,6 @@ namespace CMiX.Core.Transformation.Modifiers
         public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<ModifierMode> Mode { get; set; }
         public ModifierModeSelectorModel ModifierModeSelector { get; set; }
-        public DirectionXYZModel DirectionXYZ { get; internal set; }
+        public DirectionXYZModel DirectionXYZ { get; set; }
     }
 }

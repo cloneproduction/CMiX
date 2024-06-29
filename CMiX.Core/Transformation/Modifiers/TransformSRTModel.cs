@@ -3,14 +3,16 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation
 {
-    public class TransformSRTModel : IControlModel, IModifierModel
+    public class TransformSRTModel : IControlModel, IPrefabModel
     {
         public TransformSRTModel()
         {
             ID = Guid.NewGuid();
+            PrefabService = new PrefabServiceModel();
             Translate = new TranslateModel();
             Scale = new ScaleModel();
             Rotation = new RotationModel();
@@ -20,11 +22,12 @@ namespace CMiX.Core.Transformation
         }
 
         public Guid ID { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<float> Uniform { get; set; }
         public TranslateModel Translate { get; set; }
         public ScaleModel Scale { get; set; }
         public RotationModel Rotation { get; set; }
         public GenericValueModel<bool> Visible { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; internal set; }
+        public GenericValueModel<ModifierMode> Mode { get; set; }
     }
 }

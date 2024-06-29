@@ -3,6 +3,7 @@
 
 using System.Collections.ObjectModel;
 using System.Windows.Data;
+using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
 using CMiX.Core.Networking.Messenger;
@@ -18,16 +19,16 @@ namespace CMiX.Core.Prefabs
         public ControlRepository()
         {
             Controls = new ObservableCollection<IControl>();
-            Compositions = new ObservableCollection<IPrefab>();
-            Materials = new ObservableCollection<IPrefab>();
+            Compositions = new ObservableCollection<Composition>();
+            Materials = new ObservableCollection<Material>();
             Textures = new ObservableCollection<ITextureSource>();
-            Entities = new ObservableCollection<IPrefab>();
-            Cameras = new ObservableCollection<IPrefab>();
-            Lights = new ObservableCollection<IPrefab>();
-            Servers = new ObservableCollection<IPrefab>();
+            Entities = new ObservableCollection<Entity>();
+            Cameras = new ObservableCollection<Camera>();
+            Lights = new ObservableCollection<LightEntity>();
+            Servers = new ObservableCollection<Server>();
+            BeatModifiers = new ObservableCollection<BeatModifier>();
             BindingOperations.EnableCollectionSynchronization(Controls, this);
         }
-
 
 
         private int nameCount = 1;
@@ -38,7 +39,6 @@ namespace CMiX.Core.Prefabs
             get => _controls;
             set => SetProperty(ref _controls, value);
         }
-
 
 
         public void AddControl(IControl control)
@@ -81,39 +81,42 @@ namespace CMiX.Core.Prefabs
         {
             var prefab = control as IPrefab;
 
-            if (control is Composition)
-                Compositions.Add(prefab);
+            if (control is Composition composition)
+                Compositions.Add(composition);
 
-            if (control is ITextureSource)
-                Textures.Add(prefab as ITextureSource);
+            if (control is ITextureSource texture)
+                Textures.Add(texture);
 
-            if(control is Camera)
-                Cameras.Add(prefab);
+            if(control is Camera camera)
+                Cameras.Add(camera);
 
-            if (control is LightEntity)
-                Lights.Add(prefab);
+            if (control is LightEntity lightEntity)
+                Lights.Add(lightEntity);
 
-            if (control is Entity)
-                Entities.Add(prefab);
+            if (control is Entity entity)
+                Entities.Add(entity);
 
-            if (control is Material)
-                Materials.Add(prefab);
+            if (control is Material material)
+                Materials.Add(material);
 
-            if (control is Server)
-                Servers.Add(prefab);
+            if (control is Server server)
+                Servers.Add(server);
+
+            if (control is BeatModifier beatModifier)
+                BeatModifiers.Add(beatModifier);
         }
 
 
-        private ObservableCollection<IPrefab> _servers;
-        public ObservableCollection<IPrefab> Servers
+        private ObservableCollection<Server> _servers;
+        public ObservableCollection<Server> Servers
         {
             get => _servers;
             set => SetProperty(ref _servers, value);
         }
 
 
-        private ObservableCollection<IPrefab> _compositions;
-        public ObservableCollection<IPrefab> Compositions
+        private ObservableCollection<Composition> _compositions;
+        public ObservableCollection<Composition> Compositions
         {
             get => _compositions;
             set => SetProperty(ref _compositions, value);
@@ -126,32 +129,39 @@ namespace CMiX.Core.Prefabs
             set => SetProperty(ref _textures, value);
         }
 
-        private ObservableCollection<IPrefab> _materials;
-        public ObservableCollection<IPrefab> Materials
+        private ObservableCollection<Material> _materials;
+        public ObservableCollection<Material> Materials
         {
             get => _materials;
             set => SetProperty(ref _materials, value);
         }
 
-        private ObservableCollection<IPrefab> _entities;
-        public ObservableCollection<IPrefab> Entities
+        private ObservableCollection<Entity> _entities;
+        public ObservableCollection<Entity> Entities
         {
             get => _entities;
             set => SetProperty(ref _entities, value);
         }
 
-        private ObservableCollection<IPrefab> _cameras;
-        public ObservableCollection<IPrefab> Cameras
+        private ObservableCollection<Camera> _cameras;
+        public ObservableCollection<Camera> Cameras
         {
             get => _cameras;
             set => SetProperty(ref _cameras, value);
         }
 
-        private ObservableCollection<IPrefab> _lights;
-        public ObservableCollection<IPrefab> Lights
+        private ObservableCollection<LightEntity> _lights;
+        public ObservableCollection<LightEntity> Lights
         {
             get => _lights;
             set => SetProperty(ref _lights, value);
+        }
+
+        private ObservableCollection<BeatModifier> _beatModifiers;
+        public ObservableCollection<BeatModifier> BeatModifiers
+        {
+            get => _beatModifiers;
+            set => SetProperty(ref _beatModifiers, value);
         }
     }
 }

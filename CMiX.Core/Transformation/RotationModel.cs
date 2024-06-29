@@ -3,14 +3,16 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation
 {
-    public class RotationModel : IControlModel, IModifierModel
+    public class RotationModel : IControlModel, IPrefabModel
     {
         public RotationModel()
         {
             ID = Guid.NewGuid();
+            PrefabService = new PrefabServiceModel();
             XYZ = new Vector3Model(1.0f, 1.0f, 1.0f);
             Visible = new GenericValueModel<bool>(true);
         }
@@ -18,5 +20,6 @@ namespace CMiX.Core.Transformation
         public Guid ID { get; set; }
         public Vector3Model XYZ { get; set; }
         public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
     }
 }

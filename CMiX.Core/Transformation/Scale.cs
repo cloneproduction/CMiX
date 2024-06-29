@@ -2,26 +2,25 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Scale : ObservableObject, IControl, IModifier
+    public partial class Scale : ObservableObject, IControl, IPrefab
     {
-        public Scale(GenericValue<float> uniform, Vector3 xyz, GenericValue<bool> visible)
+        public Scale(GenericValue<float> uniform, Vector3 xyz, PrefabService prefabService)
         {
-            Uniform = uniform; // new GenericValue<float>(1.0f);
-            XYZ = xyz; // new Vector3(1.0f, 1.0f, 1.0f);
-            Visible = visible; // new GenericValue<bool>(true);
-
+            Uniform = uniform;
+            XYZ = xyz;
+            PrefabService = prefabService;
             isExpanded = true;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Uniform { get; set; }
         public Vector3 XYZ { get; set; }
-        public GenericValue<bool> Visible { get; set; }
 
         [ObservableProperty]
         private bool isExpanded;

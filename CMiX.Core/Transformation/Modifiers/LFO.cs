@@ -4,25 +4,25 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable, IModifier
+    public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable, IPrefab
     {
-        public LFO(GenericValue<bool> visible,
-                    BeatModifier beatModifier,
-                    GenericValue<bool> pingPong,
-                    DirectionXYZ directionXYZ,
-                    GenericValue<TransformType> transformType,
-                    Easing easing,
-                    GenericValue<float> from,
-                    GenericValue<float> to,
-                    ModifierModeSelector modifierModeSelector
-                    )
+        public LFO(PrefabService prefabService,
+                   BeatModifier beatModifier,
+                   GenericValue<bool> pingPong,
+                   DirectionXYZ directionXYZ,
+                   GenericValue<TransformType> transformType,
+                   Easing easing,
+                   GenericValue<float> from,
+                   GenericValue<float> to,
+                   ModifierModeSelector modifierModeSelector)
         {
             ModifierModeSelector = modifierModeSelector;
-            Visible = visible;
+            PrefabService = prefabService;
             BeatModifier = beatModifier;
             PingPong = pingPong;
             DirectionXYZ = directionXYZ;
@@ -33,8 +33,8 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
@@ -42,6 +42,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Easing Easing { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded = true;

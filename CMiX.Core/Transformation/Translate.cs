@@ -2,22 +2,22 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Translate : ObservableObject, IControl, IModifier
+    public partial class Translate : ObservableObject, IControl, IPrefab
     {
-        public Translate(GenericValue<bool> visible, Vector3 xyz)
+        public Translate(PrefabService prefabService, Vector3 xyz)
         {
+            PrefabService = prefabService;
             XYZ = xyz;
-            Visible = visible;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabService PrefabService { get; set; }
         public Vector3 XYZ { get; set; }
-        public GenericValue<bool> Visible { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

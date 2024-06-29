@@ -11,6 +11,10 @@ namespace CMiX.Core.Mapping
         public BeatProfile()
         {
             CreateMap<BeatModifier, BeatModifierModel>().ReverseMap().ConstructUsingServiceLocator();
+
+            CreateMap<IControl, IControlModel>()
+                .Include(typeof(BeatModifier), typeof(BeatModifierModel))
+                .ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

@@ -4,15 +4,16 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class RandomXYZModel : IModifierModel
+    public class RandomXYZModel : IPrefabModel
     {
         public RandomXYZModel()
         {
             ID = Guid.NewGuid();
-            Visible = new GenericValueModel<bool>(true);
+            PrefabService = new PrefabServiceModel();
             BeatModifier = new BeatModifierModel();
             Easing = new EasingModel();
             RandomizeLocation = new GenericValueModel<bool>(true);
@@ -26,7 +27,7 @@ namespace CMiX.Core.Transformation.Modifiers
         }
 
         public Guid ID { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
         public EasingModel Easing { get; set; }
         public GenericValueModel<bool> RandomizeLocation { get; set; }
         public Vector3Model Location { get; set; }
