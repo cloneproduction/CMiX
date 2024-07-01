@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -14,7 +15,7 @@ namespace CMiX.Core.Transformation.Modifiers
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
-            BeatModifier = new BeatModifierModel();
+            BeatModifierManager = new PrefabManagerModel();
             Easing = new EasingModel();
             RandomizeLocation = new GenericValueModel<bool>(true);
             Location = new Vector3Model();
@@ -35,7 +36,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Vector3Model Scale { get; set; }
         public GenericValueModel<bool> RandomizeRotation { get; set; }
         public Vector3Model Rotation { get; set; }
-        public BeatModifierModel BeatModifier { get; set; }
+        public PrefabManagerModel BeatModifierManager { get; set; }
         public GenericValueModel<float> Uniform { get; set; }
         public ModifierModeSelectorModel ModifierModeSelector { get; set; }
     }

@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Views.RandomXYZ"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
@@ -15,13 +16,12 @@
 
         <StackPanel Margin="8">
 
-            <Modifiers:ModifierModeSelector 
-                Margin="0,0,0,8" 
-                DataContext="{Binding ModifierModeSelector}" />
+            <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
-            <Views:BeatModifier 
-                Margin="0, 0, 0, 4" 
-                DataContext="{Binding BeatModifier}"/>
+            <Views:Outliner
+                DataContext="{Binding BeatModifierManager}"
+                ItemsSource="{Binding ControlRepository.BeatModifiers}"
+                TypeParameter="{x:Type Animations:BeatModifierModel}" />
 
         </StackPanel>
 

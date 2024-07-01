@@ -16,7 +16,6 @@ namespace CMiX.Core.Animations
                             GenericValue<int> beatIndex, 
                             GenericValue<float> chanceToHit)
         {
-            ID = Guid.NewGuid();
             PrefabService = prefabService;
             BeatIndex = beatIndex;
             ChanceToHit = chanceToHit;
@@ -31,7 +30,7 @@ namespace CMiX.Core.Animations
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public MasterBeat MasterBeat { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> ChanceToHit { get; set; }
