@@ -5,13 +5,15 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class GaussianXYZ : ObservableObject, IControl, IBeatModifiable, IPrefab, ISpreadableModifier
     {
-        public GaussianXYZ(PrefabService prefabService,
+        public GaussianXYZ(PrefabManager beatModifierManager,
+                           PrefabService prefabService,
                            BeatModifier beatModifier,
                            Easing easing,
                            ModifierModeSelector modifierModeSelector,
@@ -22,6 +24,7 @@ namespace CMiX.Core.Transformation.Modifiers
                            GenericValue<bool> randomizeRotation,
                            Vector3 rotation)
         {
+            BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
@@ -46,7 +49,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Vector3 Scale { get; set; }
         public GenericValue<bool> RandomizeRotation { get; set; }
         public Vector3 Rotation { get; set; }
-
+        public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

@@ -103,7 +103,7 @@
                         </TabItem.Header>
                         <StackPanel>
                             <Panels:IndentedExpander Header="Texture Filters">
-                                <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                                <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
                                     <Views:ModifierManager.SelectionPanel>
                                         <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
                                     </Views:ModifierManager.SelectionPanel>

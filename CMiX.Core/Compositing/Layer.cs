@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IControl, IPrefab
+    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable
     {
         public Layer()
         {
@@ -21,7 +21,7 @@ namespace CMiX.Core.Compositing
                      LayerSettings layerService,
                      LayerMaskService layerMaskService,
                      PrefabManager reorderablePrefabManager,
-                     PrefabManager modifierManager,
+                     PrefabManager textureModifierManager,
                      PrefabManager layerModifier)
         {
             ID = prefabService.ID;
@@ -42,7 +42,7 @@ namespace CMiX.Core.Compositing
             MaskMode = layerMaskService.MaskMode;
             Invert = layerMaskService.Invert;
 
-            ModifierManager = modifierManager;
+            TextureModifierManager = textureModifierManager;
             ModelEntityManager = reorderablePrefabManager;
             LayerModifierManager = layerModifier;
         }
@@ -62,7 +62,7 @@ namespace CMiX.Core.Compositing
         public GenericValue<MaskChannel> MaskChannel { get; set; }
 
         public PrefabManager ModelEntityManager { get; set; }
-        public PrefabManager ModifierManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
         public PrefabManager LayerModifierManager { get; set; }
 
         public GenericValue<BlendModeEnum> BlendMode { get; set; }

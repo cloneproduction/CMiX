@@ -4,13 +4,15 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
     public partial class RandomUV : ObservableObject, IPrefab, IBeatModifiable, ITextureModifier
     {
-        public RandomUV(PrefabService prefabService, 
+        public RandomUV(PrefabManager beatModifierManager,
+                        PrefabService prefabService, 
                         BeatModifier beatModifier,
                         Easing easing,
                         GenericValue<bool> randomizeLocation,
@@ -22,6 +24,7 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> rotation,
                         SamplerState samplerState)
         {
+            BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
@@ -47,7 +50,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<bool> RandomizeRotation { get; set; }
         public GenericValue<float> Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
-
+        public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

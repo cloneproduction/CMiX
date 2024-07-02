@@ -34,6 +34,9 @@ namespace CMiX.Studio.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
+            if (values[0] == DependencyProperty.UnsetValue)
+                return DependencyProperty.UnsetValue;
+
             if (values[0] == null || values[1] == null || values[2] == null)
                 return "0";
 
@@ -56,8 +59,11 @@ namespace CMiX.Studio.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] == null || values[1] == null)
+            if (values[0] == DependencyProperty.UnsetValue)
                 return DependencyProperty.UnsetValue;
+
+            if (values[0] == null || values[1] == null)
+                    return DependencyProperty.UnsetValue;
 
             var beatIndex = (int)values[0];
             var masterBeat = (MasterBeat)values[1];

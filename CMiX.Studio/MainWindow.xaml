@@ -368,6 +368,9 @@
                             <Views:RepositoryManager.SelectionPanel>
                                 <Views:BeatModifierSelectionPanel />
                             </Views:RepositoryManager.SelectionPanel>
+                            <Views:RepositoryManager.EditingPanel>
+                                <Views:BeatModifier DataContext="{Binding}" />
+                            </Views:RepositoryManager.EditingPanel>
                         </Views:RepositoryManager>
 
                     </TabItem>

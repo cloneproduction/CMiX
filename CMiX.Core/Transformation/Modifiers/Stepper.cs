@@ -5,24 +5,26 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class Stepper : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier
     {
-        public Stepper( ModifierModeSelector modifierModeSelector, 
-                        GenericValue<int> stepCount, 
-                        PrefabService prefabService, 
-                        BeatModifier beatModifier,
-                        GenericValue<bool> pingPong,
-                        GenericValue<TransformType> transformType,
-                        DirectionXYZ directionXYZ,
-                        Easing easing,
-                        GenericValue<float> from,
-                        GenericValue<float> to
-            )
+        public Stepper(PrefabManager beatModifierManager,
+                       ModifierModeSelector modifierModeSelector, 
+                       GenericValue<int> stepCount, 
+                       PrefabService prefabService, 
+                       BeatModifier beatModifier,
+                       GenericValue<bool> pingPong,
+                       GenericValue<TransformType> transformType,
+                       DirectionXYZ directionXYZ,
+                       Easing easing,
+                       GenericValue<float> from,
+                       GenericValue<float> to)
         {
+            BeatModifierManager = beatModifierManager;
             ModifierModeSelector = modifierModeSelector;
             StepCount = stepCount;
             PrefabService = prefabService;
@@ -47,6 +49,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
         public PrefabService PrefabService { get; set; }
+        public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

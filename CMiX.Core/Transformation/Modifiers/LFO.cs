@@ -5,13 +5,15 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
     public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable, IPrefab
     {
-        public LFO(PrefabService prefabService,
+        public LFO(PrefabManager beatModifierManager,
+                    PrefabService prefabService,
                    BeatModifier beatModifier,
                    GenericValue<bool> pingPong,
                    DirectionXYZ directionXYZ,
@@ -21,6 +23,7 @@ namespace CMiX.Core.Transformation.Modifiers
                    GenericValue<float> to,
                    ModifierModeSelector modifierModeSelector)
         {
+            BeatModifierManager = beatModifierManager;
             ModifierModeSelector = modifierModeSelector;
             PrefabService = prefabService;
             BeatModifier = beatModifier;
@@ -42,7 +45,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Easing Easing { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
-
+        public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

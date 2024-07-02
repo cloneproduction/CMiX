@@ -3,12 +3,10 @@
 
 using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Core.Animations
+namespace CMiX.Core.Texturing
 {
-    public interface IBeatModifiable
+    public interface ITextureModifiable
     {
-        //BeatModifier BeatModifier { get; set; }
-        PrefabManager BeatModifierManager { get; set; }
-        Easing Easing { get; set; }
+        PrefabManager TextureModifierManager { get; set; }
     }
 }

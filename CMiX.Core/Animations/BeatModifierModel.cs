@@ -14,9 +14,11 @@ namespace CMiX.Core.Animations
             PrefabService = new PrefabServiceModel();
             ChanceToHit = new GenericValueModel<float>(100);
             BeatIndex = new GenericValueModel<int>(0);
+            Easing = new EasingModel();
         }
 
         public Guid ID { get; set; }
+        public EasingModel Easing { get; set; }
         public GenericValueModel<int> BeatIndex { get; set; }
         public GenericValueModel<float> ChanceToHit { get; set; }
         public PrefabServiceModel PrefabService { get; set; }

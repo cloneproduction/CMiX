@@ -29,7 +29,7 @@ namespace CMiX.Core.Compositing
             MaskChannel = new GenericValueModel<MaskChannel>(Texturing.MaskChannel.Alpha);
             MaskMode = new GenericValueModel<MaskMode>(Texturing.MaskMode.AllBelow);
             Invert = new GenericValueModel<bool>(false);
-            ModifierManager = new PrefabManagerModel();
+            TextureModifierManager = new PrefabManagerModel();
             ModelEntityManager = new PrefabManagerModel();
             LayerModifierManager = new PrefabManagerModel();
         }
@@ -49,7 +49,7 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<bool> IsMask { get; set; }
         public GenericValueModel<MaskMode> MaskMode { get; set; }
 
-        public PrefabManagerModel ModifierManager { get; set; }
+        public PrefabManagerModel TextureModifierManager { get; set; }
         public PrefabManagerModel LayerModifierManager { get; set; }
         public GenericValueModel<string> BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }

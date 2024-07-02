@@ -14,13 +14,14 @@ namespace CMiX.Core.Animations
         public BeatModifier(PrefabService prefabService,
                             MasterBeat masterBeat, 
                             GenericValue<int> beatIndex, 
-                            GenericValue<float> chanceToHit)
+                            GenericValue<float> chanceToHit,
+                            Easing easing)
         {
             PrefabService = prefabService;
             BeatIndex = beatIndex;
             ChanceToHit = chanceToHit;
             MasterBeat = masterBeat;
-
+            Easing = easing;
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
@@ -32,6 +33,7 @@ namespace CMiX.Core.Animations
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public MasterBeat MasterBeat { get; set; }
+        public Easing Easing { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> ChanceToHit { get; set; }
         public GenericValue<int> BeatIndex { get; set; }

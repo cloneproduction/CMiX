@@ -5,18 +5,21 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomPosition : ObservableObject, IControl, IBeatModifiable, IPrefab, ISpreadableModifier
+    public partial class RandomPosition : ObservableObject, IControl, IBeatModifiable, ISpreadableModifier
     {
-        public RandomPosition(PrefabService prefabService, 
+        public RandomPosition(PrefabManager beatModifierManager,
+                              PrefabService prefabService, 
                               ModifierModeSelector modifierModeSelector, 
                               BeatModifier beatModifier, 
                               Easing easing, 
                               Vector3 location)
         {
+            BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
             BeatModifier = beatModifier;
@@ -31,6 +34,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Easing Easing { get; set; }
         public Vector3 Location { get; set; }
         public PrefabService PrefabService { get; set; }
+        public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

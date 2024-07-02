@@ -5,15 +5,16 @@ using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
+using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public class Composition : IControl, IPrefab
+    public class Composition : IControl, IPrefab, ITextureModifiable
     {
         public Composition(PrefabService prefabService, 
                            MasterBeat masterBeat,
                            PrefabManager prefabManager,
-                           PrefabManager modifierManager, 
+                           PrefabManager textureModifierManager, 
                            OutputSettings outputSettings)
         {
             ID = prefabService.ID;
@@ -21,14 +22,14 @@ namespace CMiX.Core.Compositing
             MasterBeat = masterBeat;
             OutputSettings = outputSettings;
             LayerManager = prefabManager;
-            ModifierManager = modifierManager;
+            TextureModifierManager = textureModifierManager;
         }
 
         public Guid ID { get; set; }
 
         public PrefabService PrefabService { get; set; }
         public PrefabManager LayerManager { get; set; }
-        public PrefabManager ModifierManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public MasterBeat MasterBeat { get; set; }
     }

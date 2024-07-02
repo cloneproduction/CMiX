@@ -4,19 +4,22 @@
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     public partial class CameraRandom : ObservableObject, IControl, IBeatModifiable, IPrefab
     {
-        public CameraRandom(PrefabService prefabService, 
+        public CameraRandom(PrefabManager beatModifierManager,
+                            PrefabService prefabService, 
                             BeatModifier beatModifier, 
                             Easing easing, 
                             GenericValue<bool> pingPong, 
                             GenericValue<CameraAxis> axis, 
                             GenericValue<float> width)
         {
+            BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             BeatModifier = beatModifier;
             Easing = easing;
@@ -32,7 +35,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public GenericValue<CameraAxis> Axis { get; set; }
         public Easing Easing { get; set; }
         public GenericValue<float> Width { get; set; }
-
+        public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

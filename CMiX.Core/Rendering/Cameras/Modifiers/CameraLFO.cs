@@ -5,26 +5,26 @@ using System.Security.Policy;
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     public partial class CameraLFO : ObservableObject, IControl, IBeatModifiable
     {
-        public CameraLFO(
-                    GenericValue<bool> visible, 
-                    BeatModifier beatModifier, 
-                    Easing easing, 
-                    GenericValue<bool> pingPong, 
-                    GenericValue<CameraAxis> axis, 
-                    GenericValue<float> from, 
-                    GenericValue<float> to
-                    )
+        public CameraLFO(PrefabManager beatModifierManager,
+                         GenericValue<bool> visible, 
+                         BeatModifier beatModifier, 
+                         Easing easing, 
+                         GenericValue<bool> pingPong, 
+                         GenericValue<CameraAxis> axis, 
+                         GenericValue<float> from, 
+                         GenericValue<float> to)
         {
+            BeatModifierManager = beatModifierManager;
             Visible = visible;
             BeatModifier = beatModifier;
             Easing = easing;
-
             PingPong = pingPong;
             Axis = axis;
             From = from;
@@ -32,6 +32,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabManager BeatModifierManager { get; set; }
         public GenericValue<bool> Visible { get; set; }
         public BeatModifier BeatModifier { get; set; }
         public GenericValue<bool> PingPong { get; set; }
@@ -39,6 +40,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public Easing Easing { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded = true;
