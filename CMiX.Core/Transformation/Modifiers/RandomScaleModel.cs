@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -14,19 +15,17 @@ namespace CMiX.Core.Transformation.Modifiers
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
-            BeatModifier = new BeatModifierModel();
-            Easing = new EasingModel();
             Scale = new Vector3Model();
             UniformXYZ = new GenericValueModel<float>();
             ModifierModeSelector = new ModifierModeSelectorModel();
+            BeatModifierManager = new PrefabManagerModel();
         }
 
         public Guid ID { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
-        public EasingModel Easing { get; set; }
+        public PrefabManagerModel BeatModifierManager { get; set; }
         public GenericValueModel<bool> RandomizeScale { get; set; }
         public Vector3Model Scale { get; set; }
-        public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<float> UniformXYZ { get; set; }
         public ModifierModeSelectorModel ModifierModeSelector { get; set; }
     }

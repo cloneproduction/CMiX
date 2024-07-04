@@ -7,8 +7,7 @@ namespace CMiX.Core.Animations
 {
     public interface IBeatModifiable
     {
-        //BeatModifier BeatModifier { get; set; }
         PrefabManager BeatModifierManager { get; set; }
-        Easing Easing { get; set; }
+        //Easing Easing { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Colors.Modifiers
 {
@@ -18,20 +19,19 @@ namespace CMiX.Core.Colors.Modifiers
             Value = new GenericValueModel<float>();
             Alpha = new GenericValueModel<float>();
             PrefabService = new PrefabServiceModel();
-            BeatModifier = new BeatModifierModel();
-            Easing = new EasingModel();
+            BeatModifierManager = new PrefabManagerModel();
             ModifierModeSelector = new ModifierModeSelectorModel();
         }
 
         public Guid ID { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
         public Vector3Model HSV { get; set; }
-        public BeatModifierModel BeatModifier { get; set; }
-        public EasingModel Easing { get; set; }
+
         public GenericValueModel<float> Hue { get; set; }
         public GenericValueModel<float> Saturation { get; set; }
         public GenericValueModel<float> Value { get; set; }
         public GenericValueModel<float> Alpha { get; set; }
         public ModifierModeSelectorModel ModifierModeSelector { get; set; }
+        public PrefabManagerModel BeatModifierManager { get; set; }
     }
 }

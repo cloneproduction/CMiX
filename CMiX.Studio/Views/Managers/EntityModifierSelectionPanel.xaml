@@ -7,8 +7,8 @@
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="77.352"
-    d:DesignWidth="153.31"
+    d:DesignHeight="322.671"
+    d:DesignWidth="271.37"
     mc:Ignorable="d">
 
     <Border Margin="4,8">
@@ -82,8 +82,17 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomPositionModel}"
+                Content="Random Position"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type TransformModifiers:RandomScaleModel}"
-                Content="RandomScale"
+                Content="Random Scale"
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
@@ -92,7 +101,7 @@
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type TransformModifiers:RandomRotationModel}"
-                Content="RandomRotation"
+                Content="Random Rotation"
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
@@ -101,7 +110,7 @@
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Transformation:TransformSRTModel}"
-                Content="TransformSRT"
+                Content="Transform SRT"
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button

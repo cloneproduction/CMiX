@@ -1,37 +1,34 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.RandomScale"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
-             mc:Ignorable="d" 
-             d:DesignHeight="548" d:DesignWidth="461.333">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.RandomScale"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="548"
+    d:DesignWidth="461.333"
+    mc:Ignorable="d">
 
-    <StackPanel>
-        <StackPanel Margin="8">
 
-            <Modifiers:ModifierModeSelector 
-                Margin="0, 0, 0, 8"
-                DataContext="{Binding ModifierModeSelector}"/>
+    <StackPanel Margin="8">
 
-            <Views:BeatModifier 
-                DataContext="{Binding BeatModifier}"/>
+        <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
-            <BaseControls:DragValue 
-                Margin="0, 8"
-                Caption="Uniform" 
-                Value="{Binding UniformXYZ.Value}"/>
+        <BaseControls:DragValue
+            Margin="0,8"
+            Caption="Uniform"
+            Value="{Binding UniformXYZ.Value}" />
 
-            <BaseControls:VectorXYZ 
-                Caption="Scale"
-                DataContext="{Binding Scale}"/>
+        <BaseControls:VectorXYZ Caption="Scale" DataContext="{Binding Scale}" />
 
-        </StackPanel>
-
-        <Views:Easing DataContext="{Binding Easing}"/>
-
+        <Views:Outliner
+            Margin="0,8,0,0"
+            DataContext="{Binding BeatModifierManager}"
+            ItemsSource="{Binding ControlRepository.BeatModifiers}"
+            TypeParameter="{x:Type Animations:BeatModifierModel}" />
     </StackPanel>
 
 </UserControl>

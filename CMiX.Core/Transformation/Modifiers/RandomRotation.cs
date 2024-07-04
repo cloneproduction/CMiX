@@ -15,23 +15,18 @@ namespace CMiX.Core.Transformation.Modifiers
         public RandomRotation(PrefabManager beatModifierManager,
                               PrefabService prefabService, 
                               ModifierModeSelector modifierModeSelector, 
-                              BeatModifier beatModifier, 
-                              Easing easing, 
                               Vector3 rotation)
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
-            BeatModifier = beatModifier;
-            Easing = easing;
             Rotation = rotation;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public BeatModifier BeatModifier { get; set; }
-        public Easing Easing { get; set; }
+
         public Vector3 Rotation { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
 

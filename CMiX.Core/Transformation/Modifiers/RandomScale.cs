@@ -14,24 +14,18 @@ namespace CMiX.Core.Transformation.Modifiers
     {
         public RandomScale(PrefabManager beatModifierManager,
                            PrefabService prefabService, 
-                           BeatModifier beatModifier, 
-                           Easing easing, 
                            ModifierModeSelector modifierModeSelector, 
                            Vector3 scale, 
                            GenericValue<float> uniformXYZ)
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
-            BeatModifier = beatModifier;
-            Easing = easing;
             ModifierModeSelector = modifierModeSelector;
             Scale = scale;
             UniformXYZ = uniformXYZ;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public BeatModifier BeatModifier { get; set; }
-        public Easing Easing { get; set; }
         public Vector3 Scale { get; set; }
         public GenericValue<float> UniformXYZ { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }

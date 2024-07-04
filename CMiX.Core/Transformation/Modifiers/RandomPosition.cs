@@ -10,30 +10,24 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomPosition : ObservableObject, IControl, IBeatModifiable, ISpreadableModifier
+    public partial class RandomPosition : ObservableObject, IPrefab, IBeatModifiable, ISpreadableModifier
     {
         public RandomPosition(PrefabManager beatModifierManager,
                               PrefabService prefabService, 
                               ModifierModeSelector modifierModeSelector, 
-                              BeatModifier beatModifier, 
-                              Easing easing, 
                               Vector3 location)
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
-            BeatModifier = beatModifier;
-            Easing = easing;
             Location = location;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
 
-        public ModifierModeSelector ModifierModeSelector { get; set; }
-        public BeatModifier BeatModifier { get; set; }
-        public Easing Easing { get; set; }
-        public Vector3 Location { get; set; }
         public PrefabService PrefabService { get; set; }
+        public ModifierModeSelector ModifierModeSelector { get; set; }
+        public Vector3 Location { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]

@@ -11,12 +11,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class RandomHSV : ObservableObject, IControl, IBeatModifiable, IPrefab, ISpreadableModifier
+    public partial class RandomHSV : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier
     {
         public RandomHSV(PrefabManager beatModifierManager,
                          PrefabService prefabService, 
-                         BeatModifier beatModifier, 
-                         Easing easing, 
                          ModifierModeSelector modifierModeSelector, 
                          GenericValue<float> hue, 
                          GenericValue<float> saturation, 
@@ -25,8 +23,6 @@ namespace CMiX.Core.Colors.Modifiers
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
-            BeatModifier = beatModifier;
-            Easing = easing;
             ModifierModeSelector = modifierModeSelector;
             Hue = hue;
             Saturation = saturation;
@@ -40,8 +36,6 @@ namespace CMiX.Core.Colors.Modifiers
         public GenericValue<float> Saturation { get; set; }
         public GenericValue<float> Value { get; set; }
         public GenericValue<float> Alpha { get; set; }
-        public BeatModifier BeatModifier { get; set; }
-        public Easing Easing { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
 

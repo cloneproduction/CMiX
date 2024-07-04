@@ -14,16 +14,7 @@
 
     <StackPanel>
 
-        <StackPanel Margin="8">
-
-            <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
-
-            <Views:Outliner
-                DataContext="{Binding BeatModifierManager}"
-                ItemsSource="{Binding ControlRepository.BeatModifiers}"
-                TypeParameter="{x:Type Animations:BeatModifierModel}" />
-
-        </StackPanel>
+        <Modifiers:ModifierModeSelector Margin="8" DataContext="{Binding ModifierModeSelector}" />
 
         <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}">
 
@@ -47,7 +38,6 @@
                     Caption="Location"
                     DataContext="{Binding Location}" />
             </Border>
-
 
         </Expander>
 
@@ -98,6 +88,12 @@
                 IsEnabled="{Binding RandomizeLocation.Value}" />
 
         </Expander>
+
+        <Views:Outliner
+            Margin="8"
+            DataContext="{Binding BeatModifierManager}"
+            ItemsSource="{Binding ControlRepository.BeatModifiers}"
+            TypeParameter="{x:Type Animations:BeatModifierModel}" />
 
     </StackPanel>
 

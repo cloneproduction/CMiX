@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Views.Modifiers.Light.RandomPosition"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
@@ -11,23 +12,21 @@
     d:DesignWidth="329.682"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <StackPanel Margin="8">
 
-        <StackPanel Margin="8">
-
-            <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
-
-            <Views:BeatModifier DataContext="{Binding BeatModifier}" />
-
-        </StackPanel>
+        <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:VectorXYZ
-            Margin="8"
+            Margin="0,8"
             Caption="Location"
             DataContext="{Binding Location}"
             IsEnabled="{Binding RandomizeLocation.Value}" />
 
-        <Views:Easing DataContext="{Binding Easing}" />
+        <Views:Outliner
+            DataContext="{Binding BeatModifierManager}"
+            ItemsSource="{Binding ControlRepository.BeatModifiers}"
+            TypeParameter="{x:Type Animations:BeatModifierModel}" />
 
     </StackPanel>
+
 </UserControl>
