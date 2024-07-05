@@ -5,16 +5,17 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Modifiers
 {
-    public class ModifierModeSelector : IControl
+    public class ModifierMode3DSelector : IControl
     {
-        public ModifierModeSelector(GenericValue<ModifierMode> mode, GenericValue<int> count)
+        public ModifierMode3DSelector(GenericValue<ModifierMode> mode,
+                                      Vector3 count)
         {
             Mode = mode;
             Count = count;
         }
 
         public GenericValue<ModifierMode> Mode { get; set; }
-        public GenericValue<int> Count { get; set; }
+        public Vector3 Count { get; set; }
         public Guid ID { get; set; }
     }
 }

@@ -4,35 +4,22 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="448.554"
-    d:DesignWidth="308.695"
+    d:DesignHeight="269.443"
+    d:DesignWidth="301.139"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <StackPanel Margin="8">
 
-        <StackPanel Margin="8">
-
-            <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
-
-        </StackPanel>
-
-        <BaseControls:Integer3Value
-            Margin="8,0,8,8"
-            Caption="Count"
-            DataContext="{Binding Count}" />
+        <Modifiers:ModifierMode3DSelector DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:VectorXYZ
-            Margin="8,0,8,8"
+            Margin="0,8"
             Caption="Width"
             DataContext="{Binding Width}" />
 
-        <BaseControls:VectorXYZ
-            Margin="8,0,8,8"
-            Caption="Phase"
-            DataContext="{Binding Phase}" />
+        <BaseControls:VectorXYZ Caption="Phase" DataContext="{Binding Phase}" />
 
     </StackPanel>
 

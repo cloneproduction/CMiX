@@ -8,24 +8,27 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class Grid : ObservableObject, IPrefab
+    public partial class CircularSpread : ObservableObject, IPrefab, ISpreadableModifier
     {
-        public Grid(PrefabService prefabService,
-                    Vector3 width,
-                    Vector3 phase,
-                    ModifierMode3DSelector modifierModeSelector)
+        public CircularSpread(PrefabService prefabService, 
+                              ModifierModeSelector modifierModeSelector, 
+                              Vector2 width, 
+                              GenericValue<float> phase)
         {
             PrefabService = prefabService;
+            ModifierModeSelector = modifierModeSelector;
             Width = width;
             Phase = phase;
-            ModifierModeSelector = modifierModeSelector;
         }
+
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public ModifierMode3DSelector ModifierModeSelector { get; set; }
-        public Vector3 Width { get; set; }
-        public Vector3 Phase { get; set; }
+        public ModifierModeSelector ModifierModeSelector { get; set; }
+        public Vector2 Width { get; set; }
+        public GenericValue<float> Phase { get; set; }
+        public GenericValue<float> Factor { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded = true;

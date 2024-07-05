@@ -1,52 +1,47 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.RandomHSV"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
-             xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
-             mc:Ignorable="d" 
-             d:DesignHeight="392" d:DesignWidth="374">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.RandomHSV"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="392"
+    d:DesignWidth="374"
+    mc:Ignorable="d">
 
-    <StackPanel>
+    <StackPanel Margin="8">
 
-        <StackPanel Margin="8">
+        <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
-            <Modifiers:ModifierModeSelector 
-                Margin="0,0,0,8" 
-                DataContext="{Binding ModifierModeSelector}" />
+        <BaseControl:DragValue
+            Caption="Hue"
+            Position="Top"
+            Value="{Binding Hue.Value}" />
 
-            <Views:BeatModifier 
-                Margin="0, 0, 0, 8" 
-                DataContext="{Binding BeatModifier}"/>
+        <BaseControl:DragValue
+            Margin="0,1"
+            Caption="Saturation"
+            Position="Middle"
+            Value="{Binding Saturation.Value}" />
 
-            <BaseControl:DragValue 
-                Position="Top" 
-                Caption="Hue" 
-                Value="{Binding Hue.Value}"/>
-                
-            <BaseControl:DragValue 
-                Margin="0, 1"
-                Position="Middle"
-                Caption="Saturation"
-                Value="{Binding Saturation.Value}"/>
-                
-            <BaseControl:DragValue 
-                Margin="0" 
-                Position="Middle" 
-                Caption="Value" 
-                Value="{Binding Value.Value}"/>
-                
-            <BaseControl:DragValue 
-                Margin="0, 1, 0, 0"
-                Position="Bottom"
-                Caption="Alpha" 
-                Value="{Binding Alpha.Value}"/>
+        <BaseControl:DragValue
+            Margin="0"
+            Caption="Value"
+            Position="Middle"
+            Value="{Binding Value.Value}" />
 
-        </StackPanel>
+        <BaseControl:DragValue
+            Margin="0,1,0,8"
+            Caption="Alpha"
+            Position="Bottom"
+            Value="{Binding Alpha.Value}" />
 
-        <Views:Easing DataContext="{Binding Easing}"/>
-
+        <Views:Outliner
+            DataContext="{Binding BeatModifierManager}"
+            ItemsSource="{Binding ControlRepository.BeatModifiers}"
+            TypeParameter="{x:Type Animations:BeatModifierModel}" />
     </StackPanel>
 </UserControl>
