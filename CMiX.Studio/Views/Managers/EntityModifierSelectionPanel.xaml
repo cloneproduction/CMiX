@@ -65,15 +65,6 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:StepperModel}"
-                Content="Stepper"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type TransformModifiers:RandomXYZModel}"
                 Content="Random XYZ"
                 Style="{StaticResource ButtonItemControl}" />

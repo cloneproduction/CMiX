@@ -41,6 +41,14 @@
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
+        <basecontrol:DragValue
+            Margin="0,8"
+            Caption="Step Count"
+            IsInteger="True"
+            LargeChange="1.0"
+            SmallChange="1.0"
+            Value="{Binding StepCount.Value}" />
+
         <Views:Outliner
             Margin="0,8,0,0"
             DataContext="{Binding BeatModifierManager}"

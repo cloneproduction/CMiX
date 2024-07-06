@@ -13,12 +13,10 @@ namespace CMiX.Core.Transformation.Modifiers
     public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable, IPrefab
     {
         public LFO(PrefabManager beatModifierManager,
-                    PrefabService prefabService,
-                   BeatModifier beatModifier,
+                   PrefabService prefabService,
                    GenericValue<bool> pingPong,
                    DirectionXYZ directionXYZ,
                    GenericValue<TransformType> transformType,
-                   Easing easing,
                    GenericValue<float> from,
                    GenericValue<float> to,
                    ModifierModeSelector modifierModeSelector)
@@ -26,11 +24,9 @@ namespace CMiX.Core.Transformation.Modifiers
             BeatModifierManager = beatModifierManager;
             ModifierModeSelector = modifierModeSelector;
             PrefabService = prefabService;
-            BeatModifier = beatModifier;
             PingPong = pingPong;
             DirectionXYZ = directionXYZ;
             TransformType = transformType;
-            Easing = easing;
             From = from;
             To = to;
         }
@@ -38,11 +34,9 @@ namespace CMiX.Core.Transformation.Modifiers
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public BeatModifier BeatModifier { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
-        public Easing Easing { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
         public PrefabManager BeatModifierManager { get; set; }

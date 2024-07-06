@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -15,11 +16,10 @@ namespace CMiX.Core.Transformation.Modifiers
             Name = "LFO";
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
-            BeatModifier = new BeatModifierModel();
+            BeatModifierManager = new PrefabManagerModel();
             DirectionXYZ = new DirectionXYZModel();
             PingPong = new GenericValueModel<bool>();
             TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
-            Easing = new EasingModel();
             From = new GenericValueModel<float>(0.0f);
             To = new GenericValueModel<float>(1.0f);
             ModifierModeSelector = new ModifierModeSelectorModel();
@@ -30,11 +30,10 @@ namespace CMiX.Core.Transformation.Modifiers
         public GenericValueModel<bool> PingPong { get; set; }
         public ModifierModeSelectorModel ModifierModeSelector { get; set; }
         public Guid ID { get; set; }
-        public BeatModifierModel BeatModifier { get; set; }
         public GenericValueModel<TransformType> TransformType { get; set; }
         public GenericValueModel<float> From { get; set; }
         public GenericValueModel<float> To { get; set; }
-        public EasingModel Easing { get; set; }
         public DirectionXYZModel DirectionXYZ { get; set; }
+        public PrefabManagerModel BeatModifierManager { get; set; }
     }
 }

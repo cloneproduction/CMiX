@@ -21,7 +21,6 @@ namespace CMiX.Core.Transformation.Modifiers
             CreateMap<LFO, LFOModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<RandomRotation, RandomRotationModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<RandomScale, RandomScaleModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<Stepper, StepperModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<RandomHSV, RandomHSVModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<RandomPosition, RandomPositionModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<Grid, GridModel>().ReverseMap().ConstructUsingServiceLocator(); ;
@@ -37,7 +36,6 @@ namespace CMiX.Core.Transformation.Modifiers
                 .Include<LFO, LFOModel>()
                 .Include<RandomRotation, RandomRotationModel>()
                 .Include<RandomScale, RandomScaleModel>()
-                .Include<Stepper, StepperModel>()
                 .Include<RandomHSV, RandomHSVModel>()
                 .Include<RandomPosition, RandomPositionModel>()
                 .Include<Grid, GridModel>()
