@@ -16,6 +16,12 @@
 
         <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
+        <BaseControl:ComboBox
+            Margin="0,0,0,8"
+            Caption="Color Mode"
+            ItemsSource="{Binding Source={StaticResource ColorMode}}"
+            SelectedItem="{Binding ColorMode.Value}" />
+
         <BaseControl:DragValue
             Caption="Hue"
             Position="Top"

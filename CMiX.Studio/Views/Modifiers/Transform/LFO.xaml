@@ -1,56 +1,52 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.LFO"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="345.111" d:DesignWidth="228.889">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.LFO"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="345.111"
+    d:DesignWidth="228.889"
+    mc:Ignorable="d">
 
-    <StackPanel>
-        <StackPanel Margin="8">
+    <StackPanel Margin="8">
 
-            <!--<basecontrol:ComboBox 
-                Caption="Type" 
-                SelectedItem="{Binding Mode.Value}" 
-                ItemsSource="{Binding Source={StaticResource ModifierMode}}"/>-->
+        <basecontrol:DragValue
+            Caption="From"
+            Position="Top"
+            Value="{Binding From.Value}" />
 
-            <Views:BeatModifier 
-                Margin="0, 0, 0, 8"
-                DataContext="{Binding BeatModifier}"/>
+        <basecontrol:DragValue
+            Margin="0,1,0,0"
+            Caption="To"
+            Position="Bottom"
+            Value="{Binding To.Value}" />
 
-            <basecontrol:DragValue 
-                Caption="From" 
-                Value="{Binding From.Value}" 
-                Position="Top"/>
+        <basecontrol:ToggleButton
+            Margin="8"
+            Caption="PingPong"
+            IsChecked="{Binding PingPong.Value}" />
 
-            <basecontrol:DragValue 
-                Margin="0, 1, 0, 0"
-                Caption="To" 
-                Value="{Binding To.Value}" 
-                Position="Bottom"/>
+        <basecontrol:ComboBox
+            Caption="Transform"
+            ItemsSource="{Binding Source={StaticResource TransformType}}"
+            Position="Top"
+            SelectedItem="{Binding TransformType.Value}" />
 
-            <basecontrol:ToggleButton
-                Margin="8"
-                Caption="PingPong"
-                IsChecked="{Binding PingPong.Value}"/>
+        <basecontrol:AxisSelector3D
+            Margin="0,1,0,0"
+            XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
+            YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
+            ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
-            <basecontrol:ComboBox 
-                Caption="Transform" 
-                Position="Top"
-                SelectedItem="{Binding TransformType.Value}" 
-                ItemsSource="{Binding Source={StaticResource TransformType}}"/>
-
-            <basecontrol:AxisSelector3D 
-                Margin="0, 2, 0, 0"
-                XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
-                YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
-                ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}"/>
-
-        </StackPanel>
-
-        <Views:Easing DataContext="{Binding Easing}"/>
+        <Views:Outliner
+            Margin="0,8,0,0"
+            DataContext="{Binding BeatModifierManager}"
+            ItemsSource="{Binding ControlRepository.BeatModifiers}"
+            TypeParameter="{x:Type Animations:BeatModifierModel}" />
 
     </StackPanel>
+
 </UserControl>

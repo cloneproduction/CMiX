@@ -16,6 +16,11 @@
 
         <Modifiers:ModifierModeSelector Margin="8" DataContext="{Binding ModifierModeSelector}" />
 
+        <BaseControls:ToggleButton
+            Margin="0,0,0,8"
+            Caption="Gaussian"
+            IsChecked="{Binding Gaussian.Value}" />
+
         <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}">
 
             <Expander.Header>

@@ -15,7 +15,8 @@ namespace CMiX.Core.Colors.Modifiers
     {
         public RandomHSV(PrefabManager beatModifierManager,
                          PrefabService prefabService, 
-                         ModifierModeSelector modifierModeSelector, 
+                         ModifierModeSelector modifierModeSelector,
+                         GenericValue<ColorMode> colorMode,
                          GenericValue<float> hue, 
                          GenericValue<float> saturation, 
                          GenericValue<float> value, 
@@ -24,6 +25,7 @@ namespace CMiX.Core.Colors.Modifiers
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
+            ColorMode = colorMode;
             Hue = hue;
             Saturation = saturation;
             Value = value;
@@ -32,6 +34,7 @@ namespace CMiX.Core.Colors.Modifiers
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
+        public GenericValue<ColorMode> ColorMode { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Saturation { get; set; }
         public GenericValue<float> Value { get; set; }

@@ -15,8 +15,6 @@ namespace CMiX.Core.Transformation.Modifiers
             CreateMap<Rotation, RotationModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<Translate, TranslateModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<RandomXYZ, RandomXYZModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<GaussianXYZ, GaussianXYZModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-
             CreateMap<LinearXYZ, LinearXYZModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<CircularSpread, CircularSpreadModel>().ReverseMap().ConstructUsingServiceLocator(); ;
 
@@ -34,7 +32,6 @@ namespace CMiX.Core.Transformation.Modifiers
                 .Include<Scale, ScaleModel>()
                 .Include<Translate, TranslateModel>()
                 .Include<RandomXYZ, RandomXYZModel>()
-                .Include<GaussianXYZ, GaussianXYZModel>()
                 .Include<LinearXYZ, LinearXYZModel>()
                 .Include<CircularSpread, CircularSpreadModel>()
                 .Include<LFO, LFOModel>()

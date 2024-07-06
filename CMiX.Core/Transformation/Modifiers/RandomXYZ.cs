@@ -15,6 +15,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public RandomXYZ(PrefabService prefabService,
                          PrefabManager beatModifierManager,
                          ModifierModeSelector modifierModeSelector,
+                         GenericValue<bool> gaussian,
                          GenericValue<bool> randomizeLocation,
                          Vector3 location,
                          GenericValue<bool> randomizeScale,
@@ -25,6 +26,7 @@ namespace CMiX.Core.Transformation.Modifiers
             PrefabService = prefabService;
             BeatModifierManager = beatModifierManager;
             ModifierModeSelector = modifierModeSelector;
+            Gaussian = gaussian;
             RandomizeLocation = randomizeLocation;
             Location = location;
             RandomizeScale = randomizeScale;
@@ -37,6 +39,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public PrefabService PrefabService { get; set; }
         public PrefabManager BeatModifierManager{ get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
+        public GenericValue<bool> Gaussian { get; set; }
         public GenericValue<bool> RandomizeLocation { get; set; }
         public Vector3 Location { get; set; }
         public GenericValue<bool> RandomizeScale { get; set; }

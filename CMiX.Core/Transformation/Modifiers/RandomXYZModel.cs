@@ -15,8 +15,8 @@ namespace CMiX.Core.Transformation.Modifiers
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
+            Gaussian = new GenericValueModel<bool>(false);
             BeatModifierManager = new PrefabManagerModel();
-            Easing = new EasingModel();
             RandomizeLocation = new GenericValueModel<bool>(true);
             Location = new Vector3Model();
             RandomizeScale = new GenericValueModel<bool>(true);
@@ -29,7 +29,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public Guid ID { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
-        public EasingModel Easing { get; set; }
+        public GenericValueModel<bool> Gaussian { get; set; }
         public GenericValueModel<bool> RandomizeLocation { get; set; }
         public Vector3Model Location { get; set; }
         public GenericValueModel<bool> RandomizeScale { get; set; }

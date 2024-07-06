@@ -8,10 +8,9 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="548"
-    d:DesignWidth="461.333"
+    d:DesignHeight="213.049"
+    d:DesignWidth="290.316"
     mc:Ignorable="d">
-
 
     <StackPanel Margin="8">
 
@@ -22,13 +21,16 @@
             Caption="Uniform"
             Value="{Binding UniformXYZ.Value}" />
 
-        <BaseControls:VectorXYZ Caption="Scale" DataContext="{Binding Scale}" />
+        <BaseControls:VectorXYZ
+            Margin="0,8"
+            Caption="Scale"
+            DataContext="{Binding Scale}" />
 
         <Views:Outliner
-            Margin="0,8,0,0"
             DataContext="{Binding BeatModifierManager}"
             ItemsSource="{Binding ControlRepository.BeatModifiers}"
             TypeParameter="{x:Type Animations:BeatModifierModel}" />
+
     </StackPanel>
 
 </UserControl>

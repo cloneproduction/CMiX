@@ -1,37 +1,52 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.AxisSelector3D"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
-             d:DesignHeight="25.833" d:DesignWidth="286.5"
-             x:Name="axisSelector3D">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.BaseControl.AxisSelector3D"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="axisSelector3D"
+    d:DesignHeight="25.833"
+    d:DesignWidth="286.5"
+    mc:Ignorable="d">
 
     <Grid Height="22">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock 
-            Grid.Column="0" 
-            Padding="0, 0, 4, 0" 
-            HorizontalAlignment="Right" 
+        <TextBlock
+            Grid.Column="0"
+            Padding="0,0,8,0"
+            HorizontalAlignment="Right"
             Text="Axis" />
 
-            <Grid Grid.Column="1">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
+        <Grid Grid.Column="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
 
-                <ToggleButton Style="{StaticResource InlineToggleButtonLeft}" IsChecked="{Binding XIsChecked, ElementName=axisSelector3D}" Grid.Column="0" Content="X"/>
-                <ToggleButton Style="{StaticResource InlineToggleButtonCenter}" IsChecked="{Binding YIsChecked, ElementName=axisSelector3D}" Grid.Column="1" Margin="1, 0" Content="Y"/>
-                <ToggleButton Style="{StaticResource InlineToggleButtonRight}" IsChecked="{Binding ZIsChecked, ElementName=axisSelector3D}" Grid.Column="2" Content="Z"/>
+            <ToggleButton
+                Grid.Column="0"
+                Content="X"
+                IsChecked="{Binding XIsChecked, ElementName=axisSelector3D}"
+                Style="{StaticResource InlineToggleButtonLeft}" />
+            <ToggleButton
+                Grid.Column="1"
+                Margin="1,0"
+                Content="Y"
+                IsChecked="{Binding YIsChecked, ElementName=axisSelector3D}"
+                Style="{StaticResource InlineToggleButtonCenter}" />
+            <ToggleButton
+                Grid.Column="2"
+                Content="Z"
+                IsChecked="{Binding ZIsChecked, ElementName=axisSelector3D}"
+                Style="{StaticResource InlineToggleButtonRight}" />
 
-            </Grid>
+        </Grid>
 
     </Grid>
 </UserControl>
