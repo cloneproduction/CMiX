@@ -8,40 +8,31 @@
              mc:Ignorable="d" 
              d:DesignHeight="432" d:DesignWidth="274">
 
-    <StackPanel>
-        
-        <StackPanel Margin="8">
-            
-            <BaseControl:ComboBox 
-                Margin="0, 0, 0, 8" 
-                Caption="Axis" 
-                SelectedItem="{Binding Axis.Value}" 
-                ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
-            
-            <Views:BeatModifier 
-                DataContext="{Binding BeatModifier}"/>
-            
-            <BaseControl:DragValue 
-                Margin="0, 8, 0, 0" 
-                Position="Top" 
-                Caption="From" 
-                Value="{Binding From.Value}"/>
-            
-            <BaseControl:DragValue
-                Margin="0, 1, 0, 0" 
-                Position="Bottom" 
-                Caption="To" 
-                Value="{Binding To.Value}"/>
-            
-            <BaseControl:ToggleButton 
-                Margin="0, 8, 0, 0" 
-                IsChecked="{Binding PingPong.Value}" 
-                Caption="Ping Pong"/>
-            
-        </StackPanel>
+    <StackPanel Margin="8">
 
-        <Views:Easing  DataContext="{Binding Easing}"/>
+        <BaseControl:ComboBox 
+            Margin="0, 0, 0, 8" 
+            Caption="Axis" 
+            SelectedItem="{Binding Axis.Value}" 
+            ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
+
+        <BaseControl:DragValue 
+            Margin="0, 8, 0, 0" 
+            Position="Top" 
+            Caption="From" 
+            Value="{Binding From.Value}"/>
+
+        <BaseControl:DragValue
+            Margin="0, 1, 0, 0" 
+            Position="Bottom" 
+            Caption="To" 
+            Value="{Binding To.Value}"/>
+
+        <BaseControl:ToggleButton 
+            Margin="0, 8, 0, 0" 
+            IsChecked="{Binding PingPong.Value}" 
+            Caption="Ping Pong"/>
 
     </StackPanel>
-    
+
 </UserControl>

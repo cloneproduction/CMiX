@@ -8,26 +8,18 @@
              mc:Ignorable="d" 
              d:DesignHeight="413.412" d:DesignWidth="271.192">
 
-    <StackPanel>
-        
-        <StackPanel Margin="8">
-            
-            <BaseControl:ComboBox
-                Caption="Axis"
-                SelectedItem="{Binding Axis.Value}"
-                ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
+    <StackPanel Margin="8">
 
-            <Views:BeatModifier 
-                Margin="0, 8" 
-                DataContext="{Binding BeatModifier}"/>
-            
-            <BaseControl:DragValue 
-                Value="{Binding Width.Value}" 
-                Caption="Width"/>
+        <BaseControl:ComboBox
+            Caption="Axis"
+            SelectedItem="{Binding Axis.Value}"
+            ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
 
-        </StackPanel>
-
-        <Views:Easing  DataContext="{Binding Easing}"/>
+        <BaseControl:DragValue 
+            Margin="0, 8, 0, 0 "
+            Value="{Binding Width.Value}" 
+            Caption="Width"/>
 
     </StackPanel>
+
 </UserControl>
