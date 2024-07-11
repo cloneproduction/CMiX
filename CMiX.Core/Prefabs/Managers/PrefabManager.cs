@@ -155,18 +155,25 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(IControlModel controlModel)
         {
-            var selectedItem = SelectedItem;
+            var prefab = (IPrefab)controlModel;
             var items = ManagerData.Items;
+            int index = -1;
 
-            var prefab = ControlFactory.Create(controlModel);
-            ControlRepository.AddControl(prefab);
-
-            if (selectedItem is EmptyPrefab)
-                items[items.IndexOf(selectedItem)] = prefab;
-            else
+            if(ManagerData.Items.Count == 0) 
+            {
+                index = 0;
                 items.Add(prefab);
+                ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
+            }
+            else
+            {
+                index = ManagerData.SelectedIndex;
+                items[index] = prefab;
+                ManagerMessenger.SendReplaceItem(ManagerData.ID, prefab, index);
+            }
 
             SelectedItem = prefab;
+            ManagerData.SelectedIndex = index;
         }
 
         public void RemoveSelectedItem()

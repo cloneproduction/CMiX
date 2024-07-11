@@ -47,11 +47,10 @@
 
             </Popup>
 
-            <Grid>
+            <Grid Margin="0,8,0,0">
 
                 <Border
-                    Height="22"
-                    Margin="1,0,0,0"
+                    Height="25"
                     Background="{DynamicResource HighHighDarkerColor}"
                     CornerRadius="0, 2, 2, 0">
                     <TextBox
@@ -60,33 +59,7 @@
                         Text="{Binding DataContext.SelectedItem.PrefabService.Name.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}" />
                 </Border>
 
-                <ToggleButton
-                    x:Name="PopUpToggle"
-                    Height="22"
-                    Margin="0,4,0,0"
-                    Content="New" />
-
-                <Popup
-                    Width="{Binding ActualWidth, ElementName=PopUpToggle}"
-                    Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=repositoryManager}"
-                    AllowsTransparency="True"
-                    FlowDirection="LeftToRight"
-                    IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
-                    Placement="Bottom"
-                    PlacementTarget="{Binding ElementName=PopUpToggle}">
-
-                    <Border
-                        Padding="2,4,2,2"
-                        Background="{DynamicResource HighHighDarkerColor}"
-                        BorderBrush="{DynamicResource Shadow}"
-                        BorderThickness="1,0,1,2"
-                        CornerRadius="{DynamicResource CornerRadiusBottom}">
-
-                        <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
-
-                    </Border>
-
-                </Popup>
+                <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
 
             </Grid>
         </StackPanel>

@@ -8,6 +8,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="22" />
         <Setter Property="Background" Value="{DynamicResource Color}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -21,6 +22,7 @@
                     <Border
                         x:Name="border"
                         Width="{TemplateBinding Width}"
+                        Height="{TemplateBinding Height}"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Background="{TemplateBinding Background}"

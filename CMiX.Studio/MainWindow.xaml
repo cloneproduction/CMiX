@@ -5,6 +5,7 @@
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
@@ -214,7 +215,11 @@
                                     </CompositeCollection>
                                 </Views:RepositoryManager.ItemsSource>
                                 <Views:RepositoryManager.SelectionPanel>
-                                    <Views:EntitySelectionPanel />
+                                    <Views:ButtonOpenSelectionPanel Caption="Add Entity">
+                                        <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                            <Views:EntitySelectionPanel />
+                                        </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                    </Views:ButtonOpenSelectionPanel>
                                 </Views:RepositoryManager.SelectionPanel>
                             </Views:RepositoryManager>
 
@@ -257,7 +262,11 @@
                             DockPanel.Dock="Top"
                             ItemsSource="{Binding ControlRepository.Materials}">
                             <Views:RepositoryManager.SelectionPanel>
-                                <Views:MaterialSelectionPanel />
+                               <Views:ButtonOpenSelectionPanel Caption="Add Material">
+                                   <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                       <Views:MaterialSelectionPanel />
+                                   </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                               </Views:ButtonOpenSelectionPanel>
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
                                 <Views:Material DataContext="{Binding}" />
@@ -276,12 +285,17 @@
                         </TabItem.Header>
 
                         <Views:RepositoryManager
+                            Background="{DynamicResource HighDarkerColor}"
                             x:Name="repositoryManager"
                             DataContext="{Binding TextureManager}"
                             DockPanel.Dock="Top"
                             ItemsSource="{Binding ControlRepository.Textures}">
                             <Views:RepositoryManager.SelectionPanel>
-                                <Views:TextureSelectionPanel />
+                                <Views:ButtonOpenSelectionPanel Caption="Add Entity">
+                                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                        <Views:TextureSelectionPanel />
+                                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                </Views:ButtonOpenSelectionPanel>
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
                                 <Views:Texture DataContext="{Binding}" />
@@ -303,7 +317,10 @@
                             DockPanel.Dock="Top"
                             ItemsSource="{Binding ControlRepository.Cameras}">
                             <Views:RepositoryManager.SelectionPanel>
-                                <Views:CameraSelectionPanel />
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Cameras:CameraModel}"
+                                    Content="New Camera" />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
                                 <Views:Camera DataContext="{Binding}" />
@@ -321,7 +338,10 @@
                         </TabItem.Header>
                         <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
                             <Views:RepositoryManager.SelectionPanel>
-                                <Views:LightSelectionPanel />
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Light:LightEntityModel}"
+                                    Content="New Light" />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
                                 <Views:LightEntity DataContext="{Binding}" />

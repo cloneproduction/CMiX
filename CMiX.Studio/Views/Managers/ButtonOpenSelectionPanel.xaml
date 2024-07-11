@@ -15,7 +15,7 @@
             x:Name="PopUpToggle"
             Height="22"
             Margin="1,0,0,0"
-            Content="New" />
+            Content="{Binding Caption, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
         <Popup
             Width="{Binding ActualWidth, ElementName=PopUpToggle}"

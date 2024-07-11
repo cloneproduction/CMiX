@@ -5,6 +5,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
@@ -55,7 +56,7 @@
                                 </Views:PrefabSlotManager.ItemsSource>
 
                                 <Views:PrefabSlotManager.SelectionPanel>
-                                    <Views:ButtonOpenSelectionPanel>
+                                    <Views:ButtonOpenSelectionPanel Caption="Add Entity">
                                         <Views:ButtonOpenSelectionPanel.SelectionPanel>
                                             <Views:EntitySelectionPanel />
                                         </Views:ButtonOpenSelectionPanel.SelectionPanel>

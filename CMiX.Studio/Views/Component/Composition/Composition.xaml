@@ -13,7 +13,7 @@
     <StackPanel>
 
         <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">
-            <Views:ModifierManager DataContext="{Binding Path=ModifierManager}">
+            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
                 </Views:ModifierManager.SelectionPanel>
@@ -25,6 +25,5 @@
         </Panels:IndentedExpander>
 
     </StackPanel>
-
 
 </UserControl>
