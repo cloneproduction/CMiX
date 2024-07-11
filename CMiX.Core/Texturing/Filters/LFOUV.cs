@@ -16,8 +16,6 @@ namespace CMiX.Core.Texturing.Filters
         public LFOUV(PrefabManager beatModifierManager,
                      PrefabService prefabService, 
                      GenericValue<TransformType> transformType, 
-                     BeatModifier beatModifier, 
-                     Easing easing, 
                      ModifierModeSelector modifierModeSelector, 
                      GenericValue<bool> pingPong, 
                      GenericValue<bool> xAxis, 
@@ -30,8 +28,6 @@ namespace CMiX.Core.Texturing.Filters
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             TransformType = transformType;
-            BeatModifier = beatModifier;
-            Easing = easing;
             ModifierModeSelector = modifierModeSelector;
 
             PingPong = pingPong;
@@ -46,14 +42,12 @@ namespace CMiX.Core.Texturing.Filters
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public BeatModifier BeatModifier { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public GenericValue<bool> XAxis { get; set; }
         public GenericValue<bool> YAxis { get; set; }
         public GenericValue<bool> ZAxis { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public Easing Easing { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
         public SamplerState SamplerState { get; set; }

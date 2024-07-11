@@ -16,7 +16,7 @@
 
     <StackPanel>
 
-        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManager.IsExpanded}">
+        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
 
             <StackPanel>
                 <Views:ModifierManager DataContext="{Binding ModifierManager}">
@@ -28,7 +28,7 @@
 
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Material" IsExpanded="true">
+        <Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialManagerIsExpanded}">
             <!--  {Binding Material.IsExpanded}  -->
             <StackPanel>
                 <Views:Outliner
@@ -44,7 +44,7 @@
             </StackPanel>
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Mesh" IsExpanded="{Binding Mesh.IsExpanded}">
+        <Panels:IndentedExpander Header="Mesh" IsExpanded="{Binding MeshIsExpanded}">
             <Component:Mesh Margin="8" DataContext="{Binding Mesh}" />
         </Panels:IndentedExpander>
 

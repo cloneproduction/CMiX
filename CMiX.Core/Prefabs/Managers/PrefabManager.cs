@@ -30,6 +30,7 @@ namespace CMiX.Core.Prefabs.Managers
             ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
 
+            isExpanded = true;
             IsActive = true;
         }
 
@@ -155,25 +156,17 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(IControlModel controlModel)
         {
-            var prefab = (IPrefab)controlModel;
+            var selectedItem = SelectedItem;
             var items = ManagerData.Items;
-            int index = -1;
+            var prefab = ControlFactory.Create(controlModel);
+            ControlRepository.AddControl(prefab);
 
-            if(ManagerData.Items.Count == 0) 
-            {
-                index = 0;
-                items.Add(prefab);
-                ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
-            }
+            if (selectedItem is EmptyPrefab)
+                items[items.IndexOf(selectedItem)] = prefab;
             else
-            {
-                index = ManagerData.SelectedIndex;
-                items[index] = prefab;
-                ManagerMessenger.SendReplaceItem(ManagerData.ID, prefab, index);
-            }
+                items.Add(prefab);
 
             SelectedItem = prefab;
-            ManagerData.SelectedIndex = index;
         }
 
         public void RemoveSelectedItem()

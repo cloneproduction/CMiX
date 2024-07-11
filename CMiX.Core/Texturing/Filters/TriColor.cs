@@ -2,13 +2,14 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class TriColor : ObservableObject, ITextureModifier
+    public partial class TriColor : ObservableObject, IPrefab, ITextureModifier
     {
-        public TriColor(GenericValue<bool> visible, 
+        public TriColor(PrefabService prefabService,
                         GenericValue<float> control, 
                         GenericValue<string> colorA, 
                         GenericValue<string> colorB, 
@@ -20,7 +21,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             isExpanded = true;
 
-            Visible = visible;
+            PrefabService = prefabService;
             Control = control;
 
             ColorA = colorA;
@@ -35,7 +36,7 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Control { get; set; }
         public GenericValue<float> Smooth { get; set; }
         public GenericValue<float> Center { get; set; }

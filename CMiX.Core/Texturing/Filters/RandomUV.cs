@@ -13,8 +13,6 @@ namespace CMiX.Core.Texturing.Filters
     {
         public RandomUV(PrefabManager beatModifierManager,
                         PrefabService prefabService, 
-                        BeatModifier beatModifier,
-                        Easing easing,
                         GenericValue<bool> randomizeLocation,
                         Vector2 location,
                         GenericValue<bool> randomizeScale,
@@ -26,8 +24,6 @@ namespace CMiX.Core.Texturing.Filters
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
-            BeatModifier = beatModifier;
-            Easing = easing;
             RandomizeLocation = randomizeLocation;
             Location = location;
             RandomizeScale = randomizeScale;
@@ -40,8 +36,6 @@ namespace CMiX.Core.Texturing.Filters
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public BeatModifier BeatModifier { get; set; }
-        public Easing Easing { get; set; }
         public GenericValue<bool> RandomizeLocation { get; set; }
         public Vector2 Location { get; set; }
         public GenericValue<bool> RandomizeScale { get; set; }

@@ -3,17 +3,14 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class HSCB : ObservableObject, IControl//, IModifier//, ITextureModifier
+    public partial class HSCB : ObservableObject, IPrefab, ITextureModifier
     {
-        public HSCB()
-        {
-            
-        }
-        public HSCB(GenericValue<bool> visible, 
+        public HSCB(PrefabService prefabService,
                     GenericValue<float> hue, 
                     GenericValue<float> saturation, 
                     GenericValue<float> contrast, 
@@ -21,7 +18,7 @@ namespace CMiX.Core.Texturing.Filters
                     GenericValue<float> control)
         {
             ID = Guid.NewGuid();
-            Visible = visible;
+            PrefabService = prefabService;
             Hue = hue;
             Saturation = saturation;
             Contrast = contrast; 
@@ -30,7 +27,7 @@ namespace CMiX.Core.Texturing.Filters
         }
 
         public Guid ID { get; set; }
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Saturation { get; set; }
         public GenericValue<float> Contrast { get; set; }

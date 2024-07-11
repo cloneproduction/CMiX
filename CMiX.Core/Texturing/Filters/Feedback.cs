@@ -2,20 +2,23 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Feedback : ObservableObject, ITextureModifier
+    public partial class Feedback : ObservableObject, IPrefab, ITextureModifier
     {
-        public Feedback(GenericValue<bool> visible, GenericValue<float> factor)
+        public Feedback(PrefabService prefabService,
+                        GenericValue<bool> visible, 
+                        GenericValue<float> factor)
         {
-            Visible = visible; // new GenericValue<bool>(true);
-            Factor = factor; // new GenericValue<float>(0.9f);
+            PrefabService = prefabService;
+            Factor = factor;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<bool> Visible { get; set; }
+        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Factor { get; set; }
 
         [ObservableProperty]

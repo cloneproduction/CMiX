@@ -6,10 +6,11 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : IControl, IPrefab, IModifiable
+    public partial class Entity : ObservableObject, IControl, IPrefab, IModifiable
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh, 
@@ -23,6 +24,9 @@ namespace CMiX.Core.Compositing
             Material = material;
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
+
+            modifierManagerIsExpanded = true;
+            materialManagerIsExpanded = false;
         }
 
         public Guid ID { get; set; }
@@ -32,5 +36,14 @@ namespace CMiX.Core.Compositing
 
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
+
+        [ObservableProperty]
+        private bool modifierManagerIsExpanded;
+
+        [ObservableProperty]
+        private bool materialManagerIsExpanded;
+
+        [ObservableProperty]
+        private bool meshIsExpanded;
     }
 }

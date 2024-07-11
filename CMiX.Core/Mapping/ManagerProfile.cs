@@ -2,9 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
-using CMiX.Core.Mapping;
+using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Core.Prefabs.Managers
+namespace CMiX.Core.Mapping
 {
     public class ManagerProfile : Profile
     {
@@ -18,7 +18,7 @@ namespace CMiX.Core.Prefabs.Managers
             CreateMap<IControl, IControlModel>()
                 .Include<PrefabManager, PrefabManagerModel>()
                 .ReverseMap()
-                .ConstructUsingServiceLocator() ;
+                .ConstructUsingServiceLocator();
 
             CreateMap<ManagerData, ManagerDataModel>()
                 .ReverseMap()

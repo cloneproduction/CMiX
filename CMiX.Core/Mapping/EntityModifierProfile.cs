@@ -3,8 +3,10 @@
 
 using AutoMapper;
 using CMiX.Core.Colors.Modifiers;
+using CMiX.Core.Transformation;
+using CMiX.Core.Transformation.Modifiers;
 
-namespace CMiX.Core.Transformation.Modifiers
+namespace CMiX.Core.Mapping
 {
     public class EntityModifierProfile : Profile
     {
