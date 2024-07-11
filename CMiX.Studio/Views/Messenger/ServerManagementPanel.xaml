@@ -14,7 +14,6 @@
             <Views:PrefabSlotManager Margin="4" DataContext="{Binding}">
                 <Views:PrefabSlotManager.SelectionPanel>
                     <Views:ServerCreation ViewModel="{Binding}" />
-                    <!--<Views:ServerSelectionPanel />-->
                 </Views:PrefabSlotManager.SelectionPanel>
                 <Views:PrefabSlotManager.ItemTemplate>
                     <DockPanel>

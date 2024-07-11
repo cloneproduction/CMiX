@@ -82,24 +82,22 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var prefab = (IPrefab)control;
             var items = ManagerData.Items;
-            var index = -1;
 
-            if(ManagerData.Items.Count == 0) 
+            if (items.Count == 0)
             {
-                index = 0;
                 items.Add(prefab);
                 ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
             }
             else
             {
-                index = ManagerData.SelectedIndex;
+                var index = ManagerData.SelectedIndex;
                 items[index] = prefab;
                 ManagerMessenger.SendReplaceItem(ManagerData.ID, prefab, index);
             }
 
             SelectedItem = prefab;
-            ManagerData.SelectedIndex = index;
         }
+
 
         public void ReplaceItem(IControlModel controlModel, int index)
         {
@@ -113,7 +111,7 @@ namespace CMiX.Core.Prefabs.Managers
             }
 
 
-            if (ManagerData.Items.Count == 0)
+            if (items.Count == 0)
             {
                 items.Add(prefab);
             }

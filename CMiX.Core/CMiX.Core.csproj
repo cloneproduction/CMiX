@@ -9,6 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="AutoMapper.Collection" Version="10.0.0" />
     <PackageReference Include="Ceras" Version="4.1.7" />
@@ -23,7 +29,6 @@
 
   <ItemGroup>
     <Folder Include="Rendering\Lights\Modifiers\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

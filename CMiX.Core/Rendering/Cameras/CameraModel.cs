@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public class CameraModel : IControlModel, IPrefabModel
+    public class CameraModel : IPrefabModel
     {
         public CameraModel()
         {
