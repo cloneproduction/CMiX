@@ -7,8 +7,8 @@
     xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="345.111"
-    d:DesignWidth="228.889"
+    d:DesignHeight="187.111"
+    d:DesignWidth="241.889"
     mc:Ignorable="d">
 
     <StackPanel Margin="8">
@@ -24,12 +24,8 @@
             Position="Bottom"
             Value="{Binding To.Value}" />
 
-        <basecontrol:ToggleButton
-            Margin="8"
-            Caption="PingPong"
-            IsChecked="{Binding PingPong.Value}" />
-
         <basecontrol:ComboBox
+            Margin="0,8,0,0"
             Caption="Transform"
             ItemsSource="{Binding Source={StaticResource TransformType}}"
             Position="Top"
@@ -41,16 +37,12 @@
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
-        <basecontrol:DragValue
-            Margin="0,8"
-            Caption="Step Count"
-            IsInteger="True"
-            LargeChange="1.0"
-            SmallChange="1.0"
-            Value="{Binding StepCount.Value}" />
+        <basecontrol:ToggleButton
+            Margin="8"
+            Caption="PingPong"
+            IsChecked="{Binding PingPong.Value}" />
 
         <Views:Outliner
-            Margin="0,8,0,0"
             DataContext="{Binding BeatModifierManager}"
             ItemsSource="{Binding ControlRepository.BeatModifiers}"
             TypeParameter="{x:Type Animations:BeatModifierModel}" />

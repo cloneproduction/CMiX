@@ -14,7 +14,6 @@ namespace CMiX.Core.Texturing.Filters
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             BeatModifierManager = new PrefabManagerModel();
-            CounterModel = new GenericValueModel<int>(1);
             RandomizeLocation = new GenericValueModel<bool>(true);
             Location = new Vector2Model();
             RandomizeScale = new GenericValueModel<bool>(true);
@@ -28,7 +27,6 @@ namespace CMiX.Core.Texturing.Filters
         public Guid ID { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
         public PrefabManagerModel BeatModifierManager { get; set; }
-        public GenericValueModel<int> CounterModel { get; set; }
         public GenericValueModel<bool> RandomizeLocation { get; set; }
         public Vector2Model Location { get; set; }
         public GenericValueModel<bool> RandomizeScale { get; set; }
