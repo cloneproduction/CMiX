@@ -3,16 +3,20 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class VideoIn : ObservableRecipient, IControl, IPrefab
+    public class VideoIn : ObservableRecipient, ITextureSource, IPrefab
     {
         public VideoIn(PrefabService prefabService, 
+                       PrefabManager filterManager,
                        GenericValue<int> sizeX, 
                        GenericValue<int> sizeZ)
         {
+            FilterManager = filterManager;
             PrefabService = prefabService;
             SizeX = sizeX;
             SizeY = sizeZ;
@@ -21,5 +25,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<int> SizeX { get; set; }
         public GenericValue<int> SizeY { get; set; }
         public PrefabService PrefabService { get; set; }
+        public Integer2 Resolution { get; set; }
+        public PrefabManager FilterManager { get; set; }
     }
 }

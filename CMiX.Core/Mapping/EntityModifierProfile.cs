@@ -3,6 +3,7 @@
 
 using AutoMapper;
 using CMiX.Core.Colors.Modifiers;
+using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 
@@ -12,20 +13,21 @@ namespace CMiX.Core.Mapping
     {
         public EntityModifierProfile()
         {
-            CreateMap<TransformSRT, TransformSRTModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<Scale, ScaleModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<Rotation, RotationModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<Translate, TranslateModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<RandomXYZ, RandomXYZModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<LinearXYZ, LinearXYZModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<CircularSpread, CircularSpreadModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<TransformSRT, TransformSRTModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Scale, ScaleModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Rotation, RotationModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Translate, TranslateModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomXYZ, RandomXYZModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<LinearXYZ, LinearXYZModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<CircularSpread, CircularSpreadModel>().ReverseMap().ConstructUsingServiceLocator();
 
-            CreateMap<LFO, LFOModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<RandomRotation, RandomRotationModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<RandomScale, RandomScaleModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<RandomHSV, RandomHSVModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<RandomPosition, RandomPositionModel>().ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap<Grid, GridModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<LFO, LFOModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomRotation, RandomRotationModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomScale, RandomScaleModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomHSV, RandomHSVModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomPosition, RandomPositionModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Grid, GridModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Transformation.Modifiers.RandomUV, Transformation.Modifiers.RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<TransformSRT, TransformSRTModel>()

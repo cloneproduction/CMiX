@@ -121,7 +121,8 @@
                                 Height="20"
                                 Margin="2"
                                 Background="Transparent"
-                                Command="{Binding ItemUpCommand}"
+                                Command="{Binding ManagerReorderService.ItemUpCommand}"
+                                CommandParameter="{Binding SelectedItem}"
                                 Style="{StaticResource ButtonRounded}">
                                 <Button.Content>
                                     <Image
@@ -135,7 +136,8 @@
                                 Height="20"
                                 Margin="2"
                                 Background="Transparent"
-                                Command="{Binding ItemDownCommand}"
+                                Command="{Binding ManagerReorderService.ItemDownCommand}"
+                                CommandParameter="{Binding SelectedItem}"
                                 Style="{StaticResource ButtonRounded}">
                                 <Button.Content>
                                     <Image

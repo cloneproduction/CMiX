@@ -2,8 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows;
+using System.Windows.Input;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.Prefabs.Managers
@@ -16,20 +18,54 @@ namespace CMiX.Core.Prefabs.Managers
         public ManagerReorderService(PrefabManager prefabManager)
         {
             PrefabManager = prefabManager;
+
             ID = prefabManager.ManagerData.ID;
-            //ManagerData = prefabManager.ManagerData;
-            //ManagerMessenger = prefabManager.ManagerMessenger;
+
+            ItemUpCommand = new RelayCommand<IControl>(ItemUp);
+            ItemDownCommand = new RelayCommand<IControl>(ItemDown);
         }
-
-        //public ManagerData ManagerData { get; set; }
-        //public ManagerMessenger ManagerMessenger { get; set; }
-        public PrefabManager PrefabManager { get; set; }
-
 
         public Guid ID { get; set; }
 
+        public PrefabManager PrefabManager { get; set; }
+        public ICommand ItemUpCommand { get; set; }
+        public ICommand ItemDownCommand { get; set; }
+
         [ObservableProperty]
         private bool dragHandlerIsPressed = false;
+
+
+        public void ItemUp(IControl control)
+        {
+            var items = PrefabManager.ManagerData.Items;
+
+            if (items.Count == 0)
+                return;
+
+            var index = items.IndexOf(control);
+
+            if(index == 0) 
+                return;
+
+            items.Move(index, index - 1);
+            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, index, index - 1);
+        }
+
+        public void ItemDown(IControl control)
+        {
+            var items = PrefabManager.ManagerData.Items;
+
+            if (items.Count <= 1)
+                return;
+
+            var index = items.IndexOf(control);
+
+            if (index == items.Count - 1)
+                return;
+
+            items.Move(index, index + 1);
+            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, index, index + 1);
+        }
 
 
         public void StartDrag(IDragInfo dragInfo)

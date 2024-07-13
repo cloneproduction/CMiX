@@ -3,6 +3,7 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -17,10 +18,12 @@ namespace CMiX.Core.Texturing.Sources
             To = new GenericValueModel<string>("#FF000000");
             Gamma = new GenericValueModel<float>(2.2f);
             Horizontal = new GenericValueModel<bool>(false);
+            FilterManager = new PrefabManagerModel();
         }
 
         public Guid ID { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
+        public PrefabManagerModel FilterManager { get; set; }
         public Integer2Model Resolution { get; set; }
         public GenericValueModel<float> Gamma { get; set; }
         public GenericValueModel<string> From { get; set; }

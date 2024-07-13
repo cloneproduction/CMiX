@@ -1,0 +1,32 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Modifiers.RandomUV"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="8">
+        <BaseControls:Vector2 Caption="Scale" DataContext="{Binding Scale}" />
+
+        <BaseControls:DragValue
+            Margin="0,8"
+            Caption="Rotation"
+            Value="{Binding Rotation.Value}" />
+
+        <BaseControls:Vector2 Caption="Translate" DataContext="{Binding Location}" />
+
+        <Views:SamplerState Margin="0,8" DataContext="{Binding SamplerState}" />
+
+        <Views:Outliner
+            DataContext="{Binding BeatModifierManager}"
+            ItemsSource="{Binding ControlRepository.BeatModifiers}"
+            TypeParameter="{x:Type Animations:BeatModifierModel}" />
+
+    </StackPanel>
+</UserControl>

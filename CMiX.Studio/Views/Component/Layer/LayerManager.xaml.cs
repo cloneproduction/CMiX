@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Input;
 
 namespace CMiX.Studio.Views
 {
@@ -9,5 +8,6 @@ namespace CMiX.Studio.Views
         {
             InitializeComponent();
         }
+
     }
 }

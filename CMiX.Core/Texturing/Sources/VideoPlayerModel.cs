@@ -3,11 +3,12 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class VideoPlayerModel : IControlModel, IPrefabModel
+    public class VideoPlayerModel : IPrefabModel
     {
         public VideoPlayerModel()
         {
@@ -17,6 +18,7 @@ namespace CMiX.Core.Texturing.Sources
             Play = new GenericValueModel<bool>(true);
             Resolution = new Integer2Model(0, 0);
             Asset = new GenericValueModel<Asset>(null);
+            FilterManager = new PrefabManagerModel();
         }
         public Guid ID { get; set; } = Guid.NewGuid();
 
@@ -26,5 +28,6 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValueModel<bool> Play { get; set; }
         public GenericValueModel<Asset> Asset { get; set; }
         public Integer2Model Resolution { get; internal set; }
+        public PrefabManagerModel FilterManager { get; set; }
     }
 }
