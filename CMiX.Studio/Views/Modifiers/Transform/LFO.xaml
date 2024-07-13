@@ -3,29 +3,22 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="187.111"
-    d:DesignWidth="241.889"
+    d:DesignHeight="311.555"
+    d:DesignWidth="256.556"
     mc:Ignorable="d">
 
     <StackPanel Margin="8">
 
-        <basecontrol:DragValue
-            Caption="From"
-            Position="Top"
-            Value="{Binding From.Value}" />
+        <Modifiers:ModifierModeSelector Margin="0,0, 0, 8" DataContext="{Binding ModifierModeSelector}" />
 
-        <basecontrol:DragValue
-            Margin="0,1,0,0"
-            Caption="To"
-            Position="Bottom"
-            Value="{Binding To.Value}" />
+
 
         <basecontrol:ComboBox
-            Margin="0,8,0,0"
             Caption="Transform"
             ItemsSource="{Binding Source={StaticResource TransformType}}"
             Position="Top"
@@ -37,10 +30,28 @@
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
+        <basecontrol:DragValue
+            Margin="0,8,0,0"
+            Caption="From"
+            Position="Top"
+            Value="{Binding From.Value}" />
+
+        <basecontrol:DragValue
+            Margin="0,1,0,0"
+            Caption="To"
+            Position="Bottom"
+            Value="{Binding To.Value}" />
+        
         <basecontrol:ToggleButton
             Margin="8"
             Caption="PingPong"
             IsChecked="{Binding PingPong.Value}" />
+
+        <basecontrol:DragValue
+            Margin="0,0,0,8"
+            Caption="Randomize Phase"
+            Position="Default"
+            Value="{Binding RandomizePhase.Value}" />
 
         <Views:Outliner
             DataContext="{Binding BeatModifierManager}"

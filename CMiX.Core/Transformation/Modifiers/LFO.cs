@@ -15,6 +15,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public LFO(PrefabManager beatModifierManager,
                    PrefabService prefabService,
                    GenericValue<bool> pingPong,
+                   GenericValue<float> randomizePhase,
                    DirectionXYZ directionXYZ,
                    GenericValue<TransformType> transformType,
                    GenericValue<float> from,
@@ -22,6 +23,7 @@ namespace CMiX.Core.Transformation.Modifiers
                    ModifierModeSelector modifierModeSelector)
         {
             BeatModifierManager = beatModifierManager;
+            RandomizePhase = randomizePhase;
             ModifierModeSelector = modifierModeSelector;
             PrefabService = prefabService;
             PingPong = pingPong;
@@ -34,6 +36,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
+        public GenericValue<float> RandomizePhase { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }

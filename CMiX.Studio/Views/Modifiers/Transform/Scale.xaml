@@ -1,22 +1,25 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.Scale"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="150.627" d:DesignWidth="324.957">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Scale"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="210.627"
+    d:DesignWidth="325.624"
+    mc:Ignorable="d">
 
     <StackPanel Margin="8">
 
-        <BaseControls:DragValue 
-            Margin="0, 0, 0, 8"
-            Caption="Uniform" 
-            Value="{Binding Uniform.Value}"/>
+        <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
-        <BaseControls:VectorXYZ 
-            Caption="Scale"
-            DataContext="{Binding XYZ}"/>
+        <BaseControls:DragValue
+            Margin="0,8"
+            Caption="Uniform"
+            Value="{Binding Uniform.Value}" />
+
+        <BaseControls:VectorXYZ Caption="Scale" DataContext="{Binding XYZ}" />
 
     </StackPanel>
 </UserControl>

@@ -22,6 +22,7 @@ namespace CMiX.Core.Animations
             ChanceToHit = chanceToHit;
             MasterBeat = masterBeat;
             Easing = easing;
+
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);

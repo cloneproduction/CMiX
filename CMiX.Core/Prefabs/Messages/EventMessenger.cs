@@ -4,6 +4,7 @@
 using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Networking.Servers;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -11,13 +12,16 @@ namespace CMiX.Core.Prefabs.Messages
 {
     public class EventMessenger
     {
-        public EventMessenger(IMapper mapper)
+        public EventMessenger(IMapper mapper, ControlRepository controlRepository)
         {
             Mapper = mapper;
+            ControlRepository = controlRepository;
             CanSend = true;
         }
 
         IMapper Mapper { get; }
+        ControlRepository ControlRepository { get; }
+
         private bool CanSend;
 
         public void Receive(Button button, IMessage message)
@@ -34,7 +38,8 @@ namespace CMiX.Core.Prefabs.Messages
 
         internal void SendMessageEvent(Guid iD)
         {
-            WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageOnClick(iD), MessageType.Out);
+            foreach (Server server in ControlRepository.Servers)
+                server.SendMessage(new MessageOnClick(iD));
         }
     }
 }

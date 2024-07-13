@@ -12,10 +12,6 @@ namespace CMiX.Core.BaseControls
 {
     public class Button : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public Button()
-        {
-            
-        }
         public Button(EventMessenger eventMessenger)
         {
             ID = Guid.NewGuid();
