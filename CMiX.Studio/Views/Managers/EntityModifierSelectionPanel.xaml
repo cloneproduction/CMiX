@@ -132,6 +132,15 @@
                 Content="Rotation"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomUVModel}"
+                Content="Random UV"
+                Style="{StaticResource ButtonItemControl}" />
+
         </StackPanel>
 
     </Border>

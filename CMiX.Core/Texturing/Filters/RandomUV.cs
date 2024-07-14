@@ -5,57 +5,35 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : ObservableObject, IPrefab, IBeatModifiable, ITextureModifier
+    public class RandomUV : IPrefab, IBeatModifiable
     {
-        public RandomUV(PrefabManager beatModifierManager,
-                        PrefabService prefabService, 
-                        GenericValue<bool> randomizeLocation,
+        public RandomUV(PrefabService prefabService,
+                        PrefabManager beatModifierManager,
+                        SamplerState samplerState,
                         Vector2 location,
-                        GenericValue<bool> randomizeScale,
                         Vector2 scale,
-                        GenericValue<float> uniform,
-                        GenericValue<bool> randomizeRotation,
                         GenericValue<float> rotation,
-                        SamplerState samplerState)
+                        GenericValue<float> uniform)
         {
-            BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
-            RandomizeLocation = randomizeLocation;
-            Location = location;
-            RandomizeScale = randomizeScale;
-            Scale = scale;
-            Uniform = uniform;
-            RandomizeRotation = randomizeRotation;
-            Rotation = rotation;
+            BeatModifierManager = beatModifierManager;
             SamplerState = samplerState;
+            Location = location;
+            Scale = scale;
+            Rotation = rotation;
+            Uniform = uniform;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
+        public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
-        public GenericValue<bool> RandomizeLocation { get; set; }
+        public PrefabManager BeatModifierManager { get; set; }
         public Vector2 Location { get; set; }
-        public GenericValue<bool> RandomizeScale { get; set; }
         public Vector2 Scale { get; set; }
         public GenericValue<float> Uniform { get; set; }
-        public GenericValue<bool> RandomizeRotation { get; set; }
         public GenericValue<float> Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
-
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        [ObservableProperty]
-        private bool randomizeLocationIsExpanded;
-
-        [ObservableProperty]
-        private bool randomizeScaleIsExpanded;
-
-        [ObservableProperty]
-        private bool randomizeRotationIsExpanded;
     }
 }

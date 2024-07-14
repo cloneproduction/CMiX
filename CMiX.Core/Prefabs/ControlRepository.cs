@@ -27,7 +27,7 @@ namespace CMiX.Core.Prefabs
             Lights = new ObservableCollection<LightEntity>();
             Servers = new ObservableCollection<Server>();
             BeatModifiers = new ObservableCollection<BeatModifier>();
-            BindingOperations.EnableCollectionSynchronization(Controls, this);
+            //BindingOperations.EnableCollectionSynchronization(Controls, this);
         }
 
 

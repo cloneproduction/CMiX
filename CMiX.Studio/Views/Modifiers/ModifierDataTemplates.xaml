@@ -6,6 +6,7 @@
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
     xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light"
+    xmlns:Modifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
     xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views">
@@ -116,6 +117,9 @@
         <Views:Rotation DataContext="{Binding}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type Modifiers:RandomUV}">
+        <Views:RandomUV DataContext="{Binding}" />
+    </DataTemplate>
 
     <!--  CAMERA MODIFIERS  -->
     <DataTemplate DataType="{x:Type CameraModifiers:CameraLFO}">

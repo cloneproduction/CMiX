@@ -12,7 +12,7 @@
 
     <StackPanel Margin="8">
 
-        <Modifiers:ModifierMode3DSelector DataContext="{Binding ModifierModeSelector}" />
+        <BaseControls:Integer3Value Caption="Count" DataContext="{Binding Count}" />
 
         <BaseControls:VectorXYZ
             Margin="0,8"

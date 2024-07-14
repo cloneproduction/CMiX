@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
@@ -27,10 +26,6 @@ namespace CMiX.Core.Compositing
             ID = prefabService.ID;
 
             PrefabService = prefabService;
-            Name = prefabService.Name;
-            IsRenaming = prefabService.IsRenaming;
-            IsSelected = prefabService.IsSelected;
-            Visibility = prefabService.Visibility;
 
             Opacity = layerService.Opacity;
             BackgroundColor = layerService.BackgroundColor;
@@ -50,11 +45,6 @@ namespace CMiX.Core.Compositing
         public Guid ID { get; set; }
 
         public PrefabService PrefabService { get; set; }
-
-        public GenericValue<string> Name { get; set; }
-        public GenericValue<bool> IsRenaming { get; set; }
-        public GenericValue<bool> IsSelected { get; set; }
-        public GenericValue<bool> Visibility { get; set; }
 
         public GenericValue<bool> Invert { get; set; }
         public GenericValue<bool> IsMask { get; set; }

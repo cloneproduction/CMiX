@@ -25,7 +25,7 @@
                 <ToggleButton
                     Margin="4"
                     Padding="4"
-                    IsChecked="{Binding Visibility.Value}">
+                    IsChecked="{Binding PrefabService.Visibility.Value}">
 
                     <ToggleButton.Style>
                         <Style TargetType="{x:Type ToggleButton}">
@@ -90,7 +90,7 @@
                 x:Name="editableTextBox"
                 Height="20"
                 Foreground="{DynamicResource TextBase}"
-                Text="{Binding Path=Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         </DockPanel>
 

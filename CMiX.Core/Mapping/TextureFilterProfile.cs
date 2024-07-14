@@ -3,18 +3,19 @@
 
 using AutoMapper;
 using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Mapping
 {
-    public  class TextureModifierProfile : Profile
+    public  class TextureFilterProfile : Profile
     {
-        public TextureModifierProfile()
+        public TextureFilterProfile()
         {
             CreateMap<HSCB, HSCBModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Edge, EdgeModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<RandomUV, RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Invert, InvertModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LFOUV, LFOUVModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Texturing.Filters.RandomUV, Texturing.Filters.RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Pixelate, PixelateModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Blur, BlurModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Echo, EchoModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -27,9 +28,9 @@ namespace CMiX.Core.Mapping
                 .Include<SetAlpha, SetAlphaModel>()
                 .Include<HSCB, HSCBModel>()
                 .Include<Edge, EdgeModel>()
-                .Include<RandomUV, RandomUVModel>()
                 .Include<Invert, InvertModel>()
                 .Include<LFOUV, LFOUVModel>()
+                .Include<Texturing.Filters.RandomUV, Texturing.Filters.RandomUVModel>()
                 .Include<Pixelate, PixelateModel>()
                 .Include<Blur, BlurModel>()
                 .Include<Echo, EchoModel>()

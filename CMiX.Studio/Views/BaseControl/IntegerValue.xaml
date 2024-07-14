@@ -1,19 +1,22 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.IntegerValue"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
-             mc:Ignorable="d" 
-             x:Name="counter"
-             Background="Transparent"
-             d:DesignHeight="31.222" d:DesignWidth="665.444">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.BaseControl.IntegerValue"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="counter"
+    d:DesignHeight="31.222"
+    d:DesignWidth="665.444"
+    Background="Transparent"
+    mc:Ignorable="d">
 
     <BaseControl:DragValue
-                SmallChange="1.0"
-                LargeChange="1.0"
-                IsInteger="True"
-                Value="{Binding Value, ElementName=counter}"/>
+        Caption="{Binding Caption, ElementName=counter}"
+        IsInteger="True"
+        LargeChange="1.0"
+        SmallChange="1.0"
+        Value="{Binding Value, ElementName=counter}" />
 
     <!--<Border>
         <Border.Style>
@@ -41,27 +44,27 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
 
-            <TextBlock 
-                Text="{Binding Caption, ElementName=counter}" 
-                HorizontalAlignment="Right" 
+            <TextBlock
+                Text="{Binding Caption, ElementName=counter}"
+                HorizontalAlignment="Right"
                 Margin="8, 0"/>
 
 
-            -->
+    -->
     <!--<Border Grid.Column="1">
 
-                <Border x:Name="mainBorder" 
+                <Border x:Name="mainBorder"
                         CornerRadius="2"
                         Background="{DynamicResource DarkColor}">
                     <Grid>
-                        <TextBox x:Name="valueInput" 
+                        <TextBox x:Name="valueInput"
                                 Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                 Style="{StaticResource SliderTextBox}"
                                 Text="{Binding Path=Value, Converter={StaticResource IntToString}, UpdateSourceTrigger=LostFocus, ElementName=counter}"/>
                         <DockPanel>
-                            <Button x:Name="SubButton" 
+                            <Button x:Name="SubButton"
                                     HorizontalAlignment="Left"
-                                    Content="-" 
+                                    Content="-"
                                     Width="{Binding ActualHeight, ElementName=mainBorder}">
                                 <Button.Style>
                                     <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRoundedLeft}">
@@ -75,9 +78,9 @@
                                 </Button.Style>
                             </Button>
 
-                            <Button x:Name="AddButton" 
+                            <Button x:Name="AddButton"
                                 HorizontalAlignment="Right"
-                                Content="+" 
+                                Content="+"
                                 DockPanel.Dock="Right"
                                 Width="{Binding ActualHeight, ElementName=mainBorder}">
                                 <Button.Style>
@@ -92,7 +95,7 @@
                                 </Button.Style>
                             </Button>
 
-                            <Border x:Name="borderValueDisplay" 
+                            <Border x:Name="borderValueDisplay"
                                     Background="Transparent">
                                 <Border.Style>
                                     <Style TargetType="Border">
@@ -105,7 +108,7 @@
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
-                                <Label x:Name="valueDisplay" 
+                                <Label x:Name="valueDisplay"
                                         Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
                                         Padding="0"
                                         HorizontalAlignment="Center"

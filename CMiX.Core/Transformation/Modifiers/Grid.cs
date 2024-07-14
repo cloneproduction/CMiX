@@ -11,19 +11,19 @@ namespace CMiX.Core.Transformation.Modifiers
     public partial class Grid : ObservableObject, IPrefab
     {
         public Grid(PrefabService prefabService,
+                    Integer3 count,
                     Vector3 width,
-                    Vector3 phase,
-                    ModifierMode3DSelector modifierModeSelector)
+                    Vector3 phase)
         {
             PrefabService = prefabService;
+            Count = count;
             Width = width;
             Phase = phase;
-            ModifierModeSelector = modifierModeSelector;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public ModifierMode3DSelector ModifierModeSelector { get; set; }
+        public Integer3 Count { get; set; }
         public Vector3 Width { get; set; }
         public Vector3 Phase { get; set; }
 
