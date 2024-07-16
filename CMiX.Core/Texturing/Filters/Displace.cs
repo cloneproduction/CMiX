@@ -11,7 +11,7 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Displace : ObservableObject, IPrefab, ITextureModifier
     {
         public Displace(PrefabService prefabService, 
-                        PrefabSelector prefabSelector,
+                        PrefabManager textureSelector,
                         Vector2 offset,
                         Vector2 offsetScale, 
                         GenericValue<float> control)
@@ -20,12 +20,12 @@ namespace CMiX.Core.Texturing.Filters
             Control = control;
             Offset = offset;
             OffsetScale = offsetScale;
-            PrefabSelector = prefabSelector;
+            TextureSelector = textureSelector;
             Control = control;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabSelector PrefabSelector { get; set; }
+        public PrefabManager TextureSelector { get; set; }
         public Vector2 Offset { get; set; }
         public Vector2 OffsetScale { get; set; }
         public GenericValue<float> Control { get; set; }

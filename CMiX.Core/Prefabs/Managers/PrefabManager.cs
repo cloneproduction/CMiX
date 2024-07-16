@@ -125,12 +125,6 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedIndex = index;
         }
 
-        private void ManagerData_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-        {
-            ManagerMessenger.SendSelectedItemChanged(ManagerData.ID, SelectedItem, ManagerData.SelectedIndex);
-        }
-
-
 
         public void AddItem(Type type)
         {

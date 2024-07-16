@@ -15,13 +15,13 @@ namespace CMiX.Core.Texturing.Filters
 
             Control = new GenericValueModel<float>(1.0f);
             PrefabService = new PrefabServiceModel();
-            PrefabSelector = new PrefabSelectorModel();
+            TextureSelector = new PrefabManagerModel();
             Offset = new Vector2Model(0.5f, 0.5f);
             OffsetScale = new Vector2Model(0.1f, 0.1f);
         }
 
         public Guid ID { get; set; }
-        public PrefabSelectorModel PrefabSelector { get; set; }
+        public PrefabManagerModel TextureSelector { get; set; }
         public Vector2Model Offset { get; set; }
         public Vector2Model OffsetScale { get; set; }
         public GenericValueModel<float> Control { get; set; }

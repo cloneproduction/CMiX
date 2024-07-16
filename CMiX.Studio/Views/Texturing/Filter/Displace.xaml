@@ -20,9 +20,9 @@
 
         <Controls:ComboBox
             Caption="Displacement Tex"
-            DataContext="{Binding PrefabSelector}"
+            DataContext="{Binding TextureSelector}"
             ItemsSource="{Binding ControlRepository.Textures}"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+            SelectedItem="{Binding SelectedItem}" />
 
         <Controls:CMiXSlider
             Margin="0,8,0,0"
