@@ -13,6 +13,16 @@ namespace CMiX.Core.Prefabs.Messages
 
         }
 
+        public bool Handle(PrefabSelector prefabSelector, IMessage message)
+        {
+            if(message is MessageSelectedItemChanged messageSelectedItemChanged)
+            {
+                prefabSelector.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
+                return true;
+            }
+            return false;
+        }
+
         public bool Handle(PrefabManager prefabManagerBase, IMessage message)
         {
             switch (message)

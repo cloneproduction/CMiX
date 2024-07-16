@@ -18,6 +18,10 @@
     </DataTemplate>
 
     <!--  TEXTURE MODIFIERS  -->
+    <DataTemplate DataType="{x:Type Filters:Displace}">
+        <Views:Displace DataContext="{Binding}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type Filters:HSCB}">
         <Views:HSCB DataContext="{Binding}" />
     </DataTemplate>

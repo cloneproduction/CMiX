@@ -47,6 +47,15 @@
                 Content="TriColor"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Filters:DisplaceModel}"
+                Content="Displace"
+                Style="{StaticResource ButtonItemControl}" />
+
         </StackPanel>
 
         <StackPanel Grid.Column="1">

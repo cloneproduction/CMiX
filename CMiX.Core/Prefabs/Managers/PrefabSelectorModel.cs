@@ -3,9 +3,9 @@
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class PrefabManagerModel : IControlModel
+    public class PrefabSelectorModel : IControlModel
     {
-        public PrefabManagerModel()
+        public PrefabSelectorModel()
         {
             ID = Guid.NewGuid();
             ManagerData = new ManagerDataModel();

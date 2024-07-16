@@ -16,7 +16,9 @@ namespace CMiX.Core.Mapping
                 .ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
+                .Include<ManagerData, ManagerDataModel>()
                 .Include<PrefabManager, PrefabManagerModel>()
+                .Include<PrefabSelector, PrefabSelectorModel>()
                 .ReverseMap()
                 .ConstructUsingServiceLocator();
 
@@ -24,8 +26,12 @@ namespace CMiX.Core.Mapping
                 .ReverseMap()
                 .ConstructUsingServiceLocator();
 
+            CreateMap<PrefabSelector, PrefabSelectorModel>()
+                .ReverseMap()
+                .ConstructUsingServiceLocator();
+
             CreateMap<IControl, IControlModel>()
-                .Include<ManagerData, ManagerDataModel>()
+                .Include<PrefabSelector, PrefabSelectorModel>()
                 .ReverseMap()
                 .ConstructUsingServiceLocator();
         }

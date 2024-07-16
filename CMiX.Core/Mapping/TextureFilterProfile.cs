@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.Texturing.Filters;
-using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Mapping
 {
@@ -23,6 +22,7 @@ namespace CMiX.Core.Mapping
             CreateMap<TransformTexture, TransformTextureModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TriColor, TriColorModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<SetAlpha, SetAlphaModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Displace, DisplaceModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<SetAlpha, SetAlphaModel>()
@@ -37,6 +37,7 @@ namespace CMiX.Core.Mapping
                 .Include<Feedback, FeedbackModel>()
                 .Include<TransformTexture, TransformTextureModel>()
                 .Include<TriColor, TriColorModel>()
+                .Include<Displace, DisplaceModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }
