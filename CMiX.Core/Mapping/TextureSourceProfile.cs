@@ -16,7 +16,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Gradient, GradientModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<VideoIn, VideoInModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TypeWriter, TypeWriterModel>().ReverseMap().ConstructUsingServiceLocator();
-
+            CreateMap<TouchBlob, TouchBlobModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<BubbleNoise, BubbleNoiseModel>()
@@ -25,6 +25,7 @@ namespace CMiX.Core.Mapping
                 .Include<Gradient, GradientModel>()
                 .Include<VideoIn, VideoInModel>()
                 .Include<TypeWriter, TypeWriterModel>()
+                .Include<TouchBlob, TouchBlobModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

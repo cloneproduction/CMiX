@@ -29,4 +29,8 @@
     <DataTemplate DataType="{x:Type Sources:TypeWriter}">
         <Views:TypeWriter DataContext="{Binding}" />
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Sources:TouchBlob}">
+        <Views:TouchBlob DataContext="{Binding}" />
+    </DataTemplate>
 </ResourceDictionary>
