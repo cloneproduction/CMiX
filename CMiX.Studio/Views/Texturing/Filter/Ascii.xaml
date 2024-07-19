@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Ascii"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="240.813"
+    d:DesignWidth="236.721"
+    mc:Ignorable="d">
+
+    <StackPanel Margin="8">
+
+        <Controls:DragValue
+            Caption="Grid Size"
+            Position="Default"
+            Value="{Binding GridSize.Value}" />
+
+        <Controls:Vector2
+            Margin="0,8"
+            Caption="Character Size"
+            DataContext="{Binding CharacterSize}" />
+
+        <Controls:ToggleButton Caption="Grayscale" IsChecked="{Binding Grayscale.Value}" />
+
+        <Controls:CMiXSlider
+            Margin="0,8,0,0"
+            Caption="Control"
+            Maximum="1"
+            Minimum="0"
+            Position="Default"
+            Style="{StaticResource SliderRounded}"
+            Value="{Binding Control.Value}" />
+
+    </StackPanel>
+</UserControl>

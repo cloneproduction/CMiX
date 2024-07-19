@@ -19,6 +19,19 @@
             Position="Middle"
             Value="{Binding Size.Value}" />
 
+        <BaseControls:ColorSelector
+            Caption="Color"
+            Position="Top"
+            SelectedColor="{Binding Path=Color.Value}"
+            ViewModel="{Binding Path=Color}" />
+
+        <BaseControls:ColorSelector
+            Margin="0,1,0,0"
+            Caption="Background"
+            Position="Bottom"
+            SelectedColor="{Binding Background.Value}"
+            ViewModel="{Binding Background}" />
+
         <BaseControls:Integer2Value
             Margin="0,8,0,0"
             Caption="Resolution"

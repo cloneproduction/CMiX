@@ -18,6 +18,18 @@
     </DataTemplate>
 
     <!--  TEXTURE MODIFIERS  -->
+    <DataTemplate DataType="{x:Type Filters:Dither}">
+        <Views:Dither DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Ascii}">
+        <Views:Ascii DataContext="{Binding}" />
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type Filters:Shadow}">
+        <Views:Shadow DataContext="{Binding}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type Filters:Displace}">
         <Views:Displace DataContext="{Binding}" />
     </DataTemplate>

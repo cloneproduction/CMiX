@@ -6,7 +6,7 @@ using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Mapping
 {
-    public  class TextureFilterProfile : Profile
+    public class TextureFilterProfile : Profile
     {
         public TextureFilterProfile()
         {
@@ -23,6 +23,9 @@ namespace CMiX.Core.Mapping
             CreateMap<TriColor, TriColorModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<SetAlpha, SetAlphaModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Displace, DisplaceModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Shadow, ShadowModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Ascii, AsciiModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Dither, DitherModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<SetAlpha, SetAlphaModel>()
@@ -38,6 +41,9 @@ namespace CMiX.Core.Mapping
                 .Include<TransformTexture, TransformTextureModel>()
                 .Include<TriColor, TriColorModel>()
                 .Include<Displace, DisplaceModel>()
+                .Include<Shadow, ShadowModel>()
+                .Include<Ascii, AsciiModel>()
+                .Include<Dither, DitherModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

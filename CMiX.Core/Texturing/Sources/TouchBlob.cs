@@ -20,6 +20,8 @@ namespace CMiX.Core.Texturing.Sources
             Resolution = resolution;
             Size = size;
             FilterManager = filterManager;
+            Color = new GenericValue<string>();
+            Background = new GenericValue<string>();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -27,5 +29,7 @@ namespace CMiX.Core.Texturing.Sources
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Size { get; set; }
         public PrefabManager FilterManager { get; set; }
+        public GenericValue<string> Color { get; set; }
+        public GenericValue<string> Background { get; set; }
     }
 }

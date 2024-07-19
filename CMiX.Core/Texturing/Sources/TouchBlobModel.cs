@@ -14,8 +14,10 @@ namespace CMiX.Core.Texturing.Sources
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             FilterManager = new PrefabManagerModel();
-            Resolution = new Integer2Model(1920, 1080);
+            Resolution = new Integer2Model(1024, 1024);
             Size = new GenericValueModel<float>(0.2f);
+            Color = new GenericValueModel<string>("#FFFFFF");
+            Background = new GenericValueModel<string>("#000000");
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -23,5 +25,7 @@ namespace CMiX.Core.Texturing.Sources
         public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<float> Size { get; set; }
         public PrefabManagerModel FilterManager { get; set; }
+        public GenericValueModel<string> Color { get; set; }
+        public GenericValueModel<string> Background { get; set; }
     }
 }

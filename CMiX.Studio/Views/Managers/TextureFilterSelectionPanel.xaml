@@ -144,6 +144,32 @@
                 Content="SetAlpha"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Filters:ShadowModel}"
+                Content="Shadow"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Filters:AsciiModel}"
+                Content="Ascii"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="120"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Filters:DitherModel}"
+                Content="Dither"
+                Style="{StaticResource ButtonItemControl}" />
         </StackPanel>
     </Grid>
 </UserControl>
