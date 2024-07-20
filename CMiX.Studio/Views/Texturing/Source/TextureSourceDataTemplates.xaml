@@ -6,6 +6,10 @@
 
 
     <!--  TEXTURE SOURCES  -->
+    <DataTemplate DataType="{x:Type Sources:CheckerBoard}">
+        <Views:CheckerBoard DataContext="{Binding}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type Sources:BubbleNoise}">
         <Views:BubbleNoise DataContext="{Binding}" />
     </DataTemplate>

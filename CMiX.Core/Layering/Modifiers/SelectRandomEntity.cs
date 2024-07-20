@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Animations;
+using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -11,14 +12,17 @@ namespace CMiX.Core.Layering.Modifiers
     public class SelectRandomEntity : ObservableObject, IBeatModifiable, IPrefab
     {
         public SelectRandomEntity(PrefabManager beatModifierManager,
-                                  PrefabService prefabService)
+                                  PrefabService prefabService,
+                                  GenericValue<EntityType> entityType)
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
+            EntityType = entityType;
         }
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
+        public GenericValue<EntityType> EntityType { get; set; }
     }
 }

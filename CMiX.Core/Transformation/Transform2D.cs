@@ -7,7 +7,10 @@ namespace CMiX.Core.Transformation
 {
     public class Transform2D : IControl
     {
-        public Transform2D(GenericValue<float> uniformScale, Vector2 translate, Vector2 scale, GenericValue<float> rotate)
+        public Transform2D(GenericValue<float> uniformScale, 
+                           Vector2 translate, 
+                           Vector2 scale, 
+                           GenericValue<float> rotate)
         {
             UniformScale = uniformScale;
             Translate = translate;

@@ -17,6 +17,7 @@ namespace CMiX.Core.Mapping
             CreateMap<VideoIn, VideoInModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TypeWriter, TypeWriterModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TouchBlob, TouchBlobModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<CheckerBoard, CheckerBoardModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<BubbleNoise, BubbleNoiseModel>()
@@ -26,6 +27,7 @@ namespace CMiX.Core.Mapping
                 .Include<VideoIn, VideoInModel>()
                 .Include<TypeWriter, TypeWriterModel>()
                 .Include<TouchBlob, TouchBlobModel>()
+                .Include<CheckerBoard, CheckerBoardModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

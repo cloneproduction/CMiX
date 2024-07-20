@@ -6,6 +6,7 @@
     xmlns:Colors="clr-namespace:CMiX.Core.Colors;assembly=CMiX.Core"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
+    xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
@@ -16,6 +17,15 @@
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
 
+
+    <ObjectDataProvider
+        x:Key="EntityType"
+        MethodName="GetValues"
+        ObjectType="{x:Type Layering:EntityType}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Layering:EntityType" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
 
     <ObjectDataProvider
         x:Key="LightType"

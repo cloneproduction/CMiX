@@ -6,8 +6,8 @@
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="146.498"
-    d:DesignWidth="337.743"
+    d:DesignHeight="193.025"
+    d:DesignWidth="348.952"
     mc:Ignorable="d">
 
     <StackPanel Grid.Column="0">
@@ -30,6 +30,16 @@
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:BubbleNoiseModel}"
             Content="BubbleNoise"
+            Style="{StaticResource ButtonItemControl}" />
+
+        <Button
+            Grid.Column="0"
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Height="22"
+            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Sources:CheckerBoardModel}"
+            Content="CheckerBoard"
             Style="{StaticResource ButtonItemControl}" />
 
         <Button
