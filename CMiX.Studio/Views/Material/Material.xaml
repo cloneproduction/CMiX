@@ -2,6 +2,7 @@
     x:Class="CMiX.Studio.Views.Material"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -42,6 +43,27 @@
             <Views:MaskTexture DataContext="{Binding MaskTexture}" />
         </Panels:IndentedExpander>
 
+        <Panels:IndentedExpander
+            Header="Geometry FX"
+            Indentation="0"
+            IsExpanded="True">
+
+            <StackPanel Margin="8">
+
+                <BaseControls:DragValue
+                    Margin="0,0,0,8"
+                    Caption="Explode Strength"
+                    Value="{Binding ExplodeStrength.Value}" />
+
+                <BaseControls:ComboBox
+                    Caption="Explode Texture"
+                    DataContext="{Binding ExplodeTriangleTextureManager}"
+                    ItemsSource="{Binding ControlRepository.Textures}"
+                    SelectedItem="{Binding SelectedItem}" />
+
+            </StackPanel>
+
+        </Panels:IndentedExpander>
     </StackPanel>
 
 </UserControl>
