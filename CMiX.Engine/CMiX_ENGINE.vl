@@ -19094,29 +19094,6 @@
                 <Pin Id="PSeKVeCorydPDdyPZTgEmZ" Name="ID" Kind="OutputPin" />
               </Node>
               <ControlPoint Id="KN4Jxx4jIllLRmD5fXXVxm" Bounds="283,68" />
-              <Node Bounds="860,400,110,80" Id="Da7Rr8pa5HqO8O1IKSl4hQ">
-                <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
-                  <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
-                  <CategoryReference Kind="Category" Name="Primitive" />
-                  <Choice Kind="ApplicationStatefulRegion" Name="If" />
-                </p:NodeReference>
-                <Pin Id="GO0R3SnHgjWNFPWXQ103Tp" Name="Condition" Kind="InputPin" />
-                <Patch Id="GRVqJjGKGeAN4xY9v8ECXf" ManuallySortedPins="true">
-                  <Patch Id="RNkGfsKkMmgM30LwUh5dM1" Name="Create" ManuallySortedPins="true" />
-                  <Patch Id="VxPAAnnU23vQZbUqKGeeDg" Name="Then" ManuallySortedPins="true" />
-                  <Node Bounds="872,428,86,26" Id="UF5VUjaHf65MHzSvekKfEV">
-                    <p:NodeReference LastCategoryFullName="CMiX.Engine.Layering.SelectRandomEntity" LastDependency="CMiX_ENGINE.vl">
-                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="SelectRandomEntity" />
-                      <Choice Kind="OperationCallFlag" Name="Create" />
-                    </p:NodeReference>
-                    <Pin Id="TioZaUuQVMkNWK6pZSGZlJ" Name="Node Context" Kind="InputPin" IsHidden="true" />
-                    <Pin Id="V1wAYj8Uzf2NxUU0LSkcyu" Name="Modifier" Kind="InputPin" />
-                    <Pin Id="H0IuwaFdaoNPjkW8dTkw3S" Name="CompositionService" Kind="InputPin" />
-                    <Pin Id="Oy3IMYcDntZO46or3Kgugr" Name="Output" Kind="StateOutputPin" />
-                  </Node>
-                </Patch>
-              </Node>
               <Node Bounds="311,416,117,26" Id="BCbTkebxyKoNSAxeONSJCl">
                 <p:NodeReference LastCategoryFullName="CMiX.Core.Compositing.Layer" LastDependency="CMiX.Core.dll">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -25651,7 +25628,7 @@
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
                 <Pin Id="EB2lAWkI6O1Pj59qdNpyF9" Name="Node Context" Kind="InputPin" IsHidden="true" />
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="1430, 124.666664, 746, 1224" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="874.6667, 91.333336, 746, 1270" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
