@@ -83,6 +83,24 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
+
+            <StackPanel>
+                <BaseControls:CMiXSlider
+                    Caption="Glossiness"
+                    Maximum="1"
+                    Minimum="0"
+                    Position="Top"
+                    Value="{Binding Glossiness.Value}" />
+
+                <BaseControls:CMiXSlider
+                    Margin="0,1,0,0"
+                    Caption="Specularity"
+                    Maximum="1"
+                    Minimum="0"
+                    Position="Bottom"
+                    Value="{Binding Specularity.Value}" />
+            </StackPanel>
+
         </Border>
 
     </StackPanel>

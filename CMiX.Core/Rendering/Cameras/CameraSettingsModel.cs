@@ -18,6 +18,9 @@ namespace CMiX.Core.Rendering.Cameras
             NearClip = new GenericValueModel<float>(0.05f);
             FarClip = new GenericValueModel<float>(100f);
             Projection = new GenericValueModel<bool>();
+            IsOrthographic = new GenericValueModel<bool>(false);
+            OrthographicSize = new GenericValueModel<float>(5.0f);
+
         }
         public Guid ID { get; set; }
 
@@ -29,5 +32,7 @@ namespace CMiX.Core.Rendering.Cameras
         public GenericValueModel<float> NearClip { get; set; }
         public GenericValueModel<float> FarClip { get; set; }
         public GenericValueModel<bool> Projection { get; set; }
+        public GenericValueModel<bool> IsOrthographic { get; set; }
+        public GenericValueModel<float> OrthographicSize { get; set; }
     }
 }

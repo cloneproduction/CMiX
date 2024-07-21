@@ -14,7 +14,9 @@ namespace CMiX.Core.Rendering.Cameras
                                 Vector3 target,
                                 GenericValue<float> nearClip,
                                 GenericValue<float> farClip,
-                                GenericValue<bool> projection) 
+                                GenericValue<bool> projection,
+                                GenericValue<bool> isOrthographic,
+                                GenericValue<float> orthographicSize) 
         {
             Distance = distance;
             FOV = fov;
@@ -24,6 +26,8 @@ namespace CMiX.Core.Rendering.Cameras
             NearClip = nearClip;
             FarClip = farClip;
             Projection = projection;
+            IsOrthographic = isOrthographic;
+            OrthographicSize = orthographicSize;
         }
 
         public Guid ID { get; set; }
@@ -35,6 +39,7 @@ namespace CMiX.Core.Rendering.Cameras
         public GenericValue<float> NearClip { get; set; }
         public GenericValue<float> FarClip { get; set; }
         public GenericValue<bool> Projection { get; set; }
-        
+        public GenericValue<bool> IsOrthographic { get; set; }
+        public GenericValue<float> OrthographicSize { get; set; }
     }
 }
