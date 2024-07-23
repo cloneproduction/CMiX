@@ -1,24 +1,26 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.CameraRandom"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:Views="clr-namespace:CMiX.Studio.Views"
-             xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="413.412" d:DesignWidth="271.192">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.CameraRandom"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="413.412"
+    d:DesignWidth="271.192"
+    mc:Ignorable="d">
 
-    <StackPanel Margin="8">
+    <StackPanel>
 
         <BaseControl:ComboBox
             Caption="Axis"
-            SelectedItem="{Binding Axis.Value}"
-            ItemsSource="{Binding Source={StaticResource CameraAxis}}"/>
+            ItemsSource="{Binding Source={StaticResource CameraAxis}}"
+            SelectedItem="{Binding Axis.Value}" />
 
-        <BaseControl:DragValue 
-            Margin="0, 8, 0, 0 "
-            Value="{Binding Width.Value}" 
-            Caption="Width"/>
+        <BaseControl:DragValue
+            Margin="0,8,0,0"
+            Caption="Width"
+            Value="{Binding Width.Value}" />
 
     </StackPanel>
 

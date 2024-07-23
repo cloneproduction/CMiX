@@ -14,14 +14,17 @@
 
     <StackPanel>
 
-        <Modifiers:ModifierModeSelector Margin="8" DataContext="{Binding ModifierModeSelector}" />
+        <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
-        <BaseControls:ToggleButton
-            Margin="0,0,0,8"
-            Caption="Gaussian"
-            IsChecked="{Binding Gaussian.Value}" />
+        <BaseControls:ToggleButton Caption="Gaussian" IsChecked="{Binding Gaussian.Value}" />
 
-        <Expander IsExpanded="{Binding RandomizeLocationIsExpanded}">
+        <Views:Outliner
+            Margin="0,8"
+            DataContext="{Binding BeatModifierManager}"
+            ItemsSource="{Binding ControlRepository.BeatModifiers}"
+            TypeParameter="{x:Type Animations:BeatModifierModel}" />
+
+        <Expander Margin="-8,0" IsExpanded="{Binding RandomizeLocationIsExpanded}">
 
             <Expander.Header>
                 <DockPanel>
@@ -46,7 +49,7 @@
 
         </Expander>
 
-        <Expander IsExpanded="{Binding RandomizeScaleIsExpanded}">
+        <Expander Margin="-8,0" IsExpanded="{Binding RandomizeScaleIsExpanded}">
 
             <Expander.Header>
                 <DockPanel>
@@ -70,7 +73,7 @@
 
         </Expander>
 
-        <Expander IsExpanded="{Binding RandomizeRotationIsExpanded}">
+        <Expander Margin="-8,0,-8,-8" IsExpanded="{Binding RandomizeRotationIsExpanded}">
 
             <Expander.Header>
                 <DockPanel>
@@ -93,12 +96,6 @@
                 IsEnabled="{Binding RandomizeLocation.Value}" />
 
         </Expander>
-
-        <Views:Outliner
-            Margin="8"
-            DataContext="{Binding BeatModifierManager}"
-            ItemsSource="{Binding ControlRepository.BeatModifiers}"
-            TypeParameter="{x:Type Animations:BeatModifierModel}" />
 
     </StackPanel>
 

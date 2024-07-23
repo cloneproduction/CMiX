@@ -5,7 +5,6 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="modifierPanel"
     d:DesignHeight="268.208"
     d:DesignWidth="287.353"
     mc:Ignorable="d">
@@ -13,57 +12,49 @@
     <UserControl.ContentTemplate>
 
         <DataTemplate>
-
             <Expander IsExpanded="{Binding IsExpanded}" Style="{StaticResource ItemControlExpander}">
-
                 <Expander.Header>
-                    <Border>
-                        <DockPanel>
+                    <DockPanel>
 
-                            <Border
-                                Width="22"
-                                HorizontalAlignment="Right"
-                                VerticalAlignment="Center"
-                                DockPanel.Dock="Right">
-
-                                <Button
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
-                                    PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp"
-                                    Style="{StaticResource DragHandlerButton}">
-                                    <Button.Content>
-                                        <Image Opacity="0.25" Source="{DynamicResource DragHandler}" />
-                                    </Button.Content>
-                                </Button>
-                            </Border>
+                        <Border
+                            Width="22"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Center"
+                            DockPanel.Dock="Right">
 
                             <Button
-                                Width="22"
-                                Command="{Binding CloseModifierCommand, ElementName=modifierPanel}"
-                                CommandParameter="{Binding CloseModifierCommandParameter, ElementName=modifierPanel}"
-                                DockPanel.Dock="Right"
-                                Style="{DynamicResource ModifierCloseButtonStyle}" />
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+                                PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp"
+                                Style="{StaticResource DragHandlerButton}">
+                                <Button.Content>
+                                    <Image Opacity="0.25" Source="{DynamicResource DragHandler}" />
+                                </Button.Content>
+                            </Button>
+                        </Border>
 
+                        <Button
+                            Width="22"
+                            Command="{Binding CloseModifierCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            DockPanel.Dock="Right"
+                            Style="{DynamicResource ModifierCloseButtonStyle}" />
 
-                            <Controls:ToggleVisibility
-                                Margin="4,0"
-                                DataContext="{Binding}"
-                                DockPanel.Dock="Right" />
+                        <Controls:ToggleVisibility
+                            Margin="4,0"
+                            DataContext="{Binding}"
+                            DockPanel.Dock="Right" />
 
-                            <TextBlock DockPanel.Dock="Left" Text="{Binding Converter={StaticResource TypeToName}}" />
-                        </DockPanel>
-
-                    </Border>
-
+                        <TextBlock DockPanel.Dock="Left" Text="{Binding Converter={StaticResource TypeToName}}" />
+                    </DockPanel>
                 </Expander.Header>
-
-                <ContentPresenter Content="{TemplateBinding Content}" />
+                <Border Margin="8">
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </Border>
 
             </Expander>
-
         </DataTemplate>
-
     </UserControl.ContentTemplate>
 
 </UserControl>

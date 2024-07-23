@@ -7,12 +7,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class Dither : ObservableObject, ITextureModifier, IPrefab
+    public partial class Dither : ObservableObject, IPrefab
     {
-        public Dither()
-        {
-            
-        }
         public Dither(PrefabService prefabService,
                       GenericValue<float> control,
                       GenericValue<float> threshold)
@@ -26,5 +22,8 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Threshold { get; set; }
         public GenericValue<float> Control { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

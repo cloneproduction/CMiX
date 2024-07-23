@@ -1,26 +1,19 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.CircularSpread"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="448.554"
     d:DesignWidth="308.695"
     mc:Ignorable="d">
 
-    <StackPanel Margin="8">
+    <StackPanel>
 
         <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
-
-        <!--<BaseControls:DragValue
-            Margin="0,8"
-            Caption="Width Uniform"
-            Position="Top"
-            Value="{Binding Phase.Value}" />-->
-
+        
         <BaseControls:Vector2
             Margin="0,8"
             Caption="Width"

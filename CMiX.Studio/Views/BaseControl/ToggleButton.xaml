@@ -1,33 +1,34 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.BaseControl.ToggleButton"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d" 
-             x:Name="toggleButton"
-             d:DesignHeight="47.333" d:DesignWidth="634.667">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.BaseControl.ToggleButton"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="47.333"
+    d:DesignWidth="634.667"
+    mc:Ignorable="d">
 
     <Grid Height="22">
 
         <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-            <ColumnDefinition/>
+            <ColumnDefinition />
+            <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
-        <TextBlock 
-            Grid.Column="0" 
-            Padding="0, 0, 8, 0" 
-            HorizontalAlignment="Right" 
-            Text="{Binding Caption, ElementName=toggleButton}" 
-            Foreground="{StaticResource TextBase}"/>
+        <TextBlock
+            Grid.Column="0"
+            Padding="0,0,8,0"
+            HorizontalAlignment="Right"
+            Foreground="{StaticResource TextBase}"
+            Text="{Binding Caption, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
-        <ToggleButton 
+        <ToggleButton
             Grid.Column="1"
-            HorizontalAlignment="Left" 
-            IsChecked="{Binding IsChecked, ElementName=toggleButton}" 
-            Margin="0, 2, 2, 2"
             Width="22"
-            Style="{StaticResource ToggleCheckBox}"/>
-        
+            Margin="0,2,2,2"
+            HorizontalAlignment="Left"
+            IsChecked="{Binding IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Style="{StaticResource ToggleCheckBox}" />
+
     </Grid>
 </UserControl>

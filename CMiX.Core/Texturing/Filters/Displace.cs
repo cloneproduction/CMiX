@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Displace : ObservableObject, IPrefab, ITextureModifier
+    public partial class Displace : ObservableObject, IPrefab
     {
         public Displace(PrefabService prefabService, 
                         PrefabManager textureSelector,

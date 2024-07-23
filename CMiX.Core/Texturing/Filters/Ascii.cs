@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class Ascii : ObservableObject, ITextureModifier, IPrefab
+    public partial class Ascii : ObservableObject, IPrefab
     {
         public Ascii(PrefabService prefabService,
                      GenericValue<float> control,
@@ -28,5 +28,8 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> GridSize { get; set; }
         public Vector2 CharacterSize { get; set; }
         public GenericValue<bool> Grayscale { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

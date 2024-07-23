@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class Shadow : ObservableObject, ITextureModifier, IPrefab
+    public partial class Shadow : ObservableObject, IPrefab
     {
         public Shadow(PrefabService prefabService, 
                       Vector3 lightDirection, 
@@ -52,5 +52,8 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> ShadowBlur { get; set; }
         public GenericValue<float> ShadowBlurPow { get; set; }
         public GenericValue<float> SharpOffset { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

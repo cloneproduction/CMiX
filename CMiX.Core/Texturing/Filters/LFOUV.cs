@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LFOUV : ObservableObject, IPrefab, ITextureModifier, IBeatModifiable
+    public partial class LFOUV : ObservableObject, IPrefab, IBeatModifiable
     {
         public LFOUV(PrefabManager beatModifierManager,
                      PrefabService prefabService, 

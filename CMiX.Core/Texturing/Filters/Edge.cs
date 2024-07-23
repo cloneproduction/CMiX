@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Edge : ObservableObject, IPrefab, ITextureModifier
+    public partial class Edge : ObservableObject, IPrefab
     {
         public Edge(PrefabService prefabService, 
                     GenericValue<float> radius, 

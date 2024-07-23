@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class SetAlpha : ObservableObject, IPrefab, ITextureModifier
+    public partial class SetAlpha : ObservableObject, IPrefab
     {
         public SetAlpha(PrefabService prefabService,
                         GenericValue<bool> invert,

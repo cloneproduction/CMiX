@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class TriColor : ObservableObject, IPrefab, ITextureModifier
+    public partial class TriColor : ObservableObject, IPrefab
     {
         public TriColor(PrefabService prefabService,
                         GenericValue<float> control, 

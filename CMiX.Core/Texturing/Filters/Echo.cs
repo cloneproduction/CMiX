@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Echo : ObservableObject, IPrefab, ITextureModifier
+    public partial class Echo : ObservableObject, IPrefab
     {
         public Echo(PrefabService prefabService,
                     GenericValue<float> factor)

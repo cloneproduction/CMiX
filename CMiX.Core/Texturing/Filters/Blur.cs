@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Blur : ObservableObject, IPrefab, ITextureModifier
+    public partial class Blur : ObservableObject, IPrefab
     {
         public Blur(PrefabService prefabService, 
                     GenericValue<bool> visible, 

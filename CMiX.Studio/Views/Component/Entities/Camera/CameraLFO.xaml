@@ -11,7 +11,7 @@
     d:DesignWidth="274"
     mc:Ignorable="d">
 
-    <StackPanel Margin="8">
+    <StackPanel>
 
         <BaseControl:ComboBox
             Margin="0,0,0,8"
@@ -39,6 +39,7 @@
             DataContext="{Binding BeatModifierManager}"
             ItemsSource="{Binding ControlRepository.BeatModifiers}"
             TypeParameter="{x:Type Animations:BeatModifierModel}" />
+
     </StackPanel>
 
 </UserControl>

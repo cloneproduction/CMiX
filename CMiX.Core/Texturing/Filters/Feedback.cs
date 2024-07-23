@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Feedback : ObservableObject, IPrefab, ITextureModifier
+    public partial class Feedback : ObservableObject, IPrefab
     {
         public Feedback(PrefabService prefabService,
                         GenericValue<bool> visible, 

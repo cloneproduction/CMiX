@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Invert : ObservableObject, IPrefab, ITextureModifier
+    public partial class Invert : ObservableObject, IPrefab
     {
         public Invert(PrefabService prefabService,
                       GenericValue<float> factor, 

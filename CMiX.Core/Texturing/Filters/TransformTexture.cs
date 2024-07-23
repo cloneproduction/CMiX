@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class TransformTexture : ObservableObject, IPrefab, ITextureModifier
+    public partial class TransformTexture : ObservableObject, IPrefab
     {
         public TransformTexture(PrefabService prefabService, SamplerState samplerState, Transform2D transform2D)
         {

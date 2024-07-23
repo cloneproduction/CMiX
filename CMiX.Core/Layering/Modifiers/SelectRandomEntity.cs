@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    public class SelectRandomEntity : ObservableObject, IBeatModifiable, IPrefab
+    public partial class SelectRandomEntity : ObservableObject, IBeatModifiable, IPrefab
     {
         public SelectRandomEntity(PrefabManager beatModifierManager,
                                   PrefabService prefabService,
@@ -24,5 +24,8 @@ namespace CMiX.Core.Layering.Modifiers
         public PrefabService PrefabService { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
         public GenericValue<EntityType> EntityType { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }
