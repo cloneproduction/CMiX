@@ -9,6 +9,7 @@
     xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
+    xmlns:Mesh="clr-namespace:CMiX.Core.Assets.Mesh;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:TextureFilters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
@@ -16,6 +17,25 @@
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
+
+
+    <ObjectDataProvider
+        x:Key="HorizontalAlignment"
+        MethodName="GetValues"
+        ObjectType="{x:Type Mesh:HorizontalAlignment}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Mesh:HorizontalAlignment" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+
+    <ObjectDataProvider
+        x:Key="ParagraphAlignment"
+        MethodName="GetValues"
+        ObjectType="{x:Type Mesh:ParagraphAlignment}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Mesh:ParagraphAlignment" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
 
 
     <ObjectDataProvider

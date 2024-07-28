@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
 using CMiX.Core.ViewModels.Assets;
 
@@ -28,11 +29,13 @@ namespace CMiX.Core.ViewModels
             Name = new GenericValueModel<string>("Mesh");
             IsRenaming = new GenericValueModel<bool>(false);
             IsSelected = new GenericValueModel<bool>(false);
+            Text3DSettings = new Text3DSettingsModel();
         }
 
         public Guid ID { get; set; }
         public GenericValueModel<MeshType> MeshTypeSelector { get; internal set; }
         public GenericValueModel<Asset> Geometry { get; set; }
+        public Text3DSettingsModel Text3DSettings { get; set; }
         public Vector3Model Scale { get; set; }
         public Vector3Model Offset { get; set; }
         public GenericValueModel<float> Radius { get; set; }

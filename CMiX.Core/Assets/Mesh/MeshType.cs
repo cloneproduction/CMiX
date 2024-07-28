@@ -11,6 +11,7 @@ namespace CMiX.Core.ViewModels
         Torus,
         Cone,
         Cylinder,
-        FromFile
+        FromFile,
+        Text
     }
 }

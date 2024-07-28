@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
+using CMiX.Core.Assets.Mesh;
 using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Mapping
@@ -10,7 +11,8 @@ namespace CMiX.Core.Mapping
     {
         public MeshProfile()
         {
-            CreateMap<Mesh, MeshModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<Mesh, MeshModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Text3DSettings, Text3DSettingsModel>().ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

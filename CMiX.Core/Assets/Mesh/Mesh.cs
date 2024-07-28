@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,7 +20,8 @@ namespace CMiX.Core.ViewModels
                     Integer2 tessellationXY,
                     GenericValue<bool> generateBackFace,
                     GenericValue<bool> visibility,
-                    GenericValue<Asset> geometry)
+                    GenericValue<Asset> geometry,
+                    Text3DSettings text3DSettings)
         {
             MeshTypeSelector = meshTypeSelector;
             Scale = scale;
@@ -32,6 +34,7 @@ namespace CMiX.Core.ViewModels
             GenerateBackFace = generateBackFace;
             Visibility = visibility;
             Geometry = geometry;
+            Text3DSettings = text3DSettings;
         }
 
         [ObservableProperty]
@@ -39,7 +42,7 @@ namespace CMiX.Core.ViewModels
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
-
+        public Text3DSettings Text3DSettings { get; set; }
         public GenericValue<Asset> Geometry { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Offset { get; set; }
