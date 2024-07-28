@@ -4,6 +4,7 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -17,7 +18,7 @@ namespace CMiX.Core.Compositing
             
         }
         public Layer(PrefabService prefabService,
-                     LayerSettings layerService,
+                     LayerSettings layerSettings,
                      LayerMaskService layerMaskService,
                      PrefabManager reorderablePrefabManager,
                      PrefabManager textureModifierManager,
@@ -27,11 +28,11 @@ namespace CMiX.Core.Compositing
 
             PrefabService = prefabService;
 
-            Opacity = layerService.Opacity;
-            BackgroundColor = layerService.BackgroundColor;
-            BlendMode = layerService.BlendMode;
-            AmbientOcclusion = layerService.AmbientOcclusion;
-
+            Opacity = layerSettings.Opacity;
+            BackgroundColor = layerSettings.BackgroundColor;
+            BlendMode = layerSettings.BlendMode;
+            AmbientOcclusion = layerSettings.AmbientOcclusion;
+            LocalReflection = layerSettings.LocalReflection;
             IsMask = layerMaskService.IsMask;
             MaskChannel = layerMaskService.MaskChannel;
             MaskMode = layerMaskService.MaskMode;
@@ -57,6 +58,7 @@ namespace CMiX.Core.Compositing
 
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }
+        public LocalReflection LocalReflection { get; set; }
         public GenericValue<float> Opacity { get; set; }
         public GenericValue<string> BackgroundColor { get; set; }
 

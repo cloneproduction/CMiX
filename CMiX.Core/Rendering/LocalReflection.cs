@@ -1,0 +1,25 @@
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs;
+using CommunityToolkit.Mvvm.ComponentModel;
+
+namespace CMiX.Core.Rendering
+{
+    public partial class LocalReflection : ObservableObject, IControl, IPrefab
+    {
+        public LocalReflection(PrefabService prefabService,
+                               GenericValue<bool> isEnabled)
+        {
+            PrefabService = prefabService;
+            IsEnabled = isEnabled;
+        }
+        public Guid ID { get; set; }
+        public PrefabService PrefabService { get; set; }
+        public GenericValue<bool> IsEnabled { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
+    }
+}

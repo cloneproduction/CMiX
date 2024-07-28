@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class AmbientOcclusion : UserControl
+    public partial class LocalReflection : UserControl
     {
-        public AmbientOcclusion()
+        public LocalReflection()
         {
             InitializeComponent();
         }

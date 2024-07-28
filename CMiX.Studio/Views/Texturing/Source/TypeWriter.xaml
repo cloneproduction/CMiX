@@ -21,7 +21,7 @@
         <BaseControl:ComboBox
             Margin="0,8,0,1"
             Caption="Font Family"
-            ItemsSource="{Binding Source={StaticResource SortedFontsCollection}}"
+            ItemsSource="{x:Static Fonts.SystemFontFamilies}"
             Position="Top"
             SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 

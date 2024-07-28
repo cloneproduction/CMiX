@@ -9,7 +9,6 @@
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
-    xmlns:ViewComponents="clr-namespace:CMiX.Studio.Views.Component"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
@@ -119,7 +118,9 @@
                                 </Views:ModifierManager>
                             </Panels:IndentedExpander>
 
-                            <ViewComponents:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
+                            <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
+
+                            <Views:LocalReflection DataContext="{Binding LocalReflection}" />
                         </StackPanel>
                     </TabItem>
 

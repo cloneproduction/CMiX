@@ -24,7 +24,10 @@ namespace CMiX.Core.Compositing
             IsMask = new GenericValueModel<bool>(false);
             Opacity = new GenericValueModel<float>(1.0f);
             BackgroundColor = new GenericValueModel<string>("#ff111111");
+
             AmbientOcclusion = new AmbientOcclusionModel();
+            LocalReflection = new LocalReflectionModel();
+
             BlendMode = new GenericValueModel<BlendModeEnum>(Texturing.BlendModeEnum.Normal);
             MaskChannel = new GenericValueModel<MaskChannel>(Texturing.MaskChannel.Alpha);
             MaskMode = new GenericValueModel<MaskMode>(Texturing.MaskMode.AllBelow);
@@ -53,6 +56,7 @@ namespace CMiX.Core.Compositing
         public PrefabManagerModel LayerModifierManager { get; set; }
         public GenericValueModel<string> BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
+        public LocalReflectionModel LocalReflection { get; set; }
         public GenericValueModel<BlendModeEnum> BlendMode { get; set; }
   
         public GenericValueModel<MaskChannel> MaskChannel { get; set; }
