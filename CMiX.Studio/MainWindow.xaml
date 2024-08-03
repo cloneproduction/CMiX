@@ -211,25 +211,33 @@
                                     <Views:RepositoryManager
                                         x:Name="EntitiesRepository"
                                         DataContext="{Binding EntityManager}"
-                                        DockPanel.Dock="Top">
-                                        <Views:RepositoryManager.Resources>
-                                            <!--<CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
+                                        DockPanel.Dock="Top"
+                                        ItemsSource="{Binding DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+                                        <!--<Views:RepositoryManager.Resources>
+                                        -->
+                                        <!--<CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
+                                        <!--
                                             <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                            <!--<CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
+                                        -->
+                                        <!--<CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
+                                        <!--
                                         </Views:RepositoryManager.Resources>
                                         <Views:RepositoryManager.ItemsSource>
                                             <CompositeCollection>
-                                                <!--<CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />-->
+                                        -->
+                                        <!--<CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />-->
+                                        <!--
                                                 <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
-                                                <!--<CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />-->
+                                        -->
+                                        <!--<CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />-->
+                                        <!--
                                             </CompositeCollection>
-                                        </Views:RepositoryManager.ItemsSource>
+                                        </Views:RepositoryManager.ItemsSource>-->
                                         <Views:RepositoryManager.SelectionPanel>
-                                            <Views:ButtonOpenSelectionPanel Caption="Add Entity">
-                                                <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                                    <Views:EntitySelectionPanel />
-                                                </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                            </Views:ButtonOpenSelectionPanel>
+                                            <Button
+                                                Command="{Binding AddItemCommand}"
+                                                CommandParameter="{x:Type Compositing:EntityModel}"
+                                                Content="New Entity" />
                                         </Views:RepositoryManager.SelectionPanel>
                                     </Views:RepositoryManager>
 

@@ -8,8 +8,8 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="213.049"
-    d:DesignWidth="290.316"
+    d:DesignHeight="358.875"
+    d:DesignWidth="312.685"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -35,6 +35,10 @@
                     Style="{DynamicResource ButtonRoundedRight}" />
             </Views:Outliner.SelectionPanel>
         </Views:Outliner>
+
+        <Border Visibility="{Binding BeatModifierManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+            <Views:BeatModifier Margin="-8,0,-8,-8" DataContext="{Binding BeatModifierManager.SelectedItem}" />
+        </Border>
 
     </StackPanel>
 
