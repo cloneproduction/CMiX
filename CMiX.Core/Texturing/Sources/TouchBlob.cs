@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class TouchBlob : ObservableObject, ITextureSource, IPrefab
+    public partial class TouchBlob : ObservableObject, ITextureSource, IPrefab
     {
         public TouchBlob(PrefabService prefabService,
                          PrefabManager filterManager,
@@ -31,5 +31,8 @@ namespace CMiX.Core.Texturing.Sources
         public PrefabManager FilterManager { get; set; }
         public GenericValue<string> Color { get; set; }
         public GenericValue<string> Background { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

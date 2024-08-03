@@ -3,35 +3,47 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="240.813"
     d:DesignWidth="236.721"
     mc:Ignorable="d">
 
-    <StackPanel Margin="8">
-
-        <Controls:Vector2 Caption="Offset" DataContext="{Binding Offset}" />
-
-        <Controls:Vector2
-            Margin="0,8"
-            Caption="OffsetScale"
-            DataContext="{Binding OffsetScale}" />
-
-        <Controls:ComboBox
-            Caption="Displacement Tex"
-            DataContext="{Binding TextureSelector}"
-            ItemsSource="{Binding ControlRepository.Textures}"
-            SelectedItem="{Binding SelectedItem}" />
+    <StackPanel>
 
         <Controls:CMiXSlider
-            Margin="0,8,0,0"
+            Margin="0,0,0,8"
             Caption="Control"
             Maximum="1"
             Minimum="0"
             Position="Default"
             Style="{StaticResource SliderRounded}"
             Value="{Binding Control.Value}" />
+
+        <Controls:Vector2 Caption="Offset" DataContext="{Binding Offset}" />
+
+        <Controls:Vector2
+            Margin="0,8,0,0"
+            Caption="OffsetScale"
+            DataContext="{Binding OffsetScale}" />
+
+        <Views:Outliner
+            Margin="0,8"
+            DataContext="{Binding TextureSelector}"
+            ItemsSource="{Binding ControlRepository.Textures}">
+            <Views:Outliner.SelectionPanel>
+                <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
+                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                        <Views:TextureSelectionPanel />
+                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                </Views:ButtonOpenSelectionPanel>
+            </Views:Outliner.SelectionPanel>
+        </Views:Outliner>
+
+        <Border Visibility="{Binding TextureSelector.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+            <Views:Texture Margin="-8,0,0,-8" DataContext="{Binding TextureSelector.SelectedItem}" />
+        </Border>
 
     </StackPanel>
 

@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class CheckerBoard : ObservableObject, ITextureSource, IPrefab
+    public partial class CheckerBoard : ObservableObject, ITextureSource, IPrefab
     {
         public CheckerBoard(PrefabService prefabService,
                             PrefabManager filterManager,
@@ -38,5 +38,8 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<string> ColorA { get; set; }
         public GenericValue<string> ColorB { get; set; }
         public PrefabManager FilterManager { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

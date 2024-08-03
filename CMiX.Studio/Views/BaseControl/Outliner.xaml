@@ -5,51 +5,49 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    x:Name="outliner"
     d:DesignHeight="34.167"
     d:DesignWidth="248"
     mc:Ignorable="d">
 
     <DockPanel Height="22">
 
-        <DockPanel>
+        <ComboBox
+            ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            SelectedItem="{Binding SelectedItem}"
+            Style="{StaticResource ComboBoxWithButton}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding PrefabService.Name.Value}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
 
-            <Button
-                x:Name="deleteItemButton"
-                Width="20"
-                Command="{Binding RemoveSelectedItemCommand}"
-                CommandParameter="{Binding SelectedItem}"
-                Content="-"
-                DockPanel.Dock="Right"
-                Style="{StaticResource ButtonRoundedRight}" />
+        <Grid>
+            <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
 
-            <Button
-                Width="20"
-                Margin="1,0"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{Binding TypeParameter, ElementName=outliner}"
-                Content="+"
-                DockPanel.Dock="Right"
-                Style="{StaticResource ButtonStraight}" />
+            <Border>
+                <DockPanel Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
 
-            <ComboBox
-                ItemsSource="{Binding ItemsSource, ElementName=outliner}"
-                SelectedItem="{Binding SelectedItem}"
-                Style="{StaticResource ComboBoxWithButton}">
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding PrefabService.Name.Value}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
-            </ComboBox>
+                    <Button
+                        x:Name="deleteItemButton"
+                        Width="22"
+                        Margin="1,0,0,0"
+                        Command="{Binding RemoveSelectedItemCommand}"
+                        CommandParameter="{Binding SelectedItem}"
+                        Content="-"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource ButtonRoundedRight}" />
 
-            <Controls:EditableTextBox
-                Background="{DynamicResource HighHighDarkerColor}"
-                SnapsToDevicePixels="True"
-                Text="{Binding SelectedItem.PrefabService.Name.Value}"
-                TextElement.Foreground="{DynamicResource TextBase}" />
+                    <Controls:EditableTextBox
+                        Background="{DynamicResource HighHighDarkerColor}"
+                        SnapsToDevicePixels="True"
+                        Text="{Binding SelectedItem.PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                        TextElement.Foreground="{DynamicResource TextBase}" />
 
-        </DockPanel>
+                </DockPanel>
+            </Border>
+
+        </Grid>
 
     </DockPanel>
 

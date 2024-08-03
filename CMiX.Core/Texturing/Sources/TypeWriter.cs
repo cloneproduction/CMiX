@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class TypeWriter : ObservableObject, ITextureSource, IPrefab
+    public partial class TypeWriter : ObservableObject, ITextureSource, IPrefab
     {
         public TypeWriter(PrefabManager filterManager,
                           PrefabService prefabService,
@@ -46,5 +46,8 @@ namespace CMiX.Core.Texturing.Sources
 
         public PrefabManager FilterManager { get; set; }
         public PrefabService PrefabService { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

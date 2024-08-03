@@ -11,7 +11,15 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    <StackPanel Margin="8">
+    <StackPanel>
+
+        <BaseControl:CMiXSlider
+            Margin="0,0,0,8"
+            Caption="Control"
+            Maximum="1.0"
+            Minimum="0.0"
+            Position="Default"
+            Value="{Binding Control.Value}" />
 
         <BaseControl:ColorSelector
             Caption="Color A"
@@ -52,7 +60,6 @@
             Value="{Binding Smooth.Value}" />
 
         <BaseControl:CMiXSlider
-            Margin="0,0,0,8"
             Caption="Center"
             Maximum="1.0"
             Minimum="0.0"
@@ -60,13 +67,6 @@
             Style="{StaticResource SliderRoundedBottom}"
             Value="{Binding Center.Value}" />
 
-        <BaseControl:CMiXSlider
-            Margin="0,8,0,0"
-            Caption="Control"
-            Maximum="1.0"
-            Minimum="0.0"
-            Position="Default"
-            Value="{Binding Control.Value}" />
 
     </StackPanel>
 </UserControl>

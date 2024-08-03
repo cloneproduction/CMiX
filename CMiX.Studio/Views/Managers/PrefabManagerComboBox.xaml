@@ -34,8 +34,8 @@
                 <Button
                     Grid.Column="2"
                     Margin="1,0,0,0"
-                    Command="{Binding AddItemCommand, ElementName=prefabManagerComboBox}"
-                    CommandParameter="{Binding AddItemCommandParameter, ElementName=prefabManagerComboBox}"
+                    Command="{Binding RemoveSelectedItemCommand}"
+                    CommandParameter="{Binding SelectedItem}"
                     DockPanel.Dock="Right"
                     Style="{StaticResource ButtonStraight}">
                     <Button.Content>

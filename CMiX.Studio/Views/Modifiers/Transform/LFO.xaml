@@ -14,7 +14,7 @@
 
     <StackPanel>
 
-        <Modifiers:ModifierModeSelector Margin="0,0, 0, 8" DataContext="{Binding ModifierModeSelector}" />
+        <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
 
 
@@ -41,7 +41,7 @@
             Caption="To"
             Position="Bottom"
             Value="{Binding To.Value}" />
-        
+
         <basecontrol:ToggleButton
             Margin="8"
             Caption="PingPong"
@@ -53,10 +53,15 @@
             Position="Default"
             Value="{Binding RandomizePhase.Value}" />
 
-        <Views:Outliner
-            DataContext="{Binding BeatModifierManager}"
-            ItemsSource="{Binding ControlRepository.BeatModifiers}"
-            TypeParameter="{x:Type Animations:BeatModifierModel}" />
+        <Views:Outliner DataContext="{Binding BeatModifierManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
+            <Views:Outliner.SelectionPanel>
+                <Button
+                    Command="{Binding AddItemCommand}"
+                    CommandParameter="{x:Type Animations:BeatModifierModel}"
+                    Content="New"
+                    Style="{DynamicResource ButtonRoundedRight}" />
+            </Views:Outliner.SelectionPanel>
+        </Views:Outliner>
 
     </StackPanel>
 

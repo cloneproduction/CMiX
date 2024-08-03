@@ -14,7 +14,7 @@
         <Panels:IndentedExpander
             Header="Settings"
             Indentation="0"
-            IsExpanded="false">
+            IsExpanded="{Binding IsExpanded}">
             <ContentControl
                 Margin="8"
                 Content="{Binding}"

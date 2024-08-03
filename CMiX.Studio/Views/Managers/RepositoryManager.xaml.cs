@@ -1,7 +1,6 @@
 ﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
-using CMiX.Studio.Views.Managers;
 
 namespace CMiX.Studio.Views
 {

@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class VideoPlayer : ObservableObject, ITextureSource, IPrefab
+    public partial class VideoPlayer : ObservableObject, ITextureSource, IPrefab
     {
         public VideoPlayer(PrefabService prefabService,
                            PrefabManager filterManager,
@@ -37,5 +37,8 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<Asset> Asset { get; set; }
         public Integer2 Resolution { get; set; }
         public PrefabManager FilterManager { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class BubbleNoise : ObservableObject, ITextureSource, IPrefab
+    public partial class BubbleNoise : ObservableObject, ITextureSource, IPrefab
     {
         public BubbleNoise(PrefabService prefabService,
                            PrefabManager filterManager,
@@ -40,5 +40,8 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<string> BackgroundColor { get; set; }
         public GenericValue<string> BubbleColor { get; set; }
         public PrefabManager FilterManager { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

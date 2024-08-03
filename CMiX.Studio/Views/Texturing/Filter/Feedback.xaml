@@ -1,18 +1,19 @@
-﻿<UserControl x:Class="CMiX.Studio.Views.Feedback"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-             mc:Ignorable="d" 
-             d:DesignHeight="50.285" d:DesignWidth="279.673">
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Feedback"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="50.285"
+    d:DesignWidth="279.673"
+    mc:Ignorable="d">
 
-    <BaseControls:CMiXSlider 
-        Caption="Factor" 
-        Margin="8"
-        Minimum="0" 
-        Maximum="1" 
-        Value="{Binding Factor.Value}" 
-        Position="Default"/>
+    <BaseControls:CMiXSlider
+        Caption="Factor"
+        Maximum="1"
+        Minimum="0"
+        Position="Default"
+        Value="{Binding Factor.Value}" />
 
 </UserControl>

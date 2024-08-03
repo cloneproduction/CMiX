@@ -19,10 +19,7 @@
             ItemsSource="{Binding Source={StaticResource EntityType}}"
             SelectedItem="{Binding EntityType.Value}" />
 
-        <Views:Outliner
-            DataContext="{Binding BeatModifierManager}"
-            ItemsSource="{Binding ControlRepository.BeatModifiers}"
-            TypeParameter="{x:Type Animations:BeatModifierModel}" />
+        <Views:Outliner DataContext="{Binding BeatModifierManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}" />
     </StackPanel>
 
 

@@ -46,9 +46,20 @@
             Value="{Binding Alpha.Value}" />
 
         <Views:Outliner
+            Margin="0,8,0,0"
             DataContext="{Binding BeatModifierManager}"
-            ItemsSource="{Binding ControlRepository.BeatModifiers}"
-            TypeParameter="{x:Type Animations:BeatModifierModel}" />
+            ItemsSource="{Binding ControlRepository.BeatModifiers}">
+            <Views:Outliner.SelectionPanel>
+                <Button
+                    Command="{Binding AddItemCommand}"
+                    CommandParameter="{x:Type Animations:BeatModifierModel}"
+                    Content="New Beat"
+                    Style="{DynamicResource ButtonRoundedRight}" />
+            </Views:Outliner.SelectionPanel>
+        </Views:Outliner>
 
+        <Border Visibility="{Binding BeatModifierManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+            <Views:BeatModifier Margin="-8,0,-8,-8" DataContext="{Binding BeatModifierManager.SelectedItem}" />
+        </Border>
     </StackPanel>
 </UserControl>

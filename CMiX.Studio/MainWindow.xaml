@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
@@ -14,6 +15,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     Width="400"
     Height="1000"
@@ -134,8 +136,15 @@
                                     VerticalAlignment="Top"
                                     DataContext="{Binding Project.CompositionManager}"
                                     DockPanel.Dock="Top"
-                                    ItemsSource="{Binding ControlRepository.Compositions}"
-                                    TypeParameter="{x:Type Compositing:CompositionModel}" />
+                                    ItemsSource="{Binding ControlRepository.Compositions}">
+                                    <Views:Outliner.SelectionPanel>
+                                        <Button
+                                            Command="{Binding AddItemCommand}"
+                                            CommandParameter="{x:Type Compositing:CompositionModel}"
+                                            Content="New Composition"
+                                            Style="{DynamicResource ButtonRoundedRight}" />
+                                    </Views:Outliner.SelectionPanel>
+                                </Views:Outliner>
 
                                 <Views:Composition DataContext="{Binding Project.CompositionManager.SelectedItem}" Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
 
@@ -193,57 +202,62 @@
                                 Source="{StaticResource Entity}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
-                        <Border Background="{DynamicResource HighDarkerColor}">
-                            <StackPanel>
-                                <Views:RepositoryManager
-                                    x:Name="EntitiesRepository"
-                                    DataContext="{Binding EntityManager}"
-                                    DockPanel.Dock="Top">
-                                    <Views:RepositoryManager.Resources>
-                                        <!--<CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
-                                        <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                        <!--<CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
-                                    </Views:RepositoryManager.Resources>
-                                    <Views:RepositoryManager.ItemsSource>
-                                        <CompositeCollection>
-                                            <!--<CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />-->
-                                            <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
-                                            <!--<CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />-->
-                                        </CompositeCollection>
-                                    </Views:RepositoryManager.ItemsSource>
-                                    <Views:RepositoryManager.SelectionPanel>
-                                        <Views:ButtonOpenSelectionPanel Caption="Add Entity">
-                                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                                <Views:EntitySelectionPanel />
-                                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                        </Views:ButtonOpenSelectionPanel>
-                                    </Views:RepositoryManager.SelectionPanel>
-                                </Views:RepositoryManager>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
+                            <Border Background="{DynamicResource HighDarkerColor}">
+                                <StackPanel>
+                                    <Views:RepositoryManager
+                                        x:Name="EntitiesRepository"
+                                        DataContext="{Binding EntityManager}"
+                                        DockPanel.Dock="Top">
+                                        <Views:RepositoryManager.Resources>
+                                            <!--<CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
+                                            <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                                            <!--<CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />-->
+                                        </Views:RepositoryManager.Resources>
+                                        <Views:RepositoryManager.ItemsSource>
+                                            <CompositeCollection>
+                                                <!--<CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />-->
+                                                <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
+                                                <!--<CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />-->
+                                            </CompositeCollection>
+                                        </Views:RepositoryManager.ItemsSource>
+                                        <Views:RepositoryManager.SelectionPanel>
+                                            <Views:ButtonOpenSelectionPanel Caption="Add Entity">
+                                                <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                                    <Views:EntitySelectionPanel />
+                                                </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                            </Views:ButtonOpenSelectionPanel>
+                                        </Views:RepositoryManager.SelectionPanel>
+                                    </Views:RepositoryManager>
 
-                                <ContentControl Content="{Binding}" DataContext="{Binding EntityManager.SelectedItem}">
-                                    <ContentControl.Resources>
 
-                                        <DataTemplate DataType="{x:Type Compositing:Entity}">
-                                            <Views:ModelEntity DataContext="{Binding}" />
-                                        </DataTemplate>
+                                    <ContentControl Content="{Binding}" DataContext="{Binding EntityManager.SelectedItem}">
+                                        <ContentControl.Resources>
 
-                                        <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
-                                            <Border />
-                                        </DataTemplate>
+                                            <DataTemplate DataType="{x:Type Compositing:Entity}">
+                                                <Views:ModelEntity DataContext="{Binding}" />
+                                            </DataTemplate>
 
-                                        <DataTemplate DataType="{x:Type Cameras:Camera}">
-                                            <Views:Camera DataContext="{Binding}" />
-                                        </DataTemplate>
+                                            <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
+                                                <Border />
+                                            </DataTemplate>
 
-                                        <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                                            <Views:LightEntity DataContext="{Binding}" />
-                                        </DataTemplate>
+                                            <DataTemplate DataType="{x:Type Cameras:Camera}">
+                                                <Views:Camera DataContext="{Binding}" />
+                                            </DataTemplate>
 
-                                    </ContentControl.Resources>
-                                </ContentControl>
-                            </StackPanel>
-                        </Border>
+                                            <DataTemplate DataType="{x:Type Lights:LightEntity}">
+                                                <Views:LightEntity DataContext="{Binding}" />
+                                            </DataTemplate>
 
+                                        </ContentControl.Resources>
+                                    </ContentControl>
+                                </StackPanel>
+                            </Border>
+                        </ScrollViewer>
 
                     </TabItem>
 
@@ -255,20 +269,26 @@
                                 ToolTip="Material" />
                         </TabItem.Header>
 
-                        <Border Background="{DynamicResource HighDarkerColor}">
-                            <Views:RepositoryManager DataContext="{Binding MaterialManager}" ItemsSource="{Binding ControlRepository.Materials}">
-                                <Views:RepositoryManager.SelectionPanel>
-                                    <Button
-                                        Command="{Binding AddItemCommand}"
-                                        CommandParameter="{x:Type Materials:MaterialModel}"
-                                        Content="New Material" />
-                                </Views:RepositoryManager.SelectionPanel>
-                                <Views:RepositoryManager.EditingPanel>
-                                    <Views:Material DataContext="{Binding}" />
-                                </Views:RepositoryManager.EditingPanel>
-                            </Views:RepositoryManager>
-                        </Border>
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
 
+                            <Border Background="{DynamicResource HighDarkerColor}">
+                                <Views:RepositoryManager DataContext="{Binding MaterialManager}" ItemsSource="{Binding ControlRepository.Materials}">
+                                    <Views:RepositoryManager.SelectionPanel>
+                                        <Button
+                                            Command="{Binding AddItemCommand}"
+                                            CommandParameter="{x:Type Materials:MaterialModel}"
+                                            Content="New Material" />
+                                    </Views:RepositoryManager.SelectionPanel>
+                                    <Views:RepositoryManager.EditingPanel>
+                                        <Views:Material DataContext="{Binding}" />
+                                    </Views:RepositoryManager.EditingPanel>
+                                </Views:RepositoryManager>
+                            </Border>
+
+                        </ScrollViewer>
 
                     </TabItem>
 
@@ -281,24 +301,28 @@
                                 ToolTip="Assets" />
                         </TabItem.Header>
 
-                        <Views:RepositoryManager
-                            x:Name="repositoryManager"
-                            Background="{DynamicResource HighDarkerColor}"
-                            DataContext="{Binding TextureManager}"
-                            DockPanel.Dock="Top"
-                            ItemsSource="{Binding ControlRepository.Textures}">
-                            <Views:RepositoryManager.SelectionPanel>
-                                <Views:ButtonOpenSelectionPanel Caption="New Texture">
-                                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                        <Views:TextureSelectionPanel />
-                                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                </Views:ButtonOpenSelectionPanel>
-                            </Views:RepositoryManager.SelectionPanel>
-                            <Views:RepositoryManager.EditingPanel>
-                                <Views:Texture DataContext="{Binding}" />
-                            </Views:RepositoryManager.EditingPanel>
-                        </Views:RepositoryManager>
-
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
+                            <Views:RepositoryManager
+                                x:Name="repositoryManager"
+                                Background="{DynamicResource HighDarkerColor}"
+                                DataContext="{Binding TextureManager}"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding ControlRepository.Textures}">
+                                <Views:RepositoryManager.SelectionPanel>
+                                    <Views:ButtonOpenSelectionPanel Caption="New Texture">
+                                        <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                            <Views:TextureSelectionPanel />
+                                        </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                    </Views:ButtonOpenSelectionPanel>
+                                </Views:RepositoryManager.SelectionPanel>
+                                <Views:RepositoryManager.EditingPanel>
+                                    <Views:Texture DataContext="{Binding}" />
+                                </Views:RepositoryManager.EditingPanel>
+                            </Views:RepositoryManager>
+                        </ScrollViewer>
                     </TabItem>
 
                     <TabItem>
@@ -308,24 +332,27 @@
                                 Source="{StaticResource Camera}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
-
-                        <Border Background="{DynamicResource HighDarkerColor}">
-                            <Views:RepositoryManager
-                                DataContext="{Binding CameraManager}"
-                                DockPanel.Dock="Top"
-                                ItemsSource="{Binding ControlRepository.Cameras}">
-                                <Views:RepositoryManager.SelectionPanel>
-                                    <Button
-                                        Command="{Binding AddItemCommand}"
-                                        CommandParameter="{x:Type Cameras:CameraModel}"
-                                        Content="New Camera" />
-                                </Views:RepositoryManager.SelectionPanel>
-                                <Views:RepositoryManager.EditingPanel>
-                                    <Views:Camera DataContext="{Binding}" />
-                                </Views:RepositoryManager.EditingPanel>
-                            </Views:RepositoryManager>
-                        </Border>
-
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
+                            <Border Background="{DynamicResource HighDarkerColor}">
+                                <Views:RepositoryManager
+                                    DataContext="{Binding CameraManager}"
+                                    DockPanel.Dock="Top"
+                                    ItemsSource="{Binding ControlRepository.Cameras}">
+                                    <Views:RepositoryManager.SelectionPanel>
+                                        <Button
+                                            Command="{Binding AddItemCommand}"
+                                            CommandParameter="{x:Type Cameras:CameraModel}"
+                                            Content="New Camera" />
+                                    </Views:RepositoryManager.SelectionPanel>
+                                    <Views:RepositoryManager.EditingPanel>
+                                        <Views:Camera DataContext="{Binding}" />
+                                    </Views:RepositoryManager.EditingPanel>
+                                </Views:RepositoryManager>
+                            </Border>
+                        </ScrollViewer>
 
                     </TabItem>
 
@@ -336,21 +363,24 @@
                                 Source="{StaticResource MeshLight}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
-
-                        <Border Background="{DynamicResource HighDarkerColor}">
-                            <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
-                                <Views:RepositoryManager.SelectionPanel>
-                                    <Button
-                                        Command="{Binding AddItemCommand}"
-                                        CommandParameter="{x:Type Light:LightEntityModel}"
-                                        Content="New Light" />
-                                </Views:RepositoryManager.SelectionPanel>
-                                <Views:RepositoryManager.EditingPanel>
-                                    <Views:LightEntity DataContext="{Binding}" />
-                                </Views:RepositoryManager.EditingPanel>
-                            </Views:RepositoryManager>
-                        </Border>
-
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
+                            <Border Background="{DynamicResource HighDarkerColor}">
+                                <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
+                                    <Views:RepositoryManager.SelectionPanel>
+                                        <Button
+                                            Command="{Binding AddItemCommand}"
+                                            CommandParameter="{x:Type Light:LightEntityModel}"
+                                            Content="New Light" />
+                                    </Views:RepositoryManager.SelectionPanel>
+                                    <Views:RepositoryManager.EditingPanel>
+                                        <Views:LightEntity DataContext="{Binding}" />
+                                    </Views:RepositoryManager.EditingPanel>
+                                </Views:RepositoryManager>
+                            </Border>
+                        </ScrollViewer>
                     </TabItem>
 
 
@@ -364,21 +394,24 @@
                                 ToolTip="BeatModifiers" />
 
                         </TabItem.Header>
-
-                        <Border Background="{DynamicResource HighDarkerColor}">
-                            <Views:RepositoryManager DataContext="{Binding BeatManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
-                                <Views:RepositoryManager.SelectionPanel>
-                                    <Button
-                                        Command="{Binding AddItemCommand}"
-                                        CommandParameter="{x:Type Animations:BeatModifierModel}"
-                                        Content="New Beat" />
-                                </Views:RepositoryManager.SelectionPanel>
-                                <Views:RepositoryManager.EditingPanel>
-                                    <Views:BeatModifier DataContext="{Binding}" />
-                                </Views:RepositoryManager.EditingPanel>
-                            </Views:RepositoryManager>
-                        </Border>
-
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
+                            <Border Background="{DynamicResource HighDarkerColor}">
+                                <Views:RepositoryManager DataContext="{Binding BeatManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
+                                    <Views:RepositoryManager.SelectionPanel>
+                                        <Button
+                                            Command="{Binding AddItemCommand}"
+                                            CommandParameter="{x:Type Animations:BeatModifierModel}"
+                                            Content="New Beat" />
+                                    </Views:RepositoryManager.SelectionPanel>
+                                    <Views:RepositoryManager.EditingPanel>
+                                        <Views:BeatModifier DataContext="{Binding}" />
+                                    </Views:RepositoryManager.EditingPanel>
+                                </Views:RepositoryManager>
+                            </Border>
+                        </ScrollViewer>
 
                     </TabItem>
 
@@ -389,7 +422,12 @@
                                 Source="{StaticResource Resources}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
-                        <Views:AssetManager DataContext="{Binding AssetManager}" />
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
+                            <Views:AssetManager DataContext="{Binding AssetManager}" />
+                        </ScrollViewer>
                     </TabItem>
 
                     <TabItem Style="{StaticResource TabItemVerticalPanel}">
@@ -401,9 +439,12 @@
                                 ToolTip="Assets" />
                         </TabItem.Header>
 
-
-                        <Views:ServerManagementPanel DataContext="{Binding ServerManager}" />
-
+                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ScrollViewerBehavior />
+                            </i:Interaction.Behaviors>
+                            <Views:ServerManagementPanel DataContext="{Binding ServerManager}" />
+                        </ScrollViewer>
 
                     </TabItem>
 

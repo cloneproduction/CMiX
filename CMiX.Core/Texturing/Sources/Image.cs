@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class Image : ObservableObject, ITextureSource, IPrefab
+    public partial class Image : ObservableObject, ITextureSource, IPrefab
     {
         public Image(PrefabService prefabService, 
                      PrefabManager filterManager,
@@ -29,5 +29,8 @@ namespace CMiX.Core.Texturing.Sources
         public Integer2 Resolution { get; set; }
         public GenericValue<Asset> Asset { get; set; }
         public PrefabManager FilterManager { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

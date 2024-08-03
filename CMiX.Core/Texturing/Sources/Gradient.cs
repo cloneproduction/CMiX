@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class Gradient : ObservableObject, ITextureSource, IPrefab
+    public partial class Gradient : ObservableObject, ITextureSource, IPrefab
     {
         public Gradient(PrefabService prefabService,
                         PrefabManager filterManager,
@@ -36,5 +36,8 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<float> Gamma { get; set; }
         public GenericValue<bool> Horizontal { get; set; }
         public PrefabManager FilterManager { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

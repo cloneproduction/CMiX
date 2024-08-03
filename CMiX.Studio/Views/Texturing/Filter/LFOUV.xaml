@@ -10,7 +10,7 @@
     d:DesignWidth="291.085"
     mc:Ignorable="d">
 
-    <StackPanel Margin="8">
+    <StackPanel>
 
         <basecontrol:DragValue
             Caption="From"
@@ -40,7 +40,7 @@
             YIsChecked="{Binding YAxis.Value}"
             ZIsChecked="{Binding ZAxis.Value}" />
 
-        <Views:SamplerState Margin="0,8" DataContext="{Binding SamplerState}" />
+        <Views:SamplerState Margin="0,8,0,0" DataContext="{Binding SamplerState}" />
     </StackPanel>
 
 </UserControl>
