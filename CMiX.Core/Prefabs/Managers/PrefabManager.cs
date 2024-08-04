@@ -1,6 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.ComponentModel;
+using System.Windows.Data;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
@@ -48,6 +50,27 @@ namespace CMiX.Core.Prefabs.Managers
         public ControlRepository ControlRepository { get; set; }
         public ControlFactory ControlFactory { get; set; }
         public ManagerData ManagerData { get; set; }
+
+
+
+        public ICollectionView FilteredItems
+        {
+            get
+            {
+                var source = CollectionViewSource.GetDefaultView(ManagerData.Items);
+                source.Filter = p => Filter((IControl)p);
+                return source;
+            }
+        }
+
+        private bool Filter(IControl p)
+        {
+            if (p == SelectedItem) {return false;}
+            else { return true;}
+        }
+
+
+
 
 
         private IControl _selectedItem;
