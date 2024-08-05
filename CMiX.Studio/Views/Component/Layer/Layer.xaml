@@ -93,6 +93,10 @@
                                     <DataTemplate DataType="{x:Type Lights:LightEntity}">
                                         <Views:LightEntity DataContext="{Binding}" />
                                     </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type Compositing:TextEntity}">
+                                        <Views:TextEntity DataContext="{Binding}" />
+                                    </DataTemplate>
                                 </ContentControl.Resources>
                             </ContentControl>
                         </StackPanel>

@@ -21,6 +21,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Layer, LayerModel>().ReverseMap();
             CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap(typeof(Camera), typeof(CameraModel)).ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap(typeof(TextEntity), typeof(TextEntityModel)).ReverseMap().ConstructUsingServiceLocator(); ;
 
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(PrefabService), typeof(PrefabServiceModel))
@@ -32,6 +33,7 @@ namespace CMiX.Core.Mapping
                 .Include(typeof(Layer), typeof(LayerModel))
                 .Include(typeof(Entity), typeof(EntityModel))
                 .Include(typeof(Camera), typeof(CameraModel))
+                .Include(typeof(TextEntity), typeof(TextEntityModel))
                 .ReverseMap().ConstructUsingServiceLocator();
             ; ;
         }

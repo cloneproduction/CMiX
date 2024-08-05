@@ -52,27 +52,6 @@ namespace CMiX.Core.Prefabs.Managers
         public ManagerData ManagerData { get; set; }
 
 
-
-        public ICollectionView FilteredItems
-        {
-            get
-            {
-                var source = CollectionViewSource.GetDefaultView(ManagerData.Items);
-                source.Filter = p => Filter((IControl)p);
-                return source;
-            }
-        }
-
-        private bool Filter(IControl p)
-        {
-            if (p == SelectedItem) {return false;}
-            else { return true;}
-        }
-
-
-
-
-
         private IControl _selectedItem;
         public IControl SelectedItem
         {

@@ -80,6 +80,28 @@
             </Button.Content>
         </Button>
 
+        <Button
+            Grid.Row="1"
+            Grid.Column="2"
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Height="22"
+            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Compositing:TextEntityModel}"
+            Style="{StaticResource ButtonItemControl}">
+            <Button.Content>
+                <StackPanel Orientation="Horizontal">
+                    <Image
+                        Width="12"
+                        Height="12"
+                        Margin="0,0,8,0"
+                        Opacity="0.7"
+                        Source="{DynamicResource MeshLight}" />
+                    <TextBlock Text="Text" />
+                </StackPanel>
+            </Button.Content>
+        </Button>
+
     </StackPanel>
 
 </UserControl>

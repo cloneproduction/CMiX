@@ -2,7 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows.Data;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.VisualBasic;
 
 namespace CMiX.Core.Prefabs.Managers
 {
@@ -30,5 +33,7 @@ namespace CMiX.Core.Prefabs.Managers
             get => _selectedIndex;
             set => SetProperty(ref _selectedIndex, value);
         }
+
+
     }
 }
