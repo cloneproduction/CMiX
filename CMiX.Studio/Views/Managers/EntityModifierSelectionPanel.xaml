@@ -11,8 +11,8 @@
     d:DesignWidth="281.37"
     mc:Ignorable="d">
 
-    <Border Margin="4,8">
-        <StackPanel Grid.Column="2">
+    <Border>
+        <StackPanel>
 
             <Button
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"

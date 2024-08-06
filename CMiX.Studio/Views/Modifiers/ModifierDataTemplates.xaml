@@ -7,9 +7,16 @@
     xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
     xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
+    xmlns:Text="clr-namespace:CMiX.Core.Text.Modifiers;assembly=CMiX.Core"
     xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views">
+
+
+    <!--  TEXT MODIFIERS  -->
+    <DataTemplate DataType="{x:Type Text:Split}">
+        <Views:Split DataContext="{Binding}" />
+    </DataTemplate>
 
 
     <!--  LAYER MODIFIERS  -->

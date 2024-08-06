@@ -1,0 +1,22 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.TextModifierSelectionPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Text="clr-namespace:CMiX.Core.Text.Modifiers;assembly=CMiX.Core"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:CMiX.Studio.Views.Managers"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="131.199"
+    d:DesignWidth="159.455"
+    mc:Ignorable="d">
+    <StackPanel>
+        <Button
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Height="22"
+            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Text:SplitModel}"
+            Content="Split"
+            Style="{StaticResource ButtonItemControl}" />
+    </StackPanel>
+</UserControl>

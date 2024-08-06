@@ -71,7 +71,10 @@
             <StackPanel>
                 <Views:ModifierManager DataContext="{Binding ModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
-                        <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
+                        <StackPanel>
+                            <Views:TextModifierSelectionPanel DataContext="{Binding}" />
+                            <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
+                        </StackPanel>
                     </Views:ModifierManager.SelectionPanel>
                 </Views:ModifierManager>
             </StackPanel>

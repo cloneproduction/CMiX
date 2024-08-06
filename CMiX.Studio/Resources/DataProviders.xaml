@@ -12,12 +12,22 @@
     xmlns:Mesh="clr-namespace:CMiX.Core.Assets.Mesh;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:Text="clr-namespace:CMiX.Core.Text.Modifiers;assembly=CMiX.Core"
     xmlns:TextureFilters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
 
+
+    <ObjectDataProvider
+        x:Key="SplitType"
+        MethodName="GetValues"
+        ObjectType="{x:Type Text:SplitType}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Text:SplitType" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
 
     <ObjectDataProvider
         x:Key="HorizontalAlignment"
