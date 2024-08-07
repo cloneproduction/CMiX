@@ -18,6 +18,9 @@
         <Views:Split DataContext="{Binding}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type Text:CharWriter}">
+        <Views:CharWriter DataContext="{Binding}" />
+    </DataTemplate>
 
     <!--  LAYER MODIFIERS  -->
     <DataTemplate DataType="{x:Type Layering:SelectRandomEntity}">

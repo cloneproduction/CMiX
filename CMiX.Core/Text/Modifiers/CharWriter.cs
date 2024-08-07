@@ -1,28 +1,25 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.BaseControls;
+using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Text.Modifiers
 {
-    public partial class Split : ObservableObject, IPrefab
+    public partial class CharWriter : ObservableObject, IPrefab, IBeatModifiable
     {
-        public Split(PrefabService prefabService,
-                     GenericValue<string> separator,
-                     GenericValue<SplitType> type)
+        public CharWriter(PrefabService prefabService,
+                          PrefabManager beatModifierManager)
         {
             PrefabService = prefabService;
-            Separator = separator;
-            Type = type;
+            BeatModifierManager = beatModifierManager;
         }
 
-        public PrefabService PrefabService { get; set; }
         public Guid ID { get; set; }
-
-        public GenericValue<string> Separator { get; set; }
-        public GenericValue<SplitType> Type { get; set; }
+        public PrefabService PrefabService { get; set; }
+        public PrefabManager BeatModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

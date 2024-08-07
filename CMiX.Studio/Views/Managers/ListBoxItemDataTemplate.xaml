@@ -99,12 +99,12 @@
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
         <DockPanel>
-            <!--<Image
+            <Image
                 Width="12"
                 Height="12"
                 Margin="0,0,4,0"
                 Opacity="0.7"
-                Source="{DynamicResource Geometry}" />-->
+                Source="{DynamicResource TextIcon}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
             <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>

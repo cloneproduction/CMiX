@@ -27,6 +27,7 @@ namespace CMiX.Core.Prefabs
             Lights = new ObservableCollection<LightEntity>();
             Servers = new ObservableCollection<Server>();
             BeatModifiers = new ObservableCollection<BeatModifier>();
+            Texts = new ObservableCollection<TextEntity>();
             //BindingOperations.EnableCollectionSynchronization(Controls, this);
         }
 
@@ -104,6 +105,9 @@ namespace CMiX.Core.Prefabs
 
             if (control is BeatModifier beatModifier)
                 BeatModifiers.Add(beatModifier);
+
+            if (control is TextEntity textEntity)
+                Texts.Add(textEntity);
         }
 
 
@@ -141,6 +145,13 @@ namespace CMiX.Core.Prefabs
         {
             get => _entities;
             set => SetProperty(ref _entities, value);
+        }
+
+        private ObservableCollection<TextEntity> _texts;
+        public ObservableCollection<TextEntity> Texts
+        {
+            get => _texts;
+            set => SetProperty(ref _texts, value);
         }
 
         private ObservableCollection<Camera> _cameras;

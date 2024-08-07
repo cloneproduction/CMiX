@@ -18,5 +18,14 @@
             CommandParameter="{x:Type Text:SplitModel}"
             Content="Split"
             Style="{StaticResource ButtonItemControl}" />
+
+        <Button
+            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Height="22"
+            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Text:CharWriterModel}"
+            Content="Char Writer"
+            Style="{StaticResource ButtonItemControl}" />
     </StackPanel>
 </UserControl>

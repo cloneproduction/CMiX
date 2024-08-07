@@ -45,6 +45,7 @@
                                     <CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                     <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                     <CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                                    <CollectionViewSource x:Key="TextsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Texts, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                 </Views:PrefabSlotManager.Resources>
 
                                 <Views:PrefabSlotManager.ItemsSource>
@@ -52,6 +53,7 @@
                                         <CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />
                                         <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
                                         <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
+                                        <CollectionContainer Collection="{Binding Source={StaticResource TextsCollection}}" />
                                     </CompositeCollection>
                                 </Views:PrefabSlotManager.ItemsSource>
 

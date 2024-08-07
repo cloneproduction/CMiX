@@ -11,9 +11,11 @@ namespace CMiX.Core.Mapping
         public TextProfile()
         {
             CreateMap<Split, SplitModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<CharWriter, CharWriterModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(Split), typeof(SplitModel))
+                .Include(typeof(CharWriter), typeof(CharWriterModel))
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }
