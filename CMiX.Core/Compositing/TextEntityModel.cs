@@ -4,6 +4,7 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Text;
 using CMiX.Core.Texturing.Sources;
 
 namespace CMiX.Core.Compositing
@@ -24,6 +25,8 @@ namespace CMiX.Core.Compositing
             LineHeight = new GenericValueModel<float>(1.50f);
             Width = new GenericValueModel<float>(9.0f);
             Billboard = new GenericValueModel<bool>(false);
+            HorizontalAlignment = new GenericValueModel<HorizontalAlignment>(Core.Text.HorizontalAlignment.Left);
+            Anchor = new GenericValueModel<Anchor>(Core.Text.Anchor.Center);
         }
 
         public Guid ID { get; set; }
@@ -37,5 +40,7 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<float> LineHeight { get; set; }
         public GenericValueModel<float> Width { get; set; }
         public GenericValueModel<bool> Billboard { get; set; }
+        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; }
+        public GenericValueModel<Anchor> Anchor { get; set; }
     }
 }

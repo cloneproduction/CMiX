@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Text.Modifiers
 {
@@ -11,10 +12,12 @@ namespace CMiX.Core.Text.Modifiers
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
+            BeatModifierManager = new PrefabManagerModel();
         }
 
-        public PrefabServiceModel PrefabService { get; set; }
         public Guid ID { get; set; }
+        public PrefabServiceModel PrefabService { get; set; }
+        public PrefabManagerModel BeatModifierManager { get; set; }
 
 
     }

@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Text;
 using CMiX.Core.Texturing.Sources;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -21,7 +22,9 @@ namespace CMiX.Core.Compositing
                           GenericValue<string> fontFamily,
                           GenericValue<float> lineHeight,
                           GenericValue<float> width,
-                          GenericValue<bool> billboard)
+                          GenericValue<bool> billboard,
+                          GenericValue<HorizontalAlignment> horizontalAlignment,
+                          GenericValue<Anchor> anchor)
         {
             PrefabService = prefabService;
             ModifierManager = prefabManager;
@@ -33,6 +36,8 @@ namespace CMiX.Core.Compositing
             LineHeight = lineHeight;
             Width = width;
             Billboard = billboard;
+            HorizontalAlignment = horizontalAlignment;
+            Anchor = anchor;
         }
 
         public Guid ID { get; set; }
@@ -46,8 +51,8 @@ namespace CMiX.Core.Compositing
         public GenericValue<float> LineHeight { get; set; }
         public GenericValue<float> Width { get; set; }
         public GenericValue<bool> Billboard { get; set; }
-        //public GenericValue<float> HorizontalAlignment { get; set; }
-        //public GenericValue<float> Anchor { get; set; }
+        public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
+        public GenericValue<Anchor> Anchor { get; set; }
 
         [ObservableProperty]
         private bool modifierManagerIsExpanded = true;

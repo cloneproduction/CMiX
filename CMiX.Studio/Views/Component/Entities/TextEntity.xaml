@@ -44,21 +44,36 @@
                     ItemsSource="{x:Static Fonts.SystemFontFamilies}"
                     Position="Top"
                     SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
-
+                
                 <BaseControls:ComboBox
                     Caption="Style"
                     ItemsSource="{Binding Source={StaticResource FontStyle}}"
                     Position="Bottom"
                     SelectedItem="{Binding Style.Value}" />
+                
+                <BaseControls:ComboBox
+                    Margin="0,8,0,0"
+                    Caption="Horizontal Alignment"
+                    ItemsSource="{Binding Source={StaticResource TextHorizontalAlignment}}"
+                    Position="Top"
+                    SelectedItem="{Binding HorizontalAlignment.Value}" />
+
+                <BaseControls:ComboBox
+                    Margin="0,1,0,0"
+                    Caption="Anchor"
+                    ItemsSource="{Binding Source={StaticResource Anchor}}"
+                    Position="Bottom"
+                    SelectedItem="{Binding Anchor.Value}" />
+
+
 
                 <BaseControls:DragValue
-                    Margin="0,8,0,0"
+                    Margin="0, 8"
                     Caption="Width"
                     Position="Default"
                     Value="{Binding Width.Value}" />
 
                 <BaseControls:ToggleButton
-                    Margin="0,8,0,0"
                     Caption="Billboard"
                     IsChecked="{Binding Billboard.Value}" />
 

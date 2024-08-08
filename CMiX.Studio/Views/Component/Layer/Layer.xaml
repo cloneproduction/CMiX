@@ -7,6 +7,7 @@
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
@@ -28,6 +29,33 @@
                 Background="{DynamicResource HighHighDarkerColor}"
                 Style="{StaticResource TabControlVerticalPanel}"
                 TabStripPlacement="Left">
+
+                <TabItem>
+                    <TabItem.Header>
+                        <Image Margin="8" Source="{StaticResource PostFX}" />
+                    </TabItem.Header>
+                    <StackPanel>
+                        <Panels:IndentedExpander Header="Texture Filters">
+                            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
+                                <Views:ModifierManager.SelectionPanel>
+                                    <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
+                                </Views:ModifierManager.SelectionPanel>
+                            </Views:ModifierManager>
+                        </Panels:IndentedExpander>
+
+                        <Panels:IndentedExpander Header="Modifiers">
+                            <Views:ModifierManager DataContext="{Binding LayerModifierManager}">
+                                <Views:ModifierManager.SelectionPanel>
+                                    <Views:LayerModifierSelectionPanel DataContext="{Binding}" />
+                                </Views:ModifierManager.SelectionPanel>
+                            </Views:ModifierManager>
+                        </Panels:IndentedExpander>
+
+                        <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
+
+                        <Views:LocalReflection DataContext="{Binding LocalReflection}" />
+                    </StackPanel>
+                </TabItem>
 
                 <TabItem IsSelected="True">
                     <TabItem.Header>
@@ -106,33 +134,73 @@
                 </TabItem>
 
                 <TabItem>
+                    <TabItem.Style>
+                        <Style BasedOn="{StaticResource TabItemVerticalPanel}" TargetType="{x:Type TabItem}">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ModelEntityManager.SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Compositing:Entity}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabItem.Style>
                     <TabItem.Header>
-                        <Image Margin="8" Source="{StaticResource PostFX}" />
+                        <Image Margin="8" Source="{StaticResource World}" />
                     </TabItem.Header>
+
                     <StackPanel>
-                        <Panels:IndentedExpander Header="Texture Filters">
-                            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
-                                <Views:ModifierManager.SelectionPanel>
-                                    <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
-                                </Views:ModifierManager.SelectionPanel>
-                            </Views:ModifierManager>
-                        </Panels:IndentedExpander>
+                        <Views:Outliner
+                            Margin="8"
+                            DataContext="{Binding ModelEntityManager.SelectedItem.MaterialManager}"
+                            ItemsSource="{Binding ControlRepository.Materials}">
+                            <Views:Outliner.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Materials:MaterialModel}"
+                                    Content="New"
+                                    Style="{DynamicResource ButtonRoundedRight}" />
+                            </Views:Outliner.SelectionPanel>
+                        </Views:Outliner>
 
-                        <Panels:IndentedExpander Header="Modifiers">
-                            <Views:ModifierManager DataContext="{Binding LayerModifierManager}">
-                                <Views:ModifierManager.SelectionPanel>
-                                    <Views:LayerModifierSelectionPanel DataContext="{Binding}" />
-                                </Views:ModifierManager.SelectionPanel>
-                            </Views:ModifierManager>
-                        </Panels:IndentedExpander>
+                        <Border Visibility="{Binding ModelEntityManager.SelectedItem.MaterialManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                            <Views:Material DataContext="{Binding ModelEntityManager.SelectedItem.MaterialManager.SelectedItem}" />
+                        </Border>
 
-                        <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
-
-                        <Views:LocalReflection DataContext="{Binding LocalReflection}" />
                     </StackPanel>
+
                 </TabItem>
 
+                <TabItem>
+                    <TabItem.Style>
+                        <Style BasedOn="{StaticResource TabItemVerticalPanel}" TargetType="{x:Type TabItem}">
+                            <Setter Property="Visibility" Value="Hidden" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding ModelEntityManager.SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Compositing:Entity}">
+                                    <Setter Property="Visibility" Value="Visible" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TabItem.Style>
+                    <TabItem.Header>
+                        <Image Margin="8" Source="{StaticResource Settings}" />
+                    </TabItem.Header>
+
+                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        <i:Interaction.Behaviors>
+                            <Behaviors:ScrollViewerBehavior />
+                        </i:Interaction.Behaviors>
+                        <Border Background="{DynamicResource HighHighDarkerColor}">
+                            <Views:ModifierManager DataContext="{Binding ModelEntityManager.SelectedItem.ModifierManager}">
+                                <Views:ModifierManager.SelectionPanel>
+                                    <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
+                                </Views:ModifierManager.SelectionPanel>
+                            </Views:ModifierManager>
+                        </Border>
+                    </ScrollViewer>
+
+                </TabItem>
             </TabControl>
+
         </DockPanel>
     </Border>
 
