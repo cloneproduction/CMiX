@@ -13,6 +13,14 @@
 
     <Border>
         <StackPanel>
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Transformation:BillboardModel}"
+                Content="Billboard"
+                Style="{StaticResource ButtonItemControl}" />
 
             <Button
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"

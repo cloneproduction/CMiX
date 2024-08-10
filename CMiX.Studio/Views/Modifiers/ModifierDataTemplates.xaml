@@ -94,6 +94,12 @@
 
 
     <!--  ENTITY MODIFIERS  -->
+
+    <DataTemplate DataType="{x:Type Transformation:Billboard}">
+        <Views:Billboard DataContext="{Binding}" />
+    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type TransformModifiers:CircularSpread}">
         <Views:CircularSpread DataContext="{Binding}" />
     </DataTemplate>

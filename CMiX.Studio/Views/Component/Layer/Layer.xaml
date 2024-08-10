@@ -30,32 +30,7 @@
                 Style="{StaticResource TabControlVerticalPanel}"
                 TabStripPlacement="Left">
 
-                <TabItem>
-                    <TabItem.Header>
-                        <Image Margin="8" Source="{StaticResource PostFX}" />
-                    </TabItem.Header>
-                    <StackPanel>
-                        <Panels:IndentedExpander Header="Texture Filters">
-                            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
-                                <Views:ModifierManager.SelectionPanel>
-                                    <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
-                                </Views:ModifierManager.SelectionPanel>
-                            </Views:ModifierManager>
-                        </Panels:IndentedExpander>
 
-                        <Panels:IndentedExpander Header="Modifiers">
-                            <Views:ModifierManager DataContext="{Binding LayerModifierManager}">
-                                <Views:ModifierManager.SelectionPanel>
-                                    <Views:LayerModifierSelectionPanel DataContext="{Binding}" />
-                                </Views:ModifierManager.SelectionPanel>
-                            </Views:ModifierManager>
-                        </Panels:IndentedExpander>
-
-                        <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
-
-                        <Views:LocalReflection DataContext="{Binding LocalReflection}" />
-                    </StackPanel>
-                </TabItem>
 
                 <TabItem IsSelected="True">
                     <TabItem.Header>
@@ -133,7 +108,7 @@
                     </ScrollViewer>
                 </TabItem>
 
-                <TabItem>
+                <!--<TabItem>
                     <TabItem.Style>
                         <Style BasedOn="{StaticResource TabItemVerticalPanel}" TargetType="{x:Type TabItem}">
                             <Setter Property="Visibility" Value="Hidden" />
@@ -198,6 +173,33 @@
                         </Border>
                     </ScrollViewer>
 
+                </TabItem>-->
+
+                <TabItem>
+                    <TabItem.Header>
+                        <Image Margin="8" Source="{StaticResource PostFX}" />
+                    </TabItem.Header>
+                    <StackPanel>
+                        <Panels:IndentedExpander Header="Texture Filters">
+                            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
+                                <Views:ModifierManager.SelectionPanel>
+                                    <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
+                                </Views:ModifierManager.SelectionPanel>
+                            </Views:ModifierManager>
+                        </Panels:IndentedExpander>
+
+                        <Panels:IndentedExpander Header="Modifiers">
+                            <Views:ModifierManager DataContext="{Binding LayerModifierManager}">
+                                <Views:ModifierManager.SelectionPanel>
+                                    <Views:LayerModifierSelectionPanel DataContext="{Binding}" />
+                                </Views:ModifierManager.SelectionPanel>
+                            </Views:ModifierManager>
+                        </Panels:IndentedExpander>
+
+                        <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
+
+                        <Views:LocalReflection DataContext="{Binding LocalReflection}" />
+                    </StackPanel>
                 </TabItem>
             </TabControl>
 

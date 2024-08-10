@@ -15,7 +15,6 @@ namespace CMiX.Core.Compositing
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
-
             ModifierManager = new PrefabManagerModel();
             Text = new GenericValueModel<string>("CMiX");
             Size = new GenericValueModel<float>(0.8f);
@@ -24,7 +23,6 @@ namespace CMiX.Core.Compositing
             FontFamily = new GenericValueModel<string>("Arial");
             LineHeight = new GenericValueModel<float>(1.50f);
             Width = new GenericValueModel<float>(9.0f);
-            Billboard = new GenericValueModel<bool>(false);
             HorizontalAlignment = new GenericValueModel<HorizontalAlignment>(Core.Text.HorizontalAlignment.Left);
             Anchor = new GenericValueModel<Anchor>(Core.Text.Anchor.Center);
         }
@@ -39,7 +37,6 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<string> FontFamily { get; set; }
         public GenericValueModel<float> LineHeight { get; set; }
         public GenericValueModel<float> Width { get; set; }
-        public GenericValueModel<bool> Billboard { get; set; }
         public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValueModel<Anchor> Anchor { get; set; }
     }

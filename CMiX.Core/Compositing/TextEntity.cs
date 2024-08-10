@@ -22,7 +22,6 @@ namespace CMiX.Core.Compositing
                           GenericValue<string> fontFamily,
                           GenericValue<float> lineHeight,
                           GenericValue<float> width,
-                          GenericValue<bool> billboard,
                           GenericValue<HorizontalAlignment> horizontalAlignment,
                           GenericValue<Anchor> anchor)
         {
@@ -35,7 +34,6 @@ namespace CMiX.Core.Compositing
             FontFamily = fontFamily;
             LineHeight = lineHeight;
             Width = width;
-            Billboard = billboard;
             HorizontalAlignment = horizontalAlignment;
             Anchor = anchor;
         }
@@ -50,11 +48,13 @@ namespace CMiX.Core.Compositing
         public GenericValue<string> FontFamily { get; set; }
         public GenericValue<float> LineHeight { get; set; }
         public GenericValue<float> Width { get; set; }
-        public GenericValue<bool> Billboard { get; set; }
         public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValue<Anchor> Anchor { get; set; }
 
         [ObservableProperty]
         private bool modifierManagerIsExpanded = true;
+
+        [ObservableProperty]
+        private bool settingsIsExpanded = true;
     }
 }

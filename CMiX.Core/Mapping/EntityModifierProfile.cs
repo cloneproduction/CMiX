@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.Colors.Modifiers;
-using CMiX.Core.Texturing.Filters;
 using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 
@@ -18,7 +17,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Rotation, RotationModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Translate, TranslateModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<RandomXYZ, RandomXYZModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<Transformation.Modifiers.RandomUV, Transformation.Modifiers.RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomUV, RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LinearXYZ, LinearXYZModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<CircularSpread, CircularSpreadModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LFO, LFOModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -27,6 +26,7 @@ namespace CMiX.Core.Mapping
             CreateMap<RandomHSV, RandomHSVModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<RandomPosition, RandomPositionModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Grid, GridModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Billboard, BillboardModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<TransformSRT, TransformSRTModel>()
@@ -34,7 +34,7 @@ namespace CMiX.Core.Mapping
                 .Include<Scale, ScaleModel>()
                 .Include<Translate, TranslateModel>()
                 .Include<RandomXYZ, RandomXYZModel>()
-                .Include<Transformation.Modifiers.RandomUV, Transformation.Modifiers.RandomUVModel>()
+                .Include<RandomUV, RandomUVModel>()
                 .Include<LinearXYZ, LinearXYZModel>()
                 .Include<CircularSpread, CircularSpreadModel>()
                 .Include<LFO, LFOModel>()
@@ -43,6 +43,7 @@ namespace CMiX.Core.Mapping
                 .Include<RandomHSV, RandomHSVModel>()
                 .Include<RandomPosition, RandomPositionModel>()
                 .Include<Grid, GridModel>()
+                .Include<Billboard, BillboardModel>()
                 .ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }

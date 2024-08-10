@@ -66,7 +66,9 @@
                         CloseModifierCommand="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CloseModifierCommandParameter="{Binding}"
                         Content="{Binding}"
-                        DragHandlerIsPressed="{Binding DataContext.ManagerReorderService.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}" />
+                        DragHandlerIsPressed="{Binding DataContext.ManagerReorderService.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        ResetModifierCommand="{Binding DataContext.ResetItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
+                        ResetModifierCommandParameter="{Binding}" />
                 </DataTemplate>
 
             </ItemsControl.ItemTemplate>

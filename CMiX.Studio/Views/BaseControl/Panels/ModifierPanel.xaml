@@ -7,7 +7,17 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="268.208"
     d:DesignWidth="287.353"
+    ContextMenu="{DynamicResource connectionButtonContext}"
     mc:Ignorable="d">
+
+    <UserControl.Resources>
+        <ContextMenu x:Key="connectionButtonContext" StaysOpen="true">
+            <MenuItem
+                Command="{Binding ResetModifierCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Header="Reset" />
+        </ContextMenu>
+    </UserControl.Resources>
 
     <UserControl.ContentTemplate>
 

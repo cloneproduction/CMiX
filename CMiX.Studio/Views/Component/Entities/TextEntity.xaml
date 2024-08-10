@@ -14,10 +14,10 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <Panels:IndentedExpander Header="Settings" IsExpanded="True">
+        <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
             <StackPanel Margin="8">
                 <TextBox
-                    Height="44"
+                    Height="88"
                     Style="{StaticResource TypeWriterStyle}"
                     Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -44,13 +44,13 @@
                     ItemsSource="{x:Static Fonts.SystemFontFamilies}"
                     Position="Top"
                     SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
-                
+
                 <BaseControls:ComboBox
                     Caption="Style"
                     ItemsSource="{Binding Source={StaticResource FontStyle}}"
                     Position="Bottom"
                     SelectedItem="{Binding Style.Value}" />
-                
+
                 <BaseControls:ComboBox
                     Margin="0,8,0,0"
                     Caption="Horizontal Alignment"
@@ -65,17 +65,11 @@
                     Position="Bottom"
                     SelectedItem="{Binding Anchor.Value}" />
 
-
-
                 <BaseControls:DragValue
-                    Margin="0, 8"
+                    Margin="0,8"
                     Caption="Width"
                     Position="Default"
                     Value="{Binding Width.Value}" />
-
-                <BaseControls:ToggleButton
-                    Caption="Billboard"
-                    IsChecked="{Binding Billboard.Value}" />
 
             </StackPanel>
         </Panels:IndentedExpander>
@@ -96,7 +90,5 @@
 
         </Panels:IndentedExpander>
     </StackPanel>
-
-
 
 </UserControl>

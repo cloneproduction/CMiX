@@ -15,6 +15,23 @@ namespace CMiX.Studio.Views.BaseControl.Panels
             InitializeComponent();
         }
 
+        public static readonly DependencyProperty ResetModifierCommandProperty =
+        DependencyProperty.Register("ResetModifierCommand", typeof(ICommand), typeof(ModifierPanel), new FrameworkPropertyMetadata());
+        public ICommand ResetModifierCommand
+        {
+            get { return (ICommand)GetValue(ResetModifierCommandProperty); }
+            set { SetValue(ResetModifierCommandProperty, value); }
+        }
+
+        public static readonly DependencyProperty ResetModifierCommandParameterProperty =
+        DependencyProperty.Register("ResetModifierCommandParameter", typeof(ICommand), typeof(ModifierPanel), new FrameworkPropertyMetadata());
+        public ICommand ResetModifierCommandParameter
+        {
+            get { return (ICommand)GetValue(ResetModifierCommandParameterProperty); }
+            set { SetValue(ResetModifierCommandParameterProperty, value); }
+        }
+
+
         public static readonly DependencyProperty CloseModifierCommandProperty =
         DependencyProperty.Register("CloseModifierCommand", typeof(ICommand), typeof(ModifierPanel), new FrameworkPropertyMetadata());
         public ICommand CloseModifierCommand

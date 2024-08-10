@@ -8,9 +8,18 @@
     Height="22"
     d:DesignHeight="31.15"
     d:DesignWidth="320.797"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+>
 
-    <Grid>
+    <UserControl.Resources>
+        <ContextMenu x:Key="connectionButtonContext" StaysOpen="true">
+            <MenuItem Header="Add" />
+            <MenuItem Header="Delete" />
+            <MenuItem Header="Edit" />
+        </ContextMenu>
+    </UserControl.Resources>
+
+    <Grid ContextMenu="{DynamicResource connectionButtonContext}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />

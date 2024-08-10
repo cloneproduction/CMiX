@@ -37,6 +37,13 @@ namespace CMiX.Core.BaseControls
             }
         }
 
+        private T _originalValue;
+        public T OriginalValue
+        {
+            get => _originalValue;
+            set => SetProperty(ref _originalValue, value);
+        }
+
         public void Receive(IMessage message)
         {
             ControlMessenger.Receive(this, message);

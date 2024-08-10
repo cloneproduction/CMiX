@@ -30,7 +30,7 @@
 
         </Panels:IndentedExpander>
 
-        <!--<Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialManagerIsExpanded}">
+        <Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialManagerIsExpanded}">
             <StackPanel>
                 <Views:Outliner
                     Margin="8"
@@ -50,7 +50,7 @@
                 </Border>
 
             </StackPanel>
-        </Panels:IndentedExpander>-->
+        </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Mesh" IsExpanded="{Binding MeshIsExpanded}">
             <Component:Mesh Margin="8" DataContext="{Binding Mesh}" />

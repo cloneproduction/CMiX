@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.ComponentModel;
-using System.Windows.Data;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
@@ -31,7 +29,7 @@ namespace CMiX.Core.Prefabs.Managers
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
-
+            ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             isExpanded = true;
             IsActive = true;
         }
@@ -41,6 +39,8 @@ namespace CMiX.Core.Prefabs.Managers
         public ICommand DeleteItemCommand { get; set; }
         public ICommand RemoveSelectedItemCommand { get; set; }
         public ICommand ReplaceSelectedItemCommand { get; set; }
+        public ICommand ResetItemCommand { get; set; }
+
 
         [ObservableProperty]
         private bool isExpanded;
@@ -62,6 +62,11 @@ namespace CMiX.Core.Prefabs.Managers
                 if (IsActive)
                     ManagerMessenger.SendSelectedItemChanged(ManagerData.ID, SelectedItem, ManagerData.SelectedIndex);
             }
+        }
+
+        public void ResetItem(IControl control)
+        {
+            throw new NotImplementedException();
         }
 
         public void SelectedItemChanged(Guid selectedItemID, int index)

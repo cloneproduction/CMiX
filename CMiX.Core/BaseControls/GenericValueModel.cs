@@ -12,13 +12,15 @@ namespace CMiX.Core.BaseControls
             ID = Guid.NewGuid();
         }
 
-        public GenericValueModel(T selected)
+        public GenericValueModel(T value)
         {
             ID = Guid.NewGuid();
-            Value = selected;
+            Value = value;
+            OriginalValue = value;
         }
 
         public Guid ID { get; set; }
         public T Value { get; set; }
+        public T OriginalValue { get; set; }
     }
 }
