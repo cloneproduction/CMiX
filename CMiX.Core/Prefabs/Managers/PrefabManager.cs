@@ -66,7 +66,9 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void ResetItem(IControl control)
         {
-            throw new NotImplementedException();
+            var newControl = ControlFactory.CreateReset(control);
+            var index = ManagerData.Items.IndexOf(control);
+            ManagerData.Items[index] = newControl;
         }
 
         public void SelectedItemChanged(Guid selectedItemID, int index)

@@ -1,9 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
@@ -12,16 +14,24 @@ namespace CMiX.Core.BaseControls
     {
         public GenericValue()
         {
-            //NECESSARY FOR AUTOMAPPER OTHERWISE ERROR !!!
+            
         }
+
         public GenericValue(ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
             ControlMessenger = controlMessenger;
+            ResetCommand = new RelayCommand(Reset);
             IsActive = true;
         }
 
+        private void Reset()
+        {
+            Value = OriginalValue;
+        }
+
         public Guid ID { get; set; }
+        public ICommand ResetCommand { get; set; }
         public ControlMessenger ControlMessenger { get; set; }
 
         private T _value;

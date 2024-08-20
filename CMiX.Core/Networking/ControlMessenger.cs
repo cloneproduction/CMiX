@@ -13,12 +13,10 @@ namespace CMiX.Core.Networking
 {
     public class ControlMessenger
     {
-        public IMapper Mapper;
         public bool CanSend = true;
 
-        public ControlMessenger(IMapper mapper, ControlRepository controlRepository)
+        public ControlMessenger(ControlRepository controlRepository)
         {
-            Mapper = mapper;
             ServerRepository = controlRepository.Servers;
         }
 

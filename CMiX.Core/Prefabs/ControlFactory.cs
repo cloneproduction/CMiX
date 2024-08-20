@@ -14,6 +14,13 @@ namespace CMiX.Core.Prefabs
 
         internal IMapper Mapper { get; set; }
 
+        public IControl CreateReset(IControl control)
+        {
+            var model = Mapper.Map<IControl, IControlModel>(control);
+            var newModel = (IControlModel)Activator.CreateInstance(model.GetType());//  this.Create(); 
+            return Mapper.Map<IControlModel, IControl>(newModel);
+        }
+
         public IControl Create(Type type) 
         {
             var controlModel = (IControlModel)Activator.CreateInstance(type);

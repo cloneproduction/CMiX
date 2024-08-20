@@ -14,14 +14,16 @@ namespace CMiX.Core.Texturing.Sources
         public TouchBlob(PrefabService prefabService,
                          PrefabManager filterManager,
                          Integer2 resolution,
-                         GenericValue<float> size)
+                         GenericValue<float> size,
+                         GenericValue<string> color,
+                         GenericValue<string> background)
         {
             PrefabService = prefabService;
             Resolution = resolution;
             Size = size;
             FilterManager = filterManager;
-            Color = new GenericValue<string>();
-            Background = new GenericValue<string>();
+            Color = color;
+            Background = background;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

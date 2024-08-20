@@ -9,120 +9,24 @@
     d:DesignHeight="31.222"
     d:DesignWidth="665.444"
     Background="Transparent"
+    ContextMenu="{DynamicResource connectionButtonContext}"
     mc:Ignorable="d">
 
+    <UserControl.Resources>
+        <ContextMenu x:Key="connectionButtonContext" StaysOpen="true">
+            <MenuItem
+                Command="{Binding ResetCommand}"
+                CommandTarget="{Binding Path=PlacementTarget, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}}"
+                Header="Reset" />
+        </ContextMenu>
+    </UserControl.Resources>
+
+    
     <BaseControl:DragValue
         Caption="{Binding Caption, ElementName=counter}"
         IsInteger="True"
         LargeChange="1.0"
         SmallChange="1.0"
-        Value="{Binding Value, ElementName=counter}" />
-
-    <!--<Border>
-        <Border.Style>
-            <Style TargetType="{x:Type Border}">
-                <Style.Triggers>
-                    <DataTrigger Binding="{Binding Position, ElementName=counter}"  Value="{x:Static BaseControl:ControlPosition.Top}">
-                        <Setter Property="Height" Value="20"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Position, ElementName=counter}"  Value="{x:Static BaseControl:ControlPosition.Middle}">
-                        <Setter Property="Height" Value="20"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Position, ElementName=counter}"  Value="{x:Static BaseControl:ControlPosition.Bottom}">
-                        <Setter Property="Height" Value="22"/>
-                    </DataTrigger>
-                    <DataTrigger Binding="{Binding Position, ElementName=counter}"  Value="{x:Static BaseControl:ControlPosition.Default}">
-                        <Setter Property="Height" Value="22"/>
-                    </DataTrigger>
-                </Style.Triggers>
-            </Style>
-        </Border.Style>
-
-        <Grid Height="22">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition/>
-                <ColumnDefinition/>
-            </Grid.ColumnDefinitions>
-
-            <TextBlock
-                Text="{Binding Caption, ElementName=counter}"
-                HorizontalAlignment="Right"
-                Margin="8, 0"/>
-
-
-    -->
-    <!--<Border Grid.Column="1">
-
-                <Border x:Name="mainBorder"
-                        CornerRadius="2"
-                        Background="{DynamicResource DarkColor}">
-                    <Grid>
-                        <TextBox x:Name="valueInput"
-                                Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                Style="{StaticResource SliderTextBox}"
-                                Text="{Binding Path=Value, Converter={StaticResource IntToString}, UpdateSourceTrigger=LostFocus, ElementName=counter}"/>
-                        <DockPanel>
-                            <Button x:Name="SubButton"
-                                    HorizontalAlignment="Left"
-                                    Content="-"
-                                    Width="{Binding ActualHeight, ElementName=mainBorder}">
-                                <Button.Style>
-                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRoundedLeft}">
-                                        <Setter Property="Border.Visibility" Value="Hidden"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=counter}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-
-                            <Button x:Name="AddButton"
-                                HorizontalAlignment="Right"
-                                Content="+"
-                                DockPanel.Dock="Right"
-                                Width="{Binding ActualHeight, ElementName=mainBorder}">
-                                <Button.Style>
-                                    <Style TargetType="{x:Type Button}" BasedOn="{StaticResource ButtonRoundedRight}">
-                                        <Setter Property="Border.Visibility" Value="Hidden"/>
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding IsMouseOver, ElementName=counter}" Value="True">
-                                                <Setter Property="Visibility" Value="Visible"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Button.Style>
-                            </Button>
-
-                            <Border x:Name="borderValueDisplay"
-                                    Background="Transparent">
-                                <Border.Style>
-                                    <Style TargetType="Border">
-                                        <Setter Property="VerticalAlignment" Value="Center"/>
-                                        <Setter Property="Visibility" Value="Visible"/>
-                                        <Style.Triggers>
-                                            <DataTrigger  Binding="{Binding Path=IsEditing, ElementName=counter}" Value="True">
-                                                <Setter Property="Visibility" Value="Hidden"/>
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                                <Label x:Name="valueDisplay"
-                                        Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        Padding="0"
-                                        HorizontalAlignment="Center"
-                                        VerticalAlignment="Center"
-                                        Content="{Binding Path=Value, Converter={StaticResource IntToString}, ElementName=counter}">
-                                </Label>
-                            </Border>
-                        </DockPanel>
-                    </Grid>
-                </Border>
-            </Border>-->
-    <!--
-
-        </Grid>
-    </Border>-->
+        Value="{Binding Value}" />
 
 </UserControl>
