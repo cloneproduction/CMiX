@@ -34,7 +34,7 @@ namespace CMiX.Core.Compositing
             Invert = new GenericValueModel<bool>(false);
             TextureModifierManager = new PrefabManagerModel();
             ModelEntityManager = new PrefabManagerModel();
-            LayerModifierManager = new PrefabManagerModel();
+            ModifierManager = new PrefabManagerModel();
         }
 
 
@@ -53,7 +53,7 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<MaskMode> MaskMode { get; set; }
 
         public PrefabManagerModel TextureModifierManager { get; set; }
-        public PrefabManagerModel LayerModifierManager { get; set; }
+        public PrefabManagerModel ModifierManager { get; set; }
         public GenericValueModel<string> BackgroundColor { get; set; }
         public AmbientOcclusionModel AmbientOcclusion { get; set; }
         public LocalReflectionModel LocalReflection { get; set; }

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
@@ -11,7 +12,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable
+    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable
     {
         public Layer()
         {
@@ -40,7 +41,7 @@ namespace CMiX.Core.Compositing
 
             TextureModifierManager = textureModifierManager;
             ModelEntityManager = reorderablePrefabManager;
-            LayerModifierManager = layerModifier;
+            ModifierManager = layerModifier;
         }
 
         public Guid ID { get; set; }
@@ -54,7 +55,7 @@ namespace CMiX.Core.Compositing
 
         public PrefabManager ModelEntityManager { get; set; }
         public PrefabManager TextureModifierManager { get; set; }
-        public PrefabManager LayerModifierManager { get; set; }
+        public PrefabManager ModifierManager { get; set; }
 
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public AmbientOcclusion AmbientOcclusion { get; set; }
