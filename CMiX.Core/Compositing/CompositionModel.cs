@@ -18,6 +18,7 @@ namespace CMiX.Core.Compositing
             OutputSettings = new OutputSettingsModel();
             TextureModifierManager = new PrefabManagerModel();
             LayerManager = new PrefabManagerModel();
+            ModifierManager = new PrefabManagerModel();
         }
 
         public Guid ID { get; set; }
@@ -26,5 +27,6 @@ namespace CMiX.Core.Compositing
         public OutputSettingsModel OutputSettings { get; set; }
         public PrefabManagerModel TextureModifierManager { get; set; }
         public PrefabManagerModel LayerManager { get; set; }
+        public PrefabManagerModel ModifierManager { get; set; }
     }
 }

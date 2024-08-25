@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
@@ -9,14 +10,15 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Materials
 {
-    public partial class Material : ObservableObject, IPrefab
+    public partial class Material : ObservableObject, IPrefab, IModifiable
     {
         public Material(PrefabService prefabService,
                         PrefabManager explodeTriangleTextureManager,
                         GenericValue<float> explodeStrength,
                         MaterialSettings materialSettings, 
                         DiffuseTexture diffuseTexture, 
-                        MaskTexture maskTexture)
+                        MaskTexture maskTexture,
+                        PrefabManager modifierManager)
         {
             ID = Guid.NewGuid();
             PrefabService = prefabService;
@@ -25,6 +27,7 @@ namespace CMiX.Core.Materials
             MaterialSettings = materialSettings;
             ExplodeTriangleTextureManager = explodeTriangleTextureManager;
             ExplodeStrength = explodeStrength;
+            ModifierManager = modifierManager;
         }
 
         public Guid ID { get; set; } 
@@ -35,7 +38,7 @@ namespace CMiX.Core.Materials
 
         public PrefabManager ExplodeTriangleTextureManager { get; set; }
         public GenericValue<float> ExplodeStrength { get; set; }
-
+        public PrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = false;
