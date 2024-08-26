@@ -21,12 +21,12 @@
         </ContextMenu>
     </UserControl.Resources>
 
-    
+
     <BaseControl:DragValue
         Caption="{Binding Caption, ElementName=counter}"
+        DataContext="{Binding}"
         IsInteger="True"
         LargeChange="1.0"
-        SmallChange="1.0"
-        Value="{Binding Value}" />
+        SmallChange="1.0" />
 
 </UserControl>
