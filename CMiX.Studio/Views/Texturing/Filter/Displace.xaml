@@ -41,9 +41,9 @@
             </Views:Outliner.SelectionPanel>
         </Views:Outliner>
 
-        <Border Visibility="{Binding TextureSelector.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+        <!--<Border Visibility="{Binding TextureSelector.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
             <Views:Texture Margin="-8,0,0,-8" DataContext="{Binding TextureSelector.SelectedItem}" />
-        </Border>
+        </Border>-->
 
     </StackPanel>
 

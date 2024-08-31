@@ -14,6 +14,21 @@
     mc:Ignorable="d">
 
     <StackPanel>
+        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
+
+            <StackPanel>
+                <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                    <Views:ModifierManager.SelectionPanel>
+                        <StackPanel>
+                            <Views:TextModifierSelectionPanel DataContext="{Binding}" />
+                            <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
+                        </StackPanel>
+                    </Views:ModifierManager.SelectionPanel>
+                </Views:ModifierManager>
+            </StackPanel>
+
+        </Panels:IndentedExpander>
+
         <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
             <StackPanel Margin="8">
                 <TextBox
@@ -74,21 +89,6 @@
             </StackPanel>
         </Panels:IndentedExpander>
 
-
-        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
-
-            <StackPanel>
-                <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                    <Views:ModifierManager.SelectionPanel>
-                        <StackPanel>
-                            <Views:TextModifierSelectionPanel DataContext="{Binding}" />
-                            <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
-                        </StackPanel>
-                    </Views:ModifierManager.SelectionPanel>
-                </Views:ModifierManager>
-            </StackPanel>
-
-        </Panels:IndentedExpander>
     </StackPanel>
 
 </UserControl>

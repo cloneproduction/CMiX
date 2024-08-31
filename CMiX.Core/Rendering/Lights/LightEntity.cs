@@ -26,9 +26,9 @@ namespace CMiX.Core.Rendering.Lights
         public PrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
-        private bool settingsIsExpanded;
+        private bool modifierManagerIsExpanded = true;
 
         [ObservableProperty]
-        private bool modifierIsExpanded;
+        private bool settingsIsExpanded = true;
     }
 }

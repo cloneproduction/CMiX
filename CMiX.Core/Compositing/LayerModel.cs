@@ -23,7 +23,7 @@ namespace CMiX.Core.Compositing
 
             IsMask = new GenericValueModel<bool>(false);
             Opacity = new GenericValueModel<float>(1.0f);
-            BackgroundColor = new GenericValueModel<string>("#ff111111");
+            BackgroundColor = new GenericValueModel<string>("#ff000000");
 
             AmbientOcclusion = new AmbientOcclusionModel();
             LocalReflection = new LocalReflectionModel();

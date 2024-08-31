@@ -12,7 +12,7 @@ namespace CMiX.Core.Rendering
         public OutputSettingsModel()
         {
             ID = Guid.NewGuid();
-            Resolution = new Integer2Model(1920, 1080);
+            Resolution = new Integer2Model(1080, 1920);
             BackgroundColor = new GenericValueModel<string>("#FFFFFFFF");
         }
 

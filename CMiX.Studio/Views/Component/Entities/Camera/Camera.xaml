@@ -13,19 +13,19 @@
 
     <StackPanel>
 
-        <Panels:IndentedExpander
-            Header="Settings"
-            Indentation="0"
-            IsExpanded="{Binding IsExpanded}">
-            <Views:CameraSettings DataContext="{Binding Settings}" />
-        </Panels:IndentedExpander>
-
-        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManager.IsExpanded}">
+        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:CameraModifierSelectionPanel DataContext="{Binding}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
+        </Panels:IndentedExpander>
+
+        <Panels:IndentedExpander
+            Header="Settings"
+            Indentation="0"
+            IsExpanded="{Binding SettingsIsExpanded}">
+            <Views:CameraSettings DataContext="{Binding Settings}" />
         </Panels:IndentedExpander>
 
     </StackPanel>

@@ -26,6 +26,9 @@ namespace CMiX.Core.Rendering.Cameras
         public PrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]
-        bool isExpanded = false;
+        private bool modifierManagerIsExpanded = true;
+
+        [ObservableProperty]
+        private bool settingsIsExpanded = true;
     }
 }
