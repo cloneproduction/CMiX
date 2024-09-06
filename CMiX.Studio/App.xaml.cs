@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Configuration;
 using System.Windows;
 using CMiX.Core;
 using CMiX.Core.ViewModels;
@@ -10,7 +11,22 @@ namespace CMiX
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            //        var builder = new ConfigurationBuilder().SetBasePath(env.ContentRootPath)
+            //.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            //.AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true);
+
+            //        if (env.IsDevelopment())
+            //        {
+            //            builder.AddUserSecrets();
+            //        }
+
+            //        builder.AddEnvironmentVariables();
+            //        Configuration = builder.Build();
+
+
+
+
+            InjectionBuilder configurationBuilder = new InjectionBuilder();
 
             var serviceCollection = new ServiceCollection();
             configurationBuilder.ConfigureServices(serviceCollection);

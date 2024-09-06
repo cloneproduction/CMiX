@@ -5,9 +5,9 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Texturing
 {
-    public class LayerMaskService : IControl
+    public class LayerMaskSettings : IControl
     {
-        public LayerMaskService(GenericValue<bool> isMask, 
+        public LayerMaskSettings(GenericValue<bool> isMask, 
                                 GenericValue<MaskChannel> maskChannel, 
                                 GenericValue<MaskMode> maskMode, 
                                 GenericValue<bool> invert) 

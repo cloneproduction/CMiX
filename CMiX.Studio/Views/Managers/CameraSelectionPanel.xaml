@@ -15,7 +15,7 @@
         Height="22"
         VerticalAlignment="Center"
         Command="{Binding AddItemCommand}"
-        CommandParameter="{x:Type Camera:CameraModel}"
+        CommandParameter="{x:Type Camera:Camera}"
         Content="Camera"
         Style="{StaticResource ButtonItemControl}" />
 

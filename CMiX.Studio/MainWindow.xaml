@@ -140,7 +140,7 @@
                                     <Views:Outliner.SelectionPanel>
                                         <Button
                                             Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Compositing:CompositionModel}"
+                                            CommandParameter="{x:Type Compositing:Composition}"
                                             Content="New Composition"
                                             Style="{DynamicResource ButtonRoundedRight}" />
                                     </Views:Outliner.SelectionPanel>
@@ -352,7 +352,7 @@
                                     <Views:RepositoryManager.SelectionPanel>
                                         <Button
                                             Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Cameras:CameraModel}"
+                                            CommandParameter="{x:Type Cameras:Camera}"
                                             Content="New Camera" />
                                     </Views:RepositoryManager.SelectionPanel>
                                     <Views:RepositoryManager.EditingPanel>
@@ -380,7 +380,7 @@
                                     <Views:RepositoryManager.SelectionPanel>
                                         <Button
                                             Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Light:LightEntityModel}"
+                                            CommandParameter="{x:Type Light:LightEntity}"
                                             Content="New Light" />
                                     </Views:RepositoryManager.SelectionPanel>
                                     <Views:RepositoryManager.EditingPanel>
@@ -411,7 +411,7 @@
                                     <Views:RepositoryManager.SelectionPanel>
                                         <Button
                                             Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Animations:BeatModifierModel}"
+                                            CommandParameter="{x:Type Animations:BeatModifier}"
                                             Content="New Beat" />
                                     </Views:RepositoryManager.SelectionPanel>
                                     <Views:RepositoryManager.EditingPanel>

@@ -14,13 +14,11 @@ namespace CMiX.Core.Compositing
 {
     public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable
     {
-        public Layer()
-        {
-            
-        }
         public Layer(PrefabService prefabService,
                      LayerSettings layerSettings,
-                     LayerMaskService layerMaskService,
+                     LayerMaskSettings layerMaskService,
+                     AmbientOcclusion ambientOcclusion,
+                     LocalReflection localReflectionModel,
                      PrefabManager reorderablePrefabManager,
                      PrefabManager textureModifierManager,
                      PrefabManager layerModifier)
@@ -29,11 +27,10 @@ namespace CMiX.Core.Compositing
 
             PrefabService = prefabService;
 
-            Opacity = layerSettings.Opacity;
-            BackgroundColor = layerSettings.BackgroundColor;
-            BlendMode = layerSettings.BlendMode;
-            AmbientOcclusion = layerSettings.AmbientOcclusion;
-            LocalReflection = layerSettings.LocalReflection;
+            LayerSettings = layerSettings;
+            AmbientOcclusion = ambientOcclusion;
+            LocalReflection = localReflectionModel;
+
             IsMask = layerMaskService.IsMask;
             MaskChannel = layerMaskService.MaskChannel;
             MaskMode = layerMaskService.MaskMode;
@@ -48,6 +45,10 @@ namespace CMiX.Core.Compositing
 
         public PrefabService PrefabService { get; set; }
 
+        public LayerSettings LayerSettings { get; set; }
+        public AmbientOcclusion AmbientOcclusion { get; set; }
+        public LocalReflection LocalReflection { get; set; }
+
         public GenericValue<bool> Invert { get; set; }
         public GenericValue<bool> IsMask { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }
@@ -57,11 +58,6 @@ namespace CMiX.Core.Compositing
         public PrefabManager TextureModifierManager { get; set; }
         public PrefabManager ModifierManager { get; set; }
 
-        public GenericValue<BlendModeEnum> BlendMode { get; set; }
-        public AmbientOcclusion AmbientOcclusion { get; set; }
-        public LocalReflection LocalReflection { get; set; }
-        public GenericValue<float> Opacity { get; set; }
-        public GenericValue<string> BackgroundColor { get; set; }
 
         [ObservableProperty]
         private int selectedTabItemIndex;

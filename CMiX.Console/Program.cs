@@ -11,7 +11,7 @@ namespace CMiX.Console
     {
         static void Main(string[] args)
         {
-            ConfigurationBuilder configurationBuilder = new ConfigurationBuilder();
+            InjectionBuilder configurationBuilder = new InjectionBuilder();
 
             ServiceCollection serviceCollection = new ServiceCollection();
             configurationBuilder.ConfigureServices(serviceCollection);

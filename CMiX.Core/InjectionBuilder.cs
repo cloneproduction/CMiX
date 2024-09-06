@@ -4,14 +4,12 @@
 using System.Reflection;
 using Ceras;
 using CMiX.Core.Animations;
-using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Mapping;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Rendering;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
 using CMiX.Core.ViewModels.Assets;
@@ -21,9 +19,9 @@ using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core
 {
-    public class ConfigurationBuilder
+    public class InjectionBuilder
     {
-        public ConfigurationBuilder()
+        public InjectionBuilder()
         {
 
         }
@@ -39,8 +37,6 @@ namespace CMiX.Core
                     .WithTransientLifetime()
             );
 
-
-            //services.AddTransient<OutputSettings>(x => new OutputSettings(new Integer2(new GenericValue<int>(888, x.GetService<ControlMessenger>()), new GenericValue<int>(666, x.GetService<ControlMessenger>())), x.GetService<GenericValue<string>>()));
 
             services.AddSingleton<Project>();
             services.AddSingleton<CerasSerializer>();

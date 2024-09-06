@@ -14,7 +14,7 @@
             <Views:Outliner.SelectionPanel>
                 <Button
                     Command="{Binding AddItemCommand}"
-                    CommandParameter="{x:Type Animations:BeatModifierModel}"
+                    CommandParameter="{x:Type Animations:BeatModifier}"
                     Content="New"
                     Style="{DynamicResource ButtonRoundedRight}" />
             </Views:Outliner.SelectionPanel>

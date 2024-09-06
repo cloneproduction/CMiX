@@ -26,7 +26,7 @@
                 <Button
                     Height="20"
                     Command="{Binding AddItemCommand}"
-                    CommandParameter="{x:Type Prefabs:EmptyPrefabModel}"
+                    CommandParameter="{x:Type Prefabs:EmptyPrefab}"
                     Content="+"
                     DockPanel.Dock="Top"
                     Style="{StaticResource ButtonRoundedTop}" />

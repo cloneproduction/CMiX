@@ -28,13 +28,13 @@
                         Maximum="1"
                         Minimum="0"
                         Style="{StaticResource SliderRounded}"
-                        Value="{Binding Opacity.Value}" />
+                        Value="{Binding LayerSettings.Opacity.Value}" />
 
                     <BaseControls:ColorSelector
                         Margin="0,4"
                         Caption="Background"
-                        SelectedColor="{Binding BackgroundColor.Value, Converter={StaticResource ColorToHex}}"
-                        ViewModel="{Binding BackgroundColor}" />
+                        SelectedColor="{Binding LayerSettings.BackgroundColor.Value, Converter={StaticResource ColorToHex}}"
+                        ViewModel="{Binding LayerSettings.BackgroundColor}" />
 
                     <Border>
                         <Border.Style>
@@ -53,7 +53,7 @@
                         <BaseControls:ComboBox
                             Caption="Blend Mode"
                             ItemsSource="{Binding Source={StaticResource BlendMode}}"
-                            SelectedItem="{Binding BlendMode.Value, Mode=TwoWay}" />
+                            SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
                     </Border>
 
                     <Border>
@@ -105,7 +105,7 @@
                         Margin="2"
                         Background="Transparent"
                         Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Compositing:LayerModel}"
+                        CommandParameter="{x:Type Compositing:Layer}"
                         Style="{StaticResource ButtonRounded}">
                         <Button.Content>
                             <Image

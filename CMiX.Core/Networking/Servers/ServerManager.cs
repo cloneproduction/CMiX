@@ -77,7 +77,7 @@ namespace CMiX.Core.Networking.Servers
             if (ValidateIPv4(IP) && ValidatePort(IP, Port))
             {
 
-                Server server = ControlFactory.Create(typeof(ServerModel)) as Server;
+                var server = (Server)ControlFactory.Create(typeof(Server));
                 server.IP.Value = IP;
                 server.Port.Value = Port;
 

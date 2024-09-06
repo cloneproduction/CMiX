@@ -18,7 +18,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:BillboardModel}"
+                CommandParameter="{x:Type Transformation:Billboard}"
                 Content="Billboard"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -27,7 +27,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:CircularSpreadModel}"
+                CommandParameter="{x:Type TransformModifiers:CircularSpread}"
                 Content="Circular Spread"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -36,7 +36,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:GridModel}"
+                CommandParameter="{x:Type TransformModifiers:Grid}"
                 Content="Grid"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -45,7 +45,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type ColorModifiers:RandomHSVModel}"
+                CommandParameter="{x:Type ColorModifiers:RandomHSV}"
                 Content="Random HSV"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -54,7 +54,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:LinearXYZModel}"
+                CommandParameter="{x:Type TransformModifiers:LinearXYZ}"
                 Content="Linear XYZ"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -64,7 +64,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:LFOModel}"
+                CommandParameter="{x:Type TransformModifiers:LFO}"
                 Content="LFO"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -73,7 +73,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomXYZModel}"
+                CommandParameter="{x:Type TransformModifiers:RandomXYZ}"
                 Content="Random XYZ"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -82,7 +82,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomPositionModel}"
+                CommandParameter="{x:Type TransformModifiers:RandomPosition}"
                 Content="Random Position"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -91,7 +91,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomScaleModel}"
+                CommandParameter="{x:Type TransformModifiers:RandomScale}"
                 Content="Random Scale"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -100,7 +100,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomRotationModel}"
+                CommandParameter="{x:Type TransformModifiers:RandomRotation}"
                 Content="Random Rotation"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -109,7 +109,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:TransformSRTModel}"
+                CommandParameter="{x:Type Transformation:TransformSRT}"
                 Content="Transform SRT"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -118,7 +118,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:TranslateModel}"
+                CommandParameter="{x:Type Transformation:Translate}"
                 Content="Translate"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -127,7 +127,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:ScaleModel}"
+                CommandParameter="{x:Type Transformation:Scale}"
                 Content="Scale"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -136,7 +136,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:RotationModel}"
+                CommandParameter="{x:Type Transformation:Rotation}"
                 Content="Rotation"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -145,7 +145,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomUVModel}"
+                CommandParameter="{x:Type TransformModifiers:RandomUV}"
                 Content="Random UV"
                 Style="{StaticResource ButtonItemControl}" />
 

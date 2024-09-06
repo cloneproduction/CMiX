@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Windows.Data;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
@@ -28,7 +27,6 @@ namespace CMiX.Core.Prefabs
             Servers = new ObservableCollection<Server>();
             BeatModifiers = new ObservableCollection<BeatModifier>();
             Texts = new ObservableCollection<TextEntity>();
-            //BindingOperations.EnableCollectionSynchronization(Controls, this);
         }
 
 

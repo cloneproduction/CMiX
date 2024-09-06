@@ -17,7 +17,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Materials:MaterialModel}"
+            CommandParameter="{x:Type Materials:Material}"
             Content="Material"
             Style="{StaticResource ButtonItemControl}" />
 

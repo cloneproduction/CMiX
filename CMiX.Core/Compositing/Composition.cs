@@ -7,6 +7,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
+using Microsoft.Extensions.Options;
 
 namespace CMiX.Core.Compositing
 {

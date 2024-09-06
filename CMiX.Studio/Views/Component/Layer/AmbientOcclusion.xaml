@@ -13,24 +13,29 @@
     <Panels:IndentedExpander>
 
         <Panels:IndentedExpander.Header>
+            
             <DockPanel>
+                
                 <ToggleButton
                     Width="14"
                     Height="14"
                     IsChecked="{Binding DataContext.IsEnabled.Value}"
                     Style="{DynamicResource ToggleButtonRounded}" />
+                
                 <TextBlock
                     Margin="8,0"
                     Foreground="{DynamicResource TextBase}"
                     Text="Ambient Occlusion" />
+                
             </DockPanel>
+            
         </Panels:IndentedExpander.Header>
 
         <Border Margin="8" IsEnabled="{Binding IsEnabled.Value}">
 
             <StackPanel>
 
-                <BaseControls:IntegerValue Caption="Samples" Value="{Binding Samples.Value}" />
+                <BaseControls:IntegerValue Caption="Samples" DataContext="{Binding Samples}" />
 
                 <BaseControls:DragValue
                     Margin="0,8"
@@ -51,8 +56,8 @@
 
                 <BaseControls:IntegerValue
                     Caption="Blur Count"
-                    Position="Top"
-                    Value="{Binding BlurCount.Value}" />
+                    DataContext="{Binding BlurCount}"
+                    Position="Top" />
 
                 <BaseControls:DragValue
                     Margin="0,1,0,0"

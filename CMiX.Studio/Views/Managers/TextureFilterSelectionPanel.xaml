@@ -25,7 +25,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:HSCBModel}"
+                CommandParameter="{x:Type Filters:HSCB}"
                 Content="HSCB"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -34,7 +34,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:InvertModel}"
+                CommandParameter="{x:Type Filters:Invert}"
                 Content="Invert"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -43,7 +43,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:TriColorModel}"
+                CommandParameter="{x:Type Filters:TriColor}"
                 Content="TriColor"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -52,7 +52,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:DisplaceModel}"
+                CommandParameter="{x:Type Filters:Displace}"
                 Content="Displace"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -64,7 +64,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:EdgeModel}"
+                CommandParameter="{x:Type Filters:Edge}"
                 Content="Edge"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -73,7 +73,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:TransformTextureModel}"
+                CommandParameter="{x:Type Filters:TransformTexture}"
                 Content="Transform"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -82,7 +82,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:RandomUVModel}"
+                CommandParameter="{x:Type Filters:RandomUV}"
                 Content="Random UV"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -91,7 +91,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:LFOUVModel}"
+                CommandParameter="{x:Type Filters:LFOUV}"
                 Content="LFO UV"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -100,7 +100,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:PixelateModel}"
+                CommandParameter="{x:Type Filters:Pixelate}"
                 Content="Pixelate"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -113,7 +113,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:BlurModel}"
+                CommandParameter="{x:Type Filters:Blur}"
                 Content="Blur"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -122,7 +122,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:EchoModel}"
+                CommandParameter="{x:Type Filters:Echo}"
                 Content="Echo"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -131,7 +131,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:FeedbackModel}"
+                CommandParameter="{x:Type Filters:Feedback}"
                 Content="Feedback"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -140,7 +140,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:SetAlphaModel}"
+                CommandParameter="{x:Type Filters:SetAlpha}"
                 Content="SetAlpha"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -149,7 +149,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:ShadowModel}"
+                CommandParameter="{x:Type Filters:Shadow}"
                 Content="Shadow"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -158,7 +158,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:AsciiModel}"
+                CommandParameter="{x:Type Filters:Ascii}"
                 Content="Ascii"
                 Style="{StaticResource ButtonItemControl}" />
 
@@ -167,7 +167,7 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Filters:DitherModel}"
+                CommandParameter="{x:Type Filters:Dither}"
                 Content="Dither"
                 Style="{StaticResource ButtonItemControl}" />
         </StackPanel>

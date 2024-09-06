@@ -66,7 +66,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void ResetItem(IControl control)
         {
-            var newControl = ControlFactory.CreateReset(control);
+            var newControl = ControlFactory.Create(control.GetType());
             var index = ManagerData.Items.IndexOf(control);
             ManagerData.Items[index] = newControl;
         }

@@ -17,11 +17,12 @@ namespace CMiX.Core.Mapping
             CreateMap(typeof(PrefabService), typeof(PrefabServiceModel)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap(typeof(EmptyPrefab), typeof(EmptyPrefabModel)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Composition, CompositionModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<Composition, CompositionModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<Layer, LayerModel>().ReverseMap();
-            CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap(typeof(Camera), typeof(CameraModel)).ReverseMap().ConstructUsingServiceLocator(); ;
-            CreateMap(typeof(TextEntity), typeof(TextEntityModel)).ReverseMap().ConstructUsingServiceLocator(); ;
+
+            CreateMap<Layer, LayerModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<LayerSettings, LayerSettingsModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap(typeof(Camera), typeof(CameraModel)).ReverseMap().ConstructUsingServiceLocator();
+            CreateMap(typeof(TextEntity), typeof(TextEntityModel)).ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(PrefabService), typeof(PrefabServiceModel))
@@ -31,6 +32,7 @@ namespace CMiX.Core.Mapping
                 .Include(typeof(EmptyPrefab), typeof(EmptyPrefabModel))
                 .Include<Composition, CompositionModel>()
                 .Include(typeof(Layer), typeof(LayerModel))
+                .Include(typeof(LayerSettings), typeof(LayerSettingsModel))
                 .Include(typeof(Entity), typeof(EntityModel))
                 .Include(typeof(Camera), typeof(CameraModel))
                 .Include(typeof(TextEntity), typeof(TextEntityModel))

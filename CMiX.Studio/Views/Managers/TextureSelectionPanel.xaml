@@ -18,7 +18,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:ImageModel}"
+            CommandParameter="{x:Type Sources:Image}"
             Content="Image"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -28,7 +28,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:BubbleNoiseModel}"
+            CommandParameter="{x:Type Sources:BubbleNoise}"
             Content="BubbleNoise"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -38,7 +38,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:CheckerBoardModel}"
+            CommandParameter="{x:Type Sources:CheckerBoard}"
             Content="CheckerBoard"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -48,7 +48,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:VideoPlayerModel}"
+            CommandParameter="{x:Type Sources:VideoPlayer}"
             Content="Video"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -58,7 +58,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:GradientModel}"
+            CommandParameter="{x:Type Sources:Gradient}"
             Content="Gradient"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -68,7 +68,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:TypeWriterModel}"
+            CommandParameter="{x:Type Sources:TypeWriter}"
             Content="Text"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -78,7 +78,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:VideoInModel}"
+            CommandParameter="{x:Type Sources:VideoIn}"
             Content="Video In"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -88,7 +88,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Sources:TouchBlobModel}"
+            CommandParameter="{x:Type Sources:TouchBlob}"
             Content="Touch Blob"
             Style="{StaticResource ButtonItemControl}" />
     </StackPanel>

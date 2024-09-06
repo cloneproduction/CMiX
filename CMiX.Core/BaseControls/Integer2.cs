@@ -18,5 +18,16 @@ namespace CMiX.Core.BaseControls
         public Guid ID { get; set; }
         public GenericValue<int> X { get; set; }
         public GenericValue<int> Y { get; set; }
+
+
+        public void SetX(int x) 
+        { 
+            X.Value = x;
+        }
+
+        public void SetY(int y)
+        {
+            Y.Value = y;
+        }
     }
 }

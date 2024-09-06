@@ -39,7 +39,7 @@
                     <Views:Outliner.SelectionPanel>
                         <Button
                             Command="{Binding AddItemCommand}"
-                            CommandParameter="{x:Type Materials:MaterialModel}"
+                            CommandParameter="{x:Type Materials:Material}"
                             Content="New"
                             Style="{DynamicResource ButtonRoundedRight}" />
                     </Views:Outliner.SelectionPanel>
