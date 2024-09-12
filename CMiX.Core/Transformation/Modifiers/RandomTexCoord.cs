@@ -14,13 +14,13 @@ namespace CMiX.Core.Transformation.Modifiers
     public partial class RandomTexCoord : ObservableObject, IPrefab, IBeatModifiable, ISpreadableModifier
     {
         public RandomTexCoord(PrefabService prefabService,
-                        ModifierModeSelector modifierModeSelector,
-                        PrefabManager beatModifierManager,
-                        SamplerState samplerState,
-                        Vector2 location,
-                        Vector2 scale,
-                        GenericValue<float> rotation,
-                        GenericValue<float> uniform)
+                              ModifierModeSelector modifierModeSelector,
+                              PrefabManager beatModifierManager,
+                              SamplerState samplerState,
+                              Vector2 location,
+                              Vector2 scale,
+                              GenericValue<float> rotation,
+                              GenericValue<float> uniform)
         {
             PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;

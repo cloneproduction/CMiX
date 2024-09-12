@@ -7,11 +7,11 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="161.492"
-    d:DesignWidth="247.919"
+    d:DesignHeight="230.381"
+    d:DesignWidth="321.697"
     mc:Ignorable="d">
 
-    <StackPanel Margin="8">
+    <StackPanel>
 
         <BaseControls:ComboBox
             Margin="0,0,0,8"
@@ -19,7 +19,8 @@
             ItemsSource="{Binding Source={StaticResource EntityType}}"
             SelectedItem="{Binding EntityType.Value}" />
 
-        <Views:Outliner DataContext="{Binding BeatModifierManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}" />
+        <Views:BeatModifierManager Margin="0,8,0,0" DataContext="{Binding BeatModifierManager}" />
+
     </StackPanel>
 
 

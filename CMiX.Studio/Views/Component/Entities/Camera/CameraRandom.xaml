@@ -23,15 +23,8 @@
             Caption="Width"
             Value="{Binding Width.Value}" />
 
-        <Views:Outliner DataContext="{Binding BeatModifierManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
-            <Views:Outliner.SelectionPanel>
-                <Button
-                    Command="{Binding AddItemCommand}"
-                    CommandParameter="{x:Type Animations:BeatModifierModel}"
-                    Content="New"
-                    Style="{DynamicResource ButtonRoundedRight}" />
-            </Views:Outliner.SelectionPanel>
-        </Views:Outliner>
+        <Views:BeatModifierManager Margin="0,8,0,0" DataContext="{Binding BeatModifierManager}" />
+
     </StackPanel>
 
 </UserControl>

@@ -2,7 +2,6 @@
     x:Class="CMiX.Studio.Views.Modifiers.Light.RandomPosition"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
@@ -22,7 +21,7 @@
             DataContext="{Binding Location}"
             IsEnabled="{Binding RandomizeLocation.Value}" />
 
-        <Views:Outliner DataContext="{Binding BeatModifierManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}" />
+        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
 
     </StackPanel>
 

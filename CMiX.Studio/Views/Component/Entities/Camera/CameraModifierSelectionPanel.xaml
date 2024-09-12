@@ -18,7 +18,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type CameraModifiers:CameraLFOModel}"
+            CommandParameter="{x:Type CameraModifiers:CameraLFO}"
             Content="LFO"
             Style="{StaticResource ButtonItemControl}" />
 
@@ -27,7 +27,7 @@
             Height="22"
             VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type CameraModifiers:CameraRandomModel}"
+            CommandParameter="{x:Type CameraModifiers:CameraRandom}"
             Content="Random"
             Style="{StaticResource ButtonItemControl}" />
 
