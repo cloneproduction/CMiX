@@ -145,8 +145,8 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomUV}"
-                Content="Random UV"
+                CommandParameter="{x:Type TransformModifiers:RandomTexCoord}"
+                Content="Random TexCoord"
                 Style="{StaticResource ButtonItemControl}" />
 
         </StackPanel>

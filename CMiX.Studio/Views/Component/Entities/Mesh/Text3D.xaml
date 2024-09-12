@@ -5,8 +5,8 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="321.333"
-    d:DesignWidth="237.333"
+    d:DesignHeight="250.666"
+    d:DesignWidth="293.333"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -26,7 +26,7 @@
         <BaseControls:IntegerValue
             Margin="0,8"
             Caption="Size"
-            Value="{Binding FontSize.Value}" />
+            DataContext="{Binding FontSize}" />
 
         <BaseControls:DragValue
             Margin="0,8"
@@ -48,4 +48,5 @@
             SelectedItem="{Binding ParagraphAlignment.Value}" />
 
     </StackPanel>
+
 </UserControl>

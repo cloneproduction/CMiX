@@ -9,9 +9,9 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class RandomUVModel : IPrefabModel
+    public class RandomTexCoordModel : IPrefabModel
     {
-        public RandomUVModel()
+        public RandomTexCoordModel()
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();

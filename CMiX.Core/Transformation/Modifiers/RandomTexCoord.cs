@@ -7,12 +7,13 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class RandomUV : IPrefab, IBeatModifiable, ISpreadableModifier
+    public partial class RandomTexCoord : ObservableObject, IPrefab, IBeatModifiable, ISpreadableModifier
     {
-        public RandomUV(PrefabService prefabService,
+        public RandomTexCoord(PrefabService prefabService,
                         ModifierModeSelector modifierModeSelector,
                         PrefabManager beatModifierManager,
                         SamplerState samplerState,
@@ -41,5 +42,8 @@ namespace CMiX.Core.Transformation.Modifiers
         public GenericValue<float> Uniform { get; set; }
         public GenericValue<float> Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = true;
     }
 }

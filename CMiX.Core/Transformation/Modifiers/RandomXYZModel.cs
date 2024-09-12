@@ -23,7 +23,7 @@ namespace CMiX.Core.Transformation.Modifiers
             Uniform = new GenericValueModel<float>();
             Scale = new Vector3Model();
             RandomizeRotation = new GenericValueModel<bool>(true);
-            Rotation = new Vector3Model();
+            Rotation = new Vector3Model(0.0f, 0.0f, 0.0f);
             ModifierModeSelector = new ModifierModeSelectorModel();
         }
 

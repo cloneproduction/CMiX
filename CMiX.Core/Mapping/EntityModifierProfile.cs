@@ -17,7 +17,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Rotation, RotationModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Translate, TranslateModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<RandomXYZ, RandomXYZModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<RandomUV, RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomTexCoord, RandomTexCoordModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LinearXYZ, LinearXYZModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<CircularSpread, CircularSpreadModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LFO, LFOModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -34,7 +34,7 @@ namespace CMiX.Core.Mapping
                 .Include<Scale, ScaleModel>()
                 .Include<Translate, TranslateModel>()
                 .Include<RandomXYZ, RandomXYZModel>()
-                .Include<RandomUV, RandomUVModel>()
+                .Include<RandomTexCoord, RandomTexCoordModel>()
                 .Include<LinearXYZ, LinearXYZModel>()
                 .Include<CircularSpread, CircularSpreadModel>()
                 .Include<LFO, LFOModel>()
