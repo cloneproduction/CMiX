@@ -3,6 +3,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -100,6 +101,36 @@
                 </Style>
             </ContentControl.Style>
         </ContentControl>
+
+        <Panels:IndentedExpander
+            Margin="-8,8,-8,0"
+            Header="Geometry FX"
+            Indentation="0"
+            IsExpanded="False">
+
+            <StackPanel Margin="8">
+
+                <BaseControls:DragValue Caption="Explode Strength" Value="{Binding ExplodeStrength.Value}" />
+
+                <Views:Outliner
+                    Margin="0,8"
+                    DataContext="{Binding ExplodeTriangleTextureManager}"
+                    ItemsSource="{Binding ControlRepository.Textures}">
+                    <Views:Outliner.SelectionPanel>
+                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                <Views:TextureSelectionPanel />
+                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                        </Views:ButtonOpenSelectionPanel>
+                    </Views:Outliner.SelectionPanel>
+                </Views:Outliner>
+
+                <Border Visibility="{Binding ExplodeTriangleTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                    <Views:Texture Margin="-8,0" DataContext="{Binding ExplodeTriangleTextureManager.SelectedItem}" />
+                </Border>
+            </StackPanel>
+
+        </Panels:IndentedExpander>
 
     </StackPanel>
 

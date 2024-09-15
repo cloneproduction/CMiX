@@ -13,6 +13,7 @@ namespace CMiX.Core.Mapping
             CreateMap<HSCB, HSCBModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Edge, EdgeModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Invert, InvertModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<ShiftRGB, ShiftRGBModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LFOUV, LFOUVModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Texturing.Filters.RandomUV, Texturing.Filters.RandomUVModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Pixelate, PixelateModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -32,6 +33,7 @@ namespace CMiX.Core.Mapping
                 .Include<HSCB, HSCBModel>()
                 .Include<Edge, EdgeModel>()
                 .Include<Invert, InvertModel>()
+                .Include<ShiftRGB, ShiftRGBModel>()
                 .Include<LFOUV, LFOUVModel>()
                 .Include<Texturing.Filters.RandomUV, Texturing.Filters.RandomUVModel>()
                 .Include<Pixelate, PixelateModel>()

@@ -24,6 +24,7 @@ namespace CMiX.Core.Compositing
             Material = material;
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
+
         }
 
         public Guid ID { get; set; }
@@ -33,6 +34,9 @@ namespace CMiX.Core.Compositing
 
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
+
+
+
 
         [ObservableProperty]
         private bool modifierManagerIsExpanded = true;

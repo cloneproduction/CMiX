@@ -43,34 +43,6 @@
             <Views:MaskTexture DataContext="{Binding MaskTexture}" />
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander
-            Header="Geometry FX"
-            Indentation="0"
-            IsExpanded="False">
-
-            <StackPanel Margin="8">
-
-                <BaseControls:DragValue Caption="Explode Strength" Value="{Binding ExplodeStrength.Value}" />
-
-                <Views:Outliner
-                    Margin="0,8"
-                    DataContext="{Binding ExplodeTriangleTextureManager}"
-                    ItemsSource="{Binding ControlRepository.Textures}">
-                    <Views:Outliner.SelectionPanel>
-                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                <Views:TextureSelectionPanel />
-                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                        </Views:ButtonOpenSelectionPanel>
-                    </Views:Outliner.SelectionPanel>
-                </Views:Outliner>
-
-                <Border Visibility="{Binding ExplodeTriangleTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                    <Views:Texture Margin="-8,0" DataContext="{Binding ExplodeTriangleTextureManager.SelectedItem}" />
-                </Border>
-            </StackPanel>
-
-        </Panels:IndentedExpander>
     </StackPanel>
 
 </UserControl>

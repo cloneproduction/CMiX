@@ -58,13 +58,13 @@
                             DataContext="{Binding}"
                             DockPanel.Dock="Right" />
 
-                        <Button
+                        <!--<Button
                             Width="16"
                             Height="16"
                             Command="{Binding ResetModifierCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                             CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                             Content="R"
-                            DockPanel.Dock="Right" />
+                            DockPanel.Dock="Right" />-->
 
                         <TextBlock DockPanel.Dock="Left" Text="{Binding Converter={StaticResource TypeToName}}" />
                     </DockPanel>

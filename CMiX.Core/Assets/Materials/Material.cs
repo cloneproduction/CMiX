@@ -13,8 +13,7 @@ namespace CMiX.Core.Materials
     public partial class Material : ObservableObject, IPrefab, IModifiable
     {
         public Material(PrefabService prefabService,
-                        PrefabManager explodeTriangleTextureManager,
-                        GenericValue<float> explodeStrength,
+
                         MaterialSettings materialSettings, 
                         DiffuseTexture diffuseTexture, 
                         MaskTexture maskTexture,
@@ -25,8 +24,6 @@ namespace CMiX.Core.Materials
             DiffuseTexture = diffuseTexture;
             MaskTexture = maskTexture;
             MaterialSettings = materialSettings;
-            ExplodeTriangleTextureManager = explodeTriangleTextureManager;
-            ExplodeStrength = explodeStrength;
             ModifierManager = modifierManager;
         }
 
@@ -35,9 +32,6 @@ namespace CMiX.Core.Materials
         public MaskTexture MaskTexture { get; set; }
         public MaterialSettings MaterialSettings { get; set; }
         public PrefabService PrefabService { get; set; }
-
-        public PrefabManager ExplodeTriangleTextureManager { get; set; }
-        public GenericValue<float> ExplodeStrength { get; set; }
         public PrefabManager ModifierManager { get; set; }
 
         [ObservableProperty]

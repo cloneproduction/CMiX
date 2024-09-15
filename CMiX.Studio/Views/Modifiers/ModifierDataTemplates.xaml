@@ -28,6 +28,10 @@
     </DataTemplate>
 
     <!--  TEXTURE MODIFIERS  -->
+    <DataTemplate DataType="{x:Type Filters:ShiftRGB}">
+        <Views:ShiftRGB DataContext="{Binding}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type Filters:Dither}">
         <Views:Dither DataContext="{Binding}" />
     </DataTemplate>
@@ -94,6 +98,10 @@
 
 
     <!--  ENTITY MODIFIERS  -->
+
+    <DataTemplate DataType="{x:Type Modifiers:TransformTexCoord}">
+        <Views:TransformTexCoord DataContext="{Binding}" />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type Transformation:Billboard}">
         <Views:Billboard DataContext="{Binding}" />

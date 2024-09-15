@@ -12,6 +12,7 @@ namespace CMiX.Core.Mapping
     {
         public EntityModifierProfile()
         {
+            CreateMap<TransformTexCoord, TransformTexCoordModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TransformSRT, TransformSRTModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Scale, ScaleModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Rotation, RotationModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -29,6 +30,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Billboard, BillboardModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
+                .Include<TransformTexCoord, TransformTexCoordModel>()
                 .Include<TransformSRT, TransformSRTModel>()
                 .Include<Rotation, RotationModel>()
                 .Include<Scale, ScaleModel>()

@@ -3,6 +3,7 @@
 
 using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -21,7 +22,9 @@ namespace CMiX.Core.ViewModels
                     GenericValue<bool> generateBackFace,
                     GenericValue<bool> visibility,
                     GenericValue<Asset> geometry,
-                    Text3DSettings text3DSettings)
+                    Text3DSettings text3DSettings,
+                    PrefabManager explodeTriangleTextureManager,
+                    GenericValue<float> explodeStrength)
         {
             MeshTypeSelector = meshTypeSelector;
             Scale = scale;
@@ -35,6 +38,9 @@ namespace CMiX.Core.ViewModels
             Visibility = visibility;
             Geometry = geometry;
             Text3DSettings = text3DSettings;
+
+            ExplodeTriangleTextureManager = explodeTriangleTextureManager;
+            ExplodeStrength = explodeStrength;
         }
 
         [ObservableProperty]
@@ -53,5 +59,10 @@ namespace CMiX.Core.ViewModels
         public Integer2 TessellationXY { get; set; }
         public GenericValue<bool> GenerateBackFace { get; set; }
         public GenericValue<bool> Visibility { get; set; }
+
+
+
+        public PrefabManager ExplodeTriangleTextureManager { get; set; }
+        public GenericValue<float> ExplodeStrength { get; set; }
     }
 }

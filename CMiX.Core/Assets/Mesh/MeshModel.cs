@@ -3,6 +3,7 @@
 
 using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
 
 namespace CMiX.Core.ViewModels
@@ -30,6 +31,9 @@ namespace CMiX.Core.ViewModels
             IsRenaming = new GenericValueModel<bool>(false);
             IsSelected = new GenericValueModel<bool>(false);
             Text3DSettings = new Text3DSettingsModel();
+
+            ExplodeTriangleTextureManager = new PrefabManagerModel();
+            ExplodeStrength = new GenericValueModel<float>(0.5f);
         }
 
         public Guid ID { get; set; }
@@ -48,5 +52,8 @@ namespace CMiX.Core.ViewModels
         public GenericValueModel<string> Name { get; set; }
         public GenericValueModel<bool> IsRenaming { get; set; }
         public GenericValueModel<bool> IsSelected { get; set; }
+
+        public PrefabManagerModel ExplodeTriangleTextureManager { get; set; }
+        public GenericValueModel<float> ExplodeStrength { get; set; }
     }
 }
