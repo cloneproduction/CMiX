@@ -7,8 +7,8 @@
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="362.671"
-    d:DesignWidth="281.37"
+    d:DesignHeight="386.671"
+    d:DesignWidth="286.703"
     mc:Ignorable="d">
 
     <Border>
@@ -156,6 +156,15 @@
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type TransformModifiers:TransformTexCoord}"
                 Content="Transform TexCoord"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomVisibility}"
+                Content="Random Visibility"
                 Style="{StaticResource ButtonItemControl}" />
 
         </StackPanel>

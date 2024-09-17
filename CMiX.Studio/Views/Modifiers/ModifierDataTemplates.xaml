@@ -98,6 +98,9 @@
 
 
     <!--  ENTITY MODIFIERS  -->
+    <DataTemplate DataType="{x:Type Modifiers:RandomVisibility}">
+        <Views:RandomVisibility DataContext="{Binding}" />
+    </DataTemplate>
 
     <DataTemplate DataType="{x:Type Modifiers:TransformTexCoord}">
         <Views:TransformTexCoord DataContext="{Binding}" />

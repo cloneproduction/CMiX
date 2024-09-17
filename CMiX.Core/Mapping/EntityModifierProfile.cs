@@ -12,13 +12,17 @@ namespace CMiX.Core.Mapping
     {
         public EntityModifierProfile()
         {
+
             CreateMap<TransformTexCoord, TransformTexCoordModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<TransformSRT, TransformSRTModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Scale, ScaleModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Rotation, RotationModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Translate, TranslateModel>().ReverseMap().ConstructUsingServiceLocator();
+
             CreateMap<RandomXYZ, RandomXYZModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<RandomTexCoord, RandomTexCoordModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<RandomVisibility, RandomVisibilityModel>().ReverseMap().ConstructUsingServiceLocator();
+
             CreateMap<LinearXYZ, LinearXYZModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<CircularSpread, CircularSpreadModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LFO, LFOModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -37,6 +41,7 @@ namespace CMiX.Core.Mapping
                 .Include<Translate, TranslateModel>()
                 .Include<RandomXYZ, RandomXYZModel>()
                 .Include<RandomTexCoord, RandomTexCoordModel>()
+                .Include<RandomVisibility, RandomVisibilityModel>()
                 .Include<LinearXYZ, LinearXYZModel>()
                 .Include<CircularSpread, CircularSpreadModel>()
                 .Include<LFO, LFOModel>()
