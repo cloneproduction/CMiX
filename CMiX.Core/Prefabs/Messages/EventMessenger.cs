@@ -1,26 +1,22 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using AutoMapper;
+using System.Collections.ObjectModel;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Messenger;
-using CMiX.Core.Networking.Servers;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefabs.Messages
 {
     public class EventMessenger
     {
-        public EventMessenger(IMapper mapper, ControlRepository controlRepository)
+        public EventMessenger(ObservableCollection<Server> servers)
         {
-            Mapper = mapper;
-            ControlRepository = controlRepository;
+            Servers = servers;
             CanSend = true;
         }
 
-        IMapper Mapper { get; }
-        ControlRepository ControlRepository { get; }
+        ObservableCollection<Server> Servers { get; set; }
 
         private bool CanSend;
 
@@ -33,12 +29,12 @@ namespace CMiX.Core.Prefabs.Messages
             button.OnClick();
             CanSend = true;
 
-            Console.WriteLine("ButtonClick Handled ");
+            Console.WriteLine("ButtonClick Received");
         }
 
-        internal void SendMessageEvent(Guid iD)
+        public void SendMessageEvent(Guid iD)
         {
-            foreach (Server server in ControlRepository.Servers)
+            foreach (Server server in Servers)
                 server.SendMessage(new MessageOnClick(iD));
         }
     }

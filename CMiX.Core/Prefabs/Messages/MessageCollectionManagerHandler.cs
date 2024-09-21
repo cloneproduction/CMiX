@@ -13,16 +13,6 @@ namespace CMiX.Core.Prefabs.Messages
 
         }
 
-        public bool Handle(PrefabSelector prefabSelector, IMessage message)
-        {
-            if(message is MessageSelectedItemChanged messageSelectedItemChanged)
-            {
-                prefabSelector.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
-                return true;
-            }
-            return false;
-        }
-
         public bool Handle(PrefabManager prefabManagerBase, IMessage message)
         {
             switch (message)
@@ -30,7 +20,7 @@ namespace CMiX.Core.Prefabs.Messages
                 case null:
                     throw new ArgumentNullException(nameof(message));
                 case MessageSelectedItemChanged messageSelectedItemChanged:
-                    prefabManagerBase.SelectedItemChanged(messageSelectedItemChanged.SelectedPrefabID, messageSelectedItemChanged.Index);
+                    prefabManagerBase.SelectedItemChanged(messageSelectedItemChanged.Control, messageSelectedItemChanged.Index);
                     return true;
                 case MessageAddItem messageAddPrefab:
                     prefabManagerBase.AddItem(messageAddPrefab.Model);

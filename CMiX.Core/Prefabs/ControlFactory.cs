@@ -14,7 +14,6 @@ namespace CMiX.Core.Prefabs
 
         private IMapper Mapper { get; set; }
 
-
         public IControl Create(Type type) 
         {
             var modelType = AppDomain.CurrentDomain.GetAssemblies().SelectMany(x => x.GetTypes()).First(x => x.Name == type.Name + "Model");

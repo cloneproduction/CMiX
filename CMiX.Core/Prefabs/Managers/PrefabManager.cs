@@ -71,9 +71,16 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.Items[index] = newControl;
         }
 
-        public void SelectedItemChanged(Guid selectedItemID, int index)
+        public void SelectedItemChanged(IControlModel controlModel, int index)
         {
-            var control = ControlRepository.GetControl(selectedItemID);
+            if (controlModel == null)
+            {
+                SelectedItem = null;
+                ManagerData.SelectedIndex = index;
+                return;
+            }
+
+            var control = ControlRepository.GetControl(controlModel.ID);
             SelectedItem = control;
 
             if(control == null)
@@ -257,9 +264,6 @@ namespace CMiX.Core.Prefabs.Managers
             var prefab = SelectedItem as IPrefabModel;
             prefab.PrefabService.IsRenaming.Value = true;
         }
-
-
-
 
         public void Rename()
         {

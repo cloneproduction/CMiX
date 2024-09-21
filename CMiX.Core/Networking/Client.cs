@@ -9,13 +9,13 @@ namespace CMiX.Core.Services
 {
     public class Client : ObservableRecipient
     {
-        public Client(MessageProcessor messageProcessor)
+        public Client(MessageSerializer messageProcessor)
         {
             ServerIsConnected = false;
             MessageProcessor = messageProcessor;
         }
 
-        private MessageProcessor MessageProcessor { get; set; }
+        private MessageSerializer MessageProcessor { get; set; }
         public WatsonTcpClient WatsonTcpClient { get; set; }
 
         public bool ServerIsConnected { get; set; }

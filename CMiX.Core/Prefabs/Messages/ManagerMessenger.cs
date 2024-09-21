@@ -1,7 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using AutoMapper;
+using System.Collections.ObjectModel;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Prefabs.Managers;
@@ -10,34 +10,20 @@ namespace CMiX.Core.Prefabs.Messages
 {
     public class ManagerMessenger
     {
-        public ManagerMessenger(IMapper mapper, ControlRepository controlRepository)
+        public ManagerMessenger(MessageFactory messageFactory, ObservableCollection<Server> servers)
         {
-            Mapper = mapper;
+            Servers = servers;
+            MessageFactory = messageFactory;
             CanSend = true;
-            ControlRepository = controlRepository;
             CollectionHandler = new MessageCollectionManagerHandler();
         }
 
-        IMapper Mapper { get; }
-        ControlRepository ControlRepository { get; }
+        MessageFactory MessageFactory { get; }
+        ObservableCollection<Server> Servers {  get; }
         public MessageCollectionManagerHandler CollectionHandler { get; set; }
 
         private bool CanSend;
 
-        public void Receive(PrefabSelector prefabSelector, IMessage messagePrefab)
-        {
-            if (messagePrefab is not IMessageManager messageManager)
-                return;
-
-            if (prefabSelector.ID != messagePrefab.ID)
-                return;
-
-            CanSend = false;
-            CollectionHandler.Handle(prefabSelector, messagePrefab);
-            CanSend = true;
-
-            Console.WriteLine("Message " + messagePrefab.GetType().Name + " handled by ManagerMessenger");
-        }
 
         public void Receive(PrefabManager prefabManagerBase, IMessage messagePrefab)
         {
@@ -56,44 +42,43 @@ namespace CMiX.Core.Prefabs.Messages
 
         void Send(IMessage message)
         {
-            foreach (Server server in ControlRepository.Servers)
+            foreach (Server server in Servers)
                 server.SendMessage(message);
         }
 
         public void SendAddItem(Guid id, IControl control)
         {
-            var message = new MessageAddItem(id, Mapper.Map<IControlModel>(control));
+            var message = MessageFactory.CreateMessage(typeof(MessageAddItem), id, control);
             Send(message);
         }
 
         public void SendSelectedItemChanged(Guid id, IControl control, int index)
         {
-            Guid controlID = control?.ID ?? Guid.Empty;
-            var message = new MessageSelectedItemChanged(id, controlID, index);
+            var message = MessageFactory.CreateMessage(typeof(MessageSelectedItemChanged), id, control, index);
             Send(message);
         }
 
         public void SendReplaceItem(Guid id, IControl control, int index)
         {
-            var message = new MessageReplaceItem(id, Mapper.Map<IControlModel>(control), index);
+            var message = MessageFactory.CreateMessage(typeof(MessageReplaceItem), id, control, index);
             Send(message);
         }
 
         public void SendMessageRemoveItem(Guid id, IControl control)
         {
-            var message = new MessageRemoveItem(id, control);
+            var message = MessageFactory.CreateMessage(typeof(MessageRemoveItem), id, control);
             Send(message);
         }
 
         internal void SendMessageMoveItem(Guid id, int sourceIndex, int targetIndex)
         {
-            var message = new MessageMoveItem(id, sourceIndex, targetIndex);
+            var message = MessageFactory.CreateMessage(typeof(MessageMoveItem), id, sourceIndex, targetIndex);
             Send(message);
         }
 
         internal void SendRemoveSelectedItem(Guid id)
         {
-            var message = new MessageRemoveSelectedItem(id);
+            var message = MessageFactory.CreateMessage(typeof(MessageRemoveSelectedItem), id);
             Send(message);
         }
     }

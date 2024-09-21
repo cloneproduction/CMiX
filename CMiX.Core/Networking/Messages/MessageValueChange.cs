@@ -10,13 +10,13 @@ namespace CMiX.Core.Networking.Messages
 
         }
 
-        public MessageValueChange(Guid id, object value)
+        public MessageValueChange(Guid id, IControlModel value)
         {
             ID = id;
             Value = value;
         }
 
-        public object Value { get; set; }
+        public IControlModel Value { get; set; }
         public Guid ID { get; set; }
     }
 }

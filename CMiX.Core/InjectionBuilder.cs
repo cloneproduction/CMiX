@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Reflection;
+using AutoMapper;
 using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
@@ -26,8 +27,6 @@ namespace CMiX.Core
 
         }
 
-        public IServiceCollection ServiceProvider { get; set; }
-
         public void ConfigureServices(IServiceCollection services)
         {
             services.Scan(selector => selector
@@ -37,7 +36,6 @@ namespace CMiX.Core
                     .WithTransientLifetime()
             );
 
-
             services.AddSingleton<Project>();
             services.AddSingleton<CerasSerializer>();
             services.AddSingleton<MainViewModel>();
@@ -45,16 +43,17 @@ namespace CMiX.Core
             services.AddSingleton<ControlRepository>();
             services.AddSingleton<ControlFactory>();
 
+            services.AddSingleton<MessageFactory>();
             services.AddSingleton<AssetManager>();
 
             services.AddSingleton<MainWindowController>();
             services.AddSingleton<MainMenu>();
             services.AddSingleton<Client>();
 
-            services.AddSingleton<MessageProcessor>();
-            services.AddSingleton<ControlMessenger>();
-            services.AddSingleton<EventMessenger>();
-            services.AddSingleton<ManagerMessenger>();
+            services.AddSingleton<MessageSerializer>();
+            services.AddSingleton<ControlMessenger>(services => new ControlMessenger(services.GetService<IMapper>(), services.GetService<MessageFactory>(), services.GetService<ControlRepository>().Servers));
+            services.AddSingleton<EventMessenger>(services => new EventMessenger(services.GetService<ControlRepository>().Servers));
+            services.AddSingleton<ManagerMessenger>(services => new ManagerMessenger(services.GetService<MessageFactory>(), services.GetService<ControlRepository>().Servers));
 
             services.AddSingleton<MainMenuMessenger>();
 

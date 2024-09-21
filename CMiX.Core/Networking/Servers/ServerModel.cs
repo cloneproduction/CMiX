@@ -12,7 +12,7 @@ namespace CMiX.Core.Networking.Servers
             IP = new GenericValueModel<string>("127.0.0.1");
             Port = new GenericValueModel<int>();
         }
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         public GenericValueModel<string> IP { get; set; }
         public GenericValueModel<int> Port { get; set; }

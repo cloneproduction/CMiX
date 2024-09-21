@@ -3,11 +3,9 @@
 
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Networking.Messenger;
-using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Networking
 {
@@ -15,12 +13,12 @@ namespace CMiX.Core.Networking
     {
         public bool CanSend = true;
 
-        public ControlMessenger(ControlRepository controlRepository)
+        public ControlMessenger(ObservableCollection<Server> servers)
         {
-            ServerRepository = controlRepository.Servers;
+            Servers = servers;
         }
 
-        ObservableCollection<Server> ServerRepository { get; set; }
+        ObservableCollection<Server> Servers { get; set; }
 
         public void Receive<T>(GenericValue<T> control, IMessage message)
         {
@@ -41,7 +39,7 @@ namespace CMiX.Core.Networking
             {
                 var message = new MessageValueChange(control.ID, control.Value);
 
-                foreach (Server server in ServerRepository)
+                foreach (Server server in Servers)
                     server.SendMessage(message);
 
                 Debug.WriteLine("Message Sent with Value : " + control.Value);
