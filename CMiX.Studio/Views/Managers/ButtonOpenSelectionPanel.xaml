@@ -11,11 +11,8 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ToggleButton
-            x:Name="PopUpToggle"
-            Height="22"
-            Margin="1,0,0,0"
-            Content="{Binding Caption, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+
+        <ToggleButton x:Name="PopUpToggle" Content="{Binding Caption, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
         <Popup
             Width="{Binding ActualWidth, ElementName=PopUpToggle}"

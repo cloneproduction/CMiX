@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
+using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -15,12 +16,17 @@ namespace CMiX.Core.Prefabs.Managers
         public PrefabManager(ManagerData managerData,
                              ControlRepository controlRepository,
                              ControlFactory controlFactory,
-                             ManagerMessenger managerMessenger)
+                             ControlMessenger controlMessenger,
+                             MessageFactory messageFactory)
         {
             ID = managerData.ID;
-            ManagerMessenger = managerMessenger;
+
+            MessageCollectionManagerHandler = new MessageCollectionManagerHandler();
+
+            ControlMessenger = controlMessenger;
             ControlRepository = controlRepository;
             ControlFactory = controlFactory;
+            MessageFactory = messageFactory;
 
             ManagerData = managerData;
             ManagerReorderService = new ManagerReorderService(this);
@@ -41,16 +47,18 @@ namespace CMiX.Core.Prefabs.Managers
         public ICommand ReplaceSelectedItemCommand { get; set; }
         public ICommand ResetItemCommand { get; set; }
 
+        
 
         [ObservableProperty]
         private bool isExpanded;
 
         public ManagerReorderService ManagerReorderService { get; set; }
-        public ManagerMessenger ManagerMessenger { get; set; }
+        public ControlMessenger ControlMessenger { get; set; }
         public ControlRepository ControlRepository { get; set; }
         public ControlFactory ControlFactory { get; set; }
+        public MessageFactory MessageFactory { get; set; }
         public ManagerData ManagerData { get; set; }
-
+        public MessageCollectionManagerHandler MessageCollectionManagerHandler { get; set; }
 
         private IControl _selectedItem;
         public IControl SelectedItem
@@ -60,7 +68,11 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 SetProperty(ref _selectedItem, value);
                 if (IsActive)
-                    ManagerMessenger.SendSelectedItemChanged(ManagerData.ID, SelectedItem, ManagerData.SelectedIndex);
+                {
+                    var message = MessageFactory.CreateMessage<MessageSelectedItemChanged>(ManagerData.ID, SelectedItem, ManagerData.SelectedIndex);
+                    ControlMessenger.SendMessage(message);
+                }
+                    
             }
         }
 
@@ -103,13 +115,15 @@ namespace CMiX.Core.Prefabs.Managers
             if (items.Count == 0)
             {
                 items.Add(prefab);
-                ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
+                var message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab);
+                ControlMessenger.SendMessage(message);
             }
             else
             {
                 var index = ManagerData.SelectedIndex;
                 items[index] = prefab;
-                ManagerMessenger.SendReplaceItem(ManagerData.ID, prefab, index);
+                var message = MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, prefab, index);
+                ControlMessenger.SendMessage(message);
             }
 
             SelectedItem = prefab;
@@ -152,12 +166,14 @@ namespace CMiX.Core.Prefabs.Managers
             if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefab pre)
             {
                 items[items.IndexOf(emptyPrefab)] = prefab;
-                ManagerMessenger.SendReplaceItem(ManagerData.ID, pre, ManagerData.Items.IndexOf(prefab));
+                var message = MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, pre, ManagerData.Items.IndexOf(prefab));
+                ControlMessenger.SendMessage(message);
             }
             else
             {
                 items.Add(prefab);
-                ManagerMessenger.SendAddItem(ManagerData.ID, prefab);
+                var message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab);
+                ControlMessenger.SendMessage(message);
             }
 
             SelectedItem = prefab;
@@ -182,7 +198,8 @@ namespace CMiX.Core.Prefabs.Managers
         public void RemoveSelectedItem()
         {
             SelectedItem = null;
-            ManagerMessenger.SendRemoveSelectedItem(ManagerData.ID);
+            var message = MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ManagerData.ID);
+            ControlMessenger.SendMessage(message);
         }
 
         public void DeleteItem(IControl control)
@@ -193,7 +210,8 @@ namespace CMiX.Core.Prefabs.Managers
                 return;
 
             ManagerData.Items.RemoveAt(index);
-            ManagerMessenger.SendMessageRemoveItem(ManagerData.ID, control);
+            var message = MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, control);
+            ControlMessenger.SendMessage(message);
 
             if (ManagerData.Items.Count == 0)
             {
@@ -276,7 +294,17 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void Receive(IMessage message)
         {
-            ManagerMessenger.Receive(this, message);
+            if (message is not IMessageManager messageManager)
+                return;
+
+            if (this.ManagerData.ID != message.ID)
+                return;
+
+            this.IsActive = false;
+            MessageCollectionManagerHandler.Handle(this, message);
+            this.IsActive = true;
+
+            Console.WriteLine("Message " + message.GetType().Name + " handled by ManagerMessenger");
         }
     }
 }

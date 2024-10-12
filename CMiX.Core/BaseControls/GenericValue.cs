@@ -4,6 +4,7 @@
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -17,9 +18,10 @@ namespace CMiX.Core.BaseControls
             
         }
 
-        public GenericValue(ControlMessenger controlMessenger)
+        public GenericValue(ControlMessenger controlMessenger, MessageFactory messageFactory)
         {
             ID = Guid.NewGuid();
+            MessageFactory = messageFactory;
             ControlMessenger = controlMessenger;
             ResetCommand = new RelayCommand(Reset);
             IsActive = true;
@@ -33,6 +35,7 @@ namespace CMiX.Core.BaseControls
         public Guid ID { get; set; }
         public ICommand ResetCommand { get; set; }
         public ControlMessenger ControlMessenger { get; set; }
+        public MessageFactory MessageFactory { get; set; }
 
         private T _value;
         public T Value
@@ -42,8 +45,10 @@ namespace CMiX.Core.BaseControls
             {
                 SetProperty(ref _value, value);
                 if (IsActive)
-                    ControlMessenger.Send(this);
-                Console.WriteLine(value);
+                {
+                    var message = MessageFactory.CreateMessage<MessageValueChange>(this.ID, this);
+                    ControlMessenger.SendMessage(message);
+                }
             }
         }
 
@@ -56,7 +61,16 @@ namespace CMiX.Core.BaseControls
 
         public void Receive(IMessage message)
         {
-            ControlMessenger.Receive(this, message);
+            if (message.ID != this.ID)
+                return;
+
+            if (message is MessageValueChange change)
+            {
+                var val = change.Value;
+                this.Value = ((GenericValueModel<T>)val).Value;
+            }
+
+            Console.WriteLine("Message Received with Value : " + this.Value);
         }
     }
 }

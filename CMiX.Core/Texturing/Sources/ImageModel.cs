@@ -16,13 +16,13 @@ namespace CMiX.Core.Texturing.Sources
             PrefabService = new PrefabServiceModel();
             FilterManager = new PrefabManagerModel();
             Resolution = new Integer2Model(0, 0);
-            Asset = new GenericValueModel<Asset>(null);
+            Asset = new GenericValueModel<IAsset>(null);
         }
 
         public PrefabServiceModel PrefabService { get; set; }
         public PrefabManagerModel FilterManager { get; set; }
         public Integer2Model Resolution { get; set; }
         public Guid ID { get; set; }
-        public GenericValueModel<Asset> Asset { get; set; }
+        public GenericValueModel<IAsset> Asset { get; set; }
     }
 }

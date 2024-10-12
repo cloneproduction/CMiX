@@ -18,7 +18,10 @@
         </i:Interaction.Behaviors>
         <StackPanel>
 
-            <Panels:IndentedExpander DockPanel.Dock="Top" Header="Filters">
+            <Panels:IndentedExpander
+                DockPanel.Dock="Top"
+                Header="Filters"
+                IsExpanded="{Binding TextureModifierIsExpanded}">
                 <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
                         <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
@@ -26,7 +29,10 @@
                 </Views:ModifierManager>
             </Panels:IndentedExpander>
 
-            <Panels:IndentedExpander DockPanel.Dock="Top" Header="Settings">
+            <Panels:IndentedExpander
+                DockPanel.Dock="Top"
+                Header="Settings"
+                IsExpanded="{Binding OutputSettingsIsExpanded}">
                 <Views:CompositionSettings Margin="8" DataContext="{Binding OutputSettings}" />
             </Panels:IndentedExpander>
 

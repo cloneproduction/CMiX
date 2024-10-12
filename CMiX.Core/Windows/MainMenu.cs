@@ -7,7 +7,6 @@ using Ceras;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -19,10 +18,10 @@ namespace CMiX.Core.ViewModels
 {
     public partial class MainMenu : ObservableRecipient, IRecipient<IMessage>
     {
-        public MainMenu(Project project, IMapper mapper, ControlFactory controlFactory, MainMenuMessenger mainMenuMessenger)
+        public MainMenu(Project project, IMapper mapper, ControlFactory controlFactory, CerasSerializer cerasSerializer)
         {
             Project = project;
-            Serializer = new CerasSerializer();
+            Serializer = cerasSerializer;
 
             IsActive = true;
 
@@ -36,8 +35,6 @@ namespace CMiX.Core.ViewModels
             DialogService = new DialogService();
             Mapper = mapper;
             ControlFactory = controlFactory;
-
-            MainMenuMessenger = mainMenuMessenger;
         }
 
 
@@ -46,7 +43,7 @@ namespace CMiX.Core.ViewModels
         public DialogService DialogService { get; set; }
         public CerasSerializer Serializer { get; set; }
         public Project Project { get; set; }
-        public MainMenuMessenger MainMenuMessenger { get; set; }
+
 
         public ICommand NewProjectCommand { get; }
         public ICommand SaveProjectCommand { get; }
@@ -57,8 +54,8 @@ namespace CMiX.Core.ViewModels
 
 
 
-        [ObservableProperty]
-        private bool path;
+        //[ObservableProperty]
+        //private bool path;
 
         public string FolderPath { get; set; }
 
@@ -93,26 +90,21 @@ namespace CMiX.Core.ViewModels
                     var compositionModel = Serializer.Deserialize<CompositionModel>(data);
                     var composition = ControlFactory.Create(compositionModel);
                     Project.CompositionManager.SelectedItem = composition;
-
-                    MainMenuMessenger.SendOpenProject(folderPath);
                 }
             }
         }
 
-        public IControl Composition { get; set; }
 
         public void OpenProject(string filePath)
         {
             byte[] data = File.ReadAllBytes(filePath); 
             var compositionModel = Serializer.Deserialize<CompositionModel>(data);
             var composition = ControlFactory.Create(compositionModel);
-            Composition = composition;
 
             Project.CompositionManager.SelectedItem = composition;
             Project.CompositionManager.ManagerData.Items.Insert(0, composition);
             Project.CompositionManager.ManagerData.SelectedIndex = 0;
         }
-
 
         private void SaveProject()
         {
@@ -146,7 +138,7 @@ namespace CMiX.Core.ViewModels
 
         public void Receive(IMessage message)
         {
-            MainMenuMessenger.Receive(this, message);
+            //MainMenuMessenger.Receive(this, message);
         }
     }
 }

@@ -3,13 +3,12 @@
 
 using System.Windows;
 using System.Windows.Input;
-//using CMiX.Core.Presentation.ViewModels.Dialogs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.ViewModels.Windows
 {
-    public class MainWindowController : ObservableObject
+    public class MainWindowController : ObservableObject, IControl
     {
         public MainWindowController()
         {
@@ -22,7 +21,7 @@ namespace CMiX.Core.ViewModels.Windows
         public ICommand CloseWindowCommand { get; }
         public ICommand MinimizeWindowCommand { get; }
         public ICommand MaximizeWindowCommand { get; }
-
+        public Guid ID { get; set ; }
 
         public void MaximizeWindow(object obj)
         {

@@ -98,7 +98,7 @@
             </HierarchicalDataTemplate>
 
 
-            <DataTemplate x:Key="AssetTextureTemplate" DataType="{x:Type Assets:Asset}">
+            <!--<DataTemplate x:Key="AssetTextureTemplate" DataType="{x:Type Assets:Asset}">
                 <Border Style="{StaticResource BaseBorderStyle}">
                     <DockPanel Margin="0,1">
                         <Image
@@ -109,7 +109,7 @@
                         <TextBlock Text="{Binding Path=Name}" ToolTip="{Binding Path=Path}" />
                     </DockPanel>
                 </Border>
-            </DataTemplate>
+            </DataTemplate>-->
 
             <!--<DataTemplate x:Key="AssetVideoTemplate" DataType="{x:Type Assets:AssetVideo}">
                 <Border Style="{StaticResource BaseBorderStyle}">
@@ -191,14 +191,14 @@
         dd:DragDrop.IsDropTarget="True"
         Background="{DynamicResource HighDarkerColor}">
         <StackPanel>
-            <Expander Header="Images">
+            <Expander Header="Images" IsExpanded="True">
                 <ListBox
                     dd:DragDrop.DropHandler="{Binding}"
                     dd:DragDrop.IsDropTarget="True"
                     AlternationCount="2"
                     Background="Transparent"
                     DockPanel.Dock="Top"
-                    ItemsSource="{Binding ImageAssets}"
+                    ItemsSource="{Binding AssetRepository.Images}"
                     SelectionMode="Extended">
 
                     <ListBox.ItemTemplate>
@@ -220,14 +220,14 @@
 
                 </ListBox>
             </Expander>
-            <Expander Header="Videos">
+            <Expander Header="Videos" IsExpanded="True">
                 <ListBox
                     dd:DragDrop.DropHandler="{Binding}"
                     dd:DragDrop.IsDropTarget="True"
                     AlternationCount="2"
                     Background="Transparent"
                     DockPanel.Dock="Top"
-                    ItemsSource="{Binding VideoAssets}"
+                    ItemsSource="{Binding AssetRepository.Videos}"
                     SelectionMode="Extended">
 
                     <ListBox.ItemTemplate>
@@ -249,14 +249,14 @@
 
                 </ListBox>
             </Expander>
-            <Expander Header="Geometries">
+            <Expander Header="Geometries" IsExpanded="True">
                 <ListBox
                     dd:DragDrop.DropHandler="{Binding}"
                     dd:DragDrop.IsDropTarget="True"
                     AlternationCount="2"
                     Background="Transparent"
                     DockPanel.Dock="Top"
-                    ItemsSource="{Binding GeometryAssets}"
+                    ItemsSource="{Binding AssetRepository.Geometries}"
                     SelectionMode="Extended">
 
                     <ListBox.ItemTemplate>

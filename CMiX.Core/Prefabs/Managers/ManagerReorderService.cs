@@ -19,6 +19,7 @@ namespace CMiX.Core.Prefabs.Managers
         {
             PrefabManager = prefabManager;
 
+
             ID = prefabManager.ManagerData.ID;
 
             ItemUpCommand = new RelayCommand<IControl>(ItemUp);
@@ -48,7 +49,8 @@ namespace CMiX.Core.Prefabs.Managers
                 return;
 
             items.Move(index, index - 1);
-            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, index, index - 1);
+            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, index, index - 1);
+            PrefabManager.ControlMessenger.SendMessage(message);
         }
 
         public void ItemDown(IControl control)
@@ -64,7 +66,8 @@ namespace CMiX.Core.Prefabs.Managers
                 return;
 
             items.Move(index, index + 1);
-            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, index, index + 1);
+            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, index, index + 1);
+            PrefabManager.ControlMessenger.SendMessage(message);
         }
 
 
@@ -138,15 +141,16 @@ namespace CMiX.Core.Prefabs.Managers
                 return;
             }
 
-            PrefabManager.ManagerData.Items.Move(sourceIndex, targetIndex);
-            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
+            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
+            PrefabManager.ControlMessenger.SendMessage(message);
         }
 
         public void MoveOnDrop(int sourceIndex, int targetIndex)
         {
             targetIndex -= 1;
             PrefabManager.ManagerData.Items.Move(sourceIndex, targetIndex);
-            PrefabManager.ManagerMessenger.SendMessageMoveItem(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
+            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
+            PrefabManager.ControlMessenger.SendMessage(message);
         }
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)

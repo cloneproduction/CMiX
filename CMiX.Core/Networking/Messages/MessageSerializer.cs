@@ -13,7 +13,7 @@ namespace CMiX.Core.Networking.Messages
             Serializer = cerasSerializer;
         }
 
-        public CerasSerializer Serializer { get; set; }
+        public CerasSerializer Serializer { get; }
 
         public void ProcessMessage(byte[] data)
         {

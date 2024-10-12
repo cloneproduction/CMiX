@@ -18,7 +18,7 @@ namespace CMiX.Core.Texturing.Sources
                            GenericValue<int> seekFrame, 
                            GenericValue<bool> play, 
                            Button doSeek, 
-                           GenericValue<Asset> asset)
+                           GenericValue<IAsset> asset)
         {
             Resolution = resolution;
             SeekFrame = seekFrame;
@@ -34,7 +34,7 @@ namespace CMiX.Core.Texturing.Sources
         public Button DoSeek { get; set; }
         public GenericValue<int> SeekFrame { get; set; }
         public GenericValue<bool> Play { get; set; }
-        public GenericValue<Asset> Asset { get; set; }
+        public GenericValue<IAsset> Asset { get; set; }
         public Integer2 Resolution { get; set; }
         public PrefabManager FilterManager { get; set; }
 

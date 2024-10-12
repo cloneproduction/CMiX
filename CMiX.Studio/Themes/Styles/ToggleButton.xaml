@@ -10,6 +10,7 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style TargetType="{x:Type ToggleButton}">
+        <Setter Property="Height" Value="22" />
         <Setter Property="Background" Value="{DynamicResource Color}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -23,7 +24,6 @@
 
                     <Border
                         x:Name="border"
-                        Padding="4"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Background="{TemplateBinding Background}"
@@ -99,7 +99,7 @@
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -109,7 +109,7 @@
                                 <Condition Property="IsMouseOver" Value="false" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 

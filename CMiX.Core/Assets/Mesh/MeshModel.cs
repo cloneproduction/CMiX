@@ -16,7 +16,7 @@ namespace CMiX.Core.ViewModels
 
             MeshTypeSelector = new GenericValueModel<MeshType>(MeshType.Plane);
 
-            Geometry = new GenericValueModel<Asset>(null);
+            Geometry = new GenericValueModel<IAsset>(null);
             Scale = new Vector3Model(1.0f, 1.0f, 1.0f);
             Offset = new Vector3Model(0.0f, 0.0f, 0.0f);
             Radius = new GenericValueModel<float>(1.0f);
@@ -38,7 +38,7 @@ namespace CMiX.Core.ViewModels
 
         public Guid ID { get; set; }
         public GenericValueModel<MeshType> MeshTypeSelector { get; internal set; }
-        public GenericValueModel<Asset> Geometry { get; set; }
+        public GenericValueModel<IAsset> Geometry { get; set; }
         public Text3DSettingsModel Text3DSettings { get; set; }
         public Vector3Model Scale { get; set; }
         public Vector3Model Offset { get; set; }

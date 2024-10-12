@@ -15,43 +15,50 @@ namespace CMiX.Core.Prefabs.Messages
 
         IMapper Mapper;
 
-        public IMessage CreateMessage(Type messageType, Guid id, IControl control)
+        public IMessage CreateMessage<T>(Guid id, IControl control)
         {
-            
-            if (messageType == typeof(MessageValueChange))
+            var type = typeof(T);
+
+            if (type == typeof(MessageValueChange))
                 return new MessageValueChange(id, Mapper.Map<IControlModel>(control));
 
-            if (messageType == typeof(MessageAddItem))
+            if (type == typeof(MessageAddItem))
                 return new MessageAddItem(id, Mapper.Map<IControlModel>(control));
 
-            if (messageType == typeof(MessageRemoveItem))
+            if (type == typeof(MessageRemoveItem))
                 return new MessageRemoveItem(id, control);
 
             return null;
         }
 
-        public IMessage CreateMessage(Type messageType, Guid id, IControl control, int index)
+        public IMessage CreateMessage<T>(Guid id, IControl control, int index)
         {
-            if (messageType == typeof(MessageSelectedItemChanged))
+            var type = typeof(T);
+
+            if (type == typeof(MessageSelectedItemChanged))
                 return new MessageSelectedItemChanged(id, Mapper.Map<IControlModel>(control), index);
 
-            if (messageType == typeof(MessageReplaceItem))
+            if (type == typeof(MessageReplaceItem))
                 return new MessageReplaceItem(id, Mapper.Map<IControlModel>(control), index);
 
             return null;
         }
 
-        public IMessage CreateMessage(Type messageType, Guid id, int sourceIndex, int targetIndex)
+        public IMessage CreateMessage<T>(Guid id, int sourceIndex, int targetIndex)
         {
-            if (messageType == typeof(MessageMoveItem))
+            var type = typeof(T);
+
+            if (type == typeof(MessageMoveItem))
                 return new MessageMoveItem(id, sourceIndex, targetIndex);
 
             return null;
         }
 
-        public IMessage CreateMessage(Type messageType, Guid id)
+        public IMessage CreateMessage<T>(Guid id)
         {
-            if (messageType == typeof(MessageRemoveSelectedItem))
+            var type = typeof(T);
+
+            if (type == typeof(MessageRemoveSelectedItem))
                 return new MessageRemoveSelectedItem(id);
 
             return null;

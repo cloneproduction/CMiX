@@ -2,30 +2,23 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Input;
-using CMiX.Core.Collections;
-using CMiX.Core.Compositing;
+using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.ViewModels.Assets
 {
-    public class AssetManager : ObservableRecipient, IDropTarget, IDragSource
+    public class AssetManager : ObservableRecipient, IControl, IDropTarget, IDragSource
     {
-        public AssetManager(Project project)
+        public AssetManager(AssetRepository assetRepository)
         {
-            Project = project;
-
-            VideoAssets = new SortableObservableCollection<Asset>();
-            ImageAssets = new SortableObservableCollection<Asset>();
-            GeometryAssets = new SortableObservableCollection<Asset>();
-
+            AssetRepository = assetRepository;
 
             SelectedItems = new ObservableCollection<IAsset>();
-            SelectedItems.CollectionChanged += CollectionChanged;
+            //SelectedItems.CollectionChanged += CollectionChanged;
 
             AddAssetCommand = new RelayCommand(AddAsset);
             DeleteAssetsCommand = new RelayCommand(DeleteAssets);
@@ -33,14 +26,14 @@ namespace CMiX.Core.ViewModels.Assets
             RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
-        public Project Project { get; set; }
-
 
         public ICommand RenameAssetCommand { get; set; }
         public ICommand AddAssetCommand { get; set; }
         public ICommand DeleteAssetsCommand { get; set; }
         public ICommand DeleteSelectedItemCommand { get; set; }
         public ICommand RelinkAssetsCommand { get; set; }
+
+        public AssetRepository AssetRepository { get; set; }
 
 
         private ObservableCollection<IAsset> _selectedItems;
@@ -79,11 +72,7 @@ namespace CMiX.Core.ViewModels.Assets
             set => SetProperty(ref _canRelinkAsset, value);
         }
 
-
-        public SortableObservableCollection<Asset> VideoAssets { get; set; }
-        public SortableObservableCollection<Asset> ImageAssets { get; set; }
-        public SortableObservableCollection<Asset> GeometryAssets { get; set; }
-
+        public Guid ID { get; set; }
 
         public void RenameAsset()
         {
@@ -198,26 +187,25 @@ namespace CMiX.Core.ViewModels.Assets
 
         private void CreateAssetFromPath(string path)
         {
-
             if (File.Exists(path))
             {
                 string fileType = Path.GetExtension(path).ToUpper().TrimStart('.');
 
                 if(fileType == "PNG" || fileType == "JPG" || fileType == "JPEG")
                 {
-                    ImageAssets.Add(new Asset(path));
+                    AssetRepository.Add(new Image(path));
                     return;
                 }
 
                 if(fileType == "OBJ" || fileType == "FBX")
                 {
-                    GeometryAssets.Add(new Asset(path));
+                    AssetRepository.Add(new Geometry(path));
                     return;
                 }
 
                 if(fileType == "MOV")
                 {
-                    VideoAssets.Add(new Asset(path));
+                    AssetRepository.Add(new Video(path));
                     return;
                 }
             }
@@ -260,7 +248,6 @@ namespace CMiX.Core.ViewModels.Assets
             {
                 foreach (string str in dataObject.GetFileDropList())
                 {
-
                     if (File.Exists(str))
                         CreateAssetFromPath(str);
 
@@ -354,21 +341,21 @@ namespace CMiX.Core.ViewModels.Assets
             throw new NotImplementedException();
         }
 
-        public void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            CanRenameAsset = (SelectedItems.Count == 1 && SelectedItems.OfType<AssetDirectory>().Any());
-            CanAddAsset = (SelectedItems.Count == 1 && SelectedItems.OfType<AssetDirectory>().Any());
-            CanDeleteAsset = !SelectedItems.OfType<AssetDirectory>().Any(c => c.IsRoot == true);
-            CanRelinkAsset = (SelectedItems.Count == 1 && !SelectedItems.OfType<AssetDirectory>().Any());
+        //public void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    CanRenameAsset = (SelectedItems.Count == 1 && SelectedItems.OfType<AssetDirectory>().Any());
+        //    CanAddAsset = (SelectedItems.Count == 1 && SelectedItems.OfType<AssetDirectory>().Any());
+        //    CanDeleteAsset = !SelectedItems.OfType<AssetDirectory>().Any(c => c.IsRoot == true);
+        //    CanRelinkAsset = (SelectedItems.Count == 1 && !SelectedItems.OfType<AssetDirectory>().Any());
 
-            if (SelectedItems.Count == 0)
-            {
-                CanAddAsset = false;
-                CanRenameAsset = false;
-                CanDeleteAsset = false;
-                CanRelinkAsset = false;
-            }
-        }
+        //    if (SelectedItems.Count == 0)
+        //    {
+        //        CanAddAsset = false;
+        //        CanRenameAsset = false;
+        //        CanDeleteAsset = false;
+        //        CanRelinkAsset = false;
+        //    }
+        //}
 
         public void DragEnter(IDropInfo dropInfo)
         {

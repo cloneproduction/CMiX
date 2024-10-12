@@ -15,7 +15,7 @@ namespace CMiX.Core.Texturing.Sources
         public Image(PrefabService prefabService, 
                      PrefabManager filterManager,
                      Integer2 resolution, 
-                     GenericValue<Asset> asset)
+                     GenericValue<IAsset> asset)
         {
             ID = Guid.NewGuid();
             PrefabService = prefabService;
@@ -27,7 +27,7 @@ namespace CMiX.Core.Texturing.Sources
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public Integer2 Resolution { get; set; }
-        public GenericValue<Asset> Asset { get; set; }
+        public GenericValue<IAsset> Asset { get; set; }
         public PrefabManager FilterManager { get; set; }
 
         [ObservableProperty]

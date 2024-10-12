@@ -21,7 +21,7 @@ namespace CMiX.Core.ViewModels
                     Integer2 tessellationXY,
                     GenericValue<bool> generateBackFace,
                     GenericValue<bool> visibility,
-                    GenericValue<Asset> geometry,
+                    GenericValue<IAsset> geometry,
                     Text3DSettings text3DSettings,
                     PrefabManager explodeTriangleTextureManager,
                     GenericValue<float> explodeStrength)
@@ -49,7 +49,7 @@ namespace CMiX.Core.ViewModels
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
         public Text3DSettings Text3DSettings { get; set; }
-        public GenericValue<Asset> Geometry { get; set; }
+        public GenericValue<IAsset> Geometry { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Offset { get; set; }
         public GenericValue<float> Radius { get; set; }

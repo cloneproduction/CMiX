@@ -12,7 +12,7 @@ namespace CMiX.Core.Prefabs
             Mapper = mapper;
         }
 
-        private IMapper Mapper { get; set; }
+        private IMapper Mapper { get; }
 
         public IControl Create(Type type) 
         {

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
+using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -12,16 +13,16 @@ namespace CMiX.Core.BaseControls
 {
     public class Button : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public Button(EventMessenger eventMessenger)
+        public Button(ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
-            EventMessenger = eventMessenger;
+            ControlMessenger = controlMessenger;
             ClickCommand = new RelayCommand(OnClick);
             IsActive = true;
         }
 
         public ICommand ClickCommand { get; set; }
-        EventMessenger EventMessenger { get; set; }
+        ControlMessenger ControlMessenger { get; set; }
 
         public delegate void ClickEventHandler(object source, EventArgs args);
         public event ClickEventHandler Click;
@@ -29,7 +30,8 @@ namespace CMiX.Core.BaseControls
         public void OnClick()
         {
             Click?.Invoke(this, null);
-            EventMessenger.SendMessageEvent(this.ID);
+            var message = new MessageOnClick(this.ID);
+            ControlMessenger.SendMessage(message);
 
         }
 
@@ -37,7 +39,12 @@ namespace CMiX.Core.BaseControls
 
         public void Receive(IMessage message)
         {
-            EventMessenger.Receive(this, message);
+            if (this.ID != message.ID)
+                return;
+
+            this.OnClick();
+
+            Console.WriteLine("ButtonClick Received");
         }
     }
 }

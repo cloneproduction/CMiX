@@ -5,13 +5,13 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="94"
-    d:DesignWidth="272"
+    d:DesignHeight="25.014"
+    d:DesignWidth="274.09"
     mc:Ignorable="d">
 
     <Views:PathSelector
         VerticalAlignment="Top"
-        ItemsSource="{Binding Path=DataContext.AssetManager.ImageAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+        ItemsSource="{Binding Path=DataContext.AssetManager.AssetRepository.Images, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
         SelectedItem="{Binding Asset.Value}" />
 
 </UserControl>

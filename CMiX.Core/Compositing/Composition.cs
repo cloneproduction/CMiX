@@ -7,11 +7,11 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
-using Microsoft.Extensions.Options;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public class Composition : IControl, IPrefab, ITextureModifiable, IModifiable
+    public partial class Composition : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable
     {
         public Composition(PrefabService prefabService, 
                            MasterBeat masterBeat,
@@ -37,5 +37,11 @@ namespace CMiX.Core.Compositing
         public OutputSettings OutputSettings { get; set; }
         public MasterBeat MasterBeat { get; set; }
         public PrefabManager ModifierManager { get; set; }
+
+        [ObservableProperty]
+        private bool textureModifierIsExpanded = true;
+
+        [ObservableProperty]
+        private bool outputSettingsIsExpanded = true;
     }
 }

@@ -236,7 +236,7 @@
                                         <Views:RepositoryManager.SelectionPanel>
                                             <Button
                                                 Command="{Binding AddItemCommand}"
-                                                CommandParameter="{x:Type Compositing:EntityModel}"
+                                                CommandParameter="{x:Type Compositing:Entity}"
                                                 Content="New Entity" />
                                         </Views:RepositoryManager.SelectionPanel>
                                     </Views:RepositoryManager>
@@ -287,7 +287,7 @@
                                     <Views:RepositoryManager.SelectionPanel>
                                         <Button
                                             Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Materials:MaterialModel}"
+                                            CommandParameter="{x:Type Materials:Material}"
                                             Content="New Material" />
                                     </Views:RepositoryManager.SelectionPanel>
                                     <Views:RepositoryManager.EditingPanel>
