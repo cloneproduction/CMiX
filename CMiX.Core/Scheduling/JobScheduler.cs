@@ -24,22 +24,15 @@ namespace CMiX.Core.ViewModels.Scheduling
 
         public void AddJob(Job job)
         {
-            JobManager.AddJob(job, job.Action);
+            //JobManager.AddJob(job, job.Action);
             Schedules.Add(job);
+
         }
 
         public void RemoveJob(Job job)
         {
-            JobManager.RemoveJob(job.Name);
+            JobManager.RemoveJob(job.PrefabService.Name.Value);
             Schedules.Remove(job);
-        }
-
-
-        public IControlModel GetModel()
-        {
-            JobSchedulerModel jobSchedulerModel = new JobSchedulerModel();
-            jobSchedulerModel.ID = this.ID;
-            return jobSchedulerModel;
         }
     }
 }

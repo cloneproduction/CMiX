@@ -7,6 +7,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Scheduling;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using FluentScheduler;
 //using MvvmDialogs;
 
 namespace CMiX.Core.ViewModels.Scheduling
@@ -20,20 +21,17 @@ namespace CMiX.Core.ViewModels.Scheduling
             PlaylistEditor = new PlaylistEditor(project);
             JobEditor = new JobEditor(project);
             IsActive = true;
-            AddJobCommand = new RelayCommand(AddJob);
+            //AddJobCommand = new RelayCommand(AddJob);
             AddItemCommand = new RelayCommand(CreateScheduler);
             DeleteItemCommand = new RelayCommand(DeleteScheduler);
         }
 
         public Project Project { get; set; }
 
-        //public SchedulerManager(IProject project) : this(project)
-        //{
-        //    //DialogService = dialogService;
-        //}
 
-        private void AddJob()
+        public void AddJob(IJob job)
         {
+            JobManager.AddJob(job, s => s.ToRunEvery(5).Seconds());
             //JobEditor jobEditor = new JobEditor(Project);
             //bool? success = DialogService.ShowDialog<TaskEditor>(this, jobEditor);
             //if (success == true)
@@ -61,25 +59,20 @@ namespace CMiX.Core.ViewModels.Scheduling
         }
 
 
-        //public ObservableCollection<Playlist> Playlists
-        //{
-        //    //get => PlaylistEditor.Project.Playlists;
-        //}
+
+        public IEnumerable<Schedule> Schedules
+        {
+            get => JobManager.AllSchedules;
+        }
+
+
+        public void Test()
+        {
+            var s = JobManager.AllSchedules.FirstOrDefault();
+
+        }
 
         public ObservableCollection<CompositionScheduler> CompositionSchedulers { get; set; }
-
-
-
-        private int _selectedSchedulerIndex;
-        public int SelectedSchedulerIndex
-        {
-            get => _selectedSchedulerIndex;
-            set
-            {
-                SetProperty(ref _selectedSchedulerIndex, value);
-                //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageSelectedSchedulerIndex(value), MessageType.Out);
-            }
-        }
 
 
 
@@ -88,8 +81,6 @@ namespace CMiX.Core.ViewModels.Scheduling
             CompositionSchedulerModel compositionSchedulerModel = new CompositionSchedulerModel();
             CompositionScheduler compositionScheduler = new CompositionScheduler(compositionSchedulerModel);
             CompositionSchedulers.Add(compositionScheduler);
-
-            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddScheduler(compositionSchedulerModel), MessageType.Out);
         }
 
         public void CreateScheduler(CompositionSchedulerModel compositionSchedulerModel)

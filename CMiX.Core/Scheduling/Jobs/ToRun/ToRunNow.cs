@@ -31,12 +31,5 @@ namespace CMiX.Core.ViewModels.Scheduling
         {
             schedule.ToRunNow();
         }
-
-        public IControlModel GetModel()
-        {
-            ToRunNowModel toRunNowModel = new ToRunNowModel();
-            toRunNowModel.Name = this.Name;
-            return toRunNowModel;
-        }
     }
 }

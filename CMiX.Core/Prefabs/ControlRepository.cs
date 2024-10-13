@@ -8,6 +8,7 @@ using CMiX.Core.Materials;
 using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Scheduling;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -27,10 +28,11 @@ namespace CMiX.Core.Prefabs
             Servers = new ObservableCollection<Server>();
             BeatModifiers = new ObservableCollection<BeatModifier>();
             Texts = new ObservableCollection<TextEntity>();
+            Jobs = new ObservableCollection<Job>();
         }
 
-
         private int nameCount = 1;
+
 
         private ObservableCollection<IControl> _controls;
         public ObservableCollection<IControl> Controls
@@ -106,8 +108,17 @@ namespace CMiX.Core.Prefabs
 
             if (control is TextEntity textEntity)
                 Texts.Add(textEntity);
+
+            if (control is Job job)
+                Jobs.Add(job);
         }
 
+        private ObservableCollection<Job> _jobs;
+        public ObservableCollection<Job> Jobs
+        {
+            get => _jobs;
+            set => SetProperty(ref _jobs, value);
+        }
 
         private ObservableCollection<Server> _servers;
         public ObservableCollection<Server> Servers

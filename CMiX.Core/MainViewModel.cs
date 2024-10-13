@@ -20,12 +20,15 @@ namespace CMiX.Core.ViewModels
                              PrefabManager cameraManager,
                              PrefabManager lightManager,
                              PrefabManager beatManager,
+                             PrefabManager jobManager,
                              ServerManager serverManager,
                              ControlRepository controlRepository, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 
                              MainMenu mainMenu)
         {
+            JobManager = jobManager;
+            jobManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF07");
             BeatManager = beatManager;
             beatManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF06");
             LightManager = lightManager;
@@ -49,6 +52,7 @@ namespace CMiX.Core.ViewModels
         }
 
         public ServerManager ServerManager { get; set; }
+        public PrefabManager JobManager { get; set; }
         public PrefabManager BeatManager { get; set; }
         public PrefabManager LightManager { get; set; }
         public PrefabManager EntityManager { get; set; }

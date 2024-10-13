@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Scheduling;
@@ -40,22 +39,14 @@ namespace CMiX.Core.ViewModels.Scheduling
 
         public void AddJob(Job job)
         {
-            JobManager.AddJob(job, job.Action);
+            //JobManager.AddJob(job, job.Action);
             Schedules.Add(job);
         }
 
         public void RemoveJob(Job job)
         {
-            JobManager.RemoveJob(job.Name);
+            JobManager.RemoveJob(job.PrefabService.Name.Value);
             Schedules.Remove(job);
-        }
-
-
-        public IControlModel GetModel()
-        {
-            CompositionSchedulerModel compositionSchedulerModel = new CompositionSchedulerModel();
-            compositionSchedulerModel.ID = this.ID;
-            return compositionSchedulerModel;
         }
     }
 }

@@ -60,6 +60,7 @@ namespace CMiX.Core.Prefabs.Managers
         public ManagerData ManagerData { get; set; }
         public MessageCollectionManagerHandler MessageCollectionManagerHandler { get; set; }
 
+
         private IControl _selectedItem;
         public IControl SelectedItem
         {
@@ -72,7 +73,6 @@ namespace CMiX.Core.Prefabs.Managers
                     var message = MessageFactory.CreateMessage<MessageSelectedItemChanged>(ManagerData.ID, SelectedItem, ManagerData.SelectedIndex);
                     ControlMessenger.SendMessage(message);
                 }
-                    
             }
         }
 
