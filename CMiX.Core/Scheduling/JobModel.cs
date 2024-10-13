@@ -1,13 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Scheduling
 {
-    public sealed class JobModel : IControlModel
+    public class JobModel : IControlModel, IPrefabModel
     {
         public JobModel()
         {

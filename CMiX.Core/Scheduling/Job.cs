@@ -8,7 +8,7 @@ using FluentScheduler;
 
 namespace CMiX.Core.Scheduling
 {
-    public class Job : ObservableObject, IPrefab//, IJob
+    public class Job : ObservableObject, IControl, IPrefab, IJob
     {
         public Job(PrefabService prefabService, GenericValue<float> floatTest)
         {
@@ -28,7 +28,6 @@ namespace CMiX.Core.Scheduling
         //{
         //    get => _nextRun;
         //}
-
 
         public event EventHandler OnTriggerBySchedule;
 
