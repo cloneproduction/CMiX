@@ -22,12 +22,11 @@ namespace CMiX.Core.ViewModels.Assets
 
             AddAssetCommand = new RelayCommand(AddAsset);
             DeleteAssetsCommand = new RelayCommand(DeleteAssets);
-            RenameAssetCommand = new RelayCommand(RenameAsset);
             RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
 
-        public ICommand RenameAssetCommand { get; set; }
+        public Guid ID { get; set; }
         public ICommand AddAssetCommand { get; set; }
         public ICommand DeleteAssetsCommand { get; set; }
         public ICommand DeleteSelectedItemCommand { get; set; }
@@ -51,13 +50,6 @@ namespace CMiX.Core.ViewModels.Assets
             set => SetProperty(ref _canAddAsset, value);
         }
 
-        private bool _canRenameAsset = false;
-        public bool CanRenameAsset
-        {
-            get => _canRenameAsset;
-            set => SetProperty(ref _canRenameAsset, value);
-        }
-
         private bool _canDeleteAsset = false;
         public bool CanDeleteAsset
         {
@@ -72,7 +64,7 @@ namespace CMiX.Core.ViewModels.Assets
             set => SetProperty(ref _canRelinkAsset, value);
         }
 
-        public Guid ID { get; set; }
+
 
         public void RenameAsset()
         {
@@ -283,23 +275,23 @@ namespace CMiX.Core.ViewModels.Assets
             assets.RemoveAll(item => assetsToRemove.Contains(item));
         }
 
-        public void GetDragDropObjects(List<AssetDragDrop> dragList, ObservableCollection<IAsset> assets)
-        {
-            foreach (var asset in assets)
-            {
-                if (asset.IsSelected)
-                {
-                    AssetDragDrop dragDropObject = new AssetDragDrop();
-                    dragDropObject.DragObject = asset;
-                    dragDropObject.SourceCollection = assets;
-                    dragList.Add(dragDropObject);
-                }
-                else if (!asset.IsSelected && asset is AssetDirectory)
-                {
-                    GetDragDropObjects(dragList, ((AssetDirectory)asset).Assets);
-                }
-            }
-        }
+        //public void GetDragDropObjects(List<AssetDragDrop> dragList, ObservableCollection<IAsset> assets)
+        //{
+        //    foreach (var asset in assets)
+        //    {
+        //        if (asset.IsSelected)
+        //        {
+        //            AssetDragDrop dragDropObject = new AssetDragDrop();
+        //            dragDropObject.DragObject = asset;
+        //            dragDropObject.SourceCollection = assets;
+        //            dragList.Add(dragDropObject);
+        //        }
+        //        else if (!asset.IsSelected && asset is AssetDirectory)
+        //        {
+        //            GetDragDropObjects(dragList, ((AssetDirectory)asset).Assets);
+        //        }
+        //    }
+        //}
 
         public void StartDrag(IDragInfo dragInfo)
         {

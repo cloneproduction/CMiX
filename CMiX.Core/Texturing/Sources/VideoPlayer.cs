@@ -5,7 +5,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
-using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
@@ -18,13 +17,13 @@ namespace CMiX.Core.Texturing.Sources
                            GenericValue<int> seekFrame, 
                            GenericValue<bool> play, 
                            Button doSeek, 
-                           GenericValue<IAsset> asset)
+                           AssetSelector assetSelector)
         {
             Resolution = resolution;
             SeekFrame = seekFrame;
             Play = play;
             DoSeek = doSeek;
-            Asset = asset;
+            AssetSelector = assetSelector;
             PrefabService = prefabService;
             FilterManager = filterManager;
         }
@@ -34,7 +33,7 @@ namespace CMiX.Core.Texturing.Sources
         public Button DoSeek { get; set; }
         public GenericValue<int> SeekFrame { get; set; }
         public GenericValue<bool> Play { get; set; }
-        public GenericValue<IAsset> Asset { get; set; }
+        public AssetSelector AssetSelector { get; set; }
         public Integer2 Resolution { get; set; }
         public PrefabManager FilterManager { get; set; }
 

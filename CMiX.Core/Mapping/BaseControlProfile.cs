@@ -18,6 +18,7 @@ namespace CMiX.Core.Mapping
             CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Button, ButtonModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<AssetSelector, AssetSelectorModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<Integer2, Integer2Model>()
@@ -26,6 +27,7 @@ namespace CMiX.Core.Mapping
                 .Include<Vector3, Vector3Model>()
                 .Include<DirectionXYZ, DirectionXYZModel>()
                 .Include<Button, ButtonModel>()
+                .Include<AssetSelector, AssetSelectorModel>()
                 .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
                 .ReverseMap().ConstructUsingServiceLocator();
 

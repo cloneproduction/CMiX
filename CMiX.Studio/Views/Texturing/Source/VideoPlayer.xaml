@@ -14,7 +14,8 @@
 
         <Views:PathSelector
             Margin="0,0,0,8"
-            ItemsSource="{Binding Path=DataContext.AssetManager.VideoAssets, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+            DataContext="{Binding AssetSelector}"
+            ItemsSource="{Binding AssetRepository.Videos}"
             SelectedItem="{Binding Asset.Value}" />
 
         <BaseControls:IntegerValue Caption="Seek Frame" Value="{Binding SeekFrame.Value}" />

@@ -5,7 +5,6 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
-using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
@@ -15,20 +14,19 @@ namespace CMiX.Core.Texturing.Sources
         public Image(PrefabService prefabService, 
                      PrefabManager filterManager,
                      Integer2 resolution, 
-                     GenericValue<IAsset> asset)
+                     AssetSelector assetSelector)
         {
-            ID = Guid.NewGuid();
             PrefabService = prefabService;
             FilterManager = filterManager;
             Resolution = resolution;
-            Asset = asset;
+            AssetSelector = assetSelector;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public Integer2 Resolution { get; set; }
-        public GenericValue<IAsset> Asset { get; set; }
         public PrefabManager FilterManager { get; set; }
+        public AssetSelector AssetSelector { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

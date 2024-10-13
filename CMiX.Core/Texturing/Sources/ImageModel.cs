@@ -4,7 +4,6 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.ViewModels.Assets;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -16,13 +15,13 @@ namespace CMiX.Core.Texturing.Sources
             PrefabService = new PrefabServiceModel();
             FilterManager = new PrefabManagerModel();
             Resolution = new Integer2Model(0, 0);
-            Asset = new GenericValueModel<IAsset>(null);
+            AssetSelector = new AssetSelectorModel();
         }
 
         public PrefabServiceModel PrefabService { get; set; }
         public PrefabManagerModel FilterManager { get; set; }
         public Integer2Model Resolution { get; set; }
         public Guid ID { get; set; }
-        public GenericValueModel<IAsset> Asset { get; set; }
+        public AssetSelectorModel AssetSelector { get; set; }
     }
 }

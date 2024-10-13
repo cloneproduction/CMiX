@@ -13,8 +13,6 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
-using CMiX.Core.ViewModels.Assets;
-using CMiX.Core.ViewModels.Windows;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core
@@ -49,6 +47,7 @@ namespace CMiX.Core
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<MessageFactory>();
             services.AddSingleton<MessageSerializer>();
+            services.AddSingleton<MasterBeat>();
 
             services.AddAutoMapper((provider, opt) =>
             {

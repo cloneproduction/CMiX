@@ -11,7 +11,8 @@
 
     <Views:PathSelector
         VerticalAlignment="Top"
-        ItemsSource="{Binding Path=DataContext.AssetManager.AssetRepository.Images, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
+        DataContext="{Binding AssetSelector}"
+        ItemsSource="{Binding AssetRepository.Images}"
         SelectedItem="{Binding Asset.Value}" />
 
 </UserControl>
