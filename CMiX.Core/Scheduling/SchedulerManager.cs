@@ -18,7 +18,7 @@ namespace CMiX.Core.ViewModels.Scheduling
         {
             Project = project;
             CompositionSchedulers = new ObservableCollection<CompositionScheduler>();
-            PlaylistEditor = new PlaylistEditor(project);
+
             JobEditor = new JobEditor(project);
             IsActive = true;
             //AddJobCommand = new RelayCommand(AddJob);

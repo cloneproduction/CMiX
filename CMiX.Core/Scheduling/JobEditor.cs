@@ -1,11 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Compositing;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.ViewModels.Scheduling
 {
@@ -13,28 +11,12 @@ namespace CMiX.Core.ViewModels.Scheduling
     {
         public JobEditor(Project project)
         {
-            //Playlists = project.Playlists;
             ToRunType = new ToRunType();
-            ApplyCommand = new RelayCommand(Apply);
         }
 
         public ICommand ApplyCommand { get; set; }
-        public ObservableCollection<Playlist> Playlists { get; set; }
         public bool? DialogResult { get; set; }
 
-        public void Apply()
-        {
-            if (SelectedPlaylist != null)
-                DialogResult = true;
-        }
-
-
-        private Playlist _selectedplaylist;
-        public Playlist SelectedPlaylist
-        {
-            get => _selectedplaylist;
-            set => SetProperty(ref _selectedplaylist, value);
-        }
 
         private ToRunType _toruntype;
         public ToRunType ToRunType

@@ -37,12 +37,6 @@ namespace CMiX.Core.ViewModels.Scheduling
 
         public Action<Schedule> SetScheduler { get; set; }
 
-        //private void SetToRunNowAndEvery(Schedule schedule)
-        //{
-        //    var unittype = UnitType.SelectedUnitType;
-        //    unittype.SetScheduler.Invoke(schedule.ToRunNow().AndEvery(UnitType.UnitInterval.Interval));
-        //}
-
         private void SetSchedule(Schedule schedule)
         {
             schedule.ToRunNow().AndEvery(UnitType.UnitInterval.Interval);

@@ -14,15 +14,18 @@ namespace CMiX.Core.Scheduling
         {
             PrefabService = prefabService;
             FloatTest = floatTest;
+            Action = s => s.ToRunEvery(5).Seconds();
             //var schedule = JobManager.GetSchedule(this.Name);
         }
 
 
-        //public Action<Schedule> Action { get; set; }
+        public Action<Schedule> Action { get; set; }
+
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
 
         public GenericValue<float> FloatTest { get; set; }
+
         //private DateTime _nextRun;
         //public DateTime NextRun
         //{

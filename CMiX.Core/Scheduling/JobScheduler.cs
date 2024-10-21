@@ -11,9 +11,8 @@ namespace CMiX.Core.ViewModels.Scheduling
 {
     public class JobScheduler : ObservableObject, IControl
     {
-        public JobScheduler(JobSchedulerModel jobSchedulerModel)
+        public JobScheduler()
         {
-            this.ID = jobSchedulerModel.ID;
             Schedules = new ObservableCollection<Job>();
         }
 
@@ -24,7 +23,7 @@ namespace CMiX.Core.ViewModels.Scheduling
 
         public void AddJob(Job job)
         {
-            //JobManager.AddJob(job, job.Action);
+            JobManager.AddJob(job, job.Action);
             Schedules.Add(job);
 
         }
