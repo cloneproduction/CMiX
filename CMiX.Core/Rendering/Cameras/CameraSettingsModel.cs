@@ -17,7 +17,7 @@ namespace CMiX.Core.Rendering.Cameras
             Target = new Vector3Model();
             NearClip = new GenericValueModel<float>(0.05f);
             FarClip = new GenericValueModel<float>(100f);
-            Projection = new GenericValueModel<bool>();
+            Projection = new GenericValueModel<bool>(false);
             IsOrthographic = new GenericValueModel<bool>(false);
             OrthographicSize = new GenericValueModel<float>(5.0f);
 

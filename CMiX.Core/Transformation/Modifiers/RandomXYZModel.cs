@@ -20,7 +20,7 @@ namespace CMiX.Core.Transformation.Modifiers
             RandomizeLocation = new GenericValueModel<bool>(true);
             Location = new Vector3Model();
             RandomizeScale = new GenericValueModel<bool>(true);
-            Uniform = new GenericValueModel<float>();
+            Uniform = new GenericValueModel<float>(0.0f);
             Scale = new Vector3Model();
             RandomizeRotation = new GenericValueModel<bool>(true);
             Rotation = new Vector3Model(0.0f, 0.0f, 0.0f);

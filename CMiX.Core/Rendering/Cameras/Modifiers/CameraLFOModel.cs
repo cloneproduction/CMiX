@@ -7,31 +7,17 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public class CameraLFOModel : IPrefabModel
+    public record CameraLFOModel : IPrefabModel
     {
-        public CameraLFOModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            BeatModifierManager = new PrefabManagerModel();
-            Yaw = new GenericValueModel<bool>(false);
-            Pitch = new GenericValueModel<bool>(false);
-            Zoom = new GenericValueModel<bool>(false);
-            PingPong = new GenericValueModel<bool>(false);
-            From = new GenericValueModel<float>(0.0f);
-            To = new GenericValueModel<float>(1.0f);
-            Axis = new GenericValueModel<CameraAxis>(CameraAxis.Zoom);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
-        public GenericValueModel<bool> Yaw { get; set; }
-        public GenericValueModel<bool> Pitch { get; set; }
-        public GenericValueModel<bool> Zoom { get; set; }
-        public GenericValueModel<bool> PingPong { get; set; }
-        public GenericValueModel<float> From { get; set; }
-        public GenericValueModel<float> To { get; set; }
-        public GenericValueModel<CameraAxis> Axis { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
+        public GenericValueModel<bool> Yaw { get; set; } = new(false);
+        public GenericValueModel<bool> Pitch { get; set; } = new(false);
+        public GenericValueModel<bool> Zoom { get; set; } = new(false);
+        public GenericValueModel<bool> PingPong { get; set; } = new(false);
+        public GenericValueModel<float> From { get; set; } = new(0.0f);
+        public GenericValueModel<float> To { get; set; } = new(1.0f);
+        public GenericValueModel<CameraAxis> Axis { get; set; } = new(CameraAxis.Zoom);
+        public PrefabServiceModel PrefabService { get; set; } = new();
     }
 }

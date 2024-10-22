@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using Microsoft.Extensions.Options;
 
 namespace CMiX.Core.Prefabs
 {
@@ -11,8 +10,7 @@ namespace CMiX.Core.Prefabs
         public PrefabService(GenericValue<string> name, 
                              GenericValue<bool> isRenaming, 
                              GenericValue<bool> isSelected, 
-                             GenericValue<bool> visibility,
-                             IOptions<PrefabServiceModel> prefabServiceModel)
+                             GenericValue<bool> visibility)
         {
             ID = Guid.NewGuid();
             Name = name;
@@ -26,15 +24,5 @@ namespace CMiX.Core.Prefabs
         public GenericValue<bool> IsRenaming { get; set; }
         public GenericValue<bool> IsSelected { get; set; }
         public GenericValue<bool> Visibility { get; set; }
-
-
-        public void Set(PrefabServiceModel prefabServiceModel)
-        { 
-            ID = prefabServiceModel.ID;
-            Name.Value = prefabServiceModel.Name.Value;
-            IsRenaming.Value = prefabServiceModel.IsRenaming.Value;
-            IsSelected.Value = prefabServiceModel.IsSelected.Value;
-            Visibility.Value = prefabServiceModel.Visibility.Value;
-        }
     }
 }

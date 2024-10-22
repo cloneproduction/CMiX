@@ -18,17 +18,14 @@ namespace CMiX.Core.Materials
                                 GenericValue<bool> isShadowCaster,
                                 GenericValue<string> baseColor)
         {
-            ID = Guid.NewGuid();
             Pipeline = pipeline;
             CullMode = cullMode;
             Transparency = transparency;
-
             Metalness = metalness;
             Specularity = specularity;
             Glossiness = glossiness;
             Alpha = alpha;
             IsShadowCaster = isShadowCaster;
-
             BaseColor = baseColor;
         }
 
@@ -44,6 +41,6 @@ namespace CMiX.Core.Materials
         public GenericValue<bool> IsShadowCaster { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded = false;
+        private bool isExpanded = true;
     }
 }

@@ -8,30 +8,17 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public class RandomHSVModel : IPrefabModel
+    public record RandomHSVModel : IPrefabModel
     {
-        public RandomHSVModel()
-        {
-            ID = Guid.NewGuid();
-            Hue = new GenericValueModel<float>();
-            Saturation = new GenericValueModel<float>();
-            Value = new GenericValueModel<float>();
-            Alpha = new GenericValueModel<float>();
-            PrefabService = new PrefabServiceModel();
-            BeatModifierManager = new PrefabManagerModel();
-            ModifierModeSelector = new ModifierModeSelectorModel();
-            ColorMode = new GenericValueModel<ColorMode>(Colors.ColorMode.HSV);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public Vector3Model HSV { get; set; }
-        public GenericValueModel<ColorMode> ColorMode { get; set; }
-        public GenericValueModel<float> Hue { get; set; }
-        public GenericValueModel<float> Saturation { get; set; }
-        public GenericValueModel<float> Value { get; set; }
-        public GenericValueModel<float> Alpha { get; set; }
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public Vector3Model HSV { get; set; } = new(0.0f, 0.0f, 0.0f);
+        public GenericValueModel<ColorMode> ColorMode { get; set; } = new(Colors.ColorMode.HSV);
+        public GenericValueModel<float> Hue { get; set; } = new(0.0f);
+        public GenericValueModel<float> Saturation { get; set; } = new(0.0f);
+        public GenericValueModel<float> Value { get; set; } = new(0.0f);
+        public GenericValueModel<float> Alpha { get; set; } = new(0.0f);
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
     }
 }

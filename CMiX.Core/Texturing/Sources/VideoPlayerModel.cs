@@ -12,7 +12,7 @@ namespace CMiX.Core.Texturing.Sources
         public VideoPlayerModel()
         {
             PrefabService = new PrefabServiceModel();
-            SeekFrame = new GenericValueModel<int>();
+            SeekFrame = new GenericValueModel<int>(0);
             DoSeek = new ButtonModel();
             Play = new GenericValueModel<bool>(true);
             Resolution = new Integer2Model(0, 0);

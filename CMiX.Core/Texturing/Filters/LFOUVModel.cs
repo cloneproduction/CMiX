@@ -15,7 +15,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
-            PingPong = new GenericValueModel<bool>();
+            PingPong = new GenericValueModel<bool>(false);
             XAxis = new GenericValueModel<bool>(false);
             YAxis = new GenericValueModel<bool>(true);
             ZAxis = new GenericValueModel<bool>(false);

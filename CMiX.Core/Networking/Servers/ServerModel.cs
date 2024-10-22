@@ -5,16 +5,10 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Networking.Servers
 {
-    public class ServerModel : IControlModel
+    public record ServerModel : IControlModel
     {
-        public ServerModel()
-        {
-            IP = new GenericValueModel<string>("127.0.0.1");
-            Port = new GenericValueModel<int>();
-        }
         public Guid ID { get; set; } = Guid.NewGuid();
-
-        public GenericValueModel<string> IP { get; set; }
-        public GenericValueModel<int> Port { get; set; }
+        public GenericValueModel<string> IP { get; set; } = new("127.0.0.1");
+        public GenericValueModel<int> Port { get; set; } = new(8080);
     }
 }

@@ -14,7 +14,7 @@ namespace CMiX.Core.Texturing.Filters
             Factor = new GenericValueModel<float>(1.0f);
             PrefabService = new PrefabServiceModel();
             InvertChannelSelector = new GenericValueModel<InvertChannel>(InvertChannel.Value);
-            InvertAlpha = new GenericValueModel<bool>();
+            InvertAlpha = new GenericValueModel<bool>(false);
             Control = new GenericValueModel<float>(1.0f);
         }
 

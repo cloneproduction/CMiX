@@ -11,7 +11,7 @@ namespace CMiX.Core.Texturing.Filters
         public BlurModel()
         {
             ID = Guid.NewGuid();
-            Strength = new GenericValueModel<float>();
+            Strength = new GenericValueModel<float>(0.0f);
             PrefabService = new PrefabServiceModel();
         }
 

@@ -15,8 +15,8 @@ namespace CMiX.Core.BaseControls
 
         public Vector2Model(float x, float y) : this()
         {
-            X.Value = x;
-            Y.Value = y;
+            X = new GenericValueModel<float>(x);
+            Y = new GenericValueModel<float>(y);
         }
 
 

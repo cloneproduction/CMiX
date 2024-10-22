@@ -5,6 +5,6 @@ namespace CMiX.Core.Prefabs
 {
     public interface IPrefabModel : IControlModel
     {
-        PrefabServiceModel PrefabService { get; set; }
+        PrefabServiceModel PrefabService { get;  }
     }
 }

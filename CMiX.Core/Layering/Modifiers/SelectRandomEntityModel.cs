@@ -14,7 +14,7 @@ namespace CMiX.Core.Layering.Modifiers
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             BeatModifierManager = new PrefabManagerModel();
-            EntityType = new GenericValueModel<EntityType>();
+            EntityType = new GenericValueModel<EntityType>(Modifiers.EntityType.Entity);
         }
 
         public Guid ID { get; set; }

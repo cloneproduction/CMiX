@@ -30,7 +30,6 @@ namespace CMiX.Core.Compositing
         }
 
         public Guid ID { get; set; }
-
         public PrefabService PrefabService { get; set; }
         public PrefabManager LayerManager { get; set; }
         public PrefabManager TextureModifierManager { get; set; }

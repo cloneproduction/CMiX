@@ -14,7 +14,7 @@ namespace CMiX.Core.Transformation.Modifiers
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             Width = new Vector2Model(1.0f, 1.0f);
-            Phase = new GenericValueModel<float>();
+            Phase = new GenericValueModel<float>(0.0f);
             Factor = new GenericValueModel<float>(1.0f);
             ModifierModeSelector = new ModifierModeSelectorModel();
         }

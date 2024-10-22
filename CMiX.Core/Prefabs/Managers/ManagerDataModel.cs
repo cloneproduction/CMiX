@@ -5,16 +5,10 @@ using System.Collections.ObjectModel;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class ManagerDataModel : IControlModel
+    public record ManagerDataModel : IControlModel
     {
-        public ManagerDataModel()
-        {
-            ID = Guid.NewGuid();
-            Items = new Collection<IControlModel>();
-        }
-
-        public Guid ID { get; set; }
-        public Collection<IControlModel> Items { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public Collection<IControlModel> Items { get; set; } = new();
         public IControlModel SelectedItem { get; set; }
         public int SelectedIndex { get; set; }
     }

@@ -16,7 +16,7 @@ namespace CMiX.Core.Transformation.Modifiers
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             Scale = new Vector3Model();
-            UniformXYZ = new GenericValueModel<float>();
+            UniformXYZ = new GenericValueModel<float>(0.0f);
             ModifierModeSelector = new ModifierModeSelectorModel();
             BeatModifierManager = new PrefabManagerModel();
         }

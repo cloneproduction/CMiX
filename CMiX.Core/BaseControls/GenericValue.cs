@@ -27,7 +27,7 @@ namespace CMiX.Core.BaseControls
             IsActive = true;
         }
 
-        private void Reset()
+        public void Reset()
         {
             Value = OriginalValue;
         }

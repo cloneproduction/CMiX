@@ -19,8 +19,8 @@ namespace CMiX.Core.Transformation.Modifiers
             BeatModifierManager = new PrefabManagerModel();
             Location = new Vector2Model();
             Scale = new Vector2Model(0.0f, 0.0f);
-            Uniform = new GenericValueModel<float>();
-            Rotation = new GenericValueModel<float>();
+            Uniform = new GenericValueModel<float>(0.0f);
+            Rotation = new GenericValueModel<float>(0.0f);
             SamplerState = new SamplerStateModel();
         }
 

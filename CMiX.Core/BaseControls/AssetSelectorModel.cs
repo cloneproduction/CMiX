@@ -10,7 +10,7 @@ namespace CMiX.Core.BaseControls
         public AssetSelectorModel()
         {
             ID = Guid.NewGuid();
-            Asset = new GenericValueModel<IAsset>();
+            Asset = new GenericValueModel<IAsset>(null);
         }
 
         public Guid ID { get; set; }

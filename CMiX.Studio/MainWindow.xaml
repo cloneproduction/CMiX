@@ -3,17 +3,16 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Colorization="clr-namespace:CMiX.Studio.Views.Component.Colorization"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
-    xmlns:Scheduling="clr-namespace:CMiX.Core.Scheduling;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -175,7 +174,7 @@
                         <TabItem.Header>
                             <Image
                                 Margin="8"
-                                Source="{StaticResource Entity}"
+                                Source="{StaticResource Geometry}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
                         <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -404,29 +403,26 @@
                         <TabItem.Header>
                             <Image
                                 Margin="8"
-                                Source="{StaticResource Warning}"
-                                ToolTip="BeatModifiers" />
+                                Source="{StaticResource Coloration}"
+                                ToolTip="Color Palette" />
 
                         </TabItem.Header>
+
+
                         <ScrollViewer VerticalScrollBarVisibility="Hidden">
                             <i:Interaction.Behaviors>
                                 <Behaviors:ScrollViewerBehavior />
                             </i:Interaction.Behaviors>
                             <Border Background="{DynamicResource HighDarkerColor}">
-                                <Views:RepositoryManager DataContext="{Binding JobManager}" ItemsSource="{Binding ControlRepository.Jobs}">
+                                <Views:RepositoryManager DataContext="{Binding ColorPaletteManager}" ItemsSource="{Binding ControlRepository.ColorPalettes}">
                                     <Views:RepositoryManager.SelectionPanel>
                                         <Button
                                             Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Scheduling:Job}"
-                                            Content="New Job" />
+                                            CommandParameter="{x:Type Compositing:ColorPalette}"
+                                            Content="New Palette" />
                                     </Views:RepositoryManager.SelectionPanel>
                                     <Views:RepositoryManager.EditingPanel>
-                                        <StackPanel>
-                                            <BaseControls:CMiXSlider
-                                                Margin="8"
-                                                Caption="FloatTest"
-                                                Value="{Binding FloatTest.Value}" />
-                                        </StackPanel>
+                                        <Colorization:ColorPalette DataContext="{Binding}" />
                                     </Views:RepositoryManager.EditingPanel>
                                 </Views:RepositoryManager>
                             </Border>

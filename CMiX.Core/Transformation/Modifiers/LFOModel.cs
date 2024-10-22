@@ -16,10 +16,10 @@ namespace CMiX.Core.Transformation.Modifiers
             Name = "LFO";
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
-            RandomizePhase = new GenericValueModel<float>();
+            RandomizePhase = new GenericValueModel<float>(0.0f);
             BeatModifierManager = new PrefabManagerModel();
             DirectionXYZ = new DirectionXYZModel();
-            PingPong = new GenericValueModel<bool>();
+            PingPong = new GenericValueModel<bool>(false);
             TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
             From = new GenericValueModel<float>(0.0f);
             To = new GenericValueModel<float>(1.0f);

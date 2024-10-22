@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using Ceras;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
@@ -20,15 +19,15 @@ namespace CMiX.Core.ViewModels
                              PrefabManager cameraManager,
                              PrefabManager lightManager,
                              PrefabManager beatManager,
-                             PrefabManager jobManager,
+                             PrefabManager colorPaletteManager,
                              ServerManager serverManager,
                              ControlRepository controlRepository, 
                              AssetManager assetManager, 
                              MainWindowController mainWindowController, 
                              MainMenu mainMenu)
         {
-            JobManager = jobManager;
-            jobManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF07");
+            ColorPaletteManager = colorPaletteManager;
+            colorPaletteManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF07");
             BeatManager = beatManager;
             beatManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF06");
             LightManager = lightManager;
@@ -52,7 +51,7 @@ namespace CMiX.Core.ViewModels
         }
 
         public ServerManager ServerManager { get; set; }
-        public PrefabManager JobManager { get; set; }
+        public PrefabManager ColorPaletteManager { get; set; }
         public PrefabManager BeatManager { get; set; }
         public PrefabManager LightManager { get; set; }
         public PrefabManager EntityManager { get; set; }
@@ -61,7 +60,6 @@ namespace CMiX.Core.ViewModels
         public PrefabManager CameraManager { get; set; }
         public ControlRepository PrefabRepositories { get; set; }
         public Project Project { get; set; }
-
         public AssetManager AssetManager { get; set; }
         public MainMenu MainMenu { get; set; }
         public MainWindowController MainWindowController { get; set; }

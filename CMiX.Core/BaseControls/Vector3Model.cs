@@ -7,9 +7,9 @@ namespace CMiX.Core.BaseControls
     {
         public Vector3Model()
         {
-            X = new GenericValueModel<float>();
-            Y = new GenericValueModel<float>();
-            Z = new GenericValueModel<float>();
+            X = new GenericValueModel<float>(0.0f);
+            Y = new GenericValueModel<float>(0.0f);
+            Z = new GenericValueModel<float>(0.0f);
         }
 
         public Vector3Model(float x, float y, float z)

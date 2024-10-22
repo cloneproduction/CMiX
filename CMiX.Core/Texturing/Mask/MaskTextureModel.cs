@@ -13,10 +13,10 @@ namespace CMiX.Core.Texturing
         {
             TextureManager = new PrefabManagerModel();
             SamplerState = new SamplerStateModel();
-            Invert = new GenericValueModel<bool>();
+            Invert = new GenericValueModel<bool>(false);
             TransformTexture = new TransformTextureModel();
-            MaskChannel = new GenericValueModel<MaskChannel>();
-            IsEnabled = new GenericValueModel<bool>();
+            MaskChannel = new GenericValueModel<MaskChannel>(Texturing.MaskChannel.Value);
+            IsEnabled = new GenericValueModel<bool>(false);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

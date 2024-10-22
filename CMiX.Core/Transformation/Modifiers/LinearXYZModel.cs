@@ -15,11 +15,10 @@ namespace CMiX.Core.Transformation.Modifiers
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             BeatModifier = new BeatModifierModel();
-            Width = new GenericValueModel<float>();
-            Phase = new GenericValueModel<float>();
+            Width = new GenericValueModel<float>(0.0f);
+            Phase = new GenericValueModel<float>(0.0f);
             DirectionXYZ = new DirectionXYZModel();
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
-            Mode.Value = ModifierMode.ToSpread;
+            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
             TransformTypeSelector = new GenericValueModel<TransformType>(TransformType.Translate);
             ModifierModeSelector = new ModifierModeSelectorModel();
         }

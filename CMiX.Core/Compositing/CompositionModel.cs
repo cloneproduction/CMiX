@@ -8,25 +8,14 @@ using CMiX.Core.Rendering;
 
 namespace CMiX.Core.Compositing
 {
-    public class CompositionModel : IControlModel, IPrefabModel
+    public record CompositionModel : IControlModel, IPrefabModel
     {
-        public CompositionModel()
-        {
-            PrefabService = new PrefabServiceModel();
-            ID = PrefabService.ID;
-            MasterBeat = new MasterBeatModel();
-            OutputSettings = new OutputSettingsModel();
-            TextureModifierManager = new PrefabManagerModel();
-            LayerManager = new PrefabManagerModel();
-            ModifierManager = new PrefabManagerModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public MasterBeatModel MasterBeat { get; set; }
-        public OutputSettingsModel OutputSettings { get; set; }
-        public PrefabManagerModel TextureModifierManager { get; set; }
-        public PrefabManagerModel LayerManager { get; set; }
-        public PrefabManagerModel ModifierManager { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; init; } = new();
+        public MasterBeatModel MasterBeat { get; init; } = new();
+        public OutputSettingsModel OutputSettings { get; init; } = new();
+        public PrefabManagerModel TextureModifierManager { get; init; } = new();
+        public PrefabManagerModel LayerManager { get; init; } = new();
+        public PrefabManagerModel ModifierManager { get; init; } = new();
     }
 }

@@ -8,10 +8,19 @@
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
-    xmlns:Scheduling="clr-namespace:CMiX.Core.Scheduling;assembly=CMiX.Core"
     xmlns:Servers="clr-namespace:CMiX.Core.Networking.Messenger;assembly=CMiX.Core"
     xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
-    xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs">
+
+
+    <DataTemplate DataType="{x:Type Compositing:Color}">
+        <Controls:ColorSelector
+            md:DialogServiceViews.IsRegistered="True"
+            Caption="{Binding Value}"
+            SelectedColor="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorToHex}}"
+            ViewModel="{Binding Path=.}" />
+    </DataTemplate>
+
 
     <DataTemplate DataType="{x:Type Servers:Server}">
         <Border
@@ -85,21 +94,6 @@
         </Image>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Scheduling:Job}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                DockPanel.Dock="Left"
-                Opacity="0.7"
-                Source="{DynamicResource ColorWheel}" />
-            <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
-            <Border />
-        </DockPanel>
-    </DataTemplate>
-
-
     <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
         <DockPanel>
             <Image
@@ -165,9 +159,7 @@
         </DockPanel>
     </DataTemplate>
 
-
-
-
+    
     <!--  TEXTURESOURCE  -->
 
     <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
@@ -263,6 +255,7 @@
         </DockPanel>
     </DataTemplate>
 
+    
     <!--  BEATMODIFIERS  -->
     <DataTemplate DataType="{x:Type Animations:BeatModifier}">
         <DockPanel>
@@ -276,4 +269,5 @@
             <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
     </DataTemplate>
+    
 </ResourceDictionary>

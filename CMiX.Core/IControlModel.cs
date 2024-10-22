@@ -5,6 +5,6 @@ namespace CMiX.Core
 {
     public interface IControlModel
     {
-        Guid ID { get; set; }
+        Guid ID { get; }
     }
 }

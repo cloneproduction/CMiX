@@ -9,49 +9,19 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public class LayerModel : IControlModel, IPrefabModel
+    public record LayerModel : IControlModel, IPrefabModel
     {
-        public LayerModel()
-        {
-            PrefabService = new PrefabServiceModel();
-            ID = PrefabService.ID;
-
-            LayerSettings = new LayerSettingsModel();
-
-            IsMask = new GenericValueModel<bool>(false);
-
-            AmbientOcclusion = new AmbientOcclusionModel();
-            LocalReflection = new LocalReflectionModel();
-
-            MaskChannel = new GenericValueModel<MaskChannel>(Texturing.MaskChannel.Alpha);
-            MaskMode = new GenericValueModel<MaskMode>(Texturing.MaskMode.AllBelow);
-            Invert = new GenericValueModel<bool>(false);
-            TextureModifierManager = new PrefabManagerModel();
-            ModelEntityManager = new PrefabManagerModel();
-            ModifierManager = new PrefabManagerModel();
-        }
-
-
-        public Guid ID { get; set; }
-
-        public PrefabServiceModel PrefabService { get; set; }
-        public LayerSettingsModel LayerSettings { get; set; }
-
-
-
-        public GenericValueModel<bool> Invert { get; set; }
-        public GenericValueModel<bool> IsMask { get; set; }
-        public GenericValueModel<MaskMode> MaskMode { get; set; }
-
-        public PrefabManagerModel TextureModifierManager { get; set; }
-        public PrefabManagerModel ModifierManager { get; set; }
-
-        public AmbientOcclusionModel AmbientOcclusion { get; set; }
-        public LocalReflectionModel LocalReflection { get; set; }
-
-  
-        public GenericValueModel<MaskChannel> MaskChannel { get; set; }
-        public PrefabManagerModel ModelEntityManager { get; set; }
-
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; init; } = new();
+        public LayerSettingsModel LayerSettings { get; init; } = new();
+        public GenericValueModel<bool> Invert { get; init; } = new(false);
+        public GenericValueModel<bool> IsMask { get; init; } = new(false);
+        public GenericValueModel<MaskMode> MaskMode { get; init; } = new(Texturing.MaskMode.AllBelow);
+        public PrefabManagerModel TextureModifierManager { get; init; } = new();
+        public PrefabManagerModel ModifierManager { get; init; } = new();
+        public AmbientOcclusionModel AmbientOcclusion { get; init; } = new();
+        public LocalReflectionModel LocalReflection { get; init; } = new();
+        public GenericValueModel<MaskChannel> MaskChannel { get; init; } = new(Texturing.MaskChannel.Alpha);
+        public PrefabManagerModel ModelEntityManager { get; init; } = new();
     }
 }
