@@ -12,25 +12,26 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        <Views:PrefabSlotManager
-            Margin="8,8,8,0"
-            DataContext="{Binding ColorPaletteManager}"
-            ItemsSource="{Binding ControlRepository.ColorPalettes}">
+
+        <Colorization:ColorPalette DataContext="{Binding}" />
+
+
+        <!--<Views:PrefabSlotManager Margin="8" DataContext="{Binding ColorManager}">
+
             <Views:PrefabSlotManager.SelectionPanel>
                 <Button
                     Command="{Binding AddItemCommand}"
-                    CommandParameter="{x:Type Compositing:ColorPalette}"
-                    Content="New Color Palette" />
+                    CommandParameter="{x:Type Compositing:Color}"
+                    Content="New Color" />
             </Views:PrefabSlotManager.SelectionPanel>
-        </Views:PrefabSlotManager>
 
-        <Colorization:ColorPalette DataContext="{Binding}" />
+        </Views:PrefabSlotManager>
 
         <Views:ModifierManager DataContext="{Binding ModifierManager}">
             <Views:ModifierManager.SelectionPanel>
                 <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
             </Views:ModifierManager.SelectionPanel>
-        </Views:ModifierManager>
+        </Views:ModifierManager>-->
 
     </StackPanel>
 

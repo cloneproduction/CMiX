@@ -20,6 +20,7 @@ namespace CMiX.Core.Compositing
         public ColorationModel ColorationModel { get; set; } = new();
         public PrefabManagerModel ModifierManager { get; set; } = new();
         public PrefabManagerModel MaterialManager { get; set; } = new();
+        public PrefabManagerModel ColorPaletteManager { get; set; } = new();
         public GenericValueModel<bool> IsSelected { get; set; } = new(false);
         public GenericValueModel<bool> IsRenaming { get; set; } = new(false);
         public GenericValueModel<bool> Visibility { get; set; } = new(false);

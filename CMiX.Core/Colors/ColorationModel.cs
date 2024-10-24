@@ -8,7 +8,6 @@ namespace CMiX.Core.Colors
     public class ColorationModel : IControlModel
     {
         public Guid ID { get; init; } = Guid.NewGuid();
-        public PrefabManagerModel ColorPaletteManager { get; set; } = new();
-        public PrefabManagerModel ModifierManager { get; set; } = new();
+        public PrefabManagerModel ColorManager { get; set; } = new();
     }
 }

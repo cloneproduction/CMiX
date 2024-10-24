@@ -18,7 +18,8 @@ namespace CMiX.Core.Compositing
                       Material material,
                       Coloration coloration,
                       PrefabManager materialManager,
-                      PrefabManager modifierManager)
+                      PrefabManager modifierManager,
+                      PrefabManager colorPaletteManager)
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
@@ -27,12 +28,14 @@ namespace CMiX.Core.Compositing
             Material = material;
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
+            ColorPaletteManager = colorPaletteManager;
         }
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
         public PrefabManager MaterialManager { get; set; }
+        public PrefabManager ColorPaletteManager { get; set; }
 
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }

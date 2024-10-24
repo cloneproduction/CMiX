@@ -11,5 +11,6 @@ namespace CMiX.Core.Compositing
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel ColorManager { get; set; } = new();
+        public PrefabManagerModel ModifierManager { get; set; } = new();
     }
 }
