@@ -14,11 +14,11 @@
 
     <StackPanel>
 
-        <BaseControls:ColorSelector
+        <!--<BaseControls:ColorSelector
             Margin="8,8,8,0"
             Caption="Base Color"
             SelectedColor="{Binding BaseColor.Value, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding BaseColor}" />
+            ViewModel="{Binding BaseColor}" />-->
 
         <BaseControls:CMiXSlider
             Margin="8"

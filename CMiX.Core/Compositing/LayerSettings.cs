@@ -20,8 +20,6 @@ namespace CMiX.Core.Compositing
         public GenericValue<float> Opacity { get; set; }
         public GenericValue<string> BackgroundColor { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
-
-
         public Guid ID { get; set; } = Guid.NewGuid();
     }
 }

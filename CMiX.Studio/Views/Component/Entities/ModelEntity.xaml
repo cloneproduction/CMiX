@@ -19,15 +19,14 @@
     <StackPanel>
 
         <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
-
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
-
         </Panels:IndentedExpander>
-        <Panels:IndentedExpander Header="Coloration" IsExpanded="True">
+
+        <Panels:IndentedExpander Header="Colors" IsExpanded="{Binding ColorPaletteManagerIsExpanded}">
             <StackPanel>
                 <Views:Outliner
                     Margin="8"
@@ -44,7 +43,6 @@
 
                 <Border Visibility="{Binding ColorPaletteManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                     <Colorization:ColorPalette DataContext="{Binding ColorPaletteManager.SelectedItem}" />
-                    <!--<ColorationViews:Coloration DataContext="{Binding Coloration}" />-->
                 </Border>
 
             </StackPanel>
@@ -72,7 +70,7 @@
             </StackPanel>
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Mesh" IsExpanded="{Binding MeshIsExpanded}">
+        <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
             <Component:Mesh Margin="8" DataContext="{Binding Mesh}" />
         </Panels:IndentedExpander>
 

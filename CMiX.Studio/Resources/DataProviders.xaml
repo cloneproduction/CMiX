@@ -5,6 +5,7 @@
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Colors="clr-namespace:CMiX.Core.Colors;assembly=CMiX.Core"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
@@ -19,6 +20,15 @@
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
+
+    <ObjectDataProvider
+        x:Key="ResamplingMethod"
+        MethodName="GetValues"
+        ObjectType="{x:Type Compositing:ResamplingMethod}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Compositing:ResamplingMethod" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
 
     <ObjectDataProvider
         x:Key="Anchor"

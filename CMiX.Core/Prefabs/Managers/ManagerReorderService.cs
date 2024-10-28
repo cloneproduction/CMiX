@@ -11,7 +11,7 @@ using GongSolutions.Wpf.DragDrop;
 namespace CMiX.Core.Prefabs.Managers
 {
     public partial class ManagerReorderService : ObservableObject,
-                                                 IControl,
+ 
                                                  IDropTarget,
                                                  IDragSource
     {
@@ -27,7 +27,6 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         public Guid ID { get; set; }
-
         public PrefabManager PrefabManager { get; set; }
         public ICommand ItemUpCommand { get; set; }
         public ICommand ItemDownCommand { get; set; }
@@ -48,10 +47,9 @@ namespace CMiX.Core.Prefabs.Managers
             if(index == 0) 
                 return;
 
-            items.Move(index, index - 1);
-            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, index, index - 1);
-            PrefabManager.ControlMessenger.SendMessage(message);
+            Move(index, index - 1);
         }
+
 
         public void ItemDown(IControl control)
         {
@@ -65,9 +63,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (index == items.Count - 1)
                 return;
 
-            items.Move(index, index + 1);
-            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, index, index + 1);
-            PrefabManager.ControlMessenger.SendMessage(message);
+            Move(index, index + 1);
         }
 
 
@@ -80,10 +76,12 @@ namespace CMiX.Core.Prefabs.Managers
             dragInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
         }
 
+
         public bool CanStartDrag(IDragInfo dragInfo)
         {
             return true;
         }
+
 
         public void DragOver(IDropInfo dropInfo)
         {
@@ -96,19 +94,9 @@ namespace CMiX.Core.Prefabs.Managers
             var targetIndex = dropInfo.InsertIndex;
             var sourceIndex = dropInfo.DragInfo?.SourceIndex;
 
-            if (targetIndex - 1 == sourceIndex)
-            {
-                dropInfo.Effects = DragDropEffects.None;
-                return;
-            }
-
-            if (sourceIndex == targetIndex)
-            {
-                dropInfo.Effects = DragDropEffects.None;
-                return;
-            }
-
-            if (visualTarget == targetItem)
+            if (targetIndex - 1 == sourceIndex ||
+                sourceIndex == targetIndex ||
+                visualTarget == targetItem)
             {
                 dropInfo.Effects = DragDropEffects.None;
                 return;
@@ -118,36 +106,25 @@ namespace CMiX.Core.Prefabs.Managers
             dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
         }
 
+
         public void Dropped(IDropInfo dropInfo)
         {
             var sourceIndex = dropInfo.DragInfo.SourceIndex;
             var targetIndex = dropInfo.InsertIndex;
 
-            if (targetIndex == PrefabManager.ManagerData.Items.Count)
+            if (targetIndex == PrefabManager.ManagerData.Items.Count ||
+                targetIndex == PrefabManager.ManagerData.Items.Count - 1||
+                targetIndex >= sourceIndex)
             {
-                MoveOnDrop(sourceIndex, targetIndex);
-                return;
+                targetIndex -= 1;
             }
 
-            if (targetIndex == PrefabManager.ManagerData.Items.Count - 1)
-            {
-                MoveOnDrop(sourceIndex, targetIndex);
-                return;
-            }
-
-            if (targetIndex >= sourceIndex)
-            {
-                MoveOnDrop(sourceIndex, targetIndex);
-                return;
-            }
-
-            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
-            PrefabManager.ControlMessenger.SendMessage(message);
+            Move(sourceIndex, targetIndex);
         }
 
-        public void MoveOnDrop(int sourceIndex, int targetIndex)
+
+        private void Move(int sourceIndex, int targetIndex) 
         {
-            targetIndex -= 1;
             PrefabManager.ManagerData.Items.Move(sourceIndex, targetIndex);
             var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
             PrefabManager.ControlMessenger.SendMessage(message);
@@ -157,8 +134,6 @@ namespace CMiX.Core.Prefabs.Managers
         {
             dragHandlerIsPressed = false;
         }
-
-
 
         public void DragCancelled()
         {

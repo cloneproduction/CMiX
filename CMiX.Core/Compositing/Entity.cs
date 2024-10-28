@@ -49,6 +49,9 @@ namespace CMiX.Core.Compositing
         private bool materialManagerIsExpanded = true;
 
         [ObservableProperty]
+        private bool colorPaletteManagerIsExpanded = true;
+
+        [ObservableProperty]
         private bool meshIsExpanded = true;
     }
 }
