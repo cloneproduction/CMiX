@@ -11,99 +11,13 @@
     d:DesignWidth="286.703"
     mc:Ignorable="d">
 
-    <Border>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
         <StackPanel>
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:Billboard}"
-                Content="Billboard"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:CircularSpread}"
-                Content="Circular Spread"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:Grid}"
-                Content="Grid"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type ColorModifiers:RandomHSV}"
-                Content="Random HSV"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:LinearXYZ}"
-                Content="Linear XYZ"
-                Style="{StaticResource ButtonItemControl}" />
-
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:LFO}"
-                Content="LFO"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomXYZ}"
-                Content="Random XYZ"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomPosition}"
-                Content="Random Position"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomScale}"
-                Content="Random Scale"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomRotation}"
-                Content="Random Rotation"
-                Style="{StaticResource ButtonItemControl}" />
-
             <Button
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
@@ -111,15 +25,6 @@
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Transformation:TransformSRT}"
                 Content="Transform SRT"
-                Style="{StaticResource ButtonItemControl}" />
-
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:Translate}"
-                Content="Translate"
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
@@ -145,10 +50,10 @@
                 Height="22"
                 VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type TransformModifiers:RandomTexCoord}"
-                Content="Random TexCoord"
+                CommandParameter="{x:Type Transformation:Translate}"
+                Content="Translate"
                 Style="{StaticResource ButtonItemControl}" />
-
+            
             <Button
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
@@ -156,6 +61,100 @@
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type TransformModifiers:TransformTexCoord}"
                 Content="Transform TexCoord"
+                Style="{StaticResource ButtonItemControl}" />
+            
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Transformation:Billboard}"
+                Content="Billboard"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:CircularSpread}"
+                Content="Circular Spread"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:Grid}"
+                Content="Grid Spread"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:LinearXYZ}"
+                Content="Linear XYZ"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:LFO}"
+                Content="LFO"
+                Style="{StaticResource ButtonItemControl}" />
+
+        </StackPanel>
+
+        <StackPanel Grid.Column="1">
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomXYZ}"
+                Content="Random XYZ"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomScale}"
+                Content="Random Scale"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomRotation}"
+                Content="Random Rotation"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomPosition}"
+                Content="Random Position"
+                Style="{StaticResource ButtonItemControl}" />
+
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:RandomTexCoord}"
+                Content="Random TexCoord"
                 Style="{StaticResource ButtonItemControl}" />
 
             <Button
@@ -167,7 +166,17 @@
                 Content="Random Visibility"
                 Style="{StaticResource ButtonItemControl}" />
 
+            <Button
+                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Height="22"
+                VerticalAlignment="Center"
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type ColorModifiers:RandomHSV}"
+                Content="Random HSV"
+                Style="{StaticResource ButtonItemControl}" />
         </StackPanel>
+    </Grid>
 
-    </Border>
+
+
 </UserControl>
