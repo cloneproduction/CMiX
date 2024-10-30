@@ -44,6 +44,7 @@ namespace CMiX.Core.Services
             WatsonTcpClient.Events.ServerConnected += ServerConnected;
             WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
             WatsonTcpClient.Events.MessageReceived += MessageReceived;
+
             WatsonTcpClient.Settings.ConnectTimeoutSeconds = 5;
 
             cts = new CancellationTokenSource();
@@ -54,6 +55,7 @@ namespace CMiX.Core.Services
         {
             MessageProcessor.ProcessMessage(e.Data);
             Console.WriteLine("Message Data Received by Clients");
+            WatsonTcpClient.SendAsync("Hello");
         }
 
         private void ServerDisconnected(object sender, DisconnectionEventArgs e)
@@ -104,12 +106,12 @@ namespace CMiX.Core.Services
         }
 
 
-        //private SyncResponse SyncRequestReceived(SyncRequest arg)
-        //{
-        //    var projectModel = Serializer.Deserialize<ProjectModel>(arg.Data);
-        //    Console.WriteLine("Data size is " + arg.Data.Length);
-        //    Console.WriteLine("Client received the request of type :  " + projectModel.GetType());
-        //    return new SyncResponse(arg, "Client receive the request, send the ProjectModel back to Server");
-        //}
+        public SyncResponse SyncRequestReceived(SyncRequest arg)
+        {
+            //var projectModel = Serializer.Deserialize<ProjectModel>(arg.Data);
+            Console.WriteLine("Data size is " + arg.Data.Length);
+            //Console.WriteLine("Client received the request of type :  " + projectModel.GetType());
+            return new SyncResponse(arg, "Client receive the request, send the ProjectModel back to Server");
+        }
     }
 }

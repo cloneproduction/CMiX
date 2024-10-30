@@ -43,7 +43,7 @@ namespace CMiX.Core.Networking.Messenger
 
             ApplySettingsCommand = new RelayCommand(Apply);
 
-            IsActive= true;
+            IsActive = true;
         }
 
         public ICommand StartCommand { get; }
@@ -52,15 +52,18 @@ namespace CMiX.Core.Networking.Messenger
         public ICommand PauseCommand { get; }
         public ICommand StopCommand { get; }
 
+
         public Guid ID { get; set; }
 
         public PrefabService PrefabService { get; set; }
         public WatsonTcpServer WatsonTcpServer { get; set; }
         public ServerStatistics Statistics { get; set; }
         public CerasSerializer Serializer { get; set; }
-
+        public GenericValue<string> IP { get; set; }
+        public GenericValue<int> Port { get; set; }
 
         private string ipPort { get; set; }
+
 
         public void SendMessage(IMessage message)
         {
@@ -69,8 +72,31 @@ namespace CMiX.Core.Networking.Messenger
             this.Send(data);
         }
 
-        public GenericValue<string> IP { get; set; }
-        public GenericValue<int> Port { get; set; }
+
+
+        public IMessage SendMessageRequest(IMessage message)
+        {
+            var data = Serializer.Serialize(message);
+
+            IMessage messageResult = null;
+
+            if (WatsonTcpServer != null)
+            {
+                try
+                {
+                    var response = WatsonTcpServer.SendAndWaitAsync(5000, clientID, data);
+                    messageResult = Serializer.Deserialize<IMessage>(response.Result.Data);
+                    Console.WriteLine("Client replied : " + messageResult.GetType().Name);
+                }
+                catch (TimeoutException)
+                {
+                    Console.WriteLine("Too slow...");
+                }
+            }
+
+            return messageResult;
+        }
+
 
 
 
@@ -126,6 +152,8 @@ namespace CMiX.Core.Networking.Messenger
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
+            var pouet = Encoding.Default.GetString(e.Data);
+            Console.WriteLine(pouet);
             Console.WriteLine("Message from " + e.Client.IpPort + ": " + Encoding.UTF8.GetString(e.Data));
         }
 
@@ -182,22 +210,7 @@ namespace CMiX.Core.Networking.Messenger
             return new SyncResponse(arg, "Hello back at you from Server!");
         }
 
-        //public void SendRequestProjectSync(byte[] data)
-        //{
-        //    if (WatsonTcpServer != null)
-        //    {
-        //        try
-        //        {
-        //            SyncResponse resp = WatsonTcpServer.SendAndWait(5000, this.ipPort, data);
-        //            //SyncResponse resp = WatsonTcpServer.SendAndWait(5000, this.ipPort, "Project model requested from Server");
-        //            Console.WriteLine("Client replied : " + Encoding.UTF8.GetString(resp.Data));
-        //        }
-        //        catch (TimeoutException)
-        //        {
-        //            Console.WriteLine("Too slow...");
-        //        }
-        //    }
-        //}
+
 
         async void Send(byte[] data)
         {

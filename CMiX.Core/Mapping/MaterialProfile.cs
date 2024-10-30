@@ -3,7 +3,7 @@
 
 using AutoMapper;
 using CMiX.Core.Materials;
-using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Materials.Modifiers;
 
 namespace CMiX.Core.Mapping
 {
@@ -13,10 +13,12 @@ namespace CMiX.Core.Mapping
         {
             CreateMap<Material, MaterialModel>().ReverseMap().ConstructUsingServiceLocator(); ;
             CreateMap<MaterialSettings, MaterialSettingsModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<SelectRandomTexture, SelectRandomTextureModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<Material, MaterialModel>()
                 .Include<MaterialSettings, MaterialSettingsModel>()
+                .Include<SelectRandomTexture, SelectRandomTextureModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

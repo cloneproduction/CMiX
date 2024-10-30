@@ -22,5 +22,11 @@ namespace CMiX.Core.Networking
             foreach (Server server in Servers)
                 server.SendMessage(message);
         }
+
+        public void SendMessageRequest(IMessage message)
+        {
+            foreach (Server server in Servers)
+                server.SendMessageRequest(message);
+        }
     }
 }

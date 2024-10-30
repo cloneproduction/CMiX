@@ -33,5 +33,8 @@ namespace CMiX.Core.Materials
 
         [ObservableProperty]
         private bool isExpanded = false;
+
+        [ObservableProperty]
+        private bool modifierManagerIsExpanded = false;
     }
 }

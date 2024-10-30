@@ -23,6 +23,17 @@
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander
+            Header="Modifiers"
+            Indentation="0"
+            IsExpanded="{Binding ModifierManagerIsExpanded}">
+            <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:MaterialModifierSelectionPanel DataContext="{Binding}" />
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+        </Panels:IndentedExpander>
+
+        <Panels:IndentedExpander
             Header="Texture"
             Indentation="0"
             IsExpanded="{Binding DiffuseTexture.IsExpanded}">

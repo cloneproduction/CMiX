@@ -1,16 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Net.Sockets;
 using System.Net;
+using System.Net.Sockets;
+using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CMiX.Core.BaseControls;
-using System.Windows;
 
 namespace CMiX.Core.Networking.Servers
 {
@@ -18,8 +17,10 @@ namespace CMiX.Core.Networking.Servers
     {
         public ServerManager(ManagerData managerData,
                              ControlRepository controlRepository,
-                             ControlFactory controlFactory)
+                             ControlFactory controlFactory,
+                             ControlMessenger controlMessenger)
         {
+            ControlMessenger = controlMessenger;
             ControlFactory = controlFactory;
             ManagerData = managerData;
             ControlRepository = controlRepository;
@@ -31,18 +32,21 @@ namespace CMiX.Core.Networking.Servers
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
-            //RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
+            ResyncProjectCommand = new RelayCommand<IControl>(ResyncProject);
         }
 
         public Guid ID { get; set; }
         public ICommand AddServerCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
-        //public ICommand RemoveSelectedItemCommand { get; set; }
         public ICommand ReplaceSelectedItemCommand { get; set; }
+        public ICommand ResyncProjectCommand { get; set; }
+
+        public ControlMessenger ControlMessenger { get; set; }
         public ControlFactory ControlFactory { get; set; }
         public ControlRepository ControlRepository { get; set; }
         public ManagerData ManagerData { get; set; }
+
 
         private IControl _selectedItem;
         public IControl SelectedItem
@@ -70,6 +74,11 @@ namespace CMiX.Core.Networking.Servers
         {
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
+        }
+
+        private void ResyncProject(IControl control)
+        {
+            //ControlMessenger.Sen
         }
 
         private void AddServer(Window window)
