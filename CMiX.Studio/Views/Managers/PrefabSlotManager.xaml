@@ -6,10 +6,10 @@
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     x:Name="prefabSlotManager"
-    d:DesignHeight="215.334"
-    d:DesignWidth="255.001"
+    d:DesignHeight="148.64"
+    d:DesignWidth="240.008"
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
@@ -90,6 +90,9 @@
                 ItemsSource="{Binding ManagerData.Items}"
                 SelectedIndex="{Binding ManagerData.SelectedIndex}"
                 SelectedItem="{Binding SelectedItem}">
+                <i:Interaction.Behaviors>
+                    <Behaviors:ScrollParentWhenAtMax />
+                </i:Interaction.Behaviors>
                 <ListBox.Resources>
                     <ResourceDictionary Source="ListBoxItemDataTemplate.xaml" />
                 </ListBox.Resources>

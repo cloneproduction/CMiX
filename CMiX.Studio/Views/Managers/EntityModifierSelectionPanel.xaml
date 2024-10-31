@@ -12,12 +12,14 @@
     mc:Ignorable="d">
 
     <Grid>
+
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
             <ColumnDefinition />
         </Grid.ColumnDefinitions>
 
         <StackPanel>
+
             <Button
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
@@ -53,7 +55,7 @@
                 CommandParameter="{x:Type Transformation:Translate}"
                 Content="Translate"
                 Style="{StaticResource ButtonItemControl}" />
-            
+
             <Button
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
@@ -62,7 +64,7 @@
                 CommandParameter="{x:Type TransformModifiers:TransformTexCoord}"
                 Content="Transform TexCoord"
                 Style="{StaticResource ButtonItemControl}" />
-            
+
             <Button
                 Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Height="22"
@@ -174,9 +176,9 @@
                 CommandParameter="{x:Type ColorModifiers:RandomHSV}"
                 Content="Random HSV"
                 Style="{StaticResource ButtonItemControl}" />
+
         </StackPanel>
+
     </Grid>
-
-
 
 </UserControl>
