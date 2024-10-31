@@ -30,87 +30,92 @@
                     <TabItem.Header>
                         <Image Margin="8" Source="{StaticResource Entity}" />
                     </TabItem.Header>
-                    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        <i:Interaction.Behaviors>
-                            <Behaviors:ScrollViewerBehavior />
-                        </i:Interaction.Behaviors>
-                        <StackPanel>
 
-                            <Views:PrefabSlotManager Margin="8" DataContext="{Binding ModelEntityManager}">
+                    <DockPanel>
 
-                                <Views:PrefabSlotManager.Resources>
-                                    <CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                    <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                    <CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                    <CollectionViewSource x:Key="TextsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Texts, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                </Views:PrefabSlotManager.Resources>
+                        <Views:PrefabSlotManager
+                            Margin="8"
+                            DataContext="{Binding ModelEntityManager}"
+                            DockPanel.Dock="Top">
 
-                                <Views:PrefabSlotManager.ItemsSource>
-                                    <CompositeCollection>
-                                        <CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />
-                                        <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
-                                        <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
-                                        <CollectionContainer Collection="{Binding Source={StaticResource TextsCollection}}" />
-                                    </CompositeCollection>
-                                </Views:PrefabSlotManager.ItemsSource>
+                            <Views:PrefabSlotManager.Resources>
+                                <CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                                <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                                <CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                                <CollectionViewSource x:Key="TextsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Texts, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
+                            </Views:PrefabSlotManager.Resources>
 
-                                <Views:PrefabSlotManager.SelectionPanel>
-                                    <Views:ButtonOpenSelectionPanel Caption="Add Entity">
-                                        <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                            <Views:EntitySelectionPanel />
-                                        </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                    </Views:ButtonOpenSelectionPanel>
-                                </Views:PrefabSlotManager.SelectionPanel>
+                            <Views:PrefabSlotManager.ItemsSource>
+                                <CompositeCollection>
+                                    <CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
+                                    <CollectionContainer Collection="{Binding Source={StaticResource TextsCollection}}" />
+                                </CompositeCollection>
+                            </Views:PrefabSlotManager.ItemsSource>
 
-                                <Views:PrefabSlotManager.ItemTemplate>
-                                    <DockPanel HorizontalAlignment="Stretch">
-                                        <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
-                                        <Ellipse
-                                            Width="5"
-                                            Height="5"
-                                            DockPanel.Dock="Right"
-                                            Fill="Pink" />
-                                    </DockPanel>
-                                </Views:PrefabSlotManager.ItemTemplate>
+                            <Views:PrefabSlotManager.SelectionPanel>
+                                <Views:ButtonOpenSelectionPanel Caption="Add Entity">
+                                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                        <Views:EntitySelectionPanel />
+                                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                </Views:ButtonOpenSelectionPanel>
+                            </Views:PrefabSlotManager.SelectionPanel>
 
-                            </Views:PrefabSlotManager>
+                            <Views:PrefabSlotManager.ItemTemplate>
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
+                                    <Ellipse
+                                        Width="5"
+                                        Height="5"
+                                        DockPanel.Dock="Right"
+                                        Fill="Pink" />
+                                </DockPanel>
+                            </Views:PrefabSlotManager.ItemTemplate>
 
-                            <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
-                                <ContentControl.Resources>
-                                    <DataTemplate DataType="{x:Type Compositing:Entity}">
-                                        <Views:ModelEntity DataContext="{Binding}" />
-                                    </DataTemplate>
+                        </Views:PrefabSlotManager>
 
-                                    <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
-                                        <Border />
-                                    </DataTemplate>
+                        <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
+                            <ContentControl.Resources>
+                                <DataTemplate DataType="{x:Type Compositing:Entity}">
+                                    <Views:ModelEntity DataContext="{Binding}" />
+                                </DataTemplate>
 
-                                    <DataTemplate DataType="{x:Type Cameras:Camera}">
-                                        <Views:Camera DataContext="{Binding}" />
-                                    </DataTemplate>
+                                <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
+                                    <Border />
+                                </DataTemplate>
 
-                                    <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                                        <Views:LightEntity DataContext="{Binding}" />
-                                    </DataTemplate>
+                                <DataTemplate DataType="{x:Type Cameras:Camera}">
+                                    <Views:Camera DataContext="{Binding}" />
+                                </DataTemplate>
 
-                                    <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-                                        <Views:TextEntity DataContext="{Binding}" />
-                                    </DataTemplate>
-                                </ContentControl.Resources>
-                            </ContentControl>
-                        </StackPanel>
-                    </ScrollViewer>
+                                <DataTemplate DataType="{x:Type Lights:LightEntity}">
+                                    <Views:LightEntity DataContext="{Binding}" />
+                                </DataTemplate>
+
+                                <DataTemplate DataType="{x:Type Compositing:TextEntity}">
+                                    <Views:TextEntity DataContext="{Binding}" />
+                                </DataTemplate>
+                                
+                            </ContentControl.Resources>
+                        </ContentControl>
+                    </DockPanel>
+
                 </TabItem>
 
                 <TabItem>
                     <TabItem.Header>
                         <Image Margin="8" Source="{StaticResource PostFX}" />
                     </TabItem.Header>
+                    
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                        
                         <i:Interaction.Behaviors>
                             <Behaviors:ScrollViewerBehavior />
                         </i:Interaction.Behaviors>
+                        
                         <StackPanel>
+                            
                             <Panels:IndentedExpander Header="Texture Filters">
                                 <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
                                     <Views:ModifierManager.SelectionPanel>
@@ -132,6 +137,7 @@
                             <Views:LocalReflection DataContext="{Binding LocalReflection}" />
 
                         </StackPanel>
+                        
                     </ScrollViewer>
                 </TabItem>
             </TabControl>

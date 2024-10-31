@@ -14,7 +14,6 @@
 
     </ResourceDictionary.MergedDictionaries>
 
-
     <Style x:Key="ListBoxItemStyleTest" TargetType="{x:Type ListBoxItem}">
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -54,7 +53,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}" />

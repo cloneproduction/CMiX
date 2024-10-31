@@ -5,11 +5,12 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     x:Name="prefabSlotManager"
-    d:DesignHeight="148.64"
-    d:DesignWidth="240.008"
+    d:DesignHeight="164.196"
+    d:DesignWidth="252.008"
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
@@ -84,9 +85,9 @@
 
             <ListBox
                 x:Name="prefabListBox"
-                Grid.Row="3"
                 Height="100"
                 DataContext="{Binding}"
+                DockPanel.Dock="top"
                 ItemsSource="{Binding ManagerData.Items}"
                 SelectedIndex="{Binding ManagerData.SelectedIndex}"
                 SelectedItem="{Binding SelectedItem}">
@@ -97,6 +98,20 @@
                     <ResourceDictionary Source="ListBoxItemDataTemplate.xaml" />
                 </ListBox.Resources>
             </ListBox>
+
+
+            <!--  This is for resizing the ListBox  -->
+            <!--<Button
+                HorizontalAlignment="Stretch"
+                VerticalAlignment="Center"
+                PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+                PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp"
+                MouseMove="Button_MouseMove"
+                Style="{StaticResource DragHandlerButton}">
+                <Button.Content>
+                    <Image Opacity="0.25" Source="{DynamicResource DragHandler}" />
+                </Button.Content>
+            </Button>-->
 
         </DockPanel>
 

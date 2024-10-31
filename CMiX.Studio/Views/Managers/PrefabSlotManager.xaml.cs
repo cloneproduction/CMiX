@@ -40,5 +40,6 @@ namespace CMiX.Studio.Views
             get { return (IEnumerable)GetValue(ItemsSourceProperty); }
             set { SetValue(ItemsSourceProperty, value); }
         }
+
     }
 }

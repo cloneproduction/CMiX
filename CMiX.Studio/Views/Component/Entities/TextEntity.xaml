@@ -3,9 +3,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     d:DesignHeight="471.333"
@@ -13,82 +15,91 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    <StackPanel>
-        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
 
-            <StackPanel>
-                <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                    <Views:ModifierManager.SelectionPanel>
-                        <StackPanel>
-                            <Views:TextModifierSelectionPanel DataContext="{Binding}" />
-                            <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
-                        </StackPanel>
-                    </Views:ModifierManager.SelectionPanel>
-                </Views:ModifierManager>
-            </StackPanel>
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
 
-        </Panels:IndentedExpander>
+        <StackPanel>
 
-        <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
-            <StackPanel Margin="8">
-                <TextBox
-                    Height="88"
-                    Style="{StaticResource TypeWriterStyle}"
-                    Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
 
-                <BaseControls:ColorSelector
-                    Margin="0,8"
-                    Caption="Color"
-                    SelectedColor="{Binding Color.Value, Converter={StaticResource ColorToHex}}"
-                    ViewModel="{Binding Color}" />
+                <StackPanel>
+                    <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                        <Views:ModifierManager.SelectionPanel>
+                            <StackPanel>
+                                <Views:TextModifierSelectionPanel DataContext="{Binding}" />
+                                <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
+                            </StackPanel>
+                        </Views:ModifierManager.SelectionPanel>
+                    </Views:ModifierManager>
+                </StackPanel>
 
-                <BaseControls:DragValue
-                    Caption="Size"
-                    Position="Top"
-                    Value="{Binding Size.Value}" />
+            </Panels:IndentedExpander>
 
-                <BaseControls:DragValue
-                    Margin="0,1,0,0"
-                    Caption="Line Height"
-                    Position="Bottom"
-                    Value="{Binding LineHeight.Value}" />
+            <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
+                <StackPanel Margin="8">
+                    <TextBox
+                        Height="88"
+                        Style="{StaticResource TypeWriterStyle}"
+                        Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged}" />
 
-                <BaseControls:ComboBox
-                    Margin="0,8,0,1"
-                    Caption="Font Family"
-                    ItemsSource="{x:Static Fonts.SystemFontFamilies}"
-                    Position="Top"
-                    SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
+                    <BaseControls:ColorSelector
+                        Margin="0,8"
+                        Caption="Color"
+                        SelectedColor="{Binding Color.Value, Converter={StaticResource ColorToHex}}"
+                        ViewModel="{Binding Color}" />
 
-                <BaseControls:ComboBox
-                    Caption="Style"
-                    ItemsSource="{Binding Source={StaticResource FontStyle}}"
-                    Position="Bottom"
-                    SelectedItem="{Binding Style.Value}" />
+                    <BaseControls:DragValue
+                        Caption="Size"
+                        Position="Top"
+                        Value="{Binding Size.Value}" />
 
-                <BaseControls:ComboBox
-                    Margin="0,8,0,0"
-                    Caption="Horizontal Alignment"
-                    ItemsSource="{Binding Source={StaticResource TextHorizontalAlignment}}"
-                    Position="Top"
-                    SelectedItem="{Binding HorizontalAlignment.Value}" />
+                    <BaseControls:DragValue
+                        Margin="0,1,0,0"
+                        Caption="Line Height"
+                        Position="Bottom"
+                        Value="{Binding LineHeight.Value}" />
 
-                <BaseControls:ComboBox
-                    Margin="0,1,0,0"
-                    Caption="Anchor"
-                    ItemsSource="{Binding Source={StaticResource Anchor}}"
-                    Position="Bottom"
-                    SelectedItem="{Binding Anchor.Value}" />
+                    <BaseControls:ComboBox
+                        Margin="0,8,0,1"
+                        Caption="Font Family"
+                        ItemsSource="{x:Static Fonts.SystemFontFamilies}"
+                        Position="Top"
+                        SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
-                <BaseControls:DragValue
-                    Margin="0,8"
-                    Caption="Width"
-                    Position="Default"
-                    Value="{Binding Width.Value}" />
+                    <BaseControls:ComboBox
+                        Caption="Style"
+                        ItemsSource="{Binding Source={StaticResource FontStyle}}"
+                        Position="Bottom"
+                        SelectedItem="{Binding Style.Value}" />
 
-            </StackPanel>
-        </Panels:IndentedExpander>
+                    <BaseControls:ComboBox
+                        Margin="0,8,0,0"
+                        Caption="Horizontal Alignment"
+                        ItemsSource="{Binding Source={StaticResource TextHorizontalAlignment}}"
+                        Position="Top"
+                        SelectedItem="{Binding HorizontalAlignment.Value}" />
 
-    </StackPanel>
+                    <BaseControls:ComboBox
+                        Margin="0,1,0,0"
+                        Caption="Anchor"
+                        ItemsSource="{Binding Source={StaticResource Anchor}}"
+                        Position="Bottom"
+                        SelectedItem="{Binding Anchor.Value}" />
+
+                    <BaseControls:DragValue
+                        Margin="0,8"
+                        Caption="Width"
+                        Position="Default"
+                        Value="{Binding Width.Value}" />
+
+                </StackPanel>
+            </Panels:IndentedExpander>
+
+        </StackPanel>
+
+    </ScrollViewer>
 
 </UserControl>

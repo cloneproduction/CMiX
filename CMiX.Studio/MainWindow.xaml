@@ -315,27 +315,23 @@
                                 Source="{StaticResource Camera}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <i:Interaction.Behaviors>
-                                <Behaviors:ScrollViewerBehavior />
-                            </i:Interaction.Behaviors>
-                            <Border Background="{DynamicResource HighDarkerColor}">
-                                <Views:RepositoryManager
-                                    DataContext="{Binding CameraManager}"
-                                    DockPanel.Dock="Top"
-                                    ItemsSource="{Binding ControlRepository.Cameras}">
-                                    <Views:RepositoryManager.SelectionPanel>
-                                        <Button
-                                            Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Cameras:Camera}"
-                                            Content="New Camera" />
-                                    </Views:RepositoryManager.SelectionPanel>
-                                    <Views:RepositoryManager.EditingPanel>
-                                        <Views:Camera DataContext="{Binding}" />
-                                    </Views:RepositoryManager.EditingPanel>
-                                </Views:RepositoryManager>
-                            </Border>
-                        </ScrollViewer>
+
+                        <Border Background="{DynamicResource HighDarkerColor}">
+                            <Views:RepositoryManager
+                                DataContext="{Binding CameraManager}"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding ControlRepository.Cameras}">
+                                <Views:RepositoryManager.SelectionPanel>
+                                    <Button
+                                        Command="{Binding AddItemCommand}"
+                                        CommandParameter="{x:Type Cameras:Camera}"
+                                        Content="New Camera" />
+                                </Views:RepositoryManager.SelectionPanel>
+                                <Views:RepositoryManager.EditingPanel>
+                                    <Views:Camera DataContext="{Binding}" />
+                                </Views:RepositoryManager.EditingPanel>
+                            </Views:RepositoryManager>
+                        </Border>
 
                     </TabItem>
 
@@ -346,24 +342,21 @@
                                 Source="{StaticResource MeshLight}"
                                 ToolTip="Assets" />
                         </TabItem.Header>
-                        <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                            <i:Interaction.Behaviors>
-                                <Behaviors:ScrollViewerBehavior />
-                            </i:Interaction.Behaviors>
-                            <Border Background="{DynamicResource HighDarkerColor}">
-                                <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
-                                    <Views:RepositoryManager.SelectionPanel>
-                                        <Button
-                                            Command="{Binding AddItemCommand}"
-                                            CommandParameter="{x:Type Light:LightEntity}"
-                                            Content="New Light" />
-                                    </Views:RepositoryManager.SelectionPanel>
-                                    <Views:RepositoryManager.EditingPanel>
-                                        <Views:LightEntity DataContext="{Binding}" />
-                                    </Views:RepositoryManager.EditingPanel>
-                                </Views:RepositoryManager>
-                            </Border>
-                        </ScrollViewer>
+
+                        <Border Background="{DynamicResource HighDarkerColor}">
+                            <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
+                                <Views:RepositoryManager.SelectionPanel>
+                                    <Button
+                                        Command="{Binding AddItemCommand}"
+                                        CommandParameter="{x:Type Light:LightEntity}"
+                                        Content="New Light" />
+                                </Views:RepositoryManager.SelectionPanel>
+                                <Views:RepositoryManager.EditingPanel>
+                                    <Views:LightEntity DataContext="{Binding}" />
+                                </Views:RepositoryManager.EditingPanel>
+                            </Views:RepositoryManager>
+                        </Border>
+
                     </TabItem>
 
 
