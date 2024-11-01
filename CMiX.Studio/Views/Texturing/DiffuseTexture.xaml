@@ -12,7 +12,6 @@
 
     <StackPanel>
         <Views:PrefabSlotManager
-            x:Name="prefabSlotManager"
             Margin="8"
             DataContext="{Binding TextureManager}"
             ItemsSource="{Binding Path=DataContext.PrefabRepositories.Textures, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">

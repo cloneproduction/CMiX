@@ -96,7 +96,7 @@
                                 <DataTemplate DataType="{x:Type Compositing:TextEntity}">
                                     <Views:TextEntity DataContext="{Binding}" />
                                 </DataTemplate>
-                                
+
                             </ContentControl.Resources>
                         </ContentControl>
                     </DockPanel>
@@ -107,15 +107,15 @@
                     <TabItem.Header>
                         <Image Margin="8" Source="{StaticResource PostFX}" />
                     </TabItem.Header>
-                    
+
                     <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                        
+
                         <i:Interaction.Behaviors>
                             <Behaviors:ScrollViewerBehavior />
                         </i:Interaction.Behaviors>
-                        
+
                         <StackPanel>
-                            
+
                             <Panels:IndentedExpander Header="Texture Filters">
                                 <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
                                     <Views:ModifierManager.SelectionPanel>
@@ -137,7 +137,7 @@
                             <Views:LocalReflection DataContext="{Binding LocalReflection}" />
 
                         </StackPanel>
-                        
+
                     </ScrollViewer>
                 </TabItem>
             </TabControl>
