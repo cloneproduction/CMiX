@@ -21,7 +21,6 @@
     <ScrollViewer VerticalScrollBarVisibility="Hidden">
 
         <StackPanel>
-
             <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
                 <Views:ModifierManager DataContext="{Binding ModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
@@ -50,8 +49,8 @@
                     </Border>
 
                 </StackPanel>
-
             </Panels:IndentedExpander>
+            
             <Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialManagerIsExpanded}">
                 <StackPanel>
                     <Views:Outliner
@@ -81,6 +80,5 @@
         </StackPanel>
 
     </ScrollViewer>
-
 
 </UserControl>
