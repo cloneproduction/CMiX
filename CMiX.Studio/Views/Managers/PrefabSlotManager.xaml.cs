@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Specialized;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
+
 using System.Windows.Media;
 
 namespace CMiX.Studio.Views
@@ -14,18 +13,28 @@ namespace CMiX.Studio.Views
         {
             InitializeComponent();
             ((INotifyCollectionChanged)prefabListBox.Items).CollectionChanged += Handler;
-
-
         }
+
+
 
         private void Handler(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action != NotifyCollectionChangedAction.Add)
-                return;
 
-            var border = VisualTreeHelper.GetChild(prefabListBox, 0);
-            var scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(border, 0);
-            scrollViewer.ScrollToBottom();
+            //if (e.Action != NotifyCollectionChangedAction.Add)
+            //    return;
+
+            //if (e.Action == NotifyCollectionChangedAction.Replace)
+            //    return;
+
+            if (VisualTreeHelper.GetChildrenCount(prefabListBox) > 0)
+            {
+                if (VisualTreeHelper.GetChild(prefabListBox, 0) is UIElement contentVisual)
+                {
+                    var scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(contentVisual, 0);
+                    scrollViewer.ScrollToBottom();
+                    this.Focus();
+                }
+            }
         }
 
         public FrameworkElement SelectionPanel
@@ -68,9 +77,9 @@ namespace CMiX.Studio.Views
                 return;
 
             var p = e.GetPosition(this) - initPoint;
-            var pos =  p.Y + currentHeight;
+            var pos = p.Y + currentHeight;
 
-            if ( pos > 0)
+            if (pos > 0)
                 prefabListBox.Height = pos;
 
             if (prefabListBox.Height <= prefabListBox.MinHeight)
@@ -87,6 +96,16 @@ namespace CMiX.Studio.Views
         private void Button_PreviewMouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
             (sender as UIElement).ReleaseMouseCapture();
+        }
+
+        private void prefabListBox_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+        private void ListBoxItem_RequestBringIntoView(object sender, RequestBringIntoViewEventArgs e)
+        {
+            e.Handled = true;
         }
     }
 }
