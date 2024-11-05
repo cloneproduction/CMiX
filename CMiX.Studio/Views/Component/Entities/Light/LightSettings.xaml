@@ -37,10 +37,7 @@
 
     <StackPanel Margin="8">
 
-        <BaseControls:ColorSelector
-            Caption="Color"
-            SelectedColor="{Binding LightColor.Value, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding LightColor}" />
+        <BaseControls:ColorSelector Caption="Color" DataContext="{Binding LightColor}" />
 
         <BaseControls:DragValue
             Margin="0,8"

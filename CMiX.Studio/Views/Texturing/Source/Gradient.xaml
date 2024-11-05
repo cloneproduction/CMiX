@@ -20,16 +20,14 @@
 
         <BaseControl:ColorSelector
             Caption="From"
-            Position="Top"
-            SelectedColor="{Binding Path=From.Value}"
-            ViewModel="{Binding Path=From}" />
+            DataContext="{Binding From}"
+            Position="Top" />
 
         <BaseControl:ColorSelector
             Margin="0,1,0,0"
             Caption="To"
-            Position="Bottom"
-            SelectedColor="{Binding To.Value}"
-            ViewModel="{Binding To}" />
+            DataContext="{Binding To}"
+            Position="Bottom" />
 
         <BaseControl:ToggleButton
             Margin="0,8"

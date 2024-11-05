@@ -18,126 +18,129 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type local:ColorPicker}">
-                    <StackPanel>
-                        <DockPanel>
-                            <Controls:ColorWheelValueSlider
-                                x:Name="PART_ColorWheelValue"
-                                Width="12"
-                                Margin="4,0,0,0"
-                                DockPanel.Dock="Right"
-                                Orientation="Vertical"
-                                Style="{StaticResource ValueSliderVertical}" />
+                    <Border CornerRadius="4" Padding="8" Background="{DynamicResource DarkerColor}">
+                        <StackPanel>
+                            <DockPanel>
+                                <Controls:ColorWheelValueSlider
+                                    x:Name="PART_ColorWheelValue"
+                                    Width="12"
+                                    Margin="4,0,0,0"
+                                    DockPanel.Dock="Right"
+                                    Orientation="Vertical"
+                                    Style="{StaticResource ValueSliderVertical}" />
 
-                            <Border x:Name="border" DockPanel.Dock="Left">
-                                <Controls:ColorWheel
-                                    x:Name="PART_ColorWheel"
-                                    Width="{Binding ActualWidth, ElementName=border}"
-                                    Height="{Binding ActualWidth, ElementName=border}"
-                                    Style="{StaticResource ColorWheelStyle}" />
-                            </Border>
+                                <Border x:Name="border" DockPanel.Dock="Left">
+                                    <Controls:ColorWheel
+                                        x:Name="PART_ColorWheel"
+                                        Width="{Binding ActualWidth, ElementName=border}"
+                                        Height="{Binding ActualWidth, ElementName=border}"
+                                        Style="{StaticResource ColorWheelStyle}" />
+                                </Border>
 
-                        </DockPanel>
-
-                        <Border
-                            Margin="0,8"
-                            BorderBrush="{DynamicResource Shadow}"
-                            BorderThickness="1,0,1,2">
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <RadioButton
-                                    x:Name="HSVRadio"
-                                    Grid.Column="0"
-                                    Content="HSV"
-                                    IsChecked="True"
-                                    Style="{StaticResource InlineRadioButtonLeft}" />
-                                <RadioButton
-                                    x:Name="RGBRadio"
-                                    Grid.Column="1"
-                                    Margin="1,0"
-                                    Content="RGB"
-                                    Style="{StaticResource InlineRadioButtonCenter}" />
-                                <RadioButton
-                                    x:Name="HEXRadio"
-                                    Grid.Column="2"
-                                    Content="HEX"
-                                    Style="{StaticResource InlineRadioButtonRight}" />
-                            </Grid>
-                        </Border>
-
-                        <Grid VerticalAlignment="Top">
-                            <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                                <StackPanel>
-
-                                    <Controls:RgbaColorSlider
-                                        x:Name="PART_RSlider"
-                                        Caption="R"
-                                        Channel="Red"
-                                        Style="{StaticResource SliderRoundedTop}" />
-
-                                    <Controls:RgbaColorSlider
-                                        x:Name="PART_GSlider"
-                                        Margin="0,1"
-                                        Caption="G"
-                                        Channel="Green"
-                                        Style="{StaticResource SliderStraight}" />
-
-                                    <Controls:RgbaColorSlider
-                                        x:Name="PART_BSlider"
-                                        Caption="B"
-                                        Channel="Blue"
-                                        Style="{StaticResource SliderRoundedBottom}" />
-
-                                </StackPanel>
-                            </Border>
-
-                            <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                                <StackPanel>
-
-                                    <Controls:HueColorSlider
-                                        x:Name="PART_HSlider"
-                                        Caption="H"
-                                        Position="Top"
-                                        Style="{StaticResource SliderRoundedTop}" />
-
-                                    <Controls:SaturationColorSlider
-                                        x:Name="PART_SSlider"
-                                        Margin="0,1"
-                                        Caption="S"
-                                        Position="Middle"
-                                        Style="{StaticResource SliderStraight}" />
-
-                                    <Controls:ValueColorSlider
-                                        x:Name="PART_VSlider"
-                                        Caption="V"
-                                        Position="Bottom"
-                                        Style="{StaticResource SliderRoundedBottom}" />
-
-                                </StackPanel>
-                            </Border>
+                            </DockPanel>
 
                             <Border
-                                Height="20"
-                                VerticalAlignment="Top"
-                                Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                                <TextBox
-                                    VerticalContentAlignment="Center"
-                                    Background="{DynamicResource HighDarkerColor}"
-                                    Foreground="{DynamicResource TextBase}"
-                                    Text="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToHex}}" />
+                                Margin="0,8"
+                                BorderBrush="{DynamicResource Shadow}"
+                                BorderThickness="1,0,1,2">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                        <ColumnDefinition />
+                                    </Grid.ColumnDefinitions>
+                                    <RadioButton
+                                        x:Name="HSVRadio"
+                                        Grid.Column="0"
+                                        Content="HSV"
+                                        IsChecked="True"
+                                        Style="{StaticResource InlineRadioButtonLeft}" />
+                                    <RadioButton
+                                        x:Name="RGBRadio"
+                                        Grid.Column="1"
+                                        Margin="1,0"
+                                        Content="RGB"
+                                        Style="{StaticResource InlineRadioButtonCenter}" />
+                                    <RadioButton
+                                        x:Name="HEXRadio"
+                                        Grid.Column="2"
+                                        Content="HEX"
+                                        Style="{StaticResource InlineRadioButtonRight}" />
+                                </Grid>
                             </Border>
-                        </Grid>
 
-                        <Controls:RgbaColorSlider
-                            x:Name="PART_AlphaSlider"
-                            Margin="0,1,0,0"
-                            Caption="Alpha"
-                            Channel="Alpha"
-                            Style="{StaticResource SliderRounded}" />
-                    </StackPanel>
+                            <Grid VerticalAlignment="Top">
+                                <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+                                    <StackPanel>
+
+                                        <Controls:RgbaColorSlider
+                                            x:Name="PART_RSlider"
+                                            Caption="R"
+                                            Channel="Red"
+                                            Style="{StaticResource SliderRoundedTop}" />
+
+                                        <Controls:RgbaColorSlider
+                                            x:Name="PART_GSlider"
+                                            Margin="0,1"
+                                            Caption="G"
+                                            Channel="Green"
+                                            Style="{StaticResource SliderStraight}" />
+
+                                        <Controls:RgbaColorSlider
+                                            x:Name="PART_BSlider"
+                                            Caption="B"
+                                            Channel="Blue"
+                                            Style="{StaticResource SliderRoundedBottom}" />
+
+                                    </StackPanel>
+                                </Border>
+
+                                <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+                                    <StackPanel>
+
+                                        <Controls:HueColorSlider
+                                            x:Name="PART_HSlider"
+                                            Caption="H"
+                                            Position="Top"
+                                            Style="{StaticResource SliderRoundedTop}" />
+
+                                        <Controls:SaturationColorSlider
+                                            x:Name="PART_SSlider"
+                                            Margin="0,1"
+                                            Caption="S"
+                                            Position="Middle"
+                                            Style="{StaticResource SliderStraight}" />
+
+                                        <Controls:ValueColorSlider
+                                            x:Name="PART_VSlider"
+                                            Caption="V"
+                                            Position="Bottom"
+                                            Style="{StaticResource SliderRoundedBottom}" />
+
+                                    </StackPanel>
+                                </Border>
+
+                                <Border
+                                    Height="20"
+                                    VerticalAlignment="Top"
+                                    Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+                                    <!--<TextBox
+                                        VerticalContentAlignment="Center"
+                                        Background="{DynamicResource HighDarkerColor}"
+                                        Foreground="{DynamicResource TextBase}"
+                                        Text="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToHex}}" />-->
+                                </Border>
+                            </Grid>
+
+                            <Controls:RgbaColorSlider
+                                x:Name="PART_AlphaSlider"
+                                Margin="0,1,0,0"
+                                Caption="Alpha"
+                                Channel="Alpha"
+                                Style="{StaticResource SliderRounded}" />
+                        </StackPanel>
+                    </Border>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

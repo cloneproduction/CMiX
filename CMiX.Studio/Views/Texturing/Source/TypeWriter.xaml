@@ -38,16 +38,14 @@
 
         <BaseControl:ColorSelector
             Caption="Font Color"
-            Position="Top"
-            SelectedColor="{Binding FontColor.Value}"
-            ViewModel="{Binding FontColor}" />
+            DataContext="{Binding FontColor}"
+            Position="Top" />
 
         <BaseControl:ColorSelector
             Margin="0,1,0,0"
             Caption="Background Color"
-            Position="Bottom"
-            SelectedColor="{Binding BackgroundColor.Value}"
-            ViewModel="{Binding BackgroundColor}" />
+            DataContext="{Binding BackgroundColor}"
+            Position="Bottom" />
 
         <BaseControl:Vector2
             Margin="0,8"

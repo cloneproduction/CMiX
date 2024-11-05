@@ -106,7 +106,7 @@ namespace CMiX.Studio.Views.BaseControl
             if (_lock)
                 return;
 
-            _colorManager.Color.UpdateARGB(color);
+            _colorManager.Color?.UpdateARGB(color);
         }
 
 

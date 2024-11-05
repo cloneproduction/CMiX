@@ -19,15 +19,13 @@
         <BaseControls:ColorSelector
             Margin="0,8,0,1"
             Caption="Color A"
-            Position="Top"
-            SelectedColor="{Binding ColorA.Value, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding ColorA}" />
+            DataContext="{Binding ColorA}"
+            Position="Top" />
 
         <BaseControls:ColorSelector
             Caption="Color B"
-            Position="Bottom"
-            SelectedColor="{Binding ColorB.Value, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding ColorB}" />
+            DataContext="{Binding ColorB}"
+            Position="Bottom" />
 
         <Views:Transform2D Margin="0,8" DataContext="{Binding Transform2D}" />
 

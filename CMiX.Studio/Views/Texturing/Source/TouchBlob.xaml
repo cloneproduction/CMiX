@@ -21,16 +21,14 @@
 
         <BaseControls:ColorSelector
             Caption="Color"
-            Position="Top"
-            SelectedColor="{Binding Path=Color.Value}"
-            ViewModel="{Binding Path=Color}" />
+            DataContext="{Binding Color}"
+            Position="Top" />
 
         <BaseControls:ColorSelector
             Margin="0,1,0,0"
             Caption="Background"
-            Position="Bottom"
-            SelectedColor="{Binding Background.Value}"
-            ViewModel="{Binding Background}" />
+            DataContext="{Binding Background}"
+            Position="Bottom" />
 
         <BaseControls:Integer2Value
             Margin="0,8,0,0"

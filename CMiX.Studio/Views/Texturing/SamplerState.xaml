@@ -28,9 +28,8 @@
         <BaseControls:ColorSelector
             Margin="0,8,0,0"
             Caption="Border Color"
-            Position="Default"
-            SelectedColor="{Binding BorderColor.Value}"
-            ViewModel="{Binding BorderColor}" />
+            DataContext="{Binding BorderColor}"
+            Position="Default" />
 
     </StackPanel>
 

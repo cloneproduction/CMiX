@@ -19,20 +19,13 @@ namespace CMiX.Studio.Views
 
         private void Handler(object? sender, NotifyCollectionChangedEventArgs e)
         {
-
-            //if (e.Action != NotifyCollectionChangedAction.Add)
-            //    return;
-
-            //if (e.Action == NotifyCollectionChangedAction.Replace)
-            //    return;
-
             if (VisualTreeHelper.GetChildrenCount(prefabListBox) > 0)
             {
                 if (VisualTreeHelper.GetChild(prefabListBox, 0) is UIElement contentVisual)
                 {
                     var scrollViewer = (ScrollViewer)VisualTreeHelper.GetChild(contentVisual, 0);
                     scrollViewer.ScrollToBottom();
-                    this.Focus();
+                    //this.Focus();
                 }
             }
         }

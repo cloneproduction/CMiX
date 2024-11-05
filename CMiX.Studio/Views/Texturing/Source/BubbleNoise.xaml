@@ -32,15 +32,13 @@
         <BaseControls:ColorSelector
             Margin="0,8,0,1"
             Caption="Background"
-            Position="Top"
-            SelectedColor="{Binding BackgroundColor.Value, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding BackgroundColor}" />
+            DataContext="{Binding BackgroundColor}"
+            Position="Top" />
 
         <BaseControls:ColorSelector
             Caption="Bubble"
-            Position="Bottom"
-            SelectedColor="{Binding BubbleColor.Value, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding BubbleColor}" />
+            DataContext="{Binding BubbleColor}"
+            Position="Bottom" />
 
         <BaseControls:Integer2Value
             Margin="0,8,0,0"

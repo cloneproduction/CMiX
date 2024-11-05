@@ -48,8 +48,7 @@
                     <BaseControls:ColorSelector
                         Margin="0,8"
                         Caption="Color"
-                        SelectedColor="{Binding Color.Value, Converter={StaticResource ColorToHex}}"
-                        ViewModel="{Binding Color}" />
+                        DataContext="{Binding Color}" />
 
                     <BaseControls:DragValue
                         Caption="Size"

@@ -33,8 +33,7 @@
                     <BaseControls:ColorSelector
                         Margin="0,4"
                         Caption="Background"
-                        SelectedColor="{Binding LayerSettings.BackgroundColor.Value, Converter={StaticResource ColorToHex}}"
-                        ViewModel="{Binding LayerSettings.BackgroundColor}" />
+                        DataContext="{Binding LayerSettings.BackgroundColor}" />
 
                     <Border>
                         <Border.Style>

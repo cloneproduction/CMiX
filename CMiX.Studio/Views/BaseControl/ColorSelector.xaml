@@ -3,6 +3,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="colorSelector"
@@ -36,13 +38,28 @@
                 <VisualBrush Visual="{Binding ElementName=mask}" />
             </Border.OpacityMask>
 
-            <Button
-                Grid.Column="1"
-                Background="{Binding SelectedColor, Converter={StaticResource ColorToBrush}, ConverterParameter=all, ElementName=colorSelector}"
-                Click="Button_Click"
-                Style="{StaticResource ButtonColorStyle}" />
+            <Grid Background="Transparent">
+                <Button
+                    x:Name="PopupToggle"
+                    Background="{Binding Value}"
+                    Click="Button_Click_1"
+                    Style="{DynamicResource ButtonColorStyle}" />
+                <Popup
+                    x:Name="colorPickerPopup"
+                    AllowsTransparency="True"
+                    MouseDown="colorPickerPopup_MouseDown"
+                    MouseMove="colorPickerPopup_MouseMove"
+                    Placement="Bottom"
+                    StaysOpen="False">
+                    <Border x:Name="popupBorder" Background="Transparent">
+                        <BaseControl:ColorPicker Width="200" Value="{Binding Value}" />
+                    </Border>
 
+                </Popup>
+
+            </Grid>
         </Border>
+
 
     </Grid>
 

@@ -3,8 +3,6 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using CMiX.Core.Views.Dialogs;
-using MvvmDialogs;
 
 namespace CMiX.Studio.Views.BaseControl
 {
@@ -13,23 +11,8 @@ namespace CMiX.Studio.Views.BaseControl
         public ColorSelector()
         {
             InitializeComponent();
-            DialogService = new DialogService();
         }
 
-        private IDialogService DialogService { get; set; }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            DialogService.Show<ColorSelectorWindow>((INotifyPropertyChanged)this.DataContext, ViewModel);
-        }
-
-        public static readonly DependencyProperty ViewModelProperty =
-        DependencyProperty.Register("ViewModel", typeof(INotifyPropertyChanged), typeof(ColorSelector), new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public INotifyPropertyChanged ViewModel
-        {
-            get { return (INotifyPropertyChanged)GetValue(ViewModelProperty); }
-            set { SetValue(ViewModelProperty, value); }
-        }
 
         public static readonly DependencyProperty PositionProperty =
         DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ColorSelector), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -56,5 +39,39 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
 
+        private void Button_Click_1(object sender, RoutedEventArgs e)
+        {
+            if (colorPickerPopup.IsOpen == true)
+                colorPickerPopup.IsOpen = false;
+            else colorPickerPopup.IsOpen = true;
+            e.Handled = true;
+        }
+
+        private void colorPickerPopup_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+        {
+            var mousePosition = e.GetPosition(popupBorder);
+
+            if (mousePosition.X < -16 ||
+                mousePosition.Y > popupBorder.ActualHeight + 16 ||
+                mousePosition.Y < -16 ||
+                mousePosition.X > popupBorder.ActualWidth + +16)
+            {
+                colorPickerPopup.IsOpen = false;
+            }
+        }
+
+        private void colorPickerPopup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var mousePosition = e.GetPosition(popupBorder);
+
+            if (mousePosition.X < 0 ||
+                mousePosition.Y > popupBorder.ActualHeight ||
+                mousePosition.Y < 0 ||
+                mousePosition.X > popupBorder.ActualWidth)
+            {
+                colorPickerPopup.IsOpen = false;
+            }
+            e.Handled = true;
+        }
     }
 }

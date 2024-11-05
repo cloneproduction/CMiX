@@ -23,22 +23,19 @@
 
         <BaseControl:ColorSelector
             Caption="Color A"
-            Position="Top"
-            SelectedColor="{Binding ColorA.Value}"
-            ViewModel="{Binding Path=ColorA}" />
+            DataContext="{Binding ColorA}"
+            Position="Top" />
 
         <BaseControl:ColorSelector
             Margin="0,1"
             Caption="Color B"
-            Position="Middle"
-            SelectedColor="{Binding ColorB.Value}"
-            ViewModel="{Binding Path=ColorB}" />
+            DataContext="{Binding ColorB}"
+            Position="Middle" />
 
         <BaseControl:ColorSelector
             Caption="Color C"
-            Position="Bottom"
-            SelectedColor="{Binding ColorC.Value}"
-            ViewModel="{Binding Path=ColorC}" />
+            DataContext="{Binding ColorC}"
+            Position="Bottom" />
 
         <BaseControl:ToggleButton
             Margin="0,8,0,0"

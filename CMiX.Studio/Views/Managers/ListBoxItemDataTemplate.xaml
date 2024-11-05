@@ -17,8 +17,7 @@
         <Controls:ColorSelector
             md:DialogServiceViews.IsRegistered="True"
             Caption="{Binding Value}"
-            SelectedColor="{Binding Path=Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ColorToHex}}"
-            ViewModel="{Binding Path=.}" />
+            DataContext="{Binding}" />
     </DataTemplate>
 
 
@@ -159,7 +158,7 @@
         </DockPanel>
     </DataTemplate>
 
-    
+
     <!--  TEXTURESOURCE  -->
 
     <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
@@ -255,7 +254,7 @@
         </DockPanel>
     </DataTemplate>
 
-    
+
     <!--  BEATMODIFIERS  -->
     <DataTemplate DataType="{x:Type Animations:BeatModifier}">
         <DockPanel>
@@ -269,5 +268,5 @@
             <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
         </DockPanel>
     </DataTemplate>
-    
+
 </ResourceDictionary>
