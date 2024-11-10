@@ -1,0 +1,30 @@
+﻿<Controls:PickerControlBase
+    x:Class="CMiX.Studio.Views.BaseControl.StandardColorPicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="uc"
+    d:DesignHeight="359.121"
+    d:DesignWidth="265.863"
+    mc:Ignorable="d">
+    <StackPanel>
+        <DockPanel>
+            <BaseControl:ColorPickerSlider
+                Width="16"
+                DockPanel.Dock="Right"
+                Orientation="Vertical"
+                Style="{StaticResource ValueSliderVertical}" />
+            <BaseControl:ColorWheel
+                Width="200"
+                Height="200"
+                ColorState="{Binding ElementName=uc, Path=ColorState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                Style="{StaticResource ColorWheelStyle}" />
+
+        </DockPanel>
+
+        <BaseControl:ColorSliders ColorState="{Binding ElementName=uc, Path=ColorState, Mode=TwoWay}" />
+    </StackPanel>
+</Controls:PickerControlBase>

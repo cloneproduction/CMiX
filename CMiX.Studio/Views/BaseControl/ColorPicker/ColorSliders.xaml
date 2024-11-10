@@ -1,0 +1,118 @@
+﻿<Controls:PickerControlBase
+    x:Class="CMiX.Studio.Views.BaseControl.ColorSliders"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="uc"
+    d:DesignHeight="377"
+    d:DesignWidth="345"
+    mc:Ignorable="d">
+    <StackPanel>
+
+        <Border Height="22" Margin="0,8">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <RadioButton
+                    x:Name="HSVRadio"
+                    Grid.Column="0"
+                    Content="HSV"
+                    IsChecked="True"
+                    Style="{StaticResource InlineRadioButtonLeft}" />
+                <RadioButton
+                    x:Name="RGBRadio"
+                    Grid.Column="1"
+                    Margin="1,0"
+                    Content="RGB"
+                    Style="{StaticResource InlineRadioButtonCenter}" />
+                <RadioButton
+                    x:Name="HEXRadio"
+                    Grid.Column="2"
+                    Content="HEX"
+                    Style="{StaticResource InlineRadioButtonRight}" />
+            </Grid>
+        </Border>
+        <Grid VerticalAlignment="Top">
+            <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+                <StackPanel>
+
+                    <Controls:ColorPickerSlider
+                        Caption="R"
+                        ColorState="{Binding Path=ColorState, ElementName=uc}"
+                        Maximum="255"
+                        Minimum="0"
+                        Position="Top"
+                        Style="{StaticResource SliderRoundedTop}"
+                        Value="{Binding Path=Color.RGB_R, ElementName=uc, Mode=TwoWay}" />
+
+                    <Controls:ColorPickerSlider
+                        Margin="0,1"
+                        Caption="G"
+                        ColorState="{Binding Path=ColorState, ElementName=uc}"
+                        Maximum="255"
+                        Minimum="0"
+                        Position="Middle"
+                        Style="{StaticResource SliderRounded}"
+                        Value="{Binding Color.RGB_G, ElementName=uc, Mode=TwoWay}" />
+
+                    <Controls:ColorPickerSlider
+                        Caption="B"
+                        ColorState="{Binding Path=ColorState, ElementName=uc}"
+                        Maximum="255"
+                        Minimum="0"
+                        Position="Middle"
+                        Style="{StaticResource SliderRoundedBottom}"
+                        Value="{Binding Color.RGB_B, ElementName=uc, Mode=TwoWay}" />
+
+                </StackPanel>
+            </Border>
+
+            <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+                <StackPanel>
+                    <Controls:ColorPickerSlider
+                        Caption="H"
+                        ColorState="{Binding Path=ColorState, ElementName=uc}"
+                        Maximum="360"
+                        Minimum="0"
+                        Position="Top"
+                        Style="{StaticResource SliderRoundedTop}"
+                        Value="{Binding Path=Color.HSV_H, ElementName=uc, Mode=TwoWay}" />
+
+                    <Controls:ColorPickerSlider
+                        Margin="0,1"
+                        Caption="S"
+                        ColorState="{Binding Path=ColorState, ElementName=uc}"
+                        Maximum="1"
+                        Minimum="0"
+                        Position="Middle"
+                        Style="{StaticResource SliderStraight}"
+                        Value="{Binding Path=Color.HSV_S, ElementName=uc, Mode=TwoWay}" />
+
+                    <Controls:ColorPickerSlider
+                        Caption="V"
+                        ColorState="{Binding Path=ColorState, ElementName=uc}"
+                        Maximum="100"
+                        Minimum="0"
+                        Position="Bottom"
+                        Style="{StaticResource SliderRoundedBottom}"
+                        Value="{Binding Path=Color.HSV_V, ElementName=uc, Mode=TwoWay}" />
+                </StackPanel>
+            </Border>
+        </Grid>
+
+        <Controls:ColorPickerSlider
+            Margin="0,8,0,0"
+            Caption="Alpha"
+            ColorState="{Binding Path=ColorState, ElementName=uc}"
+            Maximum="255"
+            Minimum="0"
+            Position="Bottom"
+            Style="{StaticResource SliderRounded}"
+            Value="{Binding Path=Color.A, ElementName=uc, Mode=TwoWay}" />
+    </StackPanel>
+</Controls:PickerControlBase>

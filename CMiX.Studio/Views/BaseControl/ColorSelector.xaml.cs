@@ -1,5 +1,4 @@
 ﻿using System;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,7 +14,8 @@ namespace CMiX.Studio.Views.BaseControl
 
 
         public static readonly DependencyProperty PositionProperty =
-        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ColorSelector), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ColorSelector), 
+            new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public ControlPosition Position
         {
             get { return (ControlPosition)GetValue(PositionProperty); }
@@ -23,7 +23,8 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         public static readonly DependencyProperty CaptionProperty =
-        DependencyProperty.Register("Caption", typeof(string), typeof(ColorSelector), new FrameworkPropertyMetadata(String.Empty));
+        DependencyProperty.Register("Caption", typeof(string), typeof(ColorSelector), 
+            new FrameworkPropertyMetadata(String.Empty));
         public string Caption
         {
             get { return (string)GetValue(CaptionProperty); }
@@ -31,7 +32,8 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         public static readonly DependencyProperty SelectedColorProperty =
-        DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorSelector), new FrameworkPropertyMetadata(Color.FromArgb(255, 255, 255, 255), FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorSelector), 
+            new FrameworkPropertyMetadata(Colors.Yellow, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public Color SelectedColor
         {
             get { return (Color)GetValue(SelectedColorProperty); }
@@ -44,6 +46,7 @@ namespace CMiX.Studio.Views.BaseControl
             if (colorPickerPopup.IsOpen == true)
                 colorPickerPopup.IsOpen = false;
             else colorPickerPopup.IsOpen = true;
+
             e.Handled = true;
         }
 
@@ -51,10 +54,10 @@ namespace CMiX.Studio.Views.BaseControl
         {
             var mousePosition = e.GetPosition(popupBorder);
 
-            if (mousePosition.X < -16 ||
-                mousePosition.Y > popupBorder.ActualHeight + 16 ||
-                mousePosition.Y < -16 ||
-                mousePosition.X > popupBorder.ActualWidth + +16)
+            if (mousePosition.X < -32 ||
+                mousePosition.Y > popupBorder.ActualHeight + 32 ||
+                mousePosition.Y < -32 ||
+                mousePosition.X > popupBorder.ActualWidth + 32)
             {
                 colorPickerPopup.IsOpen = false;
             }
@@ -71,6 +74,7 @@ namespace CMiX.Studio.Views.BaseControl
             {
                 colorPickerPopup.IsOpen = false;
             }
+
             e.Handled = true;
         }
     }

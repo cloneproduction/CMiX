@@ -14,7 +14,8 @@ namespace CMiX.Studio.Views.BaseControl
 {
     [TemplatePart(Name = PART_CursorEllipse, Type = typeof(Ellipse))]
     [TemplatePart(Name = PART_SpectrumEllipse, Type = typeof(Ellipse))]
-    public class ColorWheel : Control, IColorClient
+
+    public class ColorWheel : PickerControlBase
     {
         static ColorWheel()
         {
@@ -28,8 +29,6 @@ namespace CMiX.Studio.Views.BaseControl
         private Ellipse _spectrumEllipse;
         private bool _isDragging;
 
-        private IColorManager _colorManager;
-
         public override void OnApplyTemplate()
         {
             base.OnApplyTemplate();
@@ -40,11 +39,15 @@ namespace CMiX.Studio.Views.BaseControl
             MouseLeftButtonDown += OnMouseLeftButtonDown;
             MouseMove += OnMouseMove;
             MouseLeftButtonUp += OnMouseLeftButtonUp;
+            this.ColorChanged += ColorWheel_ColorChanged;
 
-            if (_colorManager != null)
-                SetCursor(_colorManager.Color.GetColor());
+            SetCursor();
         }
 
+        private void ColorWheel_ColorChanged(object sender, RoutedEventArgs e)
+        {
+            SetCursor();
+        }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -53,7 +56,8 @@ namespace CMiX.Studio.Views.BaseControl
                 _isDragging = true;
 
                 SetColor(e.GetPosition(this));
-                Mouse.Capture(this);
+                this.CaptureMouse();
+                e.Handled = true;
             }
         }
 
@@ -62,9 +66,14 @@ namespace CMiX.Studio.Views.BaseControl
             if (_isDragging)
             {
                 SetColor(e.GetPosition(this));
-                SetCursor(_colorManager.CurrentColor);
-            }
+                SetCursor();
 
+                Control control = sender as Control;
+                Point pointFromColor = this.GetColorLocation();
+                Point pointToScreen = control.PointToScreen(pointFromColor);
+
+                SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+            }
         }
 
         private void OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -72,25 +81,17 @@ namespace CMiX.Studio.Views.BaseControl
             if (_isDragging)
             {
                 _isDragging = false;
-                Mouse.Capture(null);
-
-                Control control = sender as Control;
-                Point pointFromColor = this.GetColorLocation(((ColorWheel)sender)._colorManager.CurrentColor);
-                Point pointToScreen = control.PointToScreen(pointFromColor);
-
-                SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+                this.ReleaseMouseCapture();
+                e.Handled = true;
             }
         }
-
-
 
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
-        private void SetCursor(Color color)
+        private void SetCursor()
         {
-            var location = GetColorLocation(color);
-
+            Point location = GetColorLocation();
             Canvas.SetLeft(_cursorEllipse, location.X - _cursorEllipse.Width / 2);
             Canvas.SetTop(_cursorEllipse, location.Y - _cursorEllipse.Height / 2);
         }
@@ -98,9 +99,9 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void SetColor(Point mousePosition)
         {
-            var centerPoint = new Point(ActualWidth / 2, ActualHeight / 2);
+            var centerPoint = new Point(Width / 2, Height / 2);
 
-            var radius = (ActualHeight - _cursorEllipse.Height) / 2;
+            var radius = (Height - _cursorEllipse.Height) / 2;
 
             var dx = Math.Abs(mousePosition.X - centerPoint.X);
             var dy = Math.Abs(mousePosition.Y - centerPoint.Y);
@@ -115,16 +116,19 @@ namespace CMiX.Studio.Views.BaseControl
             if (mousePosition.Y > centerPoint.Y)
                 angle = 360 - angle;
 
-            _colorManager.Color.HSV_H = angle;
-            _colorManager.Color.HSV_S = saturation;
+            Color.HSV_H = angle;
+            Color.HSV_S = saturation;
+
             if (saturation > 1.0)
-                _colorManager.Color.HSV_S = 1.0;
+                Color.HSV_S = 1.0;
+
+            Color.UpdateEverything(this.ColorState);
         }
 
-        private Point GetColorLocation(Color color) // private Point GetColorLocation(in Color color) REMOVED in because of C# version,
+        private Point GetColorLocation()
         {
-            var angle = this._colorManager.ColorState.HSV_H * Math.PI / 180;
-            var radius = (Height - _cursorEllipse.Height) / 2 * this._colorManager.ColorState.HSV_S;
+            var angle = Color.HSV_H * Math.PI / 180;
+            var radius = (Height - _cursorEllipse.Height) / 2 * Color.HSV_S;
 
             var centerPoint = new Point(Width / 2, Height / 2);
 
@@ -132,18 +136,6 @@ namespace CMiX.Studio.Views.BaseControl
             var y = centerPoint.Y - Math.Sin(angle) * radius;
 
             return new Point(x, y);
-        }
-
-        public void Init(IColorManager colorManager)
-        {
-            _colorManager = colorManager;
-            _colorManager.ColorChanged += _colorManager_ColorChanged; ;
-        }
-
-        private void _colorManager_ColorChanged(Color obj)
-        {
-            SetCursor(obj);
-            _spectrumEllipse.Opacity = _colorManager.Color.HSV_V / 100;
         }
     }
 }

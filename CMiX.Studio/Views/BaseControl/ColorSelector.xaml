@@ -5,6 +5,7 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="colorSelector"
@@ -12,7 +13,9 @@
     d:DesignHeight="42"
     d:DesignWidth="279.222"
     mc:Ignorable="d">
-
+    <UserControl.Resources>
+        <Resources:BindingProxy x:Key="proxy" Data="{Binding}" />
+    </UserControl.Resources>
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -39,11 +42,13 @@
             </Border.OpacityMask>
 
             <Grid Background="Transparent">
+
                 <Button
                     x:Name="PopupToggle"
                     Background="{Binding Value}"
                     Click="Button_Click_1"
                     Style="{DynamicResource ButtonColorStyle}" />
+
                 <Popup
                     x:Name="colorPickerPopup"
                     AllowsTransparency="True"
@@ -51,15 +56,19 @@
                     MouseMove="colorPickerPopup_MouseMove"
                     Placement="Bottom"
                     StaysOpen="False">
-                    <Border x:Name="popupBorder" Background="Transparent">
-                        <BaseControl:ColorPicker Width="200" Value="{Binding Value}" />
+                    <Border
+                        x:Name="popupBorder"
+                        Background="{DynamicResource HighDarkerColor}"
+                        CornerRadius="4">
+                        <BaseControl:StandardColorPicker
+                            Width="200"
+                            Margin="8"
+                            SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
                     </Border>
-
                 </Popup>
 
             </Grid>
         </Border>
-
 
     </Grid>
 

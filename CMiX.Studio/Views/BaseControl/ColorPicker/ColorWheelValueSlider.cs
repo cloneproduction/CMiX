@@ -11,7 +11,7 @@ using CMiX.Core.Mathematics;
 
 namespace CMiX.Studio.Views.BaseControl
 {
-    public class ColorWheelValueSlider : System.Windows.Controls.Slider, IColorClient
+    public class ColorWheelValueSlider : System.Windows.Controls.Slider
     {
         public ColorWheelValueSlider()
         {
@@ -48,6 +48,19 @@ namespace CMiX.Studio.Views.BaseControl
             {
                 var currentPoint = GetMousePosition();
 
+
+                Point pointToScreen;
+
+                double YPos = ActualWidth / 2;
+                double XPos = MathUtils.Map(this.Value, this.Minimum, this.Maximum, 0, ActualWidth);
+
+                if (XPos >= ActualHeight)
+                    XPos -= 1;
+
+                pointToScreen = this.PointToScreen(new Point(XPos, YPos));
+                SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+
+
                 if (currentPoint.Y >= ScreenHeight - 1)
                     SetCursorPos(0, Convert.ToInt32(currentPoint.Y));
                 else if (currentPoint.Y <= 0)
@@ -67,6 +80,8 @@ namespace CMiX.Studio.Views.BaseControl
 
                 this.Value = newValue;
                 _lastPoint = GetMousePosition();
+
+                e.Handled = true;
             }
         }
 
@@ -125,18 +140,18 @@ namespace CMiX.Studio.Views.BaseControl
 
 
         protected bool UpdateBackgroundWhenColorUpdated = true;
-        protected IColorManager ColorManager { get; private set; }
+        //protected ColorManager ColorManager { get; private set; }
 
 
-        public void Init(IColorManager colorManager)
-        {
-            ColorManager = colorManager;
-            ColorManager.ColorChanged += ColorManager_ColorChanged;
-        }
+        //public void Init(ColorManager colorManager)
+        //{
+        //    //ColorManager = colorManager;
+        //    //ColorManager.ColorChanged += ColorManager_ColorChanged;
+        //}
 
         public void ColorManager_ColorChanged(Color obj)
         {
-            Value = ColorManager.Color.HSV_V;
+            //Value = ColorManager.Color.HSV_V;
         }
 
         private void ColorSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -146,7 +161,7 @@ namespace CMiX.Studio.Views.BaseControl
 
         public void OnValueChanged()
         {
-            ColorManager.Color.HSV_V = Value;
+            //ColorManager.Color.HSV_V = Value;
         }
     }
 }

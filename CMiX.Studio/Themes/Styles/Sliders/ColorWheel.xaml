@@ -41,10 +41,10 @@
                         <Canvas>
                             <Ellipse
                                 Name="PART_CursorEllipse"
-                                Width="6"
-                                Height="6"
-                                Fill="White"
-                                Stroke="Black"
+                                Width="12"
+                                Height="12"
+                                Fill="Transparent"
+                                Stroke="White"
                                 StrokeThickness="1">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform X="-5" Y="-4" />
@@ -66,14 +66,14 @@
     </Style>
 
 
-    <Style x:Key="ValueSliderVertical" TargetType="{x:Type Controls:ColorWheelValueSlider}">
+    <Style x:Key="ValueSliderVertical" TargetType="{x:Type Controls:ColorPickerSlider}">
         <Setter Property="Maximum" Value="255" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Orientation" Value="Vertical" />
         <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Controls:ColorWheelValueSlider}">
+                <ControlTemplate TargetType="{x:Type Controls:ColorPickerSlider}">
                     <Border
                         x:Name="sliderBorder"
                         BorderBrush="Black"
@@ -116,77 +116,30 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate>
-                    <Ellipse
+                    <Grid>
+                        <Rectangle
+                            Height="8"
+                            Fill="Transparent"
+                            Stroke="Black"
+                            StrokeThickness="1" />
+                        <Rectangle
+                            Height="10"
+                            Fill="Transparent"
+                            Stroke="White"
+                            StrokeThickness="1" />
+                    </Grid>
+
+                    <!--<Ellipse
                         Name="PART_CursorEllipse"
                         Width="6"
                         Height="6"
                         Fill="White"
                         Stroke="Black"
-                        StrokeThickness="1" />
+                        StrokeThickness="1" />-->
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-    <!--<Style x:Key="ColorPickerRepeatButtonStyle" TargetType="{x:Type RepeatButton}">
-        <Setter Property="IsTabStop" Value="false" />
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="Transparent" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-    -->
-    <!--  IsHitTestVisible False or the XYControlle will not receive mousedown if mouse is on the thumb  -->
-    <!--
-    <Style x:Key="ColorWheelThumbStyle" TargetType="{x:Type Thumb}">
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Stylus.IsPressAndHoldEnabled" Value="True" />
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="IsHitTestVisible" Value="False"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Border Background="Transparent">
-                        <Ellipse Width="15" Height="15" Fill="Red"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-    <Style x:Key="ColorWheelStyle" TargetType="{x:Type Controls:ColorWheel}">
-        <Setter Property="IsTabStop" Value="False" />
-        <Setter Property="SnapsToDevicePixels" Value="True" />
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="Controls:MouseDownHelper.IsEnabled" Value="True"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Controls:ColorWheel}">
-                    <Grid>
-                        <Ellipse Fill="Blue"/>
-                        <Thumb x:Name="PART_Thumb" Style="{DynamicResource ColorWheelThumbStyle}"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Cursor" Value="Cross"/>
-                        </Trigger>
-
-                        <Trigger Property="IsMouseDown" Value="True">
-                            <Setter Property="Cursor" Value="None"/>
-                        </Trigger>
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>-->
 
 
 

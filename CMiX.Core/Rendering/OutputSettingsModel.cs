@@ -9,6 +9,6 @@ namespace CMiX.Core.Rendering
     {
         public Guid ID { get; init; } = Guid.NewGuid();
         public Integer2Model Resolution { get; init; } = new (1080, 1920);
-        public GenericValueModel<string> BackgroundColor { get; init; } = new ("#FFFFFFFF");
+        public GenericValueModel<string> BackgroundColor { get; init; } = new ("#FFFF00FF");
     }
 }
