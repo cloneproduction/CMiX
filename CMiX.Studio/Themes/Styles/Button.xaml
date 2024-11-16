@@ -121,11 +121,11 @@
 
 
     <!--  This one is use for ColorSelector  -->
-    <Style x:Key="ButtonColorStyle" TargetType="{x:Type Button}">
+    <Style x:Key="ButtonColorStyle" TargetType="{x:Type ToggleButton}">
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
+                <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Grid Background="Transparent">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />

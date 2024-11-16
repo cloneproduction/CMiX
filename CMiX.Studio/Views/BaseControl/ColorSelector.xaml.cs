@@ -1,21 +1,16 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
-
 namespace CMiX.Studio.Views.BaseControl
 {
     public partial class ColorSelector : UserControl
     {
-        public ColorSelector()
-        {
-            InitializeComponent();
-        }
-
-
         public static readonly DependencyProperty PositionProperty =
-        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ColorSelector), 
-            new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ColorSelector),
+                new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public ControlPosition Position
         {
             get { return (ControlPosition)GetValue(PositionProperty); }
@@ -23,7 +18,7 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         public static readonly DependencyProperty CaptionProperty =
-        DependencyProperty.Register("Caption", typeof(string), typeof(ColorSelector), 
+        DependencyProperty.Register("Caption", typeof(string), typeof(ColorSelector),
             new FrameworkPropertyMetadata(String.Empty));
         public string Caption
         {
@@ -32,7 +27,7 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         public static readonly DependencyProperty SelectedColorProperty =
-        DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorSelector), 
+        DependencyProperty.Register("SelectedColor", typeof(Color), typeof(ColorSelector),
             new FrameworkPropertyMetadata(Colors.Yellow, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public Color SelectedColor
         {
@@ -41,27 +36,89 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
 
-        private void Button_Click_1(object sender, RoutedEventArgs e)
+        public ColorSelector()
         {
-            if (colorPickerPopup.IsOpen == true)
+            InitializeComponent();
+        }
+
+        Popup popup;
+        public override void OnApplyTemplate()
+        {
+            popup = GetTemplateChild("colorPickerPopup") as Popup;
+
+            if (colorPickerPopup != null)
+            {
+                colorPickerPopup.MouseLeave += ColorPickerPopup_MouseLeave;
+                colorPickerPopup.MouseEnter += ColorPickerPopup_MouseEnter;
+            }
+        }
+
+        private void ColorPickerPopup_MouseEnter(object sender, MouseEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
+            {
+                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+            }
+        }
+
+        private void ColorPickerPopup_MouseLeave(object sender, MouseEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
+            {
+                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.AddPreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.AddPreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+            }
+        }
+
+        private void ParentWindow_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            var mousePosition = e.GetPosition(popupBorder);
+
+            if (mousePosition.X < -64 ||
+                mousePosition.Y > popupBorder.ActualHeight + 64 ||
+                mousePosition.Y < -64 ||
+                mousePosition.X > popupBorder.ActualWidth + 64)
+            {
                 colorPickerPopup.IsOpen = false;
-            else colorPickerPopup.IsOpen = true;
+
+                Window parentWindow = Window.GetWindow(this);
+                if (parentWindow != null)
+                {
+                    Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                    Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                    Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+                }
+            }
 
             e.Handled = true;
         }
 
-        private void colorPickerPopup_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
-        {
-            var mousePosition = e.GetPosition(popupBorder);
 
-            if (mousePosition.X < -32 ||
-                mousePosition.Y > popupBorder.ActualHeight + 32 ||
-                mousePosition.Y < -32 ||
-                mousePosition.X > popupBorder.ActualWidth + 32)
+
+        private void ParentWindow_OnMouseUp(object sender, MouseButtonEventArgs e)
+        {
+            Window parentWindow = Window.GetWindow(this);
+
+            if (parentWindow != null)
             {
-                colorPickerPopup.IsOpen = false;
+                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
             }
+
+            e.Handled = true;
         }
+
+        private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            colorPickerPopup.IsOpen = false;
+        }
+
 
         private void colorPickerPopup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {

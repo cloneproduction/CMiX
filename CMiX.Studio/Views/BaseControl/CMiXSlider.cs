@@ -3,8 +3,9 @@
 
 using System;
 using System.Diagnostics;
+using System.Globalization;
+using System.Linq;
 using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -14,6 +15,10 @@ namespace CMiX.Studio.Views.BaseControl
 {
     public class CMiXSlider : System.Windows.Controls.Slider
     {
+        [DllImport("User32.dll")]
+        private static extern bool SetCursorPos(int X, int Y);
+
+
         public static readonly DependencyProperty IsEditingProperty =
         DependencyProperty.Register("IsEditing", typeof(bool), typeof(CMiXSlider), new UIPropertyMetadata(false));
         public bool IsEditing
@@ -43,98 +48,239 @@ namespace CMiX.Studio.Views.BaseControl
         Border Border { get; set; }
 
 
+
         public override void OnApplyTemplate()
         {
             InputValue = GetTemplateChild("textInput") as TextBox;
             Border = GetTemplateChild("sliderBorder") as Border;
-
             if (InputValue != null)
             {
                 InputValue.MouseLeave += View_OnMouseLeave;
                 InputValue.MouseEnter += View_OnMouseEnter;
+                InputValue.KeyDown += InputValue_KeyDown;
+
+                InputValue.GotFocus += InputValue_GotFocus;
+                InputValue.LostFocus += InputValue_LostFocus;
             }
         }
 
-
-        private void View_OnMouseLeave(object sender, MouseEventArgs e)
+        private void InputValue_KeyDown(object sender, KeyEventArgs e)
         {
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
-                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+            if (e.Key == Key.Enter)
+            {
+                OnSwitchToNormalMode();
+                Window parentWindow = Window.GetWindow(this);
+                if (parentWindow != null)
+                {
+                    Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                    Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                    Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+                }
+            }
+            else if (e.Key == Key.Escape)
+            {
+                CancelUpdateValue();
+                OnSwitchToNormalMode();
+
+                Window parentWindow = Window.GetWindow(this);
+                if (parentWindow != null)
+                {
+                    Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                    Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                    Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+                }
+            }
+
+            //e.Handled = true;// IsTextAllowed(InputValue.Text);
         }
 
         private void View_OnMouseEnter(object sender, MouseEventArgs e)
         {
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow != null)
+            {
                 Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+            }
+        }
+
+        private void View_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!IsEditing)
+                return;
+
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
+            {
+                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.AddPreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.AddPreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);   
+            }
+        }
+
+
+        private void ParentWindow_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+
+        private double oldValue;
+        private void OnSwitchToEditingMode()
+        {
+            oldValue = this.Value;
+            IsEditing = true;
+            InputValue.Focus();
+            InputValue.SelectAll();
+            InputValue.CaptureMouse();
+        }
+
+        private void OnSwitchToNormalMode(bool bCancelEdit = true)
+        {
+            oldValue = this.Value;
+            IsEditing = false;
+            InputValue.ReleaseMouseCapture();
+            InputValue.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            Keyboard.ClearFocus();
+        }
+
+        public void CancelUpdateValue()
+        {
+            InputValue.Text = oldValue.ToString();
+        }
+
+
+
+
+        const NumberStyles validNumberStyles = NumberStyles.AllowDecimalPoint |
+                                           NumberStyles.AllowThousands |
+                                           NumberStyles.AllowLeadingSign;
+
+        public TextBoxInputMode InputMode { get; set; }
+
+        private bool IsValidInput(string input)
+        {
+            InputMode = TextBoxInputMode.DecimalInput;
+            switch (InputMode)
+            {
+                case TextBoxInputMode.None:
+                    return true;
+                case TextBoxInputMode.DigitInput:
+                    return CheckIsDigit(input);
+
+                case TextBoxInputMode.DecimalInput:
+                    decimal d;
+
+                    if (input.ToCharArray().Where(x => x == ',').Count() > 1)
+                        return false;
+
+                    if (input.Contains("-"))
+                    {
+                        if (/*!this.JustPositiveDecimalInput && */input.IndexOf("-") == 0 && input.Length == 1)
+                            return true;
+                        else
+                        {
+                            var result = decimal.TryParse(input, validNumberStyles, CultureInfo.CurrentCulture, out d);
+                            return result;
+                        }
+                    }
+                    else
+                    {
+                        var result = decimal.TryParse(input, validNumberStyles, CultureInfo.CurrentCulture, out d);
+                        return result;
+                    }
+
+                default: throw new ArgumentException("Unknown TextBoxInputMode");
+            }
+        }
+
+        private bool CheckIsDigit(string text)
+        {
+            return text.ToCharArray().All(Char.IsDigit);
+        }
+
+
+        private void InputValue_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Console.WriteLine();
+            oldValue = Convert.ToDouble(InputValue.Text);
+        }
+
+
+        private void InputValue_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox != null)
+            {
+                var result = this.IsValidInput(textBox.Text);
+                if (!result)
+                {
+                    textBox.Text = oldValue.ToString();
+
+                }
+                //oldValue = Convert.ToDouble(textBox.Text);
+            }
+            Debug.WriteLine("OnLostFocus Value = " + textBox.Text);
         }
 
 
         private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-            Window parentWindow = Window.GetWindow(this);
-
-            if (parentWindow != null)
-                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-
             if (IsEditing == false)
                 return;
 
-            if (mouseButtonEventArgs.ChangedButton == MouseButton.Left)
-            {
-                UpdateValue();
-                OnSwitchToNormalMode();
-            }
             else if (mouseButtonEventArgs.ChangedButton == MouseButton.Right)
             {
                 CancelUpdateValue();
-                OnSwitchToNormalMode();
             }
+            OnSwitchToNormalMode();
+            mouseButtonEventArgs.Handled = true;
         }
 
-
-        private void TextInput_GotFocus(object sender, RoutedEventArgs e)
+        private void ParentWindow_OnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
-            InputValue.MouseLeave += View_OnMouseLeave;
-            InputValue.MouseEnter += View_OnMouseEnter;
+            Window parentWindow = Window.GetWindow(this);
+
+            if (parentWindow != null)
+            {
+                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+            }
+
+            mouseButtonEventArgs.Handled = true;
         }
 
-        private void Text_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            InputValue.MouseLeave -= View_OnMouseLeave;
-            InputValue.MouseEnter -= View_OnMouseEnter;
-        }
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
         {
-            OnSwitchToNormalMode();
-            CancelUpdateValue();
-        }
+            if(IsEditing == false) 
+                return;
 
+            CancelUpdateValue();
+            OnSwitchToNormalMode();
+            e.Handled = true;
+        }
 
         bool isDragging = false;
         double lastValue = 0;
 
-        private Point _mouseDownPos;
         private Point _lastPoint;
+
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             if (IsEditing)
                 return;
 
-            _mouseDownPos = new Point(e.GetPosition(Border).X, e.GetPosition(Border).Y);
-            Border.CaptureMouse();
+            this.Focus();
+            this.CaptureMouse();
             isDragging = true;
-
-            var p = ValueToPoint(this.Value);
-            _lastPoint = p;
+            _lastPoint = e.GetPosition(Border);
             lastValue = this.Value;
-
-            Point pointToScreen = this.PointToScreen(p);
-            SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
         }
+
 
         protected override void OnPreviewMouseMove(MouseEventArgs e)
         {
@@ -142,40 +288,38 @@ namespace CMiX.Studio.Views.BaseControl
                 return;
 
             var currentPoint = e.GetPosition(Border);
-
-            if (currentPoint.X >= Border.ActualWidth)
-                currentPoint.X = Border.ActualWidth;
-
-            if (currentPoint.X <= 0)
-                currentPoint.X = 0;
-
             currentPoint.Y = Border.ActualHeight / 2;
 
             Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
             var currentValue = MathUtils.Map(offset.X, 0, Border.ActualWidth, this.Minimum, this.Maximum);
-            this.Value = lastValue + currentValue;
 
-            Point pointToScreen = this.PointToScreen(currentPoint);
-            SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+            double smooth = 1.0;
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                smooth = 0.01;
 
-            e.Handled = true;
+            this.Value = Math.Clamp(lastValue + currentValue * smooth, this.Minimum, this.Maximum);
         }
+
 
         protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             if (!isDragging)
                 return;
 
-            isDragging = false;
+            Point pointToScreen = this.PointToScreen(ValueToPoint(this.Value));
+            SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
 
-            if(Math.Round(lastValue, 3) == Math.Round(this.Value, 3))
+            if (lastValue == this.Value)
             {
-                OnSwitchToEditingMode();
-                Point pointToScreen = this.PointToScreen(_mouseDownPos);
+                pointToScreen = this.PointToScreen(_lastPoint);
                 SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+                OnSwitchToEditingMode();
             }
 
-            Border.ReleaseMouseCapture();
+            this.ReleaseMouseCapture();
+
+            isDragging = false;
+            lastValue = this.Value;
         }
 
 
@@ -184,100 +328,12 @@ namespace CMiX.Studio.Views.BaseControl
             var p = new Point(MathUtils.Map(value, this.Minimum, this.Maximum, 0, Border.ActualWidth), Border.ActualHeight / 2);
             return p;
         }
-
-        private double SmoothValue(Point currentPoint)
-        {
-            Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
-            double p = MathUtils.Map(offset.X, 0, ActualWidth, this.Minimum, this.Maximum);
-            double smooth = 1.0;
-
-            Debug.WriteLine("offset " + offset);
-            Debug.WriteLine("mapped offset " + p);
-
-            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
-                smooth = 0.01;
-
-            return this.Value + p;// * ((Math.Abs(this.Minimum) + Math.Abs(this.Maximum)) / ActualWidth); 
-        }
-
-
-        [DllImport("User32.dll")]
-        private static extern bool SetCursorPos(int X, int Y);
-
-
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                UpdateValue();
-                OnSwitchToNormalMode();
-            }
-            else if (e.Key == Key.Escape)
-            {
-                CancelUpdateValue();
-                OnSwitchToNormalMode();
-            }
-            e.Handled = !IsTextAllowed(InputValue.Text);
-        }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            e.Handled = !IsTextAllowed(InputValue.Text);
-        }
-
-
-        private void OnSwitchToEditingMode()
-        {
-            IsEditing = true;
-            InputValue.Focus();
-            InputValue.SelectAll();
-        }
-
-        private void OnSwitchToNormalMode(bool bCancelEdit = true)
-        {
-            IsEditing = false;
-            Keyboard.ClearFocus();
-            //_mouseDownPos = null;
-        }
-        
-        private readonly Regex _regex = new Regex(@"[^0-9.-]+"); //regex that matches disallowed text
-       //private readonly Regex _regex = new Regex(@"^-?[0-9]\d*(\.\d+)?$");
-        private bool IsTextAllowed(string text)
-        {
-            bool result = !_regex.IsMatch(text);
-            return result;
-        }
-
-        private void TextInput_LostFocus(object sender, RoutedEventArgs e)
-        {
-            e.Handled = !IsTextAllowed(InputValue.Text);
-        }
-
-        private void TextInput_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-                UpdateValue();
-            else if (e.Key == Key.Escape)
-                CancelUpdateValue();
-
-            e.Handled = !IsTextAllowed(InputValue.Text);
-        }
-
-
-        public void UpdateValue()
-        {
-            if (IsTextAllowed(InputValue.Text))
-                this.Value = Double.Parse(InputValue.Text);
-        }
-
-        public void CancelUpdateValue()
-        {
-            double oldValue = this.Value;
-
-            if (IsTextAllowed(InputValue.Text))
-                this.Value = oldValue;
-
-            InputValue.Text = oldValue.ToString();
-        }
     }
 }
+
+    public enum TextBoxInputMode
+    {
+        None,
+        DecimalInput,
+        DigitInput
+    }

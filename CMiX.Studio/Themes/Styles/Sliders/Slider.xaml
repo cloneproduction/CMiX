@@ -2,7 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl">
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Validations="clr-namespace:CMiX.Studio.Validations" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
@@ -159,6 +160,13 @@
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="SelectionBrush" Value="{DynamicResource SuperHighLightColor}" />
         <Setter Property="CaretBrush" Value="{DynamicResource TextBase}" />
+        <Setter Property="Validation.ErrorTemplate">
+            <Setter.Value>
+                <ControlTemplate>
+                    <StackPanel />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TextBox}">
@@ -274,15 +282,26 @@
                                 Padding="0,0,8,0"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="Center"
-                                Content="{TemplateBinding Value}"
+                                Content="{TemplateBinding Value,
+                                                          Converter={StaticResource DoubleToString}}"
                                 ContentStringFormat="{}{0:0.000}" />
 
                             <TextBox
                                 x:Name="textInput"
                                 Height="{TemplateBinding ActualHeight}"
-                                Style="{StaticResource SliderTextBox}"
-                                Text="{TemplateBinding Value,
-                                                       Converter={StaticResource DoubleToString}}" />
+                                Style="{StaticResource SliderTextBox}">
+                                <Binding
+                                    Converter="{StaticResource DoubleToString}"
+                                    Mode="TwoWay"
+                                    Path="Value"
+                                    RelativeSource="{RelativeSource TemplatedParent}"
+                                    ValidatesOnDataErrors="True" 
+                                    UpdateSourceTrigger="LostFocus">
+                                </Binding>
+                                <!--<i:Interaction.Behaviors>
+                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput" JustPositiveDecimalInput="false"/>
+                                </i:Interaction.Behaviors>-->
+                            </TextBox>
 
                         </Grid>
                     </Border>

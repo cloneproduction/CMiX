@@ -82,7 +82,9 @@ namespace CMiX.Studio.Views.BaseControl
             {
                 _isDragging = false;
                 this.ReleaseMouseCapture();
-                e.Handled = true;
+                //FocusManager.SetFocusedElement(this, null);
+                Keyboard.ClearFocus();
+                //e.Handled = true;
             }
         }
 

@@ -11,6 +11,26 @@ namespace CMiX.Studio.Views.BaseControl
 {
     public partial class EditableTextBox : UserControl
     {
+        public static readonly DependencyProperty IsEditingProperty = DependencyProperty.Register("IsEditing", typeof(bool), typeof(EditableTextBox), 
+            new UIPropertyMetadata(false, new PropertyChangedCallback(IsEditing_PropertyChanged)));
+        public bool IsEditing
+        {
+            get { return (bool)GetValue(IsEditingProperty); }
+            set
+            {
+                SetValue(IsEditingProperty, value);
+            }
+        }
+
+        public static readonly DependencyProperty IsSelectedProperty =
+        DependencyProperty.Register("IsSelected", typeof(bool), typeof(EditableTextBox));
+        public bool IsSelected
+        {
+            get { return (bool)GetValue(IsSelectedProperty); }
+            set { SetValue(IsSelectedProperty, value); }
+        }
+
+
         public EditableTextBox()
         {
             InitializeComponent();
@@ -57,24 +77,7 @@ namespace CMiX.Studio.Views.BaseControl
 
 
         #region PROPERTIES
-        public static readonly DependencyProperty IsEditingProperty =
-        DependencyProperty.Register("IsEditing", typeof(bool), typeof(EditableTextBox), new UIPropertyMetadata(false, new PropertyChangedCallback(IsEditing_PropertyChanged)));
-        public bool IsEditing
-        {
-            get { return (bool)GetValue(IsEditingProperty); }
-            set
-            {
-                SetValue(IsEditingProperty, value);
-            }
-        }
 
-        public static readonly DependencyProperty IsSelectedProperty =
-        DependencyProperty.Register("IsSelected", typeof(bool), typeof(EditableTextBox));
-        public bool IsSelected
-        {
-            get { return (bool)GetValue(IsSelectedProperty); }
-            set { SetValue(IsSelectedProperty, value); }
-        }
 
         private static void IsEditing_PropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
@@ -110,7 +113,7 @@ namespace CMiX.Studio.Views.BaseControl
         public Window _ParentItemsControl { get; set; }
         #endregion
 
-        #region EVENTS
+
         protected override void OnKeyDown(KeyEventArgs e)
         {
             if (e.Key == Key.Escape || e.Key == Key.Enter)
@@ -138,14 +141,10 @@ namespace CMiX.Studio.Views.BaseControl
         {
 
             OnSwitchToNormalMode();
-
-            //e.Handled = true;
-
             ((IInputElement)sender).ReleaseMouseCapture();
         }
-        #endregion
 
-        #region PRIVATE METHODS
+
         private void OnSwitchToEditingMode()
         {
             TextDisplay.Visibility = Visibility.Collapsed;
@@ -161,15 +160,9 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void OnSwitchToNormalMode(bool bCancelEdit = true)
         {
-            //RemoveHandler(Mouse.PreviewMouseDownOutsideCapturedElementEvent, new MouseButtonEventHandler(OnMouseDownOutsideElement));
-            //IsEditing = false;
             TextDisplay.Text = InputValue.Text;
             TextDisplay.Visibility = Visibility.Visible;
             InputValue.Visibility = Visibility.Hidden;
-
-            //InputValue.ReleaseMouseCapture();
-            //FocusManager.SetFocusedElement(FocusManager.GetFocusScope(InputValue), null);
-            //Keyboard.ClearFocus();
         }
 
         private void HookItemsControlEvents()
@@ -202,8 +195,5 @@ namespace CMiX.Studio.Views.BaseControl
             }
             return parent;
         }
-
-
-        #endregion
     }
 }
