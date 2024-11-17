@@ -53,7 +53,19 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
-        private void ColorPickerPopup_MouseEnter(object sender, MouseEventArgs e)
+
+        private void AddParentWindowHandlers()
+        {
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
+            {
+                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.AddPreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.AddPreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+            }
+        }
+
+        private void RemoveParentWindowHandlers()
         {
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow != null)
@@ -64,15 +76,36 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
+
+        private void ColorPickerPopup_MouseEnter(object sender, MouseEventArgs e)
+        {
+            RemoveParentWindowHandlers();
+        }
+
         private void ColorPickerPopup_MouseLeave(object sender, MouseEventArgs e)
         {
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
+            AddParentWindowHandlers();
+        }
+
+        private void ColorPickerPopup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            var mousePosition = e.GetPosition(popupBorder);
+
+            if (mousePosition.X < 0 ||
+                mousePosition.Y > popupBorder.ActualHeight ||
+                mousePosition.Y < 0 ||
+                mousePosition.X > popupBorder.ActualWidth)
             {
-                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-                Mouse.AddPreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
-                Mouse.AddPreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
+                colorPickerPopup.IsOpen = false;
             }
+
+            e.Handled = true;
+        }
+
+
+        private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            colorPickerPopup.IsOpen = false;
         }
 
         private void ParentWindow_OnMouseMove(object sender, MouseEventArgs e)
@@ -85,53 +118,15 @@ namespace CMiX.Studio.Views.BaseControl
                 mousePosition.X > popupBorder.ActualWidth + 64)
             {
                 colorPickerPopup.IsOpen = false;
-
-                Window parentWindow = Window.GetWindow(this);
-                if (parentWindow != null)
-                {
-                    Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-                    Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
-                    Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
-                }
+                RemoveParentWindowHandlers();
             }
 
             e.Handled = true;
         }
-
-
 
         private void ParentWindow_OnMouseUp(object sender, MouseButtonEventArgs e)
         {
-            Window parentWindow = Window.GetWindow(this);
-
-            if (parentWindow != null)
-            {
-                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-                Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
-                Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
-            }
-
-            e.Handled = true;
-        }
-
-        private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
-        {
-            colorPickerPopup.IsOpen = false;
-        }
-
-
-        private void colorPickerPopup_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
-            var mousePosition = e.GetPosition(popupBorder);
-
-            if (mousePosition.X < 0 ||
-                mousePosition.Y > popupBorder.ActualHeight ||
-                mousePosition.Y < 0 ||
-                mousePosition.X > popupBorder.ActualWidth)
-            {
-                colorPickerPopup.IsOpen = false;
-            }
-
+            RemoveParentWindowHandlers();
             e.Handled = true;
         }
     }

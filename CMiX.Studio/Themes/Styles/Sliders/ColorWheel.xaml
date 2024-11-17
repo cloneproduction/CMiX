@@ -43,9 +43,9 @@
                                 Name="PART_CursorEllipse"
                                 Width="12"
                                 Height="12"
-                                Fill="Transparent"
-                                Stroke="White"
-                                StrokeThickness="1">
+                                Fill="{Binding Path=SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToBrush}, ConverterParameter='all'}"
+                                Stroke="Black"
+                                StrokeThickness="0.2">
                                 <Ellipse.RenderTransform>
                                     <TranslateTransform X="-5" Y="-4" />
                                 </Ellipse.RenderTransform>
@@ -57,8 +57,18 @@
                     <ControlTemplate.Triggers>
                         <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
                             <Setter Property="Cursor" Value="None" />
+                            <Setter TargetName="PART_CursorEllipse" Property="RenderTransform">
+                                <Setter.Value>
+                                    <TransformGroup>
+                                        <TranslateTransform X="-6" Y="-6" />
+                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                                    </TransformGroup>
+
+                                </Setter.Value>
+                            </Setter>
                         </Trigger>
                     </ControlTemplate.Triggers>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -66,50 +76,45 @@
     </Style>
 
 
-    <Style x:Key="ValueSliderVertical" TargetType="{x:Type Controls:ColorPickerSlider}">
-        <Setter Property="Maximum" Value="255" />
-        <Setter Property="Focusable" Value="False" />
+    <Style x:Key="ValueSliderVertical" TargetType="{x:Type Controls:CMiXSlider}">
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Focusable" Value="True" />
         <Setter Property="Orientation" Value="Vertical" />
         <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Controls:ColorPickerSlider}">
-                    <Border
-                        x:Name="sliderBorder"
-                        BorderBrush="Black"
-                        BorderThickness="1"
-                        CornerRadius="2">
-                        <Border.Background>
-                            <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                <GradientStop Offset="0" Color="White" />
-                                <GradientStop Offset="1" Color="Black" />
-                            </LinearGradientBrush>
-                        </Border.Background>
-                        <Track
-                            x:Name="PART_Track"
-                            Grid.Row="1"
-                            Margin="0">
-                            <Track.DecreaseRepeatButton>
-                                <RepeatButton Command="{x:Static Slider.DecreaseLarge}" Style="{DynamicResource SliderRepeatButtonStyle}" />
-                            </Track.DecreaseRepeatButton>
-                            <Track.IncreaseRepeatButton>
-                                <RepeatButton Command="{x:Static Slider.IncreaseLarge}" Style="{DynamicResource SliderRepeatButtonStyle}" />
-                            </Track.IncreaseRepeatButton>
-                            <Track.Thumb>
-                                <Thumb x:Name="Part_Thumb" Style="{DynamicResource ValueSliderVerticalThumbStyle}" />
-                            </Track.Thumb>
-                        </Track>
-                    </Border>
+                <ControlTemplate TargetType="{x:Type Controls:CMiXSlider}">
+                    <Grid>
+                        <Border
+                            x:Name="sliderBorder"
+                            BorderBrush="Black"
+                            BorderThickness="1">
+                            <Border.Background>
+                                <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                    <GradientStop Offset="0" Color="White" />
+                                    <GradientStop Offset="1" Color="Black" />
+                                </LinearGradientBrush>
+                            </Border.Background>
+                            <Track x:Name="PART_Track" Margin="-1,-5">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Part_Thumb" Style="{DynamicResource ValueSliderVerticalThumbStyle}" />
+                                </Track.Thumb>
+                            </Track>
+                        </Border>
+                    </Grid>
 
                     <ControlTemplate.Triggers>
                         <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
                             <Setter Property="Cursor" Value="None" />
                         </Trigger>
                     </ControlTemplate.Triggers>
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
+
+
 
     <Style x:Key="ValueSliderVerticalThumbStyle" TargetType="{x:Type Thumb}">
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -118,24 +123,18 @@
                 <ControlTemplate>
                     <Grid>
                         <Rectangle
-                            Height="8"
-                            Fill="Transparent"
-                            Stroke="Black"
-                            StrokeThickness="1" />
+                            Height="9"
+                            Fill="Black"
+                            Stroke="White"
+                            StrokeThickness="0.5" />
                         <Rectangle
                             Height="10"
-                            Fill="Transparent"
-                            Stroke="White"
-                            StrokeThickness="1" />
-                    </Grid>
+                            Fill="White"
+                            Opacity="{Binding Path=ColorState.HSV_V, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Controls:StandardColorPicker}}}"
+                            Stroke="Black"
+                            StrokeThickness="0.5" />
 
-                    <!--<Ellipse
-                        Name="PART_CursorEllipse"
-                        Width="6"
-                        Height="6"
-                        Fill="White"
-                        Stroke="Black"
-                        StrokeThickness="1" />-->
+                    </Grid>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>

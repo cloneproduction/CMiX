@@ -13,11 +13,11 @@
     d:DesignHeight="42"
     d:DesignWidth="279.222"
     mc:Ignorable="d">
-    
+
     <UserControl.Resources>
         <Resources:BindingProxy x:Key="proxy" Data="{Binding}" />
     </UserControl.Resources>
-    
+
     <Grid>
 
         <Grid.ColumnDefinitions>
@@ -33,10 +33,8 @@
         <Border
             x:Name="mask"
             Grid.Column="1"
-
             Background="{DynamicResource DarkColor}"
             Style="{StaticResource BorderMask}" />
-        <!--AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=colorSelector}"-->
         <Border x:Name="mainBorder" Grid.Column="1">
 
             <Border.OpacityMask>
@@ -54,17 +52,14 @@
                     x:Name="colorPickerPopup"
                     AllowsTransparency="True"
                     IsOpen="{Binding IsChecked, ElementName=PopupToggle}"
-                    StaysOpen="True"
-                    MouseDown="colorPickerPopup_MouseDown"
-                    Placement="Bottom">
+                    MouseDown="ColorPickerPopup_MouseDown"
+                    Placement="Bottom"
+                    StaysOpen="True">
                     <Border
                         x:Name="popupBorder"
                         Background="{DynamicResource HighDarkerColor}"
                         CornerRadius="4">
-                        <BaseControl:StandardColorPicker
-                            Width="200"
-                            Margin="8"
-                            SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
+                        <BaseControl:StandardColorPicker Margin="8" SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
                     </Border>
                 </Popup>
 

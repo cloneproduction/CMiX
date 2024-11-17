@@ -2,8 +2,7 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
-    xmlns:Validations="clr-namespace:CMiX.Studio.Validations" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors">
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
@@ -295,12 +294,8 @@
                                     Mode="TwoWay"
                                     Path="Value"
                                     RelativeSource="{RelativeSource TemplatedParent}"
-                                    ValidatesOnDataErrors="True" 
-                                    UpdateSourceTrigger="LostFocus">
-                                </Binding>
-                                <!--<i:Interaction.Behaviors>
-                                    <Behaviors:TextBoxInputBehavior InputMode="DecimalInput" JustPositiveDecimalInput="false"/>
-                                </i:Interaction.Behaviors>-->
+                                    UpdateSourceTrigger="LostFocus"
+                                    ValidatesOnDataErrors="True" />
                             </TextBox>
 
                         </Grid>

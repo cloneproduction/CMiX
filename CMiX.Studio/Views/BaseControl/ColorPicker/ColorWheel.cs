@@ -6,6 +6,7 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Shapes;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
@@ -47,6 +48,7 @@ namespace CMiX.Studio.Views.BaseControl
         private void ColorWheel_ColorChanged(object sender, RoutedEventArgs e)
         {
             SetCursor();
+            _spectrumEllipse.Opacity = this.ColorState.HSV_V;
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

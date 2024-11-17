@@ -18,6 +18,13 @@ namespace CMiX.Studio.Views.BaseControl
         [DllImport("User32.dll")]
         private static extern bool SetCursorPos(int X, int Y);
 
+        public static readonly DependencyProperty IsEditableProperty =
+        DependencyProperty.Register("IsEditable", typeof(bool), typeof(CMiXSlider), new UIPropertyMetadata(true));
+        public bool IsEditable
+        {
+            get { return (bool)GetValue(IsEditableProperty); }
+            set { SetValue(IsEditableProperty, value); }
+        }
 
         public static readonly DependencyProperty IsEditingProperty =
         DependencyProperty.Register("IsEditing", typeof(bool), typeof(CMiXSlider), new UIPropertyMetadata(false));
@@ -43,7 +50,6 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(CaptionProperty, value); }
         }
 
-
         TextBox InputValue { get; set; }
         Border Border { get; set; }
 
@@ -55,46 +61,26 @@ namespace CMiX.Studio.Views.BaseControl
             Border = GetTemplateChild("sliderBorder") as Border;
             if (InputValue != null)
             {
-                InputValue.MouseLeave += View_OnMouseLeave;
-                InputValue.MouseEnter += View_OnMouseEnter;
+                InputValue.MouseLeave += InputValue_OnMouseLeave;
+                InputValue.MouseEnter += InputValue_OnMouseEnter;
                 InputValue.KeyDown += InputValue_KeyDown;
-
                 InputValue.GotFocus += InputValue_GotFocus;
                 InputValue.LostFocus += InputValue_LostFocus;
             }
         }
 
-        private void InputValue_KeyDown(object sender, KeyEventArgs e)
+        private void AddParentWindowHandlers()
         {
-            if (e.Key == Key.Enter)
+            Window parentWindow = Window.GetWindow(this);
+            if (parentWindow != null)
             {
-                OnSwitchToNormalMode();
-                Window parentWindow = Window.GetWindow(this);
-                if (parentWindow != null)
-                {
-                    Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-                    Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
-                    Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
-                }
+                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
+                Mouse.AddPreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
+                Mouse.AddPreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
             }
-            else if (e.Key == Key.Escape)
-            {
-                CancelUpdateValue();
-                OnSwitchToNormalMode();
-
-                Window parentWindow = Window.GetWindow(this);
-                if (parentWindow != null)
-                {
-                    Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-                    Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
-                    Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
-                }
-            }
-
-            //e.Handled = true;// IsTextAllowed(InputValue.Text);
         }
 
-        private void View_OnMouseEnter(object sender, MouseEventArgs e)
+        private void RemoveParentWindowHandlers()
         {
             Window parentWindow = Window.GetWindow(this);
             if (parentWindow != null)
@@ -105,44 +91,35 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
-        private void View_OnMouseLeave(object sender, MouseEventArgs e)
-        {
-            if (!IsEditing)
-                return;
-
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
-            {
-                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-                Mouse.AddPreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
-                Mouse.AddPreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);   
-            }
-        }
-
-
-        private void ParentWindow_OnMouseMove(object sender, MouseEventArgs e)
-        {
-            e.Handled = true;
-        }
 
 
         private double oldValue;
         private void OnSwitchToEditingMode()
         {
-            oldValue = this.Value;
+
             IsEditing = true;
-            InputValue.Focus();
-            InputValue.SelectAll();
-            InputValue.CaptureMouse();
+
+            if (InputValue != null)
+            {
+                oldValue = this.Value;
+                InputValue.Focus();
+                InputValue.SelectAll();
+                InputValue.CaptureMouse();
+            }
         }
 
-        private void OnSwitchToNormalMode(bool bCancelEdit = true)
+        private void OnSwitchToNormalMode()
         {
-            oldValue = this.Value;
+
             IsEditing = false;
-            InputValue.ReleaseMouseCapture();
-            InputValue.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
-            Keyboard.ClearFocus();
+
+            if (InputValue != null)
+            {
+                oldValue = this.Value;
+                InputValue.ReleaseMouseCapture();
+                InputValue.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+                Keyboard.ClearFocus();
+            }
         }
 
         public void CancelUpdateValue()
@@ -152,10 +129,181 @@ namespace CMiX.Studio.Views.BaseControl
 
 
 
+        private void InputValue_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                OnSwitchToNormalMode();
+                RemoveParentWindowHandlers();
+            }
+            else if (e.Key == Key.Escape)
+            {
+                CancelUpdateValue();
+                OnSwitchToNormalMode();
+                RemoveParentWindowHandlers();
+            }
+        }
 
-        const NumberStyles validNumberStyles = NumberStyles.AllowDecimalPoint |
-                                           NumberStyles.AllowThousands |
-                                           NumberStyles.AllowLeadingSign;
+
+        private void InputValue_OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            RemoveParentWindowHandlers();
+        }
+
+
+        private void InputValue_OnMouseLeave(object sender, MouseEventArgs e)
+        {
+            if (!IsEditing)
+                return;
+
+            AddParentWindowHandlers();
+        }
+
+
+        private void InputValue_GotFocus(object sender, RoutedEventArgs e)
+        {
+            oldValue = Convert.ToDouble(InputValue.Text);
+        }
+
+
+        private void InputValue_LostFocus(object sender, RoutedEventArgs e)
+        {
+            var textBox = sender as TextBox;
+            if (textBox == null)
+                return;
+
+            if (!this.IsValidInput(textBox.Text))
+                textBox.Text = oldValue.ToString();
+        }
+
+
+
+        private void ParentWindow_OnMouseMove(object sender, MouseEventArgs e)
+        {
+            e.Handled = true;
+        }
+
+
+        private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            if (IsEditing == false)
+                return;
+
+            if (mouseButtonEventArgs.ChangedButton == MouseButton.Right)
+                CancelUpdateValue();
+
+            OnSwitchToNormalMode();
+            mouseButtonEventArgs.Handled = true;
+        }
+
+
+        private void ParentWindow_OnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
+        {
+            RemoveParentWindowHandlers();
+            mouseButtonEventArgs.Handled = true;
+        }
+
+
+
+        protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
+        {
+            if(IsEditing == false) 
+                return;
+
+            CancelUpdateValue();
+            OnSwitchToNormalMode();
+            e.Handled = true;
+        }
+
+
+        bool isDragging = false;
+        double lastValue;
+        private Point _lastPoint;
+
+
+
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
+        {
+            isDragging = true;
+
+            if (IsEditing)
+                return;
+
+            lastValue = this.Value;
+            //isDragging = true;
+
+            _lastPoint = e.GetPosition(Border);
+            this.CaptureMouse();
+            this.Focus();
+            Console.WriteLine();
+        }
+
+        protected override void OnPreviewMouseMove(MouseEventArgs e)
+        {
+            if (IsEditing)
+                return;
+
+            if (!isDragging)
+                return;
+
+            var currentPoint = e.GetPosition(Border);
+            var currentValue = 0.0;
+
+            if (Orientation == Orientation.Vertical)
+            {
+                currentPoint.X = Border.ActualWidth / 2;
+
+                Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
+                currentValue = MathUtils.Map(-offset.Y, 0, Border.ActualHeight, this.Minimum, this.Maximum);
+            }
+            else if(Orientation == Orientation.Horizontal)
+            {
+                currentPoint.Y = Border.ActualHeight / 2;
+
+                Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
+                currentValue = MathUtils.Map(offset.X, 0, Border.ActualWidth, this.Minimum, this.Maximum);
+            }
+
+            double smooth = 1.0;
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                smooth = 0.01;
+
+            this.Value = Math.Clamp(lastValue + currentValue * smooth, this.Minimum, this.Maximum);
+        }
+
+
+        protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
+        {
+            if (!isDragging)
+                return;
+
+            var pointFromValue = new Point();
+
+            if (Orientation == Orientation.Vertical)
+                pointFromValue = new Point(Border.ActualWidth / 2, MathUtils.Map(this.Value, this.Maximum, this.Minimum, 0, Border.ActualHeight));
+            else if(Orientation == Orientation.Horizontal)
+                pointFromValue = new Point(MathUtils.Map(this.Value, this.Minimum, this.Maximum, 0, Border.ActualWidth), Border.ActualHeight / 2);
+
+            Point pointToScreen = this.PointToScreen(pointFromValue);
+
+            if (lastValue == this.Value && IsEditable)
+            {
+                pointToScreen = this.PointToScreen(_lastPoint);
+                OnSwitchToEditingMode();
+            }
+
+            SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+            this.ReleaseMouseCapture();
+
+            isDragging = false;
+            lastValue = this.Value;
+        }
+
+
+        const NumberStyles validNumberStyles = 
+                                   NumberStyles.AllowDecimalPoint |
+                                   NumberStyles.AllowThousands |
+                                   NumberStyles.AllowLeadingSign;
 
         public TextBoxInputMode InputMode { get; set; }
 
@@ -199,141 +347,12 @@ namespace CMiX.Studio.Views.BaseControl
         {
             return text.ToCharArray().All(Char.IsDigit);
         }
-
-
-        private void InputValue_GotFocus(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine();
-            oldValue = Convert.ToDouble(InputValue.Text);
-        }
-
-
-        private void InputValue_LostFocus(object sender, RoutedEventArgs e)
-        {
-            var textBox = sender as TextBox;
-            if (textBox != null)
-            {
-                var result = this.IsValidInput(textBox.Text);
-                if (!result)
-                {
-                    textBox.Text = oldValue.ToString();
-
-                }
-                //oldValue = Convert.ToDouble(textBox.Text);
-            }
-            Debug.WriteLine("OnLostFocus Value = " + textBox.Text);
-        }
-
-
-        private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
-        {
-            if (IsEditing == false)
-                return;
-
-            else if (mouseButtonEventArgs.ChangedButton == MouseButton.Right)
-            {
-                CancelUpdateValue();
-            }
-            OnSwitchToNormalMode();
-            mouseButtonEventArgs.Handled = true;
-        }
-
-        private void ParentWindow_OnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
-        {
-            Window parentWindow = Window.GetWindow(this);
-
-            if (parentWindow != null)
-            {
-                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-                Mouse.RemovePreviewMouseUpHandler(parentWindow, ParentWindow_OnMouseUp);
-                Mouse.RemovePreviewMouseMoveHandler(parentWindow, ParentWindow_OnMouseMove);
-            }
-
-            mouseButtonEventArgs.Handled = true;
-        }
-
-
-        protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
-        {
-            if(IsEditing == false) 
-                return;
-
-            CancelUpdateValue();
-            OnSwitchToNormalMode();
-            e.Handled = true;
-        }
-
-        bool isDragging = false;
-        double lastValue = 0;
-
-        private Point _lastPoint;
-
-
-        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            if (IsEditing)
-                return;
-
-            this.Focus();
-            this.CaptureMouse();
-            isDragging = true;
-            _lastPoint = e.GetPosition(Border);
-            lastValue = this.Value;
-        }
-
-
-        protected override void OnPreviewMouseMove(MouseEventArgs e)
-        {
-            if (!isDragging)
-                return;
-
-            var currentPoint = e.GetPosition(Border);
-            currentPoint.Y = Border.ActualHeight / 2;
-
-            Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
-            var currentValue = MathUtils.Map(offset.X, 0, Border.ActualWidth, this.Minimum, this.Maximum);
-
-            double smooth = 1.0;
-            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
-                smooth = 0.01;
-
-            this.Value = Math.Clamp(lastValue + currentValue * smooth, this.Minimum, this.Maximum);
-        }
-
-
-        protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
-        {
-            if (!isDragging)
-                return;
-
-            Point pointToScreen = this.PointToScreen(ValueToPoint(this.Value));
-            SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
-
-            if (lastValue == this.Value)
-            {
-                pointToScreen = this.PointToScreen(_lastPoint);
-                SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
-                OnSwitchToEditingMode();
-            }
-
-            this.ReleaseMouseCapture();
-
-            isDragging = false;
-            lastValue = this.Value;
-        }
-
-
-        private Point ValueToPoint(double value)
-        {
-            var p = new Point(MathUtils.Map(value, this.Minimum, this.Maximum, 0, Border.ActualWidth), Border.ActualHeight / 2);
-            return p;
-        }
     }
 }
 
-    public enum TextBoxInputMode
-    {
-        None,
-        DecimalInput,
-        DigitInput
-    }
+public enum TextBoxInputMode
+{
+    None,
+    DecimalInput,
+    DigitInput
+}
