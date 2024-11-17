@@ -126,13 +126,15 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    
                     <Grid Background="Transparent">
+                        
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
                         </Grid.ColumnDefinitions>
 
-                        <Border Grid.Column="1" CornerRadius="0">
+                        <Border Grid.Column="1" CornerRadius="0, 2, 2, 0">
                             <Border.Background>
                                 <ImageBrush
                                     ImageSource="{DynamicResource CheckBoard}"
@@ -146,8 +148,7 @@
                         <Border
                             x:Name="borderAlpha"
                             Grid.Column="1"
-                            CornerRadius="0"
-                            SnapsToDevicePixels="True">
+                            CornerRadius="0, 2, 2, 0">
                             <Border.Background>
                                 <SolidColorBrush Color="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}}" />
                             </Border.Background>
@@ -157,15 +158,17 @@
                             x:Name="border"
                             Grid.Column="0"
                             Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
-                            CornerRadius="0"
-                            SnapsToDevicePixels="True" />
+                            CornerRadius="2, 0, 0, 2" />
+                        
                     </Grid>
+                    
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
                             <Setter TargetName="borderAlpha" Property="Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
+                    
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
