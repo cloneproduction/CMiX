@@ -12,30 +12,27 @@
     d:DesignWidth="208"
     mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-        <i:Interaction.Behaviors>
-            <Behaviors:ScrollViewerBehavior />
-        </i:Interaction.Behaviors>
-        <StackPanel>
 
-            <Panels:IndentedExpander
-                DockPanel.Dock="Top"
-                Header="Filters"
-                IsExpanded="{Binding TextureModifierIsExpanded}">
-                <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
-                    <Views:ModifierManager.SelectionPanel>
-                        <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
-                    </Views:ModifierManager.SelectionPanel>
-                </Views:ModifierManager>
-            </Panels:IndentedExpander>
+    <StackPanel>
 
-            <Panels:IndentedExpander
-                DockPanel.Dock="Top"
-                Header="Settings"
-                IsExpanded="{Binding OutputSettingsIsExpanded}">
-                <Views:CompositionSettings Margin="8" DataContext="{Binding OutputSettings}" />
-            </Panels:IndentedExpander>
+        <Panels:IndentedExpander
+            DockPanel.Dock="Top"
+            Header="Filters"
+            IsExpanded="{Binding TextureModifierIsExpanded}">
+            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+        </Panels:IndentedExpander>
 
-        </StackPanel>
-    </ScrollViewer>
+        <Panels:IndentedExpander
+            DockPanel.Dock="Top"
+            Header="Settings"
+            IsExpanded="{Binding OutputSettingsIsExpanded}">
+            <Views:CompositionSettings Margin="8" DataContext="{Binding OutputSettings}" />
+        </Panels:IndentedExpander>
+
+    </StackPanel>
+
 </UserControl>

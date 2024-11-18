@@ -16,8 +16,8 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-
     <StackPanel>
+
         <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
@@ -75,6 +75,5 @@
         </Panels:IndentedExpander>
 
     </StackPanel>
-
 
 </UserControl>
