@@ -220,23 +220,23 @@
                                         <Setter Property="CornerRadius" Value="0" />
                                         <Style.Triggers>
 
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="All">
+                                            <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Default">
                                                 <Setter Property="CornerRadius" Value="2" />
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
+                                            <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
                                                 <Setter Property="CornerRadius" Value="0, 0, 2, 2" />
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
+                                            <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
                                                 <Setter Property="CornerRadius" Value="2, 2, 0, 0" />
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
+                                            <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
                                                 <Setter Property="CornerRadius" Value="2, 0, 0, 2" />
                                             </DataTrigger>
 
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedCornerRadius.RoundedPosition), RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
+                                            <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Right">
                                                 <Setter Property="CornerRadius" Value="0, 2, 2, 0" />
                                             </DataTrigger>
 
@@ -331,50 +331,8 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="SliderStraight"
-        BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}"
-        TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
-    </Style>
-
-    <Style
-        x:Key="SliderRounded"
-        BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}"
-        TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
-    </Style>
-
-    <Style
-        x:Key="SliderRoundedRight"
-        BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}"
-        TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
-    </Style>
-
-    <Style
-        x:Key="SliderRoundedLeft"
-        BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}"
-        TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
-    </Style>
-
-    <Style
-        x:Key="SliderRoundedTop"
-        BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}"
-        TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
-    </Style>
-
-    <Style
-        x:Key="SliderRoundedBottom"
-        BasedOn="{StaticResource {x:Type Controls:CMiXSlider}}"
-        TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
-    </Style>
-
-
-
+    
+    
     <Style x:Key="distanceSliderBorder" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource DarkColor}" />
         <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True" />

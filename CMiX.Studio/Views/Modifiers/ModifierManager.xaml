@@ -6,6 +6,7 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:dd="urn:gong-wpf-dragdrop"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="transformModifierManager"
     d:DesignHeight="238.667"
@@ -25,14 +26,15 @@
 
         <Popup
             Width="{Binding ActualWidth, ElementName=PopUpToggle}"
-            Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=transformModifierManager}"
             AllowsTransparency="True"
             FlowDirection="LeftToRight"
             IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
             Placement="Bottom"
             PlacementTarget="{Binding ElementName=PopUpToggle}"
             VerticalOffset="0,4">
-
+            <i:Interaction.Behaviors>
+                <Behaviors:ClosePopupBehavior />
+            </i:Interaction.Behaviors>
             <Border
                 Padding="2,0,2,2"
                 Background="{DynamicResource HighHighDarkerColor}"

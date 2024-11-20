@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     x:Name="buttonOpenSelectionPanel"
     d:DesignHeight="40"
     d:DesignWidth="144"
@@ -16,13 +16,14 @@
 
         <Popup
             Width="{Binding ActualWidth, ElementName=PopUpToggle}"
-            Behaviors:ClosePopupBehavior.PopupContainer="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
             AllowsTransparency="True"
             FlowDirection="LeftToRight"
             IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
             Placement="Bottom"
             PlacementTarget="{Binding ElementName=PopUpToggle}">
-
+            <i:Interaction.Behaviors>
+                <Behaviors:ClosePopupBehavior/>
+            </i:Interaction.Behaviors>
             <Border
                 Padding="2,4,2,2"
                 Background="{DynamicResource HighHighDarkerColor}"

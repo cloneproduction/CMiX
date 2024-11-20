@@ -4,7 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     x:Name="repositoryManager"
     d:DesignHeight="215.334"
     d:DesignWidth="255.001"
@@ -26,13 +26,14 @@
             </ListBox>
 
             <Popup
-                Behaviors:ClosePopupBehavior.PopupContainer="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 AllowsTransparency="True"
                 FlowDirection="LeftToRight"
                 IsOpen="{Binding IsChecked, ElementName=ToggleItemSelection}"
                 Placement="Bottom"
                 PlacementTarget="{Binding ElementName=ToggleItemSelection}">
-
+                <i:Interaction.Behaviors>
+                    <Behaviors:ClosePopupBehavior/>
+                </i:Interaction.Behaviors>
                 <ItemsControl ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>

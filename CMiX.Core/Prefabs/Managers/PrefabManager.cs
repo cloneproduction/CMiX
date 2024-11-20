@@ -160,22 +160,23 @@ namespace CMiX.Core.Prefabs.Managers
         {
             var prefab = ControlFactory.Create(type);
             ControlRepository.AddControl(prefab);
-
             var items = ManagerData.Items;
 
-            if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefab pre)
+            IMessage message = null;
+
+            if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefab pre && prefab is not EmptyPrefab)
             {
                 items[items.IndexOf(emptyPrefab)] = prefab;
-                var message = MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, pre, ManagerData.Items.IndexOf(prefab));
-                ControlMessenger.SendMessage(message);
+                message = MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, pre, ManagerData.Items.IndexOf(prefab));
             }
             else
             {
                 items.Add(prefab);
-                var message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab);
-                ControlMessenger.SendMessage(message);
+                message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab);
+                
             }
 
+            ControlMessenger.SendMessage(message);
             SelectedItem = prefab;
             ManagerData.SelectedIndex = items.IndexOf(prefab);
         }

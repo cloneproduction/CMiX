@@ -7,6 +7,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Resources="clr-namespace:CMiX.Studio.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="colorSelector"
     Height="22"
@@ -37,9 +38,11 @@
             AllowsTransparency="True"
             HorizontalOffset="{Binding ActualWidth, ElementName=PopupToggle}"
             IsOpen="{Binding IsChecked, ElementName=PopupToggle}"
-            MouseDown="ColorPickerPopup_MouseDown"
             Placement="Top"
-            StaysOpen="True">
+            StaysOpen="true">
+            <i:Interaction.Behaviors>
+                <Behaviors:ClosePopupBehavior />
+            </i:Interaction.Behaviors>
             <Border
                 x:Name="popupBorder"
                 Background="{DynamicResource HighHighDarkerColor}"

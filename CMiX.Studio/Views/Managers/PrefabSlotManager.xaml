@@ -143,14 +143,15 @@
                 Style="{StaticResource ToggleTransformModifierMenu}" />
 
             <Popup
-                Behaviors:ClosePopupBehavior.PopupContainer="{Binding ElementName=prefabSlotManager}"
                 AllowsTransparency="True"
                 FlowDirection="LeftToRight"
                 IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
                 Placement="Bottom"
                 PlacementTarget="{Binding ElementName=PopUpToggle}"
                 VerticalOffset="2">
-
+                <i:Interaction.Behaviors>
+                    <Behaviors:ClosePopupBehavior/>
+                </i:Interaction.Behaviors>
                 <Border
                     Width="250"
                     Padding="4"

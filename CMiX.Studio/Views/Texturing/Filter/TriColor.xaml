@@ -53,7 +53,6 @@
             Maximum="1.0"
             Minimum="0.0"
             Position="Top"
-            Style="{StaticResource SliderRoundedTop}"
             Value="{Binding Smooth.Value}" />
 
         <BaseControl:CMiXSlider
@@ -61,7 +60,7 @@
             Maximum="1.0"
             Minimum="0.0"
             Position="Bottom"
-            Style="{StaticResource SliderRoundedBottom}"
+
             Value="{Binding Center.Value}" />
 
 

@@ -16,7 +16,6 @@
             Maximum="10"
             Minimum="0"
             Position="Top"
-            Style="{StaticResource SliderRoundedTop}"
             Value="{Binding Radius.Value}" />
 
         <Controls:CMiXSlider
@@ -25,7 +24,6 @@
             Maximum="10"
             Minimum="0"
             Position="Bottom"
-            Style="{StaticResource SliderRoundedBottom}"
             Value="{Binding Brightness.Value}" />
 
         <Controls:CMiXSlider
@@ -34,7 +32,6 @@
             Maximum="1"
             Minimum="0"
             Position="Default"
-            Style="{StaticResource SliderRounded}"
             Value="{Binding Control.Value}" />
 
     </StackPanel>

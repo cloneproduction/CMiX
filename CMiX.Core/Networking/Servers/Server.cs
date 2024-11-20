@@ -9,7 +9,6 @@ using System.Windows;
 using System.Windows.Input;
 using Ceras;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Network;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;

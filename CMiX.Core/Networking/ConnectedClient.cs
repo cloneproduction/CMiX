@@ -5,7 +5,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.Network
+namespace CMiX.Core.Networking
 {
     public class ConnectedClient : ObservableObject
     {
@@ -15,12 +15,7 @@ namespace CMiX.Core.Network
             IP = ipPort.Split(':')[0];
             Port = ipPort.Split(':')[1];
 
-            SendResyncRequestCommand = new RelayCommand(SendResyncRequest);
-        }
-
-        public void SendResyncRequest()
-        {
-            Console.WriteLine();
+            //SendResyncRequestCommand = new RelayCommand(SendResyncRequest);
         }
 
         public ICommand SendResyncRequestCommand { get; }
