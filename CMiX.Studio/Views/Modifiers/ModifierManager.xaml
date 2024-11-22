@@ -34,6 +34,7 @@
             VerticalOffset="0,4">
             <i:Interaction.Behaviors>
                 <Behaviors:ClosePopupBehavior />
+                <Behaviors:ClosePopupOnButtonClickBehavior/>
             </i:Interaction.Behaviors>
             <Border
                 Padding="2,0,2,2"
@@ -41,9 +42,7 @@
                 BorderBrush="{DynamicResource Shadow}"
                 BorderThickness="1,0,1,2"
                 CornerRadius="{DynamicResource CornerRadiusBottom}">
-
                 <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
-
             </Border>
 
         </Popup>
