@@ -42,9 +42,8 @@
                                     <Image Opacity="0.25" Source="{DynamicResource DragHandler}" />
                                 </Button.Content>
                             </Button>
+                            
                         </Border>
-
-
 
                         <Button
                             Width="22"
@@ -69,6 +68,7 @@
                         <TextBlock DockPanel.Dock="Left" Text="{Binding Converter={StaticResource TypeToName}}" />
                     </DockPanel>
                 </Expander.Header>
+                
                 <Border Margin="8">
                     <ContentPresenter Content="{TemplateBinding Content}" />
                 </Border>

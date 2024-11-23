@@ -11,8 +11,61 @@
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Button.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/ToggleButton.xaml" />
-
     </ResourceDictionary.MergedDictionaries>
+
+    <Style TargetType="{x:Type Controls:CMiXListBox}">
+        <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}" />
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Controls:CMiXListBox}">
+                    <DockPanel>
+                        
+                        <Border
+                            x:Name="border"
+                            Height="12"
+                            Background="{DynamicResource ListBoxBackground}"
+                            DockPanel.Dock="Bottom">
+
+                            <Image
+                                Margin="1"
+                                IsHitTestVisible="False"
+                                Opacity="0.25"
+                                Source="{DynamicResource DragHandler}" />
+
+                            <Border.Style>
+                                <Style TargetType="{x:Type Border}">
+                                    <Style.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Cursor" Value="SizeNS" />
+                                        </Trigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Border.Style>
+
+                        </Border>
+
+                        <Border
+                            x:Name="Bd"
+                            MinHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}"
+                            Background="{DynamicResource ListBoxBackground}"
+                            CornerRadius="2"
+                            SnapsToDevicePixels="True">
+                            <ScrollViewer
+                                Margin="2"
+                                Focusable="False"
+                                HorizontalScrollBarVisibility="Disabled"
+                                VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                            </ScrollViewer>
+                        </Border>
+                        
+                    </DockPanel>
+
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
 
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}" />
@@ -37,6 +90,7 @@
         </Setter>
     </Style>
 
+    
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle">
             <Setter.Value>
