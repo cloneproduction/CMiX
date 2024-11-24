@@ -9,22 +9,17 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <Grid Margin="4,8">
+    <StackPanel>
 
-        <StackPanel Grid.Column="0">
+        <StackPanel.Resources>
+            <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
+        </StackPanel.Resources>
 
-            <Button
-                Grid.Row="2"
-                Grid.Column="1"
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Layering:SelectRandomEntity}"
-                Content="Select Random Entity"
-                Style="{StaticResource ButtonItemControl}" />
+        <Button
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Layering:SelectRandomEntity}"
+            Content="Select Random Entity" />
 
-        </StackPanel>
+    </StackPanel>
 
-    </Grid>
 </UserControl>

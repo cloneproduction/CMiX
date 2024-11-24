@@ -37,6 +37,7 @@ namespace CMiX.Core.BaseControls
         public ControlMessenger ControlMessenger { get; set; }
         public MessageFactory MessageFactory { get; set; }
 
+
         private T _value;
         public T Value
         {

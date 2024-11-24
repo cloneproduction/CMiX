@@ -12,27 +12,19 @@
 
     <StackPanel>
 
-        <Button
-            Grid.Row="0"
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
-            Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Modifiers:RandomPosition}"
-            Content="Random Position"
-            Style="{StaticResource ButtonItemControl}" />
+        <StackPanel.Resources>
+            <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
+        </StackPanel.Resources>
 
         <Button
-            Grid.Row="0"
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Modifiers:RandomPosition}"
+            Content="Random Position" />
+
+        <Button
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type ColorModifiers:RandomHSV}"
-            Content="Random HSV"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Random HSV" />
 
     </StackPanel>
 

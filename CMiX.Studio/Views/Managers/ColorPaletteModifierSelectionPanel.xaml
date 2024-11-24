@@ -11,19 +11,15 @@
     d:DesignWidth="286.703"
     mc:Ignorable="d">
 
-    <Border>
-        <StackPanel>
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
+        </StackPanel.Resources>
 
-            <Button
-                Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Height="22"
-                VerticalAlignment="Center"
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type Transformation:Billboard}"
-                Content="Billboard"
-                Style="{StaticResource ButtonItemControl}" />
+        <Button
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Transformation:Billboard}"
+            Content="Billboard" />
 
-        </StackPanel>
-
-    </Border>
+    </StackPanel>
 </UserControl>

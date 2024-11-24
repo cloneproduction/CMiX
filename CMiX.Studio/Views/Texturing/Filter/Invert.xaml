@@ -4,30 +4,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="254"
     d:DesignWidth="348"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Views:FilterPanel>
+        <Views:FilterPanel.Content>
+            <StackPanel>
 
-        <Controls:CMiXSlider
-            Height="22"
-            Caption="Factor"
-            Maximum="1.0"
-            Minimum="0.0"
-            Position="Default"
-            Value="{Binding Factor.Value}" />
+                <Controls:CMiXSlider
+                    Height="22"
+                    Caption="Factor"
+                    Maximum="1.0"
+                    Minimum="0.0"
+                    Position="Default"
+                    Value="{Binding Factor.Value}" />
 
-        <Basecontrol:ComboBox
-            Margin="0,8"
-            Caption="Channel"
-            ItemsSource="{Binding Source={StaticResource InvertChannel}}"
-            SelectedItem="{Binding InvertChannelSelector.Value}" />
+                <Basecontrol:ComboBox
+                    Margin="0,8"
+                    Caption="Channel"
+                    ItemsSource="{Binding Source={StaticResource InvertChannel}}"
+                    SelectedItem="{Binding InvertChannelSelector.Value}" />
 
-        <Basecontrol:ToggleButton Caption=" Invert Alpha" IsChecked="{Binding InvertAlpha.Value}" />
+                <Basecontrol:ToggleButton Caption="Invert Alpha" IsChecked="{Binding InvertAlpha.Value}" />
 
-    </StackPanel>
-
+            </StackPanel>
+        </Views:FilterPanel.Content>
+    </Views:FilterPanel>
 </UserControl>

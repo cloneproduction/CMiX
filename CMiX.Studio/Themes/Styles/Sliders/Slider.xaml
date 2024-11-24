@@ -197,8 +197,6 @@
         </Setter>
     </Style>
 
-
-
     <Style TargetType="{x:Type Controls:CMiXSlider}">
         <Setter Property="Height" Value="22" />
         <Setter Property="Focusable" Value="False" />
@@ -213,6 +211,7 @@
 
                     <Border x:Name="mainBorder" SnapsToDevicePixels="True">
                         <Grid>
+
                             <Border x:Name="borderMask">
                                 <Border.Style>
                                     <Style TargetType="{x:Type Border}">
@@ -244,7 +243,6 @@
                                     </Style>
                                 </Border.Style>
                             </Border>
-
 
                             <Border x:Name="sliderBorder" Background="Transparent">
                                 <Border.OpacityMask>
@@ -331,8 +329,8 @@
         </Setter>
     </Style>
 
-    
-    
+
+
     <Style x:Key="distanceSliderBorder" TargetType="Border">
         <Setter Property="Background" Value="{DynamicResource DarkColor}" />
         <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True" />

@@ -126,9 +126,9 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
-                    
+
                     <Grid Background="Transparent">
-                        
+
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
@@ -159,16 +159,16 @@
                             Grid.Column="0"
                             Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
                             CornerRadius="2, 0, 0, 2" />
-                        
+
                     </Grid>
-                    
+
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
                             <Setter TargetName="borderAlpha" Property="Opacity" Value="0.5" />
                         </Trigger>
                     </ControlTemplate.Triggers>
-                    
+
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -206,7 +206,7 @@
 
     <Style x:Key="ButtonItemControl" TargetType="{x:Type Button}">
         <Setter Property="Height" Value="22" />
-        <Setter Property="HorizontalAlignment" Value="Left" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
@@ -217,7 +217,7 @@
                         Padding="8,0,0,0"
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        CornerRadius="2"
+                        CornerRadius="1"
                         SnapsToDevicePixels="True">
                         <ContentPresenter HorizontalAlignment="Left" ContentTemplate="{TemplateBinding Content}" />
                     </Border>

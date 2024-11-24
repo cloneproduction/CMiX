@@ -10,87 +10,51 @@
     d:DesignWidth="348.952"
     mc:Ignorable="d">
 
-    <StackPanel Grid.Column="0">
+    <StackPanel>
+        <StackPanel.Resources>
+            <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
+        </StackPanel.Resources>
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:Image}"
-            Content="Image"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Image" />
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:BubbleNoise}"
-            Content="BubbleNoise"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="BubbleNoise" />
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:CheckerBoard}"
-            Content="CheckerBoard"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="CheckerBoard" />
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:VideoPlayer}"
-            Content="Video"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Video" />
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:Gradient}"
-            Content="Gradient"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Gradient" />
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:TypeWriter}"
-            Content="Text"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Text" />
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:VideoIn}"
-            Content="Video In"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Video In" />
 
         <Button
-            Grid.Column="0"
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Sources:TouchBlob}"
-            Content="Touch Blob"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Touch Blob" />
+
     </StackPanel>
 
 </UserControl>

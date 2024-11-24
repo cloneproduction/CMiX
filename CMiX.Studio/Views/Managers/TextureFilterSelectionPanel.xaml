@@ -11,6 +11,9 @@
     mc:Ignorable="d">
 
     <Grid Margin="4">
+        <Grid.Resources>
+            <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
+        </Grid.Resources>
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -21,164 +24,97 @@
         <StackPanel Grid.Column="0">
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:HSCB}"
-                Content="HSCB"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="HSCB" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Invert}"
-                Content="Invert"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Invert" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:TriColor}"
-                Content="TriColor"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="TriColor" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Displace}"
-                Content="Displace"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Displace" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:ShiftRGB}"
-                Content="ShiftRGB"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="ShiftRGB" />
 
         </StackPanel>
 
         <StackPanel Grid.Column="1">
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Edge}"
-                Content="Edge"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Edge" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:TransformTexture}"
-                Content="Transform"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Transform" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:RandomUV}"
-                Content="Random UV"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Random UV" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:LFOUV}"
-                Content="LFO UV"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="LFO UV" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Pixelate}"
-                Content="Pixelate"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Pixelate" />
 
         </StackPanel>
 
         <StackPanel Grid.Column="2">
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Blur}"
-                Content="Blur"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Blur" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Echo}"
-                Content="Echo"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Echo" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Feedback}"
-                Content="Feedback"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Feedback" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:SetAlpha}"
-                Content="SetAlpha"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="SetAlpha" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Shadow}"
-                Content="Shadow"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Shadow" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Ascii}"
-                Content="Ascii"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Ascii" />
 
             <Button
-                Width="120"
-                Height="22"
-                VerticalAlignment="Center"
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type Filters:Dither}"
-                Content="Dither"
-                Style="{StaticResource ButtonItemControl}" />
+                Content="Dither" />
+
         </StackPanel>
     </Grid>
 </UserControl>

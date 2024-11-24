@@ -10,37 +10,42 @@
     d:DesignWidth="291.085"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Views:FilterPanel>
+        <Views:FilterPanel.Content>
+            <StackPanel>
 
-        <basecontrol:DragValue
-            Caption="From"
-            Position="Top"
-            Value="{Binding From.Value}" />
+                <basecontrol:DragValue
+                    Caption="From"
+                    Position="Top"
+                    Value="{Binding From.Value}" />
 
-        <basecontrol:DragValue
-            Margin="0,1,0,0"
-            Caption="To"
-            Position="Bottom"
-            Value="{Binding To.Value}" />
+                <basecontrol:DragValue
+                    Margin="0,1,0,0"
+                    Caption="To"
+                    Position="Bottom"
+                    Value="{Binding To.Value}" />
 
-        <basecontrol:ToggleButton
-            Margin="0,8"
-            Caption="PingPong"
-            IsChecked="{Binding PingPong.Value}" />
+                <basecontrol:ToggleButton
+                    Margin="0,8"
+                    Caption="PingPong"
+                    IsChecked="{Binding PingPong.Value}" />
 
-        <basecontrol:ComboBox
-            Caption="Transform"
-            ItemsSource="{Binding Source={StaticResource TransformType}}"
-            Position="Top"
-            SelectedItem="{Binding TransformType.Value}" />
+                <basecontrol:ComboBox
+                    Caption="Transform"
+                    ItemsSource="{Binding Source={StaticResource TransformType}}"
+                    Position="Top"
+                    SelectedItem="{Binding TransformType.Value}" />
 
-        <basecontrol:AxisSelector3D
-            Margin="0,1,0,0"
-            XIsChecked="{Binding XAxis.Value}"
-            YIsChecked="{Binding YAxis.Value}"
-            ZIsChecked="{Binding ZAxis.Value}" />
+                <basecontrol:AxisSelector3D
+                    Margin="0,1,0,0"
+                    XIsChecked="{Binding XAxis.Value}"
+                    YIsChecked="{Binding YAxis.Value}"
+                    ZIsChecked="{Binding ZAxis.Value}" />
 
-        <Views:SamplerState Margin="0,8,0,0" DataContext="{Binding SamplerState}" />
-    </StackPanel>
+                <Views:SamplerState Margin="0,8,0,0" DataContext="{Binding SamplerState}" />
+
+            </StackPanel>
+        </Views:FilterPanel.Content>
+    </Views:FilterPanel>
 
 </UserControl>

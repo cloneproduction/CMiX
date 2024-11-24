@@ -18,11 +18,13 @@
 
         <Border>
             <StackPanel Orientation="Horizontal">
+
                 <BaseControl:ColorWheel
                     Width="200"
                     Height="200"
                     ColorState="{Binding ElementName=uc, Path=ColorState, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
                     Style="{StaticResource ColorWheelStyle}" />
+
                 <BaseControl:CMiXSlider
                     Width="16"
                     Margin="0,8,8,0"
@@ -32,6 +34,7 @@
                     Minimum="0"
                     Style="{StaticResource ValueSliderVertical}"
                     Value="{Binding Path=Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+
                     <i:Interaction.Behaviors>
                         <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
                     </i:Interaction.Behaviors>
@@ -39,7 +42,6 @@
 
             </StackPanel>
         </Border>
-
 
         <BaseControl:ColorSliders ColorState="{Binding ElementName=uc, Path=ColorState, Mode=TwoWay}" />
 

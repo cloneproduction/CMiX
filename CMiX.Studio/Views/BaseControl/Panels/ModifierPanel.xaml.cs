@@ -1,13 +1,9 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace CMiX.Studio.Views.BaseControl.Panels
 {
-    /// <summary>
-    /// Interaction logic for ModifierPanel.xaml
-    /// </summary>
     public partial class ModifierPanel : UserControl
     {
         public ModifierPanel()

@@ -7,17 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="268.208"
     d:DesignWidth="287.353"
-    ContextMenu="{DynamicResource connectionButtonContext}"
     mc:Ignorable="d">
-
-    <UserControl.Resources>
-        <ContextMenu x:Key="connectionButtonContext" StaysOpen="true">
-            <MenuItem
-                Command="{Binding ResetModifierCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                Header="Reset" />
-        </ContextMenu>
-    </UserControl.Resources>
 
     <UserControl.ContentTemplate>
 
@@ -26,27 +16,17 @@
                 <Expander.Header>
                     <DockPanel>
 
-                        <Border
-                            Width="22"
-                            HorizontalAlignment="Right"
-                            VerticalAlignment="Center"
-                            DockPanel.Dock="Right">
-
-                            <Button
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Center"
-                                PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
-                                PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp"
-                                Style="{StaticResource DragHandlerButton}">
-                                <Button.Content>
-                                    <Image Opacity="0.25" Source="{DynamicResource DragHandler}" />
-                                </Button.Content>
-                            </Button>
-                            
-                        </Border>
+                        <Button
+                            DockPanel.Dock="Right"
+                            PreviewMouseLeftButtonDown="Button_PreviewMouseLeftButtonDown"
+                            PreviewMouseLeftButtonUp="Button_PreviewMouseLeftButtonUp"
+                            Style="{StaticResource DragHandlerButton}">
+                            <Button.Content>
+                                <Image Opacity="0.25" Source="{DynamicResource DragHandler}" />
+                            </Button.Content>
+                        </Button>
 
                         <Button
-                            Width="22"
                             Command="{Binding CloseModifierCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                             CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                             DockPanel.Dock="Right"
@@ -57,18 +37,10 @@
                             DataContext="{Binding}"
                             DockPanel.Dock="Right" />
 
-                        <!--<Button
-                            Width="16"
-                            Height="16"
-                            Command="{Binding ResetModifierCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                            CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                            Content="R"
-                            DockPanel.Dock="Right" />-->
-
-                        <TextBlock DockPanel.Dock="Left" Text="{Binding Converter={StaticResource TypeToName}}" />
+                        <TextBlock Text="{Binding Converter={StaticResource TypeToName}}" />
                     </DockPanel>
                 </Expander.Header>
-                
+
                 <Border Margin="8">
                     <ContentPresenter Content="{TemplateBinding Content}" />
                 </Border>

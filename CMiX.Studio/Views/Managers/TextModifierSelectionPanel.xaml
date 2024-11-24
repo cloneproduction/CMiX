@@ -9,23 +9,21 @@
     d:DesignHeight="131.199"
     d:DesignWidth="159.455"
     mc:Ignorable="d">
+
     <StackPanel>
-        <Button
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
-            Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Text:Split}"
-            Content="Split"
-            Style="{StaticResource ButtonItemControl}" />
+        <StackPanel.Resources>
+            <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
+        </StackPanel.Resources>
 
         <Button
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Text:Split}"
+            Content="Split" />
+
+        <Button
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Text:CharWriter}"
-            Content="Char Writer"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Char Writer" />
+
     </StackPanel>
 </UserControl>

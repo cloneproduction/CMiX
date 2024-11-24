@@ -10,13 +10,12 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
     <StackPanel>
+        <StackPanel.Resources>
+            <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
+        </StackPanel.Resources>
         <Button
-            Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Height="22"
-            VerticalAlignment="Center"
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type MaterialModifiers:SelectRandomTexture}"
-            Content="Select Random Texture"
-            Style="{StaticResource ButtonItemControl}" />
+            Content="Select Random Texture" />
     </StackPanel>
 </UserControl>
