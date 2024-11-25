@@ -6,39 +6,6 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
-        <ResourceDictionary>
-            <Trigger x:Key="Trigger0" Property="FrameworkElement.IsMouseOver" Value="True">
-                <Setter Property="FrameworkElement.Cursor" Value="Arrow" />
-            </Trigger>
-
-            <DataTrigger
-                x:Key="Trigger1"
-                Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}"
-                Value="True">
-                <Setter Property="FrameworkElement.Visibility" Value="Hidden" />
-            </DataTrigger>
-
-            <MultiDataTrigger x:Key="Trigger2">
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
-                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="True" />
-                </MultiDataTrigger.Conditions>
-                <MultiDataTrigger.Setters>
-                    <Setter Property="FrameworkElement.Visibility" Value="Visible" />
-                </MultiDataTrigger.Setters>
-            </MultiDataTrigger>
-
-            <MultiDataTrigger x:Key="Trigger3">
-                <MultiDataTrigger.Conditions>
-                    <Condition Binding="{Binding IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
-                    <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource TemplatedParent}}" Value="False" />
-                </MultiDataTrigger.Conditions>
-                <MultiDataTrigger.Setters>
-                    <Setter Property="FrameworkElement.Visibility" Value="Hidden" />
-                </MultiDataTrigger.Setters>
-            </MultiDataTrigger>
-
-        </ResourceDictionary>
     </ResourceDictionary.MergedDictionaries>
 
 
@@ -99,56 +66,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-
-
-    <Style
-        x:Key="SliderButton"
-        BasedOn="{StaticResource {x:Type Button}}"
-        TargetType="{x:Type Button}">
-        <Setter Property="Focusable" Value="False" />
-        <Setter Property="IsEnabled" Value="True" />
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Margin="0"
-                        Padding="1"
-                        Background="{TemplateBinding Background}"
-                        Opacity="0.6"
-                        SnapsToDevicePixels="True">
-                        <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
-                            <ContentPresenter ContentTemplate="{TemplateBinding Content}" />
-                        </Viewbox>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
-                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
-                        </Trigger>
-                        <Trigger Property="IsEnabled" Value="False">
-                            <Setter TargetName="border" Property="Opacity" Value="0.5" />
-                        </Trigger>
-
-                        <StaticResource ResourceKey="Trigger0" />
-                        <StaticResource ResourceKey="Trigger1" />
-                        <StaticResource ResourceKey="Trigger2" />
-                        <StaticResource ResourceKey="Trigger3" />
-
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
 
     <Style x:Key="SliderTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Visibility" Value="Hidden" />
@@ -323,97 +240,6 @@
                         </Trigger>
 
                     </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-
-    <Style x:Key="distanceSliderBorder" TargetType="Border">
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True" />
-        <Style.Triggers>
-
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource Color}" />
-                <Setter Property="Cursor" Value="SizeWE" />
-            </Trigger>
-
-            <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
-                <Setter Property="Cursor" Value="None" />
-            </Trigger>
-
-        </Style.Triggers>
-    </Style>
-
-    <Style x:Key="DistanceSliderStyle" TargetType="{x:Type Controls:DistanceSlider}">
-        <Setter Property="Height" Value="21" />
-        <Setter Property="Focusable" Value="True" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Controls:DistanceSlider}">
-                    <Grid>
-                        <Border x:Name="borderMask" Style="{DynamicResource BorderMask}" />
-                        <Border x:Name="mainBorder" Style="{StaticResource distanceSliderBorder}">
-                            <Border.OpacityMask>
-                                <VisualBrush Visual="{Binding ElementName=borderMask}" />
-                            </Border.OpacityMask>
-                            <Grid>
-                                <TextBox
-                                    x:Name="valueInput"
-                                    Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                    Style="{StaticResource SliderTextBox}"
-                                    Text="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=LostFocus, RelativeSource={RelativeSource TemplatedParent}}" />
-                                <DockPanel>
-
-                                    <Button
-                                        x:Name="SubButton"
-                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        HorizontalAlignment="Left"
-                                        DockPanel.Dock="Left"
-                                        Style="{DynamicResource SliderButtonImage}">
-                                        <Button.Content>
-                                            <Image Margin="42" Source="{DynamicResource Sub}" />
-                                        </Button.Content>
-                                    </Button>
-
-                                    <Button
-                                        x:Name="AddButton"
-                                        Width="{Binding ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                        HorizontalAlignment="Right"
-                                        DockPanel.Dock="Right"
-                                        Style="{DynamicResource SliderButtonImage}">
-                                        <Button.Content>
-                                            <Image Margin="42" Source="{DynamicResource Add}" />
-                                        </Button.Content>
-                                    </Button>
-
-                                    <Border x:Name="borderValueDisplay" Background="Transparent">
-                                        <Border.Style>
-                                            <Style TargetType="Border">
-                                                <Setter Property="VerticalAlignment" Value="Center" />
-                                                <Setter Property="Visibility" Value="Visible" />
-                                                <Style.Triggers>
-                                                    <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                                                        <Setter Property="Visibility" Value="Hidden" />
-                                                    </DataTrigger>
-                                                </Style.Triggers>
-                                            </Style>
-                                        </Border.Style>
-                                        <Label
-                                            x:Name="valueDisplay"
-                                            Height="{Binding Path=ActualHeight, RelativeSource={RelativeSource TemplatedParent}}"
-                                            Padding="0"
-                                            HorizontalAlignment="Center"
-                                            VerticalAlignment="Center"
-                                            Content="{Binding Path=Value, Mode=TwoWay, Converter={StaticResource DoubleToString}, UpdateSourceTrigger=PropertyChanged, RelativeSource={RelativeSource TemplatedParent}}" />
-                                    </Border>
-                                </DockPanel>
-                            </Grid>
-                        </Border>
-                    </Grid>
 
                 </ControlTemplate>
             </Setter.Value>
