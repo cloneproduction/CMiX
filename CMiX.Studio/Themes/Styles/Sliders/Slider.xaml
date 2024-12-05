@@ -67,6 +67,20 @@
         </Setter>
     </Style>
 
+    <Style
+        x:Key="RepeatButtonIncreaseDown"
+        BasedOn="{StaticResource RepeatButtonIncrease}"
+        TargetType="{x:Type RepeatButton}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type RepeatButton}">
+                    <Border Background="{DynamicResource HighHighDarkerColor}" />
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+
     <Style x:Key="SliderTextBox" TargetType="{x:Type TextBox}">
         <Setter Property="Visibility" Value="Hidden" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -234,11 +248,9 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="mainBorder" Property="Opacity" Value="0.5" />
                         </Trigger>
-
-                        <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
-                            <Setter Property="Cursor" Value="None" />
+                        <Trigger Property="IsMouseCaptured" Value="True">
+                            <Setter TargetName="RBI" Property="Style" Value="{DynamicResource RepeatButtonIncreaseDown}" />
                         </Trigger>
-
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>

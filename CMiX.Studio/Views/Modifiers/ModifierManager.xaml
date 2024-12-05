@@ -16,21 +16,19 @@
 
         <ToggleButton
             x:Name="PopUpToggle"
-            Height="22"
-            Margin="0,4"
             Background="{DynamicResource DarkerColor}"
             Content="Add Modifier"
-            IsEnabled="{Binding IsChecked, ElementName=ModifierEnabled}"
+            Margin="0, 0, 0, 4"
             Style="{StaticResource ToggleTransformModifierMenu}" />
 
         <Popup
             Width="{Binding ActualWidth, ElementName=PopUpToggle}"
             AllowsTransparency="True"
-            FlowDirection="LeftToRight"
+            HorizontalOffset="{Binding ActualWidth, ElementName=PopupToggle}"
             IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
             Placement="Bottom"
             PlacementTarget="{Binding ElementName=PopUpToggle}"
-            VerticalOffset="0,4">
+            StaysOpen="True">
 
             <i:Interaction.Behaviors>
                 <Behaviors:ClosePopupBehavior />
@@ -75,5 +73,4 @@
         </ItemsControl>
 
     </StackPanel>
-
 </UserControl>

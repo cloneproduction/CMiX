@@ -86,6 +86,7 @@ namespace CMiX.Studio.Behaviors
         private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             AssociatedObject.IsOpen = false;
+            e.Handled = true;
         }
 
         private void ParentWindow_OnMouseMove(object sender, MouseEventArgs e)

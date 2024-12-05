@@ -19,9 +19,9 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Controls:CMiXListBox}">
                     <DockPanel>
-                        
+
                         <Border
-                            x:Name="border"
+                            x:Name="resizeBorder"
                             Height="12"
                             Background="{DynamicResource ListBoxBackground}"
                             DockPanel.Dock="Bottom">
@@ -58,7 +58,7 @@
                                 <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                             </ScrollViewer>
                         </Border>
-                        
+
                     </DockPanel>
 
                 </ControlTemplate>
@@ -90,7 +90,7 @@
         </Setter>
     </Style>
 
-    
+
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle">
             <Setter.Value>

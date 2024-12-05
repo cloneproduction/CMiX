@@ -230,12 +230,11 @@ namespace CMiX.Studio.Views.BaseControl
                 return;
 
             lastValue = this.Value;
-            //isDragging = true;
-
             _lastPoint = e.GetPosition(Border);
             this.CaptureMouse();
             this.Focus();
-            Console.WriteLine();
+            Cursor = Cursors.None;
+            e.Handled = true;
         }
 
         protected override void OnPreviewMouseMove(MouseEventArgs e)
@@ -297,6 +296,8 @@ namespace CMiX.Studio.Views.BaseControl
 
             isDragging = false;
             lastValue = this.Value;
+
+            Cursor = Cursors.Arrow;
         }
 
 

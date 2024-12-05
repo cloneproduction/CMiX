@@ -30,7 +30,7 @@
                     <Image Margin="8" Source="{StaticResource Entity}" />
                 </TabItem.Header>
 
-                <ScrollViewer>
+                <ScrollViewer VerticalScrollBarVisibility="Disabled">
                     <i:Interaction.Behaviors>
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>

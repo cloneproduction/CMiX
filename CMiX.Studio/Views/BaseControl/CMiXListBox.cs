@@ -15,7 +15,7 @@ namespace CMiX.Studio.Views.BaseControl
 
         public override void OnApplyTemplate()
         {
-            Border = GetTemplateChild("border") as Border;
+            Border = GetTemplateChild("resizeBorder") as Border;
             Bd = GetTemplateChild("Bd") as Border;
 
             if (Border != null)
