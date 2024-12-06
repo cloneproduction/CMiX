@@ -13,14 +13,12 @@ namespace CMiX.Core.Transformation
         {
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
-            ModifierModeSelector = new ModifierModeSelectorModel();
             Uniform = new GenericValueModel<float>(1.0f);
             XYZ = new Vector3Model(1.0f, 1.0f, 1.0f);
         }
 
         public Guid ID { get; set; }
         public GenericValueModel<float> Uniform { get; set; }
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
         public Vector3Model XYZ { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
     }

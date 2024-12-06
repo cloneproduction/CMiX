@@ -9,14 +9,12 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Scale : ObservableObject, ISpreadableModifier, IPrefab
+    public partial class Scale : ObservableObject, IPrefab
     {
-        public Scale(ModifierModeSelector modifierModeSelector, 
-                     GenericValue<float> uniform, 
+        public Scale(GenericValue<float> uniform, 
                      Vector3 xyz, 
                      PrefabService prefabService)
         {
-            ModifierModeSelector = modifierModeSelector;
             Uniform = uniform;
             XYZ = xyz;
             PrefabService = prefabService;
@@ -25,7 +23,6 @@ namespace CMiX.Core.Transformation
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<float> Uniform { get; set; }
         public Vector3 XYZ { get; set; }
 

@@ -12,10 +12,8 @@
 
     <StackPanel>
 
-        <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
-
         <BaseControls:DragValue
-            Margin="0,8"
+            Margin="0,0,0,8"
             Caption="Uniform"
             Value="{Binding Uniform.Value}" />
 
