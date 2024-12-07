@@ -16,9 +16,14 @@ namespace CMiX.Core.Transformation.Modifiers
             Count = new Integer3Model(1, 1, 1);
             Width = new Vector3Model(0, 0, 0);
             Phase = new Vector3Model(0, 0, 0);
+            ModifierModeSelector = new ModifierModeSelectorModel();
+            ModifierModeSelector.Count.Value = 1;
+            ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
         }
 
         public Guid ID { get; set; }
+
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
         public Integer3Model Count { get; set; }
         public Vector3Model Width { get; set; }

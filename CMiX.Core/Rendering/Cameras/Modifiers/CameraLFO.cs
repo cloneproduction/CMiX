@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public partial class CameraLFO : ObservableObject, IPrefab, IBeatModifiable
+    public partial class CameraLFO : ObservableObject, IPrefab, IBeatModifiable, ICameraModifier
     {
         public CameraLFO(PrefabManager beatModifierManager,
                          PrefabService prefabService,

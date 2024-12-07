@@ -1,12 +1,12 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Modifiers;
-using CMiX.Core.Prefabs;
+using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public interface ICameraModifier : IPrefabModel
+    public interface ICameraModifier
     {
+        public GenericValue<CameraAxis> Axis { get; set; }
     }
 }

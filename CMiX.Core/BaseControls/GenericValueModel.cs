@@ -15,7 +15,7 @@ namespace CMiX.Core.BaseControls
             Value = value;
         }
 
-        public Guid ID { get; init; } = Guid.NewGuid();
-        public T Value { get; init; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public T Value { get; set; }
     }
 }
