@@ -128,6 +128,10 @@
         <Views:RandomHSV DataContext="{Binding}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type ColorModifiers:Colorize}">
+        <Views:Colorize DataContext="{Binding}" />
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type TransformModifiers:LinearXYZ}">
         <Views:LinearXYZ DataContext="{Binding}" />
     </DataTemplate>
