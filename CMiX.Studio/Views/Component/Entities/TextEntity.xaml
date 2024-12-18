@@ -9,17 +9,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     d:DesignHeight="471.333"
     d:DesignWidth="312"
-    md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    <ScrollViewer VerticalScrollBarVisibility="Hidden">
-
-        <i:Interaction.Behaviors>
-            <Behaviors:ScrollViewerBehavior />
-        </i:Interaction.Behaviors>
 
         <StackPanel>
 
@@ -99,6 +92,6 @@
 
         </StackPanel>
 
-    </ScrollViewer>
+
 
 </UserControl>

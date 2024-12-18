@@ -8,11 +8,11 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="386.132"
-    d:DesignWidth="404.43"
+    d:DesignHeight="372.246"
+    d:DesignWidth="365.296"
     mc:Ignorable="d">
 
-    <StackPanel Margin="8">
+    <StackPanel>
 
         <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
@@ -25,4 +25,5 @@
         <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
 
     </StackPanel>
+
 </UserControl>
