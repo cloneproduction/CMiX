@@ -12,7 +12,12 @@
     mc:Ignorable="d">
 
     <StackPanel>
-
+        <BaseControls:CMiXSlider
+            Margin="0,0,0,8"
+            Caption="Control"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding Control.Value}" />
         <BaseControls:ComboBox
             Margin="0,0,0,8"
             Caption="Entity Type"

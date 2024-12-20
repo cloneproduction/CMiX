@@ -15,11 +15,13 @@ namespace CMiX.Core.Layering.Modifiers
             PrefabService = new PrefabServiceModel();
             BeatModifierManager = new PrefabManagerModel();
             EntityType = new GenericValueModel<EntityType>(Modifiers.EntityType.Entity);
+            Control = new GenericValueModel<float>(1.0f);
         }
 
         public Guid ID { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
         public PrefabManagerModel BeatModifierManager { get; set; }
         public GenericValueModel<EntityType> EntityType { get; set; }
+        public GenericValueModel<float> Control { get; set; }
     }
 }
