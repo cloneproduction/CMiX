@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Colors;
+using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
@@ -11,7 +12,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : ObservableObject, IControl, IPrefab, IModifiable
+    public partial class Entity : ObservableObject, IControl, IPrefab, IModifiable, IColorableEntity
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh, 

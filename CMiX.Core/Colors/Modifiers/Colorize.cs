@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class Colorize : ObservableObject, IPrefab
+    public partial class Colorize : ObservableObject, IPrefab, IColorableEntity
     {
         public Colorize(PrefabService prefabService,
                         PrefabManager colorPaletteManager)

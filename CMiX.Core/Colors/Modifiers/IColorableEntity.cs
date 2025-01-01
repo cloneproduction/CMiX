@@ -3,11 +3,12 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Colors.Modifiers
 {
     public interface IColorableEntity
     {
-        GenericValue<ModifierMode> Mode { get; set; }
+        public PrefabManager ColorPaletteManager { get; set; }
     }
 }

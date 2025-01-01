@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Text;
@@ -16,6 +17,7 @@ namespace CMiX.Core.Compositing
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             ModifierManager = new PrefabManagerModel();
+            ColorPaletteManager = new PrefabManagerModel();
             Text = new GenericValueModel<string>("CMiX");
             Size = new GenericValueModel<float>(0.8f);
             Color = new GenericValueModel<string>("#ffffffff");
@@ -30,6 +32,7 @@ namespace CMiX.Core.Compositing
         public Guid ID { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
         public PrefabManagerModel ModifierManager { get; set; }
+        public PrefabManagerModel ColorPaletteManager { get; set; }
         public GenericValueModel<string> Text { get; set; }
         public GenericValueModel<float> Size { get; set; }
         public GenericValueModel<string> Color { get; set; }

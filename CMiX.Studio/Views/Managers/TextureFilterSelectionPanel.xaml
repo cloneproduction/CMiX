@@ -76,6 +76,10 @@
                 CommandParameter="{x:Type Filters:Pixelate}"
                 Content="Pixelate" />
 
+            <Button
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type Filters:Kuwahara}"
+                Content="Kuwahara" />
         </StackPanel>
 
         <StackPanel Grid.Column="2">

@@ -27,6 +27,7 @@ namespace CMiX.Core.Mapping
             CreateMap<Shadow, ShadowModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Ascii, AsciiModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Dither, DitherModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<Kuwahara, KuwaharaModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<SetAlpha, SetAlphaModel>()
@@ -46,6 +47,7 @@ namespace CMiX.Core.Mapping
                 .Include<Shadow, ShadowModel>()
                 .Include<Ascii, AsciiModel>()
                 .Include<Dither, DitherModel>()
+                .Include<Kuwahara, KuwaharaModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }

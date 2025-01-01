@@ -33,6 +33,10 @@
     </DataTemplate>
 
     <!--  TEXTURE MODIFIERS  -->
+    <DataTemplate DataType="{x:Type Filters:Kuwahara}">
+        <Views:Kuwahara DataContext="{Binding}" />
+    </DataTemplate>
+    
     <DataTemplate DataType="{x:Type Filters:ShiftRGB}">
         <Views:ShiftRGB DataContext="{Binding}" />
     </DataTemplate>

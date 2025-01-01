@@ -23,6 +23,15 @@
     xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
 
     <ObjectDataProvider
+        x:Key="KuwaharaType"
+        MethodName="GetValues"
+        ObjectType="{x:Type Filters:KuwaharaType}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Filters:KuwaharaType" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
+    <ObjectDataProvider
         x:Key="TextureFrom"
         MethodName="GetValues"
         ObjectType="{x:Type MaterialModifiers:TextureFrom}">
