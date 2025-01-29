@@ -5,33 +5,18 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Rendering
 {
-    public class AmbientOcclusionModel : IControlModel
+    public record AmbientOcclusionModel : IControlModel
     {
-        public AmbientOcclusionModel()
-        {
-            ID = Guid.NewGuid();
-
-            IsEnabled = new GenericValueModel<bool>(false);
-            Samples = new GenericValueModel<int>(13);
-            ProjectionScale = new GenericValueModel<float>(0.5f);
-            Intensity = new GenericValueModel<float>(0.2f);
-            SampleBias = new GenericValueModel<float>(0.01f);
-            SampleRadius = new GenericValueModel<float>(1.0f);
-            BlurCount = new GenericValueModel<int>(2);
-            BlurRadius = new GenericValueModel<float>(1.85f);
-            EdgeSharpness = new GenericValueModel<float>(3.0f);
-        }
-
-        public Guid ID { get; set; }
-        public GenericValueModel<bool> IsEnabled { get; set; }
-        public GenericValueModel<int> Samples { get; set; }
-        public GenericValueModel<float> ProjectionScale { get; set; }
-        public GenericValueModel<float> Intensity { get; set; }
-        public GenericValueModel<float> SampleBias { get; set; }
-        public GenericValueModel<float> SampleRadius { get; set; }
-        public GenericValueModel<int> BlurCount { get; set; }
-        public GenericValueModel<float> BlurRadius { get; set; }
-        public GenericValueModel<float> EdgeSharpness { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<bool> IsEnabled { get; set; } = new(false);
+        public GenericValueModel<int> Samples { get; set; } = new(13);
+        public GenericValueModel<float> ProjectionScale { get; set; } = new(0.5f);
+        public GenericValueModel<float> Intensity { get; set; } = new(0.2f);
+        public GenericValueModel<float> SampleBias { get; set; } = new(0.01f);
+        public GenericValueModel<float> SampleRadius { get; set; } = new(1.0f);
+        public GenericValueModel<int> BlurCount { get; set; } = new(2);
+        public GenericValueModel<float> BlurRadius { get; set; } = new(1.85f);
+        public GenericValueModel<float> EdgeSharpness { get; set; } = new(3.0f);
 
     }
 }
