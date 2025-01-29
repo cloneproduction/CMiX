@@ -43,17 +43,13 @@
                             DockPanel.Dock="Top">
 
                             <Views:PrefabSlotManager.Resources>
-                                <CollectionViewSource x:Key="CamerasCollection" Source="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                 <CollectionViewSource x:Key="EntitiesCollection" Source="{Binding Path=DataContext.PrefabRepositories.Entities, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
-                                <CollectionViewSource x:Key="LightsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                                 <CollectionViewSource x:Key="TextsCollection" Source="{Binding Path=DataContext.PrefabRepositories.Texts, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}" />
                             </Views:PrefabSlotManager.Resources>
 
                             <Views:PrefabSlotManager.ItemsSource>
                                 <CompositeCollection>
-                                    <CollectionContainer Collection="{Binding Source={StaticResource CamerasCollection}}" />
                                     <CollectionContainer Collection="{Binding Source={StaticResource EntitiesCollection}}" />
-                                    <CollectionContainer Collection="{Binding Source={StaticResource LightsCollection}}" />
                                     <CollectionContainer Collection="{Binding Source={StaticResource TextsCollection}}" />
                                 </CompositeCollection>
                             </Views:PrefabSlotManager.ItemsSource>
@@ -113,6 +109,89 @@
 
             <TabItem>
                 <TabItem.Header>
+                    <Image Margin="8" Source="{StaticResource Camera}" />
+                </TabItem.Header>
+                <ScrollViewer>
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <DockPanel>
+                        <Views:PrefabSlotManager
+                            Margin="8"
+                            DataContext="{Binding CameraManager}"
+                            DockPanel.Dock="Top"
+                            ItemsSource="{Binding Path=DataContext.PrefabRepositories.Cameras, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+
+                            <Views:PrefabSlotManager.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Cameras:Camera}"
+                                    Content="New Camera" />
+                            </Views:PrefabSlotManager.SelectionPanel>
+
+                            <Views:PrefabSlotManager.ItemTemplate>
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
+                                    <Ellipse
+                                        Width="5"
+                                        Height="5"
+                                        DockPanel.Dock="Right"
+                                        Fill="Pink" />
+                                </DockPanel>
+                            </Views:PrefabSlotManager.ItemTemplate>
+
+                        </Views:PrefabSlotManager>
+
+                        <Views:Camera DataContext="{Binding CameraManager.SelectedItem}" Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+
+                    </DockPanel>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
+                    <Image Margin="8" Source="{StaticResource MeshLight}" />
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <DockPanel>
+                        <Views:PrefabSlotManager
+                            Margin="8"
+                            DataContext="{Binding LightManager}"
+                            DockPanel.Dock="Top"
+                            ItemsSource="{Binding Path=DataContext.PrefabRepositories.Lights, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+
+                            <Views:PrefabSlotManager.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Lights:LightEntity}"
+                                    Content="New Light" />
+                            </Views:PrefabSlotManager.SelectionPanel>
+
+                            <Views:PrefabSlotManager.ItemTemplate>
+                                <DockPanel HorizontalAlignment="Stretch">
+                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
+                                    <Ellipse
+                                        Width="5"
+                                        Height="5"
+                                        DockPanel.Dock="Right"
+                                        Fill="Pink" />
+                                </DockPanel>
+                            </Views:PrefabSlotManager.ItemTemplate>
+
+                        </Views:PrefabSlotManager>
+
+                        <Views:LightEntity DataContext="{Binding LightManager.SelectedItem}" Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
+
+                    </DockPanel>
+                </ScrollViewer>
+
+            </TabItem>
+
+            <TabItem>
+                <TabItem.Header>
                     <Image Margin="8" Source="{StaticResource PostFX}" />
                 </TabItem.Header>
 
@@ -147,6 +226,7 @@
                     </StackPanel>
                 </ScrollViewer>
             </TabItem>
+
         </TabControl>
 
     </Border>

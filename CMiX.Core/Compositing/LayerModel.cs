@@ -23,5 +23,7 @@ namespace CMiX.Core.Compositing
         public LocalReflectionModel LocalReflection { get; init; } = new();
         public GenericValueModel<MaskChannel> MaskChannel { get; init; } = new(Texturing.MaskChannel.Alpha);
         public PrefabManagerModel ModelEntityManager { get; init; } = new();
+        public PrefabManagerModel CameraManager { get; init; } = new();
+        public PrefabManagerModel LightManager { get; init; } = new();
     }
 }

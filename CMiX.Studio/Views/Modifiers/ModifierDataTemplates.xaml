@@ -32,6 +32,10 @@
         <Views:SelectRandomEntity DataContext="{Binding}" />
     </DataTemplate>
 
+    <DataTemplate DataType="{x:Type Layering:SelectRandomCamera}">
+        <Views:SelectRandomCamera DataContext="{Binding}" />
+    </DataTemplate>
+    
     <!--  TEXTURE MODIFIERS  -->
     <DataTemplate DataType="{x:Type Filters:Kuwahara}">
         <Views:Kuwahara DataContext="{Binding}" />

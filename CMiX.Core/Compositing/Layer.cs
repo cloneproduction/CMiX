@@ -19,7 +19,9 @@ namespace CMiX.Core.Compositing
                      LayerMaskSettings layerMaskService,
                      AmbientOcclusion ambientOcclusion,
                      LocalReflection localReflectionModel,
-                     PrefabManager reorderablePrefabManager,
+                     PrefabManager modelEntityManager,
+                     PrefabManager cameraManager,
+                     PrefabManager lightManager,
                      PrefabManager textureModifierManager,
                      PrefabManager layerModifier)
         {
@@ -37,7 +39,9 @@ namespace CMiX.Core.Compositing
             Invert = layerMaskService.Invert;
 
             TextureModifierManager = textureModifierManager;
-            ModelEntityManager = reorderablePrefabManager;
+            ModelEntityManager = modelEntityManager;
+            CameraManager = cameraManager;
+            LightManager = lightManager;
             ModifierManager = layerModifier;
         }
 
@@ -55,6 +59,8 @@ namespace CMiX.Core.Compositing
         public GenericValue<MaskChannel> MaskChannel { get; set; }
 
         public PrefabManager ModelEntityManager { get; set; }
+        public PrefabManager CameraManager { get; set; }
+        public PrefabManager LightManager { get; set; }
         public PrefabManager TextureModifierManager { get; set; }
         public PrefabManager ModifierManager { get; set; }
 

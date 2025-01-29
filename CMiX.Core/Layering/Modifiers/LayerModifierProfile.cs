@@ -11,9 +11,11 @@ namespace CMiX.Core.Transformation.Modifiers
         public LayerModifierProfile()
         {
             CreateMap<SelectRandomEntity, SelectRandomEntityModel>().ReverseMap().ConstructUsingServiceLocator();
+            CreateMap<SelectRandomCamera, SelectRandomCameraModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<SelectRandomEntity, SelectRandomEntityModel>()
+                .Include<SelectRandomCamera, SelectRandomCameraModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
         }
     }
