@@ -33,6 +33,9 @@ namespace CMiX.Core.Rendering.Lights
         private bool modifierManagerIsExpanded = true;
 
         [ObservableProperty]
+        private bool colorPaletteManagerIsExpanded = true;
+
+        [ObservableProperty]
         private bool settingsIsExpanded = true;
     }
 }
