@@ -3,18 +3,11 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public class DirectionXYZModel : IControlModel
+    public record DirectionXYZModel : IControlModel
     {
-        public DirectionXYZModel()
-        {
-            ID = Guid.NewGuid();
-            DirectionX = new GenericValueModel<bool>(true);
-            DirectionY = new GenericValueModel<bool>(false);
-            DirectionZ = new GenericValueModel<bool>(false);
-        }
-        public Guid ID { get; set; }
-        public GenericValueModel<bool> DirectionX { get; set; }
-        public GenericValueModel<bool> DirectionY { get; set; }
-        public GenericValueModel<bool> DirectionZ { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<bool> DirectionX { get; set; } = new(true);
+        public GenericValueModel<bool> DirectionY { get; set; } = new(false);
+        public GenericValueModel<bool> DirectionZ { get; set; } = new(false);
     }
 }

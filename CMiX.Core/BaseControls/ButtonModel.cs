@@ -3,13 +3,8 @@
 
 namespace CMiX.Core.BaseControls
 {
-    public class ButtonModel : IControlModel
+    public record ButtonModel : IControlModel
     {
-        public ButtonModel()
-        {
-            ID = Guid.NewGuid();
-        }
-
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
     }
 }

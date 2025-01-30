@@ -6,21 +6,12 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifierModel : IControlModel, IPrefabModel
+    public record BeatModifierModel : IControlModel, IPrefabModel
     {
-        public BeatModifierModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            ChanceToHit = new GenericValueModel<float>(100);
-            BeatIndex = new GenericValueModel<int>(0);
-            Easing = new EasingModel();
-        }
-
-        public Guid ID { get; set; }
-        public EasingModel Easing { get; set; }
-        public GenericValueModel<int> BeatIndex { get; set; }
-        public GenericValueModel<float> ChanceToHit { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public EasingModel Easing { get; set; } = new();
+        public GenericValueModel<int> BeatIndex { get; set; } = new(0);
+        public GenericValueModel<float> ChanceToHit { get; set; } = new(100f);
+        public PrefabServiceModel PrefabService { get; set; } = new();
     }
 }
