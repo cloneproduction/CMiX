@@ -33,9 +33,12 @@
             Caption="Translate"
             DataContext="{Binding Location}" />
 
-        <Views:SamplerState Margin="0,0,0,8" DataContext="{Binding SamplerState}" />
+        <Views:SamplerState 
+            Margin="0,0,0,8" 
+            DataContext="{Binding SamplerState}" />
 
-        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+        <Views:BeatModifierManager 
+            DataContext="{Binding BeatModifierManager}" />
 
     </StackPanel>
 </UserControl>

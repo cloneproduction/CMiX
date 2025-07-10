@@ -1,0 +1,10 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:LightModifiers="clr-namespace:CMiX.Studio.Views.Modifiers.Light"
+                    xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core">
+
+    <DataTemplate DataType="{x:Type TransformModifiers:RandomPosition}">
+        <LightModifiers:RandomPosition DataContext="{Binding}" />
+    </DataTemplate>
+
+</ResourceDictionary>

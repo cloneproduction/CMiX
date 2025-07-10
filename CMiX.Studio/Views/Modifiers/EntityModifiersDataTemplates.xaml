@@ -1,0 +1,78 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Modifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
+                    xmlns:TransformModifiers="clr-namespace:CMiX.Core.Transformation.Modifiers;assembly=CMiX.Core"
+                    xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
+                    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
+                    xmlns:Views="clr-namespace:CMiX.Studio.Views">
+
+    <!--  ENTITY MODIFIERS  -->
+   <DataTemplate DataType="{x:Type Modifiers:RandomVisibility}">
+       <Views:RandomVisibility DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type Modifiers:TransformTexCoord}">
+       <Views:TransformTexCoord DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type Transformation:Billboard}">
+       <Views:Billboard DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type TransformModifiers:CircularSpread}">
+       <Views:CircularSpread DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type TransformModifiers:Grid}">
+       <Views:Grid DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type ColorModifiers:RandomHSV}">
+       <Views:RandomHSV DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type ColorModifiers:Colorize}">
+       <Views:Colorize DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type TransformModifiers:LinearXYZ}">
+       <Views:LinearXYZ DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type TransformModifiers:RandomXYZ}">
+       <Views:RandomXYZ DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type TransformModifiers:LFO}">
+       <Views:LFO DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type TransformModifiers:RandomScale}">
+       <Views:RandomScale DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type TransformModifiers:RandomRotation}">
+       <Views:RandomRotation DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type Transformation:TransformSRT}">
+       <Views:TransformSRT DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type Transformation:Translate}">
+       <Views:Translate DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type Transformation:Scale}">
+       <Views:Scale DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type Transformation:Rotation}">
+       <Views:Rotation DataContext="{Binding}" />
+   </DataTemplate>
+
+   <DataTemplate DataType="{x:Type Modifiers:RandomTexCoord}">
+       <Views:RandomUV DataContext="{Binding}" />
+   </DataTemplate>
+    
+</ResourceDictionary>
