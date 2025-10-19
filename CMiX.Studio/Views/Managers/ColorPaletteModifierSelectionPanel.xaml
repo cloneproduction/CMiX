@@ -16,10 +16,5 @@
             <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
         </StackPanel.Resources>
 
-        <Button
-            Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Transformation:Billboard}"
-            Content="Billboard" />
-
     </StackPanel>
 </UserControl>
