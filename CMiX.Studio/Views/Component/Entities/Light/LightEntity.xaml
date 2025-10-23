@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Views.LightEntity"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Colorization="clr-namespace:CMiX.Studio.Views.Component.Colorization"
+
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -23,7 +23,7 @@
 
         <Panels:IndentedExpander Header="Colors" IsExpanded="{Binding ColorPaletteManagerIsExpanded}">
             <StackPanel>
-                <Views:Outliner
+                <!--<Views:Outliner
                     Margin="8"
                     DataContext="{Binding ColorPaletteManager}"
                     ItemsSource="{Binding ControlRepository.ColorPalettes}">
@@ -34,10 +34,10 @@
                             Content="New"
                             Style="{DynamicResource ButtonRoundedRight}" />
                     </Views:Outliner.SelectionPanel>
-                </Views:Outliner>
+                </Views:Outliner>-->
 
                 <Border Visibility="{Binding ColorPaletteManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                    <Colorization:ColorPalette DataContext="{Binding ColorPaletteManager.SelectedItem}" />
+                    <!--<Colorization:ColorPalette DataContext="{Binding ColorPaletteManager.SelectedItem}" />-->
                 </Border>
 
             </StackPanel>

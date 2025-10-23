@@ -3,6 +3,7 @@
 
 using System.Collections.ObjectModel;
 using CMiX.Core.Animations;
+using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
 using CMiX.Core.Networking.Messenger;

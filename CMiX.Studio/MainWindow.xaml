@@ -6,7 +6,7 @@
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-    xmlns:Colorization="clr-namespace:CMiX.Studio.Views.Component.Colorization"
+
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
@@ -18,6 +18,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Modifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     Width="400"
     Height="1000"
     Focusable="True"
@@ -415,12 +416,12 @@
                             <Views:RepositoryManager.SelectionPanel>
                                 <Button
                                     Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Compositing:ColorPalette}"
+                                    CommandParameter="{x:Type Modifiers:ColorPalette}"
                                     Content="New Palette" />
                             </Views:RepositoryManager.SelectionPanel>
-                            <Views:RepositoryManager.EditingPanel>
+                            <!--<Views:RepositoryManager.EditingPanel>
                                 <Colorization:ColorPalette DataContext="{Binding}" />
-                            </Views:RepositoryManager.EditingPanel>
+                            </Views:RepositoryManager.EditingPanel>-->
                         </Views:RepositoryManager>
                     </Border>
                 </ScrollViewer>

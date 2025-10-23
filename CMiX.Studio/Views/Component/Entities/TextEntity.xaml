@@ -9,7 +9,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:Colorization="clr-namespace:CMiX.Studio.Views.Component.Colorization"
     d:DesignHeight="471.333"
     d:DesignWidth="312"
     mc:Ignorable="d">
@@ -34,7 +33,7 @@
 
         <Panels:IndentedExpander Header="Colors" IsExpanded="{Binding ColorPaletteManagerIsExpanded}">
             <StackPanel>
-                <Views:Outliner
+                <!--<Views:Outliner
                     Margin="8"
                     DataContext="{Binding ColorPaletteManager}"
                     ItemsSource="{Binding ControlRepository.ColorPalettes}">
@@ -45,11 +44,11 @@
                             Content="New"
                             Style="{DynamicResource ButtonRoundedRight}" />
                     </Views:Outliner.SelectionPanel>
-                </Views:Outliner>
+                </Views:Outliner>-->
 
-                <Border Visibility="{Binding ColorPaletteManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                <!--<Border Visibility="{Binding ColorPaletteManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                     <Colorization:ColorPalette DataContext="{Binding ColorPaletteManager.SelectedItem}" />
-                </Border>
+                </Border>-->
 
             </StackPanel>
         </Panels:IndentedExpander>

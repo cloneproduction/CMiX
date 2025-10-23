@@ -3,7 +3,7 @@
 
 using System.Windows.Controls;
 
-namespace CMiX.Studio.Views.Component.Colorization
+namespace CMiX.Studio.Views
 {
     public partial class ColorPalette : UserControl
     {

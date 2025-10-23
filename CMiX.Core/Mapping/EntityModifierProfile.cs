@@ -3,6 +3,7 @@
 
 using AutoMapper;
 using CMiX.Core.Colors.Modifiers;
+using CMiX.Core.Compositing;
 using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 
@@ -32,8 +33,7 @@ namespace CMiX.Core.Mapping
             CreateMap<RandomPosition, RandomPositionModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Grid, GridModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Billboard, BillboardModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<Colorize, ColorizeModel>().ReverseMap().ConstructUsingServiceLocator();
-
+            CreateMap<ColorPalette, ColorPaletteModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<TransformTexCoord, TransformTexCoordModel>()
@@ -53,7 +53,7 @@ namespace CMiX.Core.Mapping
                 .Include<RandomPosition, RandomPositionModel>()
                 .Include<Grid, GridModel>()
                 .Include<Billboard, BillboardModel>()
-                .Include<Colorize, ColorizeModel>()
+                .Include<ColorPalette, ColorPaletteModel>()
                 .ReverseMap().ConstructUsingServiceLocator(); ;
         }
     }

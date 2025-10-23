@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Colors;
-using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
@@ -12,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : ObservableObject, IControl, IPrefab, IModifiable, IColorableEntity
+    public partial class Entity : ObservableObject, IControl, IPrefab, IModifiable
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh, 
@@ -24,23 +23,19 @@ namespace CMiX.Core.Compositing
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
-            Coloration = coloration;
             Mesh = mesh;
             Material = material;
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
-            ColorPaletteManager = colorPaletteManager;
         }
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
         public PrefabManager MaterialManager { get; set; }
-        public PrefabManager ColorPaletteManager { get; set; }
 
         public Mesh Mesh { get; set; }
         public Material Material { get; set; }
-        public Coloration Coloration { get; set; }
 
 
         [ObservableProperty]

@@ -7,6 +7,7 @@
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Modifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     d:DesignHeight="386.671"
     d:DesignWidth="286.703"
     mc:Ignorable="d">
@@ -16,5 +17,10 @@
             <Style BasedOn="{StaticResource ButtonItemControl}" TargetType="Button" />
         </StackPanel.Resources>
 
+        <Button
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Modifiers:RandomHSV}"
+            Content="Random HSV" />
+        
     </StackPanel>
 </UserControl>

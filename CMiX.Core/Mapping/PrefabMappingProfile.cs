@@ -15,14 +15,12 @@ namespace CMiX.Core.Mapping
             CreateMap(typeof(PrefabService), typeof(PrefabServiceModel)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap(typeof(EmptyPrefab), typeof(EmptyPrefabModel)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Composition, CompositionModel>().ReverseMap().ConstructUsingServiceLocator();
-
             CreateMap<Layer, LayerModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LayerSettings, LayerSettingsModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap(typeof(Entity), typeof(EntityModel)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap(typeof(Camera), typeof(CameraModel)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap(typeof(TextEntity), typeof(TextEntityModel)).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Color, ColorModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<ColorPalette, ColorPaletteModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include(typeof(PrefabService), typeof(PrefabServiceModel))
@@ -37,9 +35,7 @@ namespace CMiX.Core.Mapping
                 .Include(typeof(Camera), typeof(CameraModel))
                 .Include(typeof(TextEntity), typeof(TextEntityModel))
                 .Include<Color, ColorModel>()
-                .Include<ColorPalette, ColorPaletteModel>()
                 .ReverseMap().ConstructUsingServiceLocator();
-            ; ;
         }
     }
 }

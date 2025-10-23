@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -12,11 +11,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class TextEntity : ObservableObject, IControl, IPrefab, IModifiable, IColorableEntity
+    public partial class TextEntity : ObservableObject, IControl, IPrefab, IModifiable
     {
         public TextEntity(PrefabService prefabService,
                           PrefabManager prefabManager,
-                          PrefabManager colorPaletteManager,
                           GenericValue<string> text,
                           GenericValue<float> size,
                           GenericValue<string> color,
@@ -29,7 +27,6 @@ namespace CMiX.Core.Compositing
         {
             PrefabService = prefabService;
             ModifierManager = prefabManager;
-            ColorPaletteManager = colorPaletteManager;
             Text = text;
             Size = size;
             Color = color;
@@ -44,7 +41,6 @@ namespace CMiX.Core.Compositing
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
-        public PrefabManager ColorPaletteManager { get; set; }
 
 
         public GenericValue<string> Text { get; set; }
@@ -62,8 +58,5 @@ namespace CMiX.Core.Compositing
 
         [ObservableProperty]
         private bool settingsIsExpanded = true;
-
-        [ObservableProperty]
-        private bool colorPaletteManagerIsExpanded = true;
     }
 }

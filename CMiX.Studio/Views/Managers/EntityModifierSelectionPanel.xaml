@@ -73,11 +73,6 @@
                 CommandParameter="{x:Type TransformModifiers:LFO}"
                 Content="LFO" />
 
-            <Button
-                Command="{Binding AddItemCommand}"
-                CommandParameter="{x:Type ColorModifiers:Colorize}"
-                Content="Colorize" />
-
         </StackPanel>
 
         <StackPanel Grid.Column="1">
@@ -116,7 +111,11 @@
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type ColorModifiers:RandomHSV}"
                 Content="Random HSV" />
-
+            
+            <Button
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type ColorModifiers:ColorPalette}"
+                Content="Color Palette" />
         </StackPanel>
 
     </Grid>

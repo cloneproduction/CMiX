@@ -58,39 +58,11 @@
                     IsChecked="{Binding ServerIsRunning}"
                     Style="{DynamicResource TogglePlayPause}" />
 
-                <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+                <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
 
             </DockPanel>
 
         </Border>
-    </DataTemplate>
-
-    <DataTemplate x:Key="prefabIcons">
-        <Image
-            Width="12"
-            Height="12"
-            Margin="4,0"
-            Opacity="0.7">
-            <Image.Style>
-                <Style TargetType="{x:Type Image}">
-                    <Style.Triggers>
-
-                        <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Compositing:Entity}">
-                            <Setter Property="Source" Value="{DynamicResource Geometry}" />
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Lights:LightEntity}">
-                            <Setter Property="Source" Value="{DynamicResource MeshLight}" />
-                        </DataTrigger>
-
-                        <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Cameras:Camera}">
-                            <Setter Property="Source" Value="{DynamicResource Camera}" />
-                        </DataTrigger>
-
-                    </Style.Triggers>
-                </Style>
-            </Image.Style>
-        </Image>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
@@ -106,6 +78,8 @@
         </DockPanel>
     </DataTemplate>
 
+
+
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
         <DockPanel>
             <Image
@@ -115,7 +89,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource TextIcon}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -128,7 +102,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Geometry}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -141,7 +115,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource MeshLight}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -154,13 +128,12 @@
                 Opacity="0.7"
                 Source="{DynamicResource Camera}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
 
     <!--  TEXTURESOURCE  -->
-
     <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
         <DockPanel>
             <Image
@@ -170,7 +143,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Texture}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -183,7 +156,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Texture}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -196,7 +169,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Texture}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -209,7 +182,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Texture}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -222,7 +195,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Texture}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -235,7 +208,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Texture}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -250,7 +223,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource World}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
@@ -265,7 +238,7 @@
                 Opacity="0.7"
                 Source="{DynamicResource Beat}" />
             <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value, UpdateSourceTrigger=PropertyChanged}" />
+            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
         </DockPanel>
     </DataTemplate>
 
