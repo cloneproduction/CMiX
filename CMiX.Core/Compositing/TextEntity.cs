@@ -42,7 +42,6 @@ namespace CMiX.Core.Compositing
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
 
-
         public GenericValue<string> Text { get; set; }
         public GenericValue<float> Size { get; set; }
         public GenericValue<string> Color { get; set; }
@@ -52,6 +51,7 @@ namespace CMiX.Core.Compositing
         public GenericValue<float> Width { get; set; }
         public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValue<Anchor> Anchor { get; set; }
+
 
         [ObservableProperty]
         private bool modifierManagerIsExpanded = true;
