@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Dither : ObservableObject, IPrefab
+    public partial class Dither : ObservableObject, IPrefab, ITextureFilter
     {
         public Dither(PrefabService prefabService,
                       GenericValue<float> control,

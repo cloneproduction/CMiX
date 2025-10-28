@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Pixelate : ObservableObject, IPrefab
+    public partial class Pixelate : ObservableObject, IPrefab, ITextureFilter
     {
         public Pixelate(PrefabService prefabService,
                         GenericValue<float> control, 

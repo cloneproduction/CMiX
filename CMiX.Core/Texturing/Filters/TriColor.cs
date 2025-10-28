@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class TriColor : ObservableObject, IPrefab
+    public partial class TriColor : ObservableObject, IPrefab, ITextureFilter
     {
         public TriColor(PrefabService prefabService,
                         GenericValue<float> control, 
@@ -19,18 +19,13 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<bool> singleChannel, 
                         GenericValue<bool> clampColor)
         {
-            isExpanded = true;
-
             PrefabService = prefabService;
             Control = control;
-
             ColorA = colorA;
             ColorB = colorB;
             ColorC = colorC;
-
             Smooth = smooth;
             Center = center;
-
             SingleChannel = singleChannel;
             ClampColor = clampColor;
         }
@@ -47,6 +42,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<bool> ClampColor { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }

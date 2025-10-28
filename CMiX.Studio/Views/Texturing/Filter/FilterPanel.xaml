@@ -12,14 +12,15 @@
     <UserControl.ContentTemplate>
         <DataTemplate>
             <StackPanel>
-                <ContentPresenter Content="{TemplateBinding Content}" />
+
                 <Controls:CMiXSlider
-                    Margin="0,8,0,0"
+                    Margin="0,0,0,8"
                     Caption="Control"
                     Maximum="1"
                     Minimum="0"
                     Position="Default"
                     Value="{Binding Path=DataContext.Control.Value}" />
+                <ContentPresenter Content="{TemplateBinding Content}" />
             </StackPanel>
         </DataTemplate>
     </UserControl.ContentTemplate>

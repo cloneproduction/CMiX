@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Kuwahara : ObservableObject, IPrefab
+    public partial class Kuwahara : ObservableObject, IPrefab, ITextureFilter
     {
         public Kuwahara(PrefabService prefabService,
                         GenericValue<float> radius,
@@ -23,8 +23,8 @@ namespace CMiX.Core.Texturing.Filters
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Radius { get; set; }
-        public GenericValue<float> Control { get; set; }
         public GenericValue<KuwaharaType> Type { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

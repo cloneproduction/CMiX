@@ -9,33 +9,18 @@ using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class LFOUVModel : IPrefabModel
+    public record LFOUVModel : IPrefabModel
     {
-        public LFOUVModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            PingPong = new GenericValueModel<bool>(false);
-            XAxis = new GenericValueModel<bool>(false);
-            YAxis = new GenericValueModel<bool>(true);
-            ZAxis = new GenericValueModel<bool>(false);
-            TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
-            From = new GenericValueModel<float>(-1.0f);
-            To = new GenericValueModel<float>(1.0f);
-            SamplerState = new SamplerStateModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<TransformType> TransformType { get; set; }
-        public GenericValueModel<bool> PingPong { get; set; }
-        public GenericValueModel<bool> XAxis { get; set; }
-        public GenericValueModel<bool> YAxis { get; set; }
-        public GenericValueModel<bool> ZAxis { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; set; }
-        public GenericValueModel<float> From { get; set; }
-        public GenericValueModel<float> To { get; set; }
-        public SamplerStateModel SamplerState { get; set; }
-
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<TransformType> TransformType { get; set; } = new(Transformation.TransformType.Translate);
+        public GenericValueModel<bool> PingPong { get; set; } = new(false);
+        public GenericValueModel<bool> XAxis { get; set; } = new(false);
+        public GenericValueModel<bool> YAxis { get; set; } = new(true);
+        public GenericValueModel<bool> ZAxis { get; set; } = new(false);
+        public GenericValueModel<float> From { get; set; } = new(-1.0f);
+        public GenericValueModel<float> To { get; set; } = new(1.0f);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public SamplerStateModel SamplerState { get; set; } = new();
     }
 }

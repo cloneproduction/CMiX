@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Shadow : ObservableObject, IPrefab
+    public partial class Shadow : ObservableObject, IPrefab, ITextureFilter
     {
         public Shadow(PrefabService prefabService, 
                       Vector3 lightDirection, 

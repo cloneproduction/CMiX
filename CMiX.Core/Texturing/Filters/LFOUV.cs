@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LFOUV : ObservableObject, IPrefab, IBeatModifiable
+    public partial class LFOUV : ObservableObject, IPrefab, IBeatModifiable, ITextureFilter
     {
         public LFOUV(PrefabManager beatModifierManager,
                      PrefabService prefabService, 
@@ -23,21 +23,21 @@ namespace CMiX.Core.Texturing.Filters
                      GenericValue<bool> zAxis, 
                      GenericValue<float> from,
                      GenericValue<float> to,
-                     SamplerState samplerState)
+                     SamplerState samplerState,
+                     GenericValue<float> control)
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
             TransformType = transformType;
             ModifierModeSelector = modifierModeSelector;
-
             PingPong = pingPong;
             XAxis = xAxis;
             YAxis = yAxis;
             ZAxis = zAxis;
-
             From = from;
             To = to;
             SamplerState = samplerState;
+            Control = control;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -52,6 +52,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> To { get; set; }
         public SamplerState SamplerState { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

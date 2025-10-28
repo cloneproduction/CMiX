@@ -6,23 +6,13 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class AsciiModel : IPrefabModel
+    public record AsciiModel : IPrefabModel
     {
-        public AsciiModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            Control = new GenericValueModel<float>(1.0f);
-            GridSize = new GenericValueModel<float>(0.66f);
-            CharacterSize = new Vector2Model(16.0f, 16.0f);
-            Grayscale = new GenericValueModel<bool>(false);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<float> GridSize { get; set; }
-        public Vector2Model CharacterSize { get; set; }
-        public GenericValueModel<bool> Grayscale { get; set; }
-        public GenericValueModel<float> Control { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<float> GridSize { get; set; } = new(0.66f);
+        public Vector2Model CharacterSize { get; set; } = new(16.0f, 16.0f);
+        public GenericValueModel<bool> Grayscale { get; set; } = new(false);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
     }
 }

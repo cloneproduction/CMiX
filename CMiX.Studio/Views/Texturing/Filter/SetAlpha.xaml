@@ -5,33 +5,34 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     d:DesignHeight="208.777"
     d:DesignWidth="266.087"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Views:FilterPanel>
+        <Views:FilterPanel.Content>
+            
+            <StackPanel>
 
-        <BaseControls:ComboBox
-            Margin="0,8"
-            Caption="Channel"
-            ItemsSource="{Binding Source={StaticResource AlphaChannel}}"
-            Position="Default"
-            SelectedItem="{Binding AlphaChannel.Value}" />
+                <BaseControls:ComboBox
+                    Caption="Channel"
+                    ItemsSource="{Binding Source={StaticResource AlphaChannel}}"
+                    Position="Default"
+                    SelectedItem="{Binding AlphaChannel.Value}" />
 
-        <BaseControls:ToggleButton Caption="Invert" IsChecked="{Binding Invert.Value}" />
+                <BaseControls:ToggleButton 
+                    Margin="0,8"
+                    Caption="Invert" 
+                    IsChecked="{Binding Invert.Value}" />
 
-        <BaseControls:ToggleButton
-            Margin="0,8"
-            Caption="Keep Original Alpha"
-            IsChecked="{Binding KeepOriginalAlpha.Value}" />
+                <BaseControls:ToggleButton
+                    Caption="Keep Original Alpha"
+                    IsChecked="{Binding KeepOriginalAlpha.Value}" />
 
-        <BaseControls:CMiXSlider
-            Caption="Control"
-            Maximum="1"
-            Minimum="0"
-            Value="{Binding Control.Value}" />
-
-    </StackPanel>
-
+            </StackPanel>
+            
+        </Views:FilterPanel.Content>
+    </Views:FilterPanel>
 
 </UserControl>

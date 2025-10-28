@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Displace : ObservableObject, IPrefab
+    public partial class Displace : ObservableObject, IPrefab, ITextureFilter
     {
         public Displace(PrefabService prefabService, 
                         PrefabManager textureSelector,
@@ -28,8 +28,8 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabManager TextureSelector { get; set; }
         public Vector2 Offset { get; set; }
         public Vector2 OffsetScale { get; set; }
-        public GenericValue<float> Control { get; set; }
         public PrefabService PrefabService { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

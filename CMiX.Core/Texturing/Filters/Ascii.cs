@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Ascii : ObservableObject, IPrefab
+    public partial class Ascii : ObservableObject, IPrefab, ITextureFilter
     {
         public Ascii(PrefabService prefabService,
                      GenericValue<float> control,

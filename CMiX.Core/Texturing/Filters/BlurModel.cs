@@ -6,17 +6,11 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class BlurModel : IPrefabModel
+    public record BlurModel : IPrefabModel
     {
-        public BlurModel()
-        {
-            ID = Guid.NewGuid();
-            Strength = new GenericValueModel<float>(0.5f);
-            PrefabService = new PrefabServiceModel();
-        }
-
-        public Guid ID { get; set; }
-        public GenericValueModel<float> Strength { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<float> Strength { get; set; } = new(0.5f);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
     }
 }

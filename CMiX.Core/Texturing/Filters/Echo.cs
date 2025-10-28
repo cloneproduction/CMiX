@@ -7,22 +7,24 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Echo : ObservableObject, IPrefab
+    public partial class Echo : ObservableObject, IPrefab, ITextureFilter
     {
         public Echo(PrefabService prefabService,
-                    GenericValue<float> factor)
+                    GenericValue<float> factor,
+                    GenericValue<float> control)
         {
             ID = Guid.NewGuid();
             PrefabService = prefabService;
             Factor = factor;
+            Control = control;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<float> Factor { get; set; }
         public PrefabService PrefabService { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
-
     }
 }

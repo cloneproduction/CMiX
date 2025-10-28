@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class ShiftRGB : ObservableObject, IPrefab
+    public partial class ShiftRGB : ObservableObject, IPrefab, ITextureFilter
     {
         public ShiftRGB(PrefabService prefabService,
                         GenericValue<float> direction,
@@ -29,6 +29,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> Shift { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Factor { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

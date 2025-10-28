@@ -7,38 +7,42 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="359.509"
-    d:DesignWidth="349.649"
+    d:DesignHeight="461.713"
+    d:DesignWidth="367.722"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Views:FilterPanel>
+        <Views:FilterPanel.Content>
+            <StackPanel>
 
-        <BaseControls:DragValue
-            Caption="Uniform"
-            Position="Default"
-            Value="{Binding Uniform.Value}" />
+                <BaseControls:DragValue
+                    Caption="Uniform"
+                    Position="Default"
+                    Value="{Binding Uniform.Value}" />
 
-        <BaseControls:Vector2
-            Margin="0,8"
-            Caption="Scale"
-            DataContext="{Binding Scale}" />
+                <BaseControls:Vector2
+                    Margin="0,8"
+                    Caption="Scale"
+                    DataContext="{Binding Scale}" />
 
-        <BaseControls:DragValue
-            Caption="Rotation"
-            Position="Default"
-            Value="{Binding Rotation.Value}" />
+                <BaseControls:DragValue
+                    Caption="Rotation"
+                    Position="Default"
+                    Value="{Binding Rotation.Value}" />
 
-        <BaseControls:Vector2
-            Margin="0,8"
-            Caption="Translate"
-            DataContext="{Binding Location}" />
+                <BaseControls:Vector2
+                    Margin="0,8"
+                    Caption="Translate"
+                    DataContext="{Binding Location}" />
 
-        <Views:SamplerState 
-            Margin="0,0,0,8" 
-            DataContext="{Binding SamplerState}" />
+                <Views:SamplerState 
+                    Margin="0,0,0,8" 
+                    DataContext="{Binding SamplerState}" />
 
-        <Views:BeatModifierManager 
-            DataContext="{Binding BeatModifierManager}" />
+                <Views:BeatModifierManager 
+                    DataContext="{Binding BeatModifierManager}" />
 
-    </StackPanel>
+            </StackPanel>
+        </Views:FilterPanel.Content>
+    </Views:FilterPanel>
 </UserControl>

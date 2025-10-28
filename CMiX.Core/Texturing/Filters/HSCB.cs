@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class HSCB : ObservableObject, IPrefab
+    public partial class HSCB : ObservableObject, IPrefab, ITextureFilter
     {
         public HSCB(PrefabService prefabService,
                     GenericValue<float> hue, 

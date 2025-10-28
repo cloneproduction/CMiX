@@ -5,7 +5,7 @@
     xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="311.555"
@@ -16,52 +16,42 @@
 
         <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
-
-
-        <basecontrol:ComboBox
+        <BaseControl:ComboBox
             Caption="Transform"
             ItemsSource="{Binding Source={StaticResource TransformType}}"
             Position="Top"
             SelectedItem="{Binding TransformType.Value}" />
 
-        <basecontrol:AxisSelector3D
+        <BaseControl:AxisSelector3D
             Margin="0,1,0,0"
             XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
-        <basecontrol:DragValue
+        <BaseControl:DragValue
             Margin="0,8,0,0"
             Caption="From"
             Position="Top"
             Value="{Binding From.Value}" />
 
-        <basecontrol:DragValue
+        <BaseControl:DragValue
             Margin="0,1,0,0"
             Caption="To"
             Position="Bottom"
             Value="{Binding To.Value}" />
 
-        <basecontrol:ToggleButton
+        <BaseControl:ToggleButton
             Margin="8"
             Caption="PingPong"
             IsChecked="{Binding PingPong.Value}" />
 
-        <basecontrol:DragValue
+        <BaseControl:DragValue
             Margin="0,0,0,8"
             Caption="Randomize Phase"
             Position="Default"
             Value="{Binding RandomizePhase.Value}" />
 
-        <Views:Outliner DataContext="{Binding BeatModifierManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
-            <Views:Outliner.SelectionPanel>
-                <Button
-                    Command="{Binding AddItemCommand}"
-                    CommandParameter="{x:Type Animations:BeatModifierModel}"
-                    Content="New"
-                    Style="{DynamicResource ButtonRoundedRight}" />
-            </Views:Outliner.SelectionPanel>
-        </Views:Outliner>
+        <Views:BeatModifierManager Margin="0,8,0,0" DataContext="{Binding BeatModifierManager}" />
 
     </StackPanel>
 

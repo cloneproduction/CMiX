@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : ObservableObject, IPrefab, IBeatModifiable
+    public partial class RandomUV : ObservableObject, IPrefab, IBeatModifiable, ITextureFilter
     {
         public RandomUV(PrefabService prefabService,
                         PrefabManager beatModifierManager,
@@ -17,7 +17,8 @@ namespace CMiX.Core.Texturing.Filters
                         Vector2 location,
                         Vector2 scale,
                         GenericValue<float> rotation,
-                        GenericValue<float> uniform)
+                        GenericValue<float> uniform,
+                        GenericValue<float> control)
         {
             PrefabService = prefabService;
             BeatModifierManager = beatModifierManager;
@@ -26,6 +27,7 @@ namespace CMiX.Core.Texturing.Filters
             Scale = scale;
             Rotation = rotation;
             Uniform = uniform;
+            Control = control;
         }
 
         public Guid ID { get; set; }
@@ -36,6 +38,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> Uniform { get; set; }
         public GenericValue<float> Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
+        public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;

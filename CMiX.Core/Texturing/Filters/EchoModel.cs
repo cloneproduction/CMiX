@@ -6,18 +6,11 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class EchoModel : IPrefabModel
+    public record EchoModel : IPrefabModel
     {
-        public EchoModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            Factor = new GenericValueModel<float>(0.9f);
-        }
-
-        public bool Enabled { get; set; }
-        public Guid ID { get; set; }
-        public GenericValueModel<float> Factor { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<float> Factor { get; set; } = new(0.9f);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public PrefabServiceModel PrefabService { get; set; } = new();
     }
 }

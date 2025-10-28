@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class SetAlpha : ObservableObject, IPrefab
+    public partial class SetAlpha : ObservableObject, IPrefab, ITextureFilter
     {
         public SetAlpha(PrefabService prefabService,
                         GenericValue<bool> invert,
@@ -20,7 +20,6 @@ namespace CMiX.Core.Texturing.Filters
             KeepOriginalAlpha = keepOriginalAlpha;
             AlphaChannel = alphaChannel;
             Control = control;
-            isExpanded = true;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -31,6 +30,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> Control { get; set; }
 
         [ObservableProperty]
-        private bool isExpanded;
+        private bool isExpanded = true;
     }
 }
