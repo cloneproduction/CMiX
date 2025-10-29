@@ -36,14 +36,15 @@
                     Position="Top"
                     SelectedItem="{Binding TransformType.Value}" />
 
-                <basecontrol:AxisSelector3D
+                <basecontrol:AxisSelector2D
                     Margin="0,1,0,0"
-                    XIsChecked="{Binding XAxis.Value}"
-                    YIsChecked="{Binding YAxis.Value}"
-                    ZIsChecked="{Binding ZAxis.Value}" />
+                    XIsChecked="{Binding DirectionXY.DirectionX.Value}"
+                    YIsChecked="{Binding DirectionXY.DirectionY.Value}"/>
 
-                <Views:SamplerState Margin="0,8,0,0" DataContext="{Binding SamplerState}" />
+                <Views:SamplerState Margin="0,8" DataContext="{Binding SamplerState}" />
 
+                <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+                
             </StackPanel>
         </Views:FilterPanel.Content>
     </Views:FilterPanel>

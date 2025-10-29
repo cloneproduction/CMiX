@@ -18,9 +18,7 @@ namespace CMiX.Core.Texturing.Filters
                      GenericValue<TransformType> transformType, 
                      ModifierModeSelector modifierModeSelector, 
                      GenericValue<bool> pingPong, 
-                     GenericValue<bool> xAxis, 
-                     GenericValue<bool> yAxis, 
-                     GenericValue<bool> zAxis, 
+                     DirectionXY directionXY,
                      GenericValue<float> from,
                      GenericValue<float> to,
                      SamplerState samplerState,
@@ -31,9 +29,7 @@ namespace CMiX.Core.Texturing.Filters
             TransformType = transformType;
             ModifierModeSelector = modifierModeSelector;
             PingPong = pingPong;
-            XAxis = xAxis;
-            YAxis = yAxis;
-            ZAxis = zAxis;
+            DirectionXY = directionXY;
             From = from;
             To = to;
             SamplerState = samplerState;
@@ -44,9 +40,7 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabService PrefabService { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
         public GenericValue<bool> PingPong { get; set; }
-        public GenericValue<bool> XAxis { get; set; }
-        public GenericValue<bool> YAxis { get; set; }
-        public GenericValue<bool> ZAxis { get; set; }
+        public DirectionXY DirectionXY { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }

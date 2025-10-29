@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Texturing.Filters
@@ -15,12 +16,11 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<TransformType> TransformType { get; set; } = new(Transformation.TransformType.Translate);
         public GenericValueModel<bool> PingPong { get; set; } = new(false);
-        public GenericValueModel<bool> XAxis { get; set; } = new(false);
-        public GenericValueModel<bool> YAxis { get; set; } = new(true);
-        public GenericValueModel<bool> ZAxis { get; set; } = new(false);
+        public DirectionXYModel DirectionXY { get; set; } = new();
         public GenericValueModel<float> From { get; set; } = new(-1.0f);
         public GenericValueModel<float> To { get; set; } = new(1.0f);
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
         public SamplerStateModel SamplerState { get; set; } = new();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
     }
 }
