@@ -23,7 +23,6 @@ namespace CMiX.Core.Texturing.Sources
         }
 
         public Guid ID { get; set; }
-
         public Integer2Model Resolution { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
         public Transform2DModel Transform2D { get; set; }

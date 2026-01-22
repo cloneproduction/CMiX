@@ -6,21 +6,12 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class KuwaharaModel : IPrefabModel
+    public record KuwaharaModel : IPrefabModel
     {
-        public KuwaharaModel()
-        {
-            ID = Guid.NewGuid();
-            Radius = new GenericValueModel<float>(1.0f);
-            Type = new GenericValueModel<KuwaharaType>(KuwaharaType.Standard);
-            Control = new GenericValueModel<float>(1.0f);
-            PrefabService = new PrefabServiceModel();
-        }
-
-        public Guid ID { get; set; }
-        public GenericValueModel<float> Radius { get; set; }
-        public GenericValueModel<KuwaharaType> Type { get; set; }
-        public GenericValueModel<float> Control { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<float> Radius { get; set; } = new(1.0f);
+        public GenericValueModel<KuwaharaType> Type { get; set; } = new(KuwaharaType.Standard);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public PrefabServiceModel PrefabService { get; set; } = new();
     }
 }

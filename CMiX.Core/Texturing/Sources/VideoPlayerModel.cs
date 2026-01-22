@@ -20,7 +20,6 @@ namespace CMiX.Core.Texturing.Sources
             FilterManager = new PrefabManagerModel();
         }
         public Guid ID { get; set; } = Guid.NewGuid();
-
         public ButtonModel DoSeek { get; set; }
         public PrefabServiceModel PrefabService { get; set; }
         public GenericValueModel<int> SeekFrame { get; set; }

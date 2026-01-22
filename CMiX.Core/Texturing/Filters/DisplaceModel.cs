@@ -7,24 +7,13 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class DisplaceModel : IPrefabModel
+    public record DisplaceModel : IPrefabModel
     {
-        public DisplaceModel()
-        {
-            ID = Guid.NewGuid();
-
-            Control = new GenericValueModel<float>(1.0f);
-            PrefabService = new PrefabServiceModel();
-            TextureSelector = new PrefabManagerModel();
-            Offset = new Vector2Model(0.5f, 0.5f);
-            OffsetScale = new Vector2Model(0.1f, 0.1f);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabManagerModel TextureSelector { get; set; }
-        public Vector2Model Offset { get; set; }
-        public Vector2Model OffsetScale { get; set; }
-        public GenericValueModel<float> Control { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabManagerModel TextureSelector { get; set; } = new();
+        public Vector2Model Offset { get; set; } = new(0.5f, 0.5f);
+        public Vector2Model OffsetScale { get; set; } = new(0.1f, 0.1f);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public PrefabServiceModel PrefabService { get; set; } = new();
     }
 }

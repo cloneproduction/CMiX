@@ -2,38 +2,21 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class TriColorModel : IPrefabModel
+    public record TriColorModel : IPrefabModel
     {
-        public TriColorModel()
-        {
-            ID = Guid.NewGuid();
-
-            PrefabService = new PrefabServiceModel();
-            Control = new GenericValueModel<float>(1.0f);
-            ColorA = new GenericValueModel<string>("#FFFF00FF");
-            ColorB = new GenericValueModel<string>("#FFFF00FF");
-            ColorC = new GenericValueModel<string>("#FFFF00FF");
-            Smooth = new GenericValueModel<float>(0.5f);
-            Center = new GenericValueModel<float>(0.5f);
-            SingleChannel = new GenericValueModel<bool>(true);
-            ClampColor = new GenericValueModel<bool>(true);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
-        public GenericValueModel<float> Control { get; set; }
-        public GenericValueModel<string> ColorA { get; set; }
-        public GenericValueModel<string> ColorB { get; set; }
-        public GenericValueModel<string> ColorC { get; set; }
-        public GenericValueModel<float> Smooth { get; set; }
-        public GenericValueModel<float> Center { get; set; }
-        public GenericValueModel<bool> SingleChannel { get; set; }
-        public GenericValueModel<bool> ClampColor { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public GenericValueModel<string> ColorA { get; set; } = new("#FFFF00FF");
+        public GenericValueModel<string> ColorB { get; set; } = new("#FFFF00FF");
+        public GenericValueModel<string> ColorC { get; set; } = new("#FFFF00FF");
+        public GenericValueModel<float> Smooth { get; set; } = new (0.5f);
+        public GenericValueModel<float> Center { get; set; } = new(0.5f);
+        public GenericValueModel<bool> SingleChannel { get; set; } = new(true);
+        public GenericValueModel<bool> ClampColor { get; set; } = new(true);
     }
 }
