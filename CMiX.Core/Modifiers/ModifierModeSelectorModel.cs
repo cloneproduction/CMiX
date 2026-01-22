@@ -5,17 +5,10 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Modifiers
 {
-    public class ModifierModeSelectorModel : IControlModel
+    public record ModifierModeSelectorModel : IControlModel
     {
-        public ModifierModeSelectorModel()
-        {
-            ID = Guid.NewGuid();
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.PerInstance);
-            Count = new GenericValueModel<int>(1);
-        }
-
-        public Guid ID { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; set; }
-        public GenericValueModel<int> Count { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<ModifierMode> Mode { get; set; } = new(ModifierMode.PerInstance);
+        public GenericValueModel<int> Count { get; set; } = new(1);
     }
 }

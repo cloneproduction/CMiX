@@ -7,21 +7,12 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    public class SelectRandomEntityModel : IPrefabModel
+    public record SelectRandomEntityModel : IPrefabModel
     {
-        public SelectRandomEntityModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            BeatModifierManager = new PrefabManagerModel();
-            EntityType = new GenericValueModel<EntityType>(Modifiers.EntityType.Entity);
-            Control = new GenericValueModel<float>(1.0f);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
-        public GenericValueModel<EntityType> EntityType { get; set; }
-        public GenericValueModel<float> Control { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
+        public GenericValueModel<EntityType> EntityType { get; set; } = new(Modifiers.EntityType.Entity);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
     }
 }
