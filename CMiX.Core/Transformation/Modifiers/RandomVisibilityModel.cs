@@ -7,18 +7,11 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class RandomVisibilityModel : IPrefabModel
+    public record RandomVisibilityModel : IPrefabModel
     {
-        public RandomVisibilityModel()
-        {
-            PrefabService = new PrefabServiceModel();
-            BeatModifierManager = new PrefabManagerModel();
-            Control = new GenericValueModel<float>(0.5f);
-        }
-
         public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabServiceModel PrefabService { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
-        public GenericValueModel<float> Control { get; set; }
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
+        public GenericValueModel<float> Control { get; set; } = new(0.5f);
     }
 }
