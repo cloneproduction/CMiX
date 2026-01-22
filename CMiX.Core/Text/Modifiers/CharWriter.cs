@@ -17,7 +17,7 @@ namespace CMiX.Core.Text.Modifiers
             BeatModifierManager = beatModifierManager;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
 

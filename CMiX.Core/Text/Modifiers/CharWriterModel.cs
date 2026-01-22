@@ -6,19 +6,10 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Text.Modifiers
 {
-    public class CharWriterModel : IPrefabModel
+    public record CharWriterModel : IPrefabModel
     {
-        public CharWriterModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            BeatModifierManager = new PrefabManagerModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
-
-
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
     }
 }

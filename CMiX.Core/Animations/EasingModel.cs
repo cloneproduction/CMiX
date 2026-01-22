@@ -2,23 +2,14 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Animations
 {
-    public class EasingModel : IControlModel
+    public record EasingModel : IControlModel
     {
-        public EasingModel()
-        {
-            ID = Guid.NewGuid();
-            IsEnabled = new GenericValueModel<bool>(false);
-            Function = new GenericValueModel<EasingFunction>(EasingFunction.Linear);
-            Mode = new GenericValueModel<EasingMode>(EasingMode.In);
-        }
-
-        public GenericValueModel<bool> IsEnabled { get; set; }
-        public Guid ID { get; set; }
-        public GenericValueModel<EasingFunction> Function { get; set; }
-        public GenericValueModel<EasingMode> Mode { get; set; }
+        public GenericValueModel<bool> IsEnabled { get; set; } = new(false);
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<EasingFunction> Function { get; set; } = new(EasingFunction.Linear);
+        public GenericValueModel<EasingMode> Mode { get; set; } = new(EasingMode.In);
     }
 }

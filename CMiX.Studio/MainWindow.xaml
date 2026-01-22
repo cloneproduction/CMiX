@@ -25,13 +25,13 @@
     Style="{StaticResource MainWindowStyle}"
     mc:Ignorable="d">
 
-    <Window.InputBindings>
+    <!--<Window.InputBindings>
         <KeyBinding
             Key="C"
             Command="{Binding Project.CompositionManager.AddItemCommand}"
             CommandParameter="{x:Type Compositing:Composition}"
             Modifiers="Shift" />
-    </Window.InputBindings>
+    </Window.InputBindings>-->
 
     <DockPanel Background="{DynamicResource HighHighDarkerColor}" LastChildFill="True">
 
