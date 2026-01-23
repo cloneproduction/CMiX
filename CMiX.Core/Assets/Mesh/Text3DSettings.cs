@@ -23,9 +23,8 @@ namespace CMiX.Core.Assets.Mesh
             ParagraphAlignment = paragraphAlignment;
         }
 
-        public PrefabService PrefabService { get; set; }
         public Guid ID { get; set; }
-
+        public PrefabService PrefabService { get; set; }
         public GenericValue<string> Text { get; set; }
         public GenericValue<int> FontSize { get; set; }
         public GenericValue<float> ExtrudeAmount { get; set; }

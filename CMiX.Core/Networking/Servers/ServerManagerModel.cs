@@ -5,15 +5,9 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Networking.Servers
 {
-    public class ServerManagerModel : IControlModel
+    public record ServerManagerModel : IControlModel
     {
-        public ServerManagerModel()
-        {
-            ID = Guid.NewGuid();
-            ManagerData = new ManagerDataModel();
-        }
-
-        public Guid ID { get; set; }
-        public ManagerDataModel ManagerData { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public ManagerDataModel ManagerData { get; set; } = new();
     }
 }

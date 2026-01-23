@@ -9,33 +9,18 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class LFOModel : IPrefabModel
+    public record LFOModel : IPrefabModel
     {
-        public LFOModel()
-        {
-            Name = "LFO";
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            RandomizePhase = new GenericValueModel<float>(0.0f);
-            BeatModifierManager = new PrefabManagerModel();
-            DirectionXYZ = new DirectionXYZModel();
-            PingPong = new GenericValueModel<bool>(false);
-            TransformType = new GenericValueModel<TransformType>(Transformation.TransformType.Translate);
-            From = new GenericValueModel<float>(0.0f);
-            To = new GenericValueModel<float>(1.0f);
-            ModifierModeSelector = new ModifierModeSelectorModel();
-        }
-
-        public string Name { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<bool> PingPong { get; set; }
-        public GenericValueModel<float> RandomizePhase { get; set; }
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
-        public Guid ID { get; set; }
-        public GenericValueModel<TransformType> TransformType { get; set; }
-        public GenericValueModel<float> From { get; set; }
-        public GenericValueModel<float> To { get; set; }
-        public DirectionXYZModel DirectionXYZ { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public string Name { get; set; } = new("LFO");
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<bool> PingPong { get; set; } = new(false);
+        public GenericValueModel<float> RandomizePhase { get; set; } = new(0.0f);
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
+        public GenericValueModel<TransformType> TransformType { get; set; } = new(Transformation.TransformType.Translate);
+        public GenericValueModel<float> From { get; set; } = new(0.0f);
+        public GenericValueModel<float> To { get; set; } = new(1.0f);
+        public DirectionXYZModel DirectionXYZ { get; set; } = new();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
     }
 }

@@ -5,14 +5,9 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Rendering
 {
-    public class LocalReflectionModel : IControlModel
+    public record LocalReflectionModel : IControlModel
     {
-        public LocalReflectionModel()
-        {
-            IsEnabled = new GenericValueModel<bool>(false);
-        }
-
-        public GenericValueModel<bool> IsEnabled { get; set; }
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<bool> IsEnabled { get; set; } = new(false);
     }
 }

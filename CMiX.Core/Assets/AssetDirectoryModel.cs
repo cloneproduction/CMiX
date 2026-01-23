@@ -3,17 +3,12 @@
 
 namespace CMiX.Core.Assets
 {
-    public class AssetDirectoryModel : IAssetModel
+    public record AssetDirectoryModel : IAssetModel
     {
-        public AssetDirectoryModel()
-        {
-            ID = Guid.NewGuid();
-        }
-
         public string FilePath { get; set; }
         public string Name { get; set; }
         public bool IsSelected { get; set; }
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public bool FileExist { get; set; }
         public bool IsRenaming { get; set; }
     }

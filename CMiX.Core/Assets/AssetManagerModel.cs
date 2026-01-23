@@ -6,17 +6,10 @@ using System.Collections.ObjectModel;
 
 namespace CMiX.Core.Assets
 {
-    public class AssetManagerModel : IControlModel
+    public record AssetManagerModel : IControlModel
     {
-        public AssetManagerModel()
-        {
-            ID = Guid.NewGuid();
-            AssetModels = new ObservableCollection<IAssetModel>();
-            FlattenAssetModels = new ObservableCollection<IAssetModel>();
-        }
-
-        public Guid ID { get; set; }
-        public ObservableCollection<IAssetModel> AssetModels { get; set; }
-        public ObservableCollection<IAssetModel> FlattenAssetModels { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public ObservableCollection<IAssetModel> AssetModels { get; set; } = new();
+        public ObservableCollection<IAssetModel> FlattenAssetModels { get; set; } = new();
     }
 }

@@ -6,39 +6,21 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public class ShadowModel : IPrefabModel
+    public record ShadowModel : IPrefabModel
     {
-        public ShadowModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            BlendMode = new GenericValueModel<BlendModeEnum>(BlendModeEnum.Normal);
-            Control = new GenericValueModel<float>(1.0f);
-            LightDirection = new Vector3Model(2.51f, -0.91f, 1.15f);
-            Height = new GenericValueModel<float>(0.85f);
-            DotTolerance = new GenericValueModel<float>(0.36f);
-            RayJitter = new GenericValueModel<float>(0.0f);
-            RayLength = new GenericValueModel<float>(-0.07f);
-            ShadowFade = new GenericValueModel<float>(0.04f);
-            ShadowFallOffPow = new GenericValueModel<float>(0.6f);
-            ShadowBlur = new GenericValueModel<float>(0.001f);
-            ShadowBlurPow = new GenericValueModel<float>(-0.49f);
-            SharpOffset = new GenericValueModel<float>(-0.05f);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<BlendModeEnum> BlendMode { get; set; }
-        public Vector3Model LightDirection { get; set; }
-        public GenericValueModel<float> Height { get; set; }
-        public GenericValueModel<float> DotTolerance { get; set; }
-        public GenericValueModel<float> RayJitter { get; set; }
-        public GenericValueModel<float> RayLength { get; set; }
-        public GenericValueModel<float> ShadowFade { get; set; }
-        public GenericValueModel<float> ShadowFallOffPow { get; set; }
-        public GenericValueModel<float> ShadowBlur { get; set; }
-        public GenericValueModel<float> ShadowBlurPow { get; set; }
-        public GenericValueModel<float> SharpOffset { get; set; }
-        public GenericValueModel<float> Control { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<BlendModeEnum> BlendMode { get; set; } = new(BlendModeEnum.Normal);
+        public Vector3Model LightDirection { get; set; } = new(2.51f, -0.91f, 1.15f);
+        public GenericValueModel<float> Height { get; set; } = new(0.85f);
+        public GenericValueModel<float> DotTolerance { get; set; } = new(0.36f);
+        public GenericValueModel<float> RayJitter { get; set; } = new(0.0f);
+        public GenericValueModel<float> RayLength { get; set; } = new(-0.07f);
+        public GenericValueModel<float> ShadowFade { get; set; } = new(0.04f);
+        public GenericValueModel<float> ShadowFallOffPow { get; set; } = new(0.6f);
+        public GenericValueModel<float> ShadowBlur { get; set; } = new(0.001f);
+        public GenericValueModel<float> ShadowBlurPow { get; set; } = new(-0.49f);
+        public GenericValueModel<float> SharpOffset { get; set; } = new(-0.05f);
+        public GenericValueModel<float> Control { get; set; } = new(1.0f);
     }
 }

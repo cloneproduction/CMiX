@@ -30,14 +30,6 @@ namespace CMiX.Core.Animations
         public GenericValueModel<int> Index { get; set; }
         public GenericValueModel<int> BeatIndex { get; set; }
         public GenericValueModel<float> Period { get; set; }
-
-
-        private float[] _periods;
-
-        public float[] Periods
-        {
-            get { return _periods; }
-            set { _periods = value; }
-        }
+        public float[] Periods { get; set; }
     }
 }

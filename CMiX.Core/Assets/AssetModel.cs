@@ -3,14 +3,9 @@
 
 namespace CMiX.Core.Assets
 {
-    public class AssetModel : IAssetModel
+    public record AssetModel : IAssetModel
     {
-        public AssetModel()
-        {
-            ID = Guid.NewGuid();
-        }
-
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public string Name { get; set; }
         public string FilePath { get; set; }
         public bool FileExist { get; set; }

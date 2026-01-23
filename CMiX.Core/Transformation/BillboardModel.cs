@@ -5,15 +5,9 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation
 {
-    public class BillboardModel : IControlModel, IPrefabModel
+    public record BillboardModel : IControlModel, IPrefabModel
     {
-        public BillboardModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new PrefabServiceModel();
     }
 }

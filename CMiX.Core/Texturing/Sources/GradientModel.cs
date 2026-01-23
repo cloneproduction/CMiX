@@ -7,28 +7,15 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class GradientModel : IControlModel, IPrefabModel
+    public record GradientModel : IControlModel, IPrefabModel
     {
-        public GradientModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            Resolution = new Integer2Model(512, 512);
-            From = new GenericValueModel<string>("#FFFFFFFF");
-            To = new GenericValueModel<string>("#FF000000");
-            Gamma = new GenericValueModel<float>(2.2f);
-            Horizontal = new GenericValueModel<bool>(false);
-            FilterManager = new PrefabManagerModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public PrefabManagerModel FilterManager { get; set; }
-        public Integer2Model Resolution { get; set; }
-        public GenericValueModel<float> Gamma { get; set; }
-        public GenericValueModel<string> From { get; set; }
-        public GenericValueModel<string> To { get; set; }
-        public GenericValueModel<bool> Horizontal { get; set; }
-        public GenericValueModel<string> BackgroundColor { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel FilterManager { get; set; } = new();
+        public Integer2Model Resolution { get; set; } = new(512, 512);
+        public GenericValueModel<float> Gamma { get; set; } = new(2.2f);
+        public GenericValueModel<string> From { get; set; } = new("#FFFFFFFF");
+        public GenericValueModel<string> To { get; set; } = new("#FF000000");
+        public GenericValueModel<bool> Horizontal { get; set; } = new(false);
     }
 }

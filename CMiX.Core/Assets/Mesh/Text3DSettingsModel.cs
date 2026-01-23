@@ -6,26 +6,15 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Assets.Mesh
 {
-    public class Text3DSettingsModel : IControl, IPrefab
+    public record Text3DSettingsModel : IPrefabModel
     {
-        public Text3DSettingsModel()
-        {
-            Text = new GenericValueModel<string>("CMiX");
-            FontSize = new GenericValueModel<int>(10);
-            ExtrudeAmount = new GenericValueModel<float>(4.0f);
-            FontFamily = new GenericValueModel<string>("Arial");
-            HorizontalAlignment = new GenericValueModel<HorizontalAlignment>(Mesh.HorizontalAlignment.Center);
-            ParagraphAlignment = new GenericValueModel<ParagraphAlignment>(Mesh.ParagraphAlignment.Center);
-        }
-
-        public PrefabService PrefabService { get; set; }
-        public Guid ID { get; set; }
-
-        public GenericValueModel<string> Text { get; set; }
-        public GenericValueModel<int> FontSize { get; set; }
-        public GenericValueModel<float> ExtrudeAmount { get; set; }
-        public GenericValueModel<string> FontFamily { get; set; }
-        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; }
-        public GenericValueModel<ParagraphAlignment> ParagraphAlignment { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<string> Text { get; set; } = new("CMiX");
+        public GenericValueModel<int> FontSize { get; set; } = new(10);
+        public GenericValueModel<float> ExtrudeAmount { get; set; } = new(4.0f);
+        public GenericValueModel<string> FontFamily { get; set; } = new("Arial");
+        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; } = new(Mesh.HorizontalAlignment.Center);
+        public GenericValueModel<ParagraphAlignment> ParagraphAlignment { get; set; } = new(Mesh.ParagraphAlignment.Center);
     }
 }

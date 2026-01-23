@@ -6,19 +6,16 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public class CameraModel : IPrefabModel
+    public record CameraModel : IPrefabModel
     {
         public CameraModel()
         {
-            PrefabService = new PrefabServiceModel();
             ID = PrefabService.ID;
-            ModifierManager = new PrefabManagerModel();
-            Settings = new CameraSettingsModel();
         }
 
         public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public CameraSettingsModel Settings { get; set; }
-        public PrefabManagerModel ModifierManager { get; set; }
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public CameraSettingsModel Settings { get; set; } = new();
+        public PrefabManagerModel ModifierManager { get; set; } = new();
     }
 }

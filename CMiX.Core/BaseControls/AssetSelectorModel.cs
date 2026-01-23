@@ -5,15 +5,9 @@ using CMiX.Core.ViewModels.Assets;
 
 namespace CMiX.Core.BaseControls
 {
-    public class AssetSelectorModel : IControlModel
+    public record AssetSelectorModel : IControlModel
     {
-        public AssetSelectorModel()
-        {
-            ID = Guid.NewGuid();
-            Asset = new GenericValueModel<IAsset>(null);
-        }
-
-        public Guid ID { get; set; }
-        public GenericValueModel<IAsset> Asset { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<IAsset> Asset { get; set; } = new(null);
     }
 }

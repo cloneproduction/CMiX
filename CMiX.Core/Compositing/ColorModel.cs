@@ -12,6 +12,6 @@ namespace CMiX.Core.Compositing
         {
             Value = "#FFFFFFFF";
         }
-        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabServiceModel PrefabService { get; init; } = new();
     }
 }
