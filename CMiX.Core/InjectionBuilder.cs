@@ -34,7 +34,17 @@ namespace CMiX.Core
             );
 
             services.AddSingleton<Project>();
-            services.AddSingleton<CerasSerializer>();
+
+            services.AddSingleton<CerasSerializer>(sp =>
+            {
+                var config = new SerializerConfig();
+
+                CerasMessageConfiguration.Configure(config);
+
+                return new CerasSerializer(config);
+            });
+
+
             services.AddSingleton<MainViewModel>();
 
             services.AddSingleton<ControlRepository>();

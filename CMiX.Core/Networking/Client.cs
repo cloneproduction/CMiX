@@ -9,13 +9,13 @@ namespace CMiX.Core.Services
 {
     public class Client : ObservableRecipient
     {
-        public Client(MessageSerializer messageProcessor)
+        public Client(MessageSerializer messageSerializer)
         {
             ServerIsConnected = false;
-            MessageProcessor = messageProcessor;
+            MessageSerializer = messageSerializer;
         }
 
-        private MessageSerializer MessageProcessor { get; set; }
+        private MessageSerializer MessageSerializer { get; set; }
         public WatsonTcpClient WatsonTcpClient { get; set; }
 
         public bool ServerIsConnected { get; set; }
@@ -53,7 +53,7 @@ namespace CMiX.Core.Services
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            MessageProcessor.ProcessMessage(e.Data);
+            MessageSerializer.ProcessMessage(e.Data);
             Console.WriteLine("Message Data Received by Clients");
             WatsonTcpClient.SendAsync("Hello");
         }

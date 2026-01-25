@@ -29,7 +29,7 @@ namespace CMiX.Core.Prefabs.Messages
                     return true;
 
                 case MessageRemoveItem messageRemovePrefab:
-                    prefabManagerBase.DeleteItem(messageRemovePrefab.Control);
+                    prefabManagerBase.DeleteItem(messageRemovePrefab.ModelID);
                     return true;
 
                 case MessageMoveItem messageMovePrefab:

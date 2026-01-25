@@ -19,14 +19,14 @@ namespace CMiX.Core.Prefabs.Messages
         {
             var type = typeof(T);
 
-            if (type == typeof(MessageValueChange))
-                return new MessageValueChange(id, Mapper.Map<IControlModel>(control));
+            if (type == typeof(MessageValueChanged))
+                return new MessageValueChanged(id, Mapper.Map<IControlModel>(control));
 
             if (type == typeof(MessageAddItem))
                 return new MessageAddItem(id, Mapper.Map<IControlModel>(control));
 
             if (type == typeof(MessageRemoveItem))
-                return new MessageRemoveItem(id, control);
+                return new MessageRemoveItem(id, control.ID);
 
             return null;
         }

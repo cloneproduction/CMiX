@@ -3,7 +3,7 @@
 
 using System.Windows;
 using System.Windows.Input;
-using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;

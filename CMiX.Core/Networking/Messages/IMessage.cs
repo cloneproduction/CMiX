@@ -5,6 +5,6 @@ namespace CMiX.Core.Networking.Messages
 {
     public interface IMessage
     {
-        Guid ID { get; set; }
+        Guid ID { get; }
     }
 }

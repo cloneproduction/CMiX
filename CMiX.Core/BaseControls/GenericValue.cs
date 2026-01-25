@@ -47,7 +47,7 @@ namespace CMiX.Core.BaseControls
                 SetProperty(ref _value, value);
                 if (IsActive)
                 {
-                    var message = MessageFactory.CreateMessage<MessageValueChange>(this.ID, this);
+                    var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
                     ControlMessenger.SendMessage(message);
                 }
             }
@@ -65,13 +65,13 @@ namespace CMiX.Core.BaseControls
             if (message.ID != this.ID)
                 return;
 
-            if (message is MessageValueChange change)
+            if (message is MessageValueChanged change)
             {
                 var val = change.Value;
                 this.Value = ((GenericValueModel<T>)val).Value;
             }
 
-            Console.WriteLine("Message Received with Value : " + this.Value);
+            //Console.WriteLine("Message Received with Value : " + this.Value);
         }
     }
 }
