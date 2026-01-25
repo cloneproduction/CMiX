@@ -6,12 +6,8 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Compositing
 {
-    public record class ColorModel : GenericValueModel<string>, IPrefabModel
+    public record ColorModel() : GenericValueModel<string>("#FFFFFFFF"), IPrefabModel
     {
-        public ColorModel()
-        {
-            Value = "#FFFFFFFF";
-        }
         public PrefabServiceModel PrefabService { get; init; } = new();
     }
 }
