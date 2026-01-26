@@ -7,25 +7,14 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class TouchBlobModel : IControlModel, IPrefabModel
+    public record TouchBlobModel : IControlModel, IPrefabModel
     {
-        public TouchBlobModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            FilterManager = new PrefabManagerModel();
-            Resolution = new Integer2Model(1024, 1024);
-            Size = new GenericValueModel<float>(0.2f);
-            Color = new GenericValueModel<string>("#FFFFFF");
-            Background = new GenericValueModel<string>("#000000");
-        }
-
         public Guid ID { get; set; } = Guid.NewGuid();
-        public Integer2Model Resolution { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<float> Size { get; set; }
-        public PrefabManagerModel FilterManager { get; set; }
-        public GenericValueModel<string> Color { get; set; }
-        public GenericValueModel<string> Background { get; set; }
+        public Integer2Model Resolution { get; set; } = new(1024, 1024);
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<float> Size { get; set; } = new(0.2f);
+        public PrefabManagerModel FilterManager { get; set; } = new();
+        public GenericValueModel<string> Color { get; set; } = new("#FFFFFF");
+        public GenericValueModel<string> Background { get; set; } = new("#000000");
     }
 }

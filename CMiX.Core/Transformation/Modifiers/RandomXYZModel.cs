@@ -9,35 +9,19 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class RandomXYZModel : IPrefabModel
+    public record RandomXYZModel : IPrefabModel
     {
-        public RandomXYZModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            Gaussian = new GenericValueModel<bool>(false);
-            BeatModifierManager = new PrefabManagerModel();
-            RandomizeLocation = new GenericValueModel<bool>(true);
-            Location = new Vector3Model();
-            RandomizeScale = new GenericValueModel<bool>(true);
-            Uniform = new GenericValueModel<float>(0.0f);
-            Scale = new Vector3Model();
-            RandomizeRotation = new GenericValueModel<bool>(true);
-            Rotation = new Vector3Model(0.0f, 0.0f, 0.0f);
-            ModifierModeSelector = new ModifierModeSelectorModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<bool> Gaussian { get; set; }
-        public GenericValueModel<bool> RandomizeLocation { get; set; }
-        public Vector3Model Location { get; set; }
-        public GenericValueModel<bool> RandomizeScale { get; set; }
-        public Vector3Model Scale { get; set; }
-        public GenericValueModel<bool> RandomizeRotation { get; set; }
-        public Vector3Model Rotation { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
-        public GenericValueModel<float> Uniform { get; set; }
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<bool> Gaussian { get; set; } = new(false);
+        public GenericValueModel<bool> RandomizeLocation { get; set; } = new(true);
+        public Vector3Model Location { get; set; } = new();
+        public GenericValueModel<bool> RandomizeScale { get; set; } = new(true);
+        public Vector3Model Scale { get; set; } = new();
+        public GenericValueModel<bool> RandomizeRotation { get; set; } = new(true);
+        public Vector3Model Rotation { get; set; } = new();
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
+        public GenericValueModel<float> Uniform { get; set; } = new(0.0f);
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
     }
 }

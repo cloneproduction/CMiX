@@ -8,29 +8,16 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class LinearXYZModel : IPrefabModel
+    public record LinearXYZModel : IPrefabModel
     {
-        public LinearXYZModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            BeatModifier = new BeatModifierModel();
-            Width = new GenericValueModel<float>(0.0f);
-            Phase = new GenericValueModel<float>(0.0f);
-            DirectionXYZ = new DirectionXYZModel();
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
-            TransformTypeSelector = new GenericValueModel<TransformType>(TransformType.Translate);
-            ModifierModeSelector = new ModifierModeSelectorModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public BeatModifierModel BeatModifier { get; set; }
-        public GenericValueModel<float> Width { get; set; }
-        public DirectionXYZModel DirectionXYZ { get; set; }
-        public GenericValueModel<float> Phase { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; set; }
-        public GenericValueModel<TransformType> TransformTypeSelector { get; set; }
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public BeatModifierModel BeatModifier { get; set; } = new();
+        public GenericValueModel<float> Width { get; set; } = new(0.0f);
+        public DirectionXYZModel DirectionXYZ { get; set; } = new();
+        public GenericValueModel<float> Phase { get; set; } = new(0.0f);
+        public GenericValueModel<ModifierMode> Mode { get; set; } = new(ModifierMode.ToSpread);
+        public GenericValueModel<TransformType> TransformTypeSelector { get; set; } = new(TransformType.Translate);
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
     }
 }

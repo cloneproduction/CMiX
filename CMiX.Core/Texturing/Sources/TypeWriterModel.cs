@@ -7,35 +7,18 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class TypeWriterModel : IControlModel, IPrefabModel
+    public record TypeWriterModel : IControlModel, IPrefabModel
     {
-        public TypeWriterModel()
-        {
-            ID = Guid.NewGuid();
-
-            StringControl = new GenericValueModel<string>("CMiX");
-            FontFamily = new GenericValueModel<string>("Arial");
-            FontSize = new GenericValueModel<float>(0.45f);
-            FontColor = new GenericValueModel<string>("#ff000000");
-            BackgroundColor = new GenericValueModel<string>("#00000000");
-            Resolution = new Integer2Model(1024, 1024);
-            Position = new Vector2Model();
-            Style = new GenericValueModel<FontStyle>(FontStyle.Normal);
-
-            FilterManager = new PrefabManagerModel();
-            PrefabService = new PrefabServiceModel();
-        }
-
-        public Guid ID { get; set; }
-        public GenericValueModel<string> StringControl { get; set; }
-        public GenericValueModel<string> FontColor { get; set; }
-        public GenericValueModel<string> BackgroundColor { get; set; }
-        public Integer2Model Resolution { get; set; }
-        public Vector2Model Position { get; set; }
-        public GenericValueModel<float> FontSize { get; set; }
-        public GenericValueModel<string> FontFamily { get; set; }
-        public GenericValueModel<FontStyle> Style { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public PrefabManagerModel FilterManager { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<string> StringControl { get; set; } = new("CMiX");
+        public GenericValueModel<string> FontColor { get; set; } = new("#ff000000");
+        public GenericValueModel<string> BackgroundColor { get; set; } = new("#00000000");
+        public Integer2Model Resolution { get; set; } = new(1024, 1024);
+        public Vector2Model Position { get; set; } = new();
+        public GenericValueModel<float> FontSize { get; set; } = new(0.45f);
+        public GenericValueModel<string> FontFamily { get; set; } = new("Arial");
+        public GenericValueModel<FontStyle> Style { get; set; } = new(FontStyle.Normal);
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel FilterManager { get; set; } = new();
     }
 }

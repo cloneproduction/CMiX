@@ -9,21 +9,11 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     public record CircularSpreadModel : IPrefabModel
     {
-        public CircularSpreadModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            Width = new Vector2Model(1.0f, 1.0f);
-            Phase = new GenericValueModel<float>(0.0f);
-            Factor = new GenericValueModel<float>(1.0f);
-            ModifierModeSelector = new ModifierModeSelectorModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; }
-        public Vector2Model Width { get; set; }
-        public GenericValueModel<float> Phase { get; set; }
-        public GenericValueModel<float> Factor { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
+        public Vector2Model Width { get; set; } = new(1.0f, 1.0f);
+        public GenericValueModel<float> Phase { get; set; } = new(0.0f);
+        public GenericValueModel<float> Factor { get; set; } = new(1.0f);
     }
 }

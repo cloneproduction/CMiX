@@ -7,27 +7,15 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation
 {
-    public class TransformSRTModel : IControlModel, IPrefabModel
+    public record TransformSRTModel : IControlModel, IPrefabModel
     {
-        public TransformSRTModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            Translate = new TranslateModel();
-            Scale = new ScaleModel();
-            Rotation = new RotationModel();
-            Visible = new GenericValueModel<bool>(true);
-            Uniform = new GenericValueModel<float>(1.0f);
-            Mode = new GenericValueModel<ModifierMode>(ModifierMode.ToSpread);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<float> Uniform { get; set; }
-        public TranslateModel Translate { get; set; }
-        public ScaleModel Scale { get; set; }
-        public RotationModel Rotation { get; set; }
-        public GenericValueModel<bool> Visible { get; set; }
-        public GenericValueModel<ModifierMode> Mode { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<float> Uniform { get; set; } = new(1.0f);
+        public TranslateModel Translate { get; set; } = new();
+        public ScaleModel Scale { get; set; } = new();
+        public RotationModel Rotation { get; set; } = new();
+        public GenericValueModel<bool> Visible { get; set; } = new(true);
+        public GenericValueModel<ModifierMode> Mode { get; set; } = new(ModifierMode.ToSpread);
     }
 }

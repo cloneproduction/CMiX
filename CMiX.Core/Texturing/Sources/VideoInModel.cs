@@ -7,21 +7,12 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public class VideoInModel : IControlModel, IPrefabModel
+    public record VideoInModel : IControlModel, IPrefabModel
     {
-        public VideoInModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            SizeX = new GenericValueModel<int>(1920);
-            SizeY = new GenericValueModel<int>(1080);
-            FilterManager = new PrefabManagerModel();
-        }
-
-        public Guid ID { get; set; }
-        public PrefabManagerModel FilterManager { get; set; }
-        public GenericValueModel<int> SizeX { get; set; }
-        public GenericValueModel<int> SizeY { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabManagerModel FilterManager { get; set; } = new();
+        public GenericValueModel<int> SizeX { get; set; } = new(1920);
+        public GenericValueModel<int> SizeY { get; set; } = new(1080);
+        public PrefabServiceModel PrefabService { get; set; } = new();
     }
 }
