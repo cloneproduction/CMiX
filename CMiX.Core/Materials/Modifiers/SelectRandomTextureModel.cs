@@ -9,9 +9,9 @@ namespace CMiX.Core.Materials.Modifiers
 {
     public record SelectRandomTextureModel : IPrefabModel
     {
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabServiceModel PrefabService { get; set; } = new();
-        public PrefabManagerModel BeatModifierManager { get; set; } = new();
-        public GenericValueModel<TextureFrom> TextureFrom { get; set; } = new(Modifiers.TextureFrom.Diffuse);
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; init; } = new();
+        public PrefabManagerModel BeatModifierManager { get; init; } = new();
+        public GenericValueModel<TextureFrom> TextureFrom { get; init; } = new(Modifiers.TextureFrom.Diffuse);
     }
 }

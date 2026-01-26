@@ -8,14 +8,9 @@ namespace CMiX.Core.Rendering.Cameras
 {
     public record CameraModel : IPrefabModel
     {
-        public CameraModel()
-        {
-            ID = PrefabService.ID;
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; } = new();
-        public CameraSettingsModel Settings { get; set; } = new();
-        public PrefabManagerModel ModifierManager { get; set; } = new();
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; init; } = new();
+        public CameraSettingsModel Settings { get; init; } = new();
+        public PrefabManagerModel ModifierManager { get; init; } = new();
     }
 }

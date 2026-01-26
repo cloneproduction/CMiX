@@ -5,6 +5,7 @@ using System.Reflection;
 using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Assets;
+using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Mapping;
 using CMiX.Core.Networking;
@@ -35,7 +36,7 @@ namespace CMiX.Core
 
             services.AddSingleton<Project>();
 
-            services.AddSingleton<CerasSerializer>(sp =>
+            services.AddSingleton(sp =>
             {
                 var config = new SerializerConfig();
 

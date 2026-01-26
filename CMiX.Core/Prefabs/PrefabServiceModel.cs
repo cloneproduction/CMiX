@@ -7,10 +7,10 @@ namespace CMiX.Core.Prefabs
 {
     public record PrefabServiceModel : IControlModel
     {
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValueModel<string> Name { get; set; } = new(String.Empty);
-        public GenericValueModel<bool> IsRenaming { get; set; } = new(false);
-        public GenericValueModel<bool> IsSelected { get; set; } = new(false);
-        public GenericValueModel<bool> Visibility { get; set; } = new(false);
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public GenericValueModel<string> Name { get; init; } = new(String.Empty);
+        public GenericValueModel<bool> IsRenaming { get; init; } = new(false);
+        public GenericValueModel<bool> IsSelected { get; init; } = new(false);
+        public GenericValueModel<bool> Visibility { get; init; } = new(false);
     }
 }

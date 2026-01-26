@@ -7,9 +7,9 @@ namespace CMiX.Core.Texturing
 {
     public record SamplerStateModel : IControlModel
     {
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValueModel<string> BorderColor { get; set; } = new("#FFFF00FF");
-        public GenericValueModel<TextureAddressMode> AddressU { get; set; } = new(TextureAddressMode.Mirror);
-        public GenericValueModel<TextureAddressMode> AddressV { get; set; } = new(TextureAddressMode.Mirror);
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public GenericValueModel<string> BorderColor { get; init; } = new("#FFFF00FF");
+        public GenericValueModel<TextureAddressMode> AddressU { get; init; } = new(TextureAddressMode.Mirror);
+        public GenericValueModel<TextureAddressMode> AddressV { get; init; } = new(TextureAddressMode.Mirror);
     }
 }

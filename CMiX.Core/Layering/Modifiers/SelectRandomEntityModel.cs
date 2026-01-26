@@ -9,10 +9,10 @@ namespace CMiX.Core.Layering.Modifiers
 {
     public record SelectRandomEntityModel : IPrefabModel
     {
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabServiceModel PrefabService { get; set; } = new();
-        public PrefabManagerModel BeatModifierManager { get; set; } = new();
-        public GenericValueModel<EntityType> EntityType { get; set; } = new(Modifiers.EntityType.Entity);
-        public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; init; } = new();
+        public PrefabManagerModel BeatModifierManager { get; init; } = new();
+        public GenericValueModel<EntityType> EntityType { get; init; } = new(Modifiers.EntityType.Entity);
+        public GenericValueModel<float> Control { get; init; } = new(1.0f);
     }
 }

@@ -7,7 +7,7 @@ namespace CMiX.Core.Networking.Servers
 {
     public record ServerManagerModel : IControlModel
     {
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public ManagerDataModel ManagerData { get; set; } = new();
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public ManagerDataModel ManagerData { get; init; } = new();
     }
 }

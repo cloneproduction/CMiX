@@ -8,27 +8,15 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public class CameraRandomModel : IControlModel
+    public record CameraRandomModel : IControlModel
     {
-        public CameraRandomModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            PingPong = new GenericValueModel<bool>(false);
-            BeatModifierManager = new PrefabManagerModel();
-            Easing = new EasingModel();
-            Width = new GenericValueModel<float>(0.0f);
-            To = new GenericValueModel<float>(1.0f);
-            Axis = new GenericValueModel<CameraAxis>(CameraAxis.Zoom);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public GenericValueModel<bool> PingPong { get; set; }
-        public PrefabManagerModel BeatModifierManager { get; set; }
-        public EasingModel Easing { get; set; }
-        public GenericValueModel<float> Width { get; set; }
-        public GenericValueModel<float> To { get; set; }
-        public GenericValueModel<CameraAxis> Axis { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public GenericValueModel<bool> PingPong { get; set; } = new(false);
+        public PrefabManagerModel BeatModifierManager { get; set; } = new();
+        public EasingModel Easing { get; set; } = new();
+        public GenericValueModel<float> Width { get; set; } = new(0.0f);
+        public GenericValueModel<float> To { get; set; } = new(1.0f);
+        public GenericValueModel<CameraAxis> Axis { get; set; } = new(CameraAxis.Zoom);
     }
 }

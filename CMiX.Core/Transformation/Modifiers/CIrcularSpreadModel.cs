@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public class CircularSpreadModel : IPrefabModel
+    public record CircularSpreadModel : IPrefabModel
     {
         public CircularSpreadModel()
         {

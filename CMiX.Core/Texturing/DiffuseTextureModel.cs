@@ -6,20 +6,12 @@ using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Core.Texturing
 {
-    public partial class DiffuseTextureModel : IControlModel
+    public record DiffuseTextureModel : IControlModel
     {
-        public DiffuseTextureModel()
-        {
-            TextureManager = new PrefabManagerModel();
-            TextureFilterManager = new PrefabManagerModel();
-            TransformTexture = new TransformTextureModel();
-            SamplerState = new SamplerStateModel();
-        }
-
-        public Guid ID { get ; set; } = Guid.NewGuid();
-        public PrefabManagerModel TextureManager { get; set; }
-        public PrefabManagerModel TextureFilterManager { get; set; }
-        public TransformTextureModel TransformTexture { get; set; }
-        public SamplerStateModel SamplerState { get; set; }
+        public Guid ID { get ; init; } = Guid.NewGuid();
+        public PrefabManagerModel TextureManager { get; init; } = new();
+        public PrefabManagerModel TextureFilterManager { get; init; } = new();
+        public TransformTextureModel TransformTexture { get; init; } = new();
+        public SamplerStateModel SamplerState { get; init; } = new();
     }
 }

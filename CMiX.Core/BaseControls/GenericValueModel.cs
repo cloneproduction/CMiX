@@ -5,17 +5,9 @@ namespace CMiX.Core.BaseControls
 {
     public record GenericValueModel<T> : IControlModel
     {
-        public GenericValueModel()
-        {
-
-        }
-
-        public GenericValueModel(T value)
-        {
-            Value = value;
-        }
-
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public T Value { get; set; }
+        public GenericValueModel() { }
+        public GenericValueModel(T value) => Value = value;
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public T Value { get; init; }
     }
 }

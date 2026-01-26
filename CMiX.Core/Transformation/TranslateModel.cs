@@ -8,15 +8,8 @@ namespace CMiX.Core.Transformation
 {
     public class TranslateModel : IPrefabModel
     {
-        public TranslateModel()
-        {
-            ID = Guid.NewGuid();
-            XYZ = new Vector3Model();
-            PrefabService = new PrefabServiceModel();
-        }
-
-        public Guid ID { get; set; }
-        public Vector3Model XYZ { get; internal set; }
-        public PrefabServiceModel PrefabService { get; set; }
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public Vector3Model XYZ { get; init; } = new();
+        public PrefabServiceModel PrefabService { get; init; } = new();
     }
 }

@@ -7,8 +7,8 @@ namespace CMiX.Core.Animations
 {
     public record EasingModel : IControlModel
     {
-        public GenericValueModel<bool> IsEnabled { get; set; } = new(false);
         public Guid ID { get; set; } = Guid.NewGuid();
+        public GenericValueModel<bool> IsEnabled { get; set; } = new(false);
         public GenericValueModel<EasingFunction> Function { get; set; } = new(EasingFunction.Linear);
         public GenericValueModel<EasingMode> Mode { get; set; } = new(EasingMode.In);
     }

@@ -7,20 +7,10 @@ namespace CMiX.Core.Transformation
 {
     public class Transform2DModel : IControlModel
     {
-        public Transform2DModel()
-        {
-            ID = Guid.NewGuid();
-
-            Translate = new Vector2Model(0.0f, 0.0f);
-            Scale = new Vector2Model(1.0f, 1.0f);
-            Rotate = new GenericValueModel<float>(0.0f);
-            UniformScale = new GenericValueModel<float>(1.0f);
-        }
-
-        public Guid ID { get; set; }
-        public Vector2Model Translate { get; set; }
-        public Vector2Model Scale { get; set; }
-        public GenericValueModel<float> Rotate { get; set; }
-        public GenericValueModel<float> UniformScale { get; set; }
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public Vector2Model Translate { get; init; } = new Vector2Model(0.0f, 0.0f);
+        public Vector2Model Scale { get; init; } = new Vector2Model(1.0f, 1.0f);
+        public GenericValueModel<float> Rotate { get; init; } = new(0.0f);
+        public GenericValueModel<float> UniformScale { get; init; } = new(1.0f);
     }
 }

@@ -5,31 +5,22 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Animations
 {
-    public class MasterBeatModel : IControlModel
+    public record MasterBeatModel : IControlModel
     {
         public MasterBeatModel()
         {
-            Resync = new ButtonModel();
-            Pause = new GenericValueModel<bool>(false);
-            Index = new GenericValueModel<int>(3);
-            BeatIndex = new GenericValueModel<int>(0);
-            Period = new GenericValueModel<float>(1000);
-
-            Periods = new float[15];
-            var Multiplier = 1.0f / 128.0f;
-            for (var i = 0; i < Periods.Length; i++)
-            {
-                Periods[i] = Multiplier * Period.Value;
-                Multiplier *= 2;
-            }
+            // initialize Periods array using LINQ for simplicity
+            float multiplier = 1f / 128f;
+            Periods = Enumerable.Range(0, 15)
+                .Select(i => (multiplier *= i == 0 ? 1 : 2) * Period.Value)
+                .ToArray();
         }
-
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public ButtonModel Resync { get; set; }
-        public GenericValueModel<bool> Pause { get; set; }
-        public GenericValueModel<int> Index { get; set; }
-        public GenericValueModel<int> BeatIndex { get; set; }
-        public GenericValueModel<float> Period { get; set; }
-        public float[] Periods { get; set; }
+        public Guid ID { get; init; } = Guid.NewGuid();
+        public ButtonModel Resync { get; init; } = new();
+        public GenericValueModel<bool> Pause { get; init; } = new(false);
+        public GenericValueModel<int> Index { get; init; } = new(3);
+        public GenericValueModel<int> BeatIndex { get; init; } = new(0);
+        public GenericValueModel<float> Period { get; init; } = new(1000);
+        public float[] Periods { get; init; }
     }
 }

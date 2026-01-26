@@ -17,6 +17,5 @@ namespace CMiX.Core.Rendering
         public GenericValueModel<int> BlurCount { get; set; } = new(2);
         public GenericValueModel<float> BlurRadius { get; set; } = new(1.85f);
         public GenericValueModel<float> EdgeSharpness { get; set; } = new(3.0f);
-
     }
 }
