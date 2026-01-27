@@ -24,6 +24,13 @@ namespace CMiX.Studio.Views.BaseControl
         {
             InitializeComponent();
         }
+        public static readonly DependencyProperty CaptionProperty =
+        DependencyProperty.Register("Caption", typeof(string), typeof(AxisSelector3D), new FrameworkPropertyMetadata(String.Empty));
+        public string Caption
+        {
+            get { return (string)GetValue(CaptionProperty); }
+            set { SetValue(CaptionProperty, value); }
+        }
 
         public static readonly DependencyProperty XIsCheckedProperty =
         DependencyProperty.Register("XIsChecked", typeof(bool), typeof(AxisSelector3D), new FrameworkPropertyMetadata(true, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));

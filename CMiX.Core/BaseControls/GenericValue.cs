@@ -71,7 +71,7 @@ namespace CMiX.Core.BaseControls
                 this.Value = ((GenericValueModel<T>)val).Value;
             }
 
-            //Console.WriteLine("Message Received with Value : " + this.Value);
+            Console.WriteLine("Message Received with Value : " + this.Value);
         }
     }
 }

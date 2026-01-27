@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 
     xmlns:Component="clr-namespace:CMiX.Studio.Views.Component"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
@@ -17,7 +18,10 @@
     mc:Ignorable="d">
 
     <StackPanel>
-
+        <Panels:IndentedExpander Header="Transform" IsExpanded="True">
+            <Views:TransformSRT DataContext="{Binding TransformSRT}" Margin="8"/>
+        </Panels:IndentedExpander>
+        
         <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>

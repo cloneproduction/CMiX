@@ -2,10 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Colors;
 using CMiX.Core.Materials;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Transformation;
 using CMiX.Core.ViewModels;
 
 namespace CMiX.Core.Compositing
@@ -16,8 +16,8 @@ namespace CMiX.Core.Compositing
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<string> Name { get; set; } = new("Entity");
         public MeshModel Mesh { get; set; } = new();
+        public TransformSRTModel TransformSRT { get; set; } = new();
         public MaterialModel Material { get; set; } = new();
-        public ColorationModel ColorationModel { get; set; } = new();
         public PrefabManagerModel ModifierManager { get; set; } = new();
         public PrefabManagerModel MaterialManager { get; set; } = new();
         public PrefabManagerModel ColorPaletteManager { get; set; } = new();

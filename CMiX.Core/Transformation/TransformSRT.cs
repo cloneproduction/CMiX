@@ -14,7 +14,8 @@ namespace CMiX.Core.Transformation
                             GenericValue<float> uniform, 
                             Translate translate, 
                             Scale scale, 
-                            Rotation rotation, 
+                            Rotation rotation,
+                            DirectionXYZ directionXYZ, 
                             GenericValue<ModifierMode> mode)
         {
             PrefabService = prefabService;
@@ -22,6 +23,7 @@ namespace CMiX.Core.Transformation
             Translate = translate;
             Scale = scale;
             Rotation = rotation;
+            DirectionXYZ = directionXYZ;
             Mode = mode;
             isExpanded = true;
         }
@@ -33,6 +35,7 @@ namespace CMiX.Core.Transformation
         public Rotation Rotation { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
         public PrefabService PrefabService { get; set; }
+        public DirectionXYZ DirectionXYZ { get; set; }
 
         [ObservableProperty]
         private bool isExpanded;

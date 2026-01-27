@@ -21,6 +21,7 @@
             ItemsSource="{Binding Source={StaticResource TransformType}}"/>
 
         <BaseControls:AxisSelector3D 
+            Caption="Axis"
             XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}"/>

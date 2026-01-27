@@ -10,7 +10,7 @@ namespace CMiX.Core.Mapping
     {
         public TransformProfile()
         {
-            CreateMap<Transform2D, Transform2DModel>().ReverseMap().ConstructUsingServiceLocator(); ;
+            CreateMap<Transform2D, Transform2DModel>().ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }
