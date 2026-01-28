@@ -24,6 +24,8 @@ namespace CMiX.Core.Mapping
             CreateMap<RandomTexCoord, RandomTexCoordModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<RandomVisibility, RandomVisibilityModel>().ReverseMap().ConstructUsingServiceLocator();
 
+            CreateMap<Flip, FlipModel>().ReverseMap().ConstructUsingServiceLocator();
+
             CreateMap<LinearXYZ, LinearXYZModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<CircularSpread, CircularSpreadModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap<LFO, LFOModel>().ReverseMap().ConstructUsingServiceLocator();
@@ -44,6 +46,7 @@ namespace CMiX.Core.Mapping
                 .Include<RandomXYZ, RandomXYZModel>()
                 .Include<RandomTexCoord, RandomTexCoordModel>()
                 .Include<RandomVisibility, RandomVisibilityModel>()
+                .Include<Flip, FlipModel>()
                 .Include<LinearXYZ, LinearXYZModel>()
                 .Include<CircularSpread, CircularSpreadModel>()
                 .Include<LFO, LFOModel>()

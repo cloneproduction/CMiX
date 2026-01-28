@@ -72,7 +72,12 @@
                 Command="{Binding AddItemCommand}"
                 CommandParameter="{x:Type TransformModifiers:LFO}"
                 Content="LFO" />
-
+            
+            <Button
+                Command="{Binding AddItemCommand}"
+                CommandParameter="{x:Type TransformModifiers:Flip}"
+                Content="Flip" />
+            
         </StackPanel>
 
         <StackPanel Grid.Column="1">
