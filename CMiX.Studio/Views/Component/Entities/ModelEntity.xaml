@@ -12,16 +12,16 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     x:Name="uc"
-    d:DesignHeight="424.619"
-    d:DesignWidth="319.83"
+    d:DesignHeight="605.19"
+    d:DesignWidth="315.259"
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
     <StackPanel>
-        <Panels:IndentedExpander Header="Transform" IsExpanded="True">
+        <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
             <Views:TransformSRT DataContext="{Binding TransformSRT}" Margin="8"/>
         </Panels:IndentedExpander>
-        
+
         <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
@@ -31,7 +31,14 @@
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialManagerIsExpanded}">
+
             <StackPanel>
+
+                <BaseControls:ColorSelector
+                    Caption="Color"
+                    DataContext="{Binding Color}" 
+                    Margin="8, 8, 8, 0"/>
+
                 <Views:Outliner
                     Margin="8"
                     DataContext="{Binding MaterialManager}"
@@ -50,6 +57,7 @@
                 </Border>
 
             </StackPanel>
+
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
