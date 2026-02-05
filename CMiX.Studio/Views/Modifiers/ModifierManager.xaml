@@ -5,6 +5,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:dd="urn:gong-wpf-dragdrop"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -47,6 +48,7 @@
         </Popup>
 
         <ItemsControl
+            x:Name="modifierItemsControl"
             dd:DragDrop.DragHandler="{Binding ManagerReorderService}"
             dd:DragDrop.DropHandler="{Binding ManagerReorderService}"
             dd:DragDrop.IsDragSource="True"
@@ -54,8 +56,11 @@
             AllowDrop="True"
             ItemsSource="{Binding ManagerData.Items}">
             <ItemsControl.Resources>
-                <ResourceDictionary Source="ModifierDataTemplates.xaml" />
+                <Views:ViewModelToViewSelector x:Key="ViewModelToViewSelector" />
             </ItemsControl.Resources>
+            <!--<ItemsControl.Resources>
+                <ResourceDictionary Source="ModifierDataTemplates.xaml" />
+            </ItemsControl.Resources>-->
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
@@ -63,10 +68,15 @@
                         Margin="0,4"
                         CloseModifierCommand="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CloseModifierCommandParameter="{Binding}"
-                        Content="{Binding}"
-                        DragHandlerIsPressed="{Binding DataContext.ManagerReorderService.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         ResetModifierCommand="{Binding DataContext.ResetItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
-                        ResetModifierCommandParameter="{Binding}" />
+                        ResetModifierCommandParameter="{Binding}">
+
+                        <Panels:ModifierPanel.Content>
+                            <ContentPresenter
+                                Content="{Binding}"
+                                ContentTemplateSelector="{StaticResource ViewModelToViewSelector}" />
+                        </Panels:ModifierPanel.Content>
+                    </Panels:ModifierPanel>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
 

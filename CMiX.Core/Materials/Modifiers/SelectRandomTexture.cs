@@ -3,13 +3,14 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Materials.Modifiers
 {
-    public partial class SelectRandomTexture : ObservableObject, IBeatModifiable, IPrefab
+    public partial class SelectRandomTexture : ObservableObject, IBeatModifiable, IModifier
     {
         public SelectRandomTexture(PrefabManager beatModifierManager,
                                   PrefabService prefabService,

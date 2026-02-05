@@ -3,13 +3,14 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    public partial class RenderRandomEntity : ObservableObject, IBeatModifiable, IPrefab
+    public partial class RenderRandomEntity : ObservableObject, IBeatModifiable, IModifier
     {
         public RenderRandomEntity(PrefabManager beatModifierManager,
                                   PrefabService prefabService,

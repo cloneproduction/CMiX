@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 
 namespace CMiX.Studio.Views
@@ -10,7 +9,6 @@ namespace CMiX.Studio.Views
         {
             InitializeComponent();
         }
-
 
         // Using a DependencyProperty as the backing store for InnerContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SelectionPanelProperty =

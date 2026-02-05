@@ -5,7 +5,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views">
 
 
-    <!--  TEXTURE SOURCES  -->
+      <!--TEXTURE SOURCES-->  
     <DataTemplate DataType="{x:Type Sources:CheckerBoard}">
         <Views:CheckerBoard DataContext="{Binding}" />
     </DataTemplate>
@@ -37,4 +37,5 @@
     <DataTemplate DataType="{x:Type Sources:TouchBlob}">
         <Views:TouchBlob DataContext="{Binding}" />
     </DataTemplate>
+    
 </ResourceDictionary>

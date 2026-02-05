@@ -7,6 +7,7 @@ using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Colors;
 using CMiX.Core.Compositing;
+using CMiX.Core.Layering.Modifiers;
 using CMiX.Core.Materials;
 using CMiX.Core.Materials.Modifiers;
 using CMiX.Core.Modifiers;
@@ -27,13 +28,14 @@ namespace CMiX.Core.Mapping
 {
     public class ControlsProfile : Profile
     {
+        public List<Type> OtherTypes { get; } = new();
         public List<Type> RegisteredTypes { get; } = new();
 
         public ControlsProfile()
         {
-            this.MapControlByInterface(RegisteredTypes, typeof(ITextureSource));
+            this.MapControlByInterface(OtherTypes, typeof(ITextureSource));
             this.MapControlByInterface(RegisteredTypes, typeof(ITextureFilter));
-            this.MapControlByInterface(RegisteredTypes, typeof(IModifier));
+            this.MapControlByInterface(OtherTypes, typeof(IModifier));
 
 
             this.MapControlByConvention(
@@ -108,6 +110,10 @@ namespace CMiX.Core.Mapping
                 typeof(DirectionXY),
                 typeof(AssetSelector),
                 typeof(Button)
+                );
+
+            this.MapControlByConvention(
+                typeof(RenderRandomEntity)
                 );
         }
     }

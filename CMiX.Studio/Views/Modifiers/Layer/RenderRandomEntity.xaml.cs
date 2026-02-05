@@ -2,9 +2,9 @@
 
 namespace CMiX.Studio.Views
 {
-    public partial class SelectRandomEntity : UserControl
+    public partial class RenderRandomEntity : UserControl
     {
-        public SelectRandomEntity()
+        public RenderRandomEntity()
         {
             InitializeComponent();
         }
