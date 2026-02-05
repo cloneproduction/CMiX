@@ -17,13 +17,8 @@
 
         <Button
             Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Layering:SelectRandomEntity}"
+            CommandParameter="{x:Type Layering:RenderRandomEntity}"
             Content="Select Random Entity" />
-
-        <Button
-            Command="{Binding AddItemCommand}"
-            CommandParameter="{x:Type Layering:SelectRandomCamera}"
-            Content="Select Random Camera" />
 
     </StackPanel>
 

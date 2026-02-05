@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable, IPrefab
+    public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable
     {
         public LFO(PrefabManager beatModifierManager,
                    PrefabService prefabService,

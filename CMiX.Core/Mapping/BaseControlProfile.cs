@@ -3,7 +3,6 @@
 
 using AutoMapper;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Compositing;
 
 namespace CMiX.Core.Mapping
 {
@@ -15,21 +14,13 @@ namespace CMiX.Core.Mapping
             CreateMap<Integer3, Integer3Model>().ConstructUsing(src => new Integer3Model()).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Vector2, Vector2Model>().ConstructUsing(src => new Vector2Model()).ReverseMap().ConstructUsingServiceLocator();
             CreateMap<Vector3, Vector3Model>().ConstructUsing(src => new Vector3Model()).ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<DirectionXYZ, DirectionXYZModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<DirectionXY, DirectionXYModel>().ReverseMap().ConstructUsingServiceLocator();
             CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>)).ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<Button, ButtonModel>().ReverseMap().ConstructUsingServiceLocator();
-            CreateMap<AssetSelector, AssetSelectorModel>().ReverseMap().ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
                 .Include<Integer2, Integer2Model>()
                 .Include<Integer3, Integer3Model>()
                 .Include<Vector2, Vector2Model>()
                 .Include<Vector3, Vector3Model>()
-                .Include<DirectionXYZ, DirectionXYZModel>()
-                .Include<DirectionXY, DirectionXYModel>()
-                .Include<Button, ButtonModel>()
-                .Include<AssetSelector, AssetSelectorModel>()
                 .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
                 .ReverseMap().ConstructUsingServiceLocator();
         }

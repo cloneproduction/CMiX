@@ -26,7 +26,7 @@ namespace CMiX.Core.Compositing
             PrefabService = prefabService;
             Mesh = mesh;
             TransformSRT = transformSRT;
-            Material = material;
+            //Material = material;
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
             Color = color;
@@ -38,7 +38,7 @@ namespace CMiX.Core.Compositing
         public PrefabManager MaterialManager { get; set; }
         public TransformSRT TransformSRT { get; set; }
         public Mesh Mesh { get; set; }
-        public Material Material { get; set; }
+        //public Material Material { get; set; }
         public Color Color { get; set; }
 
         [ObservableProperty]

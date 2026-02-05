@@ -64,7 +64,7 @@ namespace CMiX.Core
             {
                 opt.AddMaps("CMiX.Core");
                 opt.ConstructServicesUsing(t => ActivatorUtilities.CreateInstance(provider, t));
-            }, Assembly.GetAssembly(typeof(PrefabMappingProfile)));
+            }, Assembly.GetAssembly(typeof(ControlsProfile)));
         }
     }
 }

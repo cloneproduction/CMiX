@@ -10,20 +10,18 @@ namespace CMiX.Core.Mapping
     {
         public ManagerProfile()
         {
+            this.MapControlByConvention(typeof(ManagerData));
+
             CreateMap<PrefabManager, PrefabManagerModel>()
                 .ReverseMap()
                 .AfterMap<MappingAction>()
                 .ConstructUsingServiceLocator();
 
             CreateMap<IControl, IControlModel>()
-                .Include<ManagerData, ManagerDataModel>()
                 .Include<PrefabManager, PrefabManagerModel>()
                 .ReverseMap()
                 .ConstructUsingServiceLocator();
 
-            CreateMap<ManagerData, ManagerDataModel>()
-                .ReverseMap()
-                .ConstructUsingServiceLocator();
         }
     }
 }

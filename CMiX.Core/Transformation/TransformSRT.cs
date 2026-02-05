@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class TransformSRT : ObservableObject, IPrefab, IControl
+    public partial class TransformSRT : ObservableObject, IModifier
     {
         public TransformSRT(PrefabService prefabService, 
                             GenericValue<float> uniform, 

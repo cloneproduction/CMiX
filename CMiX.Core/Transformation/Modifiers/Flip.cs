@@ -3,13 +3,14 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class Flip : ObservableObject, IBeatModifiable, IPrefab
+    public partial class Flip : ObservableObject, IModifier, IBeatModifiable
     {
         public Flip(PrefabService prefabService,
                     PrefabManager beatModifierManager,

@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class CircularSpread : ObservableObject, IPrefab, ISpreadableModifier
+    public partial class CircularSpread : ObservableObject, ISpreadableModifier
     {
         public CircularSpread(PrefabService prefabService, 
                               ModifierModeSelector modifierModeSelector, 

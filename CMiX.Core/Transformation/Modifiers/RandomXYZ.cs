@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ISpreadableModifier, IPrefab
+    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ISpreadableModifier
     {
         public RandomXYZ(PrefabService prefabService,
                          PrefabManager beatModifierManager,

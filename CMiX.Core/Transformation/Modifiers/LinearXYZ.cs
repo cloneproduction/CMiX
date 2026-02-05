@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class LinearXYZ : ObservableObject, IPrefab, ISpreadableModifier
+    public partial class LinearXYZ : ObservableObject, ISpreadableModifier
     {
         public LinearXYZ(PrefabService prefabService, 
                          ModifierModeSelector modifierModeSelector, 

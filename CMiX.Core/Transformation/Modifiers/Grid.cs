@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class Grid : ObservableObject, IPrefab, ISpreadableModifier
+    public partial class Grid : ObservableObject, ISpreadableModifier
     {
         public Grid(ModifierModeSelector modifierModeSelector,
                     PrefabService prefabService,

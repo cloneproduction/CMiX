@@ -149,9 +149,6 @@
     <Compile Update="Views\Managers\MaterialSelectionPanel.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\Modifiers\Layer\SelectRandomCamera.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="Views\Modifiers\Light\RandomRotation.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -160,12 +157,6 @@
   <ItemGroup>
     <Folder Include="Views\BaseControl\ColorPicker\Unused\" />
     <Folder Include="Views\Component\Colorization\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Views\Modifiers\Layer\SelectRandomCamera.xaml">
-      <SubType>Designer</SubType>
-    </Page>
   </ItemGroup>
 
 </Project>

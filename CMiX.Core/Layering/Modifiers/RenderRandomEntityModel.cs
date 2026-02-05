@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    public record SelectRandomEntityModel : IPrefabModel
+    public record RenderRandomEntityModel : IPrefabModel
     {
         public Guid ID { get; init; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; init; } = new();

@@ -3,12 +3,8 @@
                     xmlns:Layering="clr-namespace:CMiX.Core.Layering.Modifiers;assembly=CMiX.Core"
                     xmlns:Views="clr-namespace:CMiX.Studio.Views">
 
-    <DataTemplate DataType="{x:Type Layering:SelectRandomEntity}">
+    <DataTemplate DataType="{x:Type Layering:RenderRandomEntity}">
         <Views:SelectRandomEntity DataContext="{Binding}" />
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Layering:SelectRandomCamera}">
-        <Views:SelectRandomCamera DataContext="{Binding}" />
-    </DataTemplate>
-    
 </ResourceDictionary>

@@ -22,7 +22,6 @@ namespace CMiX.Core.Mapping
             {
                 ControlRepository.AddControl(item);
             }
-            
         }
     }
 }

@@ -7,7 +7,6 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
-using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing

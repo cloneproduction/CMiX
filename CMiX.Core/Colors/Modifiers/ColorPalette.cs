@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class ColorPalette : ObservableObject, IPrefab, ISpreadableModifier
+    public partial class ColorPalette : ObservableObject, ISpreadableModifier
     {
         public ColorPalette(PrefabService prefabService,
                             ModifierModeSelector modifierModeSelector,

@@ -2,12 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    public partial class Rotation : ObservableObject, IControl, IPrefab
+    public partial class Rotation : ObservableObject, IControl, IModifier
     {
         public Rotation(PrefabService prefabService, Vector3 xyz)
         {

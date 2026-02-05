@@ -3,13 +3,14 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomVisibility : ObservableObject, IBeatModifiable, IPrefab
+    public partial class RandomVisibility : ObservableObject, IBeatModifiable, IModifier
     {
         public RandomVisibility(GenericValue<float> control,
                                 PrefabService prefabService,

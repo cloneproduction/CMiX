@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public partial class RandomTexCoord : ObservableObject, IPrefab, IBeatModifiable, ISpreadableModifier
+    public partial class RandomTexCoord : ObservableObject, IBeatModifiable, ISpreadableModifier
     {
         public RandomTexCoord(PrefabService prefabService,
                               ModifierModeSelector modifierModeSelector,
