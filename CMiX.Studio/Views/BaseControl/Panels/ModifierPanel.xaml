@@ -12,7 +12,8 @@
     <UserControl.ContentTemplate>
 
         <DataTemplate>
-            <Expander IsExpanded="{Binding IsExpanded}" Style="{StaticResource ItemControlExpander}">
+            <Expander IsExpanded="{Binding DataContext.IsExpanded}" Style="{StaticResource ItemControlExpander}">
+                
                 <Expander.Header>
                     <DockPanel>
 
@@ -37,7 +38,8 @@
                             DataContext="{Binding}"
                             DockPanel.Dock="Right" />
 
-                        <TextBlock Text="{Binding Converter={StaticResource TypeToName}}" />
+                        <TextBlock Text="{Binding DataContext, Converter={StaticResource TypeToName}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                        
                     </DockPanel>
                 </Expander.Header>
 
