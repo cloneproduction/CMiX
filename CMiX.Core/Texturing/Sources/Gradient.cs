@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class Gradient : ObservableObject, ITextureSource, IPrefab
+    public partial class Gradient : ObservableObject, ITextureSource
     {
         public Gradient(PrefabService prefabService,
                         PrefabManager filterManager,

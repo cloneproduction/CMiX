@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class TouchBlob : ObservableObject, ITextureSource, IPrefab
+    public partial class TouchBlob : ObservableObject, ITextureSource
     {
         public TouchBlob(PrefabService prefabService,
                          PrefabManager filterManager,

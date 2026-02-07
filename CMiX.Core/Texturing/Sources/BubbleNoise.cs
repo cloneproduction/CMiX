@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class BubbleNoise : ObservableObject, ITextureSource, IPrefab
+    public partial class BubbleNoise : ObservableObject, ITextureSource
     {
         public BubbleNoise(PrefabService prefabService,
                            PrefabManager filterManager,

@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class VideoPlayer : ObservableObject, ITextureSource, IPrefab
+    public partial class VideoPlayer : ObservableObject, ITextureSource
     {
         public VideoPlayer(PrefabService prefabService,
                            PrefabManager filterManager,

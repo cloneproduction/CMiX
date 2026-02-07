@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class TypeWriter : ObservableObject, ITextureSource, IPrefab
+    public partial class TypeWriter : ObservableObject, ITextureSource
     {
         public TypeWriter(PrefabManager filterManager,
                           PrefabService prefabService,

@@ -12,22 +12,10 @@ namespace CMiX.Core.BaseControls
             ID = Guid.NewGuid();
             X = x;
             Y = y;
-            IsActive = true;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<int> X { get; set; }
         public GenericValue<int> Y { get; set; }
-
-
-        public void SetX(int x) 
-        { 
-            X.Value = x;
-        }
-
-        public void SetY(int y)
-        {
-            Y.Value = y;
-        }
     }
 }

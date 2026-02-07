@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class Image : ObservableObject, ITextureSource, IPrefab
+    public partial class Image : ObservableObject, ITextureSource
     {
         public Image(PrefabService prefabService, 
                      PrefabManager filterManager,

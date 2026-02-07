@@ -2,41 +2,60 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using AutoMapper;
+using CMiX.Core.BaseControls;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Mapping
 {
     public static class AutoMapperExtensions
     {
-        /// <summary>
-        /// Map any number of IControl types to their <TypeName>Model equivalents
-        /// and set up polymorphic IControl ↔ IControlModel mapping.
-        /// </summary>
         public static void MapControlByConvention(this Profile profile, params Type[] sourceTypes)
         {
             if (sourceTypes == null || sourceTypes.Length == 0) return;
 
-            // All IControlModel types in the assembly
             var controlModelInterface = typeof(IControlModel);
+
             var models = controlModelInterface.Assembly.GetTypes()
                 .Where(t => controlModelInterface.IsAssignableFrom(t) &&
                             !t.IsAbstract &&
                             !t.IsInterface)
                 .ToList();
 
-            // 1️⃣ Concrete maps
+            // Concrete maps
             foreach (var source in sourceTypes)
             {
                 var modelName = source.Name + "Model";
                 var dest = models.FirstOrDefault(m => m.Name == modelName);
                 if (dest == null) continue;
 
-                profile.CreateMap(source, dest)
-                       .ReverseMap()
-                       .ConstructUsingServiceLocator();
+                if (source == typeof(PrefabManager))
+                {
+                    profile.CreateMap<PrefabManager, PrefabManagerModel>()
+                        .ReverseMap()
+                        .AfterMap<MappingAction>()
+                        .ConstructUsingServiceLocator();
+                }
+                else if (source == typeof(Integer2) ||
+                         source == typeof(Integer3) ||
+                         source == typeof(Vector2) ||
+                         source == typeof(Vector3))
+                {
+                    profile.CreateMap(source, dest)
+                        .ConstructUsing((src, ctx) => (IControlModel)Activator.CreateInstance(dest))
+                        .ReverseMap()
+                        .ConstructUsingServiceLocator();
+                }
+                else
+                {
+                    profile.CreateMap(source, dest)
+                        .ReverseMap()
+                        .ConstructUsingServiceLocator();
+                }
             }
 
-            // 2️⃣ Polymorphic map
+            // Polymorphic map
             var controlMap = profile.CreateMap<IControl, IControlModel>();
+
             foreach (var source in sourceTypes)
             {
                 var modelName = source.Name + "Model";
@@ -55,7 +74,7 @@ namespace CMiX.Core.Mapping
             // Base interface for all filters
             var controlModelInterface = typeof(IControlModel);
 
-            // 1Discover all concrete filters
+            // Discover all concrete filters
             var filters = filterInterface.Assembly.GetTypes()
                 .Where(t =>
                     filterInterface.IsAssignableFrom(t) &&
@@ -63,7 +82,7 @@ namespace CMiX.Core.Mapping
                     !t.IsInterface)
                 .ToList();
 
-            // 2Discover all concrete models (IControlModel implementations)
+            // Discover all concrete models (IControlModel implementations)
             var models = controlModelInterface.Assembly.GetTypes()
                 .Where(t =>
                     controlModelInterface.IsAssignableFrom(t) &&
@@ -71,7 +90,7 @@ namespace CMiX.Core.Mapping
                     !t.IsInterface)
                 .ToList();
 
-            // 3Create concrete maps for each filter ↔ model
+            // Create concrete maps for each filter ↔ model
             foreach (var filter in filters)
             {
                 // Register the type for later use (DataTemplate generation)
@@ -82,9 +101,7 @@ namespace CMiX.Core.Mapping
                 if (model == null) continue;
 
                 // Concrete mapping
-                profile.CreateMap(filter, model)
-                    .ReverseMap()
-                    .ConstructUsingServiceLocator();
+                profile.CreateMap(filter, model).ReverseMap().ConstructUsingServiceLocator();
             }
 
             // Polymorphic mapping for IControl ↔ IControlModel
@@ -99,8 +116,7 @@ namespace CMiX.Core.Mapping
                 polymorphicMap.Include(filter, model);
             }
 
-            polymorphicMap.ReverseMap()
-                          .ConstructUsingServiceLocator();
+            polymorphicMap.ReverseMap().ConstructUsingServiceLocator();
         }
     }
 }

@@ -18,7 +18,7 @@ namespace CMiX.Core.BaseControls
             Y = new GenericValueModel<int>(y);
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
 
         public GenericValueModel<int> X { get; set; }
         public GenericValueModel<int> Y { get; set; }

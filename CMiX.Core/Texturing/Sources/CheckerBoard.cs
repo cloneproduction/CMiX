@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class CheckerBoard : ObservableObject, ITextureSource, IPrefab
+    public partial class CheckerBoard : ObservableObject, ITextureSource
     {
         public CheckerBoard(PrefabService prefabService,
                             PrefabManager filterManager,
