@@ -11,28 +11,37 @@
     mc:Ignorable="d">
 
     <StackPanel>
+        
         <Panels:IndentedExpander
             Header="Settings"
             Indentation="0"
             IsExpanded="{Binding IsExpanded}">
+            
             <ContentControl
                 Margin="8"
                 Content="{Binding}"
+                ContentTemplateSelector="{DynamicResource ViewModelToViewSelector}"
                 DataContext="{Binding}">
                 <ContentControl.Resources>
-                    <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Views/Texturing/Source/TextureSourceDataTemplates.xaml" />
+                    <Views:ViewModelToViewSelector x:Key="ViewModelToViewSelector" />
                 </ContentControl.Resources>
             </ContentControl>
+            
         </Panels:IndentedExpander>
+
         <Panels:IndentedExpander
             Header="Filter"
             Indentation="0"
             IsExpanded="{Binding FilterManager.IsExpanded}">
+            
             <Views:ModifierManager DataContext="{Binding FilterManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
+            
         </Panels:IndentedExpander>
+        
     </StackPanel>
+    
 </UserControl>

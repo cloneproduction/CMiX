@@ -7,6 +7,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Text;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
@@ -15,6 +16,7 @@ namespace CMiX.Core.Compositing
     {
         public TextEntity(PrefabService prefabService,
                           PrefabManager prefabManager,
+                          TransformSRT transformSRT,
                           GenericValue<string> text,
                           GenericValue<float> size,
                           GenericValue<string> color,
@@ -27,6 +29,7 @@ namespace CMiX.Core.Compositing
         {
             PrefabService = prefabService;
             ModifierManager = prefabManager;
+            TransformSRT = transformSRT;
             Text = text;
             Size = size;
             Color = color;
@@ -41,7 +44,7 @@ namespace CMiX.Core.Compositing
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
-
+        public TransformSRT TransformSRT { get; set; }
         public GenericValue<string> Text { get; set; }
         public GenericValue<float> Size { get; set; }
         public GenericValue<string> Color { get; set; }
@@ -52,6 +55,8 @@ namespace CMiX.Core.Compositing
         public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValue<Anchor> Anchor { get; set; }
 
+        [ObservableProperty]
+        private bool transformSRTIsExpanded = true;
 
         [ObservableProperty]
         private bool modifierManagerIsExpanded = true;

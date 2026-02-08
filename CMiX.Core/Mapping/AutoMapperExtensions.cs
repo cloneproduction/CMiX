@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Reflection;
 using AutoMapper;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
@@ -9,6 +10,34 @@ namespace CMiX.Core.Mapping
 {
     public static class AutoMapperExtensions
     {
+        public static void MapAllControlsByConvention(this Profile profile, Assembly assembly = null)
+        {
+            // Use the calling assembly if none provided
+            assembly ??= Assembly.GetCallingAssembly();
+
+            // Find all non-abstract types that implement IControl
+            var controlTypes = assembly.GetTypes()
+                .Where(t => typeof(IControl).IsAssignableFrom(t)
+                            && !t.IsAbstract
+                            && !t.IsInterface)
+                .ToArray();
+
+            // Map all discovered types
+            profile.MapControlByConvention(controlTypes);
+        }
+
+
+        public static void MapGenericValueByConvention(this Profile profile)
+        {
+            profile.CreateMap(typeof(GenericValue<>), typeof(GenericValueModel<>))
+                .ReverseMap()
+                .ConstructUsingServiceLocator();
+
+            profile.CreateMap<IControl, IControlModel>()
+                .Include(typeof(GenericValue<>), typeof(GenericValueModel<>))
+                .ReverseMap()
+                .ConstructUsingServiceLocator();
+        }
         public static void MapControlByConvention(this Profile profile, params Type[] sourceTypes)
         {
             if (sourceTypes == null || sourceTypes.Length == 0) return;

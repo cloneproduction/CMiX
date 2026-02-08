@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -14,7 +13,7 @@ namespace CMiX.Studio.Views
 
         public ViewModelToViewSelector()
         {
-            _viewsAssembly = typeof(Kuwahara).Assembly; // pick any View type in your Views assembly
+            _viewsAssembly = typeof(ViewsAssemblyMarker).Assembly; // pick any View type in your Views assembly
         }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
@@ -36,7 +35,6 @@ namespace CMiX.Studio.Views
                 VisualTree = new FrameworkElementFactory(viewType)
             };
 
-            System.Diagnostics.Debug.WriteLine($"Template selected for {item.GetType().Name}");
             return template;
         }
     }

@@ -6,6 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Text;
 using CMiX.Core.Texturing.Sources;
+using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Compositing
 {
@@ -16,6 +17,7 @@ namespace CMiX.Core.Compositing
             ID = Guid.NewGuid();
             PrefabService = new PrefabServiceModel();
             ModifierManager = new PrefabManagerModel();
+            TransformSRT = new TransformSRTModel();
             ColorPaletteManager = new PrefabManagerModel();
             Text = new GenericValueModel<string>("CMiX");
             Size = new GenericValueModel<float>(0.8f);
@@ -32,6 +34,7 @@ namespace CMiX.Core.Compositing
         public PrefabServiceModel PrefabService { get; set; }
         public PrefabManagerModel ModifierManager { get; set; }
         public PrefabManagerModel ColorPaletteManager { get; set; }
+        public TransformSRTModel TransformSRT { get; set; }
         public GenericValueModel<string> Text { get; set; }
         public GenericValueModel<float> Size { get; set; }
         public GenericValueModel<string> Color { get; set; }

@@ -55,12 +55,10 @@
             dd:DragDrop.IsDropTarget="True"
             AllowDrop="True"
             ItemsSource="{Binding ManagerData.Items}">
+            
             <ItemsControl.Resources>
                 <Views:ViewModelToViewSelector x:Key="ViewModelToViewSelector" />
             </ItemsControl.Resources>
-            <!--<ItemsControl.Resources>
-                <ResourceDictionary Source="ModifierDataTemplates.xaml" />
-            </ItemsControl.Resources>-->
 
             <ItemsControl.ItemTemplate>
                 <DataTemplate>

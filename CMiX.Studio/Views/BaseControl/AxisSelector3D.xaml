@@ -35,12 +35,14 @@
                 Content="X"
                 IsChecked="{Binding XIsChecked, ElementName=axisSelector3D}"
                 Style="{StaticResource InlineToggleButtonLeft}" />
+            
             <ToggleButton
                 Grid.Column="1"
                 Margin="1,0"
                 Content="Y"
                 IsChecked="{Binding YIsChecked, ElementName=axisSelector3D}"
                 Style="{StaticResource InlineToggleButtonCenter}" />
+            
             <ToggleButton
                 Grid.Column="2"
                 Content="Z"
