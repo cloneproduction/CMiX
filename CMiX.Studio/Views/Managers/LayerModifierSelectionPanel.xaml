@@ -18,8 +18,12 @@
         <Button
             Command="{Binding AddItemCommand}"
             CommandParameter="{x:Type Layering:RenderRandomEntity}"
-            Content="Select Random Entity" />
-
+            Content="Render Random Entity" />
+        
+        <Button
+            Command="{Binding AddItemCommand}"
+            CommandParameter="{x:Type Layering:RenderSequenceEntity}"
+            Content="Render Sequence Entity" />
     </StackPanel>
 
 </UserControl>
