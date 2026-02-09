@@ -5,7 +5,6 @@ using System.Reflection;
 using Ceras;
 using CMiX.Core.Animations;
 using CMiX.Core.Assets;
-using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Mapping;
 using CMiX.Core.Networking;
@@ -28,11 +27,12 @@ namespace CMiX.Core
         public void ConfigureServices(IServiceCollection services)
         {
             services.Scan(selector => selector
-                    .FromCallingAssembly()
+                    .FromApplicationDependencies()
                     .AddClasses(classes => classes.AssignableTo<IControl>())
                     .AsSelfWithInterfaces()
                     .WithTransientLifetime()
             );
+
 
             services.AddSingleton<Project>();
 
@@ -44,7 +44,6 @@ namespace CMiX.Core
 
                 return new CerasSerializer(config);
             });
-
 
             services.AddSingleton<MainViewModel>();
 

@@ -3,6 +3,8 @@ using System.Windows;
 using CMiX.Core;
 using CMiX.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CMiX
 {
@@ -13,6 +15,8 @@ namespace CMiX
             InjectionBuilder configurationBuilder = new InjectionBuilder();
 
             var serviceCollection = new ServiceCollection();
+            serviceCollection.AddLogging(); // this is necessary since update to automapper 16.0.0
+
             configurationBuilder.ConfigureServices(serviceCollection);
 
             this.ConfigureUIService(serviceCollection);

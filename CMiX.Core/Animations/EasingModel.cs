@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using VL.Lib.Mathematics;
 
 namespace CMiX.Core.Animations
 {
@@ -9,7 +10,7 @@ namespace CMiX.Core.Animations
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<bool> IsEnabled { get; set; } = new(false);
-        public GenericValueModel<EasingFunction> Function { get; set; } = new(EasingFunction.Linear);
-        public GenericValueModel<EasingMode> Mode { get; set; } = new(EasingMode.In);
+        public GenericValueModel<TweenerTransition> Transition { get; set; } = new(TweenerTransition.Linear);
+        public GenericValueModel<TweenerMode> Mode { get; set; } = new(TweenerMode.In);
     }
 }

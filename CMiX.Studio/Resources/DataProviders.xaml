@@ -20,7 +20,8 @@
     xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing;assembly=CMiX.Core"
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
-    xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core">
+    xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
+    xmlns:VL="clr-namespace:VL.Lib.Mathematics;assembly=VL.CoreLib">
 
     <ObjectDataProvider
         x:Key="KuwaharaType"
@@ -132,20 +133,20 @@
     </ObjectDataProvider>
 
     <ObjectDataProvider
-        x:Key="EasingFunction"
+        x:Key="TweenerTransition"
         MethodName="GetValues"
-        ObjectType="{x:Type Animations:EasingFunction}">
+        ObjectType="{x:Type VL:TweenerTransition}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="Animations:EasingFunction" />
+            <x:Type TypeName="VL:TweenerTransition" />
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
     <ObjectDataProvider
-        x:Key="EasingMode"
+        x:Key="TweenerMode"
         MethodName="GetValues"
-        ObjectType="{x:Type Animations:EasingMode}">
+        ObjectType="{x:Type VL:TweenerMode}">
         <ObjectDataProvider.MethodParameters>
-            <x:Type TypeName="Animations:EasingMode" />
+            <x:Type TypeName="VL:TweenerMode" />
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 

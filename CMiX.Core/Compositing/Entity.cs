@@ -29,6 +29,7 @@ namespace CMiX.Core.Compositing
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
             Color = color;
+
         }
 
         public Guid ID { get; set; }

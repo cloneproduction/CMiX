@@ -35,13 +35,13 @@
                 Caption="Function"
                 Position="Top"
                 SelectedItem="{Binding Function.Value}"
-                ItemsSource="{Binding Source={StaticResource EasingFunction}}"/>
+                ItemsSource="{Binding Source={StaticResource TweenerTransition}}"/>
 
             <BaseControls:ComboBox 
                 Caption="Mode"
                 Position="Bottom"
                 SelectedItem="{Binding Mode.Value}"
-                ItemsSource="{Binding Source={StaticResource EasingMode}}"/>
+                ItemsSource="{Binding Source={StaticResource TweenerMode}}"/>
 
         </StackPanel>
 

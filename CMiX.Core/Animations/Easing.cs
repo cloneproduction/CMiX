@@ -3,24 +3,24 @@
 
 using CMiX.Core.BaseControls;
 using CommunityToolkit.Mvvm.ComponentModel;
-
+using VL.Lib.Mathematics;
 namespace CMiX.Core.Animations
 {
     public partial class Easing : ObservableRecipient, IControl
     {
         public Easing(GenericValue<bool> isEnabled, 
-                      GenericValue<EasingFunction> easingFunction, 
-                      GenericValue<EasingMode> easingMode)
+                      GenericValue<TweenerTransition> tweenerTransition, 
+                      GenericValue<TweenerMode> tweenerMode)
         {
             IsEnabled = isEnabled;
-            Function = easingFunction;
-            Mode = easingMode;
+            Transition = tweenerTransition;
+            Mode = tweenerMode;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> IsEnabled { get; set; }
-        public GenericValue<EasingFunction> Function { get; set; }
-        public GenericValue<EasingMode> Mode { get; set; }
+        public GenericValue<TweenerTransition> Transition { get; set; }
+        public GenericValue<TweenerMode> Mode { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = false;
