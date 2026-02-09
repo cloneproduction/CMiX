@@ -43,15 +43,6 @@ namespace CMiX.Core.Animations
         private int maxIndex = 4;
         private int minIndex = -4;
 
-
-        private float _currentPeriod;
-        public float CurrentPeriods
-        {
-            get => _currentPeriod;
-            set => SetProperty(ref _currentPeriod, value);
-        }
-
-
         public void Reset()
         {
             BeatIndex.Value = 0;

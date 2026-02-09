@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Animations
 {
-    public record BeatModifierModel : IControlModel, IPrefabModel
+    public record BeatModifierModel : IPrefabModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public EasingModel Easing { get; set; } = new();

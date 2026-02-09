@@ -54,9 +54,6 @@ namespace CMiX.Core.Animations
         public ICommand DivideCommand { get; }
         public ICommand TapCommand { get; }
         public GenericValue<bool> Pause { get; set; }
-        public GenericValue<bool> IsSelected { get; set; }
-        public GenericValue<bool> IsRenaming { get; set; }
-        public GenericValue<string> Name { get; set; }
         public BeatAnimations BeatAnimations { get; set; }
         public Button Resync { get; set; }
         public GenericValue<int> Index { get; set; }

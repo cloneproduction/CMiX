@@ -16,20 +16,9 @@ namespace CMiX.Core.Animations
             Storyboard = new Storyboard();
         }
 
-        private ObservableCollection<AnimatedDouble> _animatedDoubles;
-        public ObservableCollection<AnimatedDouble> AnimatedDoubles
-        {
-            get => _animatedDoubles;
-            set => _animatedDoubles = value;
-        }
 
-
-        private Storyboard _storyboard;
-        public Storyboard Storyboard
-        {
-            get => _storyboard;
-            set => SetProperty(ref _storyboard, value);
-        }
+        public ObservableCollection<AnimatedDouble> AnimatedDoubles { get; set; }
+        public Storyboard Storyboard { get; set; }
 
         public void MakeStoryBoard(float[] periods)
         {
