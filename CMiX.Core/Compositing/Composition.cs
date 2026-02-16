@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Composition : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable
+    public partial class Composition : ObservableObject, IPrefab, ITextureModifiable, IModifiable
     {
         public Composition(PrefabService prefabService, 
                            MasterBeat masterBeat,
@@ -26,7 +26,6 @@ namespace CMiX.Core.Compositing
             OutputSettings = outputSettings;
             LayerManager = prefabManager;
             ModifierManager = modifierManager;
-
             TextureModifierManager = textureModifierManager;
         }
 
@@ -37,6 +36,7 @@ namespace CMiX.Core.Compositing
         public OutputSettings OutputSettings { get; set; }
         public MasterBeat MasterBeat { get; set; }
         public PrefabManager ModifierManager { get; set; }
+
 
         [ObservableProperty]
         private bool textureModifierIsExpanded = true;

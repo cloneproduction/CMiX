@@ -5,7 +5,6 @@ using System.Net;
 using System.Net.Sockets;
 using System.Windows;
 using System.Windows.Input;
-using CMiX.Core.Networking.Messenger;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -35,6 +34,7 @@ namespace CMiX.Core.Networking.Servers
             ResyncProjectCommand = new RelayCommand<IControl>(ResyncProject);
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public ICommand AddServerCommand { get; set; }
         public ICommand AddItemCommand { get; set; }

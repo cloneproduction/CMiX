@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering
 {
-    public partial class LocalReflection : ObservableObject, IControl, IPrefab
+    public partial class LocalReflection : ObservableObject, IPrefab
     {
         public LocalReflection(PrefabService prefabService,
                                GenericValue<bool> isEnabled)
@@ -15,6 +15,7 @@ namespace CMiX.Core.Rendering
             PrefabService = prefabService;
             IsEnabled = isEnabled;
         }
+
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<bool> IsEnabled { get; set; }

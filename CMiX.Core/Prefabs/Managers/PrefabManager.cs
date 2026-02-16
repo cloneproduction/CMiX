@@ -13,15 +13,20 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public partial class PrefabManager : ObservableRecipient, IControl, IRecipient<IMessage>
     {
+        public PrefabManager()
+        {
+            
+        }
         public PrefabManager(ManagerData managerData,
                              ControlRepository controlRepository,
                              ControlFactory controlFactory,
                              ControlMessenger controlMessenger,
-                             MessageFactory messageFactory)
+                             MessageFactory messageFactory,
+                             MessageCollectionManagerHandler messageCollectionManagerHandler)
         {
             ID = managerData.ID;
 
-            MessageCollectionManagerHandler = new MessageCollectionManagerHandler();
+            MessageCollectionManagerHandler = messageCollectionManagerHandler;
 
             ControlMessenger = controlMessenger;
             ControlRepository = controlRepository;
@@ -172,7 +177,6 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 items.Add(prefab);
                 message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab);
-                
             }
 
             ControlMessenger.SendMessage(message);

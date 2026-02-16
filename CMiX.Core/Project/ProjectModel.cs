@@ -4,6 +4,7 @@
 using System.Collections.ObjectModel;
 using CMiX.Core.Assets;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Compositing
 {
@@ -13,5 +14,8 @@ namespace CMiX.Core.Compositing
         public ObservableCollection<IAssetModel> AssetModels { get; set; } = new();
         public ObservableCollection<IAssetModel> AssetModelsFlatten { get; set; } = new();
         public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel PrefabManager { get; set; } = new();
+        public PrefabManagerModel ModifierManager { get; set; } = new();
+        public PrefabManagerModel CompositionManager {  get; set; } = new();
     }
 }

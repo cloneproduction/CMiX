@@ -18,6 +18,7 @@ namespace CMiX.Core.BaseControls
             AssetRepository = assetRepository;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<IAsset> Asset { get; set; }
         public AssetRepository AssetRepository { get; set; }

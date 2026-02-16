@@ -10,7 +10,7 @@ using CMiX.Core.ViewModels.Windows;
 
 namespace CMiX.Core.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : IControl
     {
         public MainViewModel(Project project, 
                              PrefabManager textureManager,
@@ -63,5 +63,11 @@ namespace CMiX.Core.ViewModels
         public AssetManager AssetManager { get; set; }
         public MainMenu MainMenu { get; set; }
         public MainWindowController MainWindowController { get; set; }
+        public Guid ID { get; set; }
+
+        public IControlModel ToModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

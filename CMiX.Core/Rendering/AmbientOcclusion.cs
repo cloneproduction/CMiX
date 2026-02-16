@@ -29,7 +29,6 @@ namespace CMiX.Core.ViewModels
             EdgeSharpness = edgeSharpness;
         }
 
-
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> IsEnabled { get; set; }
         public GenericValue<int> Samples { get; set; }

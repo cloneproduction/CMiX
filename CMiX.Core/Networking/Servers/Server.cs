@@ -7,23 +7,27 @@ using System.Net.Sockets;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using Ceras;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using VL.Serialization.MessagePack;
 using WatsonTcp;
 
-namespace CMiX.Core.Networking.Messenger
+namespace CMiX.Core.Networking.Servers
 {
-    public partial class Server : ObservableRecipient, IControl, IPrefab
+    public partial class Server : ObservableRecipient, IPrefab
     {
-        public Server(PrefabService prefabService, CerasSerializer cerasSerializer)
+
+        public Server(PrefabService prefabService,
+                      GenericValue<string> ip,
+                      GenericValue<int> port)
         {
             ID = Guid.NewGuid();
+            IP = ip;
+            Port = port;
 
-            Serializer = cerasSerializer;
             PrefabService = prefabService;
 
             ClientIsConnected = false;
@@ -57,7 +61,6 @@ namespace CMiX.Core.Networking.Messenger
         public PrefabService PrefabService { get; set; }
         public WatsonTcpServer WatsonTcpServer { get; set; }
         public ServerStatistics Statistics { get; set; }
-        public CerasSerializer Serializer { get; set; }
         public GenericValue<string> IP { get; set; }
         public GenericValue<int> Port { get; set; }
 
@@ -66,8 +69,10 @@ namespace CMiX.Core.Networking.Messenger
 
         public void SendMessage(IMessage message)
         {
+            if (message == null)
+                return;
             Console.WriteLine("MessageService SendMessage of type " + message.GetType().Name);
-            var data = Serializer.Serialize(message);
+            var data = MessagePackSerialization.Serialize(message);
             this.Send(data);
         }
 
@@ -75,7 +80,7 @@ namespace CMiX.Core.Networking.Messenger
 
         public IMessage SendMessageRequest(IMessage message)
         {
-            var data = Serializer.Serialize(message);
+            var data = MessagePackSerialization.Serialize(message);
 
             IMessage messageResult = null;
 
@@ -84,7 +89,8 @@ namespace CMiX.Core.Networking.Messenger
                 try
                 {
                     var response = WatsonTcpServer.SendAndWaitAsync(5000, clientID, data);
-                    messageResult = Serializer.Deserialize<IMessage>(response.Result.Data);
+                    byte[] received = response.Result.Data;
+                    messageResult = MessagePackSerialization.Deserialize<IMessage>(new ReadOnlyMemory<byte>(received));
                     Console.WriteLine("Client replied : " + messageResult.GetType().Name);
                 }
                 catch (TimeoutException)
@@ -152,7 +158,6 @@ namespace CMiX.Core.Networking.Messenger
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             var pouet = Encoding.Default.GetString(e.Data);
-            Console.WriteLine(pouet);
             Console.WriteLine("Message from " + e.Client.IpPort + ": " + Encoding.UTF8.GetString(e.Data));
         }
 

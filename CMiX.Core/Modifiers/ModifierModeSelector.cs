@@ -13,6 +13,7 @@ namespace CMiX.Core.Modifiers
             Count = count;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public GenericValue<ModifierMode> Mode { get; set; }
         public GenericValue<int> Count { get; set; }
         public Guid ID { get; set; }

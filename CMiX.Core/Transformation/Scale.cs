@@ -20,6 +20,7 @@ namespace CMiX.Core.Transformation
             isExpanded = true;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Uniform { get; set; }

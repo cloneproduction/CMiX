@@ -21,6 +21,7 @@ namespace CMiX.Core.Materials.Modifiers
             TextureFrom = textureFrom;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager BeatModifierManager { get; set; }

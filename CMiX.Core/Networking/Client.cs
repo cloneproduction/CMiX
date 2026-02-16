@@ -3,19 +3,19 @@
 
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Messaging;
+using VL.Serialization.MessagePack;
 using WatsonTcp;
 
 namespace CMiX.Core.Services
 {
     public class Client : ObservableRecipient
     {
-        public Client(MessageSerializer messageSerializer)
+        public Client()
         {
             ServerIsConnected = false;
-            MessageSerializer = messageSerializer;
         }
 
-        private MessageSerializer MessageSerializer { get; set; }
         public WatsonTcpClient WatsonTcpClient { get; set; }
 
         public bool ServerIsConnected { get; set; }
@@ -53,9 +53,9 @@ namespace CMiX.Core.Services
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            MessageSerializer.ProcessMessage(e.Data);
-            Console.WriteLine("Message Data Received by Clients");
-            WatsonTcpClient.SendAsync("Hello");
+            IMessage message = MessagePackSerialization.Deserialize<IMessage>(new ReadOnlyMemory<byte>(e.Data));
+            Console.WriteLine("Message Received of type : " + message.GetType().Name);
+            WeakReferenceMessenger.Default.Send(message);
         }
 
         private void ServerDisconnected(object sender, DisconnectionEventArgs e)
@@ -108,9 +108,7 @@ namespace CMiX.Core.Services
 
         public SyncResponse SyncRequestReceived(SyncRequest arg)
         {
-            //var projectModel = Serializer.Deserialize<ProjectModel>(arg.Data);
             Console.WriteLine("Data size is " + arg.Data.Length);
-            //Console.WriteLine("Client received the request of type :  " + projectModel.GetType());
             return new SyncResponse(arg, "Client receive the request, send the ProjectModel back to Server");
         }
     }

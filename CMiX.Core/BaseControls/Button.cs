@@ -4,7 +4,6 @@
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -13,6 +12,10 @@ namespace CMiX.Core.BaseControls
 {
     public class Button : ObservableRecipient, IControl, IRecipient<IMessage>
     {
+        public Button()
+        {
+            
+        }
         public Button(ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
@@ -46,5 +49,7 @@ namespace CMiX.Core.BaseControls
 
             Console.WriteLine("ButtonClick Received");
         }
+
+
     }
 }

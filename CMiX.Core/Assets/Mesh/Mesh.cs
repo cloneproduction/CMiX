@@ -38,7 +38,6 @@ namespace CMiX.Core.ViewModels
             Visibility = visibility;
             Geometry = geometry;
             Text3DSettings = text3DSettings;
-
             ExplodeTriangleTextureManager = explodeTriangleTextureManager;
             ExplodeStrength = explodeStrength;
         }
@@ -59,9 +58,6 @@ namespace CMiX.Core.ViewModels
         public Integer2 TessellationXY { get; set; }
         public GenericValue<bool> GenerateBackFace { get; set; }
         public GenericValue<bool> Visibility { get; set; }
-
-
-
         public PrefabManager ExplodeTriangleTextureManager { get; set; }
         public GenericValue<float> ExplodeStrength { get; set; }
     }

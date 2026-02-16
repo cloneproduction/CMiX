@@ -18,6 +18,7 @@ namespace CMiX.Core.Texturing
             Invert = invert;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public GenericValue<bool> Invert { get; set; }
         public GenericValue<bool> IsMask { get; set; }
         public GenericValue<MaskMode> MaskMode { get; set; }

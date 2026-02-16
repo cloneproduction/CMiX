@@ -17,7 +17,7 @@ namespace CMiX.Core.ViewModels.Windows
             MaximizeWindowCommand = new RelayCommand<Window>(MaximizeWindow);
         }
 
-
+        public IControlModel ToModel() => this.ToModel();
         public ICommand CloseWindowCommand { get; }
         public ICommand MinimizeWindowCommand { get; }
         public ICommand MaximizeWindowCommand { get; }

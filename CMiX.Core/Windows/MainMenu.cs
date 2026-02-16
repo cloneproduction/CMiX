@@ -2,8 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
-using AutoMapper;
-using Ceras;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
@@ -13,15 +11,15 @@ using CommunityToolkit.Mvvm.Messaging;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
+using VL.Serialization.MessagePack;
 
 namespace CMiX.Core.ViewModels
 {
-    public partial class MainMenu : ObservableRecipient, IRecipient<IMessage>
+    public partial class MainMenu : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public MainMenu(Project project, IMapper mapper, ControlFactory controlFactory, CerasSerializer cerasSerializer)
+        public MainMenu(Project project, ControlFactory controlFactory)
         {
             Project = project;
-            Serializer = cerasSerializer;
 
             IsActive = true;
 
@@ -33,15 +31,12 @@ namespace CMiX.Core.ViewModels
             SaveAsProjectCommand = new RelayCommand(SaveAsProject);
 
             DialogService = new DialogService();
-            Mapper = mapper;
             ControlFactory = controlFactory;
         }
 
-
-        public IMapper Mapper { get; set; }
+        public Guid ID { get; set; }
         public ControlFactory ControlFactory { get; set; }
         public DialogService DialogService { get; set; }
-        public CerasSerializer Serializer { get; set; }
         public Project Project { get; set; }
 
 
@@ -58,6 +53,7 @@ namespace CMiX.Core.ViewModels
         //private bool path;
 
         public string FolderPath { get; set; }
+
 
         public void AddLayer()
         {
@@ -87,7 +83,7 @@ namespace CMiX.Core.ViewModels
                 if (settings.FileName.Trim() != string.Empty) // Check if you really have a file name 
                 {
                     byte[] data = File.ReadAllBytes(folderPath);
-                    var compositionModel = Serializer.Deserialize<CompositionModel>(data);
+                    var compositionModel = MessagePackSerialization.Deserialize<CompositionModel>(new ReadOnlyMemory<byte>(data));
                     var composition = ControlFactory.Create(compositionModel);
                     Project.CompositionManager.SelectedItem = composition;
                 }
@@ -98,7 +94,8 @@ namespace CMiX.Core.ViewModels
         public void OpenProject(string filePath)
         {
             byte[] data = File.ReadAllBytes(filePath); 
-            var compositionModel = Serializer.Deserialize<CompositionModel>(data);
+            var compositionModel = MessagePackSerialization.Deserialize<CompositionModel>(new ReadOnlyMemory<byte>(data));
+            //Serializer.Deserialize<CompositionModel>(data);
             var composition = ControlFactory.Create(compositionModel);
 
             Project.CompositionManager.SelectedItem = composition;
@@ -108,32 +105,34 @@ namespace CMiX.Core.ViewModels
 
         private void SaveProject()
         {
-            if (!string.IsNullOrEmpty(FolderPath))
-            {
-                var model = Mapper.Map(Project, typeof(Project), typeof(ProjectModel));
-                var data = Serializer.Serialize(model);
-                File.WriteAllBytes(FolderPath, data);
-                return;
-            }
-            SaveAsProject();
+            //if (!string.IsNullOrEmpty(FolderPath))
+            //{
+            //    var model = Project.ToModel();// Mapper.Map(Project, typeof(Project), typeof(ProjectModel));
+            //    var data = MessagePackSerialization.Serialize(model);
+            //    //Serializer.Serialize(model);
+            //    File.WriteAllBytes(FolderPath, data);
+            //    return;
+            //}
+            //SaveAsProject();
         }
 
         private void SaveAsProject()
         {
-            SaveFileDialogSettings settings = new SaveFileDialogSettings();
-            settings.Filter = "Composition (*.cmix)|*.cmix";
-            settings.DefaultExt = "cmix";
-            settings.AddExtension = true;
+            //SaveFileDialogSettings settings = new SaveFileDialogSettings();
+            //settings.Filter = "Composition (*.cmix)|*.cmix";
+            //settings.DefaultExt = "cmix";
+            //settings.AddExtension = true;
 
-            bool? success = DialogService.ShowSaveFileDialog(this, settings);
-            if (success == true)
-            {
-                var model = Mapper.Map(Project.CompositionManager.SelectedItem, typeof(Composition), typeof(CompositionModel));
-                var data = Serializer.Serialize(model);
-                string folderPath = settings.FileName;
-                File.WriteAllBytes(folderPath, data);
-                FolderPath = folderPath;
-            }
+            //bool? success = DialogService.ShowSaveFileDialog(this, settings);
+            //if (success == true)
+            //{
+            //    var model = Project.CompositionManager.SelectedItem.ToModel();
+            //    var data = MessagePackSerialization.Serialize(model);
+            //    //Serializer.Serialize(model);
+            //    string folderPath = settings.FileName;
+            //    File.WriteAllBytes(folderPath, data);
+            //    FolderPath = folderPath;
+            //}
         }
 
         public void Receive(IMessage message)

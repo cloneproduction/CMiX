@@ -18,6 +18,7 @@ namespace CMiX.Core.Transformation
             Rotate = rotate;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
 
         public GenericValue<float> UniformScale { get; set; }

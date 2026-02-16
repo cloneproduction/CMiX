@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -14,12 +13,10 @@ namespace CMiX.Core.Compositing
     public partial class Entity : ObservableObject, IPrefab, IModifiable
     {
         public Entity(PrefabService prefabService, 
-                      Mesh mesh, 
-                      Material material,
+                      Mesh mesh,
                       TransformSRT transformSRT,
                       PrefabManager materialManager,
                       PrefabManager modifierManager,
-                      PrefabManager colorPaletteManager,
                       Color color)
         {
             ID = prefabService.ID;
@@ -29,7 +26,6 @@ namespace CMiX.Core.Compositing
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
             Color = color;
-
         }
 
         public Guid ID { get; set; }

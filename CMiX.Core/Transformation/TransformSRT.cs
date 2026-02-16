@@ -28,6 +28,7 @@ namespace CMiX.Core.Transformation
             isExpanded = true;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<float> Uniform { get; set; }
         public Translate Translate { get; set; }

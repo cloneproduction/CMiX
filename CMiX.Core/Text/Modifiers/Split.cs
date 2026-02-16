@@ -18,6 +18,7 @@ namespace CMiX.Core.Text.Modifiers
             Type = type;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public PrefabService PrefabService { get; set; }
         public Guid ID { get; set; }
 

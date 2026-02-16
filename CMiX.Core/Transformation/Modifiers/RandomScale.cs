@@ -25,6 +25,7 @@ namespace CMiX.Core.Transformation.Modifiers
             UniformXYZ = uniformXYZ;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public Vector3 Scale { get; set; }
         public GenericValue<float> UniformXYZ { get; set; }

@@ -16,6 +16,7 @@ namespace CMiX.Core.Texturing
             SamplerState = samplerState;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get ; set; } = Guid.NewGuid();
         public PrefabManager TextureManager { get; set; }
         public TransformTexture TransformTexture { get; set; }

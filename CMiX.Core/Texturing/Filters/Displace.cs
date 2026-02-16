@@ -24,6 +24,7 @@ namespace CMiX.Core.Texturing.Filters
             Control = control;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabManager TextureSelector { get; set; }
         public Vector2 Offset { get; set; }

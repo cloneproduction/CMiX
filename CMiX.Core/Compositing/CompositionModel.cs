@@ -8,7 +8,7 @@ using CMiX.Core.Rendering;
 
 namespace CMiX.Core.Compositing
 {
-    public record CompositionModel : IControlModel, IPrefabModel
+    public record CompositionModel : IPrefabModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; init; } = new();

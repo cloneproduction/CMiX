@@ -25,7 +25,7 @@ namespace CMiX.Core.ViewModels.Assets
             RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
-
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public ICommand AddAssetCommand { get; set; }
         public ICommand DeleteAssetsCommand { get; set; }

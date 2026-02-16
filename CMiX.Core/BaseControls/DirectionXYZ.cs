@@ -15,6 +15,7 @@ namespace CMiX.Core.BaseControls
             DirectionZ = directionZ;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<bool> DirectionX { get; set; }
         public GenericValue<bool> DirectionY { get; set; }

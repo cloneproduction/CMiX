@@ -25,6 +25,7 @@ namespace CMiX.Core.Texturing
             IsEnabled = isEnabled;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
 
         public PrefabManager TextureManager { get; set; }

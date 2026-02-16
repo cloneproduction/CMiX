@@ -7,9 +7,9 @@ namespace CMiX.Core.Prefabs.Managers
 {
     public record ManagerDataModel : IControlModel
     {
-        public Guid ID { get; init; } = Guid.NewGuid();
-        public Collection<IControlModel> Items { get; init; } = new();
-        public IControlModel SelectedItem { get; init; }
-        public int SelectedIndex { get; init; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public Collection<IControlModel> Items { get; set; } = new();
+        //public IControlModel SelectedItem { get; set; }
+        public int SelectedIndex { get; set; }
     }
 }

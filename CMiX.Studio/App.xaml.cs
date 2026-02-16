@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows;
 using CMiX.Core;
+using CMiX.Core.DependencyInjection;
 using CMiX.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace CMiX
 {
@@ -17,9 +16,9 @@ namespace CMiX
             var serviceCollection = new ServiceCollection();
             serviceCollection.AddLogging(); // this is necessary since update to automapper 16.0.0
 
-            configurationBuilder.ConfigureServices(serviceCollection);
+            configurationBuilder.ConfigureAllServices(serviceCollection);
 
-            this.ConfigureUIService(serviceCollection);
+            serviceCollection.AddSingleton<Studio.Views.MainWindow>();
 
             IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
 
@@ -28,11 +27,6 @@ namespace CMiX
             mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
 
             mainWindow.Show();
-        }
-
-        private void ConfigureUIService(IServiceCollection services)
-        {
-            services.AddSingleton<Studio.Views.MainWindow>();
         }
     }
 }

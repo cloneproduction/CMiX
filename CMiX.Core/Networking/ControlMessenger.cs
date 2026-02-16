@@ -3,7 +3,7 @@
 
 using System.Collections.ObjectModel;
 using CMiX.Core.Networking.Messages;
-using CMiX.Core.Networking.Messenger;
+using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Networking
@@ -23,10 +23,10 @@ namespace CMiX.Core.Networking
                 server.SendMessage(message);
         }
 
-        public void SendMessageRequest(IMessage message)
-        {
-            foreach (Server server in Servers)
-                server.SendMessageRequest(message);
-        }
+        //public void SendMessageRequest(IMessage message)
+        //{
+        //    foreach (Server server in Servers)
+        //        server.SendMessageRequest(message);
+        //}
     }
 }

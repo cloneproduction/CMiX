@@ -20,6 +20,7 @@ namespace CMiX.Core.Texturing.Filters
             Control = control;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<float> Strength { get; set; }
         public GenericValue<bool> Visible { get; set; }

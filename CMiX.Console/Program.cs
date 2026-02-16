@@ -1,5 +1,6 @@
 ﻿using CMiX.Core;
 using CMiX.Core.BaseControls;
+using CMiX.Core.DependencyInjection;
 using CMiX.Core.Networking.Servers;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
@@ -14,7 +15,7 @@ namespace CMiX.Console
             InjectionBuilder configurationBuilder = new InjectionBuilder();
 
             ServiceCollection serviceCollection = new ServiceCollection();
-            configurationBuilder.ConfigureServices(serviceCollection);
+            configurationBuilder.ConfigureAllServices(serviceCollection);
 
             var ServiceProvider = serviceCollection.BuildServiceProvider();
 

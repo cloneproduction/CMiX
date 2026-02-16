@@ -8,13 +8,15 @@ namespace CMiX.Core.Assets.Mesh
 {
     public class Text3DSettings : IControl, IPrefab
     {
-        public Text3DSettings(GenericValue<string> text,
+        public Text3DSettings(PrefabService prefabService,
+                              GenericValue<string> text,
                               GenericValue<int> fontSize,
                               GenericValue<float> extrudeAmount,
                               GenericValue<string> fontFamily, 
                               GenericValue<HorizontalAlignment> horizontalAlignment, 
                               GenericValue<ParagraphAlignment> paragraphAlignment)
         {
+            PrefabService = prefabService;
             Text = text;
             FontSize = fontSize;
             ExtrudeAmount = extrudeAmount;
@@ -23,6 +25,7 @@ namespace CMiX.Core.Assets.Mesh
             ParagraphAlignment = paragraphAlignment;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<string> Text { get; set; }

@@ -10,39 +10,21 @@ using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Compositing
 {
-    public class TextEntityModel : IControlModel, IPrefabModel
+    public record TextEntityModel : IControlModel, IPrefabModel
     {
-        public TextEntityModel()
-        {
-            ID = Guid.NewGuid();
-            PrefabService = new PrefabServiceModel();
-            ModifierManager = new PrefabManagerModel();
-            TransformSRT = new TransformSRTModel();
-            ColorPaletteManager = new PrefabManagerModel();
-            Text = new GenericValueModel<string>("CMiX");
-            Size = new GenericValueModel<float>(0.8f);
-            Color = new GenericValueModel<string>("#ffffffff");
-            Style = new GenericValueModel<FontStyle>(FontStyle.Normal);
-            FontFamily = new GenericValueModel<string>("Arial");
-            LineHeight = new GenericValueModel<float>(1.50f);
-            Width = new GenericValueModel<float>(9.0f);
-            HorizontalAlignment = new GenericValueModel<HorizontalAlignment>(Core.Text.HorizontalAlignment.Left);
-            Anchor = new GenericValueModel<Anchor>(Core.Text.Anchor.Center);
-        }
-
-        public Guid ID { get; set; }
-        public PrefabServiceModel PrefabService { get; set; }
-        public PrefabManagerModel ModifierManager { get; set; }
-        public PrefabManagerModel ColorPaletteManager { get; set; }
-        public TransformSRTModel TransformSRT { get; set; }
-        public GenericValueModel<string> Text { get; set; }
-        public GenericValueModel<float> Size { get; set; }
-        public GenericValueModel<string> Color { get; set; }
-        public GenericValueModel<FontStyle> Style { get; set; }
-        public GenericValueModel<string> FontFamily { get; set; }
-        public GenericValueModel<float> LineHeight { get; set; }
-        public GenericValueModel<float> Width { get; set; }
-        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; }
-        public GenericValueModel<Anchor> Anchor { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel ModifierManager { get; set; } = new();
+        public PrefabManagerModel ColorPaletteManager { get; set; } = new();
+        public TransformSRTModel TransformSRT { get; set; } = new();
+        public GenericValueModel<string> Text { get; set; } = new("CMiX");
+        public GenericValueModel<float> Size { get; set; } = new(0.8f);
+        public GenericValueModel<string> Color { get; set; } = new("#ffffffff");
+        public GenericValueModel<FontStyle> Style { get; set; } = new(FontStyle.Normal);
+        public GenericValueModel<string> FontFamily { get; set; } = new("Arial");
+        public GenericValueModel<float> LineHeight { get; set; } = new(1.50f);
+        public GenericValueModel<float> Width { get; set; } = new(9.0f);
+        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; } = new(Core.Text.HorizontalAlignment.Left);
+        public GenericValueModel<Anchor> Anchor { get; set; } = new(Core.Text.Anchor.Center);
     }
 }

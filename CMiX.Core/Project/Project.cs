@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public class Project : ObservableObject, IControl, IPrefab, IModifiable
+    public class Project : ObservableObject, IPrefab, IModifiable
     {
         public Project(PrefabManager compositionManager, PrefabService prefabService)
         {

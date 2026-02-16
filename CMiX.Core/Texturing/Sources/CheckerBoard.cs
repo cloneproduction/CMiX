@@ -30,6 +30,7 @@ namespace CMiX.Core.Texturing.Sources
             Transform2D = transform2D;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public Integer2 Resolution { get; set; }
         public PrefabService PrefabService { get; set; }

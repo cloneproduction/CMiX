@@ -18,6 +18,7 @@ namespace CMiX.Core.Texturing.Filters
             Factor = factor;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public Vector2 Factor { get; set; }

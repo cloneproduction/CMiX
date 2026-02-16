@@ -9,7 +9,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public partial class MasterBeat : ObservableRecipient, IControl
+    public partial class MasterBeat : ObservableRecipient, IControl, IService
     {
         public MasterBeat(GenericValue<int> index, 
                           GenericValue<float> period, 

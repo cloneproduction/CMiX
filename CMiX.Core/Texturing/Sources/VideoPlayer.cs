@@ -28,6 +28,7 @@ namespace CMiX.Core.Texturing.Sources
             FilterManager = filterManager;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public Button DoSeek { get; set; }

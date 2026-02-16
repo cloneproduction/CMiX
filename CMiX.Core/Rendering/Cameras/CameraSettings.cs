@@ -30,6 +30,7 @@ namespace CMiX.Core.Rendering.Cameras
             OrthographicSize = orthographicSize;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<float> FOV { get; set; }
         public GenericValue<float> Distance { get; set; }

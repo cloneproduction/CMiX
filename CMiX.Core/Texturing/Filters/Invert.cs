@@ -22,6 +22,7 @@ namespace CMiX.Core.Texturing.Filters
             Control = control;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<float> Factor { get; set; }
         public PrefabService PrefabService { get; set; }

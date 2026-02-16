@@ -18,6 +18,7 @@ namespace CMiX.Core.BaseControls
             IsActive = true;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<int> X { get; set; }
         public GenericValue<int> Y { get; set; }

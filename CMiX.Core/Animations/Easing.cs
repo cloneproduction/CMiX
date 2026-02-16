@@ -17,6 +17,7 @@ namespace CMiX.Core.Animations
             Mode = tweenerMode;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> IsEnabled { get; set; }
         public GenericValue<TweenerTransition> Transition { get; set; }

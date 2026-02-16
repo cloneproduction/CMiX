@@ -9,7 +9,7 @@ using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
 {
-    public record LayerModel : IControlModel, IPrefabModel
+    public record LayerModel : IPrefabModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; init; } = new();

@@ -29,6 +29,7 @@ namespace CMiX.Core.Materials
             BaseColor = baseColor;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<string> BaseColor { get; set; }
         public GenericValue<PipelineType> Pipeline { get; set; }

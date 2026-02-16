@@ -4,7 +4,7 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using WatsonTcp;
 
-namespace CMiX.Core.Networking.Messenger
+namespace CMiX.Core.Networking.Servers
 {
     public class ServerStatistics : ObservableObject, IControl
     {
@@ -13,6 +13,7 @@ namespace CMiX.Core.Networking.Messenger
             SentMessages = 0;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
 
         private long _sentMessages;

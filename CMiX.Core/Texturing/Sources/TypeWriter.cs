@@ -34,6 +34,7 @@ namespace CMiX.Core.Texturing.Sources
             Position = position;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<string> StringControl { get; set; }
         public GenericValue<FontStyle> Style { get; set; }

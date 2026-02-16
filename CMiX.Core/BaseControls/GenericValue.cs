@@ -15,7 +15,7 @@ namespace CMiX.Core.BaseControls
     {
         public GenericValue()
         {
-            
+
         }
 
         public GenericValue(ControlMessenger controlMessenger, MessageFactory messageFactory)

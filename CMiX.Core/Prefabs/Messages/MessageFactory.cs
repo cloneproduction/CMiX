@@ -1,67 +1,61 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using AutoMapper;
+using CMiX.Core.Mapping;
 using CMiX.Core.Networking.Messages;
 
 namespace CMiX.Core.Prefabs.Messages
 {
     public class MessageFactory
     {
-        public MessageFactory(IMapper mapper)
+        public MessageFactory(Mapper mapper)
         {
             Mapper = mapper;
         }
 
-        IMapper Mapper;
-
+        public Mapper Mapper { get; set; }
         public IMessage CreateMessage<T>(Guid id, IControl control)
         {
-            var type = typeof(T);
+            if (control == null) throw new ArgumentNullException(nameof(control));
+            var model = Mapper.MapToModel(control);
 
-            if (type == typeof(MessageValueChanged))
-                return new MessageValueChanged(id, Mapper.Map<IControlModel>(control));
-
-            if (type == typeof(MessageAddItem))
-                return new MessageAddItem(id, Mapper.Map<IControlModel>(control));
-
-            if (type == typeof(MessageRemoveItem))
+            if (typeof(T) == typeof(MessageValueChanged))
+                return new MessageValueChanged(id, model);
+            else if (typeof(T) == typeof(MessageAddItem))
+                return new MessageAddItem(id, model);
+            else if (typeof(T) == typeof(MessageRemoveItem))
                 return new MessageRemoveItem(id, control.ID);
-
-            return null;
+            else
+                return null;
         }
 
         public IMessage CreateMessage<T>(Guid id, IControl control, int index)
         {
-            var type = typeof(T);
+            if (control == null) throw new ArgumentNullException(nameof(control));
+            var model = Mapper.MapToModel(control);
 
-            if (type == typeof(MessageSelectedItemChanged))
-                return new MessageSelectedItemChanged(id, Mapper.Map<IControlModel>(control), index);
-
-            if (type == typeof(MessageReplaceItem))
-                return new MessageReplaceItem(id, Mapper.Map<IControlModel>(control), index);
-
-            return null;
+            if (typeof(T) == typeof(MessageSelectedItemChanged))
+                return new MessageSelectedItemChanged(id, model, index);
+            else if (typeof(T) == typeof(MessageReplaceItem))
+                return new MessageReplaceItem(id, model, index);
+            else
+                return null;
         }
 
         public IMessage CreateMessage<T>(Guid id, int sourceIndex, int targetIndex)
         {
-            var type = typeof(T);
-
-            if (type == typeof(MessageMoveItem))
+            if (typeof(T) == typeof(MessageMoveItem))
                 return new MessageMoveItem(id, sourceIndex, targetIndex);
-
-            return null;
+            else
+                return null;
         }
 
         public IMessage CreateMessage<T>(Guid id)
         {
-            var type = typeof(T);
-
-            if (type == typeof(MessageRemoveSelectedItem))
+            if (typeof(T) == typeof(MessageRemoveSelectedItem))
                 return new MessageRemoveSelectedItem(id);
-
-            return null;
+            else
+                return null;
         }
     }
 }

@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Lights
 {
-    public partial class LightEntity : ObservableObject, IControl, IPrefab, IModifiable
+    public partial class LightEntity : ObservableObject, IPrefab, IModifiable
     {
         public LightEntity(PrefabService prefabService,
                            LightSettings settings,

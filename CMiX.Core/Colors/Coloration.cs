@@ -11,7 +11,7 @@ namespace CMiX.Core.Colors
         {
             ColorManager = colorManager;
         }
-
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public PrefabManager ColorManager { get; set; }
     }

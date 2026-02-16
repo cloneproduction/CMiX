@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public partial class Camera : ObservableObject, IControl, IPrefab, IModifiable
+    public partial class Camera : ObservableObject, IPrefab, IModifiable
     {
         public Camera(PrefabService prefabService, 
                       CameraSettings settings,
@@ -20,6 +20,7 @@ namespace CMiX.Core.Rendering.Cameras
             ModifierManager = modifierManager;
         }
 
+        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public CameraSettings Settings { get; set; }
