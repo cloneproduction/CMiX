@@ -28,18 +28,11 @@ namespace CMiX.Core.DependencyInjection
                     .WithTransientLifetime()
             );
 
-            services.Scan(selector => selector
-                    .FromAssemblyOf<IService>()
-                    .AddClasses(classes => classes.AssignableTo<IService>())
-                    .AsSelfWithInterfaces()
-                    .WithSingletonLifetime()
-            );
-
             services.AddMapster();
 
-            //services.AddSingleton<Mapper>();
+            services.AddSingleton<Mapper>();
 
-            //services.AddSingleton<MasterBeat>();
+            services.AddSingleton<MasterBeat>();
             services.AddSingleton<ControlFactory>();
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<MessageFactory>();

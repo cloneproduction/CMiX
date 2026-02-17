@@ -7,7 +7,7 @@ using MapsterMapper;
 
 namespace CMiX.Core.Mapping
 {
-    public class Mapper : IService
+    public class Mapper
     {
         public Mapper(IServiceProvider services, IMapper mapper)
         {
