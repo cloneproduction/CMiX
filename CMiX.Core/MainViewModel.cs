@@ -64,10 +64,5 @@ namespace CMiX.Core.ViewModels
         public MainMenu MainMenu { get; set; }
         public MainWindowController MainWindowController { get; set; }
         public Guid ID { get; set; }
-
-        public IControlModel ToModel()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

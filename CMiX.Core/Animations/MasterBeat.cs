@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Diagnostics;
-using System.Windows.Input;
 using CMiX.Core.BaseControls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -33,26 +32,12 @@ namespace CMiX.Core.Animations
 
             BeatAnimations = new BeatAnimations();
 
-            var Multiplier = 1.0f / 128.0f;
-            for (var i = 0; i < Periods.Length; i++)
-            {
-                Periods[i] = Multiplier * Period.Value;
-                Multiplier *= 2;
-            }
-
+            GeneratePeriods(Period.Value);
             BeatAnimations.MakeStoryBoard(Periods);
             SetAnimatedDouble();
-
-            MultiplyCommand = new RelayCommand(Multiply);
-            DivideCommand = new RelayCommand(Divide);
-            TapCommand = new RelayCommand(Tap);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public ICommand ResetCommand { get; }
-        public ICommand MultiplyCommand { get; }
-        public ICommand DivideCommand { get; }
-        public ICommand TapCommand { get; }
         public GenericValue<bool> Pause { get; set; }
         public BeatAnimations BeatAnimations { get; set; }
         public Button Resync { get; set; }
@@ -69,37 +54,32 @@ namespace CMiX.Core.Animations
         [ObservableProperty]
         private AnimatedDouble animatedDouble;
 
-
-        private float[] _periods;
-        public float[] Periods
-        {
-            get => _periods;
-            set => SetProperty(ref _periods, value);
-        }
+        public float[] Periods { get; set; }
 
         private void SetAnimatedDouble()
         {
-            BeatIndex.Value = Index.Value + (Periods.Length - 1) / 2;
-            Period.Value = Periods[Index.Value + (Periods.Length - 1) / 2];
-            AnimatedDouble = BeatAnimations.AnimatedDoubles[Index.Value + (Periods.Length - 1) / 2];
+            int midIndex = Index.Value + (Periods.Length - 1) / 2;
+            BeatIndex.Value = midIndex;
+            Period.Value = Periods[midIndex];
+            AnimatedDouble = BeatAnimations.AnimatedDoubles[midIndex];
             OnPropertyChanged(nameof(AnimatedDouble));
         }
 
+        [RelayCommand]
         public void Multiply()
         {
-            if (Index.Value <= minIndex)
-                return;
-            Index.Value--;
+            Index.Value = Math.Clamp(Index.Value - 1, minIndex, maxIndex);
             SetAnimatedDouble();
         }
 
+        [RelayCommand]
         public void Divide()
         {
-            if (Index.Value >= maxIndex)
-                return;
-            Index.Value++;
+            Index.Value = Math.Clamp(Index.Value + 1, minIndex, maxIndex);
             SetAnimatedDouble();
         }
+
+        [RelayCommand]
         public void Tap()
         {
             UpdatePeriods(GetMasterPeriod());
@@ -108,47 +88,52 @@ namespace CMiX.Core.Animations
         }
 
         Stopwatch sw = new Stopwatch();
-        float ms = 0;
 
         private float GetMasterPeriod()
         {
             if (!sw.IsRunning)
                 sw.Start();
 
-            ms = sw.ElapsedMilliseconds;
+            float currentMs = sw.ElapsedMilliseconds;
 
-            if (tapTime.Count > 1 && ms - tapTime[tapTime.Count - 1] > 5000)
+            if (tapTime.Count > 0 && currentMs - tapTime.Last() > 5000)
             {
                 tapTime.Clear();
-                sw.Reset();
-                sw.Start();
-                return tapPeriods.Sum() / tapPeriods.Count;
+                tapPeriods.Clear();
+                sw.Restart(); // reset and start
+                return 0f;    // no period yet
             }
 
-            tapTime.Add(ms);
+            tapTime.Add(currentMs);
 
             if (tapTime.Count > 1)
             {
                 tapPeriods.Clear();
-                for (var i = 1; i < tapTime.Count; i++)
-                    tapPeriods.Add(tapTime[i] - tapTime[i - 1]);
+                tapPeriods.AddRange(tapTime.Zip(tapTime.Skip(1), (prev, next) => next - prev));
             }
 
-            return tapPeriods.Sum() / tapPeriods.Count;
+            return tapPeriods.Count > 0 ? tapPeriods.Average() : 0f;
         }
 
-        private void UpdatePeriods(float period)
+        private void UpdatePeriods(float basePeriod)
         {
-            Period.Value = period;
-            if (period > 0)
+            Period.Value = basePeriod;
+
+            if (basePeriod <= 0)
+                return;
+
+            GeneratePeriods(basePeriod);
+            BeatAnimations.MakeStoryBoard(Periods);
+        }
+
+        private void GeneratePeriods(float basePeriod)
+        {
+            float multiplier = 1f / 128f;
+
+            for (int i = 0; i < Periods.Length; i++)
             {
-                var Multiplier = 1.0f / 128.0f;
-                for (var i = 0; i < Periods.Length; i++)
-                {
-                    Periods[i] = Multiplier * Period.Value;
-                    Multiplier *= 2;
-                }
-                BeatAnimations.MakeStoryBoard(Periods);
+                Periods[i] = multiplier * basePeriod;
+                multiplier *= 2;
             }
         }
     }

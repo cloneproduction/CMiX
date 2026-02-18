@@ -11,59 +11,19 @@ using GongSolutions.Wpf.DragDrop;
 
 namespace CMiX.Core.ViewModels.Assets
 {
-    public class AssetManager : ObservableRecipient, IControl, IDropTarget, IDragSource
+    public partial class AssetManager : ObservableRecipient, IControl, IDropTarget, IDragSource
     {
         public AssetManager(AssetRepository assetRepository)
         {
             AssetRepository = assetRepository;
-
-            SelectedItems = new ObservableCollection<IAsset>();
-            //SelectedItems.CollectionChanged += CollectionChanged;
-
-            AddAssetCommand = new RelayCommand(AddAsset);
-            DeleteAssetsCommand = new RelayCommand(DeleteAssets);
-            RelinkAssetsCommand = new RelayCommand(RelinkAssets);
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
-        public ICommand AddAssetCommand { get; set; }
-        public ICommand DeleteAssetsCommand { get; set; }
-        public ICommand DeleteSelectedItemCommand { get; set; }
-        public ICommand RelinkAssetsCommand { get; set; }
-
         public AssetRepository AssetRepository { get; set; }
-
-
-        private ObservableCollection<IAsset> _selectedItems;
-        public ObservableCollection<IAsset> SelectedItems
-        {
-            get => _selectedItems;
-            set => SetProperty(ref _selectedItems, value);
-        }
-
-
-        private bool _canAddAsset = false;
-        public bool CanAddAsset
-        {
-            get => _canAddAsset;
-            set => SetProperty(ref _canAddAsset, value);
-        }
-
-        private bool _canDeleteAsset = false;
-        public bool CanDeleteAsset
-        {
-            get => _canDeleteAsset;
-            set => SetProperty(ref _canDeleteAsset, value);
-        }
-
-        private bool _canRelinkAsset = false;
-        public bool CanRelinkAsset
-        {
-            get => _canRelinkAsset;
-            set => SetProperty(ref _canRelinkAsset, value);
-        }
-
+        public ObservableCollection<IAsset> SelectedItems { get; set; } = new();
+        public bool CanAddAsset { get; set; }
+        public bool CanDeleteAsset { get; set; }
+        public bool CanRelinkAsset { get; set; }
 
 
         public void RenameAsset()
@@ -75,6 +35,7 @@ namespace CMiX.Core.ViewModels.Assets
             }
         }
 
+        [RelayCommand]
         public void RelinkAssets()
         {
             //if (SelectedItems.Take(2).Count() == 1)
@@ -100,6 +61,7 @@ namespace CMiX.Core.ViewModels.Assets
             //}
         }
 
+        [RelayCommand]
         public void AddAsset()
         {
             if (SelectedItems.Take(2).Count() == 1 && SelectedItems.FirstOrDefault() is AssetDirectory assetDirectory)
@@ -109,7 +71,7 @@ namespace CMiX.Core.ViewModels.Assets
             }
         }
 
-
+        [RelayCommand]
         private void DeleteAssets()
         {
             //DeleteSelectedAssets(this.Assets);

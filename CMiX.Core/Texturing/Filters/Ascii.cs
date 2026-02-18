@@ -22,7 +22,6 @@ namespace CMiX.Core.Texturing.Filters
             CharacterSize = characterSize;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Control { get; set; }

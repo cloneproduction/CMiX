@@ -132,17 +132,5 @@ namespace CMiX.Core.ViewModels.Assets
             }
             this.Assets.Clear();
         }
-
-        //public IModel GetModel()
-        //{
-        //    IAssetModel directoryAssetModel = new AssetDirectoryModel() as IAssetModel;
-
-        //    directoryAssetModel.Name = this.Name;
-        //    foreach (var asset in this.Assets)
-        //    {
-        //        directoryAssetModel.AssetModels.Add(asset.GetModel() as IAssetModel);
-        //    }
-        //    return directoryAssetModel as IModel;
-        //}
     }
 }

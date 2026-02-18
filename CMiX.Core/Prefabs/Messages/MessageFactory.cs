@@ -14,11 +14,11 @@ namespace CMiX.Core.Prefabs.Messages
         }
 
         public Mapper Mapper { get; set; }
+
         public IMessage CreateMessage<T>(Guid id, IControl control)
         {
             if (control == null) throw new ArgumentNullException(nameof(control));
             var model = Mapper.MapToModel(control);
-
             if (typeof(T) == typeof(MessageValueChanged))
                 return new MessageValueChanged(id, model);
             else if (typeof(T) == typeof(MessageAddItem))
@@ -31,8 +31,10 @@ namespace CMiX.Core.Prefabs.Messages
 
         public IMessage CreateMessage<T>(Guid id, IControl control, int index)
         {
-            if (control == null) throw new ArgumentNullException(nameof(control));
-            var model = Mapper.MapToModel(control);
+            IControlModel model = null;
+
+            if (control != null)
+                model = Mapper.MapToModel(control);
 
             if (typeof(T) == typeof(MessageSelectedItemChanged))
                 return new MessageSelectedItemChanged(id, model, index);

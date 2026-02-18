@@ -10,26 +10,11 @@ namespace CMiX.Core.Prefabs.Managers
     {
         public ManagerData()
         {
-            ID = Guid.NewGuid();
-            Items = new ObservableCollection<IControl>();
             IsActive = true;
         }
 
-        //public IControlModel ToModel() => this.MapToModel();
-        public Guid ID { get; set; }
-
-        private ObservableCollection<IControl> _items;
-        public ObservableCollection<IControl> Items
-        {
-            get => _items;
-            set => SetProperty(ref _items, value);
-        }
-
-        private int _selectedIndex;
-        public int SelectedIndex
-        {
-            get => _selectedIndex;
-            set => SetProperty(ref _selectedIndex, value);
-        }
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public ObservableCollection<IControl> Items { get; set; } = new();
+        public int SelectedIndex { get; set; }
     }
 }

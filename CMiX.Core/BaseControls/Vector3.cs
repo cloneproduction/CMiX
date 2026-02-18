@@ -14,7 +14,6 @@ namespace CMiX.Core.BaseControls
             Z = z;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<float> X { get; set; }
         public GenericValue<float> Y { get; set; }

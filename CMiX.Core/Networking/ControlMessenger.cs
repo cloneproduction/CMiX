@@ -19,14 +19,7 @@ namespace CMiX.Core.Networking
 
         public void SendMessage(IMessage message)
         {
-            foreach (Server server in Servers)
-                server.SendMessage(message);
+            Servers.ToList().ForEach(server => server.SendMessage(message));
         }
-
-        //public void SendMessageRequest(IMessage message)
-        //{
-        //    foreach (Server server in Servers)
-        //        server.SendMessageRequest(message);
-        //}
     }
 }

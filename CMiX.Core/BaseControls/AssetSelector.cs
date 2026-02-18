@@ -18,63 +18,51 @@ namespace CMiX.Core.BaseControls
             AssetRepository = assetRepository;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<IAsset> Asset { get; set; }
         public AssetRepository AssetRepository { get; set; }
 
+        private static readonly Dictionary<string, Func<string, IAsset>> AssetFactories =
+            new()
+            {
+                { "PNG", path => new Image(path) },
+                { "JPG", path => new Image(path) },
+                { "JPEG", path => new Image(path) },
+                { "OBJ", path => new Geometry(path) },
+                { "FBX", path => new Geometry(path) },
+                { "MOV", path => new Video(path) }
+            };
+
+        private IAsset CreateAssetFromPath(string path)
+        {
+            if (!File.Exists(path))
+                return null;
+
+            string ext = Path.GetExtension(path).ToUpperInvariant().TrimStart('.');
+            return AssetFactories.TryGetValue(ext, out var factory) ? factory(path) : null;
+        }
+
         public void DragOver(IDropInfo dropInfo)
         {
-            var dataObject = dropInfo.Data as DataObject;
-            var dragInfo = dropInfo.DragInfo;
-
-            if (dataObject != null && dataObject.ContainsFileDropList())
+            if (dropInfo.Data is DataObject dataObject && dataObject.ContainsFileDropList())
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
         }
 
         public void Drop(IDropInfo dropInfo)
         {
-            var dataObject = dropInfo.Data as DataObject;
+            if (dropInfo.Data is not DataObject dataObject || !dataObject.ContainsFileDropList())
+                return;
 
-            if (dataObject != null && dataObject.ContainsFileDropList())
-            {
-                List<IAsset> assets = new List<IAsset>();
-                foreach (string str in dataObject.GetFileDropList())
-                {
-                    if (File.Exists(str))
-                    {
-                        var asset = CreateAssetFromPath(str);
-                        AssetRepository.Add(asset);
-                        assets.Add(asset);
-                    }
+            var assets = dataObject.GetFileDropList()
+                                   .Cast<string>()// Convert StringCollection to IEnumerable<string>
+                                   .Where(File.Exists)
+                                   .Select(CreateAssetFromPath)
+                                   .ToList(); 
 
-                    //if (Directory.Exists(str))
-                    //    CreateAssetFromDirectory(new DirectoryInfo(str));
-                }
+            foreach (var asset in assets)
+                AssetRepository.Add(asset);
 
-                Asset.Value = assets.FirstOrDefault();
-            }
-        }
-
-        private IAsset CreateAssetFromPath(string path)
-        {
-            IAsset asset = null;
-
-            if (File.Exists(path))
-            {
-                string fileType = Path.GetExtension(path).ToUpper().TrimStart('.');
-
-                if (fileType == "PNG" || fileType == "JPG" || fileType == "JPEG")
-                    asset = new Image(path);
-
-                if (fileType == "OBJ" || fileType == "FBX")
-                    asset = new Geometry(path);
-
-                if (fileType == "MOV")
-                    asset = new Video(path);
-            }
-
-            return asset;
+            Asset.Value = assets.FirstOrDefault();
         }
     }
 }

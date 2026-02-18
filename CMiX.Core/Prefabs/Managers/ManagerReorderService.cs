@@ -11,7 +11,6 @@ using GongSolutions.Wpf.DragDrop;
 namespace CMiX.Core.Prefabs.Managers
 {
     public partial class ManagerReorderService : ObservableObject,
- 
                                                  IDropTarget,
                                                  IDragSource
     {
@@ -22,48 +21,36 @@ namespace CMiX.Core.Prefabs.Managers
 
             ID = prefabManager.ManagerData.ID;
 
-            ItemUpCommand = new RelayCommand<IControl>(ItemUp);
-            ItemDownCommand = new RelayCommand<IControl>(ItemDown);
+            //ItemUpCommand = new RelayCommand<IControl>(ItemUp);
+            //ItemDownCommand = new RelayCommand<IControl>(ItemDown);
         }
 
         public Guid ID { get; set; }
         public PrefabManager PrefabManager { get; set; }
-        public ICommand ItemUpCommand { get; set; }
-        public ICommand ItemDownCommand { get; set; }
+        //public ICommand ItemUpCommand { get; set; }
+        //public ICommand ItemDownCommand { get; set; }
 
         [ObservableProperty]
         private bool dragHandlerIsPressed = false;
 
 
+        [RelayCommand]
         public void ItemUp(IControl control)
         {
-            var items = PrefabManager.ManagerData.Items;
+            var index = PrefabManager.ManagerData.Items.IndexOf(control);
 
-            if (items.Count == 0)
-                return;
-
-            var index = items.IndexOf(control);
-
-            if(index == 0) 
-                return;
-
-            Move(index, index - 1);
+            if (index > 0)
+                Move(index, index - 1);
         }
 
-
+        [RelayCommand]
         public void ItemDown(IControl control)
         {
             var items = PrefabManager.ManagerData.Items;
-
-            if (items.Count <= 1)
-                return;
-
             var index = items.IndexOf(control);
 
-            if (index == items.Count - 1)
-                return;
-
-            Move(index, index + 1);
+            if (index >= 0 && index < items.Count - 1)
+                Move(index, index + 1);
         }
 
 

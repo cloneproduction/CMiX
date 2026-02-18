@@ -16,41 +16,41 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlRepository : ObservableObject
     {
+        private int nameCount = 1;
+        private readonly Dictionary<Type, Action<IControl>> typeToAddAction;
+
         public ControlRepository()
         {
-            Controls = new ObservableCollection<IControl>();
-            Compositions = new ObservableCollection<Composition>();
-            Materials = new ObservableCollection<Material>();
-            Textures = new ObservableCollection<ITextureSource>();
-            Entities = new ObservableCollection<Entity>();
-            Cameras = new ObservableCollection<Camera>();
-            Lights = new ObservableCollection<LightEntity>();
-            Servers = new ObservableCollection<Server>();
-            BeatModifiers = new ObservableCollection<BeatModifier>();
-            Texts = new ObservableCollection<TextEntity>();
-            ColorPalettes = new ObservableCollection<ColorPalette>();
+            typeToAddAction = new Dictionary<Type, Action<IControl>>
+            {
+                { typeof(Composition), c => Compositions.Add((Composition)c) },
+                { typeof(ITextureSource), c => Textures.Add((ITextureSource)c) },
+                { typeof(Camera), c => Cameras.Add((Camera)c) },
+                { typeof(LightEntity), c => Lights.Add((LightEntity)c) },
+                { typeof(Entity), c => Entities.Add((Entity)c) },
+                { typeof(Material), c => Materials.Add((Material)c) },
+                { typeof(Server), c => Servers.Add((Server)c) },
+                { typeof(BeatModifier), c => BeatModifiers.Add((BeatModifier)c) },
+                { typeof(TextEntity), c => Texts.Add((TextEntity)c) },
+                { typeof(ColorPalette), c => ColorPalettes.Add((ColorPalette)c) }
+            };
         }
 
-        private int nameCount = 1;
-
-
-        private ObservableCollection<IControl> _controls;
-        public ObservableCollection<IControl> Controls
-        {
-            get => _controls;
-            set => SetProperty(ref _controls, value);
-        }
-
+        public ObservableCollection<IControl> Controls { get; } = new();
+        public ObservableCollection<Composition> Compositions { get; } = new();
+        public ObservableCollection<Material> Materials { get; } = new();
+        public ObservableCollection<ITextureSource> Textures { get; } = new();
+        public ObservableCollection<Entity> Entities { get; } = new();
+        public ObservableCollection<Camera> Cameras { get; } = new();
+        public ObservableCollection<LightEntity> Lights { get; } = new();
+        public ObservableCollection<Server> Servers { get; } = new();
+        public ObservableCollection<BeatModifier> BeatModifiers { get; } = new();
+        public ObservableCollection<TextEntity> Texts { get; } = new();
+        public ObservableCollection<ColorPalette> ColorPalettes { get; } = new();
 
         public void AddControl(IControl control)
         {
-            if (control == null)
-                return;
-
-            if(control is EmptyPrefab) 
-                return;
-
-            if (Controls.Any(x => x.ID == control.ID))
+            if (control == null || control is EmptyPrefab || Controls.Any(x => x.ID == control.ID))
                 return;
 
             Controls.Add(control);
@@ -61,7 +61,8 @@ namespace CMiX.Core.Prefabs
         public IControl GetControl(Guid id)
         {
             return Controls.FirstOrDefault(x => x.ID == id);
-        }
+        } 
+
 
         void NamePrefab(IControl control)
         {
@@ -77,111 +78,9 @@ namespace CMiX.Core.Prefabs
             }
         }
 
-
-        void AddToSpecificRepo(IControl control)
+        private void AddToSpecificRepo(IControl control)
         {
-            var prefab = control as IPrefab;
-
-            if (control is Composition composition)
-                Compositions.Add(composition);
-
-            if (control is ITextureSource texture)
-                Textures.Add(texture);
-
-            if(control is Camera camera)
-                Cameras.Add(camera);
-
-            if (control is LightEntity lightEntity)
-                Lights.Add(lightEntity);
-
-            if (control is Entity entity)
-                Entities.Add(entity);
-
-            if (control is Material material)
-                Materials.Add(material);
-
-            if (control is Server server)
-                Servers.Add(server);
-
-            if (control is BeatModifier beatModifier)
-                BeatModifiers.Add(beatModifier);
-
-            if (control is TextEntity textEntity)
-                Texts.Add(textEntity);
-
-            if (control is ColorPalette colorPalette)
-                ColorPalettes.Add(colorPalette);
-        }
-
-
-        private ObservableCollection<ColorPalette> _colorPalettes;
-        public ObservableCollection<ColorPalette> ColorPalettes
-        {
-            get => _colorPalettes;
-            set => SetProperty(ref _colorPalettes, value);
-        }
-
-        private ObservableCollection<Server> _servers;
-        public ObservableCollection<Server> Servers
-        {
-            get => _servers;
-            set => SetProperty(ref _servers, value);
-        }
-
-        private ObservableCollection<Composition> _compositions;
-        public ObservableCollection<Composition> Compositions
-        {
-            get => _compositions;
-            set => SetProperty(ref _compositions, value);
-        }
-
-        private ObservableCollection<ITextureSource> _textures;
-        public ObservableCollection<ITextureSource> Textures
-        {
-            get => _textures;
-            set => SetProperty(ref _textures, value);
-        }
-
-        private ObservableCollection<Material> _materials;
-        public ObservableCollection<Material> Materials
-        {
-            get => _materials;
-            set => SetProperty(ref _materials, value);
-        }
-
-        private ObservableCollection<Entity> _entities;
-        public ObservableCollection<Entity> Entities
-        {
-            get => _entities;
-            set => SetProperty(ref _entities, value);
-        }
-
-        private ObservableCollection<TextEntity> _texts;
-        public ObservableCollection<TextEntity> Texts
-        {
-            get => _texts;
-            set => SetProperty(ref _texts, value);
-        }
-
-        private ObservableCollection<Camera> _cameras;
-        public ObservableCollection<Camera> Cameras
-        {
-            get => _cameras;
-            set => SetProperty(ref _cameras, value);
-        }
-
-        private ObservableCollection<LightEntity> _lights;
-        public ObservableCollection<LightEntity> Lights
-        {
-            get => _lights;
-            set => SetProperty(ref _lights, value);
-        }
-
-        private ObservableCollection<BeatModifier> _beatModifiers;
-        public ObservableCollection<BeatModifier> BeatModifiers
-        {
-            get => _beatModifiers;
-            set => SetProperty(ref _beatModifiers, value);
+            typeToAddAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control)).Value?.Invoke(control);
         }
     }
 }
