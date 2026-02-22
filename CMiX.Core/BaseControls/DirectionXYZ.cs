@@ -7,16 +7,16 @@ namespace CMiX.Core.BaseControls
 {
     public class DirectionXYZ : ObservableRecipient, IControl
     {
-        public DirectionXYZ(GenericValue<bool> directionX, GenericValue<bool> directionY, GenericValue<bool> directionZ)
+        public DirectionXYZ(GenericValue<bool> directionX, 
+                            GenericValue<bool> directionY, 
+                            GenericValue<bool> directionZ)
         {
-            ID = Guid.NewGuid();
             DirectionX = directionX;
             DirectionY = directionY;
             DirectionZ = directionZ;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> DirectionX { get; set; }
         public GenericValue<bool> DirectionY { get; set; }
         public GenericValue<bool> DirectionZ { get; set; }

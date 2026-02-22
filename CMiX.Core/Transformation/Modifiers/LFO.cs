@@ -33,7 +33,6 @@ namespace CMiX.Core.Transformation.Modifiers
             To = to;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }

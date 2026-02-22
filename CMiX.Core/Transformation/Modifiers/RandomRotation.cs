@@ -23,11 +23,9 @@ namespace CMiX.Core.Transformation.Modifiers
             Rotation = rotation;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
-
         public Vector3 Rotation { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
 

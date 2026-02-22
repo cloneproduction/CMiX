@@ -17,7 +17,6 @@ namespace CMiX.Core.Texturing
             AddressV = addresseV;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<string> BorderColor { get; set; }
         public GenericValue<TextureAddressMode> AddressU { get; set; }

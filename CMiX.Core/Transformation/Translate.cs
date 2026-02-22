@@ -16,7 +16,6 @@ namespace CMiX.Core.Transformation
             XYZ = xyz;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public Vector3 XYZ { get; set; }

@@ -34,7 +34,6 @@ namespace CMiX.Core.Networking.Servers
             ResyncProjectCommand = new RelayCommand<IControl>(ResyncProject);
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public ICommand AddServerCommand { get; set; }
         public ICommand AddItemCommand { get; set; }

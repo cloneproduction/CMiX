@@ -20,7 +20,6 @@ namespace CMiX.Core.Texturing.Sources
                            GenericValue<string> backgroundColor, 
                            GenericValue<string> bubbleColor)
         {
-            ID = Guid.NewGuid();
             PrefabService = prefabService;
             Resolution = resolution;
             Speed = speed;
@@ -31,8 +30,7 @@ namespace CMiX.Core.Texturing.Sources
             FilterManager = filterManager;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2 Resolution { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Speed { get; set; }

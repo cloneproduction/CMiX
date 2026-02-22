@@ -9,14 +9,15 @@ namespace CMiX.Core.Texturing
 {
     public partial class DiffuseTexture : ObservableObject, IControl, ITexture
     {
-        public DiffuseTexture(PrefabManager prefabManager, PrefabManager textureFilterManager, TransformTexture transformTexture, SamplerState samplerState)
+        public DiffuseTexture(PrefabManager prefabManager, 
+                              TransformTexture transformTexture, 
+                              SamplerState samplerState)
         {
             TextureManager = prefabManager;
             TransformTexture = transformTexture;
             SamplerState = samplerState;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get ; set; } = Guid.NewGuid();
         public PrefabManager TextureManager { get; set; }
         public TransformTexture TransformTexture { get; set; }

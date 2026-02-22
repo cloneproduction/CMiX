@@ -26,7 +26,6 @@ namespace CMiX.Core.Transformation.Modifiers
             Uniform = uniform;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public Vector2 Location { get; set; }

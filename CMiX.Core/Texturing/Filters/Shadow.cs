@@ -38,7 +38,6 @@ namespace CMiX.Core.Texturing.Filters
             Control = control;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }

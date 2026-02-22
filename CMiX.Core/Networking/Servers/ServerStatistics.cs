@@ -13,7 +13,6 @@ namespace CMiX.Core.Networking.Servers
             SentMessages = 0;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
 
         private long _sentMessages;

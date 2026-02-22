@@ -9,13 +9,11 @@ namespace CMiX.Core.BaseControls
     {
         public DirectionXY(GenericValue<bool> directionX, GenericValue<bool> directionY)
         {
-            ID = Guid.NewGuid();
             DirectionX = directionX;
             DirectionY = directionY;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> DirectionX { get; set; }
         public GenericValue<bool> DirectionY { get; set; }
     }

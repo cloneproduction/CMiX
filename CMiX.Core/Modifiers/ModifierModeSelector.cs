@@ -7,15 +7,15 @@ namespace CMiX.Core.Modifiers
 {
     public class ModifierModeSelector : IControl
     {
-        public ModifierModeSelector(GenericValue<ModifierMode> mode, GenericValue<int> count)
+        public ModifierModeSelector(GenericValue<ModifierMode> mode, 
+                                    GenericValue<int> count)
         {
             Mode = mode;
             Count = count;
         }
 
-        public IControlModel ToModel() => this.ToModel();
+        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<ModifierMode> Mode { get; set; }
         public GenericValue<int> Count { get; set; }
-        public Guid ID { get; set; }
     }
 }

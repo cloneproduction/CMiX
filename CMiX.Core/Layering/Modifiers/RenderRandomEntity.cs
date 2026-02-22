@@ -23,7 +23,6 @@ namespace CMiX.Core.Layering.Modifiers
             Control = control;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public PrefabManager BeatModifierManager { get; set; }

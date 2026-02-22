@@ -24,7 +24,6 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
             Width = width;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<bool> PingPong { get; set; }

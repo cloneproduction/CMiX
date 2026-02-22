@@ -34,7 +34,7 @@ namespace CMiX.Core.ViewModels
             ControlFactory = controlFactory;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public ControlFactory ControlFactory { get; set; }
         public DialogService DialogService { get; set; }
         public Project Project { get; set; }

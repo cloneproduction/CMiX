@@ -28,7 +28,6 @@ namespace CMiX.Core.Animations
             DivideCommand = new RelayCommand(Divide);
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }

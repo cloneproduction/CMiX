@@ -6,15 +6,13 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    public partial class ColorPalette : ObservableObject, ISpreadableModifier
+    public partial class ColorPalette : ObservableObject, IModifier
     {
         public ColorPalette(PrefabService prefabService,
-                            ModifierModeSelector modifierModeSelector,
                             PrefabManager colorManager,
                             PrefabManager modifierManager,
                             GenericValue<ResamplingMethod> resample)
@@ -25,11 +23,8 @@ namespace CMiX.Core.Colors.Modifiers
             Resample = resample;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
-
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public ModifierModeSelector ModifierModeSelector { get; set; }
         public PrefabManager ColorManager { get; set; }
         public PrefabManager ModifierManager { get; set; }
         public GenericValue<ResamplingMethod> Resample { get; set; }

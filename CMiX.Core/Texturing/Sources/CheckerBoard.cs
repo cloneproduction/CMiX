@@ -20,7 +20,6 @@ namespace CMiX.Core.Texturing.Sources
                             GenericValue<string> colorB,
                             Transform2D transform2D)
         {
-            ID = Guid.NewGuid();
             PrefabService = prefabService;
             Resolution = resolution;
             ColorA = colorA;
@@ -30,8 +29,7 @@ namespace CMiX.Core.Texturing.Sources
             Transform2D = transform2D;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2 Resolution { get; set; }
         public PrefabService PrefabService { get; set; }
         public Transform2D Transform2D { get; set; }

@@ -16,7 +16,6 @@ namespace CMiX.Core.Texturing.Filters
                     GenericValue<float> brightness, 
                     GenericValue<float> control)
         {
-            ID = Guid.NewGuid();
             PrefabService = prefabService;
             Hue = hue;
             Saturation = saturation;
@@ -25,8 +24,7 @@ namespace CMiX.Core.Texturing.Filters
             Control = control;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Saturation { get; set; }

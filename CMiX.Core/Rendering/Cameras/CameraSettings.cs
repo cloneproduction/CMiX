@@ -8,15 +8,15 @@ namespace CMiX.Core.Rendering.Cameras
     public class CameraSettings : IControl
     {
         public CameraSettings(GenericValue<float> distance,
-                                GenericValue<float> fov,
-                                GenericValue<float> yaw,
-                                GenericValue<float> pitch,
-                                Vector3 target,
-                                GenericValue<float> nearClip,
-                                GenericValue<float> farClip,
-                                GenericValue<bool> projection,
-                                GenericValue<bool> isOrthographic,
-                                GenericValue<float> orthographicSize) 
+                              GenericValue<float> fov,
+                              GenericValue<float> yaw,
+                              GenericValue<float> pitch,
+                              Vector3 target,
+                              GenericValue<float> nearClip,
+                              GenericValue<float> farClip,
+                              GenericValue<bool> projection,
+                              GenericValue<bool> isOrthographic,
+                              GenericValue<float> orthographicSize) 
         {
             Distance = distance;
             FOV = fov;
@@ -30,8 +30,7 @@ namespace CMiX.Core.Rendering.Cameras
             OrthographicSize = orthographicSize;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<float> FOV { get; set; }
         public GenericValue<float> Distance { get; set; }
         public GenericValue<float> Yaw { get; set; }

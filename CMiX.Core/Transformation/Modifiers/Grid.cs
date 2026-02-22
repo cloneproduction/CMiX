@@ -23,7 +23,6 @@ namespace CMiX.Core.Transformation.Modifiers
             Phase = phase;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public Integer3 Count { get; set; }

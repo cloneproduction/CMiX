@@ -28,7 +28,6 @@ namespace CMiX.Core.Rendering.Lights
             LightTypeSelector = lightTypeSelector;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
         public GenericValue<string> LightColor { get; set; }

@@ -25,7 +25,6 @@ namespace CMiX.Core.Assets.Mesh
             ParagraphAlignment = paragraphAlignment;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<string> Text { get; set; }

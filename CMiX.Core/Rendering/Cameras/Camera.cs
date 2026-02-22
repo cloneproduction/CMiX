@@ -20,8 +20,7 @@ namespace CMiX.Core.Rendering.Cameras
             ModifierManager = modifierManager;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public CameraSettings Settings { get; set; }
         public PrefabManager ModifierManager { get; set; }

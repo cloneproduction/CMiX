@@ -41,8 +41,7 @@ namespace CMiX.Core.Compositing
             Anchor = anchor;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
         public TransformSRT TransformSRT { get; set; }

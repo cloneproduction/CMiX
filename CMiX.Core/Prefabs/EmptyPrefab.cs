@@ -11,8 +11,7 @@ namespace CMiX.Core.Prefabs
             ID = prefabService.ID;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public PrefabService PrefabService { get; set; }
         public Guid ID { get; set; }
+        public PrefabService PrefabService { get; set; }
     }
 }

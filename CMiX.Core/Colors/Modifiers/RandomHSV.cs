@@ -32,8 +32,7 @@ namespace CMiX.Core.Colors.Modifiers
             Alpha = alpha;
         }
 
-        public IControlModel ToModel() => this.ToModel();
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<ColorMode> ColorMode { get; set; }
         public GenericValue<float> Hue { get; set; }

@@ -24,7 +24,6 @@ namespace CMiX.Core.Materials
             ModifierManager = modifierManager;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } 
         public DiffuseTexture DiffuseTexture { get; set; }
         public MaskTexture MaskTexture { get; set; }

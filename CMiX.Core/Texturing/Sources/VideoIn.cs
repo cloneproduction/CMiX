@@ -22,7 +22,6 @@ namespace CMiX.Core.Texturing.Sources
             SizeY = sizeZ;
         }
 
-        public IControlModel ToModel() => this.ToModel();
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<int> SizeX { get; set; }
         public GenericValue<int> SizeY { get; set; }

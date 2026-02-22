@@ -3,7 +3,6 @@
 
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 
@@ -15,7 +14,6 @@ namespace CMiX.Core.Colors.Modifiers
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel ColorManager { get; set; } = new();
         public GenericValueModel<ResamplingMethod> Resample { get; set; } = new(ResamplingMethod.Linear);
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
         public PrefabManagerModel BeatModifierManager { get; set; } = new();
     }
 }
