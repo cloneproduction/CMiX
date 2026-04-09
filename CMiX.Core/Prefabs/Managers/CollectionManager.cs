@@ -128,6 +128,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (index < 0) return (null, -1);
 
             items.RemoveAt(index);
+            ControlRepository.RemoveControl(control); // ← decrement user count
             int newIndex = items.Count == 0 ? -1 : index == 0 ? 0 : index - 1;
             SelectedItem = items.Count == 0 ? null : items[newIndex];
             ManagerData.SelectedIndex = newIndex;
@@ -142,6 +143,7 @@ namespace CMiX.Core.Prefabs.Managers
 
             var index = items.IndexOf(prefab);
             items.Remove(prefab);
+            ControlRepository.RemoveControl(prefab); // ← decrement user count
             if (items.Count == 0)
             {
                 SelectedItem = null;
@@ -193,6 +195,8 @@ namespace CMiX.Core.Prefabs.Managers
             var newControl = ControlFactory.Create(control.GetType());
             var index = ManagerData.Items.IndexOf(control);
             ManagerData.Items[index] = newControl;
+            ControlRepository.RemoveControl(control); // ← decrement old control
+            ControlRepository.AddControl(newControl);  // ← register new control
         }
 
         public void Rename()

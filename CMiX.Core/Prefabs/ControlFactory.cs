@@ -15,28 +15,30 @@ namespace CMiX.Core.Prefabs
         private readonly ControlMessenger _controlMessenger;
         private readonly MessageFactory _messageFactory;
         private readonly ControlActivationService _activationService;
+        private readonly ControlRepository _controlRepository;
 
-        public ControlFactory(ControlMessenger controlMessenger,
-                              MessageFactory messageFactory,
-                              ControlActivationService activationService,
-                              Mapper mapper,
-                              IServiceProvider services)
+        public ControlFactory(
+            ControlMessenger controlMessenger,
+            MessageFactory messageFactory,
+            ControlActivationService activationService,
+            ControlRepository controlRepository,
+            Mapper mapper,
+            IServiceProvider services)
         {
             _serviceProvider = services;
             _messageFactory = messageFactory;
             _controlMessenger = controlMessenger;
             _activationService = activationService;
+            _controlRepository = controlRepository;
             _mapper = mapper;
         }
 
         public IControl Create(Type viewModelType)
         {
             if (viewModelType == null) throw new ArgumentNullException(nameof(viewModelType));
-
             var modelTypeName = viewModelType.FullName + "Model";
             var modelType = viewModelType.Assembly.GetType(modelTypeName)
                             ?? throw new InvalidOperationException($"No model type found for {viewModelType.Name}");
-
             var controlModel = (IControlModel)Activator.CreateInstance(modelType)!;
             return Create(controlModel);
         }
@@ -46,6 +48,7 @@ namespace CMiX.Core.Prefabs
             if (model == null) throw new ArgumentNullException(nameof(model));
             var control = CreateControlInstance(model);
             control = _mapper.MapToViewModel(control, model);
+            NameControl(control);
             _activationService.ActivateAll();
             return control;
         }
@@ -53,12 +56,33 @@ namespace CMiX.Core.Prefabs
         private IControl CreateControlInstance(IControlModel model)
         {
             var modelType = model.GetType();
-
             var viewModelTypeName = modelType.FullName!.Replace("Model", "");
             var viewModelType = modelType.Assembly.GetType(viewModelTypeName)
                 ?? throw new NotSupportedException($"No control type found for {modelType.Name}");
-
             return (IControl)_serviceProvider.GetRequiredService(viewModelType);
+        }
+
+        private void NameControl(IControl control)
+        {
+            if (control is not IPrefab prefab) return;
+
+            var typeName = control.GetType().Name;
+            var existingNames = _controlRepository.Controls
+                .OfType<IPrefab>()
+                .Select(x => x.PrefabService.Name.Value)
+                .ToHashSet();
+
+            string newName = typeName;
+            var count = 1;
+            while (existingNames.Contains(newName))
+            {
+                newName = $"{typeName}.{count:000}";
+                count++;
+            }
+
+            prefab.PrefabService.Name.IsActive = false;
+            prefab.PrefabService.Name.Value = newName;
+            prefab.PrefabService.Name.IsActive = true;
         }
     }
 }

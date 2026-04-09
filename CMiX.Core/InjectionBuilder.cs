@@ -31,9 +31,7 @@ namespace CMiX.Core.DependencyInjection
                     .WithTransientLifetime()
                 );
 
-            //services.AddTransient<CollectionManager>();
-            //services.AddTransient<PrefabManager>();
-
+            services.AddTransient<ControlFactory>();
             services.AddSingleton<Project>();
             services.AddSingleton<MainViewModel>();
 

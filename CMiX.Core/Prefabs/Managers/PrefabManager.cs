@@ -112,7 +112,9 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void MoveItem(int oldIndex, int newIndex)
         {
+            ControlMessenger.IsSendingBlocked = true;
             Collection.MoveItem(oldIndex, newIndex);
+            ControlMessenger.IsSendingBlocked = false;
             var message = MessageFactory.CreateMessage<MessageMoveItem>(ManagerData.ID, oldIndex, newIndex);
             ControlMessenger.SendMessage(message);
         }
