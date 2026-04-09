@@ -64,11 +64,12 @@
                 <DataTemplate>
                     <Panels:ModifierPanel
                         Margin="0,4"
+                        DragHandlerIsPressed="{Binding DataContext.ManagerReorderService.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CloseModifierCommand="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CloseModifierCommandParameter="{Binding}"
                         ResetModifierCommand="{Binding DataContext.ResetItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         ResetModifierCommandParameter="{Binding}">
-
+                        
                         <Panels:ModifierPanel.Content>
                             <ContentPresenter
                                 Content="{Binding}"

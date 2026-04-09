@@ -23,18 +23,21 @@ namespace CMiX.Core.Prefabs.Messages
 
                 case MessageAddItem messageAddPrefab:
                     prefabManagerBase.AddItem(messageAddPrefab.Model);
+                    prefabManagerBase.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
                     return true;
 
                 case MessageRemoveItem messageRemovePrefab:
                     prefabManagerBase.DeleteItem(messageRemovePrefab.ModelID);
-                    return true;
-
-                case MessageMoveItem messageMovePrefab:
-                    prefabManagerBase.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                    prefabManagerBase.SelectedItemChanged(messageRemovePrefab.SelectedIndex);
                     return true;
 
                 case MessageReplaceItem messageReplaceItem:
                     prefabManagerBase.ReplaceItem(messageReplaceItem.ControlModel, messageReplaceItem.Index);
+                    prefabManagerBase.ManagerData.SelectedIndex = messageReplaceItem.SelectedIndex;
+                    return true;
+
+                case MessageMoveItem messageMovePrefab:
+                    prefabManagerBase.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
                     return true;
 
                 case MessageRemoveSelectedItem messageRemoveSelectedItem:

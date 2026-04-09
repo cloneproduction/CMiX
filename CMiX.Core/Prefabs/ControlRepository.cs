@@ -16,7 +16,6 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlRepository : ObservableObject
     {
-        private int nameCount = 1;
         private readonly Dictionary<Type, Action<IControl>> typeToAddAction;
 
         public ControlRepository()
@@ -24,6 +23,7 @@ namespace CMiX.Core.Prefabs
             typeToAddAction = new Dictionary<Type, Action<IControl>>
             {
                 { typeof(Composition), c => Compositions.Add((Composition)c) },
+                { typeof(Layer), c => Layers.Add((Layer)c) },
                 { typeof(ITextureSource), c => Textures.Add((ITextureSource)c) },
                 { typeof(Camera), c => Cameras.Add((Camera)c) },
                 { typeof(LightEntity), c => Lights.Add((LightEntity)c) },
@@ -38,6 +38,7 @@ namespace CMiX.Core.Prefabs
 
         public ObservableCollection<IControl> Controls { get; } = new();
         public ObservableCollection<Composition> Compositions { get; } = new();
+        public ObservableCollection<Layer> Layers { get; } = new();
         public ObservableCollection<Material> Materials { get; } = new();
         public ObservableCollection<ITextureSource> Textures { get; } = new();
         public ObservableCollection<Entity> Entities { get; } = new();
@@ -61,26 +62,32 @@ namespace CMiX.Core.Prefabs
         public IControl GetControl(Guid id)
         {
             return Controls.FirstOrDefault(x => x.ID == id);
-        } 
+        }
 
 
         void NamePrefab(IControl control)
         {
-            if(control is IPrefab prefab)
+            if (control is IPrefab prefab)
             {
                 var prefabs = Controls.OfType<IPrefab>().ToList();
-
-                if(prefabs.FirstOrDefault(x => x.PrefabService.Name.Value == prefab.PrefabService.Name.Value) != null)
+                if (prefabs.FirstOrDefault(x => x.PrefabService.Name.Value == prefab.PrefabService.Name.Value) != null)
                 {
-                    prefab.PrefabService.Name.Value = control.GetType().Name + "." + string.Format("{0:000}", nameCount);
-                    nameCount++;
+                    var typeName = control.GetType().Name;
+                    var count = prefabs.Count(x => x.GetType().Name == typeName);
+                    prefab.PrefabService.Name.IsActive = false;
+                    prefab.PrefabService.Name.Value = $"{typeName}.{count:000}";
+                    prefab.PrefabService.Name.IsActive = true;
                 }
             }
         }
 
         private void AddToSpecificRepo(IControl control)
         {
-            typeToAddAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control)).Value?.Invoke(control);
+            var match = typeToAddAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control));
+            if (match.Value == null)
+                Console.WriteLine($"Warning: No repository found for type {control.GetType().Name}");
+            else
+                match.Value.Invoke(control);
         }
     }
 }

@@ -21,7 +21,8 @@ namespace CMiX.Core.Services
         public bool ServerIsConnected { get; set; }
         public string DeconnectionReason { get; set; }
 
-        CancellationTokenSource cts;
+        CancellationTokenSource _cts;
+        private Task _connectTask;
 
         public int Port { get; set; }
         public string IP { get; set; }
@@ -31,30 +32,27 @@ namespace CMiX.Core.Services
             this.IP = IP;
             this.Port = Port;
 
-            if(WatsonTcpClient != null)
+            // cancel any existing loop and wait for it to finish
+            _cts?.Cancel();
+            _connectTask?.Wait();
+
+            if (WatsonTcpClient != null)
                 WatsonTcpClient.Dispose();
 
             WatsonTcpClient = new WatsonTcpClient(IP, Port);
-
-            //WatsonTcpClient.Keepalive.EnableTcpKeepAlives = true;
-            //WatsonTcpClient.Keepalive.TcpKeepAliveInterval = 5;      // seconds to wait before sending subsequent keepalive
-            //WatsonTcpClient.Keepalive.TcpKeepAliveTime = 5;          // seconds to wait before sending a keepalive
-            //WatsonTcpClient.Keepalive.TcpKeepAliveRetryCount = 5;
-
             WatsonTcpClient.Events.ServerConnected += ServerConnected;
             WatsonTcpClient.Events.ServerDisconnected += ServerDisconnected;
             WatsonTcpClient.Events.MessageReceived += MessageReceived;
-
             WatsonTcpClient.Settings.ConnectTimeoutSeconds = 5;
 
-            cts = new CancellationTokenSource();
-            _ = TryToConnect(cts.Token);
+            _cts = new CancellationTokenSource();
+            _connectTask = TryToConnect(_cts.Token);
         }
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             IMessage message = MessagePackSerialization.Deserialize<IMessage>(new ReadOnlyMemory<byte>(e.Data));
-            Console.WriteLine("Message Received of type : " + message.GetType().Name);
+            Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Message Received of type : {message.GetType().Name}");
             WeakReferenceMessenger.Default.Send(message);
         }
 
@@ -63,46 +61,45 @@ namespace CMiX.Core.Services
             DeconnectionReason = e.Reason.ToString();
             Console.WriteLine(DeconnectionReason);
             ServerIsConnected = false;
-
-            cts = new CancellationTokenSource();
-            _ = TryToConnect(cts.Token);
-            Console.WriteLine("Server Disconnected and Disposed");
+            Console.WriteLine("Server Disconnected");
+            Start(IP, Port); // ← reuse Start which handles cleanup and restarts the loop
         }
 
         private void ServerConnected(object sender, ConnectionEventArgs e)
         {
             ServerIsConnected = true;
             Console.WriteLine("Server Connected");
-            cts.Cancel();
+            _cts.Cancel();
         }
 
         private async Task TryToConnect(CancellationToken cancellationToken)
         {
-            if(cts == null)
-            {
+            int delaySeconds = 1;
 
-            }
-
-            while (!WatsonTcpClient.Connected)
+            while (!WatsonTcpClient.Connected && !cancellationToken.IsCancellationRequested)
             {
-                _ = Task.Run(() =>
+                try
                 {
-                    try
-                    {
-                        WatsonTcpClient.Connect();
-                    }
-                    catch (Exception)
-                    {
-                        Console.WriteLine("Trying to connect to server " + "IP " +  IP.ToString() + "PORT " + Port.ToString());
-                    }
-                }, cancellationToken);
-                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                    WatsonTcpClient.Connect();
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine($"Retrying connection to {IP}:{Port} in {delaySeconds}s...");
+                }
+
+                if (cancellationToken.IsCancellationRequested)
+                    break;
+
+                await Task.Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken);
+                delaySeconds = Math.Min(delaySeconds * 2, 30); // 1s, 2s, 4s, 8s, 16s, 30s max
             }
         }
 
         public void Stop()
         {
-            WatsonTcpClient.Disconnect();
+            _cts?.Cancel();
+            //_connectTask?.Wait();
+            WatsonTcpClient?.Disconnect();
         }
 
 

@@ -15,49 +15,47 @@ namespace CMiX.Core.Prefabs.Messages
 
         public Mapper Mapper { get; set; }
 
+        private static readonly Dictionary<Type, Func<Guid, IControlModel, IMessage>> _factories = new()
+        {
+            [typeof(MessageValueChanged)] = (id, model) => new MessageValueChanged(id, model),
+        };
+
+        private static readonly Dictionary<Type, Func<Guid, IControlModel, int, IMessage>> _factoriesWithIndex = new()
+        {
+            [typeof(MessageSelectedItemChanged)] = (id, model, index) => new MessageSelectedItemChanged(id, model, index),
+            [typeof(MessageReplaceItem)] = (id, model, index) => new MessageReplaceItem(id, model, index, index),
+            [typeof(MessageAddItem)] = (id, model, index) => new MessageAddItem(id, model, index),
+            [typeof(MessageRemoveItem)] = (id, model, index) => new MessageRemoveItem(id, model.ID, index),
+        };
+
         public IMessage CreateMessage<T>(Guid id, IControl control)
         {
             if (control == null) throw new ArgumentNullException(nameof(control));
-            var model = Mapper.MapToModel(control);
-            if (typeof(T) == typeof(MessageValueChanged))
-                return new MessageValueChanged(id, model);
-            else if (typeof(T) == typeof(MessageAddItem))
-                return new MessageAddItem(id, model);
-            else if (typeof(T) == typeof(MessageRemoveItem))
-                return new MessageRemoveItem(id, control.ID);
-            else
-                return null;
+            if (!_factories.TryGetValue(typeof(T), out var factory))
+                throw new NotSupportedException($"CreateMessage does not support type {typeof(T).Name}");
+            return factory(id, Mapper.MapToModel(control));
         }
 
         public IMessage CreateMessage<T>(Guid id, IControl control, int index)
         {
-            IControlModel model = null;
-
-            if (control != null)
-                model = Mapper.MapToModel(control);
-
-            if (typeof(T) == typeof(MessageSelectedItemChanged))
-                return new MessageSelectedItemChanged(id, model, index);
-            else if (typeof(T) == typeof(MessageReplaceItem))
-                return new MessageReplaceItem(id, model, index);
-            else
-                return null;
+            IControlModel model = control != null ? Mapper.MapToModel(control) : null;
+            if (!_factoriesWithIndex.TryGetValue(typeof(T), out var factory))
+                throw new NotSupportedException($"CreateMessage does not support type {typeof(T).Name}");
+            return factory(id, model, index);
         }
 
-        public IMessage CreateMessage<T>(Guid id, int sourceIndex, int targetIndex)
+        public IMessage CreateMessage<T>(Guid id, int oldIndex, int newIndex)
         {
             if (typeof(T) == typeof(MessageMoveItem))
-                return new MessageMoveItem(id, sourceIndex, targetIndex);
-            else
-                return null;
+                return new MessageMoveItem(id, oldIndex, newIndex);
+            throw new NotSupportedException($"CreateMessage does not support type {typeof(T).Name}");
         }
 
         public IMessage CreateMessage<T>(Guid id)
         {
             if (typeof(T) == typeof(MessageRemoveSelectedItem))
                 return new MessageRemoveSelectedItem(id);
-            else
-                return null;
+            throw new NotSupportedException($"CreateMessage does not support type {typeof(T).Name}");
         }
     }
 }

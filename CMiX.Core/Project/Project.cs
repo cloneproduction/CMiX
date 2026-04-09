@@ -14,12 +14,13 @@ namespace CMiX.Core.Compositing
     {
         public Project(PrefabManager compositionManager, PrefabService prefabService)
         {
-            compositionManager.ManagerData.ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
-            ID = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
+            compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
+            ID = ManagerIDs.CompositionManager;
             Assets = new SortableObservableCollection<IAsset>();
             CompositionManager = compositionManager;
             PrefabService = prefabService;
             PrefabService.ID = this.ID;
+            compositionManager.Activate();
         }
 
         public Guid ID { get; set; }

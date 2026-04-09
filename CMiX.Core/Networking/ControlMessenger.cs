@@ -17,8 +17,11 @@ namespace CMiX.Core.Networking
 
         ObservableCollection<Server> Servers { get; }
 
+        public bool IsSendingBlocked { get; set; }
+
         public void SendMessage(IMessage message)
         {
+            if (IsSendingBlocked) return;
             Servers.ToList().ForEach(server => server.SendMessage(message));
         }
     }

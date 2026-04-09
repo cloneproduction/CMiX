@@ -29,8 +29,7 @@ namespace CMiX.Core.Controls
         {
             var contents = Child as FrameworkElement;
             var border = contents.FindName("dragBar") as Border;
-            //Debug.Assert(contents != null, "DraggablePopup either has no content if content that " +
-            // "does not derive from FrameworkElement. Must be fixed for dragging to work.");
+
             if (border != null)
             {
                 border.MouseLeftButtonDown += Child_MouseLeftButtonDown;

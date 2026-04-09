@@ -11,7 +11,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public partial class PrefabManager : ObservableRecipient, IControl, IRecipient<IMessage>
+    public partial class PrefabManager : ReceivableControl, IControl, IRecipient<IMessage>
     {
         public PrefabManager()
         {
@@ -22,7 +22,8 @@ namespace CMiX.Core.Prefabs.Managers
                              ControlFactory controlFactory,
                              ControlMessenger controlMessenger,
                              MessageFactory messageFactory,
-                             MessageCollectionManagerHandler messageCollectionManagerHandler)
+                             MessageCollectionManagerHandler messageCollectionManagerHandler,
+                             ControlActivationService activationService)
         {
             ID = managerData.ID;
 
@@ -41,7 +42,8 @@ namespace CMiX.Core.Prefabs.Managers
             RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             isExpanded = true;
-            IsActive = true;
+            IsActive = false;
+            activationService.Register(this);
         }
 
         public Guid ID { get; set; }
@@ -98,6 +100,17 @@ namespace CMiX.Core.Prefabs.Managers
                 ManagerData.Items.Add(control);
         }
 
+        public void SelectedItemChanged(int index)
+        {
+            if (index < 0 || ManagerData.Items.Count == 0)
+            {
+                SelectedItem = null;
+                ManagerData.SelectedIndex = -1;
+                return;
+            }
+            SelectedItem = ManagerData.Items[index];
+            ManagerData.SelectedIndex = index;
+        }
 
         public void ReplaceItem(IControl control)
         {
@@ -107,10 +120,11 @@ namespace CMiX.Core.Prefabs.Managers
             var items = ManagerData.Items;
             IMessage message;
 
+            ControlMessenger.IsSendingBlocked = true;
             if (items.Count == 0)
             {
                 items.Add(prefab);
-                message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab);
+                message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, 0);
             }
             else
             {
@@ -118,9 +132,9 @@ namespace CMiX.Core.Prefabs.Managers
                 items[index] = prefab;
                 message = MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, prefab, index);
             }
-
-            ControlMessenger.SendMessage(message);
             SelectedItem = prefab;
+            ControlMessenger.IsSendingBlocked = false;
+            ControlMessenger.SendMessage(message);
         }
 
 
@@ -147,11 +161,13 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(Type type)
         {
+            ControlMessenger.IsSendingBlocked = true;
+
             var prefab = ControlFactory.Create(type);
             ControlRepository.AddControl(prefab);
             var items = ManagerData.Items;
 
-            IMessage message = null;
+            IMessage message;
 
             if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefab pre && prefab is not EmptyPrefab)
             {
@@ -161,12 +177,14 @@ namespace CMiX.Core.Prefabs.Managers
             else
             {
                 items.Add(prefab);
-                message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab);
+                message = MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, items.IndexOf(prefab));
             }
 
-            ControlMessenger.SendMessage(message);
             SelectedItem = prefab;
             ManagerData.SelectedIndex = items.IndexOf(prefab);
+
+            ControlMessenger.IsSendingBlocked = false;
+            ControlMessenger.SendMessage(message);
         }
 
         public void AddItem(IControlModel controlModel)
@@ -174,68 +192,54 @@ namespace CMiX.Core.Prefabs.Managers
             var items = ManagerData.Items;
             var prefab = ControlFactory.Create(controlModel);
             ControlRepository.AddControl(prefab);
-
             if (SelectedItem is EmptyPrefab empty)
             {
                 var index = items.IndexOf(empty);
                 if (index >= 0)
                     items[index] = prefab;
                 else
-                    items.Add(prefab); // fallback if somehow empty prefab is not in the list
+                    items.Add(prefab);
             }
             else
                 items.Add(prefab);
-
             SelectedItem = prefab;
         }
 
         public void RemoveSelectedItem()
         {
+            ControlMessenger.IsSendingBlocked = true;
             SelectedItem = null;
+            ControlMessenger.IsSendingBlocked = false;
             var message = MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ManagerData.ID);
             ControlMessenger.SendMessage(message);
         }
 
         public void DeleteItem(IControl control)
         {
-            if (control == null)
-                return;
-
+            if (control == null) return;
             var items = ManagerData.Items;
             var index = items.IndexOf(control);
+            if (index < 0) return;
 
-            if (index < 0) // control not found
-                return;
-
+            ControlMessenger.IsSendingBlocked = true;
             items.RemoveAt(index);
-
-            var message = MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, control);
+            int newIndex = items.Count == 0 ? -1 : index == 0 ? 0 : index - 1;
+            var message = MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, control, newIndex);
+            SelectedItem = items.Count == 0 ? null : items[newIndex];
+            ManagerData.SelectedIndex = newIndex;
+            ControlMessenger.IsSendingBlocked = false;
             ControlMessenger.SendMessage(message);
-
-            if (items.Count == 0)
-            {
-                SelectedItem = null;
-                ManagerData.SelectedIndex = -1;
-            }
-            else
-            {
-                var newIndex = index == 0 ? 0 : index - 1;
-                SelectedItem = items[newIndex];
-                ManagerData.SelectedIndex = newIndex;
-            }
         }
 
         public void DeleteItem(Guid id)
         {
             var items = ManagerData.Items;
             var prefab = items.FirstOrDefault(x => x.ID == id);
-
-            if (prefab == null)
-                return;
+            if (prefab == null) return;
 
             var index = items.IndexOf(prefab);
+            ControlMessenger.IsSendingBlocked = true;
             items.Remove(prefab);
-
             if (items.Count == 0)
             {
                 SelectedItem = null;
@@ -247,6 +251,7 @@ namespace CMiX.Core.Prefabs.Managers
                 SelectedItem = items[newIndex];
                 ManagerData.SelectedIndex = newIndex;
             }
+            ControlMessenger.IsSendingBlocked = false;
         }
 
         public void MoveItem(int oldIndex, int newIndex)
@@ -273,14 +278,9 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void Receive(IMessage message)
         {
-            if (message is not IMessageManager messageManager || this.ManagerData.ID != message.ID)
+            if (message is not IMessageManager || this.ManagerData.ID != message.ID)
                 return;
-
-            IsActive = false;
-            MessageCollectionManagerHandler.Handle(this, message);
-            IsActive = true;
-
-            Console.WriteLine($"Message {message.GetType().Name} handled by ManagerMessenger");
+            ReceiveWithoutEcho(() => MessageCollectionManagerHandler.Handle(this, message));
         }
     }
 }

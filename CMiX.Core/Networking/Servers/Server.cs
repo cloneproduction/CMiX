@@ -4,7 +4,6 @@
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
-using System.Text;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
@@ -12,6 +11,7 @@ using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using VL.Serialization.MessagePack;
 using WatsonTcp;
 
@@ -69,11 +69,10 @@ namespace CMiX.Core.Networking.Servers
 
         public void SendMessage(IMessage message)
         {
-            if (message == null)
-                return;
-            Console.WriteLine("MessageService SendMessage of type " + message.GetType().Name);
+            if (message == null) return;
+            Console.WriteLine("SendMessage of type " + message.GetType().Name);
             var data = MessagePackSerialization.Serialize(message);
-            this.Send(data);
+            _ = SendAsync(data);
         }
 
 
@@ -157,8 +156,9 @@ namespace CMiX.Core.Networking.Servers
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            var pouet = Encoding.Default.GetString(e.Data);
-            Console.WriteLine("Message from " + e.Client.IpPort + ": " + Encoding.UTF8.GetString(e.Data));
+            IMessage message = MessagePackSerialization.Deserialize<IMessage>(new ReadOnlyMemory<byte>(e.Data));
+            Console.WriteLine("Message received from vvvv: " + message.GetType().Name);
+            Application.Current.Dispatcher.Invoke(() => WeakReferenceMessenger.Default.Send(message));
         }
 
 
@@ -216,41 +216,23 @@ namespace CMiX.Core.Networking.Servers
 
 
 
-        async void Send(byte[] data)
+        private async Task SendAsync(byte[] data)
         {
-            if (WatsonTcpServer != null)
+            if (WatsonTcpServer == null) return;
+            foreach (var connectedClient in ConnectedClients.ToList())
             {
-                //var clients = WatsonTcpServer.ListClients();
-                foreach (var connectedClient in ConnectedClients)
-                {
-                    await WatsonTcpServer.SendAsync(clientID, data);
-                    //var success = WatsonTcpServer.Send(connectedClient.IPPORT, data);
-                    //if (success)
-                    //    Debug.WriteLine("WatsonTcpServer SendObject with  Topic : " + this.Topic + " Data Size = " + data.Length + "to address : " + $"{IP}:{Port}");
-                }
-                Statistics.Update(WatsonTcpServer);
+                await WatsonTcpServer.SendAsync(connectedClient.ID, data);
             }
+            Statistics.Update(WatsonTcpServer);
         }
-
 
         public void Start()
         {
-            //if (WatsonTcpServer == null)
-            //    return;
-
-            //if (WatsonTcpServer.IsListening == true)
-
-
-            ipPort = $"{IP}:{Port}";
             WatsonTcpServer = new WatsonTcpServer(IP.Value, Port.Value);
-
             WatsonTcpServer.Events.ClientConnected += ClientConnected;
             WatsonTcpServer.Events.ClientDisconnected += ClientDisconnected;
             WatsonTcpServer.Events.MessageReceived += MessageReceived;
-            //WatsonTcpServer.Callbacks.SyncRequestReceived = SyncRequestReceived;
             WatsonTcpServer.Start();
-            ServerIsRunning = true;
-            Console.WriteLine();
         }
 
 
@@ -262,8 +244,11 @@ namespace CMiX.Core.Networking.Servers
 
         public void Stop()
         {
-            if (WatsonTcpServer == null)
-                return;
+            if (WatsonTcpServer == null) return;
+
+            WatsonTcpServer.Events.ClientConnected -= ClientConnected;
+            WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
+            WatsonTcpServer.Events.MessageReceived -= MessageReceived;
 
             foreach (var client in ConnectedClients)
                 WatsonTcpServer.DisconnectClientAsync(client.ID);
@@ -274,12 +259,6 @@ namespace CMiX.Core.Networking.Servers
             ServerIsRunning = false;
         }
 
-        //WatsonTcpServer.Events.ClientConnected -= ClientConnected;
-        //WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
-        //WatsonTcpServer.Events.MessageReceived -= MessageReceived;
-        //WatsonTcpServer.Stop();
-        //ClientIsConnected = false;
-        //ServerIsRunning = false;
         public void Pause()
         {
 
@@ -299,33 +278,31 @@ namespace CMiX.Core.Networking.Servers
 
         public bool ValidatePort(string host, int port)
         {
-            var ipa = Dns.GetHostAddresses(host)[0];
+            if (port == 0)
+            {
+                ErrorMessage = "Port cannot be 0";
+                return false;
+            }
+
             try
             {
+                var ipa = Dns.GetHostAddresses(host)[0];
                 var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sock.Connect(ipa, port);
-                if (sock.Connected == true)  // Port is in use and connection is successful
-                {
-                    ErrorMessage = "Port already in use";
-                    return false;
-                }
                 sock.Close();
-
+                ErrorMessage = "Port already in use";
+                return false;
             }
             catch (SocketException ex)
             {
-                if (ex.ErrorCode == 10061)  // Port is unused and could not establish connection 
+                if (ex.ErrorCode == 10061) // connection refused = port is free
                 {
                     ErrorMessage = string.Empty;
                     return true;
                 }
-                else
-                    ErrorMessage = ex.Message;
-            }
-            if (port == 0)
+                ErrorMessage = ex.Message;
                 return false;
-
-            return false;
+            }
         }
 
         public bool ValidateIPv4(string ipString)

@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows;
-using System.Windows.Input;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -56,7 +55,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void StartDrag(IDragInfo dragInfo)
         {
-            if (!dragHandlerIsPressed)
+            if (!DragHandlerIsPressed)
                 return;
 
             dragInfo.Data = dragInfo.SourceItem;

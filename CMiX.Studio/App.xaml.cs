@@ -25,6 +25,7 @@ namespace CMiX
             var mainWindow = serviceProvider.GetRequiredService<Studio.Views.MainWindow>();
 
             mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
+            serviceProvider.GetRequiredService<AppInitializer>();
 
             mainWindow.Show();
         }

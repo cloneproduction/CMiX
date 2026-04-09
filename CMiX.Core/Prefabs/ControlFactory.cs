@@ -14,16 +14,18 @@ namespace CMiX.Core.Prefabs
         private readonly Mapper _mapper;
         private readonly ControlMessenger _controlMessenger;
         private readonly MessageFactory _messageFactory;
+        private readonly ControlActivationService _activationService;
 
-        public ControlFactory(
-                ControlMessenger controlMessenger,
-                MessageFactory messageFactory,
-                Mapper mapper,
-                IServiceProvider services)
+        public ControlFactory(ControlMessenger controlMessenger,
+                              MessageFactory messageFactory,
+                              ControlActivationService activationService,
+                              Mapper mapper,
+                              IServiceProvider services)
         {
-            _serviceProvider = services ;
+            _serviceProvider = services;
             _messageFactory = messageFactory;
             _controlMessenger = controlMessenger;
+            _activationService = activationService;
             _mapper = mapper;
         }
 
@@ -42,9 +44,9 @@ namespace CMiX.Core.Prefabs
         public IControl Create(IControlModel model)
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
-
             var control = CreateControlInstance(model);
             control = _mapper.MapToViewModel(control, model);
+            _activationService.ActivateAll();
             return control;
         }
 

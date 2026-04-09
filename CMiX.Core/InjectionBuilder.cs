@@ -3,11 +3,14 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.Assets;
+using CMiX.Core.Compositing;
 using CMiX.Core.Mapping;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
+using CMiX.Core.ViewModels;
 using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -24,15 +27,21 @@ namespace CMiX.Core.DependencyInjection
             services.Scan(selector => selector
                     .FromAssemblyOf<IControl>()
                     .AddClasses(classes => classes.AssignableTo<IControl>())
-                    .AsSelfWithInterfaces()
+                    .AsSelf()
                     .WithTransientLifetime()
-            );
+                );
+            services.AddSingleton<Project>();
+            services.AddSingleton<MainViewModel>();
 
             services.AddMapster();
+
+            services.AddSingleton<AppInitializer>();
 
             services.AddSingleton<Mapper>();
 
             services.AddSingleton<MasterBeat>();
+
+            services.AddSingleton<ControlActivationService>();
             services.AddSingleton<ControlFactory>();
             services.AddSingleton<ControlMessenger>();
             services.AddSingleton<MessageFactory>();
@@ -40,6 +49,9 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddSingleton<Client>();
+
+            var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(IControl)
+                                            && d.ImplementationType == typeof(PrefabManager));
         }
     }
 }

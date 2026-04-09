@@ -1,30 +1,31 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class GenericValue<T> : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class GenericValue<T> : ReceivableControl, IControl, IRecipient<IMessage>
     {
         public GenericValue()
         {
 
         }
 
-        public GenericValue(ControlMessenger controlMessenger, MessageFactory messageFactory)
+        public GenericValue(ControlMessenger controlMessenger, MessageFactory messageFactory, ControlActivationService activationService)
         {
             ID = Guid.NewGuid();
             MessageFactory = messageFactory;
             ControlMessenger = controlMessenger;
             ResetCommand = new RelayCommand(Reset);
-            IsActive = true;
+            IsActive = false;
+            activationService.Register(this);
         }
 
         public void Reset()
@@ -62,16 +63,9 @@ namespace CMiX.Core.BaseControls
 
         public void Receive(IMessage message)
         {
-            if (message.ID != this.ID)
-                return;
-
+            if (message.ID != this.ID) return;
             if (message is MessageValueChanged change)
-            {
-                var val = change.Value;
-                this.Value = ((GenericValueModel<T>)val).Value;
-            }
-
-            Console.WriteLine("Message Received with Value : " + this.Value);
+                ReceiveWithoutEcho(() => Value = ((GenericValueModel<T>)change.Value).Value);
         }
     }
 }
