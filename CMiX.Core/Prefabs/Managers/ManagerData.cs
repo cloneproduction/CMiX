@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class ManagerData : ObservableRecipient, IControl//, IRecipient<IMessage>
+    public class ManagerData : ObservableRecipient, IControl
     {
         public ManagerData()
         {

@@ -9,13 +9,7 @@ namespace CMiX.Core
     {
         internal bool IsReceiving { get; private set; }
 
-        public void Activate()
-        {
-            IsActive = true;
-        }
-
-        public void Deactivate() => IsActive = false;
-
+        public void Activate() => IsActive = true;
         internal bool CanRegister => !IsReceiving;
 
         protected void ReceiveWithoutEcho(Action action)

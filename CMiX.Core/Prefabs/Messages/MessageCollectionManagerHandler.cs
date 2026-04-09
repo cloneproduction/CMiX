@@ -10,7 +10,7 @@ namespace CMiX.Core.Prefabs.Messages
     {
         public MessageCollectionManagerHandler(){ }
 
-        public bool Handle(PrefabManager prefabManagerBase, IMessage message)
+        public bool Handle(CollectionManager collection, IMessage message)
         {
             switch (message)
             {
@@ -18,30 +18,30 @@ namespace CMiX.Core.Prefabs.Messages
                     throw new ArgumentNullException(nameof(message));
 
                 case MessageSelectedItemChanged messageSelectedItemChanged:
-                    prefabManagerBase.SelectedItemChanged(messageSelectedItemChanged.Control, messageSelectedItemChanged.Index);
+                    collection.SelectedItemChanged(messageSelectedItemChanged.Control, messageSelectedItemChanged.Index);
                     return true;
 
                 case MessageAddItem messageAddPrefab:
-                    prefabManagerBase.AddItem(messageAddPrefab.Model);
-                    prefabManagerBase.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
+                    collection.AddItem(messageAddPrefab.Model);
+                    collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
                     return true;
 
                 case MessageRemoveItem messageRemovePrefab:
-                    prefabManagerBase.DeleteItem(messageRemovePrefab.ModelID);
-                    prefabManagerBase.SelectedItemChanged(messageRemovePrefab.SelectedIndex);
+                    collection.DeleteItem(messageRemovePrefab.ModelID);
+                    collection.SelectedItemChanged(messageRemovePrefab.SelectedIndex);
                     return true;
 
                 case MessageReplaceItem messageReplaceItem:
-                    prefabManagerBase.ReplaceItem(messageReplaceItem.ControlModel, messageReplaceItem.Index);
-                    prefabManagerBase.ManagerData.SelectedIndex = messageReplaceItem.SelectedIndex;
+                    collection.ReplaceItem(messageReplaceItem.ControlModel, messageReplaceItem.Index);
+                    collection.ManagerData.SelectedIndex = messageReplaceItem.SelectedIndex;
                     return true;
 
                 case MessageMoveItem messageMovePrefab:
-                    prefabManagerBase.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
+                    collection.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
                     return true;
 
-                case MessageRemoveSelectedItem messageRemoveSelectedItem:
-                    prefabManagerBase.RemoveSelectedItem();
+                case MessageRemoveSelectedItem:
+                    collection.RemoveSelectedItem();
                     return true;
 
                 default:

@@ -13,18 +13,17 @@ namespace CMiX.Core.Prefabs.Managers
                                                  IDropTarget,
                                                  IDragSource
     {
-        public ManagerReorderService(PrefabManager prefabManager)
+        public ManagerReorderService(CollectionManager collectionManager, Action<int, int> onMove)
         {
-            PrefabManager = prefabManager;
-
-
-            ID = prefabManager.ManagerData.ID;
-
-            //ItemUpCommand = new RelayCommand<IControl>(ItemUp);
-            //ItemDownCommand = new RelayCommand<IControl>(ItemDown);
+            CollectionManager = collectionManager;
+            ID = collectionManager.ManagerData.ID;
+            _onMove = onMove;
         }
 
         public Guid ID { get; set; }
+        public CollectionManager CollectionManager { get; set; }
+        private readonly Action<int, int> _onMove;
+
         public PrefabManager PrefabManager { get; set; }
         //public ICommand ItemUpCommand { get; set; }
         //public ICommand ItemDownCommand { get; set; }
@@ -36,18 +35,15 @@ namespace CMiX.Core.Prefabs.Managers
         [RelayCommand]
         public void ItemUp(IControl control)
         {
-            var index = PrefabManager.ManagerData.Items.IndexOf(control);
-
-            if (index > 0)
-                Move(index, index - 1);
+            var index = CollectionManager.ManagerData.Items.IndexOf(control);
+            if (index > 0) Move(index, index - 1);
         }
 
         [RelayCommand]
         public void ItemDown(IControl control)
         {
-            var items = PrefabManager.ManagerData.Items;
+            var items = CollectionManager.ManagerData.Items;
             var index = items.IndexOf(control);
-
             if (index >= 0 && index < items.Count - 1)
                 Move(index, index + 1);
         }
@@ -98,22 +94,19 @@ namespace CMiX.Core.Prefabs.Managers
             var sourceIndex = dropInfo.DragInfo.SourceIndex;
             var targetIndex = dropInfo.InsertIndex;
 
-            if (targetIndex == PrefabManager.ManagerData.Items.Count ||
-                targetIndex == PrefabManager.ManagerData.Items.Count - 1||
+            if (targetIndex == CollectionManager.ManagerData.Items.Count ||
+                targetIndex == CollectionManager.ManagerData.Items.Count - 1 ||
                 targetIndex >= sourceIndex)
-            {
                 targetIndex -= 1;
-            }
 
             Move(sourceIndex, targetIndex);
         }
 
 
-        private void Move(int sourceIndex, int targetIndex) 
+        private void Move(int sourceIndex, int targetIndex)
         {
-            PrefabManager.ManagerData.Items.Move(sourceIndex, targetIndex);
-            var message = PrefabManager.MessageFactory.CreateMessage<MessageMoveItem>(PrefabManager.ManagerData.ID, sourceIndex, targetIndex);
-            PrefabManager.ControlMessenger.SendMessage(message);
+            CollectionManager.MoveItem(sourceIndex, targetIndex);
+            _onMove(sourceIndex, targetIndex);
         }
 
         public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)

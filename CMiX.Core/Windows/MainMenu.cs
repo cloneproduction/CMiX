@@ -85,7 +85,7 @@ namespace CMiX.Core.ViewModels
                     byte[] data = File.ReadAllBytes(folderPath);
                     var compositionModel = MessagePackSerialization.Deserialize<CompositionModel>(new ReadOnlyMemory<byte>(data));
                     var composition = ControlFactory.Create(compositionModel);
-                    Project.CompositionManager.SelectedItem = composition;
+                    //Project.CompositionManager.SelectedItem = composition;
                 }
             }
         }
@@ -98,7 +98,7 @@ namespace CMiX.Core.ViewModels
             //Serializer.Deserialize<CompositionModel>(data);
             var composition = ControlFactory.Create(compositionModel);
 
-            Project.CompositionManager.SelectedItem = composition;
+            //Project.CompositionManager.SelectedItem = composition;
             Project.CompositionManager.ManagerData.Items.Insert(0, composition);
             Project.CompositionManager.ManagerData.SelectedIndex = 0;
         }

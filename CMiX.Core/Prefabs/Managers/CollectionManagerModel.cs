@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public record PrefabManagerModel : IControlModel
+    public record CollectionManagerModel : IControlModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public ManagerDataModel ManagerData { get; init; } = new();
