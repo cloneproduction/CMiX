@@ -73,6 +73,8 @@ namespace CMiX.Core.Prefabs
 
             if (Controls.Any(x => x.ID == control.ID))
             {
+                if (!_userCounts.ContainsKey(control.ID))
+                    _userCounts[control.ID] = 0;
                 _userCounts[control.ID]++;
                 return;
             }

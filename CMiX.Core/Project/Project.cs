@@ -12,9 +12,10 @@ namespace CMiX.Core.Compositing
 {
     public class Project : ObservableObject, IPrefab, IModifiable
     {
-        public Project(PrefabManager compositionManager, PrefabService prefabService)
+        public Project(PrefabManager compositionManager, PrefabService prefabService, UndoManager undoManager)
         {
             compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
+            compositionManager.UndoManager = undoManager;  // ← set here
             ID = ManagerIDs.CompositionManager;
             Assets = new SortableObservableCollection<IAsset>();
             CompositionManager = compositionManager;

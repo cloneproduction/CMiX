@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -40,6 +41,7 @@ namespace CMiX.Core.Prefabs.Managers
         public ICommand ReplaceSelectedItemCommand { get; set; }
         public ICommand ResetItemCommand { get; set; }
 
+
         private IControl _selectedItem;
         public IControl SelectedItem
         {
@@ -47,27 +49,10 @@ namespace CMiX.Core.Prefabs.Managers
             set => SetProperty(ref _selectedItem, value);
         }
 
-        public (IControl prefab, int index) AddItem(Type type)
-        {
-            var prefab = ControlFactory.Create(type);
-            ControlRepository.AddControl(prefab);
-            var items = ManagerData.Items;
 
-            if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefab && prefab is not EmptyPrefab)
-                items[items.IndexOf(emptyPrefab)] = prefab;
-            else
-                items.Add(prefab);
-
-            SelectedItem = prefab;
-            ManagerData.SelectedIndex = items.IndexOf(prefab);
-            return (prefab, ManagerData.SelectedIndex);
-        }
-
-        public void AddItem(IControlModel controlModel)
+        private void AddControlToCollection(IControl prefab)
         {
             var items = ManagerData.Items;
-            var prefab = ControlFactory.Create(controlModel);
-
             ControlRepository.AddControl(prefab);
 
             if (SelectedItem is EmptyPrefab empty)
@@ -80,81 +65,82 @@ namespace CMiX.Core.Prefabs.Managers
             }
             else
                 items.Add(prefab);
+
             SelectedItem = prefab;
         }
 
+        public (IControl prefab, int index) AddItem(Type type)
+        {
+            var prefab = ControlFactory.Create(type);
+            AddControlToCollection(prefab);
+            ManagerData.SelectedIndex = ManagerData.Items.IndexOf(prefab);
+            return (prefab, ManagerData.SelectedIndex);
+        }
+
+        public void AddItem(IControlModel controlModel)
+        {
+            var prefab = ControlFactory.Create(controlModel);
+            AddControlToCollection(prefab);
+        }
+
+
+        private void ReplaceControlInCollection(IControl prefab, int index)
+        {
+            var items = ManagerData.Items;
+            if (items.Count == 0)
+                items.Add(prefab);
+            else
+                items[index] = prefab;
+            SelectedItem = prefab;
+            ManagerData.SelectedIndex = index;
+        }
         public (IControl prefab, int index, bool wasReplace) ReplaceItem(IControl control)
         {
             if (control is not IPrefab prefab)
                 throw new ArgumentException("Control must implement IPrefab", nameof(control));
-
-            var items = ManagerData.Items;
-            bool wasReplace = items.Count > 0;
-
-            if (items.Count == 0)
-                items.Add(prefab);
-            else
-                items[ManagerData.SelectedIndex] = prefab;
-
-            SelectedItem = prefab;
+            bool wasReplace = ManagerData.Items.Count > 0;
+            ReplaceControlInCollection(prefab, ManagerData.SelectedIndex);
             return (prefab, ManagerData.SelectedIndex, wasReplace);
         }
 
         public void ReplaceItem(IControlModel controlModel, int index)
         {
             var prefab = ControlRepository.GetControl(controlModel.ID);
-            var items = ManagerData.Items;
-
             if (prefab == null)
             {
                 prefab = ControlFactory.Create(controlModel);
                 ControlRepository.AddControl(prefab);
             }
-
-            if (items.Count == 0)
-                items.Add(prefab);
-            else
-                items[index] = prefab;
-
-            SelectedItem = prefab;
-            ManagerData.SelectedIndex = index;
+            ReplaceControlInCollection(prefab, index);
         }
 
-        public (IControl removed, int newIndex) DeleteItem(IControl control)
+
+
+        private (IControl removed, int newIndex) RemoveControlFromCollection(IControl control)
         {
-            if (control == null) return (null, -1);
             var items = ManagerData.Items;
             var index = items.IndexOf(control);
             if (index < 0) return (null, -1);
 
             items.RemoveAt(index);
-            ControlRepository.RemoveControl(control); // ← decrement user count
+            ControlRepository.RemoveControl(control);
             int newIndex = items.Count == 0 ? -1 : index == 0 ? 0 : index - 1;
             SelectedItem = items.Count == 0 ? null : items[newIndex];
             ManagerData.SelectedIndex = newIndex;
             return (control, newIndex);
         }
 
+        public (IControl removed, int newIndex) DeleteItem(IControl control)
+        {
+            if (control == null) return (null, -1);
+            return RemoveControlFromCollection(control);
+        }
+
         public void DeleteItem(Guid id)
         {
-            var items = ManagerData.Items;
-            var prefab = items.FirstOrDefault(x => x.ID == id);
-            if (prefab == null) return;
-
-            var index = items.IndexOf(prefab);
-            items.Remove(prefab);
-            ControlRepository.RemoveControl(prefab); // ← decrement user count
-            if (items.Count == 0)
-            {
-                SelectedItem = null;
-                ManagerData.SelectedIndex = -1;
-            }
-            else
-            {
-                var newIndex = index == 0 ? 0 : index - 1;
-                SelectedItem = items[newIndex];
-                ManagerData.SelectedIndex = newIndex;
-            }
+            var control = ManagerData.Items.FirstOrDefault(x => x.ID == id);
+            if (control != null)
+                RemoveControlFromCollection(control);
         }
 
         public void RemoveSelectedItem()
@@ -169,9 +155,9 @@ namespace CMiX.Core.Prefabs.Managers
             items.Move(oldIndex, newIndex);
         }
 
-        public void SelectedItemChanged(IControlModel controlModel, int index)
+        public void SelectedItemChanged(Guid controlID, int index)
         {
-            var control = controlModel != null ? ControlRepository.GetControl(controlModel.ID) : null;
+            var control = controlID != Guid.Empty ? ControlRepository.GetControl(controlID) : null;
             SelectedItem = control;
             ManagerData.SelectedIndex = control != null ? index : -1;
             if (control != null && ManagerData.Items.All(x => x.ID != control.ID))
@@ -199,16 +185,16 @@ namespace CMiX.Core.Prefabs.Managers
             ControlRepository.AddControl(newControl);  // ← register new control
         }
 
-        public void Rename()
-        {
-            if (SelectedItem is IPrefab prefab && prefab.GetType() != typeof(EmptyPrefab))
-                prefab.PrefabService.IsRenaming.Value = true;
-        }
+        //public void Rename()
+        //{
+        //    if (SelectedItem is IPrefab prefab && prefab.GetType() != typeof(EmptyPrefab))
+        //        prefab.PrefabService.IsRenaming.Value = true;
+        //}
 
-        public void SelectedItemIsRenaming()
-        {
-            if (SelectedItem is IPrefab prefab)
-                prefab.PrefabService.IsRenaming.Value = true;
-        }
+        //public void SelectedItemIsRenaming()
+        //{
+        //    if (SelectedItem is IPrefab prefab)
+        //        prefab.PrefabService.IsRenaming.Value = true;
+        //}
     }
 }

@@ -23,8 +23,10 @@ namespace CMiX.Core.ViewModels
                              AssetManager assetManager,
                              MainWindowController mainWindowController,
                              MainMenu mainMenu,
-                             ControlActivationService activationService)
+                             ControlActivationService activationService,
+                             UndoManager undoManager)
         {
+            _undoManager = undoManager;
             TextureManager = SetupManager(textureManager, ManagerIDs.TextureManager);
             MaterialManager = SetupManager(materialManager, ManagerIDs.MaterialManager);
             EntityManager = SetupManager(entityManager, ManagerIDs.EntityManager);
@@ -47,9 +49,12 @@ namespace CMiX.Core.ViewModels
             activationService.Clear();
         }
 
+        private readonly UndoManager _undoManager;
+
         private PrefabManager SetupManager(PrefabManager manager, Guid id)
         {
             manager.ManagerData.ID = id;
+            manager.UndoManager = _undoManager;
             manager.Activate();
             return manager;
         }

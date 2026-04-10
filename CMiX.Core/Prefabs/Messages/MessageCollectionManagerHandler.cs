@@ -18,7 +18,7 @@ namespace CMiX.Core.Prefabs.Messages
                     throw new ArgumentNullException(nameof(message));
 
                 case MessageSelectedItemChanged messageSelectedItemChanged:
-                    collection.SelectedItemChanged(messageSelectedItemChanged.Control, messageSelectedItemChanged.Index);
+                    collection.SelectedItemChanged(messageSelectedItemChanged.ControlID, messageSelectedItemChanged.Index);
                     return true;
 
                 case MessageAddItem messageAddPrefab:

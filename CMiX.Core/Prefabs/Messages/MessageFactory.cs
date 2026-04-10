@@ -22,7 +22,7 @@ namespace CMiX.Core.Prefabs.Messages
 
         private static readonly Dictionary<Type, Func<Guid, IControlModel, int, IMessage>> _factoriesWithIndex = new()
         {
-            [typeof(MessageSelectedItemChanged)] = (id, model, index) => new MessageSelectedItemChanged(id, model, index),
+            [typeof(MessageSelectedItemChanged)] = (id, model, index) => new MessageSelectedItemChanged(id, model?.ID ?? Guid.Empty, index),
             [typeof(MessageReplaceItem)] = (id, model, index) => new MessageReplaceItem(id, model, index, index),
             [typeof(MessageAddItem)] = (id, model, index) => new MessageAddItem(id, model, index),
             [typeof(MessageRemoveItem)] = (id, model, index) => new MessageRemoveItem(id, model.ID, index),

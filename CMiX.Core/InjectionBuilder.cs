@@ -31,6 +31,9 @@ namespace CMiX.Core.DependencyInjection
                     .WithTransientLifetime()
                 );
 
+
+            services.AddSingleton<UndoManager>();
+
             services.AddTransient<ControlFactory>();
             services.AddSingleton<Project>();
             services.AddSingleton<MainViewModel>();

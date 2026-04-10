@@ -13,7 +13,7 @@
 
         <ComboBox
             ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            SelectedItem="{Binding SelectedItem}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             Style="{StaticResource ComboBoxWithButton}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

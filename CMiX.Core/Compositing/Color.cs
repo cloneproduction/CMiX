@@ -10,8 +10,13 @@ namespace CMiX.Core.Compositing
 {
     public class Color : GenericValue<string>, IPrefab
     {
-        public Color(PrefabService prefabService, ControlMessenger controlMessenger, MessageFactory messageFactory, ControlActivationService activationService)
-            : base(controlMessenger, messageFactory, activationService)
+        public Color(PrefabService prefabService, 
+                     ControlMessenger controlMessenger, 
+                     MessageFactory messageFactory, 
+                     ControlActivationService activationService )
+            : base(controlMessenger, 
+                   messageFactory, 
+                   activationService)
         {
             PrefabService = prefabService;
         }

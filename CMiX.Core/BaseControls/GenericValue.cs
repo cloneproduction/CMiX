@@ -18,7 +18,9 @@ namespace CMiX.Core.BaseControls
 
         }
 
-        public GenericValue(ControlMessenger controlMessenger, MessageFactory messageFactory, ControlActivationService activationService)
+        public GenericValue(ControlMessenger controlMessenger,
+                            MessageFactory messageFactory,
+                            ControlActivationService activationService)
         {
             ID = Guid.NewGuid();
             MessageFactory = messageFactory;
@@ -38,18 +40,23 @@ namespace CMiX.Core.BaseControls
         public ControlMessenger ControlMessenger { get; set; }
         public MessageFactory MessageFactory { get; set; }
 
-
         private T _value;
         public T Value
         {
             get => _value;
             set
             {
-                SetProperty(ref _value, value);
                 if (IsActive)
                 {
+                    UndoManager.Record(this);
+                    SetProperty(ref _value, value);
+                    UndoManager.Commit(this);
                     var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
                     ControlMessenger.SendMessage(message);
+                }
+                else
+                {
+                    SetProperty(ref _value, value);
                 }
             }
         }
