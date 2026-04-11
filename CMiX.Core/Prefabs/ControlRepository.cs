@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
@@ -100,6 +101,7 @@ namespace CMiX.Core.Prefabs
         {
             var match = typeToRemoveAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control));
             match.Value?.Invoke(control);
+
         }
 
         public void RemoveControl(IControl control)

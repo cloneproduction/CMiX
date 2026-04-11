@@ -7,7 +7,7 @@ namespace CMiX.Core.Persistence
 {
     public static class ProjectSerializer
     {
-        private static readonly JsonSerializerOptions Options = new()
+        public static readonly JsonSerializerOptions Options = new()
         {
             WriteIndented = true,
             Converters =

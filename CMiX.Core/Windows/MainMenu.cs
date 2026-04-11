@@ -1,6 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Text.Json;
+using System.Text.RegularExpressions;
 using System.Windows.Input;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
@@ -75,10 +77,29 @@ namespace CMiX.Core.ViewModels
             if (string.IsNullOrWhiteSpace(settings.FileName)) return;
 
             var projectModel = ProjectSerializer.Load(settings.FileName);
-            var compositionModel = projectModel.CompositionManager.ManagerData.Items.FirstOrDefault();
-            if (compositionModel == null) return;
+            if (projectModel.CompositionManager.ManagerData.Items.FirstOrDefault() is not CompositionModel compositionModel) return;
 
-            Project.CompositionManager.AddItem(compositionModel);
+            var json = JsonSerializer.Serialize(compositionModel, ProjectSerializer.Options);
+            json = ReplaceAllGuids(json);
+            var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+
+            Project.CompositionManager.AddItem(cloned);
+        }
+
+        private static string ReplaceAllGuids(string json)
+        {
+            var guidPattern = @"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}";
+            var guidMap = new Dictionary<string, string>();
+            return Regex.Replace(json, guidPattern, match =>
+            {
+                var original = match.Value;
+                if (!guidMap.TryGetValue(original, out var newGuid))
+                {
+                    newGuid = Guid.NewGuid().ToString();
+                    guidMap[original] = newGuid;
+                }
+                return newGuid;
+            });
         }
 
         private void SaveProject()

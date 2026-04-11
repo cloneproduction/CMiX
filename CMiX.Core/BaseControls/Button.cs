@@ -46,8 +46,6 @@ namespace CMiX.Core.BaseControls
                 return;
 
             this.OnClick();
-
-            Console.WriteLine("ButtonClick Received");
         }
 
         public IControlModel ToModel() => new ButtonModel

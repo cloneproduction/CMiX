@@ -88,8 +88,6 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(IControlModel controlModel)
         {
-            Console.WriteLine($"AddItem called for {controlModel.GetType().Name} - stack: {new System.Diagnostics.StackTrace().ToString().Split('\n')[1].Trim()}");
-            Debug.WriteLine($"AddItem called for {controlModel.GetType().Name} - stack: {new System.Diagnostics.StackTrace().ToString().Split('\n')[1].Trim()}");
             var prefab = ControlFactory.Create(controlModel);
             AddControlToCollection(prefab);
         }
