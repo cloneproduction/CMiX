@@ -6,6 +6,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
@@ -42,5 +43,33 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new RandomUVModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
+            Location = (Vector2Model)Location.ToModel(),
+            Scale = (Vector2Model)Scale.ToModel(),
+            Uniform = (GenericValueModel<float>)Uniform.ToModel(),
+            Rotation = (GenericValueModel<float>)Rotation.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            SamplerState = (SamplerStateModel)SamplerState.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RandomUVModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Location.FromModel(m.Location);
+            Scale.FromModel(m.Scale);
+            Uniform.FromModel(m.Uniform);
+            Rotation.FromModel(m.Rotation);
+            Control.FromModel(m.Control);
+            SamplerState.FromModel(m.SamplerState);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

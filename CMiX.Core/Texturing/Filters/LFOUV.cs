@@ -8,6 +8,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
@@ -50,5 +51,35 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new LFOUVModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            TransformType = (GenericValueModel<TransformType>)TransformType.ToModel(),
+            PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
+            DirectionXY = (DirectionXYModel)DirectionXY.ToModel(),
+            From = (GenericValueModel<float>)From.ToModel(),
+            To = (GenericValueModel<float>)To.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            SamplerState = (SamplerStateModel)SamplerState.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (LFOUVModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            TransformType.FromModel(m.TransformType);
+            PingPong.FromModel(m.PingPong);
+            DirectionXY.FromModel(m.DirectionXY);
+            From.FromModel(m.From);
+            To.FromModel(m.To);
+            Control.FromModel(m.Control);
+            SamplerState.FromModel(m.SamplerState);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

@@ -6,6 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -31,5 +32,25 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new VideoInModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            SizeX = (GenericValueModel<int>)SizeX.ToModel(),
+            SizeY = (GenericValueModel<int>)SizeY.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (VideoInModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            SizeX.FromModel(m.SizeX);
+            SizeY.FromModel(m.SizeY);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

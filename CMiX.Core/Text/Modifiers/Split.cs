@@ -26,5 +26,22 @@ namespace CMiX.Core.Text.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new SplitModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Separator = (GenericValueModel<string>)Separator.ToModel(),
+            Type = (GenericValueModel<SplitType>)Type.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (SplitModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Separator.FromModel(m.Separator);
+            Type.FromModel(m.Type);
+        }
     }
 }

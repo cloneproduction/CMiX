@@ -3,6 +3,7 @@
 
 using System.Collections.Specialized;
 using System.ComponentModel;
+using CMiX.Core.Assets;
 using CMiX.Core.Collections;
 using CommunityToolkit.Mvvm.ComponentModel;
 

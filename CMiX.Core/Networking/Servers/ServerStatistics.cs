@@ -58,5 +58,15 @@ namespace CMiX.Core.Networking.Servers
             StartTime = watsonTcpServer.Statistics.StartTime;
             UpTime = watsonTcpServer.Statistics.UpTime;
         }
+
+        public IControlModel ToModel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FromModel(IControlModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Mapping;
 using CMiX.Core.Prefabs;
 
 namespace CMiX.Core
@@ -11,7 +10,6 @@ namespace CMiX.Core
         private const int MaxSteps = 32;
         private const int MergeWindowMs = 500;
 
-        private readonly Mapper _mapper;
         private readonly ControlRepository _controlRepository;
         private readonly Dictionary<Guid, WeakReference<IControl>> _controlRegistry = new();
         private readonly Stack<UndoStep> _undoStack = new();
@@ -25,10 +23,15 @@ namespace CMiX.Core
         public bool CanUndo => _undoStack.Count > 0;
         public bool CanRedo => _redoStack.Count > 0;
 
-        public UndoManager(Mapper mapper, ControlRepository controlRepository)
+        public UndoManager(ControlRepository controlRepository)
         {
-            _mapper = mapper;
             _controlRepository = controlRepository;
+        }
+
+        public void Clear()
+        {
+            _undoStack.Clear();
+            _redoStack.Clear();
         }
 
         public void Register(IControl control)
@@ -39,14 +42,14 @@ namespace CMiX.Core
         public void Record(IControl control)
         {
             _pendingControl = control;
-            _pendingBefore = _mapper.MapToModel(control);
+            _pendingBefore = control.ToModel();
         }
 
         public void Commit(IControl control)
         {
             if (_isApplying) return;
             if (_pendingControl?.ID != control.ID) return;
-            Push(new UndoStep(control.ID, _pendingBefore, _mapper.MapToModel(control)));
+            Push(new UndoStep(control.ID, _pendingBefore, control.ToModel()));
             _pendingControl = null;
             _pendingBefore = null;
         }
@@ -95,7 +98,7 @@ namespace CMiX.Core
                 var model = isUndo ? step.Before : step.After;
                 if (_controlRegistry.TryGetValue(step.ControlID, out var weakRef)
                     && weakRef.TryGetTarget(out var control))
-                    _mapper.MapToViewModel(control, model);
+                    control.FromModel(model);
             }
             _isApplying = false;
         }

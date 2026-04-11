@@ -41,5 +41,36 @@ namespace CMiX.Core.Rendering.Cameras
         public GenericValue<bool> Projection { get; set; }
         public GenericValue<bool> IsOrthographic { get; set; }
         public GenericValue<float> OrthographicSize { get; set; }
+
+        public IControlModel ToModel() => new CameraSettingsModel
+        {
+            ID = ID,
+            FOV = (GenericValueModel<float>)FOV.ToModel(),
+            Distance = (GenericValueModel<float>)Distance.ToModel(),
+            Yaw = (GenericValueModel<float>)Yaw.ToModel(),
+            Pitch = (GenericValueModel<float>)Pitch.ToModel(),
+            Target = (Vector3Model)Target.ToModel(),
+            NearClip = (GenericValueModel<float>)NearClip.ToModel(),
+            FarClip = (GenericValueModel<float>)FarClip.ToModel(),
+            Projection = (GenericValueModel<bool>)Projection.ToModel(),
+            IsOrthographic = (GenericValueModel<bool>)IsOrthographic.ToModel(),
+            OrthographicSize = (GenericValueModel<float>)OrthographicSize.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (CameraSettingsModel)model;
+            ID = m.ID;
+            FOV.FromModel(m.FOV);
+            Distance.FromModel(m.Distance);
+            Yaw.FromModel(m.Yaw);
+            Pitch.FromModel(m.Pitch);
+            Target.FromModel(m.Target);
+            NearClip.FromModel(m.NearClip);
+            FarClip.FromModel(m.FarClip);
+            Projection.FromModel(m.Projection);
+            IsOrthographic.FromModel(m.IsOrthographic);
+            OrthographicSize.FromModel(m.OrthographicSize);
+        }
     }
 }

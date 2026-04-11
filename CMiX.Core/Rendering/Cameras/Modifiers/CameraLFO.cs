@@ -37,5 +37,27 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new CameraLFOModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
+            From = (GenericValueModel<float>)From.ToModel(),
+            To = (GenericValueModel<float>)To.ToModel(),
+            Axis = (GenericValueModel<CameraAxis>)Axis.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (CameraLFOModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            PingPong.FromModel(m.PingPong);
+            From.FromModel(m.From);
+            To.FromModel(m.To);
+            Axis.FromModel(m.Axis);
+        }
     }
 }

@@ -13,6 +13,6 @@
         VerticalAlignment="Top"
         DataContext="{Binding AssetSelector}"
         ItemsSource="{Binding AssetRepository.Images}"
-        SelectedItem="{Binding Asset.Value}" />
+        SelectedItem="{Binding Asset}" />
 
 </UserControl>

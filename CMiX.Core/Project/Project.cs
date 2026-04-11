@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Compositing
 {
-    public class Project : ObservableObject, IPrefab, IModifiable
+    public class Project : ObservableObject, IPrefab//, IModifiable
     {
         public Project(PrefabManager compositionManager, PrefabService prefabService, UndoManager undoManager)
         {
@@ -28,6 +28,19 @@ namespace CMiX.Core.Compositing
         public SortableObservableCollection<IAsset> Assets { get; set; }
         public PrefabManager CompositionManager { get; set; }
         public PrefabService PrefabService { get; set; }
-        public PrefabManager ModifierManager { get; set; }
+
+        public IControlModel ToModel() => new ProjectModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            CompositionManager = (PrefabManagerModel)CompositionManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ProjectModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+        }
     }
 }

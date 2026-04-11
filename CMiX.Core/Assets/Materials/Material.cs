@@ -6,6 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Materials
 {
@@ -36,5 +37,27 @@ namespace CMiX.Core.Materials
 
         [ObservableProperty]
         private bool modifierManagerIsExpanded = false;
+
+        public IControlModel ToModel() => new MaterialModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            DiffuseTexture = (DiffuseTextureModel)DiffuseTexture.ToModel(),
+            MaskTexture = (MaskTextureModel)MaskTexture.ToModel(),
+            MaterialSettings = (MaterialSettingsModel)MaterialSettings.ToModel(),
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (MaterialModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            DiffuseTexture.FromModel(m.DiffuseTexture);
+            MaskTexture.FromModel(m.MaskTexture);
+            MaterialSettings.FromModel(m.MaterialSettings);
+
+            LoadManager(ModifierManager, m.ModifierManager);
+        }
     }
 }

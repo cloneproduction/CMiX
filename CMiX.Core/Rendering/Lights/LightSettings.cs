@@ -37,5 +37,32 @@ namespace CMiX.Core.Rendering.Lights
         public GenericValue<float> Angle { get; set; }
         public GenericValue<float> Softness { get; set; }
         public GenericValue<float> Intensity { get; set; }
+
+        public IControlModel ToModel() => new LightSettingsModel
+        {
+            ID = ID,
+            LightTypeSelector = (GenericValueModel<LightType>)LightTypeSelector.ToModel(),
+            LightColor = (GenericValueModel<string>)LightColor.ToModel(),
+            Position = (Vector3Model)Position.ToModel(),
+            Target = (Vector3Model)Target.ToModel(),
+            Radius = (GenericValueModel<float>)Radius.ToModel(),
+            Angle = (GenericValueModel<float>)Angle.ToModel(),
+            Softness = (GenericValueModel<float>)Softness.ToModel(),
+            Intensity = (GenericValueModel<float>)Intensity.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (LightSettingsModel)model;
+            ID = m.ID;
+            LightTypeSelector.FromModel(m.LightTypeSelector);
+            LightColor.FromModel(m.LightColor);
+            Position.FromModel(m.Position);
+            Target.FromModel(m.Target);
+            Radius.FromModel(m.Radius);
+            Angle.FromModel(m.Angle);
+            Softness.FromModel(m.Softness);
+            Intensity.FromModel(m.Intensity);
+        }
     }
 }

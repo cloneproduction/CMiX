@@ -5,6 +5,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Lights
 {
@@ -30,5 +31,23 @@ namespace CMiX.Core.Rendering.Lights
 
         [ObservableProperty]
         private bool settingsIsExpanded = true;
+
+        public IControlModel ToModel() => new LightEntityModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Settings = (LightSettingsModel)Settings.ToModel(),
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (LightEntityModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Settings.FromModel(m.Settings);
+
+            LoadManager(ModifierManager, m.ModifierManager);
+        }
     }
 }

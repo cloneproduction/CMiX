@@ -9,8 +9,6 @@
       "CMiX.Core/1.0.0": {
         "dependencies": {
           "CommunityToolkit.Mvvm": "8.4.0",
-          "Mapster": "7.4.0",
-          "Mapster.DependencyInjection": "1.0.1",
           "Microsoft.Extensions.DependencyInjection": "8.0.1",
           "MvvmDialogs": "9.1.2",
           "Scrutor": "6.1.0",
@@ -44,37 +42,6 @@
           "lib/net8.0-windows7.0/GongSolutions.WPF.DragDrop.dll": {
             "assemblyVersion": "4.0.0.0",
             "fileVersion": "4.0.0.0"
-          }
-        }
-      },
-      "Mapster/7.4.0": {
-        "dependencies": {
-          "Mapster.Core": "1.2.1"
-        },
-        "runtime": {
-          "lib/net7.0/Mapster.dll": {
-            "assemblyVersion": "7.4.0.0",
-            "fileVersion": "7.4.0.0"
-          }
-        }
-      },
-      "Mapster.Core/1.2.1": {
-        "runtime": {
-          "lib/net7.0/Mapster.Core.dll": {
-            "assemblyVersion": "1.2.1.0",
-            "fileVersion": "1.2.1.0"
-          }
-        }
-      },
-      "Mapster.DependencyInjection/1.0.1": {
-        "dependencies": {
-          "Mapster": "7.4.0",
-          "Microsoft.Extensions.DependencyInjection.Abstractions": "8.0.2"
-        },
-        "runtime": {
-          "lib/net7.0/Mapster.DependencyInjection.dll": {
-            "assemblyVersion": "1.0.1.0",
-            "fileVersion": "1.0.1.0"
           }
         }
       },
@@ -518,27 +485,6 @@
       "sha512": "sha512-nDj86v1XHhgmQR8PPo/uDDp/xdLDxcqZdvIwSxWAHQPiRX/GBXK13FYY0C2xQow9RSl6j5FKLk8xoYrdb52vqg==",
       "path": "gong-wpf-dragdrop/4.0.0",
       "hashPath": "gong-wpf-dragdrop.4.0.0.nupkg.sha512"
-    },
-    "Mapster/7.4.0": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-RYGoDqvS4WTKIq0HDyPBBVIj6N0mluOCXQ1Vk95JKseMHEsbCXSEGKSlP95oL+s42IXAXbqvHj7p0YaRBUcfqg==",
-      "path": "mapster/7.4.0",
-      "hashPath": "mapster.7.4.0.nupkg.sha512"
-    },
-    "Mapster.Core/1.2.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-11lokmfliBEMMmjeqxFGNpqGXq6tN96zFqpBmfYeahr4Ybk63oDmeJmOflsATjobYkX248g5Y62oQ2NNnZaeww==",
-      "path": "mapster.core/1.2.1",
-      "hashPath": "mapster.core.1.2.1.nupkg.sha512"
-    },
-    "Mapster.DependencyInjection/1.0.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-LfjnRIwx6WAo3ssq8PFeaHFaUz00BfSG9BhWgXsiDa3H5lDhG0lpMGDF6w2ZnooS4eHYmAv4f77VxmzpvgorNg==",
-      "path": "mapster.dependencyinjection/1.0.1",
-      "hashPath": "mapster.dependencyinjection.1.0.1.nupkg.sha512"
     },
     "MathNet.Numerics/5.0.0": {
       "type": "package",

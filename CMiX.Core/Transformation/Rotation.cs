@@ -23,5 +23,20 @@ namespace CMiX.Core.Transformation
 
         [ObservableProperty]
         private bool isExpanded;
+
+        public IControlModel ToModel() => new RotationModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            XYZ = (Vector3Model)XYZ.ToModel(),
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RotationModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            XYZ.FromModel(m.XYZ);
+        }
     }
 }

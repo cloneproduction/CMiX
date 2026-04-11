@@ -8,6 +8,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Colors.Modifiers
 {
@@ -44,5 +45,33 @@ namespace CMiX.Core.Colors.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new RandomHSVModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            ColorMode = (GenericValueModel<ColorMode>)ColorMode.ToModel(),
+            Hue = (GenericValueModel<float>)Hue.ToModel(),
+            Saturation = (GenericValueModel<float>)Saturation.ToModel(),
+            Value = (GenericValueModel<float>)Value.ToModel(),
+            Alpha = (GenericValueModel<float>)Alpha.ToModel(),
+            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RandomHSVModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            ColorMode.FromModel(m.ColorMode);
+            Hue.FromModel(m.Hue);
+            Saturation.FromModel(m.Saturation);
+            Value.FromModel(m.Value);
+            Alpha.FromModel(m.Alpha);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

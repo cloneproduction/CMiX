@@ -9,6 +9,7 @@ using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
@@ -67,5 +68,43 @@ namespace CMiX.Core.Compositing
 
         [ObservableProperty]
         private int selectedTabItemIndex;
+
+        public IControlModel ToModel() => new LayerModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            LayerSettings = (LayerSettingsModel)LayerSettings.ToModel(),
+            Invert = (GenericValueModel<bool>)Invert.ToModel(),
+            IsMask = (GenericValueModel<bool>)IsMask.ToModel(),
+            MaskMode = (GenericValueModel<MaskMode>)MaskMode.ToModel(),
+            MaskChannel = (GenericValueModel<MaskChannel>)MaskChannel.ToModel(),
+            AmbientOcclusion = (AmbientOcclusionModel)AmbientOcclusion.ToModel(),
+            LocalReflection = (LocalReflectionModel)LocalReflection.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
+            ModelEntityManager = (PrefabManagerModel)ModelEntityManager.ToModel(),
+            CameraManager = (PrefabManagerModel)CameraManager.ToModel(),
+            LightManager = (PrefabManagerModel)LightManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (LayerModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            LayerSettings.FromModel(m.LayerSettings);
+            Invert.FromModel(m.Invert);
+            IsMask.FromModel(m.IsMask);
+            MaskMode.FromModel(m.MaskMode);
+            MaskChannel.FromModel(m.MaskChannel);
+            AmbientOcclusion.FromModel(m.AmbientOcclusion);
+            LocalReflection.FromModel(m.LocalReflection);
+
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
+            LoadManager(ModifierManager, m.ModifierManager);
+            LoadManager(ModelEntityManager, m.ModelEntityManager);
+            LoadManager(CameraManager, m.CameraManager);
+            LoadManager(LightManager, m.LightManager);
+        }
     }
 }

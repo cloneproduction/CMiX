@@ -7,6 +7,11 @@ namespace CMiX.Core.Assets
 {
     public class Geometry : IAsset
     {
+
+        public Geometry()
+        {
+            
+        }
         public Geometry(string path)
         {
             FilePath = path;

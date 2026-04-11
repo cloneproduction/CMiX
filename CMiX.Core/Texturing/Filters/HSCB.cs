@@ -34,5 +34,28 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new HSCBModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Hue = (GenericValueModel<float>)Hue.ToModel(),
+            Saturation = (GenericValueModel<float>)Saturation.ToModel(),
+            Contrast = (GenericValueModel<float>)Contrast.ToModel(),
+            Brightness = (GenericValueModel<float>)Brightness.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (HSCBModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Hue.FromModel(m.Hue);
+            Saturation.FromModel(m.Saturation);
+            Contrast.FromModel(m.Contrast);
+            Brightness.FromModel(m.Brightness);
+            Control.FromModel(m.Control);
+        }
     }
 }

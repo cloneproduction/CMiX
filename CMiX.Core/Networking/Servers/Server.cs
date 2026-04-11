@@ -325,5 +325,22 @@ namespace CMiX.Core.Networking.Servers
 
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
+
+        public IControlModel ToModel() => new ServerModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            IP = (GenericValueModel<string>)IP.ToModel(),
+            Port = (GenericValueModel<int>)Port.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ServerModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            IP.FromModel(m.IP);
+            Port.FromModel(m.Port);
+        }
     }
 }

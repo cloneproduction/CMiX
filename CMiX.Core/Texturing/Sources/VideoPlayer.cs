@@ -2,10 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.BaseControls.CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -39,5 +41,31 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new VideoPlayerModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            DoSeek = (ButtonModel)DoSeek.ToModel(),
+            SeekFrame = (GenericValueModel<int>)SeekFrame.ToModel(),
+            Play = (GenericValueModel<bool>)Play.ToModel(),
+            AssetSelector = (AssetSelectorModel)AssetSelector.ToModel(),
+            Resolution = (Integer2Model)Resolution.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (VideoPlayerModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            DoSeek.FromModel(m.DoSeek);
+            SeekFrame.FromModel(m.SeekFrame);
+            Play.FromModel(m.Play);
+            AssetSelector.FromModel(m.AssetSelector);
+            Resolution.FromModel(m.Resolution);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

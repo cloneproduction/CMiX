@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -31,5 +32,25 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new RandomRotationModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Rotation = (Vector3Model)Rotation.ToModel(),
+            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RandomRotationModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Rotation.FromModel(m.Rotation);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Prefabs.Messages;
@@ -49,6 +50,14 @@ namespace CMiX.Core.Prefabs.Managers
             set => SetProperty(ref _selectedItem, value);
         }
 
+        public void ClearAll()
+        {
+            foreach (var item in ManagerData.Items.ToList())
+                RemoveControlFromCollection(item);
+
+            ManagerData.SelectedIndex = -1;
+            SelectedItem = null;
+        }
 
         private void AddControlToCollection(IControl prefab)
         {
@@ -79,6 +88,8 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(IControlModel controlModel)
         {
+            Console.WriteLine($"AddItem called for {controlModel.GetType().Name} - stack: {new System.Diagnostics.StackTrace().ToString().Split('\n')[1].Trim()}");
+            Debug.WriteLine($"AddItem called for {controlModel.GetType().Name} - stack: {new System.Diagnostics.StackTrace().ToString().Split('\n')[1].Trim()}");
             var prefab = ControlFactory.Create(controlModel);
             AddControlToCollection(prefab);
         }
@@ -185,16 +196,26 @@ namespace CMiX.Core.Prefabs.Managers
             ControlRepository.AddControl(newControl);  // ← register new control
         }
 
-        //public void Rename()
-        //{
-        //    if (SelectedItem is IPrefab prefab && prefab.GetType() != typeof(EmptyPrefab))
-        //        prefab.PrefabService.IsRenaming.Value = true;
-        //}
+        public IControlModel ToModel() => new CollectionManagerModel
+        {
+            ID = ID,
+            ManagerData = new ManagerDataModel
+            {
+                ID = ManagerData.ID,
+                SelectedIndex = ManagerData.SelectedIndex,
+                Items = new Collection<IControlModel>(
+                    ManagerData.Items
+                        .Select(c => c.ToModel())
+                        .ToList()
+                )
+            }
+        };
 
-        //public void SelectedItemIsRenaming()
-        //{
-        //    if (SelectedItem is IPrefab prefab)
-        //        prefab.PrefabService.IsRenaming.Value = true;
-        //}
+        public void FromModel(IControlModel model)
+        {
+            var m = (CollectionManagerModel)model;
+            ID = m.ID;
+            ManagerData.SelectedIndex = m.ManagerData.SelectedIndex;
+        }
     }
 }

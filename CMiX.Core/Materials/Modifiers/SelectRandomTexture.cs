@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Materials.Modifiers
 {
@@ -28,5 +29,23 @@ namespace CMiX.Core.Materials.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new SelectRandomTextureModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
+            TextureFrom = (GenericValueModel<TextureFrom>)TextureFrom.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (SelectRandomTextureModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            TextureFrom.FromModel(m.TextureFrom);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

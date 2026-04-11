@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -28,5 +29,23 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new RandomVisibilityModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RandomVisibilityModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Control.FromModel(m.Control);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

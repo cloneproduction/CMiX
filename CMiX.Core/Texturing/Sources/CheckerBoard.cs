@@ -7,6 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -40,5 +41,31 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new CheckerBoardModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            Resolution = (Integer2Model)Resolution.ToModel(),
+            Transform2D = (Transform2DModel)Transform2D.ToModel(),
+            CellCount = (Vector2Model)CellCount.ToModel(),
+            ColorA = (GenericValueModel<string>)ColorA.ToModel(),
+            ColorB = (GenericValueModel<string>)ColorB.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (CheckerBoardModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Resolution.FromModel(m.Resolution);
+            Transform2D.FromModel(m.Transform2D);
+            CellCount.FromModel(m.CellCount);
+            ColorA.FromModel(m.ColorA);
+            ColorB.FromModel(m.ColorB);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

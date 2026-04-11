@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -73,6 +74,19 @@ namespace CMiX.Core.Prefabs.Managers
             }
         }
 
+        public void ClearAll()
+        {
+            _suppressSelectionUndo = true;
+            var items = Collection.ManagerData.Items.ToList();
+            Collection.ClearAll();
+            _suppressSelectionUndo = false;
+
+            foreach (var item in items)
+                ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, item, -1));
+
+            UndoManager?.Clear();
+        }
+
         public void AddItem(Type type)
         {
             _suppressSelectionUndo = true;
@@ -85,6 +99,19 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(_undoSteps.AddItem(prefab, index));
         }
 
+        public void AddItem(IControlModel controlModel)
+        {
+            _suppressSelectionUndo = true;
+            Collection.AddItem(controlModel);
+            _suppressSelectionUndo = false;
+
+            var prefab = Collection.SelectedItem;
+            if (prefab is EmptyPrefab) return;
+
+            var index = Collection.ManagerData.Items.IndexOf(prefab);
+            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
+            UndoManager?.Push(_undoSteps.AddItem(prefab, index));
+        }
 
         public void ReplaceItem(IControl control)
         {
@@ -99,6 +126,7 @@ namespace CMiX.Core.Prefabs.Managers
             var previousIndex = Collection.ManagerData.SelectedIndex;
             UndoManager?.Push(_undoSteps.ReplaceItem(previousItem, previousIndex, prefab, index));
         }
+
 
         public void DeleteItem(IControl control)
         {
@@ -161,6 +189,12 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(_undoSteps.SelectedItemChanged(previousItem, previousIndex, index));
         }
 
+        public void LoadItem(IControlModel controlModel)
+        {
+            _suppressSelectionUndo = true;
+            Collection.AddItem(controlModel);
+            _suppressSelectionUndo = false;
+        }
 
         //public void Rename() => Collection.Rename();
         //public void SelectedItemIsRenaming() => Collection.SelectedItemIsRenaming();
@@ -170,7 +204,30 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
+            if (ControlMessenger.IsReceivingBlocked) return;
             ReceiveWithoutEcho(() => MessageCollectionManagerHandler.Handle(Collection, message));
+        }
+
+        public IControlModel ToModel() => new PrefabManagerModel
+        {
+            ID = ManagerData.ID,
+            ManagerData = new ManagerDataModel
+            {
+                ID = ManagerData.ID,
+                SelectedIndex = ManagerData.SelectedIndex,
+                Items = new Collection<IControlModel>(
+            ManagerData.Items
+                .Select(c => c.ToModel())
+                .ToList()
+        )
+            }
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (PrefabManagerModel)model;
+            ManagerData.ID = m.ManagerData.ID;
+            ManagerData.SelectedIndex = m.ManagerData.SelectedIndex;
         }
     }
 }

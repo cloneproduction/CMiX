@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing
 {
@@ -37,5 +38,29 @@ namespace CMiX.Core.Texturing
 
         [ObservableProperty]
         private bool isExpanded = false;
+
+        public IControlModel ToModel() => new MaskTextureModel
+        {
+            ID = ID,
+            TextureManager = (PrefabManagerModel)TextureManager.ToModel(),
+            TransformTexture = (TransformTextureModel)TransformTexture.ToModel(),
+            SamplerState = (SamplerStateModel)SamplerState.ToModel(),
+            IsEnabled = (GenericValueModel<bool>)IsEnabled.ToModel(),
+            MaskChannel = (GenericValueModel<MaskChannel>)MaskChannel.ToModel(),
+            Invert = (GenericValueModel<bool>)Invert.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (MaskTextureModel)model;
+            ID = m.ID;
+            TransformTexture.FromModel(m.TransformTexture);
+            SamplerState.FromModel(m.SamplerState);
+            IsEnabled.FromModel(m.IsEnabled);
+            MaskChannel.FromModel(m.MaskChannel);
+            Invert.FromModel(m.Invert);
+
+            LoadManager(TextureManager, m.TextureManager);
+        }
     }
 }

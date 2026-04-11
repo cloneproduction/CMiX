@@ -21,5 +21,22 @@ namespace CMiX.Core.Compositing
         public GenericValue<string> BackgroundColor { get; set; }
         public GenericValue<BlendModeEnum> BlendMode { get; set; }
         public Guid ID { get; set; } = Guid.NewGuid();
+
+        public IControlModel ToModel() => new LayerSettingsModel
+        {
+            ID = ID,
+            BlendMode = (GenericValueModel<BlendModeEnum>)BlendMode.ToModel(),
+            Opacity = (GenericValueModel<float>)Opacity.ToModel(),
+            BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (LayerSettingsModel)model;
+            ID = m.ID;
+            BlendMode.FromModel(m.BlendMode);
+            Opacity.FromModel(m.Opacity);
+            BackgroundColor.FromModel(m.BackgroundColor);
+        }
     }
 }

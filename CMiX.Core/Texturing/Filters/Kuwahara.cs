@@ -28,5 +28,24 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new KuwaharaModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Radius = (GenericValueModel<float>)Radius.ToModel(),
+            Type = (GenericValueModel<KuwaharaType>)Type.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (KuwaharaModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Radius.FromModel(m.Radius);
+            Type.FromModel(m.Type);
+            Control.FromModel(m.Control);
+        }
     }
 }

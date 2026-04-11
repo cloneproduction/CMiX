@@ -36,5 +36,28 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new TransformTexCoordModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Location = (Vector2Model)Location.ToModel(),
+            Scale = (Vector2Model)Scale.ToModel(),
+            Uniform = (GenericValueModel<float>)Uniform.ToModel(),
+            Rotation = (GenericValueModel<float>)Rotation.ToModel(),
+            SamplerState = (SamplerStateModel)SamplerState.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (TransformTexCoordModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Location.FromModel(m.Location);
+            Scale.FromModel(m.Scale);
+            Uniform.FromModel(m.Uniform);
+            Rotation.FromModel(m.Rotation);
+            SamplerState.FromModel(m.SamplerState);
+        }
     }
 }

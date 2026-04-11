@@ -31,5 +31,26 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new InvertModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Factor = (GenericValueModel<float>)Factor.ToModel(),
+            InvertChannelSelector = (GenericValueModel<InvertChannel>)InvertChannelSelector.ToModel(),
+            InvertAlpha = (GenericValueModel<bool>)InvertAlpha.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (InvertModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Factor.FromModel(m.Factor);
+            InvertChannelSelector.FromModel(m.InvertChannelSelector);
+            InvertAlpha.FromModel(m.InvertAlpha);
+            Control.FromModel(m.Control);
+        }
     }
 }

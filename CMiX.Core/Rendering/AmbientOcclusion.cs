@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Rendering;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.ViewModels
@@ -42,5 +43,34 @@ namespace CMiX.Core.ViewModels
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new AmbientOcclusionModel
+        {
+            ID = ID,
+            IsEnabled = (GenericValueModel<bool>)IsEnabled.ToModel(),
+            Samples = (GenericValueModel<int>)Samples.ToModel(),
+            ProjectionScale = (GenericValueModel<float>)ProjectionScale.ToModel(),
+            Intensity = (GenericValueModel<float>)Intensity.ToModel(),
+            SampleBias = (GenericValueModel<float>)SampleBias.ToModel(),
+            SampleRadius = (GenericValueModel<float>)SampleRadius.ToModel(),
+            BlurCount = (GenericValueModel<int>)BlurCount.ToModel(),
+            BlurRadius = (GenericValueModel<float>)BlurRadius.ToModel(),
+            EdgeSharpness = (GenericValueModel<float>)EdgeSharpness.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (AmbientOcclusionModel)model;
+            ID = m.ID;
+            IsEnabled.FromModel(m.IsEnabled);
+            Samples.FromModel(m.Samples);
+            ProjectionScale.FromModel(m.ProjectionScale);
+            Intensity.FromModel(m.Intensity);
+            SampleBias.FromModel(m.SampleBias);
+            SampleRadius.FromModel(m.SampleRadius);
+            BlurCount.FromModel(m.BlurCount);
+            BlurRadius.FromModel(m.BlurRadius);
+            EdgeSharpness.FromModel(m.EdgeSharpness);
+        }
     }
 }

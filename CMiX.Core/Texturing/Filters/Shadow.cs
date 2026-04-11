@@ -55,5 +55,42 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new ShadowModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            BlendMode = (GenericValueModel<BlendModeEnum>)BlendMode.ToModel(),
+            LightDirection = (Vector3Model)LightDirection.ToModel(),
+            Height = (GenericValueModel<float>)Height.ToModel(),
+            DotTolerance = (GenericValueModel<float>)DotTolerance.ToModel(),
+            RayJitter = (GenericValueModel<float>)RayJitter.ToModel(),
+            RayLength = (GenericValueModel<float>)RayLength.ToModel(),
+            ShadowFade = (GenericValueModel<float>)ShadowFade.ToModel(),
+            ShadowFallOffPow = (GenericValueModel<float>)ShadowFallOffPow.ToModel(),
+            ShadowBlur = (GenericValueModel<float>)ShadowBlur.ToModel(),
+            ShadowBlurPow = (GenericValueModel<float>)ShadowBlurPow.ToModel(),
+            SharpOffset = (GenericValueModel<float>)SharpOffset.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ShadowModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            BlendMode.FromModel(m.BlendMode);
+            LightDirection.FromModel(m.LightDirection);
+            Height.FromModel(m.Height);
+            DotTolerance.FromModel(m.DotTolerance);
+            RayJitter.FromModel(m.RayJitter);
+            RayLength.FromModel(m.RayLength);
+            ShadowFade.FromModel(m.ShadowFade);
+            ShadowFallOffPow.FromModel(m.ShadowFallOffPow);
+            ShadowBlur.FromModel(m.ShadowBlur);
+            ShadowBlurPow.FromModel(m.ShadowBlurPow);
+            SharpOffset.FromModel(m.SharpOffset);
+            Control.FromModel(m.Control);
+        }
     }
 }

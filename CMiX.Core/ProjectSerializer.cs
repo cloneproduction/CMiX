@@ -1,0 +1,32 @@
+﻿using System.Text.Json;
+using System.Text.Json.Serialization;
+using CMiX.Core.Compositing;
+using CMiX.Core.Serialization;
+
+namespace CMiX.Core.Persistence
+{
+    public static class ProjectSerializer
+    {
+        private static readonly JsonSerializerOptions Options = new()
+        {
+            WriteIndented = true,
+            Converters =
+        {
+            new IControlModelJsonConverter(),
+        }
+        };
+
+        public static void Save(ProjectModel model, string path)
+        {
+            var json = JsonSerializer.Serialize(model, Options);
+            File.WriteAllText(path, json);
+        }
+
+        public static ProjectModel Load(string path)
+        {
+            var json = File.ReadAllText(path);
+            return JsonSerializer.Deserialize<ProjectModel>(json, Options)
+                ?? throw new InvalidOperationException("Failed to deserialize project.");
+        }
+    }
+}

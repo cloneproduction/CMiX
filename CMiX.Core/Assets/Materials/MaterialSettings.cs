@@ -42,5 +42,34 @@ namespace CMiX.Core.Materials
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new MaterialSettingsModel
+        {
+            ID = ID,
+            Pipeline = (GenericValueModel<PipelineType>)Pipeline.ToModel(),
+            CullMode = (GenericValueModel<CullModeType>)CullMode.ToModel(),
+            Transparency = (GenericValueModel<TransparencyType>)Transparency.ToModel(),
+            BaseColor = (GenericValueModel<string>)BaseColor.ToModel(),
+            Metalness = (GenericValueModel<float>)Metalness.ToModel(),
+            Specularity = (GenericValueModel<float>)Specularity.ToModel(),
+            Glossiness = (GenericValueModel<float>)Glossiness.ToModel(),
+            Alpha = (GenericValueModel<float>)Alpha.ToModel(),
+            IsShadowCaster = (GenericValueModel<bool>)IsShadowCaster.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (MaterialSettingsModel)model;
+            ID = m.ID;
+            Pipeline.FromModel(m.Pipeline);
+            CullMode.FromModel(m.CullMode);
+            Transparency.FromModel(m.Transparency);
+            BaseColor.FromModel(m.BaseColor);
+            Metalness.FromModel(m.Metalness);
+            Specularity.FromModel(m.Specularity);
+            Glossiness.FromModel(m.Glossiness);
+            Alpha.FromModel(m.Alpha);
+            IsShadowCaster.FromModel(m.IsShadowCaster);
+        }
     }
 }

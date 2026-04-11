@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Layering.Modifiers
 {
@@ -31,5 +32,25 @@ namespace CMiX.Core.Layering.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new RenderSequenceEntityModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
+            EntityType = (GenericValueModel<EntityType>)EntityType.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RenderSequenceEntityModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            EntityType.FromModel(m.EntityType);
+            Control.FromModel(m.Control);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -59,5 +60,37 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool randomizeRotationIsExpanded;
+
+        public IControlModel ToModel() => new RandomXYZModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Gaussian = (GenericValueModel<bool>)Gaussian.ToModel(),
+            RandomizeLocation = (GenericValueModel<bool>)RandomizeLocation.ToModel(),
+            Location = (Vector3Model)Location.ToModel(),
+            RandomizeScale = (GenericValueModel<bool>)RandomizeScale.ToModel(),
+            Scale = (Vector3Model)Scale.ToModel(),
+            RandomizeRotation = (GenericValueModel<bool>)RandomizeRotation.ToModel(),
+            Rotation = (Vector3Model)Rotation.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
+            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RandomXYZModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Gaussian.FromModel(m.Gaussian);
+            RandomizeLocation.FromModel(m.RandomizeLocation);
+            Location.FromModel(m.Location);
+            RandomizeScale.FromModel(m.RandomizeScale);
+            Scale.FromModel(m.Scale);
+            RandomizeRotation.FromModel(m.RandomizeRotation);
+            Rotation.FromModel(m.Rotation);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

@@ -14,14 +14,6 @@
         <Views:FilterPanel.Content>
             <StackPanel>
 
-                <BaseControl:CMiXSlider
-                    Margin="0,0,0,8"
-                    Caption="Control"
-                    Maximum="1.0"
-                    Minimum="0.0"
-                    Position="Default"
-                    Value="{Binding Control.Value}" />
-
                 <BaseControl:ColorSelector
                     Caption="Color A"
                     DataContext="{Binding ColorA}"

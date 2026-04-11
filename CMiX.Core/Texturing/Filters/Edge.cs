@@ -28,5 +28,24 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new EdgeModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Radius = (GenericValueModel<float>)Radius.ToModel(),
+            Brightness = (GenericValueModel<float>)Brightness.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (EdgeModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Radius.FromModel(m.Radius);
+            Brightness.FromModel(m.Brightness);
+            Control.FromModel(m.Control);
+        }
     }
 }

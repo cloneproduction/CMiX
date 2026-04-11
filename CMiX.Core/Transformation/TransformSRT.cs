@@ -39,5 +39,30 @@ namespace CMiX.Core.Transformation
 
         [ObservableProperty]
         private bool isExpanded;
+
+        public IControlModel ToModel() => new TransformSRTModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Uniform = (GenericValueModel<float>)Uniform.ToModel(),
+            DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
+            Translate = (TranslateModel)Translate.ToModel(),
+            Scale = (ScaleModel)Scale.ToModel(),
+            Rotation = (RotationModel)Rotation.ToModel(),
+            Mode = (GenericValueModel<ModifierMode>)Mode.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (TransformSRTModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Uniform.FromModel(m.Uniform);
+            DirectionXYZ.FromModel(m.DirectionXYZ);
+            Translate.FromModel(m.Translate);
+            Scale.FromModel(m.Scale);
+            Rotation.FromModel(m.Rotation);
+            Mode.FromModel(m.Mode);
+        }
     }
 }

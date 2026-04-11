@@ -1,9 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Mapping;
-using CMiX.Core.Networking;
-using CMiX.Core.Prefabs.Messages;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core.Prefabs
@@ -11,26 +8,17 @@ namespace CMiX.Core.Prefabs
     public class ControlFactory
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly Mapper _mapper;
-        private readonly ControlMessenger _controlMessenger;
-        private readonly MessageFactory _messageFactory;
         private readonly ControlActivationService _activationService;
         private readonly ControlRepository _controlRepository;
 
         public ControlFactory(
-            ControlMessenger controlMessenger,
-            MessageFactory messageFactory,
             ControlActivationService activationService,
             ControlRepository controlRepository,
-            Mapper mapper,
             IServiceProvider services)
         {
             _serviceProvider = services;
-            _messageFactory = messageFactory;
-            _controlMessenger = controlMessenger;
             _activationService = activationService;
             _controlRepository = controlRepository;
-            _mapper = mapper;
         }
 
         public IControl Create(Type viewModelType)
@@ -47,7 +35,7 @@ namespace CMiX.Core.Prefabs
         {
             if (model == null) throw new ArgumentNullException(nameof(model));
             var control = CreateControlInstance(model);
-            control = _mapper.MapToViewModel(control, model);
+            control.FromModel(model);
             NameControl(control);
             _activationService.ActivateAll();
             return control;

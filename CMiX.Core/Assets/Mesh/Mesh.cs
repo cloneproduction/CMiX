@@ -6,13 +6,14 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.ViewModels
 {
     public partial class Mesh : ObservableRecipient, IControl
     {
-        public Mesh(GenericValue<MeshType> meshTypeSelector, 
-                    Vector3 scale, 
+        public Mesh(GenericValue<MeshType> meshTypeSelector,
+                    Vector3 scale,
                     Vector3 offset,
                     GenericValue<float> radius,
                     GenericValue<float> height,
@@ -60,5 +61,45 @@ namespace CMiX.Core.ViewModels
         public GenericValue<bool> Visibility { get; set; }
         public PrefabManager ExplodeTriangleTextureManager { get; set; }
         public GenericValue<float> ExplodeStrength { get; set; }
+
+        public IControlModel ToModel() => new MeshModel
+        {
+            ID = ID,
+            MeshTypeSelector = (GenericValueModel<MeshType>)MeshTypeSelector.ToModel(),
+            Geometry = (GenericValueModel<IAsset>)Geometry.ToModel(),
+            Text3DSettings = (Text3DSettingsModel)Text3DSettings.ToModel(),
+            Scale = (Vector3Model)Scale.ToModel(),
+            Offset = (Vector3Model)Offset.ToModel(),
+            Radius = (GenericValueModel<float>)Radius.ToModel(),
+            Height = (GenericValueModel<float>)Height.ToModel(),
+            Thickness = (GenericValueModel<float>)Thickness.ToModel(),
+            Tessellation = (GenericValueModel<int>)Tessellation.ToModel(),
+            TessellationXY = (Integer2Model)TessellationXY.ToModel(),
+            GenerateBackFace = (GenericValueModel<bool>)GenerateBackFace.ToModel(),
+            Visibility = (GenericValueModel<bool>)Visibility.ToModel(),
+            ExplodeStrength = (GenericValueModel<float>)ExplodeStrength.ToModel(),
+            ExplodeTriangleTextureManager = (PrefabManagerModel)ExplodeTriangleTextureManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (MeshModel)model;
+            ID = m.ID;
+            MeshTypeSelector.FromModel(m.MeshTypeSelector);
+            Geometry.FromModel(m.Geometry);
+            Text3DSettings.FromModel(m.Text3DSettings);
+            Scale.FromModel(m.Scale);
+            Offset.FromModel(m.Offset);
+            Radius.FromModel(m.Radius);
+            Height.FromModel(m.Height);
+            Thickness.FromModel(m.Thickness);
+            Tessellation.FromModel(m.Tessellation);
+            TessellationXY.FromModel(m.TessellationXY);
+            GenerateBackFace.FromModel(m.GenerateBackFace);
+            Visibility.FromModel(m.Visibility);
+            ExplodeStrength.FromModel(m.ExplodeStrength);
+
+            LoadManager(ExplodeTriangleTextureManager, m.ExplodeTriangleTextureManager);
+        }
     }
 }

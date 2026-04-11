@@ -61,5 +61,24 @@ namespace CMiX.Core.Animations
                 return;
             BeatIndex.Value++;
         }
+
+        public IControlModel ToModel() => new BeatModifierModel
+        {
+            ID = ID,
+            Easing = (EasingModel)Easing.ToModel(),
+            BeatIndex = (GenericValueModel<int>)BeatIndex.ToModel(),
+            ChanceToHit = (GenericValueModel<float>)ChanceToHit.ToModel(),
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (BeatModifierModel)model;
+            ID = m.ID;
+            Easing.FromModel(m.Easing);
+            BeatIndex.FromModel(m.BeatIndex);
+            ChanceToHit.FromModel(m.ChanceToHit);
+            PrefabService.FromModel(m.PrefabService);
+        }
     }
 }

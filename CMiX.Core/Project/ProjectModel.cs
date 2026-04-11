@@ -11,8 +11,6 @@ namespace CMiX.Core.Compositing
     public record ProjectModel : IControlModel, IPrefabModel
     {
         public Guid ID { get; set; } = new Guid("11223344-5566-7788-99AA-BBCCDDEEFF00");
-        public ObservableCollection<IAssetModel> AssetModels { get; set; } = new();
-        public ObservableCollection<IAssetModel> AssetModelsFlatten { get; set; } = new();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel PrefabManager { get; set; } = new();
         public PrefabManagerModel ModifierManager { get; set; } = new();

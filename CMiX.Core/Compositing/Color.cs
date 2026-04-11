@@ -21,5 +21,22 @@ namespace CMiX.Core.Compositing
             PrefabService = prefabService;
         }
         public PrefabService PrefabService { get; set; }
+
+        public IControlModel ToModel() => new ColorModel
+        {
+            ID = ID,
+            Value = Value,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ColorModel)model;
+            ID = m.ID;
+            IsActive = false;
+            Value = m.Value;
+            IsActive = true;
+            PrefabService.FromModel(m.PrefabService);
+        }
     }
 }

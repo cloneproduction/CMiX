@@ -136,5 +136,28 @@ namespace CMiX.Core.Animations
                 multiplier *= 2;
             }
         }
+
+        public IControlModel ToModel() => new MasterBeatModel
+        {
+            ID = ID,
+            Resync = (ButtonModel)Resync.ToModel(),
+            Pause = (GenericValueModel<bool>)Pause.ToModel(),
+            Index = (GenericValueModel<int>)Index.ToModel(),
+            BeatIndex = (GenericValueModel<int>)BeatIndex.ToModel(),
+            Period = (GenericValueModel<float>)Period.ToModel(),
+            Periods = Periods.ToArray()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (MasterBeatModel)model;
+            ID = m.ID;
+            Resync.FromModel(m.Resync);
+            Pause.FromModel(m.Pause);
+            Index.FromModel(m.Index);
+            BeatIndex.FromModel(m.BeatIndex);
+            Period.FromModel(m.Period);
+            Periods = m.Periods.ToArray();
+        }
     }
 }

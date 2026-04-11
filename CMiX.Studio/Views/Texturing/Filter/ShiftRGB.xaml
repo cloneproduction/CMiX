@@ -14,15 +14,7 @@
         <Views:FilterPanel.Content>
             <StackPanel>
 
-                <BaseControls:CMiXSlider
-                    Caption="Factor"
-                    Maximum="1.0"
-                    Minimum="0.0"
-                    Position="Default"
-                    Value="{Binding Factor.Value}" />
-
                 <BaseControls:DragValue
-                    Margin="0,8,0,0"
                     Caption="Direction"
                     Position="Top"
                     Value="{Binding Direction.Value}" />

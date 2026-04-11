@@ -25,5 +25,22 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new PixelateModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Factor = (Vector2Model)Factor.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (PixelateModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Control.FromModel(m.Control);
+            Factor.FromModel(m.Factor);
+        }
     }
 }

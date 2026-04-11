@@ -13,5 +13,16 @@ namespace CMiX.Core.Prefabs
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
+
+        public IControlModel ToModel() => new EmptyPrefabModel
+        {
+            ID = ID
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (EmptyPrefabModel)model;
+            ID = m.ID;
+        }
     }
 }

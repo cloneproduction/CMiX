@@ -24,5 +24,22 @@ namespace CMiX.Core.Animations
 
         [ObservableProperty]
         private bool isExpanded = false;
+
+        public IControlModel ToModel() => new EasingModel
+        {
+            ID = ID,
+            IsEnabled = (GenericValueModel<bool>)IsEnabled.ToModel(),
+            Transition = (GenericValueModel<TweenerTransition>)Transition.ToModel(),
+            Mode = (GenericValueModel<TweenerMode>)Mode.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (EasingModel)model;
+            ID = m.ID;
+            IsEnabled.FromModel(m.IsEnabled);
+            Transition.FromModel(m.Transition);
+            Mode.FromModel(m.Mode);
+        }
     }
 }

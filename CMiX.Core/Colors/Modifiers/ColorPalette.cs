@@ -6,7 +6,9 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering.Cameras;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Colors.Modifiers
 {
@@ -31,5 +33,24 @@ namespace CMiX.Core.Colors.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new ColorPaletteModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            ColorManager = (PrefabManagerModel)ColorManager.ToModel(),
+            Resample = (GenericValueModel<ResamplingMethod>)Resample.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ColorPaletteModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Resample.FromModel(m.Resample);
+
+            LoadManager(ColorManager, m.ColorManager);
+            LoadManager(ModifierManager, m.BeatModifierManager);
+        }
     }
 }

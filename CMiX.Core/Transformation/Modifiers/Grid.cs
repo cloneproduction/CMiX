@@ -32,5 +32,26 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new GridModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+            Count = (Integer3Model)Count.ToModel(),
+            Width = (Vector3Model)Width.ToModel(),
+            Phase = (Vector3Model)Phase.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (GridModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            Count.FromModel(m.Count);
+            Width.FromModel(m.Width);
+            Phase.FromModel(m.Phase);
+        }
     }
 }

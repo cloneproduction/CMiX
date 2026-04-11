@@ -2,10 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.BaseControls.CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -30,5 +32,25 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new ImageModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            Resolution = (Integer2Model)Resolution.ToModel(),
+            AssetSelector = (AssetSelectorModel)AssetSelector.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ImageModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Resolution.FromModel(m.Resolution);
+            AssetSelector.FromModel(m.AssetSelector);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

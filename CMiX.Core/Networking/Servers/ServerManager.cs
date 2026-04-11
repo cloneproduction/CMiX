@@ -242,5 +242,17 @@ namespace CMiX.Core.Networking.Servers
 
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
+
+        public IControlModel ToModel() => new ServerManagerModel
+        {
+            ID = ID,
+            ManagerData = (ManagerDataModel)ManagerData.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ServerManagerModel)model;
+            ID = m.ID;
+        }
     }
 }

@@ -74,5 +74,20 @@ namespace CMiX.Core.BaseControls
             if (message is MessageValueChanged change)
                 ReceiveWithoutEcho(() => Value = ((GenericValueModel<T>)change.Value).Value);
         }
+
+        public IControlModel ToModel() => new GenericValueModel<T>
+        {
+            ID = ID,
+            Value = Value
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (GenericValueModel<T>)model;
+            ID = m.ID;
+            IsActive = false;
+            Value = m.Value;
+            IsActive = true;
+        }
     }
 }

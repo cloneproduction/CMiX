@@ -4,6 +4,7 @@
 using System.Windows.Input;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -11,7 +12,6 @@ using CommunityToolkit.Mvvm.Messaging;
 using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
-using VL.Serialization.MessagePack;
 
 namespace CMiX.Core.ViewModels
 {
@@ -20,25 +20,26 @@ namespace CMiX.Core.ViewModels
         public MainMenu(Project project, ControlFactory controlFactory)
         {
             Project = project;
-
             IsActive = true;
 
-            AddLayerCommand = new RelayCommand(AddLayer);
-            AddCompositionCommand = new RelayCommand(AddComposition);
             NewProjectCommand = new RelayCommand(NewProject);
             OpenProjectCommand = new RelayCommand(OpenProject);
             SaveProjectCommand = new RelayCommand(SaveProject);
             SaveAsProjectCommand = new RelayCommand(SaveAsProject);
+            AddCompositionCommand = new RelayCommand(AddComposition);
+            AddLayerCommand = new RelayCommand(AddLayer);
 
             DialogService = new DialogService();
             ControlFactory = controlFactory;
         }
 
+        [ObservableProperty]
+        private string _folderPath;
+
         public Guid ID { get; set; } = Guid.NewGuid();
         public ControlFactory ControlFactory { get; set; }
         public DialogService DialogService { get; set; }
         public Project Project { get; set; }
-
 
         public ICommand NewProjectCommand { get; }
         public ICommand SaveProjectCommand { get; }
@@ -46,14 +47,6 @@ namespace CMiX.Core.ViewModels
         public ICommand OpenProjectCommand { get; }
         public ICommand AddCompositionCommand { get; }
         public ICommand AddLayerCommand { get; }
-
-
-
-        //[ObservableProperty]
-        //private bool path;
-
-        public string FolderPath { get; set; }
-
 
         public void AddLayer()
         {
@@ -67,77 +60,65 @@ namespace CMiX.Core.ViewModels
 
         private void NewProject()
         {
-            ProjectModel projectModel = new ProjectModel();
+            Project.CompositionManager.ClearAll();
+            FolderPath = null;
         }
 
         private void OpenProject()
         {
-
-            OpenFileDialogSettings settings = new OpenFileDialogSettings();
-            settings.Filter = "Project (*.cmix)|*.cmix";
-
-            bool? success = DialogService.ShowOpenFileDialog(this, settings);
-            if (success == true)
+            var settings = new OpenFileDialogSettings
             {
-                string folderPath = settings.FileName;
-                if (settings.FileName.Trim() != string.Empty) // Check if you really have a file name 
-                {
-                    byte[] data = File.ReadAllBytes(folderPath);
-                    var compositionModel = MessagePackSerialization.Deserialize<CompositionModel>(new ReadOnlyMemory<byte>(data));
-                    var composition = ControlFactory.Create(compositionModel);
-                    //Project.CompositionManager.SelectedItem = composition;
-                }
-            }
-        }
+                Filter = "CMiX Project (*.cmix)|*.cmix"
+            };
 
+            if (DialogService.ShowOpenFileDialog(this, settings) != true) return;
+            if (string.IsNullOrWhiteSpace(settings.FileName)) return;
 
-        public void OpenProject(string filePath)
-        {
-            byte[] data = File.ReadAllBytes(filePath); 
-            var compositionModel = MessagePackSerialization.Deserialize<CompositionModel>(new ReadOnlyMemory<byte>(data));
-            //Serializer.Deserialize<CompositionModel>(data);
-            var composition = ControlFactory.Create(compositionModel);
+            var projectModel = ProjectSerializer.Load(settings.FileName);
+            var compositionModel = projectModel.CompositionManager.ManagerData.Items.FirstOrDefault();
+            if (compositionModel == null) return;
 
-            //Project.CompositionManager.SelectedItem = composition;
-            Project.CompositionManager.ManagerData.Items.Insert(0, composition);
-            Project.CompositionManager.ManagerData.SelectedIndex = 0;
+            Project.CompositionManager.AddItem(compositionModel);
         }
 
         private void SaveProject()
         {
-            //if (!string.IsNullOrEmpty(FolderPath))
-            //{
-            //    var model = Project.ToModel();// Mapper.Map(Project, typeof(Project), typeof(ProjectModel));
-            //    var data = MessagePackSerialization.Serialize(model);
-            //    //Serializer.Serialize(model);
-            //    File.WriteAllBytes(FolderPath, data);
-            //    return;
-            //}
-            //SaveAsProject();
+            if (!string.IsNullOrWhiteSpace(FolderPath))
+            {
+                WriteProject(FolderPath);
+                return;
+            }
+            SaveAsProject();
         }
 
         private void SaveAsProject()
         {
-            //SaveFileDialogSettings settings = new SaveFileDialogSettings();
-            //settings.Filter = "Composition (*.cmix)|*.cmix";
-            //settings.DefaultExt = "cmix";
-            //settings.AddExtension = true;
+            var settings = new SaveFileDialogSettings
+            {
+                Filter = "CMiX Project (*.cmix)|*.cmix",
+                DefaultExt = "cmix",
+                AddExtension = true
+            };
 
-            //bool? success = DialogService.ShowSaveFileDialog(this, settings);
-            //if (success == true)
-            //{
-            //    var model = Project.CompositionManager.SelectedItem.ToModel();
-            //    var data = MessagePackSerialization.Serialize(model);
-            //    //Serializer.Serialize(model);
-            //    string folderPath = settings.FileName;
-            //    File.WriteAllBytes(folderPath, data);
-            //    FolderPath = folderPath;
-            //}
+            if (DialogService.ShowSaveFileDialog(this, settings) != true) return;
+            if (string.IsNullOrWhiteSpace(settings.FileName)) return;
+
+            FolderPath = settings.FileName;
+            WriteProject(FolderPath);
+        }
+
+        private void WriteProject(string path)
+        {
+            var projectModel = (ProjectModel)Project.ToModel();
+            ProjectSerializer.Save(projectModel, path);
         }
 
         public void Receive(IMessage message)
         {
             //MainMenuMessenger.Receive(this, message);
         }
+
+        public IControlModel ToModel() => throw new NotImplementedException();
+        public void FromModel(IControlModel model) => throw new NotImplementedException();
     }
 }

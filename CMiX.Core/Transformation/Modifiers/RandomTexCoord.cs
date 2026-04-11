@@ -8,6 +8,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -45,5 +46,33 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new RandomTexCoordModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
+            Location = (Vector2Model)Location.ToModel(),
+            Scale = (Vector2Model)Scale.ToModel(),
+            Uniform = (GenericValueModel<float>)Uniform.ToModel(),
+            Rotation = (GenericValueModel<float>)Rotation.ToModel(),
+            SamplerState = (SamplerStateModel)SamplerState.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (RandomTexCoordModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            Location.FromModel(m.Location);
+            Scale.FromModel(m.Scale);
+            Uniform.FromModel(m.Uniform);
+            Rotation.FromModel(m.Rotation);
+            SamplerState.FromModel(m.SamplerState);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

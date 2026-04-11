@@ -67,5 +67,15 @@ namespace CMiX.Core.ViewModels.Windows
             var window = p as Window;
             window.Close();
         }
+
+        public IControlModel ToModel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FromModel(IControlModel model)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

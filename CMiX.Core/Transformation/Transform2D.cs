@@ -23,5 +23,24 @@ namespace CMiX.Core.Transformation
         public Vector2 Translate { get; set; }
         public Vector2 Scale { get; set; }
         public GenericValue<float> Rotate { get; set; }
+
+        public IControlModel ToModel() => new Transform2DModel
+        {
+            ID = ID,
+            Translate = (Vector2Model)Translate.ToModel(),
+            Scale = (Vector2Model)Scale.ToModel(),
+            Rotate = (GenericValueModel<float>)Rotate.ToModel(),
+            UniformScale = (GenericValueModel<float>)UniformScale.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (Transform2DModel)model;
+            ID = m.ID;
+            Translate.FromModel(m.Translate);
+            Scale.FromModel(m.Scale);
+            Rotate.FromModel(m.Rotate);
+            UniformScale.FromModel(m.UniformScale);
+        }
     }
 }

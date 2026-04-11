@@ -5,6 +5,7 @@ namespace CMiX.Core
 {
     public static class ManagerIDs
     {
+        public static readonly Guid Project = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEE0000");
         public static readonly Guid CompositionManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF00");
         public static readonly Guid TextureManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF01");
         public static readonly Guid MaterialManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF02");

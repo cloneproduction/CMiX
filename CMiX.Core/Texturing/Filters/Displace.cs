@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
@@ -32,5 +33,27 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new DisplaceModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            TextureSelector = (PrefabManagerModel)TextureSelector.ToModel(),
+            Offset = (Vector2Model)Offset.ToModel(),
+            OffsetScale = (Vector2Model)OffsetScale.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (DisplaceModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Offset.FromModel(m.Offset);
+            OffsetScale.FromModel(m.OffsetScale);
+            Control.FromModel(m.Control);
+
+            LoadManager(TextureSelector, m.TextureSelector);
+        }
     }
 }

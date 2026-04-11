@@ -6,6 +6,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Networking.Servers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
@@ -92,19 +93,13 @@ namespace CMiX.Core.Prefabs
         private void AddToSpecificRepo(IControl control)
         {
             var match = typeToAddAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control));
-            if (match.Value == null)
-                Console.WriteLine($"Warning: No repository found for type {control.GetType().Name}");
-            else
-                match.Value.Invoke(control);
+            match.Value?.Invoke(control);
         }
 
         private void RemoveFromSpecificRepo(IControl control)
         {
             var match = typeToRemoveAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control));
-            if (match.Value == null)
-                Console.WriteLine($"Warning: No repository found for type {control.GetType().Name}");
-            else
-                match.Value.Invoke(control);
+            match.Value?.Invoke(control);
         }
 
         public void RemoveControl(IControl control)
@@ -128,5 +123,20 @@ namespace CMiX.Core.Prefabs
             if (control != null)
                 RemoveControl(control);
         }
+
+        private static int GetRenderPriority(IControl c) => c switch
+        {
+            Project => 0,
+            Composition => 1,
+            Layer => 2,
+            Entity or TextEntity or LightEntity or Camera=> 3,
+            Material => 4,
+            ITextureSource => 5,
+            IModifier => 6,
+            _ => 99
+        };
+
+        public IEnumerable<IControl> GetOrderedControls() =>
+            Controls.OrderBy(GetRenderPriority);
     }
 }

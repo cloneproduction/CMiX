@@ -6,6 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -39,5 +40,31 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new GradientModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            Resolution = (Integer2Model)Resolution.ToModel(),
+            Gamma = (GenericValueModel<float>)Gamma.ToModel(),
+            From = (GenericValueModel<string>)From.ToModel(),
+            To = (GenericValueModel<string>)To.ToModel(),
+            Horizontal = (GenericValueModel<bool>)Horizontal.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (GradientModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Resolution.FromModel(m.Resolution);
+            Gamma.FromModel(m.Gamma);
+            From.FromModel(m.From);
+            To.FromModel(m.To);
+            Horizontal.FromModel(m.Horizontal);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

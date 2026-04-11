@@ -41,7 +41,6 @@ namespace CMiX.Core.ViewModels
             AssetManager = assetManager;
             MainMenu = mainMenu;
             PrefabRepositories = controlRepository;
-
             // Clear any stale registrations from top-level managers activated via SetupManager.
             // These were activated manually and never went through ActivateAll(),
             // so they may still be in the list. Without this, ControlFactory.Create
@@ -57,6 +56,16 @@ namespace CMiX.Core.ViewModels
             manager.UndoManager = _undoManager;
             manager.Activate();
             return manager;
+        }
+
+        public IControlModel ToModel()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void FromModel(IControlModel model)
+        {
+            throw new NotImplementedException();
         }
 
         public ServerManager ServerManager { get; set; }

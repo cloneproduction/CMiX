@@ -31,5 +31,26 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new AsciiModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            GridSize = (GenericValueModel<float>)GridSize.ToModel(),
+            CharacterSize = (Vector2Model)CharacterSize.ToModel(),
+            Grayscale = (GenericValueModel<bool>)Grayscale.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (AsciiModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            GridSize.FromModel(m.GridSize);
+            CharacterSize.FromModel(m.CharacterSize);
+            Grayscale.FromModel(m.Grayscale);
+            Control.FromModel(m.Control);
+        }
     }
 }

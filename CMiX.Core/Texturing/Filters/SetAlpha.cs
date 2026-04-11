@@ -31,5 +31,26 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new SetAlphaModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Invert = (GenericValueModel<bool>)Invert.ToModel(),
+            KeepOriginalAlpha = (GenericValueModel<bool>)KeepOriginalAlpha.ToModel(),
+            AlphaChannel = (GenericValueModel<AlphaChannel>)AlphaChannel.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (SetAlphaModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Invert.FromModel(m.Invert);
+            KeepOriginalAlpha.FromModel(m.KeepOriginalAlpha);
+            AlphaChannel.FromModel(m.AlphaChannel);
+            Control.FromModel(m.Control);
+        }
     }
 }

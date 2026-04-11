@@ -1,19 +1,17 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Mapping;
 using CMiX.Core.Networking.Messages;
 
 namespace CMiX.Core.Prefabs.Messages
 {
     public class MessageFactory
     {
-        public MessageFactory(Mapper mapper)
+        public MessageFactory()
         {
-            Mapper = mapper;
+
         }
 
-        public Mapper Mapper { get; set; }
 
         private static readonly Dictionary<Type, Func<Guid, IControlModel, IMessage>> _factories = new()
         {
@@ -33,12 +31,12 @@ namespace CMiX.Core.Prefabs.Messages
             if (control == null) throw new ArgumentNullException(nameof(control));
             if (!_factories.TryGetValue(typeof(T), out var factory))
                 throw new NotSupportedException($"CreateMessage does not support type {typeof(T).Name}");
-            return factory(id, Mapper.MapToModel(control));
+            return factory(id, control.ToModel());
         }
 
         public IMessage CreateMessage<T>(Guid id, IControl control, int index)
         {
-            IControlModel model = control != null ? Mapper.MapToModel(control) : null;
+            IControlModel model = control?.ToModel();
             if (!_factoriesWithIndex.TryGetValue(typeof(T), out var factory))
                 throw new NotSupportedException($"CreateMessage does not support type {typeof(T).Name}");
             return factory(id, model, index);

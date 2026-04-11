@@ -8,6 +8,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
@@ -43,5 +44,29 @@ namespace CMiX.Core.Compositing
 
         [ObservableProperty]
         private bool outputSettingsIsExpanded = true;
+
+        public IControlModel ToModel() => new CompositionModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            MasterBeat = (MasterBeatModel)MasterBeat.ToModel(),
+            OutputSettings = (OutputSettingsModel)OutputSettings.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
+            LayerManager = (PrefabManagerModel)LayerManager.ToModel(),
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (CompositionModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            MasterBeat.FromModel(m.MasterBeat);
+            OutputSettings.FromModel(m.OutputSettings);
+
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
+            LoadManager(LayerManager, m.LayerManager);
+            LoadManager(ModifierManager, m.ModifierManager);
+        }
     }
 }

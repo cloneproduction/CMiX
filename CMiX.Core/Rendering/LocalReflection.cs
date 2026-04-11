@@ -22,5 +22,18 @@ namespace CMiX.Core.Rendering
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new LocalReflectionModel
+        {
+            ID = ID,
+            IsEnabled = (GenericValueModel<bool>)IsEnabled.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (LocalReflectionModel)model;
+            ID = m.ID;
+            IsEnabled.FromModel(m.IsEnabled);
+        }
     }
 }

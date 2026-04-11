@@ -50,6 +50,15 @@ namespace CMiX.Core.BaseControls
             Console.WriteLine("ButtonClick Received");
         }
 
+        public IControlModel ToModel() => new ButtonModel
+        {
+            ID = ID
+        };
 
+        public void FromModel(IControlModel model)
+        {
+            var m = (ButtonModel)model;
+            ID = m.ID;
+        }
     }
 }

@@ -14,7 +14,6 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<bool> PingPong { get; set; } = new(false);
         public PrefabManagerModel BeatModifierManager { get; set; } = new();
-        public EasingModel Easing { get; set; } = new();
         public GenericValueModel<float> Width { get; set; } = new(0.0f);
         public GenericValueModel<float> To { get; set; } = new(1.0f);
         public GenericValueModel<CameraAxis> Axis { get; set; } = new(CameraAxis.Zoom);

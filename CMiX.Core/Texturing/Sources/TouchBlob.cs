@@ -6,6 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -36,5 +37,29 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new TouchBlobModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            Resolution = (Integer2Model)Resolution.ToModel(),
+            Size = (GenericValueModel<float>)Size.ToModel(),
+            Color = (GenericValueModel<string>)Color.ToModel(),
+            Background = (GenericValueModel<string>)Background.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (TouchBlobModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Resolution.FromModel(m.Resolution);
+            Size.FromModel(m.Size);
+            Color.FromModel(m.Color);
+            Background.FromModel(m.Background);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

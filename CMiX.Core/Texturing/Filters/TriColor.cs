@@ -43,5 +43,34 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new TriColorModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            ColorA = (GenericValueModel<string>)ColorA.ToModel(),
+            ColorB = (GenericValueModel<string>)ColorB.ToModel(),
+            ColorC = (GenericValueModel<string>)ColorC.ToModel(),
+            Smooth = (GenericValueModel<float>)Smooth.ToModel(),
+            Center = (GenericValueModel<float>)Center.ToModel(),
+            SingleChannel = (GenericValueModel<bool>)SingleChannel.ToModel(),
+            ClampColor = (GenericValueModel<bool>)ClampColor.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (TriColorModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Control.FromModel(m.Control);
+            ColorA.FromModel(m.ColorA);
+            ColorB.FromModel(m.ColorB);
+            ColorC.FromModel(m.ColorC);
+            Smooth.FromModel(m.Smooth);
+            Center.FromModel(m.Center);
+            SingleChannel.FromModel(m.SingleChannel);
+            ClampColor.FromModel(m.ClampColor);
+        }
     }
 }

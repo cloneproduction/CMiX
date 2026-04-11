@@ -25,5 +25,22 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new DitherModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Threshold = (GenericValueModel<float>)Threshold.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (DitherModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Threshold.FromModel(m.Threshold);
+            Control.FromModel(m.Control);
+        }
     }
 }

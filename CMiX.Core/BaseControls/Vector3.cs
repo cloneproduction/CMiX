@@ -18,5 +18,22 @@ namespace CMiX.Core.BaseControls
         public GenericValue<float> X { get; set; }
         public GenericValue<float> Y { get; set; }
         public GenericValue<float> Z { get; set; }
+
+        public IControlModel ToModel() => new Vector3Model
+        {
+            ID = ID,
+            X = (GenericValueModel<float>)X.ToModel(),
+            Y = (GenericValueModel<float>)Y.ToModel(),
+            Z = (GenericValueModel<float>)Z.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (Vector3Model)model;
+            ID = m.ID;
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+            Z.FromModel(m.Z);
+        }
     }
 }

@@ -5,6 +5,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Cameras
 {
@@ -30,5 +31,23 @@ namespace CMiX.Core.Rendering.Cameras
 
         [ObservableProperty]
         private bool settingsIsExpanded = true;
+
+        public IControlModel ToModel() => new CameraModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Settings = (CameraSettingsModel)Settings.ToModel(),
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (CameraModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Settings.FromModel(m.Settings);
+
+            LoadManager(ModifierManager, m.ModifierManager);
+        }
     }
 }

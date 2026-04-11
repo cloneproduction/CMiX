@@ -7,6 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
@@ -50,5 +51,29 @@ namespace CMiX.Core.Compositing
 
         [ObservableProperty]
         private bool meshIsExpanded = false;
+
+        public IControlModel ToModel() => new EntityModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Mesh = (MeshModel)Mesh.ToModel(),
+            TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
+            Color = (ColorModel)Color.ToModel(),
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
+            MaterialManager = (PrefabManagerModel)MaterialManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (EntityModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Mesh.FromModel(m.Mesh);
+            TransformSRT.FromModel(m.TransformSRT);
+            Color.FromModel(m.Color);
+
+            LoadManager(ModifierManager, m.ModifierManager);
+            LoadManager(MaterialManager, m.MaterialManager);
+        }
     }
 }

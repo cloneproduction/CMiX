@@ -4,14 +4,12 @@
 using CMiX.Core.Animations;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
-using CMiX.Core.Mapping;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
 using CMiX.Core.ViewModels;
-using Mapster;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core.DependencyInjection
@@ -38,11 +36,7 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<Project>();
             services.AddSingleton<MainViewModel>();
 
-            services.AddMapster();
-
             services.AddSingleton<AppInitializer>();
-
-            services.AddSingleton<Mapper>();
 
             services.AddSingleton<MasterBeat>();
 

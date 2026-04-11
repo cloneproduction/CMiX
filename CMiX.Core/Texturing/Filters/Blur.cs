@@ -28,5 +28,22 @@ namespace CMiX.Core.Texturing.Filters
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new BlurModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Strength = (GenericValueModel<float>)Strength.ToModel(),
+            Control = (GenericValueModel<float>)Control.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (BlurModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Strength.FromModel(m.Strength);
+            Control.FromModel(m.Control);
+        }
     }
 }

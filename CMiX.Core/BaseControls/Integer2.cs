@@ -17,5 +17,20 @@ namespace CMiX.Core.BaseControls
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<int> X { get; set; }
         public GenericValue<int> Y { get; set; }
+
+        public IControlModel ToModel() => new Integer2Model
+        {
+            ID = ID,
+            X = (GenericValueModel<int>)X.ToModel(),
+            Y = (GenericValueModel<int>)Y.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (Integer2Model)model;
+            ID = m.ID;
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+        }
     }
 }

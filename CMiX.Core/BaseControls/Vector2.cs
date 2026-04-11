@@ -16,5 +16,20 @@ namespace CMiX.Core.BaseControls
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<float> X { get; set; }
         public GenericValue<float> Y { get; set; }
+
+        public IControlModel ToModel() => new Vector2Model
+        {
+            ID = ID,
+            X = (GenericValueModel<float>)X.ToModel(),
+            Y = (GenericValueModel<float>)Y.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (Vector2Model)model;
+            ID = m.ID;
+            X.FromModel(m.X);
+            Y.FromModel(m.Y);
+        }
     }
 }

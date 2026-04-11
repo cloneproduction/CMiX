@@ -6,5 +6,7 @@ namespace CMiX.Core
     public interface IControl
     {
         Guid ID { get; set; }
+        IControlModel ToModel();
+        void FromModel(IControlModel model);
     }
 }

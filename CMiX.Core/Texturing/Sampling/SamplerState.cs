@@ -21,5 +21,22 @@ namespace CMiX.Core.Texturing
         public GenericValue<string> BorderColor { get; set; }
         public GenericValue<TextureAddressMode> AddressU { get; set; }
         public GenericValue<TextureAddressMode> AddressV { get; set; }
+
+        public IControlModel ToModel() => new SamplerStateModel
+        {
+            ID = ID,
+            BorderColor = (GenericValueModel<string>)BorderColor.ToModel(),
+            AddressU = (GenericValueModel<TextureAddressMode>)AddressU.ToModel(),
+            AddressV = (GenericValueModel<TextureAddressMode>)AddressV.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (SamplerStateModel)model;
+            ID = m.ID;
+            BorderColor.FromModel(m.BorderColor);
+            AddressU.FromModel(m.AddressU);
+            AddressV.FromModel(m.AddressV);
+        }
     }
 }

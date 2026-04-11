@@ -13,10 +13,12 @@ namespace CMiX.Core.Transformation.Modifiers
         public CircularSpread(PrefabService prefabService, 
                               ModifierModeSelector modifierModeSelector, 
                               Vector2 width, 
-                              GenericValue<float> phase)
+                              GenericValue<float> phase,
+                              GenericValue<float> factor)
         {
             PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
+            Factor = factor;
             Width = width;
             Phase = phase;
         }
@@ -31,5 +33,26 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new CircularSpreadModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+            Width = (Vector2Model)Width.ToModel(),
+            Phase = (GenericValueModel<float>)Phase.ToModel(),
+            Factor = (GenericValueModel<float>)Factor.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (CircularSpreadModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            Width.FromModel(m.Width);
+            Phase.FromModel(m.Phase);
+            Factor.FromModel(m.Factor);
+        }
     }
 }

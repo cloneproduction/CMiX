@@ -5,6 +5,7 @@ using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Text.Modifiers
 {
@@ -23,5 +24,21 @@ namespace CMiX.Core.Text.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new CharWriterModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (CharWriterModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

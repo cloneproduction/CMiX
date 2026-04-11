@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
@@ -46,5 +47,35 @@ namespace CMiX.Core.Transformation.Modifiers
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new LFOModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
+            RandomizePhase = (GenericValueModel<float>)RandomizePhase.ToModel(),
+            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+            TransformType = (GenericValueModel<TransformType>)TransformType.ToModel(),
+            From = (GenericValueModel<float>)From.ToModel(),
+            To = (GenericValueModel<float>)To.ToModel(),
+            DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (LFOModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            PingPong.FromModel(m.PingPong);
+            RandomizePhase.FromModel(m.RandomizePhase);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            TransformType.FromModel(m.TransformType);
+            From.FromModel(m.From);
+            To.FromModel(m.To);
+            DirectionXYZ.FromModel(m.DirectionXYZ);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
     }
 }

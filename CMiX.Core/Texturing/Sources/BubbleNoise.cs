@@ -6,6 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -42,5 +43,33 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new BubbleNoiseModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            Resolution = (Integer2Model)Resolution.ToModel(),
+            Speed = (GenericValueModel<float>)Speed.ToModel(),
+            Frequency = (GenericValueModel<float>)Frequency.ToModel(),
+            Contrast = (GenericValueModel<float>)Contrast.ToModel(),
+            BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel(),
+            BubbleColor = (GenericValueModel<string>)BubbleColor.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (BubbleNoiseModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Resolution.FromModel(m.Resolution);
+            Speed.FromModel(m.Speed);
+            Frequency.FromModel(m.Frequency);
+            Contrast.FromModel(m.Contrast);
+            BackgroundColor.FromModel(m.BackgroundColor);
+            BubbleColor.FromModel(m.BubbleColor);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

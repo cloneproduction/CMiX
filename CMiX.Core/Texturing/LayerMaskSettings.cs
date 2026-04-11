@@ -23,5 +23,15 @@ namespace CMiX.Core.Texturing
         public GenericValue<MaskMode> MaskMode { get; set; }
         public GenericValue<MaskChannel> MaskChannel { get; set; }
         public Guid ID { get; set; }
+
+        public void FromModel(IControlModel model)
+        {
+            throw new NotImplementedException();
+        }
+
+        public IControlModel ToModel()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -21,5 +21,18 @@ namespace CMiX.Core.Transformation
 
         [ObservableProperty]
         private bool isExpanded;
+
+        public IControlModel ToModel() => new BillboardModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (BillboardModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+        }
     }
 }

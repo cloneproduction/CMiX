@@ -6,6 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
@@ -49,5 +50,37 @@ namespace CMiX.Core.Texturing.Sources
 
         [ObservableProperty]
         private bool isExpanded = true;
+
+        public IControlModel ToModel() => new TypeWriterModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            StringControl = (GenericValueModel<string>)StringControl.ToModel(),
+            FontColor = (GenericValueModel<string>)FontColor.ToModel(),
+            BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel(),
+            Resolution = (Integer2Model)Resolution.ToModel(),
+            Position = (Vector2Model)Position.ToModel(),
+            FontSize = (GenericValueModel<float>)FontSize.ToModel(),
+            FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
+            Style = (GenericValueModel<FontStyle>)Style.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (TypeWriterModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            StringControl.FromModel(m.StringControl);
+            FontColor.FromModel(m.FontColor);
+            BackgroundColor.FromModel(m.BackgroundColor);
+            Resolution.FromModel(m.Resolution);
+            Position.FromModel(m.Position);
+            FontSize.FromModel(m.FontSize);
+            FontFamily.FromModel(m.FontFamily);
+            Style.FromModel(m.Style);
+
+            LoadManager(FilterManager, m.FilterManager);
+        }
     }
 }

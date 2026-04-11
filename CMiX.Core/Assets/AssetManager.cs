@@ -3,7 +3,6 @@
 
 using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Input;
 using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -21,44 +20,11 @@ namespace CMiX.Core.ViewModels.Assets
         public Guid ID { get; set; }
         public AssetRepository AssetRepository { get; set; }
         public ObservableCollection<IAsset> SelectedItems { get; set; } = new();
-        public bool CanAddAsset { get; set; }
-        public bool CanDeleteAsset { get; set; }
-        public bool CanRelinkAsset { get; set; }
-
 
         public void RenameAsset()
         {
-            if (SelectedItems.Take(2).Count() == 1)
-            {
-                if (SelectedItems.First() is AssetDirectory assetDirectory)
-                    assetDirectory.Rename();
-            }
-        }
-
-        [RelayCommand]
-        public void RelinkAssets()
-        {
-            //if (SelectedItems.Take(2).Count() == 1)
-            //{
-            //    IAsset asset = SelectedItems.First();
-            //    OpenFileDialogSettings settings = new OpenFileDialogSettings();
-
-            //    if (asset is AssetImage)
-            //        settings.Filter = "Image |*.jpg;*.jpeg;*.png;*.dds";
-
-            //    if (asset is AssetGeometry)
-            //        settings.Filter = "Geometry |*.fbx; *.obj";
-
-            //    if (asset is AssetVideo)
-            //        settings.Filter = "Video |*.mov";
-
-            //    bool? success = DialogService.ShowOpenFileDialog(this, settings);
-            //    if (success == true)
-            //    {
-            //        asset.Path = settings.FileName;
-            //        asset.Name = Path.GetFileName(settings.FileName);
-            //    }
-            //}
+            if (SelectedItems.Take(2).Count() == 1 && SelectedItems.First() is AssetDirectory assetDirectory)
+                assetDirectory.Rename();
         }
 
         [RelayCommand]
@@ -72,35 +38,24 @@ namespace CMiX.Core.ViewModels.Assets
         }
 
         [RelayCommand]
-        private void DeleteAssets()
-        {
-            //DeleteSelectedAssets(this.Assets);
-        }
-
+        private void DeleteAssets() { }
 
         public void RemoveItemFromDirectory(AssetDirectory directory)
         {
             var toBeRemoved = new List<IAsset>();
             foreach (var asset in directory.Assets)
             {
-                if (asset is AssetDirectory)
-                    RemoveItemFromDirectory(asset as AssetDirectory);
-
+                if (asset is AssetDirectory subDir)
+                    RemoveItemFromDirectory(subDir);
                 toBeRemoved.Add(asset);
             }
-
             foreach (var item in toBeRemoved)
-            {
                 directory.Assets.Remove(item);
-                //this.Assets.Remove(item);
-            }
         }
-
 
         public void DeleteSelectedAssets(ObservableCollection<IAsset> assets)
         {
             var toBeRemoved = new List<IAsset>();
-
             foreach (var asset in assets)
             {
                 if (asset is AssetDirectory assetDirectory)
@@ -111,214 +66,66 @@ namespace CMiX.Core.ViewModels.Assets
                         RemoveItemFromDirectory(assetDirectory);
                         return;
                     }
-
                     DeleteSelectedAssets(assetDirectory.Assets);
                 }
             }
-
             foreach (var item in toBeRemoved)
-            {
                 assets.Remove(item);
-            }
-
             SelectedItems.Clear();
         }
-
 
         private void CreateAssetFromDirectory(DirectoryInfo directoryInfo)
         {
             foreach (var directory in directoryInfo.GetDirectories())
-            {
                 CreateAssetFromDirectory(directory);
-            }
-
             foreach (var file in directoryInfo.GetFiles())
-            {
                 CreateAssetFromPath(file.FullName);
-            }
         }
-
 
         private void CreateAssetFromPath(string path)
         {
-            if (File.Exists(path))
-            {
-                string fileType = Path.GetExtension(path).ToUpper().TrimStart('.');
+            if (!File.Exists(path)) return;
+            string fileType = Path.GetExtension(path).ToUpper().TrimStart('.');
 
-                if(fileType == "PNG" || fileType == "JPG" || fileType == "JPEG")
-                {
-                    AssetRepository.Add(new Image(path));
-                    return;
-                }
-
-                if(fileType == "OBJ" || fileType == "FBX")
-                {
-                    AssetRepository.Add(new Geometry(path));
-                    return;
-                }
-
-                if(fileType == "MOV")
-                {
-                    AssetRepository.Add(new Video(path));
-                    return;
-                }
-            }
+            if (fileType is "PNG" or "JPG" or "JPEG")
+                AssetRepository.Add(new Image(path));
+            else if (fileType is "OBJ" or "FBX")
+                AssetRepository.Add(new Geometry(path));
+            else if (fileType == "MOV")
+                AssetRepository.Add(new Video(path));
         }
 
         public void DragOver(IDropInfo dropInfo)
         {
-            var dataObject = dropInfo.Data as DataObject;
-            var dragInfo = dropInfo.DragInfo;
-
-            if (dataObject != null && dataObject.ContainsFileDropList())
-            {
+            if (dropInfo.Data is DataObject dataObject && dataObject.ContainsFileDropList())
                 dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-                //dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-            }
-
-            //if (dragInfo != null && dragInfo.SourceItem is IAsset)
-            //{
-            //    var targetItem = dropInfo.TargetItem;
-            //    var vSourceItem = dropInfo.DragInfo.VisualSourceItem as TreeViewItem;
-            //    var vSourceChild = vSourceItem.FindVisualChildren<TreeViewItem>();// Utils.FindVisualChildren<TreeViewItem>(vSourceItem);
-            //    var visualTargetItem = dropInfo.VisualTargetItem as TreeViewItem;
-
-            //    if (targetItem is AssetDirectory)
-            //        dropInfo.DropTargetAdorner = DropTargetAdorners.Highlight;
-
-            //    if (vSourceItem == visualTargetItem || vSourceChild.ToList().Contains(visualTargetItem) || visualTargetItem == null)
-            //        dropInfo.Effects = DragDropEffects.None;
-            //    else
-            //        dropInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-            //}
         }
-
 
         public void Drop(IDropInfo dropInfo)
         {
-            var dataObject = dropInfo.Data as DataObject;
+            if (dropInfo.Data is not DataObject dataObject || !dataObject.ContainsFileDropList())
+                return;
 
-            if (dataObject != null && dataObject.ContainsFileDropList())
+            foreach (string str in dataObject.GetFileDropList())
             {
-                foreach (string str in dataObject.GetFileDropList())
-                {
-                    if (File.Exists(str))
-                        CreateAssetFromPath(str);
-
-                    if (Directory.Exists(str))
-                        CreateAssetFromDirectory(new DirectoryInfo(str));
-                }
+                if (File.Exists(str)) CreateAssetFromPath(str);
+                if (Directory.Exists(str)) CreateAssetFromDirectory(new DirectoryInfo(str));
             }
-
-            //else if (dropInfo.DragInfo.Data is List<AssetDragDrop> && dropInfo.TargetCollection is ObservableCollection<IAsset>)
-            //{
-            //    var targetCollection = dropInfo.TargetCollection as ObservableCollection<IAsset>;
-            //    if (targetCollection is ObservableCollection<IAsset>)
-            //    {
-            //        var targetItem = dropInfo.TargetItem;
-            //        if (targetItem is AssetDirectory)
-            //        {
-            //            var data = dropInfo.DragInfo.Data as List<AssetDragDrop>;
-            //            foreach (AssetDragDrop item in data)
-            //            {
-            //                item.DragObject.IsSelected = false;
-            //                targetCollection.Add(item.DragObject);
-            //                item.SourceCollection.Remove(item.DragObject);
-            //            }
-            //            ((AssetDirectory)targetItem).IsExpanded = true;
-            //            ((AssetDirectory)targetItem).SortAssets();
-            //        }
-            //    }
-            //}
         }
 
-        public void RemoveAssets(List<IAsset> assetsToRemove, List<IAsset> assets)
-        {
+        public void RemoveAssets(List<IAsset> assetsToRemove, List<IAsset> assets) =>
             assets.RemoveAll(item => assetsToRemove.Contains(item));
-        }
 
-        //public void GetDragDropObjects(List<AssetDragDrop> dragList, ObservableCollection<IAsset> assets)
-        //{
-        //    foreach (var asset in assets)
-        //    {
-        //        if (asset.IsSelected)
-        //        {
-        //            AssetDragDrop dragDropObject = new AssetDragDrop();
-        //            dragDropObject.DragObject = asset;
-        //            dragDropObject.SourceCollection = assets;
-        //            dragList.Add(dragDropObject);
-        //        }
-        //        else if (!asset.IsSelected && asset is AssetDirectory)
-        //        {
-        //            GetDragDropObjects(dragList, ((AssetDirectory)asset).Assets);
-        //        }
-        //    }
-        //}
+        public void StartDrag(IDragInfo dragInfo) { }
+        public bool CanStartDrag(IDragInfo dragInfo) => dragInfo.SourceItem is IAsset;
+        public void Dropped(IDropInfo dropInfo) { }
+        public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo) { }
+        public void DragCancelled() { }
+        public bool TryCatchOccurredException(Exception exception) => throw new NotImplementedException();
+        public void DragEnter(IDropInfo dropInfo) { }
+        public void DragLeave(IDropInfo dropInfo) { }
 
-        public void StartDrag(IDragInfo dragInfo)
-        {
-            //List<AssetDragDrop> dragList = new List<AssetDragDrop>();
-            //GetDragDropObjects(dragList, this.Assets);
-
-            //if (dragList.Any())
-            //{
-            //    dragInfo.Effects = DragDropEffects.Copy | DragDropEffects.Move;
-            //    dragInfo.Data = dragList;
-            //}
-        }
-
-        public bool CanStartDrag(IDragInfo dragInfo)
-        {
-            if (dragInfo.SourceItem is IAsset)
-                return true;
-
-            return false;
-        }
-
-        public void Dropped(IDropInfo dropInfo)
-        {
-
-        }
-
-        public void DragDropOperationFinished(DragDropEffects operationResult, IDragInfo dragInfo)
-        {
-
-        }
-
-        public void DragCancelled()
-        {
-
-        }
-
-        public bool TryCatchOccurredException(Exception exception)
-        {
-            throw new NotImplementedException();
-        }
-
-        //public void CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    CanRenameAsset = (SelectedItems.Count == 1 && SelectedItems.OfType<AssetDirectory>().Any());
-        //    CanAddAsset = (SelectedItems.Count == 1 && SelectedItems.OfType<AssetDirectory>().Any());
-        //    CanDeleteAsset = !SelectedItems.OfType<AssetDirectory>().Any(c => c.IsRoot == true);
-        //    CanRelinkAsset = (SelectedItems.Count == 1 && !SelectedItems.OfType<AssetDirectory>().Any());
-
-        //    if (SelectedItems.Count == 0)
-        //    {
-        //        CanAddAsset = false;
-        //        CanRenameAsset = false;
-        //        CanDeleteAsset = false;
-        //        CanRelinkAsset = false;
-        //    }
-        //}
-
-        public void DragEnter(IDropInfo dropInfo)
-        {
-            //throw new NotImplementedException();
-        }
-
-        public void DragLeave(IDropInfo dropInfo)
-        {
-            //throw new NotImplementedException();
-        }
+        public IControlModel ToModel() => new AssetManagerModel { ID = ID };
+        public void FromModel(IControlModel model) => ID = ((AssetManagerModel)model).ID;
     }
 }

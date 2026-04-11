@@ -33,5 +33,30 @@ namespace CMiX.Core.Assets.Mesh
         public GenericValue<string> FontFamily { get; set; }
         public GenericValue<HorizontalAlignment> HorizontalAlignment { get; set; }
         public GenericValue<ParagraphAlignment> ParagraphAlignment { get; set; }
+
+        public IControlModel ToModel() => new Text3DSettingsModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            Text = (GenericValueModel<string>)Text.ToModel(),
+            FontSize = (GenericValueModel<int>)FontSize.ToModel(),
+            ExtrudeAmount = (GenericValueModel<float>)ExtrudeAmount.ToModel(),
+            FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
+            HorizontalAlignment = (GenericValueModel<HorizontalAlignment>)HorizontalAlignment.ToModel(),
+            ParagraphAlignment = (GenericValueModel<ParagraphAlignment>)ParagraphAlignment.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (Text3DSettingsModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            Text.FromModel(m.Text);
+            FontSize.FromModel(m.FontSize);
+            ExtrudeAmount.FromModel(m.ExtrudeAmount);
+            FontFamily.FromModel(m.FontFamily);
+            HorizontalAlignment.FromModel(m.HorizontalAlignment);
+            ParagraphAlignment.FromModel(m.ParagraphAlignment);
+        }
     }
 }

@@ -17,5 +17,20 @@ namespace CMiX.Core.Modifiers
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<ModifierMode> Mode { get; set; }
         public GenericValue<int> Count { get; set; }
+
+        public IControlModel ToModel() => new ModifierModeSelectorModel
+        {
+            ID = ID,
+            Mode = (GenericValueModel<ModifierMode>)Mode.ToModel(),
+            Count = (GenericValueModel<int>)Count.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (ModifierModeSelectorModel)model;
+            ID = m.ID;
+            Mode.FromModel(m.Mode);
+            Count.FromModel(m.Count);
+        }
     }
 }

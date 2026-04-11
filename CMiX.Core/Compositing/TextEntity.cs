@@ -9,6 +9,7 @@ using CMiX.Core.Text;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Transformation;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
@@ -63,5 +64,41 @@ namespace CMiX.Core.Compositing
 
         [ObservableProperty]
         private bool settingsIsExpanded = true;
+
+        public IControlModel ToModel() => new TextEntityModel
+        {
+            ID = ID,
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
+            Text = (GenericValueModel<string>)Text.ToModel(),
+            Size = (GenericValueModel<float>)Size.ToModel(),
+            Color = (GenericValueModel<string>)Color.ToModel(),
+            Style = (GenericValueModel<FontStyle>)Style.ToModel(),
+            FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
+            LineHeight = (GenericValueModel<float>)LineHeight.ToModel(),
+            Width = (GenericValueModel<float>)Width.ToModel(),
+            HorizontalAlignment = (GenericValueModel<HorizontalAlignment>)HorizontalAlignment.ToModel(),
+            Anchor = (GenericValueModel<Anchor>)Anchor.ToModel(),
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
+        };
+
+        public void FromModel(IControlModel model)
+        {
+            var m = (TextEntityModel)model;
+            ID = m.ID;
+            PrefabService.FromModel(m.PrefabService);
+            TransformSRT.FromModel(m.TransformSRT);
+            Text.FromModel(m.Text);
+            Size.FromModel(m.Size);
+            Color.FromModel(m.Color);
+            Style.FromModel(m.Style);
+            FontFamily.FromModel(m.FontFamily);
+            LineHeight.FromModel(m.LineHeight);
+            Width.FromModel(m.Width);
+            HorizontalAlignment.FromModel(m.HorizontalAlignment);
+            Anchor.FromModel(m.Anchor);
+
+            LoadManager(ModifierManager, m.ModifierManager);
+        }
     }
 }
