@@ -8,10 +8,8 @@
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
     </ResourceDictionary.MergedDictionaries>
 
-
     <Style x:Key="RepeatButtonDecrease" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
-
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="IsTabStop" Value="false" />
@@ -23,7 +21,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style
         x:Key="RepeatButtonDecreaseOver"
@@ -38,7 +35,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="RepeatButtonIncrease" TargetType="{x:Type RepeatButton}">
         <Setter Property="OverridesDefaultStyle" Value="true" />
         <Setter Property="Background" Value="Transparent" />
@@ -52,7 +48,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style
         x:Key="RepeatButtonIncreaseOver"
@@ -80,54 +75,6 @@
         </Setter>
     </Style>
 
-
-    <Style x:Key="SliderTextBox" TargetType="{x:Type TextBox}">
-        <Setter Property="Visibility" Value="Hidden" />
-        <Setter Property="VerticalAlignment" Value="Center" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="8,0" />
-        <Setter Property="Focusable" Value="True" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource SuperHighLightColor}" />
-        <Setter Property="CaretBrush" Value="{DynamicResource TextBase}" />
-        <Setter Property="Validation.ErrorTemplate">
-            <Setter.Value>
-                <ControlTemplate>
-                    <StackPanel />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TextBox}">
-
-                    <Border x:Name="border" Background="{DynamicResource SuperHighDarkerColor}">
-                        <ScrollViewer
-                            x:Name="PART_ContentHost"
-                            VerticalAlignment="Center"
-                            VerticalContentAlignment="Center"
-                            Focusable="False"
-                            HorizontalScrollBarVisibility="Hidden"
-                            VerticalScrollBarVisibility="Hidden" />
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-
-                        <Trigger Property="IsFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource SuperHighDarkerColor}" />
-                        </Trigger>
-
-                        <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource TemplatedParent}}" Value="True">
-                            <Setter Property="Visibility" Value="Visible" />
-                        </DataTrigger>
-
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style TargetType="{x:Type Controls:CMiXSlider}">
         <Setter Property="Height" Value="22" />
         <Setter Property="Focusable" Value="False" />
@@ -137,7 +84,6 @@
         <Setter Property="Caption" Value="" />
         <Setter Property="Template">
             <Setter.Value>
-
                 <ControlTemplate TargetType="{x:Type Controls:CMiXSlider}">
 
                     <Border x:Name="mainBorder" SnapsToDevicePixels="True">
@@ -149,27 +95,21 @@
                                         <Setter Property="Background" Value="{DynamicResource DarkerColor}" />
                                         <Setter Property="CornerRadius" Value="0" />
                                         <Style.Triggers>
-
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Default">
                                                 <Setter Property="CornerRadius" Value="2" />
                                             </DataTrigger>
-
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
                                                 <Setter Property="CornerRadius" Value="0, 0, 2, 2" />
                                             </DataTrigger>
-
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
                                                 <Setter Property="CornerRadius" Value="2, 2, 0, 0" />
                                             </DataTrigger>
-
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
                                                 <Setter Property="CornerRadius" Value="2, 0, 0, 2" />
                                             </DataTrigger>
-
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Right">
                                                 <Setter Property="CornerRadius" Value="0, 2, 2, 0" />
                                             </DataTrigger>
-
                                         </Style.Triggers>
                                     </Style>
                                 </Border.Style>
@@ -194,7 +134,6 @@
                                             Style="{StaticResource RepeatButtonIncrease}" />
                                     </Track.IncreaseRepeatButton>
                                 </Track>
-
                             </Border>
 
                             <TextBlock
@@ -210,22 +149,16 @@
                                 Padding="0,0,8,0"
                                 HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                 VerticalAlignment="Center"
-                                Content="{TemplateBinding Value,
-                                                          Converter={StaticResource DoubleToString}}"
+                                Content="{TemplateBinding Value, Converter={StaticResource DoubleToString}}"
                                 ContentStringFormat="{}{0:0.000}" />
 
-                            <TextBox
+                            <Controls:NumericInput
                                 x:Name="textInput"
                                 Height="{TemplateBinding ActualHeight}"
-                                Style="{StaticResource SliderTextBox}">
-                                <Binding
-                                    Converter="{StaticResource DoubleToString}"
-                                    Mode="TwoWay"
-                                    Path="Value"
-                                    RelativeSource="{RelativeSource TemplatedParent}"
-                                    UpdateSourceTrigger="LostFocus"
-                                    ValidatesOnDataErrors="True" />
-                            </TextBox>
+                                IsEditing="{Binding IsEditing, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                                Minimum="{Binding Minimum, RelativeSource={RelativeSource TemplatedParent}}"
+                                Maximum="{Binding Maximum, RelativeSource={RelativeSource TemplatedParent}}" />
 
                         </Grid>
                     </Border>
@@ -234,10 +167,14 @@
 
                         <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource Self}}" Value="False">
                             <Setter TargetName="sliderName" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="textDisplay" Property="Visibility" Value="Visible" />
+                            <Setter TargetName="sliderBorder" Property="Visibility" Value="Visible" />
                         </DataTrigger>
 
                         <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource Self}}" Value="True">
                             <Setter TargetName="sliderName" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="textDisplay" Property="Visibility" Value="Hidden" />
+                            <Setter TargetName="sliderBorder" Property="Visibility" Value="Hidden" />
                         </DataTrigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
@@ -248,9 +185,11 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="mainBorder" Property="Opacity" Value="0.5" />
                         </Trigger>
+
                         <Trigger Property="IsMouseCaptured" Value="True">
                             <Setter TargetName="RBI" Property="Style" Value="{DynamicResource RepeatButtonIncreaseDown}" />
                         </Trigger>
+
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>

@@ -21,12 +21,6 @@ namespace CMiX.Studio.Views.BaseControl
                 borderValueDisplay.PreviewMouseMove += Border_PreviewMouseMove;
             }
 
-            if (ValueInput != null)
-            {
-                ValueInput.MouseLeave += View_OnMouseLeave;
-                ValueInput.MouseEnter += View_OnMouseEnter;
-            }
-
             if (SubButton != null)
             {
                 AddButton.Click += AddButton_Click;
@@ -36,8 +30,6 @@ namespace CMiX.Studio.Views.BaseControl
 
         private Point? _lastPoint;
         private Point? _mouseDownPos;
-        private double _valueBeforeEdit;
-        private double newValue;
 
         private void Border_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -59,6 +51,7 @@ namespace CMiX.Studio.Views.BaseControl
 
             DragEditHelper.WrapCursorX(currentPoint, DragEditHelper.ScreenWidth, DragEditHelper.ScreenHeight);
 
+            double newValue;
             if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
                 newValue = this.Value + offset.X * SmallChange;
             else
@@ -77,7 +70,7 @@ namespace CMiX.Studio.Views.BaseControl
                 return;
 
             if ((_mouseDownPos.Value - mouseUpPos).Length < DragEditHelper.ClickThreshold)
-                OnSwitchToEditingMode();
+                IsEditing = true;
 
             if (IsEditing == false)
             {
@@ -94,39 +87,7 @@ namespace CMiX.Studio.Views.BaseControl
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
         {
-            OnSwitchToNormalMode();
-            CancelUpdateValue();
-        }
-
-        private void View_OnMouseLeave(object sender, MouseEventArgs e)
-        {
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
-                Mouse.AddPreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-        }
-
-        private void View_OnMouseEnter(object sender, MouseEventArgs e)
-        {
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
-                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-        }
-
-        private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
-        {
-            Window parentWindow = Window.GetWindow(this);
-            if (parentWindow != null)
-                Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
-
-            if (IsEditing)
-            {
-                if (mouseButtonEventArgs.ChangedButton == MouseButton.Left)
-                    UpdateValue();
-                else if (mouseButtonEventArgs.ChangedButton == MouseButton.Right)
-                    CancelUpdateValue();
-
-                OnSwitchToNormalMode();
-            }
+            IsEditing = false;
         }
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
@@ -139,50 +100,6 @@ namespace CMiX.Studio.Views.BaseControl
         {
             this.Value = Math.Clamp(this.Value - SmallChange, Minimum, Maximum);
             e.Handled = true;
-        }
-
-        protected override void OnKeyDown(KeyEventArgs e)
-        {
-            if (e.Key == Key.Enter)
-            {
-                UpdateValue();
-                OnSwitchToNormalMode();
-            }
-            else if (e.Key == Key.Escape)
-            {
-                CancelUpdateValue();
-                OnSwitchToNormalMode();
-            }
-        }
-
-        private void OnSwitchToEditingMode()
-        {
-            _valueBeforeEdit = this.Value;
-            IsEditing = true;
-            ValueInput.Focus();
-            ValueInput.SelectAll();
-        }
-
-        private void OnSwitchToNormalMode(bool bCancelEdit = true)
-        {
-            IsEditing = false;
-            Keyboard.ClearFocus();
-            this.Focus();
-            _mouseDownPos = null;
-        }
-
-        public void UpdateValue()
-        {
-            if (double.TryParse(ValueInput.Text, out double result))
-                this.Value = Math.Clamp(result, Minimum, Maximum);
-            else
-                ValueInput.Text = this.Value.ToString();
-        }
-
-        public void CancelUpdateValue()
-        {
-            this.Value = _valueBeforeEdit;
-            ValueInput.Text = _valueBeforeEdit.ToString();
         }
 
         public static readonly DependencyProperty MaximumProperty =

@@ -8,54 +8,42 @@ namespace CMiX.Studio.Behaviors
 {
     public class ScrollViewerBehavior : Behavior<ScrollViewer>
     {
+        private double _savedOffset = 0;
+        private bool _isRestoring = false;
+
         protected override void OnAttached()
         {
             base.OnAttached();
-
-            this.AssociatedObject.ScrollChanged += AssociatedObject_ScrollChanged;
             AssociatedObject.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            AssociatedObject.ScrollChanged += AssociatedObject_ScrollChanged;
         }
 
-        double extendHeight = 0;
-        double verticalOffset = 0;
+        protected override void OnDetaching()
+        {
+            base.OnDetaching();
+            AssociatedObject.ScrollChanged -= AssociatedObject_ScrollChanged;
+        }
+
         private void AssociatedObject_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (e.ViewportHeight == e.ExtentHeight) // this happen when creating new Transform Modifier for example...
-                return;
-
-            if (e.ExtentHeightChange == 0.0)
+            if (e.ExtentHeightChange > 0)
             {
-                verticalOffset = e.VerticalOffset;
-                extendHeight = e.ExtentHeight;
-                return;
+                _isRestoring = true;
+                AssociatedObject.ScrollToVerticalOffset(_savedOffset);
             }
-
-            if (verticalOffset > 0.0 && verticalOffset < extendHeight - e.ViewportHeight)
+            else if (e.ExtentHeightChange < 0)
             {
-                this.AssociatedObject.ScrollToVerticalOffset(verticalOffset);
-                verticalOffset = e.VerticalOffset;
-                extendHeight = e.ExtentHeight;
-                return;
+                _isRestoring = false;
+                if (e.VerticalOffset > 0)
+                    _savedOffset = e.VerticalOffset;
             }
-
-            if (verticalOffset == extendHeight - e.ViewportHeight) //resized and bottom
+            else
             {
-                this.AssociatedObject.ScrollToVerticalOffset(verticalOffset);
-                verticalOffset = e.VerticalOffset;
-                extendHeight = e.ExtentHeight;
-                return;
+                if (_isRestoring)
+                    _isRestoring = false;
+                else if (e.VerticalOffset > 0)
+                    _savedOffset = e.VerticalOffset;
             }
-
-            if (extendHeight < e.ViewportHeight) //not resized but at the bottom
-            {
-                AssociatedObject.ScrollToTop();
-                verticalOffset = e.VerticalOffset;
-                extendHeight = e.ExtentHeight;
-                return;
-            }
-
-            verticalOffset = e.VerticalOffset;
-            extendHeight = e.ExtentHeight;
         }
     }
 }

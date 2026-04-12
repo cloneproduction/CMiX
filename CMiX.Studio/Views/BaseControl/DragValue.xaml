@@ -5,6 +5,8 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+
     Height="22"
     d:DesignHeight="31.15"
     d:DesignWidth="320.797"
@@ -95,26 +97,14 @@
                 </Button>
 
                 <Grid>
-                    <TextBox
-                        x:Name="ValueInput"
+                    <Controls:NumericInput
+                        x:Name="numericInput"
                         Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                        HorizontalAlignment="Stretch"
-                        HorizontalContentAlignment="Center"
-                        Background="{DynamicResource HighDarkerColor}">
-
-                        <TextBox.Style>
-                            <Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type TextBox}">
-                                <Setter Property="Text" Value="{Binding Value, StringFormat=' {0:N2}', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsInteger, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Value="True">
-                                        <Setter Property="Text" Value="{Binding Value, StringFormat=' {0:N0}', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, UpdateSourceTrigger=LostFocus}" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </TextBox.Style>
-
-                    </TextBox>
-
+                        IsEditing="{Binding IsEditing, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}"
+                        Value="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}"
+                        Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                        Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                        IsInteger="{Binding IsInteger, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
                     <Border
                         x:Name="borderValueDisplay"
@@ -125,29 +115,25 @@
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Background" Value="{DynamicResource DarkColor}" />
                                 <Style.Triggers>
-
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Cursor" Value="SizeWE" />
                                         <Setter Property="Background" Value="{DynamicResource LightColor}" />
                                     </Trigger>
-
                                     <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
                                         <Setter Property="Cursor" Value="None" />
                                     </Trigger>
-
                                     <DataTrigger Binding="{Binding IsEditing, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Value="True">
                                         <Setter Property="Visibility" Value="Hidden" />
                                     </DataTrigger>
-
                                 </Style.Triggers>
                             </Style>
                         </Border.Style>
 
                         <Label
-                            x:Name="valueDisplay"
-                            Padding="0"
-                            Background="Transparent"
-                            Content="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
+            x:Name="valueDisplay"
+            Padding="0"
+            Background="Transparent"
+            Content="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
                             <Label.Style>
                                 <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
                                     <Setter Property="ContentStringFormat" Value="{}{0:N2}" />

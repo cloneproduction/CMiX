@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using CMiX.Core.Prefabs;
 
 namespace CMiX.Core
@@ -49,7 +50,19 @@ namespace CMiX.Core
         {
             if (_isApplying) return;
             if (_pendingControl?.ID != control.ID) return;
-            Push(new UndoStep(control.ID, _pendingBefore, control.ToModel()));
+
+            //THIS WAS FOR EQUALITY CHECK TO SEE IF THE VALUE IS THE SAME, IF IT IS THEN WE DON"T RECORD
+            var after = control.ToModel();
+            if (_pendingBefore.Equals(after))
+            {
+                _pendingControl = null;
+                _pendingBefore = null;
+                return;
+            }
+
+            Push(new UndoStep(control.ID, _pendingBefore, after));
+
+            //Push(new UndoStep(control.ID, _pendingBefore, control.ToModel()));
             _pendingControl = null;
             _pendingBefore = null;
         }

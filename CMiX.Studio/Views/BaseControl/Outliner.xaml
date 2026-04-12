@@ -12,6 +12,7 @@
     <DockPanel Height="22">
 
         <ComboBox
+            Focusable="False"
             ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
             Style="{StaticResource ComboBoxWithButton}">
@@ -39,6 +40,7 @@
                         Style="{StaticResource ButtonRoundedRight}" />
 
                     <Controls:EditableTextBox
+                        Focusable="False"
                         Background="{DynamicResource HighHighDarkerColor}"
                         SnapsToDevicePixels="True"
                         Text="{Binding SelectedItem.PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"

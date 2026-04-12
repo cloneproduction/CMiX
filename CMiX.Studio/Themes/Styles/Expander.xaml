@@ -268,6 +268,7 @@
 
                                 <ToggleButton
                                     x:Name="HeaderSite"
+                                    Focusable="False"
                                     HorizontalContentAlignment="Stretch"
                                     VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
                                     Content="{TemplateBinding Header}"
@@ -476,29 +477,30 @@
 
 
     <Style x:Key="IndentedExpanderStyleHeaderStyle" TargetType="{x:Type ToggleButton}">
+        <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
-                        x:Name="mainBorder"
-                        Height="25"
-                        Margin="{TemplateBinding AttachedProperties:ExpanderIndentation.Indentation}"
-                        HorizontalAlignment="Stretch"
-                        VerticalAlignment="Center"
-                        Background="Transparent">
+                    x:Name="mainBorder"
+                    Height="25"
+                    Margin="{TemplateBinding AttachedProperties:ExpanderIndentation.Indentation}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center"
+                    Background="Transparent">
                         <DockPanel Margin="8,0,0,0">
                             <Image
-                                x:Name="image"
-                                Height="7"
-                                Opacity="0.5"
-                                Source="{DynamicResource ArrowRight}" />
+                            x:Name="image"
+                            Height="7"
+                            Opacity="0.5"
+                            Source="{DynamicResource ArrowRight}" />
                             <ContentPresenter
-                                Grid.Column="1"
-                                Margin="8,0"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Center"
-                                RecognizesAccessKey="True"
-                                SnapsToDevicePixels="True" />
+                            Grid.Column="1"
+                            Margin="8,0"
+                            HorizontalAlignment="Stretch"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True"
+                            SnapsToDevicePixels="True" />
                         </DockPanel>
                     </Border>
                     <ControlTemplate.Triggers>
