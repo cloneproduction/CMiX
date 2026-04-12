@@ -1,12 +1,11 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.BaseControl.DragValue"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
-
     Height="22"
     d:DesignHeight="31.15"
     d:DesignWidth="320.797"
@@ -27,6 +26,7 @@
 
         <Border
             x:Name="mask"
+            IsHitTestVisible="False"
             Grid.Column="1"
             AttachedProperties:PositionedControl.Position="{Binding Path=Position, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
             Background="{DynamicResource DarkColor}"
@@ -110,7 +110,6 @@
                         x:Name="borderValueDisplay"
                         VerticalAlignment="Stretch"
                         AttachedProperties:MouseDownHelper.IsEnabled="True">
-
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Background" Value="{DynamicResource DarkColor}" />
@@ -130,10 +129,10 @@
                         </Border.Style>
 
                         <Label
-            x:Name="valueDisplay"
-            Padding="0"
-            Background="Transparent"
-            Content="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
+                            x:Name="valueDisplay"
+                            Padding="0"
+                            Background="Transparent"
+                            Content="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
                             <Label.Style>
                                 <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
                                     <Setter Property="ContentStringFormat" Value="{}{0:N2}" />

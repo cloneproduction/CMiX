@@ -132,11 +132,12 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void DeleteItem(IControl control)
         {
+            var index = Collection.ManagerData.Items.IndexOf(control);
             var (removed, newIndex) = Collection.DeleteItem(control);
             if (removed == null) return;
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, removed, newIndex));
 
-            var index = Collection.ManagerData.Items.IndexOf(control);
+
             UndoManager?.Push(_undoSteps.DeleteItem(control, index, newIndex));
         }
 

@@ -34,7 +34,7 @@
                 Margin="0, 0, 0, 1"
                 Caption="Function"
                 Position="Top"
-                SelectedItem="{Binding Function.Value}"
+                SelectedItem="{Binding Transition.Value}"
                 ItemsSource="{Binding Source={StaticResource TweenerTransition}}"/>
 
             <BaseControls:ComboBox 

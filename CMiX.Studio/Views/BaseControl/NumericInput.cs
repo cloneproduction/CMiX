@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -117,7 +116,6 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void Commit()
         {
-            Debug.WriteLine("NumericInput - Commit called");
             if (_textBox == null) return;
             if (double.TryParse(_textBox.Text, out double result))
                 Value = Math.Clamp(result, Minimum, Maximum);
