@@ -14,11 +14,11 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Controls:DistanceSlider 
+            <!--<Controls:DistanceSlider 
                 Grid.Column="2" 
                 Position="Top" 
                 Style="{StaticResource DistanceSliderStyle}" 
-                Value="{Binding Path=Minimum}"/>
+                Value="{Binding Path=Minimum}"/>-->
             <TextBlock 
                 Grid.Column="0" 
                 Padding="4" 
@@ -31,11 +31,11 @@
                 <ColumnDefinition/>
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
-            <Controls:DistanceSlider 
+            <!--<Controls:DistanceSlider 
                 Grid.Column="2" 
                 Position="Bottom" 
                 Style="{StaticResource DistanceSliderStyle}" 
-                Value="{Binding Path=Maximum}"/>
+                Value="{Binding Path=Maximum}"/>-->
             <TextBlock 
                 Grid.Column="0" 
                 Padding="4" 

@@ -1,5 +1,4 @@
 ﻿using System.Text.Json;
-using System.Text.Json.Serialization;
 using CMiX.Core.Compositing;
 using CMiX.Core.Serialization;
 
@@ -10,10 +9,7 @@ namespace CMiX.Core.Persistence
         public static readonly JsonSerializerOptions Options = new()
         {
             WriteIndented = true,
-            Converters =
-        {
-            new IControlModelJsonConverter(),
-        }
+            Converters ={new IControlModelJsonConverter()}
         };
 
         public static void Save(ProjectModel model, string path)

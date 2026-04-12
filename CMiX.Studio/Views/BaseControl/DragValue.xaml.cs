@@ -1,7 +1,7 @@
-﻿using CMiX.Core.Mathematics;
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
 using System;
-using System.Runtime.InteropServices;
-using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -13,11 +13,7 @@ namespace CMiX.Studio.Views.BaseControl
         public DragValue()
         {
             InitializeComponent();
-            OnApplyTemplate();
-        }
 
-        public override void OnApplyTemplate()
-        {
             if (borderValueDisplay != null)
             {
                 borderValueDisplay.PreviewMouseLeftButtonDown += Border_PreviewMouseLeftButtonDown;
@@ -36,75 +32,63 @@ namespace CMiX.Studio.Views.BaseControl
                 AddButton.Click += AddButton_Click;
                 SubButton.Click += SubButton_Click;
             }
-
-            ScreenHeight = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Height;
-            ScreenWidth = System.Windows.Forms.Screen.PrimaryScreen.Bounds.Width;
-
-            base.OnApplyTemplate();
         }
+
+        private Point? _lastPoint;
+        private Point? _mouseDownPos;
+        private double _valueBeforeEdit;
+        private double newValue;
 
         private void Border_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (IsEditing == false)
-            {
-                _lastPoint = GetMousePosition();
-                _mouseDownPos = e.GetPosition(this);
-                borderValueDisplay.CaptureMouse();
-            }
+            if (IsEditing)
+                return;
+
+            _lastPoint = DragEditHelper.GetMousePosition();
+            _mouseDownPos = e.GetPosition(this);
+            borderValueDisplay.CaptureMouse();
         }
 
         private void Border_PreviewMouseMove(object sender, MouseEventArgs e)
         {
+            if (_mouseDownPos == null)
+                return;
 
-            if (_mouseDownPos != null)
-            {
-                var currentPoint = GetMousePosition();
-                var offset = currentPoint - _lastPoint.Value;
+            var currentPoint = DragEditHelper.GetMousePosition();
+            var offset = currentPoint - _lastPoint.Value;
 
-                if (currentPoint.X >= ScreenWidth - 1)
-                    SetCursorPos(0, Convert.ToInt32(currentPoint.Y));
-                else if (currentPoint.X <= 0)
-                    SetCursorPos(ScreenWidth - 1, Convert.ToInt32(currentPoint.Y));
+            DragEditHelper.WrapCursorX(currentPoint, DragEditHelper.ScreenWidth, DragEditHelper.ScreenHeight);
 
-                if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
-                    newValue = this.Value + offset.X * SmallChange;
-                else
-                    newValue = this.Value + offset.X * LargeChange;
+            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
+                newValue = this.Value + offset.X * SmallChange;
+            else
+                newValue = this.Value + offset.X * LargeChange;
 
-                if(newValue >= Maximum)
-                    newValue = Maximum;
-
-                if (newValue <= Minimum)
-                    newValue = Minimum;
-
-                this.Value = newValue;
-                _lastPoint = GetMousePosition();
-            }
-   
+            this.Value = Math.Clamp(newValue, Minimum, Maximum);
+            _lastPoint = DragEditHelper.GetMousePosition();
         }
-
 
         private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
             var mouseUpPos = e.GetPosition(this);
             borderValueDisplay.ReleaseMouseCapture();
 
-            if (_mouseDownPos == mouseUpPos)
+            if (_mouseDownPos == null)
+                return;
+
+            if ((_mouseDownPos.Value - mouseUpPos).Length < DragEditHelper.ClickThreshold)
                 OnSwitchToEditingMode();
 
-            if (_mouseDownPos != null && IsEditing == false)
+            if (IsEditing == false)
             {
-                Point pointToScreen;
+                double yPos = ActualHeight / 2;
+                double xPos = ActualWidth / 4 - AddButton.ActualWidth;
+                if (xPos >= ActualWidth) xPos -= 1;
 
-                double YPos = ActualHeight / 2;
-                double XPos = ActualWidth / 4 - AddButton.ActualWidth;// MathUtils.Map(this.Value, 0, 1, 0, ActualWidth);
-
-                if (XPos >= ActualWidth)
-                    XPos -= 1;
-
-                pointToScreen = borderValueDisplay.PointToScreen(new Point(XPos, YPos));
-                SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+                Point pointToScreen = borderValueDisplay.PointToScreen(new Point(xPos, yPos));
+                DragEditHelper.PlaceCursorAt(pointToScreen);
             }
+
             _mouseDownPos = null;
         }
 
@@ -134,7 +118,7 @@ namespace CMiX.Studio.Views.BaseControl
             if (parentWindow != null)
                 Mouse.RemovePreviewMouseDownHandler(parentWindow, ParentWindow_OnMouseDown);
 
-            if (IsEditing == true)
+            if (IsEditing)
             {
                 if (mouseButtonEventArgs.ChangedButton == MouseButton.Left)
                     UpdateValue();
@@ -145,64 +129,17 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
-        private void TextInput_GotFocus(object sender, RoutedEventArgs e)
-        {
-            ValueInput.MouseLeave += View_OnMouseLeave;
-            ValueInput.MouseEnter += View_OnMouseEnter;
-        }
-
-        private void Text_OnLostFocus(object sender, RoutedEventArgs e)
-        {
-            ValueInput.MouseLeave -= View_OnMouseLeave;
-            ValueInput.MouseEnter -= View_OnMouseEnter;
-        }
-
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            //if (this.Value <= Maximum && this.Value >= Minimum)
-            //    return;
-
-            this.Value += SmallChange;
+            this.Value = Math.Clamp(this.Value + SmallChange, Minimum, Maximum);
             e.Handled = true;
         }
 
         private void SubButton_Click(object sender, RoutedEventArgs e)
         {
-            //if (this.Value <= Maximum && this.Value >= Minimum)
-            //    return;
-
-            this.Value -= SmallChange;
+            this.Value = Math.Clamp(this.Value - SmallChange, Minimum, Maximum);
             e.Handled = true;
         }
-
-        private int ScreenHeight;
-        private int ScreenWidth;
-
-
-        [DllImport("User32.dll")]
-        private static extern bool SetCursorPos(int X, int Y);
-
-        [DllImport("user32.dll")]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        internal static extern bool GetCursorPos(ref Win32Point pt);
-
-        [StructLayout(LayoutKind.Sequential)]
-        internal struct Win32Point
-        {
-            public Int32 X;
-            public Int32 Y;
-        };
-
-        public static Point GetMousePosition()
-        {
-            Win32Point w32Mouse = new Win32Point();
-            GetCursorPos(ref w32Mouse);
-            return new Point(w32Mouse.X, w32Mouse.Y);
-        }
-
-        private Point? _lastPoint;
-        private Point? _mouseDownPos;
-        private double newValue;
 
         protected override void OnKeyDown(KeyEventArgs e)
         {
@@ -216,17 +153,11 @@ namespace CMiX.Studio.Views.BaseControl
                 CancelUpdateValue();
                 OnSwitchToNormalMode();
             }
-
-            //e.Handled = true;// !IsTextAllowed(ValueInput.Text);
-        }
-
-        protected override void OnLostFocus(RoutedEventArgs e)
-        {
-            //e.Handled = !IsTextAllowed(ValueInput.Text);
         }
 
         private void OnSwitchToEditingMode()
         {
+            _valueBeforeEdit = this.Value;
             IsEditing = true;
             ValueInput.Focus();
             ValueInput.SelectAll();
@@ -240,60 +171,19 @@ namespace CMiX.Studio.Views.BaseControl
             _mouseDownPos = null;
         }
 
-        private readonly Regex _regex = new Regex(@"/^-?(0|[1-9]\d*)(\.\d+)?$/"); //regex that matches disallowed text
-
-        private bool IsTextAllowed(string text)
-        {
-            bool result = !_regex.IsMatch(text);
-            return result;
-        }
-
         public void UpdateValue()
         {
-            if (!IsTextAllowed(ValueInput.Text))
-            {
+            if (double.TryParse(ValueInput.Text, out double result))
+                this.Value = Math.Clamp(result, Minimum, Maximum);
+            else
                 ValueInput.Text = this.Value.ToString();
-                return;
-            }
-
-            double result;
-            var b = Double.TryParse(ValueInput.Text, out result);
-            if (!b)
-            {
-                ValueInput.Text = this.Value.ToString();
-                return;
-            }
-
-            var newValue = Double.Parse(ValueInput.Text);
-
-            if (newValue >= Maximum)
-                newValue = Maximum;
-
-            if (newValue <= Minimum)
-                newValue = Minimum;
-
-            this.Value = newValue;
         }
 
         public void CancelUpdateValue()
         {
-            if (!IsTextAllowed(ValueInput.Text))
-            {
-                ValueInput.Text = this.Value.ToString();
-                return;
-            }
-
-            double result;
-            var b = Double.TryParse(ValueInput.Text, out result);
-            if (!b)
-            {
-                ValueInput.Text = this.Value.ToString();
-                return;
-            }
-
-            ValueInput.Text = this.Value.ToString();
+            this.Value = _valueBeforeEdit;
+            ValueInput.Text = _valueBeforeEdit.ToString();
         }
-
 
         public static readonly DependencyProperty MaximumProperty =
         DependencyProperty.Register("Maximum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(10000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -303,7 +193,6 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(MaximumProperty, value); }
         }
 
-
         public static readonly DependencyProperty MinimumProperty =
         DependencyProperty.Register("Minimum", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(-10000.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public double Minimum
@@ -311,8 +200,6 @@ namespace CMiX.Studio.Views.BaseControl
             get { return (double)GetValue(MinimumProperty); }
             set { SetValue(MinimumProperty, value); }
         }
-
-
 
         public static readonly DependencyProperty ValueProperty =
         DependencyProperty.Register("Value", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(0.0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -322,7 +209,6 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(ValueProperty, value); }
         }
 
-
         public static readonly DependencyProperty SmallChangeProperty =
         DependencyProperty.Register("SmallChange", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(0.001, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public double SmallChange
@@ -330,7 +216,6 @@ namespace CMiX.Studio.Views.BaseControl
             get { return (double)GetValue(SmallChangeProperty); }
             set { SetValue(SmallChangeProperty, value); }
         }
-
 
         public static readonly DependencyProperty LargeChangeProperty =
         DependencyProperty.Register("LargeChange", typeof(double), typeof(DragValue), new FrameworkPropertyMetadata(0.01, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -340,7 +225,6 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(LargeChangeProperty, value); }
         }
 
-
         public static readonly DependencyProperty IsEditingProperty =
         DependencyProperty.Register("IsEditing", typeof(bool), typeof(DragValue), new FrameworkPropertyMetadata(false, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public bool IsEditing
@@ -349,7 +233,6 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(IsEditingProperty, value); }
         }
 
-
         public static readonly DependencyProperty PositionProperty =
         DependencyProperty.Register("Position", typeof(ControlPosition), typeof(DragValue), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public ControlPosition Position
@@ -357,7 +240,6 @@ namespace CMiX.Studio.Views.BaseControl
             get { return (ControlPosition)GetValue(PositionProperty); }
             set { SetValue(PositionProperty, value); }
         }
-
 
         public static readonly DependencyProperty CaptionProperty =
         DependencyProperty.Register("Caption", typeof(string), typeof(DragValue), new FrameworkPropertyMetadata(String.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -374,7 +256,5 @@ namespace CMiX.Studio.Views.BaseControl
             get { return (bool)GetValue(IsIntegerProperty); }
             set { SetValue(IsIntegerProperty, value); }
         }
-
-
     }
 }

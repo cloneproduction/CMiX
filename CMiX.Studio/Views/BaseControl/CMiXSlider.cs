@@ -2,10 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -15,9 +13,6 @@ namespace CMiX.Studio.Views.BaseControl
 {
     public class CMiXSlider : System.Windows.Controls.Slider
     {
-        [DllImport("User32.dll")]
-        private static extern bool SetCursorPos(int X, int Y);
-
         public static readonly DependencyProperty IsEditableProperty =
         DependencyProperty.Register("IsEditable", typeof(bool), typeof(CMiXSlider), new UIPropertyMetadata(true));
         public bool IsEditable
@@ -50,10 +45,8 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(CaptionProperty, value); }
         }
 
-        TextBox InputValue { get; set; }
-        Border Border { get; set; }
-
-
+        private TextBox InputValue { get; set; }
+        private Border Border { get; set; }
 
         public override void OnApplyTemplate()
         {
@@ -91,14 +84,11 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
-
-
         private double oldValue;
+
         private void OnSwitchToEditingMode()
         {
-
             IsEditing = true;
-
             if (InputValue != null)
             {
                 oldValue = this.Value;
@@ -110,9 +100,7 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void OnSwitchToNormalMode()
         {
-
             IsEditing = false;
-
             if (InputValue != null)
             {
                 oldValue = this.Value;
@@ -126,8 +114,6 @@ namespace CMiX.Studio.Views.BaseControl
         {
             InputValue.Text = oldValue.ToString();
         }
-
-
 
         private void InputValue_KeyDown(object sender, KeyEventArgs e)
         {
@@ -144,27 +130,22 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
-
         private void InputValue_OnMouseEnter(object sender, MouseEventArgs e)
         {
             RemoveParentWindowHandlers();
         }
 
-
         private void InputValue_OnMouseLeave(object sender, MouseEventArgs e)
         {
             if (!IsEditing)
                 return;
-
             AddParentWindowHandlers();
         }
 
-
         private void InputValue_GotFocus(object sender, RoutedEventArgs e)
         {
-            oldValue = Convert.ToDouble(InputValue.Text);
+            oldValue = this.Value;
         }
-
 
         private void InputValue_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -172,17 +153,14 @@ namespace CMiX.Studio.Views.BaseControl
             if (textBox == null)
                 return;
 
-            if (!this.IsValidInput(textBox.Text))
+            if (!IsValidInput(textBox.Text))
                 textBox.Text = oldValue.ToString();
         }
-
-
 
         private void ParentWindow_OnMouseMove(object sender, MouseEventArgs e)
         {
             e.Handled = true;
         }
-
 
         private void ParentWindow_OnMouseDown(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
@@ -196,18 +174,15 @@ namespace CMiX.Studio.Views.BaseControl
             mouseButtonEventArgs.Handled = true;
         }
 
-
         private void ParentWindow_OnMouseUp(object sender, MouseButtonEventArgs mouseButtonEventArgs)
         {
             RemoveParentWindowHandlers();
             mouseButtonEventArgs.Handled = true;
         }
 
-
-
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)
         {
-            if(IsEditing == false) 
+            if (IsEditing == false)
                 return;
 
             CancelUpdateValue();
@@ -215,22 +190,20 @@ namespace CMiX.Studio.Views.BaseControl
             e.Handled = true;
         }
 
-
-        bool isDragging = false;
-        double lastValue;
+        private bool isDragging = false;
+        private double lastValue;
         private Point _lastPoint;
-
-
+        private Point _mouseDownPoint;
 
         protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
-            isDragging = true;
-
             if (IsEditing)
                 return;
 
+            isDragging = true;
             lastValue = this.Value;
             _lastPoint = e.GetPosition(Border);
+            _mouseDownPoint = _lastPoint;
             this.CaptureMouse();
             this.Focus();
             Cursor = Cursors.None;
@@ -251,14 +224,12 @@ namespace CMiX.Studio.Views.BaseControl
             if (Orientation == Orientation.Vertical)
             {
                 currentPoint.X = Border.ActualWidth / 2;
-
                 Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
                 currentValue = MathUtils.Map(-offset.Y, 0, Border.ActualHeight, this.Minimum, this.Maximum);
             }
-            else if(Orientation == Orientation.Horizontal)
+            else if (Orientation == Orientation.Horizontal)
             {
                 currentPoint.Y = Border.ActualHeight / 2;
-
                 Point offset = new Point(currentPoint.X - _lastPoint.X, currentPoint.Y - _lastPoint.Y);
                 currentValue = MathUtils.Map(offset.X, 0, Border.ActualWidth, this.Minimum, this.Maximum);
             }
@@ -270,7 +241,6 @@ namespace CMiX.Studio.Views.BaseControl
             this.Value = Math.Clamp(lastValue + currentValue * smooth, this.Minimum, this.Maximum);
         }
 
-
         protected override void OnPreviewMouseLeftButtonUp(MouseButtonEventArgs e)
         {
             if (!isDragging)
@@ -280,65 +250,52 @@ namespace CMiX.Studio.Views.BaseControl
 
             if (Orientation == Orientation.Vertical)
                 pointFromValue = new Point(Border.ActualWidth / 2, MathUtils.Map(this.Value, this.Maximum, this.Minimum, 0, Border.ActualHeight));
-            else if(Orientation == Orientation.Horizontal)
+            else if (Orientation == Orientation.Horizontal)
                 pointFromValue = new Point(MathUtils.Map(this.Value, this.Minimum, this.Maximum, 0, Border.ActualWidth), Border.ActualHeight / 2);
 
             Point pointToScreen = this.PointToScreen(pointFromValue);
 
-            if (lastValue == this.Value && IsEditable)
+            if ((e.GetPosition(Border) - _mouseDownPoint).Length < DragEditHelper.ClickThreshold && IsEditable)
             {
-                pointToScreen = this.PointToScreen(_lastPoint);
+                pointToScreen = this.PointToScreen(_mouseDownPoint);
                 OnSwitchToEditingMode();
             }
 
-            SetCursorPos(Convert.ToInt32(pointToScreen.X), Convert.ToInt32(pointToScreen.Y));
+            DragEditHelper.PlaceCursorAt(pointToScreen);
             this.ReleaseMouseCapture();
 
             isDragging = false;
             lastValue = this.Value;
-
             Cursor = Cursors.Arrow;
         }
 
-
-        const NumberStyles validNumberStyles = 
-                                   NumberStyles.AllowDecimalPoint |
-                                   NumberStyles.AllowThousands |
-                                   NumberStyles.AllowLeadingSign;
+        private const NumberStyles validNumberStyles =
+            NumberStyles.AllowDecimalPoint |
+            NumberStyles.AllowThousands |
+            NumberStyles.AllowLeadingSign;
 
         public TextBoxInputMode InputMode { get; set; }
 
         private bool IsValidInput(string input)
         {
-            InputMode = TextBoxInputMode.DecimalInput;
             switch (InputMode)
             {
                 case TextBoxInputMode.None:
                     return true;
                 case TextBoxInputMode.DigitInput:
                     return CheckIsDigit(input);
-
                 case TextBoxInputMode.DecimalInput:
-                    decimal d;
-
                     if (input.ToCharArray().Where(x => x == ',').Count() > 1)
                         return false;
-
                     if (input.Contains("-"))
                     {
-                        if (/*!this.JustPositiveDecimalInput && */input.IndexOf("-") == 0 && input.Length == 1)
+                        if (input.IndexOf("-") == 0 && input.Length == 1)
                             return true;
                         else
-                        {
-                            var result = decimal.TryParse(input, validNumberStyles, CultureInfo.CurrentCulture, out d);
-                            return result;
-                        }
+                            return decimal.TryParse(input, validNumberStyles, CultureInfo.CurrentCulture, out _);
                     }
                     else
-                    {
-                        var result = decimal.TryParse(input, validNumberStyles, CultureInfo.CurrentCulture, out d);
-                        return result;
-                    }
+                        return decimal.TryParse(input, validNumberStyles, CultureInfo.CurrentCulture, out _);
 
                 default: throw new ArgumentException("Unknown TextBoxInputMode");
             }
@@ -349,11 +306,11 @@ namespace CMiX.Studio.Views.BaseControl
             return text.ToCharArray().All(Char.IsDigit);
         }
     }
-}
 
-public enum TextBoxInputMode
-{
-    None,
-    DecimalInput,
-    DigitInput
+    public enum TextBoxInputMode
+    {
+        None,
+        DecimalInput,
+        DigitInput
+    }
 }
