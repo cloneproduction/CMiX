@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Diagnostics;
-using CMiX.Core.Compositing;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core.Prefabs
@@ -36,19 +34,7 @@ namespace CMiX.Core.Prefabs
         public IControl Create(IControlModel model)
         {
             var control = CreateControlInstance(model);
-            Console.WriteLine($"Created {control.GetType().Name} from {model.GetType().Name}");
-            Debug.WriteLine($"Created {control.GetType().Name} from {model.GetType().Name}");
-
             control.FromModel(model);
-            Console.WriteLine($"After FromModel - control.ID={control.ID}");
-
-            Debug.WriteLine($"After FromModel - control.ID={control.ID}");
-            if (control is Composition comp)
-            {
-                Console.WriteLine($"LayerManager.ManagerData.ID={comp.LayerManager.ManagerData.ID}");
-                Debug.WriteLine($"LayerManager.ManagerData.ID={comp.LayerManager.ManagerData.ID}");
-
-            }
             NameControl(control);
             _activationService.ActivateAll();
             return control;

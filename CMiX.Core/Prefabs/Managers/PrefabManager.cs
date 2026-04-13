@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -115,9 +114,6 @@ namespace CMiX.Core.Prefabs.Managers
                 return;
             }
 
-            Console.WriteLine($"AddItem sending MessageAddItem for {prefab.GetType().Name} to manager {ManagerData.ID}");
-            Debug.WriteLine($"AddItem sending MessageAddItem for {prefab.GetType().Name} to manager {ManagerData.ID}");
-
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
             UndoManager?.EndGroup();
             UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
@@ -208,10 +204,6 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void Receive(IMessage message)
         {
-            Console.WriteLine($"PrefabManager.Receive: message.ID={message.ID} ManagerData.ID={ManagerData.ID} match={ManagerData.ID == message.ID}");
-
-            Debug.WriteLine($"PrefabManager.Receive: message.ID={message.ID} ManagerData.ID={ManagerData.ID} match={ManagerData.ID == message.ID}");
-
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
             if (ControlMessenger.IsReceivingBlocked) return;

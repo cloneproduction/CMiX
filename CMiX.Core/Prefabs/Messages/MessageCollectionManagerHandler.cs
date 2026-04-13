@@ -22,7 +22,6 @@ namespace CMiX.Core.Prefabs.Messages
                     return true;
 
                 case MessageAddItem messageAddPrefab:
-                    Console.WriteLine($"MessageAddItem received for manager ID: {messageAddPrefab.ID}");
                     collection.AddItem(messageAddPrefab.Model);
                     collection.ManagerData.SelectedIndex = messageAddPrefab.SelectedIndex;
                     return true;

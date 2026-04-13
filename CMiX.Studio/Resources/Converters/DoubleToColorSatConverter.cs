@@ -15,7 +15,6 @@ namespace CMiX.Studio.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            Console.WriteLine("DoubleToColorSatConverter");
             Color colorIn = (Color)value;
             ColorExtensions.ColorToHSV(colorIn, out hue, out sat, out val);
             return 1 - sat;

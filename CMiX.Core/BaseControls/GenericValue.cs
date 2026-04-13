@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -56,8 +55,6 @@ namespace CMiX.Core.BaseControls
                     if (!IsReceiving)
                     {
                         var after = ToModel();
-                        Debug.WriteLine($"GenericValue<{typeof(T).Name}> pushing ValueChangedCommand, UndoManager={UndoManager != null}");
-
                         UndoManager?.Push(new ValueChangedCommand(this, before, after));
                     }
                     var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);

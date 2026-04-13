@@ -10,10 +10,5 @@ namespace CMiX.Studio.Views
         {
             InitializeComponent();
         }
-
-        private void StackPanel_Click(object sender, RoutedEventArgs e)
-        {
-            Console.WriteLine();
-        }
     }
 }

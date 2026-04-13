@@ -25,10 +25,7 @@ namespace CMiX.Studio.Views
             var viewType = _viewsAssembly.GetType($"{viewNamespace}.{viewName}");
 
             if (viewType == null)
-            {
-                System.Diagnostics.Debug.WriteLine($"View not found for {item.GetType().Name}");
                 return null;
-            }
 
             var template = new DataTemplate(item.GetType())
             {
