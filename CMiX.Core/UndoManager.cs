@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using CMiX.Core.Prefabs;
 
 namespace CMiX.Core
@@ -10,7 +11,7 @@ namespace CMiX.Core
         private const int MaxSteps = 32;
         private const int MergeWindowMs = 500;
 
-        private readonly ControlRepository _controlRepository;
+        //private readonly ControlRepository _controlRepository;
         private readonly Dictionary<Guid, WeakReference<IControl>> _controlRegistry = new();
         private readonly Stack<UndoStep> _undoStack = new();
         private readonly Stack<UndoStep> _redoStack = new();
@@ -23,10 +24,23 @@ namespace CMiX.Core
         public bool CanUndo => _undoStack.Count > 0;
         public bool CanRedo => _redoStack.Count > 0;
 
+        public void CancelGroup()
+        {
+            _isGrouping = false;
+            _groupBefore = null;
+            _groupControlID = default;
+        }
+
         public UndoManager(ControlRepository controlRepository)
         {
-            _controlRepository = controlRepository;
+            //_controlRepository = controlRepository;
         }
+
+        private int _suspendCount = 0;
+        public bool IsSuspended => _suspendCount > 0;
+
+        public void SuspendRecording() => _suspendCount++;
+        public void ResumeRecording() => _suspendCount = Math.Max(0, _suspendCount - 1);
 
         public void Clear()
         {
@@ -50,25 +64,41 @@ namespace CMiX.Core
             if (_isApplying) return;
             if (_pendingControl?.ID != control.ID) return;
 
-            //THIS WAS FOR EQUALITY CHECK TO SEE IF THE VALUE IS THE SAME, IF IT IS THEN WE DON"T RECORD
-            //var after = control.ToModel();
-            //if (_pendingBefore.Equals(after))
-            //{
-            //    _pendingControl = null;
-            //    _pendingBefore = null;
-            //    return;
-            //}
-
-            //Push(new UndoStep(control.ID, _pendingBefore, after));
-
             Push(new UndoStep(control.ID, _pendingBefore, control.ToModel()));
             _pendingControl = null;
             _pendingBefore = null;
         }
 
+
+
         public void Push(UndoStep step)
         {
             if (_isApplying) return;
+            if (_isGrouping) return;
+            if (IsSuspended) return;
+            if (step.ControlID == Guid.Empty) return;
+
+            Debug.WriteLine($"Push {step.ControlID} stack={_undoStack.Count}");
+            Debug.WriteLine(new System.Diagnostics.StackTrace().ToString());
+
+            if (CanMerge(step, out var last))
+            {
+                _undoStack.Pop();
+                step = new UndoStep(step.ControlID, last.Before, step.After);
+            }
+
+            _undoStack.Push(step);
+            _redoStack.Clear();
+            TrimStack();
+        }
+
+        public void PushDirect(UndoStep step)
+        {
+            Debug.WriteLine($"PushDirect {step.ControlID} stack={_undoStack.Count}");
+
+            if (_isApplying) return;
+            if (_isGrouping) return;
+            if (step.ControlID == Guid.Empty) return;
 
             if (CanMerge(step, out var last))
             {
@@ -132,6 +162,36 @@ namespace CMiX.Core
             _undoStack.Clear();
             foreach (var s in trimmed.Reverse())
                 _undoStack.Push(s);
+        }
+
+        private bool _isGrouping = false;
+        private IControlModel _groupBefore = null;
+        private Guid _groupControlID = default;
+
+        public void BeginGroup(IControl control)
+        {
+            _isGrouping = true;
+            _groupControlID = control.ID;
+            _groupBefore = control.ToModel();
+        }
+
+        public void EndGroup(IControl control)
+        {
+            if (!_isGrouping) return;
+            _isGrouping = false;
+            var after = control.ToModel();
+
+            // Only push if something actually changed
+            if (!_groupBefore.Equals(after))
+            {
+                var step = new UndoStep(_groupControlID, _groupBefore, after);
+                _undoStack.Push(step);
+                _redoStack.Clear();
+                TrimStack();
+            }
+
+            _groupBefore = null;
+            _groupControlID = default;
         }
     }
 }

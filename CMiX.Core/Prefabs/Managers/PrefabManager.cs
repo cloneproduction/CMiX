@@ -36,7 +36,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
             ManagerReorderService = new ManagerReorderService(Collection, OnMove);
-            _undoSteps = new PrefabManagerUndoSteps(Collection, controlMessenger, messageFactory, v => _suppressSelectionUndo = v);
+            _undoSteps = new PrefabManagerUndoSteps(Collection, controlMessenger, messageFactory);
 
             IsActive = false;
             activationService.Register(this);
@@ -71,17 +71,38 @@ namespace CMiX.Core.Prefabs.Managers
             get => Collection.SelectedItem;
             set
             {
-                var index = Collection.ManagerData.Items.IndexOf(value);
-                SelectedItemChanged(index);
+                if (value == null)
+                {
+                    Collection.RemoveSelectedItem();
+                    return;
+                }
+
+                if (UndoManager?.IsSuspended == true) return;
+
+                if (!Collection.ManagerData.Items.Contains(value))
+                    EnsureItemInCollection(value);
+
+                SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
             }
+        }
+
+        private void EnsureItemInCollection(IControl control)
+        {
+            if (Collection.ManagerData.Items.Contains(control)) return;
+
+            UndoManager?.SuspendRecording();
+            Collection.AddItem(control);
+
+            var index = Collection.ManagerData.Items.IndexOf(control);
+            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, control, index));
+            UndoManager?.PushDirect(_undoSteps.AddItem(control, index));
+            UndoManager?.ResumeRecording();
         }
 
         public void ClearAll()
         {
-            _suppressSelectionUndo = true;
             var items = Collection.ManagerData.Items.ToList();
             Collection.ClearAll();
-            _suppressSelectionUndo = false;
 
             foreach (var item in items)
                 ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, item, -1));
@@ -91,21 +112,23 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(Type type)
         {
-            _suppressSelectionUndo = true;
+            UndoManager?.SuspendRecording();
             var (prefab, index) = Collection.AddItem(type);
-            _suppressSelectionUndo = false;
 
-            if (prefab is EmptyPrefab) return;
+            if (prefab is EmptyPrefab)
+            {
+                UndoManager?.ResumeRecording();
+                return;
+            }
 
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
-            UndoManager?.Push(_undoSteps.AddItem(prefab, index));
+            UndoManager?.PushDirect(_undoSteps.AddItem(prefab, index));
+            UndoManager?.ResumeRecording();
         }
 
         public void AddItem(IControlModel controlModel)
         {
-            _suppressSelectionUndo = true;
             Collection.AddItem(controlModel);
-            _suppressSelectionUndo = false;
 
             var prefab = Collection.SelectedItem;
             if (prefab is EmptyPrefab) return;
@@ -168,11 +191,8 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(_undoSteps.RemoveSelectedItem(previousItem, previousIndex));
         }
 
-        private bool _suppressSelectionUndo = false;
-
 
         private bool ShouldRecordSelectionUndo(IControl previousItem) =>
-            !_suppressSelectionUndo &&
             !(UndoManager?.IsApplying ?? false) &&
             previousItem != null &&
             previousItem != Collection.SelectedItem;
@@ -194,9 +214,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void LoadItem(IControlModel controlModel)
         {
-            _suppressSelectionUndo = true;
             Collection.AddItem(controlModel);
-            _suppressSelectionUndo = false;
         }
 
         //public void Rename() => Collection.Rename();

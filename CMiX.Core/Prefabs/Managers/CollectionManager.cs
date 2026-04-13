@@ -92,6 +92,11 @@ namespace CMiX.Core.Prefabs.Managers
             AddControlToCollection(prefab);
         }
 
+        public void AddItem(IControl control)
+        {
+            AddControlToCollection(control);
+            ManagerData.SelectedIndex = ManagerData.Items.IndexOf(control);
+        }
 
         private void ReplaceControlInCollection(IControl prefab, int index)
         {

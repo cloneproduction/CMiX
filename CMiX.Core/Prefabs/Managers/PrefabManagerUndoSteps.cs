@@ -12,27 +12,22 @@ namespace CMiX.Core.Prefabs.Managers
         private readonly CollectionManager _collection;
         private readonly ControlMessenger _controlMessenger;
         private readonly MessageFactory _messageFactory;
-        private readonly Action<bool> _setSuppressSelectionUndo;
 
         public PrefabManagerUndoSteps(
             CollectionManager collection,
             ControlMessenger controlMessenger,
-            MessageFactory messageFactory,
-            Action<bool> setSuppressSelectionUndo)
+            MessageFactory messageFactory)
         {
             _collection = collection;
             _controlMessenger = controlMessenger;
             _messageFactory = messageFactory;
-            _setSuppressSelectionUndo = setSuppressSelectionUndo;
         }
 
         private void Execute(Action collectionAction, Func<IMessage> createMessage)
         {
-            _setSuppressSelectionUndo(true);
             _controlMessenger.IsSendingBlocked = true;
             collectionAction();
             _controlMessenger.IsSendingBlocked = false;
-            _setSuppressSelectionUndo(false);
             _controlMessenger.SendMessage(createMessage());
         }
 
@@ -59,6 +54,7 @@ namespace CMiX.Core.Prefabs.Managers
 
 
         public UndoStep AddItem(IControl prefab, int index) => new UndoStep(
+            ManagerID,
             undoAction: () => Execute(
                 () => _collection.DeleteItem(prefab),
                 () => RemoveMsg(prefab, _collection.ManagerData.SelectedIndex)),
@@ -74,6 +70,7 @@ namespace CMiX.Core.Prefabs.Managers
         );
 
         public UndoStep DeleteItem(IControl control, int index, int newIndex) => new UndoStep(
+            ManagerID,
             undoAction: () => Execute(
                 () =>
                 {
@@ -89,6 +86,7 @@ namespace CMiX.Core.Prefabs.Managers
         );
 
         public UndoStep MoveItem(int oldIndex, int newIndex) => new UndoStep(
+            ManagerID,
             undoAction: () => Execute(
                 () => _collection.MoveItem(newIndex, oldIndex),
                 () => MoveMsg(newIndex, oldIndex)),
@@ -98,6 +96,7 @@ namespace CMiX.Core.Prefabs.Managers
         );
 
         public UndoStep ReplaceItem(IControl previousItem, int previousIndex, IControl prefab, int index) => new UndoStep(
+            ManagerID,
             undoAction: () => Execute(
                 () => _collection.ReplaceItem(previousItem),
                 () => ReplaceMsg(previousItem, previousIndex)),
@@ -107,6 +106,7 @@ namespace CMiX.Core.Prefabs.Managers
         );
 
         public UndoStep SelectedItemChanged(IControl previousItem, int previousIndex, int index) => new UndoStep(
+            ManagerID,
             undoAction: () => Execute(
                 () => _collection.SelectedItemChanged(previousIndex),
                 () => SelectMsg(previousItem, previousIndex)),
@@ -116,6 +116,7 @@ namespace CMiX.Core.Prefabs.Managers
         );
 
         public UndoStep RemoveSelectedItem(IControl previousItem, int previousIndex) => new UndoStep(
+            ManagerID,
             undoAction: () => Execute(
                 () => _collection.SelectedItemChanged(previousIndex),
                 () => SelectMsg(previousItem, previousIndex)),

@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -31,9 +32,12 @@ namespace CMiX.Studio.Views.BaseControl
         private Point? _lastPoint;
         private Point? _mouseDownPos;
 
-        private void Border_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
         {
             if (IsEditing)
+                return;
+
+            if (!borderValueDisplay.IsMouseOver)
                 return;
 
             _lastPoint = DragEditHelper.GetMousePosition();
@@ -41,48 +45,71 @@ namespace CMiX.Studio.Views.BaseControl
             borderValueDisplay.CaptureMouse();
         }
 
-        private void Border_PreviewMouseMove(object sender, MouseEventArgs e)
+
+        private Point? _lastDragPos;
+        private Point? _cursorDownScreenPos;
+        private bool _dragging;
+
+        private void Border_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (_mouseDownPos == null)
+            if (IsEditing || !borderValueDisplay.IsMouseOver)
                 return;
 
-            var currentPoint = DragEditHelper.GetMousePosition();
-            var offset = currentPoint - _lastPoint.Value;
+            _mouseDownPos = e.GetPosition(borderValueDisplay);
+            _lastDragPos = _mouseDownPos;
+            _cursorDownScreenPos = DragEditHelper.GetMousePosition();
+            _dragging = false;
 
-            DragEditHelper.WrapCursorX(currentPoint, DragEditHelper.ScreenWidth, DragEditHelper.ScreenHeight);
+            borderValueDisplay.CaptureMouse();
+            e.Handled = true;
+        }
 
-            double newValue;
-            if (Keyboard.Modifiers.HasFlag(ModifierKeys.Shift))
-                newValue = this.Value + offset.X * SmallChange;
-            else
-                newValue = this.Value + offset.X * LargeChange;
+        private void Border_PreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            if (_mouseDownPos == null || _lastDragPos == null)
+                return;
 
-            this.Value = Math.Clamp(newValue, Minimum, Maximum);
-            _lastPoint = DragEditHelper.GetMousePosition();
+            var current = e.GetPosition(borderValueDisplay);
+
+            if (!_dragging)
+            {
+                if ((current - _mouseDownPos.Value).Length < DragEditHelper.ClickThreshold)
+                    return;
+
+                _dragging = true;
+                Mouse.OverrideCursor = Cursors.None;
+                _lastDragPos = current;
+                return;
+            }
+
+            var delta = current - _lastDragPos.Value;
+            double step = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? SmallChange : LargeChange;
+
+            Value = Math.Clamp(Value + delta.X * step, Minimum, Maximum);
+            _lastDragPos = current;
         }
 
         private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
         {
-            var mouseUpPos = e.GetPosition(this);
             borderValueDisplay.ReleaseMouseCapture();
 
             if (_mouseDownPos == null)
                 return;
 
-            if ((_mouseDownPos.Value - mouseUpPos).Length < DragEditHelper.ClickThreshold)
+            var up = e.GetPosition(borderValueDisplay);
+
+            if (!_dragging && (up - _mouseDownPos.Value).Length < DragEditHelper.ClickThreshold)
                 IsEditing = true;
 
-            if (IsEditing == false)
-            {
-                double yPos = ActualHeight / 2;
-                double xPos = ActualWidth / 4 - AddButton.ActualWidth;
-                if (xPos >= ActualWidth) xPos -= 1;
+            Mouse.OverrideCursor = null;
 
-                Point pointToScreen = borderValueDisplay.PointToScreen(new Point(xPos, yPos));
-                DragEditHelper.PlaceCursorAt(pointToScreen);
-            }
+            if (_dragging && _cursorDownScreenPos != null)
+                DragEditHelper.PlaceCursorAt(_cursorDownScreenPos.Value);
 
             _mouseDownPos = null;
+            _lastDragPos = null;
+            _cursorDownScreenPos = null;
+            _dragging = false;
         }
 
         protected override void OnPreviewMouseRightButtonDown(MouseButtonEventArgs e)

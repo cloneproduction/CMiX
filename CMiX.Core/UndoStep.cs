@@ -22,8 +22,9 @@ namespace CMiX.Core
         }
 
         // for collection operations
-        public UndoStep(Action undoAction, Action redoAction)
+        public UndoStep(Guid controlID, Action undoAction, Action redoAction)
         {
+            ControlID = controlID;
             UndoAction = undoAction;
             RedoAction = redoAction;
             Timestamp = DateTime.Now;

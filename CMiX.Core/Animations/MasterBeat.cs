@@ -8,13 +8,14 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public partial class MasterBeat : ObservableRecipient, IControl
+    public partial class MasterBeat : ReceivableControl, IControl
     {
         public MasterBeat(GenericValue<int> index, 
                           GenericValue<float> period, 
                           GenericValue<int> beatIndex, 
                           GenericValue<bool> pause, 
-                          Button resync)
+                          Button resync,
+                          ControlActivationService activationService)
         {
             Index = index;
             Period = period;
@@ -35,6 +36,9 @@ namespace CMiX.Core.Animations
             GeneratePeriods(Period.Value);
             BeatAnimations.MakeStoryBoard(Periods);
             SetAnimatedDouble();
+
+            IsActive = false;
+            activationService.Register(this);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -68,23 +72,29 @@ namespace CMiX.Core.Animations
         [RelayCommand]
         public void Multiply()
         {
+            UndoManager?.BeginGroup(this);
             Index.Value = Math.Clamp(Index.Value - 1, minIndex, maxIndex);
             SetAnimatedDouble();
+            UndoManager?.EndGroup(this);
         }
 
         [RelayCommand]
         public void Divide()
         {
+            UndoManager?.BeginGroup(this);
             Index.Value = Math.Clamp(Index.Value + 1, minIndex, maxIndex);
             SetAnimatedDouble();
+            UndoManager?.EndGroup(this);
         }
 
         [RelayCommand]
         public void Tap()
         {
+            UndoManager?.BeginGroup(this);
             UpdatePeriods(GetMasterPeriod());
             Index.Value = 0;
             SetAnimatedDouble();
+            UndoManager?.EndGroup(this);
         }
 
         Stopwatch sw = new Stopwatch();

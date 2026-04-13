@@ -78,6 +78,8 @@ namespace CMiX.Studio.Views.BaseControl
 
         private static void OnIsEditingChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
+            System.Diagnostics.Debug.WriteLine($"NumericInput - IsEditing changed to: {e.NewValue}");
+
             var control = (NumericInput)d;
             if ((bool)e.NewValue)
                 control.EnterEditMode();

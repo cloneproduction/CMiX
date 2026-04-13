@@ -8,7 +8,7 @@ namespace CMiX.Core
     public abstract class ReceivableControl : ObservableRecipient
     {
         public UndoManager UndoManager { get; set; }
-        internal bool IsReceiving { get; private set; }
+        public bool IsReceiving { get; set; }
         public void Activate() => IsActive = true;
         internal bool CanRegister => !IsReceiving;
 

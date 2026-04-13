@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -47,9 +48,15 @@ namespace CMiX.Core.BaseControls
             {
                 if (IsActive)
                 {
-                    UndoManager.Record(this);
+                    if (!IsReceiving)
+                    {
+                        UndoManager.Record(this);
+                    }
                     SetProperty(ref _value, value);
-                    UndoManager.Commit(this);
+                    if (!IsReceiving)
+                    {
+                        UndoManager.Commit(this);
+                    }
                     var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
                     ControlMessenger.SendMessage(message);
                 }
@@ -84,9 +91,9 @@ namespace CMiX.Core.BaseControls
         {
             var m = (GenericValueModel<T>)model;
             ID = m.ID;
-            IsActive = false;
-            Value = m.Value;
-            IsActive = true;
+            IsReceiving = true;  // prevent echo
+            Value = m.Value;     // IsActive stays true → message sent to vvvv
+            IsReceiving = false;
         }
     }
 }
