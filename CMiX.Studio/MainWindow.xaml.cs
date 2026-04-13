@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using CMiX.Core;
+using CMiX.Core.Undo;
 
 namespace CMiX.Studio.Views
 {
@@ -21,12 +22,12 @@ namespace CMiX.Studio.Views
 
             if (e.Key == Key.Z && Keyboard.Modifiers == ModifierKeys.Control)
             {
-                _undoManager.ApplyUndo();
+                _undoManager.Undo();
                 e.Handled = true;
             }
             else if (e.Key == Key.Z && Keyboard.Modifiers == (ModifierKeys.Control | ModifierKeys.Shift))
             {
-                _undoManager.ApplyRedo();
+                _undoManager.Redo();
                 e.Handled = true;
             }
         }

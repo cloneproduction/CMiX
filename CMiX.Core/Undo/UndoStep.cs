@@ -1,9 +1,10 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-namespace CMiX.Core
+
+namespace CMiX.Core.Undo
 {
-    public class UndoStep
+    public class UndoStep : IUndoCommand
     {
         public Guid ControlID { get; init; }
         public IControlModel Before { get; init; }
@@ -12,7 +13,6 @@ namespace CMiX.Core
         public Action UndoAction { get; init; }
         public Action RedoAction { get; init; }
 
-        // for value changes
         public UndoStep(Guid controlID, IControlModel before, IControlModel after)
         {
             ControlID = controlID;
@@ -21,7 +21,6 @@ namespace CMiX.Core
             Timestamp = DateTime.Now;
         }
 
-        // for collection operations
         public UndoStep(Guid controlID, Action undoAction, Action redoAction)
         {
             ControlID = controlID;
@@ -29,5 +28,8 @@ namespace CMiX.Core
             RedoAction = redoAction;
             Timestamp = DateTime.Now;
         }
+
+        public void Execute() => RedoAction?.Invoke();
+        public void Undo() => UndoAction?.Invoke();
     }
 }

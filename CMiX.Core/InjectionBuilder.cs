@@ -9,6 +9,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
+using CMiX.Core.Undo;
 using CMiX.Core.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 

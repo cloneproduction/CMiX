@@ -6,6 +6,7 @@ using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -20,11 +21,13 @@ namespace CMiX.Core.BaseControls
 
         public GenericValue(ControlMessenger controlMessenger,
                             MessageFactory messageFactory,
-                            ControlActivationService activationService)
+                            ControlActivationService activationService,
+                            UndoManager undoManager)
         {
             ID = Guid.NewGuid();
             MessageFactory = messageFactory;
             ControlMessenger = controlMessenger;
+            UndoManager = undoManager;
             ResetCommand = new RelayCommand(Reset);
             IsActive = false;
             activationService.Register(this);
@@ -48,14 +51,14 @@ namespace CMiX.Core.BaseControls
             {
                 if (IsActive)
                 {
-                    if (!IsReceiving)
-                    {
-                        UndoManager.Record(this);
-                    }
+                    var before = ToModel();
                     SetProperty(ref _value, value);
                     if (!IsReceiving)
                     {
-                        UndoManager.Commit(this);
+                        var after = ToModel();
+                        Debug.WriteLine($"GenericValue<{typeof(T).Name}> pushing ValueChangedCommand, UndoManager={UndoManager != null}");
+
+                        UndoManager?.Push(new ValueChangedCommand(this, before, after));
                     }
                     var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
                     ControlMessenger.SendMessage(message);

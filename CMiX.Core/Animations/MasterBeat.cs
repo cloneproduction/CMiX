@@ -3,6 +3,7 @@
 
 using System.Diagnostics;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -15,6 +16,7 @@ namespace CMiX.Core.Animations
                           GenericValue<int> beatIndex, 
                           GenericValue<bool> pause, 
                           Button resync,
+                          UndoManager undoManager,
                           ControlActivationService activationService)
         {
             Index = index;
@@ -38,7 +40,7 @@ namespace CMiX.Core.Animations
             SetAnimatedDouble();
 
             IsActive = false;
-            activationService.Register(this);
+            UndoManager = undoManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -72,29 +74,35 @@ namespace CMiX.Core.Animations
         [RelayCommand]
         public void Multiply()
         {
-            UndoManager?.BeginGroup(this);
+            var before = ToModel();
+            UndoManager?.BeginGroup();
             Index.Value = Math.Clamp(Index.Value - 1, minIndex, maxIndex);
             SetAnimatedDouble();
-            UndoManager?.EndGroup(this);
+            UndoManager?.EndGroup();
+            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
         }
 
         [RelayCommand]
         public void Divide()
         {
-            UndoManager?.BeginGroup(this);
+            var before = ToModel();
+            UndoManager?.BeginGroup();
             Index.Value = Math.Clamp(Index.Value + 1, minIndex, maxIndex);
             SetAnimatedDouble();
-            UndoManager?.EndGroup(this);
+            UndoManager?.EndGroup();
+            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
         }
 
         [RelayCommand]
         public void Tap()
         {
-            UndoManager?.BeginGroup(this);
+            var before = ToModel();
+            UndoManager?.BeginGroup();
             UpdatePeriods(GetMasterPeriod());
             Index.Value = 0;
             SetAnimatedDouble();
-            UndoManager?.EndGroup(this);
+            UndoManager?.EndGroup();
+            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
         }
 
         Stopwatch sw = new Stopwatch();

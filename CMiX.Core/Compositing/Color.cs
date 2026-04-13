@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Undo;
 
 namespace CMiX.Core.Compositing
 {
@@ -13,10 +14,11 @@ namespace CMiX.Core.Compositing
         public Color(PrefabService prefabService, 
                      ControlMessenger controlMessenger, 
                      MessageFactory messageFactory, 
-                     ControlActivationService activationService )
+                     ControlActivationService activationService,
+                     UndoManager undoManager)
             : base(controlMessenger, 
                    messageFactory, 
-                   activationService)
+                   activationService, undoManager)
         {
             PrefabService = prefabService;
         }

@@ -4,10 +4,10 @@
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Windows.Input;
-using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -18,11 +18,13 @@ namespace CMiX.Core.Prefabs.Managers
         public PrefabManager(CollectionManager collection,
                              ControlMessenger controlMessenger,
                              MessageFactory messageFactory,
-                             ControlActivationService activationService)
+                             ControlActivationService activationService,
+                             UndoManager undoManager)
         {
             ID = collection.ManagerData.ID;
             ControlMessenger = controlMessenger;
             MessageFactory = messageFactory;
+            UndoManager = undoManager;
 
             Collection = collection;
             Collection.PropertyChanged += (s, e) =>
@@ -36,13 +38,12 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
             ManagerReorderService = new ManagerReorderService(Collection, OnMove);
-            _undoSteps = new PrefabManagerUndoSteps(Collection, controlMessenger, messageFactory);
 
             IsActive = false;
             activationService.Register(this);
+
         }
 
-        private PrefabManagerUndoSteps _undoSteps;
         private MessageCollectionManagerHandler MessageCollectionManagerHandler => Collection.MessageCollectionManagerHandler;
 
         public Guid ID { get; set; }
@@ -52,8 +53,6 @@ namespace CMiX.Core.Prefabs.Managers
         public ControlMessenger ControlMessenger { get; set; }
         public MessageFactory MessageFactory { get; set; }
 
-        // Setter required for Mapster: maps PrefabManagerModel.ManagerData → Collection.ManagerData.ID
-        // to get rid of this is to put everything that is in managerdata directly in CollectionManager and update all xaml binding
         public ManagerData ManagerData
         {
             get => Collection.ManagerData;
@@ -77,7 +76,7 @@ namespace CMiX.Core.Prefabs.Managers
                     return;
                 }
 
-                if (UndoManager?.IsSuspended == true) return;
+                if (UndoManager?.IsApplying == true) return;
 
                 if (!Collection.ManagerData.Items.Contains(value))
                     EnsureItemInCollection(value);
@@ -90,68 +89,62 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (Collection.ManagerData.Items.Contains(control)) return;
 
-            UndoManager?.SuspendRecording();
             Collection.AddItem(control);
-
             var index = Collection.ManagerData.Items.IndexOf(control);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, control, index));
-            UndoManager?.PushDirect(_undoSteps.AddItem(control, index));
-            UndoManager?.ResumeRecording();
+            UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, control, index));
         }
 
         public void ClearAll()
         {
             var items = Collection.ManagerData.Items.ToList();
             Collection.ClearAll();
-
             foreach (var item in items)
                 ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, item, -1));
-
             UndoManager?.Clear();
         }
 
         public void AddItem(Type type)
         {
-            UndoManager?.SuspendRecording();
+            UndoManager?.BeginGroup();
             var (prefab, index) = Collection.AddItem(type);
 
             if (prefab is EmptyPrefab)
             {
-                UndoManager?.ResumeRecording();
+                UndoManager?.EndGroup();
                 return;
             }
 
+            Console.WriteLine($"AddItem sending MessageAddItem for {prefab.GetType().Name} to manager {ManagerData.ID}");
+            Debug.WriteLine($"AddItem sending MessageAddItem for {prefab.GetType().Name} to manager {ManagerData.ID}");
+
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
-            UndoManager?.PushDirect(_undoSteps.AddItem(prefab, index));
-            UndoManager?.ResumeRecording();
+            UndoManager?.EndGroup();
+            UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
         }
 
         public void AddItem(IControlModel controlModel)
         {
             Collection.AddItem(controlModel);
-
             var prefab = Collection.SelectedItem;
             if (prefab is EmptyPrefab) return;
 
             var index = Collection.ManagerData.Items.IndexOf(prefab);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
-            UndoManager?.Push(_undoSteps.AddItem(prefab, index));
+            UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
         }
 
         public void ReplaceItem(IControl control)
         {
-
+            var previousItem = Collection.SelectedItem;
+            var previousIndex = Collection.ManagerData.SelectedIndex;
             var (prefab, index, wasReplace) = Collection.ReplaceItem(control);
             var message = wasReplace
                 ? MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, prefab, index)
                 : MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index);
             ControlMessenger.SendMessage(message);
-
-            var previousItem = Collection.SelectedItem;
-            var previousIndex = Collection.ManagerData.SelectedIndex;
-            UndoManager?.Push(_undoSteps.ReplaceItem(previousItem, previousIndex, prefab, index));
+            UndoManager?.Push(new ReplaceItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, prefab, index));
         }
-
 
         public void DeleteItem(IControl control)
         {
@@ -159,9 +152,7 @@ namespace CMiX.Core.Prefabs.Managers
             var (removed, newIndex) = Collection.DeleteItem(control);
             if (removed == null) return;
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, removed, newIndex));
-
-
-            UndoManager?.Push(_undoSteps.DeleteItem(control, index, newIndex));
+            UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
         }
 
         public void DeleteItem(Guid id) => Collection.DeleteItem(id);
@@ -170,27 +161,23 @@ namespace CMiX.Core.Prefabs.Managers
         {
             Collection.MoveItem(oldIndex, newIndex);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageMoveItem>(ManagerData.ID, oldIndex, newIndex));
-            UndoManager?.Push(_undoSteps.MoveItem(oldIndex, newIndex));
+            UndoManager?.Push(new MoveItemCommand(Collection, ControlMessenger, MessageFactory, oldIndex, newIndex));
         }
 
         private void OnMove(int oldIndex, int newIndex)
         {
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageMoveItem>(ManagerData.ID, oldIndex, newIndex));
-            UndoManager?.Push(_undoSteps.MoveItem(oldIndex, newIndex));
+            UndoManager?.Push(new MoveItemCommand(Collection, ControlMessenger, MessageFactory, oldIndex, newIndex));
         }
 
-        // Capture selection state before removing — previousItem/previousIndex must be saved
-        // before calling RemoveSelectedItem() as it clears the selection.
         public void RemoveSelectedItem()
         {
             var previousItem = Collection.SelectedItem;
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.RemoveSelectedItem();
-            var message = MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ManagerData.ID);
-            ControlMessenger.SendMessage(message);
-            UndoManager?.Push(_undoSteps.RemoveSelectedItem(previousItem, previousIndex));
+            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ManagerData.ID));
+            UndoManager?.Push(new RemoveSelectedItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex));
         }
-
 
         private bool ShouldRecordSelectionUndo(IControl previousItem) =>
             !(UndoManager?.IsApplying ?? false) &&
@@ -209,7 +196,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.SelectedItemChanged(index);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageSelectedItemChanged>(ManagerData.ID, Collection.SelectedItem, index));
             if (!ShouldRecordSelectionUndo(previousItem)) return;
-            UndoManager?.Push(_undoSteps.SelectedItemChanged(previousItem, previousIndex, index));
+            UndoManager?.Push(new SelectItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, index));
         }
 
         public void LoadItem(IControlModel controlModel)
@@ -217,12 +204,14 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.AddItem(controlModel);
         }
 
-        //public void Rename() => Collection.Rename();
-        //public void SelectedItemIsRenaming() => Collection.SelectedItemIsRenaming();
         public void ResetItem(IControl control) => Collection.ResetItem(control);
 
         public void Receive(IMessage message)
         {
+            Console.WriteLine($"PrefabManager.Receive: message.ID={message.ID} ManagerData.ID={ManagerData.ID} match={ManagerData.ID == message.ID}");
+
+            Debug.WriteLine($"PrefabManager.Receive: message.ID={message.ID} ManagerData.ID={ManagerData.ID} match={ManagerData.ID == message.ID}");
+
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
             if (ControlMessenger.IsReceivingBlocked) return;
@@ -237,10 +226,10 @@ namespace CMiX.Core.Prefabs.Managers
                 ID = ManagerData.ID,
                 SelectedIndex = ManagerData.SelectedIndex,
                 Items = new Collection<IControlModel>(
-            ManagerData.Items
-                .Select(c => c.ToModel())
-                .ToList()
-        )
+                    ManagerData.Items
+                        .Select(c => c.ToModel())
+                        .ToList()
+                )
             }
         };
 

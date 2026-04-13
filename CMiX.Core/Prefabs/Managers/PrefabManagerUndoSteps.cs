@@ -4,6 +4,7 @@
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Undo;
 
 namespace CMiX.Core.Prefabs.Managers
 {

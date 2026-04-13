@@ -5,6 +5,7 @@ using CMiX.Core.Collections;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Undo;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
