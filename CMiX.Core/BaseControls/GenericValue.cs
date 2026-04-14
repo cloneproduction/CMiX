@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -50,11 +51,12 @@ namespace CMiX.Core.BaseControls
             {
                 if (IsActive)
                 {
-                    var before = ToModel();
+                    Debug.WriteLine($"GenericValue<{typeof(T).Name}> Value setter, type={GetType().Name}, UndoManager={UndoManager != null}");
+                    var before = CaptureModel();
                     SetProperty(ref _value, value);
                     if (!IsReceiving)
                     {
-                        var after = ToModel();
+                        var after = CaptureModel();
                         UndoManager?.Push(new ValueChangedCommand(this, before, after));
                     }
                     var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
@@ -73,6 +75,8 @@ namespace CMiX.Core.BaseControls
             get => _originalValue;
             set => SetProperty(ref _originalValue, value);
         }
+
+        protected virtual IControlModel CaptureModel() => ToModel();
 
         public void Receive(IMessage message)
         {

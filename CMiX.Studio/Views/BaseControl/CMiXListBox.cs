@@ -8,7 +8,7 @@ using System.Windows.Media;
 
 namespace CMiX.Studio.Views.BaseControl
 {
-    public partial class CMiXListBox : ListView
+    public partial class CMiXListBox : ListBox
     {
         Border Border { get; set; }
         Border Bd { get; set; }

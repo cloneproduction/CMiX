@@ -1,4 +1,6 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -9,6 +11,10 @@ namespace CMiX.Studio.Views
         public PrefabSlotManager()
         {
             InitializeComponent();
+            prefabListBox.SelectionChanged += (s, e) =>
+            {
+                Debug.WriteLine($"SelectionChanged: SelectedItem={prefabListBox.SelectedItem?.GetType().Name}, IsFocused={prefabListBox.IsFocused}, IsKeyboardFocusWithin={prefabListBox.IsKeyboardFocusWithin}");
+            };
         }
 
         public FrameworkElement SelectionPanel

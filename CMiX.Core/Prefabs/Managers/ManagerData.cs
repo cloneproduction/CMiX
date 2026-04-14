@@ -15,7 +15,13 @@ namespace CMiX.Core.Prefabs.Managers
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public ObservableCollection<IControl> Items { get; set; } = new();
-        public int SelectedIndex { get; set; }
+
+        private int _selectedIndex = -1;
+        public int SelectedIndex
+        {
+            get => _selectedIndex;
+            set => SetProperty(ref _selectedIndex, value);
+        }
 
         public IControlModel ToModel() => new ManagerDataModel
         {

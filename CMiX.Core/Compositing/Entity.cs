@@ -1,12 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
 using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Newtonsoft.Json.Linq;
 using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
@@ -27,6 +29,7 @@ namespace CMiX.Core.Compositing
             MaterialManager = materialManager;
             ModifierManager = modifierManager;
             Color = color;
+            Debug.WriteLine($"Color type={color.GetType().Name}");
         }
 
         public Guid ID { get; set; }

@@ -11,12 +11,12 @@
     mc:Ignorable="d">
 
     <StackPanel>
-        
+
         <Panels:IndentedExpander
             Header="Settings"
             Indentation="0"
-            IsExpanded="{Binding IsExpanded}">
-            
+            IsExpanded="{Binding IsExpanded, FallbackValue=False}">
+
             <ContentControl
                 Margin="8"
                 Content="{Binding}"
@@ -32,8 +32,8 @@
         <Panels:IndentedExpander
             Header="Filter"
             Indentation="0"
-            IsExpanded="{Binding FilterManager.IsExpanded}">
-            
+            IsExpanded="{Binding FilterManager.IsExpanded, FallbackValue=False}">
+
             <Views:ModifierManager DataContext="{Binding FilterManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:TextureFilterSelectionPanel DataContext="{Binding}" />

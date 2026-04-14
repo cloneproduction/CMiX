@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -117,6 +118,8 @@ namespace CMiX.Core.Prefabs.Managers
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
             UndoManager?.EndGroup();
             UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
+            Debug.WriteLine($"After AddItem: SelectedItem={Collection.SelectedItem?.GetType().Name}");
+
         }
 
         public void AddItem(IControlModel controlModel)

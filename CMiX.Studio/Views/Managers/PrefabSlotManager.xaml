@@ -94,8 +94,8 @@
                 DockPanel.Dock="top"
                 IsEnabled="True"
                 ItemsSource="{Binding ManagerData.Items}"
-                SelectedIndex="{Binding ManagerData.SelectedIndex}"
-                SelectedItem="{Binding SelectedItem}">
+                SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
+                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
                 <ListBox.Resources>
                     <ResourceDictionary Source="ListBoxItemDataTemplate.xaml" />
                 </ListBox.Resources>

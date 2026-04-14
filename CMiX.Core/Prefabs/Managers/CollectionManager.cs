@@ -68,14 +68,28 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 var index = items.IndexOf(empty);
                 if (index >= 0)
+                {
                     items[index] = prefab;
+                    Debug.WriteLine($"Replaced at index={index}");
+                }
                 else
+                {
                     items.Add(prefab);
+                    Debug.WriteLine($"Added, count={items.Count}");
+                }
             }
             else
+            {
                 items.Add(prefab);
+                Debug.WriteLine($"Added, count={items.Count}");
+            }
 
+            ManagerData.SelectedIndex = items.IndexOf(prefab);
             SelectedItem = prefab;
+            Debug.WriteLine($"SelectedIndex={ManagerData.SelectedIndex}, SelectedItem={SelectedItem?.GetType().Name}");
+
+            Debug.WriteLine($"AddControlToCollection called for {prefab.GetType().Name}");
+            //Debug.WriteLine(new System.Diagnostics.StackTrace().ToString());
         }
 
         public (IControl prefab, int index) AddItem(Type type)
