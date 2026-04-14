@@ -37,7 +37,6 @@ namespace CMiX.Studio.Behaviors
             var window = ParentWindow;
             if (window == null) return;
             Mouse.AddPreviewMouseDownHandler(window, OnParentMouseDown);
-            Mouse.AddPreviewMouseUpHandler(window, OnParentMouseUp);
             Mouse.AddPreviewMouseMoveHandler(window, OnParentMouseMove);
         }
 
@@ -46,8 +45,14 @@ namespace CMiX.Studio.Behaviors
             var window = ParentWindow;
             if (window == null) return;
             Mouse.RemovePreviewMouseDownHandler(window, OnParentMouseDown);
-            Mouse.RemovePreviewMouseUpHandler(window, OnParentMouseUp);
             Mouse.RemovePreviewMouseMoveHandler(window, OnParentMouseMove);
+        }
+
+        private void ClosePopup()
+        {
+            if (AssociatedObject.PlacementTarget is ToggleButton tb)
+                tb.IsChecked = false;
+            AssociatedObject.IsOpen = false;
         }
 
         private void OnOpened(object sender, EventArgs e) => AddParentWindowHandlers();
@@ -63,7 +68,7 @@ namespace CMiX.Studio.Behaviors
 
         private void OnParentMouseDown(object sender, MouseButtonEventArgs e)
         {
-            AssociatedObject.IsOpen = false;
+            ClosePopup();
             e.Handled = true;
         }
 
@@ -77,17 +82,9 @@ namespace CMiX.Studio.Behaviors
             if (pos.X < -64 || pos.Y < -64 ||
                 pos.X > size.Width + 64 || pos.Y > size.Height + 64)
             {
-                AssociatedObject.IsOpen = false;
+                ClosePopup();
                 RemoveParentWindowHandlers();
             }
-
-            e.Handled = true;
-        }
-
-        private void OnParentMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            RemoveParentWindowHandlers();
-            e.Handled = true;
         }
     }
 }

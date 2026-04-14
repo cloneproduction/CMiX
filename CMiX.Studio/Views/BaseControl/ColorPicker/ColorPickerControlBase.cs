@@ -77,7 +77,7 @@ namespace CMiX.Studio.Views.BaseControl
         private static void OnColorStatePropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
 
-            ((PickerControlBase)d).Color.UpdateEverything((ColorState)args.OldValue);
+            ((PickerControlBase)d).Color.UpdateEverything();
         }
 
         private static void OnSelectedColorPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs args)

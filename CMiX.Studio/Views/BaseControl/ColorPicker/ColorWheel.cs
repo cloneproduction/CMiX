@@ -6,7 +6,6 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Shapes;
 using Color = System.Windows.Media.Color;
 using Point = System.Windows.Point;
@@ -14,8 +13,6 @@ using Point = System.Windows.Point;
 namespace CMiX.Studio.Views.BaseControl
 {
     [TemplatePart(Name = PART_CursorEllipse, Type = typeof(Ellipse))]
-    [TemplatePart(Name = PART_SpectrumEllipse, Type = typeof(Ellipse))]
-
     public class ColorWheel : PickerControlBase
     {
         static ColorWheel()
@@ -24,10 +21,8 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
         private const string PART_CursorEllipse = "PART_CursorEllipse";
-        private const string PART_SpectrumEllipse = "PART_SpectrumEllipse";
 
         private Ellipse _cursorEllipse;
-        private Ellipse _spectrumEllipse;
         private bool _isDragging;
 
         public override void OnApplyTemplate()
@@ -35,21 +30,16 @@ namespace CMiX.Studio.Views.BaseControl
             base.OnApplyTemplate();
 
             _cursorEllipse = GetTemplateChild(PART_CursorEllipse) as Ellipse;
-            _spectrumEllipse = GetTemplateChild(PART_SpectrumEllipse) as Ellipse;
 
             MouseLeftButtonDown += OnMouseLeftButtonDown;
             MouseMove += OnMouseMove;
             MouseLeftButtonUp += OnMouseLeftButtonUp;
-            this.ColorChanged += ColorWheel_ColorChanged;
+            ColorChanged += ColorWheel_ColorChanged;
 
             SetCursor();
         }
 
-        private void ColorWheel_ColorChanged(object sender, RoutedEventArgs e)
-        {
-            SetCursor();
-            _spectrumEllipse.Opacity = this.ColorState.HSV_V;
-        }
+        private void ColorWheel_ColorChanged(object sender, RoutedEventArgs e) => SetCursor();
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -84,9 +74,7 @@ namespace CMiX.Studio.Views.BaseControl
             {
                 _isDragging = false;
                 this.ReleaseMouseCapture();
-                //FocusManager.SetFocusedElement(this, null);
                 Keyboard.ClearFocus();
-                //e.Handled = true;
             }
         }
 
@@ -126,7 +114,7 @@ namespace CMiX.Studio.Views.BaseControl
             if (saturation > 1.0)
                 Color.HSV_S = 1.0;
 
-            Color.UpdateEverything(this.ColorState);
+            Color.UpdateEverything();
         }
 
         private Point GetColorLocation()

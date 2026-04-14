@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-using System.Diagnostics;
 using System.Windows.Media;
 using CommunityToolkit.Mvvm.ComponentModel;
 
@@ -26,27 +24,21 @@ namespace CMiX.Studio.Views.BaseControl
         }
 
 
-        public void UpdateEverything(ColorState oldValue)
+        public void UpdateEverything()
         {
             if (isUpdating) return;
-
-            var currentValue = storage.ColorState;
-
             isUpdating = true;
 
-            if (currentValue.A != oldValue.A) OnPropertyChanged(nameof(A));
-
-            if (currentValue.RGB_R != oldValue.RGB_R) OnPropertyChanged(nameof(RGB_R));
-            if (currentValue.RGB_G != oldValue.RGB_G) OnPropertyChanged(nameof(RGB_G));
-            if (currentValue.RGB_B != oldValue.RGB_B) OnPropertyChanged(nameof(RGB_B));
-
-            if (currentValue.HSV_H != oldValue.HSV_H) OnPropertyChanged(nameof(HSV_H));
-            if (currentValue.HSV_S != oldValue.HSV_S) OnPropertyChanged(nameof(HSV_S));
-            if (currentValue.HSV_V != oldValue.HSV_V) OnPropertyChanged(nameof(HSV_V));
-
-            if (currentValue.HSL_H != oldValue.HSL_H) OnPropertyChanged(nameof(HSL_H));
-            if (currentValue.HSL_S != oldValue.HSL_S) OnPropertyChanged(nameof(HSL_S));
-            if (currentValue.HSL_L != oldValue.HSL_L) OnPropertyChanged(nameof(HSL_L));
+            OnPropertyChanged(nameof(A));
+            OnPropertyChanged(nameof(RGB_R));
+            OnPropertyChanged(nameof(RGB_G));
+            OnPropertyChanged(nameof(RGB_B));
+            OnPropertyChanged(nameof(HSV_H));
+            OnPropertyChanged(nameof(HSV_S));
+            OnPropertyChanged(nameof(HSV_V));
+            OnPropertyChanged(nameof(HSL_H));
+            OnPropertyChanged(nameof(HSL_S));
+            OnPropertyChanged(nameof(HSL_L));
 
             isUpdating = false;
         }

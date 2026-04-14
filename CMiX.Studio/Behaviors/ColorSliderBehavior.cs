@@ -62,7 +62,7 @@ namespace CMiX.Studio.Behaviors
 
         private static void OnColorStatePropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs args)
         {
-            ((ColorSliderBehavior)d).Color.UpdateEverything((ColorState)args.OldValue);
+            ((ColorSliderBehavior)d).Color.UpdateEverything();
         }
 
         private static void OnSelectedColorPropertyChange(DependencyObject d, DependencyPropertyChangedEventArgs args)

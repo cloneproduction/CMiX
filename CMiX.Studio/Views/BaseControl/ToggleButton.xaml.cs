@@ -9,6 +9,12 @@ namespace CMiX.Studio.Views.BaseControl
         public ToggleButton()
         {
             InitializeComponent();
+            InitializeComponent();
+            labelBorder.MouseLeftButtonDown += (s, e) =>
+            {
+                toggleButton.IsChecked = !toggleButton.IsChecked;
+                e.Handled = true;
+            };
         }
 
         public static readonly DependencyProperty CaptionProperty =

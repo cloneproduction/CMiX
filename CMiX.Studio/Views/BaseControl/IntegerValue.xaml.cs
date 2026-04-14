@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Controls;
-using CMiX.Core.BaseControls;
 
 namespace CMiX.Studio.Views.BaseControl
 {

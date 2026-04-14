@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -43,6 +44,19 @@ namespace CMiX.Studio.Views.BaseControl
                 PopupToggle.Checked += (s2, e2) => colorPickerPopup.IsOpen = true;
                 PopupToggle.Unchecked += (s2, e2) => colorPickerPopup.IsOpen = false;
             };
+
+            PopupToggle.Checked += (s2, e2) =>
+            {
+                Debug.WriteLine($"PopupToggle Checked");
+                colorPickerPopup.IsOpen = true;
+            };
+            PopupToggle.Unchecked += (s2, e2) =>
+            {
+                Debug.WriteLine($"PopupToggle Unchecked");
+                colorPickerPopup.IsOpen = false;
+            };
         }
+
+
     }
 }

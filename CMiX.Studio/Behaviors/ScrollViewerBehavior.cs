@@ -26,7 +26,7 @@ namespace CMiX.Studio.Behaviors
 
         private void AssociatedObject_ScrollChanged(object sender, ScrollChangedEventArgs e)
         {
-            if (e.ExtentHeightChange > 0)
+            if (e.ExtentHeightChange > 0 && e.VerticalChange != 0)
             {
                 _isRestoring = true;
                 AssociatedObject.ScrollToVerticalOffset(_savedOffset);
