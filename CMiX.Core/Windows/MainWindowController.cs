@@ -12,7 +12,7 @@ namespace CMiX.Core.ViewModels.Windows
     {
         public MainWindowController()
         {
-            CloseWindowCommand = new RelayCommand<Window>(CloseWindow);
+            CloseWindowCommand = new RelayCommand(() => Application.Current.MainWindow.Close());
             MinimizeWindowCommand = new RelayCommand<Window>(MinimizeWindow);
             MaximizeWindowCommand = new RelayCommand<Window>(MaximizeWindow);
         }

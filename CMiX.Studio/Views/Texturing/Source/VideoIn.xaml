@@ -10,12 +10,12 @@
     <StackPanel>
 
         <BaseControl:IntegerValue 
-            Value="{Binding SizeX.Count}" 
+            DataContext="{Binding SizeX}" 
             Caption="Resolution X" 
             Position="Top"/>
         
         <BaseControl:IntegerValue 
-            Value="{Binding SizeY.Count}" 
+            DataContext="{Binding SizeY}" 
             Caption="Y" 
             Position="Bottom" 
             Margin="0, 1, 0, 0"/>

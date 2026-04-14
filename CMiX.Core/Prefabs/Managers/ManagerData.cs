@@ -6,11 +6,11 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public class ManagerData : ObservableRecipient, IControl
+    public class ManagerData : ObservableObject, IControl
     {
         public ManagerData()
         {
-            IsActive = true;
+
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

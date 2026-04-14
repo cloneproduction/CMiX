@@ -1,9 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CommunityToolkit.Mvvm.ComponentModel;
+
 namespace CMiX.Core.Prefabs
 {
-    public class EmptyPrefab : IControl, IPrefab
+    public partial class EmptyPrefab : ObservableObject, IControl, IPrefab
     {
         public EmptyPrefab(PrefabService prefabService)
         {
@@ -13,6 +15,9 @@ namespace CMiX.Core.Prefabs
 
         public Guid ID { get; set; }
         public PrefabService PrefabService { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = false;
 
         public IControlModel ToModel() => new EmptyPrefabModel
         {

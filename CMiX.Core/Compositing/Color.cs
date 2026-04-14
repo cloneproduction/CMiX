@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Diagnostics;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking;
 using CMiX.Core.Prefabs;
@@ -23,8 +22,6 @@ namespace CMiX.Core.Compositing
                    undoManager)
         {
             PrefabService = prefabService;
-            Debug.WriteLine($"Color UndoManager={UndoManager != null}, IsActive={IsActive}");
-            Console.WriteLine($"Color UndoManager={UndoManager != null}, IsActive={IsActive}");
         }
         public PrefabService PrefabService { get; set; }
         protected override IControlModel CaptureModel() => ToModel();
@@ -43,7 +40,6 @@ namespace CMiX.Core.Compositing
             IsActive = false;
             Value = m.Value;
             IsActive = true;
-            Debug.WriteLine($"Color.FromModel called, ID={ID}");
             PrefabService.FromModel(m.PrefabService);
         }
     }

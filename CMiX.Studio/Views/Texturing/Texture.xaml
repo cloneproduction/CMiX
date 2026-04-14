@@ -34,7 +34,7 @@
             Indentation="0"
             IsExpanded="{Binding FilterManager.IsExpanded, FallbackValue=False}">
 
-            <Views:ModifierManager DataContext="{Binding FilterManager}">
+            <Views:ModifierManager DataContext="{Binding FilterManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
                 </Views:ModifierManager.SelectionPanel>

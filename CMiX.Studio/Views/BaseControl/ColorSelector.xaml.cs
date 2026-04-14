@@ -37,6 +37,12 @@ namespace CMiX.Studio.Views.BaseControl
         public ColorSelector()
         {
             InitializeComponent();
+            Loaded += (s, e) =>
+            {
+                colorPickerPopup.PlacementTarget = PopupToggle;
+                PopupToggle.Checked += (s2, e2) => colorPickerPopup.IsOpen = true;
+                PopupToggle.Unchecked += (s2, e2) => colorPickerPopup.IsOpen = false;
+            };
         }
     }
 }

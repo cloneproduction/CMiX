@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -68,28 +67,15 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 var index = items.IndexOf(empty);
                 if (index >= 0)
-                {
                     items[index] = prefab;
-                    Debug.WriteLine($"Replaced at index={index}");
-                }
                 else
-                {
                     items.Add(prefab);
-                    Debug.WriteLine($"Added, count={items.Count}");
-                }
             }
             else
-            {
                 items.Add(prefab);
-                Debug.WriteLine($"Added, count={items.Count}");
-            }
 
             ManagerData.SelectedIndex = items.IndexOf(prefab);
             SelectedItem = prefab;
-            Debug.WriteLine($"SelectedIndex={ManagerData.SelectedIndex}, SelectedItem={SelectedItem?.GetType().Name}");
-
-            Debug.WriteLine($"AddControlToCollection called for {prefab.GetType().Name}");
-            //Debug.WriteLine(new System.Diagnostics.StackTrace().ToString());
         }
 
         public (IControl prefab, int index) AddItem(Type type)
@@ -141,7 +127,6 @@ namespace CMiX.Core.Prefabs.Managers
             }
             ReplaceControlInCollection(prefab, index);
         }
-
 
 
         private (IControl removed, int newIndex) RemoveControlFromCollection(IControl control)

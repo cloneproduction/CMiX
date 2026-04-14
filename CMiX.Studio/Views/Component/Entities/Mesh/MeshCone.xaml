@@ -12,7 +12,7 @@
         <BaseControl:VectorXYZ Caption="Offset" Margin="0, 8" DataContext="{Binding Offset}"/>
         <BaseControl:DragValue Position="Top" Caption="Radius" Value="{Binding Radius.Value}"/>
         <BaseControl:DragValue Margin="0, 1, 0, 0" Position="Bottom" Caption="Height" Value="{Binding Height.Value}"/>
-        <BaseControl:IntegerValue Margin="0, 8, 0, 0" Caption="Tessellation" Value="{Binding Tessellation.Value}"/>
+        <BaseControl:IntegerValue Margin="0, 8, 0, 0" Caption="Tessellation" DataContext="{Binding Tessellation}"/>
     </StackPanel>
 
 </UserControl>

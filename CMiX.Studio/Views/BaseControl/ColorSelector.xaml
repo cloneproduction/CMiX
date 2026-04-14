@@ -36,8 +36,6 @@
         <Popup
             x:Name="colorPickerPopup"
             AllowsTransparency="True"
-            HorizontalOffset="{Binding ActualWidth, ElementName=PopupToggle}"
-            IsOpen="{Binding IsChecked, ElementName=PopupToggle}"
             Placement="Top"
             StaysOpen="true">
             <i:Interaction.Behaviors>

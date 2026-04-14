@@ -25,7 +25,6 @@
         <Popup
             Width="{Binding ActualWidth, ElementName=PopUpToggle}"
             AllowsTransparency="True"
-            HorizontalOffset="{Binding ActualWidth, ElementName=PopupToggle}"
             IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
             Placement="Bottom"
             PlacementTarget="{Binding ElementName=PopUpToggle}"

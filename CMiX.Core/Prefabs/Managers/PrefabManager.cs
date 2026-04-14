@@ -2,12 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Undo;
+using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
 
@@ -52,6 +52,9 @@ namespace CMiX.Core.Prefabs.Managers
         public ControlRepository ControlRepository => Collection.ControlRepository;
         public ControlMessenger ControlMessenger { get; set; }
         public MessageFactory MessageFactory { get; set; }
+
+        [ObservableProperty]
+        private bool isExpanded = false;
 
         public ManagerData ManagerData
         {
@@ -118,8 +121,6 @@ namespace CMiX.Core.Prefabs.Managers
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
             UndoManager?.EndGroup();
             UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
-            Debug.WriteLine($"After AddItem: SelectedItem={Collection.SelectedItem?.GetType().Name}");
-
         }
 
         public void AddItem(IControlModel controlModel)

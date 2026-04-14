@@ -31,7 +31,7 @@
         
         <BaseControl:IntegerValue 
             Margin="0, 8, 0, 0" 
-            Value="{Binding Tessellation.Value}" 
+            DataContext="{Binding Tessellation}" 
             Caption="Tessellation"/>
         
     </StackPanel>

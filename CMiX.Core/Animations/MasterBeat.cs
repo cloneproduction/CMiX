@@ -41,6 +41,14 @@ namespace CMiX.Core.Animations
 
             IsActive = false;
             UndoManager = undoManager;
+
+            Period.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(GenericValue<float>.Value))
+                    OnPropertyChanged(nameof(BPM));
+            };
+
+            activationService.Register(this);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -62,6 +70,28 @@ namespace CMiX.Core.Animations
 
         public float[] Periods { get; set; }
 
+        public float BPM
+        {
+            get => Period.Value > 0 ? (float)Math.Round(60000f / Period.Value, 2) : 0f;
+            set
+            {
+                if (value <= 0) return;
+                WithUndo(() =>
+                {
+                    float newPeriod = 60000f / value;
+                    GeneratePeriods(newPeriod);
+                    BeatAnimations.MakeStoryBoard(Periods);
+                    int midPoint = (Periods.Length - 1) / 2;
+                    Period.Value = newPeriod;
+                    BeatIndex.Value = midPoint;
+                    Index.Value = 0;
+                    AnimatedDouble = BeatAnimations.AnimatedDoubles[midPoint];
+                    OnPropertyChanged(nameof(AnimatedDouble));
+                });
+                OnPropertyChanged(nameof(BPM));
+            }
+        }
+
         private void SetAnimatedDouble()
         {
             int midIndex = Index.Value + (Periods.Length - 1) / 2;
@@ -72,38 +102,26 @@ namespace CMiX.Core.Animations
         }
 
         [RelayCommand]
-        public void Multiply()
+        public void Multiply() => WithUndo(() =>
         {
-            var before = ToModel();
-            UndoManager?.BeginGroup();
             Index.Value = Math.Clamp(Index.Value - 1, minIndex, maxIndex);
             SetAnimatedDouble();
-            UndoManager?.EndGroup();
-            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
-        }
+        });
 
         [RelayCommand]
-        public void Divide()
+        public void Divide() => WithUndo(() =>
         {
-            var before = ToModel();
-            UndoManager?.BeginGroup();
             Index.Value = Math.Clamp(Index.Value + 1, minIndex, maxIndex);
             SetAnimatedDouble();
-            UndoManager?.EndGroup();
-            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
-        }
+        });
 
         [RelayCommand]
-        public void Tap()
+        public void Tap() => WithUndo(() =>
         {
-            var before = ToModel();
-            UndoManager?.BeginGroup();
             UpdatePeriods(GetMasterPeriod());
             Index.Value = 0;
             SetAnimatedDouble();
-            UndoManager?.EndGroup();
-            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
-        }
+        });
 
         Stopwatch sw = new Stopwatch();
 
@@ -153,6 +171,15 @@ namespace CMiX.Core.Animations
                 Periods[i] = multiplier * basePeriod;
                 multiplier *= 2;
             }
+        }
+
+        private void WithUndo(Action action)
+        {
+            var before = ToModel();
+            UndoManager?.BeginGroup();
+            action();
+            UndoManager?.EndGroup();
+            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
         }
 
         public IControlModel ToModel() => new MasterBeatModel

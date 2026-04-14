@@ -27,40 +27,6 @@
             </ListBox.Resources>
         </BaseControls:CMiXListBox>
 
-        <Popup
-            AllowsTransparency="True"
-            FlowDirection="LeftToRight"
-            IsOpen="{Binding IsChecked, ElementName=ToggleItemSelection}"
-            Placement="Bottom"
-            PlacementTarget="{Binding ElementName=ToggleItemSelection}">
-            <i:Interaction.Behaviors>
-                <Behaviors:ClosePopupBehavior />
-            </i:Interaction.Behaviors>
-            <ItemsControl ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
-                <ItemsControl.ItemTemplate>
-                    <DataTemplate>
-                        <Button
-                            Height="22"
-                            Command="{Binding DataContext.ReplaceSelectedItemCommand, ElementName=prefabSlotManager}"
-                            CommandParameter="{Binding}"
-                            Content="{Binding PrefabService.Name.Value}" />
-                    </DataTemplate>
-                </ItemsControl.ItemTemplate>
-            </ItemsControl>
-
-        </Popup>
-
-        <!--<Border
-            Height="25"
-            Margin="8,0,0,0"
-            Background="{DynamicResource HighHighDarkerColor}"
-            CornerRadius="0, 2, 2, 0">
-            <TextBox
-                Padding="4,0"
-                Background="Transparent"
-                Text="{Binding DataContext.SelectedItem.PrefabService.Name.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, UpdateSourceTrigger=PropertyChanged}" />
-        </Border>-->
-
         <ContentControl
             Margin="8,0,8,8"
             Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"

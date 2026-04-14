@@ -18,7 +18,7 @@
             ItemsSource="{Binding AssetRepository.Videos}"
             SelectedItem="{Binding Asset}" />
 
-        <BaseControls:IntegerValue Caption="Seek Frame" Value="{Binding SeekFrame.Value}" />
+        <BaseControls:IntegerValue Caption="Seek Frame" DataContext="{Binding SeekFrame}" />
 
         <BaseControls:Button
             Margin="0,8"

@@ -53,7 +53,7 @@
                             Width="21"
                             Height="20"
                             Padding="8"
-                            Command="{Binding ManagerReorderService.ItemDownCommand}"
+                            Command="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
                             CommandParameter="{Binding SelectedItem}"
                             DockPanel.Dock="Bottom"
                             Style="{StaticResource ButtonRoundedBottom}">
@@ -70,7 +70,7 @@
                             x:Name="moveItemUpButton"
                             Height="20"
                             Margin="0,0,0,1"
-                            Command="{Binding ManagerReorderService.ItemUpCommand}"
+                            Command="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
                             CommandParameter="{Binding SelectedItem}"
                             DockPanel.Dock="Bottom"
                             Style="{StaticResource ButtonRoundedTop}">

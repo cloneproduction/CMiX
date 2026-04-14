@@ -3,11 +3,13 @@
 
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
@@ -19,7 +21,7 @@ namespace CMiX.Core.ViewModels
 {
     public partial class MainMenu : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public MainMenu(Project project, ControlFactory controlFactory)
+        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager)
         {
             Project = project;
             IsActive = true;
@@ -30,6 +32,9 @@ namespace CMiX.Core.ViewModels
             SaveAsProjectCommand = new RelayCommand(SaveAsProject);
             AddCompositionCommand = new RelayCommand(AddComposition);
             AddLayerCommand = new RelayCommand(AddLayer);
+            UndoCommand = new RelayCommand(() => undoManager.Undo());
+            RedoCommand = new RelayCommand(() => undoManager.Redo());
+            CloseWindowCommand = new RelayCommand(() => Application.Current.MainWindow.Close());
 
             DialogService = new DialogService();
             ControlFactory = controlFactory;
@@ -49,6 +54,9 @@ namespace CMiX.Core.ViewModels
         public ICommand OpenProjectCommand { get; }
         public ICommand AddCompositionCommand { get; }
         public ICommand AddLayerCommand { get; }
+        public ICommand UndoCommand { get; }
+        public ICommand RedoCommand { get; }
+        public ICommand CloseWindowCommand { get; }
 
         public void AddLayer()
         {

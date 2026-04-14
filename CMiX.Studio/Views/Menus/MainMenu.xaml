@@ -45,7 +45,6 @@
 
                 <MenuItem
                     Command="{Binding CloseWindowCommand}"
-                    CommandParameter="{Binding RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Window}}}"
                     Header="Quit" />
 
             </MenuItem>

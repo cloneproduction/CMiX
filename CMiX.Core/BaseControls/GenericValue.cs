@@ -51,7 +51,6 @@ namespace CMiX.Core.BaseControls
             {
                 if (IsActive)
                 {
-                    Debug.WriteLine($"GenericValue<{typeof(T).Name}> Value setter, type={GetType().Name}, UndoManager={UndoManager != null}");
                     var before = CaptureModel();
                     SetProperty(ref _value, value);
                     if (!IsReceiving)

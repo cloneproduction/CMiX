@@ -27,6 +27,6 @@
         IsInteger="True"
         LargeChange="1.0"
         SmallChange="1.0"
-        Value="{Binding Value}" />
+        Value="{Binding Value, ElementName=counter}" />
 
 </UserControl>

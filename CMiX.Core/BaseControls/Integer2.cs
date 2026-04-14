@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.BaseControls
@@ -28,9 +29,11 @@ namespace CMiX.Core.BaseControls
         public void FromModel(IControlModel model)
         {
             var m = (Integer2Model)model;
+            Debug.WriteLine($"Integer2.FromModel X={m.X.Value} Y={m.Y.Value}");
             ID = m.ID;
             X.FromModel(m.X);
             Y.FromModel(m.Y);
+            Debug.WriteLine($"Integer2.FromModel after X={X.Value} Y={Y.Value}");
         }
     }
 }
