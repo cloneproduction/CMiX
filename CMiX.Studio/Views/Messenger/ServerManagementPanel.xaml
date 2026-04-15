@@ -15,23 +15,12 @@
                 <Views:PrefabSlotManager.SelectionPanel>
                     <Views:ServerCreation ViewModel="{Binding}" />
                 </Views:PrefabSlotManager.SelectionPanel>
-                <Views:PrefabSlotManager.ItemTemplate>
-                    <DockPanel>
-                        <TextBlock Margin="3,3,3,0" Text="{Binding Path=PrefabService.Name.Value}" />
-                        <Ellipse
-                            Width="5"
-                            Height="5"
-                            DockPanel.Dock="Right"
-                            Fill="Pink" />
-                    </DockPanel>
-                </Views:PrefabSlotManager.ItemTemplate>
             </Views:PrefabSlotManager>
-
-
 
             <Border Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
                 <Views:Server DataContext="{Binding SelectedItem}" />
             </Border>
+            
         </StackPanel>
     </Border>
 </UserControl>

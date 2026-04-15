@@ -42,6 +42,7 @@
 
             <ComboBox 
                 Grid.Column="1" 
+                AttachedProperties:PositionedControl.Position="None"
                 SelectedItem="{Binding SelectedItem, ElementName=comboBox}"
                 ItemsSource="{Binding ItemsSource, ElementName=comboBox}"/>
 

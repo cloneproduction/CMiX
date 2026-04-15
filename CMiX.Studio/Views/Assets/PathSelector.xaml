@@ -6,7 +6,7 @@
              xmlns:dd="urn:gong-wpf-dragdrop"
              mc:Ignorable="d" 
              x:Name="pathSelector"
-             d:DesignHeight="358" d:DesignWidth="882"
+             d:DesignHeight="40.286" d:DesignWidth="302.571"
              xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
 
 
@@ -40,7 +40,7 @@
             </Border.OpacityMask>
 
             <ComboBox 
-                Style="{StaticResource ComboBoxRounded}"
+                AttachedProperties:PositionedControl.Position="All"
                 Grid.Column="1"
                 AllowDrop="True"
                 ItemsSource="{Binding ItemsSource, ElementName=pathSelector}"

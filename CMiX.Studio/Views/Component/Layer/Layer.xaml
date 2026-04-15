@@ -19,8 +19,6 @@
     mc:Ignorable="d">
 
     <Border Background="{DynamicResource HighDarkerColor}" Visibility="{Binding Converter={StaticResource NullToVisibility}}">
-        <!--IsEnabled="{Binding Converter={StaticResource NullToBool}}">-->
-
         <TabControl
             Background="{DynamicResource HighHighDarkerColor}"
             Style="{StaticResource TabControlVerticalPanel}"
@@ -62,18 +60,7 @@
                                     </Views:ButtonOpenSelectionPanel.SelectionPanel>
                                 </Views:ButtonOpenSelectionPanel>
                             </Views:PrefabSlotManager.SelectionPanel>
-
-                            <Views:PrefabSlotManager.ItemTemplate>
-                                <DockPanel HorizontalAlignment="Stretch">
-                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
-                                    <Ellipse
-                                        Width="5"
-                                        Height="5"
-                                        DockPanel.Dock="Right"
-                                        Fill="Pink" />
-                                </DockPanel>
-                            </Views:PrefabSlotManager.ItemTemplate>
-
+                            
                         </Views:PrefabSlotManager>
 
                         <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
@@ -130,17 +117,6 @@
                                     Content="New Camera" />
                             </Views:PrefabSlotManager.SelectionPanel>
 
-                            <Views:PrefabSlotManager.ItemTemplate>
-                                <DockPanel HorizontalAlignment="Stretch">
-                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
-                                    <Ellipse
-                                        Width="5"
-                                        Height="5"
-                                        DockPanel.Dock="Right"
-                                        Fill="Pink" />
-                                </DockPanel>
-                            </Views:PrefabSlotManager.ItemTemplate>
-
                         </Views:PrefabSlotManager>
 
                         <Views:Camera DataContext="{Binding CameraManager.SelectedItem}" Visibility="{Binding Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}" />
@@ -170,17 +146,6 @@
                                     CommandParameter="{x:Type Lights:LightEntity}"
                                     Content="New Light" />
                             </Views:PrefabSlotManager.SelectionPanel>
-
-                            <Views:PrefabSlotManager.ItemTemplate>
-                                <DockPanel HorizontalAlignment="Stretch">
-                                    <TextBlock HorizontalAlignment="Stretch" Text="{Binding Path=PrefabService.Name.Value}" />
-                                    <Ellipse
-                                        Width="5"
-                                        Height="5"
-                                        DockPanel.Dock="Right"
-                                        Fill="Pink" />
-                                </DockPanel>
-                            </Views:PrefabSlotManager.ItemTemplate>
 
                         </Views:PrefabSlotManager>
 

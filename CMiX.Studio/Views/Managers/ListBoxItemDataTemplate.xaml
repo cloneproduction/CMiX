@@ -78,168 +78,58 @@
         </DockPanel>
     </DataTemplate>
 
-
-
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource TextIcon}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource TextIcon}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:Entity}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Geometry}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Geometry}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Lights:LightEntity}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource MeshLight}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource MeshLight}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Cameras:Camera}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Camera}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Camera}" />
     </DataTemplate>
 
 
     <!--  TEXTURESOURCE  -->
     <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Texture}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Texture}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:Image}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Texture}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Texture}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:Gradient}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Texture}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Texture}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:TypeWriter}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Texture}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Texture}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:VideoIn}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Texture}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Texture}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:VideoPlayer}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Texture}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Texture}" />
     </DataTemplate>
 
 
     <!--  MATERIAL  -->
     <DataTemplate DataType="{x:Type Materials:Material}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource World}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource World}" />
     </DataTemplate>
 
 
     <!--  BEATMODIFIERS  -->
     <DataTemplate DataType="{x:Type Animations:BeatModifier}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                Opacity="0.7"
-                Source="{DynamicResource Beat}" />
-            <Controls:ToggleVisibility DataContext="{Binding}" DockPanel.Dock="Right" />
-            <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-        </DockPanel>
+        <Controls:PrefabListItem Icon="{DynamicResource Beat}" />
     </DataTemplate>
 
 </ResourceDictionary>

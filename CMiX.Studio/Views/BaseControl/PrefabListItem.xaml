@@ -1,0 +1,25 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.BaseControl.PrefabListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    x:Name="uc"
+    mc:Ignorable="d">
+
+    <DockPanel>
+        <Image
+            Width="12"
+            Height="12"
+            Margin="0,0,4,0"
+            Opacity="0.7"
+            Source="{Binding Icon, ElementName=uc}" />
+        <Controls:ToggleVisibility
+            DataContext="{Binding}"
+            DockPanel.Dock="Right" />
+        <Controls:EditableTextBox
+            Text="{Binding Path=PrefabService.Name.Value}" />
+    </DockPanel>
+
+</UserControl>

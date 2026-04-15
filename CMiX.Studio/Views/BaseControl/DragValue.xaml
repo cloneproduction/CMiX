@@ -131,7 +131,7 @@
                             Content="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}">
                             <Label.Style>
                                 <Style BasedOn="{StaticResource {x:Type Label}}" TargetType="{x:Type Label}">
-                                    <Setter Property="ContentStringFormat" Value="{}{0:N2}" />
+                                    <Setter Property="ContentStringFormat" Value="{}{0:N3}" />
                                     <Style.Triggers>
                                         <DataTrigger Binding="{Binding IsInteger, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Value="True">
                                             <Setter Property="ContentStringFormat" Value="{}{0:N0}" />

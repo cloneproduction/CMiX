@@ -14,7 +14,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="All" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
@@ -35,28 +35,23 @@
                     </Border>
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="All">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
                         </Trigger>
-
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0, 2, 2, 0" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Right">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
                         </Trigger>
-
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2, 0, 0, 2" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Left">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
                         </Trigger>
-
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="None">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
                         </Trigger>
-
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2, 2, 0, 0" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Top">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
                         </Trigger>
-
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0, 0, 2, 2" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Bottom">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
@@ -80,37 +75,37 @@
     <Style x:Key="ButtonStraight"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="None" />
     </Style>
 
     <Style x:Key="ButtonRounded"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="All" />
     </Style>
 
     <Style x:Key="ButtonRoundedRight"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Right" />
     </Style>
 
     <Style x:Key="ButtonRoundedLeft"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Left" />
     </Style>
 
     <Style x:Key="ButtonRoundedTop"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Top" />
     </Style>
 
     <Style x:Key="ButtonRoundedBottom"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Bottom" />
     </Style>
 
 

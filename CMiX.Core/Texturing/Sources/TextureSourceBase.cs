@@ -7,15 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace CMiX.Studio.AttachedProperties
+namespace CMiX.Core.Texturing.Sources
 {
-    public enum RoundedPosition
+    internal class TextureSourceBase
     {
-        Left,
-        Top,
-        Right,
-        Bottom,
-        All,
-        None,
     }
 }

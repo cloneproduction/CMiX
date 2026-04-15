@@ -16,7 +16,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="All" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>
@@ -37,28 +37,28 @@
 
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="All">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
                         </Trigger>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0, 2, 2, 0" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Right">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
                         </Trigger>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2, 0, 0, 2" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Left">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
                         </Trigger>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="None">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
                         </Trigger>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top">
-                            <Setter TargetName="border" Property="CornerRadius" Value="2, 2, 0, 0" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Top">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
                         </Trigger>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom">
-                            <Setter TargetName="border" Property="CornerRadius" Value="0, 0, 2, 2" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Bottom">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
@@ -124,42 +124,42 @@
         x:Key="ToggleButtonStraight"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="{x:Type ToggleButton}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="None" />
     </Style>
 
     <Style
         x:Key="ToggleButtonRounded"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="{x:Type ToggleButton}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="All" />
     </Style>
 
     <Style
         x:Key="ToggleButtonRoundedRight"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="{x:Type ToggleButton}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Right" />
     </Style>
 
     <Style
         x:Key="ToggleButtonRoundedLeft"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="{x:Type ToggleButton}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Left" />
     </Style>
 
     <Style
         x:Key="ToggleButtonRoundedTop"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="{x:Type ToggleButton}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Top" />
     </Style>
 
     <Style
         x:Key="ToggleButtonRoundedBottom"
         BasedOn="{StaticResource {x:Type ToggleButton}}"
         TargetType="{x:Type ToggleButton}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Bottom" />
     </Style>
 
 
@@ -170,7 +170,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="All" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="Template">
             <Setter.Value>

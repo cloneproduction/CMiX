@@ -11,5 +11,7 @@ namespace CMiX.Studio.Views.BaseControl
         Bottom,
         Left,
         Right,
+        All,
+        None,
     };
 }

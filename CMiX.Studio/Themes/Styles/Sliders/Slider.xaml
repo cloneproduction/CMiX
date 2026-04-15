@@ -80,7 +80,7 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+        <Setter Property="AttachedProperties:PositionedControl.Position" Value="All" />
         <Setter Property="Caption" Value="" />
         <Setter Property="Template">
             <Setter.Value>
@@ -96,19 +96,19 @@
                                         <Setter Property="CornerRadius" Value="0" />
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Default">
-                                                <Setter Property="CornerRadius" Value="2" />
+                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusDefault}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
-                                                <Setter Property="CornerRadius" Value="0, 0, 2, 2" />
+                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
-                                                <Setter Property="CornerRadius" Value="2, 2, 0, 0" />
+                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
-                                                <Setter Property="CornerRadius" Value="2, 0, 0, 2" />
+                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding Position, RelativeSource={RelativeSource TemplatedParent}}" Value="Right">
-                                                <Setter Property="CornerRadius" Value="0, 2, 2, 0" />
+                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
                                             </DataTrigger>
                                         </Style.Triggers>
                                     </Style>

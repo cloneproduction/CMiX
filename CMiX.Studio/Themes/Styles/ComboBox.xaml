@@ -123,8 +123,28 @@
 
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All">
-                            <Setter TargetName="toggleButton" Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="All">
+                            <Setter TargetName="toggleButton" Property="AttachedProperties:PositionedControl.Position" Value="All" />
+                        </Trigger>
+
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Right">
+                            <Setter TargetName="toggleButton" Property="AttachedProperties:PositionedControl.Position" Value="Right" />
+                        </Trigger>
+
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Left">
+                            <Setter TargetName="toggleButton" Property="AttachedProperties:PositionedControl.Position" Value="Left" />
+                        </Trigger>
+
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="None">
+                            <Setter TargetName="toggleButton" Property="AttachedProperties:PositionedControl.Position" Value="None" />
+                        </Trigger>
+
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Top">
+                            <Setter TargetName="toggleButton" Property="AttachedProperties:PositionedControl.Position" Value="Top" />
+                        </Trigger>
+
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Bottom">
+                            <Setter TargetName="toggleButton" Property="AttachedProperties:PositionedControl.Position" Value="Bottom" />
                         </Trigger>
 
                         <Trigger Property="HasItems" Value="False">
@@ -144,43 +164,6 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <Style x:Key="ComboBoxStraight"
-        BasedOn="{StaticResource {x:Type ComboBox}}"
-        TargetType="{x:Type ComboBox}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
-    </Style>
-
-    <Style x:Key="ComboBoxRounded"
-        BasedOn="{StaticResource {x:Type ComboBox}}"
-        TargetType="{x:Type ComboBox}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
-    </Style>
-
-    <Style x:Key="ComboBoxRoundedRight"
-        BasedOn="{StaticResource {x:Type ComboBox}}"
-        TargetType="{x:Type ComboBox}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
-    </Style>
-
-    <Style x:Key="ComboBoxRoundedLeft"
-        BasedOn="{StaticResource {x:Type ComboBox}}"
-        TargetType="{x:Type ComboBox}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
-    </Style>
-
-    <Style x:Key="ComboBoxRoundedTop"
-        BasedOn="{StaticResource {x:Type ComboBox}}"
-        TargetType="{x:Type ComboBox}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
-    </Style>
-
-    <Style x:Key="ComboBoxRoundedBottom"
-        BasedOn="{StaticResource {x:Type ComboBox}}"
-        TargetType="{x:Type ComboBox}">
-        <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
-    </Style>
-
 
     <Style x:Key="ComboBoxItem" TargetType="{x:Type ComboBoxItem}">
 
