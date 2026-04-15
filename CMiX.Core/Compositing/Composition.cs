@@ -15,7 +15,6 @@ namespace CMiX.Core.Compositing
     public partial class Composition : ObservableObject, IPrefab, ITextureModifiable, IModifiable
     {
         public Composition(PrefabService prefabService, 
-                           MasterBeat masterBeat,
                            PrefabManager prefabManager,
                            PrefabManager textureModifierManager, 
                            PrefabManager modifierManager,
@@ -23,7 +22,6 @@ namespace CMiX.Core.Compositing
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
-            MasterBeat = masterBeat;
             OutputSettings = outputSettings;
             LayerManager = prefabManager;
             ModifierManager = modifierManager;
@@ -35,21 +33,20 @@ namespace CMiX.Core.Compositing
         public PrefabManager LayerManager { get; set; }
         public PrefabManager TextureModifierManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
-        public MasterBeat MasterBeat { get; set; }
         public PrefabManager ModifierManager { get; set; }
 
 
         [ObservableProperty]
-        private bool textureModifierIsExpanded = true;
+        private bool textureModifierIsExpanded = false;
 
         [ObservableProperty]
-        private bool outputSettingsIsExpanded = true;
+        private bool outputSettingsIsExpanded = false;
 
         public IControlModel ToModel() => new CompositionModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            MasterBeat = (MasterBeatModel)MasterBeat.ToModel(),
+            //MasterBeat = (MasterBeatModel)MasterBeat.ToModel(),
             OutputSettings = (OutputSettingsModel)OutputSettings.ToModel(),
             TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             LayerManager = (PrefabManagerModel)LayerManager.ToModel(),
@@ -61,7 +58,7 @@ namespace CMiX.Core.Compositing
             var m = (CompositionModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            MasterBeat.FromModel(m.MasterBeat);
+            //MasterBeat.FromModel(m.MasterBeat);
             OutputSettings.FromModel(m.OutputSettings);
 
             LoadManager(TextureModifierManager, m.TextureModifierManager);

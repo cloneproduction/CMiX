@@ -26,6 +26,24 @@ namespace CMiX.Core.Animations
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
+
+            BeatIndex.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(GenericValue<int>.Value))
+                    OnPropertyChanged(nameof(BPM));
+            };
+
+            MasterBeat.BeatIndex.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(GenericValue<int>.Value))
+                    OnPropertyChanged(nameof(BPM));
+            };
+
+            MasterBeat.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(MasterBeat.AnimatedDouble))
+                    OnPropertyChanged(nameof(BPM));
+            };
         }
 
         public ICommand ResetCommand { get; set; }
@@ -38,6 +56,7 @@ namespace CMiX.Core.Animations
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> ChanceToHit { get; set; }
         public GenericValue<int> BeatIndex { get; set; }
+        public float BPM => BeatHelper.CalculateBPM(MasterBeat.Periods[BeatIndex.Value + MasterBeat.BeatIndex.Value]);
 
 
         private int maxIndex = 4;

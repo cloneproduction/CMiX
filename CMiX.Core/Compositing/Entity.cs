@@ -38,16 +38,16 @@ namespace CMiX.Core.Compositing
         public Color Color { get; set; }
 
         [ObservableProperty]
-        private bool transformSRTIsExpanded = true;
+        private bool transformSRTIsExpanded = false;
 
         [ObservableProperty]
-        private bool modifierManagerIsExpanded = true;
+        private bool modifierManagerIsExpanded = false;
 
         [ObservableProperty]
-        private bool materialManagerIsExpanded = true;
+        private bool materialManagerIsExpanded = false;
 
         [ObservableProperty]
-        private bool colorPaletteManagerIsExpanded = true;
+        private bool colorPaletteManagerIsExpanded = false;
 
         [ObservableProperty]
         private bool meshIsExpanded = false;

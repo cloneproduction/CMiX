@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Windows;
@@ -37,7 +38,7 @@ namespace CMiX.Studio.Converters
             if (values[0] == DependencyProperty.UnsetValue)
                 return DependencyProperty.UnsetValue;
 
-            if (values[0] == null || values[1] == null || values[2] == null)
+            if (values[0] == null || values[1] == null || values[2] == null || values[3] == null)
                 return "0";
 
             var beatIndex = (int)values[0];

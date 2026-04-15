@@ -40,16 +40,22 @@
                 <TextBlock
                     HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    Foreground="{DynamicResource TextBase}"
+                    Text="{Binding BPM, StringFormat=F2}" />
+                <!--<TextBlock
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
                     Foreground="{DynamicResource TextBase}">
                     <TextBlock.Text>
                         <MultiBinding Converter="{StaticResource MultiPeriodToBPM}" UpdateSourceTrigger="PropertyChanged">
                             <Binding Path="BeatIndex.Value" />
                             <Binding Path="MasterBeat" />
-                            <!--  The third binding is only to continuously update as the animation position keeps moving otherwise it would update only on BeatIndex Change or MasterBeat Change  -->
+                            --><!--  The third binding is only to continuously update as the animation position keeps moving otherwise it would update only on BeatIndex Change or MasterBeat Change  --><!--
                             <Binding Path="MasterBeat.AnimatedDouble.AnimationPosition" />
+                            <Binding Path="MasterBeat.BeatIndex.Value" />
                         </MultiBinding>
                     </TextBlock.Text>
-                </TextBlock>
+                </TextBlock>-->
 
                 <Button
                     Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"

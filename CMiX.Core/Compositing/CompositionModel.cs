@@ -12,7 +12,7 @@ namespace CMiX.Core.Compositing
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; init; } = new();
-        public MasterBeatModel MasterBeat { get; init; } = new();
+        //public MasterBeatModel MasterBeat { get; init; } = new();
         public OutputSettingsModel OutputSettings { get; init; } = new();
         public PrefabManagerModel TextureModifierManager { get; init; } = new();
         public PrefabManagerModel LayerManager { get; init; } = new();

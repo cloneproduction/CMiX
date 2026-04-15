@@ -76,7 +76,7 @@
             BorderThickness="2,0"
             DockPanel.Dock="Bottom">
 
-            <Beat:MasterBeatControl DataContext="{Binding Project.CompositionManager.SelectedItem.MasterBeat}" />
+            <Beat:MasterBeatControl DataContext="{Binding Project.MasterBeat}" />
 
         </Border>
 

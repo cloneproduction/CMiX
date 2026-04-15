@@ -1,8 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Collections.ObjectModel;
-using CMiX.Core.Assets;
+using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 
@@ -15,5 +14,7 @@ namespace CMiX.Core.Compositing
         public PrefabManagerModel PrefabManager { get; set; } = new();
         public PrefabManagerModel ModifierManager { get; set; } = new();
         public PrefabManagerModel CompositionManager {  get; set; } = new();
+        public MasterBeatModel MasterBeat { get; set; } = new();
+
     }
 }

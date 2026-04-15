@@ -62,9 +62,7 @@ namespace CMiX.Core.BaseControls
                     ControlMessenger.SendMessage(message);
                 }
                 else
-                {
                     SetProperty(ref _value, value);
-                }
             }
         }
 

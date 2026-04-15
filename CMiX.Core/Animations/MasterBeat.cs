@@ -26,7 +26,7 @@ namespace CMiX.Core.Animations
             Resync = resync;
 
             BeatIndex.Value = 0;
-            Index.Value = 3;
+            Index.Value = 0;
             Period.Value = 1000;
 
             Periods = new float[15];
@@ -49,6 +49,7 @@ namespace CMiX.Core.Animations
             };
 
             activationService.Register(this);
+            Debug.WriteLine($"MasterBeat constructor done, BeatIndex={BeatIndex.Value} Period={Period.Value}");
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -72,7 +73,7 @@ namespace CMiX.Core.Animations
 
         public float BPM
         {
-            get => Period.Value > 0 ? (float)Math.Round(60000f / Period.Value, 2) : 0f;
+            get => BeatHelper.CalculateBPM(Period.Value);
             set
             {
                 if (value <= 0) return;
