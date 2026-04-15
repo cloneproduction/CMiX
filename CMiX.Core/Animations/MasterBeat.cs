@@ -49,7 +49,6 @@ namespace CMiX.Core.Animations
             };
 
             activationService.Register(this);
-            Debug.WriteLine($"MasterBeat constructor done, BeatIndex={BeatIndex.Value} Period={Period.Value}");
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -63,8 +62,8 @@ namespace CMiX.Core.Animations
         private readonly List<float> tapPeriods;
         private readonly List<float> tapTime;
 
-        private int maxIndex = 3;
-        private int minIndex = -3;
+        private const int MaxIndex = 3;
+        private const int MinIndex = -3;
 
         [ObservableProperty]
         private AnimatedDouble animatedDouble;
@@ -79,18 +78,20 @@ namespace CMiX.Core.Animations
                 if (value <= 0) return;
                 WithUndo(() =>
                 {
-                    float newPeriod = 60000f / value;
-                    GeneratePeriods(newPeriod);
-                    BeatAnimations.MakeStoryBoard(Periods);
-                    int midPoint = (Periods.Length - 1) / 2;
-                    Period.Value = newPeriod;
-                    BeatIndex.Value = midPoint;
+                    Period.Value = 60000f / value;
                     Index.Value = 0;
-                    AnimatedDouble = BeatAnimations.AnimatedDoubles[midPoint];
-                    OnPropertyChanged(nameof(AnimatedDouble));
+                    ApplyPeriod(Period.Value);
                 });
                 OnPropertyChanged(nameof(BPM));
             }
+        }
+
+        private void ApplyPeriod(float period)
+        {
+            GeneratePeriods(period);
+            BeatAnimations.MakeStoryBoard(Periods);
+            SetAnimatedDouble();
+            OnPropertyChanged(nameof(BPM));
         }
 
         private void SetAnimatedDouble()
@@ -105,14 +106,14 @@ namespace CMiX.Core.Animations
         [RelayCommand]
         public void Multiply() => WithUndo(() =>
         {
-            Index.Value = Math.Clamp(Index.Value - 1, minIndex, maxIndex);
+            Index.Value = Math.Clamp(Index.Value - 1, MinIndex, MaxIndex);
             SetAnimatedDouble();
         });
 
         [RelayCommand]
         public void Divide() => WithUndo(() =>
         {
-            Index.Value = Math.Clamp(Index.Value + 1, minIndex, maxIndex);
+            Index.Value = Math.Clamp(Index.Value + 1, MinIndex, MaxIndex);
             SetAnimatedDouble();
         });
 
@@ -154,13 +155,9 @@ namespace CMiX.Core.Animations
 
         private void UpdatePeriods(float basePeriod)
         {
+            if (basePeriod <= 0) return;
             Period.Value = basePeriod;
-
-            if (basePeriod <= 0)
-                return;
-
-            GeneratePeriods(basePeriod);
-            BeatAnimations.MakeStoryBoard(Periods);
+            ApplyPeriod(basePeriod);
         }
 
         private void GeneratePeriods(float basePeriod)
@@ -204,6 +201,7 @@ namespace CMiX.Core.Animations
             BeatIndex.FromModel(m.BeatIndex);
             Period.FromModel(m.Period);
             Periods = m.Periods.ToArray();
+            ApplyPeriod(Period.Value);
         }
     }
 }

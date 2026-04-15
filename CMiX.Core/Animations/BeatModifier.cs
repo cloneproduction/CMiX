@@ -4,46 +4,38 @@
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
-using CommunityToolkit.Mvvm.ComponentModel;
+using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifier : ObservableRecipient, IPrefab, IControl
+    public class BeatModifier : ReceivableControl, IPrefab, IControl
     {
         public BeatModifier(PrefabService prefabService,
                             MasterBeat masterBeat, 
                             GenericValue<int> beatIndex, 
                             GenericValue<float> chanceToHit,
-                            Easing easing)
+                            Easing easing,
+                            UndoManager undoManager,
+                            ControlActivationService activationService)
         {
             PrefabService = prefabService;
             BeatIndex = beatIndex;
             ChanceToHit = chanceToHit;
-            MasterBeat = masterBeat;
+
             Easing = easing;
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
             DivideCommand = new RelayCommand(Divide);
 
-            BeatIndex.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(GenericValue<int>.Value))
-                    OnPropertyChanged(nameof(BPM));
-            };
+            UndoManager = undoManager;
+            IsActive = false;
+            activationService.Register(this);
 
-            MasterBeat.BeatIndex.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(GenericValue<int>.Value))
-                    OnPropertyChanged(nameof(BPM));
-            };
-
-            MasterBeat.PropertyChanged += (s, e) =>
-            {
-                if (e.PropertyName == nameof(MasterBeat.AnimatedDouble))
-                    OnPropertyChanged(nameof(BPM));
-            };
+            _notifyBPMChanged = (s, e) => OnPropertyChanged(nameof(BPM));
+            BeatIndex.PropertyChanged += _notifyBPMChanged;
+            MasterBeat = masterBeat;
         }
 
         public ICommand ResetCommand { get; set; }
@@ -51,35 +43,60 @@ namespace CMiX.Core.Animations
         public ICommand DivideCommand { get; set; }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public MasterBeat MasterBeat { get; set; }
+
+        private readonly System.ComponentModel.PropertyChangedEventHandler _notifyBPMChanged;
+
+        private MasterBeat _masterBeat;
+        public MasterBeat MasterBeat
+        {
+            get => _masterBeat;
+            set
+            {
+                if (_masterBeat != null)
+                {
+                    _masterBeat.BeatIndex.PropertyChanged -= _notifyBPMChanged;
+                    _masterBeat.PropertyChanged -= _notifyBPMChanged;
+                }
+                _masterBeat = value;
+                if (_masterBeat != null)
+                {
+                    _masterBeat.BeatIndex.PropertyChanged += _notifyBPMChanged;
+                    _masterBeat.PropertyChanged += _notifyBPMChanged;
+                }
+                OnPropertyChanged(nameof(BPM));
+            }
+        }
         public Easing Easing { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> ChanceToHit { get; set; }
         public GenericValue<int> BeatIndex { get; set; }
         public float BPM => BeatHelper.CalculateBPM(MasterBeat.Periods[BeatIndex.Value + MasterBeat.BeatIndex.Value]);
 
+        private const int MaxIndex = 4;
+        private const int MinIndex = -4;
 
-        private int maxIndex = 4;
-        private int minIndex = -4;
-
-        public void Reset()
+        private void WithUndo(Action action)
         {
-            BeatIndex.Value = 0;
+            var before = ToModel();
+            UndoManager?.BeginGroup();
+            action();
+            UndoManager?.EndGroup();
+            UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
         }
 
-        public void Multiply()
-        {
-            if (BeatIndex.Value <= minIndex)
-                return;
-            BeatIndex.Value--;
-        }
+        public void Reset() => WithUndo(() => BeatIndex.Value = 0);
 
-        public void Divide()
+        public void Multiply() => WithUndo(() =>
         {
-            if (BeatIndex.Value >= maxIndex)
-                return;
-            BeatIndex.Value++;
-        }
+            if (BeatIndex.Value > MinIndex)
+                BeatIndex.Value--;
+        });
+
+        public void Divide() => WithUndo(() =>
+        {
+            if (BeatIndex.Value < MaxIndex)
+                BeatIndex.Value++;
+        });
 
         public IControlModel ToModel() => new BeatModifierModel
         {
