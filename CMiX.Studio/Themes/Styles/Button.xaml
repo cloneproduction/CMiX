@@ -77,43 +77,37 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="ButtonStraight"
+    <Style x:Key="ButtonStraight"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
     </Style>
 
-    <Style
-        x:Key="ButtonRounded"
+    <Style x:Key="ButtonRounded"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
     </Style>
 
-    <Style
-        x:Key="ButtonRoundedRight"
+    <Style x:Key="ButtonRoundedRight"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
     </Style>
 
-    <Style
-        x:Key="ButtonRoundedLeft"
+    <Style x:Key="ButtonRoundedLeft"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
     </Style>
 
-    <Style
-        x:Key="ButtonRoundedTop"
+    <Style x:Key="ButtonRoundedTop"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
     </Style>
 
-    <Style
-        x:Key="ButtonRoundedBottom"
+    <Style x:Key="ButtonRoundedBottom"
         BasedOn="{StaticResource {x:Type Button}}"
         TargetType="{x:Type Button}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
@@ -282,4 +276,79 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ButtonWindowControlStyle" TargetType="{x:Type Button}">
+        <Setter Property="Height" Value="30" />
+        <Setter Property="Width" Value="30" />
+        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
+        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </Style>
+
+    <Style x:Key="ButtonCloseWindowStyle" BasedOn="{StaticResource ButtonWindowControlStyle}" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Padding="8" Background="Transparent" SnapsToDevicePixels="True">
+                        <Image x:Name="image" Opacity="0.75" Source="{DynamicResource CloseTab}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonMaximizeWindowStyle" BasedOn="{StaticResource ButtonWindowControlStyle}" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Padding="10" Background="Transparent" SnapsToDevicePixels="True">
+                        <Image x:Name="image" Opacity="0.75" Source="{DynamicResource Maximize}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <Style x:Key="ButtonMinimizeWindowStyle" BasedOn="{StaticResource ButtonWindowControlStyle}" TargetType="{x:Type Button}">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <Border x:Name="border" Padding="8" Background="Transparent" SnapsToDevicePixels="True">
+                        <Image x:Name="image" Opacity="0.75" Source="{DynamicResource Minimize}" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
 </ResourceDictionary>

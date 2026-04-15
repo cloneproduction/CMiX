@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Modifiers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core.Prefabs
@@ -53,23 +54,41 @@ namespace CMiX.Core.Prefabs
         {
             if (control is not IPrefab prefab) return;
 
-            var typeName = control.GetType().Name;
-            var existingNames = _controlRepository.Controls
-                .OfType<IPrefab>()
-                .Select(x => x.PrefabService.Name.Value)
-                .ToHashSet();
-
-            string newName = typeName;
-            var count = 1;
-            while (existingNames.Contains(newName))
-            {
-                newName = $"{typeName}.{count:000}";
-                count++;
-            }
+            var typeName = StringHelper.PascalCaseToDisplay(control.GetType().Name);
 
             prefab.PrefabService.Name.IsActive = false;
-            prefab.PrefabService.Name.Value = newName;
+
+            if (control is IModifier)
+            {
+                prefab.PrefabService.Name.Value = typeName;
+            }
+            else
+            {
+                var existingNames = _controlRepository.Controls
+                    .OfType<IPrefab>()
+                    .Select(x => x.PrefabService.Name.Value)
+                    .ToHashSet();
+
+                string newName = typeName;
+                var count = 1;
+                while (existingNames.Contains(newName))
+                {
+                    newName = $"{typeName}.{count:000}";
+                    count++;
+                }
+
+                prefab.PrefabService.Name.Value = newName;
+            }
+
             prefab.PrefabService.Name.IsActive = true;
+        }
+
+        public static class StringHelper
+        {
+            public static string PascalCaseToDisplay(string name) =>
+                System.Text.RegularExpressions.Regex.Replace(
+                    System.Text.RegularExpressions.Regex.Replace(name, @"(\P{Ll})(\P{Ll}\p{Ll})", "$1 $2"),
+                    @"(\p{Ll})(\P{Ll})", "$1 $2");
         }
     }
 }

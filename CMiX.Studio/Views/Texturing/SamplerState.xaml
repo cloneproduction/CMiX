@@ -16,14 +16,14 @@
             Caption="Address U"
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}"
             Position="Top"
-            SelectedItem="{Binding AddressU.Value, Converter={StaticResource EnumToString}}" />
+            SelectedItem="{Binding AddressU.Value}" />
 
         <BaseControls:ComboBox
             Margin="0,1,0,0"
             Caption="V"
             ItemsSource="{Binding Source={StaticResource TextureAddressMode}}"
             Position="Bottom"
-            SelectedItem="{Binding AddressV.Value, Converter={StaticResource EnumToString}}" />
+            SelectedItem="{Binding AddressV.Value}" />
 
         <BaseControls:ColorSelector
             Margin="0,8,0,0"

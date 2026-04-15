@@ -1,30 +1,31 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using ColorMine.ColorSpaces;
 using System;
 using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Media;
+using CMiX.Core.Animations;
 
 namespace CMiX.Studio.Converters
 {
-    public class ColorToHSVControledConverter : IMultiValueConverter
+    public class MultiPeriodToBeatAnimationConverter : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            Color color = (Color)ColorConverter.ConvertFromString((string)parameter);
-            var hsv = new Rgb() { R = color.R, G = color.G, B = color.B }.To<Hsv>();
+            if (values[0] == DependencyProperty.UnsetValue)
+                return DependencyProperty.UnsetValue;
 
-            if (values[0] != DependencyProperty.UnsetValue)
-                hsv.S = (double)values[0];
-            if(values[1] != DependencyProperty.UnsetValue)
-                hsv.V = (double)values[1];
+            if (values[0] == null || values[1] == null)
+                    return DependencyProperty.UnsetValue;
 
-            var rgb = hsv.To<Rgb>();
+            var beatIndex = (int)values[0];
+            var masterBeat = (MasterBeat)values[1];
 
-            return Color.FromRgb((byte)rgb.R, (byte)rgb.G, (byte)rgb.B);
+            if(masterBeat == null)
+                return DependencyProperty.UnsetValue;
+
+            return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex + masterBeat.BeatIndex.Value].AnimationPosition;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

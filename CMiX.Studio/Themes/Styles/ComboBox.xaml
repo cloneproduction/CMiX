@@ -1,13 +1,11 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
-    xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl">
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Border.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Button.xaml" />
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/ToggleButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
@@ -147,50 +145,44 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="ComboBoxStraight"
+    <Style x:Key="ComboBoxStraight"
         BasedOn="{StaticResource {x:Type ComboBox}}"
         TargetType="{x:Type ComboBox}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="None" />
     </Style>
 
-    <Style
-        x:Key="ComboBoxRounded"
+    <Style x:Key="ComboBoxRounded"
         BasedOn="{StaticResource {x:Type ComboBox}}"
         TargetType="{x:Type ComboBox}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="All" />
     </Style>
 
-    <Style
-        x:Key="ComboBoxRoundedRight"
+    <Style x:Key="ComboBoxRoundedRight"
         BasedOn="{StaticResource {x:Type ComboBox}}"
         TargetType="{x:Type ComboBox}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Right" />
     </Style>
 
-    <Style
-        x:Key="ComboBoxRoundedLeft"
+    <Style x:Key="ComboBoxRoundedLeft"
         BasedOn="{StaticResource {x:Type ComboBox}}"
         TargetType="{x:Type ComboBox}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Left" />
     </Style>
 
-    <Style
-        x:Key="ComboBoxRoundedTop"
+    <Style x:Key="ComboBoxRoundedTop"
         BasedOn="{StaticResource {x:Type ComboBox}}"
         TargetType="{x:Type ComboBox}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Top" />
     </Style>
 
-    <Style
-        x:Key="ComboBoxRoundedBottom"
+    <Style x:Key="ComboBoxRoundedBottom"
         BasedOn="{StaticResource {x:Type ComboBox}}"
         TargetType="{x:Type ComboBox}">
         <Setter Property="AttachedProperties:PositionedCornerRadius.RoundedPosition" Value="Bottom" />
     </Style>
 
 
-    <Style TargetType="{x:Type ComboBoxItem}">
+    <Style x:Key="ComboBoxItem" TargetType="{x:Type ComboBoxItem}">
 
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="VerticalAlignment" Value="Center" />
@@ -249,9 +241,10 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style TargetType="{x:Type ComboBoxItem}" BasedOn="{StaticResource ComboBoxItem}" />
 
     <Style x:Key="ComboBoxWithButton" TargetType="{x:Type ComboBox}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource ComboBoxItem}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
@@ -310,7 +303,6 @@
     </Style>
 
     <Style x:Key="ComboBoxButton" TargetType="{x:Type ComboBox}">
-        <Setter Property="ItemContainerStyle" Value="{DynamicResource ComboBoxItem}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">

@@ -13,10 +13,13 @@
 
     <StackPanel>
 
-        <TextBox
-            Height="44"
+        <Border Height="44" BorderThickness="0.5" CornerRadius="2" BorderBrush="{StaticResource Color}">
+            <TextBox
+            
             Style="{StaticResource TypeWriterStyle}"
             Text="{Binding StringControl.Value, UpdateSourceTrigger=PropertyChanged}" />
+        </Border>
+
 
         <BaseControl:ComboBox
             Margin="0,8,0,1"

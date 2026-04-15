@@ -7,9 +7,6 @@ using System.Windows.Data;
 
 namespace CMiX.Studio.Converters
 {
-    /// <summary>
-    ///  accepts an object and returns its Type (as a System.Type):
-    /// </summary>
     public class DataTypeConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter,

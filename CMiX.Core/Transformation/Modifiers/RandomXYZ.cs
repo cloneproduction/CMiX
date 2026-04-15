@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.ComponentModel;
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
@@ -47,6 +48,7 @@ namespace CMiX.Core.Transformation.Modifiers
         public Vector3 Scale { get; set; }
         public GenericValue<bool> RandomizeRotation { get; set; }
         public Vector3 Rotation { get; set; }
+        public string DisplayName => "Random XYZ";
 
 
         [ObservableProperty]

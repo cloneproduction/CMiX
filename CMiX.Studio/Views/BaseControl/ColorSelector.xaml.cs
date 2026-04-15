@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -7,6 +6,26 @@ namespace CMiX.Studio.Views.BaseControl
 {
     public partial class ColorSelector : UserControl
     {
+        public ColorSelector()
+        {
+            InitializeComponent();
+            Loaded += (s, e) =>
+            {
+                colorPickerPopup.PlacementTarget = PopupToggle;
+                PopupToggle.Checked += (s2, e2) => colorPickerPopup.IsOpen = true;
+                PopupToggle.Unchecked += (s2, e2) => colorPickerPopup.IsOpen = false;
+            };
+
+            PopupToggle.Checked += (s2, e2) =>
+            {
+                colorPickerPopup.IsOpen = true;
+            };
+            PopupToggle.Unchecked += (s2, e2) =>
+            {
+                colorPickerPopup.IsOpen = false;
+            };
+        }
+
         public static readonly DependencyProperty PositionProperty =
             DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ColorSelector),
                 new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
@@ -33,30 +52,5 @@ namespace CMiX.Studio.Views.BaseControl
             get { return (Color)GetValue(SelectedColorProperty); }
             set { SetValue(SelectedColorProperty, value); }
         }
-
-
-        public ColorSelector()
-        {
-            InitializeComponent();
-            Loaded += (s, e) =>
-            {
-                colorPickerPopup.PlacementTarget = PopupToggle;
-                PopupToggle.Checked += (s2, e2) => colorPickerPopup.IsOpen = true;
-                PopupToggle.Unchecked += (s2, e2) => colorPickerPopup.IsOpen = false;
-            };
-
-            PopupToggle.Checked += (s2, e2) =>
-            {
-                Debug.WriteLine($"PopupToggle Checked");
-                colorPickerPopup.IsOpen = true;
-            };
-            PopupToggle.Unchecked += (s2, e2) =>
-            {
-                Debug.WriteLine($"PopupToggle Unchecked");
-                colorPickerPopup.IsOpen = false;
-            };
-        }
-
-
     }
 }

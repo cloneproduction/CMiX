@@ -18,7 +18,8 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    <Border Background="{DynamicResource HighDarkerColor}" IsEnabled="{Binding Converter={StaticResource NullToBool}}">
+    <Border Background="{DynamicResource HighDarkerColor}" Visibility="{Binding Converter={StaticResource NullToVisibility}}">
+        <!--IsEnabled="{Binding Converter={StaticResource NullToBool}}">-->
 
         <TabControl
             Background="{DynamicResource HighHighDarkerColor}"

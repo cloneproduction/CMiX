@@ -43,21 +43,6 @@
                                     <ContentPresenter />
                                 </AdornerDecorator>
                             </Border>
-                            <Border>
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Style.Triggers>
-                                            <!--  Add to avoid border disappearing when window is maximised  -->
-                                            <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Maximized">
-                                                <Setter Property="Margin" Value="7" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding WindowState, RelativeSource={RelativeSource AncestorType=Window}}" Value="Normal">
-                                                <Setter Property="Margin" Value="0" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
                         </Grid>
                     </Border>
                 </ControlTemplate>
@@ -65,106 +50,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="ButtonCloseWindowStyle" TargetType="{x:Type Button}">
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="30" />
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Padding="8"
-                        Background="Transparent"
-                        SnapsToDevicePixels="True">
-                        <Image
-                            x:Name="image"
-                            Opacity="0.75"
-                            Source="{DynamicResource CloseTab}" />
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ButtonMaximizeWindowStyle" TargetType="{x:Type Button}">
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="30" />
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Padding="10"
-                        Background="Transparent"
-                        SnapsToDevicePixels="True">
-                        <Image
-                            x:Name="image"
-                            Opacity="0.75"
-                            Source="{DynamicResource Maximize}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
-                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
-                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="ButtonMinimizeWindowStyle" TargetType="{x:Type Button}">
-        <!--<EventSetter Event="Click" Handler="MinimizeClick"/>-->
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="30" />
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Padding="8"
-                        Background="Transparent"
-                        SnapsToDevicePixels="True">
-                        <Image
-                            x:Name="image"
-                            Opacity="0.75"
-                            Source="{DynamicResource Minimize}" />
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
-                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
-                            <Setter TargetName="image" Property="Opacity" Value="1.0" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
-
     <Style x:Key="QuitModalWindow" TargetType="{x:Type Window}">
-
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
@@ -176,7 +62,7 @@
                     UseAeroCaptionButtons="False" />
             </Setter.Value>
         </Setter>
-        <Setter Property="BorderBrush" Value="Red" />
+
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
             <Setter.Value>
@@ -193,9 +79,7 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="MessengerSettingsWindowStyle" TargetType="{x:Type Window}">
-        <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
@@ -208,7 +92,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="Background" Value="Red" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="210" />
 
         <Setter Property="Template">
@@ -216,11 +100,7 @@
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border Padding="8" Background="Transparent">
                         <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="8"
-                                Opacity="0.5"
-                                ShadowDepth="0"
-                                Color="Black" />
+                            <StaticResource ResourceKey="WindowDropShadow" />
                         </Border.Effect>
 
                         <Grid>
@@ -229,8 +109,7 @@
                                 Background="{DynamicResource HighHighDarkerColor}"
                                 CornerRadius="4"
                                 Opacity="0.9" />
-
-
+                            
                             <StackPanel>
                                 <Border Height="25" VerticalAlignment="Center">
 
@@ -258,7 +137,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="PopupWindowNoTitleStyle" TargetType="{x:Type Window}">
         <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="WindowChrome.WindowChrome">
@@ -273,7 +151,7 @@
             </Setter.Value>
         </Setter>
         <Setter Property="AllowsTransparency" Value="True" />
-        <Setter Property="Background" Value="Red" />
+        <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="210" />
 
         <Setter Property="Template">
@@ -281,11 +159,7 @@
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border Padding="8" Background="Transparent">
                         <Border.Effect>
-                            <DropShadowEffect
-                                BlurRadius="8"
-                                Opacity="0.5"
-                                ShadowDepth="0"
-                                Color="Black" />
+                            <StaticResource ResourceKey="WindowDropShadow" />
                         </Border.Effect>
 
                         <Grid>

@@ -108,8 +108,7 @@
 
                     <Border
                         x:Name="borderValueDisplay"
-                        VerticalAlignment="Stretch"
-                        AttachedProperties:MouseDownHelper.IsEnabled="True">
+                        VerticalAlignment="Stretch">
                         <Border.Style>
                             <Style TargetType="{x:Type Border}">
                                 <Setter Property="Background" Value="{DynamicResource DarkColor}" />
@@ -117,9 +116,6 @@
                                     <Trigger Property="IsMouseOver" Value="True">
                                         <Setter Property="Cursor" Value="SizeWE" />
                                         <Setter Property="Background" Value="{DynamicResource LightColor}" />
-                                    </Trigger>
-                                    <Trigger Property="AttachedProperties:MouseDownHelper.IsMouseLeftButtonDown" Value="True">
-                                        <Setter Property="Cursor" Value="None" />
                                     </Trigger>
                                     <DataTrigger Binding="{Binding IsEditing, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Value="True">
                                         <Setter Property="Visibility" Value="Hidden" />

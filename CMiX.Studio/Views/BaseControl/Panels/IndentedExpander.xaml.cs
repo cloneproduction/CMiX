@@ -11,7 +11,11 @@ namespace CMiX.Studio.Views.BaseControl.Panels
         }
 
         public static readonly DependencyProperty IndentationProperty =
-        DependencyProperty.Register("Indentation", typeof(int), typeof(IndentedExpander), new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+            DependencyProperty.Register(
+                "Indentation", 
+                typeof(int), 
+                typeof(IndentedExpander), 
+                new FrameworkPropertyMetadata(0, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public int Indentation
         {
             get { return (int)GetValue(IndentationProperty); }

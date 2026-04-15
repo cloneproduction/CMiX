@@ -38,7 +38,7 @@
                             DataContext="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                             DockPanel.Dock="Right" />
 
-                        <TextBlock Text="{Binding DataContext, Converter={StaticResource TypeToName}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                        <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                         
                     </DockPanel>
                 </Expander.Header>

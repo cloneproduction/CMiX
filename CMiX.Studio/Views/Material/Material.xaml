@@ -17,7 +17,7 @@
 
         <Panels:IndentedExpander
             Header="Settings"
-            Indentation="0"
+            Indentation="4"
             IsExpanded="{Binding MaterialSettings.IsExpanded}">
             <Views:MaterialSettings DataContext="{Binding MaterialSettings}" />
         </Panels:IndentedExpander>

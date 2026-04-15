@@ -13,7 +13,7 @@
     <UserControl.ContentTemplate>
         <DataTemplate>
             <Expander
-                AttachedProperties:ExpanderIndentation.Indentation="{Binding Indentation, ElementName=uc, Converter={StaticResource Indentation}}"
+                AttachedProperties:ExpanderIndentation.Indentation="{Binding Indentation, ElementName=uc}"
                 Header="{Binding Header, ElementName=uc}"
                 IsExpanded="{Binding IsExpanded, ElementName=uc}"
                 Style="{StaticResource IndentedExpanderStyle}">

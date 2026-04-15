@@ -7,18 +7,20 @@ namespace CMiX.Studio.AttachedProperties
         public static readonly DependencyProperty IndentationProperty =
             DependencyProperty.RegisterAttached(
                 "Indentation",
-                typeof(Thickness),
+                typeof(int),
                 typeof(ExpanderIndentation),
-                new FrameworkPropertyMetadata(new Thickness(0, 0, 0, 0)));
+                new FrameworkPropertyMetadata(0, OnIndentationChanged));
 
-        public static Thickness GetIndentation(DependencyObject obj)
-        {
-            return (Thickness)obj.GetValue(IndentationProperty);
-        }
+        public static int GetIndentation(DependencyObject obj)
+            => (int)obj.GetValue(IndentationProperty);
 
-        public static void SetIndentation(DependencyObject obj, Thickness value)
+        public static void SetIndentation(DependencyObject obj, int value)
+            => obj.SetValue(IndentationProperty, value);
+
+        private static void OnIndentationChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            obj.SetValue(IndentationProperty, value);
+            if (d is FrameworkElement element)
+                element.Margin = new Thickness((int)e.NewValue, 0, 0, 0);
         }
     }
 }
