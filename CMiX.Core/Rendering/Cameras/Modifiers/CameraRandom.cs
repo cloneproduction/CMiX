@@ -6,6 +6,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
@@ -52,6 +53,8 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
             PingPong.FromModel(m.PingPong);
             Width.FromModel(m.Width);
             Axis.FromModel(m.Axis);
+
+            LoadManager(BeatModifierManager, m.BeatModifierManager);
         }
     }
 }
