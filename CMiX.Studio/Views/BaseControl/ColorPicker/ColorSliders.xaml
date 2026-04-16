@@ -14,7 +14,7 @@
     mc:Ignorable="d">
     <StackPanel>
 
-        <Border Height="22" Margin="0,8">
+        <Border Height="22">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -41,14 +41,13 @@
             </Grid>
         </Border>
         
-        <Grid VerticalAlignment="Top">
-            <Border Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}}">
+        <Grid VerticalAlignment="Top" Margin="0, 8">
+            <Border Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}, ConverterParameter={x:Static Visibility.Hidden}}">
                 <StackPanel>
                     <TextBox Height="22" Text="{Binding SelectedColor, ElementName=uc, Converter={StaticResource ColorToHex}}"/>
                 </StackPanel>
             </Border>
-
-            <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}}">
+            <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
                 <StackPanel>
 
                     <Controls:CMiXSlider
@@ -87,8 +86,7 @@
 
                 </StackPanel>
             </Border>
-
-            <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}}">
+            <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
                 <StackPanel>
                     <Controls:CMiXSlider
                         Caption="H"
@@ -128,7 +126,6 @@
         </Grid>
 
         <Controls:CMiXSlider
-            Margin="0,8,0,0"
             Caption="Alpha"
             Maximum="1"
             Minimum="0"

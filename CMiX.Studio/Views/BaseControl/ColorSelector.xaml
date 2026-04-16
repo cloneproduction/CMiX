@@ -44,7 +44,7 @@
             <Border
                 x:Name="popupBorder"
                 Background="{DynamicResource HighHighDarkerColor}"
-                CornerRadius="8">
+                CornerRadius="2">
                 <BaseControl:StandardColorPicker 
                     Margin="8" 
                     SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />

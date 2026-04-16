@@ -5,20 +5,18 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.BaseControls
 {
-    public class Integer3 : ObservableRecipient, IControl
+    public partial class Integer3 : ObservableObject, IControl
     {
         public Integer3(GenericValue<int> x, 
                         GenericValue<int> y,
                         GenericValue<int> z)
         {
-            ID = Guid.NewGuid();
             X = x;
             Y = y;
             Z = z;
-            IsActive = true;
         }
 
-        public Guid ID { get; set; }
+        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<int> X { get; set; }
         public GenericValue<int> Y { get; set; }
         public GenericValue<int> Z { get; set; }

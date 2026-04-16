@@ -19,7 +19,7 @@
             <ToggleButton
                 x:Name="toggleButton"
                 Width="18"
-                Margin="2"
+                Margin="0, 2, 2, 2"
                 HorizontalAlignment="Left"
                 IsChecked="{Binding IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Style="{StaticResource ToggleCheckBox}" />

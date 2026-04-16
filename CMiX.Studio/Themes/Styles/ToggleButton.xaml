@@ -346,7 +346,7 @@
     </Style>
 
     <Style x:Key="ToggleTransformModifierMenu" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Height" Value="24" />
+        <Setter Property="Height" Value="22" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -355,7 +355,7 @@
                     <Border
                         x:Name="border"
                         Background="{DynamicResource DarkerColor}"
-                        CornerRadius="2"
+                        CornerRadius="2, 0, 0, 2"
                         SnapsToDevicePixels="True">
                         <DockPanel>
                             <Path

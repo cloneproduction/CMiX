@@ -7,7 +7,9 @@ namespace CMiX.Core.BaseControls
 {
     public partial class Vector3 : ObservableObject, IControl
     {
-        public Vector3(GenericValue<float> x, GenericValue<float> y, GenericValue<float> z)
+        public Vector3(GenericValue<float> x, 
+                       GenericValue<float> y, 
+                       GenericValue<float> z)
         {
             X = x;
             Y = y;

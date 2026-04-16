@@ -8,8 +8,8 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="311.555"
-    d:DesignWidth="256.556"
+    d:DesignHeight="425.841"
+    d:DesignWidth="274.842"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -51,7 +51,7 @@
             Position="Default"
             Value="{Binding RandomizePhase.Value}" />
 
-        <Views:BeatModifierManager Margin="0,8,0,0" DataContext="{Binding BeatModifierManager}" />
+        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
 
     </StackPanel>
 

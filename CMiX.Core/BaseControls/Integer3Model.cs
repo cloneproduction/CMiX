@@ -1,8 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System;
-
 namespace CMiX.Core.BaseControls
 {
     public class Integer3Model : IControlModel
@@ -10,6 +8,9 @@ namespace CMiX.Core.BaseControls
         public Integer3Model()
         {
             ID = Guid.NewGuid();
+            X = new GenericValueModel<int>(0);
+            Y = new GenericValueModel<int>(0);
+            Z = new GenericValueModel<int>(0);
         }
 
         public Integer3Model(int x, int y, int z) : this()
@@ -20,7 +21,6 @@ namespace CMiX.Core.BaseControls
         }
 
         public Guid ID { get; set; }
-
         public GenericValueModel<int> X { get; set; }
         public GenericValueModel<int> Y { get; set; }
         public GenericValueModel<int> Z { get; set; }

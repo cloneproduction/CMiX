@@ -35,7 +35,7 @@
             Caption="Ping Pong"
             IsChecked="{Binding PingPong.Value}" />
 
-        <Views:BeatModifierManager Margin="0,8,0,0" DataContext="{Binding BeatModifierManager}" />
+        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
 
     </StackPanel>
 

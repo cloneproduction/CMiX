@@ -15,19 +15,19 @@
 
         <BaseControl:IntegerValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value}"
-            DataContext="{Binding X}"
+            Value="{Binding X.Value}"
             Position="Top" />
 
         <BaseControl:IntegerValue
             Margin="0,1,0,0"
             Caption="Y"
-            DataContext="{Binding Y}"
+            Value="{Binding Y.Value}"
             Position="Middle" />
 
         <BaseControl:IntegerValue
             Margin="0,1,0,0"
             Caption="Z"
-            DataContext="{Binding Z}"
+            Value="{Binding Z.Value}"
             Position="Bottom" />
 
     </StackPanel>

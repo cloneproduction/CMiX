@@ -7,9 +7,9 @@ namespace CMiX.Core.BaseControls
 {
     public class Integer2 : ObservableRecipient, IControl
     {
-        public Integer2(GenericValue<int> x, GenericValue<int> y)
+        public Integer2(GenericValue<int> x, 
+                        GenericValue<int> y)
         {
-            ID = Guid.NewGuid();
             X = x;
             Y = y;
         }

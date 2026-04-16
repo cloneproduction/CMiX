@@ -10,8 +10,8 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     x:Name="uc"
-    d:DesignHeight="337.7"
-    d:DesignWidth="344.397"
+    d:DesignHeight="345.414"
+    d:DesignWidth="230.397"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -27,7 +27,7 @@
 
                 <BaseControl:CMiXSlider
                     Width="16"
-                    Margin="0,8,8,0"
+                    Margin="0,0,0,0"
                     DockPanel.Dock="Right"
                     IsEditable="False"
                     Maximum="1"
@@ -43,7 +43,9 @@
             </StackPanel>
         </Border>
 
-        <BaseControl:ColorSliders ColorState="{Binding ElementName=uc, Path=ColorState, Mode=TwoWay}" />
+        <BaseControl:ColorSliders
+            Margin="0, 8, 0, 0"
+            ColorState="{Binding ElementName=uc, Path=ColorState, Mode=TwoWay}" />
 
     </StackPanel>
 

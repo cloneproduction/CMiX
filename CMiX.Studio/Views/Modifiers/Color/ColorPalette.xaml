@@ -18,6 +18,7 @@
                 <Button
                     Command="{Binding AddItemCommand}"
                     CommandParameter="{x:Type Compositing:Color}"
+                    Style="{StaticResource ButtonRoundedRight}"
                     Content="New Color" />
             </Views:PrefabSlotManager.SelectionPanel>
         </Views:PrefabSlotManager>

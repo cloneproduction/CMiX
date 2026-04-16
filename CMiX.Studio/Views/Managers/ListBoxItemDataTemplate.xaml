@@ -20,8 +20,8 @@
             DataContext="{Binding}" />
     </DataTemplate>
 
-
     <DataTemplate DataType="{x:Type Servers:Server}">
+        
         <Border
             x:Name="Bd"
             Margin="1"
@@ -30,9 +30,9 @@
             CornerRadius="2"
             SnapsToDevicePixels="True"
             TextBlock.Foreground="{DynamicResource TextBase}">
-
+            
             <DockPanel>
-
+                
                 <Ellipse
                     Width="7"
                     Height="7"
@@ -48,7 +48,7 @@
                         </Style>
                     </Ellipse.Style>
                 </Ellipse>
-
+                
                 <ToggleButton
                     Height="15"
                     Margin="0"
@@ -57,11 +57,10 @@
                     DockPanel.Dock="Right"
                     IsChecked="{Binding ServerIsRunning}"
                     Style="{DynamicResource TogglePlayPause}" />
-
+                
                 <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-
+                
             </DockPanel>
-
         </Border>
     </DataTemplate>
 

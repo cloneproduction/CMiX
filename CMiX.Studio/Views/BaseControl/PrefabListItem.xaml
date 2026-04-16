@@ -12,10 +12,11 @@
         <Image
             Width="12"
             Height="12"
-            Margin="0,0,4,0"
+            Margin="4, 0"
             Opacity="0.7"
             Source="{Binding Icon, ElementName=uc}" />
         <ToggleButton
+            Margin="4, 0"
             DockPanel.Dock="Right"
             IsChecked="{Binding PrefabService.Visibility.Value}"
             Style="{DynamicResource ToggleVisibility}" />

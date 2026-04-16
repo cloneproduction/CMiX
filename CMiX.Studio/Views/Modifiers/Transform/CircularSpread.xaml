@@ -6,21 +6,21 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
-    d:DesignHeight="448.554"
-    d:DesignWidth="308.695"
+    d:DesignHeight="174.268"
+    d:DesignWidth="300.124"
     mc:Ignorable="d">
 
     <StackPanel>
 
         <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
-        
+
         <BaseControls:Vector2
             Margin="0,8"
             Caption="Width"
             DataContext="{Binding Width}" />
 
         <BaseControls:DragValue
-            Margin="0,1"
+            Margin="0,0, 0, 1"
             Caption="Phase"
             Position="Top"
             Value="{Binding Phase.Value}" />
