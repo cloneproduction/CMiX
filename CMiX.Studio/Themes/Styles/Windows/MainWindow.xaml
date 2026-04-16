@@ -100,7 +100,7 @@
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border Padding="8" Background="Transparent">
                         <Border.Effect>
-                            <StaticResource ResourceKey="WindowDropShadow" />
+                            <DynamicResource ResourceKey="WindowDropShadow" />
                         </Border.Effect>
 
                         <Grid>
@@ -159,7 +159,7 @@
                 <ControlTemplate TargetType="{x:Type Window}">
                     <Border Padding="8" Background="Transparent">
                         <Border.Effect>
-                            <StaticResource ResourceKey="WindowDropShadow" />
+                            <DynamicResource ResourceKey="WindowDropShadow" />
                         </Border.Effect>
 
                         <Grid>

@@ -25,6 +25,7 @@ namespace CMiX.Core.Animations
             Pause = pause;
             Resync = resync;
 
+
             BeatIndex.Value = 0;
             Index.Value = 0;
             Period.Value = 1000;
@@ -49,6 +50,17 @@ namespace CMiX.Core.Animations
             };
 
             activationService.Register(this);
+
+            Index.Activate();
+            Period.Activate();
+            BeatIndex.Activate();
+            Pause.Activate();
+            //Resync.Activate();
+            Index.ID = ManagerIDs.Index;
+            Period.ID = ManagerIDs.Period;
+            BeatIndex.ID = ManagerIDs.BeatIndex;
+            Pause.ID = ManagerIDs.Pause;
+            Resync.ID = ManagerIDs.Resync;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

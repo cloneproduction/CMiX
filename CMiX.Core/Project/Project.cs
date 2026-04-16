@@ -3,16 +3,16 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.Collections;
-using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using CMiX.Core.ViewModels.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
+using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public class Project : ObservableObject, IPrefab//, IModifiable
+    public class Project : ObservableObject, IPrefab
     {
         public Project(PrefabManager compositionManager, 
                        PrefabService prefabService, 
@@ -50,6 +50,8 @@ namespace CMiX.Core.Compositing
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             MasterBeat.FromModel(m.MasterBeat);
+
+            LoadManager(CompositionManager, m.CompositionManager);
         }
     }
 }

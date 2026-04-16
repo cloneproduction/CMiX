@@ -8,35 +8,29 @@ using System.Windows.Data;
 
 namespace CMiX.Studio.Converters
 {
-    public class BoolToVisibilityConverter : IValueConverter
+public class BoolToVisibilityConverter : IValueConverter
+{
+    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (!(value is bool))
-                return Visibility.Collapsed;
+        if (value is not bool b)
+            return Visibility.Collapsed;
 
-            bool objValue = (bool)value;
+        bool invert = parameter is string s &&
+                      s.Equals("Invert", StringComparison.OrdinalIgnoreCase);
 
-            if (objValue)
-            {
-                return Visibility.Visible;
-            }
-            else
-            {
-                if (parameter is Visibility.Collapsed)
-                {
-                    return Visibility.Collapsed;
-                }
-                else
-                    return Visibility.Hidden;
-            }
-            //return Visibility.Collapsed;
-
-
-        }
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
+        bool visible = invert ? !b : b;
+        return visible ? Visibility.Visible : Visibility.Collapsed;
     }
-}
+
+    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+    {
+        if (value is not Visibility v)
+            return false;
+
+        bool invert = parameter is string s &&
+                      s.Equals("Invert", StringComparison.OrdinalIgnoreCase);
+
+        bool isVisible = v == Visibility.Visible;
+        return invert ? !isVisible : isVisible;
+    }
+}}

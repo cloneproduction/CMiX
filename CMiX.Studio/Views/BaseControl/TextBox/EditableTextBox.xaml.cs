@@ -163,6 +163,7 @@ namespace CMiX.Studio.Views.BaseControl
             TextDisplay.Text = InputValue.Text;
             TextDisplay.Visibility = Visibility.Visible;
             InputValue.Visibility = Visibility.Hidden;
+            UnhookItemsControlEvents();
         }
 
         private void HookItemsControlEvents()
@@ -170,11 +171,18 @@ namespace CMiX.Studio.Views.BaseControl
             _ParentItemsControl = this.GetDpObjectFromVisualTree(this, typeof(Window)) as Window;
             if (_ParentItemsControl != null)
             {
-                //_ParentItemsControl.Cursor = Cursors.IBeam;
                 _ParentItemsControl.AddHandler(ScrollViewer.MouseWheelEvent, new RoutedEventHandler((s, e) => this.OnSwitchToNormalMode()), true);
-                //_ParentItemsControl.MouseDown += new MouseButtonEventHandler((s, e) => this.OnSwitchToNormalMode());
                 _ParentItemsControl.MouseDown += _ParentItemsControl_MouseDown;
                 _ParentItemsControl.SizeChanged += new SizeChangedEventHandler((s, e) => this.OnSwitchToNormalMode());
+            }
+        }
+
+        private void UnhookItemsControlEvents()
+        {
+            if (_ParentItemsControl != null)
+            {
+                _ParentItemsControl.MouseDown -= _ParentItemsControl_MouseDown;
+                _ParentItemsControl = null;
             }
         }
 

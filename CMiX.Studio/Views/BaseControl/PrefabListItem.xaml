@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="uc"
-    mc:Ignorable="d">
+    mc:Ignorable="d" d:DesignHeight="16.835" d:DesignWidth="109.608">
 
     <DockPanel>
         <Image
@@ -15,9 +15,10 @@
             Margin="0,0,4,0"
             Opacity="0.7"
             Source="{Binding Icon, ElementName=uc}" />
-        <Controls:ToggleVisibility
-            DataContext="{Binding}"
-            DockPanel.Dock="Right" />
+        <ToggleButton
+            DockPanel.Dock="Right"
+            IsChecked="{Binding PrefabService.Visibility.Value}"
+            Style="{DynamicResource ToggleVisibility}" />
         <Controls:EditableTextBox
             Text="{Binding Path=PrefabService.Name.Value}" />
     </DockPanel>

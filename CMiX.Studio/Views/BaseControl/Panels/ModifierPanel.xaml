@@ -33,11 +33,11 @@
                             DockPanel.Dock="Right"
                             Style="{DynamicResource ModifierCloseButtonStyle}" />
 
-                        <Controls:ToggleVisibility
-                            Margin="4,0"
-                            DataContext="{Binding DataContext, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                            DockPanel.Dock="Right" />
-
+                        <ToggleButton
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding DataContext.PrefabService.Visibility.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            Style="{DynamicResource ToggleVisibility}" />
+ 
                         <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
                         
                     </DockPanel>

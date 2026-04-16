@@ -26,8 +26,6 @@
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch"
                         Background="{TemplateBinding Background}"
-                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0"
                         SnapsToDevicePixels="True">
                         <ScrollViewer
                             x:Name="PART_ContentHost"
@@ -43,18 +41,6 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
-
-                        <!--<Trigger Property="IsKeyboardFocusWithin" Value="True">
-                            <Setter Property="behave:FocusBehaviour.IsListBoxItemSelected" Value="True"/>
-                        </Trigger>-->
-
-                        <!--<Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource SuperHighDarkerColor}" />
-                        </Trigger>-->
-                        <!--<Trigger Property="IsKeyboardFocused" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Color}" />
-                            <Setter Property="TextElement.Foreground" Value="{DynamicResource TextBase}" />
-                        </Trigger>-->
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -129,78 +115,6 @@
         </Setter>
     </Style>
 
-
-    <!--<Style x:Key="EditableTextBoxStyle" TargetType="{x:Type TextBox}">
-        <Setter Property="FocusVisualStyle">
-            <Setter.Value>
-                <Style>
-                    <Setter Property="Control.Template">
-                        <Setter.Value>
-                            <ControlTemplate>
-                                <Rectangle
-                                    Margin="2"
-                                    SnapsToDevicePixels="True"
-                                    Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                                    StrokeDashArray="1 2"
-                                    StrokeThickness="1" />
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Setter.Value>
-        </Setter>
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="BorderBrush" Value="Transparent" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Padding" Value="6,2" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Style.Triggers>
-            <Trigger Property="IsReadOnly" Value="True">
-                <Setter Property="Template" Value="{DynamicResource IsEditingMode}" />
-                <Setter Property="CaretBrush" Value="Transparent" />
-                <Setter Property="SelectionBrush" Value="Transparent" />
-            </Trigger>
-            <Trigger Property="IsReadOnly" Value="False">
-                <Setter Property="Template" Value="{DynamicResource IsNormalMode}" />
-            </Trigger>
-        </Style.Triggers>
-    </Style>-->
-
-    <!--<ControlTemplate x:Key="IsEditingMode">
-        <Border
-            x:Name="border"
-            Margin="1"
-            Background="Green"
-            BorderBrush="Black"
-            BorderThickness="1"
-            SnapsToDevicePixels="True">
-            <ScrollViewer
-                x:Name="PART_ContentHost"
-                Focusable="False"
-                HorizontalScrollBarVisibility="Hidden"
-                VerticalScrollBarVisibility="Hidden" />
-        </Border>
-    </ControlTemplate>
-
-    <ControlTemplate x:Key="IsNormalMode">
-        <Border
-            x:Name="border"
-            Margin="1"
-            Background="Red"
-            BorderBrush="Black"
-            BorderThickness="1"
-            SnapsToDevicePixels="True">
-            <ScrollViewer
-                x:Name="PART_ContentHost"
-                Focusable="False"
-                HorizontalScrollBarVisibility="Hidden"
-                VerticalScrollBarVisibility="Hidden" />
-        </Border>
-    </ControlTemplate>-->
-
-
     <Style x:Key="TypeWriterStyle" TargetType="{x:Type TextBox}">
 
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
@@ -218,6 +132,8 @@
                         x:Name="border"
                         VerticalAlignment="Stretch"
                         Background="{DynamicResource ListBoxBackground}"
+                        BorderThickness="0.5"
+                        BorderBrush="{DynamicResource DarkerColor}"
                         CornerRadius="4"
                         SnapsToDevicePixels="True">
                         <ScrollViewer
@@ -230,8 +146,6 @@
                             VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     <ControlTemplate.Triggers>
-
-
                         <Trigger Property="IsEnabled" Value="True" />
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />

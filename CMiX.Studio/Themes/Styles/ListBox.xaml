@@ -23,48 +23,54 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Controls:CMiXListBox}">
-                    <DockPanel>
+                    <Border     
+                        CornerRadius="2"
+                        BorderThickness="0.5"
+                        BorderBrush="{DynamicResource DarkColor}">
+                        <DockPanel>
 
-                        <Border
-                            x:Name="resizeBorder"
-                            Height="12"
-                            Background="{DynamicResource ListBoxBackground}"
-                            DockPanel.Dock="Bottom">
+                            <Border
+                                x:Name="resizeBorder"
+                                Height="12"
+                                Background="{DynamicResource ListBoxBackground}"
+                                DockPanel.Dock="Bottom">
 
-                            <Image
-                                Margin="1"
-                                IsHitTestVisible="False"
-                                Opacity="0.25"
-                                Source="{DynamicResource DragHandler}" />
+                                <Image
+                                    Margin="1"
+                                    IsHitTestVisible="False"
+                                    Opacity="0.25"
+                                    Source="{DynamicResource DragHandler}" />
 
-                            <Border.Style>
-                                <Style TargetType="{x:Type Border}">
-                                    <Style.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Cursor" Value="SizeNS" />
-                                        </Trigger>
-                                    </Style.Triggers>
-                                </Style>
-                            </Border.Style>
+                                <Border.Style>
+                                    <Style TargetType="{x:Type Border}">
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Cursor" Value="SizeNS" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Border.Style>
 
-                        </Border>
+                            </Border>
 
-                        <Border
-                            x:Name="Bd"
-                            MinHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}"
-                            Background="{DynamicResource ListBoxBackground}"
-                            CornerRadius="2"
-                            SnapsToDevicePixels="True">
-                            <ScrollViewer
-                                Margin="2"
-                                Focusable="False"
-                                HorizontalScrollBarVisibility="Disabled"
-                                VerticalScrollBarVisibility="Auto">
-                                <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                            </ScrollViewer>
-                        </Border>
+                            <Border
+                                x:Name="Bd"
+                                MinHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}"
+                                Background="{DynamicResource ListBoxBackground}"
+                                CornerRadius="2"
+                                SnapsToDevicePixels="True">
+                                <ScrollViewer
+                                    Margin="2"
+                                    Focusable="False"
+                                    HorizontalScrollBarVisibility="Disabled"
+                                    VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                </ScrollViewer>
+                            </Border>
 
-                    </DockPanel>
+                        </DockPanel>
+                    </Border>
+
 
                 </ControlTemplate>
             </Setter.Value>
@@ -116,8 +122,6 @@
                         SnapsToDevicePixels="True"
                         TextBlock.Foreground="{DynamicResource TextBase}">
                         <ContentPresenter Margin="4,0" />
-
-
                     </Border>
 
                     <ControlTemplate.Triggers>
@@ -125,10 +129,27 @@
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
                         </MultiTrigger>
 
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
+                        </MultiTrigger>
+                        
                     </ControlTemplate.Triggers>
 
                 </ControlTemplate>
@@ -296,9 +317,29 @@
 
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="IsSelected" Value="true">
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
+                            </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
-                        </Trigger>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsSelected" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
+                        </MultiTrigger>
 
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

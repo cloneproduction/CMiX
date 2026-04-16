@@ -9,7 +9,7 @@
     d:DesignWidth="248"
     mc:Ignorable="d">
 
-    <DockPanel Height="22">
+    <DockPanel Height="24">
 
         <ComboBox
             Focusable="False"
@@ -32,19 +32,23 @@
                     <Button
                         x:Name="deleteItemButton"
                         Width="22"
-                        Margin="1,0,0,0"
                         Command="{Binding RemoveSelectedItemCommand}"
                         CommandParameter="{Binding SelectedItem}"
                         Content="-"
                         DockPanel.Dock="Right"
                         Style="{StaticResource ButtonRoundedRight}" />
 
-                    <Controls:EditableTextBox
-                        Focusable="False"
-                        Background="{DynamicResource HighHighDarkerColor}"
-                        SnapsToDevicePixels="True"
-                        Text="{Binding SelectedItem.PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                        TextElement.Foreground="{DynamicResource TextBase}" />
+                    <Border                        
+                        BorderThickness="0.5"
+                        BorderBrush="{DynamicResource HighHighDarkerColor}">
+                        <Controls:EditableTextBox
+                            Focusable="False"
+                            Background="{DynamicResource HighHighDarkerColor}"
+                            SnapsToDevicePixels="True"
+                            Text="{Binding SelectedItem.PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextElement.Foreground="{DynamicResource TextBase}" />
+                    </Border>
+
 
                 </DockPanel>
             </Border>

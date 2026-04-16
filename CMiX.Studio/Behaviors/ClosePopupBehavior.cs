@@ -3,6 +3,7 @@
 
 using System;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Interactivity;
@@ -18,6 +19,7 @@ namespace CMiX.Studio.Behaviors
             AssociatedObject.MouseEnter += OnMouseEnter;
             AssociatedObject.Opened += OnOpened;
             AssociatedObject.Closed += OnClosed;
+            AssociatedObject.PreviewMouseLeftButtonUp += OnPreviewMouseLeftButtonUp;
         }
 
         protected override void OnDetaching()
@@ -27,7 +29,14 @@ namespace CMiX.Studio.Behaviors
             AssociatedObject.MouseEnter -= OnMouseEnter;
             AssociatedObject.Opened -= OnOpened;
             AssociatedObject.Closed -= OnClosed;
+            AssociatedObject.PreviewMouseLeftButtonUp -= OnPreviewMouseLeftButtonUp;
             RemoveParentWindowHandlers();
+        }
+
+        private void OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            if (e.OriginalSource is Button)
+                ClosePopup();
         }
 
         private Window ParentWindow => Window.GetWindow(AssociatedObject);

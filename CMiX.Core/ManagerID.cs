@@ -14,5 +14,11 @@ namespace CMiX.Core
         public static readonly Guid LightManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF05");
         public static readonly Guid BeatManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF06");
         public static readonly Guid ColorPaletteManager = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF07");
+
+        public static readonly Guid Index = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF08");
+        public static readonly Guid Period = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF09");
+        public static readonly Guid BeatIndex = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF10");
+        public static readonly Guid Pause = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF11");
+        public static readonly Guid Resync = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF12");
     }
 }

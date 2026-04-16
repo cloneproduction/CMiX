@@ -1,7 +1,6 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Animations;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -46,7 +45,6 @@ namespace CMiX.Core.Compositing
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            //MasterBeat = (MasterBeatModel)MasterBeat.ToModel(),
             OutputSettings = (OutputSettingsModel)OutputSettings.ToModel(),
             TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             LayerManager = (PrefabManagerModel)LayerManager.ToModel(),
@@ -58,7 +56,6 @@ namespace CMiX.Core.Compositing
             var m = (CompositionModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            //MasterBeat.FromModel(m.MasterBeat);
             OutputSettings.FromModel(m.OutputSettings);
 
             LoadManager(TextureModifierManager, m.TextureModifierManager);
