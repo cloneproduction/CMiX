@@ -40,14 +40,15 @@
                     Style="{StaticResource InlineRadioButtonRight}" />
             </Grid>
         </Border>
+        
         <Grid VerticalAlignment="Top">
-            <Border Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+            <Border Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}}">
                 <StackPanel>
                     <TextBox Height="22" Text="{Binding SelectedColor, ElementName=uc, Converter={StaticResource ColorToHex}}"/>
                 </StackPanel>
             </Border>
 
-            <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+            <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}}">
                 <StackPanel>
 
                     <Controls:CMiXSlider
@@ -87,7 +88,7 @@
                 </StackPanel>
             </Border>
 
-            <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
+            <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}}">
                 <StackPanel>
                     <Controls:CMiXSlider
                         Caption="H"
@@ -136,5 +137,6 @@
                 <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
             </i:Interaction.Behaviors>
         </Controls:CMiXSlider>
+        
     </StackPanel>
 </Controls:PickerControlBase>

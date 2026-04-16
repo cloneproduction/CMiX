@@ -301,6 +301,10 @@
                             <Setter TargetName="image" Property="Source" Value="{DynamicResource NotVisible}" />
                         </Trigger>
 
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="border" Property="Opacity" Value="1.0" />
+                        </Trigger>
+                        
                         <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
                             <Setter Property="Visibility" Value="Collapsed" />
                             <Setter Property="IsEnabled" Value="False" />

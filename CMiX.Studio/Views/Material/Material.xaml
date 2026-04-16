@@ -24,7 +24,7 @@
 
         <Panels:IndentedExpander
             Header="Modifiers"
-            Indentation="0"
+            Indentation="4"
             IsExpanded="{Binding ModifierManagerIsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
@@ -35,12 +35,14 @@
 
         <Panels:IndentedExpander
             Header="Texture"
-            Indentation="0"
+            Indentation="4"
             IsExpanded="{Binding DiffuseTexture.IsExpanded}">
             <Views:DiffuseTexture DataContext="{Binding DiffuseTexture}" />
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Indentation="0" IsExpanded="{Binding IsExpanded}">
+        <Panels:IndentedExpander 
+            Indentation="4" 
+            IsExpanded="{Binding IsExpanded}">
             <Panels:IndentedExpander.Header>
                 <DockPanel>
                     <ToggleButton

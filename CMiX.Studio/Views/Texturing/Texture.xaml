@@ -14,11 +14,11 @@
 
         <Panels:IndentedExpander
             Header="Settings"
-            Indentation="0"
+            Indentation="4"
             IsExpanded="{Binding IsExpanded, FallbackValue=False}">
 
             <ContentControl
-                Margin="8"
+                Margin="4"
                 Content="{Binding}"
                 ContentTemplateSelector="{DynamicResource ViewModelToViewSelector}"
                 DataContext="{Binding}">
@@ -31,7 +31,7 @@
 
         <Panels:IndentedExpander
             Header="Filter"
-            Indentation="0"
+            Indentation="4"
             IsExpanded="{Binding FilterManager.IsExpanded, FallbackValue=False}">
 
             <Views:ModifierManager DataContext="{Binding FilterManager, FallbackValue={x:Null}}">

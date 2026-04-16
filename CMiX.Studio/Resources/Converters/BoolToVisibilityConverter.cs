@@ -8,29 +8,33 @@ using System.Windows.Data;
 
 namespace CMiX.Studio.Converters
 {
-public class BoolToVisibilityConverter : IValueConverter
-{
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+    public class BoolToVisibilityConverter : IValueConverter
     {
-        if (value is not bool b)
-            return Visibility.Collapsed;
+        public Visibility TrueValue { get; set; } = Visibility.Visible;
+        public Visibility FalseValue { get; set; } = Visibility.Collapsed;
 
-        bool invert = parameter is string s &&
-                      s.Equals("Invert", StringComparison.OrdinalIgnoreCase);
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is not bool b)
+                return FalseValue;
 
-        bool visible = invert ? !b : b;
-        return visible ? Visibility.Visible : Visibility.Collapsed;
+            bool invert = parameter is string s &&
+                          s.Equals("Invert", StringComparison.OrdinalIgnoreCase);
+
+            bool result = invert ? !b : b;
+            return result ? TrueValue : FalseValue;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value is not Visibility v)
+                return false;
+
+            bool invert = parameter is string s &&
+                          s.Equals("Invert", StringComparison.OrdinalIgnoreCase);
+
+            bool isVisible = v == TrueValue;
+            return invert ? !isVisible : isVisible;
+        }
     }
-
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-        if (value is not Visibility v)
-            return false;
-
-        bool invert = parameter is string s &&
-                      s.Equals("Invert", StringComparison.OrdinalIgnoreCase);
-
-        bool isVisible = v == Visibility.Visible;
-        return invert ? !isVisible : isVisible;
-    }
-}}
+}

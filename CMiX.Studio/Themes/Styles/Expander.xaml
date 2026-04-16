@@ -322,11 +322,10 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="mainBorder"
-                        Height="22"
-                        Padding="0,2"
+                        Height="26"
                         Background="{DynamicResource HighDarkerColor}"
                         BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0,0,0,1"
+                        BorderThickness="0,0,0,0.5"
                         CornerRadius="0">
                         <Grid Margin="4,0,0,0" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
