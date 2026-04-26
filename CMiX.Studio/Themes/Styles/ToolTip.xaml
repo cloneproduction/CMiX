@@ -14,7 +14,7 @@
                             Background="{DynamicResource DarkerColor}"
                             BorderBrush="{DynamicResource Shadow}"
                             BorderThickness="1,0,1,2"
-                            CornerRadius="2">
+                            CornerRadius="{DynamicResource CornerRadiusAll}">
                             <Border Margin="8">
                                 <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                             </Border>

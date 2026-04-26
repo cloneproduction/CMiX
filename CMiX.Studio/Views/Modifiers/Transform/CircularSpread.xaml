@@ -5,6 +5,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
     d:DesignHeight="174.268"
     d:DesignWidth="300.124"
@@ -19,17 +20,18 @@
             Caption="Width"
             DataContext="{Binding Width}" />
 
-        <BaseControls:DragValue
-            Margin="0,0, 0, 1"
-            Caption="Phase"
-            Position="Top"
-            Value="{Binding Phase.Value}" />
+        <Panels:PositionedStackPanel>
+            <BaseControls:DragValue
+                Margin="0,0,0,1"
+                Caption="Phase"
+                Value="{Binding Phase.Value}" />
 
-        <BaseControls:DragValue
-            Margin="0,0"
-            Caption="Factor"
-            Position="Bottom"
-            Value="{Binding Factor.Value}" />
+            <BaseControls:DragValue
+                Margin="0,0"
+                Caption="Factor"
+                Value="{Binding Factor.Value}" />
+        </Panels:PositionedStackPanel>
+
     </StackPanel>
 
 </UserControl>

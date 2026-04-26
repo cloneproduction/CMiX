@@ -6,20 +6,20 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="190"
     d:DesignWidth="293.333"
     mc:Ignorable="d">
 
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
-            <StackPanel>
+            <Panels:PositionedStackPanel>
 
                 <Controls:CMiXSlider
                     Margin="0,0,0,1"
                     Caption="Hue"
                     Maximum="1.0"
                     Minimum="0.0"
-                    Position="Top"
                     Value="{Binding Hue.Value}" />
 
                 <Controls:CMiXSlider
@@ -27,7 +27,6 @@
                     Caption="Saturation"
                     Maximum="1.0"
                     Minimum="0.0"
-                    Position="Middle"
                     Value="{Binding Saturation.Value}" />
 
                 <Controls:CMiXSlider
@@ -35,7 +34,6 @@
                     Caption="Contrast"
                     Maximum="10.0"
                     Minimum="0.0"
-                    Position="Middle"
                     Value="{Binding Contrast.Value}" />
 
                 <Controls:CMiXSlider
@@ -44,10 +42,9 @@
                     Caption="Brightness"
                     Maximum="10.0"
                     Minimum="0.0"
-                    Position="Bottom"
                     Value="{Binding Brightness.Value}" />
 
-            </StackPanel>
+            </Panels:PositionedStackPanel>
         </Views:FilterPanel.Content>
     </Views:FilterPanel>
 

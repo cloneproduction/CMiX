@@ -8,6 +8,7 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="425.841"
     d:DesignWidth="274.842"
     mc:Ignorable="d">
@@ -19,7 +20,6 @@
         <BaseControl:ComboBox
             Caption="Transform"
             ItemsSource="{Binding Source={StaticResource TransformType}}"
-            Position="Top"
             SelectedItem="{Binding TransformType.Value}" />
 
         <BaseControl:AxisSelector3D
@@ -28,27 +28,25 @@
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
-        <BaseControl:DragValue
-            Margin="0,8,0,0"
-            Caption="From"
-            Position="Top"
-            Value="{Binding From.Value}" />
+        <Panels:PositionedStackPanel Margin="0,8,0,0">
+            <BaseControl:DragValue
+                Caption="From"
+                Value="{Binding From.Value}" />
+            <BaseControl:DragValue
+                Margin="0,1,0,0"
+                Caption="To"
+                Value="{Binding To.Value}" />
+        </Panels:PositionedStackPanel>
 
-        <BaseControl:DragValue
-            Margin="0,1,0,0"
-            Caption="To"
-            Position="Bottom"
-            Value="{Binding To.Value}" />
 
         <BaseControl:ToggleButton
-            Margin="8"
+            Margin="0,8"
             Caption="PingPong"
             IsChecked="{Binding PingPong.Value}" />
 
         <BaseControl:DragValue
             Margin="0,0,0,8"
             Caption="Randomize Phase"
-            Position="Default"
             Value="{Binding RandomizePhase.Value}" />
 
         <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />

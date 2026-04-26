@@ -44,10 +44,10 @@
                 x:Name="MainBorder"
                 Grid.Column="1"
                 Background="{DynamicResource DarkColor}"
-                CornerRadius="2, 0, 0, 2">
+                CornerRadius="{DynamicResource CornerRadiusLeft}">
                 <Grid>
                     <Border Background="{DynamicResource LightColor}" 
-                            CornerRadius="2, 0, 0, 2">
+                            CornerRadius="{DynamicResource CornerRadiusLeft}">
                         <Border.Opacity>
                             <MultiBinding Converter="{StaticResource MultiPeriodToBeatAnimation}" 
                                           UpdateSourceTrigger="PropertyChanged">

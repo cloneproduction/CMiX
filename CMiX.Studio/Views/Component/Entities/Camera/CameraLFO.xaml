@@ -7,6 +7,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="312.32"
     d:DesignWidth="269.756"
     mc:Ignorable="d">
@@ -19,17 +20,16 @@
             ItemsSource="{Binding Source={StaticResource CameraAxis}}"
             SelectedItem="{Binding Axis.Value}" />
 
-        <BaseControl:DragValue
-            Caption="From"
-            Position="Top"
-            Value="{Binding From.Value}" />
-
-        <BaseControl:DragValue
-            Margin="0,1,0,0"
-            Caption="To"
-            Position="Bottom"
-            Value="{Binding To.Value}" />
-
+        <Panels:PositionedStackPanel>
+            <BaseControl:DragValue
+                Caption="From"
+                Value="{Binding From.Value}" />
+            <BaseControl:DragValue
+                Margin="0,1,0,0"
+                Caption="To"
+                Value="{Binding To.Value}" />
+        </Panels:PositionedStackPanel>
+        
         <BaseControl:ToggleButton
             Margin="0,8"
             Caption="Ping Pong"

@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
+             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              mc:Ignorable="d" 
              x:Name="comboBox"
              d:DesignHeight="39.333" d:DesignWidth="294.667">
@@ -27,7 +28,8 @@
             Grid.Column="1" 
             Background="{DynamicResource DarkColor}" 
             Style="{StaticResource BorderMask}"
-            AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=comboBox}"/>
+            AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), 
+                                                                    RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
 
         <Border 
             x:Name="mainBorder" 

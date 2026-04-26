@@ -5,6 +5,7 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="272.667"
     d:DesignWidth="221.333"
     mc:Ignorable="d">
@@ -18,22 +19,23 @@
             Caption="Target"
             DataContext="{Binding Target}" />
 
-        <BaseControl:DragValue
-            Caption="Range"
-            Position="Top"
-            Value="{Binding Range.Value}" />
-
-        <BaseControl:DragValue
-            Margin="0,1"
-            Caption="Angle"
-            Position="Middle"
-            Value="{Binding Angle.Value}" />
-
-        <BaseControl:DragValue
-            Caption="Softness"
-            Position="Bottom"
-            Value="{Binding Softness.Value}" />
-
+        <Panels:PositionedStackPanel>
+            
+            <BaseControl:DragValue
+                Caption="Range"
+                Value="{Binding Range.Value}" />
+            
+            <BaseControl:DragValue
+                Margin="0,1"
+                Caption="Angle"
+                Value="{Binding Angle.Value}" />
+            
+            <BaseControl:DragValue
+                Caption="Softness"
+                Value="{Binding Softness.Value}" />
+            
+        </Panels:PositionedStackPanel>
+        
     </StackPanel>
 
 </UserControl>

@@ -5,6 +5,7 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="240.813"
     d:DesignWidth="236.721"
@@ -12,24 +13,24 @@
 
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
-            <StackPanel>
-
+            
+            <Panels:PositionedStackPanel>
+                
                 <Controls:CMiXSlider
                     Caption="Radius"
                     Maximum="10"
                     Minimum="0"
-                    Position="Top"
                     Value="{Binding Radius.Value}" />
-
+                
                 <Controls:CMiXSlider
                     Margin="0,1,0,0"
                     Caption="Brightness"
                     Maximum="10"
                     Minimum="0"
-                    Position="Bottom"
                     Value="{Binding Brightness.Value}" />
-
-            </StackPanel>
+                
+            </Panels:PositionedStackPanel>
+            
         </Views:FilterPanel.Content>
     </Views:FilterPanel>
 

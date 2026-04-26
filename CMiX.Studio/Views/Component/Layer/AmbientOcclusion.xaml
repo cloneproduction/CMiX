@@ -42,28 +42,27 @@
                     Caption="Intensity"
                     Value="{Binding Intensity.Value}" />
 
-                <BaseControls:DragValue
-                    Margin="0"
-                    Caption="SampleBias"
-                    Position="Top"
-                    Value="{Binding SampleBias.Value}" />
+                <Panels:PositionedStackPanel>
+                    <BaseControls:DragValue
+                        Margin="0"
+                        Caption="SampleBias"
+                        Value="{Binding SampleBias.Value}" />
+                    <BaseControls:DragValue
+                        Margin="0,1,0,8"
+                        Caption="SampleRadius"
+                        Value="{Binding SampleRadius.Value}" />
+                </Panels:PositionedStackPanel>
 
-                <BaseControls:DragValue
-                    Margin="0,1,0,8"
-                    Caption="SampleRadius"
-                    Position="Bottom"
-                    Value="{Binding SampleRadius.Value}" />
+                <Panels:PositionedStackPanel>
+                    <BaseControls:IntegerValue
+                        Caption="Blur Count"
+                        DataContext="{Binding BlurCount}"/>
+                    <BaseControls:DragValue
+                        Margin="0,1,0,0"
+                        Caption="Blur Radius"
+                        Value="{Binding BlurRadius.Value}" />
+                </Panels:PositionedStackPanel>
 
-                <BaseControls:IntegerValue
-                    Caption="Blur Count"
-                    DataContext="{Binding BlurCount}"
-                    Position="Top" />
-
-                <BaseControls:DragValue
-                    Margin="0,1,0,0"
-                    Caption="Blur Radius"
-                    Position="Bottom"
-                    Value="{Binding BlurRadius.Value}" />
 
                 <BaseControls:DragValue
                     Margin="0,8"

@@ -10,7 +10,7 @@
                     <Border
                         x:Name="border"
                         Background="Transparent"
-                        Opacity="0.0" />
+                        Visibility="Collapsed" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />

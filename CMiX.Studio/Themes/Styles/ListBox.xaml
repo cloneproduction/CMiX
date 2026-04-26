@@ -24,7 +24,7 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Controls:CMiXListBox}">
                     <Border     
-                        CornerRadius="2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         BorderThickness="0.5"
                         BorderBrush="{DynamicResource DarkColor}">
                         <DockPanel>
@@ -57,7 +57,7 @@
                                 x:Name="Bd"
                                 MinHeight="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=MinHeight}"
                                 Background="{DynamicResource ListBoxBackground}"
-                                CornerRadius="2"
+                                CornerRadius="{DynamicResource CornerRadiusAll}"
                                 SnapsToDevicePixels="True">
                                 <ScrollViewer
                                     Margin="2"
@@ -86,7 +86,7 @@
                     <Border
                         x:Name="Bd"
                         Background="{DynamicResource ListBoxBackground}"
-                        CornerRadius="2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True">
                         <ScrollViewer
                             Margin="2"
@@ -118,7 +118,7 @@
                         Margin="1"
                         Padding="2,0,0,0"
                         Background="Transparent"
-                        CornerRadius="2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True"
                         TextBlock.Foreground="{DynamicResource TextBase}">
                         <ContentPresenter Margin="0,0" />
@@ -171,7 +171,7 @@
                         Margin="1"
                         Padding="2,0,0,0"
                         Background="Transparent"
-                        CornerRadius="2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True"
                         TextBlock.Foreground="{DynamicResource TextBase}">
 
@@ -197,7 +197,6 @@
                                 Height="15"
                                 Margin="4"
                                 Padding="4"
-                                Background="Red"
                                 DockPanel.Dock="Right"
                                 IsChecked="{Binding ServerIsRunning}"
                                 Style="{DynamicResource TogglePlayPause}" />

@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="341.222"
     d:DesignWidth="286.976"
     md:DialogServiceViews.IsRegistered="True"
@@ -16,16 +17,15 @@
 
         <BaseControls:Vector2 Caption="Cell Count" DataContext="{Binding CellCount}" />
 
-        <BaseControls:ColorSelector
-            Margin="0,8,0,1"
-            Caption="Color A"
-            DataContext="{Binding ColorA}"
-            Position="Top" />
-
-        <BaseControls:ColorSelector
-            Caption="Color B"
-            DataContext="{Binding ColorB}"
-            Position="Bottom" />
+        <Panels:PositionedStackPanel>
+            <BaseControls:ColorSelector
+                Margin="0,8,0,1"
+                Caption="Color A"
+                DataContext="{Binding ColorA}"/>
+            <BaseControls:ColorSelector
+                Caption="Color B"
+                DataContext="{Binding ColorB}"/>
+        </Panels:PositionedStackPanel>
 
         <Views:Transform2D Margin="0,8" DataContext="{Binding Transform2D}" />
 

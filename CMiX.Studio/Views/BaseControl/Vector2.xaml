@@ -5,24 +5,22 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Panels:PositionedStackPanel>
 
         <BaseControls:DragValue
             Caption="{Binding Caption, StringFormat=' {0} X', RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Position="Top"
             Value="{Binding X.Value}" />
 
         <BaseControls:DragValue
             Margin="0,1"
             Caption="Y"
-            Position="Bottom"
             Value="{Binding Y.Value}" />
 
-    </StackPanel>
+    </Panels:PositionedStackPanel>
 
 </UserControl>

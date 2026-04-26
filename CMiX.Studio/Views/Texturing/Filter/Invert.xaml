@@ -16,11 +16,9 @@
             <StackPanel>
 
                 <Controls:CMiXSlider
-                    Height="22"
                     Caption="Factor"
                     Maximum="1.0"
                     Minimum="0.0"
-                    Position="Default"
                     Value="{Binding Factor.Value}" />
 
                 <Basecontrol:ComboBox
@@ -29,7 +27,9 @@
                     ItemsSource="{Binding Source={StaticResource InvertChannel}}"
                     SelectedItem="{Binding InvertChannelSelector.Value}" />
 
-                <Basecontrol:ToggleButton Caption="Invert Alpha" IsChecked="{Binding InvertAlpha.Value}" />
+                <Basecontrol:ToggleButton 
+                    Caption="Invert Alpha" 
+                    IsChecked="{Binding InvertAlpha.Value}" />
 
             </StackPanel>
         </Views:FilterPanel.Content>

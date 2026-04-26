@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              mc:Ignorable="d" 
              d:DesignHeight="298.031" d:DesignWidth="269.095">
 
@@ -26,24 +27,22 @@
             </DockPanel>
         </Expander.Header>
 
-        <StackPanel 
+        <Panels:PositionedStackPanel 
             Margin="8" 
             IsEnabled="{Binding IsEnabled.Value}">
 
             <BaseControls:ComboBox 
                 Margin="0, 0, 0, 1"
                 Caption="Function"
-                Position="Top"
                 SelectedItem="{Binding Transition.Value}"
                 ItemsSource="{Binding Source={StaticResource TweenerTransition}}"/>
 
             <BaseControls:ComboBox 
                 Caption="Mode"
-                Position="Bottom"
                 SelectedItem="{Binding Mode.Value}"
                 ItemsSource="{Binding Source={StaticResource TweenerMode}}"/>
 
-        </StackPanel>
+        </Panels:PositionedStackPanel>
 
     </Expander>
 </UserControl>

@@ -5,6 +5,7 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="327.532"
     d:DesignWidth="314.399"
     mc:Ignorable="d">
@@ -24,18 +25,16 @@
                     </Style.Triggers>
                 </Style>
             </Border.Style>
-            <StackPanel>
+            <Panels:PositionedStackPanel>
                 <BaseControls:DragValue
                     Margin="0,0,0,1"
                     Caption="Distance"
-                    Position="Top"
                     Value="{Binding Distance.Value}" />
 
                 <BaseControls:DragValue
                     Caption="FOV"
-                    Position="Bottom"
                     Value="{Binding FOV.Value}" />
-            </StackPanel>
+            </Panels:PositionedStackPanel>
         </Border>
 
         <Border Margin="0,8">
@@ -52,30 +51,27 @@
             <BaseControls:DragValue Caption="Orthographic Size" Value="{Binding OrthographicSize.Value}" />
         </Border>
 
-        <BaseControls:DragValue
-            Margin="0,0,0,1"
-            Caption="Yaw"
-            Position="Top"
-            Value="{Binding Yaw.Value}" />
+        <Panels:PositionedStackPanel>
+            <BaseControls:DragValue
+                Margin="0,0,0,1"
+                Caption="Yaw"
+                Value="{Binding Yaw.Value}" />
+            <BaseControls:DragValue
+                Caption="Pitch"
+                Value="{Binding Pitch.Value}" />
+        </Panels:PositionedStackPanel>
+        
+        <BaseControls:VectorXYZ Margin="0, 8" Caption="Target" DataContext="{Binding Target}" />
 
-        <BaseControls:DragValue
-            Margin="0,0,0,8"
-            Caption="Pitch"
-            Position="Bottom"
-            Value="{Binding Pitch.Value}" />
-
-        <BaseControls:VectorXYZ Caption="Target" DataContext="{Binding Target}" />
-
-        <BaseControls:DragValue
-            Margin="0,8,0,1"
-            Caption="Near"
-            Position="Top"
-            Value="{Binding NearClip.Value}" />
-
-        <BaseControls:DragValue
-            Caption="Far"
-            Position="Bottom"
-            Value="{Binding FarClip.Value}" />
-
+        <Panels:PositionedStackPanel>
+            <BaseControls:DragValue
+                Margin="0,0,0,1"
+                Caption="Near"
+                Value="{Binding NearClip.Value}" />
+            <BaseControls:DragValue
+                Caption="Far"
+                Value="{Binding FarClip.Value}" />
+        </Panels:PositionedStackPanel>
+        
     </StackPanel>
 </UserControl>

@@ -55,7 +55,7 @@
             <Setter.Value>
                 <WindowChrome
                     CaptionHeight="0"
-                    CornerRadius="8"
+                    CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                     GlassFrameThickness="0"
                     NonClientFrameEdges="None"
                     ResizeBorderThickness="0"
@@ -84,7 +84,7 @@
             <Setter.Value>
                 <WindowChrome
                     CaptionHeight="30"
-                    CornerRadius="8"
+                    CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                     GlassFrameThickness="0"
                     NonClientFrameEdges="None"
                     ResizeBorderThickness="0"
@@ -107,7 +107,7 @@
                             <Border
                                 Padding="0"
                                 Background="{DynamicResource HighHighDarkerColor}"
-                                CornerRadius="4"
+                                CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                                 Opacity="0.9" />
                             
                             <StackPanel>
@@ -118,7 +118,6 @@
                                         VerticalAlignment="Center"
                                         FontSize="12"
                                         Foreground="{DynamicResource TextBase}"
-                                        Opacity="1.0"
                                         Text="{TemplateBinding Title}" />
                                 </Border>
                                 <Border Padding="8">
@@ -143,7 +142,7 @@
             <Setter.Value>
                 <WindowChrome
                     CaptionHeight="0"
-                    CornerRadius="8"
+                    CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                     GlassFrameThickness="0"
                     NonClientFrameEdges="None"
                     ResizeBorderThickness="0"
@@ -166,7 +165,7 @@
                             <Border
                                 Padding="0"
                                 Background="{DynamicResource HighHighDarkerColor}"
-                                CornerRadius="4"
+                                CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                                 Opacity="0.9" />
 
                             <Border Padding="8">

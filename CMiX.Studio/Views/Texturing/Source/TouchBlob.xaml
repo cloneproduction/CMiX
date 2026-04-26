@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="429.222"
     d:DesignWidth="287.643"
     md:DialogServiceViews.IsRegistered="True"
@@ -14,24 +15,23 @@
     <StackPanel>
 
         <BaseControls:DragValue
-            Margin="0,0,0,8"
+
             Caption="Size"
-            Position="Middle"
             Value="{Binding Size.Value}" />
 
-        <BaseControls:ColorSelector
-            Caption="Color"
-            DataContext="{Binding Color}"
-            Position="Top" />
+        <Panels:PositionedStackPanel Margin="0,8">
+            <BaseControls:ColorSelector
+                Caption="Color"
+                DataContext="{Binding Color}"/>
 
-        <BaseControls:ColorSelector
-            Margin="0,1,0,0"
-            Caption="Background"
-            DataContext="{Binding Background}"
-            Position="Bottom" />
+            <BaseControls:ColorSelector
+                Margin="0,1,0,0"
+                Caption="Background"
+                DataContext="{Binding Background}"/>
+        </Panels:PositionedStackPanel>
+
 
         <BaseControls:Integer2Value
-            Margin="0,8,0,0"
             Caption="Resolution"
             DataContext="{Binding Resolution}" />
 

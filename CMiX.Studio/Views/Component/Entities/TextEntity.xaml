@@ -45,49 +45,46 @@
                         Caption="Color"
                         DataContext="{Binding Color}" />
 
+                <Panels:PositionedStackPanel>
                     <BaseControls:DragValue
                         Caption="Size"
-                        Position="Top"
                         Value="{Binding Size.Value}" />
-
                     <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Line Height"
-                        Position="Bottom"
                         Value="{Binding LineHeight.Value}" />
+                </Panels:PositionedStackPanel>
 
+
+                <Panels:PositionedStackPanel>
                     <BaseControls:ComboBox
                         Margin="0,8,0,1"
                         Caption="Font Family"
                         ItemsSource="{x:Static Fonts.SystemFontFamilies}"
-                        Position="Top"
                         SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
-
                     <BaseControls:ComboBox
                         Caption="Style"
                         ItemsSource="{Binding Source={StaticResource FontStyle}}"
-                        Position="Bottom"
                         SelectedItem="{Binding Style.Value}" />
+                </Panels:PositionedStackPanel>
 
+                <Panels:PositionedStackPanel>
                     <BaseControls:ComboBox
                         Margin="0,8,0,0"
                         Caption="Horizontal Alignment"
                         ItemsSource="{Binding Source={StaticResource TextHorizontalAlignment}}"
-                        Position="Top"
                         SelectedItem="{Binding HorizontalAlignment.Value}" />
-
                     <BaseControls:ComboBox
                         Margin="0,1,0,0"
                         Caption="Anchor"
                         ItemsSource="{Binding Source={StaticResource Anchor}}"
-                        Position="Bottom"
                         SelectedItem="{Binding Anchor.Value}" />
+                </Panels:PositionedStackPanel>
 
-                    <BaseControls:DragValue
-                        Margin="0,8"
-                        Caption="Width"
-                        Position="Default"
-                        Value="{Binding Width.Value}" />
+                <BaseControls:DragValue
+                    Margin="0,8"
+                    Caption="Width"
+                    Value="{Binding Width.Value}" />
 
                 </StackPanel>
             </Panels:IndentedExpander>

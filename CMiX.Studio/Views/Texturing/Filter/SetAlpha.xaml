@@ -18,7 +18,6 @@
                 <BaseControls:ComboBox
                     Caption="Channel"
                     ItemsSource="{Binding Source={StaticResource AlphaChannel}}"
-                    Position="Default"
                     SelectedItem="{Binding AlphaChannel.Value}" />
 
                 <BaseControls:ToggleButton 

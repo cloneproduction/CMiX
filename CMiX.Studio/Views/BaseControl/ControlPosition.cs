@@ -5,7 +5,6 @@ namespace CMiX.Studio.Views.BaseControl
 {
     public enum ControlPosition
     {
-        Default,
         Top,
         Middle,
         Bottom,

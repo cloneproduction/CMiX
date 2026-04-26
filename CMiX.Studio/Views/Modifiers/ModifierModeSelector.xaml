@@ -6,17 +6,17 @@
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="196"
     d:DesignWidth="256"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Panels:PositionedStackPanel>
 
         <BaseControls:ComboBox
             Margin="0,0,0,1"
             Caption="Type"
             ItemsSource="{Binding Source={StaticResource ModifierMode}}"
-            Position="Top"
             SelectedItem="{Binding Mode.Value}" />
 
         <Border>
@@ -36,10 +36,9 @@
                 IsInteger="True"
                 LargeChange="1.0"
                 Minimum="1"
-                Position="Bottom"
                 SmallChange="1.0"
                 Value="{Binding Count.Value}" />
 
         </Border>
-    </StackPanel>
+    </Panels:PositionedStackPanel>
 </UserControl>

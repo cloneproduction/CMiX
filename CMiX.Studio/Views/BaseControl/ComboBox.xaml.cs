@@ -35,13 +35,5 @@ namespace CMiX.Studio.Views.BaseControl
             get { return (object)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
-
-        public static readonly DependencyProperty PositionProperty =
-        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ComboBox), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public ControlPosition Position
-        {
-            get { return (ControlPosition)GetValue(PositionProperty); }
-            set { SetValue(PositionProperty, value); }
-        }
     }
 }

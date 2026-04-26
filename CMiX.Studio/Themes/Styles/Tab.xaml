@@ -14,7 +14,6 @@
                             <Border
                                 x:Name="innerBorder"
                                 VerticalAlignment="Stretch"
-                                Background="Red"
                                 FlowDirection="LeftToRight"
                                 ScrollViewer.VerticalScrollBarVisibility="Disabled" />
                         </Border>
@@ -30,9 +29,6 @@
                             Focusable="False"
                             RecognizesAccessKey="True"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}">
-                            <ContentPresenter.LayoutTransform>
-                                <RotateTransform Angle="0" />
-                            </ContentPresenter.LayoutTransform>
                         </ContentPresenter>
 
                     </Grid>
@@ -190,8 +186,7 @@
                         Height="30"
                         Margin="0,0,0,0"
                         Padding="0"
-                        Background="{DynamicResource HighHighDarkerColor}"
-                        CornerRadius="0">
+                        Background="{DynamicResource HighHighDarkerColor}">
 
                         <ContentPresenter
                             x:Name="contentPresenter"
@@ -309,7 +304,7 @@
                         Background="{TemplateBinding Background}"
                         BorderBrush="{DynamicResource Color}"
                         BorderThickness="1"
-                        CornerRadius="2">
+                        CornerRadius="{DynamicResource CornerRadiusAll}">
 
                         <ContentPresenter
                             x:Name="contentPresenter"

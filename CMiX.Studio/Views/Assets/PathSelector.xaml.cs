@@ -38,13 +38,5 @@ namespace CMiX.Studio.Views
             get { return (object)GetValue(SelectedItemProperty); }
             set { SetValue(SelectedItemProperty, value); }
         }
-
-        public static readonly DependencyProperty PositionProperty =
-        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(PathSelector), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public ControlPosition Position
-        {
-            get { return (ControlPosition)GetValue(PositionProperty); }
-            set { SetValue(PositionProperty, value); }
-        }
     }
 }

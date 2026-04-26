@@ -5,6 +5,7 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
     x:Name="counter"
     d:DesignHeight="31.222"
     d:DesignWidth="665.444"
@@ -23,6 +24,7 @@
 
 
     <BaseControl:DragValue
+        AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
         Caption="{Binding Caption, ElementName=counter}"
         IsInteger="True"
         LargeChange="1.0"

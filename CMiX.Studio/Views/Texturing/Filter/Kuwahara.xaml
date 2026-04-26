@@ -17,7 +17,6 @@
                 <Controls:ComboBox
                     Caption="Type"
                     ItemsSource="{Binding Source={StaticResource KuwaharaType}}"
-                    Position="Default"
                     SelectedItem="{Binding Type.Value}" />
 
                 <Controls:DragValue
@@ -25,7 +24,6 @@
                     Caption="Radius"
                     Maximum="10"
                     Minimum="0"
-                    Position="Default"
                     Value="{Binding Radius.Value}" />
 
             </StackPanel>

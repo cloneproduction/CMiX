@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:Modifiers="clr-namespace:CMiX.Studio.Views.Modifiers"
+             xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
              xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
              d:DesignHeight="314" d:DesignWidth="258.667">
@@ -13,29 +14,30 @@
         <Modifiers:ModifierModeSelector
             DataContext="{Binding ModifierModeSelector}"/>
 
-        <BaseControls:ComboBox  
-            Margin="0, 8, 0, 1"
-            Caption="Transform"
-            Position="Top"
-            SelectedItem="{Binding TransformTypeSelector.Value}"
-            ItemsSource="{Binding Source={StaticResource TransformType}}"/>
+        <Panels:PositionedStackPanel Margin="0, 8">
+            <BaseControls:ComboBox  
+                Margin="0, 0, 0, 1"
+                Caption="Transform"
+                SelectedItem="{Binding TransformTypeSelector.Value}"
+                ItemsSource="{Binding Source={StaticResource TransformType}}"/>
 
-        <BaseControls:AxisSelector3D 
-            Caption="Axis"
-            XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
-            YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
-            ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}"/>
+            <BaseControls:AxisSelector3D 
+                Caption="Axis"
+                XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
+                YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
+                ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}"/>
+        </Panels:PositionedStackPanel>
 
-        <BaseControls:DragValue 
-            Caption="Width" 
-            Position="Top"
-            Margin="0, 8, 0, 1" 
-            Value="{Binding Width.Value}"/>
 
-        <BaseControls:DragValue 
-            Caption="Phase" 
-            Position="Bottom"
-            Value="{Binding Phase.Value}"/>
+        <Panels:PositionedStackPanel>
+            <BaseControls:DragValue 
+                Caption="Width" 
+                Margin="0, 0, 0, 1" 
+                Value="{Binding Width.Value}"/>
+            <BaseControls:DragValue 
+                Caption="Phase" 
+                Value="{Binding Phase.Value}"/>
+        </Panels:PositionedStackPanel>
 
     </StackPanel>
 

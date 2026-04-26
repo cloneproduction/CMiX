@@ -9,9 +9,8 @@
         Opacity="0.05"
         Color="White" />
 
-    <SolidColorBrush x:Key="Accent" Color="#FF5680C2" />
-    <SolidColorBrush x:Key="AccentInactive" Color="#FF4d6490" />
-    <!--  4d6490  -->
+    <SolidColorBrush x:Key="Accent" Color="{DynamicResource AccentPrimary}" />
+    <SolidColorBrush x:Key="AccentInactive" Color="{DynamicResource AccentSecondary}" />
 
     <SolidColorBrush
         x:Key="PanelBackground"
@@ -31,11 +30,6 @@
         Opacity="0.90"
         Color="{DynamicResource HighHighDarker}" />
 
-    <SolidColorBrush
-        x:Key="ListBoxOutline"
-        Opacity="1.0"
-        Color="Black" />
-
     <SolidColorBrush x:Key="SuperHighDarkerColor" Color="{DynamicResource SuperHighDarker}" />
     <SolidColorBrush x:Key="HighHighDarkerColor" Color="{DynamicResource HighHighDarker}" />
     <SolidColorBrush x:Key="HighDarkerColor" Color="{DynamicResource HighDarker}" />
@@ -46,9 +40,7 @@
     <SolidColorBrush x:Key="HighLightColor" Color="{DynamicResource HighLight}" />
     <SolidColorBrush x:Key="SuperHighLightColor" Color="{DynamicResource SuperHighLight}" />
 
-    <SolidColorBrush x:Key="OverColor" Color="{DynamicResource Over}" />
     <SolidColorBrush x:Key="ActiveColor" Color="{DynamicResource Active}" />
     <SolidColorBrush x:Key="TextBase" Color="{DynamicResource Text}" />
-    <SolidColorBrush x:Key="OverTextBase" Color="{DynamicResource OverText}" />
     <SolidColorBrush x:Key="ActiveTextBase" Color="{DynamicResource ActiveText}" />
 </ResourceDictionary>

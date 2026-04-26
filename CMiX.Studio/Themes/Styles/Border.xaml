@@ -4,7 +4,6 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
 
     <Style x:Key="BorderMask" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="Transparent" />
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
 
         <Style.Triggers>
@@ -14,11 +13,17 @@
             <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Bottom">
                 <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
             </Trigger>
-            <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Default">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusDefault}" />
-            </Trigger>
             <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Middle">
-                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusMiddle}" />
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+            </Trigger>
+            <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Left">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+            </Trigger>
+            <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Right">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+            </Trigger>
+            <Trigger Property="AttachedProperties:PositionedControl.Position" Value="None">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
             </Trigger>
         </Style.Triggers>
     </Style>

@@ -3,7 +3,7 @@
 
     <Style x:Key="contextMenuMask" TargetType="{x:Type Border}">
         <Setter Property="Background" Value="{DynamicResource DarkerColor}" />
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusDefault}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
     </Style>
 
     <Style x:Key="ContextMenuSubItem" TargetType="{x:Type MenuItem}">
@@ -61,7 +61,6 @@
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
         <Setter Property="BorderThickness" Value="1" />
         <Setter Property="BorderBrush" Value="{DynamicResource Color}" />
-        <Setter Property="Background" Value="Red" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ContextMenuSubItem}" />
         <Setter Property="Template">
             <Setter.Value>

@@ -10,7 +10,7 @@ namespace CMiX.Studio.AttachedProperties
     {
         public static readonly DependencyProperty PositionProperty =
             DependencyProperty.RegisterAttached("Position", typeof(ControlPosition), typeof(PositionedControl),
-                new FrameworkPropertyMetadata(ControlPosition.Default));
+                new FrameworkPropertyMetadata(ControlPosition.All));
 
         public static void SetPosition(DependencyObject element, ControlPosition value)
             => element.SetValue(PositionProperty, value);

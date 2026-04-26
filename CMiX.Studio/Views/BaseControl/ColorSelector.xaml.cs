@@ -26,15 +26,6 @@ namespace CMiX.Studio.Views.BaseControl
             };
         }
 
-        public static readonly DependencyProperty PositionProperty =
-            DependencyProperty.Register("Position", typeof(ControlPosition), typeof(ColorSelector),
-                new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public ControlPosition Position
-        {
-            get { return (ControlPosition)GetValue(PositionProperty); }
-            set { SetValue(PositionProperty, value); }
-        }
-
         public static readonly DependencyProperty CaptionProperty =
         DependencyProperty.Register("Caption", typeof(string), typeof(ColorSelector),
             new FrameworkPropertyMetadata(String.Empty));

@@ -5,6 +5,7 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="250.666"
     d:DesignWidth="293.333"
     mc:Ignorable="d">
@@ -16,36 +17,35 @@
             Style="{StaticResource TypeWriterStyle}"
             Text="{Binding Text.Value, UpdateSourceTrigger=PropertyChanged}" />
 
-        <BaseControls:ComboBox
-            Margin="0,8,0,1"
-            Caption="Font Family"
-            ItemsSource="{x:Static Fonts.SystemFontFamilies}"
-            Position="Top"
-            SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
+        <Panels:PositionedStackPanel>
+            <BaseControls:ComboBox
+                Margin="0,8,0,1"
+                Caption="Font Family"
+                ItemsSource="{x:Static Fonts.SystemFontFamilies}"
+                SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
 
-        <BaseControls:IntegerValue
-            Margin="0,8"
-            Caption="Size"
-            DataContext="{Binding FontSize}" />
+            <BaseControls:IntegerValue
+                Caption="Size"
+                DataContext="{Binding FontSize}" />
+        </Panels:PositionedStackPanel>
 
         <BaseControls:DragValue
             Margin="0,8"
             Caption="Extrude Amount"
             Value="{Binding ExtrudeAmount.Value}" />
 
-        <BaseControls:ComboBox
-            Margin="0,8,0,1"
-            Caption="Text Alignment"
-            ItemsSource="{Binding Source={StaticResource HorizontalAlignment}}"
-            Position="Top"
-            SelectedItem="{Binding HorizontalAlignment.Value}" />
+        <Panels:PositionedStackPanel>
+            <BaseControls:ComboBox
+                Margin="0,0,0,1"
+                Caption="Text Alignment"
+                ItemsSource="{Binding Source={StaticResource HorizontalAlignment}}"
+                SelectedItem="{Binding HorizontalAlignment.Value}" />
 
-        <BaseControls:ComboBox
-            Margin="0,8,0,1"
-            Caption="Paragraph Alignment"
-            ItemsSource="{Binding Source={StaticResource ParagraphAlignment}}"
-            Position="Top"
-            SelectedItem="{Binding ParagraphAlignment.Value}" />
+            <BaseControls:ComboBox
+                Caption="Paragraph Alignment"
+                ItemsSource="{Binding Source={StaticResource ParagraphAlignment}}"
+                SelectedItem="{Binding ParagraphAlignment.Value}" />
+        </Panels:PositionedStackPanel>
 
     </StackPanel>
 

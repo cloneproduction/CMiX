@@ -31,6 +31,7 @@
             x:Name="PopupToggle"
             Grid.Column="1"
             Background="{Binding Value}"
+            AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
             Style="{DynamicResource ButtonColorStyle}" />
 
         <Popup
@@ -44,7 +45,7 @@
             <Border
                 x:Name="popupBorder"
                 Background="{DynamicResource HighHighDarkerColor}"
-                CornerRadius="2">
+                CornerRadius="{DynamicResource CornerRadiusAll}">
                 <BaseControl:StandardColorPicker 
                     Margin="8" 
                     SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />

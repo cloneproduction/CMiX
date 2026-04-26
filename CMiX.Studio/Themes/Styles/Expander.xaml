@@ -325,8 +325,7 @@
                         Height="26"
                         Background="{DynamicResource HighDarkerColor}"
                         BorderBrush="{DynamicResource SuperHighDarkerColor}"
-                        BorderThickness="0,0,0,0.5"
-                        CornerRadius="0">
+                        BorderThickness="0,0,0,0.5">
                         <Grid Margin="4,0,0,0" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="19" />
@@ -375,7 +374,7 @@
                     <Border
                         Background="{DynamicResource HighDarkerColor}"
                         BorderBrush="Transparent"
-                        CornerRadius="2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="true">
                         <DockPanel>
                             <ToggleButton

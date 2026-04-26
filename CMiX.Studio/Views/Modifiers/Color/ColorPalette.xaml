@@ -27,7 +27,6 @@
             Margin="0,8,0,0"
             Caption="Resample"
             ItemsSource="{Binding Source={StaticResource ResamplingMethod}}"
-            Position="Default"
             SelectedItem="{Binding Resample.Value}" />
         
     </StackPanel>

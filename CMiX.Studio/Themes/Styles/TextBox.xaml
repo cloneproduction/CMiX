@@ -134,7 +134,7 @@
                         Background="{DynamicResource ListBoxBackground}"
                         BorderThickness="0.5"
                         BorderBrush="{DynamicResource DarkerColor}"
-                        CornerRadius="4"
+                        CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                         SnapsToDevicePixels="True">
                         <ScrollViewer
                             x:Name="PART_ContentHost"

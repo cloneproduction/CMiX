@@ -6,31 +6,29 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="142.111"
     d:DesignWidth="240"
     mc:Ignorable="d">
 
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
-            <StackPanel>
+            <Panels:PositionedStackPanel>
 
                 <BaseControls:DragValue
                     Caption="Direction"
-                    Position="Top"
                     Value="{Binding Direction.Value}" />
 
                 <BaseControls:DragValue
                     Margin="0,1"
                     Caption="Shift"
-                    Position="Middle"
                     Value="{Binding Shift.Value}" />
 
                 <BaseControls:DragValue
                     Caption="Hue"
-                    Position="Bottom"
                     Value="{Binding Hue.Value}" />
 
-            </StackPanel>
+            </Panels:PositionedStackPanel>
         </Views:FilterPanel.Content>
     </Views:FilterPanel>
 

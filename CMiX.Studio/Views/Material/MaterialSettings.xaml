@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="192.889"
     d:DesignWidth="353.111"
     md:DialogServiceViews.IsRegistered="True"
@@ -21,19 +22,18 @@
             Minimum="0"
             Value="{Binding Alpha.Value}" />
 
-        <BaseControls:ComboBox
-            Margin="8,0,8,1"
-            Caption="Cull Mode"
-            ItemsSource="{Binding Source={StaticResource CullModeType}}"
-            Position="top"
-            SelectedItem="{Binding CullMode.Value}" />
+        <Panels:PositionedStackPanel Margin="8,0,8,8">
+            <BaseControls:ComboBox
+                Margin="0,0,0,1"
+                Caption="Cull Mode"
+                ItemsSource="{Binding Source={StaticResource CullModeType}}"
+                SelectedItem="{Binding CullMode.Value}" />
+            <BaseControls:ComboBox
+                Caption="Transparency"
+                ItemsSource="{Binding Source={StaticResource TransparencyType}}"
+                SelectedItem="{Binding Transparency.Value}" />
+        </Panels:PositionedStackPanel>
 
-        <BaseControls:ComboBox
-            Margin="8,0,8,8"
-            Caption="Transparency"
-            ItemsSource="{Binding Source={StaticResource TransparencyType}}"
-            Position="Bottom"
-            SelectedItem="{Binding Transparency.Value}" />
 
         <BaseControls:ToggleButton Caption="Is Shadow Caster" IsChecked="{Binding IsShadowCaster.Value}" />
 
@@ -61,7 +61,6 @@
                     Caption="Metalness"
                     Maximum="1"
                     Minimum="0"
-                    Position="Top"
                     Value="{Binding Metalness.Value}" />
             </StackPanel>
         </Border>
@@ -78,12 +77,11 @@
                 </Style>
             </Border.Style>
 
-            <StackPanel>
+            <Panels:PositionedStackPanel>
                 <BaseControls:CMiXSlider
                     Caption="Glossiness"
                     Maximum="1"
                     Minimum="0"
-                    Position="Top"
                     Value="{Binding Glossiness.Value}" />
 
                 <BaseControls:CMiXSlider
@@ -91,9 +89,8 @@
                     Caption="Specularity"
                     Maximum="1"
                     Minimum="0"
-                    Position="Bottom"
                     Value="{Binding Specularity.Value}" />
-            </StackPanel>
+            </Panels:PositionedStackPanel>
 
         </Border>
 

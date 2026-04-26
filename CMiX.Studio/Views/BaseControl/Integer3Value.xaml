@@ -5,31 +5,29 @@
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     x:Name="integer3Value"
     d:DesignHeight="120.419"
     d:DesignWidth="539.862"
     Background="Transparent"
     mc:Ignorable="d">
 
-    <StackPanel>
+    <Panels:PositionedStackPanel>
 
         <BaseControl:IntegerValue
             Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value}"
-            Value="{Binding X.Value}"
-            Position="Top" />
+            Value="{Binding X.Value}"/>
 
         <BaseControl:IntegerValue
             Margin="0,1,0,0"
             Caption="Y"
-            Value="{Binding Y.Value}"
-            Position="Middle" />
+            Value="{Binding Y.Value}"/>
 
         <BaseControl:IntegerValue
             Margin="0,1,0,0"
             Caption="Z"
-            Value="{Binding Z.Value}"
-            Position="Bottom" />
+            Value="{Binding Z.Value}"/>
 
-    </StackPanel>
+    </Panels:PositionedStackPanel>
 
 </UserControl>

@@ -40,7 +40,6 @@
                                                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                                                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                                                     Background="{TemplateBinding Background}"
-                                                    CornerRadius="0"
                                                     SnapsToDevicePixels="True">
                                                     <Image
                                                         Grid.Column="1"
@@ -103,7 +102,8 @@
                                 HorizontalAlignment="Stretch"
                                 Background="Transparent">
                                 <Grid HorizontalAlignment="Stretch">
-                                    <Border Background="{DynamicResource HighHighDarkerColor}" CornerRadius="0, 0, 2, 2" />
+                                    <Border Background="{DynamicResource HighHighDarkerColor}" 
+                                            CornerRadius="{DynamicResource CornerRadiusBottom}" />
                                     <ScrollViewer
                                         x:Name="DropDownScrollViewer"
                                         Padding="4,2"

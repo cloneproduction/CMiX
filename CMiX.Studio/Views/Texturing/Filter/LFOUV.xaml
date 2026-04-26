@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:basecontrol="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="271.119"
@@ -13,17 +14,17 @@
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
             <StackPanel>
+                <Panels:PositionedStackPanel>
+                    <basecontrol:DragValue
+                        Caption="From"
+                        Value="{Binding From.Value}" />
 
-                <basecontrol:DragValue
-                    Caption="From"
-                    Position="Top"
-                    Value="{Binding From.Value}" />
+                    <basecontrol:DragValue
+                        Margin="0,1,0,0"
+                        Caption="To"
+                        Value="{Binding To.Value}" />
+                </Panels:PositionedStackPanel>
 
-                <basecontrol:DragValue
-                    Margin="0,1,0,0"
-                    Caption="To"
-                    Position="Bottom"
-                    Value="{Binding To.Value}" />
 
                 <basecontrol:ToggleButton
                     Margin="0,8"
@@ -33,7 +34,6 @@
                 <basecontrol:ComboBox
                     Caption="Transform"
                     ItemsSource="{Binding Source={StaticResource TransformType}}"
-                    Position="Top"
                     SelectedItem="{Binding TransformType.Value}" />
 
                 <basecontrol:AxisSelector2D

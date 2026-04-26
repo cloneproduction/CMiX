@@ -28,8 +28,8 @@
             x:Name="mask"
             IsHitTestVisible="False"
             Grid.Column="1"
-            AttachedProperties:PositionedControl.Position="{Binding Path=Position, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Background="{DynamicResource DarkColor}"
+            AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            Background="{Binding Background, ElementName=mainBorder}"
             Style="{StaticResource BorderMask}" />
 
         <Border

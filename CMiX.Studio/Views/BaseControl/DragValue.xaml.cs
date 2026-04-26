@@ -177,14 +177,6 @@ namespace CMiX.Studio.Views.BaseControl
             set { SetValue(IsEditingProperty, value); }
         }
 
-        public static readonly DependencyProperty PositionProperty =
-        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(DragValue), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public ControlPosition Position
-        {
-            get { return (ControlPosition)GetValue(PositionProperty); }
-            set { SetValue(PositionProperty, value); }
-        }
-
         public static readonly DependencyProperty CaptionProperty =
         DependencyProperty.Register("Caption", typeof(string), typeof(DragValue), new FrameworkPropertyMetadata(String.Empty, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
         public string Caption

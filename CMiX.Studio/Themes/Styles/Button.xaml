@@ -26,7 +26,7 @@
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                         VerticalAlignment="{TemplateBinding VerticalAlignment}"
                         Background="{TemplateBinding Background}"
-                        CornerRadius="2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True">
 
                         <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
@@ -37,6 +37,9 @@
 
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="All">
                             <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+                        </Trigger>
+                        <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Middle">
+                            <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
                         </Trigger>
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Right">
                             <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
@@ -115,42 +118,56 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
+                    <Grid Background="Transparent" SnapsToDevicePixels="True">
 
-                    <Grid Background="Transparent">
+                        <Border
+                            x:Name="mask"
+                            IsHitTestVisible="False"
+                            SnapsToDevicePixels="True"
+                            UseLayoutRounding="True"
+                            AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
+                            Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                            Style="{DynamicResource BorderMask}" />
 
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition />
-                            <ColumnDefinition />
-                        </Grid.ColumnDefinitions>
+                        <Grid SnapsToDevicePixels="True">
+                            <Grid.OpacityMask>
+                                <VisualBrush Visual="{Binding ElementName=mask}" />
+                            </Grid.OpacityMask>
 
-                        <Border Grid.Column="1" CornerRadius="0, 2, 2, 0">
-                            <Border.Background>
-                                <ImageBrush
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+
+                            <Border Grid.Column="1" 
+                                    CornerRadius="{DynamicResource CornerRadiusRight}">
+                                <Border.Background>
+                                    <ImageBrush
                                     ImageSource="{DynamicResource CheckBoard}"
                                     Stretch="Uniform"
                                     TileMode="Tile"
                                     Viewport="0, 0, 128, 128"
                                     ViewportUnits="Absolute" />
-                            </Border.Background>
-                        </Border>
+                                </Border.Background>
+                            </Border>
 
-                        <Border
+                            <Border
                             x:Name="borderAlpha"
                             Grid.Column="1"
-                            CornerRadius="0, 2, 2, 0">
-                            <Border.Background>
-                                <SolidColorBrush Color="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}}" />
-                            </Border.Background>
-                        </Border>
+                            CornerRadius="{DynamicResource CornerRadiusRight}">
+                                <Border.Background>
+                                    <SolidColorBrush Color="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}}" />
+                                </Border.Background>
+                            </Border>
 
-                        <Border
+                            <Border
                             x:Name="border"
                             Grid.Column="0"
                             Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
-                            CornerRadius="2, 0, 0, 2" />
+                            CornerRadius="{DynamicResource CornerRadiusLeft}" />
 
+                        </Grid>
                     </Grid>
-
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
@@ -173,7 +190,6 @@
                         Padding="0,0,8,0"
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        Opacity="1.0"
                         SnapsToDevicePixels="True">
                         <ContentPresenter HorizontalAlignment="Right" ContentTemplate="{TemplateBinding Content}" />
                     </Border>
@@ -206,7 +222,7 @@
                         Padding="8,0,0,0"
                         HorizontalAlignment="Stretch"
                         Background="Transparent"
-                        CornerRadius="1"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True">
                         <ContentPresenter HorizontalAlignment="Left" ContentTemplate="{TemplateBinding Content}" />
                     </Border>
@@ -241,7 +257,7 @@
                         Background="{DynamicResource AccentInactive}"
                         BorderBrush="{DynamicResource Shadow}"
                         BorderThickness="0,0,0,2"
-                        CornerRadius="2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True"
                         TextOptions.TextFormattingMode="Display"
                         UseLayoutRounding="True">

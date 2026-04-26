@@ -13,14 +13,6 @@ namespace CMiX.Studio.Views.Managers
             InitializeComponent();
         }
 
-        public static readonly DependencyProperty PositionProperty =
-        DependencyProperty.Register("Position", typeof(ControlPosition), typeof(PrefabManagerComboBox), new FrameworkPropertyMetadata(ControlPosition.Default, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
-        public ControlPosition Position
-        {
-            get { return (ControlPosition)GetValue(PositionProperty); }
-            set { SetValue(PositionProperty, value); }
-        }
-
         public static readonly DependencyProperty ItemsSourceProperty =
         DependencyProperty.Register("ItemsSource", typeof(IEnumerable), typeof(PrefabManagerComboBox));
         public IEnumerable ItemsSource

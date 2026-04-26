@@ -5,6 +5,7 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties"
     d:DesignHeight="130.056"
     d:DesignWidth="250.366"
     mc:Ignorable="d">
@@ -15,10 +16,10 @@
 
                 <Controls:CMiXSlider
                     Margin="0,0,0,8"
+                    AttachedProperties:PositionedControl.Position="All"
                     Caption="Control"
                     Maximum="1"
                     Minimum="0"
-                    Position="Default"
                     Value="{Binding Path=DataContext.Control.Value}" />
                 <ContentPresenter Content="{TemplateBinding Content}" />
             </StackPanel>

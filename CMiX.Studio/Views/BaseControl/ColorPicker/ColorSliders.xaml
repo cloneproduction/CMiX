@@ -8,6 +8,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Converters="clr-namespace:CMiX.Studio.Converters"
     xmlns:Controls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     x:Name="uc"
     d:DesignHeight="278.333"
     d:DesignWidth="197"
@@ -48,13 +49,12 @@
                 </StackPanel>
             </Border>
             <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                <StackPanel>
+                <Panels:PositionedStackPanel>
 
                     <Controls:CMiXSlider
                         Caption="R"
                         Maximum="1"
                         Minimum="0"
-                        Position="Top"
                         Value="{Binding Path=Color.RGB_R, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                         <i:Interaction.Behaviors>
                             <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
@@ -66,7 +66,6 @@
                         Caption="G"
                         Maximum="1"
                         Minimum="0"
-                        Position="Middle"
                         Value="{Binding Color.RGB_G, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                         <i:Interaction.Behaviors>
                             <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
@@ -77,22 +76,21 @@
                         Caption="B"
                         Maximum="1"
                         Minimum="0"
-                        Position="Middle"
                         Value="{Binding Color.RGB_B, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
                         <i:Interaction.Behaviors>
                             <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
                         </i:Interaction.Behaviors>
                     </Controls:CMiXSlider>
 
-                </StackPanel>
+                </Panels:PositionedStackPanel>
             </Border>
             <Border Visibility="{Binding ElementName=HSVRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
-                <StackPanel>
+
+                <Panels:PositionedStackPanel>
                     <Controls:CMiXSlider
                         Caption="H"
                         Maximum="1"
                         Minimum="0"
-                        Position="Top"
                         Value="{Binding Path=Color.HSV_H, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=360, ToMin=0, ToMax=1}}">
                         <i:Interaction.Behaviors>
                             <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
@@ -104,7 +102,6 @@
                         Caption="S"
                         Maximum="1"
                         Minimum="0"
-                        Position="Middle"
                         Value="{Binding Path=Color.HSV_S, ElementName=uc, Mode=TwoWay}">
                         <i:Interaction.Behaviors>
                             <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
@@ -115,13 +112,13 @@
                         Caption="V"
                         Maximum="1"
                         Minimum="0"
-                        Position="Bottom"
                         Value="{Binding Path=Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
                         <i:Interaction.Behaviors>
                             <Behaviors:ColorSliderBehavior ColorState="{Binding Path=ColorState, ElementName=uc}" />
                         </i:Interaction.Behaviors>
                     </Controls:CMiXSlider>
-                </StackPanel>
+                </Panels:PositionedStackPanel>
+                
             </Border>
         </Grid>
 
