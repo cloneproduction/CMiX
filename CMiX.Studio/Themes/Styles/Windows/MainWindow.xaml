@@ -83,7 +83,7 @@
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
-                    CaptionHeight="30"
+                    CaptionHeight="{DynamicResource ControlHeightXL}"
                     CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                     GlassFrameThickness="0"
                     NonClientFrameEdges="None"
@@ -149,7 +149,6 @@
                     UseAeroCaptionButtons="False" />
             </Setter.Value>
         </Setter>
-        <Setter Property="AllowsTransparency" Value="True" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="210" />
 

@@ -1,8 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Core.Controls"
-    xmlns:behave="clr-namespace:CMiX.Studio.Behaviors">
+    xmlns:Controls="clr-namespace:CMiX.Core.Controls">
 
     <Style TargetType="{x:Type TextBox}">
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
@@ -39,7 +38,6 @@
                             VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="True" />
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>
@@ -82,7 +80,7 @@
         <Setter Property="Padding" Value="0" />
         <Setter Property="Controls:SelectTextOnFocus.Active" Value="True" />
         <Setter Property="Controls:InputNumbersOnly.Active" Value="True" />
-        <Setter Property="SelectionBrush" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}" />
         <Setter Property="CaretBrush" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
@@ -106,12 +104,8 @@
                             VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="True" />
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
-                        </Trigger>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey100Brush}" />
                         </Trigger>
                         <Trigger Property="IsKeyboardFocused" Value="True">
                             <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
@@ -130,7 +124,7 @@
         <Setter Property="Padding" Value="4" />
         <Setter Property="TextWrapping" Value="Wrap" />
         <Setter Property="Controls:SelectTextOnFocus.Active" Value="True"/>
-        <Setter Property="SelectionBrush" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}" />
         <Setter Property="CaretBrush" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="AcceptsReturn" Value="True" />
         <Setter Property="Template">
@@ -154,7 +148,6 @@
                             VerticalScrollBarVisibility="Hidden" />
                     </Border>
                     <ControlTemplate.Triggers>
-                        <Trigger Property="IsEnabled" Value="True" />
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.56" />
                         </Trigger>

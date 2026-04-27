@@ -15,8 +15,8 @@
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type BaseControl:EditableValue}}}" />
         <TextBox
             x:Name="InputValue" 
-            SelectionBrush="{DynamicResource SuperHighGrey700Brush}"
-            CaretBrush="{DynamicResource SuperHighGrey700Brush}"
+            SelectionBrush="{DynamicResource Grey700Brush}"
+            CaretBrush="{DynamicResource Grey700Brush}"
             Padding="5"
             BorderThickness="0"
             VerticalAlignment="Center"

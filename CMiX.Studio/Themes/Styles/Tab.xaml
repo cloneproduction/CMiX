@@ -36,13 +36,6 @@
 
                         <MultiDataTrigger>
                             <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
-                                <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Top" />
-                            </MultiDataTrigger.Conditions>
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
                                 <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
                                 <Condition Binding="{Binding TabStripPlacement, RelativeSource={RelativeSource FindAncestor, AncestorLevel=1, AncestorType={x:Type TabControl}}}" Value="Top" />
                             </MultiDataTrigger.Conditions>
@@ -66,7 +59,7 @@
                             <Setter Property="Panel.ZIndex" Value="1" />
                             <Setter TargetName="contentPresenter" Property="TextBlock.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
                             <Setter TargetName="innerBorder" Property="BorderThickness" Value="0,0,0,3" />
-                            <Setter TargetName="innerBorder" Property="BorderBrush" Value="{DynamicResource HighGrey700Brush}" />
+                            <Setter TargetName="innerBorder" Property="BorderBrush" Value="{DynamicResource Grey700Brush}" />
                             <Setter TargetName="innerBorder" Property="Background" Value="{DynamicResource Grey300Brush}" />
                         </MultiDataTrigger>
 
@@ -137,42 +130,6 @@
         </Setter>
     </Style>
 
-    <Style x:Key="CloseTabButton"
-            BasedOn="{StaticResource {x:Type Button}}"
-            TargetType="{x:Type Button}">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type Button}">
-                    <Border
-                        x:Name="border"
-                        Background="Transparent"
-                        SnapsToDevicePixels="True">
-                        <Grid MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" MinHeight="{Binding ActualWidth, RelativeSource={RelativeSource Self}}">
-                            <Ellipse x:Name="circle" Fill="Transparent" />
-                            <Image
-                                x:Name="closeIcon"
-                                Margin="4"
-                                Opacity="0.5"
-                                Source="{DynamicResource Close}" />
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
-                            <Setter TargetName="circle" Property="Fill" Value="{DynamicResource Grey700Brush}" />
-                            <Setter TargetName="closeIcon" Property="Opacity" Value="0.75" />
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
-                            <Setter TargetName="circle" Property="Fill" Value="{DynamicResource HighGrey700Brush}" />
-                            <Setter TargetName="closeIcon" Property="Opacity" Value="0.9" />
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
     <Style x:Key="TabItemVerticalPanel" TargetType="{x:Type TabItem}">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -218,12 +175,6 @@
                             </MultiDataTrigger.Conditions>
                             <Setter Property="Panel.ZIndex" Value="1" />
                             <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource Grey600Brush}" />
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false" />
-                            </MultiDataTrigger.Conditions>
                         </MultiDataTrigger>
 
                     </ControlTemplate.Triggers>
@@ -280,73 +231,6 @@
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="templateRoot" Property="TextElement.Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="TabItemLayerPanel" TargetType="{x:Type TabItem}">
-        <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
-        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
-        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
-        <Setter Property="VerticalContentAlignment" Value="Stretch" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type TabItem}">
-
-                    <Border
-                        x:Name="mainBorder"
-                        Height="{DynamicResource ControlHeightMD}"
-                        Margin="2,0,0,0"
-                        Padding="4"
-                        VerticalAlignment="Center"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{DynamicResource Grey600Brush}"
-                        BorderThickness="1"
-                        CornerRadius="{DynamicResource CornerRadiusAll}">
-
-                        <ContentPresenter
-                            x:Name="contentPresenter"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Content="{TemplateBinding Header}"
-                            ContentSource="Header"
-                            ContentStringFormat="{TemplateBinding HeaderStringFormat}"
-                            ContentTemplate="{TemplateBinding HeaderTemplate}"
-                            Focusable="False"
-                            RecognizesAccessKey="True"
-                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-
-                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false">
-                            <Setter TargetName="contentPresenter" Property="Opacity" Value="0.5" />
-                        </DataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true" />
-                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Panel.ZIndex" Value="1" />
-                            <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
-                        </MultiDataTrigger>
-
-                        <MultiDataTrigger>
-                            <MultiDataTrigger.Conditions>
-                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true" />
-                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
-                            </MultiDataTrigger.Conditions>
-                            <Setter Property="Panel.ZIndex" Value="1" />
-                            <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource AccentBrush}" />
-                        </MultiDataTrigger>
-
-                        <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false">
-                            <Setter TargetName="mainBorder" Property="Opacity" Value="0.5" />
-                        </DataTrigger>
-
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

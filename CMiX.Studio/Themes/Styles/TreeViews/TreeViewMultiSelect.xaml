@@ -18,8 +18,8 @@
                         <Path
                             x:Name="ExpandPath"
                             Data="{DynamicResource TreeArrow}"
-                            Fill="{DynamicResource HighGrey700Brush}"
-                            Stroke="{DynamicResource HighGrey700Brush}"
+                            Fill="{DynamicResource Grey700Brush}"
+                            Stroke="{DynamicResource Grey700Brush}"
                             StrokeThickness="1">
                             <Path.RenderTransform>
                                 <RotateTransform Angle="135" CenterX="3" CenterY="3" />
@@ -33,20 +33,20 @@
                                     <RotateTransform Angle="180" CenterX="4" CenterY="4" />
                                 </Setter.Value>
                             </Setter>
-                            <Setter TargetName="ExpandPath" Property="Fill" Value="{DynamicResource SuperHighGrey700Brush}" />
-                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource SuperHighGrey700Brush}" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{DynamicResource Grey700Brush}" />
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource Grey700Brush}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource SuperHighGrey700Brush}" />
-                            <Setter TargetName="ExpandPath" Property="Fill" Value="{DynamicResource SuperHighGrey700Brush}" />
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource Grey700Brush}" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{DynamicResource Grey700Brush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True" />
                                 <Condition Property="IsChecked" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource SuperHighGrey700Brush}" />
-                            <Setter TargetName="ExpandPath" Property="Fill" Value="{DynamicResource SuperHighGrey700Brush}" />
+                            <Setter TargetName="ExpandPath" Property="Stroke" Value="{DynamicResource Grey700Brush}" />
+                            <Setter TargetName="ExpandPath" Property="Fill" Value="{DynamicResource Grey700Brush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

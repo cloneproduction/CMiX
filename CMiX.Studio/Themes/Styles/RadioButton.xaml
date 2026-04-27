@@ -2,37 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
 
-    <Style x:Key="FocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle
-                        Margin="2"
-                        SnapsToDevicePixels="true"
-                        Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                        StrokeDashArray="1 2"
-                        StrokeThickness="1" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="OptionMarkFocusVisual">
-        <Setter Property="Control.Template">
-            <Setter.Value>
-                <ControlTemplate>
-                    <Rectangle
-                        Margin="14,0,0,0"
-                        SnapsToDevicePixels="true"
-                        Stroke="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"
-                        StrokeDashArray="1 2"
-                        StrokeThickness="1" />
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-
     <Style TargetType="{x:Type RadioButton}">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
@@ -55,7 +24,7 @@
                         <Trigger Property="IsEnabled" Value="false">
                             <Setter Property="Opacity" Value="0.5" />
                         </Trigger>
-                        
+
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="All">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
                         </Trigger>
@@ -63,23 +32,23 @@
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Middle">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
                         </Trigger>
-                        
+
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="None">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
                         </Trigger>
-                        
+
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Top">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
                         </Trigger>
-                        
+
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Bottom">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
                         </Trigger>
-                        
+
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Left">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
                         </Trigger>
-                        
+
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Right">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
                         </Trigger>
@@ -118,89 +87,5 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-    </Style>
-
-    <Style x:Key="RadioButtonLayer" TargetType="{x:Type RadioButton}">
-        <!--<Setter Property="FocusVisualStyle" Value="{DynamicResource FocusVisual}"/>-->
-        <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="{x:Type RadioButton}">
-                    <Border
-                        x:Name="radioButtonBorder"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="Transparent"
-                        BorderThickness="1">
-                        <ContentPresenter
-                            x:Name="presenter"
-                            HorizontalAlignment="Center"/>
-                    </Border>
-
-                    <ControlTemplate.Triggers>
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="true" />
-                                <Condition Property="IsMouseOver" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource HighGrey700Brush}" />
-                                <Setter TargetName="presenter" Property="Opacity" Value="1.0" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="false" />
-                                <Condition Property="IsMouseOver" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="radioButtonBorder" Property="BorderBrush" Value="{DynamicResource HighGrey700Brush}" />
-                                <Setter TargetName="presenter" Property="Opacity" Value="0.9" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="true" />
-                                <Condition Property="IsMouseOver" Value="false" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="presenter" Property="Opacity" Value="0.9" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="false" />
-                                <Condition Property="IsMouseOver" Value="false" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="presenter" Property="Opacity" Value="0.5" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-
-                    </ControlTemplate.Triggers>
-
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="InlineRadioButtonLeft"
-            BasedOn="{StaticResource {x:Type RadioButton}}"
-            TargetType="{x:Type RadioButton}">
-        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Left" />
-    </Style>
-
-    <Style x:Key="InlineRadioButtonCenter"
-            BasedOn="{StaticResource {x:Type RadioButton}}"
-            TargetType="{x:Type RadioButton}">
-        <Setter Property="AttachedProperties:PositionedControl.Position" Value="None" />
-    </Style>
-
-    <Style x:Key="InlineRadioButtonRight"
-            BasedOn="{StaticResource {x:Type RadioButton}}"
-            TargetType="{x:Type RadioButton}">
-        <Setter Property="AttachedProperties:PositionedControl.Position" Value="Right" />
     </Style>
 </ResourceDictionary>

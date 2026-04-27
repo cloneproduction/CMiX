@@ -1,19 +1,19 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Controls="clr-namespace:CMiX.Core.Controls">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <Style TargetType="{x:Type TextBlock}">
-        <Style.Triggers>
-            <Trigger Property="IsEnabled" Value="false">
-                <Setter Property="Opacity" Value="0.5" />
-            </Trigger>
-        </Style.Triggers>
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Margin" Value="0" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="SnapsToDevicePixels" Value="False" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="TextOptions.TextFormattingMode" Value="Display" />
+        <Style.Triggers>
+            <Trigger Property="IsEnabled" Value="false">
+                <Setter Property="Opacity" Value="0.5" />
+            </Trigger>
+        </Style.Triggers>
     </Style>
+    
 </ResourceDictionary>

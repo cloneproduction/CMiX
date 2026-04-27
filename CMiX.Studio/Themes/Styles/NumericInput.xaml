@@ -11,17 +11,17 @@
                 <ControlTemplate TargetType="{x:Type Controls:NumericInput}">
                     <Border Background="{DynamicResource Grey100Brush}">
                         <TextBox
-                        x:Name="PART_TextBox"
-                        Height="{TemplateBinding ActualHeight}"
-                        VerticalAlignment="Center"
-                        HorizontalContentAlignment="Left"
-                        VerticalContentAlignment="Center"
-                        Padding="8,0"
-                        Foreground="{DynamicResource ForegroundBrush}"
-                        SelectionBrush="{DynamicResource SuperHighGrey700Brush}"
-                        CaretBrush="{DynamicResource ForegroundBrush}"
-                        Background="Transparent"
-                        BorderThickness="0">
+                            x:Name="PART_TextBox"
+                            Height="{TemplateBinding ActualHeight}"
+                            VerticalAlignment="Center"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Padding="8,0"
+                            Foreground="{DynamicResource ForegroundBrush}"
+                            SelectionBrush="{DynamicResource AccentBrush }"
+                            CaretBrush="{DynamicResource ForegroundBrush}"
+                            Background="Transparent"
+                            BorderThickness="0">
                             <TextBox.Style>
                                 <Style TargetType="{x:Type TextBox}">
                                     <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat='{}{0:N3}'}" />

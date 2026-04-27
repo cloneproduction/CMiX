@@ -5,11 +5,14 @@
         Opacity="0.5"
         ShadowDepth="0"
         Color="Black" />
-    
+
+    <!--  Window background color  -->
+    <Color x:Key="WindowColor">#FFE8EDF9</Color>
+
     <Style x:Key="WindowStyle" TargetType="{x:Type Window}">
         <Setter Property="FontFamily" Value="pack://application:,,,/CMiX.Studio;component/Themes/Fonts/#Roboto" />
         <Setter Property="FontSize" Value="12" />
-        <Setter Property="SnapsToDevicePixels" Value="true" />
+        <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Window}">
@@ -38,7 +41,7 @@
     </Style>
 
     <Style x:Key="{x:Type ResizeGrip}" TargetType="{x:Type ResizeGrip}">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ResizeGrip}">
@@ -70,65 +73,5 @@
             </Setter.Value>
         </Setter>
     </Style>
-
-    <!--  Control colors.  -->
-    <Color x:Key="WindowColor">#FFE8EDF9</Color>
-    <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
-    <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
-
-    <Color x:Key="DisabledControlGrey700Brush">#FFE8EDF9</Color>
-    <Color x:Key="DisabledControlGrey500Brush">#FFC5CBF9</Color>
-    <Color x:Key="DisabledForegroundColor">#FF888888</Color>
-
-    <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
-    <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
-
-    <Color x:Key="ControlGrey700Brush">White</Color>
-    <Color x:Key="ControlMediumColor">#FF7381F9</Color>
-    <Color x:Key="ControlGrey500Brush">#FF211AA9</Color>
-
-    <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
-    <Color x:Key="ControlPressedColor">#FF211AA9</Color>
-
-
-    <Color x:Key="GlyphColor">#FF444444</Color>
-    <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
-
-    <!--  Border colors  -->
-    <Color x:Key="BorderGrey700Brush">#FFCCCCCC</Color>
-    <Color x:Key="BorderMediumColor">#FF888888</Color>
-    <Color x:Key="BorderGrey500Brush">#FF444444</Color>
-
-    <Color x:Key="PressedBorderGrey700Brush">#FF888888</Color>
-    <Color x:Key="PressedBorderGrey500Brush">#FF444444</Color>
-
-    <Color x:Key="DisabledBorderGrey700Brush">#FFAAAAAA</Color>
-    <Color x:Key="DisabledBorderGrey500Brush">#FF888888</Color>
-
-    <Color x:Key="DefaultBorderBrushGrey500Brush">Black</Color>
-
-    <!--  Control-specific resources.  -->
-    <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
-    <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
-    <Color x:Key="SliderTrackGrey500Brush">#FFC5CBF9</Color>
-
-    <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
-
-    <LinearGradientBrush x:Key="MenuPopupBrush" StartPoint="0.5,0" EndPoint="0.5,1">
-        <GradientStop Offset="0" Color="{DynamicResource ControlGrey700Brush}" />
-        <GradientStop Offset="0.5" Color="{DynamicResource ControlMediumColor}" />
-        <GradientStop Offset="1" Color="{DynamicResource ControlGrey700Brush}" />
-    </LinearGradientBrush>
-
-    <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill" StartPoint="0,0" EndPoint="1,0">
-        <LinearGradientBrush.GradientStops>
-            <GradientStopCollection>
-                <GradientStop Offset="0" Color="#000000FF" />
-                <GradientStop Offset="0.4" Color="#600000FF" />
-                <GradientStop Offset="0.6" Color="#600000FF" />
-                <GradientStop Offset="1" Color="#000000FF" />
-            </GradientStopCollection>
-        </LinearGradientBrush.GradientStops>
-    </LinearGradientBrush>
 
 </ResourceDictionary>

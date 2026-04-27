@@ -8,22 +8,16 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ToolTip">
-                    <Grid>
-                        <Border
-                            Margin="8"
-                            Background="{DynamicResource Grey400Brush}"
-                            BorderBrush="{DynamicResource Shadow}"
-                            BorderThickness="1,0,1,2"
-                            CornerRadius="{DynamicResource CornerRadiusAll}">
-                            <Border Margin="8">
-                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                            </Border>
-
+                    <Border
+                        Margin="8"
+                        Background="{DynamicResource Grey400Brush}"
+                        BorderBrush="{DynamicResource Shadow}"
+                        BorderThickness="1,0,1,2"
+                        CornerRadius="{DynamicResource CornerRadiusAll}">
+                        <Border Margin="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                         </Border>
-
-
-                    </Grid>
-
+                    </Border>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
