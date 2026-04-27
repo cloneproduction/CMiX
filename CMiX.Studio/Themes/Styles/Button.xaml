@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Markup="clr-namespace:CMiX.Studio.Markup"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.AttachedProperties">
 
     <ResourceDictionary.MergedDictionaries>
@@ -8,7 +9,7 @@
     </ResourceDictionary.MergedDictionaries>
     
     <Style TargetType="{x:Type Button}">
-        <Setter Property="Height" Value="22" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="Background" Value="{DynamicResource Color}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -210,7 +211,7 @@
     </Style>
 
     <Style x:Key="ButtonItemControl" TargetType="{x:Type Button}">
-        <Setter Property="Height" Value="22" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="HorizontalAlignment" Value="Stretch" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
@@ -288,8 +289,8 @@
     </Style>
 
     <Style x:Key="ButtonWindowControlStyle" TargetType="{x:Type Button}">
-        <Setter Property="Height" Value="30" />
-        <Setter Property="Width" Value="30" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightXL}" />
+        <Setter Property="Width" Value="{DynamicResource ControlHeightXL}" />
         <Setter Property="Background" Value="{DynamicResource DarkColor}" />
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />

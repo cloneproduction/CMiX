@@ -27,7 +27,7 @@
                     <RowDefinition/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <DockPanel Height="30">
+                <DockPanel Height="{DynamicResource ControlHeightXL}">
                     <Image Margin="8" Source="{StaticResource Warning}" Opacity="0.90" />
                     <TextBlock VerticalAlignment="Center" Foreground="{StaticResource TextBase}" Text="Save change before closing ?"/>
                 </DockPanel>

@@ -19,7 +19,7 @@
 
                     <ListBox.ItemTemplate>
                         <ItemContainerTemplate>
-                            <Border Height="20">
+                            <Border Height="{DynamicResource ControlHeightSM}">
                                 <TextBlock Padding="4" Text="{Binding Name}"/>
                             </Border>
                         </ItemContainerTemplate>
@@ -56,7 +56,7 @@
 
                 <ComboBox.ItemTemplate>
                     <ItemContainerTemplate>
-                        <Border Height="20">
+                        <Border Height="{DynamicResource ControlHeightSM}">
                             <TextBlock Padding="4" Text="{Binding Name}"/>
                         </Border>
                     </ItemContainerTemplate>

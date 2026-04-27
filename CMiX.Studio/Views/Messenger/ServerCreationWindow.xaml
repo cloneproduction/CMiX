@@ -22,7 +22,7 @@
     <StackPanel>
         <TextBlock Margin="0,0,0,8" Text="Create a new server" />
         <BaseControl:IPBox IPAddress="{Binding IP, Mode=TwoWay}" />
-        <Grid Height="25" Margin="0,4">
+        <Grid Height="{DynamicResource ControlHeightMD}" Margin="0,4">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition />
@@ -41,7 +41,7 @@
             </Grid.ColumnDefinitions>
             <Button
                 Grid.Column="0"
-                Height="25"
+                Height="{DynamicResource ControlHeightMD}"
                 Margin="0,0,4,0"
                 Command="{Binding AddServerCommand}"
                 CommandParameter="{Binding ElementName=serverCreationWindow}"
@@ -49,7 +49,7 @@
                 Style="{StaticResource ButtonRounded}" />
             <Button
                 Grid.Column="1"
-                Height="25"
+                Height="{DynamicResource ControlHeightMD}"
                 Margin="4,0,0,0"
                 Click="Button_Click"
                 Content="Cancel"

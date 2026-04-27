@@ -20,13 +20,13 @@
         <DockPanel HorizontalAlignment="Stretch">
 
             <DockPanel
-                Width="20"
+                Width="{DynamicResource ControlHeightSM}"
                 Margin="4,0,0,0"
                 DockPanel.Dock="Right"
                 LastChildFill="False">
 
                 <Button
-                    Height="20"
+                    Height="{DynamicResource ControlHeightSM}"
                     Command="{Binding AddItemCommand}"
                     CommandParameter="{x:Type Prefabs:EmptyPrefab}"
                     Content="+"
@@ -35,7 +35,7 @@
 
                 <Button
                     x:Name="deleteItemButton"
-                    Height="20"
+                    Height="{DynamicResource ControlHeightSM}"
                     Margin="0,1,0,0"
                     Command="{Binding DeleteItemCommand}"
                     CommandParameter="{Binding SelectedItem}"
@@ -50,8 +50,8 @@
                     <DockPanel>
                         <Button
                             x:Name="moveItemDownButton"
-                            Width="21"
-                            Height="20"
+                            Width="{DynamicResource ControlHeightSM}"
+                            Height="{DynamicResource ControlHeightSM}"
                             Padding="8"
                             Command="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
                             CommandParameter="{Binding SelectedItem}"
@@ -68,7 +68,7 @@
 
                         <Button
                             x:Name="moveItemUpButton"
-                            Height="20"
+                            Height="{DynamicResource ControlHeightSM}"
                             Margin="0,0,0,1"
                             Command="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
                             CommandParameter="{Binding SelectedItem}"
@@ -106,7 +106,7 @@
             <ToggleButton
                 x:Name="PopUpToggle"
                 Width="22"
-                Height="22"
+                Height="{DynamicResource ControlHeightMD}"
                 Margin="0,4"
                 HorizontalContentAlignment="Center"
                 Background="{DynamicResource DarkerColor}"
@@ -147,7 +147,7 @@
             <Grid DockPanel.Dock="Right">
 
                 <Border
-                    Height="22"
+                    Height="{DynamicResource ControlHeightMD}"
                     Margin="1,0,0,0"
                     Background="{DynamicResource HighHighDarkerColor}"
                     CornerRadius="{DynamicResource CornerRadiusRight}">
@@ -173,7 +173,7 @@
                     </Border.Style>
 
                     <ContentControl
-                        Height="25"
+                        Height="{DynamicResource ControlHeightMD}"
                         Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                         DataContext="{Binding}" />
 

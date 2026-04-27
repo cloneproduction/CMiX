@@ -10,7 +10,7 @@
 
     <Button
         Grid.Column="1"
-        Height="22"
+        Height="{DynamicResource ControlHeightMD}"
         Click="Button_Click"
         Content="New"
         Style="{StaticResource ButtonRounded}" />

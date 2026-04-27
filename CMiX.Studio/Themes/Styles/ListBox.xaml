@@ -128,7 +128,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Height" Value="25" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
@@ -193,7 +193,7 @@
                                 Margin="4,0"
                                 Style="{StaticResource ServerConnectionIndicatorStyle}" />
                             <ToggleButton
-                                Height="15"
+                                Height="{DynamicResource ControlHeightXS}"
                                 Margin="4"
                                 Padding="4"
                                 DockPanel.Dock="Right"
@@ -201,7 +201,7 @@
                                 Style="{DynamicResource TogglePlayPause}" />
                             <Controls:EditableTextBox
                                 x:Name="editableTextBox"
-                                Height="20"
+                                Height="{DynamicResource ControlHeightSM}"
                                 Foreground="{DynamicResource TextBase}"
                                 Style="{StaticResource ServerEditableTextBoxStyle}"
                                 Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />

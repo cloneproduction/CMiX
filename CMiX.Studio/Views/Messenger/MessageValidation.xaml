@@ -10,7 +10,7 @@
         DockPanel.Dock="Bottom"
         Background="{StaticResource DarkerColor}">
         <StackPanel>
-            <Grid Height="20">
+            <Grid Height="{DynamicResource ControlHeightSM}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition/>
@@ -27,7 +27,7 @@
                     Grid.Column="1"
                     Foreground="{StaticResource TextBase}"/>
             </Grid>
-            <Grid Height="20" Margin="0, 4">
+            <Grid Height="{DynamicResource ControlHeightSM}" Margin="0, 4">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition/>
@@ -42,12 +42,12 @@
                     HorizontalAlignment="Left"
                     IsChecked="{Binding Enabled}"
                     Grid.Column="1"
-                    Width="20"
-                    Height="20" 
+                    Width="{DynamicResource ControlHeightSM}"
+                    Height="{DynamicResource ControlHeightSM}" 
 
                     CommandParameter="{Binding}"/>
             </Grid>
-            <Grid Height="20">
+            <Grid Height="{DynamicResource ControlHeightSM}">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="0.4*"/>
                     <ColumnDefinition/>
@@ -61,8 +61,8 @@
                 <Button 
                     HorizontalAlignment="Left"
                     Grid.Column="1"
-                    Width="20"
-                    Height="20" 
+                    Width="{DynamicResource ControlHeightSM}"
+                    Height="{DynamicResource ControlHeightSM}" 
                     
                     CommandParameter="{Binding}"/>
             </Grid>

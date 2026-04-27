@@ -10,7 +10,8 @@
     d:DesignWidth="141.696"
     mc:Ignorable="d">
 
-    <Grid Height="20" Background="Transparent">
+    <Grid Height="{DynamicResource ControlHeightSM}" 
+          Background="Transparent">
         <TextBlock
             x:Name="TextDisplay"
             Padding="4,0"

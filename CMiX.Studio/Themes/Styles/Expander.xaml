@@ -217,7 +217,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="mainBorder"
-                        Height="25"
+                        Height="{DynamicResource ControlHeightMD}"
                         Margin="8,0"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"
@@ -319,7 +319,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="mainBorder"
-                        Height="26"
+                        Height="{DynamicResource ControlHeightMD}"
                         Background="{DynamicResource HighDarkerColor}"
                         BorderBrush="{DynamicResource SuperHighDarkerColor}"
                         BorderThickness="0,0,0,0.5">
@@ -362,7 +362,6 @@
     <Style x:Key="ItemControlExpander" TargetType="{x:Type Expander}">
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Margin" Value="0" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -371,31 +370,22 @@
                     <Border
                         x:Name="border"
                         Background="{DynamicResource HighDarkerColor}"
-                        BorderBrush="Transparent"
+                        BorderBrush="{DynamicResource DarkerColor}"
                         BorderThickness="1"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
-                        SnapsToDevicePixels="true">
+                        SnapsToDevicePixels="True">
                         <DockPanel>
                             <ToggleButton
-                                x:Name="HeaderSite"
-                                MinWidth="0"
-                                MinHeight="0"
-                                Padding="{TemplateBinding Padding}"
-                                HorizontalContentAlignment="Left"
-                                VerticalContentAlignment="Center"
-                                Content="{TemplateBinding Header}"
-                                ContentTemplate="{TemplateBinding HeaderTemplate}"
-                                ContentTemplateSelector="{TemplateBinding HeaderTemplateSelector}"
-                                DockPanel.Dock="Top"
-                                FocusVisualStyle="{DynamicResource ExpanderHeaderFocusVisual}"
-                                FontFamily="{TemplateBinding FontFamily}"
-                                FontSize="{TemplateBinding FontSize}"
-                                FontStretch="{TemplateBinding FontStretch}"
-                                FontStyle="{TemplateBinding FontStyle}"
-                                FontWeight="{TemplateBinding FontWeight}"
-                                Foreground="{DynamicResource TextBase}"
-                                IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                Style="{DynamicResource ItemControlExpanderHeaderStyle}" />
+                            x:Name="HeaderSite"
+                            MinWidth="0"
+                            MinHeight="0"
+                            HorizontalContentAlignment="Left"
+                            VerticalContentAlignment="Center"
+                            Content="{TemplateBinding Header}"
+                            DockPanel.Dock="Top"
+                            Foreground="{DynamicResource TextBase}"
+                            IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
+                            Style="{DynamicResource ItemControlExpanderHeaderStyle}" />
                             <ContentPresenter
                                 x:Name="ExpandSite"
                                 Margin="{TemplateBinding Padding}"
@@ -414,7 +404,7 @@
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Color}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -483,7 +473,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="mainBorder"
-                        Height="28"
+                        Height="{DynamicResource ControlHeightMD}"
                         Margin="{TemplateBinding AttachedProperties:ExpanderIndentation.Indentation}"
                         HorizontalAlignment="Stretch"
                         VerticalAlignment="Center"

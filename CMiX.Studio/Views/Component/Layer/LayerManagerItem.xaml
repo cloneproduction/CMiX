@@ -18,7 +18,7 @@
 
             <Border
                 Width="30"
-                Height="25"
+                Height="{DynamicResource ControlHeightMD}"
                 BorderThickness="0,0,2,0"
                 DockPanel.Dock="Left">
 
@@ -63,7 +63,7 @@
                                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                                     <Border
                                         x:Name="border"
-                                        Height="15"
+                                        Height="{DynamicResource ControlHeightXS}"
                                         Margin="8,0"
                                         Padding="1"
                                         Background="Transparent"
@@ -88,7 +88,7 @@
 
             <Controls:EditableTextBox
                 x:Name="editableTextBox"
-                Height="20"
+                Height="{DynamicResource ControlHeightSM}"
                 Foreground="{DynamicResource TextBase}"
                 Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 

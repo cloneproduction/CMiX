@@ -15,7 +15,7 @@
     mc:Ignorable="d">
     <StackPanel>
 
-        <Border Height="22">
+        <Border Height="{DynamicResource ControlHeightMD}">
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition />
@@ -45,7 +45,7 @@
         <Grid VerticalAlignment="Top" Margin="0, 8">
             <Border Visibility="{Binding ElementName=HEXRadio, Path=IsChecked, Converter={StaticResource BoolToCollapsed}, ConverterParameter={x:Static Visibility.Hidden}}">
                 <StackPanel>
-                    <TextBox Height="22" Text="{Binding SelectedColor, ElementName=uc, Converter={StaticResource ColorToHex}}"/>
+                    <TextBox Height="{DynamicResource ControlHeightMD}" Text="{Binding SelectedColor, ElementName=uc, Converter={StaticResource ColorToHex}}"/>
                 </StackPanel>
             </Border>
             <Border Visibility="{Binding ElementName=RGBRadio, Path=IsChecked, Converter={StaticResource BoolToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">

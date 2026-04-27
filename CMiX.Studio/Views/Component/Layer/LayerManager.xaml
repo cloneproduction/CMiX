@@ -22,7 +22,7 @@
                 <StackPanel Margin="8" DataContext="{Binding SelectedItem}">
 
                     <Controls:CMiXSlider
-                        Height="22"
+                        Height="{DynamicResource ControlHeightMD}"
                         Caption="Alpha"
                         DockPanel.Dock="Top"
                         Maximum="1"
@@ -99,7 +99,7 @@
                     LastChildFill="False">
 
                     <Button
-                        Height="20"
+                        Height="{DynamicResource ControlHeightSM}"
                         Margin="2"
                         Background="Transparent"
                         Command="{Binding AddItemCommand}"
@@ -116,7 +116,7 @@
                     <Border Visibility="{Binding Path=ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
                         <StackPanel Orientation="Horizontal">
                             <Button
-                                Height="20"
+                                Height="{DynamicResource ControlHeightSM}"
                                 Margin="2"
                                 Background="Transparent"
                                 Command="{Binding ManagerReorderService.ItemUpCommand}"
@@ -131,7 +131,7 @@
                             </Button>
 
                             <Button
-                                Height="20"
+                                Height="{DynamicResource ControlHeightSM}"
                                 Margin="2"
                                 Background="Transparent"
                                 Command="{Binding ManagerReorderService.ItemDownCommand}"
@@ -149,7 +149,7 @@
 
 
                     <Button
-                        Height="20"
+                        Height="{DynamicResource ControlHeightSM}"
                         Margin="4"
                         Background="Transparent"
                         Command="{Binding DeleteItemCommand}"

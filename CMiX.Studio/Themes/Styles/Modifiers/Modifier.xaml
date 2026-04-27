@@ -11,7 +11,7 @@
         <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
-        <Setter Property="Width" Value="20" />
+        <Setter Property="Width" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="Template">
             <Setter.Value>
 
@@ -19,7 +19,7 @@
 
                     <Border
                         x:Name="border"
-                        Padding="4"
+                        Padding="6"
                         Background="Transparent"
                         SnapsToDevicePixels="True">
                         <Image
@@ -54,7 +54,7 @@
                 <ControlTemplate TargetType="{x:Type Button}">
                     <Border
                         x:Name="border"
-                        Width="22"
+                        Width="{DynamicResource ControlHeightMD}"
                         Margin="0"
                         Padding="4"
                         Background="Transparent"

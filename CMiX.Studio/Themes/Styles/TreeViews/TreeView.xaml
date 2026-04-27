@@ -116,7 +116,7 @@
 
                                 <Border
                                     DockPanel.Dock="Left"
-                                    Height="25"
+                                    Height="{DynamicResource ControlHeightMD}"
                                     Width="30"
                                     BorderBrush="{DynamicResource Shadow}"
                                     BorderThickness="0, 0, 1, 0">
@@ -152,7 +152,7 @@
                                 </Border>
 
                                 <Grid
-                                    Height="25"
+                                    Height="{DynamicResource ControlHeightMD}"
                                     Grid.Column="1"
                                     Margin="{Binding Converter={StaticResource lengthConverter}, RelativeSource={RelativeSource TemplatedParent}}">
 

@@ -7,7 +7,7 @@
                     <StackPanel>
                         <Border
                             x:Name="dragBar"
-                            Height="25"
+                            Height="{DynamicResource ControlHeightMD}"
                             Margin="0,4,0,4"
                             VerticalAlignment="Stretch"
                             Background="Transparent">

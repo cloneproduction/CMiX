@@ -10,7 +10,7 @@
 
     <StackPanel Margin="8">
 
-        <Grid Height="25">
+        <Grid Height="{DynamicResource ControlHeightMD}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -26,7 +26,7 @@
                 Padding="4"
                 Text="{Binding IP.Value}" />
         </Grid>
-        <Grid Height="25">
+        <Grid Height="{DynamicResource ControlHeightMD}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition/>
@@ -43,7 +43,7 @@
                 Foreground="{StaticResource TextBase}"
                 Text="{Binding Port.Value}" />
         </Grid>
-        <Grid Height="25">
+        <Grid Height="{DynamicResource ControlHeightMD}">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition/>
                 <ColumnDefinition />

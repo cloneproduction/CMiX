@@ -98,7 +98,7 @@
     </Style>
 
     <Style TargetType="{x:Type Controls:CMiXSlider}">
-        <Setter Property="Height" Value="22" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
         <Setter Property="Focusable" Value="False" />
         <Setter Property="AttachedProperties:MouseDownHelper.IsEnabled" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Right" />

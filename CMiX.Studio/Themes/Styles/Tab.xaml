@@ -182,8 +182,8 @@
 
                     <Border
                         x:Name="mainBorder"
-                        Width="30"
-                        Height="30"
+                        Width="{DynamicResource ControlHeightXL}"
+                        Height="{DynamicResource ControlHeightXL}"
                         Margin="0,0,0,0"
                         Padding="0"
                         Background="{DynamicResource HighHighDarkerColor}">
@@ -297,7 +297,7 @@
 
                     <Border
                         x:Name="mainBorder"
-                        Height="22"
+                        Height="{DynamicResource ControlHeightMD}"
                         Margin="2,0,0,0"
                         Padding="4"
                         VerticalAlignment="Center"

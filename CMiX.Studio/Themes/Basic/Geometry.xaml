@@ -1,5 +1,6 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+                    xmlns:system="clr-namespace:System;assembly=mscorlib">
 
     <CornerRadius x:Key="CornerRadiusNone">0</CornerRadius>
     
@@ -19,5 +20,11 @@
 
     <!-- Window radius: 8 -->
     <CornerRadius x:Key="CornerRadiusWindow">8</CornerRadius>
-    
+
+    <!-- Control heights -->
+    <system:Double x:Key="ControlHeightXS">16</system:Double>
+    <system:Double x:Key="ControlHeightSM">20</system:Double>
+    <system:Double x:Key="ControlHeightMD">24</system:Double>
+    <system:Double x:Key="ControlHeightLG">28</system:Double>
+    <system:Double x:Key="ControlHeightXL">32</system:Double>
 </ResourceDictionary>

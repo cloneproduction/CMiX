@@ -7,7 +7,7 @@
         <Setter Property="WindowChrome.WindowChrome">
             <Setter.Value>
                 <WindowChrome
-                    CaptionHeight="25"
+                    CaptionHeight="{DynamicResource ControlHeightMD}"
                     CornerRadius="0"
                     GlassFrameThickness="0"
                     NonClientFrameEdges="None"
@@ -111,7 +111,7 @@
                                 Opacity="0.9" />
                             
                             <StackPanel>
-                                <Border Height="25" VerticalAlignment="Center">
+                                <Border Height="{DynamicResource ControlHeightMD}" VerticalAlignment="Center">
 
                                     <TextBlock
                                         Margin="8,0,0,0"

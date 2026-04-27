@@ -37,7 +37,7 @@
                     Value="{Binding Contrast.Value}" />
 
                 <Controls:CMiXSlider
-                    Height="22"
+                    Height="{DynamicResource ControlHeightMD}"
                     Margin="0,1,0,0"
                     Caption="Brightness"
                     Maximum="10.0"

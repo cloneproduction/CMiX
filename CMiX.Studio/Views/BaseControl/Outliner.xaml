@@ -9,7 +9,7 @@
     d:DesignWidth="248"
     mc:Ignorable="d">
 
-    <DockPanel Height="22">
+    <DockPanel Height="{DynamicResource ControlHeightMD}">
 
         <ComboBox
             Focusable="False"
@@ -33,7 +33,7 @@
                     <Button
                         x:Name="deleteItemButton"
                         Width="22"
-                        Height="22"
+                        Height="{DynamicResource ControlHeightMD}"
                         Command="{Binding RemoveSelectedItemCommand}"
                         CommandParameter="{Binding SelectedItem}"
                         Content="-"

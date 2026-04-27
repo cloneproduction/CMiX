@@ -8,7 +8,7 @@
     d:DesignWidth="634.667"
     mc:Ignorable="d">
 
-    <Grid Height="22">
+    <Grid Height="{DynamicResource ControlHeightMD}">
 
         <Grid.ColumnDefinitions>
             <ColumnDefinition />
@@ -18,8 +18,8 @@
         <DockPanel Grid.Column="1">
             <ToggleButton
                 x:Name="toggleButton"
-                Width="18"
-                Margin="0, 2, 2, 2"
+                Width="{DynamicResource ControlHeightXS}"
+                Height="{DynamicResource ControlHeightXS}"
                 HorizontalAlignment="Left"
                 IsChecked="{Binding IsChecked, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 Style="{StaticResource ToggleCheckBox}" />

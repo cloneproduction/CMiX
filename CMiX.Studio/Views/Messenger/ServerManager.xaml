@@ -36,7 +36,7 @@
                     SelectedItem="{Binding SelectedServer}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Border Height="20">
+                            <Border Height="{DynamicResource ControlHeightSM}">
                                 <TextBlock Text="{Binding Name}" />
                             </Border>
                         </DataTemplate>

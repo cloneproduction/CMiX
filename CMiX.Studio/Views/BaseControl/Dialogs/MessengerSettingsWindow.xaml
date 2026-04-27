@@ -17,7 +17,7 @@
 
 
     <StackPanel>
-        <Grid Height="25" Margin="0, 0, 0, 1">
+        <Grid Height="{DynamicResource ControlHeightMD}" Margin="0, 0, 0, 1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.25*"/>
                 <ColumnDefinition/>
@@ -34,7 +34,7 @@
                     Grid.Column="1" 
                     IPAddress="{Binding IP, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
         </Grid>
-        <Grid Height="25" Margin="0, 1">
+        <Grid Height="{DynamicResource ControlHeightMD}" Margin="0, 1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="0.25*"/>
                 <ColumnDefinition/>
@@ -56,7 +56,7 @@
         </Grid>
 
         <Button 
-            Height="25"
+            Height="{DynamicResource ControlHeightMD}"
             DockPanel.Dock="Bottom"
             Margin="0, 8, 0, 0"
             Grid.Column="0"
