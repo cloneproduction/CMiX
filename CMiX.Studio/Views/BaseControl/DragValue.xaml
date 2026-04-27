@@ -11,12 +11,7 @@
     d:DesignWidth="320.797"
     mc:Ignorable="d">
 
-    <Grid>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <UniformGrid Columns="2">
 
         <TextBlock
             Grid.Column="0"
@@ -24,35 +19,35 @@
             HorizontalAlignment="Right"
             Text="{Binding Caption, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
-        <Border
-            x:Name="mask"
-            IsHitTestVisible="False"
-            Grid.Column="1"
-            AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-            Background="{Binding Background, ElementName=mainBorder}"
-            Style="{StaticResource BorderMask}" />
+        <Grid>
+            <Border
+                x:Name="mask"
+                IsHitTestVisible="False"
+                Grid.Column="1"
+                AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                Background="{Binding Background, ElementName=mainBorder}"
+                Style="{StaticResource BorderMask}" />
+            <Border
+                x:Name="mainBorder"
+                Grid.Column="1"
+                Background="{DynamicResource Grey500Brush}"
+                BorderBrush="Transparent">
 
-        <Border
-            x:Name="mainBorder"
-            Grid.Column="1"
-            Background="{DynamicResource Grey500Brush}"
-            BorderBrush="Transparent">
-
-            <Border.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=mask}" />
-            </Border.OpacityMask>
-
-            <Grid>
+                <Border.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=mask}" />
+                </Border.OpacityMask>
 
                 <Grid>
-                    <Controls:NumericInput
-                        x:Name="numericInput"
-                        Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                        IsEditing="{Binding IsEditing, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}"
-                        Value="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}"
-                        Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                        Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                        IsInteger="{Binding IsInteger, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+
+                    <Grid>
+                        <Controls:NumericInput
+                            x:Name="numericInput"
+                            Height="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            IsEditing="{Binding IsEditing, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}"
+                            Value="{Binding Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, Mode=TwoWay}"
+                            Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            IsInteger="{Binding IsInteger, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
                         <Border
                             x:Name="borderValueDisplay"
@@ -92,67 +87,67 @@
                         </Border>
                     </Grid>
 
-                <DockPanel LastChildFill="False" 
+                    <DockPanel LastChildFill="False" 
                            Visibility="{Binding IsEditing, 
                                                 RelativeSource={RelativeSource Mode=FindAncestor, 
                                                 AncestorType=UserControl}, 
                                                 Converter={StaticResource BoolToVisibility}, 
                                                 ConverterParameter=Invert}">
-                    <Button
-                        x:Name="SubButton"
-                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                        HorizontalAlignment="Left"
-                        DockPanel.Dock="Left">
+                        <Button
+                            x:Name="SubButton"
+                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            HorizontalAlignment="Left"
+                            DockPanel.Dock="Left">
 
-                        <Button.Content>
-                            <Image
+                            <Button.Content>
+                                <Image
                                 Margin="42"
                                 Opacity="0.5"
                                 Source="{DynamicResource Sub}" />
-                        </Button.Content>
+                            </Button.Content>
 
-                        <Button.Style>
-                            <Style BasedOn="{StaticResource ButtonStraight}" TargetType="{x:Type Button}">
-                                <Setter Property="Border.Visibility" Value="Hidden" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=mainBorder}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource ButtonStraight}" TargetType="{x:Type Button}">
+                                    <Setter Property="Border.Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=mainBorder}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
 
-                    </Button>
-                    <Button
-                        x:Name="AddButton"
-                        Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                        HorizontalAlignment="Right"
-                        DockPanel.Dock="Right">
+                        </Button>
+                        <Button
+                            x:Name="AddButton"
+                            Width="{Binding ActualHeight, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Right">
 
-                        <Button.Content>
-                            <Image
+                            <Button.Content>
+                                <Image
                                 Margin="42"
                                 Opacity="0.5"
                                 Source="{DynamicResource Add}" />
-                        </Button.Content>
+                            </Button.Content>
 
-                        <Button.Style>
-                            <Style BasedOn="{StaticResource ButtonStraight}" TargetType="{x:Type Button}">
-                                <Setter Property="Border.Visibility" Value="Hidden" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding IsMouseOver, ElementName=mainBorder}" Value="True">
-                                        <Setter Property="Visibility" Value="Visible" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Button.Style>
+                            <Button.Style>
+                                <Style BasedOn="{StaticResource ButtonStraight}" TargetType="{x:Type Button}">
+                                    <Setter Property="Border.Visibility" Value="Hidden" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding IsMouseOver, ElementName=mainBorder}" Value="True">
+                                            <Setter Property="Visibility" Value="Visible" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Button.Style>
 
-                    </Button>
-                </DockPanel>
-            </Grid>
+                        </Button>
+                    </DockPanel>
+                </Grid>
 
-        </Border>
-
-    </Grid>
-
+            </Border>
+        </Grid>
+        
+    </UniformGrid>
 </UserControl>

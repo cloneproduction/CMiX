@@ -126,7 +126,7 @@
                             SnapsToDevicePixels="True"
                             UseLayoutRounding="True"
                             AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
-                            Background="{Binding Background, RelativeSource={RelativeSource TemplatedParent}}"
+                            Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
                             Style="{DynamicResource BorderMask}" />
 
                         <Grid SnapsToDevicePixels="True">

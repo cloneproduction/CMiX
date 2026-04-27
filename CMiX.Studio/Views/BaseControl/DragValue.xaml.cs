@@ -29,24 +29,7 @@ namespace CMiX.Studio.Views.BaseControl
             }
         }
 
-        private Point? _lastPoint;
         private Point? _mouseDownPos;
-
-        protected override void OnPreviewMouseLeftButtonDown(MouseButtonEventArgs e)
-        {
-            if (IsEditing)
-                return;
-
-            if (!borderValueDisplay.IsMouseOver)
-                return;
-
-            _lastPoint = DragEditHelper.GetMousePosition();
-            _mouseDownPos = e.GetPosition(this);
-            borderValueDisplay.CaptureMouse();
-        }
-
-
-        private Point? _lastDragPos;
         private Point? _cursorDownScreenPos;
         private bool _dragging;
 
@@ -56,7 +39,6 @@ namespace CMiX.Studio.Views.BaseControl
                 return;
 
             _mouseDownPos = e.GetPosition(borderValueDisplay);
-            _lastDragPos = _mouseDownPos;
             _cursorDownScreenPos = DragEditHelper.GetMousePosition();
             _dragging = false;
 
@@ -64,9 +46,11 @@ namespace CMiX.Studio.Views.BaseControl
             e.Handled = true;
         }
 
+        private Point _lastScreenPos;
+
         private void Border_PreviewMouseMove(object sender, MouseEventArgs e)
         {
-            if (_mouseDownPos == null || _lastDragPos == null)
+            if (_mouseDownPos == null)
                 return;
 
             var current = e.GetPosition(borderValueDisplay);
@@ -78,15 +62,34 @@ namespace CMiX.Studio.Views.BaseControl
 
                 _dragging = true;
                 Mouse.OverrideCursor = Cursors.None;
-                _lastDragPos = current;
+                _lastScreenPos = DragEditHelper.GetMousePosition();
                 return;
             }
 
-            var delta = current - _lastDragPos.Value;
-            double step = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? SmallChange : LargeChange;
+            var screenPos = DragEditHelper.GetMousePosition();
+            var delta = screenPos - _lastScreenPos;
 
-            Value = Math.Clamp(Value + delta.X * step, Minimum, Maximum);
-            _lastDragPos = current;
+            bool wrapped = false;
+            if (screenPos.X >= DragEditHelper.ScreenWidth - 1)
+            {
+                DragEditHelper.PlaceCursorAt(new Point(1, screenPos.Y));
+                wrapped = true;
+            }
+            else if (screenPos.X <= 0)
+            {
+                DragEditHelper.PlaceCursorAt(new Point(DragEditHelper.ScreenWidth - 2, screenPos.Y));
+                wrapped = true;
+            }
+
+            if (wrapped)
+            {
+                _lastScreenPos = DragEditHelper.GetMousePosition();
+                return;
+            }
+
+            double step = Keyboard.Modifiers.HasFlag(ModifierKeys.Shift) ? SmallChange : LargeChange;
+            AdjustValue(delta.X * step);
+            _lastScreenPos = screenPos;
         }
 
         private void Border_PreviewMouseUp(object sender, MouseButtonEventArgs e)
@@ -107,7 +110,6 @@ namespace CMiX.Studio.Views.BaseControl
                 DragEditHelper.PlaceCursorAt(_cursorDownScreenPos.Value);
 
             _mouseDownPos = null;
-            _lastDragPos = null;
             _cursorDownScreenPos = null;
             _dragging = false;
         }
@@ -119,14 +121,19 @@ namespace CMiX.Studio.Views.BaseControl
 
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Value = Math.Clamp(this.Value + SmallChange, Minimum, Maximum);
+            AdjustValue(SmallChange);
             e.Handled = true;
         }
 
         private void SubButton_Click(object sender, RoutedEventArgs e)
         {
-            this.Value = Math.Clamp(this.Value - SmallChange, Minimum, Maximum);
+            AdjustValue(-SmallChange);
             e.Handled = true;
+        }
+
+        private void AdjustValue(double delta)
+        {
+            Value = Math.Clamp(Value + delta, Minimum, Maximum);
         }
 
         public static readonly DependencyProperty MaximumProperty =

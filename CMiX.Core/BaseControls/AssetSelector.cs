@@ -34,6 +34,8 @@ namespace CMiX.Core.BaseControls
             {
                 _asset = value;
                 OnPropertyChanged();
+                if (value != null)
+                    FilePath.Value = value.FilePath;
             }
         }
 

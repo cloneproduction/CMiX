@@ -7,13 +7,18 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type GridSplitter}">
-                    <Border
-                        x:Name="border"
-                        Background="Transparent"
-                        Visibility="Collapsed" />
+                    <Border x:Name="border" 
+                            Background="Transparent">
+                        <Border
+                            x:Name="indicator"
+                            Height="2"
+                            VerticalAlignment="Center"
+                            Background="Transparent" />
+                    </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey100Brush}" />
+                            <Setter TargetName="indicator" Property="Background" Value="{DynamicResource Grey600Brush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
