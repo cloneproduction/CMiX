@@ -5,11 +5,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Basic/Converters.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Border.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/Button.xaml" />
-        <ResourceDictionary Source="pack://application:,,,/CMiX.Studio;component/Themes/Styles/ToggleButton.xaml" />
     </ResourceDictionary.MergedDictionaries>
-
 
     <Style TargetType="{x:Type ComboBox}">
         <Setter Property="Background" Value="{DynamicResource DarkColor}" />
@@ -237,7 +233,7 @@
                             x:Name="toggleButton"
                             Width="22"
                             IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
-                            Style="{StaticResource ToggleButtonRoundedLeft}">
+                            Style="{DynamicResource ToggleButtonRoundedLeft}">
                             <ToggleButton.Content>
                                 <Image
                                     Margin="10"
