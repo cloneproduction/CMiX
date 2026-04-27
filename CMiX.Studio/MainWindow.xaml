@@ -1,37 +1,27 @@
 ﻿<Window
     x:Class="CMiX.Studio.Views.MainWindow"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
-    xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
-    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-
-    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-    xmlns:Light="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
-    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
-    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
-    xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
-    xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
+    xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
+    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
+    xmlns:Menus="clr-namespace:CMiX.Studio.Views.Menus"
+    xmlns:Windows="clr-namespace:CMiX.Studio.Views.Windows"
     Width="400"
     Height="1000"
     Focusable="True"
     Style="{StaticResource MainWindowStyle}"
     mc:Ignorable="d">
-
-    <!--<Window.InputBindings>
-        <KeyBinding
-            Key="C"
-            Command="{Binding Project.CompositionManager.AddItemCommand}"
-            CommandParameter="{x:Type Compositing:Composition}"
-            Modifiers="Shift" />
-    </Window.InputBindings>-->
 
     <DockPanel Background="{DynamicResource Grey200Brush}" LastChildFill="True">
 
@@ -86,7 +76,7 @@
             DockPanel.Dock="Top"
             Style="{StaticResource TabControlLayerPanel}">
 
-            <TabItem>
+            <TabItem Style="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
                     <Image
@@ -123,7 +113,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Style="{StaticResource TabItemVerticalPanel}">
+            <TabItem Style="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
                     <Image
@@ -165,7 +155,7 @@
 
             </TabItem>
 
-            <TabItem>
+            <TabItem Style="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
                     <Image
                         Margin="8"
@@ -223,7 +213,7 @@
 
             </TabItem>
 
-            <TabItem>
+            <TabItem Style="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
                     <Image
                         Margin="8"
@@ -254,7 +244,7 @@
 
             </TabItem>
 
-            <TabItem>
+            <TabItem Style="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
                     <Image
@@ -287,7 +277,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem>
+            <TabItem Style="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
                     <Image
                         Margin="8"
@@ -317,7 +307,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem>
+            <TabItem Style="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
                     <Image
                         Margin="8"
@@ -333,7 +323,7 @@
                             <Views:RepositoryManager.SelectionPanel>
                                 <Button
                                     Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Light:LightEntity}"
+                                    CommandParameter="{x:Type Lights:LightEntity}"
                                     Content="New Light" />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
@@ -344,9 +334,7 @@
                 </ScrollViewer>
             </TabItem>
 
-
-
-            <TabItem Style="{StaticResource TabItemVerticalPanel}">
+            <TabItem Style="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
                     <Image
@@ -376,7 +364,7 @@
 
             </TabItem>
 
-            <TabItem Style="{StaticResource TabItemVerticalPanel}">
+            <TabItem Style="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
                     <Image
@@ -399,16 +387,14 @@
                                     CommandParameter="{x:Type Modifiers:ColorPalette}"
                                     Content="New Palette" />
                             </Views:RepositoryManager.SelectionPanel>
-                            <!--<Views:RepositoryManager.EditingPanel>
-                                <Colorization:ColorPalette DataContext="{Binding}" />
-                            </Views:RepositoryManager.EditingPanel>-->
+
                         </Views:RepositoryManager>
                     </Border>
                 </ScrollViewer>
 
             </TabItem>
 
-            <TabItem>
+            <TabItem Style="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
                     <Image
                         Margin="8"
@@ -423,7 +409,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Style="{StaticResource TabItemVerticalPanel}">
+            <TabItem Style="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
                     <Image
@@ -440,7 +426,6 @@
                 </ScrollViewer>
 
             </TabItem>
-
 
         </TabControl>
 

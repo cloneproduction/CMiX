@@ -130,7 +130,7 @@
         </Setter>
     </Style>
 
-    <Style x:Key="TabItemVerticalPanel" TargetType="{x:Type TabItem}">
+    <Style x:Key="TabItemHorizontal" TargetType="{x:Type TabItem}">
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="Template">
@@ -177,6 +177,14 @@
                             <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource Grey600Brush}" />
                         </MultiDataTrigger>
 
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="false" />
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource Grey400Brush}" />
+                        </MultiDataTrigger>
+                        
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
@@ -189,7 +197,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
         <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemVerticalPanel}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemHorizontal}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
@@ -243,7 +251,7 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
-        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemVerticalPanel}" />
+        <Setter Property="ItemContainerStyle" Value="{StaticResource TabItemHorizontal}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TabControl}">
