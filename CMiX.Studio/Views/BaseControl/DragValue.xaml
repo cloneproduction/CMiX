@@ -35,7 +35,7 @@
         <Border
             x:Name="mainBorder"
             Grid.Column="1"
-            Background="{DynamicResource DarkColor}"
+            Background="{DynamicResource Grey500Brush}"
             BorderBrush="Transparent">
 
             <Border.OpacityMask>
@@ -59,11 +59,11 @@
                             VerticalAlignment="Stretch">
                             <Border.Style>
                                 <Style TargetType="{x:Type Border}">
-                                    <Setter Property="Background" Value="{DynamicResource DarkColor}" />
+                                    <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
                                             <Setter Property="Cursor" Value="SizeWE" />
-                                            <Setter Property="Background" Value="{DynamicResource LightColor}" />
+                                            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
                                         </Trigger>
                                         <DataTrigger Binding="{Binding IsEditing, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" Value="True">
                                             <Setter Property="Visibility" Value="Hidden" />

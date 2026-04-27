@@ -21,12 +21,12 @@
             HorizontalAlignment="Right" 
             VerticalAlignment="Center" 
             Margin="8, 0" 
-            Foreground="{DynamicResource TextBase}"/>
+            Foreground="{DynamicResource ForegroundBrush}"/>
 
         <Border
             x:Name="mask" 
             Grid.Column="1" 
-            Background="{DynamicResource DarkColor}" 
+            Background="{DynamicResource Grey500Brush}" 
             Style="{StaticResource BorderMask}"
             AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), 
                                                                     RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"/>
@@ -35,7 +35,7 @@
             x:Name="mainBorder" 
             Grid.Column="1" 
             BorderBrush="Transparent" 
-            Background="{DynamicResource DarkColor}">
+            Background="{DynamicResource Grey500Brush}">
 
             <Border.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>

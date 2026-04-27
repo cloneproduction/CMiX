@@ -247,12 +247,8 @@
         </Setter>
     </Style>
 
-
-
-
-
     <Style TargetType="{x:Type Expander}">
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -277,7 +273,7 @@
                                     FontStretch="{TemplateBinding FontStretch}"
                                     FontStyle="{TemplateBinding FontStyle}"
                                     FontWeight="{TemplateBinding FontWeight}"
-                                    Foreground="{DynamicResource TextBase}"
+                                    Foreground="{DynamicResource ForegroundBrush}"
                                     IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                     Style="{DynamicResource ExpanderDownHeaderStyle}" />
 
@@ -320,8 +316,8 @@
                     <Border
                         x:Name="mainBorder"
                         Height="{DynamicResource ControlHeightMD}"
-                        Background="{DynamicResource HighDarkerColor}"
-                        BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                        Background="{DynamicResource Grey300Brush}"
+                        BorderBrush="{DynamicResource Grey100Brush}"
                         BorderThickness="0,0,0,0.5">
                         <Grid Margin="4,0,0,0" SnapsToDevicePixels="False">
                             <Grid.ColumnDefinitions>
@@ -334,7 +330,7 @@
                                 VerticalAlignment="Center"
                                 Data="M 1,1.5 L 4.5,5 L 8,1.5"
                                 SnapsToDevicePixels="false"
-                                Stroke="{DynamicResource TextBase}"
+                                Stroke="{DynamicResource ForegroundBrush}"
                                 StrokeThickness="2" />
                             <ContentPresenter
                                 Grid.Column="1"
@@ -360,7 +356,7 @@
     </Style>
 
     <Style x:Key="ItemControlExpander" TargetType="{x:Type Expander}">
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -369,8 +365,8 @@
                 <ControlTemplate TargetType="{x:Type Expander}">
                     <Border
                         x:Name="border"
-                        Background="{DynamicResource HighDarkerColor}"
-                        BorderBrush="{DynamicResource DarkerColor}"
+                        Background="{DynamicResource Grey300Brush}"
+                        BorderBrush="{DynamicResource Grey400Brush}"
                         BorderThickness="1"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True">
@@ -383,7 +379,7 @@
                             VerticalContentAlignment="Center"
                             Content="{TemplateBinding Header}"
                             DockPanel.Dock="Top"
-                            Foreground="{DynamicResource TextBase}"
+                            Foreground="{DynamicResource ForegroundBrush}"
                             IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{DynamicResource ItemControlExpanderHeaderStyle}" />
                             <ContentPresenter
@@ -404,7 +400,7 @@
                             <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Color}" />
+                            <Setter TargetName="border" Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -414,7 +410,7 @@
 
 
     <Style x:Key="IndentedExpanderStyle" TargetType="{x:Type Expander}">
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -438,7 +434,7 @@
                                     FontStretch="{TemplateBinding FontStretch}"
                                     FontStyle="{TemplateBinding FontStyle}"
                                     FontWeight="{TemplateBinding FontWeight}"
-                                    Foreground="{DynamicResource TextBase}"
+                                    Foreground="{DynamicResource ForegroundBrush}"
                                     IsChecked="{Binding IsExpanded, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                                     Style="{DynamicResource IndentedExpanderStyleHeaderStyle}" />
                                 <Border HorizontalAlignment="Stretch" Background="{DynamicResource PanelBackground}">

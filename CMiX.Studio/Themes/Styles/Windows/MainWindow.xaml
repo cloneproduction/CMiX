@@ -17,7 +17,7 @@
         </Setter>
         <Setter Property="FontFamily" Value="Segoe UI" />
         <Setter Property="FontWeight" Value="Regular" />
-        <Setter Property="BorderBrush" Value="{DynamicResource SuperHighDarkerColor}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Grey100Brush}" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Template">
 
@@ -106,7 +106,7 @@
                         <Grid>
                             <Border
                                 Padding="0"
-                                Background="{DynamicResource HighHighDarkerColor}"
+                                Background="{DynamicResource Grey200Brush}"
                                 CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                                 Opacity="0.9" />
                             
@@ -117,7 +117,7 @@
                                         Margin="8,0,0,0"
                                         VerticalAlignment="Center"
                                         FontSize="12"
-                                        Foreground="{DynamicResource TextBase}"
+                                        Foreground="{DynamicResource ForegroundBrush}"
                                         Text="{TemplateBinding Title}" />
                                 </Border>
                                 <Border Padding="8">
@@ -164,7 +164,7 @@
                         <Grid>
                             <Border
                                 Padding="0"
-                                Background="{DynamicResource HighHighDarkerColor}"
+                                Background="{DynamicResource Grey200Brush}"
                                 CornerRadius="{DynamicResource CornerRadiusLargeAll}"
                                 Opacity="0.9" />
 

@@ -51,7 +51,7 @@
                         Background="Transparent"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True"
-                        TextBlock.Foreground="{DynamicResource TextBase}">
+                        TextBlock.Foreground="{DynamicResource ForegroundBrush}">
                         <GridViewRowPresenter VerticalAlignment="Center" />
 
                     </Border>
@@ -62,7 +62,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Grey500Brush}" />
                         </MultiTrigger>
 
                     </ControlTemplate.Triggers>

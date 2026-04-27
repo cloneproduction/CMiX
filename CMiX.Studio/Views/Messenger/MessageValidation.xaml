@@ -8,7 +8,7 @@
              d:DesignHeight="77.333" d:DesignWidth="337">
     <Border
         DockPanel.Dock="Bottom"
-        Background="{StaticResource DarkerColor}">
+        Background="{StaticResource Grey400Brush}">
         <StackPanel>
             <Grid Height="{DynamicResource ControlHeightSM}">
                 <Grid.ColumnDefinitions>
@@ -17,7 +17,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock 
                     Text="Name" 
-                    Foreground="{StaticResource TextBase}"
+                    Foreground="{StaticResource ForegroundBrush}"
                     HorizontalAlignment="Right"
                     Margin="0, 0, 8, 0"
                     VerticalAlignment="Center"/>
@@ -25,7 +25,7 @@
                     Margin="1"
                     Text="{Binding Name}"
                     Grid.Column="1"
-                    Foreground="{StaticResource TextBase}"/>
+                    Foreground="{StaticResource ForegroundBrush}"/>
             </Grid>
             <Grid Height="{DynamicResource ControlHeightSM}" Margin="0, 4">
                 <Grid.ColumnDefinitions>
@@ -34,7 +34,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock 
                     Text="Send" 
-                    Foreground="{StaticResource TextBase}"
+                    Foreground="{StaticResource ForegroundBrush}"
                     Margin="0, 0, 8, 0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"/>
@@ -54,7 +54,7 @@
                 </Grid.ColumnDefinitions>
                 <TextBlock 
                     Text="Reload" 
-                    Foreground="{StaticResource TextBase}"
+                    Foreground="{StaticResource ForegroundBrush}"
                     Margin="0, 0, 8, 0"
                     HorizontalAlignment="Right"
                     VerticalAlignment="Center"/>

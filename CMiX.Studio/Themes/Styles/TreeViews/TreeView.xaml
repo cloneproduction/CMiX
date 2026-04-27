@@ -17,9 +17,9 @@
                     <Border Background="Transparent" HorizontalAlignment="Center" VerticalAlignment="Center"  >
                         <Path x:Name="ExpandPath"
                               Data="{DynamicResource TreeArrow}"
-                              Fill="{DynamicResource HighLightColor}"
+                              Fill="{DynamicResource HighGrey700Brush}"
                               StrokeThickness="1"
-                              Stroke="{DynamicResource HighLightColor}">
+                              Stroke="{DynamicResource HighGrey700Brush}">
                             <Path.RenderTransform>
                                 <RotateTransform Angle="135" CenterY="3" CenterX="3"/>
                             </Path.RenderTransform>
@@ -32,20 +32,20 @@
                                     <RotateTransform Angle="180" CenterY="4" CenterX="4"/>
                                 </Setter.Value>
                             </Setter>
-                            <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource SuperHighLightColor}"/>
-                            <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource SuperHighLightColor}"/>
+                            <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource SuperHighGrey700Brush}"/>
+                            <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource SuperHighGrey700Brush}"/>
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource SuperHighLightColor}"/>
-                            <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource SuperHighLightColor}"/>
+                            <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource SuperHighGrey700Brush}"/>
+                            <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource SuperHighGrey700Brush}"/>
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsMouseOver" Value="True"/>
                                 <Condition Property="IsChecked" Value="True"/>
                             </MultiTrigger.Conditions>
-                            <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource SuperHighLightColor}"/>
-                            <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource SuperHighLightColor}"/>
+                            <Setter Property="Stroke" TargetName="ExpandPath" Value="{DynamicResource SuperHighGrey700Brush}"/>
+                            <Setter Property="Fill" TargetName="ExpandPath" Value="{DynamicResource SuperHighGrey700Brush}"/>
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -83,7 +83,7 @@
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Padding" Value="1, 0, 0, 0" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type TreeViewItem}">
@@ -100,7 +100,7 @@
                                     <Setter Property="Background" Value="Transparent"/>
                                     <Style.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="{DynamicResource DarkColor}" />
+                                            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
                                         </Trigger>
                                     </Style.Triggers>
                                 </Style>
@@ -208,13 +208,13 @@
                         </MultiTrigger>
 
                         <Trigger Property="IsSelected" Value="true">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}"/>
-                            <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Grey600Brush}"/>
+                            <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
                         </Trigger>
 
                         <Trigger Property="Controls:MultiSelectTreeView.IsItemSelected" Value="true">
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}"/>
-                            <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Grey600Brush}"/>
+                            <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
                         </Trigger>
 
                         <MultiTrigger>
@@ -222,8 +222,8 @@
                                 <Condition Property="Controls:MultiSelectTreeView.IsItemSelected" Value="true"/>
                                 <Condition Property="IsSelectionActive" Value="false"/>
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Color}"/>
-                            <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}"/>
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Grey600Brush}"/>
+                            <Setter TargetName="PART_Header" Property="TextBlock.Foreground" Value="{DynamicResource ActiveForegroundBrush}"/>
                         </MultiTrigger>
 
                     </ControlTemplate.Triggers>

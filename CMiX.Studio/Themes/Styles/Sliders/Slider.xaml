@@ -16,7 +16,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="{DynamicResource AccentInactive}" />
+                    <Border Background="{DynamicResource AccentInactiveBrush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -28,7 +28,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="{DynamicResource Accent}" />
+                    <Border Background="{DynamicResource AccentBrush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -42,7 +42,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="{DynamicResource DarkColor}" />
+                    <Border Background="{DynamicResource Grey500Brush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -54,7 +54,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="{DynamicResource Color}" />
+                    <Border Background="{DynamicResource Grey600Brush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -66,14 +66,14 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border Background="{DynamicResource HighHighDarkerColor}" />
+                    <Border Background="{DynamicResource Grey200Brush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="SliderMaskStyle" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="{DynamicResource DarkerColor}" />
+        <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
         <Style.Triggers>
             <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource AncestorType=Controls:CMiXSlider}}" Value="None">

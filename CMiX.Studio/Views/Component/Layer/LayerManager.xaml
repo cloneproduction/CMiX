@@ -14,7 +14,7 @@
     mc:Ignorable="d">
 
 
-    <Border Background="{DynamicResource HighDarkerColor}">
+    <Border Background="{DynamicResource Grey300Brush}">
         <DockPanel>
 
             <Border DockPanel.Dock="Bottom" Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Hidden}}">
@@ -94,7 +94,7 @@
 
             <DockPanel>
                 <DockPanel
-                    Background="{DynamicResource DarkerColor}"
+                    Background="{DynamicResource Grey400Brush}"
                     DockPanel.Dock="Bottom"
                     LastChildFill="False">
 
@@ -166,7 +166,7 @@
 
                 </DockPanel>
 
-                <Border Background="{DynamicResource DarkerColor}" DockPanel.Dock="Top">
+                <Border Background="{DynamicResource Grey400Brush}" DockPanel.Dock="Top">
 
                     <ListBox
                         Grid.Row="3"

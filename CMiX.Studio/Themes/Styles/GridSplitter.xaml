@@ -13,7 +13,7 @@
                         Visibility="Collapsed" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -16,30 +16,19 @@
     <StackPanel>
 
         <Border Height="{DynamicResource ControlHeightMD}">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
+            <Panels:PositionedUniformGrid Columns="3">
                 <RadioButton
                     x:Name="HSVRadio"
-                    Grid.Column="0"
                     Content="HSV"
-                    IsChecked="True"
-                    Style="{StaticResource InlineRadioButtonLeft}" />
+                    IsChecked="True" />
                 <RadioButton
                     x:Name="RGBRadio"
-                    Grid.Column="1"
                     Margin="1,0"
-                    Content="RGB"
-                    Style="{StaticResource InlineRadioButtonCenter}" />
+                    Content="RGB" />
                 <RadioButton
                     x:Name="HEXRadio"
-                    Grid.Column="2"
-                    Content="HEX"
-                    Style="{StaticResource InlineRadioButtonRight}" />
-            </Grid>
+                    Content="HEX" />
+            </Panels:PositionedUniformGrid>
         </Border>
         
         <Grid VerticalAlignment="Top" Margin="0, 8">

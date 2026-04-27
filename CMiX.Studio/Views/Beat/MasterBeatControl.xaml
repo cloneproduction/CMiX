@@ -32,7 +32,7 @@
                 <Button
                     Margin="4, 0, 0, 0"
                     Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                    Background="{StaticResource Color}"
+                    Background="{StaticResource Grey600Brush}"
                     Command="{Binding Resync.ClickCommand}"
                     DockPanel.Dock="Right"
                     Style="{StaticResource ButtonRounded}">
@@ -52,7 +52,7 @@
 
                 <Button
                     Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                    Background="{StaticResource Color}"
+                    Background="{StaticResource Grey600Brush}"
                     Command="{Binding MultiplyCommand}"
                     Content="+"
                     DockPanel.Dock="Right"
@@ -61,7 +61,7 @@
                 <Button
                     Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                     Margin="1,0"
-                    Background="{StaticResource Color}"
+                    Background="{StaticResource Grey600Brush}"
                     Command="{Binding DivideCommand}"
                     Content="-"
                     Style="{StaticResource ButtonStraight}"
@@ -69,7 +69,7 @@
 
                 <Grid>
                     <Border
-                        Background="{DynamicResource Color}"
+                        Background="{DynamicResource Grey600Brush}"
                         Opacity="{Binding AnimatedDouble.AnimationPosition}" />
                     <Button
                         HorizontalAlignment="Stretch"

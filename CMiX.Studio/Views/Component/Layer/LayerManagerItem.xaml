@@ -89,7 +89,7 @@
             <Controls:EditableTextBox
                 x:Name="editableTextBox"
                 Height="{DynamicResource ControlHeightSM}"
-                Foreground="{DynamicResource TextBase}"
+                Foreground="{DynamicResource ForegroundBrush}"
                 Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
 
         </DockPanel>

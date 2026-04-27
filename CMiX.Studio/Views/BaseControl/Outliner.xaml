@@ -42,13 +42,13 @@
 
                     <Border                        
                         BorderThickness="0.5"
-                        BorderBrush="{DynamicResource HighDarkerColor}">
+                        BorderBrush="{DynamicResource Grey300Brush}">
                         <Controls:EditableTextBox
                             Focusable="False"
-                            Background="{DynamicResource HighHighDarkerColor}"
+                            Background="{DynamicResource Grey200Brush}"
                             SnapsToDevicePixels="True"
                             Text="{Binding SelectedItem.PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
-                            TextElement.Foreground="{DynamicResource TextBase}" />
+                            TextElement.Foreground="{DynamicResource ForegroundBrush}" />
                     </Border>
 
                 </DockPanel>

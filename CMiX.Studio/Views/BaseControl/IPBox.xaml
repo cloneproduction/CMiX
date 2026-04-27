@@ -39,9 +39,9 @@
                 TextChanged="txtbox_TextChanged" />
             <Label
                 Grid.Column="1"
-                Background="{StaticResource SuperHighDarkerColor}"
+                Background="{StaticResource Grey100Brush}"
                 Content="."
-                Foreground="{StaticResource TextBase}" />
+                Foreground="{StaticResource ForegroundBrush}" />
             <TextBox
                 Name="txtboxSecondPart"
                 Grid.Column="2"
@@ -56,10 +56,10 @@
                 Grid.Column="3"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                Background="{StaticResource SuperHighDarkerColor}"
+                Background="{StaticResource Grey100Brush}"
                 BorderThickness="0"
                 Content="."
-                Foreground="{StaticResource TextBase}" />
+                Foreground="{StaticResource ForegroundBrush}" />
             <TextBox
                 Name="txtboxThridPart"
                 Grid.Column="4"
@@ -74,10 +74,10 @@
                 Grid.Column="5"
                 HorizontalContentAlignment="Center"
                 VerticalContentAlignment="Center"
-                Background="{StaticResource SuperHighDarkerColor}"
+                Background="{StaticResource Grey100Brush}"
                 BorderThickness="0"
                 Content="."
-                Foreground="{StaticResource TextBase}" />
+                Foreground="{StaticResource ForegroundBrush}" />
             <TextBox
                 x:Name="txtboxFourthPart"
                 Grid.Column="6"

@@ -10,8 +10,8 @@
     
     <Style TargetType="{x:Type Button}">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
-        <Setter Property="Background" Value="{DynamicResource Color}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -59,11 +59,11 @@
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighGrey700Brush}" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
@@ -229,8 +229,8 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />
-                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey500Brush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
@@ -245,8 +245,8 @@
         <Setter Property="FocusVisualStyle" Value="{x:Null}" />
 
         <Setter Property="IsEnabled" Value="True" />
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
@@ -255,7 +255,7 @@
                     <Border
                         x:Name="border"
                         Margin="0"
-                        Background="{DynamicResource AccentInactive}"
+                        Background="{DynamicResource AccentInactiveBrush}"
                         BorderBrush="{DynamicResource Shadow}"
                         BorderThickness="0,0,0,2"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
@@ -267,17 +267,17 @@
                             <TextBlock
                                 x:Name="textBlock"
                                 HorizontalAlignment="Center"
-                                Foreground="{DynamicResource TextBase}"
+                                Foreground="{DynamicResource ForegroundBrush}"
                                 Text="{TemplateBinding Content}" />
                         </Viewbox>
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}" />
-                            <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+                            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentBrush}" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
@@ -291,8 +291,8 @@
     <Style x:Key="ButtonWindowControlStyle" TargetType="{x:Type Button}">
         <Setter Property="Height" Value="{DynamicResource ControlHeightXL}" />
         <Setter Property="Width" Value="{DynamicResource ControlHeightXL}" />
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </Style>
@@ -306,11 +306,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -328,11 +328,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -350,11 +350,11 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                             <Setter TargetName="image" Property="Opacity" Value="1.0" />
                         </Trigger>
                     </ControlTemplate.Triggers>

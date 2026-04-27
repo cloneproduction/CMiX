@@ -27,9 +27,9 @@
             VerticalContentAlignment="Center"
             Background="Transparent"
             BorderThickness="0"
-            CaretBrush="{DynamicResource AccentInactive}"
-            Foreground="{DynamicResource ActiveTextBase}"
-            SelectionBrush="{DynamicResource Accent}"
+            CaretBrush="{DynamicResource AccentInactiveBrush}"
+            Foreground="{DynamicResource ActiveForegroundBrush}"
+            SelectionBrush="{DynamicResource AccentBrush}"
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}">
             <TextBox.ContextMenu>
                 <ContextMenu Visibility="Hidden" />

@@ -13,7 +13,7 @@
         Margin="0,0,0,2"
         Padding="2"
         Background="Transparent"
-        BorderBrush="{DynamicResource SuperHighDarkerColor}"
+        BorderBrush="{DynamicResource Grey100Brush}"
         DockPanel.Dock="Top"
         WindowChrome.IsHitTestVisibleInChrome="True">
         <Menu
@@ -75,7 +75,7 @@
                 <MenuItem Header="Duplicate" />
                 <Separator
                     Margin="0,8,8,8"
-                    BorderBrush="{StaticResource DarkColor}"
+                    BorderBrush="{StaticResource Grey500Brush}"
                     BorderThickness="0.5" />
                 <MenuItem Header="Import" />
                 <MenuItem Header="Export" />

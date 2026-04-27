@@ -27,7 +27,7 @@
                 <TextBlock
                     Padding="4,0"
                     HorizontalAlignment="Left"
-                    Foreground="{StaticResource TextBase}"
+                    Foreground="{StaticResource ForegroundBrush}"
                     Text="{Binding Caption, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
             </Border>
         </DockPanel>

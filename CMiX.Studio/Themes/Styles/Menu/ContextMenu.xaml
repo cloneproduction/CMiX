@@ -2,7 +2,7 @@
 
 
     <Style x:Key="contextMenuMask" TargetType="{x:Type Border}">
-        <Setter Property="Background" Value="{DynamicResource DarkerColor}" />
+        <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
         <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
     </Style>
 
@@ -47,7 +47,7 @@
                             <Setter TargetName="templateRoot" Property="Opacity" Value="0.5" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Grey600Brush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -60,7 +60,7 @@
         <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Grid.IsSharedSizeScope" Value="true" />
         <Setter Property="BorderThickness" Value="1" />
-        <Setter Property="BorderBrush" Value="{DynamicResource Color}" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ContextMenuSubItem}" />
         <Setter Property="Template">
             <Setter.Value>

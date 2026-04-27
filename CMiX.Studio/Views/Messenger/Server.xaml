@@ -62,13 +62,13 @@
                         Margin="0,0,8,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource TextBase}"
+                        Foreground="{DynamicResource ForegroundBrush}"
                         Text="Sent Messages Size" />
                     <TextBlock
                         Grid.Column="1"
                         Padding="4"
                         HorizontalAlignment="Right"
-                        Foreground="{DynamicResource TextBase}"
+                        Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding Statistics.SentMessagesAverageSize}" />
                 </Grid>
 
@@ -81,13 +81,13 @@
                         Margin="0,0,8,0"
                         HorizontalAlignment="Right"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource TextBase}"
+                        Foreground="{DynamicResource ForegroundBrush}"
                         Text="Sent Messages" />
                     <TextBlock
                         Grid.Column="1"
                         Padding="4"
                         HorizontalAlignment="Right"
-                        Foreground="{DynamicResource TextBase}"
+                        Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding Statistics.SentMessages}" />
                 </Grid>
             </StackPanel>

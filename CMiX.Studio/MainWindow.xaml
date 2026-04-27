@@ -33,9 +33,9 @@
             Modifiers="Shift" />
     </Window.InputBindings>-->
 
-    <DockPanel Background="{DynamicResource HighHighDarkerColor}" LastChildFill="True">
+    <DockPanel Background="{DynamicResource Grey200Brush}" LastChildFill="True">
 
-        <Border Background="{DynamicResource SuperHighDarkerColor}" DockPanel.Dock="Top">
+        <Border Background="{DynamicResource Grey100Brush}" DockPanel.Dock="Top">
 
             <DockPanel LastChildFill="False">
 
@@ -48,8 +48,8 @@
 
         <Border
             Height="{DynamicResource ControlHeightXL}"
-            Background="{DynamicResource SuperHighDarkerColor}"
-            BorderBrush="{DynamicResource SuperHighDarkerColor}"
+            Background="{DynamicResource Grey100Brush}"
+            BorderBrush="{DynamicResource Grey100Brush}"
             BorderThickness="2,0,2,2"
             DockPanel.Dock="Bottom">
 
@@ -71,8 +71,8 @@
 
         <Border
             Padding="8"
-            Background="{DynamicResource HighDarkerColor}"
-            BorderBrush="{DynamicResource SuperHighDarkerColor}"
+            Background="{DynamicResource Grey300Brush}"
+            BorderBrush="{DynamicResource Grey100Brush}"
             BorderThickness="2,0"
             DockPanel.Dock="Bottom">
 
@@ -141,8 +141,8 @@
 
                         <Border
                             Grid.Row="1"
-                            Background="{DynamicResource HighDarkerColor}"
-                            BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                            Background="{DynamicResource Grey300Brush}"
+                            BorderBrush="{DynamicResource Grey100Brush}"
                             BorderThickness="0,2"
                             Visibility="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
                             <Views:Layer Margin="0,0,0,0" DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem}" />
@@ -150,7 +150,7 @@
 
                         <Views:LayerManager
                             Grid.Row="0"
-                            BorderBrush="{DynamicResource SuperHighDarkerColor}"
+                            BorderBrush="{DynamicResource Grey100Brush}"
                             BorderThickness="0,2,0,0"
                             DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager}" />
 
@@ -178,7 +178,7 @@
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
 
-                    <Border Background="{DynamicResource HighDarkerColor}">
+                    <Border Background="{DynamicResource Grey300Brush}">
                         <StackPanel>
 
                             <Views:RepositoryManager
@@ -236,7 +236,7 @@
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
 
-                    <Border Background="{DynamicResource HighDarkerColor}">
+                    <Border Background="{DynamicResource Grey300Brush}">
                         <Views:RepositoryManager DataContext="{Binding MaterialManager}" ItemsSource="{Binding ControlRepository.Materials}">
                             <Views:RepositoryManager.SelectionPanel>
                                 <Button
@@ -269,7 +269,7 @@
                     </i:Interaction.Behaviors>
                     <Views:RepositoryManager
                         x:Name="repositoryManager"
-                        Background="{DynamicResource HighDarkerColor}"
+                        Background="{DynamicResource Grey300Brush}"
                         DataContext="{Binding TextureManager}"
                         DockPanel.Dock="Top"
                         ItemsSource="{Binding ControlRepository.Textures}">
@@ -298,7 +298,7 @@
                     <i:Interaction.Behaviors>
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource HighDarkerColor}">
+                    <Border Background="{DynamicResource Grey300Brush}">
                         <Views:RepositoryManager
                             DataContext="{Binding CameraManager}"
                             DockPanel.Dock="Top"
@@ -328,7 +328,7 @@
                     <i:Interaction.Behaviors>
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource HighDarkerColor}">
+                    <Border Background="{DynamicResource Grey300Brush}">
                         <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
                             <Views:RepositoryManager.SelectionPanel>
                                 <Button
@@ -359,7 +359,7 @@
                     <i:Interaction.Behaviors>
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource HighDarkerColor}">
+                    <Border Background="{DynamicResource Grey300Brush}">
                         <Views:RepositoryManager DataContext="{Binding BeatManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
                             <Views:RepositoryManager.SelectionPanel>
                                 <Button
@@ -391,7 +391,7 @@
                     <i:Interaction.Behaviors>
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource HighDarkerColor}">
+                    <Border Background="{DynamicResource Grey300Brush}">
                         <Views:RepositoryManager DataContext="{Binding ColorPaletteManager}" ItemsSource="{Binding ControlRepository.ColorPalettes}">
                             <Views:RepositoryManager.SelectionPanel>
                                 <Button

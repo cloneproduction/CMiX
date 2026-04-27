@@ -46,14 +46,14 @@
                 <ControlTemplate TargetType="{x:Type Thumb}">
                     <Border
                         x:Name="Thumb"
-                        Background="{DynamicResource DarkColor}"
+                        Background="{DynamicResource Grey500Brush}"
                         CornerRadius="{DynamicResource CornerRadiusAll}" />
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="true">
-                            <Setter TargetName="Thumb" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="Thumb" Property="Background" Value="{DynamicResource Grey600Brush}" />
                         </Trigger>
                         <Trigger Property="IsDragging" Value="true">
-                            <Setter TargetName="Thumb" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="Thumb" Property="Background" Value="{DynamicResource Grey700Brush}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -84,7 +84,7 @@
                 <ColumnDefinition Width="0.00001*" />
                 <ColumnDefinition MaxWidth="12" />
             </Grid.ColumnDefinitions>
-            <Border Grid.ColumnSpan="3" Background="{DynamicResource DarkColor}" />
+            <Border Grid.ColumnSpan="3" Background="{DynamicResource Grey500Brush}" />
             <RepeatButton
                 Grid.Column="0"
                 Width="4"
@@ -101,7 +101,7 @@
                 <Track.Thumb>
                     <Thumb
                         Margin="0,2,0,2"
-                        Background="{DynamicResource Color}"
+                        Background="{DynamicResource Grey600Brush}"
                         Style="{DynamicResource ScrollBarThumb}" />
                 </Track.Thumb>
                 <Track.IncreaseRepeatButton>

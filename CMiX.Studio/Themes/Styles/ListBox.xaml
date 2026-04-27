@@ -48,7 +48,7 @@
         <Setter Property="Background" Value="Transparent" />
         <Style.Triggers>
             <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="{DynamicResource DarkColor}" />
+                <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
             </Trigger>
         </Style.Triggers>
     </Style>
@@ -59,9 +59,10 @@
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Controls:CMiXListBox}">
                     <Border
+                        x:Name="outerBorder"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         BorderThickness="0.5"
-                        BorderBrush="{DynamicResource DarkColor}">
+                        BorderBrush="{DynamicResource Grey400Brush}">
                         <DockPanel>
 
                             <Border
@@ -94,6 +95,12 @@
 
                         </DockPanel>
                     </Border>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="outerBorder" Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -139,7 +146,7 @@
                         Background="Transparent"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True"
-                        TextBlock.Foreground="{DynamicResource TextBase}">
+                        TextBlock.Foreground="{DynamicResource ForegroundBrush}">
                         <ContentPresenter Margin="0,0" />
                     </Border>
                     <ControlTemplate.Triggers>
@@ -148,21 +155,21 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentBrush}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Grey400Brush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -185,7 +192,7 @@
                         Background="Transparent"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True"
-                        TextBlock.Foreground="{DynamicResource TextBase}">
+                        TextBlock.Foreground="{DynamicResource ForegroundBrush}">
                         <DockPanel>
                             <Ellipse
                                 Width="7"
@@ -202,7 +209,7 @@
                             <Controls:EditableTextBox
                                 x:Name="editableTextBox"
                                 Height="{DynamicResource ControlHeightSM}"
-                                Foreground="{DynamicResource TextBase}"
+                                Foreground="{DynamicResource ForegroundBrush}"
                                 Style="{StaticResource ServerEditableTextBoxStyle}"
                                 Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
@@ -212,7 +219,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Grey500Brush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -236,7 +243,7 @@
                             Padding="4,0,0,0"
                             Background="Transparent"
                             SnapsToDevicePixels="True"
-                            TextBlock.Foreground="{DynamicResource TextBase}">
+                            TextBlock.Foreground="{DynamicResource ForegroundBrush}">
                             <ContentPresenter />
                         </Border>
                     </Border>
@@ -245,14 +252,14 @@
                             <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource ListBoxBackground}" />
                         </Trigger>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource DarkColor}" />
+                            <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource Grey500Brush}" />
                         </Trigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
-                            <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource AccentInactive}" />
+                            <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
+                            <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
@@ -277,21 +284,21 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentBrush}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
                         </MultiTrigger>
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
+                            <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Grey400Brush}" />
                         </MultiTrigger>
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

@@ -17,7 +17,7 @@
         <Border Height="44" 
                 BorderThickness="0.5" 
                 CornerRadius="{DynamicResource CornerRadiusAll}" 
-                BorderBrush="{StaticResource Color}">
+                BorderBrush="{StaticResource Grey600Brush}">
             <TextBox
                 Style="{StaticResource TypeWriterStyle}"
                 Text="{Binding StringControl.Value, UpdateSourceTrigger=PropertyChanged}" />

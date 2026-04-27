@@ -25,7 +25,7 @@
 
             <Button
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
-                Background="{StaticResource Color}"
+                Background="{StaticResource Grey600Brush}"
                 Command="{Binding MultiplyCommand}"
                 Content="+"
                 DockPanel.Dock="Right"
@@ -34,7 +34,7 @@
             <Button
                 Width="{Binding ActualHeight, Mode=OneWay, RelativeSource={RelativeSource Self}}"
                 Margin="1,0, 1, 0"
-                Background="{StaticResource Color}"
+                Background="{StaticResource Grey600Brush}"
                 Style="{StaticResource ButtonStraight}"
                 Command="{Binding DivideCommand}"
                 Content="-"
@@ -43,10 +43,10 @@
             <Border
                 x:Name="MainBorder"
                 Grid.Column="1"
-                Background="{DynamicResource DarkColor}"
+                Background="{DynamicResource Grey500Brush}"
                 CornerRadius="{DynamicResource CornerRadiusLeft}">
                 <Grid>
-                    <Border Background="{DynamicResource LightColor}" 
+                    <Border Background="{DynamicResource Grey700Brush}" 
                             CornerRadius="{DynamicResource CornerRadiusLeft}">
                         <Border.Opacity>
                             <MultiBinding Converter="{StaticResource MultiPeriodToBeatAnimation}" 
@@ -61,7 +61,7 @@
                     <TextBlock
                         HorizontalAlignment="Center"
                         VerticalAlignment="Center"
-                        Foreground="{DynamicResource TextBase}"
+                        Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding BPM, StringFormat=F2}" />
                 </Grid>
                 

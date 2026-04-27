@@ -109,7 +109,7 @@
                 Height="{DynamicResource ControlHeightMD}"
                 Margin="0,4"
                 HorizontalContentAlignment="Center"
-                Background="{DynamicResource DarkerColor}"
+                Background="{DynamicResource Grey400Brush}"
                 Style="{StaticResource ToggleTransformModifierMenu}" />
 
             <Popup
@@ -125,7 +125,7 @@
                 <Border
                     Width="250"
                     Padding="4"
-                    Background="{DynamicResource HighHighDarkerColor}"
+                    Background="{DynamicResource Grey200Brush}"
                     CornerRadius="{DynamicResource CornerRadiusLargeAll}">
                     <ItemsControl ItemsSource="{Binding ItemsSource, ElementName=prefabSlotManager}">
                         <ItemsControl.ItemTemplate>
@@ -149,7 +149,7 @@
                 <Border
                     Height="{DynamicResource ControlHeightMD}"
                     Margin="1,0,0,0"
-                    Background="{DynamicResource HighHighDarkerColor}"
+                    Background="{DynamicResource Grey200Brush}"
                     CornerRadius="{DynamicResource CornerRadiusRight}">
                     <TextBox
                         Padding="4,0"

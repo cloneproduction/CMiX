@@ -2,7 +2,7 @@
 
     <Style x:Key="MenuDefault" TargetType="{x:Type Menu}">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Template">
             <Setter.Value>
@@ -27,7 +27,7 @@
                         Height="1"
                         Margin="4"
                         HorizontalAlignment="Stretch"
-                        Background="{DynamicResource HighDarkerColor}" />
+                        Background="{DynamicResource Grey300Brush}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -80,7 +80,7 @@
                                     x:Name="SubMenuBorder"
                                     Margin="0,0,32,8"
                                     Padding="0"
-                                    Background="{DynamicResource DarkerColor}">
+                                    Background="{DynamicResource Grey400Brush}">
                                     <Border.Effect>
                                         <DropShadowEffect
                                             BlurRadius="8"
@@ -121,7 +121,7 @@
                             <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource AccentBrush}" />
                             <Setter TargetName="Icon" Property="Opacity" Value="1.0" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">
@@ -180,7 +180,7 @@
                                     x:Name="SubMenuBorder"
                                     Margin="0,0,8,8"
                                     Padding="2"
-                                    Background="{DynamicResource DarkerColor}">
+                                    Background="{DynamicResource Grey400Brush}">
                                     <Border.Effect>
                                         <DropShadowEffect
                                             BlurRadius="8"
@@ -221,7 +221,7 @@
                             <Setter TargetName="Icon" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="IsHighlighted" Value="True">
-                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="templateRoot" Property="Background" Value="{DynamicResource AccentBrush}" />
                             <Setter TargetName="Icon" Property="Opacity" Value="1.0" />
                         </Trigger>
                         <Trigger Property="IsEnabled" Value="False">

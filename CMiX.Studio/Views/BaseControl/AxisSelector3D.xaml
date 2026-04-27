@@ -21,7 +21,7 @@
             Grid.Column="0"
             Padding="0,0,8,0"
             HorizontalAlignment="Right"
-            Foreground="{StaticResource TextBase}"
+            Foreground="{StaticResource ForegroundBrush}"
             Text="{Binding Caption, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
 
         <Border

@@ -18,7 +18,7 @@ namespace CMiX.Core.Rendering.Lights
                              GenericValue<LightType> lightTypeSelector) 
         {
             ID = Guid.NewGuid();
-            LightColor = lightColor;
+            Grey700Brush = lightColor;
             Position = position;
             Target = target;
             Radius = radius;
@@ -30,7 +30,7 @@ namespace CMiX.Core.Rendering.Lights
 
         public Guid ID { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
-        public GenericValue<string> LightColor { get; set; }
+        public GenericValue<string> Grey700Brush { get; set; }
         public Vector3 Position { get; set; }
         public Vector3 Target { get; set; }
         public GenericValue<float> Radius { get; set; }
@@ -42,7 +42,7 @@ namespace CMiX.Core.Rendering.Lights
         {
             ID = ID,
             LightTypeSelector = (GenericValueModel<LightType>)LightTypeSelector.ToModel(),
-            LightColor = (GenericValueModel<string>)LightColor.ToModel(),
+            Grey700Brush = (GenericValueModel<string>)Grey700Brush.ToModel(),
             Position = (Vector3Model)Position.ToModel(),
             Target = (Vector3Model)Target.ToModel(),
             Radius = (GenericValueModel<float>)Radius.ToModel(),
@@ -56,7 +56,7 @@ namespace CMiX.Core.Rendering.Lights
             var m = (LightSettingsModel)model;
             ID = m.ID;
             LightTypeSelector.FromModel(m.LightTypeSelector);
-            LightColor.FromModel(m.LightColor);
+            Grey700Brush.FromModel(m.Grey700Brush);
             Position.FromModel(m.Position);
             Target.FromModel(m.Target);
             Radius.FromModel(m.Radius);

@@ -18,9 +18,9 @@
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
 
-    <Border Background="{DynamicResource HighDarkerColor}" Visibility="{Binding Converter={StaticResource NullToVisibility}}">
+    <Border Background="{DynamicResource Grey300Brush}" Visibility="{Binding Converter={StaticResource NullToVisibility}}">
         <TabControl
-            Background="{DynamicResource HighHighDarkerColor}"
+            Background="{DynamicResource Grey200Brush}"
             Style="{StaticResource TabControlVerticalPanel}"
             TabStripPlacement="Left">
 

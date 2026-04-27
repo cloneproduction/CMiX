@@ -10,8 +10,8 @@
 
     <Style TargetType="{x:Type ToggleButton}">
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
-        <Setter Property="Background" Value="{DynamicResource Color}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -65,11 +65,11 @@
                         </Trigger>
 
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                         </Trigger>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighGrey700Brush}" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
@@ -82,7 +82,7 @@
                                 <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -92,7 +92,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentBrush}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -102,7 +102,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -112,7 +112,7 @@
                                 <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -168,8 +168,8 @@
 
 
     <Style x:Key="ToggleCheckBox" TargetType="{x:Type ToggleButton}">
-        <Setter Property="Background" Value="{DynamicResource Color}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="VerticalAlignment" Value="Stretch" />
@@ -193,7 +193,7 @@
                     <ControlTemplate.Triggers>
 
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighGrey700Brush}" />
                         </Trigger>
 
                         <Trigger Property="IsEnabled" Value="False">
@@ -206,7 +206,7 @@
                                 <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
                                 <Setter TargetName="icon" Property="Visibility" Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
@@ -217,7 +217,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentBrush}" />
                                 <Setter TargetName="icon" Property="Visibility" Value="Visible" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
@@ -228,7 +228,7 @@
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
                                 <Setter TargetName="icon" Property="Visibility" Value="Hidden" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
@@ -239,7 +239,7 @@
                                 <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey500Brush}" />
                                 <Setter TargetName="icon" Property="Visibility" Value="Hidden" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
@@ -353,7 +353,7 @@
                 <ControlTemplate TargetType="{x:Type ToggleButton}">
                     <Border
                         x:Name="border"
-                        Background="{DynamicResource DarkerColor}"
+                        Background="{DynamicResource Grey400Brush}"
                         CornerRadius="{DynamicResource CornerRadiusLeft}"
                         SnapsToDevicePixels="True">
                         <DockPanel>
@@ -366,7 +366,7 @@
                                 DockPanel.Dock="Right"
                                 Opacity="0.5"
                                 SnapsToDevicePixels="false"
-                                Stroke="{DynamicResource TextBase}"
+                                Stroke="{DynamicResource ForegroundBrush}"
                                 StrokeThickness="2" />
                             <TextBlock Padding="8,4,4,4" Text="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=Content, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
@@ -378,7 +378,7 @@
                                 <Condition Property="IsMouseOver" Value="true" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey500Brush}" />
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
@@ -386,7 +386,7 @@
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="true" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentBrush}" />
                             <Setter TargetName="arrow" Property="Opacity" Value="1.0" />
                         </MultiTrigger>
 

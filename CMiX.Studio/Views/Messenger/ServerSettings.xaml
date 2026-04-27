@@ -19,7 +19,7 @@
                 Margin="0,0,8,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Foreground="{DynamicResource TextBase}"
+                Foreground="{DynamicResource ForegroundBrush}"
                 Text="IP" />
             <TextBlock
                 Grid.Column="1"
@@ -35,12 +35,12 @@
                 Margin="0,0,8,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Foreground="{StaticResource TextBase}"
+                Foreground="{StaticResource ForegroundBrush}"
                 Text="Port" />
             <TextBlock
                 Grid.Column="1"
                 Padding="4"
-                Foreground="{StaticResource TextBase}"
+                Foreground="{StaticResource ForegroundBrush}"
                 Text="{Binding Port.Value}" />
         </Grid>
         <Grid Height="{DynamicResource ControlHeightMD}">
@@ -52,12 +52,12 @@
                 Margin="0,0,8,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
-                Foreground="{DynamicResource TextBase}"
+                Foreground="{DynamicResource ForegroundBrush}"
                 Text="Client Status" />
             <TextBlock
                 Grid.Column="1"
                 Padding="4"
-                Foreground="{DynamicResource TextBase}"
+                Foreground="{DynamicResource ForegroundBrush}"
                 Text="{Binding Status}" />
         </Grid>
     </StackPanel>

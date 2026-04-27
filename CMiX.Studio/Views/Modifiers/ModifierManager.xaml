@@ -17,7 +17,7 @@
 
         <ToggleButton
             x:Name="PopUpToggle"
-            Background="{DynamicResource DarkerColor}"
+            Background="{DynamicResource Grey400Brush}"
             Content="Add Modifier"
             Margin="0, 0, 0, 0"
             Style="{StaticResource ToggleTransformModifierMenu}" />
@@ -36,7 +36,7 @@
 
             <Border
                 Padding="2, 8, 2, 8"
-                Background="{DynamicResource HighHighDarkerColor}"
+                Background="{DynamicResource Grey200Brush}"
                 CornerRadius="{DynamicResource CornerRadiusBottom}">
                 <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
             </Border>

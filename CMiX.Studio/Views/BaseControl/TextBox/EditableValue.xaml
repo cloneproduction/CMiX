@@ -15,14 +15,14 @@
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type BaseControl:EditableValue}}}" />
         <TextBox
             x:Name="InputValue" 
-            SelectionBrush="{DynamicResource SuperHighLightColor}"
-            CaretBrush="{DynamicResource SuperHighLightColor}"
+            SelectionBrush="{DynamicResource SuperHighGrey700Brush}"
+            CaretBrush="{DynamicResource SuperHighGrey700Brush}"
             Padding="5"
             BorderThickness="0"
             VerticalAlignment="Center"
             PreviewTextInput="TextInput_PreviewTextInput"
-            Background="{DynamicResource HighDarkerColor}" 
-            Foreground="{DynamicResource ActiveTextBase}" 
+            Background="{DynamicResource Grey300Brush}" 
+            Foreground="{DynamicResource ActiveForegroundBrush}" 
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type BaseControl:EditableValue}}}" />
     </Grid>
 

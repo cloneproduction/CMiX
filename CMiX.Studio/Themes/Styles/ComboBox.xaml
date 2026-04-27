@@ -31,13 +31,13 @@
                     </Border>
                     <ControlTemplate.Triggers>
                         <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey600Brush}" />
                         </Trigger>
                         <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource HighGrey700Brush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                             <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -47,7 +47,7 @@
     </Style>
 
     <Style TargetType="{x:Type ComboBox}">
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
         <Setter Property="UseLayoutRounding" Value="True" />
         <Setter Property="HorizontalContentAlignment" Value="Left" />
@@ -72,7 +72,7 @@
                             ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
                             IsHitTestVisible="False"
                             SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"
-                            TextElement.Foreground="{DynamicResource TextBase}" />
+                            TextElement.Foreground="{DynamicResource ForegroundBrush}" />
 
                         <Popup
                             x:Name="PART_Popup"
@@ -88,7 +88,7 @@
                                 HorizontalAlignment="Stretch"
                                 Background="Transparent">
                                 <Grid HorizontalAlignment="Stretch">
-                                    <Border Background="{DynamicResource HighHighDarkerColor}"
+                                    <Border Background="{DynamicResource Grey200Brush}"
                                             CornerRadius="{DynamicResource CornerRadiusBottom}" />
                                     <ScrollViewer
                                         x:Name="DropDownScrollViewer"
@@ -154,7 +154,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -162,7 +162,7 @@
                                 <Condition Property="IsSelected" Value="True" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentBrush}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -170,7 +170,7 @@
                                 <Condition Property="IsSelected" Value="False" />
                                 <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkerColor}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey400Brush}" />
                         </MultiTrigger>
 
                         <MultiTrigger>
@@ -248,7 +248,7 @@
                             x:Name="toggleButton"
                             Width="22"
                             Margin="0,0,1,0"
-                            Background="{DynamicResource HighHighDarkerColor}"
+                            Background="{DynamicResource Grey200Brush}"
                             IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Style="{StaticResource ToggleButtonRoundedLeft}">
                             <ToggleButton.Content>

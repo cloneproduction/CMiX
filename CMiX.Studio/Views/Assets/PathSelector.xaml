@@ -24,7 +24,7 @@
         <Border
             x:Name="mask" 
             Grid.Column="1" 
-            Background="{DynamicResource DarkColor}" 
+            Background="{DynamicResource Grey500Brush}" 
             Style="{StaticResource BorderMask}"
             AttachedProperties:PositionedControl.Position="{Binding Path=Position, ElementName=pathSelector}"/>
 
@@ -32,7 +32,7 @@
             x:Name="mainBorder" 
             Grid.Column="1" 
             BorderBrush="Transparent" 
-            Background="{DynamicResource DarkColor}">
+            Background="{DynamicResource Grey500Brush}">
 
             <Border.OpacityMask>
                 <VisualBrush Visual="{Binding ElementName=mask}"/>

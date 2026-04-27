@@ -7,8 +7,8 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="ModifierCloseButtonStyle" TargetType="{x:Type Button}">
-        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-        <Setter Property="Foreground" Value="{DynamicResource TextBase}" />
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Center" />
         <Setter Property="VerticalContentAlignment" Value="Center" />
         <Setter Property="Width" Value="{DynamicResource ControlHeightMD}" />
