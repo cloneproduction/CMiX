@@ -28,7 +28,7 @@
             BorderThickness="0"
             CaretBrush="{DynamicResource AccentInactive}"
             Foreground="{DynamicResource ActiveTextBase}"
-            SelectionBrush="{DynamicResource SuperHighLightColor}"
+            SelectionBrush="{DynamicResource Accent}"
             Text="{Binding Path=Text, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:EditableTextBox}}}">
             <TextBox.ContextMenu>
                 <ContextMenu Visibility="Hidden" />

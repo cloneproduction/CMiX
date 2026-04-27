@@ -76,14 +76,30 @@
                             <Setter TargetName="border" Property="Opacity" Value="0.5" />
                         </Trigger>
 
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
-                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="false" />
-                                <Condition Property="IsMouseOver" Value="true" />
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
@@ -92,8 +108,8 @@
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="false" />
-                                <Condition Property="IsMouseOver" Value="false" />
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
@@ -176,10 +192,6 @@
 
                     <ControlTemplate.Triggers>
 
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource LightColor}" />
-                        </Trigger>
-
                         <Trigger Property="IsPressed" Value="True">
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource HighLightColor}" />
                         </Trigger>
@@ -190,8 +202,19 @@
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="true" />
-                                <Condition Property="IsMouseOver" Value="false" />
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentInactive}" />
+                                <Setter TargetName="icon" Property="Visibility" Value="Visible" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
@@ -201,19 +224,8 @@
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="true" />
-                                <Condition Property="IsMouseOver" Value="true" />
-                            </MultiTrigger.Conditions>
-                            <MultiTrigger.Setters>
-                                <Setter TargetName="border" Property="Background" Value="{DynamicResource Accent}" />
-                                <Setter TargetName="icon" Property="Visibility" Value="Visible" />
-                            </MultiTrigger.Setters>
-                        </MultiTrigger>
-
-                        <MultiTrigger>
-                            <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="false" />
-                                <Condition Property="IsMouseOver" Value="true" />
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="True" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource Color}" />
@@ -223,8 +235,8 @@
 
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
-                                <Condition Property="IsChecked" Value="false" />
-                                <Condition Property="IsMouseOver" Value="false" />
+                                <Condition Property="IsChecked" Value="False" />
+                                <Condition Property="IsMouseOver" Value="False" />
                             </MultiTrigger.Conditions>
                             <MultiTrigger.Setters>
                                 <Setter TargetName="border" Property="Background" Value="{DynamicResource DarkColor}" />

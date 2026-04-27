@@ -83,7 +83,7 @@
                         <Trigger Property="AttachedProperties:PositionedControl.Position" Value="Right">
                             <Setter TargetName="radioButtonBorder" Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
                         </Trigger>
-                        
+
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsChecked" Value="False" />
@@ -94,9 +94,25 @@
                             </MultiTrigger.Setters>
                         </MultiTrigger>
 
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
-                        </Trigger>
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsChecked" Value="True" />
+                                <Condition Property="IsMouseOver" Value="True" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter TargetName="radioButtonBorder" Property="Background" Value="{DynamicResource Accent}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
 
                     </ControlTemplate.Triggers>
                 </ControlTemplate>

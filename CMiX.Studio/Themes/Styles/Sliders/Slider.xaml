@@ -9,23 +9,22 @@
     </ResourceDictionary.MergedDictionaries>
 
     <Style x:Key="RepeatButtonDecrease" TargetType="{x:Type RepeatButton}">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Focusable" Value="False" />
-        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
-                    <Border x:Name="border" Background="{DynamicResource AccentInactive}" />
+                    <Border Background="{DynamicResource AccentInactive}" />
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style
-        x:Key="RepeatButtonDecreaseOver"
-        BasedOn="{StaticResource RepeatButtonDecrease}"
-        TargetType="{x:Type RepeatButton}">
+    <Style x:Key="RepeatButtonDecreaseOver"
+           BasedOn="{StaticResource RepeatButtonDecrease}"
+           TargetType="{x:Type RepeatButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -36,10 +35,10 @@
     </Style>
 
     <Style x:Key="RepeatButtonIncrease" TargetType="{x:Type RepeatButton}">
-        <Setter Property="OverridesDefaultStyle" Value="true" />
+        <Setter Property="OverridesDefaultStyle" Value="True" />
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Focusable" Value="false" />
-        <Setter Property="IsTabStop" Value="false" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -49,10 +48,9 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="RepeatButtonIncreaseOver"
-        BasedOn="{StaticResource RepeatButtonIncrease}"
-        TargetType="{x:Type RepeatButton}">
+    <Style x:Key="RepeatButtonIncreaseOver"
+           BasedOn="{StaticResource RepeatButtonIncrease}"
+           TargetType="{x:Type RepeatButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -62,10 +60,9 @@
         </Setter>
     </Style>
 
-    <Style
-        x:Key="RepeatButtonIncreaseDown"
-        BasedOn="{StaticResource RepeatButtonIncrease}"
-        TargetType="{x:Type RepeatButton}">
+    <Style x:Key="RepeatButtonIncreaseDown"
+           BasedOn="{StaticResource RepeatButtonIncrease}"
+           TargetType="{x:Type RepeatButton}">
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type RepeatButton}">
@@ -73,6 +70,31 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+
+    <Style x:Key="SliderMaskStyle" TargetType="{x:Type Border}">
+        <Setter Property="Background" Value="{DynamicResource DarkerColor}" />
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource AncestorType=Controls:CMiXSlider}}" Value="None">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource AncestorType=Controls:CMiXSlider}}" Value="Middle">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource AncestorType=Controls:CMiXSlider}}" Value="Top">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource AncestorType=Controls:CMiXSlider}}" Value="Bottom">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource AncestorType=Controls:CMiXSlider}}" Value="Left">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+            </DataTrigger>
+            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource AncestorType=Controls:CMiXSlider}}" Value="Right">
+                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+            </DataTrigger>
+        </Style.Triggers>
     </Style>
 
     <Style TargetType="{x:Type Controls:CMiXSlider}">
@@ -89,37 +111,12 @@
                     <Border x:Name="mainBorder" SnapsToDevicePixels="True">
                         <Grid>
 
-                            <Border x:Name="borderMask">
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Setter Property="Background" Value="{DynamicResource DarkerColor}" />
-                                        <Setter Property="CornerRadius" Value="0" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="All">
-                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Bottom">
-                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Top">
-                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Left">
-                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
-                                            </DataTrigger>
-                                            <DataTrigger Binding="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}" Value="Right">
-                                                <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-                            </Border>
+                            <Border x:Name="borderMask" Style="{StaticResource SliderMaskStyle}" />
 
                             <Border x:Name="sliderBorder" Background="Transparent">
                                 <Border.OpacityMask>
                                     <VisualBrush Visual="{Binding ElementName=borderMask}" />
                                 </Border.OpacityMask>
-
                                 <Track>
                                     <Track.DecreaseRepeatButton>
                                         <RepeatButton
@@ -164,12 +161,6 @@
                     </Border>
 
                     <ControlTemplate.Triggers>
-
-                        <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource Self}}" Value="False">
-                            <Setter TargetName="sliderName" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="textDisplay" Property="Visibility" Value="Visible" />
-                            <Setter TargetName="sliderBorder" Property="Visibility" Value="Visible" />
-                        </DataTrigger>
 
                         <DataTrigger Binding="{Binding Path=IsEditing, RelativeSource={RelativeSource Self}}" Value="True">
                             <Setter TargetName="sliderName" Property="Visibility" Value="Hidden" />

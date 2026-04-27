@@ -325,10 +325,23 @@
                             <Setter TargetName="contentPresenter" Property="Opacity" Value="0.5" />
                         </DataTrigger>
 
-                        <DataTrigger Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true">
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true" />
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="false" />
+                            </MultiDataTrigger.Conditions>
+                            <Setter Property="Panel.ZIndex" Value="1" />
+                            <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource AccentInactive}" />
+                        </MultiDataTrigger>
+
+                        <MultiDataTrigger>
+                            <MultiDataTrigger.Conditions>
+                                <Condition Binding="{Binding IsSelected, RelativeSource={RelativeSource Self}}" Value="true" />
+                                <Condition Binding="{Binding IsMouseOver, RelativeSource={RelativeSource Self}}" Value="true" />
+                            </MultiDataTrigger.Conditions>
                             <Setter Property="Panel.ZIndex" Value="1" />
                             <Setter TargetName="mainBorder" Property="Background" Value="{DynamicResource Accent}" />
-                        </DataTrigger>
+                        </MultiDataTrigger>
 
                         <DataTrigger Binding="{Binding IsEnabled, RelativeSource={RelativeSource Self}}" Value="false">
                             <Setter TargetName="mainBorder" Property="Opacity" Value="0.5" />

@@ -16,12 +16,49 @@
         </Setter>
     </Style>
 
+    <Style x:Key="ListBoxResizeBorderStyle" TargetType="{x:Type Border}">
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Cursor" Value="SizeNS" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ServerConnectionIndicatorStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="Red" />
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=ClientIsConnected}" Value="True">
+                <Setter Property="Fill" Value="Green" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="ServerEditableTextBoxStyle" TargetType="{x:Type Controls:EditableTextBox}">
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
+                <Setter Property="IsEnabled" Value="False" />
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style x:Key="LayerListBoxItemBorderStyle" TargetType="{x:Type Border}">
+        <Setter Property="BorderThickness" Value="1,0,1,1" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Background" Value="Transparent" />
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Background" Value="{DynamicResource DarkColor}" />
+            </Trigger>
+        </Style.Triggers>
+    </Style>
+
     <Style TargetType="{x:Type Controls:CMiXListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Controls:CMiXListBox}">
-                    <Border     
+                    <Border
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         BorderThickness="0.5"
                         BorderBrush="{DynamicResource DarkColor}">
@@ -31,24 +68,13 @@
                                 x:Name="resizeBorder"
                                 Height="12"
                                 Background="{DynamicResource ListBoxBackground}"
-                                DockPanel.Dock="Bottom">
-
+                                DockPanel.Dock="Bottom"
+                                Style="{StaticResource ListBoxResizeBorderStyle}">
                                 <Image
                                     Margin="1"
                                     IsHitTestVisible="False"
                                     Opacity="0.25"
                                     Source="{DynamicResource DragHandler}" />
-
-                                <Border.Style>
-                                    <Style TargetType="{x:Type Border}">
-                                        <Style.Triggers>
-                                            <Trigger Property="IsMouseOver" Value="True">
-                                                <Setter Property="Cursor" Value="SizeNS" />
-                                            </Trigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Border.Style>
-
                             </Border>
 
                             <Border
@@ -68,13 +94,10 @@
 
                         </DockPanel>
                     </Border>
-
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
-
 
     <Style TargetType="{x:Type ListBox}">
         <Setter Property="ItemContainerStyle" Value="{DynamicResource ListBoxItemStyle}" />
@@ -99,7 +122,6 @@
         </Setter>
     </Style>
 
-
     <Style x:Key="ListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
         <Setter Property="FocusVisualStyle" Value="{StaticResource NoFocusVisual}" />
         <Setter Property="SnapsToDevicePixels" Value="True" />
@@ -110,7 +132,6 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-
                     <Border
                         x:Name="Bd"
                         Margin="1"
@@ -121,9 +142,7 @@
                         TextBlock.Foreground="{DynamicResource TextBase}">
                         <ContentPresenter Margin="0,0" />
                     </Border>
-
                     <ControlTemplate.Triggers>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
@@ -131,7 +150,6 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
                         </MultiTrigger>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
@@ -139,7 +157,6 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
                         </MultiTrigger>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
@@ -147,23 +164,20 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
                         </MultiTrigger>
-                        
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
-    <Style x:Key="ServerListBoxItemStyle" 
-            BasedOn="{StaticResource ListBoxItemStyle}"
-            TargetType="{x:Type ListBoxItem}">
+    <Style x:Key="ServerListBoxItemStyle"
+           BasedOn="{StaticResource ListBoxItemStyle}"
+           TargetType="{x:Type ListBoxItem}">
         <Setter Property="Margin" Value="0" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-
                     <Border
                         x:Name="Bd"
                         Margin="1"
@@ -172,25 +186,12 @@
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True"
                         TextBlock.Foreground="{DynamicResource TextBase}">
-
                         <DockPanel>
-
                             <Ellipse
                                 Width="7"
                                 Height="7"
-                                Margin="4,0">
-                                <Ellipse.Style>
-                                    <Style TargetType="Ellipse">
-                                        <Setter Property="Fill" Value="Red" />
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Path=ClientIsConnected}" Value="True">
-                                                <Setter Property="Fill" Value="Green" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Ellipse.Style>
-                            </Ellipse>
-
+                                Margin="4,0"
+                                Style="{StaticResource ServerConnectionIndicatorStyle}" />
                             <ToggleButton
                                 Height="15"
                                 Margin="4"
@@ -198,40 +199,22 @@
                                 DockPanel.Dock="Right"
                                 IsChecked="{Binding ServerIsRunning}"
                                 Style="{DynamicResource TogglePlayPause}" />
-
-
                             <Controls:EditableTextBox
                                 x:Name="editableTextBox"
                                 Height="20"
                                 Foreground="{DynamicResource TextBase}"
-                                Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-
-                                <Controls:EditableTextBox.Style>
-                                    <Style TargetType="{x:Type Controls:EditableTextBox}">
-                                        <Style.Triggers>
-                                            <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
-                                                <Setter Property="IsEnabled" Value="False" />
-                                            </DataTrigger>
-                                        </Style.Triggers>
-                                    </Style>
-                                </Controls:EditableTextBox.Style>
-
-                            </Controls:EditableTextBox>
+                                Style="{StaticResource ServerEditableTextBoxStyle}"
+                                Text="{Binding Path=PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </DockPanel>
-
                     </Border>
-
                     <ControlTemplate.Triggers>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkColor}" />
                         </MultiTrigger>
-
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
@@ -247,9 +230,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-
                     <Border x:Name="MainContainer" Padding="2">
-
                         <Border
                             x:Name="Bd"
                             Padding="4,0,0,0"
@@ -258,19 +239,14 @@
                             TextBlock.Foreground="{DynamicResource TextBase}">
                             <ContentPresenter />
                         </Border>
-
                     </Border>
-
                     <ControlTemplate.Triggers>
-
                         <Trigger Property="ItemsControl.AlternationIndex" Value="0">
                             <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource ListBoxBackground}" />
                         </Trigger>
-
                         <Trigger Property="IsMouseOver" Value="True">
                             <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource DarkColor}" />
                         </Trigger>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
@@ -278,42 +254,24 @@
                             <Setter TargetName="Bd" Property="TextBlock.Foreground" Value="{DynamicResource ActiveTextBase}" />
                             <Setter TargetName="MainContainer" Property="Background" Value="{DynamicResource AccentInactive}" />
                         </MultiTrigger>
-
                     </ControlTemplate.Triggers>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
     </Style>
 
     <Style x:Key="LayerListBoxItemStyle"
-       BasedOn="{StaticResource ListBoxItemStyle}"
-       TargetType="{x:Type ListBoxItem}">
+           BasedOn="{StaticResource ListBoxItemStyle}"
+           TargetType="{x:Type ListBoxItem}">
         <Setter Property="Padding" Value="1,0,0,0" />
         <Setter Property="Height" Value="Auto" />
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBoxItem}">
-                    <Border Name="Bd">
-
-                        <Border.Style>
-                            <Style TargetType="{x:Type Border}">
-                                <Setter Property="BorderThickness" Value="1,0,1,1" />
-                                <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />
-                                <Setter Property="Margin" Value="0,0,0,0" />
-                                <Setter Property="Background" Value="Transparent" />
-                                <Style.Triggers>
-                                    <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="{DynamicResource DarkColor}" />
-                                    </Trigger>
-                                </Style.Triggers>
-                            </Style>
-                        </Border.Style>
+                    <Border Name="Bd" Style="{StaticResource LayerListBoxItemBorderStyle}">
                         <ContentPresenter />
                     </Border>
-
                     <ControlTemplate.Triggers>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
@@ -321,7 +279,6 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource Accent}" />
                         </MultiTrigger>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="True" />
@@ -329,7 +286,6 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource AccentInactive}" />
                         </MultiTrigger>
-
                         <MultiTrigger>
                             <MultiTrigger.Conditions>
                                 <Condition Property="IsSelected" Value="False" />
@@ -337,12 +293,10 @@
                             </MultiTrigger.Conditions>
                             <Setter TargetName="Bd" Property="Background" Value="{DynamicResource DarkerColor}" />
                         </MultiTrigger>
-
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
-
     </Style>
 
     <Style x:Key="LayerListBoxStyle" TargetType="{x:Type ListBox}">
@@ -351,7 +305,6 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ListBox}">
-
                     <Border
                         x:Name="Bd"
                         Background="{TemplateBinding Background}"
@@ -362,9 +315,7 @@
                             VerticalScrollBarVisibility="Auto">
                             <ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
                         </ScrollViewer>
-
                     </Border>
-
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
