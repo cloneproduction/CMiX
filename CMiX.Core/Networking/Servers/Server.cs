@@ -19,7 +19,6 @@ namespace CMiX.Core.Networking.Servers
 {
     public partial class Server : ObservableRecipient, IPrefab
     {
-
         public Server(PrefabService prefabService,
                       GenericValue<string> ip,
                       GenericValue<int> port)
@@ -27,27 +26,27 @@ namespace CMiX.Core.Networking.Servers
             ID = Guid.NewGuid();
             IP = ip;
             Port = port;
-
             PrefabService = prefabService;
-
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
-
             Status = "Disconnected";
-
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
-
             StartCommand = new RelayCommand(Start);
             PauseCommand = new RelayCommand(Pause);
             RestartCommand = new RelayCommand(Restart);
             StopCommand = new RelayCommand(Stop);
-
             ApplySettingsCommand = new RelayCommand(Apply);
-
             IsActive = true;
         }
+
+        public Guid ID { get; set; }
+        public PrefabService PrefabService { get; set; }
+        public WatsonTcpServer WatsonTcpServer { get; set; }
+        public ServerStatistics Statistics { get; set; }
+        public GenericValue<string> IP { get; set; }
+        public GenericValue<int> Port { get; set; }
 
         public ICommand StartCommand { get; }
         public ICommand RestartCommand { get; }
@@ -55,54 +54,8 @@ namespace CMiX.Core.Networking.Servers
         public ICommand PauseCommand { get; }
         public ICommand StopCommand { get; }
 
-
-        public Guid ID { get; set; }
-
-        public PrefabService PrefabService { get; set; }
-        public WatsonTcpServer WatsonTcpServer { get; set; }
-        public ServerStatistics Statistics { get; set; }
-        public GenericValue<string> IP { get; set; }
-        public GenericValue<int> Port { get; set; }
-
-        private string ipPort { get; set; }
-
-
-        public void SendMessage(IMessage message)
-        {
-            if (message == null) return;
-            Console.WriteLine("SendMessage of type " + message.GetType().Name);
-            var data = MessagePackSerialization.Serialize(message);
-            _ = SendAsync(data);
-        }
-
-
-
-        public IMessage SendMessageRequest(IMessage message)
-        {
-            var data = MessagePackSerialization.Serialize(message);
-
-            IMessage messageResult = null;
-
-            if (WatsonTcpServer != null)
-            {
-                try
-                {
-                    var response = WatsonTcpServer.SendAndWaitAsync(5000, clientID, data);
-                    byte[] received = response.Result.Data;
-                    messageResult = MessagePackSerialization.Deserialize<IMessage>(new ReadOnlyMemory<byte>(received));
-                    Console.WriteLine("Client replied : " + messageResult.GetType().Name);
-                }
-                catch (TimeoutException)
-                {
-                    Console.WriteLine("Too slow...");
-                }
-            }
-
-            return messageResult;
-        }
-
-
-
+        private Guid _clientID;
+        private ObservableCollection<ConnectedClient> _connectedClients;
 
         private string _status;
         public string Status
@@ -128,7 +81,6 @@ namespace CMiX.Core.Networking.Servers
         [ObservableProperty]
         private bool _serverIsRunning;
 
-
         private bool _dataSent;
         public bool DataSent
         {
@@ -136,94 +88,78 @@ namespace CMiX.Core.Networking.Servers
             set => SetProperty(ref _dataSent, value);
         }
 
-        private ObservableCollection<ConnectedClient> _connectedClients;
         public ObservableCollection<ConnectedClient> ConnectedClients
         {
             get => _connectedClients;
             set => SetProperty(ref _connectedClients, value);
         }
 
-
         partial void OnServerIsRunningChanged(bool value)
         {
-            if(value)
+            if (value)
             {
-                this.Start();
+                Start();
                 return;
             }
             Stop();
         }
 
-        private void MessageReceived(object sender, MessageReceivedEventArgs e)
+        public void SendMessage(IMessage message)
         {
-            IMessage message = MessagePackSerialization.Deserialize<IMessage>(new ReadOnlyMemory<byte>(e.Data));
-            Console.WriteLine("Message received from vvvv: " + message.GetType().Name);
-            Application.Current.Dispatcher.Invoke(() => WeakReferenceMessenger.Default.Send(message));
-        }
-
-
-        private void ClientDisconnected(object sender, DisconnectionEventArgs e)
-        {
-            Console.WriteLine("Client disconnected: " + IP + ": " + e.Reason.ToString());
-
-            Application.Current.Dispatcher.Invoke(delegate
+            if (message == null) return;
+            var envelope = new MessageEnvelope
             {
-                for (var i = ConnectedClients.Count - 1; i >= 0; i--)
-                {
-                    if (ConnectedClients[i].IPPORT == e.Client.IpPort)
-                    {
-                        ConnectedClients.Remove(ConnectedClients[i]);
-                    }
-                }
-            });
-
-            ClientIsConnected = ConnectedClients.Count > 0;
-
-            if (!ClientIsConnected)
-                Status = "Disconnected";
+                SenderID = MessageSender.WPF,
+                MessageID = Guid.NewGuid(),
+                Payload = message
+            };
+            var data = MessagePackSerialization.Serialize(envelope);
+            _ = SendAsync(data);
         }
-
-
-
-        Guid clientID;
-
-        private void ClientConnected(object sender, ConnectionEventArgs e)
-        {
-            Console.WriteLine("Client connected: " + e.Client.IpPort);
-            var connectedClient = new ConnectedClient(e.Client.IpPort);
-            connectedClient.Name = e.Client.Name;
-            connectedClient.ID = e.Client.Guid;
-            ipPort = e.Client.IpPort;
-            
-            Application.Current.Dispatcher.Invoke(delegate
-            {
-                ConnectedClients.Add(connectedClient);
-            });
-
-            ClientIsConnected = ConnectedClients.Count > 0;
-
-            if (ClientIsConnected)
-                Status = "Connected";
-
-            clientID = e.Client.Guid;
-        }
-
-
-        private SyncResponse SyncRequestReceived(SyncRequest arg)
-        {
-            return new SyncResponse(arg, "Hello back at you from Server!");
-        }
-
-
 
         private async Task SendAsync(byte[] data)
         {
             if (WatsonTcpServer == null) return;
             foreach (var connectedClient in ConnectedClients.ToList())
-            {
                 await WatsonTcpServer.SendAsync(connectedClient.ID, data);
-            }
             Statistics.Update(WatsonTcpServer);
+        }
+
+        private void MessageReceived(object sender, MessageReceivedEventArgs e)
+        {
+            var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
+            if (envelope.SenderID == MessageSender.WPF) return;
+            Application.Current.Dispatcher.Invoke(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
+        }
+
+        private void ClientConnected(object sender, ConnectionEventArgs e)
+        {
+            var connectedClient = new ConnectedClient(e.Client.IpPort)
+            {
+                Name = e.Client.Name,
+                ID = e.Client.Guid
+            };
+
+            Application.Current.Dispatcher.Invoke(() => ConnectedClients.Add(connectedClient));
+
+            _clientID = e.Client.Guid;
+            ClientIsConnected = ConnectedClients.Count > 0;
+            Status = ClientIsConnected ? "Connected" : "Disconnected";
+        }
+
+        private void ClientDisconnected(object sender, DisconnectionEventArgs e)
+        {
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                for (var i = ConnectedClients.Count - 1; i >= 0; i--)
+                {
+                    if (ConnectedClients[i].IPPORT == e.Client.IpPort)
+                        ConnectedClients.Remove(ConnectedClients[i]);
+                }
+            });
+
+            ClientIsConnected = ConnectedClients.Count > 0;
+            Status = ClientIsConnected ? "Connected" : "Disconnected";
         }
 
         public void Start()
@@ -235,7 +171,6 @@ namespace CMiX.Core.Networking.Servers
             WatsonTcpServer.Start();
         }
 
-
         public void Restart()
         {
             Stop();
@@ -245,36 +180,24 @@ namespace CMiX.Core.Networking.Servers
         public void Stop()
         {
             if (WatsonTcpServer == null) return;
-
             WatsonTcpServer.Events.ClientConnected -= ClientConnected;
             WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
             WatsonTcpServer.Events.MessageReceived -= MessageReceived;
-
             foreach (var client in ConnectedClients)
                 WatsonTcpServer.DisconnectClientAsync(client.ID);
-
             WatsonTcpServer.Stop();
             WatsonTcpServer.Dispose();
             WatsonTcpServer = null;
             ServerIsRunning = false;
         }
 
-        public void Pause()
-        {
-
-        }
-
+        public void Pause() { }
 
         public void Apply()
         {
             if (ValidateIPv4(IP.Value) && ValidatePort(IP.Value, Port.Value))
-            {
-                ErrorMessage = "Settings applied succefully !";
-                //CanApply = false;
-                //OkIsFocused = true;
-            }
+                ErrorMessage = "Settings applied successfully!";
         }
-
 
         public bool ValidatePort(string host, int port)
         {
@@ -295,7 +218,7 @@ namespace CMiX.Core.Networking.Servers
             }
             catch (SocketException ex)
             {
-                if (ex.ErrorCode == 10061) // connection refused = port is free
+                if (ex.ErrorCode == 10061)
                 {
                     ErrorMessage = string.Empty;
                     return true;
@@ -321,9 +244,7 @@ namespace CMiX.Core.Networking.Servers
                 return false;
             }
 
-            byte tempForParsing;
-
-            return splitValues.All(r => byte.TryParse(r, out tempForParsing));
+            return splitValues.All(r => byte.TryParse(r, out _));
         }
 
         public IControlModel ToModel() => new ServerModel

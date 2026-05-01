@@ -17,27 +17,23 @@ namespace CMiX.Core.Services
         }
 
         public WatsonTcpClient WatsonTcpClient { get; set; }
-
         public bool ServerIsConnected { get; set; }
         public string DeconnectionReason { get; set; }
-
-        CancellationTokenSource _cts;
-        private Task _connectTask;
-
         public int Port { get; set; }
         public string IP { get; set; }
 
-        public void Start(string IP, int Port)
-        {
-            this.IP = IP;
-            this.Port = Port;
+        private CancellationTokenSource _cts;
+        private Task _connectTask;
 
-            // cancel any existing loop and wait for it to finish
+        public void Start(string ip, int port)
+        {
+            IP = ip;
+            Port = port;
+
             _cts?.Cancel();
             _connectTask?.Wait();
 
-            if (WatsonTcpClient != null)
-                WatsonTcpClient.Dispose();
+            WatsonTcpClient?.Dispose();
 
             WatsonTcpClient = new WatsonTcpClient(IP, Port);
             WatsonTcpClient.Events.ServerConnected += ServerConnected;
@@ -49,20 +45,17 @@ namespace CMiX.Core.Services
             _connectTask = TryToConnect(_cts.Token);
         }
 
-        private void MessageReceived(object sender, MessageReceivedEventArgs e)
+        public void Stop()
         {
-            IMessage message = MessagePackSerialization.Deserialize<IMessage>(new ReadOnlyMemory<byte>(e.Data));
-            Console.WriteLine($"{DateTime.Now:HH:mm:ss.fff} Message Received of type : {message.GetType().Name}");
-            WeakReferenceMessenger.Default.Send(message);
+            _cts?.Cancel();
+            WatsonTcpClient?.Disconnect();
         }
 
-        private void ServerDisconnected(object sender, DisconnectionEventArgs e)
+        private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            DeconnectionReason = e.Reason.ToString();
-            Console.WriteLine(DeconnectionReason);
-            ServerIsConnected = false;
-            Console.WriteLine("Server Disconnected");
-            Start(IP, Port); // ← reuse Start which handles cleanup and restarts the loop
+            var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
+            if (envelope.SenderID == MessageSender.VVVV) return;
+            WeakReferenceMessenger.Default.Send(envelope.Payload);
         }
 
         private void ServerConnected(object sender, ConnectionEventArgs e)
@@ -70,6 +63,14 @@ namespace CMiX.Core.Services
             ServerIsConnected = true;
             Console.WriteLine("Server Connected");
             _cts.Cancel();
+        }
+
+        private void ServerDisconnected(object sender, DisconnectionEventArgs e)
+        {
+            DeconnectionReason = e.Reason.ToString();
+            ServerIsConnected = false;
+            Console.WriteLine("Server Disconnected");
+            Start(IP, Port);
         }
 
         private async Task TryToConnect(CancellationToken cancellationToken)
@@ -91,22 +92,8 @@ namespace CMiX.Core.Services
                     break;
 
                 await Task.Delay(TimeSpan.FromSeconds(delaySeconds), cancellationToken);
-                delaySeconds = Math.Min(delaySeconds * 2, 30); // 1s, 2s, 4s, 8s, 16s, 30s max
+                delaySeconds = Math.Min(delaySeconds * 2, 30);
             }
-        }
-
-        public void Stop()
-        {
-            _cts?.Cancel();
-            //_connectTask?.Wait();
-            WatsonTcpClient?.Disconnect();
-        }
-
-
-        public SyncResponse SyncRequestReceived(SyncRequest arg)
-        {
-            Console.WriteLine("Data size is " + arg.Data.Length);
-            return new SyncResponse(arg, "Client receive the request, send the ProjectModel back to Server");
         }
     }
 }

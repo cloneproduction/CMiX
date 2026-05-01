@@ -14,11 +14,13 @@ namespace CMiX.Core.Rendering.Lights
                              GenericValue<float> radius, 
                              GenericValue<float> angle, 
                              GenericValue<float> softness, 
-                             GenericValue<float> intensity, 
+                             GenericValue<float> intensity,
+                             GenericValue<bool> lightHelper,
                              GenericValue<LightType> lightTypeSelector) 
         {
             ID = Guid.NewGuid();
             LightColor = lightColor;
+            LightHelper = lightHelper;
             Position = position;
             Target = target;
             Radius = radius;
@@ -30,6 +32,7 @@ namespace CMiX.Core.Rendering.Lights
 
         public Guid ID { get; set; }
         public GenericValue<LightType> LightTypeSelector { get; set; }
+        public GenericValue<bool> LightHelper { get; set; }
         public GenericValue<string> LightColor { get; set; }
         public Vector3 Position { get; set; }
         public Vector3 Target { get; set; }
@@ -48,7 +51,8 @@ namespace CMiX.Core.Rendering.Lights
             Radius = (GenericValueModel<float>)Radius.ToModel(),
             Angle = (GenericValueModel<float>)Angle.ToModel(),
             Softness = (GenericValueModel<float>)Softness.ToModel(),
-            Intensity = (GenericValueModel<float>)Intensity.ToModel()
+            Intensity = (GenericValueModel<float>)Intensity.ToModel(),
+            LightHelper = (GenericValueModel<bool>)LightHelper.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -63,6 +67,7 @@ namespace CMiX.Core.Rendering.Lights
             Angle.FromModel(m.Angle);
             Softness.FromModel(m.Softness);
             Intensity.FromModel(m.Intensity);
+            LightHelper.FromModel(m.LightHelper);
         }
     }
 }

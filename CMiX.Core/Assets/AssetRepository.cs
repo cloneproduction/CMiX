@@ -30,5 +30,12 @@ namespace CMiX.Core.Assets
             typeToAddAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(asset))
                            .Value?.Invoke(asset);
         }
+
+        public IAsset FindByPath(string path)
+        {
+            return Videos.FirstOrDefault(a => a.FilePath == path) as IAsset
+                ?? Images.FirstOrDefault(a => a.FilePath == path) as IAsset
+                ?? Geometries.FirstOrDefault(a => a.FilePath == path) as IAsset;
+        }
     }
 }

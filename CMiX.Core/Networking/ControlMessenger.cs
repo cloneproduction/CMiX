@@ -15,10 +15,7 @@ namespace CMiX.Core.Networking
             Servers = controlRepository.Servers;
         }
 
-        public bool IsReceivingBlocked { get; set; }
-
         ObservableCollection<Server> Servers { get; }
-
         public bool IsSendingBlocked { get; set; }
 
         public void SendMessage(IMessage message)

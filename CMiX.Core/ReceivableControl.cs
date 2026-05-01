@@ -11,7 +11,6 @@ namespace CMiX.Core
         public UndoManager UndoManager { get; set; }
         public bool IsReceiving { get; set; }
         public void Activate() => IsActive = true;
-        internal bool CanRegister => !IsReceiving;
 
         protected void ReceiveWithoutEcho(Action action)
         {

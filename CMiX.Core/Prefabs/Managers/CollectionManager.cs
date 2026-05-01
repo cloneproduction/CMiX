@@ -101,13 +101,20 @@ namespace CMiX.Core.Prefabs.Managers
         private void ReplaceControlInCollection(IControl prefab, int index)
         {
             var items = ManagerData.Items;
+            ControlRepository.AddControl(prefab);
+
             if (items.Count == 0)
+            {
                 items.Add(prefab);
+                index = 0;
+            }
             else
                 items[index] = prefab;
+
             SelectedItem = prefab;
             ManagerData.SelectedIndex = index;
         }
+
         public (IControl prefab, int index, bool wasReplace) ReplaceItem(IControl control)
         {
             if (control is not IPrefab prefab)
@@ -137,11 +144,13 @@ namespace CMiX.Core.Prefabs.Managers
 
             items.RemoveAt(index);
             ControlRepository.RemoveControl(control);
+
             int newIndex = items.Count == 0 ? -1 : index == 0 ? 0 : index - 1;
             SelectedItem = items.Count == 0 ? null : items[newIndex];
             ManagerData.SelectedIndex = newIndex;
             return (control, newIndex);
         }
+
 
         public (IControl removed, int newIndex) DeleteItem(IControl control)
         {

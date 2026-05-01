@@ -49,7 +49,7 @@ namespace CMiX.Core.BaseControls
         { "MOV", path => new Video(path) }
     };
 
-        private IAsset CreateAssetFromPath(string path)
+        public IAsset CreateAssetFromPath(string path)
         {
             if (!File.Exists(path)) return null;
             string ext = Path.GetExtension(path).ToUpperInvariant().TrimStart('.');

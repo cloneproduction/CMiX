@@ -5,19 +5,22 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.BaseControl"
              mc:Ignorable="d" 
-             d:DesignHeight="113" d:DesignWidth="776">
+             d:DesignHeight="166.143" d:DesignWidth="776.571">
 
     <StackPanel>
-        
+
         <BaseControl:VectorXYZ 
             Caption="Position" 
             DataContext="{Binding Position}"/>
-        
+
         <BaseControl:DragValue 
-            Margin="0, 8, 0, 0" 
+            Margin="0, 8" 
             Value="{Binding Radius.Value}" 
             Caption="Radius"/>
-        
+
+        <BaseControl:ToggleButton
+            Caption="Show Helper"
+            IsChecked="{Binding LightHelper.Value}"/>
     </StackPanel>
 
 </UserControl>

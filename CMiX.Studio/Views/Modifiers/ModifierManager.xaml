@@ -35,9 +35,9 @@
             </i:Interaction.Behaviors>
 
             <Border
-                Padding="2, 8, 2, 8"
-                Background="{DynamicResource Grey200Brush}"
-                CornerRadius="{DynamicResource CornerRadiusBottom}">
+                Padding="2"
+                Background="{DynamicResource Grey100Brush}"
+                CornerRadius="{DynamicResource CornerRadiusLargeBottom}">
                 <ContentControl Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
             </Border>
 
@@ -59,7 +59,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Panels:ModifierPanel
-                        Margin="0,2"
+                        Margin="2"
                         DragHandlerIsPressed="{Binding DataContext.ManagerReorderService.DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CloseModifierCommand="{Binding DataContext.DeleteItemCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}"
                         CloseModifierCommandParameter="{Binding}"

@@ -5,7 +5,7 @@
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     d:DesignHeight="349.334"
     d:DesignWidth="335.333"
     mc:Ignorable="d">
@@ -15,6 +15,11 @@
             Margin="8"
             DataContext="{Binding TextureManager}"
             ItemsSource="{Binding Path=DataContext.PrefabRepositories.Textures, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}}">
+            
+            <i:Interaction.Behaviors>
+                <Behaviors:TextureDropBehavior PrefabManager="{Binding }" />
+            </i:Interaction.Behaviors>
+            
             <Views:PrefabSlotManager.SelectionPanel>
                 <Views:ButtonOpenSelectionPanel Caption="Add Texture">
                     <Views:ButtonOpenSelectionPanel.SelectionPanel>
@@ -22,6 +27,7 @@
                     </Views:ButtonOpenSelectionPanel.SelectionPanel>
                 </Views:ButtonOpenSelectionPanel>
             </Views:PrefabSlotManager.SelectionPanel>
+            
         </Views:PrefabSlotManager>
 
         <Border>

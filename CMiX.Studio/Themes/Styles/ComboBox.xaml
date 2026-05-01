@@ -37,7 +37,7 @@
                             <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
                         </Trigger>
                         <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="{DynamicResource Grey700Brush}" />
+                            <Setter TargetName="border" Property="Background" Value="{DynamicResource AccentBrush}" />
                             <Setter TargetName="border" Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
                         </Trigger>
                     </ControlTemplate.Triggers>
@@ -78,23 +78,22 @@
                             x:Name="PART_Popup"
                             Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
                             MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ComboBox}}"
-                            MaxHeight="210"
                             AllowsTransparency="True"
                             IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Placement="Bottom"
+                            VerticalOffset="2"
                             PopupAnimation="None">
                             <Border
                                 x:Name="DropDownBorder"
                                 HorizontalAlignment="Stretch"
-                                Background="Transparent">
-                                <Grid HorizontalAlignment="Stretch">
-                                    <Border Background="{DynamicResource Grey200Brush}"
-                                            CornerRadius="{DynamicResource CornerRadiusBottom}" />
+                                CornerRadius="{DynamicResource CornerRadiusLargeAll}"
+                                Background="{DynamicResource Grey100Brush}">
+                                <Grid Margin="2" HorizontalAlignment="Stretch">
                                     <ScrollViewer
                                         x:Name="DropDownScrollViewer"
-                                        Padding="4,2"
+                                        MaxHeight="168"
                                         HorizontalScrollBarVisibility="Hidden"
-                                        VerticalScrollBarVisibility="Auto">
+                                        VerticalScrollBarVisibility="Hidden">
                                         <ItemsPresenter
                                             x:Name="ItemsPresenter"
                                             KeyboardNavigation.DirectionalNavigation="Contained"
@@ -133,9 +132,9 @@
                 <ControlTemplate TargetType="{x:Type ComboBoxItem}">
                     <Border
                         x:Name="border"
-                        Height="{TemplateBinding Height}"
+                        Margin="0, 0, 0, 1"
                         HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
-                        VerticalAlignment="Center"
+                        VerticalAlignment="Stretch"
                         Background="{TemplateBinding Background}"
                         CornerRadius="{DynamicResource CornerRadiusAll}"
                         SnapsToDevicePixels="True">
@@ -207,28 +206,29 @@
                         </ToggleButton>
                         <Popup
                             x:Name="PART_Popup"
-                            Width="200"
-                            MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Grid}}"
-                            MaxHeight="204"
+                            Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
+                            MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ComboBox}}"
                             AllowsTransparency="True"
-                            HorizontalOffset="-4"
                             IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Placement="Bottom"
-                            PopupAnimation="None"
-                            VerticalOffset="-4">
-                            <Border x:Name="DropDownBorder" Background="Transparent">
-                                <Grid Margin="4">
-                                    <Border Background="{DynamicResource Grey200Brush}" />
+                            VerticalOffset="2"
+                            PopupAnimation="None">
+                            <Border
+                                x:Name="DropDownBorder"
+                                HorizontalAlignment="Stretch"
+                                CornerRadius="{DynamicResource CornerRadiusLargeAll}"
+                                Background="{DynamicResource Grey100Brush}">
+                                <Grid Margin="2" HorizontalAlignment="Stretch">
                                     <ScrollViewer
                                         x:Name="DropDownScrollViewer"
-                                        Padding="4"
+                                        MaxHeight="168"
                                         HorizontalScrollBarVisibility="Hidden"
-                                        VerticalScrollBarVisibility="Auto">
+                                        VerticalScrollBarVisibility="Hidden">
                                         <ItemsPresenter
                                             x:Name="ItemsPresenter"
                                             KeyboardNavigation.DirectionalNavigation="Contained"
                                             RenderOptions.ClearTypeHint="Enabled"
-                                            SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
+                                            SnapsToDevicePixels="True" />
                                     </ScrollViewer>
                                 </Grid>
                             </Border>

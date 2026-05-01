@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class VideoPlayer : ObservableObject, ITextureSource
+    public partial class VideoPlayer : ObservableObject, IAssetTextureSource
     {
         public VideoPlayer(PrefabService prefabService,
                            PrefabManager filterManager,

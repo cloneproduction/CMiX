@@ -139,9 +139,13 @@ namespace CMiX.Core.Prefabs.Managers
             var previousItem = Collection.SelectedItem;
             var previousIndex = Collection.ManagerData.SelectedIndex;
             var (prefab, index, wasReplace) = Collection.ReplaceItem(control);
-            var message = wasReplace
+
+            bool existsInRepo = ControlRepository.Controls.Any(x => x.ID == prefab.ID);
+
+            var message = (wasReplace || existsInRepo)
                 ? MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, prefab, index)
                 : MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index);
+
             ControlMessenger.SendMessage(message);
             UndoManager?.Push(new ReplaceItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, prefab, index));
         }
@@ -210,7 +214,6 @@ namespace CMiX.Core.Prefabs.Managers
         {
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
-            if (ControlMessenger.IsReceivingBlocked) return;
             ReceiveWithoutEcho(() => MessageCollectionManagerHandler.Handle(Collection, message));
         }
 

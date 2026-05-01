@@ -11,33 +11,32 @@
     mc:Ignorable="d">
 
     <StackPanel Margin="8">
+        
+        <BaseControls:VectorXYZ  Caption="Target" DataContext="{Binding Target}" />
 
-        <BaseControls:ToggleButton Caption="Orthographic" IsChecked="{Binding IsOrthographic.Value}" />
+        <Panels:PositionedStackPanel Margin="0, 8">
+            <BaseControls:DragValue
+                Margin="0,0,0,1"
+                Caption="Near"
+                Value="{Binding NearClip.Value}" />
+            <BaseControls:DragValue
+                Caption="Far"
+                Value="{Binding FarClip.Value}" />
+        </Panels:PositionedStackPanel>
 
-        <Border Margin="0,8">
-            <Border.Style>
-                <Style TargetType="{x:Type Border}">
-                    <Setter Property="Visibility" Value="Visible" />
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding IsOrthographic.Value}" Value="True">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </Border.Style>
-            <Panels:PositionedStackPanel>
-                <BaseControls:DragValue
-                    Margin="0,0,0,1"
-                    Caption="Distance"
-                    Value="{Binding Distance.Value}" />
+        <Panels:PositionedStackPanel>
+            <BaseControls:DragValue
+                Margin="0,0,0,1"
+                Caption="Yaw"
+                Value="{Binding Yaw.Value}" />
+            <BaseControls:DragValue
+                Caption="Pitch"
+                Value="{Binding Pitch.Value}" />
+        </Panels:PositionedStackPanel>
+        
+        <BaseControls:ToggleButton Margin="0,8" Caption="Orthographic" IsChecked="{Binding IsOrthographic.Value}" />
 
-                <BaseControls:DragValue
-                    Caption="FOV"
-                    Value="{Binding FOV.Value}" />
-            </Panels:PositionedStackPanel>
-        </Border>
-
-        <Border Margin="0,8">
+        <Border>
             <Border.Style>
                 <Style TargetType="{x:Type Border}">
                     <Setter Property="Visibility" Value="Collapsed" />
@@ -51,27 +50,28 @@
             <BaseControls:DragValue Caption="Orthographic Size" Value="{Binding OrthographicSize.Value}" />
         </Border>
 
-        <Panels:PositionedStackPanel>
-            <BaseControls:DragValue
-                Margin="0,0,0,1"
-                Caption="Yaw"
-                Value="{Binding Yaw.Value}" />
-            <BaseControls:DragValue
-                Caption="Pitch"
-                Value="{Binding Pitch.Value}" />
-        </Panels:PositionedStackPanel>
-        
-        <BaseControls:VectorXYZ Margin="0, 8" Caption="Target" DataContext="{Binding Target}" />
+        <Border >
+            <Border.Style>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="Visibility" Value="Visible" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding IsOrthographic.Value}" Value="True">
+                            <Setter Property="Visibility" Value="Collapsed" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </Border.Style>
 
-        <Panels:PositionedStackPanel>
-            <BaseControls:DragValue
-                Margin="0,0,0,1"
-                Caption="Near"
-                Value="{Binding NearClip.Value}" />
-            <BaseControls:DragValue
-                Caption="Far"
-                Value="{Binding FarClip.Value}" />
-        </Panels:PositionedStackPanel>
-        
+            <Panels:PositionedStackPanel>
+                <BaseControls:DragValue
+                    Margin="0,0,0,1"
+                    Caption="Distance"
+                    Value="{Binding Distance.Value}" />
+
+                <BaseControls:DragValue
+                    Caption="FOV"
+                    Value="{Binding FOV.Value}" />
+            </Panels:PositionedStackPanel>
+        </Border>
     </StackPanel>
 </UserControl>

@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class Image : ObservableObject, ITextureSource
+    public partial class Image : ObservableObject, IAssetTextureSource
     {
         public Image(PrefabService prefabService, 
                      PrefabManager filterManager,
