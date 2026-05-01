@@ -9,13 +9,12 @@ using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 
 
-namespace CMiX.Core.Controls
+namespace CMiX.Studio.Views.BaseControl
 {
     public class CMiXPopup : Popup
     {
         public CMiXPopup()
         {
-
             OnApplyTemplate();
         }
 
@@ -39,7 +38,6 @@ namespace CMiX.Core.Controls
                 Mouse.Capture(border, CaptureMode.SubTree);
             }
         }
-
 
         private void Child_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
@@ -68,7 +66,6 @@ namespace CMiX.Core.Controls
                 var element = sender as FrameworkElement;
                 //element.ReleaseMouseCapture();
                 _isDragging = false;
-
                 e.Handled = true;
             }
         }

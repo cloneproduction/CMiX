@@ -1,13 +1,14 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.Component.Mesh"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Texturing="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
-    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="30"
     d:DesignWidth="233"
     mc:Ignorable="d">
@@ -119,7 +120,7 @@
                     <Views:Outliner.SelectionPanel>
                         <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
                             <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                <Views:TextureSelectionPanel />
+                                <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
                             </Views:ButtonOpenSelectionPanel.SelectionPanel>
                         </Views:ButtonOpenSelectionPanel>
                     </Views:Outliner.SelectionPanel>

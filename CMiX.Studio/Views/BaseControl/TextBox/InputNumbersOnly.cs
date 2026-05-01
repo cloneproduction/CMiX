@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CMiX.Core.Controls
+namespace CMiX.Studio.Views.BaseControl
 {
     public class InputNumbersOnly : DependencyObject
     {

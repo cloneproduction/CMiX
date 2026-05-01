@@ -12,6 +12,7 @@
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Texturing="clr-namespace:CMiX.Core.ViewModels;assembly=CMiX.Core"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Beat="clr-namespace:CMiX.Studio.Views.Beat"
@@ -266,7 +267,7 @@
                         <Views:RepositoryManager.SelectionPanel>
                             <Views:ButtonOpenSelectionPanel Caption="New Texture">
                                 <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                    <Views:TextureSelectionPanel />
+                                    <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
                                 </Views:ButtonOpenSelectionPanel.SelectionPanel>
                             </Views:ButtonOpenSelectionPanel>
                         </Views:RepositoryManager.SelectionPanel>

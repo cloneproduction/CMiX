@@ -3,7 +3,7 @@
 
 using System.Windows;
 
-namespace CMiX.Core.Views
+namespace CMiX.Studio.Views.BaseControl
 {
     public partial class CustomWindowDialog : Window
     {

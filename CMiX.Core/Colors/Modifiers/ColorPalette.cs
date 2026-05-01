@@ -11,6 +11,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Colors.Modifiers
 {
+    [ModifierPanel(typeof(Entity))]
     public partial class ColorPalette : ObservableObject, IModifier
     {
         public ColorPalette(PrefabService prefabService,

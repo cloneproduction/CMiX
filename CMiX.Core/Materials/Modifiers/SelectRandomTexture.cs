@@ -11,6 +11,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Materials.Modifiers
 {
+    [ModifierPanel(typeof(Material))]
     public partial class SelectRandomTexture : ObservableObject, IBeatModifiable, IModifier
     {
         public SelectRandomTexture(PrefabManager beatModifierManager,

@@ -6,9 +6,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Layering="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Prefabs="clr-namespace:CMiX.Core.Prefabs;assembly=CMiX.Core"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
@@ -168,11 +170,10 @@
                     </i:Interaction.Behaviors>
 
                     <StackPanel>
-
                         <Panels:IndentedExpander Header="Texture Filters">
                             <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
                                 <Views:ModifierManager.SelectionPanel>
-                                    <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
+                                    <Views:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                                 </Views:ModifierManager.SelectionPanel>
                             </Views:ModifierManager>
                         </Panels:IndentedExpander>
@@ -180,7 +181,7 @@
                         <Panels:IndentedExpander Header="Modifiers">
                             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                                 <Views:ModifierManager.SelectionPanel>
-                                    <Views:LayerModifierSelectionPanel DataContext="{Binding}" />
+                                    <Views:AutoSelectionPanel PanelOwner="{x:Type Layering:Layer}" />
                                 </Views:ModifierManager.SelectionPanel>
                             </Views:ModifierManager>
                         </Panels:IndentedExpander>

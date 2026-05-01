@@ -4,6 +4,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
@@ -13,10 +14,11 @@
     x:Name="uc"
     d:DesignHeight="605.19"
     d:DesignWidth="315.259"
-    md:DialogServiceViews.IsRegistered="True"
-    mc:Ignorable="d">
 
+    mc:Ignorable="d">
+    <!--md:DialogServiceViews.IsRegistered="True"-->
     <StackPanel>
+        
         <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
             <Views:TransformSRT DataContext="{Binding TransformSRT}" Margin="8"/>
         </Panels:IndentedExpander>
@@ -24,11 +26,11 @@
         <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
-                    <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
+                    <Views:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
         </Panels:IndentedExpander>
-
+        
         <Panels:IndentedExpander Header="Material" IsExpanded="{Binding MaterialManagerIsExpanded}">
 
             <StackPanel>

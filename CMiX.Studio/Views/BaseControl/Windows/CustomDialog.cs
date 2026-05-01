@@ -3,7 +3,7 @@
 
 using System.Windows;
 using System.Windows.Controls;
-using CMiX.Core.Views;
+using CMiX.Studio.Views.BaseControl;
 using MvvmDialogs;
 
 namespace CMiX.Studio.Views.Dialogs

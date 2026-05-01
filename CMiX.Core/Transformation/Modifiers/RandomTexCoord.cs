@@ -3,6 +3,7 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -12,6 +13,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
+    [ModifierPanel(typeof(Entity))]
     public partial class RandomTexCoord : ObservableObject, IBeatModifiable, ISpreadableModifier
     {
         public RandomTexCoord(PrefabService prefabService,

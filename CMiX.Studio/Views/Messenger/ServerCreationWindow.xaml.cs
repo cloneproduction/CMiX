@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Input;
 
-namespace CMiX.Core.Views.Dialogs
+namespace CMiX.Studio.Views
 {
     public partial class ServerCreationWindow : Window
     {

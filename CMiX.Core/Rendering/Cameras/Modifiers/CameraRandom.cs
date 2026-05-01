@@ -10,6 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
+    [ModifierPanel(typeof(Camera))]
     public partial class CameraRandom : ObservableObject, IBeatModifiable, IPrefab, ICameraModifier
     {
         public CameraRandom(PrefabManager beatModifierManager,

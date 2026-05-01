@@ -3,6 +3,7 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -11,6 +12,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Layering.Modifiers
 {
+    [ModifierPanel(typeof(Layer))]
     public partial class RenderRandomEntity : ObservableObject, IBeatModifiable, IModifier
     {
         public RenderRandomEntity(PrefabManager beatModifierManager,

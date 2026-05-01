@@ -1,11 +1,12 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.Texture"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
     d:DesignHeight="140.052"
     d:DesignWidth="297.906"
     mc:Ignorable="d">
@@ -36,7 +37,7 @@
 
             <Views:ModifierManager DataContext="{Binding FilterManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
-                    <Views:TextureFilterSelectionPanel DataContext="{Binding}" />
+                    <Views:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
             

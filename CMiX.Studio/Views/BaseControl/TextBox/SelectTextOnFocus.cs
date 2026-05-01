@@ -6,8 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-
-namespace CMiX.Core.Controls
+namespace CMiX.Studio.Views.BaseControl
 {
     /// <summary>
     /// Attached dependency property

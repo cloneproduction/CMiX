@@ -1,14 +1,14 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.TextEntity"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Behaviors"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
-    xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:Views="clr-namespace:CMiX.Studio.Views"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.BaseControl"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Views.BaseControl.Panels"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+
     d:DesignHeight="471.333"
     d:DesignWidth="312"
     mc:Ignorable="d">
@@ -20,15 +20,15 @@
             <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
 
                 <StackPanel>
-                    <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                        <Views:ModifierManager.SelectionPanel>
-                            <StackPanel>
-                                <Views:TextModifierSelectionPanel DataContext="{Binding}" />
-                                <Views:EntityModifierSelectionPanel DataContext="{Binding}" />
-                            </StackPanel>
-                        </Views:ModifierManager.SelectionPanel>
-                    </Views:ModifierManager>
-                </StackPanel>
+                <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                    <Views:ModifierManager.SelectionPanel>
+                        <StackPanel>
+                            <Views:AutoSelectionPanel PanelOwner="{x:Type Compositing:TextEntity}" />
+                            <Views:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
+                        </StackPanel>
+                    </Views:ModifierManager.SelectionPanel>
+                </Views:ModifierManager>
+            </StackPanel>
 
             </Panels:IndentedExpander>
 

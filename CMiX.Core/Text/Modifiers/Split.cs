@@ -2,11 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Text.Modifiers
 {
+    [ModifierPanel(typeof(TextEntity))]
     public partial class Split : ObservableObject, IPrefab
     {
         public Split(PrefabService prefabService,

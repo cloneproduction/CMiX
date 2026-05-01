@@ -3,6 +3,7 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -10,6 +11,7 @@ using static VL.Core.Import.ProcessNodeFactory;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
+    [ModifierPanel(typeof(Entity))]
     public partial class LinearXYZ : ObservableObject, ISpreadableModifier
     {
         public LinearXYZ(PrefabService prefabService, 

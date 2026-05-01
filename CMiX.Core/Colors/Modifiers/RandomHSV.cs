@@ -3,15 +3,19 @@
 
 using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Colors.Modifiers
 {
+    [ModifierPanel(typeof(LightEntity))]
+    [ModifierPanel(typeof(Entity))]
     public partial class RandomHSV : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier
     {
         public RandomHSV(PrefabManager beatModifierManager,

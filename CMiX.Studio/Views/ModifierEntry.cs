@@ -1,15 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Controls;
+using System;
+using CMiX.Core.Prefabs;
 
 namespace CMiX.Studio.Views
 {
-    public partial class MaterialSelectionPanel : UserControl
+    public class ModifierEntry
     {
-        public MaterialSelectionPanel()
-        {
-            InitializeComponent();
-        }
+        public Type Type { get; set; }
+        public string Label => ControlFactory.StringHelper.PascalCaseToDisplay(Type?.Name ?? "");
     }
 }
