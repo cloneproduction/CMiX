@@ -8,17 +8,5 @@ namespace CMiX.Studio.Views
         {
             InitializeComponent();
         }
-
-        private void CollectionViewSource_Filter(object sender, System.Windows.Data.FilterEventArgs e)
-        {
-            Core.Materials.Material? game = e.Item as Core.Materials.Material;
-            
-            if (game != null)
-            {
-                e.Accepted = true;
-            }
-
-            e.Accepted = false;
-        }
     }
 }

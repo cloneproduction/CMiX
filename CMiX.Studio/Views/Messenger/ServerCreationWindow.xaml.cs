@@ -47,8 +47,6 @@ namespace CMiX.Studio.Views
         protected override void OnDeactivated(EventArgs e)
         {
             base.OnDeactivated(e);
-            //if (!isClosing)
-            //    Close();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

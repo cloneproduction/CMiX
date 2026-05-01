@@ -8,9 +8,9 @@ namespace CMiX.Studio.Views.BaseControl
     /// <summary>
     /// Interaction logic for Button.xaml
     /// </summary>
-    public partial class Button : UserControl
+    public partial class LabeledButton : UserControl
     {
-        public Button()
+        public LabeledButton()
         {
             InitializeComponent();
         }

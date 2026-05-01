@@ -20,7 +20,7 @@
 
         <BaseControls:IntegerValue Caption="Seek Frame" DataContext="{Binding SeekFrame}" />
 
-        <BaseControls:Button
+        <BaseControls:LabeledButton
             Margin="0,8"
             Caption="Do Seek"
             Command="{Binding DoSeek.ClickCommand}" />

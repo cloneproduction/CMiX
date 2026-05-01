@@ -1,10 +1,9 @@
-﻿using CMiX.Studio.Views.BaseControl;
-using System.Collections;
+﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace CMiX.Studio.Views.Managers
+namespace CMiX.Studio.Views
 {
     public partial class PrefabManagerComboBox : UserControl
     {
