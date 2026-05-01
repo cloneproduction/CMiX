@@ -3,7 +3,7 @@
 
 using System;
 
-namespace CMiX.Core.Mathematics
+namespace CMiX.Studio.Mathematics
 {
     public static class ColorSpaceHelper
     {

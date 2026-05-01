@@ -1,6 +1,5 @@
 ﻿using System.Windows;
 using System.Windows.Input;
-using CMiX.Core;
 using CMiX.Core.Undo;
 
 namespace CMiX.Studio.Views

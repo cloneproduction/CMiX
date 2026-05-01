@@ -1,21 +1,14 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Views.ServerManager"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Tools="clr-namespace:CMiX.Studio.Resources"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:md="https://github.com/fantasticfiasco/mvvm-dialogs"
     d:DesignHeight="631.333"
     d:DesignWidth="290.667"
     md:DialogServiceViews.IsRegistered="True"
     mc:Ignorable="d">
-
-    <UserControl.Resources>
-        <ResourceDictionary>
-            <Tools:BindingProxy x:Key="serverManager" Data="{Binding}" />
-        </ResourceDictionary>
-    </UserControl.Resources>
 
 
     <Border HorizontalAlignment="Stretch" Background="{DynamicResource Grey400Brush}">

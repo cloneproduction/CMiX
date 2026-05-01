@@ -1,16 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Interactivity;
-using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
-using CMiX.Core.ViewModels;
 
 namespace CMiX.Studio.Behaviors
 {

@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using CMiX.Core.Mathematics;
+using CMiX.Studio.Mathematics;
 
 namespace CMiX.Studio.Views.BaseControl
 {

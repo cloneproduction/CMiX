@@ -2,7 +2,7 @@
 using System.Globalization;
 using System.Windows.Data;
 using System.Windows.Markup;
-using CMiX.Core.Mathematics;
+using CMiX.Studio.Mathematics;
 
 namespace CMiX.Studio.Converters
 {

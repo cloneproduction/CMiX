@@ -9,6 +9,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="_Archive\LeftMarginMultiplierConverter.cs" />
+    <Compile Remove="_Archive\TreeViewItemClickBehavior.cs" />
+    <Compile Remove="_Archive\TreeViewItemExtensions.cs" />
+    <Compile Remove="_Archive\TreeViewMultiSelect.cs" />
+    <Compile Remove="_Archive\TreeViewMultiSelectionBehavior.cs" />
+    <Compile Remove="_Archive\TreeViewSelect.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Themes\Assets\Add.png" />
     <None Remove="Themes\Assets\AddTab.png" />
     <None Remove="Themes\Assets\Arrow_Down.png" />
@@ -65,6 +74,11 @@
     <None Remove="Themes\Assets\Visible.png" />
     <None Remove="Themes\Assets\Warning.png" />
     <None Remove="Themes\Assets\World.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Remove="_Archive\TreeView.xaml" />
+    <Page Remove="_Archive\TreeViewMultiSelect.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -148,6 +162,10 @@
     <Compile Update="Views\Modifiers\Light\RandomRotation.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="_Archive\" />
   </ItemGroup>
 
 </Project>

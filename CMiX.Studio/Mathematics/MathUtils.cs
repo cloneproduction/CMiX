@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Media.Media3D;
 
-namespace CMiX.Core.Mathematics
+namespace CMiX.Studio.Mathematics
 {
     public static class MathUtils
     {
