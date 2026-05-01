@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows;
-using CMiX.Studio.Views.BaseControl;
+using CMiX.Studio.Views.Controls;
 
 namespace CMiX.Studio.AttachedProperties
 {

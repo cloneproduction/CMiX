@@ -1,4 +1,4 @@
-﻿using CMiX.Studio.Views.BaseControl;
+﻿using CMiX.Studio.Views.Controls;
 using System;
 using System.Collections;
 using System.Windows;

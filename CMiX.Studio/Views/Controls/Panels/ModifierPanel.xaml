@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Controls.Panels.ModifierPanel"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:AP="clr-namespace:CMiX.Studio.AttachedProperties"
+    d:DesignHeight="268.208"
+    d:DesignWidth="287.353"
+    mc:Ignorable="d">
+
+    <UserControl.ContentTemplate>
+
+        <DataTemplate>
+            <Expander IsExpanded="{Binding DataContext.IsExpanded, 
+                                           RelativeSource={RelativeSource Mode=FindAncestor, 
+                                           AncestorType=UserControl}}" 
+                      Style="{StaticResource ItemControlExpander}">
+                
+                <Expander.Header>
+                    <DockPanel>
+                        <Button
+                            AP:DragHandler.IsEnabled="True"
+                            AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, 
+                                RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}, 
+                                Mode=TwoWay}"
+                            DockPanel.Dock="Right"
+                            Style="{StaticResource DragHandlerButton}">
+                            <Button.Content>
+                                <Image Opacity="0.50" Source="{DynamicResource DragHandler}" />
+                            </Button.Content>
+                        </Button>
+
+                        <Button
+                            Command="{Binding CloseModifierCommand, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            DockPanel.Dock="Right"
+                            Style="{DynamicResource ModifierCloseButtonStyle}" />
+
+                        <ToggleButton
+                            Margin="2, 0"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding DataContext.PrefabService.Visibility.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                            Style="{DynamicResource ToggleVisibility}" />
+ 
+                        <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" />
+                        
+                    </DockPanel>
+                </Expander.Header>
+
+                <Border Margin="8">
+                    <ContentPresenter Content="{TemplateBinding Content}" />
+                </Border>
+
+            </Expander>
+        </DataTemplate>
+    </UserControl.ContentTemplate>
+
+</UserControl>

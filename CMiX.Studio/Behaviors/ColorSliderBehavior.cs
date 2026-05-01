@@ -5,7 +5,7 @@ using System;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Media;
-using CMiX.Studio.Views.BaseControl;
+using CMiX.Studio.Views.Controls;
 
 namespace CMiX.Studio.Behaviors
 {

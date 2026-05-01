@@ -1,0 +1,61 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Views.Outliner"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="34.167"
+    d:DesignWidth="248"
+    mc:Ignorable="d">
+
+    <DockPanel Height="{DynamicResource ControlHeightMD}">
+
+        <ComboBox
+            Focusable="False"
+            ItemsSource="{Binding ItemsSource, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            Style="{StaticResource ComboBoxWithButton}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding PrefabService.Name.Value}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Grid>
+            
+            <ContentControl Margin="1, 0, 0, 0" Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}" DataContext="{Binding}" />
+
+            <Border>
+                <DockPanel Visibility="{Binding SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+
+                    <Button
+                        x:Name="deleteItemButton"
+                        Width="22"
+                        Height="{DynamicResource ControlHeightMD}"
+                        Command="{Binding RemoveSelectedItemCommand}"
+                        CommandParameter="{Binding SelectedItem}"
+                        Content="-"
+                        DockPanel.Dock="Right"
+                        Style="{StaticResource ButtonRoundedRight}" />
+
+                    <Border                        
+                        BorderThickness="0.5"
+                        BorderBrush="{DynamicResource Grey300Brush}">
+                        <Controls:EditableTextBox
+                            Focusable="False"
+                            Background="{DynamicResource Grey200Brush}"
+                            SnapsToDevicePixels="True"
+                            Text="{Binding SelectedItem.PrefabService.Name.Value, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                            TextElement.Foreground="{DynamicResource ForegroundBrush}" />
+                    </Border>
+
+                </DockPanel>
+            </Border>
+
+        </Grid>
+
+    </DockPanel>
+
+</UserControl>
