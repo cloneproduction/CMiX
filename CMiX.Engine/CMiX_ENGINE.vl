@@ -1721,16 +1721,6 @@
                     <Pin Id="LcxKcZDisXCOjKcUGMw1D0" Name="Output" Kind="StateOutputPin" />
                     <Pin Id="JkAR3vLHc5zNZd1cAAn8O1" Name="Pause" Kind="OutputPin" />
                   </Node>
-                  <Node Bounds="434,352,40,26" Id="MV6850UNrxrMTGKjLeJx0E">
-                    <p:NodeReference LastCategoryFullName="CMiX.Core.BaseControls.Button" LastDependency="CMiX.Core.dll">
-                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="AssemblyCategory" Name="Button" />
-                      <Choice Kind="OperationCallFlag" Name="Click" />
-                    </p:NodeReference>
-                    <Pin Id="HqwQiQV3XwvOjCZZtxfRNn" Name="Input" Kind="StateInputPin" />
-                    <Pin Id="DnlND7cn7xPOQB3UTPLwFf" Name="State Output" Kind="OutputPin" />
-                    <Pin Id="Nh0hg7EVNN7QVzK4TpuocY" Name="Result" Kind="OutputPin" />
-                  </Node>
                   <Node Bounds="708,352,72,26" Id="QNKalh7YoS1MsNhUbyBRKM">
                     <p:NodeReference LastCategoryFullName="CMiX.Core.BaseControls.GenericValue`1" LastDependency="CMiX.Core.dll">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -1765,6 +1755,16 @@
                   <Pad Id="UoRqBR0iPgCMuViH7wycJS" Comment="" Bounds="818,470,35,15" ShowValueBox="true" isIOBox="true" />
                   <Pad Id="EjqUJuLK4bELoL9jwjCh2H" Comment="On Data" Bounds="612,460,35,35" ShowValueBox="true" isIOBox="true" />
                   <Pad Id="E05dMNCGlouNiW2qbY6XWl" Comment="" Bounds="376,390,47,15" ShowValueBox="true" isIOBox="true" />
+                  <Node Bounds="469,350,58,26" Id="C16y8jjMzY7PnUERYm3Iy0">
+                    <p:NodeReference LastCategoryFullName="CMiX.Core.BaseControls.CMiXButton" LastDependency="CMiX.Core.dll">
+                      <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                      <CategoryReference Kind="AssemblyCategory" Name="CMiXButton" />
+                      <Choice Kind="OperationCallFlag" Name="Click" />
+                    </p:NodeReference>
+                    <Pin Id="HmEv6QH8deDOBkvWLF553w" Name="Input" Kind="StateInputPin" />
+                    <Pin Id="UaJp23AfOtAN882wWLw10A" Name="State Output" Kind="OutputPin" IsHidden="true" />
+                    <Pin Id="NprvMd7haaPOiI860f2zle" Name="Result" Kind="OutputPin" />
+                  </Node>
                 </Patch>
               </Node>
               <Node Bounds="191,233,65,19" Id="BWZi8uWc6TJMuUIn4K4lXf">
@@ -1835,8 +1835,6 @@
             <Link Id="R3WIVNyGYWJOQstZ8ULcGs" Ids="GfWI78eChLCM6c0y1Qo9ee,V3Ugvv6w1i0OJu50h0e3by" />
             <Link Id="LM5AZzAsTvVLIE2gS4P75J" Ids="GfWI78eChLCM6c0y1Qo9ee,G7xTfyH9BLPQcKaRTlPIsC" />
             <Link Id="E07WXbTDJ8pOovlJIk2jM8" Ids="EUOY7bFK2U1OQcdX5VCQKA,Iy0V6atyABQMXqC52YRxdn" />
-            <Link Id="TeW6lhchoHeQEnJDlWaDBe" Ids="Nh0hg7EVNN7QVzK4TpuocY,Emk5mHwcvV9NNK2G0fSs80" />
-            <Link Id="MDwfW2VKVf3OQ7UrRkDv0j" Ids="SNle25jRm4fPbYR2loV16N,HqwQiQV3XwvOjCZZtxfRNn" />
             <Link Id="VQHDFmkbj3HM2gfqOhnxY8" Ids="Lhw6MwURchgNgmFqeW8rWH,T6IQ1Axu7GKPkeQGSuMh91" />
             <Link Id="BjlvtuuDXZXN2uOeHlrGMq" Ids="C75qB4dqYVVPhuJ093fOnE,Qc0F4b53qXYOMqcsamEnqS" />
             <Link Id="ReEmEMN03TlNdo6juCSMmE" Ids="JkAR3vLHc5zNZd1cAAn8O1,Sku2JbJ46CvNaIgj0x6vZh" />
@@ -1872,6 +1870,8 @@
             <Link Id="HFqEL5TUMMFN6GANsOPbpm" Ids="FSTFD3igOW1NLAca24bu0F,UoRqBR0iPgCMuViH7wycJS" />
             <Link Id="BN0BHNpg3ZnO9vQND5uAhg" Ids="GfWI78eChLCM6c0y1Qo9ee,EjqUJuLK4bELoL9jwjCh2H" />
             <Link Id="HiA5NOycxiGL9nCF8w4nMT" Ids="IornKIkzHa1O1toTsrquCn,E05dMNCGlouNiW2qbY6XWl" />
+            <Link Id="R9EiYBLYuXnOKp5ovJa3d1" Ids="SNle25jRm4fPbYR2loV16N,HmEv6QH8deDOBkvWLF553w" />
+            <Link Id="TqmoXNR2ryFLfXyzk7QhkM" Ids="NprvMd7haaPOiI860f2zle,Emk5mHwcvV9NNK2G0fSs80" />
           </Patch>
         </Node>
         <!--
@@ -29067,18 +29067,6 @@
                   <Pin Id="EjtePWcRdbQMOOPyn2Nxgw" Name="Output" Kind="StateOutputPin" />
                   <Pin Id="IEj14MQYvZ2QH1EB0hGnZT" Name="Explode Strength" Kind="OutputPin" />
                 </Node>
-                <Node Bounds="110,150,213,26" Id="GB4Mah6YMLzMaPcxhHAMHC">
-                  <p:NodeReference LastCategoryFullName="CMiX.Core.ViewModels.Mesh" LastDependency="CMiX.Core.dll">
-                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                    <CategoryReference Kind="AssemblyCategory" Name="Mesh" NeedsToBeDirectParent="true">
-                      <p:OuterCategoryReference Kind="AssemblyCategory" Name="ViewModels" NeedsToBeDirectParent="true" />
-                    </CategoryReference>
-                    <Choice Kind="OperationCallFlag" Name="ExplodeTriangleTextureManager" />
-                  </p:NodeReference>
-                  <Pin Id="Q5qW5KpePvHNHOMY9ZIOXn" Name="Input" Kind="StateInputPin" />
-                  <Pin Id="Ul7hZSH4AMsLsHXORpwOgJ" Name="Output" Kind="StateOutputPin" />
-                  <Pin Id="ISUEsYSGj0sNwCTpjUrJHq" Name="Explode Triangle Texture Manager" Kind="OutputPin" />
-                </Node>
                 <ControlPoint Id="T6h73qlI3edPUXTjYgmhPO" Bounds="77,79" />
                 <ControlPoint Id="OZmLc2O2LNDPbcVOXQqM3u" Bounds="82,529" />
                 <Node Bounds="80,478,97,19" Id="S1j1idHVqi6MVJT9rss3Bd">
@@ -29097,6 +29085,16 @@
                 </Node>
                 <ControlPoint Id="ClyWUTvGWzwLkL8ISjVqa7" Bounds="82,391" />
                 <ControlPoint Id="E4NK07oVRGQOwgpTu5eNXG" Bounds="255,211" />
+                <Node Bounds="110,150,213,26" Id="KKLS8C3nDZvMI3IxfYcb6I">
+                  <p:NodeReference LastCategoryFullName="CMiX.Core.Mesh" LastDependency="CMiX.Core.dll">
+                    <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                    <CategoryReference Kind="AssemblyCategory" Name="Mesh" />
+                    <Choice Kind="OperationCallFlag" Name="ExplodeTriangleTextureManager" />
+                  </p:NodeReference>
+                  <Pin Id="PwZhy7T84i6NuSJ8PfoJ0N" Name="Input" Kind="StateInputPin" />
+                  <Pin Id="Gs1oselRCqOOVmaoUoH6E9" Name="Output" Kind="StateOutputPin" />
+                  <Pin Id="Fw5DoA8tJiLPfXVv5zXX40" Name="Explode Triangle Texture Manager" Kind="OutputPin" />
+                </Node>
               </Canvas>
               <Patch Id="IVKoFF4VGPROvCQHKjnu4v" Name="Create" />
               <Patch Id="PKIlBmY6HWiQZGtWd8YQLJ" Name="Update">
@@ -29118,8 +29116,6 @@
               <Link Id="U53lfOgKla1Nx9EAaZfWFh" Ids="BllUfWfMNKXMyFPG9EvpKE,U5vlohNhu7dNCzzqRiP2uM" />
               <Link Id="LBi2QpzTnuMQL8JjeBYWsp" Ids="FUw9D1S1pjVON7ISHlSAdM,Sddx2sSMj3nOGR7ZtGgyW5" />
               <Link Id="RfGlNwIRZyLPyFAyca04Up" Ids="IEj14MQYvZ2QH1EB0hGnZT,Vgx4vo5zl1ePQN8bDNaBxM" />
-              <Link Id="HhKAXOvSIwkNuKXhP95NTZ" Ids="EIjzZHHwY6LLR8yXTxFAP8,Q5qW5KpePvHNHOMY9ZIOXn" />
-              <Link Id="BUiumlqyJh9On5S9HtfWKW" Ids="ISUEsYSGj0sNwCTpjUrJHq,HAmHYju9fG7LIlEnXrymIF" />
               <Link Id="CDdjsR6QsInNFCzApPjhmu" Ids="T6h73qlI3edPUXTjYgmhPO,UjIqJTBpj15N7wRTdpm36k" />
               <Link Id="P4wGuXirMTSQECmepXIlGl" Ids="KJDQiEohRvjMqoLuWcDvps,T6h73qlI3edPUXTjYgmhPO" IsHidden="true" />
               <Link Id="T7gsLUYiEGONx6o85HjZnD" Ids="OZmLc2O2LNDPbcVOXQqM3u,GkhLW9a0dF9PrrmzKXCGn8" IsHidden="true" />
@@ -29130,7 +29126,9 @@
               <Link Id="R5gLIYS5uPaOGFuNk6mksX" Ids="E4NK07oVRGQOwgpTu5eNXG,JWlcZPK5n7vNGnhvp9frNk" />
               <Link Id="OEb7oESqvbrNNPaQYKXJ5q" Ids="FHaXg7U1QV7LqwAt4etzRI,E4NK07oVRGQOwgpTu5eNXG" IsHidden="true" />
               <Link Id="VEOQUbx8MNeLOKXeNZSFTO" Ids="U5vlohNhu7dNCzzqRiP2uM,GopiB9t1G7YMWDKAUg4b7c" />
-              <Link Id="JxrRJftJoRnLxW1edX27hC" Ids="Ul7hZSH4AMsLsHXORpwOgJ,LctOI7QPyJlMjqgZu2vmva" />
+              <Link Id="Ec9xSnpZFBKPWDSgO4nBpe" Ids="EIjzZHHwY6LLR8yXTxFAP8,PwZhy7T84i6NuSJ8PfoJ0N" />
+              <Link Id="DXBeHY6rvzjP9pQxmksby1" Ids="Gs1oselRCqOOVmaoUoH6E9,LctOI7QPyJlMjqgZu2vmva" />
+              <Link Id="Is5luyZbLTLQFqbZMIPiyA" Ids="Fw5DoA8tJiLPfXVv5zXX40,HAmHYju9fG7LIlEnXrymIF" />
             </Patch>
           </Node>
         </Canvas>
@@ -31266,7 +31264,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="512.5714, 196, 601.1429, 882.8571" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="589.1429, 174.28572, 601.1429, 882.8571" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
