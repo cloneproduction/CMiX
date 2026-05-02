@@ -1,6 +1,6 @@
 ﻿using CMiX.Core.DependencyInjection;
 using CMiX.Core.Services;
-using CMiX.Core.ViewModels;
+using CMiX.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Console

@@ -2,7 +2,7 @@
 using System.Windows;
 using CMiX.Core;
 using CMiX.Core.DependencyInjection;
-using CMiX.Core.ViewModels;
+using CMiX.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX

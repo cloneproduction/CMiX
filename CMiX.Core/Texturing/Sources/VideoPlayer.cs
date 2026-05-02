@@ -2,10 +2,8 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.BaseControls.CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.ViewModels;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -18,7 +16,7 @@ namespace CMiX.Core.Texturing.Sources
                            Integer2 resolution, 
                            GenericValue<int> seekFrame, 
                            GenericValue<bool> play, 
-                           Button doSeek, 
+                           CMiXButton doSeek, 
                            AssetSelector assetSelector)
         {
             Resolution = resolution;
@@ -32,7 +30,7 @@ namespace CMiX.Core.Texturing.Sources
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public Button DoSeek { get; set; }
+        public CMiXButton DoSeek { get; set; }
         public GenericValue<int> SeekFrame { get; set; }
         public GenericValue<bool> Play { get; set; }
         public AssetSelector AssetSelector { get; set; }

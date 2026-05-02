@@ -1,18 +1,17 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Texturing.Sources;
-using CMiX.Core.ViewModels.Assets;
+using CMiX.Core.Assets;
 
 namespace CMiX.Core.Assets
 {
-    public class Image : IAsset
+    public class ImageAsset : IAsset
     {
-        public Image()
+        public ImageAsset()
         {
 
         }
-        public Image(string path)
+        public ImageAsset(string path)
         {
             FilePath = path;
         }

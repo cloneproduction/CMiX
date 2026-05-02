@@ -10,13 +10,9 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class Button : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class CMiXButton : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public Button()
-        {
-            
-        }
-        public Button(ControlMessenger controlMessenger)
+        public CMiXButton(ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
             ControlMessenger = controlMessenger;

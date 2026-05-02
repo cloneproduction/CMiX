@@ -10,7 +10,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Networking.Servers;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
-using CMiX.Core.ViewModels;
+using CMiX.Core.Texturing.Sources;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Prefabs

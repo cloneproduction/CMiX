@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.ViewModels;
+using CMiX.Core;
 
 namespace CMiX.Core.Texturing.Sources
 {

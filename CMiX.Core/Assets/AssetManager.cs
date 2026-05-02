@@ -8,7 +8,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.ViewModels.Assets
+namespace CMiX.Core.Assets
 {
     public partial class AssetManager : ObservableRecipient, IControl, IDropTarget, IDragSource
     {
@@ -88,7 +88,7 @@ namespace CMiX.Core.ViewModels.Assets
             string fileType = Path.GetExtension(path).ToUpper().TrimStart('.');
 
             if (fileType is "PNG" or "JPG" or "JPEG")
-                AssetRepository.Add(new Image(path));
+                AssetRepository.Add(new ImageAsset(path));
             else if (fileType is "OBJ" or "FBX")
                 AssetRepository.Add(new Geometry(path));
             else if (fileType == "MOV")

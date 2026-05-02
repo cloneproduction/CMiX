@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Core.ViewModels
+namespace CMiX.Core.Texturing.Sources
 {
     public interface ITextureSource : IPrefab
     {

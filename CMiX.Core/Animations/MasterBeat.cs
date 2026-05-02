@@ -15,7 +15,7 @@ namespace CMiX.Core.Animations
                           GenericValue<float> period, 
                           GenericValue<int> beatIndex, 
                           GenericValue<bool> pause, 
-                          Button resync,
+                          CMiXButton resync,
                           UndoManager undoManager,
                           ControlActivationService activationService)
         {
@@ -66,7 +66,7 @@ namespace CMiX.Core.Animations
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> Pause { get; set; }
         public BeatAnimations BeatAnimations { get; set; }
-        public Button Resync { get; set; }
+        public CMiXButton Resync { get; set; }
         public GenericValue<int> Index { get; set; }
         public GenericValue<int> BeatIndex { get; set; }
         public GenericValue<float> Period { get; set; }

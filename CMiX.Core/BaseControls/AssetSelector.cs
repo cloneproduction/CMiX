@@ -2,14 +2,10 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows;
-using System.Windows.Media.Media3D;
 using CMiX.Core.Assets;
-using CMiX.Core.BaseControls.CMiX.Core.BaseControls;
-using CMiX.Core.Texturing.Sources;
-using CMiX.Core.ViewModels.Assets;
+using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GongSolutions.Wpf.DragDrop;
-using Image = CMiX.Core.Assets.Image;
 
 namespace CMiX.Core.BaseControls
 {
@@ -41,9 +37,9 @@ namespace CMiX.Core.BaseControls
 
         private static readonly Dictionary<string, Func<string, IAsset>> AssetFactories = new()
     {
-        { "PNG", path => new Image(path) },
-        { "JPG", path => new Image(path) },
-        { "JPEG", path => new Image(path) },
+        { "PNG", path => new ImageAsset(path) },
+        { "JPG", path => new ImageAsset(path) },
+        { "JPEG", path => new ImageAsset(path) },
         { "OBJ", path => new Geometry(path) },
         { "FBX", path => new Geometry(path) },
         { "MOV", path => new Video(path) }
@@ -101,7 +97,7 @@ namespace CMiX.Core.BaseControls
 
             IAsset asset = m.AssetType switch
             {
-                "Image" => new Image(),
+                "Image" => new ImageAsset(),
                 "Video" => new Video(),
                 "Geometry" => new Geometry(),
                 _ => null

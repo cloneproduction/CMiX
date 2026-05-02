@@ -17,7 +17,7 @@ using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
 
-namespace CMiX.Core.ViewModels
+namespace CMiX.Core.Windows
 {
     public partial class MainMenu : ObservableRecipient, IControl, IRecipient<IMessage>
     {

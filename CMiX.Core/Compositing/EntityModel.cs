@@ -4,7 +4,7 @@
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
-using CMiX.Core.ViewModels;
+using CMiX.Core;
 
 namespace CMiX.Core.Compositing
 {

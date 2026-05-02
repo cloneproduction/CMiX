@@ -2,10 +2,9 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Rendering;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Core.ViewModels
+namespace CMiX.Core.Rendering
 {
     public partial class AmbientOcclusion : ObservableObject, IControl
     {

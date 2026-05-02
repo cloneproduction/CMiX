@@ -3,7 +3,7 @@
 
 using System.Collections.ObjectModel;
 
-namespace CMiX.Core.Collections
+namespace CMiX.Core
 {
     public class SortableObservableCollection<T> : ObservableCollection<T>
     {

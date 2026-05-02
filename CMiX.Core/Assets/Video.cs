@@ -2,7 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Texturing.Sources;
-using CMiX.Core.ViewModels.Assets;
+using CMiX.Core.Assets;
 
 namespace CMiX.Core.Assets
 {

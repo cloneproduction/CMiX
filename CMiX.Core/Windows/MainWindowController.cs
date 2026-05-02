@@ -6,7 +6,7 @@ using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.ViewModels.Windows
+namespace CMiX.Core.Windows
 {
     public class MainWindowController : ObservableObject, IControl
     {

@@ -3,7 +3,7 @@
 
 using CMiX.Core.Assets;
 
-namespace CMiX.Core.ViewModels.Assets
+namespace CMiX.Core.Assets
 {
     public interface IAsset
     {

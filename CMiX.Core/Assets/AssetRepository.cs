@@ -1,8 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Collections;
-using CMiX.Core.ViewModels.Assets;
+using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Assets
@@ -10,7 +9,7 @@ namespace CMiX.Core.Assets
     public class AssetRepository : ObservableObject
     {
         public SortableObservableCollection<Video> Videos { get; } = new();
-        public SortableObservableCollection<Image> Images { get; } = new();
+        public SortableObservableCollection<ImageAsset> Images { get; } = new();
         public SortableObservableCollection<Geometry> Geometries { get; } = new();
 
         private readonly Dictionary<Type, Action<IAsset>> typeToAddAction;
@@ -20,7 +19,7 @@ namespace CMiX.Core.Assets
             typeToAddAction = new Dictionary<Type, Action<IAsset>>
             {
                 { typeof(Video), asset => Videos.Add((Video)asset) },
-                { typeof(Image), asset => Images.Add((Image)asset) },
+                { typeof(ImageAsset), asset => Images.Add((ImageAsset)asset) },
                 { typeof(Geometry), asset => Geometries.Add((Geometry)asset) }
             };
         }

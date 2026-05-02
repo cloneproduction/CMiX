@@ -10,7 +10,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Services;
 using CMiX.Core.Undo;
-using CMiX.Core.ViewModels;
+using CMiX.Core;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Core.DependencyInjection

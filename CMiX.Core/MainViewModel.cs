@@ -5,9 +5,10 @@ using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
-using CMiX.Core.ViewModels.Assets;
-using CMiX.Core.ViewModels.Windows;
-namespace CMiX.Core.ViewModels
+using CMiX.Core.Assets;
+using CMiX.Core.Windows;
+
+namespace CMiX.Core
 {
     public class MainViewModel : IControl
     {

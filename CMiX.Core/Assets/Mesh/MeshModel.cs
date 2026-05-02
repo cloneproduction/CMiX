@@ -4,9 +4,9 @@
 using CMiX.Core.Assets.Mesh;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.ViewModels.Assets;
+using CMiX.Core.Assets;
 
-namespace CMiX.Core.ViewModels
+namespace CMiX.Core
 {
     public record MeshModel : IControlModel
     {
