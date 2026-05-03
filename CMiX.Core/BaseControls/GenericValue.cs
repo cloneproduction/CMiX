@@ -91,9 +91,7 @@ namespace CMiX.Core.BaseControls
         {
             var m = (GenericValueModel<T>)model;
             ID = m.ID;
-            IsReceiving = true;  // prevent echo
-            Value = m.Value;     // IsActive stays true → message sent to vvvv
-            IsReceiving = false;
+            ReceiveWithoutEcho(() => Value = m.Value);
         }
     }
 }

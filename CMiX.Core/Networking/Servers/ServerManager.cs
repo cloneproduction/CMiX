@@ -45,7 +45,6 @@ namespace CMiX.Core.Networking.Servers
         public ControlFactory ControlFactory { get; set; }
         public ControlRepository ControlRepository { get; set; }
         public ManagerData ManagerData { get; set; }
-        public ManagerReorderService? ManagerReorderService { get; } = null;
 
 
         private IControl _selectedItem;

@@ -5,10 +5,10 @@ using CMiX.Core.Animations;
 using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
+using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Prefabs.Messages;
-using CMiX.Core.Services;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -32,12 +32,7 @@ namespace CMiX.Core.DependencyInjection
 
             services.AddSingleton<UndoManager>();
 
-            services.AddTransient<ControlFactory>();
             services.AddSingleton<Project>();
-            services.AddSingleton<MainViewModel>();
-
-            services.AddSingleton<AppInitializer>();
-
             services.AddSingleton<MasterBeat>();
 
             services.AddSingleton<ControlActivationService>();
@@ -48,9 +43,38 @@ namespace CMiX.Core.DependencyInjection
             services.AddSingleton<AssetRepository>();
             services.AddSingleton<MessageCollectionManagerHandler>();
             services.AddSingleton<Client>();
+        }
 
-            var descriptor = services.FirstOrDefault(d => d.ServiceType == typeof(IControl)
-                                            && d.ImplementationType == typeof(PrefabManager));
+        public void ConfigureWpfTransport(IServiceProvider provider, Action<Action> dispatcher)
+        {
+            var repo = provider.GetRequiredService<ControlRepository>();
+            var messenger = provider.GetRequiredService<ControlMessenger>();
+
+            repo.Servers.CollectionChanged += (s, args) =>
+            {
+                args.NewItems?.Cast<Server>().ToList().ForEach(server =>
+                {
+                    server.SetDispatcher(dispatcher);
+                    messenger.Register(server);
+                });
+                args.OldItems?.Cast<Server>().ToList().ForEach(server =>
+                {
+                    messenger.Unregister(server);
+                });
+            };
+        }
+
+        public void ConfigureVvvvTransport(IServiceProvider provider)
+        {
+            var messenger = provider.GetRequiredService<ControlMessenger>();
+            var client = provider.GetRequiredService<Client>();
+            messenger.Register(client);
+        }
+
+        public void ConfigureVvvvServices(IServiceCollection services)
+        {
+            services.AddSingleton<ManagerReorderServiceFactory>(
+                _ => (collection, onMove) => null);
         }
     }
 }

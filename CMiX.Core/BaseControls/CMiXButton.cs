@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class CMiXButton : ObservableRecipient, IControl, IRecipient<IMessage>
+    public class CMiXButton : ReceivableControl, IControl, IRecipient<IMessage>
     {
         public CMiXButton(ControlMessenger controlMessenger)
         {
@@ -38,10 +38,8 @@ namespace CMiX.Core.BaseControls
 
         public void Receive(IMessage message)
         {
-            if (this.ID != message.ID)
-                return;
-
-            this.OnClick();
+            if (this.ID != message.ID) return;
+            ReceiveWithoutEcho(() => Click?.Invoke(this, null));
         }
 
         public IControlModel ToModel() => new ButtonModel

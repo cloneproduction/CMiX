@@ -1,17 +1,20 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using System.Windows;
-using CMiX.Core.Networking.Messages;
+using CMiX.Core;
+using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;
 
-namespace CMiX.Core.Prefabs.Managers
+namespace CMiX.Studio.Services
 {
     public partial class ManagerReorderService : ObservableObject,
                                                  IDropTarget,
-                                                 IDragSource
+                                                 IDragSource,
+                                                 IManagerReorderService
     {
         public ManagerReorderService(CollectionManager collectionManager, Action<int, int> onMove)
         {

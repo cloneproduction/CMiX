@@ -13,19 +13,15 @@ namespace CMiX.Studio.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] == DependencyProperty.UnsetValue)
-                return DependencyProperty.UnsetValue;
+            if (values[0] == DependencyProperty.UnsetValue) return DependencyProperty.UnsetValue;
+            if (values[1] == null) return DependencyProperty.UnsetValue;
 
-            if (values[0] == null || values[1] == null)
-                    return DependencyProperty.UnsetValue;
+            var beatModifier = (BeatModifier)values[1];
+            if (beatModifier?.MasterBeat?.AnimatedDoubleProvider == null) return DependencyProperty.UnsetValue;
 
-            var beatIndex = (int)values[0];
-            var masterBeat = (MasterBeat)values[1];
-
-            if(masterBeat == null)
-                return DependencyProperty.UnsetValue;
-
-            return masterBeat.BeatAnimations.AnimatedDoubles[beatIndex + masterBeat.BeatIndex.Value].AnimationPosition;
+            var index = beatModifier.BeatIndex.Value + beatModifier.MasterBeat.BeatIndex.Value;
+            var animatedDouble = beatModifier.MasterBeat.AnimatedDoubleProvider(index);
+            return animatedDouble?.AnimationPosition ?? DependencyProperty.UnsetValue;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)

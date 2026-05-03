@@ -19,7 +19,8 @@ namespace CMiX.Core.Prefabs.Managers
                              ControlMessenger controlMessenger,
                              MessageFactory messageFactory,
                              ControlActivationService activationService,
-                             UndoManager undoManager)
+                             UndoManager undoManager,
+                             ManagerReorderServiceFactory reorderServiceFactory)
         {
             ID = collection.ManagerData.ID;
             ControlMessenger = controlMessenger;
@@ -37,7 +38,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             Collection.ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
-            ManagerReorderService = new ManagerReorderService(Collection, OnMove);
+            ManagerReorderService = reorderServiceFactory(Collection, OnMove);
 
             IsActive = false;
             activationService.Register(this);
@@ -48,7 +49,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public Guid ID { get; set; }
         public CollectionManager Collection { get; set; }
-        public ManagerReorderService ManagerReorderService { get; }
+        public IManagerReorderService ManagerReorderService { get; }
         public ControlRepository ControlRepository => Collection.ControlRepository;
         public ControlMessenger ControlMessenger { get; set; }
         public MessageFactory MessageFactory { get; set; }

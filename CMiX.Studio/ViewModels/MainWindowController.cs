@@ -1,12 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using System.Windows;
 using System.Windows.Input;
+using CMiX.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.Windows
+namespace CMiX.Studio.ViewModels
 {
     public class MainWindowController : ObservableObject, IControl
     {

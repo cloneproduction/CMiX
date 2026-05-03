@@ -1,6 +1,6 @@
-﻿using CMiX.Core.DependencyInjection;
-using CMiX.Core.Services;
-using CMiX.Core;
+﻿using CMiX.Core.Compositing;
+using CMiX.Core.DependencyInjection;
+using CMiX.Core.Networking;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CMiX.Console
@@ -15,13 +15,8 @@ namespace CMiX.Console
             configurationBuilder.ConfigureAllServices(serviceCollection);
 
             var ServiceProvider = serviceCollection.BuildServiceProvider();
-
-
             ServiceProvider.GetRequiredService<Client>().Start("127.0.0.1", 8080);
-
-            var project = ServiceProvider.GetRequiredService(typeof(MainViewModel));
-            //var MainMenu = ServiceProvider.GetService(typeof(MainMenu));
-
+            ServiceProvider.GetRequiredService<Project>();
             System.Console.ReadLine();
         }
     }

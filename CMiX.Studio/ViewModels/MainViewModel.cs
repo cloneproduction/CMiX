@@ -1,14 +1,15 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+using System;
+using CMiX.Core;
+using CMiX.Core.Assets;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
-using CMiX.Core.Assets;
-using CMiX.Core.Windows;
 
-namespace CMiX.Core
+namespace CMiX.Studio.ViewModels
 {
     public class MainViewModel : IControl
     {

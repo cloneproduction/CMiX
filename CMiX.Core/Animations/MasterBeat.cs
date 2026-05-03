@@ -4,17 +4,16 @@
 using System.Diagnostics;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Undo;
-using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
     public partial class MasterBeat : ReceivableControl, IControl
     {
-        public MasterBeat(GenericValue<int> index, 
-                          GenericValue<float> period, 
-                          GenericValue<int> beatIndex, 
-                          GenericValue<bool> pause, 
+        public MasterBeat(GenericValue<int> index,
+                          GenericValue<float> period,
+                          GenericValue<int> beatIndex,
+                          GenericValue<bool> pause,
                           CMiXButton resync,
                           UndoManager undoManager,
                           ControlActivationService activationService)
@@ -26,7 +25,6 @@ namespace CMiX.Core.Animations
             Resync = resync;
 
 
-            BeatIndex.Value = 0;
             Index.Value = 0;
             Period.Value = 1000;
 
@@ -34,12 +32,9 @@ namespace CMiX.Core.Animations
             tapPeriods = new List<float>();
             tapTime = new List<float>();
 
-            BeatAnimations = new BeatAnimations();
-
             GeneratePeriods(Period.Value);
-            BeatAnimations.MakeStoryBoard(Periods);
-            SetAnimatedDouble();
 
+            BeatIndex.Value = (Periods.Length - 1) / 2;
             IsActive = false;
             UndoManager = undoManager;
 
@@ -55,7 +50,6 @@ namespace CMiX.Core.Animations
             Period.Activate();
             BeatIndex.Activate();
             Pause.Activate();
-            //Resync.Activate();
             Index.ID = ManagerIDs.Index;
             Period.ID = ManagerIDs.Period;
             BeatIndex.ID = ManagerIDs.BeatIndex;
@@ -65,20 +59,38 @@ namespace CMiX.Core.Animations
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<bool> Pause { get; set; }
-        public BeatAnimations BeatAnimations { get; set; }
         public CMiXButton Resync { get; set; }
         public GenericValue<int> Index { get; set; }
         public GenericValue<int> BeatIndex { get; set; }
         public GenericValue<float> Period { get; set; }
+        public Func<int, IAnimatedDouble> AnimatedDoubleProvider { get; set; }
+
+
+        private IAnimatedDouble _animatedDouble;
+        public IAnimatedDouble AnimatedDouble
+        {
+            get => _animatedDouble;
+            set
+            {
+                if (_animatedDouble != null)
+                    _animatedDouble.PositionChanged -= OnAnimatedDoublePositionChanged;
+                _animatedDouble = value;
+                if (_animatedDouble != null)
+                    _animatedDouble.PositionChanged += OnAnimatedDoublePositionChanged;
+                OnPropertyChanged();
+            }
+        }
+
+        private void OnAnimatedDoublePositionChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(AnimatedDouble));
+        }
 
         private readonly List<float> tapPeriods;
         private readonly List<float> tapTime;
 
         private const int MaxIndex = 3;
         private const int MinIndex = -3;
-
-        [ObservableProperty]
-        private AnimatedDouble animatedDouble;
 
         public float[] Periods { get; set; }
 
@@ -101,40 +113,38 @@ namespace CMiX.Core.Animations
         private void ApplyPeriod(float period)
         {
             GeneratePeriods(period);
-            BeatAnimations.MakeStoryBoard(Periods);
-            SetAnimatedDouble();
             OnPropertyChanged(nameof(BPM));
-        }
-
-        private void SetAnimatedDouble()
-        {
-            int midIndex = Index.Value + (Periods.Length - 1) / 2;
-            BeatIndex.Value = midIndex;
-            Period.Value = Periods[midIndex];
-            AnimatedDouble = BeatAnimations.AnimatedDoubles[midIndex];
-            OnPropertyChanged(nameof(AnimatedDouble));
+            OnPropertyChanged(nameof(Periods));
         }
 
         [RelayCommand]
         public void Multiply() => WithUndo(() =>
         {
             Index.Value = Math.Clamp(Index.Value - 1, MinIndex, MaxIndex);
-            SetAnimatedDouble();
+            int midIndex = Index.Value + (Periods.Length - 1) / 2;
+            BeatIndex.Value = midIndex;
+            Period.Value = Periods[midIndex];
+            OnPropertyChanged(nameof(BPM));
+            OnPropertyChanged(nameof(Periods));
         });
 
         [RelayCommand]
         public void Divide() => WithUndo(() =>
         {
             Index.Value = Math.Clamp(Index.Value + 1, MinIndex, MaxIndex);
-            SetAnimatedDouble();
+            int midIndex = Index.Value + (Periods.Length - 1) / 2;
+            BeatIndex.Value = midIndex;
+            Period.Value = Periods[midIndex];
+            OnPropertyChanged(nameof(BPM));
+            OnPropertyChanged(nameof(Periods));
         });
+
 
         [RelayCommand]
         public void Tap() => WithUndo(() =>
         {
             UpdatePeriods(GetMasterPeriod());
             Index.Value = 0;
-            SetAnimatedDouble();
         });
 
         Stopwatch sw = new Stopwatch();
@@ -150,8 +160,8 @@ namespace CMiX.Core.Animations
             {
                 tapTime.Clear();
                 tapPeriods.Clear();
-                sw.Restart(); // reset and start
-                return 0f;    // no period yet
+                sw.Restart();
+                return 0f;
             }
 
             tapTime.Add(currentMs);
@@ -175,7 +185,6 @@ namespace CMiX.Core.Animations
         private void GeneratePeriods(float basePeriod)
         {
             float multiplier = 1f / 128f;
-
             for (int i = 0; i < Periods.Length; i++)
             {
                 Periods[i] = multiplier * basePeriod;

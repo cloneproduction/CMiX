@@ -1,10 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
+using CMiX.Core;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Persistence;
@@ -17,7 +21,7 @@ using MvvmDialogs;
 using MvvmDialogs.FrameworkDialogs.OpenFile;
 using MvvmDialogs.FrameworkDialogs.SaveFile;
 
-namespace CMiX.Core.Windows
+namespace CMiX.Studio.ViewModels
 {
     public partial class MainMenu : ObservableRecipient, IControl, IRecipient<IMessage>
     {

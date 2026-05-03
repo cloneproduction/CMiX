@@ -7,23 +7,39 @@ using CommunityToolkit.Mvvm.Messaging;
 using VL.Serialization.MessagePack;
 using WatsonTcp;
 
-namespace CMiX.Core.Services
+namespace CMiX.Core.Networking
 {
-    public class Client : ObservableRecipient
+    public partial class Client : ObservableRecipient, IMessageSender
     {
         public Client()
         {
-            ServerIsConnected = false;
+
         }
 
         public WatsonTcpClient WatsonTcpClient { get; set; }
-        public bool ServerIsConnected { get; set; }
+
+        [ObservableProperty]
+        private bool _serverIsConnected = false;
+
         public string DeconnectionReason { get; set; }
         public int Port { get; set; }
         public string IP { get; set; }
 
         private CancellationTokenSource _cts;
         private Task _connectTask;
+
+        public void SendMessage(IMessage message)
+        {
+            if (WatsonTcpClient == null || !ServerIsConnected) return;
+            var envelope = new MessageEnvelope
+            {
+                SenderID = MessageSender.VVVV,
+                MessageID = Guid.NewGuid(),
+                Payload = message
+            };
+            var data = MessagePackSerialization.Serialize(envelope);
+            _ = WatsonTcpClient.SendAsync(data);
+        }
 
         public void Start(string ip, int port)
         {

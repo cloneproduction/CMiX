@@ -9,11 +9,11 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifier : ReceivableControl, IPrefab, IControl
+    public class BeatModifier : ReceivableControl, IPrefab, IControl, IDisposable
     {
         public BeatModifier(PrefabService prefabService,
-                            MasterBeat masterBeat, 
-                            GenericValue<int> beatIndex, 
+                            MasterBeat masterBeat,
+                            GenericValue<int> beatIndex,
                             GenericValue<float> chanceToHit,
                             Easing easing,
                             UndoManager undoManager,
@@ -22,7 +22,6 @@ namespace CMiX.Core.Animations
             PrefabService = prefabService;
             BeatIndex = beatIndex;
             ChanceToHit = chanceToHit;
-
             Easing = easing;
 
             ResetCommand = new RelayCommand(Reset);
@@ -33,18 +32,22 @@ namespace CMiX.Core.Animations
             IsActive = false;
             activationService.Register(this);
 
-            _notifyBPMChanged = (s, e) => OnPropertyChanged(nameof(BPM));
-            BeatIndex.PropertyChanged += _notifyBPMChanged;
+            _onBPMChanged = (s, e) => OnPropertyChanged(nameof(BPM));
+            BeatIndex.PropertyChanged += _onBPMChanged;
+
             MasterBeat = masterBeat;
         }
+
+        private readonly System.ComponentModel.PropertyChangedEventHandler _onBPMChanged;
 
         public ICommand ResetCommand { get; set; }
         public ICommand MultiplyCommand { get; set; }
         public ICommand DivideCommand { get; set; }
-
         public Guid ID { get; set; } = Guid.NewGuid();
-
-        private readonly System.ComponentModel.PropertyChangedEventHandler _notifyBPMChanged;
+        public Easing Easing { get; set; }
+        public PrefabService PrefabService { get; set; }
+        public GenericValue<float> ChanceToHit { get; set; }
+        public GenericValue<int> BeatIndex { get; set; }
 
         private MasterBeat _masterBeat;
         public MasterBeat MasterBeat
@@ -54,22 +57,19 @@ namespace CMiX.Core.Animations
             {
                 if (_masterBeat != null)
                 {
-                    _masterBeat.BeatIndex.PropertyChanged -= _notifyBPMChanged;
-                    _masterBeat.PropertyChanged -= _notifyBPMChanged;
+                    _masterBeat.BeatIndex.PropertyChanged -= _onBPMChanged;
+                    _masterBeat.PropertyChanged -= _onBPMChanged;
                 }
                 _masterBeat = value;
                 if (_masterBeat != null)
                 {
-                    _masterBeat.BeatIndex.PropertyChanged += _notifyBPMChanged;
-                    _masterBeat.PropertyChanged += _notifyBPMChanged;
+                    _masterBeat.BeatIndex.PropertyChanged += _onBPMChanged;
+                    _masterBeat.PropertyChanged += _onBPMChanged;
                 }
                 OnPropertyChanged(nameof(BPM));
             }
         }
-        public Easing Easing { get; set; }
-        public PrefabService PrefabService { get; set; }
-        public GenericValue<float> ChanceToHit { get; set; }
-        public GenericValue<int> BeatIndex { get; set; }
+
         public float BPM => BeatHelper.CalculateBPM(MasterBeat.Periods[BeatIndex.Value + MasterBeat.BeatIndex.Value]);
 
         private const int MaxIndex = 4;
@@ -97,6 +97,16 @@ namespace CMiX.Core.Animations
             if (BeatIndex.Value < MaxIndex)
                 BeatIndex.Value++;
         });
+
+        public void Dispose()
+        {
+            BeatIndex.PropertyChanged -= _onBPMChanged;
+            if (_masterBeat != null)
+            {
+                _masterBeat.BeatIndex.PropertyChanged -= _onBPMChanged;
+                _masterBeat.PropertyChanged -= _onBPMChanged;
+            }
+        }
 
         public IControlModel ToModel() => new BeatModifierModel
         {

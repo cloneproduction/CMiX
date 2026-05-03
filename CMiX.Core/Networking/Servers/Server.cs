@@ -17,7 +17,7 @@ using WatsonTcp;
 
 namespace CMiX.Core.Networking.Servers
 {
-    public partial class Server : ObservableRecipient, IPrefab
+    public partial class Server : ObservableRecipient, IPrefab, IMessageSender
     {
         public Server(PrefabService prefabService,
                       GenericValue<string> ip,
@@ -125,11 +125,19 @@ namespace CMiX.Core.Networking.Servers
             Statistics.Update(WatsonTcpServer);
         }
 
+        private Action<Action> _dispatcherAction;
+
+        public void SetDispatcher(Action<Action> dispatcherAction)
+        {
+            _dispatcherAction = dispatcherAction;
+        }
+
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
+            System.Diagnostics.Debug.WriteLine($"[RECEIVED] SenderID={envelope.SenderID} PayloadType={envelope.Payload?.GetType().Name}");
             if (envelope.SenderID == MessageSender.WPF) return;
-            Application.Current.Dispatcher.Invoke(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
+            _dispatcherAction?.Invoke(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
         }
 
         private void ClientConnected(object sender, ConnectionEventArgs e)
@@ -169,6 +177,7 @@ namespace CMiX.Core.Networking.Servers
             WatsonTcpServer.Events.ClientDisconnected += ClientDisconnected;
             WatsonTcpServer.Events.MessageReceived += MessageReceived;
             WatsonTcpServer.Start();
+            ServerIsRunning = true;
         }
 
         public void Restart()

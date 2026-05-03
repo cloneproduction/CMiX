@@ -145,6 +145,9 @@ namespace CMiX.Core.Prefabs.Managers
             items.RemoveAt(index);
             ControlRepository.RemoveControl(control);
 
+            if (control is IDisposable disposable && ControlRepository.GetControl(control.ID) == null)
+                disposable.Dispose();
+
             int newIndex = items.Count == 0 ? -1 : index == 0 ? 0 : index - 1;
             SelectedItem = items.Count == 0 ? null : items[newIndex];
             ManagerData.SelectedIndex = newIndex;
