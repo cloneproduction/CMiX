@@ -191,7 +191,7 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type ComboBox}">
-                    <DockPanel>
+                    <DockPanel x:Name="templateRoot">
                         <ToggleButton
                             x:Name="toggleButton"
                             Width="22"
@@ -206,8 +206,7 @@
                         </ToggleButton>
                         <Popup
                             x:Name="PART_Popup"
-                            Width="{Binding ActualWidth, RelativeSource={RelativeSource TemplatedParent}}"
-                            MaxWidth="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=ComboBox}}"
+                            Width="250"
                             AllowsTransparency="True"
                             IsOpen="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}"
                             Placement="Bottom"
