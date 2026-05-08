@@ -6,36 +6,37 @@
              xmlns:BaseControl="clr-namespace:CMiX.Studio.Views.Controls"
              xmlns:Panels="clr-namespace:CMiX.Studio.Views.Controls.Panels"
              mc:Ignorable="d" 
-             d:DesignHeight="238" d:DesignWidth="362">
+             d:DesignHeight="287.304" d:DesignWidth="368.603">
 
     <StackPanel>
 
         <BaseControl:VectorXYZ 
             Caption="Scale" 
             DataContext="{Binding Scale}"/>
-        
+
         <BaseControl:VectorXYZ 
             Caption="Offset" 
             Margin="0, 8" 
             DataContext="{Binding Offset}"/>
-        
+
         <Panels:PositionedStackPanel>
-            
+
             <BaseControl:DragValue 
                 Caption="Radius" 
                 Value="{Binding Radius.Value}"/>
-            
+
             <BaseControl:DragValue 
                 Margin="0, 1, 0, 0" 
                 Caption="Thickness" 
                 Value="{Binding Thickness.Value}"/>
-            
+
         </Panels:PositionedStackPanel>
 
-        <BaseControl:IntegerValue 
-            Caption="Tessellation" 
-            Margin="0, 8, 0, 0" 
-            DataContext="{Binding Tessellation}"/>
+        <BaseControl:IntegerValue
+            Margin="0,8,0,0"
+            Minimum="1"
+            Caption="Tessellation"
+            Value="{Binding Tessellation.Value}" />
 
     </StackPanel>
 

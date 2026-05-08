@@ -27,6 +27,8 @@
         AttachedProperties:PositionedControl.Position="{Binding Path=(AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
         Caption="{Binding Caption, ElementName=counter}"
         IsInteger="True"
+        Minimum="{Binding Minimum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+        Maximum="{Binding Maximum, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
         LargeChange="1.0"
         SmallChange="1.0"
         Value="{Binding Value, ElementName=counter}" />

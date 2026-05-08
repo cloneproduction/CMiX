@@ -7,7 +7,12 @@
              mc:Ignorable="d" d:DesignHeight="203.792" d:DesignWidth="280.254" >
     
     <StackPanel>
-        <BaseControl:VectorXYZ Caption="Scale" DataContext="{Binding Scale}"/>
-        <BaseControl:VectorXYZ Caption="Offset" Margin="0, 8" DataContext="{Binding Offset}"/>
+        <BaseControl:VectorXYZ 
+            Caption="Scale" 
+            DataContext="{Binding Scale}"/>
+        <BaseControl:VectorXYZ 
+            Caption="Offset" 
+            Margin="0, 8" 
+            DataContext="{Binding Offset}"/>
     </StackPanel>
 </UserControl>

@@ -55,14 +55,16 @@
                 </Style>
             </Border.Style>
 
-            <StackPanel>
-                <BaseControls:CMiXSlider
-                    Margin="8,0,8,8"
+            <Panels:PositionedStackPanel>
+                <BaseControls:DragValue
+                    Margin="8,0,8,1"
                     Caption="Metalness"
-                    Maximum="1"
-                    Minimum="0"
                     Value="{Binding Metalness.Value}" />
-            </StackPanel>
+                <BaseControls:DragValue
+                    Margin="8,0,8,8"
+                    Caption="Roughness"
+                    Value="{Binding Roughness.Value}" />
+            </Panels:PositionedStackPanel>
         </Border>
 
         <Border Margin="8,0,8,8">

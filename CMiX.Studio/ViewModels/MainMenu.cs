@@ -3,16 +3,19 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Input;
 using CMiX.Core;
+using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
+using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
@@ -142,7 +145,22 @@ namespace CMiX.Studio.ViewModels
 
         private void WriteProject(string path)
         {
-            var projectModel = (ProjectModel)Project.ToModel();
+            var selectedComposition = Project.CompositionManager.SelectedItem as Composition;
+            if (selectedComposition == null) return;
+
+            var compositionModel = (CompositionModel)selectedComposition.ToModel();
+            var projectModel = new ProjectModel
+            {
+                MasterBeat = (MasterBeatModel)Project.MasterBeat.ToModel(),
+                CompositionManager = new PrefabManagerModel
+                {
+                    ManagerData = new ManagerDataModel
+                    {
+                        Items = new Collection<IControlModel> { compositionModel },
+                        SelectedIndex = 0
+                    }
+                }
+            };
             ProjectSerializer.Save(projectModel, path);
         }
 

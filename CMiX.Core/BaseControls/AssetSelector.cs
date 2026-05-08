@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows;
 using CMiX.Core.Assets;
 using CMiX.Core.Assets;
@@ -83,8 +84,7 @@ namespace CMiX.Core.BaseControls
         public IControlModel ToModel() => new AssetSelectorModel
         {
             ID = ID,
-            FilePath = (GenericValueModel<string>)FilePath.ToModel(),
-            AssetType = Asset?.GetType().Name ?? string.Empty
+            FilePath = (GenericValueModel<string>)FilePath.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -95,16 +95,16 @@ namespace CMiX.Core.BaseControls
 
             if (string.IsNullOrEmpty(m.FilePath.Value)) return;
 
-            IAsset asset = m.AssetType switch
+            var existing = AssetRepository.FindByPath(m.FilePath.Value);
+            if (existing != null)
             {
-                "Image" => new ImageAsset(),
-                "Video" => new Video(),
-                "Geometry" => new Geometry(),
-                _ => null
-            };
+                Asset = existing;
+                return;
+            }
 
+            var asset = CreateAssetFromPath(m.FilePath.Value);
             if (asset == null) return;
-            asset.FilePath = m.FilePath.Value;
+
             AssetRepository.Add(asset);
             Asset = asset;
         }

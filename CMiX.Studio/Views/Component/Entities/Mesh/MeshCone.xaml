@@ -32,10 +32,11 @@
             
         </Panels:PositionedStackPanel>
 
-        <BaseControl:IntegerValue 
-            Margin="0, 8, 0, 0" 
-            Caption="Tessellation" 
-            DataContext="{Binding Tessellation}"/>
+        <BaseControl:IntegerValue
+            Margin="0,8,0,0"
+            Minimum="1"
+            Caption="Tessellation"
+            Value="{Binding Tessellation.Value}" />
         
     </StackPanel>
 

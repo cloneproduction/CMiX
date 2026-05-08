@@ -11,16 +11,24 @@
 
     <StackPanel>
 
-        <BaseControl:VectorXYZ Caption="Scale" DataContext="{Binding Scale}" />
+        <BaseControl:VectorXYZ 
+            Caption="Scale" 
+            DataContext="{Binding Scale}" />
+        
         <BaseControl:VectorXYZ
             Margin="0,8"
             Caption="Offset"
             DataContext="{Binding Offset}" />
-        <BaseControl:DragValue Caption="Radius" Value="{Binding Radius.Value}" />
+        
+        <BaseControl:DragValue 
+            Caption="Radius" 
+            Value="{Binding Radius.Value}" />
+        
         <BaseControl:IntegerValue
             Margin="0,8,0,0"
+            Minimum="1"
             Caption="Tessellation"
-            DataContext="{Binding Tessellation}" />
+            Value="{Binding Tessellation.Value}" />
 
     </StackPanel>
 

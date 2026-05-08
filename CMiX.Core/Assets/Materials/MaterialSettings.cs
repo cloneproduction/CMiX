@@ -12,6 +12,7 @@ namespace CMiX.Core.Materials
                                 GenericValue<CullModeType> cullMode,
                                 GenericValue<TransparencyType> transparency,
                                 GenericValue<float> metalness,
+                                GenericValue<float> roughness,
                                 GenericValue<float> specularity,
                                 GenericValue<float> glossiness,
                                 GenericValue<float> alpha,
@@ -22,6 +23,7 @@ namespace CMiX.Core.Materials
             CullMode = cullMode;
             Transparency = transparency;
             Metalness = metalness;
+            Roughness = roughness;
             Specularity = specularity;
             Glossiness = glossiness;
             Alpha = alpha;
@@ -35,6 +37,7 @@ namespace CMiX.Core.Materials
         public GenericValue<TransparencyType> Transparency { get; set; }
         public GenericValue<CullModeType> CullMode { get; set; }
         public GenericValue<float> Metalness { get; set; }
+        public GenericValue<float> Roughness { get; set; }
         public GenericValue<float> Specularity { get; set; }
         public GenericValue<float> Glossiness { get; set; }
         public GenericValue<float> Alpha { get; set; }
@@ -51,6 +54,7 @@ namespace CMiX.Core.Materials
             Transparency = (GenericValueModel<TransparencyType>)Transparency.ToModel(),
             BaseColor = (GenericValueModel<string>)BaseColor.ToModel(),
             Metalness = (GenericValueModel<float>)Metalness.ToModel(),
+            Roughness = (GenericValueModel<float>)Roughness.ToModel(),
             Specularity = (GenericValueModel<float>)Specularity.ToModel(),
             Glossiness = (GenericValueModel<float>)Glossiness.ToModel(),
             Alpha = (GenericValueModel<float>)Alpha.ToModel(),
@@ -66,6 +70,7 @@ namespace CMiX.Core.Materials
             Transparency.FromModel(m.Transparency);
             BaseColor.FromModel(m.BaseColor);
             Metalness.FromModel(m.Metalness);
+            Roughness.FromModel(m.Metalness);
             Specularity.FromModel(m.Specularity);
             Glossiness.FromModel(m.Glossiness);
             Alpha.FromModel(m.Alpha);

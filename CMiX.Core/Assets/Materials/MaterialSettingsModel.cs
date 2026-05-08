@@ -13,6 +13,7 @@ namespace CMiX.Core.Materials
         public GenericValueModel<TransparencyType> Transparency { get; set; } = new(TransparencyType.CutOff);
         public GenericValueModel<string> BaseColor { get; set; } = new("#FFFFFFFF");
         public GenericValueModel<float> Metalness { get; set; } = new(0.0f);
+        public GenericValueModel<float> Roughness { get; set; } = new(0.0f);
         public GenericValueModel<float> Specularity { get; set; } = new(0.5f);
         public GenericValueModel<float> Glossiness { get; set; } = new(0.5f);
         public GenericValueModel<float> Alpha { get; set; } = new(1.0f);

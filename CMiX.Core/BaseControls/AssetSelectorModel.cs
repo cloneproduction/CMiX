@@ -7,6 +7,6 @@ namespace CMiX.Core.BaseControls
     {
         public Guid ID { get; init; } = Guid.NewGuid();
         public GenericValueModel<string> FilePath { get; init; } = new(string.Empty);
-        public string AssetType { get; init; } = string.Empty;
+        
     }
 }
