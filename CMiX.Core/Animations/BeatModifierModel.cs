@@ -13,5 +13,6 @@ namespace CMiX.Core.Animations
         public GenericValueModel<int> BeatIndex { get; set; } = new(0);
         public GenericValueModel<float> ChanceToHit { get; set; } = new(100f);
         public PrefabServiceModel PrefabService { get; set; } = new();
+        public BeatStepsModel BeatSteps { get; set; } = new();
     }
 }

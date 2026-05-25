@@ -16,6 +16,7 @@ namespace CMiX.Core.Animations
                             GenericValue<int> beatIndex,
                             GenericValue<float> chanceToHit,
                             Easing easing,
+                            BeatSteps beatSteps, 
                             UndoManager undoManager,
                             ControlActivationService activationService)
         {
@@ -23,6 +24,7 @@ namespace CMiX.Core.Animations
             BeatIndex = beatIndex;
             ChanceToHit = chanceToHit;
             Easing = easing;
+            BeatSteps = beatSteps;
 
             ResetCommand = new RelayCommand(Reset);
             MultiplyCommand = new RelayCommand(Multiply);
@@ -32,7 +34,11 @@ namespace CMiX.Core.Animations
             IsActive = false;
             activationService.Register(this);
 
-            _onBPMChanged = (s, e) => OnPropertyChanged(nameof(BPM));
+            _onBPMChanged = (s, e) =>
+            {
+                OnPropertyChanged(nameof(BPM));
+                UpdateAnimatedDouble();
+            };
             BeatIndex.PropertyChanged += _onBPMChanged;
 
             MasterBeat = masterBeat;
@@ -48,6 +54,57 @@ namespace CMiX.Core.Animations
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> ChanceToHit { get; set; }
         public GenericValue<int> BeatIndex { get; set; }
+        public BeatSteps BeatSteps { get; set; }
+
+
+        private double _lastPosition;
+
+        private void OnResync(object sender, EventArgs e)
+        {
+            BeatSteps.CurrentStepIndex = 0;
+            _stepAdvanced = true;
+        }
+
+
+        private bool _stepAdvanced;
+
+        private void OnBeatPulse(object sender, EventArgs e)
+        {
+            if (_animatedDouble == null) return;
+            double current = _animatedDouble.AnimationPosition;
+
+            if (current >= 0.5 && !_stepAdvanced)
+            {
+                BeatSteps.CurrentStepIndex++;
+                _stepAdvanced = true;
+            }
+            else if (current < 0.5)
+            {
+                _stepAdvanced = false;
+            }
+        }
+
+        private IAnimatedDouble _animatedDouble;
+        public IAnimatedDouble AnimatedDouble
+        {
+            get => _animatedDouble;
+            set
+            {
+                if (_animatedDouble != null)
+                    _animatedDouble.PositionChanged -= OnBeatPulse;
+                _animatedDouble = value;
+                if (_animatedDouble != null)
+                    _animatedDouble.PositionChanged += OnBeatPulse;
+                OnPropertyChanged();
+            }
+        }
+
+        private void UpdateAnimatedDouble()
+        {
+            if (_masterBeat?.AnimatedDoubleProvider == null) return;
+            int index = BeatIndex.Value + _masterBeat.BeatIndex.Value;
+            AnimatedDouble = _masterBeat.AnimatedDoubleProvider(index);
+        }
 
         private MasterBeat _masterBeat;
         public MasterBeat MasterBeat
@@ -59,12 +116,15 @@ namespace CMiX.Core.Animations
                 {
                     _masterBeat.BeatIndex.PropertyChanged -= _onBPMChanged;
                     _masterBeat.PropertyChanged -= _onBPMChanged;
+                    _masterBeat.Resync.Click -= OnResync;
                 }
                 _masterBeat = value;
                 if (_masterBeat != null)
                 {
                     _masterBeat.BeatIndex.PropertyChanged += _onBPMChanged;
                     _masterBeat.PropertyChanged += _onBPMChanged;
+                    _masterBeat.Resync.Click += OnResync;
+                    UpdateAnimatedDouble();
                 }
                 OnPropertyChanged(nameof(BPM));
             }
@@ -105,6 +165,9 @@ namespace CMiX.Core.Animations
             {
                 _masterBeat.BeatIndex.PropertyChanged -= _onBPMChanged;
                 _masterBeat.PropertyChanged -= _onBPMChanged;
+                _masterBeat.Resync.Click -= OnResync;
+                if (_masterBeat.AnimatedDouble != null)
+                    _masterBeat.AnimatedDouble.PositionChanged -= OnBeatPulse;
             }
         }
 
@@ -114,7 +177,8 @@ namespace CMiX.Core.Animations
             Easing = (EasingModel)Easing.ToModel(),
             BeatIndex = (GenericValueModel<int>)BeatIndex.ToModel(),
             ChanceToHit = (GenericValueModel<float>)ChanceToHit.ToModel(),
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel()
+            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
+            BeatSteps = (BeatStepsModel)BeatSteps.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -125,6 +189,7 @@ namespace CMiX.Core.Animations
             BeatIndex.FromModel(m.BeatIndex);
             ChanceToHit.FromModel(m.ChanceToHit);
             PrefabService.FromModel(m.PrefabService);
+            BeatSteps.FromModel(m.BeatSteps);
         }
     }
 }

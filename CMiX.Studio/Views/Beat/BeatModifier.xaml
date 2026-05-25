@@ -6,8 +6,8 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    d:DesignHeight="149.292"
-    d:DesignWidth="358.48"
+    d:DesignHeight="247.578"
+    d:DesignWidth="352.194"
     mc:Ignorable="d">
 
     <StackPanel>
@@ -20,6 +20,36 @@
                 Caption="Chance To Hit"
                 Maximum="1"
                 Value="{Binding ChanceToHit.Value}" />
+
+        <ItemsControl ItemsSource="{Binding BeatSteps.Steps}"
+              AlternationCount="{Binding BeatSteps.Steps.Count}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Tag" Value="{RelativeSource Self}" />
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border BorderThickness="1" Margin="2,0">
+                        <Border.BorderBrush>
+                            <MultiBinding Converter="{StaticResource CurrentStepConverter}">
+                                <Binding RelativeSource="{RelativeSource AncestorType=ContentPresenter}"
+                             Path="(ItemsControl.AlternationIndex)" />
+                                <Binding Path="DataContext.BeatSteps.CurrentStepIndex"
+                             RelativeSource="{RelativeSource AncestorType=ItemsControl}" />
+                            </MultiBinding>
+                        </Border.BorderBrush>
+                        <ToggleButton IsChecked="{Binding Value, Mode=TwoWay}"
+                          Width="28" Height="28" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
 
         <Views:Easing DataContext="{Binding Easing}" />
     </StackPanel>
