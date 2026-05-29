@@ -9,7 +9,6 @@ namespace CMiX.Studio.Converters
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            System.Diagnostics.Debug.WriteLine($"[CurrentStepConverter] values[0]={values[0]} values[1]={values[1]}");
             if (values[0] is int itemIndex && values[1] is int currentStep)
                 return itemIndex == currentStep ? Brushes.OrangeRed : Brushes.Transparent;
             return Brushes.Transparent;

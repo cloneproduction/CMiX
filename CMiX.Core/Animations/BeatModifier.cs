@@ -57,8 +57,6 @@ namespace CMiX.Core.Animations
         public BeatSteps BeatSteps { get; set; }
 
 
-        private double _lastPosition;
-
         private void OnResync(object sender, EventArgs e)
         {
             BeatSteps.CurrentStepIndex = 0;
@@ -166,9 +164,8 @@ namespace CMiX.Core.Animations
                 _masterBeat.BeatIndex.PropertyChanged -= _onBPMChanged;
                 _masterBeat.PropertyChanged -= _onBPMChanged;
                 _masterBeat.Resync.Click -= OnResync;
-                if (_masterBeat.AnimatedDouble != null)
-                    _masterBeat.AnimatedDouble.PositionChanged -= OnBeatPulse;
             }
+            AnimatedDouble = null;
         }
 
         public IControlModel ToModel() => new BeatModifierModel

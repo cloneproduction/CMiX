@@ -9,6 +9,7 @@ namespace CMiX.Core
             manager.FromModel(model);
             foreach (var item in model.ManagerData.Items)
                 manager.LoadItem(item);
+            manager.Collection.SelectedItemChanged(model.ManagerData.SelectedIndex);
         }
     }
 }

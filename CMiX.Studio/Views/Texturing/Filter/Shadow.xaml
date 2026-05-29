@@ -14,9 +14,12 @@
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
             <StackPanel>
-
+                <BaseControls:ComboBox
+                            Caption="Blend Mode"
+                            ItemsSource="{Binding Source={StaticResource BlendMode}}"
+                            SelectedItem="{Binding BlendMode.Value}" />
                 <BaseControls:VectorXYZ
-                    Margin="0,0,0,8"
+                    Margin="0,8,0,8"
                     Caption="Light Position"
                     DataContext="{Binding LightDirection}" />
 

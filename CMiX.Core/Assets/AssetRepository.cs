@@ -27,10 +27,8 @@ namespace CMiX.Core.Assets
 
         public void Add(IAsset asset)
         {
-            Debug.WriteLine($"AssetRepository.Add: {asset.GetType().Name} {asset.FilePath}");
             typeToAddAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(asset))
                            .Value?.Invoke(asset);
-            Debug.WriteLine($"Videos count: {Videos.Count} Images count: {Images.Count}");
         }
 
         public IAsset FindByPath(string path)

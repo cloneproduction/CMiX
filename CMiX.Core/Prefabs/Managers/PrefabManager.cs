@@ -1,7 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
-
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -9,23 +6,20 @@ using CMiX.Core.Prefabs.Messages;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public partial class PrefabManager : ReceivableControl, IControl, IRecipient<IMessage>
+    public partial class PrefabManager : PrefabManagerBase
     {
         public PrefabManager(CollectionManager collection,
                              ControlMessenger controlMessenger,
                              MessageFactory messageFactory,
                              ControlActivationService activationService,
                              UndoManager undoManager,
-                             ManagerReorderServiceFactory reorderServiceFactory)
+                             ManagerReorderServiceFactory? reorderServiceFactory = null)
+            : base(collection.ControlRepository, controlMessenger, messageFactory, activationService, undoManager)
         {
             ID = collection.ManagerData.ID;
-            ControlMessenger = controlMessenger;
-            MessageFactory = messageFactory;
-            UndoManager = undoManager;
 
             Collection = collection;
             Collection.PropertyChanged += (s, e) =>
@@ -38,21 +32,13 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             Collection.ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
-            ManagerReorderService = reorderServiceFactory(Collection, OnMove);
-
-            IsActive = false;
-            activationService.Register(this);
-
+            ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
         }
 
         private MessageCollectionManagerHandler MessageCollectionManagerHandler => Collection.MessageCollectionManagerHandler;
 
-        public Guid ID { get; set; }
         public CollectionManager Collection { get; set; }
-        public IManagerReorderService ManagerReorderService { get; }
-        public ControlRepository ControlRepository => Collection.ControlRepository;
-        public ControlMessenger ControlMessenger { get; set; }
-        public MessageFactory MessageFactory { get; set; }
+        public IManagerReorderService? ManagerReorderService { get; }
 
         [ObservableProperty]
         private bool isExpanded = false;
@@ -63,13 +49,13 @@ namespace CMiX.Core.Prefabs.Managers
             set => Collection.ManagerData.ID = value.ID;
         }
 
-        public ICommand AddItemCommand => Collection.AddItemCommand;
+        public override ICommand AddItemCommand => Collection.AddItemCommand;
         public ICommand DeleteItemCommand => Collection.DeleteItemCommand;
-        public ICommand RemoveSelectedItemCommand => Collection.RemoveSelectedItemCommand;
+        public override ICommand RemoveSelectedItemCommand => Collection.RemoveSelectedItemCommand;
         public ICommand ReplaceSelectedItemCommand => Collection.ReplaceSelectedItemCommand;
         public ICommand ResetItemCommand => Collection.ResetItemCommand;
 
-        public IControl SelectedItem
+        public override IControl SelectedItem
         {
             get => Collection.SelectedItem;
             set
@@ -124,17 +110,6 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
         }
 
-        public void AddItem(IControlModel controlModel)
-        {
-            Collection.AddItem(controlModel);
-            var prefab = Collection.SelectedItem;
-            if (prefab is EmptyPrefab) return;
-
-            var index = Collection.ManagerData.Items.IndexOf(prefab);
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
-            UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
-        }
-
         public void ReplaceItem(IControl control)
         {
             var previousItem = Collection.SelectedItem;
@@ -184,15 +159,8 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(new RemoveSelectedItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex));
         }
 
-        private bool ShouldRecordSelectionUndo(IControl previousItem) =>
-            !(UndoManager?.IsApplying ?? false) &&
-            previousItem != null &&
-            previousItem != Collection.SelectedItem;
-
         public void SelectedItemChanged(Guid controlID, int index)
-        {
-            Collection.SelectedItemChanged(controlID, index);
-        }
+            => Collection.SelectedItemChanged(controlID, index);
 
         public void SelectedItemChanged(int index)
         {
@@ -200,25 +168,23 @@ namespace CMiX.Core.Prefabs.Managers
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.SelectedItemChanged(index);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageSelectedItemChanged>(ManagerData.ID, Collection.SelectedItem, index));
-            if (!ShouldRecordSelectionUndo(previousItem)) return;
+            if (UndoManager?.IsApplying ?? false) return;
+            if (previousItem == null || previousItem == Collection.SelectedItem) return;
             UndoManager?.Push(new SelectItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, index));
         }
 
-        public void LoadItem(IControlModel controlModel)
-        {
-            Collection.AddItem(controlModel);
-        }
+        public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);
 
         public void ResetItem(IControl control) => Collection.ResetItem(control);
 
-        public void Receive(IMessage message)
+        public override void Receive(IMessage message)
         {
             if (message is not IMessageManager || ManagerData.ID != message.ID)
                 return;
             ReceiveWithoutEcho(() => MessageCollectionManagerHandler.Handle(Collection, message));
         }
 
-        public IControlModel ToModel() => new PrefabManagerModel
+        public override IControlModel ToModel() => new PrefabManagerModel
         {
             ID = ManagerData.ID,
             ManagerData = new ManagerDataModel
@@ -227,13 +193,14 @@ namespace CMiX.Core.Prefabs.Managers
                 SelectedIndex = ManagerData.SelectedIndex,
                 Items = new Collection<IControlModel>(
                     ManagerData.Items
+                        .Where(c => Collection.ControlRepository.HasUsers(c))
                         .Select(c => c.ToModel())
                         .ToList()
                 )
             }
         };
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (PrefabManagerModel)model;
             ManagerData.ID = m.ManagerData.ID;

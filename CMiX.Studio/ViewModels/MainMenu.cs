@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -98,7 +99,7 @@ namespace CMiX.Studio.ViewModels
             json = ReplaceAllGuids(json);
             var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
 
-            Project.CompositionManager.AddItem(cloned);
+            Project.CompositionManager.LoadItem(cloned);
         }
 
         private static string ReplaceAllGuids(string json)
@@ -149,6 +150,7 @@ namespace CMiX.Studio.ViewModels
             if (selectedComposition == null) return;
 
             var compositionModel = (CompositionModel)selectedComposition.ToModel();
+
             var projectModel = new ProjectModel
             {
                 MasterBeat = (MasterBeatModel)Project.MasterBeat.ToModel(),

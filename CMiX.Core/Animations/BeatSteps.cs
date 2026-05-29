@@ -21,6 +21,7 @@ namespace CMiX.Core.Animations
             for (int i = 0; i < stepCount; i++)
             {
                 var step = new GenericValue<bool>(controlMessenger, messageFactory, activationService, undoManager);
+                step.Value = true;
                 Steps.Add(step);
             }
         }
