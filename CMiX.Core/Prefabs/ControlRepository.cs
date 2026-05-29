@@ -123,6 +123,11 @@ namespace CMiX.Core.Prefabs
             if (control != null)
                 RemoveControl(control);
         }
+        public bool HasUsers(IControl control)
+        {
+            if (!_userCounts.ContainsKey(control.ID)) return false;
+            return _userCounts[control.ID] > 0;
+        }
 
         private static int GetRenderPriority(IControl c) => c switch
         {

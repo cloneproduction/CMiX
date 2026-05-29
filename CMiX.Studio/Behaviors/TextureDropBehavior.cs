@@ -36,8 +36,6 @@ namespace CMiX.Studio.Behaviors
 
         private void OnDragOver(object sender, DragEventArgs e)
         {
-            Debug.WriteLine($"OnDragOver IsFileDrop={e.Data.GetDataPresent(DataFormats.FileDrop)}");
-
             e.Effects = e.Data.GetDataPresent(DataFormats.FileDrop)
                 ? DragDropEffects.Copy
                 : DragDropEffects.None;

@@ -135,7 +135,6 @@ namespace CMiX.Core.Networking.Servers
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
-            System.Diagnostics.Debug.WriteLine($"[RECEIVED] SenderID={envelope.SenderID} PayloadType={envelope.Payload?.GetType().Name}");
             if (envelope.SenderID == MessageSender.WPF) return;
             _dispatcherAction?.Invoke(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
         }

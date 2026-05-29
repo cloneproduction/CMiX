@@ -42,7 +42,7 @@
 
                 <Views:Outliner
                     Margin="8"
-                    DataContext="{Binding MaterialManager}"
+                    DataContext="{Binding MaterialSelector}"
                     ItemsSource="{Binding ControlRepository.Materials}">
                     <Views:Outliner.SelectionPanel>
                         <Button
@@ -53,8 +53,8 @@
                     </Views:Outliner.SelectionPanel>
                 </Views:Outliner>
 
-                <Border Visibility="{Binding MaterialManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
-                    <Views:Material DataContext="{Binding MaterialManager.SelectedItem}" />
+                <Border Visibility="{Binding MaterialSelector.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                    <Views:Material DataContext="{Binding MaterialSelector.SelectedItem}" />
                 </Border>
 
             </StackPanel>

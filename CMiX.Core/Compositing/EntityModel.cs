@@ -4,7 +4,6 @@
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
-using CMiX.Core;
 
 namespace CMiX.Core.Compositing
 {
@@ -15,7 +14,7 @@ namespace CMiX.Core.Compositing
         public MeshModel Mesh { get; set; } = new();
         public TransformSRTModel TransformSRT { get; set; } = new();
         public PrefabManagerModel ModifierManager { get; set; } = new();
-        public PrefabManagerModel MaterialManager { get; set; } = new();
+        public PrefabSelectorModel MaterialSelector { get; set; } = new();
         public ColorModel Color { get; set; } = new();
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -52,7 +53,7 @@ namespace CMiX.Core.BaseControls
                 {
                     var before = CaptureModel();
                     SetProperty(ref _value, value);
-                    if (!IsReceiving)
+                    if (!IsReceiving && !(UndoManager?.IsApplying ?? false))
                     {
                         var after = CaptureModel();
                         UndoManager?.Push(new ValueChangedCommand(this, before, after));
@@ -91,7 +92,7 @@ namespace CMiX.Core.BaseControls
         {
             var m = (GenericValueModel<T>)model;
             ID = m.ID;
-            ReceiveWithoutEcho(() => Value = m.Value);
+            Value = m.Value;
         }
     }
 }
