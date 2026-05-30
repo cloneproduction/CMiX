@@ -34,11 +34,11 @@
     </Style>
 
     <Style x:Key="ServerEditableTextBoxStyle" TargetType="{x:Type Controls:EditableTextBox}">
-        <Style.Triggers>
+        <!--<Style.Triggers>
             <DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
                 <Setter Property="IsEnabled" Value="False" />
             </DataTrigger>
-        </Style.Triggers>
+        </Style.Triggers>-->
     </Style>
 
     <Style x:Key="LayerListBoxItemBorderStyle" TargetType="{x:Type Border}">

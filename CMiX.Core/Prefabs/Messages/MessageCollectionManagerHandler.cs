@@ -31,11 +31,6 @@ namespace CMiX.Core.Prefabs.Messages
                     collection.SelectedItemChanged(messageRemovePrefab.SelectedIndex);
                     return true;
 
-                case MessageReplaceItem messageReplaceItem:
-                    collection.ReplaceItem(messageReplaceItem.ControlModel, messageReplaceItem.Index);
-                    collection.ManagerData.SelectedIndex = messageReplaceItem.SelectedIndex;
-                    return true;
-
                 case MessageMoveItem messageMovePrefab:
                     collection.MoveItem(messageMovePrefab.OldIndex, messageMovePrefab.NewIndex);
                     return true;

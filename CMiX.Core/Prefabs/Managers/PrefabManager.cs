@@ -29,8 +29,8 @@ namespace CMiX.Core.Prefabs.Managers
             };
 
             Collection.AddItemCommand = new RelayCommand<Type>(AddItem);
+            Collection.AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
             Collection.DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
-            Collection.ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
         }
@@ -50,9 +50,9 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         public override ICommand AddItemCommand => Collection.AddItemCommand;
+        public ICommand AddExistingItemCommand => Collection.AddExistingItemCommand;
         public ICommand DeleteItemCommand => Collection.DeleteItemCommand;
         public override ICommand RemoveSelectedItemCommand => Collection.RemoveSelectedItemCommand;
-        public ICommand ReplaceSelectedItemCommand => Collection.ReplaceSelectedItemCommand;
         public ICommand ResetItemCommand => Collection.ResetItemCommand;
 
         public override IControl SelectedItem
@@ -67,8 +67,8 @@ namespace CMiX.Core.Prefabs.Managers
                 }
 
                 if (UndoManager?.IsApplying == true) return;
+                if (Collection.ManagerData.Items.Contains(value)) return;
 
-                EnsureItemInCollection(value);
                 SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
             }
         }
@@ -76,11 +76,12 @@ namespace CMiX.Core.Prefabs.Managers
         private void EnsureItemInCollection(IControl control)
         {
             if (Collection.ManagerData.Items.Contains(control)) return;
+            if (UndoManager?.IsApplying == true) return;
 
             Collection.AddItem(control);
             var index = Collection.ManagerData.Items.IndexOf(control);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, control, index));
-            UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, control, index));
+            UndoManager?.Push(new AddItemCommand(Collection, ControlRepository, ControlMessenger, MessageFactory, control, index));
         }
 
         public void ClearAll()
@@ -95,28 +96,14 @@ namespace CMiX.Core.Prefabs.Managers
         public void AddItem(Type type)
         {
             var (prefab, index) = Collection.AddItem(type);
-
-            if (prefab is EmptyPrefab)
-                return;
-
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
-            UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
+            UndoManager?.Push(new AddItemCommand(Collection, ControlRepository, ControlMessenger, MessageFactory, prefab, index));
         }
 
-        public void ReplaceItem(IControl control)
+        public void AddExistingItem(IControl control)
         {
-            var previousItem = Collection.SelectedItem;
-            var previousIndex = Collection.ManagerData.SelectedIndex;
-            var (prefab, index, wasReplace) = Collection.ReplaceItem(control);
-
-            bool existsInRepo = ControlRepository.Controls.Any(x => x.ID == prefab.ID);
-
-            var message = (wasReplace || existsInRepo)
-                ? MessageFactory.CreateMessage<MessageReplaceItem>(ManagerData.ID, prefab, index)
-                : MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index);
-
-            ControlMessenger.SendMessage(message);
-            UndoManager?.Push(new ReplaceItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex, prefab, index));
+            EnsureItemInCollection(control);
+            SelectedItemChanged(Collection.ManagerData.Items.IndexOf(control));
         }
 
         public void DeleteItem(IControl control)

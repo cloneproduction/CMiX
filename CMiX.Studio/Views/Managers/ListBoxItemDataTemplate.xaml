@@ -64,7 +64,7 @@
         </Border>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
+    <!--<DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
         <DockPanel>
             <Image
                 Width="12"
@@ -75,7 +75,7 @@
                 Source="{DynamicResource ColorWheel}" />
             <Border />
         </DockPanel>
-    </DataTemplate>
+    </DataTemplate>-->
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
         <Controls:PrefabListItem Icon="{DynamicResource TextIcon}" />

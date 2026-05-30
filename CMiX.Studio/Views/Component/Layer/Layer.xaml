@@ -72,9 +72,9 @@
                                     <Views:ModelEntity DataContext="{Binding}" />
                                 </DataTemplate>
 
-                                <DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
+                                <!--<DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
                                     <Border />
-                                </DataTemplate>
+                                </DataTemplate>-->
 
                                 <DataTemplate DataType="{x:Type Cameras:Camera}">
                                     <Views:Camera DataContext="{Binding}" />

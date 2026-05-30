@@ -1,4 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using System.Collections.ObjectModel;
 using System.Windows.Input;
 using CMiX.Core.Prefabs.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -21,7 +24,6 @@ namespace CMiX.Core.Prefabs.Managers
 
             AddItemCommand = new RelayCommand<Type>(t => AddItem(t));
             DeleteItemCommand = new RelayCommand<IControl>(c => DeleteItem(c));
-            ReplaceSelectedItemCommand = new RelayCommand<IControl>(c => ReplaceItem(c));
             RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
             ResetItemCommand = new RelayCommand<IControl>(ResetItem);
         }
@@ -33,9 +35,9 @@ namespace CMiX.Core.Prefabs.Managers
         public MessageCollectionManagerHandler MessageCollectionManagerHandler { get; }
 
         public ICommand AddItemCommand { get; set; }
+        public ICommand AddExistingItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
         public ICommand RemoveSelectedItemCommand { get; set; }
-        public ICommand ReplaceSelectedItemCommand { get; set; }
         public ICommand ResetItemCommand { get; set; }
 
         private IControl _selectedItem;
@@ -57,21 +59,17 @@ namespace CMiX.Core.Prefabs.Managers
         private void AddControlToCollection(IControl prefab)
         {
             var items = ManagerData.Items;
-            ControlRepository.AddControl(prefab);
-
-            if (SelectedItem is EmptyPrefab empty)
-            {
-                var index = items.IndexOf(empty);
-                if (index >= 0)
-                    items[index] = prefab;
-                else
-                    items.Add(prefab);
-            }
-            else
-                items.Add(prefab);
-
+            ControlRepository.AddControl(prefab, ManagerData.ID);
+            items.Add(prefab);
             ManagerData.SelectedIndex = items.IndexOf(prefab);
             SelectedItem = prefab;
+        }
+
+        public void AddItemToCollectionOnly(IControl control)
+        {
+            ManagerData.Items.Add(control);
+            ManagerData.SelectedIndex = ManagerData.Items.IndexOf(control);
+            SelectedItem = control;
         }
 
         public (IControl prefab, int index) AddItem(Type type)
@@ -95,7 +93,7 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void LoadControlIntoCollection(IControl prefab)
         {
-            ControlRepository.AddControl(prefab);
+            ControlRepository.AddControl(prefab, ManagerData.ID);
             ManagerData.Items.Add(prefab);
         }
 
@@ -105,43 +103,6 @@ namespace CMiX.Core.Prefabs.Managers
             LoadControlIntoCollection(prefab);
         }
 
-        private void ReplaceControlInCollection(IControl prefab, int index)
-        {
-            var items = ManagerData.Items;
-            ControlRepository.AddControl(prefab);
-
-            if (items.Count == 0)
-            {
-                items.Add(prefab);
-                index = 0;
-            }
-            else
-                items[index] = prefab;
-
-            SelectedItem = prefab;
-            ManagerData.SelectedIndex = index;
-        }
-
-        public (IControl prefab, int index, bool wasReplace) ReplaceItem(IControl control)
-        {
-            if (control is not IPrefab prefab)
-                throw new ArgumentException("Control must implement IPrefab", nameof(control));
-            bool wasReplace = ManagerData.Items.Count > 0;
-            ReplaceControlInCollection(prefab, ManagerData.SelectedIndex);
-            return (prefab, ManagerData.SelectedIndex, wasReplace);
-        }
-
-        public void ReplaceItem(IControlModel controlModel, int index)
-        {
-            var prefab = ControlRepository.GetControl(controlModel.ID);
-            if (prefab == null)
-            {
-                prefab = ControlFactory.Create(controlModel);
-                ControlRepository.AddControl(prefab);
-            }
-            ReplaceControlInCollection(prefab, index);
-        }
-
         private (IControl removed, int newIndex) RemoveControlFromCollection(IControl control)
         {
             var items = ManagerData.Items;
@@ -149,7 +110,7 @@ namespace CMiX.Core.Prefabs.Managers
             if (index < 0) return (null, -1);
 
             items.RemoveAt(index);
-            ControlRepository.RemoveControl(control);
+            ControlRepository.RemoveControl(control, ManagerData.ID);
 
             if (control is IDisposable disposable && ControlRepository.GetControl(control.ID) == null)
                 disposable.Dispose();
@@ -212,8 +173,8 @@ namespace CMiX.Core.Prefabs.Managers
             var newControl = ControlFactory.Create(control.GetType());
             var index = ManagerData.Items.IndexOf(control);
             ManagerData.Items[index] = newControl;
-            ControlRepository.RemoveControl(control);
-            ControlRepository.AddControl(newControl);
+            ControlRepository.RemoveControl(control, ManagerData.ID);
+            ControlRepository.AddControl(newControl, ManagerData.ID);
         }
 
         public IControlModel ToModel() => new CollectionManagerModel

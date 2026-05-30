@@ -1,4 +1,7 @@
-﻿using System.Windows.Input;
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Messages;
@@ -55,7 +58,7 @@ namespace CMiX.Core.Prefabs.Managers
             {
                 if (message is MessageRemoveSelectedItem)
                 {
-                    if (_selectedItem != null) ControlRepository.RemoveControl(_selectedItem);
+                    if (_selectedItem != null) ControlRepository.RemoveControl(_selectedItem, ID);
                     _selectedItem = null;
                 }
                 else
@@ -74,16 +77,16 @@ namespace CMiX.Core.Prefabs.Managers
         private IControl CreateAndRegister(IControlModel model)
         {
             var control = ControlFactory.Create(model);
-            ControlRepository.AddControl(control);
+            ControlRepository.AddControl(control, ID);
             return control;
         }
 
         private void SetSelectedItemInternal(IControl value)
         {
             if (_selectedItem == value) return;
-            if (_selectedItem != null) ControlRepository.RemoveControl(_selectedItem);
+            if (_selectedItem != null) ControlRepository.RemoveControl(_selectedItem, ID);
             _selectedItem = value;
-            if (_selectedItem != null) ControlRepository.AddControl(_selectedItem);
+            if (_selectedItem != null) ControlRepository.AddControl(_selectedItem, ID);
             OnPropertyChanged(nameof(SelectedItem));
         }
 

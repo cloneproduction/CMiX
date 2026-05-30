@@ -30,7 +30,6 @@ namespace CMiX.Core.Networking.Servers
             AddServerCommand = new RelayCommand<Window>(AddServer);
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
-            ReplaceSelectedItemCommand = new RelayCommand<IControl>(ReplaceItem);
             ResyncProjectCommand = new RelayCommand<IControl>(ResyncProject);
         }
 
@@ -38,14 +37,12 @@ namespace CMiX.Core.Networking.Servers
         public ICommand AddServerCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
-        public ICommand ReplaceSelectedItemCommand { get; set; }
         public ICommand ResyncProjectCommand { get; set; }
 
         public ControlMessenger ControlMessenger { get; set; }
         public ControlFactory ControlFactory { get; set; }
         public ControlRepository ControlRepository { get; set; }
         public ManagerData ManagerData { get; set; }
-
 
         private IControl _selectedItem;
         public IControl SelectedItem
@@ -75,33 +72,21 @@ namespace CMiX.Core.Networking.Servers
             set => SetProperty(ref _errorMessage, value);
         }
 
-        private void ResyncProject(IControl control)
-        {
-            //ControlMessenger.Sen
-        }
+        private void ResyncProject(IControl control) { }
 
         private void AddServer(Window window)
         {
             if (ValidateIPv4(IP) && ValidatePort(IP, Port))
             {
-
                 var server = (Server)ControlFactory.Create(typeof(Server));
                 server.IP.Value = IP;
                 server.Port.Value = Port;
 
                 ErrorMessage = "Settings applied succefully !";
-                ControlRepository.AddControl(server);
+                ControlRepository.AddControl(server, ID);
 
                 var items = ManagerData.Items;
-
-                if (SelectedItem is EmptyPrefab emptyPrefab)
-                {
-                    items[items.IndexOf(emptyPrefab)] = server;
-                }
-                else
-                {
-                    items.Add(server);
-                }
+                items.Add(server);
 
                 SelectedItem = server;
                 ManagerData.SelectedIndex = items.IndexOf(server);
@@ -113,18 +98,10 @@ namespace CMiX.Core.Networking.Servers
         private void AddItem(Type type)
         {
             var prefab = ControlFactory.Create(type);
-            ControlRepository.AddControl(prefab);
+            ControlRepository.AddControl(prefab, ID);
 
             var items = ManagerData.Items;
-
-            if (SelectedItem is EmptyPrefab emptyPrefab && prefab is IPrefabModel pre)
-            {
-                items[items.IndexOf(emptyPrefab)] = prefab;
-            }
-            else
-            {
-                items.Add(prefab);
-            }
+            items.Add(prefab);
 
             SelectedItem = prefab;
             ManagerData.SelectedIndex = items.IndexOf(prefab);
@@ -161,36 +138,6 @@ namespace CMiX.Core.Networking.Servers
             }
         }
 
-        public void ReplaceItem(IControl control)
-        {
-            var prefab = (IPrefab)control;
-            var items = ManagerData.Items;
-            var index = -1;
-
-            if (ManagerData.Items.Count == 0)
-            {
-                index = 0;
-                items.Add(prefab);
-            }
-            else
-            {
-                index = ManagerData.SelectedIndex;
-                items[index] = prefab;
-            }
-
-            SelectedItem = prefab;
-            ManagerData.SelectedIndex = index;
-        }
-
-
-        //public void Apply()
-        //{
-        //    if (ValidateIPv4(IP.Value) && ValidatePort(IP.Value, Port.Value))
-        //    {
-        //        ErrorMessage.Value = "Settings applied succefully !";
-        //    }
-        //}
-
         public bool ValidatePort(string host, int port)
         {
             var ipa = Dns.GetHostAddresses(host)[0];
@@ -198,17 +145,16 @@ namespace CMiX.Core.Networking.Servers
             {
                 var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 sock.Connect(ipa, port);
-                if (sock.Connected == true)  // Port is in use and connection is successful
+                if (sock.Connected == true)
                 {
                     ErrorMessage = "Port already in use";
                     return false;
                 }
                 sock.Close();
-
             }
             catch (SocketException ex)
             {
-                if (ex.ErrorCode == 10061)  // Port is unused and could not establish connection 
+                if (ex.ErrorCode == 10061)
                 {
                     ErrorMessage = string.Empty;
                     return true;
@@ -239,7 +185,6 @@ namespace CMiX.Core.Networking.Servers
             }
 
             byte tempForParsing;
-
             return splitValues.All(r => byte.TryParse(r, out tempForParsing));
         }
 

@@ -1,28 +1,28 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
-
-using CMiX.Core.Networking;
+﻿using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Prefabs.Messages;
+using CMiX.Core.Undo;
 
-namespace CMiX.Core.Undo
+namespace CMiX.Core.Prefabs.Messages
 {
     public class AddItemCommand : IUndoCommand
     {
         private readonly CollectionManager _collection;
+        private readonly ControlRepository _repository;
         private readonly ControlMessenger _messenger;
         private readonly MessageFactory _messageFactory;
         private readonly IControl _item;
         private readonly int _index;
 
         public AddItemCommand(CollectionManager collection,
+                              ControlRepository repository,
                               ControlMessenger messenger,
                               MessageFactory messageFactory,
                               IControl item,
                               int index)
         {
             _collection = collection;
+            _repository = repository;
             _messenger = messenger;
             _messageFactory = messageFactory;
             _item = item;
@@ -43,4 +43,5 @@ namespace CMiX.Core.Undo
                 _collection.ManagerData.ID, _item, _collection.ManagerData.SelectedIndex));
         }
     }
+
 }

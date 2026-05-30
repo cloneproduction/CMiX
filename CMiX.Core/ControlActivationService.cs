@@ -9,7 +9,7 @@ namespace CMiX.Core
 
         public void Register(ReceivableControl control)
         {
-            if (!control.IsActive)
+            if (!control.IsActive && !_controls.Contains(control))
                 _controls.Add(control);
         }
 

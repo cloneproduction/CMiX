@@ -44,7 +44,7 @@ namespace CMiX.Core.Undo
             _collection.ManagerData.Items.Insert(_index, _item);
             _collection.SelectedItem = _item;
             _collection.ManagerData.SelectedIndex = _index;
-            _collection.ControlRepository.AddControl(_item);
+            _collection.ControlRepository.AddControl(_item, _collection.ManagerData.ID);
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageAddItem>(
                 _collection.ManagerData.ID, _item, _index));
         }

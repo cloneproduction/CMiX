@@ -17,108 +17,65 @@
 
     <StackPanel>
 
-        <DockPanel HorizontalAlignment="Stretch">
+        <!--  LIST  -->
+        <BaseControls:CMiXListBox
+            x:Name="prefabListBox"
+            MinHeight="105"
+            DataContext="{Binding}"
+            ItemsSource="{Binding ManagerData.Items}"
+            SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <ListBox.Resources>
+                <ResourceDictionary Source="ListBoxItemDataTemplate.xaml" />
+            </ListBox.Resources>
+        </BaseControls:CMiXListBox>
 
-            <DockPanel
-                Width="{DynamicResource ControlHeightSM}"
-                Margin="4,0,0,0"
-                DockPanel.Dock="Right"
-                LastChildFill="False">
-
-                <Button
-                    Height="{DynamicResource ControlHeightSM}"
-                    Command="{Binding AddItemCommand}"
-                    CommandParameter="{x:Type Prefabs:EmptyPrefab}"
-                    Content="+"
-                    DockPanel.Dock="Top"
-                    Style="{StaticResource ButtonRoundedTop}" />
-
-                <Button
-                    x:Name="deleteItemButton"
-                    Height="{DynamicResource ControlHeightSM}"
-                    Margin="0,1,0,0"
-                    Command="{Binding DeleteItemCommand}"
-                    CommandParameter="{Binding SelectedItem}"
-                    Content="-"
-                    DockPanel.Dock="Top"
-                    Style="{StaticResource ButtonRoundedBottom}" />
-
-                <Border
-                    Margin="0,16,0,0"
-                    DockPanel.Dock="Top"
-                    Visibility="{Binding Path=ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
-                    <DockPanel>
-                        <Button
-                            x:Name="moveItemDownButton"
-                            Width="{DynamicResource ControlHeightSM}"
-                            Height="{DynamicResource ControlHeightSM}"
-                            Padding="8"
-                            Command="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
-                            CommandParameter="{Binding SelectedItem}"
-                            DockPanel.Dock="Bottom"
-                            Style="{StaticResource ButtonRoundedBottom}">
-
-                            <Button.Content>
-                                <Image
-                                    Margin="20"
-                                    Opacity="0.7"
-                                    Source="{DynamicResource ArrowDown}" />
-                            </Button.Content>
-                        </Button>
-
-                        <Button
-                            x:Name="moveItemUpButton"
-                            Height="{DynamicResource ControlHeightSM}"
-                            Margin="0,0,0,1"
-                            Command="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
-                            CommandParameter="{Binding SelectedItem}"
-                            DockPanel.Dock="Bottom"
-                            Style="{StaticResource ButtonRoundedTop}">
-
-                            <Button.Content>
-                                <Image
-                                    Margin="20"
-                                    Opacity="0.7"
-                                    Source="{DynamicResource ArrowUp}" />
-                            </Button.Content>
-                        </Button>
-                    </DockPanel>
-                </Border>
-
-            </DockPanel>
-
-            <BaseControls:CMiXListBox
-                x:Name="prefabListBox"
-                MinHeight="105"
-                DataContext="{Binding}"
-                DockPanel.Dock="top"
-                IsEnabled="True"
-                ItemsSource="{Binding ManagerData.Items}"
-                SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
-                SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
-                <ListBox.Resources>
-                    <ResourceDictionary Source="ListBoxItemDataTemplate.xaml" />
-                </ListBox.Resources>
-            </BaseControls:CMiXListBox>
-        </DockPanel>
-
+        <!--  TOOLBAR  -->
         <DockPanel Margin="0,4,0,0">
+
+            <!--  DELETE  -->
+            <Button
+                Width="{DynamicResource ControlHeightSM}"
+                Height="{DynamicResource ControlHeightSM}"
+                Command="{Binding DeleteItemCommand}"
+                CommandParameter="{Binding SelectedItem}"
+                Content="-"
+                DockPanel.Dock="Right" />
+
+            <!--  MOVE UP  -->
+            <Button
+                Width="{DynamicResource ControlHeightSM}"
+                Height="{DynamicResource ControlHeightSM}"
+                Command="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
+                CommandParameter="{Binding SelectedItem}"
+                DockPanel.Dock="Right">
+                <Image Margin="4" Opacity="0.7" Source="{DynamicResource ArrowUp}" />
+            </Button>
+
+            <!--  MOVE DOWN  -->
+            <Button
+                Width="{DynamicResource ControlHeightSM}"
+                Height="{DynamicResource ControlHeightSM}"
+                Command="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
+                CommandParameter="{Binding SelectedItem}"
+                DockPanel.Dock="Right">
+                <Image Margin="4" Opacity="0.7" Source="{DynamicResource ArrowDown}" />
+            </Button>
+
+            <!--  SWAP  -->
             <ToggleButton
-                x:Name="PopUpToggle"
-                Width="22"
-                Height="{DynamicResource ControlHeightMD}"
-                Margin="0,4"
-                HorizontalContentAlignment="Center"
-                Background="{DynamicResource Grey400Brush}"
-                Style="{StaticResource ToggleTransformModifierMenu}" />
+                x:Name="SwapToggle"
+                Width="{DynamicResource ControlHeightSM}"
+                Height="{DynamicResource ControlHeightSM}"
+                Content="⇄"
+                DockPanel.Dock="Right" />
 
             <Popup
                 AllowsTransparency="True"
-                FlowDirection="LeftToRight"
-                IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
-                Placement="Bottom"
-                PlacementTarget="{Binding ElementName=PopUpToggle}"
-                VerticalOffset="1">
+                IsOpen="{Binding IsChecked, ElementName=SwapToggle}"
+                Placement="Top"
+                PlacementTarget="{Binding ElementName=SwapToggle}"
+                VerticalOffset="-1">
                 <i:Interaction.Behaviors>
                     <Behaviors:ClosePopupBehavior />
                 </i:Interaction.Behaviors>
@@ -133,7 +90,7 @@
                                 <Button
                                     Width="{Binding ActualWidth, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=Border}}"
                                     Margin="2"
-                                    Command="{Binding DataContext.ReplaceSelectedItemCommand, ElementName=prefabSlotManager}"
+                                    Command="{Binding DataContext.AddExistingItemCommand, ElementName=prefabSlotManager}"
                                     CommandParameter="{Binding}"
                                     Content="{Binding PrefabService.Name.Value}"
                                     Style="{DynamicResource ButtonItemControl}" />
@@ -141,45 +98,14 @@
                         </ItemsControl.ItemTemplate>
                     </ItemsControl>
                 </Border>
-
             </Popup>
 
-            <Grid DockPanel.Dock="Right">
+            <!--  SELECTION PANEL (type picker)  -->
+            <ContentControl
+                Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
+                DataContext="{Binding}"
+                DockPanel.Dock="Left" />
 
-                <Border
-                    Height="{DynamicResource ControlHeightMD}"
-                    Margin="1,0,0,0"
-                    Background="{DynamicResource Grey100Brush}"
-                    CornerRadius="{DynamicResource CornerRadiusRight}">
-                    <TextBox
-                        Padding="4,0"
-                        Background="Transparent"
-                        Text="{Binding DataContext.SelectedItem.PrefabService.Name.Value, ElementName=prefabSlotManager, UpdateSourceTrigger=PropertyChanged}" />
-                </Border>
-
-                <Border>
-                    <Border.Style>
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=SelectedItem}" Value="{x:Null}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                                <DataTrigger Binding="{Binding Path=SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
-                                    <Setter Property="Visibility" Value="Visible" />
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </Border.Style>
-
-                    <ContentControl
-                        Height="{DynamicResource ControlHeightMD}"
-                        Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
-                        DataContext="{Binding}" />
-
-                </Border>
-
-            </Grid>
         </DockPanel>
 
     </StackPanel>

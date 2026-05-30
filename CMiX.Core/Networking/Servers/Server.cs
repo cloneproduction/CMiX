@@ -107,6 +107,7 @@ namespace CMiX.Core.Networking.Servers
         public void SendMessage(IMessage message)
         {
             if (message == null) return;
+            System.Diagnostics.Debug.WriteLine($"SendMessage {message.GetType().Name} ConnectedClients={ConnectedClients.Count}");
             var envelope = new MessageEnvelope
             {
                 SenderID = MessageSender.WPF,
@@ -120,6 +121,7 @@ namespace CMiX.Core.Networking.Servers
         private async Task SendAsync(byte[] data)
         {
             if (WatsonTcpServer == null) return;
+            System.Diagnostics.Debug.WriteLine($"SendAsync to {ConnectedClients.Count} clients");
             foreach (var connectedClient in ConnectedClients.ToList())
                 await WatsonTcpServer.SendAsync(connectedClient.ID, data);
             Statistics.Update(WatsonTcpServer);

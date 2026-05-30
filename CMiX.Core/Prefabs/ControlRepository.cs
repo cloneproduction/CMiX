@@ -17,7 +17,7 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlRepository : ObservableObject
     {
-        public readonly Dictionary<Guid, int> _userCounts = new();
+        private readonly Dictionary<Guid, HashSet<Guid>> _referencers = new();
         private readonly Dictionary<Type, Action<IControl>> typeToAddAction;
         private readonly Dictionary<Type, Action<IControl>> typeToRemoveAction;
 
@@ -67,27 +67,54 @@ namespace CMiX.Core.Prefabs
         public ObservableCollection<TextEntity> Texts { get; } = new();
         public ObservableCollection<ColorPalette> ColorPalettes { get; } = new();
 
-        public void AddControl(IControl control)
+        public void AddControl(IControl control, Guid referencerId)
         {
-            if (control == null || control is EmptyPrefab)
+            if (control == null)
                 return;
 
-            if (Controls.Any(x => x.ID == control.ID))
+            if (!_referencers.ContainsKey(control.ID))
+                _referencers[control.ID] = new HashSet<Guid>();
+
+            var added = _referencers[control.ID].Add(referencerId);
+
+            if (!Controls.Any(x => x.ID == control.ID))
             {
-                if (!_userCounts.ContainsKey(control.ID))
-                    _userCounts[control.ID] = 0;
-                _userCounts[control.ID]++;
-                return;
+                Controls.Add(control);
+                AddToSpecificRepo(control);
             }
+        }
 
-            Controls.Add(control);
-            _userCounts[control.ID] = 1;
-            AddToSpecificRepo(control);
+        public void RemoveControl(IControl control, Guid referencerId)
+        {
+            if (control == null || !_referencers.ContainsKey(control.ID))
+                return;
+
+            _referencers[control.ID].Remove(referencerId);
+
+            if (_referencers[control.ID].Count == 0)
+            {
+                _referencers.Remove(control.ID);
+                Controls.Remove(control);
+                RemoveFromSpecificRepo(control);
+            }
+        }
+
+        public void RemoveControl(Guid id, Guid referencerId)
+        {
+            var control = GetControl(id);
+            if (control != null)
+                RemoveControl(control, referencerId);
         }
 
         public IControl GetControl(Guid id)
         {
             return Controls.FirstOrDefault(x => x.ID == id);
+        }
+
+        public bool HasUsers(IControl control)
+        {
+            if (!_referencers.ContainsKey(control.ID)) return false;
+            return _referencers[control.ID].Count > 0;
         }
 
         private void AddToSpecificRepo(IControl control)
@@ -102,39 +129,12 @@ namespace CMiX.Core.Prefabs
             match.Value?.Invoke(control);
         }
 
-        public void RemoveControl(IControl control)
-        {
-            if (control == null || !_userCounts.ContainsKey(control.ID))
-                return;
-
-            _userCounts[control.ID]--;
-
-            if (_userCounts[control.ID] <= 0)
-            {
-                _userCounts.Remove(control.ID);
-                Controls.Remove(control);
-                RemoveFromSpecificRepo(control);
-            }
-        }
-
-        public void RemoveControl(Guid id)
-        {
-            var control = GetControl(id);
-            if (control != null)
-                RemoveControl(control);
-        }
-        public bool HasUsers(IControl control)
-        {
-            if (!_userCounts.ContainsKey(control.ID)) return false;
-            return _userCounts[control.ID] > 0;
-        }
-
         private static int GetRenderPriority(IControl c) => c switch
         {
             Project => 0,
             Composition => 1,
             Layer => 2,
-            Entity or TextEntity or LightEntity or Camera=> 3,
+            Entity or TextEntity or LightEntity or Camera => 3,
             Material => 4,
             ITextureSource => 5,
             IModifier => 6,

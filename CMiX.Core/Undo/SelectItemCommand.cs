@@ -34,6 +34,7 @@ namespace CMiX.Core.Undo
 
         public void Execute()
         {
+            if (_newIndex < 0 || _newIndex >= _collection.ManagerData.Items.Count) return;
             _collection.SelectedItemChanged(_newIndex);
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(
                 _collection.ManagerData.ID, _collection.SelectedItem, _newIndex));
@@ -41,6 +42,7 @@ namespace CMiX.Core.Undo
 
         public void Undo()
         {
+            if (_previousIndex < 0 || _previousIndex >= _collection.ManagerData.Items.Count) return;
             _collection.SelectedItemChanged(_previousIndex);
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(
                 _collection.ManagerData.ID, _previousItem, _previousIndex));
