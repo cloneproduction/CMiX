@@ -68,9 +68,7 @@ namespace CMiX.Core.Prefabs.Managers
 
                 if (UndoManager?.IsApplying == true) return;
 
-                if (!Collection.ManagerData.Items.Contains(value))
-                    EnsureItemInCollection(value);
-
+                EnsureItemInCollection(value);
                 SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
             }
         }
@@ -96,17 +94,12 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void AddItem(Type type)
         {
-            UndoManager?.BeginGroup();
             var (prefab, index) = Collection.AddItem(type);
 
             if (prefab is EmptyPrefab)
-            {
-                UndoManager?.EndGroup();
                 return;
-            }
 
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
-            UndoManager?.EndGroup();
             UndoManager?.Push(new AddItemCommand(Collection, ControlMessenger, MessageFactory, prefab, index));
         }
 
@@ -140,8 +133,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void MoveItem(int oldIndex, int newIndex)
         {
             Collection.MoveItem(oldIndex, newIndex);
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageMoveItem>(ManagerData.ID, oldIndex, newIndex));
-            UndoManager?.Push(new MoveItemCommand(Collection, ControlMessenger, MessageFactory, oldIndex, newIndex));
+            OnMove(oldIndex, newIndex);
         }
 
         private void OnMove(int oldIndex, int newIndex)

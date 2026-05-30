@@ -53,13 +53,20 @@ namespace CMiX.Core.Prefabs.Managers
 
             ReceiveWithoutEcho(() =>
             {
-                _selectedItem = message switch
+                if (message is MessageRemoveSelectedItem)
                 {
-                    MessageAddItem addItem => CreateAndRegister(addItem.Model),
-                    MessageSelectedItemChanged changed => ControlRepository.GetControl(changed.ControlID),
-                    MessageRemoveSelectedItem => null,
-                    _ => _selectedItem
-                };
+                    if (_selectedItem != null) ControlRepository.RemoveControl(_selectedItem);
+                    _selectedItem = null;
+                }
+                else
+                {
+                    _selectedItem = message switch
+                    {
+                        MessageAddItem addItem => CreateAndRegister(addItem.Model),
+                        MessageSelectedItemChanged changed => ControlRepository.GetControl(changed.ControlID),
+                        _ => _selectedItem
+                    };
+                }
                 OnPropertyChanged(nameof(SelectedItem));
             });
         }
@@ -71,19 +78,21 @@ namespace CMiX.Core.Prefabs.Managers
             return control;
         }
 
-        private void SetSelectedItem(IControl value)
+        private void SetSelectedItemInternal(IControl value)
         {
             if (_selectedItem == value) return;
-            var previousItem = _selectedItem;
-
             if (_selectedItem != null) ControlRepository.RemoveControl(_selectedItem);
             _selectedItem = value;
             if (_selectedItem != null) ControlRepository.AddControl(_selectedItem);
-
             OnPropertyChanged(nameof(SelectedItem));
+        }
+
+        private void SetSelectedItem(IControl value)
+        {
+            var previousItem = _selectedItem;
+            SetSelectedItemInternal(value);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageSelectedItemChanged>(
                 ID, _selectedItem, _selectedItem != null ? 0 : -1));
-
             if (UndoManager?.IsApplying == true) return;
             UndoManager?.Push(new SelectPrefabCommand(this, ControlMessenger, MessageFactory, previousItem, _selectedItem));
         }

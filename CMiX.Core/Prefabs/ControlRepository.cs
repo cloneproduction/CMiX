@@ -17,7 +17,7 @@ namespace CMiX.Core.Prefabs
 {
     public class ControlRepository : ObservableObject
     {
-        private readonly Dictionary<Guid, int> _userCounts = new();
+        public readonly Dictionary<Guid, int> _userCounts = new();
         private readonly Dictionary<Type, Action<IControl>> typeToAddAction;
         private readonly Dictionary<Type, Action<IControl>> typeToRemoveAction;
 
