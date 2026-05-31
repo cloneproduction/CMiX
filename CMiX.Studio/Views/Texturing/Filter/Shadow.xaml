@@ -7,17 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.Controls.Panels"
-    d:DesignHeight="342.777"
-    d:DesignWidth="268.087"
+    d:DesignHeight="384.872"
+    d:DesignWidth="284.087"
     mc:Ignorable="d">
 
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
             <StackPanel>
-                <BaseControls:ComboBox
-                            Caption="Blend Mode"
-                            ItemsSource="{Binding Source={StaticResource BlendMode}}"
-                            SelectedItem="{Binding BlendMode.Value}" />
+
                 <BaseControls:VectorXYZ
                     Margin="0,8,0,8"
                     Caption="Light Position"

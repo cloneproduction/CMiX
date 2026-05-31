@@ -13,7 +13,7 @@ namespace CMiX.Core.Texturing.Sources
     public partial class BubbleNoise : ObservableObject, ITextureSource
     {
         public BubbleNoise(PrefabService prefabService,
-                           PrefabManager filterManager,
+                           PrefabManager textureModifierManager,
                            Integer2 resolution, 
                            GenericValue<float> speed, 
                            GenericValue<float> frequency, 
@@ -28,7 +28,7 @@ namespace CMiX.Core.Texturing.Sources
             Contrast = contrast;
             BackgroundColor = backgroundColor;
             BubbleColor = bubbleColor;
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -39,7 +39,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<float> Contrast { get; set; }
         public GenericValue<string> BackgroundColor { get; set; }
         public GenericValue<string> BubbleColor { get; set; }
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -48,7 +48,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             Resolution = (Integer2Model)Resolution.ToModel(),
             Speed = (GenericValueModel<float>)Speed.ToModel(),
             Frequency = (GenericValueModel<float>)Frequency.ToModel(),
@@ -69,7 +69,7 @@ namespace CMiX.Core.Texturing.Sources
             BackgroundColor.FromModel(m.BackgroundColor);
             BubbleColor.FromModel(m.BubbleColor);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }

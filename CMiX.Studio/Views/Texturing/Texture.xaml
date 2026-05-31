@@ -33,9 +33,9 @@
         <Panels:IndentedExpander
             Header="Filter"
             Indentation="4"
-            IsExpanded="{Binding FilterManager.IsExpanded, FallbackValue=False}">
+            IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
 
-            <Views:ModifierManager DataContext="{Binding FilterManager, FallbackValue={x:Null}}">
+            <Views:ModifierManager DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
                     <Views:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                 </Views:ModifierManager.SelectionPanel>

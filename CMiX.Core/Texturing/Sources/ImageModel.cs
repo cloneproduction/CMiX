@@ -11,7 +11,7 @@ namespace CMiX.Core.Texturing.Sources
     {
         public Guid ID { get; init; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; init; } = new();
-        public PrefabManagerModel FilterManager { get; init; } = new();
+        public PrefabManagerModel TextureModifierManager { get; init; } = new();
         public Integer2Model Resolution { get; init; } = new(0, 0);
         public AssetSelectorModel AssetSelector { get; init; } = new();
     }

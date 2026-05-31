@@ -4,7 +4,6 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -13,7 +12,7 @@ namespace CMiX.Core.Texturing.Sources
     public partial class Gradient : ObservableObject, ITextureSource
     {
         public Gradient(PrefabService prefabService,
-                        PrefabManager filterManager,
+                        PrefabManager textureModifierManager,
                         Integer2 resolution, 
                         GenericValue<string> from, 
                         GenericValue<string> to, 
@@ -26,7 +25,7 @@ namespace CMiX.Core.Texturing.Sources
             To = to;
             Gamma = gamma;
             Horizontal = horizontal;
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -36,7 +35,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<string> To { get; set; }
         public GenericValue<float> Gamma { get; set; }
         public GenericValue<bool> Horizontal { get; set; }
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -45,7 +44,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             Resolution = (Integer2Model)Resolution.ToModel(),
             Gamma = (GenericValueModel<float>)Gamma.ToModel(),
             From = (GenericValueModel<string>)From.ToModel(),
@@ -64,7 +63,7 @@ namespace CMiX.Core.Texturing.Sources
             To.FromModel(m.To);
             Horizontal.FromModel(m.Horizontal);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }

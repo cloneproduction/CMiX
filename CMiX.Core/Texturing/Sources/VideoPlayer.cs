@@ -12,7 +12,7 @@ namespace CMiX.Core.Texturing.Sources
     public partial class VideoPlayer : ObservableObject, IAssetTextureSource
     {
         public VideoPlayer(PrefabService prefabService,
-                           PrefabManager filterManager,
+                           PrefabManager textureModifierManager,
                            Integer2 resolution, 
                            GenericValue<int> seekFrame, 
                            GenericValue<bool> play, 
@@ -25,7 +25,7 @@ namespace CMiX.Core.Texturing.Sources
             DoSeek = doSeek;
             AssetSelector = assetSelector;
             PrefabService = prefabService;
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -35,7 +35,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<bool> Play { get; set; }
         public AssetSelector AssetSelector { get; set; }
         public Integer2 Resolution { get; set; }
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -44,7 +44,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             DoSeek = (ButtonModel)DoSeek.ToModel(),
             SeekFrame = (GenericValueModel<int>)SeekFrame.ToModel(),
             Play = (GenericValueModel<bool>)Play.ToModel(),
@@ -63,7 +63,7 @@ namespace CMiX.Core.Texturing.Sources
             AssetSelector.FromModel(m.AssetSelector);
             Resolution.FromModel(m.Resolution);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }

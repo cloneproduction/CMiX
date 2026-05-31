@@ -10,11 +10,13 @@ namespace CMiX.Core.Texturing.Filters
     public partial class Pixelate : ObservableObject, IPrefab, ITextureFilter
     {
         public Pixelate(PrefabService prefabService,
-                        GenericValue<float> control, 
+                        GenericValue<float> control,
+                        GenericValue<BlendModeEnum> blendMode,
                         Vector2 factor)
         {
             PrefabService = prefabService;
             Control = control;
+            BlendMode = blendMode;
             Factor = factor;
         }
 
@@ -22,6 +24,7 @@ namespace CMiX.Core.Texturing.Filters
         public PrefabService PrefabService { get; set; }
         public Vector2 Factor { get; set; }
         public GenericValue<float> Control { get; set; }
+        public GenericValue<BlendModeEnum> BlendMode { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -31,7 +34,9 @@ namespace CMiX.Core.Texturing.Filters
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Control = (GenericValueModel<float>)Control.ToModel(),
-            Factor = (Vector2Model)Factor.ToModel()
+            Factor = (Vector2Model)Factor.ToModel(),
+            BlendMode = (GenericValueModel<BlendModeEnum>)BlendMode.ToModel(),
+
         };
 
         public void FromModel(IControlModel model)
@@ -41,6 +46,7 @@ namespace CMiX.Core.Texturing.Filters
             PrefabService.FromModel(m.PrefabService);
             Control.FromModel(m.Control);
             Factor.FromModel(m.Factor);
+            BlendMode.FromModel(m.BlendMode);
         }
     }
 }

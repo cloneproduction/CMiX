@@ -12,7 +12,7 @@ namespace CMiX.Core.Texturing.Sources
 {
     public partial class TypeWriter : ObservableObject, ITextureSource
     {
-        public TypeWriter(PrefabManager filterManager,
+        public TypeWriter(PrefabManager textureModifierManager,
                           PrefabService prefabService,
                           GenericValue<string> stringControl, 
                           GenericValue<string> fontFamily, 
@@ -23,7 +23,7 @@ namespace CMiX.Core.Texturing.Sources
                           Integer2 resolution, 
                           Vector2 position)
         {
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
             PrefabService = prefabService;
             StringControl = stringControl;
             FontFamily = fontFamily;
@@ -45,7 +45,7 @@ namespace CMiX.Core.Texturing.Sources
         public Integer2 Resolution { get; set; }
         public Vector2 Position { get; set; }
 
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
         public PrefabService PrefabService { get; set; }
 
         [ObservableProperty]
@@ -55,7 +55,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             StringControl = (GenericValueModel<string>)StringControl.ToModel(),
             FontColor = (GenericValueModel<string>)FontColor.ToModel(),
             BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel(),
@@ -80,7 +80,7 @@ namespace CMiX.Core.Texturing.Sources
             FontFamily.FromModel(m.FontFamily);
             Style.FromModel(m.Style);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }

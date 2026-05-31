@@ -12,12 +12,12 @@ namespace CMiX.Core.Texturing.Sources
     public partial class Image : ObservableObject, IAssetTextureSource
     {
         public Image(PrefabService prefabService, 
-                     PrefabManager filterManager,
+                     PrefabManager textureModifierManager,
                      Integer2 resolution, 
                      AssetSelector assetSelector)
         {
             PrefabService = prefabService;
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
             Resolution = resolution;
             AssetSelector = assetSelector;
         }
@@ -25,7 +25,7 @@ namespace CMiX.Core.Texturing.Sources
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public Integer2 Resolution { get; set; }
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
         public AssetSelector AssetSelector { get; set; }
 
         [ObservableProperty]
@@ -35,7 +35,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             Resolution = (Integer2Model)Resolution.ToModel(),
             AssetSelector = (AssetSelectorModel)AssetSelector.ToModel()
         };
@@ -48,7 +48,7 @@ namespace CMiX.Core.Texturing.Sources
             Resolution.FromModel(m.Resolution);
             AssetSelector.FromModel(m.AssetSelector);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }

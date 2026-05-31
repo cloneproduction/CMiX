@@ -13,38 +13,32 @@
 
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
-            <Panels:PositionedStackPanel>
-
-                <Controls:CMiXSlider
+            
+            <Panels:PositionedStackPanel Margin="0, 8, 0, 0">
+                
+                <Controls:DragValue
                     Margin="0,0,0,1"
                     Caption="Hue"
-                    Maximum="1.0"
-                    Minimum="0.0"
                     Value="{Binding Hue.Value}" />
-
-                <Controls:CMiXSlider
+                
+                <Controls:DragValue
                     Margin="0,0,0,0"
                     Caption="Saturation"
-                    Maximum="1.0"
-                    Minimum="0.0"
                     Value="{Binding Saturation.Value}" />
-
-                <Controls:CMiXSlider
+                
+                <Controls:DragValue
                     Margin="0,1,0,0"
                     Caption="Contrast"
-                    Maximum="10.0"
-                    Minimum="0.0"
                     Value="{Binding Contrast.Value}" />
-
-                <Controls:CMiXSlider
+                
+                <Controls:DragValue
                     Height="{DynamicResource ControlHeightMD}"
                     Margin="0,1,0,0"
                     Caption="Brightness"
-                    Maximum="10.0"
-                    Minimum="0.0"
                     Value="{Binding Brightness.Value}" />
-
+                
             </Panels:PositionedStackPanel>
+            
         </Views:FilterPanel.Content>
     </Views:FilterPanel>
 

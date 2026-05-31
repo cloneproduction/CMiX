@@ -14,7 +14,7 @@ namespace CMiX.Core.Texturing.Sources
     public partial class CheckerBoard : ObservableObject, ITextureSource
     {
         public CheckerBoard(PrefabService prefabService,
-                            PrefabManager filterManager,
+                            PrefabManager textureModifierManager,
                             Integer2 resolution, 
                             Vector2 cellCount,
                             GenericValue<string> colorA,
@@ -26,7 +26,7 @@ namespace CMiX.Core.Texturing.Sources
             ColorA = colorA;
             ColorB = colorB;
             CellCount = cellCount;
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
             Transform2D = transform2D;
         }
 
@@ -37,7 +37,7 @@ namespace CMiX.Core.Texturing.Sources
         public Vector2 CellCount { get; set; }
         public GenericValue<string> ColorA { get; set; }
         public GenericValue<string> ColorB { get; set; }
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -46,7 +46,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             Resolution = (Integer2Model)Resolution.ToModel(),
             Transform2D = (Transform2DModel)Transform2D.ToModel(),
             CellCount = (Vector2Model)CellCount.ToModel(),
@@ -65,7 +65,7 @@ namespace CMiX.Core.Texturing.Sources
             ColorA.FromModel(m.ColorA);
             ColorB.FromModel(m.ColorB);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }

@@ -17,6 +17,6 @@ namespace CMiX.Core.Texturing.Sources
         public Vector2Model CellCount { get; set; } = new(8.0f, 8.0f);
         public GenericValueModel<string> ColorA { get; set; } = new("#FFFFFF");
         public GenericValueModel<string> ColorB { get; set; } = new("#000000");
-        public PrefabManagerModel FilterManager { get; set; } = new();
+        public PrefabManagerModel TextureModifierManager { get; set; } = new();
     }
 }

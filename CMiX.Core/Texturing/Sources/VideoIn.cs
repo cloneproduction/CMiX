@@ -12,11 +12,11 @@ namespace CMiX.Core.Texturing.Sources
     public partial class VideoIn : ObservableRecipient, ITextureSource
     {
         public VideoIn(PrefabService prefabService, 
-                       PrefabManager filterManager,
+                       PrefabManager textureModifierManager,
                        GenericValue<int> sizeX, 
                        GenericValue<int> sizeZ)
         {
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
             PrefabService = prefabService;
             SizeX = sizeX;
             SizeY = sizeZ;
@@ -27,7 +27,7 @@ namespace CMiX.Core.Texturing.Sources
         public GenericValue<int> SizeY { get; set; }
         public PrefabService PrefabService { get; set; }
         public Integer2 Resolution { get; set; }
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -36,7 +36,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             SizeX = (GenericValueModel<int>)SizeX.ToModel(),
             SizeY = (GenericValueModel<int>)SizeY.ToModel()
         };
@@ -49,7 +49,7 @@ namespace CMiX.Core.Texturing.Sources
             SizeX.FromModel(m.SizeX);
             SizeY.FromModel(m.SizeY);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }

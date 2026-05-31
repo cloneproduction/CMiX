@@ -13,7 +13,7 @@ namespace CMiX.Core.Texturing.Sources
     public partial class TouchBlob : ObservableObject, ITextureSource
     {
         public TouchBlob(PrefabService prefabService,
-                         PrefabManager filterManager,
+                         PrefabManager textureModifierManager,
                          Integer2 resolution,
                          GenericValue<float> size,
                          GenericValue<string> color,
@@ -22,7 +22,7 @@ namespace CMiX.Core.Texturing.Sources
             PrefabService = prefabService;
             Resolution = resolution;
             Size = size;
-            FilterManager = filterManager;
+            TextureModifierManager = textureModifierManager;
             Color = color;
             Background = background;
         }
@@ -31,7 +31,7 @@ namespace CMiX.Core.Texturing.Sources
         public Integer2 Resolution { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Size { get; set; }
-        public PrefabManager FilterManager { get; set; }
+        public PrefabManager TextureModifierManager { get; set; }
         public GenericValue<string> Color { get; set; }
         public GenericValue<string> Background { get; set; }
 
@@ -42,7 +42,7 @@ namespace CMiX.Core.Texturing.Sources
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            FilterManager = (PrefabManagerModel)FilterManager.ToModel(),
+            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             Resolution = (Integer2Model)Resolution.ToModel(),
             Size = (GenericValueModel<float>)Size.ToModel(),
             Color = (GenericValueModel<string>)Color.ToModel(),
@@ -59,7 +59,7 @@ namespace CMiX.Core.Texturing.Sources
             Color.FromModel(m.Color);
             Background.FromModel(m.Background);
 
-            LoadManager(FilterManager, m.FilterManager);
+            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
     }
 }
