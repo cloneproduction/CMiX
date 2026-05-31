@@ -5,7 +5,7 @@ namespace CMiX.Core.Undo
 {
     public class UndoManager
     {
-        private const int MaxSteps = 32;
+        private const int MaxSteps = 128;
         private const int MergeWindowMs = 500;
 
         private readonly Stack<IUndoCommand> _undoStack = new();

@@ -3,7 +3,6 @@
 
 using System.Collections.ObjectModel;
 using System.Windows;
-using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using GongSolutions.Wpf.DragDrop;

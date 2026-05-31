@@ -35,8 +35,9 @@
 
             <!--  DELETE  -->
             <Button
-                Width="{DynamicResource ControlHeightSM}"
-                Height="{DynamicResource ControlHeightSM}"
+                Style="{StaticResource ButtonRoundedRight}"
+                Width="{DynamicResource ControlHeightMD}"
+                Height="{DynamicResource ControlHeightMD}"
                 Command="{Binding DeleteItemCommand}"
                 CommandParameter="{Binding SelectedItem}"
                 Content="-"
@@ -44,36 +45,40 @@
 
             <!--  MOVE UP  -->
             <Button
-                Width="{DynamicResource ControlHeightSM}"
-                Height="{DynamicResource ControlHeightSM}"
+                Margin="1, 0"
+                Style="{StaticResource ButtonStraight}"
+                Width="{DynamicResource ControlHeightMD}"
+                Height="{DynamicResource ControlHeightMD}"
                 Command="{Binding ManagerReorderService.ItemUpCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right">
-                <Image Margin="4" Opacity="0.7" Source="{DynamicResource ArrowUp}" />
+                <Image Margin="16" Opacity="0.7" Source="{DynamicResource ArrowUp}" />
             </Button>
 
             <!--  MOVE DOWN  -->
             <Button
-                Width="{DynamicResource ControlHeightSM}"
-                Height="{DynamicResource ControlHeightSM}"
+                Style="{StaticResource ButtonStraight}"
+                Width="{DynamicResource ControlHeightMD}"
+                Height="{DynamicResource ControlHeightMD}"
                 Command="{Binding ManagerReorderService.ItemDownCommand, FallbackValue={x:Null}}"
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right">
-                <Image Margin="4" Opacity="0.7" Source="{DynamicResource ArrowDown}" />
+                <Image Margin="16" Opacity="0.7" Source="{DynamicResource ArrowDown}" />
             </Button>
 
             <!--  SWAP  -->
             <ToggleButton
+                Style="{StaticResource ToggleButtonRoundedLeft}"
                 x:Name="SwapToggle"
-                Width="{DynamicResource ControlHeightSM}"
-                Height="{DynamicResource ControlHeightSM}"
+                Width="{DynamicResource ControlHeightMD}"
+                Height="{DynamicResource ControlHeightMD}"
                 Content="⇄"
-                DockPanel.Dock="Right" />
+                DockPanel.Dock="Left" />
 
             <Popup
                 AllowsTransparency="True"
                 IsOpen="{Binding IsChecked, ElementName=SwapToggle}"
-                Placement="Top"
+                Placement="Bottom"
                 PlacementTarget="{Binding ElementName=SwapToggle}"
                 VerticalOffset="-1">
                 <i:Interaction.Behaviors>
@@ -102,6 +107,8 @@
 
             <!--  SELECTION PANEL (type picker)  -->
             <ContentControl
+                Margin="1, 0"
+                Height="{DynamicResource ControlHeightMD}"
                 Content="{Binding SelectionPanel, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType=UserControl}}"
                 DataContext="{Binding}"
                 DockPanel.Dock="Left" />

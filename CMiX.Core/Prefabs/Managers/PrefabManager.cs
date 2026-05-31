@@ -69,9 +69,13 @@ namespace CMiX.Core.Prefabs.Managers
                 }
 
                 if (UndoManager?.IsApplying == true) return;
-                if (!Collection.ManagerData.Items.Contains(value)) return;
+                if (!Collection.ManagerData.Items.Contains(value))
+                {
+                    EnsureItemInCollection(value);
+                    return;
+                }
 
-                SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
+                    SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
             }
         }
 
@@ -125,13 +129,13 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
         }
 
-        public void DeleteItem(Guid id) => Collection.DeleteItem(id);
+        //public void DeleteItem(Guid id) => Collection.DeleteItem(id);
 
-        public void MoveItem(int oldIndex, int newIndex)
-        {
-            Collection.MoveItem(oldIndex, newIndex);
-            OnMove(oldIndex, newIndex);
-        }
+        //public void MoveItem(int oldIndex, int newIndex)
+        //{
+        //    Collection.MoveItem(oldIndex, newIndex);
+        //    OnMove(oldIndex, newIndex);
+        //}
 
         private void OnMove(int oldIndex, int newIndex)
         {
@@ -148,8 +152,8 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(new RemoveSelectedItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex));
         }
 
-        public void SelectedItemChanged(Guid controlID, int index)
-            => Collection.SelectedItemChanged(controlID, index);
+        //public void SelectedItemChanged(Guid controlID, int index)
+        //    => Collection.SelectedItemChanged(controlID, index);
 
         public void SelectedItemChanged(int index)
         {
@@ -163,8 +167,6 @@ namespace CMiX.Core.Prefabs.Managers
         }
 
         public void LoadItem(IControlModel controlModel) => Collection.LoadItem(controlModel);
-
-        public void ResetItem(IControl control) => Collection.ResetItem(control);
 
         public override void Receive(IMessage message)
         {
