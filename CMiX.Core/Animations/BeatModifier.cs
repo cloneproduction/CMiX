@@ -136,9 +136,9 @@ namespace CMiX.Core.Animations
         private void WithUndo(Action action)
         {
             var before = ToModel();
-            UndoManager?.BeginGroup();
+            UndoManager?.SuppressUndo();
             action();
-            UndoManager?.EndGroup();
+            UndoManager?.ResumeUndo();
             UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
         }
 

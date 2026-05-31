@@ -45,11 +45,7 @@ namespace CMiX.Core.Prefabs.Managers
         [ObservableProperty]
         private bool isExpanded = false;
 
-        public ManagerData ManagerData
-        {
-            get => Collection.ManagerData;
-            set => Collection.ManagerData.ID = value.ID;
-        }
+        public ManagerData ManagerData => Collection.ManagerData;
 
         public override ICommand AddItemCommand => Collection.AddItemCommand;
         public ICommand AddExistingItemCommand => Collection.AddExistingItemCommand;
@@ -67,14 +63,9 @@ namespace CMiX.Core.Prefabs.Managers
                     Collection.RemoveSelectedItem();
                     return;
                 }
-
                 if (UndoManager?.IsApplying == true) return;
-                if (!Collection.ManagerData.Items.Contains(value))
-                {
-                    EnsureItemInCollection(value);
-                    return;
-                }
-
+                EnsureItemInCollection(value);
+                if (Collection.ManagerData.Items.Contains(value))
                     SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
             }
         }
@@ -129,14 +120,6 @@ namespace CMiX.Core.Prefabs.Managers
             UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
         }
 
-        //public void DeleteItem(Guid id) => Collection.DeleteItem(id);
-
-        //public void MoveItem(int oldIndex, int newIndex)
-        //{
-        //    Collection.MoveItem(oldIndex, newIndex);
-        //    OnMove(oldIndex, newIndex);
-        //}
-
         private void OnMove(int oldIndex, int newIndex)
         {
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageMoveItem>(ManagerData.ID, oldIndex, newIndex));
@@ -151,9 +134,6 @@ namespace CMiX.Core.Prefabs.Managers
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ManagerData.ID));
             UndoManager?.Push(new RemoveSelectedItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex));
         }
-
-        //public void SelectedItemChanged(Guid controlID, int index)
-        //    => Collection.SelectedItemChanged(controlID, index);
 
         public void SelectedItemChanged(int index)
         {

@@ -103,17 +103,28 @@ namespace CMiX.Core.Prefabs.Managers
         public override IControlModel ToModel() => new PrefabSelectorModel
         {
             ID = ID,
-            SelectedItemID = SelectedItem?.ID ?? Guid.Empty
+            SelectedItemID = SelectedItem?.ID ?? Guid.Empty,
+            SelectedItemModel = SelectedItem?.ToModel()
         };
 
+        // FromModel is only called pre-binding (during loading), so OnPropertyChanged is not needed here.
         public override void FromModel(IControlModel model)
         {
             var m = (PrefabSelectorModel)model;
             ID = m.ID;
             if (m.SelectedItemID == Guid.Empty) return;
+
             var control = ControlRepository.GetControl(m.SelectedItemID);
             if (control != null)
+            {
                 _selectedItem = control;
+                return;
+            }
+
+            if (m.SelectedItemModel == null) return;
+            var created = ControlFactory.Create(m.SelectedItemModel);
+            ControlRepository.AddControl(created, ID);
+            _selectedItem = created;
         }
     }
 }

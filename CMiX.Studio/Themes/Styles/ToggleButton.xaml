@@ -283,11 +283,6 @@
                             <Setter TargetName="border" Property="Opacity" Value="1.0" />
                         </Trigger>
                         
-                        <!--<DataTrigger Binding="{Binding Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>-->
-
                     </ControlTemplate.Triggers>
                 </ControlTemplate>
             </Setter.Value>

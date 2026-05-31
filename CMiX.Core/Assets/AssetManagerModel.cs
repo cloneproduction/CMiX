@@ -6,5 +6,6 @@ namespace CMiX.Core.Assets
     public record AssetManagerModel : IControlModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
+        public List<string> AssetPaths { get; set; } = new();
     }
 }

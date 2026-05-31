@@ -16,8 +16,8 @@ namespace CMiX.Core.Undo
         public bool CanUndo => _undoStack.Count > 0;
         public bool CanRedo => _redoStack.Count > 0;
 
-        public void BeginGroup() => _groupDepth++;
-        public void EndGroup() => _groupDepth = Math.Max(0, _groupDepth - 1);
+        public void SuppressUndo() => _groupDepth++;
+        public void ResumeUndo() => _groupDepth = Math.Max(0, _groupDepth - 1);
 
         public void Push(IUndoCommand command)
         {

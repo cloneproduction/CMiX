@@ -21,7 +21,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Servers:Server}">
-        
+
         <Border
             x:Name="Bd"
             Margin="1"
@@ -30,9 +30,9 @@
             CornerRadius="{DynamicResource CornerRadiusAll}"
             SnapsToDevicePixels="True"
             TextBlock.Foreground="{DynamicResource ForegroundBrush}">
-            
+
             <DockPanel>
-                
+
                 <Ellipse
                     Width="7"
                     Height="7"
@@ -48,7 +48,7 @@
                         </Style>
                     </Ellipse.Style>
                 </Ellipse>
-                
+
                 <ToggleButton
                     Height="{DynamicResource ControlHeightXS}"
                     Margin="0"
@@ -57,25 +57,12 @@
                     DockPanel.Dock="Right"
                     IsChecked="{Binding ServerIsRunning}"
                     Style="{DynamicResource TogglePlayPause}" />
-                
+
                 <Controls:EditableTextBox Text="{Binding Path=PrefabService.Name.Value}" />
-                
+
             </DockPanel>
         </Border>
     </DataTemplate>
-
-    <!--<DataTemplate DataType="{x:Type Prefabs:EmptyPrefab}">
-        <DockPanel>
-            <Image
-                Width="12"
-                Height="12"
-                Margin="0,0,4,0"
-                DockPanel.Dock="Left"
-                Opacity="0.7"
-                Source="{DynamicResource ColorWheel}" />
-            <Border />
-        </DockPanel>
-    </DataTemplate>-->
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
         <Controls:PrefabListItem Icon="{DynamicResource TextIcon}" />

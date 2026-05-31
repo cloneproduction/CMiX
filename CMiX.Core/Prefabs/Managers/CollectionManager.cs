@@ -65,13 +65,6 @@ namespace CMiX.Core.Prefabs.Managers
             SelectedItem = prefab;
         }
 
-        //public void AddItemToCollectionOnly(IControl control)
-        //{
-        //    ManagerData.Items.Add(control);
-        //    ManagerData.SelectedIndex = ManagerData.Items.IndexOf(control);
-        //    SelectedItem = control;
-        //}
-
         public (IControl prefab, int index) AddItem(Type type)
         {
             var prefab = ControlFactory.Create(type);

@@ -7,5 +7,6 @@ namespace CMiX.Core.Prefabs.Managers
     {
         public Guid ID { get; init; } = Guid.NewGuid();
         public Guid SelectedItemID { get; init; } = Guid.Empty;
+        public IControlModel SelectedItemModel { get; init; } = null;
     }
 }

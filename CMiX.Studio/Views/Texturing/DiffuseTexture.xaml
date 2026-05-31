@@ -41,9 +41,6 @@
                         <DataTrigger Binding="{Binding Path=TextureManager.SelectedItem}" Value="{x:Null}">
                             <Setter Property="Visibility" Value="Collapsed" />
                         </DataTrigger>
-                        <!--<DataTrigger Binding="{Binding Path=TextureManager.SelectedItem, Converter={StaticResource DataToType}}" Value="{x:Type Prefabs:EmptyPrefab}">
-                            <Setter Property="Visibility" Value="Collapsed" />
-                        </DataTrigger>-->
                     </Style.Triggers>
                 </Style>
             </Border.Style>
