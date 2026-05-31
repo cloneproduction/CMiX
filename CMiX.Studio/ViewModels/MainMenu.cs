@@ -99,7 +99,7 @@ namespace CMiX.Studio.ViewModels
             json = ReplaceAllGuids(json);
             var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
 
-            Project.CompositionManager.LoadItem(cloned);
+            Project.CompositionManager.AddItem(cloned);
         }
 
         private static string ReplaceAllGuids(string json)

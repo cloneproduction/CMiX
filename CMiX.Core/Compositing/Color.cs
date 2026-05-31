@@ -37,9 +37,7 @@ namespace CMiX.Core.Compositing
         {
             var m = (ColorModel)model;
             ID = m.ID;
-            IsActive = false;
             Value = m.Value;
-            IsActive = true;
             PrefabService.FromModel(m.PrefabService);
         }
     }

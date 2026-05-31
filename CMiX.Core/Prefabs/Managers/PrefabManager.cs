@@ -25,7 +25,9 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(CollectionManager.SelectedItem))
+                {
                     OnPropertyChanged(nameof(SelectedItem));
+                }
             };
 
             Collection.AddItemCommand = new RelayCommand<Type>(AddItem);
@@ -67,7 +69,7 @@ namespace CMiX.Core.Prefabs.Managers
                 }
 
                 if (UndoManager?.IsApplying == true) return;
-                if (Collection.ManagerData.Items.Contains(value)) return;
+                if (!Collection.ManagerData.Items.Contains(value)) return;
 
                 SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
             }
@@ -98,6 +100,14 @@ namespace CMiX.Core.Prefabs.Managers
             var (prefab, index) = Collection.AddItem(type);
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
             UndoManager?.Push(new AddItemCommand(Collection, ControlRepository, ControlMessenger, MessageFactory, prefab, index));
+        }
+
+        public void AddItem(IControlModel model)
+        {
+            Collection.AddItem(model);
+            var prefab = Collection.SelectedItem;
+            var index = Collection.ManagerData.Items.IndexOf(prefab);
+            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ManagerData.ID, prefab, index));
         }
 
         public void AddExistingItem(IControl control)
