@@ -15,7 +15,7 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomPosition : ObservableObject, IBeatModifiable, ISpreadableModifier, IModifier
+    public partial class RandomPosition : ObservableObject, IBeatModifiable, ISpreadableModifier, IModifier, IDisposable
     {
         public RandomPosition(PrefabManager beatModifierManager,
                               PrefabService prefabService, 
@@ -55,6 +55,10 @@ namespace CMiX.Core.Transformation.Modifiers
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

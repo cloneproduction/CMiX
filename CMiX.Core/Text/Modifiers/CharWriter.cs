@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Text.Modifiers
 {
     [ModifierPanel(typeof(TextEntity))]
-    public partial class CharWriter : ObservableObject, IPrefab, IBeatModifiable
+    public partial class CharWriter : ObservableObject, IPrefab, IBeatModifiable, IDisposable
     {
         public CharWriter(PrefabService prefabService,
                           PrefabManager beatModifierManager)
@@ -41,6 +41,10 @@ namespace CMiX.Core.Text.Modifiers
             PrefabService.FromModel(m.PrefabService);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

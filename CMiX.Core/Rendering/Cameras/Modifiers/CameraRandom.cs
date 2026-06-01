@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
     [ModifierPanel(typeof(Camera))]
-    public partial class CameraRandom : ObservableObject, IBeatModifiable, IPrefab, ICameraModifier
+    public partial class CameraRandom : ObservableObject, IBeatModifiable, IPrefab, ICameraModifier, IDisposable
     {
         public CameraRandom(PrefabManager beatModifierManager,
                             PrefabService prefabService, 
@@ -56,6 +56,10 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
             Axis.FromModel(m.Axis);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

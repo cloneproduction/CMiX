@@ -7,13 +7,15 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering.Lights;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
+    [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomRotation : ObservableObject, IBeatModifiable, ISpreadableModifier
+    public partial class RandomRotation : ObservableObject, IBeatModifiable, ISpreadableModifier, IDisposable
     {
         public RandomRotation(PrefabManager beatModifierManager,
                               PrefabService prefabService, 
@@ -53,6 +55,10 @@ namespace CMiX.Core.Transformation.Modifiers
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

@@ -12,26 +12,24 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
+        <StackPanel>
 
-                <Controls:CMiXSlider
+            <Controls:CMiXSlider
                     Caption="Factor"
                     Maximum="1.0"
                     Minimum="0.0"
                     Value="{Binding Factor.Value}" />
 
-                <Basecontrol:ComboBox
+            <Basecontrol:ComboBox
                     Margin="0,8"
                     Caption="Channel"
                     ItemsSource="{Binding Source={StaticResource InvertChannel}}"
                     SelectedItem="{Binding InvertChannelSelector.Value}" />
 
-                <Basecontrol:ToggleButton 
+            <Basecontrol:ToggleButton 
                     Caption="Invert Alpha" 
                     IsChecked="{Binding InvertAlpha.Value}" />
 
-            </StackPanel>
-        </Views:FilterPanel.Content>
+        </StackPanel>
     </Views:FilterPanel>
 </UserControl>

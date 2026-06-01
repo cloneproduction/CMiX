@@ -12,26 +12,22 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            
-            <Panels:PositionedStackPanel>
-                
-                <Controls:CMiXSlider
+        <Panels:PositionedStackPanel>
+
+            <Controls:CMiXSlider
                     Caption="Radius"
                     Maximum="10"
                     Minimum="0"
                     Value="{Binding Radius.Value}" />
-                
-                <Controls:CMiXSlider
+
+            <Controls:CMiXSlider
                     Margin="0,1,0,0"
                     Caption="Brightness"
                     Maximum="10"
                     Minimum="0"
                     Value="{Binding Brightness.Value}" />
-                
-            </Panels:PositionedStackPanel>
-            
-        </Views:FilterPanel.Content>
+
+        </Panels:PositionedStackPanel>
     </Views:FilterPanel>
 
 </UserControl>

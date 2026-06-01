@@ -13,7 +13,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable
+    public partial class Layer : ObservableObject, IControl, IPrefab, ITextureModifiable, IModifiable, IDisposable
     {
         public Layer(PrefabService prefabService,
                      LayerSettings layerSettings,
@@ -105,6 +105,15 @@ namespace CMiX.Core.Compositing
             LoadManager(ModelEntityManager, m.ModelEntityManager);
             LoadManager(CameraManager, m.CameraManager);
             LoadManager(LightManager, m.LightManager);
+        }
+
+        public void Dispose()
+        {
+            ModelEntityManager.ClearAll();
+            CameraManager.ClearAll();
+            LightManager.ClearAll();
+            TextureModifierManager.ClearAll();
+            ModifierManager.ClearAll();
         }
     }
 }

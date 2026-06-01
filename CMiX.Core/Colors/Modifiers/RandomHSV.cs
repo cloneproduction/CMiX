@@ -16,7 +16,7 @@ namespace CMiX.Core.Colors.Modifiers
 {
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomHSV : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier
+    public partial class RandomHSV : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier, IDisposable
     {
         public RandomHSV(PrefabManager beatModifierManager,
                          PrefabService prefabService, 
@@ -76,6 +76,10 @@ namespace CMiX.Core.Colors.Modifiers
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

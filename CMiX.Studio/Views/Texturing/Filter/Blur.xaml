@@ -11,15 +11,11 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-
-            <BaseControls:CMiXSlider
+        <BaseControls:CMiXSlider
                 Caption="Strength"
                 Maximum="1"
                 Minimum="0"
                 Value="{Binding Strength.Value}" />
-
-        </Views:FilterPanel.Content>
     </Views:FilterPanel>
 
 </UserControl>

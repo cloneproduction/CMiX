@@ -7,13 +7,15 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering.Lights;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
+    [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomVisibility : ObservableObject, IBeatModifiable, IModifier
+    public partial class RandomVisibility : ObservableObject, IBeatModifiable, IModifier, IDisposable
     {
         public RandomVisibility(GenericValue<float> control,
                                 PrefabService prefabService,
@@ -48,6 +50,10 @@ namespace CMiX.Core.Transformation.Modifiers
             Control.FromModel(m.Control);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

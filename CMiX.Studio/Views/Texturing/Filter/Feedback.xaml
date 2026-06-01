@@ -10,10 +10,11 @@
     d:DesignWidth="283.816"
     mc:Ignorable="d">
 
-    <BaseControls:CMiXSlider
-        Caption="Factor"
-        Maximum="1"
-        Minimum="0"
-        Value="{Binding Factor.Value}" />
-
+    <Views:FilterPanel>
+        <BaseControls:CMiXSlider
+            Caption="Factor"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding Factor.Value}" />
+    </Views:FilterPanel>
 </UserControl>

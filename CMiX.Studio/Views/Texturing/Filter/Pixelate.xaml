@@ -12,24 +12,22 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel>
 
-                <Controls:CMiXSlider
+            <Controls:CMiXSlider
                     Margin="0,0,0,1"
                     Caption="Factor X"
                     Maximum="1"
                     Minimum="0"
                     Value="{Binding Factor.X.Value}" />
 
-                <Controls:CMiXSlider
+            <Controls:CMiXSlider
                     Caption="Factor Y"
                     Maximum="1"
                     Minimum="0"
                     Value="{Binding Factor.Y.Value}" />
 
-            </Panels:PositionedStackPanel>
-        </Views:FilterPanel.Content>
+        </Panels:PositionedStackPanel>
     </Views:FilterPanel>
 
 </UserControl>

@@ -12,24 +12,22 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel>
 
-                <BaseControls:DragValue
+            <BaseControls:DragValue
                     Caption="Direction"
                     Value="{Binding Direction.Value}" />
 
-                <BaseControls:DragValue
+            <BaseControls:DragValue
                     Margin="0,1"
                     Caption="Shift"
                     Value="{Binding Shift.Value}" />
 
-                <BaseControls:DragValue
+            <BaseControls:DragValue
                     Caption="Hue"
                     Value="{Binding Hue.Value}" />
 
-            </Panels:PositionedStackPanel>
-        </Views:FilterPanel.Content>
+        </Panels:PositionedStackPanel>
     </Views:FilterPanel>
 
 </UserControl>

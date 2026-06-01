@@ -13,7 +13,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ISpreadableModifier
+    public partial class RandomXYZ : ObservableObject, IBeatModifiable, ISpreadableModifier, IDisposable
     {
         public RandomXYZ(PrefabService prefabService,
                          PrefabManager beatModifierManager,
@@ -94,6 +94,10 @@ namespace CMiX.Core.Transformation.Modifiers
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

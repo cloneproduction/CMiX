@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class RandomUV : ObservableObject, IPrefab, IBeatModifiable, ITextureFilter
+    public partial class RandomUV : ObservableObject, IPrefab, IBeatModifiable, ITextureFilter, IDisposable
     {
         public RandomUV(PrefabService prefabService,
                         PrefabManager beatModifierManager,
@@ -74,6 +74,10 @@ namespace CMiX.Core.Texturing.Filters
             SamplerState.FromModel(m.SamplerState);
             Blend.FromModel(m.Blend);
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

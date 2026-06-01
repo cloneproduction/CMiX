@@ -12,51 +12,49 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
+        <StackPanel>
 
-                <Panels:PositionedStackPanel>
-                    
-                    <BaseControl:ColorSelector
+            <Panels:PositionedStackPanel>
+
+                <BaseControl:ColorSelector
                         Caption="Color A"
                         DataContext="{Binding ColorA}"/>
 
-                    <BaseControl:ColorSelector
+                <BaseControl:ColorSelector
                         Margin="0,1"
                         Caption="Color B"
                         DataContext="{Binding ColorB}"/>
 
-                    <BaseControl:ColorSelector
+                <BaseControl:ColorSelector
                         Caption="Color C"
                         DataContext="{Binding ColorC}"/>
-                    
-                </Panels:PositionedStackPanel>
 
-                <BaseControl:ToggleButton
+            </Panels:PositionedStackPanel>
+
+            <BaseControl:ToggleButton
                     Margin="0,8,0,0"
                     Caption="Single Channel"
                     IsChecked="{Binding SingleChannel.Value}" />
 
-                <BaseControl:ToggleButton
+            <BaseControl:ToggleButton
                     Margin="0,1,0,0"
                     Caption="Clamp Color"
                     IsChecked="{Binding ClampColor.Value}" />
 
-                <Panels:PositionedStackPanel Margin="0,8,0,0">
-                    <BaseControl:CMiXSlider
+            <Panels:PositionedStackPanel Margin="0,8,0,0">
+                <BaseControl:CMiXSlider
                         Margin="0,0,0,1"
                         Caption="Smooth"
                         Maximum="1.0"
                         Minimum="0.0"
                         Value="{Binding Smooth.Value}" />
-                    <BaseControl:CMiXSlider
+                <BaseControl:CMiXSlider
                         Caption="Center"
                         Maximum="1.0"
                         Minimum="0.0"
                         Value="{Binding Center.Value}" />
-                </Panels:PositionedStackPanel>
+            </Panels:PositionedStackPanel>
 
-            </StackPanel>
-        </Views:FilterPanel.Content>
+        </StackPanel>
     </Views:FilterPanel>
 </UserControl>

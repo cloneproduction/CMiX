@@ -11,26 +11,22 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            
-            <StackPanel>
+        <StackPanel>
 
-                <Controls:DragValue
+            <Controls:DragValue
                     Caption="Grid Size"
                     Value="{Binding GridSize.Value}" />
 
-                <Controls:Vector2
+            <Controls:Vector2
                     Margin="0,8"
                     Caption="Character Size"
                     DataContext="{Binding CharacterSize}" />
 
-                <Controls:ToggleButton 
+            <Controls:ToggleButton 
                     Caption="Grayscale" 
                     IsChecked="{Binding Grayscale.Value}" />
 
-            </StackPanel>
-            
-        </Views:FilterPanel.Content>
+        </StackPanel>
     </Views:FilterPanel>
     
 </UserControl>

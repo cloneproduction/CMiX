@@ -13,7 +13,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class TextEntity : ObservableObject, IControl, IPrefab, IModifiable
+    public partial class TextEntity : ObservableObject, IControl, IPrefab, IModifiable, IDisposable
     {
         public TextEntity(PrefabService prefabService,
                           PrefabManager prefabManager,
@@ -99,6 +99,11 @@ namespace CMiX.Core.Compositing
             Anchor.FromModel(m.Anchor);
 
             LoadManager(ModifierManager, m.ModifierManager);
+        }
+
+        public void Dispose()
+        {
+            ModifierManager.ClearAll();
         }
     }
 }

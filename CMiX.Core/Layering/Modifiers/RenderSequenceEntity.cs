@@ -13,7 +13,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Layering.Modifiers
 {
     [ModifierPanel(typeof(Layer))]
-    public partial class RenderSequenceEntity : ObservableObject, IBeatModifiable, IModifier
+    public partial class RenderSequenceEntity : ObservableObject, IBeatModifiable, IModifier, IDisposable
     {
         public RenderSequenceEntity(PrefabManager beatModifierManager,
                                   PrefabService prefabService,
@@ -53,6 +53,10 @@ namespace CMiX.Core.Layering.Modifiers
             Control.FromModel(m.Control);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

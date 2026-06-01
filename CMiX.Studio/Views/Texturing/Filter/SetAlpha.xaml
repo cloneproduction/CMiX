@@ -11,27 +11,23 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            
-            <StackPanel>
+        <StackPanel>
 
-                <BaseControls:ComboBox
+            <BaseControls:ComboBox
                     Caption="Channel"
                     ItemsSource="{Binding Source={StaticResource AlphaChannel}}"
                     SelectedItem="{Binding AlphaChannel.Value}" />
 
-                <BaseControls:ToggleButton 
+            <BaseControls:ToggleButton 
                     Margin="0,8"
                     Caption="Invert" 
                     IsChecked="{Binding Invert.Value}" />
 
-                <BaseControls:ToggleButton
+            <BaseControls:ToggleButton
                     Caption="Keep Original Alpha"
                     IsChecked="{Binding KeepOriginalAlpha.Value}" />
 
-            </StackPanel>
-            
-        </Views:FilterPanel.Content>
+        </StackPanel>
     </Views:FilterPanel>
 
 </UserControl>

@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Materials
 {
-    public partial class Material : ObservableObject, IPrefab, IModifiable
+    public partial class Material : ObservableObject, IPrefab, IModifiable, IDisposable
     {
         public Material(PrefabService prefabService,
                         MaterialSettings materialSettings, 
@@ -58,6 +58,11 @@ namespace CMiX.Core.Materials
             MaterialSettings.FromModel(m.MaterialSettings);
 
             LoadManager(ModifierManager, m.ModifierManager);
+        }
+
+        public void Dispose()
+        {
+            ModifierManager.ClearAll();
         }
     }
 }

@@ -14,7 +14,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomTexCoord : ObservableObject, IBeatModifiable, ISpreadableModifier
+    public partial class RandomTexCoord : ObservableObject, IBeatModifiable, ISpreadableModifier, IDisposable
     {
         public RandomTexCoord(PrefabService prefabService,
                               ModifierModeSelector modifierModeSelector,
@@ -75,6 +75,10 @@ namespace CMiX.Core.Transformation.Modifiers
             SamplerState.FromModel(m.SamplerState);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

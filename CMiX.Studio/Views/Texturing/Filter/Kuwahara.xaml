@@ -11,23 +11,21 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
+        <StackPanel>
 
-                <Controls:ComboBox
+            <Controls:ComboBox
                     Caption="Type"
                     ItemsSource="{Binding Source={StaticResource KuwaharaType}}"
                     SelectedItem="{Binding Type.Value}" />
 
-                <Controls:DragValue
+            <Controls:DragValue
                     Margin="0,8,0,0"
                     Caption="Radius"
                     Maximum="10"
                     Minimum="0"
                     Value="{Binding Radius.Value}" />
 
-            </StackPanel>
-        </Views:FilterPanel.Content>
+        </StackPanel>
     </Views:FilterPanel>
 
 </UserControl>

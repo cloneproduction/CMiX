@@ -13,7 +13,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class Flip : ObservableObject, IModifier, IBeatModifiable
+    public partial class Flip : ObservableObject, IModifier, IBeatModifiable, IDisposable
     {
         public Flip(PrefabService prefabService,
                     PrefabManager beatModifierManager,
@@ -48,6 +48,10 @@ namespace CMiX.Core.Transformation.Modifiers
             DirectionXYZ.FromModel(m.DirectionXYZ);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

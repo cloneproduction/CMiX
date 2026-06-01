@@ -12,33 +12,31 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
+        <StackPanel>
 
-                <Controls:Vector2 Caption="Offset" DataContext="{Binding Offset}" />
+            <Controls:Vector2 Caption="Offset" DataContext="{Binding Offset}" />
 
-                <Controls:Vector2
+            <Controls:Vector2
                     Margin="0,8,0,0"
                     Caption="OffsetScale"
                     DataContext="{Binding OffsetScale}" />
 
-                <Views:Outliner
+            <Views:Outliner
                     Margin="0,8,0,0"
                     DataContext="{Binding TextureSelector}"
                     ItemsSource="{Binding ControlRepository.Textures}">
 
-                    <Views:Outliner.SelectionPanel>
-                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                        </Views:ButtonOpenSelectionPanel>
-                    </Views:Outliner.SelectionPanel>
+                <Views:Outliner.SelectionPanel>
+                    <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
+                        <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                            <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                        </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                    </Views:ButtonOpenSelectionPanel>
+                </Views:Outliner.SelectionPanel>
 
-                </Views:Outliner>
+            </Views:Outliner>
 
-            </StackPanel>
-        </Views:FilterPanel.Content>
+        </StackPanel>
     </Views:FilterPanel>
 
 </UserControl>

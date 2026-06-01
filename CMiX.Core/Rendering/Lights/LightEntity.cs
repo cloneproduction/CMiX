@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Lights
 {
-    public partial class LightEntity : ObservableObject, IPrefab, IModifiable
+    public partial class LightEntity : ObservableObject, IPrefab, IModifiable, IDisposable
     {
         public LightEntity(PrefabService prefabService,
                            LightSettings settings,
@@ -56,6 +56,11 @@ namespace CMiX.Core.Rendering.Lights
             Settings.FromModel(m.Settings);
             TransformSRT.FromModel(m.TransformSRT);
             LoadManager(ModifierManager, m.ModifierManager);
+        }
+
+        public void Dispose()
+        {
+            ModifierManager.ClearAll();
         }
     }
 }

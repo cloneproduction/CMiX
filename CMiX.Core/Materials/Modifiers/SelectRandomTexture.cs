@@ -12,7 +12,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Materials.Modifiers
 {
     [ModifierPanel(typeof(Material))]
-    public partial class SelectRandomTexture : ObservableObject, IBeatModifiable, IModifier
+    public partial class SelectRandomTexture : ObservableObject, IBeatModifiable, IModifier, IDisposable
     {
         public SelectRandomTexture(PrefabManager beatModifierManager,
                                   PrefabService prefabService,
@@ -47,6 +47,10 @@ namespace CMiX.Core.Materials.Modifiers
             TextureFrom.FromModel(m.TextureFrom);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

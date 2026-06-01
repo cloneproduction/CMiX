@@ -6,13 +6,15 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering.Lights;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Colors.Modifiers
 {
+    [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class ColorPalette : ObservableObject, IModifier
+    public partial class ColorPalette : ObservableObject, IModifier, IDisposable
     {
         public ColorPalette(PrefabService prefabService,
                             PrefabManager colorManager,
@@ -51,6 +53,11 @@ namespace CMiX.Core.Colors.Modifiers
 
             LoadManager(ColorManager, m.ColorManager);
             LoadManager(ModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            ColorManager.ClearAll();
+            ModifierManager.ClearAll();
         }
     }
 }

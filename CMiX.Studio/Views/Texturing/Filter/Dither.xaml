@@ -11,12 +11,10 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
-                <Controls:DragValue
-                    Caption="Threshold"
-                    Value="{Binding Threshold.Value}" />
-            </StackPanel>
-        </Views:FilterPanel.Content>
+        <StackPanel>
+            <Controls:DragValue
+                Caption="Threshold"
+                Value="{Binding Threshold.Value}" />
+        </StackPanel>
     </Views:FilterPanel>
 </UserControl>

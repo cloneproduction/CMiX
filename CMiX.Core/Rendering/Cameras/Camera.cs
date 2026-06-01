@@ -9,7 +9,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Cameras
 {
-    public partial class Camera : ObservableObject, IPrefab, IModifiable
+    public partial class Camera : ObservableObject, IPrefab, IModifiable, IDisposable
     {
         public Camera(PrefabService prefabService, 
                       CameraSettings settings,
@@ -48,6 +48,11 @@ namespace CMiX.Core.Rendering.Cameras
             Settings.FromModel(m.Settings);
 
             LoadManager(ModifierManager, m.ModifierManager);
+        }
+
+        public void Dispose()
+        {
+            ModifierManager.ClearAll();
         }
     }
 }

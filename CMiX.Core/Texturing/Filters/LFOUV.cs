@@ -12,7 +12,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LFOUV : ObservableObject, IPrefab, IBeatModifiable, ITextureFilter
+    public partial class LFOUV : ObservableObject, IPrefab, IBeatModifiable, ITextureFilter, IDisposable
     {
         public LFOUV(PrefabManager beatModifierManager,
                      PrefabService prefabService, 
@@ -85,6 +85,10 @@ namespace CMiX.Core.Texturing.Filters
             Blend.FromModel(m.Blend);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
+        }
+        public void Dispose()
+        {
+            BeatModifierManager.ClearAll();
         }
     }
 }

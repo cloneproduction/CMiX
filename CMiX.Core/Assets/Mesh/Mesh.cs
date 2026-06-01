@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core
 {
-    public partial class Mesh : ObservableRecipient, IControl
+    public partial class Mesh : ObservableRecipient, IControl, IDisposable
     {
         public Mesh(GenericValue<MeshType> meshTypeSelector,
                     Vector3 scale,
@@ -100,6 +100,10 @@ namespace CMiX.Core
             ExplodeStrength.FromModel(m.ExplodeStrength);
 
             LoadManager(ExplodeTriangleTextureManager, m.ExplodeTriangleTextureManager);
+        }
+        public void Dispose()
+        {
+            ExplodeTriangleTextureManager.ClearAll();
         }
     }
 }

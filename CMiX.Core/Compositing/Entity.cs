@@ -10,7 +10,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Compositing
 {
-    public partial class Entity : ObservableObject, IPrefab, IModifiable
+    public partial class Entity : ObservableObject, IPrefab, IModifiable, IDisposable
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh,
@@ -73,6 +73,12 @@ namespace CMiX.Core.Compositing
 
             LoadManager(ModifierManager, m.ModifierManager);
             MaterialSelector.FromModel(m.MaterialSelector);
+        }
+
+        public void Dispose()
+        {
+            ModifierManager.ClearAll();
+            MaterialSelector.SelectedItem = null;
         }
     }
 }

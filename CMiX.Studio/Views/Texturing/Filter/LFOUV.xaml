@@ -12,41 +12,39 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
-                <Panels:PositionedStackPanel>
-                    <basecontrol:DragValue
+        <StackPanel>
+            <Panels:PositionedStackPanel>
+                <basecontrol:DragValue
                         Caption="From"
                         Value="{Binding From.Value}" />
 
-                    <basecontrol:DragValue
+                <basecontrol:DragValue
                         Margin="0,1,0,0"
                         Caption="To"
                         Value="{Binding To.Value}" />
-                </Panels:PositionedStackPanel>
+            </Panels:PositionedStackPanel>
 
 
-                <basecontrol:ToggleButton
+            <basecontrol:ToggleButton
                     Margin="0,8"
                     Caption="PingPong"
                     IsChecked="{Binding PingPong.Value}" />
 
-                <basecontrol:ComboBox
+            <basecontrol:ComboBox
                     Caption="Transform"
                     ItemsSource="{Binding Source={StaticResource TransformType}}"
                     SelectedItem="{Binding TransformType.Value}" />
 
-                <basecontrol:AxisSelector2D
+            <basecontrol:AxisSelector2D
                     Margin="0,1,0,0"
                     XIsChecked="{Binding DirectionXY.DirectionX.Value}"
                     YIsChecked="{Binding DirectionXY.DirectionY.Value}"/>
 
-                <Views:SamplerState Margin="0,8" DataContext="{Binding SamplerState}" />
+            <Views:SamplerState Margin="0,8" DataContext="{Binding SamplerState}" />
 
-                <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
-                
-            </StackPanel>
-        </Views:FilterPanel.Content>
+            <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+
+        </StackPanel>
     </Views:FilterPanel>
 
 </UserControl>

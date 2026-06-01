@@ -12,62 +12,60 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
+        <StackPanel>
 
-                <BaseControls:VectorXYZ
+            <BaseControls:VectorXYZ
                     Margin="0,8,0,8"
                     Caption="Light Position"
                     DataContext="{Binding LightDirection}" />
 
-                <Panels:PositionedStackPanel>
-                    <BaseControls:DragValue
+            <Panels:PositionedStackPanel>
+                <BaseControls:DragValue
                         Caption="Height"
                         Value="{Binding Height.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Dot Tolerance"
                         Value="{Binding DotTolerance.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Ray Jitter"
                         Value="{Binding RayJitter.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Ray Length"
                         Value="{Binding RayLength.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Shadow Fade"
                         Value="{Binding ShadowFade.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Shadow FallOff Pow"
                         Value="{Binding ShadowFallOffPow.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Shadow Blur"
                         Value="{Binding ShadowBlur.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Shadow Blur Pow"
                         Value="{Binding ShadowBlurPow.Value}" />
 
-                    <BaseControls:DragValue
+                <BaseControls:DragValue
                         Margin="0,1,0,0"
                         Caption="Sharp Offset"
                         Value="{Binding SharpOffset.Value}" />
-                </Panels:PositionedStackPanel>
+            </Panels:PositionedStackPanel>
 
-            </StackPanel>
-        </Views:FilterPanel.Content>
+        </StackPanel>
     </Views:FilterPanel>
 
 </UserControl>

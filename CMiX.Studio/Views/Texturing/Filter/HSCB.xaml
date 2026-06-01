@@ -12,34 +12,30 @@
     mc:Ignorable="d">
 
     <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            
-            <Panels:PositionedStackPanel Margin="0, 8, 0, 0">
-                
-                <Controls:DragValue
+        <Panels:PositionedStackPanel Margin="0, 8, 0, 0">
+
+            <Controls:DragValue
                     Margin="0,0,0,1"
                     Caption="Hue"
                     Value="{Binding Hue.Value}" />
-                
-                <Controls:DragValue
+
+            <Controls:DragValue
                     Margin="0,0,0,0"
                     Caption="Saturation"
                     Value="{Binding Saturation.Value}" />
-                
-                <Controls:DragValue
+
+            <Controls:DragValue
                     Margin="0,1,0,0"
                     Caption="Contrast"
                     Value="{Binding Contrast.Value}" />
-                
-                <Controls:DragValue
+
+            <Controls:DragValue
                     Height="{DynamicResource ControlHeightMD}"
                     Margin="0,1,0,0"
                     Caption="Brightness"
                     Value="{Binding Brightness.Value}" />
-                
-            </Panels:PositionedStackPanel>
-            
-        </Views:FilterPanel.Content>
+
+        </Panels:PositionedStackPanel>
     </Views:FilterPanel>
 
 </UserControl>
