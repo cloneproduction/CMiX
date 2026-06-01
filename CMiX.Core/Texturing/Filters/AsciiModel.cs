@@ -14,5 +14,6 @@ namespace CMiX.Core.Texturing.Filters
         public Vector2Model CharacterSize { get; set; } = new(16.0f, 16.0f);
         public GenericValueModel<bool> Grayscale { get; set; } = new(false);
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public BlendModel Blend { get; set; } = new();
     }
 }

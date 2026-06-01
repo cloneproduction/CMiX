@@ -17,15 +17,15 @@
                 
                 <ContentPresenter 
                     Content="{TemplateBinding Content}" />
-                
-                <Expander Margin="-8,8,-8,-8" IsExpanded="False">
+
+                <Expander Margin="-8,8,-8,-8" IsExpanded="{Binding Path=DataContext.Blend.IsExpanded}">
 
                     <Expander.Header>
                         <DockPanel>
                             <ToggleButton
                                 Width="14"
                                 Height="14"
-                                IsChecked="{Binding RandomizeRotation.Value}"
+                                IsChecked="{Binding Path=DataContext.Blend.IsEnabled.Value}"
                                 Style="{DynamicResource ToggleButtonRounded}" />
                             <TextBlock
                                 Margin="8,0"
@@ -33,20 +33,20 @@
                                 Text="Blend" />
                         </DockPanel>
                     </Expander.Header>
-                    
-                    <StackPanel Margin="8, 0" IsEnabled="{Binding BlendEnabled.Value}">
+
+                    <StackPanel Margin="8, 0" IsEnabled="{Binding Path=DataContext.Blend.IsEnabled.Value}">
                         <Controls:CMiXSlider
                             Margin="0, 8"
                             AttachedProperties:PositionedControl.Position="All"
                             Caption="Opacity"
                             Maximum="1"
                             Minimum="0"
-                            Value="{Binding Path=DataContext.Control.Value}" />
+                            Value="{Binding Path=DataContext.Blend.Opacity.Value}" />
                         <BaseControls:ComboBox
                             Margin="0, 0, 0, 8"
                             Caption="Blend Mode"
                             ItemsSource="{Binding Source={StaticResource BlendMode}}"
-                            SelectedItem="{Binding Path=DataContext.BlendMode.Value}" />
+                            SelectedItem="{Binding Path=DataContext.Blend.BlendMode.Value}" />
                     </StackPanel>
                     
                 </Expander>

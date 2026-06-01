@@ -18,5 +18,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<float> Center { get; set; } = new(0.5f);
         public GenericValueModel<bool> SingleChannel { get; set; } = new(true);
         public GenericValueModel<bool> ClampColor { get; set; } = new(true);
+        public BlendModel Blend { get; set; } = new();
     }
 }

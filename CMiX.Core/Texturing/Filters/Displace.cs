@@ -15,13 +15,15 @@ namespace CMiX.Core.Texturing.Filters
                         PrefabManager textureSelector,
                         Vector2 offset,
                         Vector2 offsetScale, 
-                        GenericValue<float> control)
+                        GenericValue<float> control,
+                        Blend blend)
         {
             PrefabService = prefabService;
             Offset = offset;
             OffsetScale = offsetScale;
             TextureSelector = textureSelector;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -30,6 +32,7 @@ namespace CMiX.Core.Texturing.Filters
         public Vector2 OffsetScale { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -41,7 +44,8 @@ namespace CMiX.Core.Texturing.Filters
             TextureSelector = (PrefabManagerModel)TextureSelector.ToModel(),
             Offset = (Vector2Model)Offset.ToModel(),
             OffsetScale = (Vector2Model)OffsetScale.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -52,6 +56,7 @@ namespace CMiX.Core.Texturing.Filters
             Offset.FromModel(m.Offset);
             OffsetScale.FromModel(m.OffsetScale);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
 
             LoadManager(TextureSelector, m.TextureSelector);
         }

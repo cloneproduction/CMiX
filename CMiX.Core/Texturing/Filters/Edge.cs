@@ -12,12 +12,14 @@ namespace CMiX.Core.Texturing.Filters
         public Edge(PrefabService prefabService, 
                     GenericValue<float> radius, 
                     GenericValue<float> brightness, 
-                    GenericValue<float> control)
+                    GenericValue<float> control,
+                    Blend blend)
         {
             PrefabService = prefabService;
             Radius = radius;
             Brightness = brightness;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -25,6 +27,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> Radius { get; set; }
         public GenericValue<float> Brightness { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -35,7 +38,8 @@ namespace CMiX.Core.Texturing.Filters
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Radius = (GenericValueModel<float>)Radius.ToModel(),
             Brightness = (GenericValueModel<float>)Brightness.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -46,6 +50,7 @@ namespace CMiX.Core.Texturing.Filters
             Radius.FromModel(m.Radius);
             Brightness.FromModel(m.Brightness);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
         }
     }
 }

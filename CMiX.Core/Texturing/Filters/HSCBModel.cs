@@ -15,5 +15,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<float> Contrast { get; set; } = new(0.0f);
         public GenericValueModel<float> Brightness { get; set; } = new(0.0f);
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public BlendModel Blend { get; set; } = new();
     }
 }

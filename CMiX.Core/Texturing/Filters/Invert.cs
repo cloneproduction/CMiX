@@ -13,13 +13,15 @@ namespace CMiX.Core.Texturing.Filters
                       GenericValue<float> factor, 
                       GenericValue<bool> invertAlpha, 
                       GenericValue<InvertChannel> invertChannel, 
-                      GenericValue<float> control)
+                      GenericValue<float> control,
+                      Blend blend)
         {
             PrefabService = prefabService;
             Factor = factor;
             InvertAlpha = invertAlpha;
             InvertChannelSelector = invertChannel;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -28,6 +30,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<bool> InvertAlpha { get; set; }
         public GenericValue<InvertChannel> InvertChannelSelector { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }    
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -39,7 +42,8 @@ namespace CMiX.Core.Texturing.Filters
             Factor = (GenericValueModel<float>)Factor.ToModel(),
             InvertChannelSelector = (GenericValueModel<InvertChannel>)InvertChannelSelector.ToModel(),
             InvertAlpha = (GenericValueModel<bool>)InvertAlpha.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel(),
         };
 
         public void FromModel(IControlModel model)
@@ -51,6 +55,7 @@ namespace CMiX.Core.Texturing.Filters
             InvertChannelSelector.FromModel(m.InvertChannelSelector);
             InvertAlpha.FromModel(m.InvertAlpha);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
         }
     }
 }

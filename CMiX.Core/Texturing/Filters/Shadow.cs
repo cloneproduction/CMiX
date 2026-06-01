@@ -20,7 +20,7 @@ namespace CMiX.Core.Texturing.Filters
                       GenericValue<float> shadowBlur, 
                       GenericValue<float> shadowBlurPow, 
                       GenericValue<float> sharpOffset,
-                      GenericValue<BlendModeEnum> blendMode,
+                      Blend blend,
                       GenericValue<float> control)
         {
             PrefabService = prefabService;
@@ -34,13 +34,13 @@ namespace CMiX.Core.Texturing.Filters
             ShadowBlur = shadowBlur;
             ShadowBlurPow = shadowBlurPow;
             SharpOffset = sharpOffset;
-            BlendMode = blendMode;
+            Blend = blend;
             Control = control;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
-        public GenericValue<BlendModeEnum> BlendMode { get; set; }
+        public Blend Blend { get; set; }
         public GenericValue<float> Control { get; set; }
         public Vector3 LightDirection { get; set; }
         public GenericValue<float> Height { get; set; }
@@ -60,7 +60,7 @@ namespace CMiX.Core.Texturing.Filters
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            BlendMode = (GenericValueModel<BlendModeEnum>)BlendMode.ToModel(),
+            Blend = (BlendModel)Blend.ToModel(),
             LightDirection = (Vector3Model)LightDirection.ToModel(),
             Height = (GenericValueModel<float>)Height.ToModel(),
             DotTolerance = (GenericValueModel<float>)DotTolerance.ToModel(),
@@ -79,7 +79,7 @@ namespace CMiX.Core.Texturing.Filters
             var m = (ShadowModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            BlendMode.FromModel(m.BlendMode);
+            Blend.FromModel(m.Blend);
             LightDirection.FromModel(m.LightDirection);
             Height.FromModel(m.Height);
             DotTolerance.FromModel(m.DotTolerance);

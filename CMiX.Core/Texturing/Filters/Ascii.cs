@@ -13,13 +13,15 @@ namespace CMiX.Core.Texturing.Filters
                      GenericValue<float> control,
                      GenericValue<bool> grayscale,
                      GenericValue<float> gridSize,
-                     Vector2 characterSize)
+                     Vector2 characterSize,
+                     Blend blend)
         {
             PrefabService = prefabService;
             Control = control;
             Grayscale = grayscale;
             GridSize = gridSize;
             CharacterSize = characterSize;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -28,6 +30,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> GridSize { get; set; }
         public Vector2 CharacterSize { get; set; }
         public GenericValue<bool> Grayscale { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -39,7 +42,8 @@ namespace CMiX.Core.Texturing.Filters
             GridSize = (GenericValueModel<float>)GridSize.ToModel(),
             CharacterSize = (Vector2Model)CharacterSize.ToModel(),
             Grayscale = (GenericValueModel<bool>)Grayscale.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -51,6 +55,7 @@ namespace CMiX.Core.Texturing.Filters
             CharacterSize.FromModel(m.CharacterSize);
             Grayscale.FromModel(m.Grayscale);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
         }
     }
 }

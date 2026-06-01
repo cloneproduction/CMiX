@@ -12,12 +12,14 @@ namespace CMiX.Core.Texturing.Filters
         public Blur(PrefabService prefabService, 
                     GenericValue<bool> visible, 
                     GenericValue<float> strength,
-                    GenericValue<float> control)
+                    GenericValue<float> control,
+                    Blend blend)
         {
             PrefabService = prefabService;
             Strength = strength;
             Visible = visible;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -25,6 +27,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<bool> Visible { get; set; }
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -34,7 +37,8 @@ namespace CMiX.Core.Texturing.Filters
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Strength = (GenericValueModel<float>)Strength.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -44,6 +48,7 @@ namespace CMiX.Core.Texturing.Filters
             PrefabService.FromModel(m.PrefabService);
             Strength.FromModel(m.Strength);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
         }
     }
 }

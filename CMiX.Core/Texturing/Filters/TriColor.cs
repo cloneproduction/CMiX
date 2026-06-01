@@ -17,7 +17,8 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> smooth, 
                         GenericValue<float> center, 
                         GenericValue<bool> singleChannel, 
-                        GenericValue<bool> clampColor)
+                        GenericValue<bool> clampColor,
+                        Blend blend)
         {
             PrefabService = prefabService;
             Control = control;
@@ -28,6 +29,7 @@ namespace CMiX.Core.Texturing.Filters
             Center = center;
             SingleChannel = singleChannel;
             ClampColor = clampColor;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -40,6 +42,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<string> ColorC { get; set; }
         public GenericValue<bool> SingleChannel { get; set; }
         public GenericValue<bool> ClampColor { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -55,7 +58,8 @@ namespace CMiX.Core.Texturing.Filters
             Smooth = (GenericValueModel<float>)Smooth.ToModel(),
             Center = (GenericValueModel<float>)Center.ToModel(),
             SingleChannel = (GenericValueModel<bool>)SingleChannel.ToModel(),
-            ClampColor = (GenericValueModel<bool>)ClampColor.ToModel()
+            ClampColor = (GenericValueModel<bool>)ClampColor.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -71,6 +75,7 @@ namespace CMiX.Core.Texturing.Filters
             Center.FromModel(m.Center);
             SingleChannel.FromModel(m.SingleChannel);
             ClampColor.FromModel(m.ClampColor);
+            Blend.FromModel(m.Blend);
         }
     }
 }

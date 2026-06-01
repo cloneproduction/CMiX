@@ -20,5 +20,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
         public SamplerStateModel SamplerState { get; set; } = new();
         public PrefabManagerModel BeatModifierManager { get; set; } = new();
+        public BlendModel Blend { get; set; } = new();
     }
 }

@@ -14,7 +14,8 @@ namespace CMiX.Core.Texturing.Filters
                     GenericValue<float> saturation, 
                     GenericValue<float> contrast, 
                     GenericValue<float> brightness, 
-                    GenericValue<float> control)
+                    GenericValue<float> control,
+                    Blend blend)
         {
             PrefabService = prefabService;
             Hue = hue;
@@ -22,6 +23,7 @@ namespace CMiX.Core.Texturing.Filters
             Contrast = contrast; 
             Brightness = brightness;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -31,6 +33,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> Contrast { get; set; }
         public GenericValue<float> Brightness { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -43,7 +46,8 @@ namespace CMiX.Core.Texturing.Filters
             Saturation = (GenericValueModel<float>)Saturation.ToModel(),
             Contrast = (GenericValueModel<float>)Contrast.ToModel(),
             Brightness = (GenericValueModel<float>)Brightness.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -56,6 +60,7 @@ namespace CMiX.Core.Texturing.Filters
             Contrast.FromModel(m.Contrast);
             Brightness.FromModel(m.Brightness);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
         }
     }
 }

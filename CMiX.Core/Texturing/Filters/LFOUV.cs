@@ -23,7 +23,8 @@ namespace CMiX.Core.Texturing.Filters
                      GenericValue<float> from,
                      GenericValue<float> to,
                      SamplerState samplerState,
-                     GenericValue<float> control)
+                     GenericValue<float> control,
+                     Blend blend)
         {
             BeatModifierManager = beatModifierManager;
             PrefabService = prefabService;
@@ -35,6 +36,7 @@ namespace CMiX.Core.Texturing.Filters
             To = to;
             SamplerState = samplerState;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -48,6 +50,7 @@ namespace CMiX.Core.Texturing.Filters
         public SamplerState SamplerState { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -63,7 +66,8 @@ namespace CMiX.Core.Texturing.Filters
             To = (GenericValueModel<float>)To.ToModel(),
             Control = (GenericValueModel<float>)Control.ToModel(),
             SamplerState = (SamplerStateModel)SamplerState.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
+            Blend = (BlendModel)Blend.ToModel(),
         };
 
         public void FromModel(IControlModel model)
@@ -78,6 +82,7 @@ namespace CMiX.Core.Texturing.Filters
             To.FromModel(m.To);
             Control.FromModel(m.Control);
             SamplerState.FromModel(m.SamplerState);
+            Blend.FromModel(m.Blend);
 
             LoadManager(BeatModifierManager, m.BeatModifierManager);
         }

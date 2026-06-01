@@ -11,17 +11,20 @@ namespace CMiX.Core.Texturing.Filters
     {
         public Dither(PrefabService prefabService,
                       GenericValue<float> control,
-                      GenericValue<float> threshold)
+                      GenericValue<float> threshold,
+                      Blend blend)
         {
             PrefabService = prefabService;
             Control = control;
             Threshold = threshold;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public GenericValue<float> Threshold { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -31,7 +34,8 @@ namespace CMiX.Core.Texturing.Filters
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Threshold = (GenericValueModel<float>)Threshold.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -41,6 +45,7 @@ namespace CMiX.Core.Texturing.Filters
             PrefabService.FromModel(m.PrefabService);
             Threshold.FromModel(m.Threshold);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
         }
     }
 }

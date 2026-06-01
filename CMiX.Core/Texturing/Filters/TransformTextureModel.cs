@@ -14,5 +14,6 @@ namespace CMiX.Core.Texturing.Filters
         public SamplerStateModel SamplerState { get; set; } = new();
         public Transform2DModel Transform2D { get; set; } = new();
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public BlendModel Blend {  get; set; } = new();
     }
 }

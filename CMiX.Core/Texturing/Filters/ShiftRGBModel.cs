@@ -14,5 +14,6 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValueModel<float> Shift { get; set; } = new(0.2f);
         public GenericValueModel<float> Hue { get; set; } = new(0.0f);
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
+        public BlendModel Blend { get; set; } = new();
     }
 }

@@ -19,7 +19,8 @@ namespace CMiX.Core.Texturing.Filters
                         Vector2 scale,
                         GenericValue<float> rotation,
                         GenericValue<float> uniform,
-                        GenericValue<float> control)
+                        GenericValue<float> control,
+                        Blend blend)
         {
             PrefabService = prefabService;
             BeatModifierManager = beatModifierManager;
@@ -29,6 +30,7 @@ namespace CMiX.Core.Texturing.Filters
             Rotation = rotation;
             Uniform = uniform;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -40,6 +42,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -54,7 +57,8 @@ namespace CMiX.Core.Texturing.Filters
             Uniform = (GenericValueModel<float>)Uniform.ToModel(),
             Rotation = (GenericValueModel<float>)Rotation.ToModel(),
             Control = (GenericValueModel<float>)Control.ToModel(),
-            SamplerState = (SamplerStateModel)SamplerState.ToModel()
+            SamplerState = (SamplerStateModel)SamplerState.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -68,7 +72,7 @@ namespace CMiX.Core.Texturing.Filters
             Rotation.FromModel(m.Rotation);
             Control.FromModel(m.Control);
             SamplerState.FromModel(m.SamplerState);
-
+            Blend.FromModel(m.Blend);
             LoadManager(BeatModifierManager, m.BeatModifierManager);
         }
     }

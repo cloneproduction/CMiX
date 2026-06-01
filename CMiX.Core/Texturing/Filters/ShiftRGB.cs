@@ -13,13 +13,15 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> direction,
                         GenericValue<float> shift,
                         GenericValue<float> hue,
-                        GenericValue<float> control)
+                        GenericValue<float> control,
+                        Blend blend)
         {
             PrefabService = prefabService;
             Direction = direction;
             Shift = shift;
             Hue = hue;
             Control = control;
+            Blend = blend;
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -28,6 +30,7 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> Shift { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Control { get; set; }
+        public Blend Blend { get; set; }
 
         [ObservableProperty]
         private bool isExpanded = true;
@@ -39,7 +42,8 @@ namespace CMiX.Core.Texturing.Filters
             Direction = (GenericValueModel<float>)Direction.ToModel(),
             Shift = (GenericValueModel<float>)Shift.ToModel(),
             Hue = (GenericValueModel<float>)Hue.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
+            Control = (GenericValueModel<float>)Control.ToModel(),
+            Blend = (BlendModel)Blend.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -51,6 +55,7 @@ namespace CMiX.Core.Texturing.Filters
             Shift.FromModel(m.Shift);
             Hue.FromModel(m.Hue);
             Control.FromModel(m.Control);
+            Blend.FromModel(m.Blend);
         }
     }
 }

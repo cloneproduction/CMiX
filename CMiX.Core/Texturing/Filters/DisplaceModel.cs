@@ -15,5 +15,6 @@ namespace CMiX.Core.Texturing.Filters
         public Vector2Model OffsetScale { get; set; } = new(0.1f, 0.1f);
         public GenericValueModel<float> Control { get; set; } = new(1.0f);
         public PrefabServiceModel PrefabService { get; set; } = new();
+        public BlendModel Blend { get; set; } = new();
     }
 }
