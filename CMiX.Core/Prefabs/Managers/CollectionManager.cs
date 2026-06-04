@@ -75,13 +75,21 @@ namespace CMiX.Core.Prefabs.Managers
         public void AddItem(IControl control)
         {
             AddControlToCollection(control);
-            ManagerData.SelectedIndex = ManagerData.Items.IndexOf(control);
+            //ManagerData.SelectedIndex = ManagerData.Items.IndexOf(control);
         }
 
         public void AddItem(IControlModel controlModel)
         {
             var prefab = ControlFactory.Create(controlModel);
             AddControlToCollection(prefab);
+        }
+
+        public void InsertItem(IControl control, int index)
+        {
+            ControlRepository.AddControl(control, ManagerData.ID);
+            ManagerData.Items.Insert(index, control);
+            ManagerData.SelectedIndex = index;
+            SelectedItem = control;
         }
 
         public void LoadControlIntoCollection(IControl prefab)
@@ -145,8 +153,6 @@ namespace CMiX.Core.Prefabs.Managers
             var control = controlID != Guid.Empty ? ControlRepository.GetControl(controlID) : null;
             SelectedItem = control;
             ManagerData.SelectedIndex = control != null ? index : -1;
-            if (control != null && ManagerData.Items.All(x => x.ID != control.ID))
-                ManagerData.Items.Add(control);
         }
 
         public void SelectedItemChanged(int index)

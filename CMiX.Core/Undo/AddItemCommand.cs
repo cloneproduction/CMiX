@@ -13,13 +13,17 @@ namespace CMiX.Core.Prefabs.Messages
         private readonly MessageFactory _messageFactory;
         private readonly IControl _item;
         private readonly int _index;
+        private readonly IControl _previousItem;
+        private readonly int _previousIndex;
 
         public AddItemCommand(CollectionManager collection,
                               ControlRepository repository,
                               ControlMessenger messenger,
                               MessageFactory messageFactory,
                               IControl item,
-                              int index)
+                              int index,
+                              IControl previousItem,
+                              int previousIndex)
         {
             _collection = collection;
             _repository = repository;
@@ -27,6 +31,8 @@ namespace CMiX.Core.Prefabs.Messages
             _messageFactory = messageFactory;
             _item = item;
             _index = index;
+            _previousItem = previousItem;
+            _previousIndex = previousIndex;
         }
 
         public void Execute()
@@ -41,7 +47,13 @@ namespace CMiX.Core.Prefabs.Messages
             _collection.DeleteItem(_item);
             _messenger.SendMessage(_messageFactory.CreateMessage<MessageRemoveItem>(
                 _collection.ManagerData.ID, _item, _collection.ManagerData.SelectedIndex));
+
+            if (_previousItem != null && _collection.ManagerData.Items.Contains(_previousItem))
+            {
+                _collection.SelectedItemChanged(_previousIndex);
+                _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(
+                    _collection.ManagerData.ID, _previousItem, _previousIndex));
+            }
         }
     }
-
 }

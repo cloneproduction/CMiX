@@ -33,6 +33,7 @@ namespace CMiX.Studio.ViewModels
         {
             Project = project;
             IsActive = true;
+            _undoManager = undoManager;
 
             NewProjectCommand = new RelayCommand(NewProject);
             OpenProjectCommand = new RelayCommand(OpenProject);
@@ -47,6 +48,8 @@ namespace CMiX.Studio.ViewModels
             DialogService = new DialogService();
             ControlFactory = controlFactory;
         }
+
+        private readonly UndoManager _undoManager;
 
         [ObservableProperty]
         private string _folderPath;
@@ -79,6 +82,7 @@ namespace CMiX.Studio.ViewModels
         private void NewProject()
         {
             Project.CompositionManager.ClearAll();
+            _undoManager.Clear();
             FolderPath = null;
         }
 
