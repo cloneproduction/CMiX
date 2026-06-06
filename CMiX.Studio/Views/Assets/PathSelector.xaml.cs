@@ -1,6 +1,4 @@
-﻿using CMiX.Studio.Views.Controls;
-using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;

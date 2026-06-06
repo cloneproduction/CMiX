@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Windows;
 using System.Windows.Interactivity;
@@ -59,26 +58,7 @@ namespace CMiX.Studio.Behaviors
                 };
 
                 if (textureType == null) continue;
-
-                PrefabManager.AddItem(textureType);
-
-                if (PrefabManager.SelectedItem is IAssetTextureSource source)
-                {
-                    var existing = source.AssetSelector.AssetRepository.FindByPath(file);
-                    if (existing != null)
-                    {
-                        source.AssetSelector.Asset = existing;
-                    }
-                    else
-                    {
-                        var asset = source.AssetSelector.CreateAssetFromPath(file);
-                        if (asset != null)
-                        {
-                            source.AssetSelector.AssetRepository.Add(asset);
-                            source.AssetSelector.Asset = asset;
-                        }
-                    }
-                }
+                PrefabManager.AddItemFromFilePath(textureType, file);
             }
         }
     }

@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Diagnostics;
 using System.Windows;
-using CMiX.Core.Assets;
 using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using GongSolutions.Wpf.DragDrop;
@@ -17,20 +15,27 @@ namespace CMiX.Core.BaseControls
         {
             FilePath = filePath;
             AssetRepository = assetRepository;
+
+            FilePath.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(GenericValue<string>.Value))
+                    OnPropertyChanged(nameof(Asset));
+            };
         }
 
         public Guid ID { get; set; }
         public GenericValue<string> FilePath { get; set; }
         public AssetRepository AssetRepository { get; set; }
 
-        private IAsset _asset;
         public IAsset Asset
         {
-            get => _asset;
+            get
+            {
+                var result = AssetRepository.FindByPath(FilePath.Value);
+                return result;
+            }
             set
             {
-                _asset = value;
-                OnPropertyChanged();
                 if (value != null)
                     FilePath.Value = value.FilePath;
             }
@@ -51,6 +56,16 @@ namespace CMiX.Core.BaseControls
             if (!File.Exists(path)) return null;
             string ext = Path.GetExtension(path).ToUpperInvariant().TrimStart('.');
             return AssetFactories.TryGetValue(ext, out var factory) ? factory(path) : null;
+        }
+
+        public void SetAssetFromPath(string filePath)
+        {
+            var existing = AssetRepository.FindByPath(filePath);
+            if (existing != null) { Asset = existing; return; }
+            var asset = CreateAssetFromPath(filePath);
+            if (asset == null) return;
+            AssetRepository.Add(asset);
+            Asset = asset;
         }
 
         public void DragOver(IDropInfo dropInfo)
@@ -91,20 +106,17 @@ namespace CMiX.Core.BaseControls
         {
             var m = (AssetSelectorModel)model;
             ID = m.ID;
-            FilePath.FromModel(m.FilePath);
 
-            if (string.IsNullOrEmpty(m.FilePath.Value)) return;
+            if (!string.IsNullOrEmpty(m.FilePath.Value))
+                FilePath.FromModel(m.FilePath);
 
-            var existing = AssetRepository.FindByPath(m.FilePath.Value);
-            if (existing != null)
-            {
-                Asset = existing;
-                return;
-            }
+            if (string.IsNullOrEmpty(FilePath.Value)) return;
 
-            var asset = CreateAssetFromPath(m.FilePath.Value);
+            var existing = AssetRepository.FindByPath(FilePath.Value);
+            if (existing != null) { Asset = existing; return; }
+
+            var asset = CreateAssetFromPath(FilePath.Value);
             if (asset == null) return;
-
             AssetRepository.Add(asset);
             Asset = asset;
         }

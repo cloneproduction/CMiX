@@ -8,7 +8,10 @@ namespace CMiX.Core.Prefabs.Messages
 {
     public class MessageCollectionManagerHandler
     {
-        public MessageCollectionManagerHandler(){ }
+        public MessageCollectionManagerHandler()
+        { 
+
+        }
 
         public bool Handle(CollectionManager collection, IMessage message)
         {

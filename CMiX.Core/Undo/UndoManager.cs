@@ -23,6 +23,12 @@ namespace CMiX.Core.Undo
         {
             if (_groupDepth > 0) return;
 
+            if (_captureList != null)
+            {
+                _captureList.Add(command);
+                return;
+            }
+
             if (command is ValueChangedCommand vc
                 && _undoStack.TryPeek(out var last)
                 && last is ValueChangedCommand lastVc
@@ -35,6 +41,25 @@ namespace CMiX.Core.Undo
             }
 
             _undoStack.Push(command);
+            _redoStack.Clear();
+            TrimStack();
+        }
+
+        private List<IUndoCommand> _captureList = null;
+
+        public void BeginCapture()
+        {
+            _captureList = new List<IUndoCommand>();
+        }
+
+        public void EndCapture()
+        {
+            if (_captureList == null) return;
+            var commands = _captureList;
+            _captureList = null;
+            if (commands.Count == 0) return;
+            if (commands.Count == 1) { Push(commands[0]); return; }
+            _undoStack.Push(new CompositeCommand(commands));
             _redoStack.Clear();
             TrimStack();
         }
