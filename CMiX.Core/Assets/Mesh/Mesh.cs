@@ -25,7 +25,10 @@ namespace CMiX.Core
                     GenericValue<IAsset> geometry,
                     Text3DSettings text3DSettings,
                     PrefabManager explodeTriangleTextureManager,
-                    GenericValue<float> explodeStrength)
+                    GenericValue<float> explodeStrength,
+                    PrefabManager displacementTextureManager,
+                    GenericValue<float> displacementStrength,
+                    GenericValue<float> flatNormals)
         {
             MeshTypeSelector = meshTypeSelector;
             Scale = scale;
@@ -41,6 +44,9 @@ namespace CMiX.Core
             Text3DSettings = text3DSettings;
             ExplodeTriangleTextureManager = explodeTriangleTextureManager;
             ExplodeStrength = explodeStrength;
+            DisplacementTextureManager = displacementTextureManager;
+            DisplacementStrength = displacementStrength;
+            FlatNormals = flatNormals;
         }
 
         [ObservableProperty]
@@ -61,6 +67,9 @@ namespace CMiX.Core
         public GenericValue<bool> Visibility { get; set; }
         public PrefabManager ExplodeTriangleTextureManager { get; set; }
         public GenericValue<float> ExplodeStrength { get; set; }
+        public PrefabManager DisplacementTextureManager { get; set; }
+        public GenericValue<float> DisplacementStrength { get; set; }
+        public GenericValue<float> FlatNormals { get; set; }
 
         public IControlModel ToModel() => new MeshModel
         {
@@ -78,7 +87,10 @@ namespace CMiX.Core
             GenerateBackFace = (GenericValueModel<bool>)GenerateBackFace.ToModel(),
             Visibility = (GenericValueModel<bool>)Visibility.ToModel(),
             ExplodeStrength = (GenericValueModel<float>)ExplodeStrength.ToModel(),
-            ExplodeTriangleTextureManager = (PrefabManagerModel)ExplodeTriangleTextureManager.ToModel()
+            ExplodeTriangleTextureManager = (PrefabManagerModel)ExplodeTriangleTextureManager.ToModel(),
+            DisplacementStrength = (GenericValueModel<float>)DisplacementStrength.ToModel(),
+            DisplacementTextureManager = (PrefabManagerModel)DisplacementTextureManager.ToModel(),
+            FlatNormals = (GenericValueModel<float>)FlatNormals.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -97,13 +109,19 @@ namespace CMiX.Core
             TessellationXY.FromModel(m.TessellationXY);
             GenerateBackFace.FromModel(m.GenerateBackFace);
             Visibility.FromModel(m.Visibility);
-            ExplodeStrength.FromModel(m.ExplodeStrength);
 
+            ExplodeStrength.FromModel(m.ExplodeStrength);
             LoadManager(ExplodeTriangleTextureManager, m.ExplodeTriangleTextureManager);
+
+            DisplacementStrength.FromModel(m.DisplacementStrength);
+            LoadManager(DisplacementTextureManager, m.DisplacementTextureManager);
+
+            FlatNormals.FromModel(m.FlatNormals);
         }
         public void Dispose()
         {
             ExplodeTriangleTextureManager.ClearAll();
+            DisplacementTextureManager.ClearAll();
         }
     }
 }

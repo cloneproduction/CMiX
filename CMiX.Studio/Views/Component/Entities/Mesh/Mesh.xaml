@@ -9,8 +9,8 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Views.Controls.Panels"
-    d:DesignHeight="30"
-    d:DesignWidth="233"
+    d:DesignHeight="265"
+    d:DesignWidth="307.286"
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -104,7 +104,7 @@
         </ContentControl>
 
         <Panels:IndentedExpander
-            Margin="-8,8,-8,0"
+            Margin="-8,0,-8,0"
             Header="Geometry FX"
             Indentation="0"
             IsExpanded="False">
@@ -113,6 +113,7 @@
 
                 <BaseControls:DragValue Caption="Explode Strength" Value="{Binding ExplodeStrength.Value}" />
 
+                <BaseControls:CMiXSlider Margin="0, 8, 0, 0" Caption="Flat Normals" Value="{Binding FlatNormals.Value}" Minimum="0.0" Maximum="1.0"/>
                 <Views:Outliner
                     Margin="0,8"
                     DataContext="{Binding ExplodeTriangleTextureManager}"
@@ -132,7 +133,35 @@
             </StackPanel>
 
         </Panels:IndentedExpander>
+        <Panels:IndentedExpander
+            Margin="-8,0,-8,0"
+            Header="Displacement"
+            Indentation="0"
+            IsExpanded="False">
 
+            <StackPanel Margin="8">
+
+                <BaseControls:DragValue Caption="Strength" Value="{Binding DisplacementStrength.Value}" />
+
+                <Views:Outliner
+                    Margin="0,8"
+                    DataContext="{Binding DisplacementTextureManager}"
+                    ItemsSource="{Binding ControlRepository.Textures}">
+                    <Views:Outliner.SelectionPanel>
+                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                        </Views:ButtonOpenSelectionPanel>
+                    </Views:Outliner.SelectionPanel>
+                </Views:Outliner>
+
+                <Border Visibility="{Binding DisplacementTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}, ConverterParameter={x:Static Visibility.Collapsed}}">
+                    <Views:Texture Margin="-8,0" DataContext="{Binding DisplacementTextureManager.SelectedItem}" />
+                </Border>
+            </StackPanel>
+
+        </Panels:IndentedExpander>
     </StackPanel>
 
 </UserControl>
