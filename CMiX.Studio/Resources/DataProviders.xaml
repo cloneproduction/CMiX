@@ -272,4 +272,13 @@
         </ObjectDataProvider.MethodParameters>
     </ObjectDataProvider>
 
+    <ObjectDataProvider
+        x:Key="HalftoneMode"
+        MethodName="GetValues"
+        ObjectType="{x:Type System:Enum}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Filters:HalftoneMode" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
 </ResourceDictionary>
