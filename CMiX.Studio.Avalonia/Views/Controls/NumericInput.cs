@@ -101,13 +101,17 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void EnterEditMode()
         {
+            // The theme keeps the control hidden through IsVisible until editing starts,
+            // and Avalonia never measures an invisible control, so the template is not
+            // applied yet on the first edit. Become visible first and force the template
+            // so PART_TextBox exists. The control overlaps the value display in the same
+            // grid cell, so toggling IsVisible causes no layout shift.
+            IsVisible = true;
+            ApplyTemplate();
             if (_textBox == null) return;
+
             _valueBeforeEdit = Value;
             _textBox.Text = IsInteger ? ((int)Value).ToString() : Value.ToString("N3");
-            // The theme keeps the control hidden through IsVisible until editing starts.
-            // The control overlaps the value display in the same grid cell, so toggling
-            // IsVisible causes no layout shift.
-            IsVisible = true;
             AddParentWindowHandlers();
             Dispatcher.UIThread.Post(() =>
             {
@@ -126,19 +130,23 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void Commit()
         {
-            if (_textBox == null) return;
-            if (double.TryParse(_textBox.Text, out double result))
-                Value = Math.Clamp(result, Minimum, Maximum);
-            else
-                _textBox.Text = Value.ToString();
+            if (_textBox != null)
+            {
+                if (double.TryParse(_textBox.Text, out double result))
+                    Value = Math.Clamp(result, Minimum, Maximum);
+                else
+                    _textBox.Text = Value.ToString();
+            }
             IsEditing = false;
         }
 
         private void Cancel()
         {
-            if (_textBox == null) return;
-            Value = _valueBeforeEdit;
-            _textBox.Text = _valueBeforeEdit.ToString();
+            if (_textBox != null)
+            {
+                Value = _valueBeforeEdit;
+                _textBox.Text = _valueBeforeEdit.ToString();
+            }
             IsEditing = false;
         }
 
