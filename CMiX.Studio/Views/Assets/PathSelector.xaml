@@ -38,14 +38,14 @@
                 <VisualBrush Visual="{Binding ElementName=mask}"/>
             </Border.OpacityMask>
 
-            <ComboBox 
+            <ComboBox
+                x:Name="pathComboBox"
                 AttachedProperties:PositionedControl.Position="All"
                 Grid.Column="1"
                 AllowDrop="True"
                 ItemsSource="{Binding ItemsSource, ElementName=pathSelector}"
                 SelectedItem="{Binding SelectedItem, ElementName=pathSelector}"
                 IsSynchronizedWithCurrentItem="False"
-                dd:DragDrop.DropHandler="{Binding}"
                 dd:DragDrop.IsDropTarget="True">
 
                 <ComboBox.ItemTemplate>

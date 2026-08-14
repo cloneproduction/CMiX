@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using CMiX.Core.BaseControls;
+using CMiX.Studio.Services;
 
 namespace CMiX.Studio.Views
 {
@@ -10,6 +12,13 @@ namespace CMiX.Studio.Views
         public PathSelector()
         {
             InitializeComponent();
+            DataContextChanged += OnDataContextChanged;
+        }
+
+        private void OnDataContextChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (e.NewValue is AssetSelector assetSelector)
+                GongSolutions.Wpf.DragDrop.DragDrop.SetDropHandler(pathComboBox, new AssetSelectorDropHandler(assetSelector));
         }
 
 

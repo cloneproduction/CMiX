@@ -187,13 +187,13 @@
     </UserControl.Resources>
 
     <Border
-        dd:DragDrop.DropHandler="{Binding}"
+        x:Name="dropBorder"
         dd:DragDrop.IsDropTarget="True"
         Background="{DynamicResource Grey300Brush}">
         <StackPanel>
             <Expander Header="Images" IsExpanded="True">
                 <ListBox
-                    dd:DragDrop.DropHandler="{Binding}"
+                    x:Name="imagesListBox"
                     dd:DragDrop.IsDropTarget="True"
                     AlternationCount="2"
                     Background="Transparent"
@@ -222,7 +222,7 @@
             </Expander>
             <Expander Header="Videos" IsExpanded="True">
                 <ListBox
-                    dd:DragDrop.DropHandler="{Binding}"
+                    x:Name="videosListBox"
                     dd:DragDrop.IsDropTarget="True"
                     AlternationCount="2"
                     Background="Transparent"
@@ -251,7 +251,7 @@
             </Expander>
             <Expander Header="Geometries" IsExpanded="True">
                 <ListBox
-                    dd:DragDrop.DropHandler="{Binding}"
+                    x:Name="geometriesListBox"
                     dd:DragDrop.IsDropTarget="True"
                     AlternationCount="2"
                     Background="Transparent"
