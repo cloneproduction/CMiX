@@ -1,0 +1,60 @@
+﻿<Window
+    x:Class="CMiX.Studio.Avalonia.Views.ServerCreationWindow"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="serverCreationWindow"
+    Width="300"
+    Background="Black"
+    ShowInTaskbar="False"
+    SizeToContent="Height"
+    SystemDecorations="None"
+    Theme="{StaticResource PopupWindowNoTitleStyle}"
+    TransparencyLevelHint="Transparent">
+
+    <StackPanel>
+        <TextBlock
+            Margin="0,0,0,8"
+            Text="Create a new server" />
+        <BaseControl:IPBox IPAddress="{Binding IP, Mode=TwoWay}" />
+        <Grid
+            Height="{DynamicResource ControlHeightMD}"
+            Margin="0,4">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="0,0,4,0"
+                HorizontalAlignment="Right"
+                Text="Port" />
+            <TextBox
+                Grid.Column="1"
+                Text="{Binding Port}" />
+        </Grid>
+
+        <Grid Margin="0,8,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <Button
+                Grid.Column="0"
+                Height="{DynamicResource ControlHeightMD}"
+                Margin="0,0,4,0"
+                Command="{Binding AddServerCommand}"
+                CommandParameter="{Binding ElementName=serverCreationWindow}"
+                Content="New Server"
+                Theme="{StaticResource ButtonRounded}" />
+            <Button
+                Grid.Column="1"
+                Height="{DynamicResource ControlHeightMD}"
+                Margin="4,0,0,0"
+                Click="Button_Click"
+                Content="Cancel"
+                Theme="{StaticResource ButtonRounded}" />
+        </Grid>
+
+    </StackPanel>
+
+</Window>

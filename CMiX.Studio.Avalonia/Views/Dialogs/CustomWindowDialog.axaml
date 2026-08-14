@@ -1,0 +1,66 @@
+﻿<Window
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.CustomWindowDialog"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Width="500"
+    Height="90"
+    Background="Transparent"
+    CanResize="False"
+    SystemDecorations="None"
+    Theme="{StaticResource QuitModalWindow}"
+    TransparencyLevelHint="Transparent"
+    WindowStartupLocation="CenterOwner">
+
+    <Border
+        Padding="8"
+        Background="Transparent">
+        <Border
+            Padding="8"
+            Background="{StaticResource Grey300Brush}"
+            BoxShadow="0 0 8 0 #66000000"
+            CornerRadius="{DynamicResource CornerRadiusLargeAll}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <DockPanel Height="{DynamicResource ControlHeightXL}">
+                    <Image
+                        Margin="8"
+                        Opacity="0.90"
+                        Source="{StaticResource Warning}" />
+                    <TextBlock
+                        VerticalAlignment="Center"
+                        Foreground="{StaticResource ForegroundBrush}"
+                        Text="Save change before closing ?" />
+                </DockPanel>
+                <Grid Grid.Row="1">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Button
+                        Grid.Column="0"
+                        Margin="4"
+                        Command="{Binding SaveCommand}"
+                        CommandParameter="{Binding $parent[Window]}"
+                        Content="Save" />
+                    <Button
+                        Grid.Column="1"
+                        Margin="4"
+                        Command="{Binding DontSaveCommand}"
+                        CommandParameter="{Binding $parent[Window]}"
+                        Content="Don't Save" />
+                    <Button
+                        Grid.Column="2"
+                        Margin="4"
+                        Command="{Binding CancelCommand}"
+                        CommandParameter="{Binding $parent[Window]}"
+                        Content="Cancel" />
+                </Grid>
+            </Grid>
+        </Border>
+    </Border>
+
+</Window>
