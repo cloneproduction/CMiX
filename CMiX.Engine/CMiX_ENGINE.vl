@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2025.7.2-0022-g7b889ed43d" Version="0.128">
-  <NugetDependency Id="IUe3DNEcZotPCXZwjVtivO" Location="VL.CoreLib" Version="2025.7.2-0022-g7b889ed43d" />
+<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2025.7.4" Version="0.128">
+  <NugetDependency Id="IUe3DNEcZotPCXZwjVtivO" Location="VL.CoreLib" Version="2025.7.4" />
   <Patch Id="T9GSBtl3PLoMotw6vgDtsk">
     <Canvas Id="OChrtsq8T1iOBNfVT1Yj0P" DefaultCategory="CMiX.Engine" CanvasType="FullCategory">
       <Canvas Id="Igr5Kp3PcxaOKHlxzrsEWl" Name="BaseControls" Position="38,147">
@@ -6830,6 +6830,7 @@
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="ProcessNode" Name="DirectDispatcher" />
                   </p:NodeReference>
+                  <Pin Id="I2YdywBVkqkQQl6j7IVsTG" Name="Node Context" Kind="InputPin" IsHidden="true" />
                   <Pin Id="FdDqy8D0bRtPzdRHxbWn0u" Name="Thread Group Count" Kind="InputPin" />
                   <Pin Id="IVLBRQtlQfWMwrQqqiwOJz" Name="Output" Kind="OutputPin" />
                 </Node>
@@ -30472,7 +30473,7 @@
             </p:NodeReference>
             <Patch Id="PPjDm2dxl6bN3G5FYKfLQ0">
               <Canvas Id="VzmoGjFKPUVO4n3S2FFs19" CanvasType="Group">
-                <Node Bounds="346,762,105,19" Id="D1CdLJfcNYWNIQG3Yxivb7">
+                <Node Bounds="346,762,245,19" Id="D1CdLJfcNYWNIQG3Yxivb7">
                   <p:NodeReference LastCategoryFullName="VL.Stride.Models.Meshes" LastDependency="VL.Stride.Text3d.vl">
                     <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                     <Choice Kind="ProcessAppFlag" Name="Text3dMesh" />
@@ -30489,11 +30490,17 @@
                   <Pin Id="BjVqUEzznbOOI8Ly9ZYPSc" Name="Node Context" Kind="InputPin" IsHidden="true" />
                   <Pin Id="UAxzugyZqBKPRWeq2O3rml" Name="Text" Kind="InputPin" />
                   <Pin Id="LhbkEomqUo8NQsBZ1UvJDs" Name="Font" Kind="InputPin" DefaultValue="Lucida Sans Unicode" />
-                  <Pin Id="PTaGheEoh20Pq0fsMqrB0d" Name="FontSize" Kind="InputPin" />
+                  <Pin Id="MQkE5GL9wJONsRTXyNHrBh" Name="Font Size" Kind="InputPin" />
                   <Pin Id="B6Nb6hqWHJ0MzJnCaaI7EG" Name="Text Alignment" Kind="InputPin" />
                   <Pin Id="IyqwZCgr1ohQFtQOOEyy5s" Name="Paragraph Alignment" Kind="InputPin" DefaultValue="Center" />
                   <Pin Id="Kqm3jJyczIpLtpCI45P7nQ" Name="Extrude Amount" Kind="InputPin" DefaultValue="4" />
-                  <Pin Id="GscWXiu6AoGLOHHLixk4i6" Name="Result" Kind="OutputPin" />
+                  <Pin Id="HpHs59JFBd1Pio9pONfJYE" Name="Output" Kind="OutputPin" />
+                  <Pin Id="EcsR4CUfTm6Mwbki8lRPwr" Name="Extrude Origin" Kind="InputPin" />
+                  <Pin Id="IwthSbnPx5YOkPI7NZLEBp" Name="Flattening Tolerance" Kind="InputPin" />
+                  <Pin Id="FmanPR7rFf9P5fASh6OB6B" Name="Smoothing Angle" Kind="InputPin" />
+                  <Pin Id="NcSiUi8aAKxPowyuanIPrj" Name="Side UVMapping" Kind="InputPin" />
+                  <Pin Id="IyuytiZ9yPuLtnDGtxAWV1" Name="Texture Scale" Kind="InputPin" />
+                  <Pin Id="U88MsMDYW5vNI1DmHasrHc" Name="Weld Vertices" Kind="InputPin" />
                 </Node>
                 <ControlPoint Id="P8KxPpcpTmxNoMHIifMIea" Bounds="348,819" />
                 <Node Bounds="299,355,71,26" Id="NFZjP4ET4zsMBGmgNN7f4n">
@@ -30668,7 +30675,6 @@
                   <Pin Id="UODcDkj5NF3PPvMgTuUp8g" Name="Input" Kind="InputPin" />
                   <Pin Id="DoYxTMb9Xq2MBGHCS759SZ" Name="Value" Kind="OutputPin" />
                 </Node>
-                <Pad Id="OVZNRw8cJCENxnCkcXDAqT" Comment="" Bounds="470,801,322,223" ShowValueBox="true" isIOBox="true" />
               </Canvas>
               <Patch Id="JuTKjpmdef0M9xaGo3uXXX" Name="Create" />
               <ProcessDefinition Id="HfTaHlFTCzSMySDRrVYdNo">
@@ -30693,8 +30699,6 @@
               <Link Id="ObnKqo73PbPPWyDnswmUi4" Ids="KDzKy1lR3cAOQfBmDY69z3,OIjBBJuPVgnPFf38eun5tq" />
               <Link Id="VEcxxfTTNrwPivkYlpyj3b" Ids="CsewBaroPrsOW7YN4RIjp4,UAxzugyZqBKPRWeq2O3rml" />
               <Link Id="RjncXfMuXTnMXe4haDbSZW" Ids="NoNpgTtc5FZMRnvSmSW283,Kqm3jJyczIpLtpCI45P7nQ" />
-              <Link Id="GUcHYAchle5PhF2zZw5dWb" Ids="GnGLDtphtF6LqV7HDEV1T5,PTaGheEoh20Pq0fsMqrB0d" />
-              <Link Id="IYucCUGgDw6M038kJZKK86" Ids="GscWXiu6AoGLOHHLixk4i6,P8KxPpcpTmxNoMHIifMIea" />
               <Link Id="N3CiZ3cSytNLSvJlPVLALr" Ids="EiiOjFNMvtQOgeRVciwJ3g,IOsHb7VLxn8NrTdPdbbTP3" />
               <Link Id="SH1s1qEyyHiNVtbkm9Y3Bc" Ids="PgkbxhDt6D9NTs2QWbPSx9,Jhd0pDvW1eXM5rGa8myPtR" />
               <Link Id="VJdLYGaxhcgPzBMO1cWzgo" Ids="Jhd0pDvW1eXM5rGa8myPtR,LhbkEomqUo8NQsBZ1UvJDs" />
@@ -30708,7 +30712,8 @@
               <Link Id="TQK9kXP00KaOQzBIES9NFV" Ids="ScBJGYmSG7OPrN0oyToz2P,B6Nb6hqWHJ0MzJnCaaI7EG" />
               <Link Id="ChYJusDn05wQXERcsG1zZW" Ids="KiebpxKH0SYMTe5ptsQP1X,UODcDkj5NF3PPvMgTuUp8g" />
               <Link Id="V8nTRIpQv8tNxBEnPC7J3T" Ids="DoYxTMb9Xq2MBGHCS759SZ,IyqwZCgr1ohQFtQOOEyy5s" />
-              <Link Id="IT49ggyTEdxNbXbhzfc2OS" Ids="GscWXiu6AoGLOHHLixk4i6,OVZNRw8cJCENxnCkcXDAqT" />
+              <Link Id="HoptZMfHfkeLKjhzJ71trX" Ids="GnGLDtphtF6LqV7HDEV1T5,MQkE5GL9wJONsRTXyNHrBh" />
+              <Link Id="NBKLfcZlOktOa9lTS6oBLU" Ids="HpHs59JFBd1Pio9pONfJYE,P8KxPpcpTmxNoMHIifMIea" />
             </Patch>
           </Node>
           <!--
@@ -33230,7 +33235,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="-945.1429, 103.42857, 944, 961.1429" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="808, 239.33333, 944, 960.6667" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
@@ -33240,6 +33245,7 @@
                 <Pin Id="EB2lAWkI6O1Pj59qdNpyF9" Name="Node Context" Kind="InputPin" IsHidden="true" />
                 <Pin Id="TgJLAR6E2njOJRdtFIYoLj" Name="Always On Top" Kind="InputPin" IsHidden="true" />
                 <Pin Id="Jr9Dlm8cR6fMmfTZ5KhEBR" Name="Extend Into Title Bar" Kind="InputPin" IsHidden="true" />
+                <Pin Id="ECNnWEC1WtNNk3fWa1NGMr" Name="Is Borderless" Kind="InputPin" IsHidden="true" />
                 <Pin Id="B2RENMVxrlhNHO6OcP4oIo" Name="Input" Kind="InputPin" />
                 <Pin Id="JPeJfZgALtaNfGJcCQ5cIi" Name="Camera" Kind="InputPin" />
                 <Pin Id="GjWPFgCkXRGNF8y3FEufjJ" Name="Enable Default Camera" Kind="InputPin" DefaultValue="False" />
@@ -44422,18 +44428,18 @@
       </Patch>
     </Node>
   </Patch>
-  <NugetDependency Id="MxpBToeN9KpMzdbx9aZ7QL" Location="VL.Stride" Version="2025.7.2-0022-g7b889ed43d" />
-  <NugetDependency Id="Oh17f6D4zxoOH7HVblhIWN" Location="VL.Skia" Version="2025.7.2-0022-g7b889ed43d" />
-  <NugetDependency Id="H20NracCeQ8NQmFLjLZH5t" Location="VL.Video" Version="2025.7.2-0022-g7b889ed43d" />
+  <NugetDependency Id="MxpBToeN9KpMzdbx9aZ7QL" Location="VL.Stride" Version="2025.7.4" />
+  <NugetDependency Id="Oh17f6D4zxoOH7HVblhIWN" Location="VL.Skia" Version="2025.7.4" />
+  <NugetDependency Id="H20NracCeQ8NQmFLjLZH5t" Location="VL.Video" Version="2025.7.4" />
   <NugetDependency Id="CucQHgko8bUPojG0TwFuj9" Location="VL.HapPlayer" Version="2.3.2" />
-  <NugetDependency Id="Ith8JqfcfDFQK6CSkboPsx" Location="VL.Stride.Runtime" Version="2025.7.2-0022-g7b889ed43d" />
-  <NugetDependency Id="EvD9cRhEOb8NIZc9Ysx7bv" Location="VL.Stride.TextureFX" Version="2025.7.2-0022-g7b889ed43d" />
-  <NugetDependency Id="Mvr7PMbI56uPGbh0vl7hHY" Location="VL.Addons" Version="0.5.1" />
-  <NugetDependency Id="S9ukaWEq8bgP7MtuA4gKDJ" Location="VL.Stride.Text3d" Version="1.0.2" />
+  <NugetDependency Id="Ith8JqfcfDFQK6CSkboPsx" Location="VL.Stride.Runtime" Version="2025.7.4" />
+  <NugetDependency Id="EvD9cRhEOb8NIZc9Ysx7bv" Location="VL.Stride.TextureFX" Version="2025.7.4" />
+  <NugetDependency Id="Mvr7PMbI56uPGbh0vl7hHY" Location="VL.Addons" Version="0.5.3" />
+  <NugetDependency Id="S9ukaWEq8bgP7MtuA4gKDJ" Location="VL.Stride.Text3d" Version="2.4.0" />
   <NugetDependency Id="P8rH1QTkjUMMYGrrp5TL3C" Location="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
   <NugetDependency Id="FU5tfxe8VkaNWXN1K2FCx6" Location="WatsonTcp" Version="6.0.12" />
-  <NugetDependency Id="SoBpzGCukzrMhNONYcGMJt" Location="VL.Serialization.MessagePack" Version="2025.7.2-0022-g7b889ed43d" />
+  <NugetDependency Id="SoBpzGCukzrMhNONYcGMJt" Location="VL.Serialization.MessagePack" Version="2025.7.4" />
   <PlatformDependency Id="QUAOAQNwY4EPUybiraAjtQ" Location="../lib/net8.0-windows/CMiX.Core.dll" />
-  <NugetDependency Id="APHyxjm0ygjNWZQsxQLln4" Location="VL.Addons.Control" Version="0.5.1" />
-  <NugetDependency Id="LlCZS6ubjIEP7qtiJFRB1Y" Location="VL.Addons.Stride" Version="0.5.1" />
+  <NugetDependency Id="APHyxjm0ygjNWZQsxQLln4" Location="VL.Addons.Control" Version="0.5.3" />
+  <NugetDependency Id="LlCZS6ubjIEP7qtiJFRB1Y" Location="VL.Addons.Stride" Version="0.5.3" />
 </Document>
