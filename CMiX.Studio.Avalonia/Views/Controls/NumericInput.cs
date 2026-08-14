@@ -104,10 +104,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (_textBox == null) return;
             _valueBeforeEdit = Value;
             _textBox.Text = IsInteger ? ((int)Value).ToString() : Value.ToString("N3");
-            // WPF toggled between Visible and Hidden; emulate Hidden with opacity plus hit testing
-            // so the control keeps its layout space.
-            Opacity = 1.0;
-            IsHitTestVisible = true;
+            // The theme keeps the control hidden through IsVisible until editing starts.
+            // The control overlaps the value display in the same grid cell, so toggling
+            // IsVisible causes no layout shift.
+            IsVisible = true;
             AddParentWindowHandlers();
             Dispatcher.UIThread.Post(() =>
             {
@@ -118,8 +118,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void ExitEditMode()
         {
-            Opacity = 0.0;
-            IsHitTestVisible = false;
+            IsVisible = false;
             RemoveParentWindowHandlers();
             var topLevel = TopLevel.GetTopLevel(this);
             topLevel?.Focus();
@@ -183,7 +182,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             RemoveParentWindowHandlers();
             if (!IsEditing) return;
 
-            if (e.GetCurrentPoint(null).Properties.IsRightButtonPressed)
+            if (e.GetCurrentPoint(sender as Visual).Properties.IsRightButtonPressed)
                 Cancel();
             else
                 Commit();
