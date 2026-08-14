@@ -1,0 +1,25 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.EditableValue"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Name="editableValue">
+
+    <Grid>
+        <TextBlock
+            x:Name="TextDisplay"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            Text="{Binding Text, ElementName=editableValue}" />
+        <TextBox
+            x:Name="InputValue"
+            Padding="5"
+            VerticalAlignment="Center"
+            Background="{DynamicResource Grey300Brush}"
+            BorderThickness="0"
+            CaretBrush="{DynamicResource Grey700Brush}"
+            Foreground="{DynamicResource ActiveForegroundBrush}"
+            SelectionBrush="{DynamicResource Grey700Brush}"
+            Text="{Binding Text, ElementName=editableValue}" />
+    </Grid>
+
+</UserControl>
