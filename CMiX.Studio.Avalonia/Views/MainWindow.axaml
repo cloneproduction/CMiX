@@ -2,41 +2,53 @@
     x:Class="CMiX.Studio.Avalonia.Views.MainWindow"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:Modifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
+    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Beat="clr-namespace:CMiX.Studio.Avalonia.Views.Beat"
+    xmlns:Menus="clr-namespace:CMiX.Studio.Avalonia.Views.Menus"
+    xmlns:Windows="clr-namespace:CMiX.Studio.Avalonia.Views.Windows"
     Title="CMiX"
     Width="400"
     Height="1000"
-    Background="#FF1E1E1E"
+    Background="{DynamicResource Grey200Brush}"
+    ExtendClientAreaChromeHints="NoChrome"
+    ExtendClientAreaTitleBarHeightHint="-1"
+    ExtendClientAreaToDecorationsHint="True"
     Focusable="True"
     WindowStartupLocation="CenterScreen">
 
-    <!-- Skeleton of the WPF MainWindow layout. Placeholder regions are replaced by real views in later phases. -->
     <DockPanel Background="{DynamicResource Grey200Brush}" LastChildFill="True">
 
-        <Border Background="{DynamicResource Grey100Brush}" DockPanel.Dock="Top">
+        <!-- Custom title bar; dragging is handled in code behind via BeginMoveDrag. -->
+        <Border
+            x:Name="titleBar"
+            Background="{DynamicResource Grey100Brush}"
+            DockPanel.Dock="Top">
+
             <DockPanel LastChildFill="False">
 
-                <ContentControl
-                    x:Name="mainWindowControllerRegion"
-                    DataContext="{Binding MainWindowController}"
-                    DockPanel.Dock="Right" />
+                <Windows:MainWindowController DataContext="{Binding MainWindowController}" DockPanel.Dock="Right" />
 
-                <ContentControl
-                    x:Name="mainMenuRegion"
-                    DataContext="{Binding MainMenu}"
-                    DockPanel.Dock="Left">
-                    <TextBlock
-                        Padding="8"
-                        Text="Menu" />
-                </ContentControl>
+                <Menus:MainMenu DataContext="{Binding MainMenu}" DockPanel.Dock="Left" />
 
             </DockPanel>
         </Border>
 
         <Border
+            Height="{DynamicResource ControlHeightXL}"
             Background="{DynamicResource Grey100Brush}"
             BorderBrush="{DynamicResource Grey100Brush}"
             BorderThickness="2,0,2,2"
             DockPanel.Dock="Bottom">
+
             <DockPanel LastChildFill="False" Opacity="0.5">
 
                 <TextBlock
@@ -50,6 +62,7 @@
                     Text="CloneProduction" />
 
             </DockPanel>
+
         </Border>
 
         <Border
@@ -59,80 +72,362 @@
             BorderThickness="2,0"
             DockPanel.Dock="Bottom">
 
-            <ContentControl x:Name="masterBeatRegion" DataContext="{Binding Project.MasterBeat}">
-                <TextBlock Text="Master beat" />
-            </ContentControl>
+            <Beat:MasterBeatControl DataContext="{Binding Project.MasterBeat}" />
 
         </Border>
 
-        <TabControl DockPanel.Dock="Top" VerticalAlignment="Stretch">
+        <TabControl
+            VerticalAlignment="Stretch"
+            DockPanel.Dock="Top"
+            Theme="{StaticResource TabControlLayerPanel}">
 
-            <TabItem Header="Composition">
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Composition}"
+                        ToolTip.Tip="Composition" />
+                </TabItem.Header>
                 <ScrollViewer>
-                    <ContentControl x:Name="compositionRegion" Content="{Binding Project.CompositionManager.SelectedItem}" />
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="bisect tab1" />
+                        <!--BISECT<Views:Outliner
+                            Margin="8"
+                            VerticalAlignment="Top"
+                            DataContext="{Binding Project.CompositionManager}"
+                            DockPanel.Dock="Top"
+                            ItemsSource="{Binding ControlRepository.Compositions}">
+
+                            <Views:Outliner.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Compositing:Composition}"
+                                    Content="New Composition"
+                                    Theme="{DynamicResource ButtonRoundedRight}" />
+                            </Views:Outliner.SelectionPanel>
+
+                        </Views:Outliner>
+
+                        <Views:Composition
+                            DataContext="{Binding Project.CompositionManager.SelectedItem}"
+                            IsVisible="{Binding Converter={StaticResource NullToVisibility}}" />BISECT-->
+
+                    </DockPanel>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Layers">
-                <ContentControl x:Name="layerRegion" Content="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem}" />
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource LayerScene}"
+                        ToolTip.Tip="Layers" />
+                </TabItem.Header>
+
+                <Border IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.4*" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Border
+                            Grid.Row="1"
+                            Background="{DynamicResource Grey300Brush}"
+                            BorderBrush="{DynamicResource Grey100Brush}"
+                            BorderThickness="0,2"
+                            IsVisible="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                            <Views:Layer DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem}" />
+                        </Border>
+
+                        <Views:LayerManager
+                            Grid.Row="0"
+                            DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager}" />
+
+                        <GridSplitter
+                            Grid.Row="0"
+                            Height="8"
+                            Margin="0,-4"
+                            VerticalAlignment="Bottom"
+                            Theme="{StaticResource GridSplitter}" />
+                    </Grid>
+                </Border>
+
             </TabItem>
 
-            <TabItem Header="Entities">
-                <ScrollViewer>
-                    <ContentControl x:Name="entityRegion" Content="{Binding EntityManager.SelectedItem}" />
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Geometry}"
+                        ToolTip.Tip="Entities" />
+                </TabItem.Header>
+
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+
+                    <Border Background="{DynamicResource Grey300Brush}">
+                        <StackPanel>
+
+                            <Views:RepositoryManager
+                                x:Name="EntitiesRepository"
+                                DataContext="{Binding EntityManager}"
+                                DockPanel.Dock="Top"
+                                ItemsSource="{Binding $parent[Window].DataContext.PrefabRepositories.Entities}">
+                                <Views:RepositoryManager.SelectionPanel>
+                                    <Button
+                                        Command="{Binding AddItemCommand}"
+                                        CommandParameter="{x:Type Compositing:Entity}"
+                                        Content="New Entity" />
+                                </Views:RepositoryManager.SelectionPanel>
+                            </Views:RepositoryManager>
+
+                            <ContentControl Content="{Binding}" DataContext="{Binding EntityManager.SelectedItem}">
+                                <ContentControl.DataTemplates>
+
+                                    <DataTemplate DataType="{x:Type Compositing:Entity}">
+                                        <Views:ModelEntity DataContext="{Binding}" />
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type Cameras:Camera}">
+                                        <Views:Camera DataContext="{Binding}" />
+                                    </DataTemplate>
+
+                                    <DataTemplate DataType="{x:Type Lights:LightEntity}">
+                                        <Views:LightEntity DataContext="{Binding}" />
+                                    </DataTemplate>
+
+                                </ContentControl.DataTemplates>
+                            </ContentControl>
+
+                        </StackPanel>
+                    </Border>
+
+                </ScrollViewer>
+
+            </TabItem>
+
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource World}"
+                        ToolTip.Tip="Material" />
+                </TabItem.Header>
+
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+
+                    <Border Background="{DynamicResource Grey300Brush}">
+                        <Views:RepositoryManager DataContext="{Binding MaterialManager}" ItemsSource="{Binding ControlRepository.Materials}">
+                            <Views:RepositoryManager.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Materials:Material}"
+                                    Content="New Material" />
+                            </Views:RepositoryManager.SelectionPanel>
+                            <Views:RepositoryManager.EditingPanel>
+                                <Views:Material DataContext="{Binding}" />
+                            </Views:RepositoryManager.EditingPanel>
+                        </Views:RepositoryManager>
+                    </Border>
+
+                </ScrollViewer>
+
+            </TabItem>
+
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Texture}"
+                        ToolTip.Tip="Textures" />
+                </TabItem.Header>
+
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <Views:RepositoryManager
+                        x:Name="repositoryManager"
+                        Background="{DynamicResource Grey300Brush}"
+                        DataContext="{Binding TextureManager}"
+                        DockPanel.Dock="Top"
+                        ItemsSource="{Binding ControlRepository.Textures}">
+                        <Views:RepositoryManager.SelectionPanel>
+                            <Views:ButtonOpenSelectionPanel Caption="New Texture">
+                                <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                    <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                                </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                            </Views:ButtonOpenSelectionPanel>
+                        </Views:RepositoryManager.SelectionPanel>
+                        <Views:RepositoryManager.EditingPanel>
+                            <Views:Texture DataContext="{Binding}" />
+                        </Views:RepositoryManager.EditingPanel>
+                    </Views:RepositoryManager>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Materials">
-                <ScrollViewer>
-                    <ContentControl x:Name="materialRegion" Content="{Binding MaterialManager.SelectedItem}" />
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Camera}"
+                        ToolTip.Tip="Cameras" />
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <Border Background="{DynamicResource Grey300Brush}">
+                        <Views:RepositoryManager
+                            DataContext="{Binding CameraManager}"
+                            DockPanel.Dock="Top"
+                            ItemsSource="{Binding ControlRepository.Cameras}">
+                            <Views:RepositoryManager.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Cameras:Camera}"
+                                    Content="New Camera" />
+                            </Views:RepositoryManager.SelectionPanel>
+                            <Views:RepositoryManager.EditingPanel>
+                                <Views:Camera DataContext="{Binding}" />
+                            </Views:RepositoryManager.EditingPanel>
+                        </Views:RepositoryManager>
+                    </Border>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Textures">
-                <ScrollViewer>
-                    <ContentControl x:Name="textureRegion" Content="{Binding TextureManager.SelectedItem}" />
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource MeshLight}"
+                        ToolTip.Tip="Lights" />
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <Border Background="{DynamicResource Grey300Brush}">
+                        <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
+                            <Views:RepositoryManager.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Lights:LightEntity}"
+                                    Content="New Light" />
+                            </Views:RepositoryManager.SelectionPanel>
+                            <Views:RepositoryManager.EditingPanel>
+                                <Views:LightEntity DataContext="{Binding}" />
+                            </Views:RepositoryManager.EditingPanel>
+                        </Views:RepositoryManager>
+                    </Border>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Cameras">
-                <ScrollViewer>
-                    <ContentControl x:Name="cameraRegion" Content="{Binding CameraManager.SelectedItem}" />
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Beat}"
+                        ToolTip.Tip="BeatModifiers" />
+
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <Border Background="{DynamicResource Grey300Brush}">
+                        <Views:RepositoryManager DataContext="{Binding BeatManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
+                            <Views:RepositoryManager.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Animations:BeatModifier}"
+                                    Content="New Beat" />
+                            </Views:RepositoryManager.SelectionPanel>
+                            <Views:RepositoryManager.EditingPanel>
+                                <Views:BeatModifier DataContext="{Binding}" />
+                            </Views:RepositoryManager.EditingPanel>
+                        </Views:RepositoryManager>
+                    </Border>
+                </ScrollViewer>
+
+            </TabItem>
+
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Coloration}"
+                        ToolTip.Tip="Color Palette" />
+
+                </TabItem.Header>
+
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <Border Background="{DynamicResource Grey300Brush}">
+                        <Views:RepositoryManager DataContext="{Binding ColorPaletteManager}" ItemsSource="{Binding ControlRepository.ColorPalettes}">
+                            <Views:RepositoryManager.SelectionPanel>
+                                <Button
+                                    Command="{Binding AddItemCommand}"
+                                    CommandParameter="{x:Type Modifiers:ColorPalette}"
+                                    Content="New Palette" />
+                            </Views:RepositoryManager.SelectionPanel>
+
+                        </Views:RepositoryManager>
+                    </Border>
+                </ScrollViewer>
+
+            </TabItem>
+
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Resources}"
+                        ToolTip.Tip="Assets" />
+                </TabItem.Header>
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <Views:AssetManager DataContext="{Binding AssetManager}" />
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Lights">
-                <ScrollViewer>
-                    <ContentControl x:Name="lightRegion" Content="{Binding LightManager.SelectedItem}" />
-                </ScrollViewer>
-            </TabItem>
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
 
-            <TabItem Header="Beat">
-                <ScrollViewer>
-                    <ContentControl x:Name="beatModifierRegion" Content="{Binding BeatManager.SelectedItem}" />
-                </ScrollViewer>
-            </TabItem>
+                <TabItem.Header>
+                    <Image
+                        Margin="8"
+                        Source="{DynamicResource Network}"
+                        ToolTip.Tip="Network" />
+                </TabItem.Header>
 
-            <TabItem Header="Palettes">
-                <ScrollViewer>
-                    <ContentControl x:Name="colorPaletteRegion" Content="{Binding ColorPaletteManager.SelectedItem}" />
+                <ScrollViewer VerticalScrollBarVisibility="Hidden">
+                    <i:Interaction.Behaviors>
+                        <Behaviors:ScrollViewerBehavior />
+                    </i:Interaction.Behaviors>
+                    <Views:ServerManagementPanel DataContext="{Binding ServerManager}" />
                 </ScrollViewer>
-            </TabItem>
 
-            <TabItem Header="Assets">
-                <ScrollViewer>
-                    <ContentControl x:Name="assetRegion" DataContext="{Binding AssetManager}" />
-                </ScrollViewer>
-            </TabItem>
-
-            <TabItem Header="Network">
-                <ScrollViewer>
-                    <ContentControl x:Name="serverRegion" DataContext="{Binding ServerManager}" />
-                </ScrollViewer>
             </TabItem>
 
         </TabControl>
-
     </DockPanel>
 
 </Window>

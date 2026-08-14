@@ -15,6 +15,13 @@ namespace CMiX.Studio.Avalonia.Views
         {
             InitializeComponent();
             _undoManager = undoManager;
+            titleBar.PointerPressed += TitleBar_PointerPressed;
+        }
+
+        private void TitleBar_PointerPressed(object sender, PointerPressedEventArgs e)
+        {
+            if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
+                BeginMoveDrag(e);
         }
 
         protected override void OnKeyDown(KeyEventArgs e)
