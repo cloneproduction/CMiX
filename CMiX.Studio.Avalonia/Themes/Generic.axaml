@@ -2,6 +2,19 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Control themes are included here per control file as they are ported. -->
+    <!-- Selector based styles for non templated elements. -->
+    <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Border.axaml" />
+    <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/TextBlock.axaml" />
+
+    <!-- Control themes, merged in dependency order so StaticResource BasedOn references resolve. -->
+    <Styles.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ScrollViewer.axaml" />
+                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/ToolTip.axaml" />
+                <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Styles/Label.axaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Styles.Resources>
 
 </Styles>

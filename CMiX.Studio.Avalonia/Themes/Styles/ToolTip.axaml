@@ -1,0 +1,36 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Ported from CMiX.Studio\Themes\Styles\ToolTip.xaml.
+        TODO Avalonia: the WPF setters Placement=MousePoint, VerticalOffset=10 and
+        HorizontalOffset=-10 cannot be set on the ToolTip theme. In Avalonia these are
+        attached properties read from the control that owns the tooltip, e.g.
+        ToolTip.Placement="Pointer" ToolTip.VerticalOffset="10" ToolTip.HorizontalOffset="-10"
+        must be set on the host control (or via a global Style targeting the hosts).
+    -->
+    <ControlTheme x:Key="{x:Type ToolTip}" TargetType="ToolTip">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Margin="8"
+                    Background="{DynamicResource Grey400Brush}"
+                    BorderBrush="{DynamicResource Shadow}"
+                    BorderThickness="1,0,1,2"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <Border Margin="8">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,41 @@
+﻿<Styles
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Ported from CMiX.Studio\Themes\Styles\Border.xaml.
+        Border is not a templated control, so the WPF keyed style x:Key="BorderMask"
+        becomes the style class BorderMask. Consumers switch from
+        Style="{StaticResource BorderMask}" to Classes="BorderMask".
+        The WPF triggers on AttachedProperties:PositionedControl.Position map to the
+        position pseudo classes set from code by the PositionedControl attached property.
+    -->
+    <Style Selector="Border.BorderMask">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+    </Style>
+
+    <Style Selector="Border.BorderMask:position-top">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+    </Style>
+
+    <Style Selector="Border.BorderMask:position-bottom">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+    </Style>
+
+    <Style Selector="Border.BorderMask:position-middle">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+    </Style>
+
+    <Style Selector="Border.BorderMask:position-none">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+    </Style>
+
+    <Style Selector="Border.BorderMask:position-left">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+    </Style>
+
+    <Style Selector="Border.BorderMask:position-right">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+    </Style>
+
+</Styles>
