@@ -5,6 +5,9 @@ using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using CMiX.Studio.Avalonia.Services;
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -13,13 +16,15 @@ namespace CMiX.Studio.Avalonia.Views
         public ServerCreation()
         {
             InitializeComponent();
+            // The WPF view also created its own DialogService instance.
+            DialogService = new DialogService(new DialogManager(viewLocator: new DialogViewLocator()));
         }
 
-        private void Button_Click(object? sender, RoutedEventArgs e)
+        private IDialogService DialogService { get; set; }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
         {
-            // TODO Avalonia: ServerCreationWindow is ported in the window phase. Show it here
-            // through HanumanInstitute.MvvmDialogs, passing the ViewModel property as the
-            // dialog view model, matching the WPF DialogService.Show<ServerCreationWindow> call.
+            DialogService.Show((INotifyPropertyChanged)DataContext, ViewModel);
         }
 
         public static readonly StyledProperty<INotifyPropertyChanged> ViewModelProperty =
