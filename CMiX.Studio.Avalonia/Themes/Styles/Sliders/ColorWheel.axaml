@@ -1,0 +1,138 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <!-- Requires CMiX.Studio.Avalonia.Views.Controls.ColorWheel, CMiX.Studio.Avalonia.Views.Controls.CMiXSlider and CMiX.Studio.Avalonia.Views.Controls.StandardColorPicker (ported in a later phase) -->
+
+    <ControlTheme x:Key="ColorWheelStyle" TargetType="Controls:ColorWheel">
+        <Setter Property="(AttachedProperties:MouseDownHelper.IsEnabled)" Value="True" />
+        <Setter Property="Template">
+            <ControlTemplate>
+
+                <Grid Margin="5">
+
+                    <Ellipse
+                        Name="PART_BlackEllipse"
+                        Fill="Black"
+                        HorizontalAlignment="Stretch"
+                        Stretch="Uniform"
+                        StrokeThickness="0"
+                        VerticalAlignment="Stretch" />
+
+                    <Ellipse
+                        Name="PART_SpectrumEllipse"
+                        HorizontalAlignment="Stretch"
+                        Opacity="{Binding ColorState.HSV_V, RelativeSource={RelativeSource TemplatedParent}}"
+                        Stretch="Uniform"
+                        StrokeThickness="0"
+                        VerticalAlignment="Stretch">
+                        <Ellipse.Fill>
+                            <!-- Avalonia ImageBrush uses Source instead of ImageSource -->
+                            <ImageBrush Source="{StaticResource ColorWheel}" />
+                        </Ellipse.Fill>
+                    </Ellipse>
+
+                    <Canvas>
+                        <!-- RenderTransformOrigin is top left to match the WPF scaling behavior -->
+                        <Ellipse
+                            Name="PART_CursorEllipse"
+                            Fill="{Binding SelectedColor, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToBrush}, ConverterParameter='all'}"
+                            Height="12"
+                            RenderTransformOrigin="0,0"
+                            Stroke="Black"
+                            StrokeThickness="0.2"
+                            Width="12" />
+                    </Canvas>
+
+                </Grid>
+
+            </ControlTemplate>
+        </Setter>
+
+        <!-- The base transform lives in a style so the pointer down state can override it -->
+        <Style Selector="^ /template/ Ellipse#PART_CursorEllipse">
+            <Setter Property="RenderTransform">
+                <TranslateTransform X="-5" Y="-4" />
+            </Setter>
+        </Style>
+
+        <Style Selector="^[(AttachedProperties|MouseDownHelper.IsMouseLeftButtonDown)=True]">
+            <Setter Property="Cursor" Value="None" />
+        </Style>
+        <Style Selector="^[(AttachedProperties|MouseDownHelper.IsMouseLeftButtonDown)=True] /template/ Ellipse#PART_CursorEllipse">
+            <Setter Property="RenderTransform">
+                <TransformGroup>
+                    <TranslateTransform X="-6" Y="-6" />
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5" />
+                </TransformGroup>
+            </Setter>
+        </Style>
+
+    </ControlTheme>
+
+    <ControlTheme x:Key="ValueSliderVertical" TargetType="Controls:CMiXSlider">
+        <Setter Property="(AttachedProperties:MouseDownHelper.IsEnabled)" Value="True" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="Maximum" Value="100" />
+        <Setter Property="Orientation" Value="Vertical" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Border
+                        Name="sliderBorder"
+                        BorderBrush="Black"
+                        BorderThickness="1">
+                        <Border.Background>
+                            <LinearGradientBrush StartPoint="0%,0%" EndPoint="0%,100%">
+                                <GradientStop Color="White" Offset="0" />
+                                <GradientStop Color="Black" Offset="1" />
+                            </LinearGradientBrush>
+                        </Border.Background>
+                        <Track
+                            Name="PART_Track"
+                            IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
+                            Margin="-1,-5"
+                            Orientation="Vertical">
+                            <Thumb Name="Part_Thumb" Theme="{DynamicResource ValueSliderVerticalThumbStyle}" />
+                        </Track>
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Track bindings following the Avalonia Simple theme skeleton -->
+        <Style Selector="^ /template/ Track#PART_Track">
+            <Setter Property="Minimum" Value="{TemplateBinding Minimum}" />
+            <Setter Property="Maximum" Value="{TemplateBinding Maximum}" />
+            <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
+        </Style>
+
+        <Style Selector="^[(AttachedProperties|MouseDownHelper.IsMouseLeftButtonDown)=True]">
+            <Setter Property="Cursor" Value="None" />
+        </Style>
+
+    </ControlTheme>
+
+    <ControlTheme x:Key="ValueSliderVerticalThumbStyle" TargetType="Thumb">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+                    <Rectangle
+                        Fill="Black"
+                        Height="9"
+                        Stroke="White"
+                        StrokeThickness="0.5" />
+                    <Rectangle
+                        Fill="White"
+                        Height="10"
+                        Opacity="{Binding $parent[Controls:StandardColorPicker].ColorState.HSV_V}"
+                        Stroke="Black"
+                        StrokeThickness="0.5" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

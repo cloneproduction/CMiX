@@ -1,0 +1,62 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="ModifierCloseButtonStyle" TargetType="Button">
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Width" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="Transparent"
+                    Padding="6">
+                    <Image
+                        Name="image"
+                        Source="{DynamicResource CloseTab}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <!-- The base opacity lives in a style so the state styles can override it -->
+        <Style Selector="^ /template/ Image#image">
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+        <Style Selector="^:pressed /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="DragHandlerButton"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="Cursor" Value="Hand" />
+        <Setter Property="HorizontalAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="Transparent"
+                    Margin="0"
+                    Opacity="0.6"
+                    Padding="4"
+                    Width="{DynamicResource ControlHeightMD}">
+                    <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Viewbox>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

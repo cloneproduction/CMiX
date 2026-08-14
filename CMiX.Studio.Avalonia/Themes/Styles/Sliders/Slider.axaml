@@ -1,0 +1,181 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <!-- Requires CMiX.Studio.Avalonia.Views.Controls.CMiXSlider and CMiX.Studio.Avalonia.Views.Controls.NumericInput (ported in a later phase) -->
+    <!-- Template structure follows the Avalonia Simple theme Slider skeleton with CMiX visual properties applied -->
+
+    <!-- The repeat button templates bind Background so state styles in the slider theme can override it -->
+    <ControlTheme x:Key="RepeatButtonDecrease" TargetType="RepeatButton">
+        <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="RepeatButtonDecreaseOver"
+        BasedOn="{StaticResource RepeatButtonDecrease}"
+        TargetType="RepeatButton">
+        <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="RepeatButtonIncrease" TargetType="RepeatButton">
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{TemplateBinding Background}" />
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="RepeatButtonIncreaseOver"
+        BasedOn="{StaticResource RepeatButtonIncrease}"
+        TargetType="RepeatButton">
+        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="RepeatButtonIncreaseDown"
+        BasedOn="{StaticResource RepeatButtonIncrease}"
+        TargetType="RepeatButton">
+        <Setter Property="Background" Value="{DynamicResource Grey200Brush}" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type Controls:CMiXSlider}" TargetType="Controls:CMiXSlider">
+        <Setter Property="(AttachedProperties:MouseDownHelper.IsEnabled)" Value="True" />
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="Caption" Value="" />
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="mainBorder">
+                    <Grid>
+
+                        <Border Name="borderMask" Background="{DynamicResource Grey400Brush}" />
+
+                        <!-- IsVisible bindings replace the WPF DataTrigger on IsEditing -->
+                        <Border
+                            Name="sliderBorder"
+                            Background="Transparent"
+                            IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}">
+                            <Border.OpacityMask>
+                                <!-- TODO Avalonia: verify VisualBrush rendering -->
+                                <VisualBrush Visual="{Binding ElementName=borderMask}" />
+                            </Border.OpacityMask>
+                            <!-- WPF repeat button commands were dropped, Avalonia Slider moves the value from pointer presses on the track -->
+                            <Track
+                                Name="PART_Track"
+                                IsDirectionReversed="{TemplateBinding IsDirectionReversed}"
+                                Orientation="Horizontal">
+                                <Track.DecreaseButton>
+                                    <RepeatButton
+                                        Name="PART_DecreaseButton"
+                                        Theme="{StaticResource RepeatButtonDecrease}" />
+                                </Track.DecreaseButton>
+                                <Track.IncreaseButton>
+                                    <RepeatButton
+                                        Name="PART_IncreaseButton"
+                                        Theme="{StaticResource RepeatButtonIncrease}" />
+                                </Track.IncreaseButton>
+                                <!-- Zero width thumb keeps the filled bar look while satisfying the Avalonia Track part structure -->
+                                <Thumb Name="thumb" Width="0">
+                                    <Thumb.Template>
+                                        <ControlTemplate>
+                                            <Border />
+                                        </ControlTemplate>
+                                    </Thumb.Template>
+                                </Thumb>
+                            </Track>
+                        </Border>
+
+                        <TextBlock
+                            Name="sliderName"
+                            HorizontalAlignment="Left"
+                            IsHitTestVisible="False"
+                            IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}"
+                            Padding="8,0"
+                            Text="{TemplateBinding Caption}"
+                            VerticalAlignment="Center" />
+
+                        <Label
+                            Name="textDisplay"
+                            Content="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource DoubleToString}, StringFormat='{}{0:0.000}'}"
+                            HorizontalAlignment="Right"
+                            IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}"
+                            Padding="0,0,8,0"
+                            VerticalAlignment="Center" />
+
+                        <Controls:NumericInput
+                            Name="textInput"
+                            Height="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                            IsEditing="{Binding IsEditing, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
+                            Maximum="{TemplateBinding Maximum}"
+                            Minimum="{TemplateBinding Minimum}"
+                            Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
+
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- Track bindings following the Avalonia Simple theme skeleton -->
+        <Style Selector="^ /template/ Track#PART_Track">
+            <Setter Property="Minimum" Value="{TemplateBinding Minimum}" />
+            <Setter Property="Maximum" Value="{TemplateBinding Maximum}" />
+            <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
+        </Style>
+
+        <!-- Corner radius follows the position pseudo classes set by PositionedControl -->
+        <Style Selector="^ /template/ Border#borderMask">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        </Style>
+        <Style Selector="^:position-none /template/ Border#borderMask">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-middle /template/ Border#borderMask">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-top /template/ Border#borderMask">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+        </Style>
+        <Style Selector="^:position-bottom /template/ Border#borderMask">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+        </Style>
+        <Style Selector="^:position-left /template/ Border#borderMask">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+        </Style>
+        <Style Selector="^:position-right /template/ Border#borderMask">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+        </Style>
+
+        <!-- WPF swapped repeat button styles on mouse over, the backgrounds are set directly here -->
+        <Style Selector="^:pointerover /template/ RepeatButton#PART_DecreaseButton">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ RepeatButton#PART_IncreaseButton">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#mainBorder">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!-- TODO Avalonia: the WPF trigger on IsMouseCaptured needs a code side pseudo class on CMiXSlider, expected here as pressed -->
+        <Style Selector="^:pressed /template/ RepeatButton#PART_IncreaseButton">
+            <Setter Property="Background" Value="{DynamicResource Grey200Brush}" />
+        </Style>
+
+    </ControlTheme>
+
+</ResourceDictionary>

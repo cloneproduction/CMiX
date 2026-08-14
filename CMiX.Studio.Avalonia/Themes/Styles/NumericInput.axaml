@@ -1,0 +1,41 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <!-- Requires CMiX.Studio.Avalonia.Views.Controls.NumericInput (ported in a later phase) -->
+
+    <ControlTheme x:Key="{x:Type Controls:NumericInput}" TargetType="Controls:NumericInput">
+        <Setter Property="Focusable" Value="False" />
+        <!-- WPF Visibility Hidden becomes IsVisible False -->
+        <Setter Property="IsVisible" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Background="{DynamicResource Grey100Brush}">
+                    <TextBox
+                        Name="PART_TextBox"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        CaretBrush="{DynamicResource ForegroundBrush}"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Height="{Binding Bounds.Height, RelativeSource={RelativeSource TemplatedParent}}"
+                        HorizontalContentAlignment="Left"
+                        Padding="8,0"
+                        SelectionBrush="{DynamicResource AccentBrush}"
+                        VerticalAlignment="Center"
+                        VerticalContentAlignment="Center" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- The WPF inner TextBox style with a DataTrigger on IsInteger becomes theme styles with a property match selector -->
+        <Style Selector="^ /template/ TextBox#PART_TextBox">
+            <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat='{}{0:N3}'}" />
+        </Style>
+        <Style Selector="^[IsInteger=True] /template/ TextBox#PART_TextBox">
+            <Setter Property="Text" Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=OneWay, StringFormat='{}{0:N0}'}" />
+        </Style>
+
+    </ControlTheme>
+
+</ResourceDictionary>

@@ -1,0 +1,48 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Template structure follows the Avalonia Simple theme Window skeleton with CMiX visual properties applied -->
+
+    <!-- WPF DropShadowEffect ShadowDepth 0 becomes OffsetX and OffsetY 0 -->
+    <DropShadowEffect
+        x:Key="WindowDropShadow"
+        BlurRadius="8"
+        Color="Black"
+        OffsetX="0"
+        OffsetY="0"
+        Opacity="0.5" />
+
+    <!--  Window background color  -->
+    <Color x:Key="WindowColor">#FFE8EDF9</Color>
+
+    <ControlTheme x:Key="WindowStyle" TargetType="Window">
+        <!-- TODO Avalonia: add the Roboto font files to the Avalonia project so this avares reference resolves -->
+        <Setter Property="FontFamily" Value="avares://CMiX.Studio.Avalonia/Themes/Fonts#Roboto" />
+        <Setter Property="FontSize" Value="12" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panel>
+                    <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
+                    <Border IsHitTestVisible="False">
+                        <Border.Background>
+                            <SolidColorBrush Color="{DynamicResource WindowColor}" />
+                        </Border.Background>
+                    </Border>
+                    <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}" />
+                    <VisualLayerManager>
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Margin="{TemplateBinding Padding}" />
+                    </VisualLayerManager>
+                </Panel>
+            </ControlTemplate>
+        </Setter>
+        <!-- TODO Avalonia: the WPF ResizeGrip element and its ResizeMode trigger were dropped, resize handling arrives with the custom chrome in a later phase -->
+    </ControlTheme>
+
+    <!-- TODO Avalonia: the WPF implicit ResizeGrip style was dropped, Avalonia has no ResizeGrip control -->
+
+</ResourceDictionary>
