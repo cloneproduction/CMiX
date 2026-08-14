@@ -7,8 +7,10 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using CMiX.Core;
+using CMiX.Core.Animations;
 using CMiX.Core.DependencyInjection;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.ViewModels;
 using HanumanInstitute.MvvmDialogs;
@@ -19,6 +21,8 @@ namespace CMiX.Studio.Avalonia
 {
     public partial class App : Application
     {
+        private MasterBeatAnimationController _animationController;
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -50,6 +54,9 @@ namespace CMiX.Studio.Avalonia
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 configurationBuilder.ConfigureWpfTransport(serviceProvider,
                     a => Dispatcher.UIThread.Invoke(a));
+
+                var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();
+                _animationController = new MasterBeatAnimationController(masterBeat);
 
                 var mainWindow = serviceProvider.GetRequiredService<Views.MainWindow>();
                 mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
