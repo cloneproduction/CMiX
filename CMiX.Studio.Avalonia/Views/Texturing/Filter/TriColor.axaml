@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.TriColor"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <Views:FilterPanel>
+        <StackPanel>
+
+            <Panels:PositionedStackPanel>
+
+                <BaseControl:ColorSelector
+                    Caption="Color A"
+                    DataContext="{Binding ColorA}" />
+
+                <BaseControl:ColorSelector
+                    Margin="0,1"
+                    Caption="Color B"
+                    DataContext="{Binding ColorB}" />
+
+                <BaseControl:ColorSelector
+                    Caption="Color C"
+                    DataContext="{Binding ColorC}" />
+
+            </Panels:PositionedStackPanel>
+
+            <BaseControl:ToggleButton
+                Margin="0,8,0,0"
+                Caption="Single Channel"
+                IsChecked="{Binding SingleChannel.Value}" />
+
+            <BaseControl:ToggleButton
+                Margin="0,1,0,0"
+                Caption="Clamp Color"
+                IsChecked="{Binding ClampColor.Value}" />
+
+            <Panels:PositionedStackPanel Margin="0,8,0,0">
+
+                <BaseControl:CMiXSlider
+                    Margin="0,0,0,1"
+                    Caption="Smooth"
+                    Maximum="1.0"
+                    Minimum="0.0"
+                    Value="{Binding Smooth.Value}" />
+
+                <BaseControl:CMiXSlider
+                    Caption="Center"
+                    Maximum="1.0"
+                    Minimum="0.0"
+                    Value="{Binding Center.Value}" />
+
+            </Panels:PositionedStackPanel>
+
+        </StackPanel>
+    </Views:FilterPanel>
+
+</UserControl>

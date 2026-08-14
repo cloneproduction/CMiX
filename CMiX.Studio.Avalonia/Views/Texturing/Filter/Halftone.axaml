@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Halftone"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <Views:FilterPanel>
+        <StackPanel>
+
+            <Controls:ComboBox
+                Margin="0,0,0,8"
+                Caption="Mode"
+                ItemsSource="{x:Static Resources:EnumProviders.HalftoneMode}"
+                SelectedItem="{Binding Mode.Value}" />
+
+            <Panels:PositionedStackPanel>
+
+                <Controls:DragValue
+                    Caption="Tile Count"
+                    Minimum="0"
+                    Value="{Binding NumberOfTiles.Value}" />
+
+                <Controls:DragValue
+                    Margin="0,1,0,0"
+                    Caption="Dot Size"
+                    Minimum="0"
+                    Value="{Binding DotSize.Value}" />
+
+                <Controls:DragValue
+                    Margin="0,1,0,0"
+                    Caption="Softness"
+                    Minimum="0"
+                    Value="{Binding Softness.Value}" />
+
+                <Controls:DragValue
+                    Margin="0,1,0,0"
+                    Caption="Brightness"
+                    Minimum="0"
+                    Value="{Binding Brightness.Value}" />
+
+            </Panels:PositionedStackPanel>
+
+        </StackPanel>
+    </Views:FilterPanel>
+
+</UserControl>

@@ -1,0 +1,26 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MaskTexture"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel IsEnabled="{Binding Path=IsEnabled.Value, Mode=OneWay}">
+
+        <Views:DiffuseTexture DataContext="{Binding}" />
+
+        <BaseControls:ComboBox
+            Margin="8,0"
+            Caption="MaskChannel"
+            ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
+            SelectedItem="{Binding MaskChannel.Value}" />
+
+        <BaseControls:ToggleButton
+            Margin="8"
+            Caption="Invert"
+            IsChecked="{Binding Invert.Value}" />
+
+    </StackPanel>
+
+</UserControl>

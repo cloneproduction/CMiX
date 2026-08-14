@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.CheckerBoard"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel>
+
+        <BaseControls:Vector2
+            Caption="Cell Count"
+            DataContext="{Binding CellCount}" />
+
+        <Panels:PositionedStackPanel>
+
+            <BaseControls:ColorSelector
+                Margin="0,8,0,1"
+                Caption="Color A"
+                DataContext="{Binding ColorA}" />
+
+            <BaseControls:ColorSelector
+                Caption="Color B"
+                DataContext="{Binding ColorB}" />
+
+        </Panels:PositionedStackPanel>
+
+        <Views:Transform2D
+            Margin="0,8"
+            DataContext="{Binding Transform2D}" />
+
+        <BaseControls:Integer2Value
+            Caption="Resolution"
+            DataContext="{Binding Resolution}" />
+
+    </StackPanel>
+
+</UserControl>

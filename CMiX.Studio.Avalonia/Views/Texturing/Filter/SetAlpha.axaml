@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SetAlpha"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <Views:FilterPanel>
+        <StackPanel>
+
+            <BaseControls:ComboBox
+                Caption="Channel"
+                ItemsSource="{x:Static Resources:EnumProviders.AlphaChannel}"
+                SelectedItem="{Binding AlphaChannel.Value}" />
+
+            <BaseControls:ToggleButton
+                Margin="0,8"
+                Caption="Invert"
+                IsChecked="{Binding Invert.Value}" />
+
+            <BaseControls:ToggleButton
+                Caption="Keep Original Alpha"
+                IsChecked="{Binding KeepOriginalAlpha.Value}" />
+
+        </StackPanel>
+    </Views:FilterPanel>
+
+</UserControl>

@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Transform2D"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <StackPanel>
+
+        <BaseControls:DragValue
+            Caption="Uniform Scale"
+            Value="{Binding UniformScale.Value}" />
+
+        <BaseControls:Vector2
+            Margin="0,8,0,0"
+            Caption="Scale"
+            DataContext="{Binding Scale}" />
+
+        <BaseControls:DragValue
+            Margin="0,8"
+            Caption="Rotate"
+            Value="{Binding Rotate.Value}" />
+
+        <BaseControls:Vector2
+            Caption="Translate"
+            DataContext="{Binding Translate}" />
+
+    </StackPanel>
+
+</UserControl>

@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.TypeWriter"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <Border
+            Height="44"
+            BorderBrush="{StaticResource Grey600Brush}"
+            BorderThickness="0.5"
+            CornerRadius="{DynamicResource CornerRadiusAll}">
+            <!-- Avalonia updates the Text binding on every keystroke, so UpdateSourceTrigger is not needed. -->
+            <TextBox
+                Text="{Binding StringControl.Value}"
+                Theme="{StaticResource TypeWriterStyle}" />
+        </Border>
+
+        <Panels:PositionedStackPanel Margin="0,8,0,0">
+
+            <!-- The WPF Fonts.SystemFontFamilies source becomes the EnumProviders.SortedFontsCollection provider. -->
+            <BaseControl:ComboBox
+                Margin="0,0,0,1"
+                Caption="Font Family"
+                ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
+                SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
+
+            <BaseControl:ComboBox
+                Caption="Style"
+                ItemsSource="{x:Static Resources:EnumProviders.FontStyle}"
+                SelectedItem="{Binding Style.Value}" />
+
+        </Panels:PositionedStackPanel>
+
+        <BaseControl:DragValue
+            Margin="0,8"
+            Caption="Size"
+            Value="{Binding FontSize.Value}" />
+
+        <Panels:PositionedStackPanel>
+
+            <BaseControl:ColorSelector
+                Caption="Font Color"
+                DataContext="{Binding FontColor}" />
+
+            <BaseControl:ColorSelector
+                Margin="0,1,0,0"
+                Caption="Background Color"
+                DataContext="{Binding BackgroundColor}" />
+
+        </Panels:PositionedStackPanel>
+
+        <BaseControl:Vector2
+            Margin="0,8"
+            Caption="Position"
+            DataContext="{Binding Position}" />
+
+        <BaseControl:Integer2Value
+            Caption="Resolution"
+            DataContext="{Binding Resolution}" />
+
+    </StackPanel>
+
+</UserControl>

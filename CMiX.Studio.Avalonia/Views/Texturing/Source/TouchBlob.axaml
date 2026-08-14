@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.TouchBlob"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <StackPanel>
+
+        <BaseControls:DragValue
+            Caption="Size"
+            Value="{Binding Size.Value}" />
+
+        <Panels:PositionedStackPanel Margin="0,8">
+
+            <BaseControls:ColorSelector
+                Caption="Color"
+                DataContext="{Binding Color}" />
+
+            <BaseControls:ColorSelector
+                Margin="0,1,0,0"
+                Caption="Background"
+                DataContext="{Binding Background}" />
+
+        </Panels:PositionedStackPanel>
+
+        <BaseControls:Integer2Value
+            Caption="Resolution"
+            DataContext="{Binding Resolution}" />
+
+    </StackPanel>
+
+</UserControl>

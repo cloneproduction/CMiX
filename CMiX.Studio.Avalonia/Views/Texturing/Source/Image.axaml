@@ -1,0 +1,14 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Image"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <!-- PathSelector is ported in the Assets slice and resolves at integration time. -->
+    <Views:PathSelector
+        VerticalAlignment="Top"
+        DataContext="{Binding AssetSelector}"
+        ItemsSource="{Binding AssetRepository.Images}"
+        SelectedItem="{Binding Asset}" />
+
+</UserControl>

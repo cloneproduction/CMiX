@@ -1,0 +1,42 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Texture"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <StackPanel>
+
+        <Panels:IndentedExpander
+            Header="Settings"
+            Indentation="4"
+            IsExpanded="{Binding IsExpanded, FallbackValue=False}">
+
+            <!-- The WPF ViewModelToViewSelector is replaced by the ViewModelToViewTemplate data template. -->
+            <ContentControl
+                Margin="4"
+                Content="{Binding}">
+                <ContentControl.DataTemplates>
+                    <Views:ViewModelToViewTemplate />
+                </ContentControl.DataTemplates>
+            </ContentControl>
+
+        </Panels:IndentedExpander>
+
+        <Panels:IndentedExpander
+            Header="Filter"
+            Indentation="4"
+            IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
+
+            <Views:ModifierManager DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+
+        </Panels:IndentedExpander>
+
+    </StackPanel>
+
+</UserControl>

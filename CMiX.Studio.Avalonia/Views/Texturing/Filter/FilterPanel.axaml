@@ -1,0 +1,65 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.FilterPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <!--
+        The WPF version wrapped its content via UserControl.ContentTemplate. Avalonia's ContentPresenter
+        ignores ContentTemplate when the content is already a control, so the wrapper is expressed as a
+        control template instead. Bindings inside the template resolve against the inherited DataContext,
+        which is the filter view model, so the WPF DataContext.Blend paths become plain Blend paths.
+    -->
+    <UserControl.Template>
+        <ControlTemplate TargetType="Views:FilterPanel">
+            <StackPanel>
+
+                <ContentPresenter
+                    Content="{TemplateBinding Content}"
+                    ContentTemplate="{TemplateBinding ContentTemplate}" />
+
+                <Expander
+                    Margin="-8,8,-8,-8"
+                    IsExpanded="{Binding Blend.IsExpanded}">
+
+                    <Expander.Header>
+                        <DockPanel>
+                            <ToggleButton
+                                Width="14"
+                                Height="14"
+                                IsChecked="{Binding Blend.IsEnabled.Value}"
+                                Theme="{DynamicResource ToggleButtonRounded}" />
+                            <TextBlock
+                                Margin="8,0"
+                                Foreground="{DynamicResource ForegroundBrush}"
+                                Text="Blend" />
+                        </DockPanel>
+                    </Expander.Header>
+
+                    <StackPanel
+                        Margin="8,0"
+                        IsEnabled="{Binding Blend.IsEnabled.Value}">
+                        <Controls:CMiXSlider
+                            Margin="0,8"
+                            AttachedProperties:PositionedControl.Position="All"
+                            Caption="Opacity"
+                            Maximum="1"
+                            Minimum="0"
+                            Value="{Binding Blend.Opacity.Value}" />
+                        <Controls:ComboBox
+                            Margin="0,0,0,8"
+                            Caption="Blend Mode"
+                            ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+                            SelectedItem="{Binding Blend.BlendMode.Value}" />
+                    </StackPanel>
+
+                </Expander>
+
+            </StackPanel>
+        </ControlTemplate>
+    </UserControl.Template>
+
+</UserControl>
