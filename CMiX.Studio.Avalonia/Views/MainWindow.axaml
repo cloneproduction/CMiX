@@ -94,8 +94,8 @@
                         <Behaviors:ScrollViewerBehavior />
                     </i:Interaction.Behaviors>
                     <DockPanel>
-                        <TextBlock DockPanel.Dock="Top" Text="bisect tab1" />
-                        <!--BISECT<Views:Outliner
+
+                        <Views:Outliner
                             Margin="8"
                             VerticalAlignment="Top"
                             DataContext="{Binding Project.CompositionManager}"
@@ -114,7 +114,7 @@
 
                         <Views:Composition
                             DataContext="{Binding Project.CompositionManager.SelectedItem}"
-                            IsVisible="{Binding Converter={StaticResource NullToVisibility}}" />BISECT-->
+                            IsVisible="{Binding Converter={StaticResource NullToVisibility}}" />
 
                     </DockPanel>
                 </ScrollViewer>
