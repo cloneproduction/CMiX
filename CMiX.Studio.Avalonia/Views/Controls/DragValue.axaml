@@ -16,6 +16,18 @@
             <Setter Property="Cursor" Value="SizeWestEast" />
             <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
         </Style>
+
+        <!--
+            WPF used a Label whose ContentStringFormat switched through a DataTrigger on
+            IsInteger. Avalonia has no ContentStringFormat, so the format lives in Text
+            bindings selected through the bound integer style class.
+        -->
+        <Style Selector="TextBlock#valueDisplay">
+            <Setter Property="Text" Value="{Binding Value, ElementName=dragValue, StringFormat={}{0:N3}}" />
+        </Style>
+        <Style Selector="TextBlock#valueDisplay.integer">
+            <Setter Property="Text" Value="{Binding Value, ElementName=dragValue, StringFormat={}{0:N0}}" />
+        </Style>
     </UserControl.Styles>
 
     <UniformGrid Columns="2">
@@ -63,24 +75,12 @@
                             VerticalAlignment="Stretch"
                             IsVisible="{Binding !IsEditing, ElementName=dragValue}">
 
-                            <!--
-                                WPF used a Label whose ContentStringFormat switched through a DataTrigger
-                                on IsInteger. Avalonia has no ContentStringFormat, so two TextBlocks with
-                                fixed formats toggle on IsInteger instead.
-                            -->
-                            <!-- Centered like the WPF Label theme centered its content. -->
-                            <Grid>
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    IsVisible="{Binding !IsInteger, ElementName=dragValue}"
-                                    Text="{Binding Value, ElementName=dragValue, StringFormat={}{0:N3}}" />
-                                <TextBlock
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    IsVisible="{Binding IsInteger, ElementName=dragValue}"
-                                    Text="{Binding Value, ElementName=dragValue, StringFormat={}{0:N0}}" />
-                            </Grid>
+                            <!-- Centered like the WPF Label theme centered its content. The Text comes from the class selector styles above. -->
+                            <TextBlock
+                                x:Name="valueDisplay"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                Classes.integer="{Binding IsInteger, ElementName=dragValue}" />
 
                         </Border>
                     </Grid>
