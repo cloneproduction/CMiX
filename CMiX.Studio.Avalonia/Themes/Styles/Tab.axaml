@@ -59,9 +59,10 @@
 
     <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
         <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <!-- The WPF Center content alignment setters never reached the page content; Avalonia binds them into the selected content host, so they must stretch. -->
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemStyle}" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" />
@@ -142,10 +143,11 @@
 
     <ControlTheme x:Key="TabControlVerticalPanel" TargetType="TabControl">
         <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <!-- Stretch so the page content fills the tab area; see the note on the implicit theme. -->
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemHorizontal}" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <!-- TODO Avalonia: WPF Foreground setter used SystemColors.ControlTextBrushKey, dropped because x:Static system values are not ported -->
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
@@ -184,10 +186,11 @@
     <ControlTheme x:Key="TabControlLayerPanel" TargetType="TabControl">
         <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
-        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <!-- Stretch so the page content fills the tab area; see the note on the implicit theme. -->
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemHorizontal}" />
         <Setter Property="Margin" Value="0" />
-        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
         <Setter Property="ItemsPanel">
             <ItemsPanelTemplate>
                 <StackPanel Orientation="Horizontal" />
