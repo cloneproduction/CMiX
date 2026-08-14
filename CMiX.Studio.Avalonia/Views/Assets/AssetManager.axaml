@@ -1,0 +1,196 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.AssetManager"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Assets="clr-namespace:CMiX.Core.Assets;assembly=CMiX.Core"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <UserControl.Resources>
+        <ResourceDictionary>
+
+            <!--
+                Removed from the WPF resources: the commented out assetTypes ObjectDataProvider,
+                the commented out AssetTexture/AssetVideo/AssetGeometry templates and the
+                AssetTemplateSelector, and the BaseBorderStyle keyed Border style that only those
+                commented templates consumed.
+            -->
+
+            <!-- The WPF HierarchicalDataTemplate becomes a TreeDataTemplate, consumed by the asset TreeView when it is ported. -->
+            <TreeDataTemplate
+                x:Key="AssetDirectoryTemplate"
+                DataType="{x:Type Assets:AssetDirectory}"
+                ItemsSource="{Binding Assets}">
+                <Border
+                    Height="{DynamicResource ControlHeightXL}"
+                    HorizontalAlignment="Stretch">
+                    <DockPanel>
+                        <!--
+                            The WPF MultiDataTrigger swapped the folder icon when the ancestor
+                            TreeViewItem was expanded and had items. Two images toggled on the
+                            ancestor IsExpanded replace it; the HasItems condition is dropped.
+                        -->
+                        <Panel
+                            Margin="6"
+                            DockPanel.Dock="Left">
+                            <Image
+                                IsVisible="{Binding !$parent[TreeViewItem].IsExpanded}"
+                                Opacity="0.75"
+                                Source="{DynamicResource Folder}" />
+                            <Image
+                                IsVisible="{Binding $parent[TreeViewItem].IsExpanded}"
+                                Opacity="0.75"
+                                Source="{DynamicResource Folder_Opened}" />
+                        </Panel>
+                        <Controls:EditableTextBox
+                            HorizontalAlignment="Stretch"
+                            IsEditing="{Binding IsRenaming, Mode=TwoWay}"
+                            Text="{Binding Name, Mode=TwoWay}" />
+                    </DockPanel>
+                </Border>
+            </TreeDataTemplate>
+
+            <ContextMenu
+                x:Key="ResourceContextMenu"
+                Width="175"
+                Theme="{StaticResource ContextMenuDefault}">
+                <MenuItem
+                    Command="{Binding AddAssetCommand}"
+                    Header="New Folder"
+                    IsEnabled="{Binding CanAddAsset}">
+                    <MenuItem.Icon>
+                        <Image Source="{DynamicResource Add}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Command="{Binding RenameAssetCommand}"
+                    Header="Rename"
+                    IsEnabled="{Binding CanRenameAsset}">
+                    <MenuItem.Icon>
+                        <Image
+                            Width="10"
+                            Height="10"
+                            Source="{DynamicResource Rename}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Command="{Binding DeleteAssetsCommand}"
+                    Header="Delete"
+                    IsEnabled="{Binding CanDeleteAsset}">
+                    <MenuItem.Icon>
+                        <Image
+                            Width="10"
+                            Height="10"
+                            Source="{DynamicResource DeleteLayer}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem
+                    Command="{Binding RelinkAssetsCommand}"
+                    Header="Relink"
+                    IsEnabled="{Binding CanRelinkAsset}">
+                    <MenuItem.Icon>
+                        <Image
+                            Width="10"
+                            Height="10"
+                            Source="{DynamicResource DeleteLayer}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </ContextMenu>
+
+        </ResourceDictionary>
+    </UserControl.Resources>
+
+    <!-- TODO Avalonia: drag drop is wired in the drag and drop phase (drop target on dropBorder and the three list boxes). -->
+    <Border
+        x:Name="dropBorder"
+        Background="{DynamicResource Grey300Brush}">
+        <StackPanel>
+            <Expander
+                Header="Images"
+                IsExpanded="True">
+                <ListBox
+                    x:Name="imagesListBox"
+                    Background="Transparent"
+                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
+                    ItemsSource="{Binding AssetRepository.Images}"
+                    SelectionMode="Multiple">
+
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Height="{DynamicResource ControlHeightSM}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+            </Expander>
+            <Expander
+                Header="Videos"
+                IsExpanded="True">
+                <ListBox
+                    x:Name="videosListBox"
+                    Background="Transparent"
+                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
+                    ItemsSource="{Binding AssetRepository.Videos}"
+                    SelectionMode="Multiple">
+
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Height="{DynamicResource ControlHeightSM}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+            </Expander>
+            <Expander
+                Header="Geometries"
+                IsExpanded="True">
+                <ListBox
+                    x:Name="geometriesListBox"
+                    Background="Transparent"
+                    ItemContainerTheme="{StaticResource ListBoxItemAlternationStyle}"
+                    ItemsSource="{Binding AssetRepository.Geometries}"
+                    SelectionMode="Multiple">
+
+                    <ListBox.Styles>
+                        <Style Selector="ListBoxItem">
+                            <Setter Property="IsSelected" Value="{Binding IsSelected, Mode=TwoWay}" />
+                        </Style>
+                    </ListBox.Styles>
+
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Border
+                                Height="{DynamicResource ControlHeightSM}"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Center">
+                                <TextBlock Text="{Binding Name}" />
+                            </Border>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+
+                </ListBox>
+            </Expander>
+        </StackPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,70 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.PathSelector"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    x:Name="pathSelector">
+
+    <Grid Height="{DynamicResource ControlHeightMD}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="Filename" />
+
+        <!--
+            The WPF source bound PositionedControl.Position to a Position property that
+            PathSelector never defined, so the binding was inert; the attached property
+            default All applies here.
+        -->
+        <Border
+            x:Name="mask"
+            Grid.Column="1"
+            Background="{DynamicResource Grey500Brush}"
+            Classes="BorderMask" />
+
+        <Border
+            x:Name="mainBorder"
+            Grid.Column="1"
+            Background="{DynamicResource Grey500Brush}"
+            BorderBrush="Transparent">
+
+            <Border.OpacityMask>
+                <!-- TODO Avalonia: verify VisualBrush rendering -->
+                <VisualBrush Visual="{Binding ElementName=mask}" />
+            </Border.OpacityMask>
+
+            <!--
+                TODO Avalonia: drag drop is wired in the drag and drop phase (the WPF
+                AllowDrop and gong drop target attributes lived here).
+                The WPF IsSynchronizedWithCurrentItem and the RequestBringIntoView
+                suppression handler on the items panel are gone; the handler only
+                stopped hover driven auto scrolling in the dropdown.
+            -->
+            <ComboBox
+                x:Name="pathComboBox"
+                AttachedProperties:PositionedControl.Position="All"
+                ItemsSource="{Binding ItemsSource, ElementName=pathSelector}"
+                SelectedItem="{Binding SelectedItem, ElementName=pathSelector}">
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Name}" />
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+
+                <ComboBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel />
+                    </ItemsPanelTemplate>
+                </ComboBox.ItemsPanel>
+
+            </ComboBox>
+        </Border>
+    </Grid>
+</UserControl>
