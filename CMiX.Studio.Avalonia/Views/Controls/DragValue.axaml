@@ -68,12 +68,15 @@
                                 on IsInteger. Avalonia has no ContentStringFormat, so two TextBlocks with
                                 fixed formats toggle on IsInteger instead.
                             -->
+                            <!-- Centered like the WPF Label theme centered its content. -->
                             <Grid>
                                 <TextBlock
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     IsVisible="{Binding !IsInteger, ElementName=dragValue}"
                                     Text="{Binding Value, ElementName=dragValue, StringFormat={}{0:N3}}" />
                                 <TextBlock
+                                    HorizontalAlignment="Center"
                                     VerticalAlignment="Center"
                                     IsVisible="{Binding IsInteger, ElementName=dragValue}"
                                     Text="{Binding Value, ElementName=dragValue, StringFormat={}{0:N0}}" />
