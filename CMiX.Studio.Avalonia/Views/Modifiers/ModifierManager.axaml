@@ -1,0 +1,68 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.ModifierManager"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    x:Name="modifierManager">
+
+    <StackPanel Margin="8, 8, 8, 4">
+
+        <ToggleButton
+            x:Name="PopUpToggle"
+            Background="{DynamicResource Grey400Brush}"
+            Content="Add Modifier"
+            Margin="0, 0, 0, 0"
+            Theme="{StaticResource ToggleTransformModifierMenu}" />
+
+        <Popup
+            Width="{Binding Bounds.Width, ElementName=PopUpToggle}"
+            IsLightDismissEnabled="False"
+            IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"
+            Placement="Bottom"
+            PlacementTarget="{Binding ElementName=PopUpToggle}">
+
+            <i:Interaction.Behaviors>
+                <Behaviors:ClosePopupBehavior />
+            </i:Interaction.Behaviors>
+
+            <Border
+                Padding="2"
+                Background="{DynamicResource Grey100Brush}"
+                CornerRadius="{DynamicResource CornerRadiusLargeBottom}">
+                <ContentControl Content="{Binding SelectionPanel, ElementName=modifierManager}" />
+            </Border>
+
+        </Popup>
+
+        <!-- TODO Avalonia: drag drop is wired in the drag and drop phase -->
+        <ItemsControl
+            Margin="0, 4, 0, 0"
+            ItemsSource="{Binding ManagerData.Items}">
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Panels:ModifierPanel
+                        Margin="2"
+                        DragHandlerIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandlerIsPressed}"
+                        CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
+                        CloseModifierCommandParameter="{Binding}"
+                        ResetModifierCommand="{Binding $parent[ItemsControl].DataContext.ResetItemCommand}"
+                        ResetModifierCommandParameter="{Binding}">
+
+                        <Panels:ModifierPanel.Content>
+                            <!--
+                                The WPF ViewModelToViewSelector template selector is replaced by the
+                                ViewModelToViewTemplate registered app wide in App.DataTemplates.
+                            -->
+                            <ContentControl Content="{Binding}" />
+                        </Panels:ModifierPanel.Content>
+                    </Panels:ModifierPanel>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
+
+    </StackPanel>
+</UserControl>

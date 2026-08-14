@@ -1,0 +1,26 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RenderRandomEntity"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+        <BaseControls:CMiXSlider
+            Margin="0,0,0,8"
+            Caption="Control"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding Control.Value}" />
+        <BaseControls:ComboBox
+            Margin="0,0,0,8"
+            Caption="Entity Type"
+            ItemsSource="{x:Static Resources:EnumProviders.EntityType}"
+            SelectedItem="{Binding EntityType.Value}" />
+
+        <Views:BeatModifierManager Margin="0,8,0,0" DataContext="{Binding BeatModifierManager}" />
+
+    </StackPanel>
+
+</UserControl>

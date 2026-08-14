@@ -1,0 +1,20 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Flip"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel>
+        <BaseControls:AxisSelector3D
+            Caption="Flip"
+            XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
+            YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
+            ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
+
+        <Views:BeatModifierManager
+            Margin="0,8,0,0"
+            DataContext="{Binding BeatModifierManager}" />
+
+    </StackPanel>
+</UserControl>

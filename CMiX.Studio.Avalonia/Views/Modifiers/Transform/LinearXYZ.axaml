@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LinearXYZ"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+
+        <Panels:PositionedStackPanel Margin="0, 8">
+            <BaseControls:ComboBox
+                Margin="0, 0, 0, 1"
+                Caption="Transform"
+                SelectedItem="{Binding TransformTypeSelector.Value}"
+                ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />
+
+            <BaseControls:AxisSelector3D
+                Caption="Axis"
+                XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
+                YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
+                ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
+        </Panels:PositionedStackPanel>
+
+        <Panels:PositionedStackPanel>
+            <BaseControls:DragValue
+                Caption="Width"
+                Margin="0, 0, 0, 1"
+                Value="{Binding Width.Value}" />
+            <BaseControls:DragValue
+                Caption="Phase"
+                Value="{Binding Phase.Value}" />
+        </Panels:PositionedStackPanel>
+
+    </StackPanel>
+
+</UserControl>

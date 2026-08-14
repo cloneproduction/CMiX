@@ -1,0 +1,92 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RandomXYZ"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel>
+
+        <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
+
+        <BaseControls:ToggleButton Caption="Gaussian" IsChecked="{Binding Gaussian.Value}" />
+
+        <Expander Margin="-8,8,-8,0" IsExpanded="{Binding RandomizeLocationIsExpanded}">
+
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
+                        Width="14"
+                        Height="14"
+                        IsChecked="{Binding RandomizeLocation.Value}"
+                        Theme="{DynamicResource ToggleButtonRounded}" />
+                    <TextBlock
+                        Margin="8,0"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Location" />
+                </DockPanel>
+            </Expander.Header>
+
+            <Border IsEnabled="{Binding RandomizeLocation.Value}">
+                <BaseControls:VectorXYZ
+                    Margin="8"
+                    Caption="Location"
+                    DataContext="{Binding Location}" />
+            </Border>
+
+        </Expander>
+
+        <Expander Margin="-8,0" IsExpanded="{Binding RandomizeScaleIsExpanded}">
+
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
+                        Width="14"
+                        Height="14"
+                        IsChecked="{Binding RandomizeScale.Value}"
+                        Theme="{DynamicResource ToggleButtonRounded}" />
+                    <TextBlock
+                        Margin="8,0"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Scale" />
+                </DockPanel>
+            </Expander.Header>
+
+            <BaseControls:VectorXYZ
+                Margin="8"
+                Caption="Scale"
+                DataContext="{Binding Scale}"
+                IsEnabled="{Binding RandomizeScale.Value}" />
+
+        </Expander>
+
+        <Expander Margin="-8,0,-8,0" IsExpanded="{Binding RandomizeRotationIsExpanded}">
+
+            <Expander.Header>
+                <DockPanel>
+                    <ToggleButton
+                        Width="14"
+                        Height="14"
+                        IsChecked="{Binding RandomizeRotation.Value}"
+                        Theme="{DynamicResource ToggleButtonRounded}" />
+                    <TextBlock
+                        Margin="8,0"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="Rotation" />
+                </DockPanel>
+            </Expander.Header>
+
+            <BaseControls:VectorXYZ
+                Margin="8"
+                Caption="Rotation"
+                DataContext="{Binding Rotation}"
+                IsEnabled="{Binding RandomizeLocation.Value}" />
+
+        </Expander>
+
+        <Views:BeatModifierManager Margin="0,8,0,0" DataContext="{Binding BeatModifierManager}" />
+
+    </StackPanel>
+
+</UserControl>

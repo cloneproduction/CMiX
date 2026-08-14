@@ -1,0 +1,30 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.ColorPalette"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <Views:PrefabSlotManager Margin="0" DataContext="{Binding ColorManager}">
+            <Views:PrefabSlotManager.SelectionPanel>
+                <Button
+                    Command="{Binding AddItemCommand}"
+                    CommandParameter="{x:Type Compositing:Color}"
+                    Theme="{StaticResource ButtonRoundedRight}"
+                    Content="New Color" />
+            </Views:PrefabSlotManager.SelectionPanel>
+        </Views:PrefabSlotManager>
+
+        <BaseControls:ComboBox
+            Margin="0,8,0,0"
+            Caption="Resample"
+            ItemsSource="{x:Static Resources:EnumProviders.ResamplingMethod}"
+            SelectedItem="{Binding Resample.Value}" />
+
+    </StackPanel>
+
+</UserControl>

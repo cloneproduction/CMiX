@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Modifiers.ModifierModeSelector"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <Panels:PositionedStackPanel>
+
+        <BaseControls:ComboBox
+            Margin="0,0,0,1"
+            Caption="Type"
+            ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
+            SelectedItem="{Binding Mode.Value}" />
+
+        <!--
+            The WPF DataTrigger that enabled the Border when Mode.Value equals
+            ModifierMode.ToSpread is replaced by a converter defined in the code behind.
+        -->
+        <Border IsEnabled="{Binding Mode.Value, Converter={x:Static Modifiers:ModifierModeSelector.IsToSpread}}">
+
+            <BaseControls:DragValue
+                Caption="Count"
+                IsInteger="True"
+                LargeChange="1.0"
+                Minimum="1"
+                SmallChange="1.0"
+                Value="{Binding Count.Value}" />
+
+        </Border>
+    </Panels:PositionedStackPanel>
+</UserControl>

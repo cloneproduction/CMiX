@@ -1,0 +1,23 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RandomPosition"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel>
+
+        <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+
+        <BaseControls:VectorXYZ
+            Margin="0,8"
+            Caption="Location"
+            DataContext="{Binding Location}"
+            IsEnabled="{Binding RandomizeLocation.Value}" />
+
+        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+
+    </StackPanel>
+
+</UserControl>

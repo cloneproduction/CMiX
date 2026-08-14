@@ -1,0 +1,38 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Split"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    <StackPanel>
+
+        <BaseControls:ComboBox
+            Margin="0,0,0,8"
+            Caption="Type"
+            ItemsSource="{x:Static Resources:EnumProviders.SplitType}"
+            SelectedItem="{Binding Type.Value}" />
+
+        <!--
+            The WPF DataTrigger that enabled the Border when Type.Value equals
+            SplitType.Separator is replaced by a converter defined in the code behind.
+        -->
+        <Border IsEnabled="{Binding Type.Value, Converter={x:Static Views:Split.IsSeparator}}">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Padding="0,0,8,0"
+                    HorizontalAlignment="Right"
+                    Text="Separator" />
+                <TextBox
+                    Grid.Column="1"
+                    Theme="{StaticResource TypeWriterStyle}"
+                    Text="{Binding Separator.Value}" />
+            </Grid>
+        </Border>
+
+    </StackPanel>
+</UserControl>

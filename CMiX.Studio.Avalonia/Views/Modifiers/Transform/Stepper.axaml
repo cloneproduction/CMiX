@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Stepper"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <StackPanel>
+
+            <Views:BeatModifier
+                DataContext="{Binding BeatModifier}" />
+
+            <Panels:PositionedStackPanel>
+                <BaseControls:DragValue
+                    Caption="From"
+                    Value="{Binding From.Value}" />
+                <BaseControls:DragValue
+                    Margin="0, 1, 0, 0"
+                    Caption="To"
+                    Value="{Binding To.Value}" />
+            </Panels:PositionedStackPanel>
+
+            <BaseControls:ToggleButton
+                Caption="PingPong"
+                Margin="0, 8"
+                IsChecked="{Binding PingPong.Value}" />
+
+            <BaseControls:ComboBox
+                Caption="Transform"
+                SelectedItem="{Binding TransformType.Value}"
+                ItemsSource="{x:Static Resources:EnumProviders.TransformType}" />
+
+            <BaseControls:AxisSelector3D
+                Margin="0, 1, 0, 0"
+                XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
+                YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
+                ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
+
+        </StackPanel>
+
+        <Views:Easing DataContext="{Binding Easing}" />
+
+    </StackPanel>
+
+</UserControl>

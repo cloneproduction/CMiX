@@ -1,0 +1,27 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RandomScale"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel>
+
+        <Modifiers:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+
+        <BaseControls:DragValue
+            Margin="0,8"
+            Caption="Uniform"
+            Value="{Binding UniformXYZ.Value}" />
+
+        <BaseControls:VectorXYZ
+            Margin="0,8"
+            Caption="Scale"
+            DataContext="{Binding Scale}" />
+
+        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+
+    </StackPanel>
+
+</UserControl>
