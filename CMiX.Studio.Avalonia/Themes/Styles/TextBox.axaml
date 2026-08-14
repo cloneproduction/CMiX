@@ -1,0 +1,293 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <!-- Requires CMiX.Studio.Avalonia.Views.Controls.SelectTextOnFocus and CMiX.Studio.Avalonia.Views.Controls.InputNumbersOnly attached behaviors (ported in a later phase) -->
+    <!-- Template structure follows the Avalonia Simple theme TextBox skeleton with CMiX visual properties applied -->
+
+    <ControlTheme x:Key="{x:Type TextBox}" TargetType="TextBox">
+        <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="BorderThickness" Value="1" />
+        <Setter Property="CaretBrush" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="Controls:SelectTextOnFocus.Active" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="{TemplateBinding Background}"
+                    BorderBrush="{TemplateBinding BorderBrush}"
+                    BorderThickness="{TemplateBinding BorderThickness}"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    HorizontalAlignment="Stretch"
+                    Margin="0"
+                    Padding="0"
+                    VerticalAlignment="Stretch">
+                    <ScrollViewer
+                        Name="PART_ScrollViewer"
+                        AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                        BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
+                        Focusable="False"
+                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                        Margin="{TemplateBinding Padding}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                        <Panel>
+                            <TextBlock
+                                Name="watermark"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Opacity="0.5"
+                                Text="{TemplateBinding Watermark}"
+                                TextAlignment="{TemplateBinding TextAlignment}"
+                                TextWrapping="{TemplateBinding TextWrapping}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <TextBlock.IsVisible>
+                                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                        <Binding
+                                            Converter="{x:Static StringConverters.IsNullOrEmpty}"
+                                            ElementName="PART_TextPresenter"
+                                            Path="PreeditText" />
+                                        <Binding
+                                            Converter="{x:Static StringConverters.IsNullOrEmpty}"
+                                            Path="Text"
+                                            RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </TextBlock.IsVisible>
+                            </TextBlock>
+                            <TextPresenter
+                                Name="PART_TextPresenter"
+                                CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
+                                CaretIndex="{TemplateBinding CaretIndex}"
+                                LetterSpacing="{TemplateBinding LetterSpacing}"
+                                LineHeight="{TemplateBinding LineHeight}"
+                                PasswordChar="{TemplateBinding PasswordChar}"
+                                RevealPassword="{TemplateBinding RevealPassword}"
+                                SelectionBrush="{TemplateBinding SelectionBrush}"
+                                SelectionEnd="{TemplateBinding SelectionEnd}"
+                                SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                SelectionStart="{TemplateBinding SelectionStart}"
+                                Text="{TemplateBinding Text, Mode=TwoWay}"
+                                TextAlignment="{TemplateBinding TextAlignment}"
+                                TextWrapping="{TemplateBinding TextWrapping}" />
+                        </Panel>
+                        <ScrollViewer.Styles>
+                            <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
+                                <Setter Property="Cursor" Value="IBeam" />
+                            </Style>
+                        </ScrollViewer.Styles>
+                    </ScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.56" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey400Brush}" />
+        </Style>
+        <Style Selector="^:focus /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="TextBoxNumbersOnly" TargetType="TextBox">
+        <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
+        <Setter Property="BorderBrush" Value="Transparent" />
+        <Setter Property="CaretBrush" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="Controls:InputNumbersOnly.Active" Value="True" />
+        <Setter Property="Controls:SelectTextOnFocus.Active" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Padding" Value="0" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="{DynamicResource Grey100Brush}"
+                    BorderBrush="{DynamicResource Grey100Brush}"
+                    BorderThickness="1"
+                    CornerRadius="{TemplateBinding CornerRadius}"
+                    Margin="0"
+                    Padding="0"
+                    VerticalAlignment="Stretch">
+                    <ScrollViewer
+                        Name="PART_ScrollViewer"
+                        AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                        BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
+                        Focusable="False"
+                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                        Margin="{TemplateBinding Padding}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                        <Panel>
+                            <TextBlock
+                                Name="watermark"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Opacity="0.5"
+                                Text="{TemplateBinding Watermark}"
+                                TextAlignment="{TemplateBinding TextAlignment}"
+                                TextWrapping="{TemplateBinding TextWrapping}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <TextBlock.IsVisible>
+                                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                        <Binding
+                                            Converter="{x:Static StringConverters.IsNullOrEmpty}"
+                                            ElementName="PART_TextPresenter"
+                                            Path="PreeditText" />
+                                        <Binding
+                                            Converter="{x:Static StringConverters.IsNullOrEmpty}"
+                                            Path="Text"
+                                            RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </TextBlock.IsVisible>
+                            </TextBlock>
+                            <TextPresenter
+                                Name="PART_TextPresenter"
+                                CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
+                                CaretIndex="{TemplateBinding CaretIndex}"
+                                LetterSpacing="{TemplateBinding LetterSpacing}"
+                                LineHeight="{TemplateBinding LineHeight}"
+                                PasswordChar="{TemplateBinding PasswordChar}"
+                                RevealPassword="{TemplateBinding RevealPassword}"
+                                SelectionBrush="{TemplateBinding SelectionBrush}"
+                                SelectionEnd="{TemplateBinding SelectionEnd}"
+                                SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                SelectionStart="{TemplateBinding SelectionStart}"
+                                Text="{TemplateBinding Text, Mode=TwoWay}"
+                                TextAlignment="{TemplateBinding TextAlignment}"
+                                TextWrapping="{TemplateBinding TextWrapping}" />
+                        </Panel>
+                        <ScrollViewer.Styles>
+                            <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
+                                <Setter Property="Cursor" Value="IBeam" />
+                            </Style>
+                        </ScrollViewer.Styles>
+                    </ScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.56" />
+        </Style>
+        <Style Selector="^:focus /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:focus">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="TypeWriterStyle" TargetType="TextBox">
+        <Setter Property="AcceptsReturn" Value="True" />
+        <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
+        <Setter Property="CaretBrush" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="Controls:SelectTextOnFocus.Active" Value="True" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="ScrollViewer.IsScrollChainingEnabled" Value="True" />
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Hidden" />
+        <Setter Property="SelectionBrush" Value="{DynamicResource AccentBrush}" />
+        <Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="VerticalContentAlignment" Value="Top" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="{DynamicResource ListBoxBackground}"
+                    BorderBrush="{DynamicResource Grey400Brush}"
+                    BorderThickness="0.5"
+                    CornerRadius="{DynamicResource CornerRadiusLargeAll}"
+                    VerticalAlignment="Stretch">
+                    <ScrollViewer
+                        Name="PART_ScrollViewer"
+                        AllowAutoHide="{TemplateBinding (ScrollViewer.AllowAutoHide)}"
+                        BringIntoViewOnFocusChange="{TemplateBinding (ScrollViewer.BringIntoViewOnFocusChange)}"
+                        Focusable="False"
+                        HorizontalScrollBarVisibility="{TemplateBinding (ScrollViewer.HorizontalScrollBarVisibility)}"
+                        IsScrollChainingEnabled="{TemplateBinding (ScrollViewer.IsScrollChainingEnabled)}"
+                        Margin="{TemplateBinding Padding}"
+                        VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                        VerticalScrollBarVisibility="{TemplateBinding (ScrollViewer.VerticalScrollBarVisibility)}">
+                        <Panel>
+                            <TextBlock
+                                Name="watermark"
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                Opacity="0.5"
+                                Text="{TemplateBinding Watermark}"
+                                TextAlignment="{TemplateBinding TextAlignment}"
+                                TextWrapping="{TemplateBinding TextWrapping}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}">
+                                <TextBlock.IsVisible>
+                                    <MultiBinding Converter="{x:Static BoolConverters.And}">
+                                        <Binding
+                                            Converter="{x:Static StringConverters.IsNullOrEmpty}"
+                                            ElementName="PART_TextPresenter"
+                                            Path="PreeditText" />
+                                        <Binding
+                                            Converter="{x:Static StringConverters.IsNullOrEmpty}"
+                                            Path="Text"
+                                            RelativeSource="{RelativeSource TemplatedParent}" />
+                                    </MultiBinding>
+                                </TextBlock.IsVisible>
+                            </TextBlock>
+                            <TextPresenter
+                                Name="PART_TextPresenter"
+                                CaretBlinkInterval="{TemplateBinding CaretBlinkInterval}"
+                                CaretBrush="{TemplateBinding CaretBrush}"
+                                CaretIndex="{TemplateBinding CaretIndex}"
+                                LetterSpacing="{TemplateBinding LetterSpacing}"
+                                LineHeight="{TemplateBinding LineHeight}"
+                                PasswordChar="{TemplateBinding PasswordChar}"
+                                RevealPassword="{TemplateBinding RevealPassword}"
+                                SelectionBrush="{TemplateBinding SelectionBrush}"
+                                SelectionEnd="{TemplateBinding SelectionEnd}"
+                                SelectionForegroundBrush="{TemplateBinding SelectionForegroundBrush}"
+                                SelectionStart="{TemplateBinding SelectionStart}"
+                                Text="{TemplateBinding Text, Mode=TwoWay}"
+                                TextAlignment="{TemplateBinding TextAlignment}"
+                                TextWrapping="{TemplateBinding TextWrapping}" />
+                        </Panel>
+                        <ScrollViewer.Styles>
+                            <Style Selector="ScrollContentPresenter#PART_ContentPresenter">
+                                <Setter Property="Cursor" Value="IBeam" />
+                            </Style>
+                        </ScrollViewer.Styles>
+                    </ScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.56" />
+        </Style>
+        <Style Selector="^:focus /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:focus">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>
