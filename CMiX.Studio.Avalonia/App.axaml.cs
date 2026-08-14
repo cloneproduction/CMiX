@@ -22,6 +22,7 @@ namespace CMiX.Studio.Avalonia
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
+            Themes.Icons.Register(Resources);
         }
 
         public override void OnFrameworkInitializationCompleted()
