@@ -1,0 +1,276 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <!-- Requires CMiX.Studio.Avalonia.Views.Controls.CMiXListBox and CMiX.Studio.Avalonia.Views.Controls.EditableTextBox (ported in a later phase) -->
+
+    <!-- WPF NoFocusVisual style dropped: Avalonia has no FocusVisualStyle -->
+
+    <ControlTheme x:Key="ListBoxResizeBorderStyle" TargetType="Border">
+        <Style Selector="^:pointerover">
+            <Setter Property="Cursor" Value="SizeNorthSouth" />
+        </Style>
+    </ControlTheme>
+
+    <!-- WPF DataTrigger on ClientIsConnected became the connected class; consumers must bind Classes.connected to ClientIsConnected -->
+    <ControlTheme x:Key="ServerConnectionIndicatorStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="Red" />
+        <Style Selector="^.connected">
+            <Setter Property="Fill" Value="Green" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ServerEditableTextBoxStyle"
+                  BasedOn="{StaticResource {x:Type Controls:EditableTextBox}}"
+                  TargetType="Controls:EditableTextBox" />
+
+    <ControlTheme x:Key="LayerListBoxItemBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />
+        <Setter Property="BorderThickness" Value="1,0,1,1" />
+        <Setter Property="Margin" Value="0" />
+        <Style Selector="^:pointerover">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type Controls:CMiXListBox}" TargetType="Controls:CMiXListBox">
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemStyle}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="outerBorder"
+                    BorderBrush="{DynamicResource Grey400Brush}"
+                    BorderThickness="0.5"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <DockPanel>
+
+                        <Border
+                            Name="resizeBorder"
+                            Background="{DynamicResource ListBoxBackground}"
+                            DockPanel.Dock="Bottom"
+                            Height="12"
+                            Theme="{StaticResource ListBoxResizeBorderStyle}">
+                            <Image
+                                IsHitTestVisible="False"
+                                Margin="1"
+                                Opacity="0.25"
+                                Source="{DynamicResource DragHandler}" />
+                        </Border>
+
+                        <Border
+                            Name="Bd"
+                            Background="{DynamicResource ListBoxBackground}"
+                            CornerRadius="{DynamicResource CornerRadiusAll}"
+                            MinHeight="{TemplateBinding MinHeight}">
+                            <ScrollViewer
+                                Name="PART_ScrollViewer"
+                                Focusable="False"
+                                HorizontalScrollBarVisibility="Disabled"
+                                Margin="2"
+                                VerticalScrollBarVisibility="Auto">
+                                <ItemsPresenter
+                                    Name="PART_ItemsPresenter"
+                                    ItemsPanel="{TemplateBinding ItemsPanel}" />
+                            </ScrollViewer>
+                        </Border>
+
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#outerBorder">
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type ListBox}" TargetType="ListBox">
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource ListBoxItemStyle}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="Bd"
+                    Background="{DynamicResource ListBoxBackground}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <ScrollViewer
+                        Name="PART_ScrollViewer"
+                        Focusable="False"
+                        HorizontalScrollBarVisibility="Disabled"
+                        Margin="2"
+                        VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </ScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ListBoxItemStyle" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="Bd"
+                    Background="Transparent"
+                    CornerRadius="{DynamicResource CornerRadiusAll}"
+                    Margin="1"
+                    Padding="2,0,0,0"
+                    TextElement.Foreground="{DynamicResource ForegroundBrush}">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:selected:pointerover /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:selected:not(:pointerover) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ServerListBoxItemStyle"
+                  BasedOn="{StaticResource ListBoxItemStyle}"
+                  TargetType="ListBoxItem">
+        <!-- Height NaN restores automatic sizing as WPF Height Auto did -->
+        <Setter Property="Height" Value="NaN" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="Bd"
+                    Background="Transparent"
+                    CornerRadius="{DynamicResource CornerRadiusAll}"
+                    Margin="1"
+                    Padding="2,0,0,0"
+                    TextElement.Foreground="{DynamicResource ForegroundBrush}">
+                    <DockPanel>
+                        <Ellipse
+                            Classes.connected="{Binding ClientIsConnected}"
+                            Height="7"
+                            Margin="4,0"
+                            Theme="{StaticResource ServerConnectionIndicatorStyle}"
+                            Width="7" />
+                        <ToggleButton
+                            DockPanel.Dock="Right"
+                            Height="{DynamicResource ControlHeightXS}"
+                            IsChecked="{Binding ServerIsRunning}"
+                            Margin="4"
+                            Padding="4"
+                            Theme="{DynamicResource TogglePlayPause}" />
+                        <Controls:EditableTextBox
+                            Name="editableTextBox"
+                            Foreground="{DynamicResource ForegroundBrush}"
+                            Height="{DynamicResource ControlHeightSM}"
+                            Text="{Binding PrefabService.Name.Value, Mode=TwoWay}"
+                            Theme="{StaticResource ServerEditableTextBoxStyle}" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:selected /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ListBoxItemAlternationStyle" TargetType="ListBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="MainContainer" Padding="2">
+                    <Border
+                        Name="Bd"
+                        Background="Transparent"
+                        Padding="4,0,0,0"
+                        TextElement.Foreground="{DynamicResource ForegroundBrush}">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <!-- WPF AlternationIndex 0 with AlternationCount 2 maps to odd children -->
+        <Style Selector="^:nth-child(2n+1) /template/ Border#MainContainer">
+            <Setter Property="Background" Value="{DynamicResource ListBoxBackground}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#MainContainer">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#MainContainer">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#Bd">
+            <Setter Property="TextElement.Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="LayerListBoxItemStyle"
+                  BasedOn="{StaticResource ListBoxItemStyle}"
+                  TargetType="ListBoxItem">
+        <!-- Height NaN restores automatic sizing as WPF Height Auto did -->
+        <Setter Property="Height" Value="NaN" />
+        <Setter Property="Padding" Value="1,0,0,0" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="Bd" Theme="{StaticResource LayerListBoxItemBorderStyle}">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:selected:pointerover /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:selected:not(:pointerover) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
+            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="LayerListBoxStyle" TargetType="ListBox">
+        <Setter Property="Background" Value="{DynamicResource ListBoxBackground}" />
+        <Setter Property="ItemContainerTheme" Value="{DynamicResource LayerListBoxItemStyle}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="Bd" Background="{TemplateBinding Background}">
+                    <ScrollViewer
+                        Name="PART_ScrollViewer"
+                        Focusable="False"
+                        HorizontalScrollBarVisibility="Disabled"
+                        VerticalScrollBarVisibility="Auto">
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </ScrollViewer>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>
