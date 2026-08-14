@@ -10,9 +10,11 @@
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    x:Name="layerRoot">
 
-    <Border Background="{DynamicResource Grey300Brush}" IsVisible="{Binding Converter={StaticResource NullToVisibility}}">
+    <!-- Bound through the element name because an empty path binding against a null DataContext never delivers a value in Avalonia. -->
+    <Border Background="{DynamicResource Grey300Brush}" IsVisible="{Binding DataContext, ElementName=layerRoot, Converter={StaticResource NullToVisibility}}">
         <TabControl
             Background="{DynamicResource Grey200Brush}"
             TabStripPlacement="Left"
@@ -105,7 +107,9 @@
 
                         </Views:PrefabSlotManager>
 
-                        <Views:Camera DataContext="{Binding CameraManager.SelectedItem}" IsVisible="{Binding Converter={StaticResource NullToVisibility}}" />
+                        <Border IsVisible="{Binding CameraManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                            <Views:Camera DataContext="{Binding CameraManager.SelectedItem}" />
+                        </Border>
 
                     </DockPanel>
                 </ScrollViewer>
@@ -135,7 +139,9 @@
 
                         </Views:PrefabSlotManager>
 
-                        <Views:LightEntity DataContext="{Binding LightManager.SelectedItem}" IsVisible="{Binding Converter={StaticResource NullToVisibility}}" />
+                        <Border IsVisible="{Binding LightManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                            <Views:LightEntity DataContext="{Binding LightManager.SelectedItem}" />
+                        </Border>
 
                     </DockPanel>
                 </ScrollViewer>

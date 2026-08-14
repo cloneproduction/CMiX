@@ -112,9 +112,10 @@
 
                         </Views:Outliner>
 
-                        <Views:Composition
-                            DataContext="{Binding Project.CompositionManager.SelectedItem}"
-                            IsVisible="{Binding Converter={StaticResource NullToVisibility}}" />
+                        <!-- The IsVisible binding sits on a wrapper because an empty path binding against a null DataContext never delivers a value in Avalonia. -->
+                        <Border IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                            <Views:Composition DataContext="{Binding Project.CompositionManager.SelectedItem}" />
+                        </Border>
 
                     </DockPanel>
                 </ScrollViewer>
