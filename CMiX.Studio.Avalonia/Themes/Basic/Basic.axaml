@@ -2,6 +2,11 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- Colors, brushes, geometry, typography, icons and converters are merged here as they are ported. -->
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Colors.axaml" />
+        <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Geometry.axaml" />
+        <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Typography.axaml" />
+        <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Brushes.axaml" />
+    </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>
