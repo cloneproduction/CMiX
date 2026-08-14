@@ -3,7 +3,6 @@
 
 using System.Net;
 using System.Net.Sockets;
-using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -27,7 +26,7 @@ namespace CMiX.Core.Networking.Servers
             IP = "127.0.0.1";
             Port = 8080;
 
-            AddServerCommand = new RelayCommand<Window>(AddServer);
+            AddServerCommand = new RelayCommand<ICloseable>(AddServer);
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ResyncProjectCommand = new RelayCommand<IControl>(ResyncProject);
@@ -74,7 +73,7 @@ namespace CMiX.Core.Networking.Servers
 
         private void ResyncProject(IControl control) { }
 
-        private void AddServer(Window window)
+        private void AddServer(ICloseable window)
         {
             if (ValidateIPv4(IP) && ValidatePort(IP, Port))
             {

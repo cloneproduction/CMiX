@@ -4,10 +4,11 @@
 using System;
 using System.Windows;
 using System.Windows.Input;
+using CMiX.Core;
 
 namespace CMiX.Studio.Views
 {
-    public partial class ServerCreationWindow : Window
+    public partial class ServerCreationWindow : Window, ICloseable
     {
         public ServerCreationWindow()
         {
