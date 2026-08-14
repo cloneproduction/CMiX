@@ -3,7 +3,9 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity">
 
     <StackPanel>
         <Views:PrefabSlotManager
@@ -11,11 +13,9 @@
             DataContext="{Binding TextureManager}"
             ItemsSource="{Binding $parent[Window].DataContext.PrefabRepositories.Textures}">
 
-            <!-- TODO Avalonia: drag drop is wired in the drag and drop phase
             <i:Interaction.Behaviors>
                 <Behaviors:TextureDropBehavior PrefabManager="{Binding}" />
             </i:Interaction.Behaviors>
-            -->
 
             <Views:PrefabSlotManager.SelectionPanel>
                 <Views:ButtonOpenSelectionPanel Caption="Add Texture">
