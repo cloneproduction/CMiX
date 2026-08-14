@@ -1,0 +1,192 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <ControlTheme x:Key="ComboBoxToggleStyle" TargetType="ToggleButton">
+        <Setter Property="ClickMode" Value="Press" />
+        <Setter Property="Focusable" Value="True" />
+        <Setter Property="IsTabStop" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="{TemplateBinding Background}"
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                    <Image
+                        Width="7"
+                        Height="7"
+                        HorizontalAlignment="Right"
+                        Margin="8,0"
+                        Opacity="0.5"
+                        Source="{DynamicResource ArrowDown}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+        <Style Selector="^:checked /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Structural skeleton from Avalonia.Themes.Simple ComboBox, CMiX visuals applied -->
+    <ControlTheme x:Key="{x:Type ComboBox}" TargetType="ComboBox">
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="MaxDropDownHeight" Value="168" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid>
+
+                    <ToggleButton
+                        Name="toggle"
+                        Background="{TemplateBinding Background}"
+                        HorizontalAlignment="Stretch"
+                        IsChecked="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+                        Theme="{StaticResource ComboBoxToggleStyle}"
+                        VerticalAlignment="Stretch" />
+
+                    <!-- SelectionBoxItemStringFormat has no Avalonia equivalent and was dropped -->
+                    <ContentControl
+                        Name="contentPresenter"
+                        Content="{TemplateBinding SelectionBoxItem}"
+                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        IsHitTestVisible="False"
+                        Margin="8,0,0,0"
+                        VerticalAlignment="Center" />
+
+                    <Popup
+                        Name="PART_Popup"
+                        InheritsTransform="True"
+                        IsLightDismissEnabled="True"
+                        IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+                        MaxWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                        MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
+                        Placement="Bottom"
+                        PlacementTarget="{TemplateBinding}"
+                        VerticalOffset="2">
+                        <Border
+                            Name="DropDownBorder"
+                            Background="{DynamicResource Grey100Brush}"
+                            CornerRadius="{DynamicResource CornerRadiusLargeAll}"
+                            HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch" Margin="2">
+                                <ScrollViewer
+                                    Name="DropDownScrollViewer"
+                                    HorizontalScrollBarVisibility="Hidden"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    VerticalScrollBarVisibility="Hidden">
+                                    <ItemsPresenter
+                                        Name="PART_ItemsPresenter"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Border>
+                    </Popup>
+
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <!-- WPF trigger HasItems False collapsed the dropdown border -->
+        <Style Selector="^:empty /template/ Border#DropDownBorder">
+            <Setter Property="Height" Value="0" />
+        </Style>
+        <!-- TODO Avalonia: WPF IsGrouping trigger setting ScrollViewer.CanContentScroll has no equivalent and was dropped -->
+    </ControlTheme>
+
+    <ControlTheme x:Key="ComboBoxItem" TargetType="ComboBoxItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding $parent[ItemsControl].HorizontalContentAlignment}" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}"
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    Margin="0,0,0,1"
+                    VerticalAlignment="Stretch">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}"
+                        HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                        Margin="4,0"
+                        VerticalAlignment="Center" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <Style Selector="^:selected:not(:pointerover) /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:selected:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:pointerover:not(:selected) /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type ComboBoxItem}" TargetType="ComboBoxItem" BasedOn="{StaticResource ComboBoxItem}" />
+
+    <ControlTheme x:Key="ComboBoxWithButton" TargetType="ComboBox">
+        <Setter Property="MaxDropDownHeight" Value="168" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <DockPanel Name="templateRoot">
+                    <ToggleButton
+                        Name="toggle"
+                        IsChecked="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+                        Theme="{DynamicResource ToggleButtonRoundedLeft}"
+                        Width="22">
+                        <ToggleButton.Content>
+                            <Image
+                                Margin="10"
+                                Opacity="0.5"
+                                Source="{DynamicResource ArrowDown}" />
+                        </ToggleButton.Content>
+                    </ToggleButton>
+                    <Popup
+                        Name="PART_Popup"
+                        InheritsTransform="True"
+                        IsLightDismissEnabled="True"
+                        IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
+                        Placement="Bottom"
+                        PlacementTarget="{TemplateBinding}"
+                        VerticalOffset="2"
+                        Width="250">
+                        <Border
+                            Name="DropDownBorder"
+                            Background="{DynamicResource Grey100Brush}"
+                            CornerRadius="{DynamicResource CornerRadiusLargeAll}"
+                            HorizontalAlignment="Stretch">
+                            <Grid HorizontalAlignment="Stretch" Margin="2">
+                                <ScrollViewer
+                                    Name="DropDownScrollViewer"
+                                    HorizontalScrollBarVisibility="Hidden"
+                                    MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                    VerticalScrollBarVisibility="Hidden">
+                                    <ItemsPresenter
+                                        Name="PART_ItemsPresenter"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                </ScrollViewer>
+                            </Grid>
+                        </Border>
+                    </Popup>
+                </DockPanel>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>
