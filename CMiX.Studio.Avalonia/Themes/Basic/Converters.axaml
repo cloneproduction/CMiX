@@ -1,0 +1,26 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters">
+
+    <Converters:ColorToBrushConverter x:Key="ColorToBrush" />
+    <Converters:ColorToHexConverter x:Key="ColorToHex" />
+    <Converters:ColorToStringConverter x:Key="ColorToString" />
+    <Converters:ColorToNoAlphaConverter x:Key="ColorToNoAlpha" />
+
+    <Converters:DoubleToStringConverter x:Key="DoubleToString" />
+
+    <Converters:BoolToVisibilityConverter x:Key="BoolToCollapsed" />
+    <Converters:BoolToVisibilityConverter x:Key="BoolToVisibility" />
+    <Converters:NullToVisibilityConverter x:Key="NullToVisibility" />
+    <Converters:CountToVisibilityConverter x:Key="CountToVisibility" />
+
+    <Converters:MultiPeriodToBeatAnimationConverter x:Key="MultiPeriodToBeatAnimation" />
+    <Converters:DataTypeConverter x:Key="DataToType" />
+
+    <Converters:FontFamilyToStringConverter x:Key="FontFamilyToString" />
+    <Converters:RemapDoubleConverter x:Key="RemapDouble" />
+
+    <Converters:CurrentStepConverter x:Key="CurrentStepConverter" />
+
+</ResourceDictionary>
