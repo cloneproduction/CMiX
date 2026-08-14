@@ -4,7 +4,6 @@
 using System.Collections.ObjectModel;
 using System.Net;
 using System.Net.Sockets;
-using System.Windows;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
 using CMiX.Core.Networking.Messages;
@@ -132,6 +131,14 @@ namespace CMiX.Core.Networking.Servers
             _dispatcherAction = dispatcherAction;
         }
 
+        private void Dispatch(Action action)
+        {
+            if (_dispatcherAction != null)
+                _dispatcherAction(action);
+            else
+                action();
+        }
+
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
             var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
@@ -147,7 +154,7 @@ namespace CMiX.Core.Networking.Servers
                 ID = e.Client.Guid
             };
 
-            Application.Current.Dispatcher.Invoke(() => ConnectedClients.Add(connectedClient));
+            Dispatch(() => ConnectedClients.Add(connectedClient));
 
             _clientID = e.Client.Guid;
             ClientIsConnected = ConnectedClients.Count > 0;
@@ -156,7 +163,7 @@ namespace CMiX.Core.Networking.Servers
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)
         {
-            Application.Current.Dispatcher.Invoke(() =>
+            Dispatch(() =>
             {
                 for (var i = ConnectedClients.Count - 1; i >= 0; i--)
                 {
