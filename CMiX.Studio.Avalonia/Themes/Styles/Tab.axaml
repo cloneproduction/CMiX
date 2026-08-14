@@ -1,0 +1,226 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!-- Ported from CMiX.Studio\Themes\Styles\Tab.xaml using the Avalonia Simple theme TabControl and TabItem templates as structural skeleton -->
+
+    <ControlTheme x:Key="TabItemStyle" TargetType="TabItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Name="templateRoot">
+                    <Border
+                        Name="mainBorder"
+                        Background="{TemplateBinding Background}">
+                        <Border
+                            Name="innerBorder"
+                            FlowDirection="LeftToRight"
+                            VerticalAlignment="Stretch" />
+                    </Border>
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                        Focusable="False"
+                        HorizontalAlignment="Center"
+                        RecognizesAccessKey="True"
+                        VerticalAlignment="Stretch" />
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- WPF MultiDataTrigger IsEnabled False with TabStripPlacement Top -->
+        <Style Selector="^[TabStripPlacement=Top]:disabled /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Opacity" Value="0.56" />
+        </Style>
+
+        <!-- WPF MultiDataTrigger IsSelected False with TabStripPlacement Top -->
+        <Style Selector="^[TabStripPlacement=Top]:not(:selected)">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </Style>
+        <Style Selector="^[TabStripPlacement=Top]:not(:selected) /template/ Border#innerBorder">
+            <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
+        </Style>
+
+        <!-- WPF MultiDataTrigger IsSelected True with TabStripPlacement Top -->
+        <Style Selector="^[TabStripPlacement=Top]:selected">
+            <Setter Property="ZIndex" Value="1" />
+        </Style>
+        <Style Selector="^[TabStripPlacement=Top]:selected /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Foreground" Value="{DynamicResource ActiveForegroundBrush}" />
+        </Style>
+        <Style Selector="^[TabStripPlacement=Top]:selected /template/ Border#innerBorder">
+            <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey700Brush}" />
+            <Setter Property="BorderThickness" Value="0,0,0,3" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type TabControl}" TargetType="TabControl">
+        <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemStyle}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid
+                    Name="templateRoot"
+                    ClipToBounds="True"
+                    RowDefinitions="Auto,*">
+                    <Border
+                        BorderBrush="{DynamicResource Grey500Brush}"
+                        BorderThickness="0,0,0,1">
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </Border>
+                    <Border
+                        Name="contentPanel"
+                        Background="{DynamicResource Grey300Brush}"
+                        Grid.Row="1"
+                        Padding="4">
+                        <ContentPresenter
+                            Name="PART_SelectedContentHost"
+                            Content="{TemplateBinding SelectedContent}"
+                            ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            Margin="{TemplateBinding Padding}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <!-- TODO Avalonia: WPF IsEnabled False trigger set TextElement.Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
+    </ControlTheme>
+
+    <ControlTheme x:Key="TabItemHorizontal" TargetType="TabItem">
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="mainBorder"
+                    Background="{DynamicResource Grey200Brush}"
+                    Height="{DynamicResource ControlHeightXL}"
+                    Margin="0,0,0,0"
+                    Padding="0"
+                    Width="{DynamicResource ControlHeightXL}">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}"
+                        Focusable="False"
+                        HorizontalAlignment="Center"
+                        Margin="0"
+                        RecognizesAccessKey="True"
+                        VerticalAlignment="Center" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:not(:selected) /template/ ContentPresenter#PART_ContentPresenter">
+            <Setter Property="Opacity" Value="0.8" />
+        </Style>
+
+        <Style Selector="^:selected">
+            <Setter Property="ZIndex" Value="1" />
+        </Style>
+        <Style Selector="^:selected /template/ Border#mainBorder">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+
+        <Style Selector="^:not(:selected):pointerover /template/ Border#mainBorder">
+            <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="TabControlVerticalPanel" TargetType="TabControl">
+        <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemHorizontal}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <!-- TODO Avalonia: WPF Foreground setter used SystemColors.ControlTextBrushKey, dropped because x:Static system values are not ported -->
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel />
+            </ItemsPanelTemplate>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid
+                    Name="templateRoot"
+                    ClipToBounds="True"
+                    ColumnDefinitions="Auto,3.0*">
+                    <Border Background="{TemplateBinding Background}">
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
+                            HorizontalAlignment="Stretch"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </Border>
+                    <Border
+                        Name="ContentPanel"
+                        Background="Transparent"
+                        Grid.Column="1">
+                        <ContentPresenter
+                            Name="PART_SelectedContentHost"
+                            Content="{TemplateBinding SelectedContent}"
+                            ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+        <!-- TODO Avalonia: WPF IsEnabled False trigger set TextElement.Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
+    </ControlTheme>
+
+    <ControlTheme x:Key="TabControlLayerPanel" TargetType="TabControl">
+        <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource TabItemHorizontal}" />
+        <Setter Property="Margin" Value="0" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="ItemsPanel">
+            <ItemsPanelTemplate>
+                <StackPanel Orientation="Horizontal" />
+            </ItemsPanelTemplate>
+        </Setter>
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid
+                    Name="templateRoot"
+                    ClipToBounds="True"
+                    RowDefinitions="Auto,0.3*">
+                    <Border
+                        Background="{TemplateBinding Background}"
+                        HorizontalAlignment="Left"
+                        Margin="0"
+                        Padding="0">
+                        <ItemsPresenter
+                            Name="PART_ItemsPresenter"
+                            ItemsPanel="{TemplateBinding ItemsPanel}" />
+                    </Border>
+                    <Border
+                        Name="ContentPanel"
+                        Grid.Row="1">
+                        <ContentPresenter
+                            Name="PART_SelectedContentHost"
+                            Content="{TemplateBinding SelectedContent}"
+                            ContentTemplate="{TemplateBinding SelectedContentTemplate}"
+                            HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

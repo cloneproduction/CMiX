@@ -1,0 +1,249 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+
+    <!-- Ported from CMiX.Studio\Themes\Styles\Expander.xaml using the Avalonia Simple theme Expander template as structural skeleton -->
+    <!-- Header ToggleButton themes are declared before the Expander themes that consume them so StaticResource lookups resolve -->
+
+    <ControlTheme x:Key="ExpanderDownHeaderStyle" TargetType="ToggleButton">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="mainBorder"
+                    Background="Transparent"
+                    Height="{DynamicResource ControlHeightMD}"
+                    HorizontalAlignment="Stretch"
+                    Margin="8,0"
+                    VerticalAlignment="Center">
+                    <DockPanel>
+                        <Image
+                            Name="image"
+                            Height="7"
+                            Opacity="0.5"
+                            Source="{DynamicResource ArrowDown}" />
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalAlignment="Stretch"
+                            Margin="8,0"
+                            RecognizesAccessKey="True"
+                            VerticalAlignment="Center" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked /template/ Image#image">
+            <Setter Property="Source" Value="{DynamicResource ArrowUp}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="{x:Type Expander}" TargetType="Expander">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Background="Transparent"
+                    BorderBrush="{DynamicResource PanelBorderBackground}"
+                    BorderThickness="0,1,0,0">
+                    <DockPanel>
+                        <ToggleButton
+                            Name="PART_toggle"
+                            Content="{TemplateBinding Header}"
+                            DockPanel.Dock="Top"
+                            Focusable="False"
+                            Foreground="{DynamicResource ForegroundBrush}"
+                            HorizontalContentAlignment="Stretch"
+                            IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                            Theme="{StaticResource ExpanderDownHeaderStyle}"
+                            VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        <Border
+                            Background="{DynamicResource PanelBackground}"
+                            HorizontalAlignment="Stretch">
+                            <ContentPresenter
+                                Name="PART_ContentPresenter"
+                                Content="{TemplateBinding Content}"
+                                ContentTemplate="{TemplateBinding ContentTemplate}"
+                                Focusable="False"
+                                HorizontalAlignment="Stretch"
+                                IsVisible="{TemplateBinding IsExpanded}"
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                        </Border>
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+        <!-- TODO Avalonia: WPF IsEnabled False trigger set Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
+    </ControlTheme>
+
+    <ControlTheme x:Key="ItemControlExpanderHeaderStyle" TargetType="ToggleButton">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="mainBorder"
+                    Background="{DynamicResource Grey300Brush}"
+                    BorderBrush="{DynamicResource Grey100Brush}"
+                    BorderThickness="0,0,0,0.5"
+                    Height="{DynamicResource ControlHeightMD}">
+                    <Grid
+                        ColumnDefinitions="19,*"
+                        Margin="4,0,0,0">
+                        <Path
+                            Name="arrow"
+                            Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                            HorizontalAlignment="Center"
+                            Stroke="{DynamicResource ForegroundBrush}"
+                            StrokeThickness="2"
+                            VerticalAlignment="Center" />
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Grid.Column="1"
+                            HorizontalAlignment="Stretch"
+                            Margin="4,0,0,0"
+                            RecognizesAccessKey="True"
+                            VerticalAlignment="Center" />
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked /template/ Path#arrow">
+            <Setter Property="Data" Value="M 1,4.5 L 4.5,1 L 8,4.5" />
+        </Style>
+        <Style Selector="^:checked /template/ Border#mainBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:unchecked /template/ Border#mainBorder">
+            <Setter Property="BorderBrush" Value="Transparent" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ItemControlExpander" TargetType="Expander">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="{DynamicResource Grey300Brush}"
+                    BorderBrush="{DynamicResource Grey400Brush}"
+                    BorderThickness="1"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <DockPanel>
+                        <ToggleButton
+                            Name="PART_toggle"
+                            Content="{TemplateBinding Header}"
+                            DockPanel.Dock="Top"
+                            Foreground="{DynamicResource ForegroundBrush}"
+                            HorizontalContentAlignment="Left"
+                            IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                            MinHeight="0"
+                            MinWidth="0"
+                            Theme="{StaticResource ItemControlExpanderHeaderStyle}"
+                            VerticalContentAlignment="Center" />
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            Focusable="False"
+                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                            IsVisible="{TemplateBinding IsExpanded}"
+                            Margin="{TemplateBinding Padding}"
+                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <!-- TODO Avalonia: WPF IsEnabled False trigger set Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
+    </ControlTheme>
+
+    <ControlTheme x:Key="IndentedExpanderStyleHeaderStyle" TargetType="ToggleButton">
+        <Setter Property="Focusable" Value="False" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <!-- The WPF template bound mainBorder Margin to the ExpanderIndentation attached property. In Avalonia the ExpanderIndentation class handler applies the Margin directly on the control that carries the Indentation value, so the ToggleButton itself receives the indentation margin and no Margin binding is needed here -->
+                <Border
+                    Name="mainBorder"
+                    Background="Transparent"
+                    Height="{DynamicResource ControlHeightMD}"
+                    HorizontalAlignment="Stretch"
+                    VerticalAlignment="Center">
+                    <DockPanel Margin="8,0,0,0">
+                        <Image
+                            Name="image"
+                            Height="7"
+                            Opacity="0.5"
+                            Source="{DynamicResource ArrowRight}" />
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}"
+                            HorizontalAlignment="Stretch"
+                            Margin="8,0"
+                            RecognizesAccessKey="True"
+                            VerticalAlignment="Center" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked /template/ Image#image">
+            <Setter Property="Source" Value="{DynamicResource ArrowDown}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="IndentedExpanderStyle" TargetType="Expander">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        <Setter Property="VerticalContentAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    BorderBrush="{DynamicResource PanelBorderBackground}"
+                    BorderThickness="0,1,0,0">
+                    <Border Background="Transparent">
+                        <DockPanel>
+                            <ToggleButton
+                                Name="PART_toggle"
+                                AttachedProperties:ExpanderIndentation.Indentation="{Binding (AttachedProperties:ExpanderIndentation.Indentation), RelativeSource={RelativeSource TemplatedParent}}"
+                                Content="{TemplateBinding Header}"
+                                DockPanel.Dock="Top"
+                                Foreground="{DynamicResource ForegroundBrush}"
+                                HorizontalContentAlignment="Stretch"
+                                IsChecked="{TemplateBinding IsExpanded, Mode=TwoWay}"
+                                Theme="{StaticResource IndentedExpanderStyleHeaderStyle}"
+                                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            <Border
+                                Background="{DynamicResource PanelBackground}"
+                                HorizontalAlignment="Stretch">
+                                <ContentPresenter
+                                    Name="PART_ContentPresenter"
+                                    Content="{TemplateBinding Content}"
+                                    ContentTemplate="{TemplateBinding ContentTemplate}"
+                                    Focusable="False"
+                                    HorizontalAlignment="Stretch"
+                                    IsVisible="{TemplateBinding IsExpanded}"
+                                    VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                            </Border>
+                        </DockPanel>
+                    </Border>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

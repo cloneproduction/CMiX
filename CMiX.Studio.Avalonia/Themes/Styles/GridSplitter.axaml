@@ -1,0 +1,35 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        Ported from CMiX.Studio\Themes\Styles\GridSplitter.xaml.
+        This is a keyed theme; consumers switch from Style="{StaticResource GridSplitter}"
+        to Theme="{StaticResource GridSplitter}".
+    -->
+    <ControlTheme x:Key="GridSplitter" TargetType="GridSplitter">
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="Transparent">
+                    <Border
+                        Name="indicator"
+                        Height="2"
+                        VerticalAlignment="Center"
+                        Background="Transparent" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey100Brush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#indicator">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>
