@@ -9,7 +9,7 @@
     <Panels:PositionedStackPanel>
 
         <BaseControls:DragValue
-            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vector2}"
+            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vector2, Mode=OneWay}"
             Value="{Binding X.Value}" />
 
         <BaseControls:DragValue

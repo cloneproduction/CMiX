@@ -10,7 +10,7 @@
     <Panels:PositionedStackPanel>
 
         <BaseControl:IntegerValue
-            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value}"
+            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=integer3Value, Mode=OneWay}"
             Value="{Binding X.Value}" />
 
         <BaseControl:IntegerValue

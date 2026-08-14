@@ -8,8 +8,9 @@
 
     <Panels:PositionedStackPanel>
 
+        <!-- Mode OneWay stops the TwoWay default from writing the formatted string back. -->
         <BaseControls:DragValue
-            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vectorXYZ}"
+            Caption="{Binding Caption, StringFormat=' {0} X', ElementName=vectorXYZ, Mode=OneWay}"
             Value="{Binding X.Value}" />
 
         <BaseControls:DragValue
