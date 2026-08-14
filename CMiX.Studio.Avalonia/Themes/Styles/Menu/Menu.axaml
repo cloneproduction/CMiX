@@ -1,0 +1,206 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="using:System">
+
+    <!--
+        Ported from CMiX.Studio\Themes\Styles\Menu\Menu.xaml.
+        WPF role based MenuItem templates collapse into the implicit MenuItem ControlTheme
+        (submenu items) plus the keyed TopMenuItem ControlTheme which the Menu theme applies
+        to its direct children through ItemContainerTheme.
+        The WPF OpaqueRect and CanContentScroll machinery was dropped, it is a WPF scrolling
+        optimization with no Avalonia counterpart.
+    -->
+
+    <!-- Submenu item, replaces the WPF implicit MenuItem style -->
+    <ControlTheme x:Key="{x:Type MenuItem}" TargetType="MenuItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="root"
+                    Padding="0,8,32,8"
+                    Background="{TemplateBinding Background}">
+                    <Grid VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ContentControl
+                            Name="PART_IconPresenter"
+                            Grid.Column="0"
+                            Width="16"
+                            Height="16"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Icon}"
+                            IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <ContentPresenter
+                            Name="PART_HeaderPresenter"
+                            Grid.Column="1"
+                            Margin="4,0,0,0"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}">
+                            <ContentPresenter.DataTemplates>
+                                <DataTemplate DataType="sys:String">
+                                    <AccessText Text="{Binding}" />
+                                </DataTemplate>
+                            </ContentPresenter.DataTemplates>
+                        </ContentPresenter>
+                        <Popup
+                            Name="PART_Popup"
+                            HorizontalOffset="-8"
+                            IsLightDismissEnabled="False"
+                            IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
+                            Placement="Bottom"
+                            VerticalOffset="8">
+                            <Border
+                                Name="SubMenuBorder"
+                                Margin="0,0,32,8"
+                                Padding="0"
+                                Background="{DynamicResource Grey400Brush}"
+                                BoxShadow="0 0 8 0 #FF000000">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter
+                                        Name="PART_ItemsPresenter"
+                                        Grid.IsSharedSizeScope="True"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:separator">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Separator />
+                </ControlTemplate>
+            </Setter>
+        </Style>
+
+        <!-- WPF trigger IsChecked True hides the icon -->
+        <Style Selector="^:checked /template/ ContentControl#PART_IconPresenter">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <!-- WPF trigger IsHighlighted True -->
+        <Style Selector="^:selected /template/ Border#root">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:selected /template/ ContentControl#PART_IconPresenter">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#root">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!-- Top level item, replaces the WPF keyed style TopMenuItem -->
+    <ControlTheme x:Key="TopMenuItem" TargetType="MenuItem">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="root"
+                    Background="{TemplateBinding Background}">
+                    <Grid VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="Auto" />
+                        </Grid.ColumnDefinitions>
+                        <ContentControl
+                            Name="PART_IconPresenter"
+                            Grid.Column="0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Icon}"
+                            IsVisible="{TemplateBinding Icon, Converter={x:Static ObjectConverters.IsNotNull}}" />
+                        <ContentPresenter
+                            Name="PART_HeaderPresenter"
+                            Grid.Column="1"
+                            Margin="{TemplateBinding Padding}"
+                            VerticalAlignment="Center"
+                            Content="{TemplateBinding Header}"
+                            ContentTemplate="{TemplateBinding HeaderTemplate}">
+                            <ContentPresenter.DataTemplates>
+                                <DataTemplate DataType="sys:String">
+                                    <AccessText Text="{Binding}" />
+                                </DataTemplate>
+                            </ContentPresenter.DataTemplates>
+                        </ContentPresenter>
+                        <Popup
+                            Name="PART_Popup"
+                            HorizontalOffset="-4"
+                            IsLightDismissEnabled="True"
+                            IsOpen="{TemplateBinding IsSubMenuOpen, Mode=TwoWay}"
+                            OverlayInputPassThroughElement="{Binding $parent[Menu]}"
+                            Placement="BottomEdgeAlignedLeft"
+                            VerticalOffset="4">
+                            <Border
+                                Name="SubMenuBorder"
+                                Margin="0,0,8,8"
+                                Padding="2"
+                                Background="{DynamicResource Grey400Brush}"
+                                BoxShadow="0 0 8 0 #FF000000">
+                                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto">
+                                    <ItemsPresenter
+                                        Name="PART_ItemsPresenter"
+                                        Grid.IsSharedSizeScope="True"
+                                        ItemsPanel="{TemplateBinding ItemsPanel}" />
+                                </ScrollViewer>
+                            </Border>
+                        </Popup>
+                    </Grid>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!-- WPF trigger IsChecked True hides the icon -->
+        <Style Selector="^:checked /template/ ContentControl#PART_IconPresenter">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <!-- WPF trigger IsHighlighted True -->
+        <Style Selector="^:selected /template/ Border#root">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:selected /template/ ContentControl#PART_IconPresenter">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#root">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <!--
+        Replaces the WPF keyed style MenuDefault.
+        WPF VerticalContentAlignment has no Menu counterpart in Avalonia,
+        the template Border keeps VerticalAlignment Center instead.
+    -->
+    <ControlTheme x:Key="MenuDefault" TargetType="Menu">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="ItemContainerTheme" Value="{StaticResource TopMenuItem}" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="templateRoot"
+                    VerticalAlignment="Center"
+                    Background="{TemplateBinding Background}">
+                    <ItemsPresenter
+                        Name="PART_ItemsPresenter"
+                        ItemsPanel="{TemplateBinding ItemsPanel}"
+                        KeyboardNavigation.TabNavigation="Continue" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>
