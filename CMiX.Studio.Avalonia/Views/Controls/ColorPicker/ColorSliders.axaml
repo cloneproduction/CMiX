@@ -1,0 +1,156 @@
+﻿<Controls:PickerControlBase
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.ColorSliders"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
+    x:Name="uc">
+
+    <StackPanel>
+
+        <!--
+            The WPF PositionedUniformGrid and PositionedStackPanel panels are not ported yet.
+            Plain panels are used instead and the PositionedControl.Position attached property
+            is set explicitly on each child to drive the position pseudo classes.
+        -->
+        <Border Height="{DynamicResource ControlHeightMD}">
+            <UniformGrid Columns="3">
+                <RadioButton
+                    x:Name="HSVRadio"
+                    AttachedProperties:PositionedControl.Position="Left"
+                    Content="HSV"
+                    IsChecked="True" />
+                <RadioButton
+                    x:Name="RGBRadio"
+                    Margin="1,0"
+                    AttachedProperties:PositionedControl.Position="Middle"
+                    Content="RGB" />
+                <RadioButton
+                    x:Name="HEXRadio"
+                    AttachedProperties:PositionedControl.Position="Right"
+                    Content="HEX" />
+            </UniformGrid>
+        </Border>
+
+        <Grid Margin="0,8" VerticalAlignment="Top">
+            <Border IsVisible="{Binding IsChecked, ElementName=HEXRadio, Converter={StaticResource BoolToCollapsed}}">
+                <StackPanel>
+                    <TextBox
+                        Height="{DynamicResource ControlHeightMD}"
+                        Text="{Binding SelectedColor, ElementName=uc, Mode=TwoWay, Converter={StaticResource ColorToHex}}" />
+                </StackPanel>
+            </Border>
+            <Border IsVisible="{Binding IsChecked, ElementName=RGBRadio, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel>
+
+                    <Controls:CMiXSlider
+                        AttachedProperties:PositionedControl.Position="Top"
+                        Caption="R"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.RGB_R, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        <!--
+                            TODO Avalonia: ColorSliderBehavior is ported separately.
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                        -->
+                    </Controls:CMiXSlider>
+
+                    <Controls:CMiXSlider
+                        Margin="0,1"
+                        AttachedProperties:PositionedControl.Position="Middle"
+                        Caption="G"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.RGB_G, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        <!--
+                            TODO Avalonia: ColorSliderBehavior is ported separately.
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                        -->
+                    </Controls:CMiXSlider>
+
+                    <Controls:CMiXSlider
+                        AttachedProperties:PositionedControl.Position="Bottom"
+                        Caption="B"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.RGB_B, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+                        <!--
+                            TODO Avalonia: ColorSliderBehavior is ported separately.
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                        -->
+                    </Controls:CMiXSlider>
+
+                </StackPanel>
+            </Border>
+            <Border IsVisible="{Binding IsChecked, ElementName=HSVRadio, Converter={StaticResource BoolToVisibility}}">
+
+                <StackPanel>
+                    <Controls:CMiXSlider
+                        AttachedProperties:PositionedControl.Position="Top"
+                        Caption="H"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.HSV_H, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=360, ToMin=0, ToMax=1}}">
+                        <!--
+                            TODO Avalonia: ColorSliderBehavior is ported separately.
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                        -->
+                    </Controls:CMiXSlider>
+
+                    <Controls:CMiXSlider
+                        Margin="0,1"
+                        AttachedProperties:PositionedControl.Position="Middle"
+                        Caption="S"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.HSV_S, ElementName=uc, Mode=TwoWay}">
+                        <!--
+                            TODO Avalonia: ColorSliderBehavior is ported separately.
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                        -->
+                    </Controls:CMiXSlider>
+
+                    <Controls:CMiXSlider
+                        AttachedProperties:PositionedControl.Position="Bottom"
+                        Caption="V"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding Color.HSV_V, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=100, ToMin=0, ToMax=1}}">
+                        <!--
+                            TODO Avalonia: ColorSliderBehavior is ported separately.
+                            <i:Interaction.Behaviors>
+                                <Behaviors:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                            </i:Interaction.Behaviors>
+                        -->
+                    </Controls:CMiXSlider>
+                </StackPanel>
+
+            </Border>
+        </Grid>
+
+        <Controls:CMiXSlider
+            Caption="Alpha"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding Color.A, ElementName=uc, Mode=TwoWay, Converter={Converters:RemapDoubleConverter FromMin=0, FromMax=255, ToMin=0, ToMax=1}}">
+            <!--
+                TODO Avalonia: ColorSliderBehavior is ported separately.
+                <i:Interaction.Behaviors>
+                    <Behaviors:ColorSliderBehavior ColorState="{Binding ColorState, ElementName=uc}" />
+                </i:Interaction.Behaviors>
+            -->
+        </Controls:CMiXSlider>
+
+    </StackPanel>
+</Controls:PickerControlBase>
