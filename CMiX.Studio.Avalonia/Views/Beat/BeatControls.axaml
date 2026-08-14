@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.BeatControls"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Grid Height="{DynamicResource ControlHeightMD}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Margin="8,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Text="Beat" />
+
+        <DockPanel Grid.Column="1">
+
+            <Button
+                Width="{Binding $self.Bounds.Height}"
+                Background="{StaticResource Grey600Brush}"
+                Command="{Binding MultiplyCommand}"
+                Content="+"
+                DockPanel.Dock="Right"
+                Theme="{StaticResource ButtonRoundedRight}" />
+
+            <Button
+                Width="{Binding $self.Bounds.Height}"
+                Margin="1,0,1,0"
+                Background="{StaticResource Grey600Brush}"
+                Command="{Binding DivideCommand}"
+                Content="-"
+                DockPanel.Dock="Right"
+                Theme="{StaticResource ButtonStraight}" />
+
+            <Border
+                x:Name="MainBorder"
+                Background="{DynamicResource Grey500Brush}"
+                CornerRadius="{DynamicResource CornerRadiusLeft}">
+                <Grid>
+                    <Border
+                        Background="{DynamicResource Grey700Brush}"
+                        CornerRadius="{DynamicResource CornerRadiusLeft}">
+                        <Border.Opacity>
+                            <MultiBinding Converter="{StaticResource MultiPeriodToBeatAnimation}">
+                                <Binding Path="BeatIndex.Value" />
+                                <Binding Path="." />
+                                <Binding Path="MasterBeat.AnimatedDouble.AnimationPosition" />
+                            </MultiBinding>
+                        </Border.Opacity>
+                    </Border>
+                    <TextBlock
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Foreground="{DynamicResource ForegroundBrush}"
+                        Text="{Binding BPM, StringFormat=F2}" />
+                </Grid>
+
+            </Border>
+
+        </DockPanel>
+
+    </Grid>
+
+</UserControl>

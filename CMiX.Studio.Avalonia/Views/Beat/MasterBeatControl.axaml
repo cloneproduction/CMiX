@@ -1,0 +1,80 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Beat.MasterBeatControl"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <StackPanel>
+
+        <BaseControl:DragValue
+            Margin="0,0,0,8"
+            Caption="BPM"
+            IsInteger="False"
+            LargeChange="1.0"
+            MaxHeight="10000"
+            Minimum="1"
+            SmallChange="0.01"
+            Value="{Binding BPM, Mode=TwoWay}" />
+
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+
+            <DockPanel Grid.Column="1" VerticalAlignment="Center">
+
+                <Button
+                    Width="{Binding $self.Bounds.Height}"
+                    Margin="4,0,0,0"
+                    Background="{StaticResource Grey600Brush}"
+                    Command="{Binding Resync.ClickCommand}"
+                    DockPanel.Dock="Right"
+                    Theme="{StaticResource ButtonRounded}">
+                    <Button.Content>
+                        <Image Margin="16" Source="{DynamicResource Reset}" />
+                    </Button.Content>
+                </Button>
+
+                <ToggleButton
+                    Width="{Binding $self.Bounds.Height}"
+                    Margin="0,0,1,0"
+                    Background="Transparent"
+                    Content="P"
+                    DockPanel.Dock="Left"
+                    IsChecked="{Binding Pause.Value}"
+                    Theme="{StaticResource ToggleButtonRoundedLeft}" />
+
+                <Button
+                    Width="{Binding $self.Bounds.Height}"
+                    Background="{StaticResource Grey600Brush}"
+                    Command="{Binding MultiplyCommand}"
+                    Content="+"
+                    DockPanel.Dock="Right"
+                    Theme="{StaticResource ButtonRoundedRight}" />
+
+                <Button
+                    Width="{Binding $self.Bounds.Height}"
+                    Margin="1,0"
+                    Background="{StaticResource Grey600Brush}"
+                    Command="{Binding DivideCommand}"
+                    Content="-"
+                    DockPanel.Dock="Right"
+                    Theme="{StaticResource ButtonStraight}" />
+
+                <Grid>
+                    <Border
+                        Background="{DynamicResource Grey600Brush}"
+                        Opacity="{Binding AnimatedDouble.AnimationPosition}" />
+                    <Button
+                        HorizontalAlignment="Stretch"
+                        Background="Transparent"
+                        Command="{Binding TapCommand}"
+                        Content="TAP"
+                        Theme="{StaticResource ButtonStraight}" />
+                </Grid>
+
+            </DockPanel>
+        </Grid>
+    </StackPanel>
+</UserControl>

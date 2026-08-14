@@ -1,0 +1,53 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.BeatModifier"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <StackPanel>
+
+        <Views:BeatControls Margin="8,8,8,4" DataContext="{Binding}" />
+
+        <BaseControls:CMiXSlider
+            Margin="8,0,8,8"
+            Caption="Chance To Hit"
+            Maximum="1"
+            Value="{Binding ChanceToHit.Value}" />
+
+        <!--
+            Avalonia has no ItemsControl.AlternationIndex or AlternationCount. The code
+            behind publishes each container's index through its Tag so the
+            CurrentStepConverter multi binding can compare it to the current step.
+        -->
+        <ItemsControl
+            x:Name="stepsItemsControl"
+            ItemsSource="{Binding BeatSteps.Steps}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Border
+                        Margin="2,0"
+                        BorderThickness="1">
+                        <Border.BorderBrush>
+                            <MultiBinding Converter="{StaticResource CurrentStepConverter}">
+                                <Binding Path="$parent[ContentPresenter].Tag" />
+                                <Binding Path="$parent[ItemsControl].DataContext.BeatSteps.CurrentStepIndex" />
+                            </MultiBinding>
+                        </Border.BorderBrush>
+                        <ToggleButton
+                            Width="28"
+                            Height="28"
+                            IsChecked="{Binding Value, Mode=TwoWay}" />
+                    </Border>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Views:Easing DataContext="{Binding Easing}" />
+    </StackPanel>
+</UserControl>

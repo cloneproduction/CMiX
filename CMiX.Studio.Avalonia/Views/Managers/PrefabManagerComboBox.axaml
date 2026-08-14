@@ -1,0 +1,63 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.PrefabManagerComboBox"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    x:Name="prefabManagerComboBox">
+
+    <Grid
+        Height="{DynamicResource ControlHeightMD}"
+        Margin="8"
+        DockPanel.Dock="Left">
+
+        <!--
+            The WPF binding used Path=Position, a plain path that never resolved because
+            the user control declares no Position property. The intent is to mirror the
+            PositionedControl.Position attached value set by a parent PositionedStackPanel,
+            so the attached property path is bound here, matching Controls\ComboBox.axaml.
+        -->
+        <Border
+            x:Name="mask"
+            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=prefabManagerComboBox}"
+            Background="{DynamicResource Grey200Brush}"
+            Classes="BorderMask" />
+
+        <Border>
+            <!-- TODO Avalonia: verify VisualBrush opacity mask rendering. -->
+            <Border.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=mask}" />
+            </Border.OpacityMask>
+
+            <DockPanel>
+
+                <Button
+                    Margin="1,0,0,0"
+                    Command="{Binding RemoveSelectedItemCommand}"
+                    CommandParameter="{Binding SelectedItem}"
+                    DockPanel.Dock="Right"
+                    Theme="{StaticResource ButtonStraight}">
+                    <Button.Content>
+                        <Image
+                            Margin="42"
+                            Opacity="0.5"
+                            Source="{DynamicResource Add}" />
+                    </Button.Content>
+                </Button>
+
+                <ComboBox
+                    DockPanel.Dock="Left"
+                    ItemsSource="{Binding ItemsSource, ElementName=prefabManagerComboBox}"
+                    SelectedItem="{Binding SelectedItem, ElementName=prefabManagerComboBox, Mode=TwoWay}">
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name.Value}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+                </ComboBox>
+
+            </DockPanel>
+        </Border>
+
+    </Grid>
+
+</UserControl>

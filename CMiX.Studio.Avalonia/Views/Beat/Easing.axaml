@@ -1,0 +1,46 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Easing"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <Expander IsExpanded="True">
+
+        <Expander.Header>
+            <DockPanel>
+
+                <ToggleButton
+                    Width="14"
+                    Height="14"
+                    IsChecked="{Binding IsEnabled.Value}"
+                    Theme="{DynamicResource ToggleButtonRounded}" />
+
+                <TextBlock
+                    Margin="8,0"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    Text="Easing" />
+
+            </DockPanel>
+        </Expander.Header>
+
+        <Panels:PositionedStackPanel
+            Margin="8"
+            IsEnabled="{Binding IsEnabled.Value}">
+
+            <BaseControls:ComboBox
+                Margin="0,0,0,1"
+                Caption="Function"
+                ItemsSource="{x:Static Resources:EnumProviders.TweenerTransition}"
+                SelectedItem="{Binding Transition.Value}" />
+
+            <BaseControls:ComboBox
+                Caption="Mode"
+                ItemsSource="{x:Static Resources:EnumProviders.TweenerMode}"
+                SelectedItem="{Binding Mode.Value}" />
+
+        </Panels:PositionedStackPanel>
+
+    </Expander>
+</UserControl>
