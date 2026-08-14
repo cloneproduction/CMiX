@@ -1,0 +1,34 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Windows.MainWindowController"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        The WPF WindowChrome.IsHitTestVisibleInChrome attributes are gone; the Avalonia
+        window chrome handles hit testing through its own template. The FindAncestor
+        Window command parameters become $parent[Window] bindings.
+    -->
+    <DockPanel>
+
+        <Button
+            Command="{Binding CloseWindowCommand}"
+            CommandParameter="{Binding $parent[Window]}"
+            Content="X"
+            DockPanel.Dock="Right"
+            Theme="{StaticResource ButtonCloseWindowStyle}" />
+
+        <Button
+            Command="{Binding MaximizeWindowCommand}"
+            CommandParameter="{Binding $parent[Window]}"
+            DockPanel.Dock="Right"
+            Theme="{DynamicResource ButtonMaximizeWindowStyle}" />
+
+        <Button
+            Command="{Binding MinimizeWindowCommand}"
+            CommandParameter="{Binding $parent[Window]}"
+            DockPanel.Dock="Right"
+            Theme="{DynamicResource ButtonMinimizeWindowStyle}"
+            VerticalContentAlignment="Bottom" />
+
+    </DockPanel>
+</UserControl>
