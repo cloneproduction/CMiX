@@ -3,17 +3,136 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="CMiX"
-    Width="1280"
-    Height="800"
+    Width="400"
+    Height="1000"
     Background="#FF1E1E1E"
+    Focusable="True"
     WindowStartupLocation="CenterScreen">
 
-    <Grid>
-        <TextBlock
-            HorizontalAlignment="Center"
-            VerticalAlignment="Center"
-            Foreground="#FF808080"
-            Text="CMiX Avalonia shell" />
-    </Grid>
+    <!-- Skeleton of the WPF MainWindow layout. Placeholder regions are replaced by real views in later phases. -->
+    <DockPanel Background="{DynamicResource Grey200Brush}" LastChildFill="True">
+
+        <Border Background="{DynamicResource Grey100Brush}" DockPanel.Dock="Top">
+            <DockPanel LastChildFill="False">
+
+                <ContentControl
+                    x:Name="mainWindowControllerRegion"
+                    DataContext="{Binding MainWindowController}"
+                    DockPanel.Dock="Right" />
+
+                <ContentControl
+                    x:Name="mainMenuRegion"
+                    DataContext="{Binding MainMenu}"
+                    DockPanel.Dock="Left">
+                    <TextBlock
+                        Padding="8"
+                        Text="Menu" />
+                </ContentControl>
+
+            </DockPanel>
+        </Border>
+
+        <Border
+            Background="{DynamicResource Grey100Brush}"
+            BorderBrush="{DynamicResource Grey100Brush}"
+            BorderThickness="2,0,2,2"
+            DockPanel.Dock="Bottom">
+            <DockPanel LastChildFill="False" Opacity="0.5">
+
+                <TextBlock
+                    Padding="8"
+                    DockPanel.Dock="Left"
+                    Text="CMiX Studio" />
+
+                <TextBlock
+                    Padding="8"
+                    DockPanel.Dock="Right"
+                    Text="CloneProduction" />
+
+            </DockPanel>
+        </Border>
+
+        <Border
+            Padding="8"
+            Background="{DynamicResource Grey300Brush}"
+            BorderBrush="{DynamicResource Grey100Brush}"
+            BorderThickness="2,0"
+            DockPanel.Dock="Bottom">
+
+            <ContentControl x:Name="masterBeatRegion" DataContext="{Binding Project.MasterBeat}">
+                <TextBlock Text="Master beat" />
+            </ContentControl>
+
+        </Border>
+
+        <TabControl DockPanel.Dock="Top" VerticalAlignment="Stretch">
+
+            <TabItem Header="Composition">
+                <ScrollViewer>
+                    <ContentControl x:Name="compositionRegion" Content="{Binding Project.CompositionManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Layers">
+                <ContentControl x:Name="layerRegion" Content="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem}" />
+            </TabItem>
+
+            <TabItem Header="Entities">
+                <ScrollViewer>
+                    <ContentControl x:Name="entityRegion" Content="{Binding EntityManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Materials">
+                <ScrollViewer>
+                    <ContentControl x:Name="materialRegion" Content="{Binding MaterialManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Textures">
+                <ScrollViewer>
+                    <ContentControl x:Name="textureRegion" Content="{Binding TextureManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Cameras">
+                <ScrollViewer>
+                    <ContentControl x:Name="cameraRegion" Content="{Binding CameraManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Lights">
+                <ScrollViewer>
+                    <ContentControl x:Name="lightRegion" Content="{Binding LightManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Beat">
+                <ScrollViewer>
+                    <ContentControl x:Name="beatModifierRegion" Content="{Binding BeatManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Palettes">
+                <ScrollViewer>
+                    <ContentControl x:Name="colorPaletteRegion" Content="{Binding ColorPaletteManager.SelectedItem}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Assets">
+                <ScrollViewer>
+                    <ContentControl x:Name="assetRegion" DataContext="{Binding AssetManager}" />
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Network">
+                <ScrollViewer>
+                    <ContentControl x:Name="serverRegion" DataContext="{Binding ServerManager}" />
+                </ScrollViewer>
+            </TabItem>
+
+        </TabControl>
+
+    </DockPanel>
 
 </Window>
