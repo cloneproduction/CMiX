@@ -43,6 +43,27 @@ namespace CMiX.Studio.Avalonia.Services
                 Move(index, index + 1);
         }
 
+        // Mirrors the WPF gong DragOver guard: dropping on itself or directly below itself is a no op.
+        public bool CanDrop(int sourceIndex, int insertIndex)
+        {
+            return insertIndex - 1 != sourceIndex && sourceIndex != insertIndex;
+        }
+
+        // Mirrors the WPF gong Dropped index fix up before moving.
+        public void Dropped(int sourceIndex, int insertIndex)
+        {
+            var itemCount = CollectionManager.ManagerData.Items.Count;
+            var targetIndex = insertIndex;
+
+            if (targetIndex == itemCount ||
+                targetIndex == itemCount - 1 ||
+                targetIndex >= sourceIndex)
+                targetIndex -= 1;
+
+            Move(sourceIndex, targetIndex);
+            DragHandlerIsPressed = false;
+        }
+
         private void Move(int sourceIndex, int targetIndex)
         {
             CollectionManager.MoveItem(sourceIndex, targetIndex);

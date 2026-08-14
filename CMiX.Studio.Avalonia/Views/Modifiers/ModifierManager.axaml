@@ -5,6 +5,7 @@
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Services="clr-namespace:CMiX.Studio.Avalonia.Services"
     x:Name="modifierManager">
 
     <StackPanel Margin="8, 8, 8, 4">
@@ -36,9 +37,9 @@
 
         </Popup>
 
-        <!-- TODO Avalonia: drag drop is wired in the drag and drop phase -->
         <ItemsControl
             Margin="0, 4, 0, 0"
+            Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
             ItemsSource="{Binding ManagerData.Items}">
 
             <ItemsControl.ItemTemplate>

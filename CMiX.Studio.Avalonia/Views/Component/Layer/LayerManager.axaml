@@ -6,6 +6,7 @@
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:Services="clr-namespace:CMiX.Studio.Avalonia.Services"
     xmlns:views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <Border Background="{DynamicResource Grey300Brush}">
@@ -139,8 +140,8 @@
 
                 <Border Background="{DynamicResource Grey400Brush}" DockPanel.Dock="Top">
 
-                    <!-- TODO Avalonia: drag drop is wired in the drag and drop phase -->
                     <ListBox
+                        Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
                         DockPanel.Dock="Top"
                         ItemsSource="{Binding ManagerData.Items}"
                         SelectedIndex="{Binding ManagerData.SelectedIndex}"
