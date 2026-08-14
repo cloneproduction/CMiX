@@ -1,0 +1,18 @@
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
+
+using Avalonia.Interactivity;
+using Avalonia.Media;
+
+namespace CMiX.Studio.Avalonia.Views.Controls
+{
+    public class ColorRoutedEventArgs : RoutedEventArgs
+    {
+        public ColorRoutedEventArgs(RoutedEvent routedEvent, Color color) : base(routedEvent)
+        {
+            Color = color;
+        }
+
+        public Color Color { get; private set; }
+    }
+}
