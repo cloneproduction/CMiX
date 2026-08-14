@@ -1,0 +1,373 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Converters.axaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Width="{TemplateBinding Width}"
+                    Height="{TemplateBinding Height}"
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+
+                    <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Viewbox>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!--  Position pseudo classes are set by the PositionedControl attached property  -->
+        <Style Selector="^:position-all /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        </Style>
+        <Style Selector="^:position-middle /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-right /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+        </Style>
+        <Style Selector="^:position-left /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+        </Style>
+        <Style Selector="^:position-none /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-top /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+        </Style>
+        <Style Selector="^:position-bottom /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonStraight"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="None" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonRounded"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonRoundedRight"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Right" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonRoundedLeft"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Left" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonRoundedTop"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Top" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonRoundedBottom"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Bottom" />
+    </ControlTheme>
+
+    <!--  This one is used for ColorSelector  -->
+    <ControlTheme x:Key="ButtonColorStyle" TargetType="ToggleButton">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Grid Background="Transparent">
+
+                    <Border
+                        Name="mask"
+                        Classes="BorderMask"
+                        AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}}"
+                        Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
+                        IsHitTestVisible="False" />
+
+                    <Grid>
+                        <!--  TODO Avalonia: verify VisualBrush rendering  -->
+                        <Grid.OpacityMask>
+                            <VisualBrush Visual="{Binding ElementName=mask}" />
+                        </Grid.OpacityMask>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <Border Grid.Column="1"
+                                CornerRadius="{DynamicResource CornerRadiusRight}">
+                            <Border.Background>
+                                <!--  WPF Viewport with absolute ViewportUnits becomes DestinationRect  -->
+                                <ImageBrush
+                                    DestinationRect="0, 0, 128, 128"
+                                    Source="{DynamicResource CheckBoard}"
+                                    Stretch="Uniform"
+                                    TileMode="Tile" />
+                            </Border.Background>
+                        </Border>
+
+                        <Border
+                            Name="borderAlpha"
+                            Grid.Column="1"
+                            CornerRadius="{DynamicResource CornerRadiusRight}">
+                            <Border.Background>
+                                <SolidColorBrush Color="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}}" />
+                            </Border.Background>
+                        </Border>
+
+                        <Border
+                            Name="border"
+                            Grid.Column="0"
+                            Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
+                            CornerRadius="{DynamicResource CornerRadiusLeft}" />
+
+                    </Grid>
+                </Grid>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+        <Style Selector="^:disabled /template/ Border#borderAlpha">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonListBoxItem" TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Margin="0"
+                    Padding="0,0,8,0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        HorizontalAlignment="Right"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonItemControl" TargetType="Button">
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="VerticalAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Margin="0"
+                    Padding="8,0,0,0"
+                    HorizontalAlignment="Stretch"
+                    Background="Transparent"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        HorizontalAlignment="Left"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonValidation" TargetType="Button">
+        <Setter Property="IsEnabled" Value="True" />
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Margin="0"
+                    Background="{DynamicResource AccentInactiveBrush}"
+                    BorderBrush="{DynamicResource Shadow}"
+                    BorderThickness="0,0,0,2"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+
+                    <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+                        <TextBlock
+                            Name="textBlock"
+                            HorizontalAlignment="Center"
+                            Foreground="{DynamicResource ForegroundBrush}"
+                            Text="{TemplateBinding Content}" />
+                    </Viewbox>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover">
+            <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonWindowControlStyle"
+        BasedOn="{StaticResource {x:Type Button}}"
+        TargetType="Button">
+        <Setter Property="Height" Value="{DynamicResource ControlHeightXL}" />
+        <Setter Property="Width" Value="{DynamicResource ControlHeightXL}" />
+        <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonCloseWindowStyle"
+        BasedOn="{StaticResource ButtonWindowControlStyle}"
+        TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="border" Padding="8" Background="Transparent">
+                    <Image Name="image" Opacity="0.75" Source="{DynamicResource CloseTab}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonMaximizeWindowStyle"
+        BasedOn="{StaticResource ButtonWindowControlStyle}"
+        TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="border" Padding="10" Background="Transparent">
+                    <Image Name="image" Opacity="0.75" Source="{DynamicResource Maximize}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ButtonMinimizeWindowStyle"
+        BasedOn="{StaticResource ButtonWindowControlStyle}"
+        TargetType="Button">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border Name="border" Padding="8" Background="Transparent">
+                    <Image Name="image" Opacity="0.75" Source="{DynamicResource Minimize}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:pointerover /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+        <Style Selector="^:pressed /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>

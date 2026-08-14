@@ -1,0 +1,292 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Converters.axaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <ControlTheme x:Key="{x:Type ToggleButton}" TargetType="ToggleButton">
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+
+                    <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
+                        <ContentPresenter
+                            Name="PART_ContentPresenter"
+                            Content="{TemplateBinding Content}"
+                            ContentTemplate="{TemplateBinding ContentTemplate}" />
+                    </Viewbox>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <!--  Position pseudo classes are set by the PositionedControl attached property  -->
+        <Style Selector="^:position-all /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        </Style>
+        <Style Selector="^:position-middle /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-right /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+        </Style>
+        <Style Selector="^:position-left /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+        </Style>
+        <Style Selector="^:position-none /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-top /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+        </Style>
+        <Style Selector="^:position-bottom /template/ Border#border">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <Style Selector="^:checked:not(:pointerover) /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+
+        <Style Selector="^:checked:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+
+        <Style Selector="^:unchecked:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+
+        <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="ToggleButtonRounded"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="ToggleButton">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="ToggleButtonRoundedLeft"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="ToggleButton">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Left" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="ToggleCheckBox" TargetType="ToggleButton">
+        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="VerticalAlignment" Value="Stretch" />
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Padding="4"
+                    HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
+                    VerticalAlignment="{TemplateBinding VerticalAlignment}"
+                    Background="{TemplateBinding Background}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <Image Name="icon" Source="{DynamicResource IsChecked}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pressed /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+
+        <Style Selector="^:disabled /template/ Border#border">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!--  WPF used Visibility Hidden which reserves space; IsVisible false collapses instead  -->
+        <Style Selector="^:checked:not(:pointerover) /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+        <Style Selector="^:checked:not(:pointerover) /template/ Image#icon">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <Style Selector="^:checked:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:checked:pointerover /template/ Image#icon">
+            <Setter Property="IsVisible" Value="True" />
+        </Style>
+
+        <Style Selector="^:unchecked:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+        <Style Selector="^:unchecked:pointerover /template/ Image#icon">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+
+        <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+        <Style Selector="^:unchecked:not(:pointerover) /template/ Image#icon">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme
+        x:Key="ToggleButtonIcon"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="ToggleButton">
+        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        <!--  WPF set an empty Run as the default Content  -->
+        <Setter Property="Content" Value="" />
+        <Style Selector="^:checked">
+            <Setter Property="Content">
+                <Template>
+                    <Image
+                        Margin="2"
+                        Opacity="0.75"
+                        Source="{DynamicResource IsChecked}" />
+                </Template>
+            </Setter>
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ToggleVisibility" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Height" Value="{DynamicResource ControlHeightXS}" />
+        <Setter Property="Width" Value="{DynamicResource ControlHeightXS}" />
+        <Setter Property="Padding" Value="4" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Margin="0"
+                    Padding="1"
+                    Background="Transparent"
+                    Opacity="0.6">
+                    <Image Name="image" Source="{DynamicResource Visible}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked /template/ Image#image">
+            <Setter Property="Source" Value="{DynamicResource NotVisible}" />
+        </Style>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="TogglePlayPause" TargetType="ToggleButton">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="HorizontalContentAlignment" Value="Center" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Padding" Value="3" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Margin="0"
+                    Padding="1"
+                    Background="Transparent"
+                    Opacity="0.6">
+                    <Image Name="image" Source="{DynamicResource Play}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:checked /template/ Image#image">
+            <Setter Property="Source" Value="{DynamicResource Stop}" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="ToggleTransformModifierMenu" TargetType="ToggleButton">
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="HorizontalContentAlignment" Value="Left" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="border"
+                    Background="{DynamicResource Grey400Brush}"
+                    CornerRadius="{DynamicResource CornerRadiusLeft}">
+                    <DockPanel>
+                        <Path
+                            Name="arrow"
+                            Margin="0,0,8,0"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Data="M 1,1.5 L 4.5,5 L 8,1.5"
+                            DockPanel.Dock="Right"
+                            Opacity="0.5"
+                            Stroke="{DynamicResource ForegroundBrush}"
+                            StrokeThickness="2" />
+                        <TextBlock Padding="8,4,4,4" Text="{TemplateBinding Content}" />
+                    </DockPanel>
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:pointerover /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+
+        <Style Selector="^:checked /template/ Border#border">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+        <Style Selector="^:checked /template/ Path#arrow">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </ControlTheme>
+
+    <ControlTheme x:Key="InlineToggleButtonLeft"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="ToggleButton">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Left" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="InlineToggleButtonCenter"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="ToggleButton">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="None" />
+    </ControlTheme>
+
+    <ControlTheme x:Key="InlineToggleButtonRight"
+        BasedOn="{StaticResource {x:Type ToggleButton}}"
+        TargetType="ToggleButton">
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Right" />
+    </ControlTheme>
+
+</ResourceDictionary>

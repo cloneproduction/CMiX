@@ -1,0 +1,69 @@
+﻿<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+
+    <ControlTheme x:Key="{x:Type RadioButton}" TargetType="RadioButton">
+        <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
+        <Setter Property="VerticalContentAlignment" Value="Center" />
+        <Setter Property="HorizontalAlignment" Value="Stretch" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
+        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="All" />
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Border
+                    Name="radioButtonBorder"
+                    Background="{DynamicResource Grey500Brush}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <ContentPresenter
+                        Name="PART_ContentPresenter"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Content="{TemplateBinding Content}"
+                        ContentTemplate="{TemplateBinding ContentTemplate}" />
+                </Border>
+            </ControlTemplate>
+        </Setter>
+
+        <Style Selector="^:disabled">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>
+
+        <!--  Position pseudo classes are set by the PositionedControl attached property  -->
+        <Style Selector="^:position-all /template/ Border#radioButtonBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        </Style>
+        <Style Selector="^:position-middle /template/ Border#radioButtonBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-none /template/ Border#radioButtonBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        </Style>
+        <Style Selector="^:position-top /template/ Border#radioButtonBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+        </Style>
+        <Style Selector="^:position-bottom /template/ Border#radioButtonBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+        </Style>
+        <Style Selector="^:position-left /template/ Border#radioButtonBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+        </Style>
+        <Style Selector="^:position-right /template/ Border#radioButtonBorder">
+            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+        </Style>
+
+        <Style Selector="^:unchecked:pointerover /template/ Border#radioButtonBorder">
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+
+        <Style Selector="^:checked:not(:pointerover) /template/ Border#radioButtonBorder">
+            <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
+        </Style>
+
+        <Style Selector="^:checked:pointerover /template/ Border#radioButtonBorder">
+            <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
+        </Style>
+    </ControlTheme>
+
+</ResourceDictionary>
