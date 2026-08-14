@@ -1,0 +1,97 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Menus.MainMenu"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <!--
+        The WPF WindowChrome.IsHitTestVisibleInChrome attribute is gone; the Avalonia
+        main window chrome handles hit testing through its own template.
+    -->
+    <Border
+        Margin="0,0,0,2"
+        Padding="2"
+        Background="Transparent"
+        BorderBrush="{DynamicResource Grey100Brush}"
+        DockPanel.Dock="Top">
+        <!-- Menu and MenuItem have no VerticalContentAlignment/HorizontalContentAlignment in Avalonia; the MenuDefault/TopMenuItem themes align the headers. -->
+        <Menu
+            Height="{DynamicResource ControlHeightMD}"
+            Margin="0,0,0,0"
+            HorizontalAlignment="Left"
+            Theme="{StaticResource MenuDefault}">
+
+            <MenuItem
+                Padding="8,0"
+                Header="File"
+                Theme="{DynamicResource TopMenuItem}">
+
+                <MenuItem
+                    Padding="0,0,64,0"
+                    Command="{Binding NewProjectCommand}"
+                    Header="New" />
+
+                <MenuItem
+                    Command="{Binding OpenProjectCommand}"
+                    Header="Open" />
+
+                <MenuItem
+                    Command="{Binding SaveProjectCommand}"
+                    Header="Save" />
+
+                <MenuItem
+                    Command="{Binding SaveAsProjectCommand}"
+                    Header="Save As" />
+
+                <MenuItem
+                    Command="{Binding CloseWindowCommand}"
+                    Header="Quit" />
+
+            </MenuItem>
+
+            <MenuItem
+                Padding="8,0"
+                Header="Edit"
+                Theme="{DynamicResource TopMenuItem}">
+
+                <MenuItem
+                    Command="{Binding UndoCommand}"
+                    Header="Undo    Ctrl + Z" />
+
+                <MenuItem
+                    Command="{Binding RedoCommand}"
+                    Header="Redo    Ctrl + Y" />
+
+            </MenuItem>
+
+            <MenuItem
+                Padding="8,0"
+                Header="Compo"
+                Theme="{DynamicResource TopMenuItem}">
+
+                <MenuItem
+                    Command="{Binding AddCompositionCommand}"
+                    Header="New Composition" />
+
+                <MenuItem Header="Delete" />
+                <MenuItem Header="Duplicate" />
+                <!-- The WPF Separator element becomes the separator MenuItem the menu item theme styles. -->
+                <MenuItem Header="-" />
+                <MenuItem Header="Import" />
+                <MenuItem Header="Export" />
+
+            </MenuItem>
+
+            <MenuItem
+                Padding="8,0"
+                Header="Layer"
+                Theme="{DynamicResource TopMenuItem}">
+                <MenuItem
+                    Command="{Binding AddLayerCommand}"
+                    Header="New Layer" />
+                <MenuItem Header="Delete" />
+                <MenuItem Header="Duplicate" />
+            </MenuItem>
+
+        </Menu>
+    </Border>
+</UserControl>

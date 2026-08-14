@@ -1,0 +1,59 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.ServerSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <StackPanel Margin="8">
+
+        <Grid Height="{DynamicResource ControlHeightMD}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="0,0,8,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                Text="IP" />
+            <TextBlock
+                Grid.Column="1"
+                Padding="4"
+                Text="{Binding IP.Value}" />
+        </Grid>
+        <Grid Height="{DynamicResource ControlHeightMD}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="0,0,8,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="{StaticResource ForegroundBrush}"
+                Text="Port" />
+            <TextBlock
+                Grid.Column="1"
+                Padding="4"
+                Foreground="{StaticResource ForegroundBrush}"
+                Text="{Binding Port.Value}" />
+        </Grid>
+        <Grid Height="{DynamicResource ControlHeightMD}">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition />
+                <ColumnDefinition />
+            </Grid.ColumnDefinitions>
+            <TextBlock
+                Margin="0,0,8,0"
+                HorizontalAlignment="Right"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                Text="Client Status" />
+            <TextBlock
+                Grid.Column="1"
+                Padding="4"
+                Foreground="{DynamicResource ForegroundBrush}"
+                Text="{Binding Status}" />
+        </Grid>
+    </StackPanel>
+</UserControl>

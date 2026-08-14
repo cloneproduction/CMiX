@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MessageValidation"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Border
+        Background="{StaticResource Grey400Brush}"
+        DockPanel.Dock="Bottom">
+        <StackPanel>
+            <Grid Height="{DynamicResource ControlHeightSM}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Margin="0,0,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource ForegroundBrush}"
+                    Text="Name" />
+                <TextBlock
+                    Grid.Column="1"
+                    Margin="1"
+                    Foreground="{StaticResource ForegroundBrush}"
+                    Text="{Binding Name}" />
+            </Grid>
+            <Grid
+                Height="{DynamicResource ControlHeightSM}"
+                Margin="0,4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Margin="0,0,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource ForegroundBrush}"
+                    Text="Send" />
+                <ToggleButton
+                    Grid.Column="1"
+                    Width="{DynamicResource ControlHeightSM}"
+                    Height="{DynamicResource ControlHeightSM}"
+                    HorizontalAlignment="Left"
+                    CommandParameter="{Binding}"
+                    IsChecked="{Binding Enabled}" />
+            </Grid>
+            <Grid Height="{DynamicResource ControlHeightSM}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.4*" />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <TextBlock
+                    Margin="0,0,8,0"
+                    HorizontalAlignment="Right"
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource ForegroundBrush}"
+                    Text="Reload" />
+                <Button
+                    Grid.Column="1"
+                    Width="{DynamicResource ControlHeightSM}"
+                    Height="{DynamicResource ControlHeightSM}"
+                    HorizontalAlignment="Left"
+                    CommandParameter="{Binding}" />
+            </Grid>
+        </StackPanel>
+    </Border>
+</UserControl>

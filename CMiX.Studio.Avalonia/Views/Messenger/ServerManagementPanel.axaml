@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.ServerManagementPanel"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <Border Background="{DynamicResource Grey300Brush}">
+        <StackPanel>
+            <!-- PrefabSlotManager arrives with the Managers slice; this reference compiles once that view is ported. -->
+            <Views:PrefabSlotManager
+                Margin="8"
+                DataContext="{Binding}">
+                <Views:PrefabSlotManager.SelectionPanel>
+                    <Views:ServerCreation ViewModel="{Binding}" />
+                </Views:PrefabSlotManager.SelectionPanel>
+            </Views:PrefabSlotManager>
+
+            <!--
+                NullToVisibility returns a bool in this project. The WPF ConverterParameter
+                asked for Hidden, which preserved layout space; IsVisible collapses instead,
+                acceptable here because the panel sits at the bottom of a StackPanel.
+            -->
+            <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
+                <Views:Server DataContext="{Binding SelectedItem}" />
+            </Border>
+
+        </StackPanel>
+    </Border>
+</UserControl>
