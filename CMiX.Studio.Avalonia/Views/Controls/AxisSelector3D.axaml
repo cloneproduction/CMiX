@@ -1,0 +1,61 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.AxisSelector3D"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    x:Name="axisSelector3D">
+
+    <Grid Height="{DynamicResource ControlHeightMD}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Grid.Column="0"
+            Padding="0,0,8,0"
+            HorizontalAlignment="Right"
+            Foreground="{StaticResource ForegroundBrush}"
+            Text="{Binding Caption, ElementName=axisSelector3D}" />
+
+        <Border
+            x:Name="outerBorder"
+            Grid.Column="1"
+            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=axisSelector3D}"
+            Classes="BorderMask"
+            ClipToBounds="True"
+            CornerRadius="{DynamicResource CornerRadiusAll}">
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <ToggleButton
+                    Grid.Column="0"
+                    Content="X"
+                    IsChecked="{Binding XIsChecked, ElementName=axisSelector3D, Mode=TwoWay}"
+                    Theme="{StaticResource InlineToggleButtonLeft}" />
+
+                <ToggleButton
+                    Grid.Column="1"
+                    Margin="1,0"
+                    Content="Y"
+                    IsChecked="{Binding YIsChecked, ElementName=axisSelector3D, Mode=TwoWay}"
+                    Theme="{StaticResource InlineToggleButtonCenter}" />
+
+                <ToggleButton
+                    Grid.Column="2"
+                    Content="Z"
+                    IsChecked="{Binding ZIsChecked, ElementName=axisSelector3D, Mode=TwoWay}"
+                    Theme="{StaticResource InlineToggleButtonRight}" />
+
+            </Grid>
+
+        </Border>
+
+    </Grid>
+</UserControl>

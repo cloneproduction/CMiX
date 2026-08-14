@@ -1,0 +1,133 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.DragValue"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="dragValue"
+    Height="{DynamicResource ControlHeightMD}">
+
+    <UserControl.Styles>
+        <!-- The inline WPF Border style with an IsMouseOver trigger becomes selector styles. -->
+        <Style Selector="Border#borderValueDisplay">
+            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+        </Style>
+        <Style Selector="Border#borderValueDisplay:pointerover">
+            <Setter Property="Cursor" Value="SizeWestEast" />
+            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
+        </Style>
+    </UserControl.Styles>
+
+    <UniformGrid Columns="2">
+
+        <TextBlock
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="{Binding Caption, ElementName=dragValue}" />
+
+        <Grid>
+            <Border
+                x:Name="mask"
+                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=dragValue}"
+                Background="{Binding Background, ElementName=mainBorder}"
+                Classes="BorderMask"
+                IsHitTestVisible="False" />
+            <Border
+                x:Name="mainBorder"
+                Background="{DynamicResource Grey500Brush}"
+                BorderBrush="Transparent">
+
+                <!-- TODO Avalonia: verify VisualBrush opacity mask rendering. -->
+                <Border.OpacityMask>
+                    <VisualBrush Visual="{Binding ElementName=mask}" />
+                </Border.OpacityMask>
+
+                <Grid>
+
+                    <Grid>
+                        <Controls:NumericInput
+                            x:Name="numericInput"
+                            Height="{Binding Bounds.Height, ElementName=dragValue}"
+                            IsEditing="{Binding IsEditing, ElementName=dragValue, Mode=TwoWay}"
+                            IsInteger="{Binding IsInteger, ElementName=dragValue}"
+                            Maximum="{Binding Maximum, ElementName=dragValue}"
+                            Minimum="{Binding Minimum, ElementName=dragValue}"
+                            Value="{Binding Value, ElementName=dragValue, Mode=TwoWay}" />
+
+                        <!--
+                            WPF hid this border with Visibility.Hidden while editing. The NumericInput
+                            overlaps it in the same grid cell, so IsVisible keeps the same layout.
+                        -->
+                        <Border
+                            x:Name="borderValueDisplay"
+                            VerticalAlignment="Stretch"
+                            IsVisible="{Binding !IsEditing, ElementName=dragValue}">
+
+                            <!--
+                                WPF used a Label whose ContentStringFormat switched through a DataTrigger
+                                on IsInteger. Avalonia has no ContentStringFormat, so two TextBlocks with
+                                fixed formats toggle on IsInteger instead.
+                            -->
+                            <Grid>
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    IsVisible="{Binding !IsInteger, ElementName=dragValue}"
+                                    Text="{Binding Value, ElementName=dragValue, StringFormat={}{0:N3}}" />
+                                <TextBlock
+                                    VerticalAlignment="Center"
+                                    IsVisible="{Binding IsInteger, ElementName=dragValue}"
+                                    Text="{Binding Value, ElementName=dragValue, StringFormat={}{0:N0}}" />
+                            </Grid>
+
+                        </Border>
+                    </Grid>
+
+                    <!-- WPF used BoolToVisibility with the Invert parameter; the negation binding replaces it. -->
+                    <DockPanel
+                        IsVisible="{Binding !IsEditing, ElementName=dragValue}"
+                        LastChildFill="False">
+
+                        <!--
+                            WPF hid the buttons with Visibility.Hidden until mainBorder was hovered.
+                            They are docked at the edges, so IsVisible causes no layout shift.
+                        -->
+                        <Button
+                            x:Name="SubButton"
+                            Width="{Binding Bounds.Height, ElementName=dragValue}"
+                            HorizontalAlignment="Left"
+                            DockPanel.Dock="Left"
+                            IsVisible="{Binding IsPointerOver, ElementName=mainBorder}"
+                            Theme="{StaticResource ButtonStraight}">
+
+                            <Button.Content>
+                                <Image
+                                    Margin="42"
+                                    Opacity="0.5"
+                                    Source="{DynamicResource Sub}" />
+                            </Button.Content>
+
+                        </Button>
+                        <Button
+                            x:Name="AddButton"
+                            Width="{Binding Bounds.Height, ElementName=dragValue}"
+                            HorizontalAlignment="Right"
+                            DockPanel.Dock="Right"
+                            IsVisible="{Binding IsPointerOver, ElementName=mainBorder}"
+                            Theme="{StaticResource ButtonStraight}">
+
+                            <Button.Content>
+                                <Image
+                                    Margin="42"
+                                    Opacity="0.5"
+                                    Source="{DynamicResource Add}" />
+                            </Button.Content>
+
+                        </Button>
+                    </DockPanel>
+                </Grid>
+
+            </Border>
+        </Grid>
+
+    </UniformGrid>
+</UserControl>

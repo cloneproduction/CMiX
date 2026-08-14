@@ -1,0 +1,23 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.PrefabListItem"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="uc">
+
+    <DockPanel>
+        <Image
+            Width="12"
+            Height="12"
+            Margin="4,0"
+            Opacity="0.7"
+            Source="{Binding Icon, ElementName=uc}" />
+        <ToggleButton
+            Margin="4,0"
+            DockPanel.Dock="Right"
+            IsChecked="{Binding PrefabService.Visibility.Value, Mode=TwoWay}"
+            Theme="{DynamicResource ToggleVisibility}" />
+        <Controls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
+    </DockPanel>
+
+</UserControl>

@@ -1,0 +1,33 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.ToggleButton"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    x:Name="toggleButtonControl">
+
+    <Grid Height="{DynamicResource ControlHeightMD}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <DockPanel Grid.Column="1">
+            <ToggleButton
+                x:Name="toggleButton"
+                Width="{DynamicResource ControlHeightXS}"
+                Height="{DynamicResource ControlHeightXS}"
+                HorizontalAlignment="Left"
+                IsChecked="{Binding IsChecked, ElementName=toggleButtonControl, Mode=TwoWay}"
+                Theme="{StaticResource ToggleCheckBox}" />
+            <Border
+                x:Name="labelBorder"
+                Background="Transparent">
+                <TextBlock
+                    Padding="4,0"
+                    HorizontalAlignment="Left"
+                    Foreground="{StaticResource ForegroundBrush}"
+                    Text="{Binding Caption, ElementName=toggleButtonControl}" />
+            </Border>
+        </DockPanel>
+    </Grid>
+</UserControl>

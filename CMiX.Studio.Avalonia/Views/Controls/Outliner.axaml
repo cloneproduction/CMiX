@@ -1,0 +1,64 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Outliner"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="outliner">
+
+    <DockPanel Height="{DynamicResource ControlHeightMD}">
+
+        <ComboBox
+            Focusable="False"
+            HorizontalAlignment="Stretch"
+            ItemsSource="{Binding ItemsSource, ElementName=outliner}"
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            Theme="{StaticResource ComboBoxWithButton}">
+            <ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding PrefabService.Name.Value}" />
+                </DataTemplate>
+            </ComboBox.ItemTemplate>
+        </ComboBox>
+
+        <Grid>
+
+            <ContentControl
+                Margin="1,0,0,0"
+                Content="{Binding SelectionPanel, ElementName=outliner}" />
+
+            <Border>
+                <!-- NullToVisibility returns a bool in this project; the Collapsed converter parameter is gone. -->
+                <DockPanel IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
+
+                    <Button
+                        x:Name="deleteItemButton"
+                        Width="22"
+                        Height="{DynamicResource ControlHeightMD}"
+                        Command="{Binding RemoveSelectedItemCommand}"
+                        CommandParameter="{Binding SelectedItem}"
+                        Content="-"
+                        DockPanel.Dock="Right"
+                        Theme="{StaticResource ButtonRoundedRight}" />
+
+                    <Border
+                        BorderBrush="{DynamicResource Grey300Brush}"
+                        BorderThickness="0.5">
+                        <!--
+                            The WPF TextElement.Foreground attached value becomes the Foreground
+                            property, which EditableTextBox forwards to its text display.
+                        -->
+                        <Controls:EditableTextBox
+                            Background="{DynamicResource Grey200Brush}"
+                            Focusable="False"
+                            Foreground="{DynamicResource ForegroundBrush}"
+                            Text="{Binding SelectedItem.PrefabService.Name.Value, Mode=TwoWay}" />
+                    </Border>
+
+                </DockPanel>
+            </Border>
+
+        </Grid>
+
+    </DockPanel>
+
+</UserControl>

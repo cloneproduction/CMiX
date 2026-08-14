@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.ComboBox"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    x:Name="comboBox">
+
+    <Grid Height="{DynamicResource ControlHeightMD}">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <TextBlock
+            Margin="8,0"
+            HorizontalAlignment="Right"
+            VerticalAlignment="Center"
+            Foreground="{DynamicResource ForegroundBrush}"
+            Text="{Binding Caption, ElementName=comboBox}" />
+
+        <Border
+            x:Name="mask"
+            Grid.Column="1"
+            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=comboBox}"
+            Background="{DynamicResource Grey500Brush}"
+            Classes="BorderMask" />
+
+        <Border
+            x:Name="mainBorder"
+            Grid.Column="1"
+            Background="{DynamicResource Grey500Brush}"
+            BorderBrush="Transparent">
+
+            <!-- TODO Avalonia: verify VisualBrush opacity mask rendering. -->
+            <Border.OpacityMask>
+                <VisualBrush Visual="{Binding ElementName=mask}" />
+            </Border.OpacityMask>
+
+            <ComboBox
+                AttachedProperties:PositionedControl.Position="None"
+                ItemsSource="{Binding ItemsSource, ElementName=comboBox}"
+                SelectedItem="{Binding SelectedItem, ElementName=comboBox, Mode=TwoWay}" />
+
+        </Border>
+
+    </Grid>
+
+</UserControl>
