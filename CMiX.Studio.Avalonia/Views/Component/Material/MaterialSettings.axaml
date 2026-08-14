@@ -1,0 +1,77 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MaterialSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Component="clr-namespace:CMiX.Studio.Avalonia.Views.Component"
+    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <BaseControls:CMiXSlider
+            Margin="8"
+            Caption="Alpha"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding Alpha.Value}" />
+
+        <Panels:PositionedStackPanel Margin="8,0,8,8">
+            <BaseControls:ComboBox
+                Margin="0,0,0,1"
+                Caption="Cull Mode"
+                ItemsSource="{x:Static Resources:EnumProviders.CullModeType}"
+                SelectedItem="{Binding CullMode.Value}" />
+            <BaseControls:ComboBox
+                Caption="Transparency"
+                ItemsSource="{x:Static Resources:EnumProviders.TransparencyType}"
+                SelectedItem="{Binding Transparency.Value}" />
+        </Panels:PositionedStackPanel>
+
+        <BaseControls:ToggleButton Caption="Is Shadow Caster" IsChecked="{Binding IsShadowCaster.Value}" />
+
+        <BaseControls:ComboBox
+            Margin="8"
+            Caption="Pipeline"
+            ItemsSource="{x:Static Resources:EnumProviders.PipelineType}"
+            SelectedItem="{Binding Pipeline.Value}" />
+
+        <!-- The WPF DataTrigger visibility switches on Pipeline.Value are replaced by EnumMatchConverter bindings. -->
+        <Border IsVisible="{Binding Pipeline.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Metallic}}">
+
+            <Panels:PositionedStackPanel>
+                <BaseControls:DragValue
+                    Margin="8,0,8,1"
+                    Caption="Metalness"
+                    Value="{Binding Metalness.Value}" />
+                <BaseControls:DragValue
+                    Margin="8,0,8,8"
+                    Caption="Roughness"
+                    Value="{Binding Roughness.Value}" />
+            </Panels:PositionedStackPanel>
+        </Border>
+
+        <Border
+            Margin="8,0,8,8"
+            IsVisible="{Binding Pipeline.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Materials:PipelineType.Specular}}">
+
+            <Panels:PositionedStackPanel>
+                <BaseControls:CMiXSlider
+                    Caption="Glossiness"
+                    Maximum="1"
+                    Minimum="0"
+                    Value="{Binding Glossiness.Value}" />
+
+                <BaseControls:CMiXSlider
+                    Margin="0,1,0,0"
+                    Caption="Specularity"
+                    Maximum="1"
+                    Minimum="0"
+                    Value="{Binding Specularity.Value}" />
+            </Panels:PositionedStackPanel>
+
+        </Border>
+
+    </StackPanel>
+</UserControl>

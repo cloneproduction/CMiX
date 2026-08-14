@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LocalReflection"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    x:Name="uc">
+
+    <Panels:IndentedExpander>
+
+        <Panels:IndentedExpander.Header>
+            <DockPanel>
+                <ToggleButton
+                    Width="14"
+                    Height="14"
+                    IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
+                    Theme="{DynamicResource ToggleButtonRounded}" />
+                <TextBlock
+                    Margin="8,0"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    Text="Local Reflection" />
+            </DockPanel>
+        </Panels:IndentedExpander.Header>
+
+        <Border Margin="8" IsEnabled="{Binding IsEnabled.Value}">
+
+        </Border>
+
+    </Panels:IndentedExpander>
+</UserControl>

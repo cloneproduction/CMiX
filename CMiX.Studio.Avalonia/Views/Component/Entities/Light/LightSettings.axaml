@@ -1,0 +1,52 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LightSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Component="clr-namespace:CMiX.Studio.Avalonia.Views.Component"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel Margin="8">
+
+        <BaseControls:ColorSelector Caption="Color" DataContext="{Binding LightColor}" />
+
+        <BaseControls:DragValue
+            Margin="0,8"
+            Caption="Intensity"
+            Value="{Binding Intensity.Value}" />
+
+        <BaseControls:ComboBox
+            Caption="Type"
+            ItemsSource="{x:Static Resources:EnumProviders.LightType}"
+            SelectedItem="{Binding LightTypeSelector.Value}" />
+
+        <!--
+            The WPF ContentControl swapped keyed DataTemplates through style DataTriggers on
+            LightTypeSelector.Value. Avalonia styles cannot trigger on data values, so the four
+            per type views are stacked here and toggled with EnumMatchConverter. All four stay
+            instantiated; only the matching one is visible.
+        -->
+        <Panel>
+
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.PointLight}}">
+                <Views:LightPoint Margin="0,8,0,0" DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.SpotLight}}">
+                <Views:LightSpot Margin="0,8,0,0" DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.AmbientLight}}">
+                <Views:LightAmbient DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.DirectionalLight}}">
+                <Views:LightDirectional Margin="0,8,0,0" DataContext="{Binding}" />
+            </Border>
+
+        </Panel>
+
+    </StackPanel>
+</UserControl>

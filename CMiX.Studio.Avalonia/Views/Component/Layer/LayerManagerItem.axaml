@@ -1,0 +1,81 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LayerManagerItem"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <UserControl.Styles>
+        <!-- Replacements for the WPF ControlTemplate triggers on the two inline toggle buttons. -->
+        <Style Selector="ToggleButton.visibilityToggle:checked /template/ Image#image">
+            <Setter Property="Source" Value="{DynamicResource NotVisible}" />
+        </Style>
+        <Style Selector="ToggleButton.maskToggle:checked /template/ Image#image">
+            <Setter Property="Opacity" Value="1.0" />
+        </Style>
+    </UserControl.Styles>
+
+    <Border
+        Background="Transparent"
+        PointerPressed="Border_PointerPressed"
+        PointerReleased="Border_PointerReleased">
+
+        <DockPanel>
+
+            <Border
+                Width="30"
+                Height="{DynamicResource ControlHeightMD}"
+                BorderThickness="0,0,2,0"
+                DockPanel.Dock="Left">
+
+                <ToggleButton
+                    Margin="4"
+                    Padding="4"
+                    Classes="visibilityToggle"
+                    IsChecked="{Binding PrefabService.Visibility.Value}">
+                    <ToggleButton.Template>
+                        <ControlTemplate>
+                            <Border
+                                x:Name="border"
+                                Margin="0"
+                                Padding="1"
+                                Background="Transparent"
+                                Opacity="0.6">
+                                <Image x:Name="image" Source="{DynamicResource Visible}" />
+                            </Border>
+                        </ControlTemplate>
+                    </ToggleButton.Template>
+                </ToggleButton>
+            </Border>
+
+            <ToggleButton
+                Classes="maskToggle"
+                DockPanel.Dock="Right"
+                IsChecked="{Binding IsMask.Value}">
+                <ToggleButton.Template>
+                    <ControlTemplate>
+                        <Border
+                            x:Name="border"
+                            Height="{DynamicResource ControlHeightXS}"
+                            Margin="8,0"
+                            Padding="1"
+                            Background="Transparent"
+                            Opacity="0.6">
+                            <Image
+                                x:Name="image"
+                                Opacity="0.2"
+                                Source="{DynamicResource Mask}" />
+                        </Border>
+                    </ControlTemplate>
+                </ToggleButton.Template>
+            </ToggleButton>
+
+            <Controls:EditableTextBox
+                x:Name="editableTextBox"
+                Height="{DynamicResource ControlHeightSM}"
+                Foreground="{DynamicResource ForegroundBrush}"
+                Text="{Binding PrefabService.Name.Value, Mode=TwoWay}" />
+
+        </DockPanel>
+
+    </Border>
+</UserControl>

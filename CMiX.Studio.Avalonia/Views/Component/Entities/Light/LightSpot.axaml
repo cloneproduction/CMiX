@@ -1,0 +1,36 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LightSpot"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <StackPanel>
+
+        <BaseControl:VectorXYZ Caption="Position" DataContext="{Binding Position}" />
+
+        <BaseControl:VectorXYZ
+            Margin="0,8"
+            Caption="Target"
+            DataContext="{Binding Target}" />
+
+        <Panels:PositionedStackPanel>
+
+            <BaseControl:DragValue
+                Caption="Range"
+                Value="{Binding Range.Value}" />
+
+            <BaseControl:DragValue
+                Margin="0,1"
+                Caption="Angle"
+                Value="{Binding Angle.Value}" />
+
+            <BaseControl:DragValue
+                Caption="Softness"
+                Value="{Binding Softness.Value}" />
+
+        </Panels:PositionedStackPanel>
+
+    </StackPanel>
+
+</UserControl>

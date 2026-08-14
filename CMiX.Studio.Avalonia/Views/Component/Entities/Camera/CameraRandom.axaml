@@ -1,0 +1,25 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.CameraRandom"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <BaseControl:ComboBox
+            Caption="Axis"
+            ItemsSource="{x:Static Resources:EnumProviders.CameraAxis}"
+            SelectedItem="{Binding Axis.Value}" />
+
+        <BaseControl:DragValue
+            Margin="0,8"
+            Caption="Width"
+            Value="{Binding Width.Value}" />
+
+        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+
+    </StackPanel>
+
+</UserControl>

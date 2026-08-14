@@ -1,0 +1,56 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.CameraSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <StackPanel Margin="8">
+
+        <BaseControls:VectorXYZ Caption="Target" DataContext="{Binding Target}" />
+
+        <Panels:PositionedStackPanel Margin="0,8">
+            <BaseControls:DragValue
+                Margin="0,0,0,1"
+                Caption="Near"
+                Value="{Binding NearClip.Value}" />
+            <BaseControls:DragValue
+                Caption="Far"
+                Value="{Binding FarClip.Value}" />
+        </Panels:PositionedStackPanel>
+
+        <Panels:PositionedStackPanel>
+            <BaseControls:DragValue
+                Margin="0,0,0,1"
+                Caption="Yaw"
+                Value="{Binding Yaw.Value}" />
+            <BaseControls:DragValue
+                Caption="Pitch"
+                Value="{Binding Pitch.Value}" />
+        </Panels:PositionedStackPanel>
+
+        <BaseControls:ToggleButton
+            Margin="0,8"
+            Caption="Orthographic"
+            IsChecked="{Binding IsOrthographic.Value}" />
+
+        <!-- The WPF DataTrigger visibility switches on IsOrthographic.Value become plain bool bindings. -->
+        <Border IsVisible="{Binding IsOrthographic.Value}">
+            <BaseControls:DragValue Caption="Orthographic Size" Value="{Binding OrthographicSize.Value}" />
+        </Border>
+
+        <Border IsVisible="{Binding !IsOrthographic.Value}">
+
+            <Panels:PositionedStackPanel>
+                <BaseControls:DragValue
+                    Margin="0,0,0,1"
+                    Caption="Distance"
+                    Value="{Binding Distance.Value}" />
+
+                <BaseControls:DragValue
+                    Caption="FOV"
+                    Value="{Binding FOV.Value}" />
+            </Panels:PositionedStackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>

@@ -1,0 +1,160 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LayerManager"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <Border Background="{DynamicResource Grey300Brush}">
+        <DockPanel>
+
+            <!--
+                The WPF view hid this panel with Visibility.Hidden (space preserving). The panel
+                height comes from its own content, so collapsing it here is acceptable; switch to
+                Opacity 0 plus IsHitTestVisible False if the layout jump turns out to matter.
+            -->
+            <Border DockPanel.Dock="Bottom" IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
+
+                <StackPanel Margin="8" DataContext="{Binding SelectedItem}">
+
+                    <Controls:CMiXSlider
+                        Height="{DynamicResource ControlHeightMD}"
+                        Caption="Alpha"
+                        DockPanel.Dock="Top"
+                        Maximum="1"
+                        Minimum="0"
+                        Value="{Binding LayerSettings.Opacity.Value}" />
+
+                    <BaseControls:ColorSelector
+                        Margin="0,4"
+                        Caption="Background"
+                        DataContext="{Binding LayerSettings.BackgroundColor}" />
+
+                    <Border IsVisible="{Binding !IsMask.Value}">
+                        <BaseControls:ComboBox
+                            Caption="Blend Mode"
+                            ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+                            SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
+                    </Border>
+
+                    <Border IsVisible="{Binding IsMask.Value}">
+
+                        <StackPanel>
+
+                            <BaseControls:ComboBox
+                                Caption="Mask Mode"
+                                ItemsSource="{x:Static Resources:EnumProviders.MaskMode}"
+                                SelectedItem="{Binding MaskMode.Value}" />
+
+                            <BaseControls:ComboBox
+                                Margin="0,4"
+                                Caption="Channel"
+                                ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
+                                SelectedItem="{Binding MaskChannel.Value}" />
+
+                            <BaseControls:ToggleButton Caption="Invert" IsChecked="{Binding Invert.Value}" />
+
+                        </StackPanel>
+
+                    </Border>
+
+                </StackPanel>
+            </Border>
+
+            <DockPanel>
+                <DockPanel
+                    Background="{DynamicResource Grey400Brush}"
+                    DockPanel.Dock="Bottom"
+                    LastChildFill="False">
+
+                    <Button
+                        Height="{DynamicResource ControlHeightSM}"
+                        Margin="2"
+                        Background="Transparent"
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Compositing:Layer}"
+                        Theme="{StaticResource ButtonRounded}">
+                        <Button.Content>
+                            <Image
+                                Margin="20"
+                                Opacity="0.7"
+                                Source="{DynamicResource Add}" />
+                        </Button.Content>
+                    </Button>
+
+                    <Border IsVisible="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Height="{DynamicResource ControlHeightSM}"
+                                Margin="2"
+                                Background="Transparent"
+                                Command="{Binding ManagerReorderService.ItemUpCommand}"
+                                CommandParameter="{Binding SelectedItem}"
+                                Theme="{StaticResource ButtonRounded}">
+                                <Button.Content>
+                                    <Image
+                                        Margin="16"
+                                        Opacity="0.7"
+                                        Source="{DynamicResource ArrowUp}" />
+                                </Button.Content>
+                            </Button>
+
+                            <Button
+                                Height="{DynamicResource ControlHeightSM}"
+                                Margin="2"
+                                Background="Transparent"
+                                Command="{Binding ManagerReorderService.ItemDownCommand}"
+                                CommandParameter="{Binding SelectedItem}"
+                                Theme="{StaticResource ButtonRounded}">
+                                <Button.Content>
+                                    <Image
+                                        Margin="16"
+                                        Opacity="0.7"
+                                        Source="{DynamicResource ArrowDown}" />
+                                </Button.Content>
+                            </Button>
+                        </StackPanel>
+                    </Border>
+
+                    <Button
+                        Height="{DynamicResource ControlHeightSM}"
+                        Margin="4"
+                        Background="Transparent"
+                        Command="{Binding DeleteItemCommand}"
+                        CommandParameter="{Binding SelectedItem}"
+                        DockPanel.Dock="Right"
+                        Theme="{StaticResource ButtonRounded}">
+                        <Button.Content>
+                            <Image
+                                Margin="20"
+                                Opacity="0.7"
+                                Source="{DynamicResource DeleteLayer}" />
+                        </Button.Content>
+                    </Button>
+
+                </DockPanel>
+
+                <Border Background="{DynamicResource Grey400Brush}" DockPanel.Dock="Top">
+
+                    <!-- TODO Avalonia: drag drop is wired in the drag and drop phase -->
+                    <ListBox
+                        DockPanel.Dock="Top"
+                        ItemsSource="{Binding ManagerData.Items}"
+                        SelectedIndex="{Binding ManagerData.SelectedIndex}"
+                        SelectedItem="{Binding SelectedItem}"
+                        Theme="{StaticResource LayerListBoxStyle}">
+
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <views:LayerManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+            </DockPanel>
+        </DockPanel>
+    </Border>
+</UserControl>

@@ -1,0 +1,17 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.CompositionSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <StackPanel>
+        <BaseControl:ColorSelector
+            Margin="0,0,0,8"
+            Caption="Background Color"
+            DataContext="{Binding BackgroundColor}" />
+        <BaseControl:Integer2Value
+            Caption="Resolution"
+            DataContext="{Binding Resolution}" />
+    </StackPanel>
+
+</UserControl>

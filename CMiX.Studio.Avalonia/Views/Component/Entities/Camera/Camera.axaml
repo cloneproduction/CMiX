@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Camera"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    x:Name="CameraControl">
+
+    <StackPanel>
+
+        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
+            <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                <Views:ModifierManager.SelectionPanel>
+                    <Views:AutoSelectionPanel PanelOwner="{x:Type Cameras:Camera}" />
+                </Views:ModifierManager.SelectionPanel>
+            </Views:ModifierManager>
+        </Panels:IndentedExpander>
+
+        <Panels:IndentedExpander
+            Header="Settings"
+            Indentation="0"
+            IsExpanded="{Binding SettingsIsExpanded}">
+            <Views:CameraSettings DataContext="{Binding Settings}" />
+        </Panels:IndentedExpander>
+
+    </StackPanel>
+
+</UserControl>

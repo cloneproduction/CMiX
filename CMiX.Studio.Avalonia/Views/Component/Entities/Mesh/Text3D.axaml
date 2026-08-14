@@ -1,0 +1,49 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Text3D"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <TextBox
+            Height="44"
+            Text="{Binding Text.Value}"
+            Theme="{StaticResource TypeWriterStyle}" />
+
+        <Panels:PositionedStackPanel>
+            <!-- WPF bound Fonts.SystemFontFamilies; SortedFontsCollection is the Avalonia system font list. -->
+            <BaseControls:ComboBox
+                Margin="0,8,0,1"
+                Caption="Font Family"
+                ItemsSource="{x:Static Resources:EnumProviders.SortedFontsCollection}"
+                SelectedItem="{Binding FontFamily.Value, Converter={StaticResource FontFamilyToString}}" />
+
+            <BaseControls:IntegerValue
+                Caption="Size"
+                DataContext="{Binding FontSize}" />
+        </Panels:PositionedStackPanel>
+
+        <BaseControls:DragValue
+            Margin="0,8"
+            Caption="Extrude Amount"
+            Value="{Binding ExtrudeAmount.Value}" />
+
+        <Panels:PositionedStackPanel>
+            <BaseControls:ComboBox
+                Margin="0,0,0,1"
+                Caption="Text Alignment"
+                ItemsSource="{x:Static Resources:EnumProviders.HorizontalAlignment}"
+                SelectedItem="{Binding HorizontalAlignment.Value}" />
+
+            <BaseControls:ComboBox
+                Caption="Paragraph Alignment"
+                ItemsSource="{x:Static Resources:EnumProviders.ParagraphAlignment}"
+                SelectedItem="{Binding ParagraphAlignment.Value}" />
+        </Panels:PositionedStackPanel>
+
+    </StackPanel>
+
+</UserControl>

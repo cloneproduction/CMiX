@@ -1,0 +1,130 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Component.Mesh"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
+    xmlns:ViewModels="clr-namespace:CMiX.Core;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Component="clr-namespace:CMiX.Studio.Avalonia.Views.Component"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <BaseControls:ComboBox
+            Caption="Type"
+            ItemsSource="{x:Static Resources:EnumProviders.MeshType}"
+            SelectedItem="{Binding MeshTypeSelector.Value}" />
+
+        <!--
+            The WPF ContentControl swapped keyed DataTemplates through style DataTriggers on
+            MeshTypeSelector.Value. Avalonia styles cannot trigger on data values, so the per
+            type views are stacked here and toggled with EnumMatchConverter. All of them stay
+            instantiated; only the matching one is visible.
+        -->
+        <Panel Margin="0,8,0,0">
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Text}}">
+                <Views:Text3D DataContext="{Binding Text3DSettings}" />
+            </Border>
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Box}}">
+                <Views:MeshBox DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Sphere}}">
+                <Views:MeshSphere DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Torus}}">
+                <Views:MeshTorus DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Cone}}">
+                <Views:MeshCone DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Cylinder}}">
+                <Views:MeshCylinder DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Plane}}">
+                <Views:MeshPlane DataContext="{Binding}" />
+            </Border>
+
+            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.FromFile}}">
+                <Views:MeshFile DataContext="{Binding}" />
+            </Border>
+
+        </Panel>
+
+        <Panels:IndentedExpander
+            Margin="-8,0,-8,0"
+            Header="Geometry FX"
+            Indentation="0"
+            IsExpanded="False">
+
+            <StackPanel Margin="8">
+
+                <BaseControls:DragValue Caption="Explode Strength" Value="{Binding ExplodeStrength.Value}" />
+
+                <BaseControls:CMiXSlider
+                    Margin="0,8,0,0"
+                    Caption="Flat Normals"
+                    Maximum="1.0"
+                    Minimum="0.0"
+                    Value="{Binding FlatNormals.Value}" />
+
+                <Views:Outliner
+                    Margin="0,8"
+                    DataContext="{Binding ExplodeTriangleTextureManager}"
+                    ItemsSource="{Binding ControlRepository.Textures}">
+                    <Views:Outliner.SelectionPanel>
+                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                        </Views:ButtonOpenSelectionPanel>
+                    </Views:Outliner.SelectionPanel>
+                </Views:Outliner>
+
+                <Border IsVisible="{Binding ExplodeTriangleTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                    <Views:Texture Margin="-8,0" DataContext="{Binding ExplodeTriangleTextureManager.SelectedItem}" />
+                </Border>
+            </StackPanel>
+
+        </Panels:IndentedExpander>
+
+        <Panels:IndentedExpander
+            Margin="-8,0,-8,0"
+            Header="Displacement"
+            Indentation="0"
+            IsExpanded="False">
+
+            <StackPanel Margin="8">
+
+                <BaseControls:DragValue Caption="Strength" Value="{Binding DisplacementStrength.Value}" />
+
+                <Views:Outliner
+                    Margin="0,8"
+                    DataContext="{Binding DisplacementTextureManager}"
+                    ItemsSource="{Binding ControlRepository.Textures}">
+                    <Views:Outliner.SelectionPanel>
+                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                        </Views:ButtonOpenSelectionPanel>
+                    </Views:Outliner.SelectionPanel>
+                </Views:Outliner>
+
+                <Border IsVisible="{Binding DisplacementTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                    <Views:Texture Margin="-8,0" DataContext="{Binding DisplacementTextureManager.SelectedItem}" />
+                </Border>
+            </StackPanel>
+
+        </Panels:IndentedExpander>
+    </StackPanel>
+
+</UserControl>

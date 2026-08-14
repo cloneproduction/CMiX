@@ -1,0 +1,40 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MeshCone"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <StackPanel>
+
+        <BaseControl:VectorXYZ
+            Caption="Scale"
+            DataContext="{Binding Scale}" />
+
+        <BaseControl:VectorXYZ
+            Margin="0,8"
+            Caption="Offset"
+            DataContext="{Binding Offset}" />
+
+        <Panels:PositionedStackPanel>
+
+            <BaseControl:DragValue
+                Caption="Radius"
+                Value="{Binding Radius.Value}" />
+
+            <BaseControl:DragValue
+                Margin="0,1,0,0"
+                Caption="Height"
+                Value="{Binding Height.Value}" />
+
+        </Panels:PositionedStackPanel>
+
+        <BaseControl:IntegerValue
+            Margin="0,8,0,0"
+            Caption="Tessellation"
+            Minimum="1"
+            Value="{Binding Tessellation.Value}" />
+
+    </StackPanel>
+
+</UserControl>

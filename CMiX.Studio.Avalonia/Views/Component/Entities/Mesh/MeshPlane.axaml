@@ -1,0 +1,29 @@
+﻿<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MeshPlane"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+
+    <StackPanel>
+
+        <BaseControl:Vector2
+            Caption="Scale"
+            DataContext="{Binding Scale}" />
+
+        <BaseControl:VectorXYZ
+            Margin="0,8"
+            Caption="Offset"
+            DataContext="{Binding Offset}" />
+
+        <BaseControl:Integer2Value
+            Margin="0,0,0,8"
+            Caption="Tessellation"
+            DataContext="{Binding TessellationXY}" />
+
+        <BaseControl:ToggleButton
+            Caption="Generate Backface"
+            IsChecked="{Binding GenerateBackFace.Value}" />
+
+    </StackPanel>
+
+</UserControl>
