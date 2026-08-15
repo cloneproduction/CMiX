@@ -5,9 +5,6 @@ using System.ComponentModel;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using CMiX.Studio.Avalonia.Services;
-using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -16,15 +13,21 @@ namespace CMiX.Studio.Avalonia.Views
         public ServerCreation()
         {
             InitializeComponent();
-            // The WPF view also created its own DialogService instance.
-            DialogService = new DialogService(new DialogManager(viewLocator: new DialogViewLocator()));
         }
 
-        private IDialogService DialogService { get; set; }
-
+        // The WPF view showed the window through MvvmDialogs, which resolved the owner
+        // from its registered view whose DataContext matched. The Avalonia service
+        // instead matches the owner view model against open window DataContexts, which
+        // fails for the local ServerManager context and requires INotifyPropertyChanged
+        // on the main view model, so the window is shown directly with the same owned
+        // nonmodal behavior.
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            DialogService.Show((INotifyPropertyChanged)DataContext, ViewModel);
+            var window = new ServerCreationWindow { DataContext = ViewModel };
+            if (TopLevel.GetTopLevel(this) is Window owner)
+                window.Show(owner);
+            else
+                window.Show();
         }
 
         public static readonly StyledProperty<INotifyPropertyChanged> ViewModelProperty =
