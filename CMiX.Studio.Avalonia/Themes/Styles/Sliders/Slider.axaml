@@ -150,7 +150,6 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
 
-        <!-- TODO Avalonia: the WPF trigger on IsMouseCaptured needs a code side pseudo class on CMiXSlider, expected here as pressed -->
         <Style Selector="^:pressed /template/ RepeatButton#PART_IncreaseButton">
             <Setter Property="Background" Value="{DynamicResource Grey200Brush}" />
         </Style>

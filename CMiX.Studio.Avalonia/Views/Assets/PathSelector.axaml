@@ -39,8 +39,6 @@
             BorderBrush="Transparent">
 
             <!--
-                TODO Avalonia: drag drop is wired in the drag and drop phase (the WPF
-                AllowDrop and gong drop target attributes lived here).
                 The WPF IsSynchronizedWithCurrentItem and the RequestBringIntoView
                 suppression handler on the items panel are gone; the handler only
                 stopped hover driven auto scrolling in the dropdown.
