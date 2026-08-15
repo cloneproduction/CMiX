@@ -78,12 +78,15 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         public void AddLayer()
         {
-            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
+            // Mirrors the layer manager view's AddItemCommand, CommandParameter typeof(Layer) button.
+            var layerManager = (Project.CompositionManager.SelectedItem as Composition)?.LayerManager;
+            layerManager?.AddItemCommand.Execute(typeof(Layer));
         }
 
         public void AddComposition()
         {
-            //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddComposition(), MessageType.Internal);
+            // Mirrors the Composition tab's New Composition button, CommandParameter typeof(Composition).
+            Project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
         }
 
         private void NewProject()
