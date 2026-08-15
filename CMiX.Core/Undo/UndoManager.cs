@@ -13,6 +13,7 @@ namespace CMiX.Core.Undo
         private int _groupDepth = 0;
 
         public bool IsApplying { get; private set; }
+        public bool IsSuppressed => _groupDepth > 0;
         public bool CanUndo => _undoStack.Count > 0;
         public bool CanRedo => _redoStack.Count > 0;
 

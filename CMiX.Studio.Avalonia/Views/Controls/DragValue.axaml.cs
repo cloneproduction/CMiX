@@ -7,6 +7,7 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using CMiX.Core.BaseControls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
@@ -28,6 +29,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
             // WPF overrode OnPreviewMouseRightButtonDown on the whole control.
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
+
+            // A gesture that loses the pointer without a release must not leave the value
+            // interaction scope open, which would keep throttling every later write.
+            borderValueDisplay.PointerCaptureLost += (s, e) => ValueInteraction.End();
 
             AddButton.Click += AddButton_Click;
             SubButton.Click += SubButton_Click;
@@ -53,6 +58,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _dragging = false;
 
             e.Pointer.Capture(borderValueDisplay);
+            ValueInteraction.Begin();
             e.Handled = true;
         }
 
@@ -107,6 +113,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private void Border_PointerReleased(object sender, PointerReleasedEventArgs e)
         {
             e.Pointer.Capture(null);
+            ValueInteraction.End();
 
             if (_mouseDownPos == null)
                 return;

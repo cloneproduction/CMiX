@@ -8,6 +8,7 @@ using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
 using Avalonia.Layout;
+using CMiX.Core.BaseControls;
 using CMiX.Studio.Avalonia.Mathematics;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
@@ -56,6 +57,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             Border = e.NameScope.Find<Border>("sliderBorder");
         }
 
+        // A gesture that loses the pointer without a release must not leave the value interaction
+        // scope open, which would keep throttling every later write in the application.
+        protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
+        {
+            base.OnPointerCaptureLost(e);
+            ValueInteraction.End();
+        }
+
         private bool isDragging = false;
         private bool _dragStarted = false;
         private double lastValue;
@@ -87,6 +96,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _lastPoint = e.GetPosition(Border);
             _mouseDownPoint = _lastPoint;
             e.Pointer.Capture(this);
+            ValueInteraction.Begin();
             Focus();
             Cursor = new Cursor(StandardCursorType.None);
             // The WPF template triggered on IsMouseCaptured; the theme selects on :pressed instead.
@@ -152,6 +162,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
             DragEditHelper.PlaceCursorAt(new Point(pointToScreen.X, pointToScreen.Y));
             e.Pointer.Capture(null);
+            ValueInteraction.End();
 
             isDragging = false;
             lastValue = Value;

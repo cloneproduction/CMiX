@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Diagnostics;
 using System.Windows.Input;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
@@ -11,8 +12,10 @@ using CommunityToolkit.Mvvm.Messaging;
 
 namespace CMiX.Core.BaseControls
 {
-    public class GenericValue<T> : ReceivableControl, IControl, IRecipient<IMessage>
+    public class GenericValue<T> : ReceivableControl, IControl, IRecipient<IMessage>, IInteractiveValue
     {
+        private static readonly long InteractionSendIntervalTicks = Stopwatch.Frequency / 60;
+
         public GenericValue()
         {
 
@@ -50,6 +53,12 @@ namespace CMiX.Core.BaseControls
             {
                 if (IsActive)
                 {
+                    if (ValueInteraction.IsActive)
+                    {
+                        SetInteractionValue(value);
+                        return;
+                    }
+
                     var before = CaptureModel();
                     SetProperty(ref _value, value);
                     if (!IsReceiving && !(UndoManager?.IsApplying ?? false))
@@ -57,12 +66,76 @@ namespace CMiX.Core.BaseControls
                         var after = CaptureModel();
                         UndoManager?.Push(new ValueChangedCommand(this, before, after));
                     }
-                    var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
-                    ControlMessenger.SendMessage(message);
+                    SendValueChanged();
                 }
                 else
                     SetProperty(ref _value, value);
             }
+        }
+
+        private bool _inInteraction;
+        private IControlModel _interactionBefore;
+        private long _lastInteractionSendTicks;
+        private bool _interactionSendPending;
+
+        // Writes made while a ValueInteraction scope is open keep the local value and its change
+        // notification per write, but capture the undo model once and rate limit the messages.
+        private void SetInteractionValue(T value)
+        {
+            if (!_inInteraction)
+            {
+                _inInteraction = true;
+                // Undo state is decided once per gesture, matching what the unthrottled path would
+                // have recorded for the first write of the gesture.
+                var recordsUndo = !IsReceiving
+                                  && !(UndoManager?.IsApplying ?? false)
+                                  && !(UndoManager?.IsSuppressed ?? false);
+                _interactionBefore = recordsUndo ? CaptureModel() : null;
+                _lastInteractionSendTicks = Stopwatch.GetTimestamp() - InteractionSendIntervalTicks;
+                _interactionSendPending = false;
+                ValueInteraction.Enlist(this);
+            }
+
+            // The name has to be explicit here because the caller member name would otherwise
+            // become this helper instead of the property the bindings listen to.
+            SetProperty(ref _value, value, nameof(Value));
+
+            var now = Stopwatch.GetTimestamp();
+            if (now - _lastInteractionSendTicks >= InteractionSendIntervalTicks)
+            {
+                _lastInteractionSendTicks = now;
+                _interactionSendPending = false;
+                SendValueChanged();
+            }
+            else
+                _interactionSendPending = true;
+        }
+
+        // Always flushes the value the gesture ended on, so a throttled intermediate write can
+        // never be the last thing the engine sees.
+        public void EndInteraction()
+        {
+            if (!_inInteraction) return;
+            _inInteraction = false;
+
+            if (_interactionSendPending)
+            {
+                _interactionSendPending = false;
+                SendValueChanged();
+            }
+
+            if (_interactionBefore != null)
+            {
+                var before = _interactionBefore;
+                _interactionBefore = null;
+                UndoManager?.Push(new ValueChangedCommand(this, before, CaptureModel()));
+            }
+        }
+
+        private void SendValueChanged()
+        {
+            var message = MessageFactory.CreateMessage<MessageValueChanged>(this.ID, this);
+            ControlMessenger.SendMessage(message);
         }
 
         private T _originalValue;
