@@ -33,6 +33,7 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.AddExistingItemCommand = new RelayCommand<IControl>(AddExistingItem);
             Collection.DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
+            Collection.ResetItemCommand = new RelayCommand<IControl>(ResetItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
             DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
 
@@ -181,6 +182,28 @@ namespace CMiX.Core.Prefabs.Managers
             // still needs an undo entry (RemoveItemCommand.Undo reinserts at the original index,
             // it does not use newIndex), so the push no longer bails out on a negative newIndex.
             UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
+        }
+
+        // Replaces an item with a fresh instance of the same type, keeping its position. The raw
+        // CollectionManager.ResetItem swap sent no message, recorded no undo entry and dropped the
+        // replaced instance with its subscriptions still live, so the reset command routes through
+        // the same machinery delete and add use instead: the engine sees a remove and add pair, the
+        // swap is one undo entry, and the replaced instance is owned by that entry until it is
+        // dropped, which is the only point where its teardown is safe.
+        public void ResetItem(IControl control)
+        {
+            if (control == null) return;
+            if (UndoManager?.IsApplying == true) return;
+
+            var index = Collection.ManagerData.Items.IndexOf(control);
+            if (index < 0) return;
+
+            var replacement = Collection.ControlFactory.Create(control.GetType());
+            if (replacement == null) return;
+
+            var command = new ReplaceItemCommand(Collection, ControlMessenger, MessageFactory, control, replacement, index);
+            command.Execute();
+            UndoManager?.Push(command);
         }
 
         // Registers this manager's DeleteItem as the deleter for its current ManagerData.ID. Called

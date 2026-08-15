@@ -8,7 +8,9 @@ using Xunit;
 namespace CMiX.Core.Tests
 {
     // Covers the deferred disposal of a deleted control: the delete path no longer disposes, the
-    // undo command that holds the removed instance does, and only once it is dropped.
+    // undo command that holds the removed instance does, and only once it is dropped. Reset item
+    // follows the same ownership rule since it routes through ReplaceItemCommand, so its tests
+    // live here too.
     public class DeleteUndoTests
     {
         private static (Composition composition, Layer layer, Entity entity) CreateGraph(
@@ -63,6 +65,71 @@ namespace CMiX.Core.Tests
             Assert.Empty(layer.ModelEntityManager.ManagerData.Items);
             Assert.Null(repository.GetControl(entity.ID));
             Assert.Null(repository.GetControl(layer.ID));
+        }
+
+        [Fact]
+        public void ResetItem_SwapsAFreshInstanceInAtTheSameIndex()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var compositionManager = provider.GetRequiredService<PrefabManager>();
+
+            var (composition, layer, _) = CreateGraph(provider, compositionManager);
+            composition.LayerManager.AddItem(typeof(Layer));
+            var secondLayer = (Layer)composition.LayerManager.SelectedItem;
+
+            composition.LayerManager.ResetItem(layer);
+
+            var items = composition.LayerManager.ManagerData.Items;
+            Assert.Equal(2, items.Count);
+            Assert.NotSame(layer, items[0]);
+            Assert.IsType<Layer>(items[0]);
+            Assert.Same(secondLayer, items[1]);
+            Assert.Same(items[0], composition.LayerManager.SelectedItem);
+            Assert.NotNull(repository.GetControl(items[0].ID));
+            Assert.Null(repository.GetControl(layer.ID));
+        }
+
+        [Fact]
+        public void ResetThenUndo_RestoresTheReplacedInstanceWithItsContents()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var compositionManager = provider.GetRequiredService<PrefabManager>();
+
+            var (composition, layer, entity) = CreateGraph(provider, compositionManager);
+
+            composition.LayerManager.ResetItem(layer);
+            var replacement = composition.LayerManager.ManagerData.Items[0];
+
+            undoManager.Undo();
+
+            Assert.Same(layer, composition.LayerManager.ManagerData.Items[0]);
+            Assert.Contains(entity, layer.ModelEntityManager.ManagerData.Items);
+            Assert.Same(entity, repository.GetControl(entity.ID));
+            Assert.Null(repository.GetControl(replacement.ID));
+        }
+
+        [Fact]
+        public void ResetThenDropTheUndoEntry_TearsTheReplacedInstanceDown()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var compositionManager = provider.GetRequiredService<PrefabManager>();
+
+            var (composition, layer, entity) = CreateGraph(provider, compositionManager);
+
+            composition.LayerManager.ResetItem(layer);
+            var replacement = composition.LayerManager.ManagerData.Items[0];
+            undoManager.Clear();
+
+            Assert.Empty(layer.ModelEntityManager.ManagerData.Items);
+            Assert.Null(repository.GetControl(entity.ID));
+            Assert.Null(repository.GetControl(layer.ID));
+            Assert.Same(replacement, composition.LayerManager.ManagerData.Items[0]);
+            Assert.NotNull(repository.GetControl(replacement.ID));
         }
     }
 }

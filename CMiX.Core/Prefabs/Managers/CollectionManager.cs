@@ -172,6 +172,11 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedIndex = index;
         }
 
+        // The bare collection level swap, with no message and no undo entry. PrefabManager replaces
+        // the reset command with its own undoable path, so this one only runs for a collection that
+        // no manager owns. Nothing can put the replaced control back afterward, so it is disposed
+        // here like the other teardown paths do, and the selection follows the replacement instead
+        // of pointing at an instance the collection no longer holds.
         public void ResetItem(IControl control)
         {
             if (control == null) return;
@@ -181,6 +186,11 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.Items[index] = newControl;
             ControlRepository.RemoveControl(control, ManagerData.ID);
             ControlRepository.AddControl(newControl, ManagerData.ID);
+
+            if (SelectedItem == control)
+                SelectedItem = newControl;
+
+            OwnedControl.DisposeIfOrphaned(ControlRepository, control);
         }
 
         public IControlModel ToModel() => new CollectionManagerModel
