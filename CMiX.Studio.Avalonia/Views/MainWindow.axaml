@@ -13,6 +13,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Beat="clr-namespace:CMiX.Studio.Avalonia.Views.Beat"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Menus="clr-namespace:CMiX.Studio.Avalonia.Views.Menus"
     xmlns:Windows="clr-namespace:CMiX.Studio.Avalonia.Views.Windows"
     Title="CMiX"
@@ -224,39 +225,21 @@
 
             </TabItem>
 
-            <TabItem Theme="{StaticResource TabItemHorizontal}">
-                <TabItem.Header>
-                    <Image
-                        Margin="8"
-                        Source="{DynamicResource World}"
-                        ToolTip.HorizontalOffset="-10"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Material"
-                        ToolTip.VerticalOffset="10" />
-                </TabItem.Header>
-
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-
-                    <Border Background="{DynamicResource Grey300Brush}">
-                        <Views:RepositoryManager DataContext="{Binding MaterialManager}" ItemsSource="{Binding ControlRepository.Materials}">
-                            <Views:RepositoryManager.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Materials:Material}"
-                                    Content="New Material" />
-                            </Views:RepositoryManager.SelectionPanel>
-                            <Views:RepositoryManager.EditingPanel>
-                                <Views:Material />
-                            </Views:RepositoryManager.EditingPanel>
-                        </Views:RepositoryManager>
-                    </Border>
-
-                </ScrollViewer>
-
-            </TabItem>
+            <Managers:RepositoryTab
+                DataContext="{Binding MaterialManager}"
+                Icon="{DynamicResource World}"
+                ItemsSource="{Binding ControlRepository.Materials}"
+                ToolTipText="Material">
+                <Managers:RepositoryTab.SelectionPanel>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Materials:Material}"
+                        Content="New Material" />
+                </Managers:RepositoryTab.SelectionPanel>
+                <Managers:RepositoryTab.EditingPanel>
+                    <Views:Material />
+                </Managers:RepositoryTab.EditingPanel>
+            </Managers:RepositoryTab>
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
@@ -294,133 +277,66 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Theme="{StaticResource TabItemHorizontal}">
-                <TabItem.Header>
-                    <Image
-                        Margin="8"
-                        Source="{DynamicResource Camera}"
-                        ToolTip.HorizontalOffset="-10"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Cameras"
-                        ToolTip.VerticalOffset="10" />
-                </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource Grey300Brush}">
-                        <Views:RepositoryManager
-                            DataContext="{Binding CameraManager}"
-                            DockPanel.Dock="Top"
-                            ItemsSource="{Binding ControlRepository.Cameras}">
-                            <Views:RepositoryManager.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Cameras:Camera}"
-                                    Content="New Camera" />
-                            </Views:RepositoryManager.SelectionPanel>
-                            <Views:RepositoryManager.EditingPanel>
-                                <Views:Camera />
-                            </Views:RepositoryManager.EditingPanel>
-                        </Views:RepositoryManager>
-                    </Border>
-                </ScrollViewer>
-            </TabItem>
+            <Managers:RepositoryTab
+                DataContext="{Binding CameraManager}"
+                Icon="{DynamicResource Camera}"
+                ItemsSource="{Binding ControlRepository.Cameras}"
+                ToolTipText="Cameras">
+                <Managers:RepositoryTab.SelectionPanel>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Cameras:Camera}"
+                        Content="New Camera" />
+                </Managers:RepositoryTab.SelectionPanel>
+                <Managers:RepositoryTab.EditingPanel>
+                    <Views:Camera />
+                </Managers:RepositoryTab.EditingPanel>
+            </Managers:RepositoryTab>
 
-            <TabItem Theme="{StaticResource TabItemHorizontal}">
-                <TabItem.Header>
-                    <Image
-                        Margin="8"
-                        Source="{DynamicResource MeshLight}"
-                        ToolTip.HorizontalOffset="-10"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Lights"
-                        ToolTip.VerticalOffset="10" />
-                </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource Grey300Brush}">
-                        <Views:RepositoryManager DataContext="{Binding LightManager}" ItemsSource="{Binding ControlRepository.Lights}">
-                            <Views:RepositoryManager.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Lights:LightEntity}"
-                                    Content="New Light" />
-                            </Views:RepositoryManager.SelectionPanel>
-                            <Views:RepositoryManager.EditingPanel>
-                                <Views:LightEntity />
-                            </Views:RepositoryManager.EditingPanel>
-                        </Views:RepositoryManager>
-                    </Border>
-                </ScrollViewer>
-            </TabItem>
+            <Managers:RepositoryTab
+                DataContext="{Binding LightManager}"
+                Icon="{DynamicResource MeshLight}"
+                ItemsSource="{Binding ControlRepository.Lights}"
+                ToolTipText="Lights">
+                <Managers:RepositoryTab.SelectionPanel>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Lights:LightEntity}"
+                        Content="New Light" />
+                </Managers:RepositoryTab.SelectionPanel>
+                <Managers:RepositoryTab.EditingPanel>
+                    <Views:LightEntity />
+                </Managers:RepositoryTab.EditingPanel>
+            </Managers:RepositoryTab>
 
-            <TabItem Theme="{StaticResource TabItemHorizontal}">
+            <Managers:RepositoryTab
+                DataContext="{Binding BeatManager}"
+                Icon="{DynamicResource Beat}"
+                ItemsSource="{Binding ControlRepository.BeatModifiers}"
+                ToolTipText="BeatModifiers">
+                <Managers:RepositoryTab.SelectionPanel>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Animations:BeatModifier}"
+                        Content="New Beat" />
+                </Managers:RepositoryTab.SelectionPanel>
+                <Managers:RepositoryTab.EditingPanel>
+                    <Views:BeatModifier />
+                </Managers:RepositoryTab.EditingPanel>
+            </Managers:RepositoryTab>
 
-                <TabItem.Header>
-                    <Image
-                        Margin="8"
-                        Source="{DynamicResource Beat}"
-                        ToolTip.HorizontalOffset="-10"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="BeatModifiers"
-                        ToolTip.VerticalOffset="10" />
-
-                </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource Grey300Brush}">
-                        <Views:RepositoryManager DataContext="{Binding BeatManager}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
-                            <Views:RepositoryManager.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Animations:BeatModifier}"
-                                    Content="New Beat" />
-                            </Views:RepositoryManager.SelectionPanel>
-                            <Views:RepositoryManager.EditingPanel>
-                                <Views:BeatModifier />
-                            </Views:RepositoryManager.EditingPanel>
-                        </Views:RepositoryManager>
-                    </Border>
-                </ScrollViewer>
-
-            </TabItem>
-
-            <TabItem Theme="{StaticResource TabItemHorizontal}">
-
-                <TabItem.Header>
-                    <Image
-                        Margin="8"
-                        Source="{DynamicResource Coloration}"
-                        ToolTip.HorizontalOffset="-10"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Color Palette"
-                        ToolTip.VerticalOffset="10" />
-
-                </TabItem.Header>
-
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <Border Background="{DynamicResource Grey300Brush}">
-                        <Views:RepositoryManager DataContext="{Binding ColorPaletteManager}" ItemsSource="{Binding ControlRepository.ColorPalettes}">
-                            <Views:RepositoryManager.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Modifiers:ColorPalette}"
-                                    Content="New Palette" />
-                            </Views:RepositoryManager.SelectionPanel>
-
-                        </Views:RepositoryManager>
-                    </Border>
-                </ScrollViewer>
-
-            </TabItem>
+            <Managers:RepositoryTab
+                DataContext="{Binding ColorPaletteManager}"
+                Icon="{DynamicResource Coloration}"
+                ItemsSource="{Binding ControlRepository.ColorPalettes}"
+                ToolTipText="Color Palette">
+                <Managers:RepositoryTab.SelectionPanel>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Modifiers:ColorPalette}"
+                        Content="New Palette" />
+                </Managers:RepositoryTab.SelectionPanel>
+            </Managers:RepositoryTab>
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>

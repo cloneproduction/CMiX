@@ -1,0 +1,46 @@
+﻿<TabItem
+    x:Class="CMiX.Studio.Avalonia.Views.Managers.RepositoryTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="repositoryTab"
+    Theme="{StaticResource TabItemHorizontal}">
+
+    <!--
+        Consolidates the repeated MainWindow.axaml tab shape (ScrollViewer plus
+        ScrollViewerBehavior plus Border plus RepositoryManager plus SelectionPanel
+        plus EditingPanel). Icon, ToolTipText, ItemsSource, SelectionPanel and
+        EditingPanel are the parts that vary per tab; DataContext is the manager set
+        by the consumer. TabControl presents TabItem.Content through its own
+        presenter outside the TabItem's own template, so Content does not inherit
+        the TabItem DataContext on its own; the ScrollViewer below re-binds it
+        explicitly by ElementName so the RepositoryManager gets the manager DataContext
+        instead of the window DataContext once the tab is selected and its content
+        is realized. SelectionPanel and EditingPanel track into the logical tree the
+        same way RepositoryManager tracks its own, see LogicalPanelContent.
+    -->
+    <TabItem.Header>
+        <Image
+            Margin="8"
+            Source="{Binding Icon, ElementName=repositoryTab}"
+            ToolTip.HorizontalOffset="-10"
+            ToolTip.Placement="Pointer"
+            ToolTip.Tip="{Binding ToolTipText, ElementName=repositoryTab}"
+            ToolTip.VerticalOffset="10" />
+    </TabItem.Header>
+
+    <ScrollViewer DataContext="{Binding DataContext, ElementName=repositoryTab}" VerticalScrollBarVisibility="Hidden">
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
+        <Border Background="{DynamicResource Grey300Brush}">
+            <Views:RepositoryManager
+                ItemsSource="{Binding ItemsSource, ElementName=repositoryTab}"
+                SelectionPanel="{Binding SelectionPanel, ElementName=repositoryTab}"
+                EditingPanel="{Binding EditingPanel, ElementName=repositoryTab}" />
+        </Border>
+    </ScrollViewer>
+
+</TabItem>
