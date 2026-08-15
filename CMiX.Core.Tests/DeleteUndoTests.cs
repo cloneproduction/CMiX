@@ -111,6 +111,61 @@ namespace CMiX.Core.Tests
             Assert.Null(repository.GetControl(replacement.ID));
         }
 
+        // DeleteEverywhere fans a single delete out to every manager that currently references the
+        // control. Two managers sharing one entity is the shape PrefabSelector and a layer's own
+        // ModelEntityManager can both end up in; AddExistingItem is the general way to reproduce it
+        // in a test without pulling in the material selection machinery.
+        [Fact]
+        public void DeleteEverywhere_ControlReferencedByTwoManagers_RemovesItFromBothAndTheRepository()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var managerA = provider.GetRequiredService<PrefabManager>();
+            var managerB = provider.GetRequiredService<PrefabManager>();
+
+            managerA.AddItem(typeof(Entity));
+            var entity = (Entity)managerA.SelectedItem;
+            managerB.AddExistingItem(entity);
+
+            Assert.Contains(entity, managerA.ManagerData.Items);
+            Assert.Contains(entity, managerB.ManagerData.Items);
+            undoManager.Clear();
+
+            managerA.DeleteEverywhereCommand.Execute(entity);
+
+            Assert.DoesNotContain(entity, managerA.ManagerData.Items);
+            Assert.DoesNotContain(entity, managerB.ManagerData.Items);
+            Assert.Null(repository.GetControl(entity.ID));
+        }
+
+        [Fact]
+        public void DeleteEverywhereThenUndo_RestoresBothReferencesAsOneStep()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var managerA = provider.GetRequiredService<PrefabManager>();
+            var managerB = provider.GetRequiredService<PrefabManager>();
+
+            managerA.AddItem(typeof(Entity));
+            var entity = (Entity)managerA.SelectedItem;
+            managerB.AddExistingItem(entity);
+            undoManager.Clear();
+
+            managerA.DeleteEverywhereCommand.Execute(entity);
+            Assert.True(undoManager.CanUndo);
+
+            undoManager.Undo();
+
+            // A single Undo call has to restore both references at once: the fan out was captured
+            // as one composite command, not two independent ones.
+            Assert.False(undoManager.CanUndo);
+            Assert.Contains(entity, managerA.ManagerData.Items);
+            Assert.Contains(entity, managerB.ManagerData.Items);
+            Assert.Same(entity, repository.GetControl(entity.ID));
+        }
+
         [Fact]
         public void ResetThenDropTheUndoEntry_TearsTheReplacedInstanceDown()
         {

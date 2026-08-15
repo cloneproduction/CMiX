@@ -1,4 +1,5 @@
-﻿using CMiX.Core.Prefabs;
+﻿using CMiX.Core.Compositing;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -74,6 +75,69 @@ namespace CMiX.Core.Tests
             repository.AddControl((IControl)third, referencer);
 
             Assert.Equal("Checker Board.001", third.PrefabService.Name.Value);
+        }
+
+        // EntitiesAndTexts merges two independent source collections into the single list the layer
+        // entity slot swap popup lists from, keeping entities ahead of texts. Add and remove both
+        // kinds interleaved and check the merge stays consistent rather than only checking a single
+        // snapshot.
+        [Fact]
+        public void EntitiesAndTexts_KeepsEntitiesAheadOfTextsAsBothAreAddedAndRemovedInterleaved()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var referencer = Guid.NewGuid();
+
+            var entity1 = factory.Create(typeof(Entity));
+            var text1 = factory.Create(typeof(TextEntity));
+            var entity2 = factory.Create(typeof(Entity));
+            var text2 = factory.Create(typeof(TextEntity));
+            var entity3 = factory.Create(typeof(Entity));
+
+            repository.AddControl(entity1, referencer);
+            repository.AddControl(text1, referencer);
+            repository.AddControl(entity2, referencer);
+            repository.AddControl(text2, referencer);
+
+            Assert.Equal(new[] { entity1, entity2, text1, text2 }, repository.EntitiesAndTexts);
+
+            repository.RemoveControl(entity1, referencer);
+            repository.RemoveControl(text1, referencer);
+
+            Assert.Equal(new[] { entity2, text2 }, repository.EntitiesAndTexts);
+
+            repository.AddControl(entity3, referencer);
+
+            // A newly added entity keeps inserting ahead of the texts block, not at the tail.
+            Assert.Equal(new[] { entity2, entity3, text2 }, repository.EntitiesAndTexts);
+        }
+
+        // Nothing in production code clears Entities or Texts directly today; every removal goes
+        // through RemoveControl one item at a time. The Reset branch of the merge exists for a bulk
+        // clear anyway, so it needs its own coverage rather than riding along on the Remove branch.
+        [Fact]
+        public void EntitiesAndTexts_ResyncsWhenASourceCollectionRaisesAReset()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var referencer = Guid.NewGuid();
+
+            var entity = factory.Create(typeof(Entity));
+            var text = factory.Create(typeof(TextEntity));
+            repository.AddControl(entity, referencer);
+            repository.AddControl(text, referencer);
+
+            Assert.Equal(new[] { entity, text }, repository.EntitiesAndTexts);
+
+            repository.Entities.Clear();
+
+            Assert.Equal(new[] { text }, repository.EntitiesAndTexts);
+
+            repository.Texts.Clear();
+
+            Assert.Empty(repository.EntitiesAndTexts);
         }
     }
 }
