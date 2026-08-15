@@ -239,15 +239,49 @@ namespace CMiX.Core.Networking.Servers
         public void Stop()
         {
             if (WatsonTcpServer == null) return;
-            WatsonTcpServer.Events.ClientConnected -= ClientConnected;
-            WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
-            WatsonTcpServer.Events.MessageReceived -= MessageReceived;
+            var server = WatsonTcpServer;
+            server.Events.ClientConnected -= ClientConnected;
+            server.Events.ClientDisconnected -= ClientDisconnected;
+            server.Events.MessageReceived -= MessageReceived;
+
+            // Watson's own Stop cancels the token its Dispose then waits on internally
+            // (DisconnectClientsAsync(...).Wait()), so a still connected client makes that
+            // wait observe a TaskCanceledException and Task.Wait rethrows it wrapped in an
+            // AggregateException. None of Watson's teardown is ours to fix, so every step
+            // below is guarded the same way and the remaining teardown always runs.
             foreach (var client in ConnectedClients.ToList())
-                WatsonTcpServer.DisconnectClientAsync(client.ID);
-            WatsonTcpServer.Stop();
-            WatsonTcpServer.Dispose();
+            {
+                try
+                {
+                    server.DisconnectClientAsync(client.ID);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+
+            try
+            {
+                server.Stop();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
+            try
+            {
+                server.Dispose();
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+
             WatsonTcpServer = null;
             ServerIsRunning = false;
+            Status = "Disconnected";
         }
 
         // Stopping is the whole teardown, so a server that ever ends up in a collection managed by
