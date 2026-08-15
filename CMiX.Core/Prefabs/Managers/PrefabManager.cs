@@ -34,6 +34,16 @@ namespace CMiX.Core.Prefabs.Managers
             Collection.DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             Collection.RemoveSelectedItemCommand = new RelayCommand(RemoveSelectedItem);
             ManagerReorderService = reorderServiceFactory?.Invoke(Collection, OnMove);
+            DeleteEverywhereCommand = new RelayCommand<IControl>(DeleteEverywhere);
+
+            // Registers under the constructor time ManagerData.ID. Two paths reassign that id
+            // afterward, so both call RegisterDeleter again once the real id is known: the seven
+            // top level managers get it from MainViewModel.SetupManager, and every manager built
+            // through ControlFactory.Create gets it from FromModel, which round trips even a
+            // brand new control through a default model. A stale ctor registration is otherwise
+            // harmless because DeleteEverywhere only looks up ids that appear in _referencers,
+            // which are always the ids AddControl was called with, always after the real id is set.
+            RegisterDeleter();
         }
 
         private MessageCollectionManagerHandler MessageCollectionManagerHandler => Collection.MessageCollectionManagerHandler;
@@ -63,6 +73,7 @@ namespace CMiX.Core.Prefabs.Managers
         public ICommand DeleteItemCommand => Collection.DeleteItemCommand;
         public override ICommand RemoveSelectedItemCommand => Collection.RemoveSelectedItemCommand;
         public ICommand ResetItemCommand => Collection.ResetItemCommand;
+        public ICommand DeleteEverywhereCommand { get; }
 
         public override IControl SelectedItem
         {
@@ -161,8 +172,31 @@ namespace CMiX.Core.Prefabs.Managers
             var (removed, newIndex) = Collection.DeleteItem(control);
             if (removed == null) return;
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, removed, newIndex));
-            if (newIndex < 0) return;
+            // newIndex is -1 when the deleted item was the collection's last remaining item; that
+            // still needs an undo entry (RemoveItemCommand.Undo reinserts at the original index,
+            // it does not use newIndex), so the push no longer bails out on a negative newIndex.
             UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
+        }
+
+        // Registers this manager's DeleteItem as the deleter for its current ManagerData.ID. Called
+        // from the ctor and again by app side setup code once ManagerData.ID is reassigned, since the
+        // registration key must match the id AddControl used when the control was referenced.
+        public void RegisterDeleter()
+        {
+            Collection.ControlRepository.RegisterDeleter(ManagerData.ID, DeleteItem);
+        }
+
+        private void DeleteEverywhere(IControl control)
+        {
+            UndoManager?.BeginCapture();
+            try
+            {
+                Collection.ControlRepository.DeleteEverywhere(control ?? SelectedItem);
+            }
+            finally
+            {
+                UndoManager?.EndCapture();
+            }
         }
 
         private void OnMove(int oldIndex, int newIndex)
@@ -223,6 +257,11 @@ namespace CMiX.Core.Prefabs.Managers
             var m = (PrefabManagerModel)model;
             ManagerData.ID = m.ManagerData.ID;
             ManagerData.SelectedIndex = m.ManagerData.SelectedIndex;
+            // ControlFactory.Create round trips every freshly built control through FromModel,
+            // not only saved project loads, so nested managers get their ManagerData.ID reassigned
+            // here just like the top level ones do in MainViewModel.SetupManager; re register so
+            // the deleter key matches the id AddControl and LoadItem will use afterward.
+            RegisterDeleter();
         }
     }
 }

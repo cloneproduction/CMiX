@@ -21,6 +21,7 @@ namespace CMiX.Core.Prefabs
         private readonly Dictionary<Guid, HashSet<Guid>> _referencers = new();
         private readonly Dictionary<Type, Action<IControl>> typeToAddAction;
         private readonly Dictionary<Type, Action<IControl>> typeToRemoveAction;
+        private readonly Dictionary<Guid, Action<IControl>> _deleters = new();
 
         public ControlRepository()
         {
@@ -164,6 +165,28 @@ namespace CMiX.Core.Prefabs
         {
             if (!_referencers.ContainsKey(control.ID)) return false;
             return _referencers[control.ID].Count > 0;
+        }
+
+        // Last registration for a given manager id wins, so a manager whose id changes after
+        // construction (see PrefabManager.RegisterDeleter) simply overwrites its earlier entry.
+        public void RegisterDeleter(Guid managerId, Action<IControl> deleter)
+        {
+            _deleters[managerId] = deleter;
+        }
+
+        // Deletes control from every manager that currently references it. RemoveControl already
+        // drops the control from the repository collections once its last referencer lets go, so
+        // this only has to fan the delete out to the referencing managers, not touch the collections.
+        public void DeleteEverywhere(IControl control)
+        {
+            if (control == null) return;
+            if (!_referencers.TryGetValue(control.ID, out var referencerIds)) return;
+
+            foreach (var managerId in referencerIds.ToList())
+            {
+                if (_deleters.TryGetValue(managerId, out var deleter))
+                    deleter(control);
+            }
         }
 
         private void AddToSpecificRepo(IControl control)

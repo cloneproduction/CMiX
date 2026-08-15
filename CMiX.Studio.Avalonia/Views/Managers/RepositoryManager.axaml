@@ -163,9 +163,21 @@
             </BaseControls:CMiXListBox.DataTemplates>
         </BaseControls:CMiXListBox>
 
-        <ContentControl
-            Margin="8,0,8,8"
-            Content="{Binding SelectionPanel, ElementName=repositoryManager}" />
+        <DockPanel Margin="8,0,8,8">
+
+            <!--  DELETE EVERYWHERE  -->
+            <Button
+                Width="{DynamicResource ControlHeightMD}"
+                Height="{DynamicResource ControlHeightMD}"
+                Command="{Binding DeleteEverywhereCommand}"
+                CommandParameter="{Binding SelectedItem}"
+                Content="-"
+                DockPanel.Dock="Right"
+                Theme="{StaticResource ButtonRoundedRight}" />
+
+            <ContentControl Content="{Binding SelectionPanel, ElementName=repositoryManager}" />
+
+        </DockPanel>
 
         <!-- NullToVisibility returns a bool in this project; the Collapsed converter parameter is gone. -->
         <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
