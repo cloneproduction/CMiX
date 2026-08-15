@@ -94,6 +94,19 @@
                     <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
                 </DataTemplate>
 
+                <!--
+                    CheckerBoard and TouchBlob have no list item template in WPF, which fell
+                    back to ToString there but to the reflection view locator here, so the
+                    templates are added to render them like the other texture sources.
+                -->
+                <DataTemplate DataType="{x:Type TextureSource:CheckerBoard}">
+                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+                </DataTemplate>
+
+                <DataTemplate DataType="{x:Type TextureSource:TouchBlob}">
+                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+                </DataTemplate>
+
                 <DataTemplate DataType="{x:Type TextureSource:Image}">
                     <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
                 </DataTemplate>
