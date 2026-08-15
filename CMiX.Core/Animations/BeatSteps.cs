@@ -35,7 +35,7 @@ namespace CMiX.Core.Animations
             get => _currentStepIndex;
             set
             {
-                _currentStepIndex = value % Steps.Count;
+                _currentStepIndex = Steps.Count == 0 ? 0 : value % Steps.Count;
                 OnPropertyChanged();
             }
         }

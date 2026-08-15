@@ -90,7 +90,7 @@ namespace CMiX.Core.Networking.Servers
                 SelectedItem = server;
                 ManagerData.SelectedIndex = items.IndexOf(server);
 
-                window.Close();
+                window?.Close();
             }
         }
 
@@ -108,9 +108,11 @@ namespace CMiX.Core.Networking.Servers
 
         public void DeleteItem(IControl control)
         {
-            var index = ManagerData.Items.IndexOf(control);
-
             if (control == null)
+                return;
+
+            var index = ManagerData.Items.IndexOf(control);
+            if (index < 0)
                 return;
 
             ManagerData.Items.RemoveAt(index);

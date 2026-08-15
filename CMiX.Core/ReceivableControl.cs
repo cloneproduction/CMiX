@@ -16,9 +16,15 @@ namespace CMiX.Core
         {
             IsReceiving = true;
             IsActive = false;
-            action();
-            IsActive = true;
-            IsReceiving = false;
+            try
+            {
+                action();
+            }
+            finally
+            {
+                IsActive = true;
+                IsReceiving = false;
+            }
         }
     }
 }

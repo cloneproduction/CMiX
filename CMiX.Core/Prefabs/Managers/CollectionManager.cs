@@ -144,7 +144,8 @@ namespace CMiX.Core.Prefabs.Managers
         public void MoveItem(int oldIndex, int newIndex)
         {
             var items = ManagerData.Items;
-            if (items.Count == 0) return;
+            if (oldIndex < 0 || oldIndex > items.Count - 1) return;
+            if (newIndex < 0 || newIndex > items.Count - 1) return;
             items.Move(oldIndex, newIndex);
         }
 
@@ -169,8 +170,10 @@ namespace CMiX.Core.Prefabs.Managers
 
         public void ResetItem(IControl control)
         {
-            var newControl = ControlFactory.Create(control.GetType());
+            if (control == null) return;
             var index = ManagerData.Items.IndexOf(control);
+            if (index < 0) return;
+            var newControl = ControlFactory.Create(control.GetType());
             ManagerData.Items[index] = newControl;
             ControlRepository.RemoveControl(control, ManagerData.ID);
             ControlRepository.AddControl(newControl, ManagerData.ID);

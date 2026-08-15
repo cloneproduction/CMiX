@@ -3,6 +3,7 @@
 
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Assets
@@ -105,12 +106,12 @@ namespace CMiX.Core.Assets
         {
             if (e.OldItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.OldItems)
+                foreach (var item in e.OldItems.OfType<INotifyPropertyChanged>())
                     item.PropertyChanged -= item_PropertyChanged;
             }
             if (e.NewItems != null)
             {
-                foreach (INotifyPropertyChanged item in e.NewItems)
+                foreach (var item in e.NewItems.OfType<INotifyPropertyChanged>())
                     item.PropertyChanged += item_PropertyChanged;
             }
         }

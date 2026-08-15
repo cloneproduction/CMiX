@@ -128,7 +128,15 @@ namespace CMiX.Core.Animations
             }
         }
 
-        public float BPM => BeatHelper.CalculateBPM(MasterBeat.Periods[BeatIndex.Value + MasterBeat.BeatIndex.Value]);
+        public float BPM
+        {
+            get
+            {
+                var periods = MasterBeat.Periods;
+                var index = Math.Clamp(BeatIndex.Value + MasterBeat.BeatIndex.Value, 0, periods.Length - 1);
+                return BeatHelper.CalculateBPM(periods[index]);
+            }
+        }
 
         private const int MaxIndex = 4;
         private const int MinIndex = -4;

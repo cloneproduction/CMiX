@@ -147,6 +147,7 @@ namespace CMiX.Core.Prefabs.Managers
             var (removed, newIndex) = Collection.DeleteItem(control);
             if (removed == null) return;
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveItem>(ManagerData.ID, removed, newIndex));
+            if (newIndex < 0) return;
             UndoManager?.Push(new RemoveItemCommand(Collection, ControlMessenger, MessageFactory, control, index, newIndex));
         }
 
@@ -162,6 +163,7 @@ namespace CMiX.Core.Prefabs.Managers
             var previousIndex = Collection.ManagerData.Items.IndexOf(previousItem);
             Collection.RemoveSelectedItem();
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ManagerData.ID));
+            if (previousIndex < 0) return;
             UndoManager?.Push(new RemoveSelectedItemCommand(Collection, ControlMessenger, MessageFactory, previousItem, previousIndex));
         }
 
