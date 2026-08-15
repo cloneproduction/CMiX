@@ -2,13 +2,17 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Collections.ObjectModel;
+using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Avalonia.Threading;
 using CMiX.Core;
 using CMiX.Core.Animations;
+using CMiX.Core.Compositing;
 using CMiX.Core.DependencyInjection;
+using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Animations;
 using CMiX.Studio.Avalonia.Services;
@@ -22,6 +26,7 @@ namespace CMiX.Studio.Avalonia
     public partial class App : Application
     {
         private MasterBeatAnimationController _animationController;
+        private static Project _crashSaveProject;
 
         // Set once at startup so XAML instantiated views without constructor
         // injection, such as ServerCreation, can reach the shared dialog service.
@@ -56,6 +61,7 @@ namespace CMiX.Studio.Avalonia
                     _ => (collection, onMove) => new ManagerReorderService(collection, onMove));
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+                _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 DialogService = serviceProvider.GetRequiredService<IDialogService>();
                 configurationBuilder.ConfigureWpfTransport(serviceProvider,
                     a => Dispatcher.UIThread.Invoke(a));
@@ -70,6 +76,47 @@ namespace CMiX.Studio.Avalonia
             }
 
             base.OnFrameworkInitializationCompleted();
+        }
+
+        internal static void HandleUnhandledException(object exceptionObj)
+        {
+            try
+            {
+                File.AppendAllText(Path.Combine(Path.GetTempPath(), "cmix-crash.txt"), $"{DateTime.Now}: {exceptionObj}\n");
+            }
+            catch
+            {
+                // Logging must never throw during crash handling.
+            }
+
+            EmergencySave();
+        }
+
+        private static void EmergencySave()
+        {
+            try
+            {
+                if (_crashSaveProject?.CompositionManager?.SelectedItem is not Composition selectedComposition) return;
+
+                var compositionModel = (CompositionModel)selectedComposition.ToModel();
+                var projectModel = new ProjectModel
+                {
+                    MasterBeat = (MasterBeatModel)_crashSaveProject.MasterBeat.ToModel(),
+                    CompositionManager = new PrefabManagerModel
+                    {
+                        ManagerData = new ManagerDataModel
+                        {
+                            Items = new Collection<IControlModel> { compositionModel },
+                            SelectedIndex = 0
+                        }
+                    }
+                };
+                ProjectSerializer.Save(projectModel, Path.Combine(Path.GetTempPath(), "cmix-emergency.cmix"));
+            }
+            catch
+            {
+                // Emergency save must never throw during crash handling.
+            }
         }
     }
 }
