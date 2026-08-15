@@ -42,6 +42,8 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             IsEditingProperty.Changed.AddClassHandler<EditableTextBox>((textbox, e) =>
             {
+                if (!e.GetNewValue<bool>()) return;
+
                 textbox.OnSwitchToEditingMode();
                 textbox.InputValue.Focus();
                 textbox.InputValue.SelectAll();
@@ -109,6 +111,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             Text = InputValue.Text;
             SetInputVisible(false);
             UnhookTopLevelEvents();
+            IsEditing = false;
         }
 
         private void HookTopLevelEvents()
