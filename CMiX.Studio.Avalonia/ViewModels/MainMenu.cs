@@ -131,9 +131,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 var model = (CompositionModel)composition.ToModel();
-                var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
-                var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
-                Project.CompositionManager.AddItem(cloned);
+                Project.CompositionManager.AddItem(CloneWithNewGuids(model));
             });
         }
 
@@ -158,9 +156,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 if (Project.CompositionManager.SelectedItem is not Composition composition) return;
                 if (composition.LayerManager.SelectedItem is not Layer layer) return;
                 var model = (LayerModel)layer.ToModel();
-                var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
-                var cloned = JsonSerializer.Deserialize<LayerModel>(json, ProjectSerializer.Options);
-                composition.LayerManager.AddItem(cloned);
+                composition.LayerManager.AddItem(CloneWithNewGuids(model));
             });
         }
 
@@ -191,9 +187,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     if (projectModel?.CompositionManager?.ManagerData?.Items?.FirstOrDefault() is not CompositionModel compositionModel)
                         return (null, null);
 
-                    var json = JsonSerializer.Serialize(compositionModel, ProjectSerializer.Options);
-                    json = ReplaceAllGuids(json);
-                    return (projectModel, JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options));
+                    return (projectModel, CloneWithNewGuids(compositionModel));
                 });
 
                 if (loaded.Composition == null)
@@ -216,6 +210,14 @@ namespace CMiX.Studio.Avalonia.ViewModels
             {
                 await _dialogService.ShowMessageBoxAsync(this, $"{Path.GetFileName(path)}: {ex.Message}", "Open Project");
             }
+        }
+
+        // Shared by DuplicateComposition, DuplicateLayer and OpenProject, which all need a deep
+        // copy of a model with every id replaced so the clone does not collide with the original.
+        private static T CloneWithNewGuids<T>(T model) where T : IControlModel
+        {
+            var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
+            return JsonSerializer.Deserialize<T>(json, ProjectSerializer.Options);
         }
 
         private static string ReplaceAllGuids(string json)
