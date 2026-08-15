@@ -101,9 +101,23 @@ namespace CMiX.Core.Prefabs
         {
             var control = CreateControlInstance(model);
             control.FromModel(model);
-            NameControl(control);
+
+            // A model that already carries a name comes from a load or a duplicate, where the name
+            // is user data and naming would overwrite it. Create(Type) builds a default model whose
+            // name is empty, so the new item path still gets an auto generated name.
+            if (TryGetStoredName(control, out var storedName))
+                _names.Add(storedName);
+            else
+                NameControl(control);
+
             _activationService.ActivateAll();
             return control;
+        }
+
+        private static bool TryGetStoredName(IControl control, out string storedName)
+        {
+            storedName = control is IPrefab prefab ? prefab.PrefabService.Name.Value : null;
+            return !string.IsNullOrEmpty(storedName);
         }
 
         private IControl CreateControlInstance(IControlModel model)
