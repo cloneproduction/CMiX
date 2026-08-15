@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Text.RegularExpressions;
@@ -102,14 +103,30 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var path = file?.LocalPath;
             if (string.IsNullOrWhiteSpace(path)) return;
 
-            var projectModel = ProjectSerializer.Load(path);
-            if (projectModel.CompositionManager.ManagerData.Items.FirstOrDefault() is not CompositionModel compositionModel) return;
+            try
+            {
+                var projectModel = ProjectSerializer.Load(path);
+                if (projectModel?.CompositionManager?.ManagerData?.Items?.FirstOrDefault() is not CompositionModel compositionModel)
+                {
+                    await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
+                    return;
+                }
 
-            var json = JsonSerializer.Serialize(compositionModel, ProjectSerializer.Options);
-            json = ReplaceAllGuids(json);
-            var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+                var json = JsonSerializer.Serialize(compositionModel, ProjectSerializer.Options);
+                json = ReplaceAllGuids(json);
+                var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+                if (cloned == null)
+                {
+                    await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
+                    return;
+                }
 
-            Project.CompositionManager.AddItem(cloned);
+                Project.CompositionManager.AddItem(cloned);
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowMessageBoxAsync(this, $"{Path.GetFileName(path)}: {ex.Message}", "Open Project");
+            }
         }
 
         private static string ReplaceAllGuids(string json)
@@ -132,7 +149,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             if (!string.IsNullOrWhiteSpace(FolderPath))
             {
-                WriteProject(FolderPath);
+                await WriteProjectGuarded(FolderPath);
                 return;
             }
             await SaveAsProject();
@@ -150,7 +167,19 @@ namespace CMiX.Studio.Avalonia.ViewModels
             if (string.IsNullOrWhiteSpace(path)) return;
 
             FolderPath = path;
-            WriteProject(FolderPath);
+            await WriteProjectGuarded(FolderPath);
+        }
+
+        private async Task WriteProjectGuarded(string path)
+        {
+            try
+            {
+                WriteProject(path);
+            }
+            catch (Exception ex)
+            {
+                await _dialogService.ShowMessageBoxAsync(this, $"{Path.GetFileName(path)}: {ex.Message}", "Save Project");
+            }
         }
 
         private void WriteProject(string path)
