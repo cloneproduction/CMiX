@@ -9,6 +9,12 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class PrefabSlotManager : UserControl
     {
+        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
+        static PrefabSlotManager()
+        {
+            LogicalPanelContent.Track<PrefabSlotManager>(SelectionPanelProperty);
+        }
+
         public PrefabSlotManager()
         {
             InitializeComponent();

@@ -9,6 +9,12 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class Outliner : UserControl
     {
+        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
+        static Outliner()
+        {
+            LogicalPanelContent.Track<Outliner>(SelectionPanelProperty);
+        }
+
         public Outliner()
         {
             InitializeComponent();

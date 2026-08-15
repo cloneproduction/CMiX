@@ -8,6 +8,12 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class ButtonOpenSelectionPanel : UserControl
     {
+        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
+        static ButtonOpenSelectionPanel()
+        {
+            LogicalPanelContent.Track<ButtonOpenSelectionPanel>(SelectionPanelProperty);
+        }
+
         public ButtonOpenSelectionPanel()
         {
             InitializeComponent();

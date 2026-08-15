@@ -10,6 +10,13 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class RepositoryManager : UserControl
     {
+        // Roots panel content in the logical tree so its deferred bindings apply; see LogicalPanelContent.
+        static RepositoryManager()
+        {
+            LogicalPanelContent.Track<RepositoryManager>(SelectionPanelProperty);
+            LogicalPanelContent.Track<RepositoryManager>(EditingPanelProperty);
+        }
+
         public RepositoryManager()
         {
             InitializeComponent();
