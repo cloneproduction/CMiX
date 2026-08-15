@@ -39,10 +39,15 @@
             IsExpanded="{Binding IsExpanded}">
             <Panels:IndentedExpander.Header>
                 <DockPanel>
+                    <!--
+                        The WPF DataContext.IsEnabled path resolved against the mask view through
+                        a ContentTemplate quirk; the real owner of IsEnabled is the MaskTexture
+                        view model, so the path goes there explicitly.
+                    -->
                     <ToggleButton
                         Width="14"
                         Height="14"
-                        IsChecked="{Binding DataContext.IsEnabled.Value, ElementName=uc, Mode=TwoWay}"
+                        IsChecked="{Binding MaskTexture.IsEnabled.Value, Mode=TwoWay}"
                         Theme="{StaticResource ToggleButtonIcon}" />
                     <TextBlock Margin="8,0" Text="Mask" />
                 </DockPanel>
