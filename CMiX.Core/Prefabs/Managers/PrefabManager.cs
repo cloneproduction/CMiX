@@ -17,7 +17,7 @@ namespace CMiX.Core.Prefabs.Managers
                              MessageFactory messageFactory,
                              ControlActivationService activationService,
                              UndoManager undoManager,
-                             ManagerReorderServiceFactory? reorderServiceFactory = null)
+                             ManagerReorderServiceFactory reorderServiceFactory = null)
             : base(collection.ControlRepository, controlMessenger, messageFactory, activationService, undoManager)
         {
             ID = collection.ManagerData.ID;
@@ -50,7 +50,7 @@ namespace CMiX.Core.Prefabs.Managers
         private MessageCollectionManagerHandler MessageCollectionManagerHandler => Collection.MessageCollectionManagerHandler;
 
         public CollectionManager Collection { get; set; }
-        public IManagerReorderService? ManagerReorderService { get; }
+        public IManagerReorderService ManagerReorderService { get; }
 
         [ObservableProperty]
         private bool isExpanded = false;
