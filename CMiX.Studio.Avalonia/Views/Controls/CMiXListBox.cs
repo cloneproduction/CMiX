@@ -25,6 +25,16 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             base.OnApplyTemplate(e);
 
+            if (Border != null)
+            {
+                Border.PointerMoved -= Border_PointerMoved;
+                Border.RemoveHandler(PointerPressedEvent, Border_PointerPressed);
+                Border.RemoveHandler(PointerReleasedEvent, Border_PointerReleased);
+            }
+
+            if (Bd != null)
+                Bd.RemoveHandler(PointerWheelChangedEvent, Bd_PointerWheelChanged);
+
             Border = e.NameScope.Find<Border>("resizeBorder");
             Bd = e.NameScope.Find<Border>("Bd");
 
