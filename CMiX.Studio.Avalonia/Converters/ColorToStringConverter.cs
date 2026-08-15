@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Media;
 
@@ -13,7 +14,9 @@ namespace CMiX.Studio.Avalonia.Converters
     {
         public Object Convert(Object value, Type targetType, Object parameter, CultureInfo culture)
         {
-            Color colorValue = (Color)value;
+            if (value is not Color colorValue)
+                return AvaloniaProperty.UnsetValue;
+
             return ColorNames.GetColorName(colorValue);
         }
 

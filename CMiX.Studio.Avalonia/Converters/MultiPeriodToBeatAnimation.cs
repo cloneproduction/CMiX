@@ -16,9 +16,7 @@ namespace CMiX.Studio.Avalonia.Converters
         {
             if (values.Count < 2) return AvaloniaProperty.UnsetValue;
             if (values[0] == AvaloniaProperty.UnsetValue) return AvaloniaProperty.UnsetValue;
-            if (values[1] == null) return AvaloniaProperty.UnsetValue;
-
-            var beatModifier = (BeatModifier)values[1];
+            if (values[1] is not BeatModifier beatModifier) return AvaloniaProperty.UnsetValue;
             if (beatModifier?.MasterBeat?.AnimatedDoubleProvider == null) return AvaloniaProperty.UnsetValue;
 
             var index = beatModifier.BeatIndex.Value + beatModifier.MasterBeat.BeatIndex.Value;

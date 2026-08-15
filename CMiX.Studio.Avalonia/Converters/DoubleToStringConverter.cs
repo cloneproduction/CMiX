@@ -12,7 +12,9 @@ namespace CMiX.Studio.Avalonia.Converters
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            double b = (double)value;
+            if (value is not double b)
+                return AvaloniaProperty.UnsetValue;
+
             return String.Format("{0:0.000}", b);
         }
 

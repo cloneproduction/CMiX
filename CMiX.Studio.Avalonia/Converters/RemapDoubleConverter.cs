@@ -3,6 +3,7 @@
 
 using System;
 using System.Globalization;
+using Avalonia;
 using Avalonia.Data.Converters;
 using Avalonia.Markup.Xaml;
 using CMiX.Studio.Avalonia.Mathematics;
@@ -18,13 +19,17 @@ namespace CMiX.Studio.Avalonia.Converters
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var d = (double)value;
+            if (value is not double d)
+                return AvaloniaProperty.UnsetValue;
+
             return MathUtils.Map(d, FromMin, FromMax, ToMin, ToMax);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var d = (double)value;
+            if (value is not double d)
+                return AvaloniaProperty.UnsetValue;
+
             return MathUtils.Map(d, ToMin, ToMax, FromMin, FromMax);
         }
 
