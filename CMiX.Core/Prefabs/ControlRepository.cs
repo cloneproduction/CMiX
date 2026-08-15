@@ -25,40 +25,43 @@ namespace CMiX.Core.Prefabs
         // id it was registered with, so the two can never drift apart.
         private readonly Dictionary<Guid, IControl> _controlsById = new();
 
-        private readonly Dictionary<Type, Action<IControl>> typeToAddAction;
-        private readonly Dictionary<Type, Action<IControl>> typeToRemoveAction;
+        // A list, not a dictionary, because the probe below matches the first entry whose type is
+        // assignable from the control and the entries are ordered on purpose (ITextureSource before
+        // Entity); dictionary enumeration order is not a contract.
+        private readonly List<(Type Type, Action<IControl> Action)> typeToAddAction;
+        private readonly List<(Type Type, Action<IControl> Action)> typeToRemoveAction;
         private readonly Dictionary<Guid, Action<IControl>> _deleters = new();
 
         public ControlRepository()
         {
-            typeToAddAction = new Dictionary<Type, Action<IControl>>
+            typeToAddAction = new List<(Type, Action<IControl>)>
             {
-                { typeof(Composition), c => Compositions.Add((Composition)c) },
-                { typeof(Layer), c => Layers.Add((Layer)c) },
-                { typeof(ITextureSource), c => Textures.Add((ITextureSource)c) },
-                { typeof(Camera), c => Cameras.Add((Camera)c) },
-                { typeof(LightEntity), c => Lights.Add((LightEntity)c) },
-                { typeof(Entity), c => Entities.Add((Entity)c) },
-                { typeof(Material), c => Materials.Add((Material)c) },
-                { typeof(Server), c => Servers.Add((Server)c) },
-                { typeof(BeatModifier), c => BeatModifiers.Add((BeatModifier)c) },
-                { typeof(TextEntity), c => Texts.Add((TextEntity)c) },
-                { typeof(ColorPalette), c => ColorPalettes.Add((ColorPalette)c) }
+                (typeof(Composition), c => Compositions.Add((Composition)c)),
+                (typeof(Layer), c => Layers.Add((Layer)c)),
+                (typeof(ITextureSource), c => Textures.Add((ITextureSource)c)),
+                (typeof(Camera), c => Cameras.Add((Camera)c)),
+                (typeof(LightEntity), c => Lights.Add((LightEntity)c)),
+                (typeof(Entity), c => Entities.Add((Entity)c)),
+                (typeof(Material), c => Materials.Add((Material)c)),
+                (typeof(Server), c => Servers.Add((Server)c)),
+                (typeof(BeatModifier), c => BeatModifiers.Add((BeatModifier)c)),
+                (typeof(TextEntity), c => Texts.Add((TextEntity)c)),
+                (typeof(ColorPalette), c => ColorPalettes.Add((ColorPalette)c))
             };
 
-            typeToRemoveAction = new Dictionary<Type, Action<IControl>>
+            typeToRemoveAction = new List<(Type, Action<IControl>)>
             {
-                { typeof(Composition), c => Compositions.Remove((Composition)c) },
-                { typeof(Layer), c => Layers.Remove((Layer)c) },
-                { typeof(ITextureSource), c => Textures.Remove((ITextureSource)c) },
-                { typeof(Camera), c => Cameras.Remove((Camera)c) },
-                { typeof(LightEntity), c => Lights.Remove((LightEntity)c) },
-                { typeof(Entity), c => Entities.Remove((Entity)c) },
-                { typeof(Material), c => Materials.Remove((Material)c) },
-                { typeof(Server), c => Servers.Remove((Server)c) },
-                { typeof(BeatModifier), c => BeatModifiers.Remove((BeatModifier)c) },
-                { typeof(TextEntity), c => Texts.Remove((TextEntity)c) },
-                { typeof(ColorPalette), c => ColorPalettes.Remove((ColorPalette)c) }
+                (typeof(Composition), c => Compositions.Remove((Composition)c)),
+                (typeof(Layer), c => Layers.Remove((Layer)c)),
+                (typeof(ITextureSource), c => Textures.Remove((ITextureSource)c)),
+                (typeof(Camera), c => Cameras.Remove((Camera)c)),
+                (typeof(LightEntity), c => Lights.Remove((LightEntity)c)),
+                (typeof(Entity), c => Entities.Remove((Entity)c)),
+                (typeof(Material), c => Materials.Remove((Material)c)),
+                (typeof(Server), c => Servers.Remove((Server)c)),
+                (typeof(BeatModifier), c => BeatModifiers.Remove((BeatModifier)c)),
+                (typeof(TextEntity), c => Texts.Remove((TextEntity)c)),
+                (typeof(ColorPalette), c => ColorPalettes.Remove((ColorPalette)c))
             };
 
             Entities.CollectionChanged += OnEntitiesOrTextsChanged;
@@ -214,14 +217,14 @@ namespace CMiX.Core.Prefabs
 
         private void AddToSpecificRepo(IControl control)
         {
-            var match = typeToAddAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control));
-            match.Value?.Invoke(control);
+            var match = typeToAddAction.FirstOrDefault(entry => entry.Type.IsInstanceOfType(control));
+            match.Action?.Invoke(control);
         }
 
         private void RemoveFromSpecificRepo(IControl control)
         {
-            var match = typeToRemoveAction.FirstOrDefault(kvp => kvp.Key.IsInstanceOfType(control));
-            match.Value?.Invoke(control);
+            var match = typeToRemoveAction.FirstOrDefault(entry => entry.Type.IsInstanceOfType(control));
+            match.Action?.Invoke(control);
         }
 
         private static int GetRenderPriority(IControl c) => c switch
