@@ -160,7 +160,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
             });
         }
 
-        private void NewProject()
+        private void NewProject() => ResetSession();
+
+        // Empties the running session. The seven repository managers and the composition manager
+        // between them reference every control the repository holds, so letting all eight go
+        // releases the whole graph, and clearing the undo stack afterwards disposes the removed
+        // instances its commands were still holding on to.
+        private void ResetSession()
         {
             Project.CompositionManager.ClearAll();
             foreach (var manager in RepositoryManagers)
@@ -179,6 +185,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var path = file?.LocalPath;
             if (string.IsNullOrWhiteSpace(path)) return;
 
+            await OpenProjectFromPath(path);
+        }
+
+        // The open sequence minus the file dialog, so a caller that already has a path, the tests
+        // among them, drives the same steps the menu command does.
+        public async Task OpenProjectFromPath(string path)
+        {
             try
             {
                 var loaded = await Task.Run<(ProjectModel Project, CompositionModel Composition)>(() =>
@@ -195,6 +208,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
                     return;
                 }
+
+                // Opening replaces the session rather than merging the file into it, so what was
+                // open is emptied here the way File > New empties it. The sweep only runs once the
+                // file has been parsed and has yielded a composition, so the failure paths above
+                // and below still leave the open session untouched; both of them report over a
+                // window the user has not had emptied behind the dialog.
+                ResetSession();
 
                 Project.CompositionManager.AddItem(loaded.Composition);
 
