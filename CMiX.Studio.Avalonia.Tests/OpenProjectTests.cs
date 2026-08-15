@@ -129,9 +129,9 @@ namespace CMiX.Studio.Avalonia.Tests
 
         // The undo stack of the replaced session refers to instances the open released, so it goes
         // down with the session; left standing, an undo of a delete recorded before the open would
-        // reinsert a control of the old session into the new one. The load records entries of its
-        // own on the emptied stack, so what is measured is that an open leaves the same number of
-        // steps behind whether or not the session it replaced had a history of its own.
+        // reinsert a control of the old session into the new one. What is measured is that an open
+        // leaves the same number of steps behind whether or not the session it replaced had a
+        // history of its own, which since the load stopped recording is none either way.
         [AvaloniaFact]
         public async Task OpenProject_DropsTheUndoHistoryOfTheSessionItReplaced()
         {
@@ -184,6 +184,74 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.False(undoManager.CanUndo);
             return steps;
+        }
+
+        // The load walks the same managers a user action walks, so building the graph used to leave
+        // the whole construction on the stack the reset had just emptied, some three dozen add and
+        // select entries deep. A Ctrl+Z on a freshly opened file stepped backwards into the load and
+        // started taking the file apart instead of doing nothing.
+        [AvaloniaFact]
+        public async Task OpenProject_LeavesNothingOnTheUndoStack()
+        {
+            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            try
+            {
+                WriteProjectWithMaterialTextures(path);
+
+                var (provider, viewModel) = ShowMainWindow();
+                var undoManager = provider.GetRequiredService<UndoManager>();
+
+                await viewModel.MainMenu.OpenProjectFromPath(path);
+                Pump();
+
+                Assert.False(undoManager.CanUndo);
+                Assert.False(undoManager.CanRedo);
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
+        }
+
+        // Recording is only off for the duration of the load, so the first thing the user does after
+        // an open records the one step it should and undoes it without touching what was loaded.
+        [AvaloniaFact]
+        public async Task OpenProject_ThenAUserAction_RecordsOneStepAndUndoesItCleanly()
+        {
+            var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
+            try
+            {
+                WriteProjectWithMaterialTextures(path);
+
+                var (provider, viewModel) = ShowMainWindow();
+                var undoManager = provider.GetRequiredService<UndoManager>();
+                var repository = viewModel.ControlRepository;
+
+                await viewModel.MainMenu.OpenProjectFromPath(path);
+                Pump();
+
+                var loaded = repository.Controls.ToList();
+
+                viewModel.Project.CompositionManager.AddItem(typeof(Composition));
+                var added = (Composition)viewModel.Project.CompositionManager.SelectedItem;
+                Pump();
+
+                Assert.True(undoManager.CanUndo);
+
+                var steps = 0;
+                for (; steps < 256 && undoManager.CanUndo; steps++)
+                    viewModel.MainMenu.UndoCommand.Execute(null);
+                Pump();
+
+                Assert.Equal(1, steps);
+                Assert.DoesNotContain(repository.Compositions, item => ReferenceEquals(item, added));
+                foreach (var control in loaded)
+                    Assert.Contains(repository.Controls, item => ReferenceEquals(item, control));
+            }
+            finally
+            {
+                if (File.Exists(path)) File.Delete(path);
+            }
         }
 
         // File > New still has to empty a session that came from an open rather than from the

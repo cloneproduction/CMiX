@@ -213,13 +213,32 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 // window the user has not had emptied behind the dialog.
                 ResetSession();
 
-                Project.CompositionManager.AddItem(loaded.Composition);
+                // The load builds the graph through the very managers a user action goes through,
+                // so every add and every selection it makes would record a step on the stack the
+                // reset just emptied and a Ctrl+Z on a freshly opened file would step backwards
+                // into the load. Recording is off for the apply so those steps are never created
+                // at all, which is also why the reset stays outside: its own clear is what disposes
+                // the instances the replaced session's commands were still holding.
+                //
+                // Suppression counts, so the master beat restore below, which suppresses and
+                // resumes around each of its own writes, nests inside this without reopening
+                // recording halfway through.
+                _undoManager.SuppressUndo();
+                try
+                {
+                    Project.CompositionManager.AddItem(loaded.Composition);
 
-                // The master beat keeps the ids it was saved with, so it is restored from the file
-                // as loaded rather than from the guid replaced clone the composition goes through.
-                // Project files written before the master beat was serialized carry none.
-                if (loaded.Project.MasterBeat != null)
-                    Project.MasterBeat.FromModel(loaded.Project.MasterBeat);
+                    // The master beat keeps the ids it was saved with, so it is restored from the
+                    // file as loaded rather than from the guid replaced clone the composition goes
+                    // through. Project files written before the master beat was serialized carry
+                    // none.
+                    if (loaded.Project.MasterBeat != null)
+                        Project.MasterBeat.FromModel(loaded.Project.MasterBeat);
+                }
+                finally
+                {
+                    _undoManager.ResumeUndo();
+                }
 
                 FolderPath = path;
             }
