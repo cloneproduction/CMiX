@@ -3,6 +3,7 @@
 
 using Avalonia.Controls;
 using Avalonia.Input;
+using Avalonia.LogicalTree;
 using CMiX.Core.Undo;
 
 namespace CMiX.Studio.Avalonia.Views
@@ -20,6 +21,15 @@ namespace CMiX.Studio.Avalonia.Views
 
         private void TitleBar_PointerPressed(object sender, PointerPressedEventArgs e)
         {
+            // The WPF chrome excluded the menu and the window buttons from the drag
+            // area with IsHitTestVisibleInChrome. Starting a move drag here would
+            // steal their pointer release and no click would ever complete, so
+            // presses inside those interactive children never begin a drag.
+            if (e.Source is ILogical source &&
+                (source.FindLogicalAncestorOfType<Menus.MainMenu>(true) != null ||
+                 source.FindLogicalAncestorOfType<Windows.MainWindowController>(true) != null))
+                return;
+
             if (e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
                 BeginMoveDrag(e);
         }
