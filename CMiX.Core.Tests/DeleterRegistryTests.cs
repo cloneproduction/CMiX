@@ -1,6 +1,8 @@
 ﻿using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Texturing.Filters;
+using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -71,6 +73,40 @@ namespace CMiX.Core.Tests
             undoManager.Clear();
 
             Assert.Equal(beforeTheLayer, repository.DeleterCount);
+        }
+
+        // A texture source owns a manager of filter modifiers the same way an entity owns a manager
+        // of its modifiers, but it used to be the one owner of a nested manager that was not
+        // disposable, so tearing a texture down left every filter it held in the repository and
+        // every one of its managers in the deleter registry.
+        [Fact]
+        public void DroppingATexture_TakesItsFilterModifiersWithIt()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var repository = provider.GetRequiredService<ControlRepository>();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var textureManager = provider.GetRequiredService<PrefabManager>();
+
+            var beforeTheTexture = repository.DeleterCount;
+
+            textureManager.AddItem(typeof(CheckerBoard));
+            var texture = (CheckerBoard)textureManager.SelectedItem;
+            texture.TextureModifierManager.AddItem(typeof(Blur));
+            var filter = (Blur)texture.TextureModifierManager.SelectedItem;
+
+            Assert.Same(filter, repository.GetControl(filter.ID));
+            Assert.True(repository.DeleterCount > beforeTheTexture);
+
+            textureManager.DeleteItem(texture);
+
+            // The undo entry still owns the texture, so nothing is torn down until it drops.
+            Assert.Same(filter, repository.GetControl(filter.ID));
+
+            undoManager.Clear();
+
+            Assert.Null(repository.GetControl(texture.ID));
+            Assert.Null(repository.GetControl(filter.ID));
+            Assert.Equal(beforeTheTexture, repository.DeleterCount);
         }
 
         private static void AddAndDropALayer(Composition composition, UndoManager undoManager)

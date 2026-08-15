@@ -9,7 +9,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class BubbleNoise : ObservableObject, ITextureSource
+    public partial class BubbleNoise : ObservableObject, ITextureSource, IDisposable
     {
         public BubbleNoise(PrefabService prefabService,
                            PrefabManager textureModifierManager,
@@ -69,6 +69,13 @@ namespace CMiX.Core.Texturing.Sources
             BubbleColor.FromModel(m.BubbleColor);
 
             LoadManager(TextureModifierManager, m.TextureModifierManager);
+        }
+
+        // The filter modifiers are reachable through this manager alone, so a texture torn down
+        // without disposing it leaves their repository and their deleter registrations behind.
+        public void Dispose()
+        {
+            TextureModifierManager.Dispose();
         }
     }
 }

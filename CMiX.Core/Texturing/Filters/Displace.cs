@@ -9,7 +9,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Displace : ObservableObject, IPrefab, ITextureFilter
+    public partial class Displace : ObservableObject, IPrefab, ITextureFilter, IDisposable
     {
         public Displace(PrefabService prefabService, 
                         PrefabManager textureSelector,
@@ -59,6 +59,14 @@ namespace CMiX.Core.Texturing.Filters
             Blend.FromModel(m.Blend);
 
             LoadManager(TextureSelector, m.TextureSelector);
+        }
+
+        // The texture this filter displaces with is reachable through this selector alone, so a
+        // filter torn down without disposing it leaves its repository and its deleter
+        // registrations behind.
+        public void Dispose()
+        {
+            TextureSelector.Dispose();
         }
     }
 }

@@ -9,7 +9,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class VideoIn : ObservableRecipient, ITextureSource
+    public partial class VideoIn : ObservableRecipient, ITextureSource, IDisposable
     {
         public VideoIn(PrefabService prefabService, 
                        PrefabManager textureModifierManager,
@@ -50,6 +50,13 @@ namespace CMiX.Core.Texturing.Sources
             SizeY.FromModel(m.SizeY);
 
             LoadManager(TextureModifierManager, m.TextureModifierManager);
+        }
+
+        // The filter modifiers are reachable through this manager alone, so a texture torn down
+        // without disposing it leaves their repository and their deleter registrations behind.
+        public void Dispose()
+        {
+            TextureModifierManager.Dispose();
         }
     }
 }
