@@ -85,8 +85,7 @@ namespace CMiX.Core.Assets
 
         public void AddAsset(IAsset asset)
         {
-            Assets.Add(asset);
-            SortAssets();
+            Assets.AddSorted(asset, c => c.Name);
         }
 
         public void RemoveAsset(IAsset asset)

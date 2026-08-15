@@ -46,16 +46,54 @@ namespace CMiX.Core
         }
 
         /// <summary>
+        /// Inserts an item at the position that keeps an already sorted collection sorted, which
+        /// costs one insert instead of the full resort a plain add followed by a sort would cost.
+        /// </summary>
+        /// <typeparam name="TKey">The type of the key returned by <paramref name="keySelector"/>.</typeparam>
+        /// <param name="item">The item to insert.</param>
+        /// <param name="keySelector">A function to extract a key from an item.</param>
+        public void AddSorted<TKey>(T item, Func<T, TKey> keySelector)
+        {
+            var comparer = Comparer<TKey>.Default;
+            var key = keySelector(item);
+
+            int low = 0;
+            int high = Count;
+            while (low < high)
+            {
+                int middle = low + (high - low) / 2;
+                // Items with an equal key keep the order they were added in, which is what a
+                // stable OrderBy over the whole collection would have produced.
+                if (comparer.Compare(keySelector(Items[middle]), key) <= 0)
+                    low = middle + 1;
+                else
+                    high = middle;
+            }
+
+            Insert(low, item);
+        }
+
+        /// <summary>
         /// Moves the items of the collection so that their orders are the same as those of the items provided.
         /// </summary>
         /// <param name="sortedItems">An <see cref="IEnumerable{T}"/> to provide item orders.</param>
         private void InternalSort(IEnumerable<T> sortedItems)
         {
             var sortedItemsList = sortedItems.ToList();
+            var comparer = EqualityComparer<T>.Default;
 
-            foreach (var item in sortedItemsList)
+            for (int targetIndex = 0; targetIndex < sortedItemsList.Count; targetIndex++)
             {
-                Move(IndexOf(item), sortedItemsList.IndexOf(item));
+                var item = sortedItemsList[targetIndex];
+
+                // Items already in place are skipped, so a collection that is still sorted costs
+                // one comparison per item and raises no collection changed event at all.
+                if (comparer.Equals(Items[targetIndex], item))
+                    continue;
+
+                var currentIndex = IndexOf(item);
+                if (currentIndex >= 0)
+                    Move(currentIndex, targetIndex);
             }
         }
 

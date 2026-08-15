@@ -8,7 +8,10 @@ namespace CMiX.Core.Undo
         private const int MaxSteps = 128;
         private const int MergeWindowMs = 500;
 
-        private readonly Stack<IUndoCommand> _undoStack = new();
+        // A linked list rather than a stack because the cap is enforced by dropping the oldest
+        // entry, which costs one node removal here and a full rebuild on a stack. The newest
+        // entry is the last node, so pushing, peeking and popping all stay at the tail.
+        private readonly LinkedList<IUndoCommand> _undoStack = new();
         private readonly Stack<IUndoCommand> _redoStack = new();
         private int _groupDepth = 0;
 
@@ -31,18 +34,17 @@ namespace CMiX.Core.Undo
             }
 
             if (command is ValueChangedCommand vc
-                && _undoStack.TryPeek(out var last)
-                && last is ValueChangedCommand lastVc
+                && _undoStack.Last is { } lastNode
+                && lastNode.Value is ValueChangedCommand lastVc
                 && lastVc.ControlID == vc.ControlID
                 && (vc.Timestamp - lastVc.Timestamp).TotalMilliseconds < MergeWindowMs)
             {
-                _undoStack.Pop();
-                _undoStack.Push(vc.WithBefore(lastVc.Before));
+                lastNode.Value = vc.WithBefore(lastVc.Before);
                 _redoStack.Clear();
                 return;
             }
 
-            _undoStack.Push(command);
+            _undoStack.AddLast(command);
             _redoStack.Clear();
             TrimStack();
         }
@@ -61,7 +63,7 @@ namespace CMiX.Core.Undo
             _captureList = null;
             if (commands.Count == 0) return;
             if (commands.Count == 1) { Push(commands[0]); return; }
-            _undoStack.Push(new CompositeCommand(commands));
+            _undoStack.AddLast(new CompositeCommand(commands));
             _redoStack.Clear();
             TrimStack();
         }
@@ -70,7 +72,8 @@ namespace CMiX.Core.Undo
         {
             if (!CanUndo) return;
             IsApplying = true;
-            var command = _undoStack.Pop();
+            var command = _undoStack.Last.Value;
+            _undoStack.RemoveLast();
             command.Undo();
             _redoStack.Push(command);
             IsApplying = false;
@@ -82,7 +85,7 @@ namespace CMiX.Core.Undo
             IsApplying = true;
             var command = _redoStack.Pop();
             command.Execute();
-            _undoStack.Push(command);
+            _undoStack.AddLast(command);
             IsApplying = false;
         }
 
@@ -95,12 +98,7 @@ namespace CMiX.Core.Undo
         private void TrimStack()
         {
             while (_undoStack.Count > MaxSteps)
-            {
-                var trimmed = new Stack<IUndoCommand>(_undoStack.Reverse().Skip(1));
-                _undoStack.Clear();
-                foreach (var s in trimmed.Reverse())
-                    _undoStack.Push(s);
-            }
+                _undoStack.RemoveFirst();
         }
     }
 }
