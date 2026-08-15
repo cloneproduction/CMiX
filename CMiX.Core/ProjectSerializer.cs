@@ -15,7 +15,9 @@ namespace CMiX.Core.Persistence
         public static void Save(ProjectModel model, string path)
         {
             var json = JsonSerializer.Serialize(model, Options);
-            File.WriteAllText(path, json);
+            var tempPath = path + ".tmp";
+            File.WriteAllText(tempPath, json);
+            File.Move(tempPath, path, overwrite: true);
         }
 
         public static ProjectModel Load(string path)
