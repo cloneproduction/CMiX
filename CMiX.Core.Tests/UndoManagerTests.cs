@@ -153,6 +153,33 @@ namespace CMiX.Core.Tests
             Assert.Equal(new[] { 3, 2, 1 }, executed);
         }
 
+        // A throwing command inside a capture group is the gap the nesting and IsApplying tests
+        // above do not pin: the group's Undo() walks the captured commands in reverse, so a command
+        // that throws stops the walk before any earlier command in the group gets its own Undo, and
+        // IsApplying still has to come back false since UndoManager.Undo wraps the whole composite
+        // in the same try/finally as a single command.
+        [Fact]
+        public void EndCapture_ThrowingCommandInsideTheGroup_LeavesIsApplyingFalseAndStopsTheWalk()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.BeginCapture();
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+            undoManager.Push(new ThrowingUndoCommand());
+            undoManager.EndCapture();
+
+            Assert.True(undoManager.CanUndo);
+
+            Assert.Throws<InvalidOperationException>(() => undoManager.Undo());
+
+            Assert.False(undoManager.IsApplying);
+            // Undo() reverses the group, so the throwing command (pushed last) runs first and the
+            // exception stops the walk before command 1's Undo ever runs.
+            Assert.Empty(executed);
+        }
+
         [Fact]
         public void Redo_ThrowingCommand_LeavesIsApplyingFalse()
         {
