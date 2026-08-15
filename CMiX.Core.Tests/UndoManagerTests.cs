@@ -126,6 +126,34 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void EndCapture_Nested_OnlyFlushesAtTheOutermostCall()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+            var executed = new List<int>();
+
+            undoManager.BeginCapture();
+            undoManager.Push(new RecordingUndoCommand(1, executed));
+
+            undoManager.BeginCapture();
+            undoManager.Push(new RecordingUndoCommand(2, executed));
+            undoManager.EndCapture();
+
+            // The inner EndCapture must not have flushed anything yet, since the outer
+            // capture opened by the first BeginCapture is still open.
+            Assert.False(undoManager.CanUndo);
+
+            undoManager.Push(new RecordingUndoCommand(3, executed));
+            undoManager.EndCapture();
+
+            Assert.True(undoManager.CanUndo);
+
+            undoManager.Undo();
+
+            Assert.Equal(new[] { 3, 2, 1 }, executed);
+        }
+
+        [Fact]
         public void Redo_ThrowingCommand_LeavesIsApplyingFalse()
         {
             var provider = TestServiceProviderFactory.Create();

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +10,7 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform.Storage;
 using Avalonia.Threading;
+using HanumanInstitute.MvvmDialogs;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -46,27 +48,36 @@ namespace CMiX.Studio.Avalonia.Views
             var paths = e.Data.GetFiles()?.Select(f => f.TryGetLocalPath()).Where(p => p != null).ToList() ?? new List<string>();
             e.Handled = true;
 
-            // The filesystem walk (deep folders, network shares) runs off the UI thread. Only the
-            // AssetRepository mutating calls, which touch bound ObservableCollections, go back through
-            // the dispatcher.
-            var filePaths = await Task.Run(() =>
+            try
             {
-                var result = new List<string>();
-                foreach (var path in paths)
+                // The filesystem walk (deep folders, network shares) runs off the UI thread. Only the
+                // AssetRepository mutating calls, which touch bound ObservableCollections, go back through
+                // the dispatcher.
+                var filePaths = await Task.Run(() =>
                 {
-                    if (File.Exists(path))
-                        result.Add(path);
-                    else if (Directory.Exists(path))
-                        result.AddRange(assetManager.EnumerateAssetFilePaths(new DirectoryInfo(path)));
-                }
-                return result;
-            });
+                    var result = new List<string>();
+                    foreach (var path in paths)
+                    {
+                        if (File.Exists(path))
+                            result.Add(path);
+                        else if (Directory.Exists(path))
+                            result.AddRange(assetManager.EnumerateAssetFilePaths(new DirectoryInfo(path)));
+                    }
+                    return result;
+                });
 
-            await Dispatcher.UIThread.InvokeAsync(() =>
+                await Dispatcher.UIThread.InvokeAsync(() =>
+                {
+                    foreach (var filePath in filePaths)
+                        assetManager.CreateAssetFromPath(filePath);
+                });
+            }
+            catch (Exception ex)
             {
-                foreach (var filePath in filePaths)
-                    assetManager.CreateAssetFromPath(filePath);
-            });
+                var dialogService = App.DialogService;
+                if (dialogService != null)
+                    await dialogService.ShowMessageBoxAsync(assetManager, ex.Message, "Add Assets");
+            }
         }
     }
 }
