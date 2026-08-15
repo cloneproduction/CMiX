@@ -19,17 +19,17 @@ using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using Avalonia.Controls;
+using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using HanumanInstitute.MvvmDialogs;
-using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Studio.Avalonia.ViewModels
 {
     public partial class MainMenu : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager, IDialogService dialogService)
+        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager)
         {
             Project = project;
             IsActive = true;
@@ -45,7 +45,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
             RedoCommand = new RelayCommand(() => undoManager.Redo());
             CloseWindowCommand = new RelayCommand(CloseMainWindow);
 
-            DialogService = dialogService;
             ControlFactory = controlFactory;
         }
 
@@ -56,7 +55,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public ControlFactory ControlFactory { get; set; }
-        public IDialogService DialogService { get; set; }
         public Project Project { get; set; }
 
         public ICommand NewProjectCommand { get; }
@@ -75,6 +73,16 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 desktop.MainWindow?.Close();
         }
 
+        private static Window GetMainWindow() =>
+            Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
+                ? desktop.MainWindow
+                : null;
+
+        private static readonly FilePickerFileType CmixFileType = new("CMiX Project")
+        {
+            Patterns = new[] { "*.cmix" }
+        };
+
         public void AddLayer()
         {
             //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
@@ -92,17 +100,21 @@ namespace CMiX.Studio.Avalonia.ViewModels
             FolderPath = null;
         }
 
+        // The MvvmDialogs owner lookup requires a window whose DataContext is this view
+        // model and throws otherwise, so the file dialogs use the storage provider of
+        // the main window directly.
         private async Task OpenProject()
         {
-            var settings = new OpenFileDialogSettings
+            var mainWindow = GetMainWindow();
+            if (mainWindow == null) return;
+
+            var files = await mainWindow.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
             {
-                Filters = new List<FileFilter> { new("CMiX Project", "cmix") }
-            };
+                AllowMultiple = false,
+                FileTypeFilter = new[] { CmixFileType }
+            });
 
-            var file = await DialogService.ShowOpenFileDialogAsync(this, settings);
-            if (file == null) return;
-
-            var path = file.LocalPath;
+            var path = files.FirstOrDefault()?.TryGetLocalPath();
             if (string.IsNullOrWhiteSpace(path)) return;
 
             var projectModel = ProjectSerializer.Load(path);
@@ -143,16 +155,16 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private async Task SaveAsProject()
         {
-            var settings = new SaveFileDialogSettings
+            var mainWindow = GetMainWindow();
+            if (mainWindow == null) return;
+
+            var file = await mainWindow.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
             {
-                Filters = new List<FileFilter> { new("CMiX Project", "cmix") },
-                DefaultExtension = "cmix"
-            };
+                DefaultExtension = "cmix",
+                FileTypeChoices = new[] { CmixFileType }
+            });
 
-            var file = await DialogService.ShowSaveFileDialogAsync(this, settings);
-            if (file == null) return;
-
-            var path = file.LocalPath;
+            var path = file?.TryGetLocalPath();
             if (string.IsNullOrWhiteSpace(path)) return;
 
             FolderPath = path;
