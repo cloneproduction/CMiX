@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public partial class PrefabSelector : PrefabManagerBase
+    public partial class PrefabSelector : PrefabManagerBase, IDisposable
     {
         public PrefabSelector(ControlRepository controlRepository,
                               ControlFactory controlFactory,
@@ -48,6 +48,22 @@ namespace CMiX.Core.Prefabs.Managers
         {
             ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ID));
             SelectedItem = null;
+        }
+
+        // Ends this selector's lifetime, the counterpart of PrefabManager.Dispose. Called from the
+        // Dispose of the control that owns the selector, which the delete path only reaches once the
+        // undo stack has dropped the delete, so the dropped selection can no longer be restored: no
+        // undo entry is pushed here and the selected control is disposed as soon as nothing else
+        // references it. Clearing the selection alone only let go of this selector's own reference
+        // and left the control itself untouched, so a control that owns managers of its own, a
+        // material with its two texture slots for instance, kept their contents registered in the
+        // repository forever and a new project could never empty them.
+        public void Dispose()
+        {
+            var previousItem = _selectedItem;
+            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageRemoveSelectedItem>(ID));
+            SetSelectedItemInternal(null);
+            OwnedControl.DisposeIfOrphaned(ControlRepository, previousItem);
         }
 
         public override void Receive(IMessage message)
