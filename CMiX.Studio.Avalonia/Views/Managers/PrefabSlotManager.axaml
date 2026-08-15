@@ -2,16 +2,9 @@
     x:Class="CMiX.Studio.Avalonia.Views.PrefabSlotManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
-    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
-    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
-    xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
-    xmlns:Servers="clr-namespace:CMiX.Core.Networking.Servers;assembly=CMiX.Core"
-    xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     x:Name="prefabSlotManager">
 
@@ -25,130 +18,12 @@
             SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
             <!--
-                Ported from the WPF ListBoxItemDataTemplate.xaml resource dictionary.
-                Avalonia selects implicit templates from DataTemplates collections only,
-                not from merged resource dictionaries, so the templates are inlined here
-                and duplicated in RepositoryManager.axaml. Avalonia matches templates in
-                declaration order with an IsInstanceOfType test, so keep derived types
-                before their base types.
+                The prefab list item templates are shared with RepositoryManager.axaml
+                through Views\Managers\PrefabListItemTemplates.cs, which loads the
+                ordered template list from PrefabListItemTemplates.axaml.
             -->
             <BaseControls:CMiXListBox.DataTemplates>
-
-                <DataTemplate DataType="{x:Type Compositing:Color}">
-                    <!-- The WPF md:DialogServiceViews.IsRegistered attribute is not needed with HanumanInstitute.MvvmDialogs. -->
-                    <BaseControls:ColorSelector Caption="{Binding Value}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type Servers:Server}">
-                    <!--
-                        The inline WPF Ellipse style with the ClientIsConnected DataTrigger
-                        became the ServerConnectionIndicatorStyle theme plus the connected
-                        class, defined in Themes\Styles\ListBox.axaml.
-                    -->
-                    <Border
-                        Margin="1"
-                        Padding="2,0,0,0"
-                        Background="Transparent"
-                        CornerRadius="{DynamicResource CornerRadiusAll}"
-                        TextElement.Foreground="{DynamicResource ForegroundBrush}">
-
-                        <DockPanel>
-
-                            <Ellipse
-                                Width="7"
-                                Height="7"
-                                Margin="0,0,4,0"
-                                Classes.connected="{Binding ClientIsConnected}"
-                                Theme="{StaticResource ServerConnectionIndicatorStyle}" />
-
-                            <ToggleButton
-                                Height="{DynamicResource ControlHeightXS}"
-                                Margin="0"
-                                Padding="0"
-                                Background="Crimson"
-                                DockPanel.Dock="Right"
-                                IsChecked="{Binding ServerIsRunning}"
-                                Theme="{DynamicResource TogglePlayPause}" />
-
-                            <BaseControls:EditableTextBox Text="{Binding PrefabService.Name.Value}" />
-
-                        </DockPanel>
-                    </Border>
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource TextIcon}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type Compositing:Entity}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Geometry}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource MeshLight}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type Cameras:Camera}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Camera}" />
-                </DataTemplate>
-
-                <!--  TEXTURESOURCE  -->
-                <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <!--
-                    CheckerBoard and TouchBlob have no list item template in WPF, which fell
-                    back to ToString there but to the reflection view locator here, so the
-                    templates are added to render them like the other texture sources.
-                -->
-                <DataTemplate DataType="{x:Type TextureSource:CheckerBoard}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type TextureSource:TouchBlob}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type TextureSource:Image}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type TextureSource:Gradient}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type TextureSource:TypeWriter}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type TextureSource:VideoIn}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <DataTemplate DataType="{x:Type TextureSource:VideoPlayer}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
-                </DataTemplate>
-
-                <!--  MATERIAL  -->
-                <DataTemplate DataType="{x:Type Materials:Material}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource World}" />
-                </DataTemplate>
-
-                <!--  BEATMODIFIERS  -->
-                <DataTemplate DataType="{x:Type Animations:BeatModifier}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Beat}" />
-                </DataTemplate>
-
-                <!--
-                    ColorPalette has no list item template in WPF, which fell back to
-                    ToString there but to the reflection view locator here, so the
-                    template is added to render it like the other prefab types.
-                -->
-                <DataTemplate DataType="{x:Type ColorModifiers:ColorPalette}">
-                    <BaseControls:PrefabListItem Icon="{DynamicResource Coloration}" />
-                </DataTemplate>
-
+                <Managers:PrefabListItemTemplates />
             </BaseControls:CMiXListBox.DataTemplates>
         </BaseControls:CMiXListBox>
 
