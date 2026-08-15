@@ -37,6 +37,7 @@ namespace CMiX.Core.Undo
             {
                 _undoStack.Pop();
                 _undoStack.Push(vc.WithBefore(lastVc.Before));
+                _redoStack.Clear();
                 return;
             }
 
