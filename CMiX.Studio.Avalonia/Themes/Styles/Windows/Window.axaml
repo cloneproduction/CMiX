@@ -13,40 +13,4 @@
         OffsetY="0"
         Opacity="0.5" />
 
-    <!--  Window background color  -->
-    <Color x:Key="WindowColor">#FFE8EDF9</Color>
-
-    <ControlTheme x:Key="WindowStyle" TargetType="Window">
-        <!-- The WPF project ships no Roboto font files either (CMiX.Studio\Themes\Fonts does not
-             exist); its pack URI resolves only if Roboto happens to be installed on the machine.
-             This avares reference carries the same requirement here: Roboto must be installed or
-             shipped as an asset for this to render as Roboto, otherwise Avalonia falls back to its
-             default font. -->
-        <Setter Property="FontFamily" Value="avares://CMiX.Studio.Avalonia/Themes/Fonts#Roboto" />
-        <Setter Property="FontSize" Value="12" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Panel>
-                    <Border Name="PART_TransparencyFallback" IsHitTestVisible="False" />
-                    <Border IsHitTestVisible="False">
-                        <Border.Background>
-                            <SolidColorBrush Color="{DynamicResource WindowColor}" />
-                        </Border.Background>
-                    </Border>
-                    <Panel Background="Transparent" Margin="{TemplateBinding WindowDecorationMargin}" />
-                    <VisualLayerManager>
-                        <ContentPresenter
-                            Name="PART_ContentPresenter"
-                            Content="{TemplateBinding Content}"
-                            ContentTemplate="{TemplateBinding ContentTemplate}"
-                            Margin="{TemplateBinding Padding}" />
-                    </VisualLayerManager>
-                </Panel>
-            </ControlTemplate>
-        </Setter>
-        <!-- TODO Avalonia: the WPF ResizeGrip element and its ResizeMode trigger were dropped, resize handling arrives with the custom chrome in a later phase -->
-    </ControlTheme>
-
-    <!-- TODO Avalonia: the WPF implicit ResizeGrip style was dropped, Avalonia has no ResizeGrip control -->
-
 </ResourceDictionary>

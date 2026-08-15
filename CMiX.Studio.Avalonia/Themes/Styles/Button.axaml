@@ -91,24 +91,6 @@
         <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Right" />
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonRoundedLeft"
-        BasedOn="{StaticResource {x:Type Button}}"
-        TargetType="Button">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Left" />
-    </ControlTheme>
-
-    <ControlTheme x:Key="ButtonRoundedTop"
-        BasedOn="{StaticResource {x:Type Button}}"
-        TargetType="Button">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Top" />
-    </ControlTheme>
-
-    <ControlTheme x:Key="ButtonRoundedBottom"
-        BasedOn="{StaticResource {x:Type Button}}"
-        TargetType="Button">
-        <Setter Property="(AttachedProperties:PositionedControl.Position)" Value="Bottom" />
-    </ControlTheme>
-
     <!--  This one is used for ColorSelector  -->
     <ControlTheme x:Key="ButtonColorStyle" TargetType="ToggleButton">
         <Setter Property="Template">
@@ -168,37 +150,6 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
         <Style Selector="^:disabled /template/ Border#borderAlpha">
-            <Setter Property="Opacity" Value="0.5" />
-        </Style>
-    </ControlTheme>
-
-    <ControlTheme x:Key="ButtonListBoxItem" TargetType="Button">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Name="border"
-                    Margin="0"
-                    Padding="0,0,8,0"
-                    HorizontalAlignment="Stretch"
-                    Background="Transparent">
-                    <ContentPresenter
-                        Name="PART_ContentPresenter"
-                        HorizontalAlignment="Right"
-                        Content="{TemplateBinding Content}"
-                        ContentTemplate="{TemplateBinding ContentTemplate}" />
-                </Border>
-            </ControlTemplate>
-        </Setter>
-
-        <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-
-        <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-
-        <Style Selector="^:disabled /template/ Border#border">
             <Setter Property="Opacity" Value="0.5" />
         </Style>
     </ControlTheme>

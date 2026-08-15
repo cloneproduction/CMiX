@@ -21,10 +21,6 @@
         </Style>
     </ControlTheme>
 
-    <ControlTheme x:Key="ServerEditableTextBoxStyle"
-                  BasedOn="{StaticResource {x:Type Controls:EditableTextBox}}"
-                  TargetType="Controls:EditableTextBox" />
-
     <ControlTheme x:Key="LayerListBoxItemBorderStyle" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />
@@ -139,50 +135,6 @@
         </Style>
         <Style Selector="^:pointerover:not(:selected) /template/ Border#Bd">
             <Setter Property="Background" Value="{DynamicResource Grey400Brush}" />
-        </Style>
-    </ControlTheme>
-
-    <ControlTheme x:Key="ServerListBoxItemStyle"
-                  BasedOn="{StaticResource ListBoxItemStyle}"
-                  TargetType="ListBoxItem">
-        <!-- Height NaN restores automatic sizing as WPF Height Auto did -->
-        <Setter Property="Height" Value="NaN" />
-        <Setter Property="Margin" Value="0" />
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border
-                    Name="Bd"
-                    Background="Transparent"
-                    CornerRadius="{DynamicResource CornerRadiusAll}"
-                    Margin="1"
-                    Padding="2,0,0,0"
-                    TextElement.Foreground="{DynamicResource ForegroundBrush}">
-                    <DockPanel>
-                        <Ellipse
-                            Classes.connected="{Binding ClientIsConnected}"
-                            Height="7"
-                            Margin="4,0"
-                            Theme="{StaticResource ServerConnectionIndicatorStyle}"
-                            Width="7" />
-                        <ToggleButton
-                            DockPanel.Dock="Right"
-                            Height="{DynamicResource ControlHeightXS}"
-                            IsChecked="{Binding ServerIsRunning}"
-                            Margin="4"
-                            Padding="4"
-                            Theme="{DynamicResource TogglePlayPause}" />
-                        <Controls:EditableTextBox
-                            Name="editableTextBox"
-                            Foreground="{DynamicResource ForegroundBrush}"
-                            Height="{DynamicResource ControlHeightSM}"
-                            Text="{Binding PrefabService.Name.Value, Mode=TwoWay}"
-                            Theme="{StaticResource ServerEditableTextBoxStyle}" />
-                    </DockPanel>
-                </Border>
-            </ControlTemplate>
-        </Setter>
-        <Style Selector="^:selected /template/ Border#Bd">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         </Style>
     </ControlTheme>
 

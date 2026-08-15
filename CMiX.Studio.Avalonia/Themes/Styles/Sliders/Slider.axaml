@@ -19,13 +19,6 @@
         </Setter>
     </ControlTheme>
 
-    <ControlTheme
-        x:Key="RepeatButtonDecreaseOver"
-        BasedOn="{StaticResource RepeatButtonDecrease}"
-        TargetType="RepeatButton">
-        <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
-    </ControlTheme>
-
     <ControlTheme x:Key="RepeatButtonIncrease" TargetType="RepeatButton">
         <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         <Setter Property="Focusable" Value="False" />
@@ -35,20 +28,6 @@
                 <Border Background="{TemplateBinding Background}" />
             </ControlTemplate>
         </Setter>
-    </ControlTheme>
-
-    <ControlTheme
-        x:Key="RepeatButtonIncreaseOver"
-        BasedOn="{StaticResource RepeatButtonIncrease}"
-        TargetType="RepeatButton">
-        <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
-    </ControlTheme>
-
-    <ControlTheme
-        x:Key="RepeatButtonIncreaseDown"
-        BasedOn="{StaticResource RepeatButtonIncrease}"
-        TargetType="RepeatButton">
-        <Setter Property="Background" Value="{DynamicResource Grey200Brush}" />
     </ControlTheme>
 
     <ControlTheme x:Key="{x:Type Controls:CMiXSlider}" TargetType="Controls:CMiXSlider">
