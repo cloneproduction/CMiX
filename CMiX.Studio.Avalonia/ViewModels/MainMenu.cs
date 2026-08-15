@@ -105,16 +105,17 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
             try
             {
-                var projectModel = ProjectSerializer.Load(path);
-                if (projectModel?.CompositionManager?.ManagerData?.Items?.FirstOrDefault() is not CompositionModel compositionModel)
+                var cloned = await Task.Run(() =>
                 {
-                    await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
-                    return;
-                }
+                    var projectModel = ProjectSerializer.Load(path);
+                    if (projectModel?.CompositionManager?.ManagerData?.Items?.FirstOrDefault() is not CompositionModel compositionModel)
+                        return null;
 
-                var json = JsonSerializer.Serialize(compositionModel, ProjectSerializer.Options);
-                json = ReplaceAllGuids(json);
-                var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+                    var json = JsonSerializer.Serialize(compositionModel, ProjectSerializer.Options);
+                    json = ReplaceAllGuids(json);
+                    return JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+                });
+
                 if (cloned == null)
                 {
                     await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
@@ -174,7 +175,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             try
             {
-                WriteProject(path);
+                await WriteProject(path);
             }
             catch (Exception ex)
             {
@@ -182,7 +183,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             }
         }
 
-        private void WriteProject(string path)
+        private async Task WriteProject(string path)
         {
             var selectedComposition = Project.CompositionManager.SelectedItem as Composition;
             if (selectedComposition == null) return;
@@ -201,7 +202,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     }
                 }
             };
-            ProjectSerializer.Save(projectModel, path);
+            await Task.Run(() => ProjectSerializer.Save(projectModel, path));
         }
 
         public void Receive(IMessage message)
