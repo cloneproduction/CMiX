@@ -131,33 +131,36 @@
             <Setter Property="Opacity" Value="0.5" />
         </Style>
 
-        <!--  WPF used Visibility Hidden which reserves space; IsVisible false collapses instead  -->
+        <!--
+            WPF hid the check icon with Visibility Hidden, which reserves layout space.
+            Opacity keeps the box size stable the same way; IsVisible would collapse it.
+        -->
         <Style Selector="^:checked:not(:pointerover) /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
         </Style>
         <Style Selector="^:checked:not(:pointerover) /template/ Image#icon">
-            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
         <Style Selector="^:checked:pointerover /template/ Image#icon">
-            <Setter Property="IsVisible" Value="True" />
+            <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
         <Style Selector="^:unchecked:pointerover /template/ Image#icon">
-            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="Opacity" Value="0" />
         </Style>
 
         <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         </Style>
         <Style Selector="^:unchecked:not(:pointerover) /template/ Image#icon">
-            <Setter Property="IsVisible" Value="False" />
+            <Setter Property="Opacity" Value="0" />
         </Style>
     </ControlTheme>
 
