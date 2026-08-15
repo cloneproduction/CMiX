@@ -8,6 +8,7 @@ using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Controls.Primitives;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.VisualTree;
 using Avalonia.Xaml.Interactivity;
 
 namespace CMiX.Studio.Avalonia.Behaviors
@@ -122,7 +123,10 @@ namespace CMiX.Studio.Avalonia.Behaviors
 
         private void OnChildPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
-            if (e.InitialPressMouseButton == MouseButton.Left && e.Source is Button)
+            // WPF e.Source was the Button itself; Avalonia reports the inner hit test
+            // element, so the ancestor chain decides whether a button was released.
+            var sourceButton = (e.Source as global::Avalonia.Visual)?.FindAncestorOfType<Button>(true);
+            if (e.InitialPressMouseButton == MouseButton.Left && sourceButton != null)
                 ClosePopup();
         }
 
