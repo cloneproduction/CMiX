@@ -4,6 +4,7 @@
     xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters">
 
     <Converters:ColorToBrushConverter x:Key="ColorToBrush" />
+    <Converters:HexToBrushConverter x:Key="HexToBrush" />
     <Converters:ColorToHexConverter x:Key="ColorToHex" />
     <Converters:ColorToStringConverter x:Key="ColorToString" />
     <Converters:ColorToNoAlphaConverter x:Key="ColorToNoAlpha" />

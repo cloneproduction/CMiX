@@ -22,14 +22,14 @@
             Text="{Binding Caption, ElementName=colorSelector}" />
 
         <!--
-            WPF bound Background directly to the Color value; Avalonia brush properties
-            need the ColorToBrush converter for an explicit conversion.
+            WPF converted the hex string to a brush implicitly; Avalonia needs the
+            explicit HexToBrush converter.
         -->
         <ToggleButton
             x:Name="PopupToggle"
             Grid.Column="1"
             AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=colorSelector}"
-            Background="{Binding Value, Converter={StaticResource ColorToBrush}}"
+            Background="{Binding Value, Converter={StaticResource HexToBrush}}"
             Theme="{DynamicResource ButtonColorStyle}" />
 
         <!-- WPF StaysOpen=True becomes IsLightDismissEnabled=False; AllowsTransparency dropped. -->
