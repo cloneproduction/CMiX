@@ -125,11 +125,13 @@ namespace CMiX.Studio.Avalonia.Behaviors
         {
             // WPF e.Source was the Button itself; Avalonia reports the inner hit test
             // element, so the ancestor chain decides whether a button was released.
+            // Toggle buttons are excluded because Avalonia derives them from Button
+            // while WPF does not, and mode switches inside a picker must not close it.
             // The close is posted because this tunnel handler runs before the button
             // processes the release; closing synchronously detaches the popup content
             // and the click would never fire.
             var sourceButton = (e.Source as global::Avalonia.Visual)?.FindAncestorOfType<Button>(true);
-            if (e.InitialPressMouseButton == MouseButton.Left && sourceButton != null)
+            if (e.InitialPressMouseButton == MouseButton.Left && sourceButton != null && sourceButton is not ToggleButton)
                 global::Avalonia.Threading.Dispatcher.UIThread.Post(ClosePopup);
         }
 
