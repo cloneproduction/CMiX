@@ -9,10 +9,13 @@ using CMiX.Core.Networking.Servers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Studio.Avalonia.ViewModels
 {
-    public class MainViewModel : IControl
+    // ObservableObject satisfies the INotifyPropertyChanged requirement of the
+    // dialog service owner lookup, which casts the main window DataContext.
+    public class MainViewModel : ObservableObject, IControl
     {
         public MainViewModel(Project project,
                              PrefabManager textureManager,
