@@ -19,6 +19,12 @@ namespace CMiX.Core.Prefabs
     public class ControlRepository : ObservableObject
     {
         private readonly Dictionary<Guid, HashSet<Guid>> _referencers = new();
+
+        // Mirrors Controls one to one so the network hot path resolves an id without scanning.
+        // Controls is only ever mutated by AddControl and RemoveControl, and a control keeps the
+        // id it was registered with, so the two can never drift apart.
+        private readonly Dictionary<Guid, IControl> _controlsById = new();
+
         private readonly Dictionary<Type, Action<IControl>> typeToAddAction;
         private readonly Dictionary<Type, Action<IControl>> typeToRemoveAction;
         private readonly Dictionary<Guid, Action<IControl>> _deleters = new();
@@ -127,8 +133,9 @@ namespace CMiX.Core.Prefabs
 
             var added = _referencers[control.ID].Add(referencerId);
 
-            if (!Controls.Any(x => x.ID == control.ID))
+            if (!_controlsById.ContainsKey(control.ID))
             {
+                _controlsById[control.ID] = control;
                 Controls.Add(control);
                 AddToSpecificRepo(control);
             }
@@ -144,6 +151,11 @@ namespace CMiX.Core.Prefabs
             if (_referencers[control.ID].Count == 0)
             {
                 _referencers.Remove(control.ID);
+                // Only drops the index entry when it points at this very instance, so a control
+                // that shares an id with the registered one leaves the registered one reachable
+                // exactly as the previous scan over Controls did.
+                if (_controlsById.TryGetValue(control.ID, out var indexed) && ReferenceEquals(indexed, control))
+                    _controlsById.Remove(control.ID);
                 Controls.Remove(control);
                 RemoveFromSpecificRepo(control);
             }
@@ -158,7 +170,7 @@ namespace CMiX.Core.Prefabs
 
         public IControl GetControl(Guid id)
         {
-            return Controls.FirstOrDefault(x => x.ID == id);
+            return _controlsById.TryGetValue(id, out var control) ? control : null;
         }
 
         public bool HasUsers(IControl control)
