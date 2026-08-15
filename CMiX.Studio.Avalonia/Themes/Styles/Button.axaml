@@ -122,12 +122,11 @@
                         Background="{Binding Path=Background.Color, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource ColorToNoAlpha}}"
                         IsHitTestVisible="False" />
 
+                    <!--
+                        The WPF VisualBrush opacity mask erased the content in Avalonia, so it
+                        is dropped. The swatch borders carry their own corner radii instead.
+                    -->
                     <Grid>
-                        <!--  TODO Avalonia: verify VisualBrush rendering  -->
-                        <Grid.OpacityMask>
-                            <VisualBrush Visual="{Binding ElementName=mask}" />
-                        </Grid.OpacityMask>
-
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition />
                             <ColumnDefinition />
