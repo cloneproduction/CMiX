@@ -2,7 +2,6 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.Collections.ObjectModel;
 using System.IO;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -100,19 +99,7 @@ namespace CMiX.Studio.Avalonia
             {
                 if (_crashSaveProject?.CompositionManager?.SelectedItem is not Composition selectedComposition) return;
 
-                var compositionModel = (CompositionModel)selectedComposition.ToModel();
-                var projectModel = new ProjectModel
-                {
-                    MasterBeat = (MasterBeatModel)_crashSaveProject.MasterBeat.ToModel(),
-                    CompositionManager = new PrefabManagerModel
-                    {
-                        ManagerData = new ManagerDataModel
-                        {
-                            Items = new Collection<IControlModel> { compositionModel },
-                            SelectedIndex = 0
-                        }
-                    }
-                };
+                var projectModel = ProjectModelBuilder.Build(selectedComposition, _crashSaveProject.MasterBeat);
                 ProjectSerializer.Save(projectModel, Path.Combine(Path.GetTempPath(), "cmix-emergency.cmix"));
             }
             catch

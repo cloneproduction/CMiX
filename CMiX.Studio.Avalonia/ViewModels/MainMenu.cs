@@ -3,7 +3,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -277,20 +276,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var selectedComposition = Project.CompositionManager.SelectedItem as Composition;
             if (selectedComposition == null) return;
 
-            var compositionModel = (CompositionModel)selectedComposition.ToModel();
-
-            var projectModel = new ProjectModel
-            {
-                MasterBeat = (MasterBeatModel)Project.MasterBeat.ToModel(),
-                CompositionManager = new PrefabManagerModel
-                {
-                    ManagerData = new ManagerDataModel
-                    {
-                        Items = new Collection<IControlModel> { compositionModel },
-                        SelectedIndex = 0
-                    }
-                }
-            };
+            var projectModel = ProjectModelBuilder.Build(selectedComposition, Project.MasterBeat);
             await Task.Run(() => ProjectSerializer.Save(projectModel, path));
         }
 
