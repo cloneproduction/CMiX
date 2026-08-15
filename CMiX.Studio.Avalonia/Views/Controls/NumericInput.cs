@@ -111,7 +111,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (_textBox == null) return;
 
             _valueBeforeEdit = Value;
-            _textBox.Text = IsInteger ? ((int)Value).ToString() : Value.ToString("N3");
+            _textBox.Text = IsInteger ? NumericText.Format((int)Value) : NumericText.Format(Value);
             AddParentWindowHandlers();
             Dispatcher.UIThread.Post(() =>
             {
@@ -132,10 +132,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             if (_textBox != null)
             {
-                if (double.TryParse(_textBox.Text, out double result))
+                if (NumericText.TryParse(_textBox.Text, out double result))
                     Value = Math.Clamp(result, Minimum, Maximum);
                 else
-                    _textBox.Text = Value.ToString();
+                    _textBox.Text = NumericText.Format(Value);
             }
             IsEditing = false;
         }
@@ -145,7 +145,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (_textBox != null)
             {
                 Value = _valueBeforeEdit;
-                _textBox.Text = _valueBeforeEdit.ToString();
+                _textBox.Text = NumericText.Format(_valueBeforeEdit);
             }
             IsEditing = false;
         }

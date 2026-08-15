@@ -5,6 +5,7 @@ using System;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
+using CMiX.Studio.Avalonia.Views.Controls;
 
 namespace CMiX.Studio.Avalonia.Converters
 {
@@ -15,15 +16,14 @@ namespace CMiX.Studio.Avalonia.Converters
             if (value is not double b)
                 return AvaloniaProperty.UnsetValue;
 
-            return String.Format("{0:0.000}", b);
+            return NumericText.Format(b);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
             string strValue = value as string;
-            double resultDouble;
 
-            if (double.TryParse(strValue, out resultDouble))
+            if (NumericText.TryParse(strValue, out double resultDouble))
                 return resultDouble;
             else
                 return AvaloniaProperty.UnsetValue;
