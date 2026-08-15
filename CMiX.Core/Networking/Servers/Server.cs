@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Windows.Input;
@@ -121,7 +122,7 @@ namespace CMiX.Core.Networking.Servers
             if (WatsonTcpServer == null) return;
             foreach (var connectedClient in ConnectedClients.ToList())
                 await WatsonTcpServer.SendAsync(connectedClient.ID, data);
-            Statistics.Update(WatsonTcpServer);
+            Dispatch(() => Statistics.Update(WatsonTcpServer));
         }
 
         private Action<Action> _dispatcherAction;
@@ -141,9 +142,16 @@ namespace CMiX.Core.Networking.Servers
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
-            var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
-            if (envelope.SenderID == MessageSender.WPF) return;
-            _dispatcherAction?.Invoke(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
+            try
+            {
+                var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
+                if (envelope.SenderID == MessageSender.WPF) return;
+                Dispatch(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         private void ClientConnected(object sender, ConnectionEventArgs e)
@@ -154,11 +162,13 @@ namespace CMiX.Core.Networking.Servers
                 ID = e.Client.Guid
             };
 
-            Dispatch(() => ConnectedClients.Add(connectedClient));
-
             _clientID = e.Client.Guid;
-            ClientIsConnected = ConnectedClients.Count > 0;
-            Status = ClientIsConnected ? "Connected" : "Disconnected";
+            Dispatch(() =>
+            {
+                ConnectedClients.Add(connectedClient);
+                ClientIsConnected = ConnectedClients.Count > 0;
+                Status = ClientIsConnected ? "Connected" : "Disconnected";
+            });
         }
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)
@@ -170,10 +180,10 @@ namespace CMiX.Core.Networking.Servers
                     if (ConnectedClients[i].IPPORT == e.Client.IpPort)
                         ConnectedClients.Remove(ConnectedClients[i]);
                 }
-            });
 
-            ClientIsConnected = ConnectedClients.Count > 0;
-            Status = ClientIsConnected ? "Connected" : "Disconnected";
+                ClientIsConnected = ConnectedClients.Count > 0;
+                Status = ClientIsConnected ? "Connected" : "Disconnected";
+            });
         }
 
         public void Start()
@@ -198,7 +208,7 @@ namespace CMiX.Core.Networking.Servers
             WatsonTcpServer.Events.ClientConnected -= ClientConnected;
             WatsonTcpServer.Events.ClientDisconnected -= ClientDisconnected;
             WatsonTcpServer.Events.MessageReceived -= MessageReceived;
-            foreach (var client in ConnectedClients)
+            foreach (var client in ConnectedClients.ToList())
                 WatsonTcpServer.DisconnectClientAsync(client.ID);
             WatsonTcpServer.Stop();
             WatsonTcpServer.Dispose();
