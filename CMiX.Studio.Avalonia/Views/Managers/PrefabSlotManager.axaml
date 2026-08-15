@@ -6,6 +6,7 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
@@ -137,6 +138,15 @@
                 <!--  BEATMODIFIERS  -->
                 <DataTemplate DataType="{x:Type Animations:BeatModifier}">
                     <BaseControls:PrefabListItem Icon="{DynamicResource Beat}" />
+                </DataTemplate>
+
+                <!--
+                    ColorPalette has no list item template in WPF, which fell back to
+                    ToString there but to the reflection view locator here, so the
+                    template is added to render it like the other prefab types.
+                -->
+                <DataTemplate DataType="{x:Type ColorModifiers:ColorPalette}">
+                    <BaseControls:PrefabListItem Icon="{DynamicResource Coloration}" />
                 </DataTemplate>
 
             </BaseControls:CMiXListBox.DataTemplates>
