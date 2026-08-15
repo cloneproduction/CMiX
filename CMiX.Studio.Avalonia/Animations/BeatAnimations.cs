@@ -21,6 +21,9 @@ namespace CMiX.Studio.Avalonia.Animations
         {
             AnimatedDoubles = new ObservableCollection<AnimatedDouble>();
             _timer = new DispatcherTimer(TimeSpan.FromMilliseconds(16), DispatcherPriority.Render, OnTick);
+            // This constructor overload starts the timer, which the clock must not do before
+            // something observes a position.
+            _timer.Stop();
         }
 
         public ObservableCollection<AnimatedDouble> AnimatedDoubles { get; set; }
@@ -28,13 +31,22 @@ namespace CMiX.Studio.Avalonia.Animations
         // Keeps the WPF method name so the controller ports verbatim.
         public void MakeStoryBoard(float[] periods)
         {
+            foreach (var animatedDouble in AnimatedDoubles)
+                animatedDouble.ObservationStarted -= OnObservationStarted;
+
             AnimatedDoubles.Clear();
 
             for (var i = 0; i < periods.Length; i++)
-                AnimatedDoubles.Add(new AnimatedDouble(periods[i]));
+            {
+                var animatedDouble = new AnimatedDouble(periods[i]);
+                animatedDouble.ObservationStarted += OnObservationStarted;
+                AnimatedDoubles.Add(animatedDouble);
+            }
 
+            // The positions are a closed form of the elapsed time, so stopping and restarting the
+            // timer never shifts the phase. Only this restart does, exactly as it did before.
             _stopwatch.Restart();
-            _timer.Start();
+            StartIfObserved();
         }
 
         public void ResetAnimation()
@@ -42,18 +54,46 @@ namespace CMiX.Studio.Avalonia.Animations
             _stopwatch.Restart();
         }
 
+        // Exposed so a diagnostic or a test can tell an idle clock from a running one.
+        public bool IsRunning => _timer.IsEnabled;
+
+        private void OnObservationStarted(object sender, EventArgs e)
+        {
+            if (!_timer.IsEnabled)
+                _timer.Start();
+        }
+
+        private void StartIfObserved()
+        {
+            foreach (var animatedDouble in AnimatedDoubles)
+            {
+                if (!animatedDouble.IsObserved) continue;
+                if (!_timer.IsEnabled) _timer.Start();
+                return;
+            }
+        }
+
         private void OnTick(object sender, EventArgs e)
         {
             var elapsedMs = _stopwatch.Elapsed.TotalMilliseconds;
+            var anyObserved = false;
 
             foreach (var animatedDouble in AnimatedDoubles)
             {
+                if (!animatedDouble.IsObserved)
+                    continue;
+
+                anyObserved = true;
+
                 if (animatedDouble.Period <= 0)
                     continue;
 
                 var frac = elapsedMs % animatedDouble.Period / animatedDouble.Period;
                 animatedDouble.AnimationPosition = (1 - frac) * (1 - frac);
             }
+
+            if (!anyObserved)
+                _timer.Stop();
         }
     }
 }

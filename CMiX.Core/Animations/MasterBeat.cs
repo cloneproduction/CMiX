@@ -81,9 +81,14 @@ namespace CMiX.Core.Animations
             }
         }
 
+        // Cached because this runs on every beat clock tick and the string overload would allocate
+        // a fresh event argument each time.
+        private static readonly System.ComponentModel.PropertyChangedEventArgs AnimatedDoubleChangedArgs =
+            new(nameof(AnimatedDouble));
+
         private void OnAnimatedDoublePositionChanged(object sender, EventArgs e)
         {
-            OnPropertyChanged(nameof(AnimatedDouble));
+            OnPropertyChanged(AnimatedDoubleChangedArgs);
         }
 
         private readonly List<float> tapPeriods;
