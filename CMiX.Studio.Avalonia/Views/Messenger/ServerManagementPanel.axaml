@@ -7,9 +7,7 @@
     <Border Background="{DynamicResource Grey300Brush}">
         <StackPanel>
             <!-- PrefabSlotManager arrives with the Managers slice; this reference compiles once that view is ported. -->
-            <Views:PrefabSlotManager
-                Margin="8"
-                DataContext="{Binding}">
+            <Views:PrefabSlotManager Margin="8">
                 <Views:PrefabSlotManager.SelectionPanel>
                     <Views:ServerCreation ViewModel="{Binding}" />
                 </Views:PrefabSlotManager.SelectionPanel>

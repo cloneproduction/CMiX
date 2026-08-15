@@ -18,7 +18,6 @@
             x:Name="prefabListBox"
             MinHeight="105"
             Margin="8"
-            DataContext="{Binding}"
             ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
             SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem}">
@@ -132,8 +131,7 @@
 
         <ContentControl
             Margin="8,0,8,8"
-            Content="{Binding SelectionPanel, ElementName=repositoryManager}"
-            DataContext="{Binding}" />
+            Content="{Binding SelectionPanel, ElementName=repositoryManager}" />
 
         <!-- NullToVisibility returns a bool in this project; the Collapsed converter parameter is gone. -->
         <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">

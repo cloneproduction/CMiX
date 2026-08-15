@@ -32,9 +32,7 @@
                 BorderThickness="1,0,1,2"
                 CornerRadius="{DynamicResource CornerRadiusBottom}">
 
-                <ContentControl
-                    Content="{Binding SelectionPanel, ElementName=buttonOpenSelectionPanel}"
-                    DataContext="{Binding}" />
+                <ContentControl Content="{Binding SelectionPanel, ElementName=buttonOpenSelectionPanel}" />
 
             </Border>
 

@@ -20,7 +20,6 @@
         <BaseControls:CMiXListBox
             x:Name="prefabListBox"
             MinHeight="105"
-            DataContext="{Binding}"
             ItemsSource="{Binding ManagerData.Items}"
             SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
@@ -211,7 +210,6 @@
                 Height="{DynamicResource ControlHeightMD}"
                 Margin="1,0"
                 Content="{Binding SelectionPanel, ElementName=prefabSlotManager}"
-                DataContext="{Binding}"
                 DockPanel.Dock="Left" />
 
         </DockPanel>

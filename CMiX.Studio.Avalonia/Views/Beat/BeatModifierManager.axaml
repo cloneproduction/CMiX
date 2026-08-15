@@ -5,7 +5,7 @@
     xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
     <StackPanel>
-        <Views:Outliner DataContext="{Binding}" ItemsSource="{Binding ControlRepository.BeatModifiers}">
+        <Views:Outliner ItemsSource="{Binding ControlRepository.BeatModifiers}">
             <Views:Outliner.SelectionPanel>
                 <Button
                     Command="{Binding AddItemCommand}"
