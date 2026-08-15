@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
+using Avalonia.Threading;
 using CMiX.Core;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
@@ -94,7 +95,12 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public void AddComposition()
         {
             // Mirrors the Composition tab's New Composition button, CommandParameter typeof(Composition).
-            Project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
+            // Posted because the MenuItem still has its own flyout Popup open while this runs, and
+            // mutating SelectedItem while the Outliner header sits behind that Popup left the name
+            // display painted with the pre add frame until a manual refresh such as double clicking
+            // into edit mode. Posting waits for the popup teardown to finish before the header is
+            // touched, matching the DispatcherPost pattern already used for popup timing elsewhere.
+            Dispatcher.UIThread.Post(() => Project.CompositionManager.AddItemCommand.Execute(typeof(Composition)));
         }
 
         private void DeleteComposition()
