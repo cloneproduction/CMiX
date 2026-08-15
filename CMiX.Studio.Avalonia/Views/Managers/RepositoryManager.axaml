@@ -20,8 +20,21 @@
             MinHeight="105"
             Margin="8"
             ItemsSource="{Binding ItemsSource, ElementName=repositoryManager}"
-            SelectedIndex="{Binding ManagerData.SelectedIndex, Mode=TwoWay}"
             SelectedItem="{Binding SelectedItem}">
+            <!--
+                No SelectedIndex binding here. ItemsSource is the shared repository collection
+                (for example PrefabRepositories.Textures), which combines items from every
+                manager that owns items of this type, while ManagerData.SelectedIndex indexes
+                only this manager's own ManagerData.Items. A two way SelectedIndex binding wrote
+                a row index from the wrong index space directly into ManagerData.SelectedIndex,
+                which the manager then reconciled by mutating SelectedItem, which changed the
+                row's real ItemsSource position, which pushed a new SelectedIndex back in, and
+                so on without ever converging; a click could recurse Avalonia's binding engine
+                until the stack overflowed (CMiX.Core PrefabManager.SelectedItem, CollectionManager
+                SelectedItem). SelectedItem alone drives selection here; PrefabManager.SelectedItem
+                keeps ManagerData.SelectedIndex correct itself via SelectedItemChanged, using this
+                manager's own item index, not the shared collection's row index.
+            -->
             <!--
                 Ported from the WPF ListBoxItemDataTemplate.xaml resource dictionary.
                 Avalonia selects implicit templates from DataTemplates collections only,

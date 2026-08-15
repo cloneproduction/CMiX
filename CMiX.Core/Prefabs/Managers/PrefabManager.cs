@@ -48,6 +48,14 @@ namespace CMiX.Core.Prefabs.Managers
         // try/finally ensures the flag is always reset even if Collection.AddItem throws.
         private bool _isAdding = false;
 
+        // Defense in depth against a selection feedback loop: a control bound to a ListBox whose
+        // ItemsSource differs from ManagerData.Items (for example a shared repository collection)
+        // can push a SelectedItem write back in here while an earlier call on this same manager is
+        // still applying its own selection change, recursing without ever converging. The guard
+        // makes the setter a no op while it is already running so no binding topology can recurse
+        // it to a stack overflow; try/finally ensures the flag always resets even if a step throws.
+        private bool _isApplyingSelection = false;
+
         public ManagerData ManagerData => Collection.ManagerData;
 
         public override ICommand AddItemCommand => Collection.AddItemCommand;
@@ -61,11 +69,17 @@ namespace CMiX.Core.Prefabs.Managers
             get => Collection.SelectedItem;
             set
             {
-                if (value == null) { Collection.RemoveSelectedItem(); return; }
-                if (UndoManager?.IsApplying == true) return;
-                EnsureItemInCollection(value);
-                if (Collection.ManagerData.Items.Contains(value))
-                    SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
+                if (_isApplyingSelection) return;
+                _isApplyingSelection = true;
+                try
+                {
+                    if (value == null) { Collection.RemoveSelectedItem(); return; }
+                    if (UndoManager?.IsApplying == true) return;
+                    EnsureItemInCollection(value);
+                    if (Collection.ManagerData.Items.Contains(value))
+                        SelectedItemChanged(Collection.ManagerData.Items.IndexOf(value));
+                }
+                finally { _isApplyingSelection = false; }
             }
         }
 
