@@ -290,7 +290,7 @@ namespace CMiX.Core.Networking.Servers
             try
             {
                 using (var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
-                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(3)))
                 {
                     await sock.ConnectAsync(ipa, port, cts.Token);
                 }
