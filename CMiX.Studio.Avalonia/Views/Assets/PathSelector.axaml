@@ -28,16 +28,15 @@
             Background="{DynamicResource Grey500Brush}"
             Classes="BorderMask" />
 
+        <!--
+            The WPF VisualBrush opacity mask erased the content in Avalonia, so it is
+            dropped. The rounded mask border underneath still paints the shape.
+        -->
         <Border
             x:Name="mainBorder"
             Grid.Column="1"
             Background="{DynamicResource Grey500Brush}"
             BorderBrush="Transparent">
-
-            <Border.OpacityMask>
-                <!-- TODO Avalonia: verify VisualBrush rendering -->
-                <VisualBrush Visual="{Binding ElementName=mask}" />
-            </Border.OpacityMask>
 
             <!--
                 TODO Avalonia: drag drop is wired in the drag and drop phase (the WPF

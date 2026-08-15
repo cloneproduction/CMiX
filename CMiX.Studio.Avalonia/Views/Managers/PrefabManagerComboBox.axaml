@@ -22,12 +22,11 @@
             Background="{DynamicResource Grey200Brush}"
             Classes="BorderMask" />
 
+        <!--
+            The WPF VisualBrush opacity mask erased the content in Avalonia, so it is
+            dropped. The rounded mask border underneath still paints the shape.
+        -->
         <Border>
-            <!-- TODO Avalonia: verify VisualBrush opacity mask rendering. -->
-            <Border.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=mask}" />
-            </Border.OpacityMask>
-
             <DockPanel>
 
                 <Button

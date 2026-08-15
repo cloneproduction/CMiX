@@ -26,16 +26,16 @@
             Background="{DynamicResource Grey500Brush}"
             Classes="BorderMask" />
 
+        <!--
+            The WPF VisualBrush opacity mask erased the content in Avalonia, so it is
+            dropped. The rounded mask border underneath still paints the shape; only the
+            2px corners of the inner content are square now.
+        -->
         <Border
             x:Name="mainBorder"
             Grid.Column="1"
             Background="{DynamicResource Grey500Brush}"
             BorderBrush="Transparent">
-
-            <!-- TODO Avalonia: verify VisualBrush opacity mask rendering. -->
-            <Border.OpacityMask>
-                <VisualBrush Visual="{Binding ElementName=mask}" />
-            </Border.OpacityMask>
 
             <ComboBox
                 AttachedProperties:PositionedControl.Position="None"
