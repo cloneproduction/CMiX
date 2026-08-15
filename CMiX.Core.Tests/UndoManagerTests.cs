@@ -108,6 +108,53 @@ namespace CMiX.Core.Tests
             Assert.Equal(expected, executed);
         }
 
+        [Fact]
+        public void Undo_ThrowingCommand_LeavesIsApplyingFalseAndKeepsRecording()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+
+            undoManager.Push(new ThrowingUndoCommand());
+
+            Assert.Throws<InvalidOperationException>(() => undoManager.Undo());
+            Assert.False(undoManager.IsApplying);
+
+            var control = CreateActiveDouble(provider);
+            control.Value = 42d;
+
+            Assert.True(undoManager.CanUndo);
+        }
+
+        [Fact]
+        public void Redo_ThrowingCommand_LeavesIsApplyingFalse()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var undoManager = provider.GetRequiredService<UndoManager>();
+
+            undoManager.Push(new ThrowingUndoCommand(throwOnUndo: false));
+            undoManager.Undo();
+
+            Assert.Throws<InvalidOperationException>(() => undoManager.Redo());
+            Assert.False(undoManager.IsApplying);
+        }
+
+        private sealed class ThrowingUndoCommand : IUndoCommand
+        {
+            private readonly bool _throwOnUndo;
+
+            public ThrowingUndoCommand(bool throwOnUndo = true)
+            {
+                _throwOnUndo = throwOnUndo;
+            }
+
+            public void Execute() => throw new InvalidOperationException("Execute failed");
+
+            public void Undo()
+            {
+                if (_throwOnUndo) throw new InvalidOperationException("Undo failed");
+            }
+        }
+
         private sealed class RecordingUndoCommand : IUndoCommand
         {
             private readonly int _id;

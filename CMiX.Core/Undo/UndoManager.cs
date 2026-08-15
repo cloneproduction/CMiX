@@ -71,22 +71,40 @@ namespace CMiX.Core.Undo
         public void Undo()
         {
             if (!CanUndo) return;
-            IsApplying = true;
             var command = _undoStack.Last.Value;
             _undoStack.RemoveLast();
-            command.Undo();
+
+            // IsApplying gates undo recording across the whole app, so it has to be cleared even
+            // when the command throws, otherwise nothing is ever recorded again.
+            IsApplying = true;
+            try
+            {
+                command.Undo();
+            }
+            finally
+            {
+                IsApplying = false;
+            }
+
             _redoStack.Push(command);
-            IsApplying = false;
         }
 
         public void Redo()
         {
             if (!CanRedo) return;
-            IsApplying = true;
             var command = _redoStack.Pop();
-            command.Execute();
+
+            IsApplying = true;
+            try
+            {
+                command.Execute();
+            }
+            finally
+            {
+                IsApplying = false;
+            }
+
             _undoStack.AddLast(command);
-            IsApplying = false;
         }
 
         public void Clear()

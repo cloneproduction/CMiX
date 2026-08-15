@@ -124,29 +124,36 @@ namespace CMiX.Core.Prefabs
             prefab.PrefabService.Name.IsActive = false;
             _applyingName = true;
 
-            if (control is IModifier)
+            // A throwing name setter must not leave the control muted or the factory permanently
+            // blind to renames, so both flags are restored even on the failure path.
+            try
             {
-                prefab.PrefabService.Name.Value = typeName;
-            }
-            else
-            {
-                if (_namesAreStale) RebuildNames();
-
-                // The search restarts at the bare type name on every call so a name freed by a
-                // deletion is reused exactly as it was before the set was cached.
-                string newName = typeName;
-                var count = 1;
-                while (_names.Contains(newName))
+                if (control is IModifier)
                 {
-                    newName = $"{typeName}.{count:000}";
-                    count++;
+                    prefab.PrefabService.Name.Value = typeName;
                 }
+                else
+                {
+                    if (_namesAreStale) RebuildNames();
 
-                prefab.PrefabService.Name.Value = newName;
+                    // The search restarts at the bare type name on every call so a name freed by a
+                    // deletion is reused exactly as it was before the set was cached.
+                    string newName = typeName;
+                    var count = 1;
+                    while (_names.Contains(newName))
+                    {
+                        newName = $"{typeName}.{count:000}";
+                        count++;
+                    }
+
+                    prefab.PrefabService.Name.Value = newName;
+                }
             }
-
-            _applyingName = false;
-            prefab.PrefabService.Name.IsActive = true;
+            finally
+            {
+                _applyingName = false;
+                prefab.PrefabService.Name.IsActive = true;
+            }
         }
 
         public static class StringHelper

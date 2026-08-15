@@ -144,9 +144,18 @@ namespace CMiX.Core.Animations
         private void WithUndo(Action action)
         {
             var before = ToModel();
+
+            // Suppression is global, so a throwing action must not leave undo recording off.
             UndoManager?.SuppressUndo();
-            action();
-            UndoManager?.ResumeUndo();
+            try
+            {
+                action();
+            }
+            finally
+            {
+                UndoManager?.ResumeUndo();
+            }
+
             UndoManager?.Push(new ValueChangedCommand(this, before, ToModel()));
         }
 
