@@ -3,7 +3,7 @@
 
 namespace CMiX.Core.Undo
 {
-    public class CompositeCommand : IUndoCommand
+    public class CompositeCommand : IUndoCommand, IDisposable
     {
         private readonly List<IUndoCommand> _commands;
 
@@ -22,6 +22,14 @@ namespace CMiX.Core.Undo
         {
             foreach (var cmd in _commands.AsEnumerable().Reverse())
                 cmd.Undo();
+        }
+
+        // Ownership of the removed controls sits on the grouped commands, so dropping the group
+        // has to hand the disposal down to them.
+        public void Dispose()
+        {
+            foreach (var cmd in _commands)
+                if (cmd is IDisposable disposable) disposable.Dispose();
         }
     }
 }

@@ -50,7 +50,7 @@ namespace CMiX.Core.Prefabs.Managers
         public void ClearAll()
         {
             foreach (var item in ManagerData.Items.ToList())
-                RemoveControlFromCollection(item);
+                RemoveControlFromCollection(item, disposeIfOrphaned: true);
 
             ManagerData.SelectedIndex = -1;
             SelectedItem = null;
@@ -104,7 +104,11 @@ namespace CMiX.Core.Prefabs.Managers
             LoadControlIntoCollection(prefab);
         }
 
-        private (IControl removed, int newIndex) RemoveControlFromCollection(IControl control)
+        // disposeIfOrphaned stays false on the undoable delete path. There the removed instance is
+        // owned by the RemoveItemCommand sitting on the undo stack, which disposes it only once the
+        // command is dropped, so undoing a delete puts the control back with its contents intact.
+        // Teardown paths that no undo command can reverse still dispose here.
+        private (IControl removed, int newIndex) RemoveControlFromCollection(IControl control, bool disposeIfOrphaned)
         {
             var items = ManagerData.Items;
             var index = items.IndexOf(control);
@@ -113,8 +117,8 @@ namespace CMiX.Core.Prefabs.Managers
             items.RemoveAt(index);
             ControlRepository.RemoveControl(control, ManagerData.ID);
 
-            if (control is IDisposable disposable && ControlRepository.GetControl(control.ID) == null)
-                disposable.Dispose();
+            if (disposeIfOrphaned)
+                OwnedControl.DisposeIfOrphaned(ControlRepository, control);
 
             int newIndex = items.Count == 0 ? -1 : index == 0 ? 0 : index - 1;
             SelectedItem = items.Count == 0 ? null : items[newIndex];
@@ -125,14 +129,14 @@ namespace CMiX.Core.Prefabs.Managers
         public (IControl removed, int newIndex) DeleteItem(IControl control)
         {
             if (control == null) return (null, -1);
-            return RemoveControlFromCollection(control);
+            return RemoveControlFromCollection(control, disposeIfOrphaned: false);
         }
 
         public void DeleteItem(Guid id)
         {
             var control = ManagerData.Items.FirstOrDefault(x => x.ID == id);
             if (control != null)
-                RemoveControlFromCollection(control);
+                RemoveControlFromCollection(control, disposeIfOrphaned: true);
         }
 
         public void RemoveSelectedItem()

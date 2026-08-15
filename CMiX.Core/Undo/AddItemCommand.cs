@@ -5,7 +5,9 @@ using CMiX.Core.Undo;
 
 namespace CMiX.Core.Prefabs.Messages
 {
-    public class AddItemCommand : IUndoCommand
+    // Undo takes the added item back out of the collection, so from that point on this command
+    // owns the instance and disposes it when UndoManager drops the command.
+    public class AddItemCommand : IUndoCommand, IDisposable
     {
         private readonly CollectionManager _collection;
         private readonly ControlRepository _repository;
@@ -54,6 +56,11 @@ namespace CMiX.Core.Prefabs.Messages
                 _messenger.SendMessage(_messageFactory.CreateMessage<MessageSelectedItemChanged>(
                     _collection.ManagerData.ID, _previousItem, _previousIndex));
             }
+        }
+
+        public void Dispose()
+        {
+            OwnedControl.DisposeIfOrphaned(_repository, _item);
         }
     }
 }

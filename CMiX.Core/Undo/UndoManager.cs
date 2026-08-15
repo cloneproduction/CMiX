@@ -40,12 +40,12 @@ namespace CMiX.Core.Undo
                 && (vc.Timestamp - lastVc.Timestamp).TotalMilliseconds < MergeWindowMs)
             {
                 lastNode.Value = vc.WithBefore(lastVc.Before);
-                _redoStack.Clear();
+                DropRedoStack();
                 return;
             }
 
             _undoStack.AddLast(command);
-            _redoStack.Clear();
+            DropRedoStack();
             TrimStack();
         }
 
@@ -64,7 +64,7 @@ namespace CMiX.Core.Undo
             if (commands.Count == 0) return;
             if (commands.Count == 1) { Push(commands[0]); return; }
             _undoStack.AddLast(new CompositeCommand(commands));
-            _redoStack.Clear();
+            DropRedoStack();
             TrimStack();
         }
 
@@ -109,14 +109,45 @@ namespace CMiX.Core.Undo
 
         public void Clear()
         {
+            foreach (var command in _undoStack)
+                DropCommand(command);
             _undoStack.Clear();
-            _redoStack.Clear();
+            DropRedoStack();
         }
 
         private void TrimStack()
         {
             while (_undoStack.Count > MaxSteps)
+            {
+                DropCommand(_undoStack.First.Value);
                 _undoStack.RemoveFirst();
+            }
+        }
+
+        private void DropRedoStack()
+        {
+            foreach (var command in _redoStack)
+                DropCommand(command);
+            _redoStack.Clear();
+        }
+
+        // Dropping a command is the point where a delete becomes permanent, so a command that
+        // owns a removed control disposes it here. Recording is suppressed for the duration
+        // because a control teardown can touch selections that would otherwise push new commands
+        // while this one is being dropped.
+        private void DropCommand(IUndoCommand command)
+        {
+            if (command is not IDisposable disposable) return;
+
+            SuppressUndo();
+            try
+            {
+                disposable.Dispose();
+            }
+            finally
+            {
+                ResumeUndo();
+            }
         }
     }
 }
