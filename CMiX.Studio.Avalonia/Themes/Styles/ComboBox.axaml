@@ -98,7 +98,7 @@
         </Setter>
         <!-- WPF trigger HasItems False collapsed the dropdown border -->
         <Style Selector="^:empty /template/ Border#DropDownBorder">
-            <Setter Property="Height" Value="0" />
+            <Setter Property="IsVisible" Value="False" />
         </Style>
         <!-- TODO Avalonia: WPF IsGrouping trigger setting ScrollViewer.CanContentScroll has no equivalent and was dropped -->
     </ControlTheme>
@@ -151,10 +151,14 @@
                         Theme="{DynamicResource ToggleButtonRoundedLeft}"
                         Width="22">
                         <ToggleButton.Content>
+                            <!--
+                                WPF shrank the image through the margin against the 22 wide button;
+                                Avalonia renders it at natural size, so the width is set explicitly.
+                            -->
                             <Image
-                                Margin="10"
                                 Opacity="0.5"
-                                Source="{DynamicResource ArrowDown}" />
+                                Source="{DynamicResource ArrowDown}"
+                                Width="7" />
                         </ToggleButton.Content>
                     </ToggleButton>
                     <Popup
@@ -187,6 +191,11 @@
                 </DockPanel>
             </ControlTemplate>
         </Setter>
+
+        <!-- With no items the WPF popup rendered as nothing; hide the border so the empty dropdown shows nothing here too. -->
+        <Style Selector="^:empty /template/ Border#DropDownBorder">
+            <Setter Property="IsVisible" Value="False" />
+        </Style>
     </ControlTheme>
 
 </ResourceDictionary>
