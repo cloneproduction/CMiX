@@ -64,7 +64,6 @@ namespace CMiX.Studio.Avalonia
                 _animationController = new MasterBeatAnimationController(masterBeat);
 
                 var mainWindow = serviceProvider.GetRequiredService<Views.MainWindow>();
-                mainWindow.DataContext = serviceProvider.GetRequiredService<MainViewModel>();
                 serviceProvider.GetRequiredService<ControlActivationService>().ActivateAll();
                 desktop.MainWindow = mainWindow;
             }
