@@ -8,7 +8,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class BindingIntegrityTests
     {
         // Measured against the current, known good binding graph: constructing MainWindow and
-        // pumping the dispatcher settles at exactly 16 "Could not find a matching property
+        // pumping the dispatcher settles at exactly 17 "Could not find a matching property
         // accessor" warnings, all against CMiX.Core.Prefabs.Managers.PrefabManager (properties
         // like MaterialSettings, ModifierManagerIsExpanded, BeatSteps and so on). These are the
         // known startup accessor transients documented in the Avalonia migration memory: while
@@ -20,7 +20,16 @@ namespace CMiX.Studio.Avalonia.Tests
         // name, adds a distinct accessor error this graph does not produce today, pushing the
         // total past 16 and failing the test, while the known transient noise stays at exactly
         // that number.
-        private const int BaselineMaxAccessorErrors = 16;
+        //
+        // The measured value was 16 until the textures tab became a RepositoryTab. A RepositoryTab
+        // roots its SelectionPanel and EditingPanel in the logical tree at assignment time, see
+        // LogicalPanelContent, which is what makes their deferred bindings apply at all; the price
+        // is that each editing panel evaluates its bindings once against the manager DataContext
+        // at load. The five tabs converted earlier already contribute their panel paths that way
+        // (MaterialSettings, DiffuseTexture, TransformSRTIsExpanded and so on) and the textures
+        // panel adds exactly one more, TextureModifierManager. RepositoryTabTests asserts the same
+        // panel scopes to the selected texture afterward, which is what makes it a transient.
+        private const int BaselineMaxAccessorErrors = 17;
 
         private const string AccessorErrorFragment = "Could not find a matching property accessor";
 

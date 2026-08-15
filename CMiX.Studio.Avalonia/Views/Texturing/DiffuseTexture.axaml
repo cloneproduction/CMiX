@@ -11,7 +11,7 @@
         <Views:PrefabSlotManager
             Margin="8"
             DataContext="{Binding TextureManager}"
-            ItemsSource="{Binding $parent[Window].DataContext.PrefabRepositories.Textures}">
+            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Textures}">
 
             <i:Interaction.Behaviors>
                 <Behaviors:TextureDropBehavior PrefabManager="{Binding}" />

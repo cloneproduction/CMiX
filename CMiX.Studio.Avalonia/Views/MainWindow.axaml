@@ -191,7 +191,7 @@
                                 x:Name="EntitiesRepository"
                                 DataContext="{Binding EntityManager}"
                                 DockPanel.Dock="Top"
-                                ItemsSource="{Binding $parent[Window].DataContext.PrefabRepositories.Entities}">
+                                ItemsSource="{Binding ControlRepository.Entities}">
                                 <Views:RepositoryManager.SelectionPanel>
                                     <Button
                                         Command="{Binding AddItemCommand}"
@@ -241,41 +241,22 @@
                 </Managers:RepositoryTab.EditingPanel>
             </Managers:RepositoryTab>
 
-            <TabItem Theme="{StaticResource TabItemHorizontal}">
-
-                <TabItem.Header>
-                    <Image
-                        Margin="8"
-                        Source="{DynamicResource Texture}"
-                        ToolTip.HorizontalOffset="-10"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Textures"
-                        ToolTip.VerticalOffset="10" />
-                </TabItem.Header>
-
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <Views:RepositoryManager
-                        x:Name="repositoryManager"
-                        Background="{DynamicResource Grey300Brush}"
-                        DataContext="{Binding TextureManager}"
-                        DockPanel.Dock="Top"
-                        ItemsSource="{Binding ControlRepository.Textures}">
-                        <Views:RepositoryManager.SelectionPanel>
-                            <Views:ButtonOpenSelectionPanel Caption="New Texture">
-                                <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                    <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                                </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                            </Views:ButtonOpenSelectionPanel>
-                        </Views:RepositoryManager.SelectionPanel>
-                        <Views:RepositoryManager.EditingPanel>
-                            <Views:Texture />
-                        </Views:RepositoryManager.EditingPanel>
-                    </Views:RepositoryManager>
-                </ScrollViewer>
-            </TabItem>
+            <Managers:RepositoryTab
+                DataContext="{Binding TextureManager}"
+                Icon="{DynamicResource Texture}"
+                ItemsSource="{Binding ControlRepository.Textures}"
+                ToolTipText="Textures">
+                <Managers:RepositoryTab.SelectionPanel>
+                    <Views:ButtonOpenSelectionPanel Caption="New Texture">
+                        <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                            <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                        </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                    </Views:ButtonOpenSelectionPanel>
+                </Managers:RepositoryTab.SelectionPanel>
+                <Managers:RepositoryTab.EditingPanel>
+                    <Views:Texture />
+                </Managers:RepositoryTab.EditingPanel>
+            </Managers:RepositoryTab>
 
             <Managers:RepositoryTab
                 DataContext="{Binding CameraManager}"

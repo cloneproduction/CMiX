@@ -52,7 +52,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 TextureManager, MaterialManager, EntityManager, CameraManager,
                 LightManager, BeatManager, ColorPaletteManager
             };
-            PrefabRepositories = controlRepository;
+            ControlRepository = controlRepository;
             // Clear any stale registrations from top level managers activated via SetupManager.
             // These were activated manually and never went through ActivateAll(),
             // so they may still be in the list. Without this, ControlFactory.Create
@@ -91,7 +91,9 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public PrefabManager TextureManager { get; set; }
         public PrefabManager MaterialManager { get; set; }
         public PrefabManager CameraManager { get; set; }
-        public ControlRepository PrefabRepositories { get; set; }
+        // Named after its type so the window relative binding paths in the views read the
+        // same as the manager relative ControlRepository paths the tabs use.
+        public ControlRepository ControlRepository { get; set; }
         public Project Project { get; set; }
         public AssetManager AssetManager { get; set; }
         public MainMenu MainMenu { get; set; }
