@@ -42,6 +42,7 @@ namespace CMiX.Studio.Avalonia.Services
                 listBox.AddHandler(DragDrop.DragOverEvent, OnDragOver);
                 listBox.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);
                 listBox.AddHandler(DragDrop.DropEvent, OnDrop);
+                listBox.DetachedFromVisualTree += OnListBoxDetachedFromVisualTree;
             }
             else
             {
@@ -51,7 +52,16 @@ namespace CMiX.Studio.Avalonia.Services
                 listBox.RemoveHandler(DragDrop.DragOverEvent, OnDragOver);
                 listBox.RemoveHandler(DragDrop.DragLeaveEvent, OnDragLeave);
                 listBox.RemoveHandler(DragDrop.DropEvent, OnDrop);
+                listBox.DetachedFromVisualTree -= OnListBoxDetachedFromVisualTree;
+                RemoveIndicator(listBox);
             }
+        }
+
+        // A ListBox that is realized and unrealized repeatedly (tab content, virtualized rows)
+        // otherwise leaves its InsertionIndicator behind on the adorner layer every time.
+        private static void OnListBoxDetachedFromVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+        {
+            RemoveIndicator((ItemsControl)sender);
         }
 
         private static readonly AttachedProperty<Point?> PressPointProperty =
@@ -240,6 +250,20 @@ namespace CMiX.Studio.Avalonia.Services
             var indicator = listBox.GetValue(IndicatorProperty);
             if (indicator != null)
                 indicator.IsVisible = false;
+        }
+
+        // The adorner layer is a different subtree from the listBox, so its ancestor lookup
+        // (AdornerLayer.GetAdornerLayer) cannot be relied on once the listBox itself has already
+        // detached; the indicator's own former parent is used instead.
+        private static void RemoveIndicator(ItemsControl listBox)
+        {
+            var indicator = listBox.GetValue(IndicatorProperty);
+            if (indicator == null)
+                return;
+
+            if (indicator.Parent is Panel layer)
+                layer.Children.Remove(indicator);
+            listBox.ClearValue(IndicatorProperty);
         }
 
         private class InsertionIndicator : Control
