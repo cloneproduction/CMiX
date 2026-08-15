@@ -3,18 +3,25 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
-    x:Name="uc">
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
-    <UserControl.ContentTemplate>
-        <DataTemplate>
+    <!--
+        The wrapper is a ControlTemplate, not a ContentTemplate. Presenting the content
+        through a DataTemplate breaks DataContext inheritance for the content in Avalonia,
+        which left the hosted views without a view model.
+    -->
+    <UserControl.Template>
+        <ControlTemplate TargetType="Panels:IndentedExpander">
             <Expander
-                AttachedProperties:ExpanderIndentation.Indentation="{Binding Indentation, ElementName=uc}"
-                Header="{Binding Header, ElementName=uc}"
-                IsExpanded="{Binding IsExpanded, ElementName=uc, Mode=TwoWay}"
+                AttachedProperties:ExpanderIndentation.Indentation="{TemplateBinding Indentation}"
+                Header="{TemplateBinding Header}"
+                IsExpanded="{Binding IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                 Theme="{StaticResource IndentedExpanderStyle}">
-                <ContentPresenter Content="{Binding Content, ElementName=uc}" />
+                <ContentPresenter
+                    Content="{TemplateBinding Content}"
+                    ContentTemplate="{TemplateBinding ContentTemplate}" />
             </Expander>
-        </DataTemplate>
-    </UserControl.ContentTemplate>
+        </ControlTemplate>
+    </UserControl.Template>
 
 </UserControl>
