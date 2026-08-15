@@ -58,11 +58,13 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         // A gesture that loses the pointer without a release must not leave the value interaction
-        // scope open, which would keep throttling every later write in the application.
+        // scope open, which would keep throttling every later write in the application. Ending
+        // through the handle keeps a capture loss that follows a gesture this slider never
+        // started, or one it already ended, from flushing whatever scope is open now.
         protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
         {
             base.OnPointerCaptureLost(e);
-            ValueInteraction.End();
+            _interaction.Dispose();
         }
 
         private bool isDragging = false;
@@ -70,6 +72,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private double lastValue;
         private Point _lastPoint;
         private Point _mouseDownPoint;
+        private ValueInteractionScope _interaction;
 
         private static double Length(Point p) => Math.Sqrt(p.X * p.X + p.Y * p.Y);
 
@@ -96,7 +99,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _lastPoint = e.GetPosition(Border);
             _mouseDownPoint = _lastPoint;
             e.Pointer.Capture(this);
-            ValueInteraction.Begin();
+            _interaction = ValueInteraction.BeginScope();
             Focus();
             Cursor = new Cursor(StandardCursorType.None);
             // The WPF template triggered on IsMouseCaptured; the theme selects on :pressed instead.
@@ -162,7 +165,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
             DragEditHelper.PlaceCursorAt(new Point(pointToScreen.X, pointToScreen.Y));
             e.Pointer.Capture(null);
-            ValueInteraction.End();
+            _interaction.Dispose();
 
             isDragging = false;
             lastValue = Value;

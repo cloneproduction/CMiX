@@ -17,6 +17,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private Point? _cursorDownScreenPos;
         private bool _dragging;
         private Point _lastScreenPos;
+        private ValueInteractionScope _interaction;
 
         public DragValue()
         {
@@ -31,8 +32,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             AddHandler(PointerPressedEvent, Control_PointerPressed, RoutingStrategies.Tunnel);
 
             // A gesture that loses the pointer without a release must not leave the value
-            // interaction scope open, which would keep throttling every later write.
-            borderValueDisplay.PointerCaptureLost += (s, e) => ValueInteraction.End();
+            // interaction scope open, which would keep throttling every later write. Ending
+            // through the handle keeps a capture loss that follows a gesture this control never
+            // started, or one it already ended, from flushing whatever scope is open now.
+            borderValueDisplay.PointerCaptureLost += (s, e) => _interaction.Dispose();
 
             AddButton.Click += AddButton_Click;
             SubButton.Click += SubButton_Click;
@@ -58,7 +61,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _dragging = false;
 
             e.Pointer.Capture(borderValueDisplay);
-            ValueInteraction.Begin();
+            _interaction = ValueInteraction.BeginScope();
             e.Handled = true;
         }
 
@@ -113,7 +116,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private void Border_PointerReleased(object sender, PointerReleasedEventArgs e)
         {
             e.Pointer.Capture(null);
-            ValueInteraction.End();
+            _interaction.Dispose();
 
             if (_mouseDownPos == null)
                 return;

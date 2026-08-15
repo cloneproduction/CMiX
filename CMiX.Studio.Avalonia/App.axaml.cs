@@ -25,10 +25,19 @@ namespace CMiX.Studio.Avalonia
     public partial class App : Application
     {
         private MasterBeatAnimationController _animationController;
-        private static Project _crashSaveProject;
 
-        // Set once at startup so XAML instantiated views without constructor
-        // injection, such as ServerCreation, can reach the shared dialog service.
+        // The rule for ambient statics in this app, so the three that exist do not become a
+        // habit. A static is acceptable only when the consumer has no injection point at all:
+        // either XAML constructs it and its code behind cannot take constructor arguments
+        // (DialogService, reached from ServerCreation), or it runs at process level after the
+        // container is gone (_crashSaveProject, read by the unhandled exception handler).
+        // Anything a container builds takes a constructor dependency instead, which is why the
+        // view models, the managers and the messenger are all injected rather than reachable
+        // here. The one static outside both clauses is CMiX.Core.BaseControls.ValueInteraction,
+        // whose whole purpose is being ambient across controls that do not know each other; it
+        // is held to the rule by ownership instead, its BeginScope returns a handle and only
+        // that handle can end the scope it opened.
+        private static Project _crashSaveProject;
         public static IDialogService DialogService { get; private set; }
 
         public override void Initialize()
