@@ -34,8 +34,17 @@ namespace CMiX.Core.Animations
             IsActive = false;
             activationService.Register(this);
 
+            // Shared by three subscriptions: this modifier's own BeatIndex, MasterBeat.BeatIndex and
+            // MasterBeat itself. The first two only ever raise Value; MasterBeat also re raises
+            // AnimatedDouble on every clock tick (its own PositionChanged relay) with no table
+            // change involved, so that name is filtered out here rather than re resolving and
+            // reassigning AnimatedDouble sixty times a second for no reason. A real table rebuild
+            // always announces Periods on its way through ApplyPeriod, so that name still passes.
             _onBPMChanged = (s, e) =>
             {
+                if (e.PropertyName != nameof(GenericValue<int>.Value) && e.PropertyName != nameof(MasterBeat.Periods))
+                    return;
+
                 OnPropertyChanged(nameof(BPM));
                 UpdateAnimatedDouble();
             };
@@ -101,7 +110,13 @@ namespace CMiX.Core.Animations
         {
             if (_masterBeat?.AnimatedDoubleProvider == null) return;
             int index = BeatIndex.Value + _masterBeat.BeatIndex.Value;
-            AnimatedDouble = _masterBeat.AnimatedDoubleProvider(index);
+            var resolved = _masterBeat.AnimatedDoubleProvider(index);
+
+            // The AnimatedDouble setter unsubscribes and resubscribes PositionChanged even when the
+            // incoming value is reference equal to what is already held, so this only reassigns when
+            // the resolved instance actually changed, rather than on every call this method makes.
+            if (ReferenceEquals(resolved, _animatedDouble)) return;
+            AnimatedDouble = resolved;
         }
 
         private MasterBeat _masterBeat;

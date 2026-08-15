@@ -126,6 +126,38 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Equal(before + 1, modifier.BeatSteps.CurrentStepIndex);
         }
 
+        // MasterBeat re raises its own PropertyChanged for AnimatedDouble on every position change
+        // of the instance it currently holds, which happens on every 16 ms clock tick. BeatModifier
+        // used to listen to that notification with no property filter, so every tick made it re
+        // resolve and unconditionally reassign its AnimatedDouble property, which unsubscribes and
+        // resubscribes PositionChanged even when the resolved instance never changed, driving the
+        // observer count from 1 to 0 back to 1 on every single tick.
+        [AvaloniaFact]
+        public void BeatModifier_DoesNotResubscribeItsAnimatedDouble_OnEveryPerTickPositionChange()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var masterBeat = provider.GetRequiredService<MasterBeat>();
+
+            _ = new MasterBeatAnimationController(masterBeat);
+            var modifier = provider.GetRequiredService<BeatModifier>();
+
+            var animatedDouble = (AnimatedDouble)modifier.AnimatedDouble;
+            Assert.NotNull(animatedDouble);
+            Assert.True(animatedDouble.IsObserved);
+
+            var observationStartedCount = 0;
+            animatedDouble.ObservationStarted += (s, e) => observationStartedCount++;
+
+            for (int i = 0; i < 20; i++)
+                animatedDouble.AnimationPosition = i % 2 == 0 ? 0.2 : 0.8;
+
+            Assert.Same(animatedDouble, modifier.AnimatedDouble);
+            Assert.True(animatedDouble.IsObserved);
+            // A resubscribe drops the count to zero and back to one, which fires ObservationStarted
+            // again. Zero further firings after the initial subscribe means the count never dipped.
+            Assert.Equal(0, observationStartedCount);
+        }
+
         // One beat seen by a modifier: the position falls below the halfway mark and rises back
         // through it, which is where BeatModifier advances its step.
         private static void Pulse(AnimatedDouble animatedDouble)
