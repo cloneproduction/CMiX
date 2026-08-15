@@ -154,7 +154,7 @@
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">
-                <Image Margin="16" Opacity="0.7" Source="{DynamicResource ArrowUp}" />
+                <Image Classes="iconSmall" Opacity="0.7" Source="{DynamicResource ArrowUp}" />
             </Button>
 
             <!--  MOVE DOWN  -->
@@ -165,7 +165,7 @@
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">
-                <Image Margin="16" Opacity="0.7" Source="{DynamicResource ArrowDown}" />
+                <Image Classes="iconSmall" Opacity="0.7" Source="{DynamicResource ArrowDown}" />
             </Button>
 
             <!--  SWAP  -->
