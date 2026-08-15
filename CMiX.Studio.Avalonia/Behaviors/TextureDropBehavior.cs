@@ -2,13 +2,13 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
-using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform.Storage;
 using Avalonia.Xaml.Interactivity;
+using CMiX.Core.Assets;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
 
@@ -62,11 +62,11 @@ namespace CMiX.Studio.Avalonia.Behaviors
 
             foreach (var file in files)
             {
-                var ext = Path.GetExtension(file).ToLower();
-                Type textureType = ext switch
+                if (!AssetTypes.TryResolve(file, out var kind)) continue;
+                Type textureType = kind switch
                 {
-                    ".png" or ".jpg" or ".jpeg" or ".bmp" => typeof(CMiX.Core.Texturing.Sources.Image),
-                    ".mp4" or ".avi" or ".mov" => typeof(VideoPlayer),
+                    AssetKind.Image => typeof(CMiX.Core.Texturing.Sources.Image),
+                    AssetKind.Video => typeof(VideoPlayer),
                     _ => null
                 };
 

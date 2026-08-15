@@ -92,14 +92,17 @@ namespace CMiX.Core.Assets
         public void CreateAssetFromPath(string path)
         {
             if (!File.Exists(path)) return;
-            string fileType = Path.GetExtension(path).ToUpper().TrimStart('.');
+            if (!AssetTypes.TryResolve(path, out var kind)) return;
 
-            if (fileType is "PNG" or "JPG" or "JPEG")
-                AssetRepository.Add(new ImageAsset(path));
-            else if (fileType is "OBJ" or "FBX")
-                AssetRepository.Add(new Geometry(path));
-            else if (fileType == "MOV")
-                AssetRepository.Add(new Video(path));
+            IAsset asset = kind switch
+            {
+                AssetKind.Image => new ImageAsset(path),
+                AssetKind.Geometry => new Geometry(path),
+                AssetKind.Video => new Video(path),
+                _ => null
+            };
+            if (asset != null)
+                AssetRepository.Add(asset);
         }
 
         public void RemoveAssets(List<IAsset> assetsToRemove, List<IAsset> assets) =>

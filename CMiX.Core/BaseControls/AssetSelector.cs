@@ -39,21 +39,18 @@ namespace CMiX.Core.BaseControls
             }
         }
 
-        private static readonly Dictionary<string, Func<string, IAsset>> AssetFactories = new()
-    {
-        { "PNG", path => new ImageAsset(path) },
-        { "JPG", path => new ImageAsset(path) },
-        { "JPEG", path => new ImageAsset(path) },
-        { "OBJ", path => new Geometry(path) },
-        { "FBX", path => new Geometry(path) },
-        { "MOV", path => new Video(path) }
-    };
-
         public IAsset CreateAssetFromPath(string path)
         {
             if (!File.Exists(path)) return null;
-            string ext = Path.GetExtension(path).ToUpperInvariant().TrimStart('.');
-            return AssetFactories.TryGetValue(ext, out var factory) ? factory(path) : null;
+            if (!AssetTypes.TryResolve(path, out var kind)) return null;
+
+            return kind switch
+            {
+                AssetKind.Image => new ImageAsset(path),
+                AssetKind.Geometry => new Geometry(path),
+                AssetKind.Video => new Video(path),
+                _ => null
+            };
         }
 
         public void SetAssetFromPath(string filePath)
