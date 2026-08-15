@@ -47,6 +47,11 @@ namespace CMiX.Studio.Avalonia.ViewModels
             MainWindowController = mainWindowController;
             AssetManager = assetManager;
             MainMenu = mainMenu;
+            MainMenu.RepositoryManagers = new[]
+            {
+                TextureManager, MaterialManager, EntityManager, CameraManager,
+                LightManager, BeatManager, ColorPaletteManager
+            };
             PrefabRepositories = controlRepository;
             // Clear any stale registrations from top level managers activated via SetupManager.
             // These were activated manually and never went through ActivateAll(),

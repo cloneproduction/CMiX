@@ -79,6 +79,11 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand RedoCommand { get; }
         public ICommand CloseWindowCommand { get; }
 
+        // Handed over by MainViewModel, which owns the seven top level repository managers. They
+        // are transient in the container, so resolving them here would build fresh instances
+        // instead of the live ones a new project has to empty.
+        public IReadOnlyList<PrefabManager> RepositoryManagers { get; set; } = Array.Empty<PrefabManager>();
+
         private static void CloseMainWindow()
         {
             if (Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
@@ -163,6 +168,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private void NewProject()
         {
             Project.CompositionManager.ClearAll();
+            foreach (var manager in RepositoryManagers)
+                manager.ClearAll();
             _undoManager.Clear();
             FolderPath = null;
         }
@@ -179,24 +186,32 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
             try
             {
-                var cloned = await Task.Run(() =>
+                var loaded = await Task.Run<(ProjectModel Project, CompositionModel Composition)>(() =>
                 {
                     var projectModel = ProjectSerializer.Load(path);
                     if (projectModel?.CompositionManager?.ManagerData?.Items?.FirstOrDefault() is not CompositionModel compositionModel)
-                        return null;
+                        return (null, null);
 
                     var json = JsonSerializer.Serialize(compositionModel, ProjectSerializer.Options);
                     json = ReplaceAllGuids(json);
-                    return JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+                    return (projectModel, JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options));
                 });
 
-                if (cloned == null)
+                if (loaded.Composition == null)
                 {
                     await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
                     return;
                 }
 
-                Project.CompositionManager.AddItem(cloned);
+                Project.CompositionManager.AddItem(loaded.Composition);
+
+                // The master beat keeps the ids it was saved with, so it is restored from the file
+                // as loaded rather than from the guid replaced clone the composition goes through.
+                // Project files written before the master beat was serialized carry none.
+                if (loaded.Project.MasterBeat != null)
+                    Project.MasterBeat.FromModel(loaded.Project.MasterBeat);
+
+                FolderPath = path;
             }
             catch (Exception ex)
             {
