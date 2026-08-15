@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
@@ -52,6 +53,9 @@ namespace CMiX.Core.Prefabs
                 { typeof(TextEntity), c => Texts.Remove((TextEntity)c) },
                 { typeof(ColorPalette), c => ColorPalettes.Remove((ColorPalette)c) }
             };
+
+            Entities.CollectionChanged += OnEntitiesOrTextsChanged;
+            Texts.CollectionChanged += OnEntitiesOrTextsChanged;
         }
 
         public ObservableCollection<IControl> Controls { get; } = new();
@@ -66,6 +70,51 @@ namespace CMiX.Core.Prefabs
         public ObservableCollection<BeatModifier> BeatModifiers { get; } = new();
         public ObservableCollection<TextEntity> Texts { get; } = new();
         public ObservableCollection<ColorPalette> ColorPalettes { get; } = new();
+
+        // Replaces the WPF CompositeCollection of the Entities and Texts CollectionViewSources so
+        // the layer entity slot swap popup can list both entities and text entities together.
+        public ObservableCollection<IControl> EntitiesAndTexts { get; } = new();
+
+        private void OnEntitiesOrTextsChanged(object sender, NotifyCollectionChangedEventArgs e)
+        {
+            switch (e.Action)
+            {
+                case NotifyCollectionChangedAction.Add:
+                    foreach (var item in e.NewItems)
+                        AddToEntitiesAndTexts((IControl)item, sender == Texts);
+                    break;
+                case NotifyCollectionChangedAction.Remove:
+                    foreach (var item in e.OldItems)
+                        EntitiesAndTexts.Remove((IControl)item);
+                    break;
+                default:
+                    ResyncEntitiesAndTexts();
+                    break;
+            }
+        }
+
+        private void AddToEntitiesAndTexts(IControl item, bool isText)
+        {
+            if (!isText)
+            {
+                // Entities keep their relative order ahead of the texts block.
+                var insertIndex = EntitiesAndTexts.Count(x => x is Entity);
+                EntitiesAndTexts.Insert(insertIndex, item);
+            }
+            else
+            {
+                EntitiesAndTexts.Add(item);
+            }
+        }
+
+        private void ResyncEntitiesAndTexts()
+        {
+            EntitiesAndTexts.Clear();
+            foreach (var entity in Entities)
+                EntitiesAndTexts.Add(entity);
+            foreach (var text in Texts)
+                EntitiesAndTexts.Add(text);
+        }
 
         public void AddControl(IControl control, Guid referencerId)
         {

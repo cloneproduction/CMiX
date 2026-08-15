@@ -33,17 +33,15 @@
                     <DockPanel>
 
                         <!--
-                            TODO Avalonia: the WPF view merged PrefabRepositories.Entities and
-                            PrefabRepositories.Texts through a CompositeCollection of two
-                            CollectionViewSources. Avalonia has no CompositeCollection; only the
-                            Entities repository is bound here. Expose a merged collection on the
-                            view model (or repository) during integration to restore the Texts.
+                            The WPF view merged PrefabRepositories.Entities and PrefabRepositories.Texts
+                            through a CompositeCollection of two CollectionViewSources. Avalonia has no
+                            CompositeCollection, so ControlRepository.EntitiesAndTexts replaces it here.
                         -->
                         <Views:PrefabSlotManager
                             Margin="8"
                             DataContext="{Binding ModelEntityManager}"
                             DockPanel.Dock="Top"
-                            ItemsSource="{Binding $parent[Window].DataContext.PrefabRepositories.Entities}">
+                            ItemsSource="{Binding $parent[Window].DataContext.PrefabRepositories.EntitiesAndTexts}">
 
                             <Views:PrefabSlotManager.SelectionPanel>
                                 <Views:ButtonOpenSelectionPanel Caption="Add Entity">
