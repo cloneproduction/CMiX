@@ -35,15 +35,28 @@
             </UniformGrid>
         </Border>
 
+        <!--
+            WPF hides the inactive mode panels with Visibility.Hidden so they keep
+            their layout space and the picker never resizes when switching modes.
+            IsVisible would collapse them, so the hiddenMode class emulates Hidden
+            with opacity while the panels stay in layout.
+        -->
         <Grid Margin="0,8" VerticalAlignment="Top">
-            <Border IsVisible="{Binding IsChecked, ElementName=HEXRadio, Converter={StaticResource BoolToCollapsed}}">
+            <Grid.Styles>
+                <Style Selector="Border.hiddenMode">
+                    <Setter Property="Opacity" Value="0" />
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="IsHitTestVisible" Value="False" />
+                </Style>
+            </Grid.Styles>
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HEXRadio}">
                 <StackPanel>
                     <TextBox
                         Height="{DynamicResource ControlHeightMD}"
                         Text="{Binding SelectedColor, ElementName=uc, Mode=TwoWay, Converter={StaticResource ColorToHex}}" />
                 </StackPanel>
             </Border>
-            <Border IsVisible="{Binding IsChecked, ElementName=RGBRadio, Converter={StaticResource BoolToVisibility}}">
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=RGBRadio}">
                 <StackPanel>
 
                     <Controls:CMiXSlider
@@ -82,7 +95,7 @@
 
                 </StackPanel>
             </Border>
-            <Border IsVisible="{Binding IsChecked, ElementName=HSVRadio, Converter={StaticResource BoolToVisibility}}">
+            <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HSVRadio}">
 
                 <StackPanel>
                     <Controls:CMiXSlider
