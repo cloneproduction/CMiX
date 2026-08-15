@@ -12,9 +12,9 @@
     <StackPanel>
 
         <!--
-            The WPF PositionedUniformGrid and PositionedStackPanel panels are not ported yet.
-            Plain panels are used instead and the PositionedControl.Position attached property
-            is set explicitly on each child to drive the position pseudo classes.
+            PositionedUniformGrid and PositionedStackPanel are ported (Views\Controls\Panels) but
+            are not needed here: plain panels are used instead and the PositionedControl.Position
+            attached property is set explicitly on each child to drive the position pseudo classes.
         -->
         <Border Height="{DynamicResource ControlHeightMD}">
             <UniformGrid Columns="3">

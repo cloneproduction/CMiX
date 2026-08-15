@@ -87,7 +87,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Composition}"
-                        ToolTip.Tip="Composition" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Composition"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
                 <ScrollViewer>
                     <i:Interaction.Behaviors>
@@ -127,7 +130,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource LayerScene}"
-                        ToolTip.Tip="Layers" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Layers"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
 
                 <Border IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
@@ -166,7 +172,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Geometry}"
-                        ToolTip.Tip="Entities" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Entities"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -220,7 +229,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource World}"
-                        ToolTip.Tip="Material" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Material"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -252,7 +264,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Texture}"
-                        ToolTip.Tip="Textures" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Textures"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -284,7 +299,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Camera}"
-                        ToolTip.Tip="Cameras" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Cameras"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <i:Interaction.Behaviors>
@@ -314,7 +332,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource MeshLight}"
-                        ToolTip.Tip="Lights" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Lights"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <i:Interaction.Behaviors>
@@ -342,7 +363,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Beat}"
-                        ToolTip.Tip="BeatModifiers" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="BeatModifiers"
+                        ToolTip.VerticalOffset="10" />
 
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
@@ -372,7 +396,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Coloration}"
-                        ToolTip.Tip="Color Palette" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Color Palette"
+                        ToolTip.VerticalOffset="10" />
 
                 </TabItem.Header>
 
@@ -400,7 +427,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Resources}"
-                        ToolTip.Tip="Assets" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Assets"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <i:Interaction.Behaviors>
@@ -416,7 +446,10 @@
                     <Image
                         Margin="8"
                         Source="{DynamicResource Network}"
-                        ToolTip.Tip="Network" />
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Network"
+                        ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
