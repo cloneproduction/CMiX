@@ -1,11 +1,14 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Platform.Storage;
+using Avalonia.Threading;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -32,7 +35,7 @@ namespace CMiX.Studio.Avalonia.Views
             e.Handled = true;
         }
 
-        private void OnDrop(object sender, DragEventArgs e)
+        private async void OnDrop(object sender, DragEventArgs e)
         {
             if (DataContext is not Core.Assets.AssetManager assetManager)
                 return;
@@ -40,13 +43,30 @@ namespace CMiX.Studio.Avalonia.Views
             if (!e.Data.Contains(DataFormats.Files))
                 return;
 
-            var paths = e.Data.GetFiles()?.Select(f => f.TryGetLocalPath()).Where(p => p != null) ?? Enumerable.Empty<string>();
-            foreach (var path in paths)
-            {
-                if (File.Exists(path)) assetManager.CreateAssetFromPath(path);
-                if (Directory.Exists(path)) assetManager.CreateAssetFromDirectory(new DirectoryInfo(path));
-            }
+            var paths = e.Data.GetFiles()?.Select(f => f.TryGetLocalPath()).Where(p => p != null).ToList() ?? new List<string>();
             e.Handled = true;
+
+            // The filesystem walk (deep folders, network shares) runs off the UI thread. Only the
+            // AssetRepository mutating calls, which touch bound ObservableCollections, go back through
+            // the dispatcher.
+            var filePaths = await Task.Run(() =>
+            {
+                var result = new List<string>();
+                foreach (var path in paths)
+                {
+                    if (File.Exists(path))
+                        result.Add(path);
+                    else if (Directory.Exists(path))
+                        result.AddRange(assetManager.EnumerateAssetFilePaths(new DirectoryInfo(path)));
+                }
+                return result;
+            });
+
+            await Dispatcher.UIThread.InvokeAsync(() =>
+            {
+                foreach (var filePath in filePaths)
+                    assetManager.CreateAssetFromPath(filePath);
+            });
         }
     }
 }
