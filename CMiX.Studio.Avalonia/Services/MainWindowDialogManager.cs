@@ -14,8 +14,8 @@ namespace CMiX.Studio.Avalonia.Services
     // with Cannot find View for viewModel.
     public class MainWindowDialogManager : DialogManager
     {
-        public MainWindowDialogManager(IViewLocator viewLocator)
-            : base(viewLocator: viewLocator)
+        public MainWindowDialogManager(IViewLocator viewLocator, IDialogFactory dialogFactory)
+            : base(viewLocator: viewLocator, dialogFactory: dialogFactory)
         {
         }
 

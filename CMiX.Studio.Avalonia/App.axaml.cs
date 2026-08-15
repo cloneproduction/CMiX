@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<MainWindowController>();
                 serviceCollection.AddSingleton<MainMenu>();
                 serviceCollection.AddSingleton<IDialogService>(provider => new DialogService(
-                    new MainWindowDialogManager(new DialogViewLocator()),
+                    new MainWindowDialogManager(new DialogViewLocator(), new DialogFactory().AddMessageBox()),
                     viewModelFactory: type => provider.GetService(type)));
                 serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
                     _ => (collection, onMove) => new ManagerReorderService(collection, onMove));
