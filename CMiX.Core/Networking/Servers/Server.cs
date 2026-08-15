@@ -37,7 +37,7 @@ namespace CMiX.Core.Networking.Servers
             PauseCommand = new RelayCommand(Pause);
             RestartCommand = new RelayCommand(Restart);
             StopCommand = new RelayCommand(Stop);
-            ApplySettingsCommand = new RelayCommand(Apply);
+            ApplySettingsCommand = new AsyncRelayCommand(ApplyAsync);
             IsActive = true;
         }
 
@@ -224,6 +224,12 @@ namespace CMiX.Core.Networking.Servers
                 ErrorMessage = "Settings applied successfully!";
         }
 
+        private async Task ApplyAsync()
+        {
+            if (ValidateIPv4(IP.Value) && await ValidatePortAsync(IP.Value, Port.Value))
+                ErrorMessage = "Settings applied successfully!";
+        }
+
         public bool ValidatePort(string host, int port)
         {
             if (port == 0)
@@ -248,6 +254,67 @@ namespace CMiX.Core.Networking.Servers
                     ErrorMessage = string.Empty;
                     return true;
                 }
+                ErrorMessage = ex.Message;
+                return false;
+            }
+        }
+
+        private async Task<bool> ValidatePortAsync(string host, int port)
+        {
+            if (port == 0)
+            {
+                ErrorMessage = "Port cannot be 0";
+                return false;
+            }
+
+            IPAddress ipa;
+            if (!IPAddress.TryParse(host, out ipa))
+            {
+                try
+                {
+                    var addresses = await Dns.GetHostAddressesAsync(host);
+                    if (addresses.Length == 0)
+                    {
+                        ErrorMessage = "IP Address is not valid";
+                        return false;
+                    }
+                    ipa = addresses[0];
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = ex.Message;
+                    return false;
+                }
+            }
+
+            try
+            {
+                using (var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
+                {
+                    await sock.ConnectAsync(ipa, port, cts.Token);
+                }
+
+                ErrorMessage = "Port already in use";
+                return false;
+            }
+            catch (SocketException ex)
+            {
+                if (ex.SocketErrorCode == SocketError.ConnectionRefused)
+                {
+                    ErrorMessage = string.Empty;
+                    return true;
+                }
+                ErrorMessage = ex.Message;
+                return false;
+            }
+            catch (OperationCanceledException)
+            {
+                ErrorMessage = "Connection timed out";
+                return false;
+            }
+            catch (Exception ex)
+            {
                 ErrorMessage = ex.Message;
                 return false;
             }

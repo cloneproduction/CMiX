@@ -26,7 +26,7 @@ namespace CMiX.Core.Networking.Servers
             IP = "127.0.0.1";
             Port = 8080;
 
-            AddServerCommand = new RelayCommand<ICloseable>(AddServer);
+            AddServerCommand = new AsyncRelayCommand<ICloseable>(AddServerAsync);
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
             ResyncProjectCommand = new RelayCommand<IControl>(ResyncProject);
@@ -73,9 +73,9 @@ namespace CMiX.Core.Networking.Servers
 
         private void ResyncProject(IControl control) { }
 
-        private void AddServer(ICloseable window)
+        private async Task AddServerAsync(ICloseable window)
         {
-            if (ValidateIPv4(IP) && ValidatePort(IP, Port))
+            if (ValidateIPv4(IP) && await ValidatePortAsync(IP, Port))
             {
                 var server = (Server)ControlFactory.Create(typeof(Server));
                 server.IP.Value = IP;
@@ -167,6 +167,61 @@ namespace CMiX.Core.Networking.Servers
                 return false;
 
             return false;
+        }
+
+        private async Task<bool> ValidatePortAsync(string host, int port)
+        {
+            IPAddress ipa;
+            if (!IPAddress.TryParse(host, out ipa))
+            {
+                try
+                {
+                    var addresses = await Dns.GetHostAddressesAsync(host);
+                    if (addresses.Length == 0)
+                    {
+                        ErrorMessage = "IP Address is not valid";
+                        return false;
+                    }
+                    ipa = addresses[0];
+                }
+                catch (Exception ex)
+                {
+                    ErrorMessage = ex.Message;
+                    return false;
+                }
+            }
+
+            try
+            {
+                using (var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp))
+                using (var cts = new CancellationTokenSource(TimeSpan.FromSeconds(1)))
+                {
+                    await sock.ConnectAsync(ipa, port, cts.Token);
+                }
+
+                ErrorMessage = "Port already in use";
+                return false;
+            }
+            catch (SocketException ex)
+            {
+                if (ex.SocketErrorCode == SocketError.ConnectionRefused)
+                {
+                    ErrorMessage = string.Empty;
+                    return true;
+                }
+                ErrorMessage = ex.Message;
+                return false;
+            }
+            catch (OperationCanceledException)
+            {
+                ErrorMessage = "Connection timed out";
+                return false;
+            }
+            catch (Exception ex)
+            {
+                ErrorMessage = ex.Message;
+                return false;
+            }
         }
 
         public bool ValidateIPv4(string ipString)
