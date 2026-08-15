@@ -47,7 +47,12 @@
                     </DockPanel>
                 </Expander.Header>
 
-                <Border Margin="8">
+                <!--
+                    Padding instead of the WPF Margin: the filter panel compensates this inset
+                    with negative margins on its blend bar, and with Padding that overdraw stays
+                    inside the border bounds so Avalonia cannot clip it away.
+                -->
+                <Border Padding="8">
                     <ContentPresenter Content="{TemplateBinding Content}" />
                 </Border>
 
