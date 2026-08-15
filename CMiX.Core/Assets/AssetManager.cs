@@ -105,9 +105,6 @@ namespace CMiX.Core.Assets
                 AssetRepository.Add(asset);
         }
 
-        public void RemoveAssets(List<IAsset> assetsToRemove, List<IAsset> assets) =>
-            assets.RemoveAll(item => assetsToRemove.Contains(item));
-
         public IControlModel ToModel() => new AssetManagerModel { ID = ID };
         public void FromModel(IControlModel model) => ID = ((AssetManagerModel)model).ID;
     }

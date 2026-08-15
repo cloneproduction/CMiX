@@ -131,7 +131,7 @@ namespace CMiX.Core.Prefabs
             if (!_referencers.ContainsKey(control.ID))
                 _referencers[control.ID] = new HashSet<Guid>();
 
-            var added = _referencers[control.ID].Add(referencerId);
+            _referencers[control.ID].Add(referencerId);
 
             if (!_controlsById.ContainsKey(control.ID))
             {

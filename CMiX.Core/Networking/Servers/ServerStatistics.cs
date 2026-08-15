@@ -22,13 +22,6 @@ namespace CMiX.Core.Networking.Servers
             set => SetProperty(ref _sentMessages, value);
         }
 
-        private long _sentBytes;
-        public long SentBytes
-        {
-            get => _sentBytes;
-            set => SetProperty(ref _sentBytes, value);
-        }
-
         private DateTime _startTime;
         public DateTime StartTime
         {

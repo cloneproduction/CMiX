@@ -15,26 +15,23 @@ using Avalonia.Threading;
 using CMiX.Core;
 using CMiX.Core.Animations;
 using CMiX.Core.Compositing;
-using CMiX.Core.Networking.Messages;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using CommunityToolkit.Mvvm.Messaging;
 using HanumanInstitute.MvvmDialogs;
 using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Studio.Avalonia.ViewModels
 {
-    public partial class MainMenu : ObservableRecipient, IControl, IRecipient<IMessage>
+    public partial class MainMenu : ObservableRecipient, IControl
     {
         public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager, IDialogService dialogService)
         {
             _dialogService = dialogService;
             Project = project;
-            IsActive = true;
             _undoManager = undoManager;
 
             NewProjectCommand = new RelayCommand(NewProject);
@@ -300,11 +297,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
             var projectModel = ProjectModelBuilder.Build(selectedComposition, Project.MasterBeat);
             await Task.Run(() => ProjectSerializer.Save(projectModel, path));
-        }
-
-        public void Receive(IMessage message)
-        {
-            //MainMenuMessenger.Receive(this, message);
         }
 
         public IControlModel ToModel() => throw new NotImplementedException();

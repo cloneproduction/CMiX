@@ -33,14 +33,12 @@ namespace CMiX.Core.Networking.Servers
             AddServerCommand = new AsyncRelayCommand<ICloseable>(AddServerAsync);
             AddItemCommand = new RelayCommand<Type>(AddItem);
             DeleteItemCommand = new RelayCommand<IControl>(DeleteItem);
-            ResyncProjectCommand = new RelayCommand<IControl>(ResyncProject);
         }
 
         public Guid ID { get; set; }
         public ICommand AddServerCommand { get; set; }
         public ICommand AddItemCommand { get; set; }
         public ICommand DeleteItemCommand { get; set; }
-        public ICommand ResyncProjectCommand { get; set; }
 
         public ControlMessenger ControlMessenger { get; set; }
         public ControlFactory ControlFactory { get; set; }
@@ -74,8 +72,6 @@ namespace CMiX.Core.Networking.Servers
             get => _errorMessage;
             set => SetProperty(ref _errorMessage, value);
         }
-
-        private void ResyncProject(IControl control) { }
 
         private async Task AddServerAsync(ICloseable window)
         {
@@ -149,36 +145,6 @@ namespace CMiX.Core.Networking.Servers
                 ManagerData.SelectedIndex = index - 1;
                 return;
             }
-        }
-
-        public bool ValidatePort(string host, int port)
-        {
-            var ipa = Dns.GetHostAddresses(host)[0];
-            try
-            {
-                var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sock.Connect(ipa, port);
-                if (sock.Connected == true)
-                {
-                    ErrorMessage = "Port already in use";
-                    return false;
-                }
-                sock.Close();
-            }
-            catch (SocketException ex)
-            {
-                if (ex.ErrorCode == 10061)
-                {
-                    ErrorMessage = string.Empty;
-                    return true;
-                }
-                else
-                    ErrorMessage = ex.Message;
-            }
-            if (port == 0)
-                return false;
-
-            return false;
         }
 
         private async Task<bool> ValidatePortAsync(string host, int port)

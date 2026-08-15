@@ -34,7 +34,6 @@ namespace CMiX.Core.Networking.Servers
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
             StartCommand = new RelayCommand(Start);
-            PauseCommand = new RelayCommand(Pause);
             RestartCommand = new RelayCommand(Restart);
             StopCommand = new RelayCommand(Stop);
             ApplySettingsCommand = new AsyncRelayCommand(ApplyAsync);
@@ -51,7 +50,6 @@ namespace CMiX.Core.Networking.Servers
         public ICommand StartCommand { get; }
         public ICommand RestartCommand { get; }
         public ICommand ApplySettingsCommand { get; }
-        public ICommand PauseCommand { get; }
         public ICommand StopCommand { get; }
 
         private Guid _clientID;
@@ -288,47 +286,10 @@ namespace CMiX.Core.Networking.Servers
         // the generic delete path is released the same way ServerManager releases it.
         public void Dispose() => Stop();
 
-        public void Pause() { }
-
-        public void Apply()
-        {
-            if (ValidateIPv4(IP.Value) && ValidatePort(IP.Value, Port.Value))
-                ErrorMessage = "Settings applied successfully!";
-        }
-
         private async Task ApplyAsync()
         {
             if (ValidateIPv4(IP.Value) && await ValidatePortAsync(IP.Value, Port.Value))
                 ErrorMessage = "Settings applied successfully!";
-        }
-
-        public bool ValidatePort(string host, int port)
-        {
-            if (port == 0)
-            {
-                ErrorMessage = "Port cannot be 0";
-                return false;
-            }
-
-            try
-            {
-                var ipa = Dns.GetHostAddresses(host)[0];
-                var sock = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
-                sock.Connect(ipa, port);
-                sock.Close();
-                ErrorMessage = "Port already in use";
-                return false;
-            }
-            catch (SocketException ex)
-            {
-                if (ex.ErrorCode == 10061)
-                {
-                    ErrorMessage = string.Empty;
-                    return true;
-                }
-                ErrorMessage = ex.Message;
-                return false;
-            }
         }
 
         private async Task<bool> ValidatePortAsync(string host, int port)

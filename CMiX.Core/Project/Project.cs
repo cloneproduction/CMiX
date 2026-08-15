@@ -5,7 +5,6 @@ using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
-using CMiX.Core.Assets;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -13,15 +12,14 @@ namespace CMiX.Core.Compositing
 {
     public class Project : ObservableObject, IPrefab
     {
-        public Project(PrefabManager compositionManager, 
-                       PrefabService prefabService, 
+        public Project(PrefabManager compositionManager,
+                       PrefabService prefabService,
                        UndoManager undoManager,
                        MasterBeat masterBeat)
         {
             compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
             compositionManager.UndoManager = undoManager;  // ← set here
             ID = ManagerIDs.CompositionManager;
-            Assets = new SortableObservableCollection<IAsset>();
             CompositionManager = compositionManager;
             PrefabService = prefabService;
             MasterBeat = masterBeat;
@@ -30,7 +28,6 @@ namespace CMiX.Core.Compositing
         }
 
         public Guid ID { get; set; }
-        public SortableObservableCollection<IAsset> Assets { get; set; }
         public PrefabManager CompositionManager { get; set; }
         public PrefabService PrefabService { get; set; }
         public MasterBeat MasterBeat { get; set; }
