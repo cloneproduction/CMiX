@@ -17,7 +17,7 @@ using WatsonTcp;
 
 namespace CMiX.Core.Networking.Servers
 {
-    public partial class Server : ObservableRecipient, IPrefab, IMessageSender
+    public partial class Server : ObservableRecipient, IPrefab, IMessageSender, IDisposable
     {
         public Server(PrefabService prefabService,
                       GenericValue<string> ip,
@@ -215,6 +215,10 @@ namespace CMiX.Core.Networking.Servers
             WatsonTcpServer = null;
             ServerIsRunning = false;
         }
+
+        // Stopping is the whole teardown, so a server that ever ends up in a collection managed by
+        // the generic delete path is released the same way ServerManager releases it.
+        public void Dispose() => Stop();
 
         public void Pause() { }
 

@@ -23,6 +23,10 @@ namespace CMiX.Core.Networking.Servers
             ManagerData = managerData;
             ControlRepository = controlRepository;
 
+            // Its own referencer id, so the servers this manager adds can be dropped again from the
+            // repository. An unassigned id would file every server under Guid.Empty instead.
+            ID = Guid.NewGuid();
+
             IP = "127.0.0.1";
             Port = 8080;
 
@@ -116,6 +120,14 @@ namespace CMiX.Core.Networking.Servers
                 return;
 
             ManagerData.Items.RemoveAt(index);
+
+            // Stopping releases the bound port and unhooks the Watson callbacks. Dropping the
+            // repository reference is what takes the server out of ControlRepository.Servers, which
+            // is where the transport setup unregisters it from the messenger, so a deleted server
+            // neither listens nor receives any further outgoing message.
+            if (control is Server server)
+                server.Stop();
+            ControlRepository.RemoveControl(control, ID);
 
             if (ManagerData.Items.Count == 0)
             {
