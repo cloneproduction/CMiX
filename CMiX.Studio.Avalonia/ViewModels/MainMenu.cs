@@ -88,8 +88,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public void AddLayer()
         {
             // Mirrors the layer manager view's AddItemCommand, CommandParameter typeof(Layer) button.
-            var layerManager = (Project.CompositionManager.SelectedItem as Composition)?.LayerManager;
-            layerManager?.AddItemCommand.Execute(typeof(Layer));
+            // Posted for the same reason as AddComposition, so the popup teardown finishes before
+            // the bound layer name is touched.
+            Dispatcher.UIThread.Post(() =>
+            {
+                var layerManager = (Project.CompositionManager.SelectedItem as Composition)?.LayerManager;
+                layerManager?.AddItemCommand.Execute(typeof(Layer));
+            });
         }
 
         public void AddComposition()
@@ -105,34 +110,54 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private void DeleteComposition()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-            Project.CompositionManager.DeleteItem(composition);
+            // Posted for the same reason as AddComposition, so the popup teardown finishes before
+            // the bound composition list is touched.
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+                Project.CompositionManager.DeleteItem(composition);
+            });
         }
 
         private void DuplicateComposition()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-            var model = (CompositionModel)composition.ToModel();
-            var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
-            var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
-            Project.CompositionManager.AddItem(cloned);
+            // Posted for the same reason as AddComposition, so the popup teardown finishes before
+            // the bound composition list is touched.
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+                var model = (CompositionModel)composition.ToModel();
+                var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
+                var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+                Project.CompositionManager.AddItem(cloned);
+            });
         }
 
         private void DeleteLayer()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-            if (composition.LayerManager.SelectedItem is not Layer layer) return;
-            composition.LayerManager.DeleteItem(layer);
+            // Posted for the same reason as AddComposition, so the popup teardown finishes before
+            // the bound layer list is touched.
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+                if (composition.LayerManager.SelectedItem is not Layer layer) return;
+                composition.LayerManager.DeleteItem(layer);
+            });
         }
 
         private void DuplicateLayer()
         {
-            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
-            if (composition.LayerManager.SelectedItem is not Layer layer) return;
-            var model = (LayerModel)layer.ToModel();
-            var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
-            var cloned = JsonSerializer.Deserialize<LayerModel>(json, ProjectSerializer.Options);
-            composition.LayerManager.AddItem(cloned);
+            // Posted for the same reason as AddComposition, so the popup teardown finishes before
+            // the bound layer list is touched.
+            Dispatcher.UIThread.Post(() =>
+            {
+                if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+                if (composition.LayerManager.SelectedItem is not Layer layer) return;
+                var model = (LayerModel)layer.ToModel();
+                var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
+                var cloned = JsonSerializer.Deserialize<LayerModel>(json, ProjectSerializer.Options);
+                composition.LayerManager.AddItem(cloned);
+            });
         }
 
         private void NewProject()
