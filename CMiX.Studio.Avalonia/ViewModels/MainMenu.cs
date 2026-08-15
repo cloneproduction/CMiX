@@ -19,18 +19,19 @@ using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Undo;
-using Avalonia.Controls;
-using Avalonia.Platform.Storage;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Studio.Avalonia.ViewModels
 {
     public partial class MainMenu : ObservableRecipient, IControl, IRecipient<IMessage>
     {
-        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager)
+        public MainMenu(Project project, ControlFactory controlFactory, UndoManager undoManager, IDialogService dialogService)
         {
+            _dialogService = dialogService;
             Project = project;
             IsActive = true;
             _undoManager = undoManager;
@@ -49,6 +50,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         }
 
         private readonly UndoManager _undoManager;
+        private readonly IDialogService _dialogService;
 
         [ObservableProperty]
         private string _folderPath;
@@ -73,16 +75,6 @@ namespace CMiX.Studio.Avalonia.ViewModels
                 desktop.MainWindow?.Close();
         }
 
-        private static Window GetMainWindow() =>
-            Application.Current?.ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop
-                ? desktop.MainWindow
-                : null;
-
-        private static readonly FilePickerFileType CmixFileType = new("CMiX Project")
-        {
-            Patterns = new[] { "*.cmix" }
-        };
-
         public void AddLayer()
         {
             //WeakReferenceMessenger.Default.Send<IMessage, int>(new MessageAddLayer(), MessageType.Internal);
@@ -100,21 +92,14 @@ namespace CMiX.Studio.Avalonia.ViewModels
             FolderPath = null;
         }
 
-        // The MvvmDialogs owner lookup requires a window whose DataContext is this view
-        // model and throws otherwise, so the file dialogs use the storage provider of
-        // the main window directly.
         private async Task OpenProject()
         {
-            var mainWindow = GetMainWindow();
-            if (mainWindow == null) return;
-
-            var files = await mainWindow.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
+            var file = await _dialogService.ShowOpenFileDialogAsync(this, new OpenFileDialogSettings
             {
-                AllowMultiple = false,
-                FileTypeFilter = new[] { CmixFileType }
+                Filters = new List<FileFilter> { new FileFilter("CMiX Project", "cmix") }
             });
 
-            var path = files.FirstOrDefault()?.TryGetLocalPath();
+            var path = file?.LocalPath;
             if (string.IsNullOrWhiteSpace(path)) return;
 
             var projectModel = ProjectSerializer.Load(path);
@@ -155,16 +140,13 @@ namespace CMiX.Studio.Avalonia.ViewModels
 
         private async Task SaveAsProject()
         {
-            var mainWindow = GetMainWindow();
-            if (mainWindow == null) return;
-
-            var file = await mainWindow.StorageProvider.SaveFilePickerAsync(new FilePickerSaveOptions
+            var file = await _dialogService.ShowSaveFileDialogAsync(this, new SaveFileDialogSettings
             {
-                DefaultExtension = "cmix",
-                FileTypeChoices = new[] { CmixFileType }
+                Filters = new List<FileFilter> { new FileFilter("CMiX Project", "cmix") },
+                DefaultExtension = "cmix"
             });
 
-            var path = file?.TryGetLocalPath();
+            var path = file?.LocalPath;
             if (string.IsNullOrWhiteSpace(path)) return;
 
             FolderPath = path;
