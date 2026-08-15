@@ -23,6 +23,10 @@ namespace CMiX.Studio.Avalonia
     {
         private MasterBeatAnimationController _animationController;
 
+        // Set once at startup so XAML instantiated views without constructor
+        // injection, such as ServerCreation, can reach the shared dialog service.
+        public static IDialogService DialogService { get; private set; }
+
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
@@ -46,12 +50,13 @@ namespace CMiX.Studio.Avalonia
                 serviceCollection.AddSingleton<MainWindowController>();
                 serviceCollection.AddSingleton<MainMenu>();
                 serviceCollection.AddSingleton<IDialogService>(provider => new DialogService(
-                    new DialogManager(viewLocator: new DialogViewLocator()),
+                    new MainWindowDialogManager(new DialogViewLocator()),
                     viewModelFactory: type => provider.GetService(type)));
                 serviceCollection.AddSingleton<ManagerReorderServiceFactory>(
                     _ => (collection, onMove) => new ManagerReorderService(collection, onMove));
 
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
+                DialogService = serviceProvider.GetRequiredService<IDialogService>();
                 configurationBuilder.ConfigureWpfTransport(serviceProvider,
                     a => Dispatcher.UIThread.Invoke(a));
 
