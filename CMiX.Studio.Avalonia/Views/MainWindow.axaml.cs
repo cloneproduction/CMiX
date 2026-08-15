@@ -5,7 +5,6 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.LogicalTree;
 using CMiX.Core.Undo;
-using CMiX.Studio.Avalonia.ViewModels;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -13,11 +12,12 @@ namespace CMiX.Studio.Avalonia.Views
     {
         private readonly UndoManager _undoManager;
 
-        public MainWindow(UndoManager undoManager, MainViewModel mainViewModel)
+        // The DataContext is assigned by App after construction, matching WPF. With
+        // the context already present during construction every deferred child
+        // binding transiently evaluates against the window context before its local
+        // DataContext applies, which logs far more binding noise than the null case.
+        public MainWindow(UndoManager undoManager)
         {
-            // Assigned before InitializeComponent so bindings that reach for the
-            // window DataContext never evaluate against null during construction.
-            DataContext = mainViewModel;
             InitializeComponent();
             _undoManager = undoManager;
             titleBar.PointerPressed += TitleBar_PointerPressed;
