@@ -31,6 +31,15 @@ namespace CMiX.Studio.Avalonia.Animations
         // Keeps the WPF method name so the controller ports verbatim.
         public void MakeStoryBoard(float[] periods)
         {
+            // A tempo click raises a period change without touching the period table: multiply and
+            // divide only move the index into a table the tap and the BPM entry generate. Rebuilding
+            // on those clicks discarded all fifteen instances, dropped the observer count of every
+            // beat modifier holding one and restarted the stopwatch, which snapped the pulse back to
+            // full. A table that matches what is already built is therefore left standing, so only a
+            // table that really changed pays for a rebuild.
+            if (MatchesCurrentStoryBoard(periods))
+                return;
+
             foreach (var animatedDouble in AnimatedDoubles)
                 animatedDouble.ObservationStarted -= OnObservationStarted;
 
@@ -47,6 +56,22 @@ namespace CMiX.Studio.Avalonia.Animations
             // timer never shifts the phase. Only this restart does, exactly as it did before.
             _stopwatch.Restart();
             StartIfObserved();
+        }
+
+        // A null table keeps the pre existing behavior of falling through to the rebuild, which is
+        // the only place it was ever dereferenced, so no caller sees a new outcome for one.
+        private bool MatchesCurrentStoryBoard(float[] periods)
+        {
+            if (periods == null || periods.Length != AnimatedDoubles.Count)
+                return false;
+
+            for (var i = 0; i < periods.Length; i++)
+            {
+                if (AnimatedDoubles[i].Period != periods[i])
+                    return false;
+            }
+
+            return true;
         }
 
         public void ResetAnimation()

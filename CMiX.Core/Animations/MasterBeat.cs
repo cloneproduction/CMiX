@@ -235,8 +235,23 @@ namespace CMiX.Core.Animations
             Index.FromModel(m.Index);
             BeatIndex.FromModel(m.BeatIndex);
             Period.FromModel(m.Period);
-            Periods = m.Periods.ToArray();
-            ApplyPeriod(Period.Value);
+
+            // The saved table is the one the file was written with, so it is kept and only
+            // announced. ApplyPeriod would regenerate it from the loaded period instead, and since
+            // the period is the table entry at the current index, regenerating only reproduces the
+            // saved table when that index is zero; a project saved on a multiplied or divided beat
+            // came back with the whole table shifted by that many octaves. Files written before the
+            // table was serialized, and any written with a different length, still generate one.
+            if (m.Periods != null && m.Periods.Length == Periods.Length)
+            {
+                Periods = m.Periods.ToArray();
+                OnPropertyChanged(nameof(BPM));
+                OnPropertyChanged(nameof(Periods));
+            }
+            else
+            {
+                ApplyPeriod(Period.Value);
+            }
         }
     }
 }

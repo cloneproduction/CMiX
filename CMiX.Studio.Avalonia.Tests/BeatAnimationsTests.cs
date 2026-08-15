@@ -1,7 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using Avalonia.Headless.XUnit;
+using CMiX.Core.Animations;
 using CMiX.Studio.Avalonia.Animations;
+using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
 namespace CMiX.Studio.Avalonia.Tests
@@ -52,6 +55,83 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.True(animations.IsRunning);
             Assert.True(animations.AnimatedDoubles[0].IsObserved);
+        }
+
+        // Multiply and divide only move the index into the period table, so the table they announce
+        // is the one already built. Rebuilding it anyway replaced all fifteen instances, which took
+        // every observer with it and restarted the stopwatch the positions are a closed form of.
+        [AvaloniaFact]
+        public void MakeStoryBoard_OnAnUnchangedPeriodTable_KeepsTheInstancesAndTheirObservers()
+        {
+            var animations = new BeatAnimations();
+            animations.MakeStoryBoard(new[] { 500f, 1000f, 2000f });
+
+            var built = animations.AnimatedDoubles.ToList();
+            EventHandler handler = (s, e) => { };
+            animations.AnimatedDoubles[1].PositionChanged += handler;
+
+            animations.MakeStoryBoard(new[] { 500f, 1000f, 2000f });
+
+            Assert.Equal(built.Count, animations.AnimatedDoubles.Count);
+            for (var i = 0; i < built.Count; i++)
+                Assert.Same(built[i], animations.AnimatedDoubles[i]);
+
+            Assert.True(animations.AnimatedDoubles[1].IsObserved);
+            Assert.True(animations.IsRunning);
+        }
+
+        // A table that really changed, which is what a tap and a BPM entry produce, still rebuilds.
+        [AvaloniaFact]
+        public void MakeStoryBoard_OnAChangedPeriodTable_StillRebuilds()
+        {
+            var animations = new BeatAnimations();
+            animations.MakeStoryBoard(new[] { 500f, 1000f, 2000f });
+
+            var built = animations.AnimatedDoubles.ToList();
+
+            animations.MakeStoryBoard(new[] { 250f, 500f, 1000f });
+
+            Assert.Equal(3, animations.AnimatedDoubles.Count);
+            for (var i = 0; i < built.Count; i++)
+                Assert.NotSame(built[i], animations.AnimatedDoubles[i]);
+            Assert.Equal(250d, animations.AnimatedDoubles[0].Period);
+        }
+
+        // The whole point of the guard, seen from the beat modifier that a rebuild used to strand:
+        // a multiply followed by a divide is back where it started, so the modifier has to be
+        // stepping the very instance it began on rather than the same slot of a rebuilt storyboard.
+        [AvaloniaFact]
+        public void BeatModifier_KeepsSteppingTheSameStoryboard_AcrossTempoClicks()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var masterBeat = provider.GetRequiredService<MasterBeat>();
+
+            // Built before the modifier is resolved, exactly as App does at startup, so the
+            // modifier has a provider to resolve its animated double from.
+            _ = new MasterBeatAnimationController(masterBeat);
+            var modifier = provider.GetRequiredService<BeatModifier>();
+
+            var stepped = modifier.AnimatedDouble;
+            Assert.NotNull(stepped);
+
+            masterBeat.Multiply();
+            masterBeat.Divide();
+
+            Assert.Same(stepped, modifier.AnimatedDouble);
+            Assert.True(((AnimatedDouble)modifier.AnimatedDouble).IsObserved);
+
+            var before = modifier.BeatSteps.CurrentStepIndex;
+            Pulse((AnimatedDouble)modifier.AnimatedDouble);
+
+            Assert.Equal(before + 1, modifier.BeatSteps.CurrentStepIndex);
+        }
+
+        // One beat seen by a modifier: the position falls below the halfway mark and rises back
+        // through it, which is where BeatModifier advances its step.
+        private static void Pulse(AnimatedDouble animatedDouble)
+        {
+            animatedDouble.AnimationPosition = 0.2;
+            animatedDouble.AnimationPosition = 0.8;
         }
     }
 }

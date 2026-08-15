@@ -15,16 +15,21 @@ namespace CMiX.Studio.Avalonia.Animations
             _masterBeat = masterBeat;
             _beatAnimations = new BeatAnimations();
 
+            // Only the period notification is listened for. The second clause used to also test for
+            // BeatIndex, which the master beat never raises for itself: its BeatIndex is a
+            // GenericValue that raises on its own instance. Nothing is lost by dropping it, since
+            // every path that moves the index raises the period change on the way through.
             _masterBeat.PropertyChanged += (s, e) =>
             {
-                if (e.PropertyName == nameof(MasterBeat.Periods))
-                {
-                    _beatAnimations.MakeStoryBoard(_masterBeat.Periods);
-                }
+                if (e.PropertyName != nameof(MasterBeat.Periods))
+                    return;
 
-                if (e.PropertyName == nameof(MasterBeat.Periods) ||
-                    e.PropertyName == nameof(MasterBeat.BeatIndex))
-                    UpdateAnimatedDouble();
+                // Raised by a tap, a BPM entry and a load, which change the period table, and by a
+                // multiply or a divide, which only move the index into it. MakeStoryBoard leaves a
+                // matching table standing, so a tempo click ends up only repointing this controller
+                // at another slot of the storyboard it already has.
+                _beatAnimations.MakeStoryBoard(_masterBeat.Periods);
+                UpdateAnimatedDouble();
             };
 
             _beatAnimations.MakeStoryBoard(_masterBeat.Periods);
