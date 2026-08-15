@@ -43,6 +43,10 @@ namespace CMiX.Studio.Avalonia.ViewModels
             SaveAsProjectCommand = new AsyncRelayCommand(SaveAsProject);
             AddCompositionCommand = new RelayCommand(AddComposition);
             AddLayerCommand = new RelayCommand(AddLayer);
+            DeleteCompositionCommand = new RelayCommand(DeleteComposition);
+            DuplicateCompositionCommand = new RelayCommand(DuplicateComposition);
+            DeleteLayerCommand = new RelayCommand(DeleteLayer);
+            DuplicateLayerCommand = new RelayCommand(DuplicateLayer);
             UndoCommand = new RelayCommand(() => undoManager.Undo());
             RedoCommand = new RelayCommand(() => undoManager.Redo());
             CloseWindowCommand = new RelayCommand(CloseMainWindow);
@@ -66,6 +70,10 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public ICommand OpenProjectCommand { get; }
         public ICommand AddCompositionCommand { get; }
         public ICommand AddLayerCommand { get; }
+        public ICommand DeleteCompositionCommand { get; }
+        public ICommand DuplicateCompositionCommand { get; }
+        public ICommand DeleteLayerCommand { get; }
+        public ICommand DuplicateLayerCommand { get; }
         public ICommand UndoCommand { get; }
         public ICommand RedoCommand { get; }
         public ICommand CloseWindowCommand { get; }
@@ -87,6 +95,38 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             // Mirrors the Composition tab's New Composition button, CommandParameter typeof(Composition).
             Project.CompositionManager.AddItemCommand.Execute(typeof(Composition));
+        }
+
+        private void DeleteComposition()
+        {
+            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+            Project.CompositionManager.DeleteItem(composition);
+        }
+
+        private void DuplicateComposition()
+        {
+            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+            var model = (CompositionModel)composition.ToModel();
+            var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
+            var cloned = JsonSerializer.Deserialize<CompositionModel>(json, ProjectSerializer.Options);
+            Project.CompositionManager.AddItem(cloned);
+        }
+
+        private void DeleteLayer()
+        {
+            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+            if (composition.LayerManager.SelectedItem is not Layer layer) return;
+            composition.LayerManager.DeleteItem(layer);
+        }
+
+        private void DuplicateLayer()
+        {
+            if (Project.CompositionManager.SelectedItem is not Composition composition) return;
+            if (composition.LayerManager.SelectedItem is not Layer layer) return;
+            var model = (LayerModel)layer.ToModel();
+            var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
+            var cloned = JsonSerializer.Deserialize<LayerModel>(json, ProjectSerializer.Options);
+            composition.LayerManager.AddItem(cloned);
         }
 
         private void NewProject()

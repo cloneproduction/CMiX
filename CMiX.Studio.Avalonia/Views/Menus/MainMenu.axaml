@@ -72,8 +72,12 @@
                     Command="{Binding AddCompositionCommand}"
                     Header="New Composition" />
 
-                <MenuItem Header="Delete" />
-                <MenuItem Header="Duplicate" />
+                <MenuItem
+                    Command="{Binding DeleteCompositionCommand}"
+                    Header="Delete" />
+                <MenuItem
+                    Command="{Binding DuplicateCompositionCommand}"
+                    Header="Duplicate" />
                 <!-- The WPF Separator element becomes the separator MenuItem the menu item theme styles. -->
                 <MenuItem Header="-" />
                 <MenuItem Header="Import" />
@@ -88,8 +92,12 @@
                 <MenuItem
                     Command="{Binding AddLayerCommand}"
                     Header="New Layer" />
-                <MenuItem Header="Delete" />
-                <MenuItem Header="Duplicate" />
+                <MenuItem
+                    Command="{Binding DeleteLayerCommand}"
+                    Header="Delete" />
+                <MenuItem
+                    Command="{Binding DuplicateLayerCommand}"
+                    Header="Duplicate" />
             </MenuItem>
 
         </Menu>
