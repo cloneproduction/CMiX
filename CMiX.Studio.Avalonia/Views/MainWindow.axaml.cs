@@ -66,6 +66,11 @@ namespace CMiX.Studio.Avalonia.Views
                 _undoManager.Redo();
                 e.Handled = true;
             }
+            else if (e.Key == Key.Y && e.KeyModifiers == KeyModifiers.Control)
+            {
+                _undoManager.Redo();
+                e.Handled = true;
+            }
         }
     }
 }
