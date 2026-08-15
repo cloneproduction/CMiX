@@ -186,14 +186,37 @@ namespace CMiX.Core.Networking.Servers
             });
         }
 
+        private bool _starting;
+
+        // The guard covers two paths into Start. The direct property set on ServerIsRunning
+        // reenters here through OnServerIsRunningChanged while WatsonTcpServer is still being
+        // constructed, and a caller invoking Start while a server is already bound must not
+        // construct and bind a second one.
         public void Start()
         {
-            WatsonTcpServer = new WatsonTcpServer(IP.Value, Port.Value);
-            WatsonTcpServer.Events.ClientConnected += ClientConnected;
-            WatsonTcpServer.Events.ClientDisconnected += ClientDisconnected;
-            WatsonTcpServer.Events.MessageReceived += MessageReceived;
-            WatsonTcpServer.Start();
-            ServerIsRunning = true;
+            if (_starting || WatsonTcpServer != null) return;
+
+            _starting = true;
+            try
+            {
+                var server = new WatsonTcpServer(IP.Value, Port.Value);
+                server.Events.ClientConnected += ClientConnected;
+                server.Events.ClientDisconnected += ClientDisconnected;
+                server.Events.MessageReceived += MessageReceived;
+                server.Start();
+                WatsonTcpServer = server;
+                ServerIsRunning = true;
+            }
+            catch (Exception ex)
+            {
+                WatsonTcpServer = null;
+                ErrorMessage = ex.Message;
+                ServerIsRunning = false;
+            }
+            finally
+            {
+                _starting = false;
+            }
         }
 
         public void Restart()
