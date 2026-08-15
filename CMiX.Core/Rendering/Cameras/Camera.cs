@@ -52,7 +52,7 @@ namespace CMiX.Core.Rendering.Cameras
 
         public void Dispose()
         {
-            ModifierManager.ClearAll();
+            ModifierManager.Dispose();
         }
     }
 }

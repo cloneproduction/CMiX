@@ -44,7 +44,7 @@ namespace CMiX.Core.Text.Modifiers
         }
         public void Dispose()
         {
-            BeatModifierManager.ClearAll();
+            BeatModifierManager.Dispose();
         }
     }
 }

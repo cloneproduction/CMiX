@@ -109,11 +109,11 @@ namespace CMiX.Core.Compositing
 
         public void Dispose()
         {
-            ModelEntityManager.ClearAll();
-            CameraManager.ClearAll();
-            LightManager.ClearAll();
-            TextureModifierManager.ClearAll();
-            ModifierManager.ClearAll();
+            ModelEntityManager.Dispose();
+            CameraManager.Dispose();
+            LightManager.Dispose();
+            TextureModifierManager.Dispose();
+            ModifierManager.Dispose();
         }
     }
 }

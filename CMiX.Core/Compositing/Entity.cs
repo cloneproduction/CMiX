@@ -77,7 +77,9 @@ namespace CMiX.Core.Compositing
 
         public void Dispose()
         {
-            ModifierManager.ClearAll();
+            ModifierManager.Dispose();
+            // The mesh owns two texture managers of its own, and nothing else reaches its teardown.
+            Mesh.Dispose();
             MaterialSelector.SelectedItem = null;
         }
     }

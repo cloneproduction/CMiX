@@ -77,7 +77,7 @@ namespace CMiX.Core.Texturing.Filters
         }
         public void Dispose()
         {
-            BeatModifierManager.ClearAll();
+            BeatModifierManager.Dispose();
         }
     }
 }

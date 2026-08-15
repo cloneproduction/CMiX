@@ -65,9 +65,9 @@ namespace CMiX.Core.Compositing
 
         public void Dispose()
         {
-            LayerManager.ClearAll();
-            TextureModifierManager.ClearAll();
-            ModifierManager.ClearAll();
+            LayerManager.Dispose();
+            TextureModifierManager.Dispose();
+            ModifierManager.Dispose();
         }
     }
 }

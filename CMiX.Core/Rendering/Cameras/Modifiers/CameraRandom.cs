@@ -59,7 +59,7 @@ namespace CMiX.Core.Rendering.Cameras.Modifiers
         }
         public void Dispose()
         {
-            BeatModifierManager.ClearAll();
+            BeatModifierManager.Dispose();
         }
     }
 }

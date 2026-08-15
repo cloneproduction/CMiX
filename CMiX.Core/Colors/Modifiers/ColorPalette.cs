@@ -56,8 +56,8 @@ namespace CMiX.Core.Colors.Modifiers
         }
         public void Dispose()
         {
-            ColorManager.ClearAll();
-            ModifierManager.ClearAll();
+            ColorManager.Dispose();
+            ModifierManager.Dispose();
         }
     }
 }

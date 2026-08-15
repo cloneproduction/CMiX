@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Prefabs.Managers
 {
-    public partial class PrefabManager : PrefabManagerBase
+    public partial class PrefabManager : PrefabManagerBase, IDisposable
     {
         public PrefabManager(CollectionManager collection,
                              ControlMessenger controlMessenger,
@@ -65,6 +65,11 @@ namespace CMiX.Core.Prefabs.Managers
         // makes the setter a no op while it is already running so no binding topology can recurse
         // it to a stack overflow; try/finally ensures the flag always resets even if a step throws.
         private bool _isApplyingSelection = false;
+
+        // The id the deleter is currently registered under. ManagerData.ID is reassigned after
+        // construction, so the registration key cannot be read back from it at unregister time.
+        private Guid _registeredDeleterId;
+        private bool _hasRegisteredDeleter;
 
         public ManagerData ManagerData => Collection.ManagerData;
 
@@ -180,10 +185,30 @@ namespace CMiX.Core.Prefabs.Managers
 
         // Registers this manager's DeleteItem as the deleter for its current ManagerData.ID. Called
         // from the ctor and again by app side setup code once ManagerData.ID is reassigned, since the
-        // registration key must match the id AddControl used when the control was referenced.
+        // registration key must match the id AddControl used when the control was referenced. The
+        // entry made under the previous id goes first, so a manager never leaves a stale deleter
+        // behind that would keep it and its whole item graph alive.
         public void RegisterDeleter()
         {
-            Collection.ControlRepository.RegisterDeleter(ManagerData.ID, DeleteItem);
+            UnregisterDeleter();
+            _registeredDeleterId = ManagerData.ID;
+            _hasRegisteredDeleter = true;
+            Collection.ControlRepository.RegisterDeleter(_registeredDeleterId, DeleteItem);
+        }
+
+        public void UnregisterDeleter()
+        {
+            if (!_hasRegisteredDeleter) return;
+            _hasRegisteredDeleter = false;
+            Collection.ControlRepository.UnregisterDeleter(_registeredDeleterId, DeleteItem);
+        }
+
+        // Ends this manager's lifetime. Called from the Dispose of every control that owns nested
+        // managers, which the delete path only reaches once the undo stack has dropped the delete.
+        public void Dispose()
+        {
+            ClearAll();
+            UnregisterDeleter();
         }
 
         private void DeleteEverywhere(IControl control)

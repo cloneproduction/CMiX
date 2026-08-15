@@ -120,8 +120,8 @@ namespace CMiX.Core
         }
         public void Dispose()
         {
-            ExplodeTriangleTextureManager.ClearAll();
-            DisplacementTextureManager.ClearAll();
+            ExplodeTriangleTextureManager.Dispose();
+            DisplacementTextureManager.Dispose();
         }
     }
 }

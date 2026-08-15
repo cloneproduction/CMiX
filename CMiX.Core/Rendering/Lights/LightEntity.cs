@@ -60,7 +60,7 @@ namespace CMiX.Core.Rendering.Lights
 
         public void Dispose()
         {
-            ModifierManager.ClearAll();
+            ModifierManager.Dispose();
         }
     }
 }

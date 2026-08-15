@@ -186,6 +186,17 @@ namespace CMiX.Core.Prefabs
             _deleters[managerId] = deleter;
         }
 
+        // Only drops the entry when it still holds this very manager's delegate, so a manager that
+        // retires after another one already claimed the same id cannot unregister the live one.
+        public void UnregisterDeleter(Guid managerId, Action<IControl> deleter)
+        {
+            if (deleter == null) return;
+            if (_deleters.TryGetValue(managerId, out var registered) && registered.Equals(deleter))
+                _deleters.Remove(managerId);
+        }
+
+        internal int DeleterCount => _deleters.Count;
+
         // Deletes control from every manager that currently references it. RemoveControl already
         // drops the control from the repository collections once its last referencer lets go, so
         // this only has to fan the delete out to the referencing managers, not touch the collections.

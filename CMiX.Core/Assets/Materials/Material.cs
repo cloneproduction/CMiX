@@ -62,7 +62,7 @@ namespace CMiX.Core.Materials
 
         public void Dispose()
         {
-            ModifierManager.ClearAll();
+            ModifierManager.Dispose();
         }
     }
 }

@@ -56,7 +56,7 @@ namespace CMiX.Core.Layering.Modifiers
         }
         public void Dispose()
         {
-            BeatModifierManager.ClearAll();
+            BeatModifierManager.Dispose();
         }
     }
 }

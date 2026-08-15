@@ -50,7 +50,7 @@ namespace CMiX.Core.Materials.Modifiers
         }
         public void Dispose()
         {
-            BeatModifierManager.ClearAll();
+            BeatModifierManager.Dispose();
         }
     }
 }

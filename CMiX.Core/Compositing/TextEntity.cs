@@ -103,7 +103,7 @@ namespace CMiX.Core.Compositing
 
         public void Dispose()
         {
-            ModifierManager.ClearAll();
+            ModifierManager.Dispose();
         }
     }
 }

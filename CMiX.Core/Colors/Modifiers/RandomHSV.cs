@@ -79,7 +79,7 @@ namespace CMiX.Core.Colors.Modifiers
         }
         public void Dispose()
         {
-            BeatModifierManager.ClearAll();
+            BeatModifierManager.Dispose();
         }
     }
 }
