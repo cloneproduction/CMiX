@@ -59,19 +59,19 @@
                             <ContentControl.DataTemplates>
 
                                 <DataTemplate DataType="{x:Type Compositing:Entity}">
-                                    <Views:ModelEntity DataContext="{Binding}" />
+                                    <Views:ModelEntity />
                                 </DataTemplate>
 
                                 <DataTemplate DataType="{x:Type Cameras:Camera}">
-                                    <Views:Camera DataContext="{Binding}" />
+                                    <Views:Camera />
                                 </DataTemplate>
 
                                 <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                                    <Views:LightEntity DataContext="{Binding}" />
+                                    <Views:LightEntity />
                                 </DataTemplate>
 
                                 <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-                                    <Views:TextEntity DataContext="{Binding}" />
+                                    <Views:TextEntity />
                                 </DataTemplate>
 
                             </ContentControl.DataTemplates>

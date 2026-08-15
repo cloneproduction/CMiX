@@ -31,19 +31,19 @@
         <Panel>
 
             <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.PointLight}}">
-                <Views:LightPoint Margin="0,8,0,0" DataContext="{Binding}" />
+                <Views:LightPoint Margin="0,8,0,0" />
             </Border>
 
             <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.SpotLight}}">
-                <Views:LightSpot Margin="0,8,0,0" DataContext="{Binding}" />
+                <Views:LightSpot Margin="0,8,0,0" />
             </Border>
 
             <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.AmbientLight}}">
-                <Views:LightAmbient DataContext="{Binding}" />
+                <Views:LightAmbient />
             </Border>
 
             <Border IsVisible="{Binding LightTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static Lights:LightType.DirectionalLight}}">
-                <Views:LightDirectional Margin="0,8,0,0" DataContext="{Binding}" />
+                <Views:LightDirectional Margin="0,8,0,0" />
             </Border>
 
         </Panel>

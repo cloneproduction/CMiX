@@ -35,9 +35,7 @@
 
                 <DataTemplate DataType="{x:Type Compositing:Color}">
                     <!-- The WPF md:DialogServiceViews.IsRegistered attribute is not needed with HanumanInstitute.MvvmDialogs. -->
-                    <BaseControls:ColorSelector
-                        Caption="{Binding Value}"
-                        DataContext="{Binding}" />
+                    <BaseControls:ColorSelector Caption="{Binding Value}" />
                 </DataTemplate>
 
                 <DataTemplate DataType="{x:Type Servers:Server}">

@@ -194,15 +194,15 @@
                                 <ContentControl.DataTemplates>
 
                                     <DataTemplate DataType="{x:Type Compositing:Entity}">
-                                        <Views:ModelEntity DataContext="{Binding}" />
+                                        <Views:ModelEntity />
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type Cameras:Camera}">
-                                        <Views:Camera DataContext="{Binding}" />
+                                        <Views:Camera />
                                     </DataTemplate>
 
                                     <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                                        <Views:LightEntity DataContext="{Binding}" />
+                                        <Views:LightEntity />
                                     </DataTemplate>
 
                                 </ContentControl.DataTemplates>
@@ -237,7 +237,7 @@
                                     Content="New Material" />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
-                                <Views:Material DataContext="{Binding}" />
+                                <Views:Material />
                             </Views:RepositoryManager.EditingPanel>
                         </Views:RepositoryManager>
                     </Border>
@@ -273,7 +273,7 @@
                             </Views:ButtonOpenSelectionPanel>
                         </Views:RepositoryManager.SelectionPanel>
                         <Views:RepositoryManager.EditingPanel>
-                            <Views:Texture DataContext="{Binding}" />
+                            <Views:Texture />
                         </Views:RepositoryManager.EditingPanel>
                     </Views:RepositoryManager>
                 </ScrollViewer>
@@ -302,7 +302,7 @@
                                     Content="New Camera" />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
-                                <Views:Camera DataContext="{Binding}" />
+                                <Views:Camera />
                             </Views:RepositoryManager.EditingPanel>
                         </Views:RepositoryManager>
                     </Border>
@@ -329,7 +329,7 @@
                                     Content="New Light" />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
-                                <Views:LightEntity DataContext="{Binding}" />
+                                <Views:LightEntity />
                             </Views:RepositoryManager.EditingPanel>
                         </Views:RepositoryManager>
                     </Border>
@@ -358,7 +358,7 @@
                                     Content="New Beat" />
                             </Views:RepositoryManager.SelectionPanel>
                             <Views:RepositoryManager.EditingPanel>
-                                <Views:BeatModifier DataContext="{Binding}" />
+                                <Views:BeatModifier />
                             </Views:RepositoryManager.EditingPanel>
                         </Views:RepositoryManager>
                     </Border>

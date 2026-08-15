@@ -30,31 +30,31 @@
             </Border>
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Box}}">
-                <Views:MeshBox DataContext="{Binding}" />
+                <Views:MeshBox />
             </Border>
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Sphere}}">
-                <Views:MeshSphere DataContext="{Binding}" />
+                <Views:MeshSphere />
             </Border>
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Torus}}">
-                <Views:MeshTorus DataContext="{Binding}" />
+                <Views:MeshTorus />
             </Border>
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Cone}}">
-                <Views:MeshCone DataContext="{Binding}" />
+                <Views:MeshCone />
             </Border>
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Cylinder}}">
-                <Views:MeshCylinder DataContext="{Binding}" />
+                <Views:MeshCylinder />
             </Border>
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Plane}}">
-                <Views:MeshPlane DataContext="{Binding}" />
+                <Views:MeshPlane />
             </Border>
 
             <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Component:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.FromFile}}">
-                <Views:MeshFile DataContext="{Binding}" />
+                <Views:MeshFile />
             </Border>
 
         </Panel>
