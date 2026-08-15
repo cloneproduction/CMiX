@@ -15,19 +15,15 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
         }
 
-        // The WPF view showed the window through MvvmDialogs, which resolved the owner
-        // from its registered view whose DataContext matched. The Avalonia service
-        // instead matches the owner view model against open window DataContexts, which
-        // fails for the local ServerManager context and requires INotifyPropertyChanged
-        // on the main view model, so the window is shown directly with the same owned
-        // nonmodal behavior.
+        // Mirrors the WPF view, which showed the window through MvvmDialogs. The
+        // owner is the DataContext of the containing window so the created window is
+        // parented to it. Passing the local ServerManager instead would let a second
+        // open ServerCreationWindow match the first by reference and parent to it.
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            var window = new ServerCreationWindow { DataContext = ViewModel };
-            if (TopLevel.GetTopLevel(this) is Window owner)
-                window.Show(owner);
-            else
-                window.Show();
+            var owner = (TopLevel.GetTopLevel(this) as Window)?.DataContext as INotifyPropertyChanged
+                ?? ViewModel;
+            App.DialogService?.Show(owner, ViewModel);
         }
 
         public static readonly StyledProperty<INotifyPropertyChanged> ViewModelProperty =
