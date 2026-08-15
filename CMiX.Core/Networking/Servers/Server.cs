@@ -119,10 +119,21 @@ namespace CMiX.Core.Networking.Servers
 
         private async Task SendAsync(byte[] data)
         {
-            if (WatsonTcpServer == null) return;
-            foreach (var connectedClient in ConnectedClients.ToList())
-                await WatsonTcpServer.SendAsync(connectedClient.ID, data);
-            Dispatch(() => Statistics.Update(WatsonTcpServer));
+            // Captured once so a Stop that runs on the UI thread while this send is in flight
+            // cannot null the field out from under the continuation below.
+            var server = WatsonTcpServer;
+            if (server == null) return;
+
+            try
+            {
+                foreach (var connectedClient in ConnectedClients.ToList())
+                    await server.SendAsync(connectedClient.ID, data);
+                Dispatch(() => Statistics.Update(server));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
         }
 
         private Action<Action> _dispatcherAction;

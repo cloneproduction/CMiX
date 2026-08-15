@@ -63,8 +63,10 @@ namespace CMiX.Studio.Avalonia
                 IServiceProvider serviceProvider = serviceCollection.BuildServiceProvider();
                 _crashSaveProject = serviceProvider.GetRequiredService<Project>();
                 DialogService = serviceProvider.GetRequiredService<IDialogService>();
+                // Post rather than Invoke, so the WatsonTcp receive thread never blocks on the
+                // UI thread being free.
                 configurationBuilder.ConfigureWpfTransport(serviceProvider,
-                    a => Dispatcher.UIThread.Invoke(a));
+                    a => Dispatcher.UIThread.Post(a));
 
                 var masterBeat = serviceProvider.GetRequiredService<MasterBeat>();
                 _animationController = new MasterBeatAnimationController(masterBeat);
