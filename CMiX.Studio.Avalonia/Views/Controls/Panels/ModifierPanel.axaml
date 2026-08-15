@@ -6,6 +6,17 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
     <!--
+        Avalonia templated controls clip to bounds by default, unlike WPF. The filter
+        panel blend bar relies on WPF style negative margin overdraw to reach the panel
+        edges, so clipping is disabled for the content chain inside modifier panels.
+    -->
+    <UserControl.Styles>
+        <Style Selector=":is(ContentControl)">
+            <Setter Property="ClipToBounds" Value="False" />
+        </Style>
+    </UserControl.Styles>
+
+    <!--
         The wrapper is a ControlTemplate, not a ContentTemplate. Presenting the content
         through a DataTemplate breaks DataContext inheritance for the content in Avalonia,
         which left the hosted views without a view model.
@@ -48,9 +59,8 @@
                 </Expander.Header>
 
                 <!--
-                    Padding instead of the WPF Margin: the filter panel compensates this inset
-                    with negative margins on its blend bar, and with Padding that overdraw stays
-                    inside the border bounds so Avalonia cannot clip it away.
+                    Padding instead of the WPF Margin so the blend bar overdraw of the
+                    filter panel stays inside this border's bounds.
                 -->
                 <Border Padding="8">
                     <ContentPresenter Content="{TemplateBinding Content}" />
