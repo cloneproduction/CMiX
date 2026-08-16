@@ -34,7 +34,7 @@
                         Margin="2,0"
                         BorderThickness="1">
                         <Border.BorderBrush>
-                            <MultiBinding Converter="{StaticResource CurrentStepConverter}">
+                            <MultiBinding Converter="{StaticResource CurrentStepConverter}" ConverterParameter="{StaticResource AccentBrush}">
                                 <Binding Path="$parent[ContentPresenter].Tag" />
                                 <Binding Path="$parent[ItemsControl].DataContext.BeatSteps.CurrentStepIndex" />
                             </MultiBinding>

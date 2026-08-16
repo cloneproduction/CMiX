@@ -13,8 +13,10 @@ namespace CMiX.Studio.Avalonia.Converters
     {
         public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
         {
+            var activeBrush = parameter as IBrush ?? Brushes.OrangeRed;
+
             if (values.Count > 1 && values[0] is int itemIndex && values[1] is int currentStep)
-                return itemIndex == currentStep ? Brushes.OrangeRed : Brushes.Transparent;
+                return itemIndex == currentStep ? activeBrush : Brushes.Transparent;
             return Brushes.Transparent;
         }
     }
