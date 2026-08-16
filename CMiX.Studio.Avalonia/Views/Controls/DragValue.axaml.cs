@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             return Math.Sqrt(dx * dx + dy * dy);
         }
 
-        private void Border_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void Border_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!e.GetCurrentPoint(borderValueDisplay).Properties.IsLeftButtonPressed)
                 return;
@@ -65,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             e.Handled = true;
         }
 
-        private void Border_PointerMoved(object sender, PointerEventArgs e)
+        private void Border_PointerMoved(object? sender, PointerEventArgs e)
         {
             if (_mouseDownPos == null)
                 return;
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _lastScreenPos = screenPos;
         }
 
-        private void Border_PointerReleased(object sender, PointerReleasedEventArgs e)
+        private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             e.Pointer.Capture(null);
             _interaction.Dispose();
@@ -138,19 +138,19 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             _dragging = false;
         }
 
-        private void Control_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void Control_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (e.GetCurrentPoint(this).Properties.IsRightButtonPressed)
                 IsEditing = false;
         }
 
-        private void AddButton_Click(object sender, RoutedEventArgs e)
+        private void AddButton_Click(object? sender, RoutedEventArgs e)
         {
             AdjustValue(SmallChange);
             e.Handled = true;
         }
 
-        private void SubButton_Click(object sender, RoutedEventArgs e)
+        private void SubButton_Click(object? sender, RoutedEventArgs e)
         {
             AdjustValue(-SmallChange);
             e.Handled = true;

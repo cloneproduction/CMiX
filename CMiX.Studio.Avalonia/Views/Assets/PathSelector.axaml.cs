@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Views
             pathComboBox.AddHandler(DragDrop.DropEvent, OnDrop);
         }
 
-        private void OnDragOver(object sender, DragEventArgs e)
+        private void OnDragOver(object? sender, DragEventArgs e)
         {
             e.DragEffects = e.Data.Contains(DataFormats.Files)
                 ? DragDropEffects.Copy | DragDropEffects.Move
@@ -33,7 +33,7 @@ namespace CMiX.Studio.Avalonia.Views
             e.Handled = true;
         }
 
-        private void OnDrop(object sender, DragEventArgs e)
+        private void OnDrop(object? sender, DragEventArgs e)
         {
             if (DataContext is not AssetSelector assetSelector)
                 return;

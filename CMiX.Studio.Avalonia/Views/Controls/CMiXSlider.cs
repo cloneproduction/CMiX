@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
+using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.Primitives;
@@ -41,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         protected override Type StyleKeyOverride => typeof(CMiXSlider);
 
-        private Border Border { get; set; }
+        private Border? Border { get; set; }
 
         public CMiXSlider()
         {
@@ -64,7 +65,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e)
         {
             base.OnPointerCaptureLost(e);
-            _interaction.Dispose();
+            _interaction?.Dispose();
         }
 
         private bool isDragging = false;
@@ -72,11 +73,11 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private double lastValue;
         private Point _lastPoint;
         private Point _mouseDownPoint;
-        private ValueInteractionScope _interaction;
+        private ValueInteractionScope? _interaction;
 
         private static double Length(Point p) => Math.Sqrt(p.X * p.X + p.Y * p.Y);
 
-        private void OnTunnelPointerPressed(object sender, PointerPressedEventArgs e)
+        private void OnTunnelPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             var properties = e.GetCurrentPoint(this).Properties;
 
@@ -107,7 +108,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             e.Handled = true;
         }
 
-        private void OnTunnelPointerMoved(object sender, PointerEventArgs e)
+        private void OnTunnelPointerMoved(object? sender, PointerEventArgs e)
         {
             if (IsEditing || !isDragging || Border == null)
                 return;
@@ -141,7 +142,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             Value = Math.Clamp(lastValue + currentValue * smooth, Minimum, Maximum);
         }
 
-        private void OnTunnelPointerReleased(object sender, PointerReleasedEventArgs e)
+        private void OnTunnelPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             if (!isDragging || Border == null)
                 return;
@@ -165,7 +166,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
             DragEditHelper.PlaceCursorAt(new Point(pointToScreen.X, pointToScreen.Y));
             e.Pointer.Capture(null);
-            _interaction.Dispose();
+            _interaction?.Dispose();
 
             isDragging = false;
             lastValue = Value;

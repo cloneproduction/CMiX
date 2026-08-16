@@ -46,7 +46,7 @@ namespace CMiX.Studio.Avalonia.Behaviors
             AssociatedObject.RemoveHandler(DragDrop.DragOverEvent, OnDragOver);
         }
 
-        private void OnDragOver(object sender, DragEventArgs e)
+        private void OnDragOver(object? sender, DragEventArgs e)
         {
             e.DragEffects = e.Data.Contains(DataFormats.Files)
                 ? DragDropEffects.Copy
@@ -54,7 +54,7 @@ namespace CMiX.Studio.Avalonia.Behaviors
             e.Handled = true;
         }
 
-        private void OnDrop(object sender, DragEventArgs e)
+        private void OnDrop(object? sender, DragEventArgs e)
         {
             if (!e.Data.Contains(DataFormats.Files)) return;
             var files = e.Data.GetFiles()?.Select(f => f.TryGetLocalPath()).Where(p => p != null).ToArray();
@@ -63,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Behaviors
             foreach (var file in files)
             {
                 if (!AssetTypes.TryResolve(file, out var kind)) continue;
-                Type textureType = kind switch
+                Type? textureType = kind switch
                 {
                     AssetKind.Image => typeof(CMiX.Core.Texturing.Sources.Image),
                     AssetKind.Video => typeof(VideoPlayer),

@@ -17,7 +17,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
     {
         private const string PART_CursorEllipse = "PART_CursorEllipse";
 
-        private Ellipse _cursorEllipse;
+        private Ellipse? _cursorEllipse;
         private bool _isDragging;
 
         // Replaces the WPF DefaultStyleKeyProperty.OverrideMetadata call so the
@@ -43,9 +43,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             SetCursor();
         }
 
-        private void ColorWheel_ColorChanged(object sender, ColorRoutedEventArgs e) => SetCursor();
+        private void ColorWheel_ColorChanged(object? sender, ColorRoutedEventArgs e) => SetCursor();
 
-        private void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        private void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
                 return;
@@ -60,21 +60,24 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private void OnPointerMoved(object sender, PointerEventArgs e)
+        private void OnPointerMoved(object? sender, PointerEventArgs e)
         {
             if (_isDragging)
             {
                 SetColor(e.GetPosition(this));
                 SetCursor();
 
-                Point pointFromColor = GetColorLocation();
-                PixelPoint pointToScreen = this.PointToScreen(pointFromColor);
+                Point? pointFromColor = GetColorLocation();
+                if (pointFromColor == null)
+                    return;
+
+                PixelPoint pointToScreen = this.PointToScreen(pointFromColor.Value);
 
                 SetCursorPos(pointToScreen.X, pointToScreen.Y);
             }
         }
 
-        private void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+        private void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             if (_isDragging)
             {
@@ -92,9 +95,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (_cursorEllipse == null)
                 return;
 
-            Point location = GetColorLocation();
-            Canvas.SetLeft(_cursorEllipse, location.X - _cursorEllipse.Width / 2);
-            Canvas.SetTop(_cursorEllipse, location.Y - _cursorEllipse.Height / 2);
+            Point? location = GetColorLocation();
+            if (location == null)
+                return;
+
+            Canvas.SetLeft(_cursorEllipse, location.Value.X - _cursorEllipse.Width / 2);
+            Canvas.SetTop(_cursorEllipse, location.Value.Y - _cursorEllipse.Height / 2);
         }
 
 
@@ -129,8 +135,11 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             Color.UpdateEverything();
         }
 
-        private Point GetColorLocation()
+        private Point? GetColorLocation()
         {
+            if (_cursorEllipse == null)
+                return null;
+
             var angle = Color.HSV_H * Math.PI / 180;
             var radius = (Height - _cursorEllipse.Height) / 2 * Color.HSV_S;
 

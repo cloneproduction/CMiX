@@ -21,7 +21,8 @@ namespace CMiX.Studio.Avalonia.Converters
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            string? strValue = value as string;
+            if (value is not string strValue)
+                return AvaloniaProperty.UnsetValue;
 
             if (NumericText.TryParse(strValue, out double resultDouble))
                 return resultDouble;

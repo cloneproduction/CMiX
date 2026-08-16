@@ -59,9 +59,9 @@ namespace CMiX.Studio.Avalonia.Services
 
         // A ListBox that is realized and unrealized repeatedly (tab content, virtualized rows)
         // otherwise leaves its InsertionIndicator behind on the adorner layer every time.
-        private static void OnListBoxDetachedFromVisualTree(object sender, VisualTreeAttachmentEventArgs e)
+        private static void OnListBoxDetachedFromVisualTree(object? sender, VisualTreeAttachmentEventArgs e)
         {
-            RemoveIndicator((ItemsControl)sender);
+            RemoveIndicator((ItemsControl)sender!);
         }
 
         private static readonly AttachedProperty<Point?> PressPointProperty =
@@ -70,9 +70,9 @@ namespace CMiX.Studio.Avalonia.Services
         private static readonly AttachedProperty<int> PressIndexProperty =
             AvaloniaProperty.RegisterAttached<ItemsControl, int>("PressIndex", typeof(ListBoxReorderDragDrop), -1);
 
-        private static void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        private static void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            var listBox = (ItemsControl)sender;
+            var listBox = (ItemsControl)sender!;
             if (!e.GetCurrentPoint(listBox).Properties.IsLeftButtonPressed)
                 return;
 
@@ -98,9 +98,9 @@ namespace CMiX.Studio.Avalonia.Services
             listBox.SetValue(PressIndexProperty, index);
         }
 
-        private static async void OnPointerMoved(object sender, PointerEventArgs e)
+        private static async void OnPointerMoved(object? sender, PointerEventArgs e)
         {
-            var listBox = (ItemsControl)sender;
+            var listBox = (ItemsControl)sender!;
             var service = GetService(listBox);
             var pressPoint = listBox.GetValue(PressPointProperty);
             var sourceIndex = listBox.GetValue(PressIndexProperty);
@@ -172,9 +172,9 @@ namespace CMiX.Studio.Avalonia.Services
             return 0;
         }
 
-        private static void OnDragOver(object sender, DragEventArgs e)
+        private static void OnDragOver(object? sender, DragEventArgs e)
         {
-            var listBox = (ItemsControl)sender;
+            var listBox = (ItemsControl)sender!;
             var service = GetService(listBox);
 
             if (service == null || !e.Data.Contains(ReorderFormat))
@@ -197,14 +197,14 @@ namespace CMiX.Studio.Avalonia.Services
             ShowIndicator(listBox, IndicatorY(listBox, insertIndex));
         }
 
-        private static void OnDragLeave(object sender, DragEventArgs e)
+        private static void OnDragLeave(object? sender, DragEventArgs e)
         {
-            HideIndicator((ItemsControl)sender);
+            HideIndicator((ItemsControl)sender!);
         }
 
-        private static void OnDrop(object sender, DragEventArgs e)
+        private static void OnDrop(object? sender, DragEventArgs e)
         {
-            var listBox = (ItemsControl)sender;
+            var listBox = (ItemsControl)sender!;
             var service = GetService(listBox);
             HideIndicator(listBox);
 

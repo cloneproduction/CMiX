@@ -79,7 +79,7 @@ namespace CMiX.Studio.Avalonia.Animations
         // it holds this instance, which is the whole application lifetime, so that subscription on
         // its own must not count as an observer or the clock could never idle. Its own bindings
         // subscribe through PropertyChanged and are counted there.
-        private static bool CountsAsObserver(EventHandler handler) => handler?.Target is not MasterBeat;
+        private static bool CountsAsObserver(EventHandler? handler) => handler?.Target is not MasterBeat;
 
         private void AddObserver()
         {

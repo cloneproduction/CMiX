@@ -31,9 +31,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(ItemsSourceProperty, value);
         }
 
-        public static readonly StyledProperty<object> SelectedItemProperty =
-            AvaloniaProperty.Register<ComboBox, object>(nameof(SelectedItem), null, defaultBindingMode: BindingMode.TwoWay);
-        public object SelectedItem
+        public static readonly StyledProperty<object?> SelectedItemProperty =
+            AvaloniaProperty.Register<ComboBox, object?>(nameof(SelectedItem), null, defaultBindingMode: BindingMode.TwoWay);
+        public object? SelectedItem
         {
             get => GetValue(SelectedItemProperty);
             set => SetValue(SelectedItemProperty, value);

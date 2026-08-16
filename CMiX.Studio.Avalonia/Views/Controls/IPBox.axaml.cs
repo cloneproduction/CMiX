@@ -20,7 +20,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             txtboxFirstPart.AddHandler(KeyDownEvent, txtboxFirstPart_PreviewKeyDown, RoutingStrategies.Tunnel);
         }
 
-        #region PROPERTIES
         public static readonly StyledProperty<string> IPAddressProperty =
             AvaloniaProperty.Register<IPBox, string>(nameof(IPAddress));
         public string IPAddress
@@ -49,9 +48,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         private bool focusMoved = false;
-        #endregion
 
-        #region METHODS
         private static void TextboxTextCheck(object sender)
         {
             TextBox txtbox = (TextBox)sender;
@@ -88,9 +85,8 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 }
             }
         }
-        #endregion
 
-        #region EVENTS
+
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
             UpdateIPAddress(sender);
@@ -102,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             UpdateIPAddress(sender);
         }
 
-        private void txtboxFirstPart_PreviewKeyDown(object sender, KeyEventArgs e)
+        private void txtboxFirstPart_PreviewKeyDown(object? sender, KeyEventArgs e)
         {
             if (e.Key == Key.OemPeriod || e.Key == Key.Decimal)
             {
@@ -138,6 +134,5 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 txtboxFourthPart.Text = String.Empty;
             }
         }
-        #endregion
     }
 }

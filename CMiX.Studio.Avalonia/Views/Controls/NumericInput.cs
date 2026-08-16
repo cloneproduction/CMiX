@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
     [TemplatePart("PART_TextBox", typeof(TextBox))]
     public class NumericInput : TemplatedControl
     {
-        private TextBox _textBox;
+        private TextBox? _textBox;
         private double _valueBeforeEdit;
 
         public static readonly StyledProperty<double> ValueProperty =
@@ -93,9 +93,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 control.ExitEditMode();
         }
 
-        private void TextBox_DoubleTapped(object sender, TappedEventArgs e)
+        private void TextBox_DoubleTapped(object? sender, TappedEventArgs e)
         {
-            _textBox.SelectAll();
+            _textBox?.SelectAll();
             e.Handled = true;
         }
 
@@ -132,7 +132,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             if (_textBox != null)
             {
-                if (NumericText.TryParse(_textBox.Text, out double result))
+                if (_textBox.Text != null && NumericText.TryParse(_textBox.Text, out double result))
                     Value = Math.Clamp(result, Minimum, Maximum);
                 else
                     _textBox.Text = NumericText.Format(Value);
@@ -150,7 +150,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             IsEditing = false;
         }
 
-        private void TextBox_KeyDown(object sender, KeyEventArgs e)
+        private void TextBox_KeyDown(object? sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
                 Commit();
@@ -158,13 +158,13 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 Cancel();
         }
 
-        private void TextBox_PointerExited(object sender, PointerEventArgs e)
+        private void TextBox_PointerExited(object? sender, PointerEventArgs e)
         {
             if (IsEditing)
                 AddParentWindowHandlers();
         }
 
-        private void TextBox_PointerEntered(object sender, PointerEventArgs e)
+        private void TextBox_PointerEntered(object? sender, PointerEventArgs e)
         {
             RemoveParentWindowHandlers();
         }
@@ -185,7 +185,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             topLevel?.RemoveHandler(InputElement.PointerPressedEvent, ParentWindow_OnPointerPressed);
         }
 
-        private void ParentWindow_OnPointerPressed(object sender, PointerPressedEventArgs e)
+        private void ParentWindow_OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             RemoveParentWindowHandlers();
             if (!IsEditing) return;

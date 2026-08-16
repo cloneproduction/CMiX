@@ -1,7 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
-// Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
-
-using System;
+﻿using System;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
@@ -16,8 +13,8 @@ namespace CMiX.Studio.Avalonia.Views.Controls
     {
         protected override Type StyleKeyOverride => typeof(CMiXListBox);
 
-        Border Border { get; set; }
-        Border Bd { get; set; }
+        Border? Border { get; set; }
+        Border? Bd { get; set; }
 
         private bool _resizing;
 
@@ -53,9 +50,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         // Scroll the parent when the inner scroll viewer is at its limit.
-        private void Bd_PointerWheelChanged(object sender, PointerWheelEventArgs e)
+        private void Bd_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
         {
-            var scrollViewer = Bd.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
+            var scrollViewer = Bd?.GetVisualDescendants().OfType<ScrollViewer>().FirstOrDefault();
 
             if (scrollViewer == null)
                 return;
@@ -79,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         Point initPoint = new();
         double currentHeight;
 
-        private void Border_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void Border_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
                 return;
@@ -87,12 +84,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             e.Pointer.Capture(Border);
             _resizing = true;
             initPoint = e.GetPosition(this);
-            currentHeight = Bd.Bounds.Height;
+            currentHeight = Bd?.Bounds.Height ?? 0;
         }
 
-        private void Border_PointerMoved(object sender, PointerEventArgs e)
+        private void Border_PointerMoved(object? sender, PointerEventArgs e)
         {
-            if (!_resizing)
+            if (!_resizing || Bd == null)
                 return;
 
             var current = e.GetPosition(this);
@@ -105,7 +102,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 Bd.Height = Bd.MinHeight;
         }
 
-        private void Border_PointerReleased(object sender, PointerReleasedEventArgs e)
+        private void Border_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             _resizing = false;
             e.Pointer.Capture(null);

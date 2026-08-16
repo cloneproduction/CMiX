@@ -8,7 +8,7 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public class ModifierEntry
     {
-        public Type Type { get; set; }
+        public required Type Type { get; set; }
         public string Label => ControlFactory.StringHelper.PascalCaseToDisplay(Type?.Name ?? "");
     }
 }
