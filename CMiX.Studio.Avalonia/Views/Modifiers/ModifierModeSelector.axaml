@@ -5,6 +5,7 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
     <Panels:PositionedStackPanel>
@@ -19,16 +20,13 @@
             The WPF DataTrigger that enabled the Border when Mode.Value equals
             ModifierMode.ToSpread is replaced by a converter defined in the code behind.
         -->
-        <Border IsEnabled="{Binding Mode.Value, Converter={x:Static Modifiers:ModifierModeSelector.IsToSpread}}">
-
-            <BaseControls:DragValue
-                Caption="Count"
-                IsInteger="True"
-                LargeChange="1.0"
-                Minimum="1"
-                SmallChange="1.0"
-                Value="{Binding Count.Value}" />
-
-        </Border>
+        <BaseControls:DragValue
+            IsEnabled="{Binding Mode.Value, Converter={x:Static Modifiers:ModifierModeSelector.IsToSpread}}"
+            Caption="Count"
+            IsInteger="True"
+            LargeChange="1.0"
+            Minimum="1"
+            SmallChange="1.0"
+            Value="{Binding Count.Value}" />
     </Panels:PositionedStackPanel>
 </UserControl>

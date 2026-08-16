@@ -23,9 +23,7 @@
             x:Name="outerBorder"
             Grid.Column="1"
             AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=axisSelector3D}"
-            Classes="BorderMask"
-            ClipToBounds="True"
-            CornerRadius="{DynamicResource CornerRadiusAll}">
+            Classes="BorderMask">
 
             <Grid>
                 <Grid.ColumnDefinitions>

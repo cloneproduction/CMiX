@@ -20,22 +20,12 @@
             Text="{Binding Caption, ElementName=comboBox}" />
 
         <Border
-            x:Name="mask"
+            x:Name="mainBorder"
             Grid.Column="1"
             AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=comboBox}"
             Background="{DynamicResource Grey500Brush}"
-            Classes="BorderMask" />
-
-        <!--
-            The WPF VisualBrush opacity mask erased the content in Avalonia, so it is
-            dropped. The rounded mask border underneath still paints the shape; only the
-            2px corners of the inner content are square now.
-        -->
-        <Border
-            x:Name="mainBorder"
-            Grid.Column="1"
-            Background="{DynamicResource Grey500Brush}"
-            BorderBrush="Transparent">
+            BorderBrush="Transparent"
+            Classes="BorderMask">
 
             <ComboBox
                 AttachedProperties:PositionedControl.Position="None"

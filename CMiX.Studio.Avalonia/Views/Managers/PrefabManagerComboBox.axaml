@@ -10,23 +10,11 @@
         Margin="8"
         DockPanel.Dock="Left">
 
-        <!--
-            The WPF binding used Path=Position, a plain path that never resolved because
-            the user control declares no Position property. The intent is to mirror the
-            PositionedControl.Position attached value set by a parent PositionedStackPanel,
-            so the attached property path is bound here, matching Controls\ComboBox.axaml.
-        -->
         <Border
-            x:Name="mask"
+            x:Name="mainBorder"
             AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=prefabManagerComboBox}"
             Background="{DynamicResource Grey200Brush}"
-            Classes="BorderMask" />
-
-        <!--
-            The WPF VisualBrush opacity mask erased the content in Avalonia, so it is
-            dropped. The rounded mask border underneath still paints the shape.
-        -->
-        <Border>
+            Classes="BorderMask">
             <DockPanel>
 
                 <Button
@@ -56,7 +44,6 @@
 
             </DockPanel>
         </Border>
-
     </Grid>
 
 </UserControl>
