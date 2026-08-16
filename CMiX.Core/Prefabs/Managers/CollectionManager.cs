@@ -145,12 +145,35 @@ namespace CMiX.Core.Prefabs.Managers
             ManagerData.SelectedIndex = -1;
         }
 
+        //public void MoveItem(int oldIndex, int newIndex)
+        //{
+        //    var items = ManagerData.Items;
+        //    if (oldIndex < 0 || oldIndex > items.Count - 1) return;
+        //    if (newIndex < 0 || newIndex > items.Count - 1) return;
+        //    items.Move(oldIndex, newIndex);
+        //}
+
         public void MoveItem(int oldIndex, int newIndex)
         {
             var items = ManagerData.Items;
             if (oldIndex < 0 || oldIndex > items.Count - 1) return;
             if (newIndex < 0 || newIndex > items.Count - 1) return;
+
+            var wasSelected = SelectedItem == items[oldIndex];
+
             items.Move(oldIndex, newIndex);
+
+            // Avalonia's SelectingItemsControl does not process
+            // NotifyCollectionChangedAction.Move, so the ListBox visually loses
+            // selection even though the moved item is still the same instance
+            // (github.com/AvaloniaUI/Avalonia/issues/2522, /issues/16279).
+            // Re-assert selection explicitly to work around it.
+            if (wasSelected)
+            {
+                SelectedItem = null;
+                SelectedItem = items[newIndex];
+                ManagerData.SelectedIndex = newIndex;
+            }
         }
 
         public void SelectedItemChanged(Guid controlID, int index)
