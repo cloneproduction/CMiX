@@ -23,14 +23,11 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             InitializeComponent();
             _innerComboBox = this.FindControl<AvaloniaComboBox>("innerComboBox");
 
-            // WPF's ComboBox scrolls the selection on mouse wheel when it has keyboard
-            // focus. Avalonia's ComboBox has no such behavior, and its own internal wheel
-            // handling consumes the event before a normal bubble handler on it ever runs
-            // (AvaloniaUI/Avalonia#18268), so this attaches directly to the inner ComboBox
-            // with Tunnel to get first access. Focus is checked via FocusManager rather
-            // than IsFocused, since focus actually lands on a descendant inside the
-            // ComboBox's own template, not the ComboBox element itself.
             _innerComboBox?.AddHandler(PointerWheelChangedEvent, OnInnerPointerWheelChanged, RoutingStrategies.Tunnel);
+            _innerComboBox?.AddHandler(PointerPressedEvent, OnInnerPointerPressed, RoutingStrategies.Tunnel);
+
+            if (_innerComboBox != null)
+                _innerComboBox.PropertyChanged += OnInnerComboBoxPropertyChanged;
         }
 
         public static readonly StyledProperty<string> CaptionProperty =
@@ -93,6 +90,19 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 SelectedItem = items[newIndex];
 
             e.Handled = true;
+        }
+
+        private void OnInnerPointerPressed(object? sender, PointerPressedEventArgs e)
+        {
+            _innerComboBox?.Focus();        }
+
+        private void OnInnerComboBoxPropertyChanged(object? sender, AvaloniaPropertyChangedEventArgs e)
+        {
+            // Closing the dropdown (without necessarily picking a new item) does not return
+            // focus to the ComboBox on its own, unlike WPF. Re-focus explicitly so wheel-to-cycle
+            // keeps working right after the dropdown is dismissed by clicking the control again.
+            if (e.Property == AvaloniaComboBox.IsDropDownOpenProperty && e.NewValue is false)
+                _innerComboBox?.Focus();
         }
     }
 }
