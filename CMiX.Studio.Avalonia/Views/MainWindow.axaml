@@ -200,23 +200,25 @@
                                 </Views:RepositoryManager.SelectionPanel>
                             </Views:RepositoryManager>
 
-                            <ContentControl Content="{Binding}" DataContext="{Binding EntityManager.SelectedItem}">
-                                <ContentControl.DataTemplates>
+                            <Border IsVisible="{Binding EntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                                <ContentControl Content="{Binding}" DataContext="{Binding EntityManager.SelectedItem}">
+                                    <ContentControl.DataTemplates>
 
-                                    <DataTemplate DataType="{x:Type Compositing:Entity}">
-                                        <Views:ModelEntity />
-                                    </DataTemplate>
+                                        <DataTemplate DataType="{x:Type Compositing:Entity}">
+                                            <Views:ModelEntity />
+                                        </DataTemplate>
 
-                                    <DataTemplate DataType="{x:Type Cameras:Camera}">
-                                        <Views:Camera />
-                                    </DataTemplate>
+                                        <DataTemplate DataType="{x:Type Cameras:Camera}">
+                                            <Views:Camera />
+                                        </DataTemplate>
 
-                                    <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                                        <Views:LightEntity />
-                                    </DataTemplate>
+                                        <DataTemplate DataType="{x:Type Lights:LightEntity}">
+                                            <Views:LightEntity />
+                                        </DataTemplate>
 
-                                </ContentControl.DataTemplates>
-                            </ContentControl>
+                                    </ContentControl.DataTemplates>
+                                </ContentControl>
+                            </Border>
 
                         </StackPanel>
                     </Border>
