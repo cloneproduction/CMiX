@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Converters
 {
     public class DoubleToStringConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is not double b)
                 return AvaloniaProperty.UnsetValue;
@@ -19,9 +19,9 @@ namespace CMiX.Studio.Avalonia.Converters
             return NumericText.Format(b);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
-            string strValue = value as string;
+            string? strValue = value as string;
 
             if (NumericText.TryParse(strValue, out double resultDouble))
                 return resultDouble;

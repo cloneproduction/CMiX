@@ -16,25 +16,28 @@ namespace CMiX.Studio.Avalonia.Views
     public class ViewModelToViewTemplate : IDataTemplate
     {
         private readonly Assembly _viewsAssembly;
-        private readonly Dictionary<Type, Type> _cache = new();
+        private readonly Dictionary<Type, Type?> _cache = new();
 
         public ViewModelToViewTemplate()
         {
             _viewsAssembly = typeof(ViewsAssemblyMarker).Assembly;
         }
 
-        public bool Match(object data)
+        public bool Match(object? data)
         {
             return data != null && ResolveViewType(data.GetType()) != null;
         }
 
-        public Control Build(object data)
+        public Control Build(object? data)
         {
-            var viewType = ResolveViewType(data.GetType());
-            return (Control)Activator.CreateInstance(viewType);
+            var viewType = ResolveViewType(data!.GetType());
+            if (viewType == null)
+                throw new InvalidOperationException($"No view found for view model type '{data.GetType().Name}'.");
+
+            return (Control)Activator.CreateInstance(viewType)!;
         }
 
-        private Type ResolveViewType(Type vmType)
+        private Type? ResolveViewType(Type vmType)
         {
             if (_cache.TryGetValue(vmType, out var cached))
                 return cached;
@@ -42,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Views
             string viewNamespace = "CMiX.Studio.Avalonia.Views";
             var viewType = _viewsAssembly.GetType($"{viewNamespace}.{vmType.Name}");
 
-            _cache[vmType] = viewType;
+            _cache[vmType] = viewType!;
             return viewType;
         }
     }

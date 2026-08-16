@@ -12,12 +12,14 @@ namespace CMiX.Studio.Avalonia.Converters
 {
     public class MultiPeriodToBeatAnimationConverter : IMultiValueConverter
     {
-        public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
-            if (values.Count < 2) return AvaloniaProperty.UnsetValue;
-            if (values[0] == AvaloniaProperty.UnsetValue) return AvaloniaProperty.UnsetValue;
-            if (values[1] is not BeatModifier beatModifier) return AvaloniaProperty.UnsetValue;
-            if (beatModifier?.MasterBeat?.AnimatedDoubleProvider == null) return AvaloniaProperty.UnsetValue;
+            if (values.Count < 2
+                || values[0] == AvaloniaProperty.UnsetValue
+                || values[1] is not BeatModifier { MasterBeat.AnimatedDoubleProvider: not null } beatModifier)
+            {
+                return AvaloniaProperty.UnsetValue;
+            }
 
             var index = beatModifier.BeatIndex.Value + beatModifier.MasterBeat.BeatIndex.Value;
             var animatedDouble = beatModifier.MasterBeat.AnimatedDoubleProvider(index);

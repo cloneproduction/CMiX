@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Converters
 {
     public class CurrentStepConverter : IMultiValueConverter
     {
-        public object Convert(IList<object> values, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(IList<object?> values, Type targetType, object? parameter, CultureInfo culture)
         {
             var activeBrush = parameter as IBrush ?? Brushes.OrangeRed;
 

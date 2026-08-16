@@ -13,7 +13,7 @@ namespace CMiX.Studio.Avalonia.Converters
     // WPF converted string to Brush implicitly through its type converter.
     public class HexToBrushConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is string hex)
             {
@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Converters
             return BindingOperations.DoNothing;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is ISolidColorBrush brush)
                 return brush.Color.ToString();

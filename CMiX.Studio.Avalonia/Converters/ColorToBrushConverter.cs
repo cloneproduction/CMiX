@@ -17,12 +17,12 @@ namespace CMiX.Studio.Avalonia.Converters
                         _alpha = new SolidColorBrush(),
                         _all = new SolidColorBrush();
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is not Color color)
                 return BindingOperations.DoNothing;
 
-            switch ((string)parameter)
+            switch (parameter as string)
             {
                 case "r":
                     _red.Color = Color.FromRgb(color.R, 0, 0);
@@ -42,7 +42,7 @@ namespace CMiX.Studio.Avalonia.Converters
             return BindingOperations.DoNothing;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

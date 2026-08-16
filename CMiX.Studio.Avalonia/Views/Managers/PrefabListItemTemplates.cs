@@ -19,14 +19,14 @@ namespace CMiX.Studio.Avalonia.Views.Managers
     {
         private static readonly Lazy<DataTemplates> Templates = new(LoadTemplates);
 
-        public bool Match(object data)
+        public bool Match(object? data)
         {
             return data != null && Templates.Value.Any(template => template.Match(data));
         }
 
-        public Control Build(object data)
+        public Control? Build(object? data)
         {
-            return Templates.Value.First(template => template.Match(data)).Build(data);
+            return Templates.Value.FirstOrDefault(template => template.Match(data))?.Build(data);
         }
 
         private static DataTemplates LoadTemplates()
