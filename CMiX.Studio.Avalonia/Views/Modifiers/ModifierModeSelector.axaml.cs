@@ -9,10 +9,6 @@ namespace CMiX.Studio.Avalonia.Views.Modifiers
 {
     public partial class ModifierModeSelector : UserControl
     {
-        // Replaces the WPF DataTrigger comparing Mode.Value with ModifierMode.ToSpread.
-        public static readonly IValueConverter IsToSpread =
-            new FuncValueConverter<ModifierMode, bool>(mode => mode == ModifierMode.ToSpread);
-
         public ModifierModeSelector()
         {
             InitializeComponent();
