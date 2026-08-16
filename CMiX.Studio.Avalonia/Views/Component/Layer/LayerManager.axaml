@@ -2,12 +2,15 @@
     x:Class="CMiX.Studio.Avalonia.Views.LayerManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Services="clr-namespace:CMiX.Studio.Avalonia.Services"
-    xmlns:views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    d:DesignWidth="400"
+    d:DesignHeight="450">
 
     <Border Background="{DynamicResource Grey300Brush}">
         <DockPanel>
@@ -73,6 +76,7 @@
 
                     <Button
                         Height="{DynamicResource ControlHeightSM}"
+                        Width="{DynamicResource ControlHeightSM}"
                         Margin="2"
                         Background="Transparent"
                         Command="{Binding AddItemCommand}"
@@ -90,6 +94,7 @@
                         <StackPanel Orientation="Horizontal">
                             <Button
                                 Height="{DynamicResource ControlHeightSM}"
+                                Width="{DynamicResource ControlHeightSM}"
                                 Margin="2"
                                 Background="Transparent"
                                 Command="{Binding ManagerReorderService.ItemUpCommand}"
@@ -105,6 +110,7 @@
 
                             <Button
                                 Height="{DynamicResource ControlHeightSM}"
+                                Width="{DynamicResource ControlHeightSM}"
                                 Margin="2"
                                 Background="Transparent"
                                 Command="{Binding ManagerReorderService.ItemDownCommand}"
@@ -122,6 +128,7 @@
 
                     <Button
                         Height="{DynamicResource ControlHeightSM}"
+                        Width="{DynamicResource ControlHeightSM}"
                         Margin="4"
                         Background="Transparent"
                         Command="{Binding DeleteItemCommand}"
