@@ -74,7 +74,7 @@
 
             <Popup
                 IsOpen="{Binding IsChecked, ElementName=SwapToggle}"
-                Placement="Bottom"
+                Placement="BottomEdgeAlignedLeft"
                 PlacementTarget="{Binding ElementName=SwapToggle}"
                 VerticalOffset="-1">
                 <i:Interaction.Behaviors>

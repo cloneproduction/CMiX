@@ -71,7 +71,7 @@
                         IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
                         MaxWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
                         MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
-                        Placement="BottomEdgeAlignedLeft"
+                        Placement="Bottom"
                         PlacementTarget="{TemplateBinding}"
                         VerticalOffset="2">
                         <Border
@@ -166,7 +166,7 @@
                         InheritsTransform="True"
                         IsLightDismissEnabled="True"
                         IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
-                        Placement="BottomEdgeAlignedLeft"
+                        Placement="Bottom"
                         PlacementTarget="{TemplateBinding}"
                         VerticalOffset="2"
                         Width="250">
