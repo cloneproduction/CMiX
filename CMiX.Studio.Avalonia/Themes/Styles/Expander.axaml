@@ -78,8 +78,10 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-        <!-- TODO Avalonia: WPF IsEnabled False trigger set Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
-    </ControlTheme>
+
+        <Style Selector="^:disabled /template/ ToggleButton#PART_toggle">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>    </ControlTheme>
 
     <ControlTheme x:Key="ItemControlExpanderHeaderStyle" TargetType="ToggleButton">
         <Setter Property="Template">
@@ -167,8 +169,10 @@
         <Style Selector="^:pointerover /template/ Border#border">
             <Setter Property="BorderBrush" Value="{DynamicResource Grey600Brush}" />
         </Style>
-        <!-- TODO Avalonia: WPF IsEnabled False trigger set Foreground to SystemColors.GrayTextBrushKey, dropped because x:Static system values are not ported -->
-    </ControlTheme>
+
+        <Style Selector="^:disabled /template/ ToggleButton#PART_toggle">
+            <Setter Property="Opacity" Value="0.5" />
+        </Style>    </ControlTheme>
 
     <ControlTheme x:Key="IndentedExpanderStyleHeaderStyle" TargetType="ToggleButton">
         <Setter Property="Focusable" Value="False" />
