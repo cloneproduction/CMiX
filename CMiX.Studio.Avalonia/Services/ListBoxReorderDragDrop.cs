@@ -277,7 +277,10 @@ namespace CMiX.Studio.Avalonia.Services
 
             public override void Render(DrawingContext context)
             {
-                var pen = new Pen(Brushes.OrangeRed, 2);
+                var brush = this.TryFindResource("Grey600Brush", out var resource) && resource is IBrush greyBrush
+                    ? greyBrush
+                    : Brushes.Gray;
+                var pen = new Pen(brush, 2);
                 context.DrawLine(pen, new Point(0, LineY), new Point(Bounds.Width, LineY));
             }
         }
