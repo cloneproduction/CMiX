@@ -1,41 +1,43 @@
 ﻿<Styles
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
 
     <!--
-        Ported from CMiX.Studio\Themes\Styles\Border.xaml.
-        Border is not a templated control, so the WPF keyed style x:Key="BorderMask"
-        becomes the style class BorderMask. Consumers switch from
-        Style="{StaticResource BorderMask}" to Classes="BorderMask".
-        The WPF triggers on AttachedProperties:PositionedControl.Position map to the
-        position pseudo classes set from code by the PositionedControl attached property.
+        BorderMask now clips the border it's applied to directly via ClipToBoundsBehavior,
+        instead of providing a separate invisible border referenced by a VisualBrush
+        OpacityMask elsewhere. Avalonia's compositor caches VisualBrush-based OpacityMask
+        as a rasterized bitmap and does not reliably invalidate it on resize; Border.Clip
+        is evaluated live against current Bounds each render pass, so it has no such
+        staleness problem. Consumers apply Classes="BorderMask" to the border that should
+        be clipped/rounded, not to a separate mask element.
     -->
     <Style Selector="Border.BorderMask">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
     </Style>
 
     <Style Selector="Border.BorderMask:position-top">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
     </Style>
 
     <Style Selector="Border.BorderMask:position-bottom">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
     </Style>
 
     <Style Selector="Border.BorderMask:position-middle">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
     </Style>
 
     <Style Selector="Border.BorderMask:position-none">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
     </Style>
 
     <Style Selector="Border.BorderMask:position-left">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
     </Style>
 
     <Style Selector="Border.BorderMask:position-right">
-        <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
     </Style>
 
 </Styles>

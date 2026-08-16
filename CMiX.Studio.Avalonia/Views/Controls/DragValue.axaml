@@ -39,20 +39,11 @@
 
         <Grid>
             <Border
-                x:Name="mask"
-                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=dragValue}"
-                Background="{Binding Background, ElementName=mainBorder}"
-                Classes="BorderMask"
-                IsHitTestVisible="False" />
-            <Border
                 x:Name="mainBorder"
+                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=dragValue}"
                 Background="{DynamicResource Grey500Brush}"
-                BorderBrush="Transparent">
-
-                <!-- TODO Avalonia: verify VisualBrush opacity mask rendering. -->
-                <Border.OpacityMask>
-                    <VisualBrush Visual="{Binding ElementName=mask}" />
-                </Border.OpacityMask>
+                BorderBrush="Transparent"
+                Classes="BorderMask">
 
                 <Grid>
 

@@ -41,17 +41,11 @@
                 <Border Name="mainBorder">
                     <Grid>
 
-                        <Border Name="borderMask" Background="{DynamicResource Grey400Brush}" />
-
                         <!-- IsVisible bindings replace the WPF DataTrigger on IsEditing -->
                         <Border
                             Name="sliderBorder"
                             Background="Transparent"
                             IsVisible="{Binding !IsEditing, RelativeSource={RelativeSource TemplatedParent}}">
-                            <Border.OpacityMask>
-                                <!-- TODO Avalonia: verify VisualBrush rendering -->
-                                <VisualBrush Visual="{Binding ElementName=borderMask}" />
-                            </Border.OpacityMask>
                             <!-- WPF repeat button commands were dropped, Avalonia Slider moves the value from pointer presses on the track -->
                             <Track
                                 Name="PART_Track"
@@ -115,27 +109,26 @@
             <Setter Property="Value" Value="{TemplateBinding Value, Mode=TwoWay}" />
         </Style>
 
-        <!-- Corner radius follows the position pseudo classes set by PositionedControl -->
-        <Style Selector="^ /template/ Border#borderMask">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
+        <Style Selector="^ /template/ Border#sliderBorder">
+            <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
         </Style>
-        <Style Selector="^:position-none /template/ Border#borderMask">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        <Style Selector="^:position-none /template/ Border#sliderBorder">
+            <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
         </Style>
-        <Style Selector="^:position-middle /template/ Border#borderMask">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
+        <Style Selector="^:position-middle /template/ Border#sliderBorder">
+            <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
         </Style>
-        <Style Selector="^:position-top /template/ Border#borderMask">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
+        <Style Selector="^:position-top /template/ Border#sliderBorder">
+            <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
         </Style>
-        <Style Selector="^:position-bottom /template/ Border#borderMask">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
+        <Style Selector="^:position-bottom /template/ Border#sliderBorder">
+            <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
         </Style>
-        <Style Selector="^:position-left /template/ Border#borderMask">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
+        <Style Selector="^:position-left /template/ Border#sliderBorder">
+            <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
         </Style>
-        <Style Selector="^:position-right /template/ Border#borderMask">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+        <Style Selector="^:position-right /template/ Border#sliderBorder">
+            <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
         </Style>
 
         <!-- WPF swapped repeat button styles on mouse over, the backgrounds are set directly here -->
