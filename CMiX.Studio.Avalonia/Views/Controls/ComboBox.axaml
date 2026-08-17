@@ -28,6 +28,7 @@
             Classes="BorderMask">
 
             <ComboBox
+                x:Name="innerComboBox"
                 AttachedProperties:PositionedControl.Position="None"
                 ItemsSource="{Binding ItemsSource, ElementName=comboBox}"
                 SelectedItem="{Binding SelectedItem, ElementName=comboBox, Mode=TwoWay}" />

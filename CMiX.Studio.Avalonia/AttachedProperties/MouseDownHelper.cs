@@ -62,24 +62,24 @@ namespace CMiX.Studio.Avalonia.AttachedProperties
             element.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
         }
 
-        private static void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        private static void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            var element = (Control)sender;
+            var element = (Control)sender!;
             SetIsMouseDown(element, true);
             if (e.GetCurrentPoint(element).Properties.IsLeftButtonPressed)
                 SetIsMouseLeftButtonDown(element, true);
         }
 
-        private static void OnPointerExited(object sender, PointerEventArgs e)
+        private static void OnPointerExited(object? sender, PointerEventArgs e)
         {
-            var element = (Control)sender;
+            var element = (Control)sender!;
             SetIsMouseDown(element, false);
             SetIsMouseLeftButtonDown(element, false);
         }
 
-        private static void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+        private static void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
-            var element = (Control)sender;
+            var element = (Control)sender!;
             SetIsMouseDown(element, false);
             SetIsMouseLeftButtonDown(element, false);
         }

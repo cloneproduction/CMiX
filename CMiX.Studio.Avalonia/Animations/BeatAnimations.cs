@@ -82,7 +82,7 @@ namespace CMiX.Studio.Avalonia.Animations
         // Exposed so a diagnostic or a test can tell an idle clock from a running one.
         public bool IsRunning => _timer.IsEnabled;
 
-        private void OnObservationStarted(object sender, EventArgs e)
+        private void OnObservationStarted(object? sender, EventArgs e)
         {
             if (!_timer.IsEnabled)
                 _timer.Start();
@@ -98,7 +98,7 @@ namespace CMiX.Studio.Avalonia.Animations
             }
         }
 
-        private void OnTick(object sender, EventArgs e)
+        private void OnTick(object? sender, EventArgs e)
         {
             var elapsedMs = _stopwatch.Elapsed.TotalMilliseconds;
             var anyObserved = false;

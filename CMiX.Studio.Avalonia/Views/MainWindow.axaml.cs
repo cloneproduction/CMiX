@@ -23,7 +23,7 @@ namespace CMiX.Studio.Avalonia.Views
             titleBar.PointerPressed += TitleBar_PointerPressed;
         }
 
-        private void TitleBar_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void TitleBar_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             // The WPF chrome excluded the menu and the window buttons from the drag
             // area with IsHitTestVisibleInChrome. Starting a move drag here would

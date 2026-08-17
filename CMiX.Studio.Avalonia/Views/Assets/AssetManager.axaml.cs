@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Views
             }
         }
 
-        private void OnDragOver(object sender, DragEventArgs e)
+        private void OnDragOver(object? sender, DragEventArgs e)
         {
             e.DragEffects = e.Data.Contains(DataFormats.Files)
                 ? DragDropEffects.Copy | DragDropEffects.Move
@@ -37,7 +37,7 @@ namespace CMiX.Studio.Avalonia.Views
             e.Handled = true;
         }
 
-        private async void OnDrop(object sender, DragEventArgs e)
+        private async void OnDrop(object? sender, DragEventArgs e)
         {
             if (DataContext is not Core.Assets.AssetManager assetManager)
                 return;
@@ -45,7 +45,7 @@ namespace CMiX.Studio.Avalonia.Views
             if (!e.Data.Contains(DataFormats.Files))
                 return;
 
-            var paths = e.Data.GetFiles()?.Select(f => f.TryGetLocalPath()).Where(p => p != null).ToList() ?? new List<string>();
+            var paths = e.Data.GetFiles()?.Select(f => f.TryGetLocalPath()).Where(p => p != null).Select(p => p!).ToList() ?? new List<string>();
             e.Handled = true;
 
             try

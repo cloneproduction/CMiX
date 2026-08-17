@@ -28,7 +28,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(TextProperty, value);
         }
 
-        private TopLevel _parentTopLevel;
+        private TopLevel? _parentTopLevel;
 
         static EditableValue()
         {
@@ -80,7 +80,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         private void OnSwitchToNormalMode()
         {
             IsEditing = false;
-            Text = InputValue.Text;
+            Text = InputValue.Text ?? string.Empty;
             SetInputVisible(false);
             UnhookTopLevelEvents();
         }
@@ -100,7 +100,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private void TopLevel_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void TopLevel_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!InputValue.IsPointerOver)
                 OnSwitchToNormalMode();
@@ -113,7 +113,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             return !_regex.IsMatch(text);
         }
 
-        private void TextInput_OnTextInput(object sender, TextInputEventArgs e)
+        private void TextInput_OnTextInput(object? sender, TextInputEventArgs e)
         {
             e.Handled = e.Text != null && !IsTextAllowed(e.Text);
         }

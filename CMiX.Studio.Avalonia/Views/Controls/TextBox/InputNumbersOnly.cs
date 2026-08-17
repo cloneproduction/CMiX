@@ -41,21 +41,21 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private static void OnTextInput(object sender, TextInputEventArgs e)
+        private static void OnTextInput(object? sender, TextInputEventArgs e)
         {
             if (e.Text != null && e.Text.Any(c => !char.IsDigit(c)))
                 e.Handled = true;
         }
 
-        private static void OnKeyDown(object sender, KeyEventArgs e)
+        private static void OnKeyDown(object? sender, KeyEventArgs e)
         {
             if (e.Key == Key.Space)
                 e.Handled = true;
         }
 
-        private static async void OnPaste(object sender, RoutedEventArgs e)
+        private static async void OnPaste(object? sender, RoutedEventArgs e)
         {
-            var textBox = (TextBox)sender;
+            var textBox = (TextBox)sender!;
             var topLevel = TopLevel.GetTopLevel(textBox);
             if (topLevel?.Clipboard == null)
             {

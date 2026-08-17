@@ -3,11 +3,15 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <!-- The WPF file declared x:Class CMiX.Core.Themes.MainWindow on the ResourceDictionary, dropped in this port -->
-    <!-- TODO Avalonia: all WPF WindowChrome settings are dropped here, the custom window chrome is rebuilt in a later phase -->
+    <!--
+        WPF's WindowChrome (CaptionHeight 0, CornerRadius CornerRadiusLargeAll, AllowsTransparency)
+        has no direct Avalonia equivalent. The rounded/transparent popup look is achieved instead
+        by SystemDecorations="None" plus TransparencyLevelHint="Transparent" set on the consuming
+        Window (see ServerCreationWindow.axaml), combined with the Background/CornerRadius/Effect
+        already set in the template below.
+    -->
 
     <ControlTheme x:Key="PopupWindowNoTitleStyle" TargetType="Window">
-        <!-- TODO Avalonia: WPF WindowChrome used CaptionHeight 0 and CornerRadius CornerRadiusLargeAll -->
-        <!-- TODO Avalonia: WPF AllowsTransparency was dropped, set TransparencyLevelHint on the window instead -->
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Width" Value="210" />
         <Setter Property="Template">

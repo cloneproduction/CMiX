@@ -24,7 +24,7 @@ namespace CMiX.Studio.Avalonia
 {
     public partial class App : Application
     {
-        private MasterBeatAnimationController _animationController;
+        private MasterBeatAnimationController? _animationController;
 
         // The rule for ambient statics in this app, so the three that exist do not become a
         // habit. A static is acceptable only when the consumer has no injection point at all:
@@ -37,8 +37,8 @@ namespace CMiX.Studio.Avalonia
         // whose whole purpose is being ambient across controls that do not know each other; it
         // is held to the rule by ownership instead, its BeginScope returns a handle and only
         // that handle can end the scope it opened.
-        private static Project _crashSaveProject;
-        public static IDialogService DialogService { get; private set; }
+        private static Project? _crashSaveProject;
+        public static IDialogService? DialogService { get; private set; }
 
         public override void Initialize()
         {

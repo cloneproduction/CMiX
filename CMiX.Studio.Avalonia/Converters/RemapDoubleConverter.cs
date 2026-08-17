@@ -17,7 +17,7 @@ namespace CMiX.Studio.Avalonia.Converters
         public double ToMin { get; set; }
         public double ToMax { get; set; }
 
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is not double d)
                 return AvaloniaProperty.UnsetValue;
@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.Converters
             return MathUtils.Map(d, FromMin, FromMax, ToMin, ToMax);
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is not double d)
                 return AvaloniaProperty.UnsetValue;

@@ -22,8 +22,6 @@ namespace CMiX.Studio.Avalonia.Services
         public CollectionManager CollectionManager { get; set; }
         private readonly Action<int, int> _onMove;
 
-        public PrefabManager PrefabManager { get; set; }
-
         [ObservableProperty]
         private bool _dragHandlerIsPressed = false;
 

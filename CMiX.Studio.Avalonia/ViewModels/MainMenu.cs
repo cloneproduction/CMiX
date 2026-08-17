@@ -55,7 +55,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private readonly IDialogService _dialogService;
 
         [ObservableProperty]
-        private string _folderPath;
+        private string? _folderPath;
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public ControlFactory ControlFactory { get; set; }
@@ -191,7 +191,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         {
             try
             {
-                var loaded = await Task.Run<(ProjectModel Project, CompositionModel Composition)>(() =>
+                var loaded = await Task.Run<(ProjectModel? Project, CompositionModel? Composition)>(() =>
                 {
                     var projectModel = ProjectSerializer.Load(path);
                     if (projectModel?.CompositionManager?.ManagerData?.Items?.FirstOrDefault() is not CompositionModel compositionModel)
@@ -200,7 +200,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                     return (projectModel, CloneWithNewGuids(compositionModel));
                 });
 
-                if (loaded.Composition == null)
+                if (loaded.Project == null || loaded.Composition == null)
                 {
                     await _dialogService.ShowMessageBoxAsync(this, "File does not contain a composition.", "Open Project");
                     return;
@@ -253,7 +253,8 @@ namespace CMiX.Studio.Avalonia.ViewModels
         private static T CloneWithNewGuids<T>(T model) where T : IControlModel
         {
             var json = ReplaceAllGuids(JsonSerializer.Serialize(model, ProjectSerializer.Options));
-            return JsonSerializer.Deserialize<T>(json, ProjectSerializer.Options);
+            return JsonSerializer.Deserialize<T>(json, ProjectSerializer.Options)
+                ?? throw new InvalidOperationException($"Failed to clone {typeof(T).Name}: deserialization returned null.");
         }
 
         private static string ReplaceAllGuids(string json)

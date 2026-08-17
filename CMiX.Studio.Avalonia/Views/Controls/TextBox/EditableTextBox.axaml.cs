@@ -36,7 +36,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(TextProperty, value);
         }
 
-        private TopLevel _parentTopLevel;
+        private TopLevel? _parentTopLevel;
 
         static EditableTextBox()
         {
@@ -66,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             TextDisplay.IsVisible = !editing;
         }
 
-        private void EditableTextBox_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void EditableTextBox_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!e.GetCurrentPoint(this).Properties.IsLeftButtonPressed)
                 return;
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 item.IsSelected = true;
         }
 
-        private void EditableTextBox_DoubleTapped(object sender, TappedEventArgs e)
+        private void EditableTextBox_DoubleTapped(object? sender, TappedEventArgs e)
         {
             OnSwitchToEditingMode();
         }
@@ -108,7 +108,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void OnSwitchToNormalMode()
         {
-            Text = InputValue.Text;
+            Text = InputValue.Text ?? string.Empty;
             SetInputVisible(false);
             UnhookTopLevelEvents();
             IsEditing = false;
@@ -136,18 +136,18 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private void ParentTopLevel_PointerWheelChanged(object sender, PointerWheelEventArgs e)
+        private void ParentTopLevel_PointerWheelChanged(object? sender, PointerWheelEventArgs e)
         {
             OnSwitchToNormalMode();
         }
 
-        private void ParentTopLevel_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void ParentTopLevel_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (!InputValue.IsPointerOver)
                 OnSwitchToNormalMode();
         }
 
-        private void ParentTopLevel_SizeChanged(object sender, SizeChangedEventArgs e)
+        private void ParentTopLevel_SizeChanged(object? sender, SizeChangedEventArgs e)
         {
             OnSwitchToNormalMode();
         }

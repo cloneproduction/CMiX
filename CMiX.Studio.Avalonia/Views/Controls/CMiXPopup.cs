@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         bool _isDragging;
         double actualWidth;
         double actualHeight;
-        Border _dragBar;
+        Border? _dragBar;
 
         public CMiXPopup()
         {
@@ -26,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             Closed += CMiXPopup_Closed;
         }
 
-        private void CMiXPopup_Opened(object sender, EventArgs e)
+        private void CMiXPopup_Opened(object? sender, EventArgs e)
         {
             if (_dragBar != null)
                 return;
@@ -43,9 +43,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private void DragBar_PointerPressed(object sender, PointerPressedEventArgs e)
+        private void DragBar_PointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            if (!e.GetCurrentPoint(_dragBar).Properties.IsLeftButtonPressed)
+            if (_dragBar == null || !e.GetCurrentPoint(_dragBar).Properties.IsLeftButtonPressed)
                 return;
 
             e.Handled = true;
@@ -56,7 +56,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             e.Pointer.Capture(_dragBar);
         }
 
-        private void DragBar_PointerMoved(object sender, PointerEventArgs e)
+        private void DragBar_PointerMoved(object? sender, PointerEventArgs e)
         {
             if (_isDragging)
             {
@@ -66,7 +66,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private void DragBar_PointerReleased(object sender, PointerReleasedEventArgs e)
+        private void DragBar_PointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             if (_isDragging)
             {
@@ -76,7 +76,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private void CMiXPopup_Closed(object sender, EventArgs e)
+        private void CMiXPopup_Closed(object? sender, EventArgs e)
         {
             HorizontalOffset = -actualWidth * 0.5;
             VerticalOffset = -actualHeight * 0.5;

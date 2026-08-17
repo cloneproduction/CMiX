@@ -47,16 +47,16 @@ namespace CMiX.Studio.Avalonia.AttachedProperties
             }
         }
 
-        private static void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        private static void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
             if (e.GetCurrentPoint(sender as Control).Properties.IsLeftButtonPressed)
-                ((Control)sender).SetValue(IsPressedProperty, true);
+                ((Control)sender!).SetValue(IsPressedProperty, true);
         }
 
-        private static void OnPointerReleased(object sender, PointerReleasedEventArgs e)
+        private static void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
         {
             if (e.InitialPressMouseButton == MouseButton.Left)
-                ((Control)sender).SetValue(IsPressedProperty, false);
+                ((Control)sender!).SetValue(IsPressedProperty, false);
         }
     }
 }

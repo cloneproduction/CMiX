@@ -10,9 +10,12 @@ namespace CMiX.Studio.Avalonia.Converters
 {
     public class ColorToHexConverter : IValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var hexCode = System.Convert.ToString(value);
+            if (hexCode == null)
+                return null;
+
             try
             {
                 return Color.Parse(hexCode);
@@ -23,7 +26,7 @@ namespace CMiX.Studio.Avalonia.Converters
             }
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             var hexCode = System.Convert.ToString(value);
             try

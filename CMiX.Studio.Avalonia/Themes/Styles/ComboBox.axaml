@@ -71,7 +71,7 @@
                         IsOpen="{TemplateBinding IsDropDownOpen, Mode=TwoWay}"
                         MaxWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
                         MinWidth="{Binding Bounds.Width, RelativeSource={RelativeSource TemplatedParent}}"
-                        Placement="BottomEdgeAlignedLeft"
+                        Placement="Bottom"
                         PlacementTarget="{TemplateBinding}"
                         VerticalOffset="2">
                         <Border
@@ -106,7 +106,7 @@
     <ControlTheme x:Key="ComboBoxItem" TargetType="ComboBoxItem">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="Height" Value="{DynamicResource ControlHeightMD}" />
-        <Setter Property="HorizontalContentAlignment" Value="{Binding $parent[ItemsControl].HorizontalContentAlignment}" />
+        <Setter Property="HorizontalContentAlignment" Value="{Binding $parent[ComboBox].HorizontalContentAlignment}" />
         <Setter Property="VerticalAlignment" Value="Center" />
         <Setter Property="Template">
             <ControlTemplate>

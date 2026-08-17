@@ -38,9 +38,9 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private static void OnPointerPressed(object sender, PointerPressedEventArgs e)
+        private static void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
-            var textBox = (TextBox)sender;
+            var textBox = (TextBox)sender!;
             if (!textBox.IsKeyboardFocusWithin)
             {
                 textBox.Focus();
@@ -48,7 +48,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             }
         }
 
-        private static void OnGotFocusSelectText(object sender, GotFocusEventArgs e)
+        private static void OnGotFocusSelectText(object? sender, GotFocusEventArgs e)
         {
             if (sender is TextBox textBox)
                 textBox.SelectAll();
