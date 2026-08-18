@@ -16,6 +16,7 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Menus="clr-namespace:CMiX.Studio.Avalonia.Views.Menus"
     xmlns:Windows="clr-namespace:CMiX.Studio.Avalonia.Views.Windows"
+
     Title="CMiX"
     Width="400"
     Height="1000"
@@ -99,22 +100,38 @@
                     </i:Interaction.Behaviors>
                     <DockPanel>
 
-                        <Views:Outliner
+                        <Views:PrefabSlotManager
+                            Margin="8"
+                            DataContext="{Binding CompositionManager}"
+                            DockPanel.Dock="Top"
+                            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Compositions}">
+
+                            <Views:PrefabSlotManager.SelectionPanel>
+                                <Views:ButtonOpenSelectionPanel Caption="Add">
+                                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                        <Views:CompositionSelectionPanel />
+                                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
+                                </Views:ButtonOpenSelectionPanel>
+                            </Views:PrefabSlotManager.SelectionPanel>
+
+                        </Views:PrefabSlotManager>
+
+                        <!--<Views:PrefabSlotManager
                             Margin="8"
                             VerticalAlignment="Top"
                             DataContext="{Binding Project.CompositionManager}"
                             DockPanel.Dock="Top"
                             ItemsSource="{Binding ControlRepository.Compositions}">
-
+--><!--
                             <Views:Outliner.SelectionPanel>
                                 <Button
                                     Command="{Binding AddItemCommand}"
                                     CommandParameter="{x:Type Compositing:Composition}"
                                     Content="New Composition"
                                     Theme="{DynamicResource ButtonRoundedRight}" />
-                            </Views:Outliner.SelectionPanel>
+                            </Views:Outliner.SelectionPanel>--><!--
 
-                        </Views:Outliner>
+                        </Views:Outliner>-->
 
                         <!-- The IsVisible binding sits on a wrapper because an empty path binding against a null DataContext never delivers a value in Avalonia. -->
                         <Border IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
