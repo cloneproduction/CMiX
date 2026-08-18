@@ -19,9 +19,19 @@
     xmlns:Transformation="clr-namespace:CMiX.Core.Transformation;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core;assembly=CMiX.Core"
     xmlns:ComponentModel="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+    xmlns:Rendering="clr-namespace:CMiX.Core.Rendering;assembly=CMiX.Core"
     xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:VL="clr-namespace:VL.Lib.Mathematics;assembly=VL.CoreLib">
 
+    <ObjectDataProvider
+        x:Key="TexcoordSemantic"
+        MethodName="GetValues"
+        ObjectType="{x:Type Rendering:TexcoordSemantic}">
+        <ObjectDataProvider.MethodParameters>
+            <x:Type TypeName="Rendering:TexcoordSemantic" />
+        </ObjectDataProvider.MethodParameters>
+    </ObjectDataProvider>
+    
     <ObjectDataProvider
         x:Key="KuwaharaType"
         MethodName="GetValues"

@@ -18,6 +18,9 @@ namespace CMiX.Studio.Avalonia.Resources
     // Consumed from XAML via {x:Static Resources:EnumProviders.X}.
     public static class EnumProviders
     {
+        public static CMiX.Core.Rendering.TexcoordSemantic[] TexcoordSemantic { get; } =
+            Enum.GetValues<CMiX.Core.Rendering.TexcoordSemantic>();
+
         public static CMiX.Core.Texturing.Filters.KuwaharaType[] KuwaharaType { get; } =
             Enum.GetValues<CMiX.Core.Texturing.Filters.KuwaharaType>();
 

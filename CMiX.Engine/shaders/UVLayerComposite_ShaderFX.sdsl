@@ -1,0 +1,22 @@
+shader UVLayerComposite_ShaderFX : ComputeColor, Texturing, BlendOperations
+{
+    compose ComputeColor LayerIn;
+    compose ComputeColor TextureIn;
+
+    [Default(0.0)]
+    compose ComputeFloat BlendModeIn;
+
+    [Default(1.0)]
+    compose ComputeFloat BlendAmountIn;
+
+    override float4 Compute()
+    {
+        float4 colorA = LayerIn.Compute();
+        float4 colorB = TextureIn.Compute();
+        float blendAmount = BlendAmountIn.Compute();
+        int blendMode = (int)round(BlendModeIn.Compute());
+
+        float4 blendedFull = Blend(colorA, colorB, 1.0, false, blendMode);
+        return lerp(colorA, blendedFull, blendAmount);
+    }
+};
