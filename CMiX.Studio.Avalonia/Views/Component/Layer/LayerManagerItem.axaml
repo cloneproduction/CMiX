@@ -49,7 +49,7 @@
             <ToggleButton
                 Classes="maskToggle"
                 DockPanel.Dock="Right"
-                IsChecked="{Binding IsMask.Value}">
+                IsChecked="{Binding LayerMaskSettings.IsMask.Value}">
                 <ToggleButton.Template>
                     <ControlTemplate>
                         <Border

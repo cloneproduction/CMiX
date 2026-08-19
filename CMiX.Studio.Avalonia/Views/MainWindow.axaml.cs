@@ -10,16 +10,22 @@ namespace CMiX.Studio.Avalonia.Views
 {
     public partial class MainWindow : Window
     {
-        private readonly UndoManager _undoManager;
+        private readonly UndoManager? _undoManager;
 
         // The DataContext is assigned by App after construction, matching WPF. With
         // the context already present during construction every deferred child
         // binding transiently evaluates against the window context before its local
         // DataContext applies, which logs far more binding noise than the null case.
-        public MainWindow(UndoManager undoManager)
+        public MainWindow(UndoManager undoManager) : this()
+        {
+            _undoManager = undoManager;
+        }
+
+        // Parameterless constructor so the Avalonia XAML previewer/loader can
+        // construct the window at design time (it has no UndoManager to pass in).
+        public MainWindow()
         {
             InitializeComponent();
-            _undoManager = undoManager;
             titleBar.PointerPressed += TitleBar_PointerPressed;
         }
 
@@ -41,6 +47,9 @@ namespace CMiX.Studio.Avalonia.Views
         protected override void OnKeyDown(KeyEventArgs e)
         {
             base.OnKeyDown(e);
+
+            if (_undoManager is null)
+                return; // design-time instance, nothing to undo/redo
 
             if (e.Key == Key.Z && e.KeyModifiers == KeyModifiers.Control)
             {

@@ -7,10 +7,10 @@ namespace CMiX.Core.Texturing
 {
     public class LayerMaskSettings : IControl
     {
-        public LayerMaskSettings(GenericValue<bool> isMask, 
-                                GenericValue<MaskChannel> maskChannel, 
-                                GenericValue<MaskMode> maskMode, 
-                                GenericValue<bool> invert) 
+        public LayerMaskSettings(GenericValue<bool> isMask,
+                                GenericValue<MaskChannel> maskChannel,
+                                GenericValue<MaskMode> maskMode,
+                                GenericValue<bool> invert)
         {
             IsMask = isMask;
             MaskChannel = maskChannel;
@@ -26,12 +26,21 @@ namespace CMiX.Core.Texturing
 
         public void FromModel(IControlModel model)
         {
-            throw new NotImplementedException();
+            var m = (LayerMaskSettingsModel)model;
+            ID = m.ID;
+            IsMask.FromModel(m.IsMask);
+            MaskChannel.FromModel(m.MaskChannel);
+            MaskMode.FromModel(m.MaskMode);
+            Invert.FromModel(m.Invert);
         }
 
-        public IControlModel ToModel()
+        public IControlModel ToModel() => new LayerMaskSettingsModel
         {
-            throw new NotImplementedException();
-        }
+            ID = ID,
+            IsMask = (GenericValueModel<bool>)IsMask.ToModel(),
+            MaskChannel = (GenericValueModel<MaskChannel>)MaskChannel.ToModel(),
+            MaskMode = (GenericValueModel<MaskMode>)MaskMode.ToModel(),
+            Invert = (GenericValueModel<bool>)Invert.ToModel()
+        };
     }
 }

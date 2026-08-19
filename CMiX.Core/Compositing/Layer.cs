@@ -1,13 +1,11 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
-using CMiX.Core;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -17,7 +15,7 @@ namespace CMiX.Core.Compositing
     {
         public Layer(PrefabService prefabService,
                      LayerSettings layerSettings,
-                     LayerMaskSettings layerMaskService,
+                     LayerMaskSettings layerMaskSettings,
                      AmbientOcclusion ambientOcclusion,
                      LocalReflection localReflectionModel,
                      PrefabManager modelEntityManager,
@@ -31,13 +29,9 @@ namespace CMiX.Core.Compositing
             PrefabService = prefabService;
 
             LayerSettings = layerSettings;
+            LayerMaskSettings = layerMaskSettings;
             AmbientOcclusion = ambientOcclusion;
             LocalReflection = localReflectionModel;
-
-            IsMask = layerMaskService.IsMask;
-            MaskChannel = layerMaskService.MaskChannel;
-            MaskMode = layerMaskService.MaskMode;
-            Invert = layerMaskService.Invert;
 
             TextureModifierManager = textureModifierManager;
             ModelEntityManager = modelEntityManager;
@@ -51,13 +45,11 @@ namespace CMiX.Core.Compositing
         public PrefabService PrefabService { get; set; }
 
         public LayerSettings LayerSettings { get; set; }
+        public LayerMaskSettings LayerMaskSettings { get; set; }
+
         public AmbientOcclusion AmbientOcclusion { get; set; }
         public LocalReflection LocalReflection { get; set; }
 
-        public GenericValue<bool> Invert { get; set; }
-        public GenericValue<bool> IsMask { get; set; }
-        public GenericValue<MaskMode> MaskMode { get; set; }
-        public GenericValue<MaskChannel> MaskChannel { get; set; }
 
         public PrefabManager ModelEntityManager { get; set; }
         public PrefabManager CameraManager { get; set; }
@@ -74,10 +66,7 @@ namespace CMiX.Core.Compositing
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             LayerSettings = (LayerSettingsModel)LayerSettings.ToModel(),
-            Invert = (GenericValueModel<bool>)Invert.ToModel(),
-            IsMask = (GenericValueModel<bool>)IsMask.ToModel(),
-            MaskMode = (GenericValueModel<MaskMode>)MaskMode.ToModel(),
-            MaskChannel = (GenericValueModel<MaskChannel>)MaskChannel.ToModel(),
+            LayerMaskSettings = (LayerMaskSettingsModel)LayerMaskSettings.ToModel(),
             AmbientOcclusion = (AmbientOcclusionModel)AmbientOcclusion.ToModel(),
             LocalReflection = (LocalReflectionModel)LocalReflection.ToModel(),
             TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
@@ -93,10 +82,7 @@ namespace CMiX.Core.Compositing
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             LayerSettings.FromModel(m.LayerSettings);
-            Invert.FromModel(m.Invert);
-            IsMask.FromModel(m.IsMask);
-            MaskMode.FromModel(m.MaskMode);
-            MaskChannel.FromModel(m.MaskChannel);
+            LayerMaskSettings.FromModel(m.LayerMaskSettings);
             AmbientOcclusion.FromModel(m.AmbientOcclusion);
             LocalReflection.FromModel(m.LocalReflection);
 

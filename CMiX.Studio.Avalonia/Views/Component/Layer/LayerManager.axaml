@@ -37,33 +37,34 @@
                         Caption="Background"
                         DataContext="{Binding LayerSettings.BackgroundColor}" />
 
-                    <Border IsVisible="{Binding !IsMask.Value}">
+                    <Border IsVisible="{Binding !LayerMaskSettings.IsMask.Value}">
                         <BaseControls:ComboBox
                             Caption="Blend Mode"
                             ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
                             SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
                     </Border>
 
-                    <Border IsVisible="{Binding IsMask.Value}">
+                        <Border IsVisible="{Binding LayerMaskSettings.IsMask.Value}">
+                            <StackPanel>
 
-                        <StackPanel>
+                                <BaseControls:ComboBox
+                                    Caption="Mask Mode"
+                                    ItemsSource="{x:Static Resources:EnumProviders.MaskMode}"
+                                    SelectedItem="{Binding LayerMaskSettings.MaskMode.Value}" />
 
-                            <BaseControls:ComboBox
-                                Caption="Mask Mode"
-                                ItemsSource="{x:Static Resources:EnumProviders.MaskMode}"
-                                SelectedItem="{Binding MaskMode.Value}" />
+                                <BaseControls:ComboBox
+                                    Margin="0,4"
+                                    Caption="Channel"   
+                                    ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
+                                    SelectedItem="{Binding LayerMaskSettings.MaskChannel.Value}" />
 
-                            <BaseControls:ComboBox
-                                Margin="0,4"
-                                Caption="Channel"
-                                ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
-                                SelectedItem="{Binding MaskChannel.Value}" />
+                                <BaseControls:ToggleButton 
+                                    Caption="Invert" 
+                                    IsChecked="{Binding LayerMaskSettings.Invert.Value}" />
 
-                            <BaseControls:ToggleButton Caption="Invert" IsChecked="{Binding Invert.Value}" />
-
-                        </StackPanel>
-
+                            </StackPanel>
                     </Border>
+
 
                 </StackPanel>
             </Border>
@@ -80,7 +81,7 @@
                         Margin="2"
                         Background="Transparent"
                         Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Compositing:Layer}"
+                        CommandParameter="{Binding $parent[UserControl].ItemType}"
                         Theme="{StaticResource ButtonRounded}">
                         <Button.Content>
                             <Image

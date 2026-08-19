@@ -17,12 +17,16 @@ namespace CMiX.Core.Compositing
                            PrefabManager prefabManager,
                            PrefabManager textureModifierManager, 
                            PrefabManager modifierManager,
-                           OutputSettings outputSettings)
+                           OutputSettings outputSettings,
+                           LayerSettings layerSettings,
+                           LayerMaskSettings layerMaskSettings)
         {
             ID = prefabService.ID;
             PrefabService = prefabService;
             OutputSettings = outputSettings;
             LayerManager = prefabManager;
+            LayerSettings = layerSettings;
+            LayerMaskSettings = layerMaskSettings;
             ModifierManager = modifierManager;
             TextureModifierManager = textureModifierManager;
         }
@@ -33,7 +37,9 @@ namespace CMiX.Core.Compositing
         public PrefabManager TextureModifierManager { get; set; }
         public OutputSettings OutputSettings { get; set; }
         public PrefabManager ModifierManager { get; set; }
+        public LayerSettings LayerSettings { get; set; }
 
+        public LayerMaskSettings LayerMaskSettings { get; set; }
 
         [ObservableProperty]
         private bool textureModifierIsExpanded = false;
@@ -48,7 +54,9 @@ namespace CMiX.Core.Compositing
             OutputSettings = (OutputSettingsModel)OutputSettings.ToModel(),
             TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
             LayerManager = (PrefabManagerModel)LayerManager.ToModel(),
-            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel()
+            ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
+            LayerSettings = (LayerSettingsModel)LayerSettings.ToModel(),
+            LayerMaskSettings = (LayerMaskSettingsModel)LayerMaskSettings.ToModel(),
         };
 
         public void FromModel(IControlModel model)
@@ -57,6 +65,8 @@ namespace CMiX.Core.Compositing
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             OutputSettings.FromModel(m.OutputSettings);
+            LayerSettings.FromModel(m.LayerSettings);
+            LayerMaskSettings.FromModel(m.LayerMaskSettings);
 
             LoadManager(TextureModifierManager, m.TextureModifierManager);
             LoadManager(LayerManager, m.LayerManager);

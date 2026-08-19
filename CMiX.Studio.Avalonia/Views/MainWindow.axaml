@@ -94,52 +94,37 @@
                         ToolTip.Tip="Composition"
                         ToolTip.VerticalOffset="10" />
                 </TabItem.Header>
-                <ScrollViewer>
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <DockPanel>
 
-                        <Views:PrefabSlotManager
-                            Margin="8"
-                            DataContext="{Binding CompositionManager}"
-                            DockPanel.Dock="Top"
-                            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Compositions}">
+                <Border IsVisible="True">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="0.4*" />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
 
-                            <Views:PrefabSlotManager.SelectionPanel>
-                                <Views:ButtonOpenSelectionPanel Caption="Add">
-                                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                        <Views:CompositionSelectionPanel />
-                                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                </Views:ButtonOpenSelectionPanel>
-                            </Views:PrefabSlotManager.SelectionPanel>
-
-                        </Views:PrefabSlotManager>
-
-                        <!--<Views:PrefabSlotManager
-                            Margin="8"
-                            VerticalAlignment="Top"
-                            DataContext="{Binding Project.CompositionManager}"
-                            DockPanel.Dock="Top"
-                            ItemsSource="{Binding ControlRepository.Compositions}">
---><!--
-                            <Views:Outliner.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Compositing:Composition}"
-                                    Content="New Composition"
-                                    Theme="{DynamicResource ButtonRoundedRight}" />
-                            </Views:Outliner.SelectionPanel>--><!--
-
-                        </Views:Outliner>-->
-
-                        <!-- The IsVisible binding sits on a wrapper because an empty path binding against a null DataContext never delivers a value in Avalonia. -->
-                        <Border IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                        <Border
+                            Grid.Row="1"
+                            Background="{DynamicResource Grey300Brush}"
+                            BorderBrush="{DynamicResource Grey100Brush}"
+                            BorderThickness="0,2"
+                            IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
                             <Views:Composition DataContext="{Binding Project.CompositionManager.SelectedItem}" />
                         </Border>
 
-                    </DockPanel>
-                </ScrollViewer>
+                        <Views:LayerManager
+                            Grid.Row="0"
+                            ItemType="{x:Type Compositing:Composition}"
+                            DataContext="{Binding Project.CompositionManager}" />
+
+                        <GridSplitter
+                            Grid.Row="0"
+                            Height="8"
+                            Margin="0,-4"
+                            VerticalAlignment="Bottom"
+                            Theme="{StaticResource GridSplitter}" />
+                    </Grid>
+                </Border>
+
             </TabItem>
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
@@ -172,6 +157,7 @@
 
                         <Views:LayerManager
                             Grid.Row="0"
+                            ItemType="{x:Type Compositing:Layer}"
                             DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager}" />
 
                         <GridSplitter
