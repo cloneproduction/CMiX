@@ -4,6 +4,7 @@
 using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering;
 
 namespace CMiX.Core.Compositing
 {
@@ -15,6 +16,7 @@ namespace CMiX.Core.Compositing
         public PrefabManagerModel ModifierManager { get; set; } = new();
         public PrefabManagerModel CompositionManager {  get; set; } = new();
         public MasterBeatModel MasterBeat { get; set; } = new();
+        public OutputMappingManagerModel OutputMappingManager { get; set; } = new();
 
     }
 }

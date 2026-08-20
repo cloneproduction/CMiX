@@ -315,7 +315,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             var selectedComposition = Project.CompositionManager.SelectedItem as Composition;
             if (selectedComposition == null) return;
 
-            var projectModel = ProjectModelBuilder.Build(selectedComposition, Project.MasterBeat);
+            var projectModel = ProjectModelBuilder.Build(selectedComposition, Project.MasterBeat, Project.OutputMappingManager);
             await Task.Run(() => ProjectSerializer.Save(projectModel, path));
         }
 

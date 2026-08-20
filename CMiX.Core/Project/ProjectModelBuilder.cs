@@ -4,6 +4,7 @@
 using System.Collections.ObjectModel;
 using CMiX.Core.Animations;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering;
 
 namespace CMiX.Core.Compositing
 {
@@ -11,11 +12,12 @@ namespace CMiX.Core.Compositing
     // so the two cannot drift when the project model grows a field.
     public static class ProjectModelBuilder
     {
-        public static ProjectModel Build(Composition composition, MasterBeat masterBeat)
+        public static ProjectModel Build(Composition composition, MasterBeat masterBeat, OutputMappingManager outputMappingManager)
         {
             return new ProjectModel
             {
                 MasterBeat = (MasterBeatModel)masterBeat.ToModel(),
+                OutputMappingManager = (OutputMappingManagerModel)outputMappingManager.ToModel(),
                 CompositionManager = new PrefabManagerModel
                 {
                     ManagerData = new ManagerDataModel

@@ -4,6 +4,7 @@
 using CMiX.Core.Animations;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Rendering;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
@@ -15,7 +16,8 @@ namespace CMiX.Core.Compositing
         public Project(PrefabManager compositionManager,
                        PrefabService prefabService,
                        UndoManager undoManager,
-                       MasterBeat masterBeat)
+                       MasterBeat masterBeat,
+                       OutputMappingManager outputMappingManager)
         {
             compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
             compositionManager.UndoManager = undoManager;  // ← set here
@@ -23,6 +25,7 @@ namespace CMiX.Core.Compositing
             CompositionManager = compositionManager;
             PrefabService = prefabService;
             MasterBeat = masterBeat;
+            OutputMappingManager = outputMappingManager;
             PrefabService.ID = this.ID;
             compositionManager.Activate();
         }
@@ -31,13 +34,15 @@ namespace CMiX.Core.Compositing
         public PrefabManager CompositionManager { get; set; }
         public PrefabService PrefabService { get; set; }
         public MasterBeat MasterBeat { get; set; }
+        public OutputMappingManager OutputMappingManager { get; set; }
 
         public IControlModel ToModel() => new ProjectModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             CompositionManager = (PrefabManagerModel)CompositionManager.ToModel(),
-            MasterBeat = (MasterBeatModel)MasterBeat.ToModel()
+            MasterBeat = (MasterBeatModel)MasterBeat.ToModel(),
+            OutputMappingManager = (OutputMappingManagerModel)OutputMappingManager.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -46,6 +51,7 @@ namespace CMiX.Core.Compositing
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             MasterBeat.FromModel(m.MasterBeat);
+            OutputMappingManager.FromModel(m.OutputMappingManager);
 
             LoadManager(CompositionManager, m.CompositionManager);
         }

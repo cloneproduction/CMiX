@@ -1,9 +1,9 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Rendering;
 using CMiX.Core.Texturing;
 
 namespace CMiX.Core.Compositing
@@ -12,7 +12,7 @@ namespace CMiX.Core.Compositing
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; init; } = new();
-        public OutputSettingsModel OutputSettings { get; init; } = new();
+        public GenericValueModel<Guid> SelectedOutputMappingID { get; init; } = new(Guid.Empty);
         public LayerSettingsModel LayerSettings { get; init; } = new();
         public LayerMaskSettingsModel LayerMaskSettings { get; init; } = new();
         public PrefabManagerModel TextureModifierManager { get; init; } = new();

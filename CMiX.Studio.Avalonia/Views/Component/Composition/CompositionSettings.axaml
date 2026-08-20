@@ -2,18 +2,19 @@
     x:Class="CMiX.Studio.Avalonia.Views.CompositionSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <StackPanel>
-        <BaseControl:Integer2Value
-            Margin="0, 0, 0, 8"
-            Caption="Resolution"
-            DataContext="{Binding Resolution}" />
         <BaseControl:ComboBox
-            Caption="Texcoord"
-            ItemsSource="{x:Static Resources:EnumProviders.TexcoordSemantic}"
-            SelectedItem="{Binding TexcoordSemantic.Value}" />
+            Caption="Output Mapping"
+            ItemsSource="{Binding Project.OutputMappingManager.EnabledItems}"
+            SelectedItem="{Binding SelectedOutputMapping}">
+            <BaseControl:ComboBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Name.Value}" />
+                </DataTemplate>
+            </BaseControl:ComboBox.ItemTemplate>
+        </BaseControl:ComboBox>
     </StackPanel>
 
 </UserControl>

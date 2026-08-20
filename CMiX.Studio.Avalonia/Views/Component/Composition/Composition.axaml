@@ -21,9 +21,7 @@
         <Panels:IndentedExpander
             Header="Settings"
             IsExpanded="{Binding OutputSettingsIsExpanded}">
-            <Views:CompositionSettings
-                Margin="8"
-                DataContext="{Binding OutputSettings}" />
+            <Views:CompositionSettings Margin="8" DataContext="{Binding}" />
         </Panels:IndentedExpander>
 
     </StackPanel>

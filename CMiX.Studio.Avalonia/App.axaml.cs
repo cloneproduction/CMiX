@@ -108,7 +108,7 @@ namespace CMiX.Studio.Avalonia
             {
                 if (_crashSaveProject?.CompositionManager?.SelectedItem is not Composition selectedComposition) return;
 
-                var projectModel = ProjectModelBuilder.Build(selectedComposition, _crashSaveProject.MasterBeat);
+                var projectModel = ProjectModelBuilder.Build(selectedComposition, _crashSaveProject.MasterBeat, _crashSaveProject.OutputMappingManager);
                 ProjectSerializer.Save(projectModel, Path.Combine(Path.GetTempPath(), "cmix-emergency.cmix"));
             }
             catch
