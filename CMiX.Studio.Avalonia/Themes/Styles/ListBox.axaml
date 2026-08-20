@@ -21,6 +21,16 @@
         </Style>
     </ControlTheme>
 
+    <!-- Same shape/mechanism as ServerConnectionIndicatorStyle, different colors so the two are
+         never mistaken for each other; consumers bind Classes.insync to whatever "are we in sync"
+         boolean applies. -->
+    <ControlTheme x:Key="ServerSyncIndicatorStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="Gray" />
+        <Style Selector="^.insync">
+            <Setter Property="Fill" Value="DodgerBlue" />
+        </Style>
+    </ControlTheme>
+
     <ControlTheme x:Key="LayerListBoxItemBorderStyle" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />

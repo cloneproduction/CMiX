@@ -81,6 +81,12 @@ namespace CMiX.Core.Networking.Servers
         [ObservableProperty]
         private bool _serverIsRunning;
 
+        // Placeholder for the connect-time state-hash comparison with the Engine (not built yet).
+        // Defaults true so the sync indicator does not read as a permanent alarm before that
+        // check exists; wire this up to the real comparison once it does.
+        [ObservableProperty]
+        private bool _isInSync = true;
+
         private bool _dataSent;
         public bool DataSent
         {
