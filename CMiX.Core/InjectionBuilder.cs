@@ -34,6 +34,7 @@ namespace CMiX.Core.DependencyInjection
 
             services.AddSingleton<Project>();
             services.AddSingleton<MasterBeat>();
+            services.AddSingleton<Server>();
 
             services.AddSingleton<ControlActivationService>();
             services.AddSingleton<ControlFactory>();
@@ -47,21 +48,10 @@ namespace CMiX.Core.DependencyInjection
 
         public void ConfigureWpfTransport(IServiceProvider provider, Action<Action> dispatcher)
         {
-            var repo = provider.GetRequiredService<ControlRepository>();
             var messenger = provider.GetRequiredService<ControlMessenger>();
-
-            repo.Servers.CollectionChanged += (s, args) =>
-            {
-                args.NewItems?.Cast<Server>().ToList().ForEach(server =>
-                {
-                    server.SetDispatcher(dispatcher);
-                    messenger.Register(server);
-                });
-                args.OldItems?.Cast<Server>().ToList().ForEach(server =>
-                {
-                    messenger.Unregister(server);
-                });
-            };
+            var server = provider.GetRequiredService<Server>();
+            server.SetDispatcher(dispatcher);
+            messenger.Register(server);
         }
 
         public void ConfigureVvvvTransport(IServiceProvider provider)

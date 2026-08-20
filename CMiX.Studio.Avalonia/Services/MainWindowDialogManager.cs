@@ -9,9 +9,9 @@ namespace CMiX.Studio.Avalonia.Services
 {
     // The base owner lookup matches the owner view model by reference against the
     // DataContext of every open window and throws when nothing matches. Nested view
-    // models such as ServerManager are never a window DataContext, so this falls
-    // back to the main window and every dialog stays parented instead of crashing
-    // with Cannot find View for viewModel.
+    // models are never a window DataContext, so this falls back to the main window
+    // and every dialog stays parented instead of crashing with Cannot find View for
+    // viewModel.
     public class MainWindowDialogManager : DialogManager
     {
         public MainWindowDialogManager(IViewLocator viewLocator, IDialogFactory dialogFactory)

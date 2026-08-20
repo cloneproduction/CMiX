@@ -26,6 +26,8 @@ namespace CMiX.Core.Networking.Servers
             ID = Guid.NewGuid();
             IP = ip;
             Port = port;
+            IP.Value = "127.0.0.1";
+            Port.Value = 8080;
             PrefabService = prefabService;
             ClientIsConnected = false;
             ServerIsRunning = false;

@@ -11,7 +11,7 @@ namespace CMiX.Studio.Avalonia.Services
     {
         public DialogViewLocator()
         {
-            Register<ServerManager, Views.ServerCreationWindow>();
+            Register<Server, Views.ServerConnectionWindow>();
         }
     }
 }

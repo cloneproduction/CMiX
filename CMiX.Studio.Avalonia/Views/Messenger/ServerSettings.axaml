@@ -1,9 +1,29 @@
-﻿<UserControl
+<UserControl
     x:Class="CMiX.Studio.Avalonia.Views.ServerSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
     <StackPanel Margin="8">
+
+        <DockPanel Margin="0,0,0,8">
+            <Ellipse
+                Width="7"
+                Height="7"
+                Margin="0,0,4,0"
+                Classes.connected="{Binding ClientIsConnected}"
+                Theme="{StaticResource ServerConnectionIndicatorStyle}" />
+            <TextBlock
+                Margin="0,0,8,0"
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                Text="{Binding Status}" />
+            <ToggleButton
+                Height="{DynamicResource ControlHeightXS}"
+                DockPanel.Dock="Right"
+                Background="Crimson"
+                IsChecked="{Binding ServerIsRunning, Mode=TwoWay}"
+                Theme="{DynamicResource TogglePlayPause}" />
+        </DockPanel>
 
         <Grid Height="{DynamicResource ControlHeightMD}">
             <Grid.ColumnDefinitions>
@@ -38,22 +58,12 @@
                 Foreground="{StaticResource ForegroundBrush}"
                 Text="{Binding Port.Value}" />
         </Grid>
-        <Grid Height="{DynamicResource ControlHeightMD}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
-                <ColumnDefinition />
-            </Grid.ColumnDefinitions>
-            <TextBlock
-                Margin="0,0,8,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Foreground="{DynamicResource ForegroundBrush}"
-                Text="Client Status" />
-            <TextBlock
-                Grid.Column="1"
-                Padding="4"
-                Foreground="{DynamicResource ForegroundBrush}"
-                Text="{Binding Status}" />
-        </Grid>
+
+        <Button
+            Height="{DynamicResource ControlHeightMD}"
+            Margin="0,8,0,0"
+            Click="Button_Click"
+            Content="Edit Connection"
+            Theme="{StaticResource ButtonRounded}" />
     </StackPanel>
 </UserControl>

@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
@@ -6,14 +6,13 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Interactivity;
-using CMiX.Core;
 using CMiX.Studio.Avalonia.Views.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class ServerCreationWindow : Window, CMiX.Core.ICloseable
+    public partial class ServerConnectionWindow : Window, CMiX.Core.ICloseable
     {
-        public ServerCreationWindow()
+        public ServerConnectionWindow()
         {
             InitializeComponent();
             WindowStartupLocation = WindowStartupLocation.Manual;

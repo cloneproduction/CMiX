@@ -25,7 +25,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              PrefabManager lightManager,
                              PrefabManager beatManager,
                              PrefabManager colorPaletteManager,
-                             ServerManager serverManager,
+                             Server server,
                              ControlRepository controlRepository,
                              AssetManager assetManager,
                              MainWindowController mainWindowController,
@@ -43,7 +43,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             ColorPaletteManager = SetupManager(colorPaletteManager, ManagerIDs.ColorPaletteManager);
 
             Project = project;
-            ServerManager = serverManager;
+            Server = server;
             MainWindowController = mainWindowController;
             AssetManager = assetManager;
             MainMenu = mainMenu;
@@ -83,7 +83,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
             throw new NotImplementedException();
         }
 
-        public ServerManager ServerManager { get; set; }
+        public Server Server { get; set; }
         public PrefabManager ColorPaletteManager { get; set; }
         public PrefabManager BeatManager { get; set; }
         public PrefabManager LightManager { get; set; }
