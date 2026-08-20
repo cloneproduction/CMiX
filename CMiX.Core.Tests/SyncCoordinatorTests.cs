@@ -93,6 +93,20 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
+        public void RequestSnapshot_SetsIsInSyncTrue_OnThePushingSide()
+        {
+            // Regression: the side that auto-replies to a pull request must also end up marked in
+            // sync, or it keeps dropping every content message afterward via ShouldBlockIncoming
+            // even though it just handed the peer its current state.
+            var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
+            var sync = new SyncCoordinator(project, new RecordingSender()) { IsInSync = false };
+
+            sync.TryHandle(new MessageRequestSnapshot(Guid.NewGuid()));
+
+            Assert.True(sync.IsInSync);
+        }
+
+        [Fact]
         public void ContentMessage_IsNotHandled_ByTryHandle()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();

@@ -72,8 +72,13 @@ namespace CMiX.Core.Networking
         public bool ShouldBlockIncoming(IMessage message) =>
             !IsInSync && !SyncProtocolMessages.IsSyncProtocol(message);
 
-        private void Push() =>
+        private void Push()
+        {
             _sender.SendMessage(new MessageProjectSnapshot(Guid.NewGuid(), (ProjectModel)_project.ToModel()));
+            // Handing our current state to the peer makes us the source of truth it now matches,
+            // whether this was a deliberate Push or an automatic reply to their pull request.
+            IsInSync = true;
+        }
 
         private void Pull() => _sender.SendMessage(new MessageRequestSnapshot(Guid.NewGuid()));
     }
