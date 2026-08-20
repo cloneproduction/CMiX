@@ -5,7 +5,7 @@
 
     <StackPanel Margin="8">
 
-        <DockPanel Margin="0,0,0,8">
+        <DockPanel Margin="0,0,0,4">
             <Ellipse
                 Width="7"
                 Height="7"
@@ -24,6 +24,44 @@
                 IsChecked="{Binding ServerIsRunning, Mode=TwoWay}"
                 Theme="{DynamicResource TogglePlayPause}" />
         </DockPanel>
+
+        <DockPanel Margin="0,0,0,8">
+            <Ellipse
+                Width="7"
+                Height="7"
+                Margin="0,0,4,0"
+                Classes.insync="{Binding IsInSync}"
+                Theme="{StaticResource ServerSyncIndicatorStyle}" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                IsVisible="{Binding IsInSync}"
+                Text="In sync" />
+            <TextBlock
+                VerticalAlignment="Center"
+                Foreground="{DynamicResource ForegroundBrush}"
+                IsVisible="{Binding !IsInSync}"
+                Text="Not in sync" />
+        </DockPanel>
+
+        <StackPanel
+            Margin="0,0,0,8"
+            IsVisible="{Binding !IsInSync}"
+            Orientation="Horizontal">
+            <Button
+                Height="{DynamicResource ControlHeightMD}"
+                Margin="0,0,4,0"
+                Command="{Binding PushCommand}"
+                Content="Push"
+                Theme="{StaticResource ButtonRounded}"
+                ToolTip.Tip="Send this side's project to the other side" />
+            <Button
+                Height="{DynamicResource ControlHeightMD}"
+                Command="{Binding PullCommand}"
+                Content="Pull"
+                Theme="{StaticResource ButtonRounded}"
+                ToolTip.Tip="Replace this side's project with the other side's" />
+        </StackPanel>
 
         <Grid Height="{DynamicResource ControlHeightMD}">
             <Grid.ColumnDefinitions>
