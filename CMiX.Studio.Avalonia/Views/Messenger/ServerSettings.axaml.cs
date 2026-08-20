@@ -19,6 +19,7 @@ namespace CMiX.Studio.Avalonia.Views
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             var viewModel = DataContext as INotifyPropertyChanged;
+            if (viewModel == null) return;
             var owner = (TopLevel.GetTopLevel(this) as Window)?.DataContext as INotifyPropertyChanged
                 ?? viewModel;
             App.DialogService?.Show(owner, viewModel);

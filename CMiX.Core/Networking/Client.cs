@@ -15,9 +15,9 @@ namespace CMiX.Core.Networking
     {
         private readonly SyncCoordinator _sync;
 
-        public Client(Project project)
+        public Client(Project project, ControlMessenger controlMessenger)
         {
-            _sync = new SyncCoordinator(project, this);
+            _sync = new SyncCoordinator(project, this, controlMessenger);
             _sync.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(SyncCoordinator.IsInSync))

@@ -17,11 +17,13 @@ namespace CMiX.Core.Networking
     {
         private readonly Project _project;
         private readonly IMessageSender _sender;
+        private readonly ControlMessenger _messenger;
 
-        public SyncCoordinator(Project project, IMessageSender sender)
+        public SyncCoordinator(Project project, IMessageSender sender, ControlMessenger messenger)
         {
             _project = project;
             _sender = sender;
+            _messenger = messenger;
             PushCommand = new RelayCommand(Push);
             PullCommand = new RelayCommand(Pull);
         }
@@ -30,6 +32,11 @@ namespace CMiX.Core.Networking
         // comparison happens.
         [ObservableProperty]
         private bool isInSync = true;
+
+        // Keeps the outgoing block (ControlMessenger.SendMessage) in step with the incoming one
+        // (ShouldBlockIncoming) - both need to hold while unsynced, or local edits could still leak
+        // out to a peer that has not resolved the mismatch yet.
+        partial void OnIsInSyncChanged(bool value) => _messenger.IsSendingBlocked = !value;
 
         public ICommand PushCommand { get; }
         public ICommand PullCommand { get; }

@@ -26,7 +26,8 @@ namespace CMiX.Core.Networking.Servers
         public Server(PrefabService prefabService,
                       GenericValue<string> ip,
                       GenericValue<int> port,
-                      Project project)
+                      Project project,
+                      ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
             IP = ip;
@@ -35,7 +36,7 @@ namespace CMiX.Core.Networking.Servers
             Port.Value = 8080;
             PrefabService = prefabService;
             _project = project;
-            _sync = new SyncCoordinator(project, this);
+            _sync = new SyncCoordinator(project, this, controlMessenger);
             _sync.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(SyncCoordinator.IsInSync))
