@@ -21,9 +21,7 @@
         </Style>
     </ControlTheme>
 
-    <!-- Same shape/mechanism as ServerConnectionIndicatorStyle, different colors so the two are
-         never mistaken for each other; consumers bind Classes.insync to whatever "are we in sync"
-         boolean applies. -->
+    <!-- Same shape as ServerConnectionIndicatorStyle, different color. -->
     <ControlTheme x:Key="ServerSyncIndicatorStyle" TargetType="Ellipse">
         <Setter Property="Fill" Value="Gray" />
         <Style Selector="^.insync">

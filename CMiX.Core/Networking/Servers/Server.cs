@@ -136,15 +136,11 @@ namespace CMiX.Core.Networking.Servers
 
         private async Task SendAsync(byte[] data)
         {
-            // Captured once so a Stop that runs on the UI thread while this send is in flight
-            // cannot null the field out from under the continuation below.
+            // Captured so a concurrent Stop can't null the field mid-send.
             var server = WatsonTcpServer;
             if (server == null) return;
 
-            // Each client's send is caught individually - a client that has gone stale (Watson's
-            // own client list already dropped it, but our ConnectedClients has not caught up with
-            // the disconnect yet) must not abort the send to every other, still-valid client in
-            // the same batch.
+            // Caught per client so one stale client can't abort the send to the rest.
             foreach (var connectedClient in ConnectedClients.ToList())
             {
                 try
@@ -195,9 +191,7 @@ namespace CMiX.Core.Networking.Servers
                     return;
                 }
 
-                // Same rule as the outgoing side (ControlMessenger.SendMessage): while not in
-                // sync, content messages are dropped rather than silently applied, so an edit made
-                // on the other side while unresolved cannot leak in either.
+                // Drop content messages while unsynced, mirroring the outgoing block.
                 if (_sync.ShouldBlockIncoming(envelope.Payload)) return;
 
                 Dispatch(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
@@ -244,10 +238,7 @@ namespace CMiX.Core.Networking.Servers
 
         private bool _starting;
 
-        // The guard covers two paths into Start. The direct property set on ServerIsRunning
-        // reenters here through OnServerIsRunningChanged while WatsonTcpServer is still being
-        // constructed, and a caller invoking Start while a server is already bound must not
-        // construct and bind a second one.
+        // Guards against a second Start while one is already running or mid-construction.
         public void Start()
         {
             if (_starting || WatsonTcpServer != null) return;
@@ -289,11 +280,8 @@ namespace CMiX.Core.Networking.Servers
             server.Events.ClientDisconnected -= ClientDisconnected;
             server.Events.MessageReceived -= MessageReceived;
 
-            // Watson's own Stop cancels the token its Dispose then waits on internally
-            // (DisconnectClientsAsync(...).Wait()), so a still connected client makes that
-            // wait observe a TaskCanceledException and Task.Wait rethrows it wrapped in an
-            // AggregateException. None of Watson's teardown is ours to fix, so every step
-            // below is guarded the same way and the remaining teardown always runs.
+            // Watson can throw during its own teardown, so each step is guarded to make sure
+            // the rest still runs.
             foreach (var client in ConnectedClients.ToList())
             {
                 try
@@ -329,8 +317,6 @@ namespace CMiX.Core.Networking.Servers
             Status = "Disconnected";
         }
 
-        // Stopping is the whole teardown, so a server that ever ends up in a collection managed by
-        // the generic delete path is released the same way ServerManager releases it.
         public void Dispose() => Stop();
 
         private async Task ApplyAsync()

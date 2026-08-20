@@ -9,10 +9,8 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Networking
 {
-    // The state-hash/push-pull handshake, shared by Server and Client rather than living on
-    // either one alone - both load the same CMiX.Core, so keeping this logic in one place means
-    // it works on both sides (Studio and Engine) the moment they both run an updated build,
-    // with no separate hand-written protocol logic needed on either side.
+    // The state-hash/push-pull handshake, shared by Server and Client so both sides of the
+    // connection use the same logic instead of duplicating it.
     public partial class SyncCoordinator : ObservableObject
     {
         private readonly Project _project;
@@ -28,28 +26,23 @@ namespace CMiX.Core.Networking
             PullCommand = new RelayCommand(Pull);
         }
 
-        // Defaults true so the indicator does not read as a permanent alarm before the first real
-        // comparison happens.
+        // Defaults true so the indicator isn't a false alarm before the first real check.
         [ObservableProperty]
         private bool isInSync = true;
 
-        // Keeps the outgoing block (ControlMessenger.SendMessage) in step with the incoming one
-        // (ShouldBlockIncoming) - both need to hold while unsynced, or local edits could still leak
-        // out to a peer that has not resolved the mismatch yet.
+        // Keeps outgoing blocking in step with incoming blocking (ShouldBlockIncoming).
         partial void OnIsInSyncChanged(bool value) => _messenger.IsSendingBlocked = !value;
 
         public ICommand PushCommand { get; }
         public ICommand PullCommand { get; }
 
-        // Call once, right when a connection is established (Server.ClientConnected /
-        // Client.ServerConnected) - not as a reply to receiving one, which would risk a
-        // send/reply loop. The other side needs the same "just connected" trigger for this to be
-        // a real two-way check.
+        // Call once on connect (Server.ClientConnected / Client.ServerConnected), not as a reply
+        // to receiving one, to avoid a send/reply loop.
         public void SendOwnHash() =>
             _sender.SendMessage(new MessageStateHash(Guid.NewGuid(), ProjectStateHash.Compute(_project)));
 
-        // Returns true if this message belongs to the sync protocol and was fully handled here -
-        // callers should not forward it anywhere else when this returns true.
+        // True if the message was a sync-protocol message and is fully handled - callers should
+        // not forward it further.
         public bool TryHandle(IMessage message)
         {
             switch (message)
@@ -58,14 +51,10 @@ namespace CMiX.Core.Networking
                     IsInSync = hash.Hash == ProjectStateHash.Compute(_project);
                     return true;
                 case MessageRequestSnapshot:
-                    // The other side asked for a "pull" - reply with our current state, the same
-                    // as if the user here had clicked Push.
                     Push();
                     return true;
                 case MessageProjectSnapshot snapshot:
                     _project.ApplySnapshot(snapshot.Model);
-                    // Adopting the sender's state wholesale makes this side match it by
-                    // construction; no need to hash-compare against a hash we do not have on hand.
                     IsInSync = true;
                     return true;
                 default:
@@ -73,17 +62,14 @@ namespace CMiX.Core.Networking
             }
         }
 
-        // While not in sync, content messages must not be applied - only the sync protocol's own
-        // messages, or a mismatch could never be resolved. Mirrors ControlMessenger's outgoing
-        // block for the incoming direction.
+        // Only the sync protocol's own messages get through while unsynced, or the mismatch
+        // could never be resolved.
         public bool ShouldBlockIncoming(IMessage message) =>
             !IsInSync && !SyncProtocolMessages.IsSyncProtocol(message);
 
         private void Push()
         {
             _sender.SendMessage(new MessageProjectSnapshot(Guid.NewGuid(), (ProjectModel)_project.ToModel()));
-            // Handing our current state to the peer makes us the source of truth it now matches,
-            // whether this was a deliberate Push or an automatic reply to their pull request.
             IsInSync = true;
         }
 

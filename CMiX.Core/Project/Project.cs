@@ -63,11 +63,7 @@ namespace CMiX.Core.Compositing
             LoadManager(CompositionManager, m.CompositionManager);
         }
 
-        // Applies a push/pull snapshot from the other side. FromModel's LoadManager call only
-        // adds items - it was built for loading into a freshly-constructed, empty Project (the
-        // normal Open Project path always resets the session first), not for replacing whatever
-        // this Project currently holds. Clearing first, the same way NewProject/Open's own
-        // ResetSession does, is what makes this a real replacement instead of an append.
+        // FromModel only adds items, so clear first to make this a real replacement.
         public void ApplySnapshot(ProjectModel model)
         {
             CompositionManager.ClearAll();

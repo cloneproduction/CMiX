@@ -4,9 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <!-- Studio only ever talks to one engine; vvvv is responsible for fanning data out to
-         further machines on its own side, so there is no add/remove/select list here anymore,
-         just the one server's own settings. -->
+    <!-- Studio only ever talks to one engine, so just its settings, no server list. -->
     <Border Background="{DynamicResource Grey300Brush}">
         <Views:Server Margin="8" />
     </Border>

@@ -63,9 +63,7 @@
                     DockPanel.Dock="Right"
                     Text="CloneProduction" />
 
-                <!-- Always-visible connected/in-sync status, independent of which tab is open.
-                     Opacity="1" overrides the bar's own dimmed look, since these should stay
-                     legible at a glance. -->
+                <!-- Always-visible connected/in-sync status; Opacity="1" keeps it legible. -->
                 <DockPanel
                     Margin="8,0"
                     DockPanel.Dock="Left"

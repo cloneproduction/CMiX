@@ -6,10 +6,8 @@ using CMiX.Core.Persistence;
 
 namespace CMiX.Core
 {
-    // Fingerprints a Project's current state so two independently-running processes can check
-    // "do we hold the same project" without transmitting the whole thing. Both sides run the same
-    // CMiX.Core code, so hashing the normal serialized output is enough - no cross-language
-    // formatting concerns, since there is only one implementation doing the writing either way.
+    // Fingerprints a Project's current state so two processes can check they hold the same
+    // project without transmitting the whole thing.
     public static class ProjectStateHash
     {
         public static string Compute(Project project)

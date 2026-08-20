@@ -91,9 +91,7 @@ namespace CMiX.Core.Networking
                 return;
             }
 
-            // Same rule as the outgoing side (ControlMessenger.SendMessage): while not in sync,
-            // content messages are dropped rather than silently applied, so an edit made on the
-            // other side while unresolved cannot leak in either.
+            // Drop content messages while unsynced, mirroring the outgoing block.
             if (_sync.ShouldBlockIncoming(envelope.Payload)) return;
 
             WeakReferenceMessenger.Default.Send(envelope.Payload);

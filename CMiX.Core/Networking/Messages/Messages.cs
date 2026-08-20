@@ -18,19 +18,13 @@ namespace CMiX.Core.Networking.Messages
         public MessageValueChanged() : this(Guid.NewGuid(), default!) { }
     }
 
-    // Sent by each side right after a connection is established, carrying a hash of its own
-    // current Project.ToModel() output (see ProjectStateHash). Comparing the two tells each side
-    // whether it currently holds the same project as the other, without transmitting the whole
-    // project just to check.
+    // Sent on connect so each side can compare its own project hash against the other's.
     public record MessageStateHash(Guid ID, string Hash) : IMessage;
 
-    // The full push/pull payload: one side's complete current project, sent so the other side can
-    // discard its own state and rebuild from this instead - real IDs included, so nothing needs to
-    // be pre-agreed the way ManagerIDs currently is.
+    // The push/pull payload: one side's full project, real IDs included, for the other side to
+    // adopt wholesale.
     public record MessageProjectSnapshot(Guid ID, ProjectModel Model) : IMessage;
 
-    // "Pull" is a request-then-reply: this asks the other side to send its current state as a
-    // MessageProjectSnapshot. "Push" needs no equivalent request - the sender already has what it
-    // wants to send.
+    // Asks the other side to reply with a MessageProjectSnapshot ("pull").
     public record MessageRequestSnapshot(Guid ID) : IMessage;
 }
