@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,9 +20,12 @@ namespace CMiX.Core.Networking.Servers
 {
     public partial class Server : ObservableRecipient, IPrefab, IMessageSender, IDisposable
     {
+        private readonly Project _project;
+
         public Server(PrefabService prefabService,
                       GenericValue<string> ip,
-                      GenericValue<int> port)
+                      GenericValue<int> port,
+                      Project project)
         {
             ID = Guid.NewGuid();
             IP = ip;
@@ -29,6 +33,7 @@ namespace CMiX.Core.Networking.Servers
             IP.Value = "127.0.0.1";
             Port.Value = 8080;
             PrefabService = prefabService;
+            _project = project;
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
@@ -163,12 +168,32 @@ namespace CMiX.Core.Networking.Servers
             {
                 var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
                 if (envelope.SenderID == MessageSender.WPF) return;
+
+                if (envelope.Payload is MessageStateHash stateHash)
+                {
+                    Dispatch(() => HandleStateHash(stateHash));
+                    return;
+                }
+
+                // Same rule as the outgoing side (ControlMessenger.SendMessage): while not in
+                // sync, content messages are dropped rather than silently applied, so an edit made
+                // on the other side while unresolved cannot leak in either. The sync protocol's own
+                // messages are exempt, or a mismatch could never be resolved.
+                if (!IsInSync && !SyncProtocolMessages.IsSyncProtocol(envelope.Payload)) return;
+
                 Dispatch(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex);
             }
+        }
+
+        // Split out so the comparison itself is testable without a real transport - feed it a
+        // MessageStateHash directly rather than going through MessagePack/WatsonTcp.
+        internal void HandleStateHash(MessageStateHash message)
+        {
+            IsInSync = message.Hash == ProjectStateHash.Compute(_project);
         }
 
         private void ClientConnected(object sender, ConnectionEventArgs e)
@@ -186,6 +211,12 @@ namespace CMiX.Core.Networking.Servers
                 ClientIsConnected = ConnectedClients.Count > 0;
                 Status = ClientIsConnected ? "Connected" : "Disconnected";
             });
+
+            // Each side sends its own hash exactly once, on its own "connected" trigger - not as a
+            // reply to receiving one, which would risk a send/reply loop. The other side (Engine)
+            // needs its own equivalent "just connected -> send my hash" trigger for this to be a
+            // real two-way check; see HandleStateHash for the comparison this feeds into.
+            SendMessage(new MessageStateHash(Guid.NewGuid(), ProjectStateHash.Compute(_project)));
         }
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)

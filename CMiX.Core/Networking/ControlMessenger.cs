@@ -8,6 +8,12 @@ namespace CMiX.Core.Networking
     public class ControlMessenger
     {
         private readonly List<IMessageSender> _senders = new();
+
+        // Set while the two sides are not in sync, so local experimentation cannot silently leak
+        // across the connection before the user deliberately resolves it with push or pull. Only
+        // blocks content messages - the sync protocol's own messages (MessageStateHash,
+        // MessageProjectSnapshot) always go through, via SyncProtocolMessages.IsSyncProtocol,
+        // otherwise the mismatch could never be resolved.
         public bool IsSendingBlocked { get; set; }
 
         public void Register(IMessageSender sender) => _senders.Add(sender);
@@ -15,7 +21,7 @@ namespace CMiX.Core.Networking
 
         public void SendMessage(IMessage message)
         {
-            if (IsSendingBlocked) return;
+            if (IsSendingBlocked && !SyncProtocolMessages.IsSyncProtocol(message)) return;
             _senders.ForEach(s => s.SendMessage(message));
         }
     }
