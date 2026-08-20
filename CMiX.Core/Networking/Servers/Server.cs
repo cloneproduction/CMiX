@@ -21,6 +21,7 @@ namespace CMiX.Core.Networking.Servers
     public partial class Server : ObservableRecipient, IPrefab, IMessageSender, IDisposable
     {
         private readonly Project _project;
+        private readonly SyncCoordinator _sync;
 
         public Server(PrefabService prefabService,
                       GenericValue<string> ip,
@@ -34,6 +35,12 @@ namespace CMiX.Core.Networking.Servers
             Port.Value = 8080;
             PrefabService = prefabService;
             _project = project;
+            _sync = new SyncCoordinator(project, this);
+            _sync.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(SyncCoordinator.IsInSync))
+                    OnPropertyChanged(nameof(IsInSync));
+            };
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
@@ -44,8 +51,6 @@ namespace CMiX.Core.Networking.Servers
             RestartCommand = new RelayCommand(Restart);
             StopCommand = new RelayCommand(Stop);
             ApplySettingsCommand = new AsyncRelayCommand(ApplyAsync);
-            PushCommand = new RelayCommand(Push);
-            PullCommand = new RelayCommand(Pull);
             IsActive = true;
         }
 
@@ -56,12 +61,14 @@ namespace CMiX.Core.Networking.Servers
         public GenericValue<string> IP { get; set; }
         public GenericValue<int> Port { get; set; }
 
+        public bool IsInSync => _sync.IsInSync;
+        public ICommand PushCommand => _sync.PushCommand;
+        public ICommand PullCommand => _sync.PullCommand;
+
         public ICommand StartCommand { get; }
         public ICommand RestartCommand { get; }
         public ICommand ApplySettingsCommand { get; }
         public ICommand StopCommand { get; }
-        public ICommand PushCommand { get; }
-        public ICommand PullCommand { get; }
 
         private Guid _clientID;
         private ObservableCollection<ConnectedClient> _connectedClients;
@@ -89,12 +96,6 @@ namespace CMiX.Core.Networking.Servers
 
         [ObservableProperty]
         private bool _serverIsRunning;
-
-        // Placeholder for the connect-time state-hash comparison with the Engine (not built yet).
-        // Defaults true so the sync indicator does not read as a permanent alarm before that
-        // check exists; wire this up to the real comparison once it does.
-        [ObservableProperty]
-        private bool _isInSync = true;
 
         private bool _dataSent;
         public bool DataSent
@@ -139,10 +140,24 @@ namespace CMiX.Core.Networking.Servers
             var server = WatsonTcpServer;
             if (server == null) return;
 
+            // Each client's send is caught individually - a client that has gone stale (Watson's
+            // own client list already dropped it, but our ConnectedClients has not caught up with
+            // the disconnect yet) must not abort the send to every other, still-valid client in
+            // the same batch.
+            foreach (var connectedClient in ConnectedClients.ToList())
+            {
+                try
+                {
+                    await server.SendAsync(connectedClient.ID, data);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+
             try
             {
-                foreach (var connectedClient in ConnectedClients.ToList())
-                    await server.SendAsync(connectedClient.ID, data);
                 Dispatch(() => Statistics.Update(server));
             }
             catch (Exception ex)
@@ -173,31 +188,16 @@ namespace CMiX.Core.Networking.Servers
                 var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
                 if (envelope.SenderID == MessageSender.WPF) return;
 
-                if (envelope.Payload is MessageStateHash stateHash)
+                if (SyncProtocolMessages.IsSyncProtocol(envelope.Payload))
                 {
-                    Dispatch(() => HandleStateHash(stateHash));
-                    return;
-                }
-
-                if (envelope.Payload is MessageRequestSnapshot)
-                {
-                    // The other side asked for a "pull" - reply with our current state, the same
-                    // as if the user here had clicked Push.
-                    Dispatch(Push);
-                    return;
-                }
-
-                if (envelope.Payload is MessageProjectSnapshot snapshot)
-                {
-                    Dispatch(() => HandleProjectSnapshot(snapshot));
+                    Dispatch(() => _sync.TryHandle(envelope.Payload));
                     return;
                 }
 
                 // Same rule as the outgoing side (ControlMessenger.SendMessage): while not in
                 // sync, content messages are dropped rather than silently applied, so an edit made
-                // on the other side while unresolved cannot leak in either. The sync protocol's own
-                // messages are exempt, or a mismatch could never be resolved.
-                if (!IsInSync && !SyncProtocolMessages.IsSyncProtocol(envelope.Payload)) return;
+                // on the other side while unresolved cannot leak in either.
+                if (_sync.ShouldBlockIncoming(envelope.Payload)) return;
 
                 Dispatch(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
             }
@@ -205,33 +205,6 @@ namespace CMiX.Core.Networking.Servers
             {
                 Debug.WriteLine(ex);
             }
-        }
-
-        // Split out so the comparison itself is testable without a real transport - feed it a
-        // MessageStateHash directly rather than going through MessagePack/WatsonTcp.
-        internal void HandleStateHash(MessageStateHash message)
-        {
-            IsInSync = message.Hash == ProjectStateHash.Compute(_project);
-        }
-
-        // "Push": send our current state as-is. Bypasses IsSendingBlocked like every sync protocol
-        // message does (see SyncProtocolMessages), since this is exactly the action meant to
-        // resolve being blocked in the first place.
-        private void Push() =>
-            SendMessage(new MessageProjectSnapshot(Guid.NewGuid(), (ProjectModel)_project.ToModel()));
-
-        // "Pull": ask the other side to push to us instead - see the MessageRequestSnapshot
-        // handling above for the reply.
-        private void Pull() => SendMessage(new MessageRequestSnapshot(Guid.NewGuid()));
-
-        // Split out for the same reason as HandleStateHash - testable directly without a real
-        // transport.
-        internal void HandleProjectSnapshot(MessageProjectSnapshot message)
-        {
-            _project.ApplySnapshot(message.Model);
-            // Adopting the sender's state wholesale makes this side match it by construction;
-            // no need to hash-compare against a hash we do not have on hand.
-            IsInSync = true;
         }
 
         private void ClientConnected(object sender, ConnectionEventArgs e)
@@ -250,11 +223,7 @@ namespace CMiX.Core.Networking.Servers
                 Status = ClientIsConnected ? "Connected" : "Disconnected";
             });
 
-            // Each side sends its own hash exactly once, on its own "connected" trigger - not as a
-            // reply to receiving one, which would risk a send/reply loop. The other side (Engine)
-            // needs its own equivalent "just connected -> send my hash" trigger for this to be a
-            // real two-way check; see HandleStateHash for the comparison this feeds into.
-            SendMessage(new MessageStateHash(Guid.NewGuid(), ProjectStateHash.Compute(_project)));
+            _sync.SendOwnHash();
         }
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)

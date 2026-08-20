@@ -1,6 +1,8 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using System.Windows.Input;
+using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Messaging;
@@ -11,10 +13,21 @@ namespace CMiX.Core.Networking
 {
     public partial class Client : ObservableRecipient, IMessageSender
     {
-        public Client()
-        {
+        private readonly SyncCoordinator _sync;
 
+        public Client(Project project)
+        {
+            _sync = new SyncCoordinator(project, this);
+            _sync.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(SyncCoordinator.IsInSync))
+                    OnPropertyChanged(nameof(IsInSync));
+            };
         }
+
+        public bool IsInSync => _sync.IsInSync;
+        public ICommand PushCommand => _sync.PushCommand;
+        public ICommand PullCommand => _sync.PullCommand;
 
         public WatsonTcpClient WatsonTcpClient { get; set; }
 
@@ -71,6 +84,18 @@ namespace CMiX.Core.Networking
         {
             var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
             if (envelope.SenderID == MessageSender.VVVV) return;
+
+            if (SyncProtocolMessages.IsSyncProtocol(envelope.Payload))
+            {
+                _sync.TryHandle(envelope.Payload);
+                return;
+            }
+
+            // Same rule as the outgoing side (ControlMessenger.SendMessage): while not in sync,
+            // content messages are dropped rather than silently applied, so an edit made on the
+            // other side while unresolved cannot leak in either.
+            if (_sync.ShouldBlockIncoming(envelope.Payload)) return;
+
             WeakReferenceMessenger.Default.Send(envelope.Payload);
         }
 
@@ -79,6 +104,7 @@ namespace CMiX.Core.Networking
             ServerIsConnected = true;
             Console.WriteLine("Server Connected");
             _cts.Cancel();
+            _sync.SendOwnHash();
         }
 
         private void ServerDisconnected(object sender, DisconnectionEventArgs e)
