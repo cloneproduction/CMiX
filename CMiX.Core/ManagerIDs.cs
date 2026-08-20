@@ -41,7 +41,7 @@ namespace CMiX.Core
         };
 
         // Same reasoning one level deeper: each OutputMapping's own GenericValue<T> fields
-        // (Name, Resolution and its X/Y, TexcoordSemantic, IsEnabled) also default to a random
+        // (Name, Resolution and its X/Y, TexcoordSemantic, Visibility) also default to a random
         // Guid.NewGuid() unless overridden, and since they never travel over MessageAddItem either,
         // both sides need to agree on these too - see MasterBeat.cs for the same pattern applied to
         // Index/Period/BeatIndex/Pause/Resync.
@@ -66,5 +66,5 @@ namespace CMiX.Core
         Guid ResolutionX,
         Guid ResolutionY,
         Guid TexcoordSemantic,
-        Guid IsEnabled);
+        Guid Visibility);
 }

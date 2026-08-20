@@ -6,11 +6,11 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class OutputMappingIdDiagnosticTest : IDisposable
+    public class OutputMappingManagerTests : IDisposable
     {
         private readonly string _directory;
 
-        public OutputMappingIdDiagnosticTest()
+        public OutputMappingManagerTests()
         {
             _directory = Path.Combine(Path.GetTempPath(), "CMiX.Core.Tests_" + Guid.NewGuid());
             Directory.CreateDirectory(_directory);
@@ -31,7 +31,7 @@ namespace CMiX.Core.Tests
             Assert.Equal(fieldIds.ResolutionX, mapping.Resolution.X.ID);
             Assert.Equal(fieldIds.ResolutionY, mapping.Resolution.Y.ID);
             Assert.Equal(fieldIds.TexcoordSemantic, mapping.TexcoordSemantic.ID);
-            Assert.Equal(fieldIds.IsEnabled, mapping.IsEnabled.ID);
+            Assert.Equal(fieldIds.Visibility, mapping.Visibility.ID);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ namespace CMiX.Core.Tests
                 Assert.Equal(slot1.Resolution.X.ID, slot2.Resolution.X.ID);
                 Assert.Equal(slot1.Resolution.Y.ID, slot2.Resolution.Y.ID);
                 Assert.Equal(slot1.TexcoordSemantic.ID, slot2.TexcoordSemantic.ID);
-                Assert.Equal(slot1.IsEnabled.ID, slot2.IsEnabled.ID);
+                Assert.Equal(slot1.Visibility.ID, slot2.Visibility.ID);
             }
         }
 

@@ -7,7 +7,7 @@
     <StackPanel>
         <BaseControl:ComboBox
             Caption="Output Mapping"
-            ItemsSource="{Binding Project.OutputMappingManager.EnabledItems}"
+            ItemsSource="{Binding Project.OutputMappingManager.VisibleItems}"
             SelectedItem="{Binding SelectedOutputMapping}">
             <BaseControl:ComboBox.ItemTemplate>
                 <DataTemplate>

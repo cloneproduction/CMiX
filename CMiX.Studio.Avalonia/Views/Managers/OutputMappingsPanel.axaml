@@ -4,33 +4,31 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
-    <StackPanel>
-        <BaseControl:ComboBox
-            Caption="Slot"
+    <StackPanel Margin="8">
+
+        <BaseControl:CMiXListBox
+                        MinHeight="105"
             ItemsSource="{Binding Items}"
-            SelectedItem="{Binding SelectedItem}">
-            <BaseControl:ComboBox.ItemTemplate>
+            SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+            <BaseControl:CMiXListBox.ItemTemplate>
                 <DataTemplate>
-                    <TextBlock Text="{Binding Name.Value}" />
+                    <DockPanel>
+                        <ToggleButton
+
+                        Margin="0, 0, 8, 0"
+                            DockPanel.Dock="Right"
+                            IsChecked="{Binding !Visibility.Value}"
+                            Theme="{DynamicResource ToggleVisibility}" />
+                        <BaseControl:EditableTextBox Text="{Binding Name.Value}" />
+                    </DockPanel>
                 </DataTemplate>
-            </BaseControl:ComboBox.ItemTemplate>
-        </BaseControl:ComboBox>
+            </BaseControl:CMiXListBox.ItemTemplate>
+        </BaseControl:CMiXListBox>
 
         <StackPanel Margin="0,8,0,0" DataContext="{Binding SelectedItem}">
-            <ToggleButton
-                Width="14"
-                Height="14"
-                HorizontalAlignment="Left"
-                IsChecked="{Binding IsEnabled.Value}"
-                Theme="{StaticResource ToggleCheckBox}" />
-            <TextBox
-                Margin="0,8,0,0"
-                Text="{Binding Name.Value}" />
-            <BaseControl:Integer2Value
-                Margin="0,8,0,0"
-                Caption="Resolution"
-                DataContext="{Binding Resolution}" />
+            <BaseControl:Integer2Value Caption="Resolution" DataContext="{Binding Resolution}" />
         </StackPanel>
+
     </StackPanel>
 
 </UserControl>

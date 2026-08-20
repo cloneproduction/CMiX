@@ -15,7 +15,7 @@ namespace CMiX.Core.Rendering
     // A fixed set of exactly 10 output mappings, one per TexcoordSemantic channel (Texcoord0-9).
     // Unlike PrefabManager/CollectionManager the slot count never changes: nothing adds or removes
     // an item, so this class carries none of their add/remove messaging or undo plumbing. Each
-    // slot's own fields (Resolution, TexcoordSemantic, IsEnabled) are GenericValue<T> and already
+    // slot's own fields (Resolution, TexcoordSemantic, Visibility) are GenericValue<T> and already
     // sync themselves over the network and through undo individually.
     public partial class OutputMappingManager : ObservableObject, IControl
     {
@@ -37,9 +37,9 @@ namespace CMiX.Core.Rendering
             Items = items;
 
             foreach (var mapping in Items)
-                mapping.IsEnabled.PropertyChanged += OnMappingIsEnabledChanged;
+                mapping.Visibility.PropertyChanged += OnMappingVisibilityChanged;
 
-            RebuildEnabledItems();
+            RebuildVisibleItems();
             SelectedItem = Items[0];
         }
 
@@ -50,9 +50,9 @@ namespace CMiX.Core.Rendering
         public Guid ID { get; set; } = ManagerIDs.OutputMappingManager;
         public IReadOnlyList<OutputMapping> Items { get; }
 
-        // Live view of the slots currently enabled, kept in sync as IsEnabled toggles. This is what
+        // Live view of the slots currently visible, kept in sync as Visibility toggles. This is what
         // a Composition's output mapping ComboBox should bind its ItemsSource to.
-        public ObservableCollection<OutputMapping> EnabledItems { get; } = new();
+        public ObservableCollection<OutputMapping> VisibleItems { get; } = new();
 
         public OutputMapping GetByID(Guid id) => Items.FirstOrDefault(m => m.ID == id);
 
@@ -74,43 +74,43 @@ namespace CMiX.Core.Rendering
             mapping.Resolution.X.ID = fieldIds.ResolutionX;
             mapping.Resolution.Y.ID = fieldIds.ResolutionY;
             mapping.TexcoordSemantic.ID = fieldIds.TexcoordSemantic;
-            mapping.IsEnabled.ID = fieldIds.IsEnabled;
+            mapping.Visibility.ID = fieldIds.Visibility;
         }
 
-        private void OnMappingIsEnabledChanged(object sender, PropertyChangedEventArgs e)
+        private void OnMappingVisibilityChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != nameof(GenericValue<bool>.Value)) return;
-            var mapping = Items.First(m => ReferenceEquals(m.IsEnabled, sender));
-            UpdateEnabledItem(mapping);
+            var mapping = Items.First(m => ReferenceEquals(m.Visibility, sender));
+            UpdateVisibleItem(mapping);
         }
 
-        // Toggling a single slot must never touch EnabledItems wholesale: ObservableCollection.Clear
+        // Toggling a single slot must never touch VisibleItems wholesale: ObservableCollection.Clear
         // raises a Reset notification, and every standard ItemsControl/ComboBox treats Reset as "I
         // don't know what changed" and defensively drops its current selection - even when the
         // selected item was never one of the ones removed. Add/Remove on the one slot that actually
         // changed lets the bound ComboBox tell the difference and leaves an unrelated selection alone.
-        private void UpdateEnabledItem(OutputMapping mapping)
+        private void UpdateVisibleItem(OutputMapping mapping)
         {
-            if (mapping.IsEnabled.Value)
+            if (mapping.Visibility.Value)
             {
-                if (EnabledItems.Contains(mapping)) return;
-                int insertIndex = Items.TakeWhile(m => m != mapping).Count(EnabledItems.Contains);
-                EnabledItems.Insert(insertIndex, mapping);
+                if (VisibleItems.Contains(mapping)) return;
+                int insertIndex = Items.TakeWhile(m => m != mapping).Count(VisibleItems.Contains);
+                VisibleItems.Insert(insertIndex, mapping);
             }
             else
             {
-                EnabledItems.Remove(mapping);
+                VisibleItems.Remove(mapping);
             }
         }
 
         // Full rebuild, only used where there is no meaningful existing selection to protect:
         // initial construction and loading a project file.
-        private void RebuildEnabledItems()
+        private void RebuildVisibleItems()
         {
-            EnabledItems.Clear();
+            VisibleItems.Clear();
             foreach (var mapping in Items)
-                if (mapping.IsEnabled.Value)
-                    EnabledItems.Add(mapping);
+                if (mapping.Visibility.Value)
+                    VisibleItems.Add(mapping);
         }
 
         public IControlModel ToModel() => new OutputMappingManagerModel
@@ -129,7 +129,7 @@ namespace CMiX.Core.Rendering
                 Items[i].FromModel(m.Items[i]);
                 AssignFixedIds(Items[i], i);
             }
-            RebuildEnabledItems();
+            RebuildVisibleItems();
         }
     }
 }
