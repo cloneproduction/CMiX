@@ -4,23 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
+    <!-- Studio only ever talks to one engine, so just its settings, no server list. -->
     <Border Background="{DynamicResource Grey300Brush}">
-        <StackPanel>
-            <Views:PrefabSlotManager Margin="8">
-                <Views:PrefabSlotManager.SelectionPanel>
-                    <Views:ServerCreation ViewModel="{Binding}" />
-                </Views:PrefabSlotManager.SelectionPanel>
-            </Views:PrefabSlotManager>
-
-            <!--
-                NullToVisibility returns a bool in this project. The WPF ConverterParameter
-                asked for Hidden, which preserved layout space; IsVisible collapses instead,
-                acceptable here because the panel sits at the bottom of a StackPanel.
-            -->
-            <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">
-                <Views:Server DataContext="{Binding SelectedItem}" />
-            </Border>
-
-        </StackPanel>
+        <Views:Server Margin="8" />
     </Border>
 </UserControl>

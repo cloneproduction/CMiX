@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Sockets;
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Compositing;
 using CMiX.Core.Networking.Messages;
 using CMiX.Core.Prefabs;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -19,14 +20,28 @@ namespace CMiX.Core.Networking.Servers
 {
     public partial class Server : ObservableRecipient, IPrefab, IMessageSender, IDisposable
     {
+        private readonly Project _project;
+        private readonly SyncCoordinator _sync;
+
         public Server(PrefabService prefabService,
                       GenericValue<string> ip,
-                      GenericValue<int> port)
+                      GenericValue<int> port,
+                      Project project,
+                      ControlMessenger controlMessenger)
         {
             ID = Guid.NewGuid();
             IP = ip;
             Port = port;
+            IP.Value = "127.0.0.1";
+            Port.Value = 8080;
             PrefabService = prefabService;
+            _project = project;
+            _sync = new SyncCoordinator(project, this, controlMessenger);
+            _sync.PropertyChanged += (s, e) =>
+            {
+                if (e.PropertyName == nameof(SyncCoordinator.IsInSync))
+                    OnPropertyChanged(nameof(IsInSync));
+            };
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
@@ -46,6 +61,10 @@ namespace CMiX.Core.Networking.Servers
         public ServerStatistics Statistics { get; set; }
         public GenericValue<string> IP { get; set; }
         public GenericValue<int> Port { get; set; }
+
+        public bool IsInSync => _sync.IsInSync;
+        public ICommand PushCommand => _sync.PushCommand;
+        public ICommand PullCommand => _sync.PullCommand;
 
         public ICommand StartCommand { get; }
         public ICommand RestartCommand { get; }
@@ -117,15 +136,25 @@ namespace CMiX.Core.Networking.Servers
 
         private async Task SendAsync(byte[] data)
         {
-            // Captured once so a Stop that runs on the UI thread while this send is in flight
-            // cannot null the field out from under the continuation below.
+            // Captured so a concurrent Stop can't null the field mid-send.
             var server = WatsonTcpServer;
             if (server == null) return;
 
+            // Caught per client so one stale client can't abort the send to the rest.
+            foreach (var connectedClient in ConnectedClients.ToList())
+            {
+                try
+                {
+                    await server.SendAsync(connectedClient.ID, data);
+                }
+                catch (Exception ex)
+                {
+                    Debug.WriteLine(ex);
+                }
+            }
+
             try
             {
-                foreach (var connectedClient in ConnectedClients.ToList())
-                    await server.SendAsync(connectedClient.ID, data);
                 Dispatch(() => Statistics.Update(server));
             }
             catch (Exception ex)
@@ -155,6 +184,16 @@ namespace CMiX.Core.Networking.Servers
             {
                 var envelope = MessagePackSerialization.Deserialize<MessageEnvelope>(new ReadOnlyMemory<byte>(e.Data));
                 if (envelope.SenderID == MessageSender.WPF) return;
+
+                if (SyncProtocolMessages.IsSyncProtocol(envelope.Payload))
+                {
+                    Dispatch(() => _sync.TryHandle(envelope.Payload));
+                    return;
+                }
+
+                // Drop content messages while unsynced, mirroring the outgoing block.
+                if (_sync.ShouldBlockIncoming(envelope.Payload)) return;
+
                 Dispatch(() => WeakReferenceMessenger.Default.Send(envelope.Payload));
             }
             catch (Exception ex)
@@ -178,6 +217,8 @@ namespace CMiX.Core.Networking.Servers
                 ClientIsConnected = ConnectedClients.Count > 0;
                 Status = ClientIsConnected ? "Connected" : "Disconnected";
             });
+
+            _sync.SendOwnHash();
         }
 
         private void ClientDisconnected(object sender, DisconnectionEventArgs e)
@@ -197,10 +238,7 @@ namespace CMiX.Core.Networking.Servers
 
         private bool _starting;
 
-        // The guard covers two paths into Start. The direct property set on ServerIsRunning
-        // reenters here through OnServerIsRunningChanged while WatsonTcpServer is still being
-        // constructed, and a caller invoking Start while a server is already bound must not
-        // construct and bind a second one.
+        // Guards against a second Start while one is already running or mid-construction.
         public void Start()
         {
             if (_starting || WatsonTcpServer != null) return;
@@ -242,11 +280,8 @@ namespace CMiX.Core.Networking.Servers
             server.Events.ClientDisconnected -= ClientDisconnected;
             server.Events.MessageReceived -= MessageReceived;
 
-            // Watson's own Stop cancels the token its Dispose then waits on internally
-            // (DisconnectClientsAsync(...).Wait()), so a still connected client makes that
-            // wait observe a TaskCanceledException and Task.Wait rethrows it wrapped in an
-            // AggregateException. None of Watson's teardown is ours to fix, so every step
-            // below is guarded the same way and the remaining teardown always runs.
+            // Watson can throw during its own teardown, so each step is guarded to make sure
+            // the rest still runs.
             foreach (var client in ConnectedClients.ToList())
             {
                 try
@@ -282,8 +317,6 @@ namespace CMiX.Core.Networking.Servers
             Status = "Disconnected";
         }
 
-        // Stopping is the whole teardown, so a server that ever ends up in a collection managed by
-        // the generic delete path is released the same way ServerManager releases it.
         public void Dispose() => Stop();
 
         private async Task ApplyAsync()

@@ -21,6 +21,14 @@
         </Style>
     </ControlTheme>
 
+    <!-- Same shape as ServerConnectionIndicatorStyle, different color. -->
+    <ControlTheme x:Key="ServerSyncIndicatorStyle" TargetType="Ellipse">
+        <Setter Property="Fill" Value="Gray" />
+        <Style Selector="^.insync">
+            <Setter Property="Fill" Value="DodgerBlue" />
+        </Style>
+    </ControlTheme>
+
     <ControlTheme x:Key="LayerListBoxItemBorderStyle" TargetType="Border">
         <Setter Property="Background" Value="Transparent" />
         <Setter Property="BorderBrush" Value="{DynamicResource Shadow}" />

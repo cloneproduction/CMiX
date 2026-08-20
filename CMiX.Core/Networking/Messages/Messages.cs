@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Messages;
 
 namespace CMiX.Core.Networking.Messages
@@ -16,4 +17,14 @@ namespace CMiX.Core.Networking.Messages
     {
         public MessageValueChanged() : this(Guid.NewGuid(), default!) { }
     }
+
+    // Sent on connect so each side can compare its own project hash against the other's.
+    public record MessageStateHash(Guid ID, string Hash) : IMessage;
+
+    // The push/pull payload: one side's full project, real IDs included, for the other side to
+    // adopt wholesale.
+    public record MessageProjectSnapshot(Guid ID, ProjectModel Model) : IMessage;
+
+    // Asks the other side to reply with a MessageProjectSnapshot ("pull").
+    public record MessageRequestSnapshot(Guid ID) : IMessage;
 }

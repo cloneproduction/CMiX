@@ -27,6 +27,9 @@ namespace CMiX.Core.Compositing
             MasterBeat = masterBeat;
             OutputMappingManager = outputMappingManager;
             PrefabService.ID = this.ID;
+            PrefabService.Name.ID = ManagerIDs.ProjectPrefabServiceName;
+            PrefabService.IsSelected.ID = ManagerIDs.ProjectPrefabServiceIsSelected;
+            PrefabService.Visibility.ID = ManagerIDs.ProjectPrefabServiceVisibility;
             compositionManager.Activate();
         }
 
@@ -50,10 +53,21 @@ namespace CMiX.Core.Compositing
             var m = (ProjectModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
+            PrefabService.Name.ID = ManagerIDs.ProjectPrefabServiceName;
+            PrefabService.IsSelected.ID = ManagerIDs.ProjectPrefabServiceIsSelected;
+            PrefabService.Visibility.ID = ManagerIDs.ProjectPrefabServiceVisibility;
             MasterBeat.FromModel(m.MasterBeat);
+            MasterBeat.ID = ManagerIDs.MasterBeat;
             OutputMappingManager.FromModel(m.OutputMappingManager);
 
             LoadManager(CompositionManager, m.CompositionManager);
+        }
+
+        // FromModel only adds items, so clear first to make this a real replacement.
+        public void ApplySnapshot(ProjectModel model)
+        {
+            CompositionManager.ClearAll();
+            FromModel(model);
         }
     }
 }

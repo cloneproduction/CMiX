@@ -1,9 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Networking
 {
@@ -14,11 +12,7 @@ namespace CMiX.Core.Networking
             IPPORT = ipPort;
             IP = ipPort.Split(':')[0];
             Port = ipPort.Split(':')[1];
-
-            //SendResyncRequestCommand = new RelayCommand(SendResyncRequest);
         }
-
-        public ICommand SendResyncRequestCommand { get; }
 
         private Guid _iD;
         public Guid ID
@@ -32,13 +26,6 @@ namespace CMiX.Core.Networking
         {
             get => _ipPort;
             set => SetProperty(ref _ipPort, value);
-        }
-
-        private bool _unSync;
-        public bool UnSync
-        {
-            get => _unSync;
-            set => SetProperty(ref _unSync, value);
         }
 
         private string _port;

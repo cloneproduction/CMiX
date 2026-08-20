@@ -18,6 +18,7 @@ namespace CMiX.Core.Animations
                           UndoManager undoManager,
                           ControlActivationService activationService)
         {
+            ID = ManagerIDs.MasterBeat;
             Index = index;
             Period = period;
             BeatIndex = beatIndex;

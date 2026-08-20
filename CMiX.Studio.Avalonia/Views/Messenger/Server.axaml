@@ -16,29 +16,22 @@
                 ItemsSource="{Binding ConnectedClients}">
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel>
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition />
-                                    <ColumnDefinition />
-                                </Grid.ColumnDefinitions>
-                                <TextBlock
-                                    Grid.Column="0"
-                                    Margin="0,0,1,0"
-                                    HorizontalAlignment="Center"
-                                    Text="{Binding IP}" />
-                                <TextBlock
-                                    Grid.Column="1"
-                                    Margin="1,0,0,0"
-                                    HorizontalAlignment="Center"
-                                    Text="{Binding Port}" />
-                            </Grid>
-                            <BaseControl:LabeledButton
-                                Margin="0,8,0,0"
-                                Caption="Request Resync"
-                                Command="{Binding SendResyncRequestCommand}" />
-                        </StackPanel>
-
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Grid.Column="0"
+                                Margin="0,0,1,0"
+                                HorizontalAlignment="Center"
+                                Text="{Binding IP}" />
+                            <TextBlock
+                                Grid.Column="1"
+                                Margin="1,0,0,0"
+                                HorizontalAlignment="Center"
+                                Text="{Binding Port}" />
+                        </Grid>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>
             </ItemsControl>
