@@ -12,8 +12,6 @@ namespace CMiX.Core.Compositing
     {
         public Guid ID { get; set; } = new Guid("11223344-5566-7788-99AA-BBCCDDEEFF00");
         public PrefabServiceModel PrefabService { get; set; } = new();
-        public PrefabManagerModel PrefabManager { get; set; } = new();
-        public PrefabManagerModel ModifierManager { get; set; } = new();
         public PrefabManagerModel CompositionManager {  get; set; } = new();
         public MasterBeatModel MasterBeat { get; set; } = new();
         public OutputMappingManagerModel OutputMappingManager { get; set; } = new();

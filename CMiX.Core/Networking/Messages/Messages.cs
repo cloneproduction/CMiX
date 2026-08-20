@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs.Messages;
 
 namespace CMiX.Core.Networking.Messages
@@ -16,4 +17,15 @@ namespace CMiX.Core.Networking.Messages
     {
         public MessageValueChanged() : this(Guid.NewGuid(), default!) { }
     }
+
+    // Sent by each side right after a connection is established, carrying a hash of its own
+    // current Project.ToModel() output (see ProjectStateHash). Comparing the two tells each side
+    // whether it currently holds the same project as the other, without transmitting the whole
+    // project just to check.
+    public record MessageStateHash(Guid ID, string Hash) : IMessage;
+
+    // The full push/pull payload: one side's complete current project, sent so the other side can
+    // discard its own state and rebuild from this instead - real IDs included, so nothing needs to
+    // be pre-agreed the way ManagerIDs currently is.
+    public record MessageProjectSnapshot(Guid ID, ProjectModel Model) : IMessage;
 }

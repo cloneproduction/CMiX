@@ -21,6 +21,18 @@ namespace CMiX.Core
         public static readonly Guid Pause = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF12");
         public static readonly Guid Resync = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF13");
 
+        // MasterBeat's own top-level ID was never fixed like its children above - found via the
+        // state-hash work, since two independently-constructed MasterBeat instances (Studio vs
+        // vvvv) would otherwise never agree on it either.
+        public static readonly Guid MasterBeat = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5B");
+
+        // Same reasoning for Project.PrefabService's own nested GenericValue fields - PrefabService
+        // itself is fixed (Project.cs sets PrefabService.ID = Project.ID), but Name/IsSelected/
+        // Visibility underneath it were not.
+        public static readonly Guid ProjectPrefabServiceName = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5C");
+        public static readonly Guid ProjectPrefabServiceIsSelected = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5D");
+        public static readonly Guid ProjectPrefabServiceVisibility = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5E");
+
         // Fixed like everything above: OutputMappingManager and its 10 slots are created directly
         // at Project startup on both the .NET and vvvv sides, never announced through
         // MessageAddItem, so both sides must agree on these IDs up front rather than learn them
