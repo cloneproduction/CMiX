@@ -28,4 +28,9 @@ namespace CMiX.Core.Networking.Messages
     // discard its own state and rebuild from this instead - real IDs included, so nothing needs to
     // be pre-agreed the way ManagerIDs currently is.
     public record MessageProjectSnapshot(Guid ID, ProjectModel Model) : IMessage;
+
+    // "Pull" is a request-then-reply: this asks the other side to send its current state as a
+    // MessageProjectSnapshot. "Push" needs no equivalent request - the sender already has what it
+    // wants to send.
+    public record MessageRequestSnapshot(Guid ID) : IMessage;
 }

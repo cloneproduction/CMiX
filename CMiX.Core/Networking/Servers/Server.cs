@@ -44,6 +44,8 @@ namespace CMiX.Core.Networking.Servers
             RestartCommand = new RelayCommand(Restart);
             StopCommand = new RelayCommand(Stop);
             ApplySettingsCommand = new AsyncRelayCommand(ApplyAsync);
+            PushCommand = new RelayCommand(Push);
+            PullCommand = new RelayCommand(Pull);
             IsActive = true;
         }
 
@@ -58,6 +60,8 @@ namespace CMiX.Core.Networking.Servers
         public ICommand RestartCommand { get; }
         public ICommand ApplySettingsCommand { get; }
         public ICommand StopCommand { get; }
+        public ICommand PushCommand { get; }
+        public ICommand PullCommand { get; }
 
         private Guid _clientID;
         private ObservableCollection<ConnectedClient> _connectedClients;
@@ -175,6 +179,20 @@ namespace CMiX.Core.Networking.Servers
                     return;
                 }
 
+                if (envelope.Payload is MessageRequestSnapshot)
+                {
+                    // The other side asked for a "pull" - reply with our current state, the same
+                    // as if the user here had clicked Push.
+                    Dispatch(Push);
+                    return;
+                }
+
+                if (envelope.Payload is MessageProjectSnapshot snapshot)
+                {
+                    Dispatch(() => HandleProjectSnapshot(snapshot));
+                    return;
+                }
+
                 // Same rule as the outgoing side (ControlMessenger.SendMessage): while not in
                 // sync, content messages are dropped rather than silently applied, so an edit made
                 // on the other side while unresolved cannot leak in either. The sync protocol's own
@@ -194,6 +212,26 @@ namespace CMiX.Core.Networking.Servers
         internal void HandleStateHash(MessageStateHash message)
         {
             IsInSync = message.Hash == ProjectStateHash.Compute(_project);
+        }
+
+        // "Push": send our current state as-is. Bypasses IsSendingBlocked like every sync protocol
+        // message does (see SyncProtocolMessages), since this is exactly the action meant to
+        // resolve being blocked in the first place.
+        private void Push() =>
+            SendMessage(new MessageProjectSnapshot(Guid.NewGuid(), (ProjectModel)_project.ToModel()));
+
+        // "Pull": ask the other side to push to us instead - see the MessageRequestSnapshot
+        // handling above for the reply.
+        private void Pull() => SendMessage(new MessageRequestSnapshot(Guid.NewGuid()));
+
+        // Split out for the same reason as HandleStateHash - testable directly without a real
+        // transport.
+        internal void HandleProjectSnapshot(MessageProjectSnapshot message)
+        {
+            _project.ApplySnapshot(message.Model);
+            // Adopting the sender's state wholesale makes this side match it by construction;
+            // no need to hash-compare against a hash we do not have on hand.
+            IsInSync = true;
         }
 
         private void ClientConnected(object sender, ConnectionEventArgs e)

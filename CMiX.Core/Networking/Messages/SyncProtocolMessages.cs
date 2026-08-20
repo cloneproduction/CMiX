@@ -8,6 +8,6 @@ namespace CMiX.Core.Networking.Messages
     public static class SyncProtocolMessages
     {
         public static bool IsSyncProtocol(IMessage message) =>
-            message is MessageStateHash or MessageProjectSnapshot;
+            message is MessageStateHash or MessageProjectSnapshot or MessageRequestSnapshot;
     }
 }
