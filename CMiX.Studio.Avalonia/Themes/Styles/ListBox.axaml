@@ -13,11 +13,13 @@
         </Style>
     </ControlTheme>
 
-    <!-- Three states: red (default) means the listener isn't running at all - a real problem,
+    <!-- Four states: red (default) means the listener isn't running at all - a real problem,
          not just "no Engine yet". Orange (.listening) is the normal idle state: up and waiting.
-         Green (.connected) means an Engine is actually attached. Consumers bind
-         Classes.listening to ServerIsRunning and Classes.connected to ClientIsConnected;
-         .connected is declared after .listening so it wins when both apply. -->
+         Green (.connected) means an Engine is actually attached. Gray (.connecting) means a
+         deliberate reconnect is in progress (ApplyAsync stops itself before rebinding), so that
+         momentary "not listening" doesn't read as a failure. Consumers bind Classes.listening to
+         ServerIsRunning, Classes.connected to ClientIsConnected, and Classes.connecting to
+         IsReconnecting; declared last, .connecting wins over the other two while it applies. -->
     <ControlTheme x:Key="ServerConnectionIndicatorStyle" TargetType="Ellipse">
         <Setter Property="Fill" Value="Red" />
         <Style Selector="^.listening">
@@ -25,6 +27,9 @@
         </Style>
         <Style Selector="^.connected">
             <Setter Property="Fill" Value="Green" />
+        </Style>
+        <Style Selector="^.connecting">
+            <Setter Property="Fill" Value="Gray" />
         </Style>
     </ControlTheme>
 

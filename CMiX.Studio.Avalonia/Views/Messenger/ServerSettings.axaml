@@ -22,6 +22,7 @@
                     VerticalAlignment="Center"
                     Height="7"
                     Classes.connected="{Binding ClientIsConnected}"
+                    Classes.connecting="{Binding IsReconnecting}"
                     Classes.listening="{Binding ServerIsRunning}"
                     Theme="{StaticResource ServerConnectionIndicatorStyle}" />
                 <TextBlock

@@ -43,6 +43,7 @@
                     Height="7"
                     Margin="0,0,4,0"
                     Classes.connected="{Binding ClientIsConnected}"
+                    Classes.connecting="{Binding IsReconnecting}"
                     Classes.listening="{Binding ServerIsRunning}"
                     Theme="{StaticResource ServerConnectionIndicatorStyle}" />
 
