@@ -1,7 +1,5 @@
 ﻿# CMiX
 
-[![Build status](https://ci.appveyor.com/api/projects/status/44lj0ol4sk6mxk1s?svg=true)](https://ci.appveyor.com/project/cloneproduction/cmix-ui)
-
 CMiX is a VJ (visual jockey) tool. It pairs a desktop Studio application, used
 to build and control compositions live, with a vvvv gamma engine that renders
 the output. The Studio talks to one or more engine instances over the
@@ -12,11 +10,8 @@ network, so composing and rendering can run on separate machines.
 - CMiX.Core: shared domain model and services (compositions, layers, prefabs,
   networking, undo) used by both the Studio and the engine. Built as
   lib/net8.0-windows/CMiX.Core.dll.
-- CMiX.Studio.Avalonia: the current Studio UI, built on Avalonia. This is
-  where active UI work happens.
-- CMiX.Studio: the previous Studio UI, built on WPF. It is frozen as a parity
-  reference while the Avalonia migration completes and is not otherwise
-  maintained.
+- CMiX.Studio.Avalonia: the Studio UI, built on Avalonia. This is where
+  active UI work happens.
 - CMiX.Engine: the vvvv gamma patch that loads CMiX.Core.dll by binary
   reference and renders the composition output. Because it references the
   built DLL directly rather than the project, the path
