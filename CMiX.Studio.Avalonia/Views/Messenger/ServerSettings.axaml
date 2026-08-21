@@ -59,27 +59,33 @@
                             Margin="0,0,0,8"
                             Text="Studio and Engine have different projects. Choose how to resolve it."
                             TextWrapping="Wrap" />
-                        <StackPanel Orientation="Horizontal">
+                        <Grid Height="{DynamicResource ControlHeightMD}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
                             <Button
-                                Height="{DynamicResource ControlHeightMD}"
+                                Grid.Column="0"
                                 Margin="0,0,4,0"
                                 Click="Push_Click"
                                 Content="Push"
                                 Theme="{StaticResource ButtonRounded}"
                                 ToolTip.Tip="Send this side's project to the other side" />
                             <Button
-                                Height="{DynamicResource ControlHeightMD}"
-                                Margin="0,0,4,0"
+                                Grid.Column="1"
+                                Margin="4,0"
                                 Click="Pull_Click"
                                 Content="Pull"
                                 Theme="{StaticResource ButtonRounded}"
                                 ToolTip.Tip="Replace this side's project with the other side's" />
                             <Button
-                                Height="{DynamicResource ControlHeightMD}"
+                                Grid.Column="2"
+                                Margin="4,0,0,0"
                                 Click="CancelSync_Click"
                                 Content="Cancel"
                                 Theme="{StaticResource ButtonRounded}" />
-                        </StackPanel>
+                        </Grid>
                     </StackPanel>
                 </Flyout>
             </Button.Flyout>
