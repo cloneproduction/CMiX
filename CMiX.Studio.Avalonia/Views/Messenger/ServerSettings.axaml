@@ -54,7 +54,7 @@
             </StackPanel>
             <Button.Flyout>
                 <Flyout FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                    <StackPanel>
+                    <StackPanel KeyDown="SyncFlyout_KeyDown">
                         <TextBlock
                             Margin="0,0,0,8"
                             Text="Studio and Engine have different projects. Choose how to resolve it."
@@ -127,7 +127,7 @@
             Theme="{StaticResource ButtonRounded}">
             <Button.Flyout>
                 <Flyout FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                    <StackPanel>
+                    <StackPanel KeyDown="EditConnectionFlyout_KeyDown">
                         <TextBlock
                             Margin="0,0,0,8"
                             Text="Connection Settings" />

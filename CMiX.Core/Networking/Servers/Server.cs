@@ -51,7 +51,6 @@ namespace CMiX.Core.Networking.Servers
             StartCommand = new RelayCommand(Start);
             RestartCommand = new RelayCommand(Restart);
             StopCommand = new RelayCommand(Stop);
-            ApplySettingsCommand = new AsyncRelayCommand(ApplyAsync);
             IsActive = true;
         }
 
@@ -68,7 +67,6 @@ namespace CMiX.Core.Networking.Servers
 
         public ICommand StartCommand { get; }
         public ICommand RestartCommand { get; }
-        public ICommand ApplySettingsCommand { get; }
         public ICommand StopCommand { get; }
 
         private Guid _clientID;
@@ -321,17 +319,24 @@ namespace CMiX.Core.Networking.Servers
 
         public async Task<bool> ApplyAsync()
         {
+            var ip = IP.Value;
+            var port = Port.Value;
+
             // Stopped first so the port-availability check below can't see this server's own
             // listener and mistake it for something else already bound to the address.
             Stop();
-            try
-            {
-                return ValidateIPv4(IP.Value) && await ValidatePortAsync(IP.Value, Port.Value);
-            }
-            finally
-            {
-                Start();
-            }
+            var valid = ValidateIPv4(ip) && await ValidatePortAsync(ip, port);
+
+            // Re-applied so Start() binds exactly what was just validated, not whatever the
+            // two-way bound IP/Port fields hold by now if the user kept editing them while the
+            // check above was still running.
+            IP.Value = ip;
+            Port.Value = port;
+            Start();
+
+            // Reflects whether the server actually ended up listening, not just whether the
+            // settings passed validation - Start() can still fail after a successful check.
+            return valid && WatsonTcpServer != null;
         }
 
         private async Task<bool> ValidatePortAsync(string host, int port)
