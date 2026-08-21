@@ -1,11 +1,14 @@
 <UserControl
     x:Class="CMiX.Studio.Avalonia.Views.ServerSettings"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <StackPanel Margin="8">
 
-        <DockPanel Margin="0,0,0,4">
+        <StackPanel
+            Margin="0,0,0,4"
+            Orientation="Horizontal">
             <Ellipse
                 Width="7"
                 Height="7"
@@ -13,55 +16,74 @@
                 Classes.connected="{Binding ClientIsConnected}"
                 Theme="{StaticResource ServerConnectionIndicatorStyle}" />
             <TextBlock
-                Margin="0,0,8,0"
                 VerticalAlignment="Center"
                 Foreground="{DynamicResource ForegroundBrush}"
                 Text="{Binding Status}" />
-            <ToggleButton
-                Height="{DynamicResource ControlHeightXS}"
-                DockPanel.Dock="Right"
-                Background="Crimson"
-                IsChecked="{Binding ServerIsRunning, Mode=TwoWay}"
-                Theme="{DynamicResource TogglePlayPause}" />
-        </DockPanel>
-
-        <DockPanel Margin="0,0,0,8">
-            <Ellipse
-                Width="7"
-                Height="7"
-                Margin="0,0,4,0"
-                Classes.insync="{Binding IsInSync}"
-                Theme="{StaticResource ServerSyncIndicatorStyle}" />
-            <TextBlock
-                VerticalAlignment="Center"
-                Foreground="{DynamicResource ForegroundBrush}"
-                IsVisible="{Binding IsInSync}"
-                Text="In sync" />
-            <TextBlock
-                VerticalAlignment="Center"
-                Foreground="{DynamicResource ForegroundBrush}"
-                IsVisible="{Binding !IsInSync}"
-                Text="Not in sync" />
-        </DockPanel>
-
-        <StackPanel
-            Margin="0,0,0,8"
-            IsVisible="{Binding !IsInSync}"
-            Orientation="Horizontal">
-            <Button
-                Height="{DynamicResource ControlHeightMD}"
-                Margin="0,0,4,0"
-                Command="{Binding PushCommand}"
-                Content="Push"
-                Theme="{StaticResource ButtonRounded}"
-                ToolTip.Tip="Send this side's project to the other side" />
-            <Button
-                Height="{DynamicResource ControlHeightMD}"
-                Command="{Binding PullCommand}"
-                Content="Pull"
-                Theme="{StaticResource ButtonRounded}"
-                ToolTip.Tip="Replace this side's project with the other side's" />
         </StackPanel>
+
+        <!-- The single entry point for resolving an out-of-sync state: plain and inert while in
+             sync, becomes clickable once not - clicking opens the Push/Pull/Cancel Flyout below.
+             Hidden entirely while disconnected, since sync is meaningless with nobody to compare
+             against. -->
+        <Button
+            x:Name="SyncButton"
+            Margin="0,0,0,8"
+            Padding="0"
+            Background="Transparent"
+            BorderThickness="0"
+            IsEnabled="{Binding !IsInSync}"
+            IsVisible="{Binding ClientIsConnected}"
+            Theme="{StaticResource ButtonRounded}">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse
+                    Width="7"
+                    Height="7"
+                    Margin="0,0,4,0"
+                    Classes.insync="{Binding IsInSync}"
+                    Theme="{StaticResource ServerSyncIndicatorStyle}" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    IsVisible="{Binding IsInSync}"
+                    Text="In sync" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    IsVisible="{Binding !IsInSync}"
+                    Text="Not in sync" />
+            </StackPanel>
+            <Button.Flyout>
+                <Flyout FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Text="Studio and Engine have different projects. Choose how to resolve it."
+                            TextWrapping="Wrap" />
+                        <StackPanel Orientation="Horizontal">
+                            <Button
+                                Height="{DynamicResource ControlHeightMD}"
+                                Margin="0,0,4,0"
+                                Click="Push_Click"
+                                Content="Push"
+                                Theme="{StaticResource ButtonRounded}"
+                                ToolTip.Tip="Send this side's project to the other side" />
+                            <Button
+                                Height="{DynamicResource ControlHeightMD}"
+                                Margin="0,0,4,0"
+                                Click="Pull_Click"
+                                Content="Pull"
+                                Theme="{StaticResource ButtonRounded}"
+                                ToolTip.Tip="Replace this side's project with the other side's" />
+                            <Button
+                                Height="{DynamicResource ControlHeightMD}"
+                                Click="CancelSync_Click"
+                                Content="Cancel"
+                                Theme="{StaticResource ButtonRounded}" />
+                        </StackPanel>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
 
         <Grid Height="{DynamicResource ControlHeightMD}">
             <Grid.ColumnDefinitions>
@@ -98,10 +120,71 @@
         </Grid>
 
         <Button
+            x:Name="EditConnectionButton"
             Height="{DynamicResource ControlHeightMD}"
             Margin="0,8,0,0"
-            Click="Button_Click"
             Content="Edit Connection"
-            Theme="{StaticResource ButtonRounded}" />
+            Theme="{StaticResource ButtonRounded}">
+            <Button.Flyout>
+                <Flyout FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                    <StackPanel>
+                        <TextBlock
+                            Margin="0,0,0,8"
+                            Text="Connection Settings" />
+                        <BaseControl:IPBox IPAddress="{Binding IP.Value, Mode=TwoWay}" />
+                        <Grid
+                            Height="{DynamicResource ControlHeightMD}"
+                            Margin="0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock
+                                Margin="0,0,4,0"
+                                HorizontalAlignment="Right"
+                                Text="Port" />
+                            <TextBox
+                                Grid.Column="1"
+                                Text="{Binding Port.Value, Mode=TwoWay}" />
+                        </Grid>
+
+                        <TextBlock
+                            Margin="0,4"
+                            Foreground="{DynamicResource ForegroundBrush}"
+                            IsVisible="{Binding ClientIsConnected}"
+                            Text="This will disconnect the current engine and reconnect with the new settings."
+                            TextWrapping="Wrap" />
+
+                        <TextBlock
+                            Margin="0,4"
+                            Foreground="Crimson"
+                            IsVisible="{Binding !!ErrorMessage}"
+                            Text="{Binding ErrorMessage}"
+                            TextWrapping="Wrap" />
+
+                        <Grid Margin="0,8,0,0">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition />
+                                <ColumnDefinition />
+                            </Grid.ColumnDefinitions>
+                            <Button
+                                Grid.Column="0"
+                                Height="{DynamicResource ControlHeightMD}"
+                                Margin="0,0,4,0"
+                                Click="Connect_Click"
+                                Content="Connect"
+                                Theme="{StaticResource ButtonRounded}" />
+                            <Button
+                                Grid.Column="1"
+                                Height="{DynamicResource ControlHeightMD}"
+                                Margin="4,0,0,0"
+                                Click="CancelEditConnection_Click"
+                                Content="Cancel"
+                                Theme="{StaticResource ButtonRounded}" />
+                        </Grid>
+                    </StackPanel>
+                </Flyout>
+            </Button.Flyout>
+        </Button>
     </StackPanel>
 </UserControl>

@@ -1,9 +1,9 @@
 // Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using System.ComponentModel;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
+using ServerModel = CMiX.Core.Networking.Servers.Server;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -14,15 +14,28 @@ namespace CMiX.Studio.Avalonia.Views
             InitializeComponent();
         }
 
-        // Mirrors the WPF view, which showed the window through MvvmDialogs. The owner is the
-        // DataContext of the containing window so the created window is parented to it.
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private ServerModel Server => (ServerModel)DataContext!;
+
+        private async void Connect_Click(object sender, RoutedEventArgs e)
         {
-            var viewModel = DataContext as INotifyPropertyChanged;
-            if (viewModel == null) return;
-            var owner = (TopLevel.GetTopLevel(this) as Window)?.DataContext as INotifyPropertyChanged
-                ?? viewModel;
-            App.DialogService?.Show(owner, viewModel);
+            if (await Server.ApplyAsync())
+                EditConnectionButton.Flyout!.Hide();
         }
+
+        private void CancelEditConnection_Click(object sender, RoutedEventArgs e) => EditConnectionButton.Flyout!.Hide();
+
+        private void Push_Click(object sender, RoutedEventArgs e)
+        {
+            Server.PushCommand.Execute(null);
+            SyncButton.Flyout!.Hide();
+        }
+
+        private void Pull_Click(object sender, RoutedEventArgs e)
+        {
+            Server.PullCommand.Execute(null);
+            SyncButton.Flyout!.Hide();
+        }
+
+        private void CancelSync_Click(object sender, RoutedEventArgs e) => SyncButton.Flyout!.Hide();
     }
 }
