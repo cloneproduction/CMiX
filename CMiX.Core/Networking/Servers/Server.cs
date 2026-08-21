@@ -319,10 +319,19 @@ namespace CMiX.Core.Networking.Servers
 
         public void Dispose() => Stop();
 
-        private async Task ApplyAsync()
+        public async Task<bool> ApplyAsync()
         {
-            if (ValidateIPv4(IP.Value) && await ValidatePortAsync(IP.Value, Port.Value))
-                ErrorMessage = "Settings applied successfully!";
+            // Stopped first so the port-availability check below can't see this server's own
+            // listener and mistake it for something else already bound to the address.
+            Stop();
+            try
+            {
+                return ValidateIPv4(IP.Value) && await ValidatePortAsync(IP.Value, Port.Value);
+            }
+            finally
+            {
+                Start();
+            }
         }
 
         private async Task<bool> ValidatePortAsync(string host, int port)
