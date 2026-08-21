@@ -37,8 +37,20 @@ namespace CMiX.Studio.Avalonia.Views
 
         private async void Connect_Click(object sender, RoutedEventArgs e)
         {
-            if (await Server.ApplyAsync())
-                EditConnectionButton.Flyout!.Hide();
+            // ApplyAsync can take a few seconds (its own port-availability check has a 3s
+            // timeout), so the button gives visible feedback instead of looking unresponsive.
+            ConnectButton.IsEnabled = false;
+            ConnectButton.Content = "Connecting...";
+            try
+            {
+                if (await Server.ApplyAsync())
+                    EditConnectionButton.Flyout!.Hide();
+            }
+            finally
+            {
+                ConnectButton.Content = "Connect";
+                ConnectButton.IsEnabled = true;
+            }
         }
 
         private void CancelEditConnection_Click(object sender, RoutedEventArgs e) => EditConnectionButton.Flyout!.Hide();

@@ -45,7 +45,6 @@ namespace CMiX.Core.Networking.Servers
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
-            Status = "Disconnected";
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
             StartCommand = new RelayCommand(Start);
@@ -72,12 +71,9 @@ namespace CMiX.Core.Networking.Servers
         private Guid _clientID;
         private ObservableCollection<ConnectedClient> _connectedClients;
 
-        private string _status;
-        public string Status
-        {
-            get => _status;
-            set => SetProperty(ref _status, value);
-        }
+        // Distinguishes three states rather than just two, so a listener that's up but has no
+        // Engine attached yet doesn't look identical to one that failed to bind at all.
+        public string Status => !ServerIsRunning ? "Not listening" : ClientIsConnected ? "Connected" : "Listening";
 
         private string _errorMessage;
         public string ErrorMessage
@@ -111,6 +107,7 @@ namespace CMiX.Core.Networking.Servers
 
         partial void OnServerIsRunningChanged(bool value)
         {
+            OnPropertyChanged(nameof(Status));
             if (value)
             {
                 Start();
@@ -213,7 +210,7 @@ namespace CMiX.Core.Networking.Servers
             {
                 ConnectedClients.Add(connectedClient);
                 ClientIsConnected = ConnectedClients.Count > 0;
-                Status = ClientIsConnected ? "Connected" : "Disconnected";
+                OnPropertyChanged(nameof(Status));
             });
 
             _sync.SendOwnHash();
@@ -230,7 +227,7 @@ namespace CMiX.Core.Networking.Servers
                 }
 
                 ClientIsConnected = ConnectedClients.Count > 0;
-                Status = ClientIsConnected ? "Connected" : "Disconnected";
+                OnPropertyChanged(nameof(Status));
             });
         }
 
@@ -312,7 +309,6 @@ namespace CMiX.Core.Networking.Servers
 
             WatsonTcpServer = null;
             ServerIsRunning = false;
-            Status = "Disconnected";
         }
 
         public void Dispose() => Stop();

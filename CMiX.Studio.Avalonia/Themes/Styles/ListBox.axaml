@@ -13,9 +13,16 @@
         </Style>
     </ControlTheme>
 
-    <!-- WPF DataTrigger on ClientIsConnected became the connected class; consumers must bind Classes.connected to ClientIsConnected -->
+    <!-- Three states: red (default) means the listener isn't running at all - a real problem,
+         not just "no Engine yet". Orange (.listening) is the normal idle state: up and waiting.
+         Green (.connected) means an Engine is actually attached. Consumers bind
+         Classes.listening to ServerIsRunning and Classes.connected to ClientIsConnected;
+         .connected is declared after .listening so it wins when both apply. -->
     <ControlTheme x:Key="ServerConnectionIndicatorStyle" TargetType="Ellipse">
         <Setter Property="Fill" Value="Red" />
+        <Style Selector="^.listening">
+            <Setter Property="Fill" Value="Orange" />
+        </Style>
         <Style Selector="^.connected">
             <Setter Property="Fill" Value="Green" />
         </Style>

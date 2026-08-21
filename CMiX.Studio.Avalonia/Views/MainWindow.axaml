@@ -75,8 +75,9 @@
                         Height="7"
                         Margin="0,0,4,0"
                         Classes.connected="{Binding Server.ClientIsConnected}"
+                        Classes.listening="{Binding Server.ServerIsRunning}"
                         Theme="{StaticResource ServerConnectionIndicatorStyle}"
-                        ToolTip.Tip="Engine connection" />
+                        ToolTip.Tip="{Binding Server.Status}" />
 
                     <Ellipse
                         Width="7"

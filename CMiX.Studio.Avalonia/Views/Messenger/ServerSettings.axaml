@@ -2,29 +2,45 @@
     x:Class="CMiX.Studio.Avalonia.Views.ServerSettings"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
     <StackPanel Margin="8">
+        <UniformGrid Columns="2">
+        <TextBlock
+            Margin="0,0,8,0"
+            HorizontalAlignment="Right"
+            Text="Status" />
+            <Border>
+                <StackPanel
+                    Margin="0,0,0,4"
+                    Orientation="Horizontal">
+                <Ellipse
+                    Width="7"
+                    VerticalAlignment="Center"
+                    Height="7"
+                    Classes.connected="{Binding ClientIsConnected}"
+                    Classes.listening="{Binding ServerIsRunning}"
+                    Theme="{StaticResource ServerConnectionIndicatorStyle}" />
+                <TextBlock
+                    VerticalAlignment="Center"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    Text="{Binding Status}" />
+            </StackPanel>
+            </Border>
 
-        <StackPanel
-            Margin="0,0,0,4"
-            Orientation="Horizontal">
-            <Ellipse
-                Width="7"
-                Height="7"
-                Margin="0,0,4,0"
-                Classes.connected="{Binding ClientIsConnected}"
-                Theme="{StaticResource ServerConnectionIndicatorStyle}" />
-            <TextBlock
-                VerticalAlignment="Center"
-                Foreground="{DynamicResource ForegroundBrush}"
-                Text="{Binding Status}" />
-        </StackPanel>
+
+        </UniformGrid>
+
+
 
         <!-- The single entry point for resolving an out-of-sync state: plain and inert while in
              sync, becomes clickable once not - clicking opens the Push/Pull/Cancel Flyout below.
              Hidden entirely while disconnected, since sync is meaningless with nobody to compare
              against. -->
+<!--                         IsVisible="{Binding ClientIsConnected}"-->
         <Button
             x:Name="SyncButton"
             Margin="0,0,0,8"
@@ -32,7 +48,7 @@
             Background="Transparent"
             BorderThickness="0"
             IsEnabled="{Binding !IsInSync}"
-            IsVisible="{Binding ClientIsConnected}"
+
             Theme="{StaticResource ButtonRounded}">
             <StackPanel Orientation="Horizontal">
                 <Ellipse
@@ -131,7 +147,7 @@
             Margin="0,8,0,0"
             Content="Edit Connection"
             Theme="{StaticResource ButtonRounded}">
-            <Button.Flyout>
+            <Button.Flyout >
                 <Flyout FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
                     <StackPanel KeyDown="EditConnectionFlyout_KeyDown">
                         <TextBlock
@@ -154,19 +170,24 @@
                                 Text="{Binding Port.Value, Mode=TwoWay}" />
                         </Grid>
 
-                        <TextBlock
-                            Margin="0,4"
-                            Foreground="{DynamicResource ForegroundBrush}"
-                            IsVisible="{Binding ClientIsConnected}"
-                            Text="This will disconnect the current engine and reconnect with the new settings."
-                            TextWrapping="Wrap" />
+                        <!-- Reserves space for both lines below regardless of which, if either, is
+                             currently showing, so the popup doesn't visibly resize as ErrorMessage
+                             or ClientIsConnected change mid-click. -->
+                        <StackPanel MinHeight="40">
+                            <TextBlock
+                                Margin="0,4"
+                                Foreground="{DynamicResource ForegroundBrush}"
+                                IsVisible="{Binding ClientIsConnected}"
+                                Text="This will disconnect the current engine and reconnect with the new settings."
+                                TextWrapping="Wrap" />
 
-                        <TextBlock
-                            Margin="0,4"
-                            Foreground="Crimson"
-                            IsVisible="{Binding !!ErrorMessage}"
-                            Text="{Binding ErrorMessage}"
-                            TextWrapping="Wrap" />
+                            <TextBlock
+                                Margin="0,4"
+                                Foreground="Crimson"
+                                IsVisible="{Binding !!ErrorMessage}"
+                                Text="{Binding ErrorMessage}"
+                                TextWrapping="Wrap" />
+                        </StackPanel>
 
                         <Grid Margin="0,8,0,0">
                             <Grid.ColumnDefinitions>
@@ -174,6 +195,7 @@
                                 <ColumnDefinition />
                             </Grid.ColumnDefinitions>
                             <Button
+                                x:Name="ConnectButton"
                                 Grid.Column="0"
                                 Height="{DynamicResource ControlHeightMD}"
                                 Margin="0,0,4,0"
