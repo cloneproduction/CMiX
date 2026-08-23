@@ -5,11 +5,8 @@
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <UserControl.Styles>
-        <!-- Replacements for the WPF ControlTemplate triggers on the two inline toggle buttons. -->
-        <Style Selector="ToggleButton.visibilityToggle:checked /template/ Image#image">
-            <Setter Property="Source" Value="{DynamicResource NotVisible}" />
-        </Style>
-        <Style Selector="ToggleButton.maskToggle:checked /template/ Image#image">
+        <!-- Replacement for the WPF ControlTemplate trigger on the inline mask toggle button. -->
+        <Style Selector="ToggleButton.maskToggle:checked /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
     </UserControl.Styles>
@@ -29,21 +26,8 @@
 
                 <ToggleButton
                     Margin="4"
-                    Padding="4"
-                    Classes="visibilityToggle"
-                    IsChecked="{Binding PrefabService.Visibility.Value}">
-                    <ToggleButton.Template>
-                        <ControlTemplate>
-                            <Border
-                                Margin="0"
-                                Padding="1"
-                                Background="Transparent"
-                                Opacity="0.6">
-                                <Image x:Name="image" Source="{DynamicResource Visible}" />
-                            </Border>
-                        </ControlTemplate>
-                    </ToggleButton.Template>
-                </ToggleButton>
+                    IsChecked="{Binding PrefabService.Visibility.Value}"
+                    Theme="{DynamicResource ToggleVisibility}" />
             </Border>
 
             <ToggleButton
@@ -58,10 +42,11 @@
                             Padding="1"
                             Background="Transparent"
                             Opacity="0.6">
-                            <Image
+                            <Controls:AppIcon
                                 x:Name="image"
                                 Opacity="0.2"
-                                Source="{DynamicResource Mask}" />
+                                IconKey="Mask"
+                                Size="{DynamicResource IconSizeXS}" />
                         </Border>
                     </ControlTemplate>
                 </ToggleButton.Template>

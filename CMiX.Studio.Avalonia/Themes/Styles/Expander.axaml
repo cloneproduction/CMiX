@@ -21,7 +21,7 @@
                         <Controls:AppIcon
                             Name="image"
                             Opacity="0.5"
-                            IconKey="ArrowDown"
+                            IconKey="ChevronDown"
                             Size="{DynamicResource IconSizeXS}" />
                         <ContentPresenter
                             Name="PART_ContentPresenter"
@@ -37,7 +37,7 @@
         </Setter>
 
         <Style Selector="^:checked /template/ Controls|AppIcon#image">
-            <Setter Property="IconKey" Value="ArrowUp" />
+            <Setter Property="IconKey" Value="ChevronUp" />
         </Style>
     </ControlTheme>
 
@@ -190,7 +190,7 @@
                         <Controls:AppIcon
                             Name="image"
                             Opacity="0.5"
-                            IconKey="ArrowRight"
+                            IconKey="ChevronRight"
                             Size="{DynamicResource IconSizeXS}" />
                         <ContentPresenter
                             Name="PART_ContentPresenter"
@@ -206,7 +206,7 @@
         </Setter>
 
         <Style Selector="^:checked /template/ Controls|AppIcon#image">
-            <Setter Property="IconKey" Value="ArrowDown" />
+            <Setter Property="IconKey" Value="ChevronDown" />
         </Style>
     </ControlTheme>
 

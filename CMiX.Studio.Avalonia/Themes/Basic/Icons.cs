@@ -70,6 +70,13 @@ namespace CMiX.Studio.Avalonia.Themes
             { "ArrowDown", MaterialIconKind.ArrowDown },
             { "ArrowRight", MaterialIconKind.ArrowRight },
             { "ArrowLeft", MaterialIconKind.ArrowLeft },
+            // Distinct from the Arrow* keys above: chevrons for dropdown/expand
+            // indicators (no directional-movement meaning), arrows for actual
+            // move-item-up/down reordering buttons.
+            { "ChevronUp", MaterialIconKind.ChevronUp },
+            { "ChevronDown", MaterialIconKind.ChevronDown },
+            { "ChevronRight", MaterialIconKind.ChevronRight },
+            { "ChevronLeft", MaterialIconKind.ChevronLeft },
             { "Camera", MaterialIconKind.Camera },
             { "Beat", MaterialIconKind.Metronome },
             { "TextIcon", MaterialIconKind.FormatText },

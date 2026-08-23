@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Converters.axaml" />
@@ -118,7 +119,7 @@
                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                     Background="{TemplateBinding Background}"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
-                    <Image Name="icon" Source="{DynamicResource IsChecked}" />
+                    <Controls:AppIcon Name="icon" IconKey="IsChecked" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -138,28 +139,28 @@
         <Style Selector="^:checked:not(:pointerover) /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentInactiveBrush}" />
         </Style>
-        <Style Selector="^:checked:not(:pointerover) /template/ Image#icon">
+        <Style Selector="^:checked:not(:pointerover) /template/ Controls|AppIcon#icon">
             <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:checked:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource AccentBrush}" />
         </Style>
-        <Style Selector="^:checked:pointerover /template/ Image#icon">
+        <Style Selector="^:checked:pointerover /template/ Controls|AppIcon#icon">
             <Setter Property="Opacity" Value="1" />
         </Style>
 
         <Style Selector="^:unchecked:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
-        <Style Selector="^:unchecked:pointerover /template/ Image#icon">
+        <Style Selector="^:unchecked:pointerover /template/ Controls|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
         </Style>
 
         <Style Selector="^:unchecked:not(:pointerover) /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
         </Style>
-        <Style Selector="^:unchecked:not(:pointerover) /template/ Image#icon">
+        <Style Selector="^:unchecked:not(:pointerover) /template/ Controls|AppIcon#icon">
             <Setter Property="Opacity" Value="0" />
         </Style>
     </ControlTheme>
@@ -174,10 +175,11 @@
         <Style Selector="^:checked">
             <Setter Property="Content">
                 <Template>
-                    <Image
+                    <Controls:AppIcon
                         Margin="2"
                         Opacity="0.75"
-                        Source="{DynamicResource IsChecked}" />
+                        IconKey="IsChecked"
+                        Size="{DynamicResource IconSizeXS}" />
                 </Template>
             </Setter>
         </Style>
@@ -198,13 +200,13 @@
                     Padding="1"
                     Background="Transparent"
                     Opacity="0.6">
-                    <Image Name="image" Source="{DynamicResource Visible}" />
+                    <Controls:AppIcon Name="image" IconKey="Visible" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Image#image">
-            <Setter Property="Source" Value="{DynamicResource NotVisible}" />
+        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+            <Setter Property="IconKey" Value="NotVisible" />
         </Style>
 
         <Style Selector="^:pointerover /template/ Border#border">
@@ -225,13 +227,13 @@
                     Padding="1"
                     Background="Transparent"
                     Opacity="0.6">
-                    <Image Name="image" Source="{DynamicResource Play}" />
+                    <Controls:AppIcon Name="image" IconKey="Play" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Image#image">
-            <Setter Property="Source" Value="{DynamicResource Stop}" />
+        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+            <Setter Property="IconKey" Value="Stop" />
         </Style>
     </ControlTheme>
 
