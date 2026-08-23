@@ -275,7 +275,7 @@
 
             <Managers:RepositoryTab
                 DataContext="{Binding MaterialManager}"
-                Icon="{DynamicResource World}"
+                Icon="World"
                 ItemsSource="{Binding ControlRepository.Materials}"
                 ToolTipText="Material">
                 <Managers:RepositoryTab.SelectionPanel>
@@ -291,7 +291,7 @@
 
             <Managers:RepositoryTab
                 DataContext="{Binding TextureManager}"
-                Icon="{DynamicResource Texture}"
+                Icon="Texture"
                 ItemsSource="{Binding ControlRepository.Textures}"
                 ToolTipText="Textures">
                 <Managers:RepositoryTab.SelectionPanel>
@@ -308,7 +308,7 @@
 
             <Managers:RepositoryTab
                 DataContext="{Binding CameraManager}"
-                Icon="{DynamicResource Camera}"
+                Icon="Camera"
                 ItemsSource="{Binding ControlRepository.Cameras}"
                 ToolTipText="Cameras">
                 <Managers:RepositoryTab.SelectionPanel>
@@ -324,7 +324,7 @@
 
             <Managers:RepositoryTab
                 DataContext="{Binding LightManager}"
-                Icon="{DynamicResource MeshLight}"
+                Icon="MeshLight"
                 ItemsSource="{Binding ControlRepository.Lights}"
                 ToolTipText="Lights">
                 <Managers:RepositoryTab.SelectionPanel>
@@ -340,7 +340,7 @@
 
             <Managers:RepositoryTab
                 DataContext="{Binding BeatManager}"
-                Icon="{DynamicResource Beat}"
+                Icon="Beat"
                 ItemsSource="{Binding ControlRepository.BeatModifiers}"
                 ToolTipText="BeatModifiers">
                 <Managers:RepositoryTab.SelectionPanel>
@@ -356,7 +356,7 @@
 
             <Managers:RepositoryTab
                 DataContext="{Binding ColorPaletteManager}"
-                Icon="{DynamicResource Coloration}"
+                Icon="Coloration"
                 ItemsSource="{Binding ControlRepository.ColorPalettes}"
                 ToolTipText="Color Palette">
                 <Managers:RepositoryTab.SelectionPanel>

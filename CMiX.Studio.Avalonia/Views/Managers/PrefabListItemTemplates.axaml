@@ -63,24 +63,24 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource TextIcon}" />
+        <BaseControls:PrefabListItem Icon="TextIcon" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Compositing:Entity}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Geometry}" />
+        <BaseControls:PrefabListItem Icon="Geometry" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Lights:LightEntity}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource MeshLight}" />
+        <BaseControls:PrefabListItem Icon="MeshLight" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Cameras:Camera}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Camera}" />
+        <BaseControls:PrefabListItem Icon="Camera" />
     </DataTemplate>
 
     <!--  TEXTURESOURCE  -->
     <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <!--
@@ -89,41 +89,41 @@
         templates are added to render them like the other texture sources.
     -->
     <DataTemplate DataType="{x:Type TextureSource:CheckerBoard}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:TouchBlob}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:Image}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:Gradient}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:TypeWriter}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:VideoIn}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type TextureSource:VideoPlayer}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Texture}" />
+        <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
     <!--  MATERIAL  -->
     <DataTemplate DataType="{x:Type Materials:Material}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource World}" />
+        <BaseControls:PrefabListItem Icon="World" />
     </DataTemplate>
 
     <!--  BEATMODIFIERS  -->
     <DataTemplate DataType="{x:Type Animations:BeatModifier}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Beat}" />
+        <BaseControls:PrefabListItem Icon="Beat" />
     </DataTemplate>
 
     <!--
@@ -132,7 +132,7 @@
         template is added to render it like the other prefab types.
     -->
     <DataTemplate DataType="{x:Type ColorModifiers:ColorPalette}">
-        <BaseControls:PrefabListItem Icon="{DynamicResource Coloration}" />
+        <BaseControls:PrefabListItem Icon="Coloration" />
     </DataTemplate>
 
 </DataTemplates>

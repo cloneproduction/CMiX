@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="repositoryTab"
     Theme="{StaticResource TabItemHorizontal}">
@@ -22,9 +23,10 @@
         same way RepositoryManager tracks its own, see LogicalPanelContent.
     -->
     <TabItem.Header>
-        <Image
+        <Controls:AppIcon
             Margin="8"
-            Source="{Binding Icon, ElementName=repositoryTab}"
+            IconKey="{Binding Icon, ElementName=repositoryTab}"
+            Size="{DynamicResource IconSizeMD}"
             ToolTip.HorizontalOffset="-10"
             ToolTip.Placement="Pointer"
             ToolTip.Tip="{Binding ToolTipText, ElementName=repositoryTab}"

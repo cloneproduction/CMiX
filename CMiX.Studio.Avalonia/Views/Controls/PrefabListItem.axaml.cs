@@ -3,7 +3,6 @@
 
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
@@ -14,11 +13,10 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             InitializeComponent();
         }
 
-        // WPF ImageSource becomes the Avalonia IImage interface.
-        public static readonly StyledProperty<IImage> IconProperty =
-            AvaloniaProperty.Register<PrefabListItem, IImage>(nameof(Icon));
+        public static readonly StyledProperty<string> IconProperty =
+            AvaloniaProperty.Register<PrefabListItem, string>(nameof(Icon));
 
-        public IImage Icon
+        public string Icon
         {
             get => GetValue(IconProperty);
             set => SetValue(IconProperty, value);

@@ -6,12 +6,11 @@
     x:Name="uc">
 
     <DockPanel>
-        <Image
-            Width="12"
-            Height="12"
+        <Controls:AppIcon
             Margin="4,0"
             Opacity="0.7"
-            Source="{Binding Icon, ElementName=uc}" />
+            IconKey="{Binding Icon, ElementName=uc}"
+            Size="{DynamicResource IconSizeSM}" />
         <ToggleButton
             Margin="4,0"
             DockPanel.Dock="Right"

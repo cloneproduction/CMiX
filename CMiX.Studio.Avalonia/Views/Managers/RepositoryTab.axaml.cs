@@ -4,7 +4,6 @@
 using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
-using Avalonia.Media;
 
 namespace CMiX.Studio.Avalonia.Views.Managers
 {
@@ -23,9 +22,9 @@ namespace CMiX.Studio.Avalonia.Views.Managers
             InitializeComponent();
         }
 
-        public static readonly StyledProperty<IImage> IconProperty =
-            AvaloniaProperty.Register<RepositoryTab, IImage>(nameof(Icon));
-        public IImage Icon
+        public static readonly StyledProperty<string> IconProperty =
+            AvaloniaProperty.Register<RepositoryTab, string>(nameof(Icon));
+        public string Icon
         {
             get => GetValue(IconProperty);
             set => SetValue(IconProperty, value);
