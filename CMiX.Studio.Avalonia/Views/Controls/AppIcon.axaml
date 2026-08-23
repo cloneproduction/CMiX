@@ -1,0 +1,15 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.AppIcon"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
+    x:Name="uc"
+    Foreground="{DynamicResource ForegroundBrush}">
+
+    <materialIcons:MaterialIcon
+        x:Name="materialIcon"
+        Width="{Binding Size, ElementName=uc}"
+        Height="{Binding Size, ElementName=uc}"
+        Foreground="{Binding Foreground, ElementName=uc}" />
+
+</UserControl>

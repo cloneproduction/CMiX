@@ -7,7 +7,6 @@ using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Compositing;
-using CMiX.Core.Materials;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing.Sources;
@@ -96,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Tests
             newMaterialButton.Command!.Execute(newMaterialButton.CommandParameter);
             Pump();
 
-            var material = Assert.IsType<Material>(Assert.Single(viewModel.MaterialManager.ManagerData.Items));
+            var material = Assert.IsType<CMiX.Core.Materials.Material>(Assert.Single(viewModel.MaterialManager.ManagerData.Items));
             // Selecting the material realizes its editing panel, and expanding the texture section
             // realizes the diffuse slot inside it, the same two steps the user takes.
             viewModel.MaterialManager.SelectedItem = material;
@@ -167,8 +166,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = (Layer)composition.LayerManager.SelectedItem;
             layer.ModelEntityManager.AddItem(typeof(Entity));
             var entity = (Entity)layer.ModelEntityManager.SelectedItem;
-            entity.MaterialSelector.AddItemCommand.Execute(typeof(Material));
-            var material = (Material)entity.MaterialSelector.SelectedItem;
+            entity.MaterialSelector.AddItemCommand.Execute(typeof(CMiX.Core.Materials.Material));
+            var material = (CMiX.Core.Materials.Material)entity.MaterialSelector.SelectedItem;
             material.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
             material.MaskTexture.TextureManager.AddItem(typeof(BubbleNoise));
             Pump();

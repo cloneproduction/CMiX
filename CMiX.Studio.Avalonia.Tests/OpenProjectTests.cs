@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using CMiX.Core.Compositing;
-using CMiX.Core.Materials;
 using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
@@ -296,8 +295,8 @@ namespace CMiX.Studio.Avalonia.Tests
             var layer = (Layer)composition.LayerManager.SelectedItem;
             layer.ModelEntityManager.AddItem(typeof(Entity));
             var entity = (Entity)layer.ModelEntityManager.SelectedItem;
-            entity.MaterialSelector.AddItemCommand.Execute(typeof(Material));
-            var material = (Material)entity.MaterialSelector.SelectedItem;
+            entity.MaterialSelector.AddItemCommand.Execute(typeof(CMiX.Core.Materials.Material));
+            var material = (CMiX.Core.Materials.Material)entity.MaterialSelector.SelectedItem;
             material.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
             material.MaskTexture.TextureManager.AddItem(typeof(BubbleNoise));
             Pump();

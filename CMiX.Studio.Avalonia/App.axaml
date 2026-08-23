@@ -2,10 +2,12 @@
     x:Class="CMiX.Studio.Avalonia.App"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:materialIcons="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
     RequestedThemeVariant="Dark">
 
     <Application.Styles>
         <SimpleTheme />
+        <materialIcons:MaterialIconStyles />
         <StyleInclude Source="avares://CMiX.Studio.Avalonia/Themes/Generic.axaml" />
     </Application.Styles>
 
