@@ -21,6 +21,32 @@
                         StrokeThickness="0"
                         VerticalAlignment="Stretch" />
 
+                    <!--
+                        Replaces the old ColorWheel.png ImageBrush with two stacked gradients:
+                        a conic sweep for hue, and a white-center radial overlay for saturation.
+                        Both fade together with the same HSV_V-bound Opacity the single PNG
+                        ellipse used to carry, so the darkness axis behaves identically.
+                    -->
+                    <Ellipse
+                        Name="PART_HueEllipse"
+                        HorizontalAlignment="Stretch"
+                        Opacity="{Binding ColorState.HSV_V, RelativeSource={RelativeSource TemplatedParent}}"
+                        Stretch="Uniform"
+                        StrokeThickness="0"
+                        VerticalAlignment="Stretch">
+                        <Ellipse.Fill>
+                            <ConicGradientBrush Center="50%,50%" Angle="-90">
+                                <GradientStop Color="Red" Offset="0.0" />
+                                <GradientStop Color="Yellow" Offset="0.1667" />
+                                <GradientStop Color="Lime" Offset="0.3333" />
+                                <GradientStop Color="Cyan" Offset="0.5" />
+                                <GradientStop Color="Blue" Offset="0.6667" />
+                                <GradientStop Color="Magenta" Offset="0.8333" />
+                                <GradientStop Color="Red" Offset="1.0" />
+                            </ConicGradientBrush>
+                        </Ellipse.Fill>
+                    </Ellipse>
+
                     <Ellipse
                         Name="PART_SpectrumEllipse"
                         HorizontalAlignment="Stretch"
@@ -29,8 +55,10 @@
                         StrokeThickness="0"
                         VerticalAlignment="Stretch">
                         <Ellipse.Fill>
-                            <!-- Avalonia ImageBrush uses Source instead of ImageSource -->
-                            <ImageBrush Source="{StaticResource ColorWheel}" />
+                            <RadialGradientBrush Center="50%,50%" GradientOrigin="50%,50%" RadiusX="50%" RadiusY="50%">
+                                <GradientStop Color="White" Offset="0.0" />
+                                <GradientStop Color="Transparent" Offset="1.0" />
+                            </RadialGradientBrush>
                         </Ellipse.Fill>
                     </Ellipse>
 

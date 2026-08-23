@@ -22,4 +22,28 @@
     <SolidColorBrush x:Key="ForegroundBrush" Color="{DynamicResource Text}" />
     <SolidColorBrush x:Key="ActiveForegroundBrush" Color="{DynamicResource ActiveText}" />
 
+    <!--
+        Alpha-transparency checkerboard, replacing the old Transparent_Bg.png ImageBrush.
+        A tiled 2x2 pattern drawn from two rectangles rather than a raster asset.
+    -->
+    <DrawingBrush x:Key="CheckerboardBrush" TileMode="Tile" DestinationRect="0,0,16,16">
+        <DrawingBrush.Drawing>
+            <DrawingGroup>
+                <GeometryDrawing Brush="{DynamicResource Grey300Brush}">
+                    <GeometryDrawing.Geometry>
+                        <RectangleGeometry Rect="0,0,16,16" />
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+                <GeometryDrawing Brush="{DynamicResource Grey100Brush}">
+                    <GeometryDrawing.Geometry>
+                        <GeometryGroup>
+                            <RectangleGeometry Rect="0,0,8,8" />
+                            <RectangleGeometry Rect="8,8,8,8" />
+                        </GeometryGroup>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingGroup>
+        </DrawingBrush.Drawing>
+    </DrawingBrush>
+
 </ResourceDictionary>

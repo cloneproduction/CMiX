@@ -116,16 +116,8 @@
                         </Grid.ColumnDefinitions>
 
                         <Border Grid.Column="1"
-                                CornerRadius="{DynamicResource CornerRadiusRight}">
-                            <Border.Background>
-                                <!--  WPF Viewport with absolute ViewportUnits becomes DestinationRect  -->
-                                <ImageBrush
-                                    DestinationRect="0, 0, 128, 128"
-                                    Source="{DynamicResource CheckBoard}"
-                                    Stretch="Uniform"
-                                    TileMode="Tile" />
-                            </Border.Background>
-                        </Border>
+                                CornerRadius="{DynamicResource CornerRadiusRight}"
+                                Background="{DynamicResource CheckerboardBrush}" />
 
                         <Border
                             Name="borderAlpha"
