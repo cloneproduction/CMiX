@@ -158,7 +158,7 @@
 
                         <TextBlock Text="Connection Settings" />
 
-                        <BaseControl:IPBox IPAddress="{Binding IP.Value}" />
+                        <BaseControl:IPBox IPAddress="{Binding IP.Value, Mode=TwoWay}" />
 
                         <UniformGrid 
                             Height="{DynamicResource ControlHeightMD}"
