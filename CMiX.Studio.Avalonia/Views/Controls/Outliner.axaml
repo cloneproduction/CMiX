@@ -8,10 +8,12 @@
     <DockPanel Height="{DynamicResource ControlHeightMD}">
 
         <ComboBox
+            x:Name="comboBox"
             Focusable="False"
             HorizontalAlignment="Stretch"
             ItemsSource="{Binding ItemsSource, ElementName=outliner}"
-            SelectedItem="{Binding SelectedItem, Mode=TwoWay}"
+            SelectedItem="{Binding SelectedItem, Mode=OneWay}"
+            SelectionChanged="ComboBox_SelectionChanged"
             Theme="{StaticResource ComboBoxWithButton}">
             <ComboBox.ItemTemplate>
                 <DataTemplate>

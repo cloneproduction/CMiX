@@ -4,6 +4,9 @@
 using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Threading;
+using CMiX.Core;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -18,6 +21,20 @@ namespace CMiX.Studio.Avalonia.Views
         public Outliner()
         {
             InitializeComponent();
+        }
+
+        // The ComboBox's SelectedItem binds one-way rather than two-way on purpose: assigning
+        // SelectedItem on the PrefabSelector can synchronously remove the previously selected
+        // item from ControlRepository's backing collection once it becomes unreferenced - the
+        // same collection this ComboBox's ItemsSource displays. Doing that while Avalonia's
+        // ComboBox is still mid-update for the selection change that triggered it throws
+        // "Source collection was modified during selection update." Posting the assignment
+        // defers it until after Avalonia's own update finishes.
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is not PrefabManagerBase selector) return;
+            var newItem = (sender as ComboBox)?.SelectedItem as IControl;
+            Dispatcher.UIThread.Post(() => selector.SelectedItem = newItem);
         }
 
         // WPF FrameworkElement becomes the Avalonia Control base type.
