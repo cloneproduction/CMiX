@@ -2,20 +2,12 @@
     x:Class="CMiX.Studio.Avalonia.Views.Controls.LabeledButton"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="labeledButton">
 
-    <Grid Height="{DynamicResource ControlHeightMD}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
-        <TextBlock
-            Padding="4,0"
-            HorizontalAlignment="Right"
-            VerticalAlignment="Center"
-            Text="{Binding Caption, ElementName=labeledButton}" />
-        <Border Grid.Column="1">
+    <Controls:LabeledContent Caption="{Binding Caption, ElementName=labeledButton}">
+        <Border>
             <Button Command="{Binding Command, ElementName=labeledButton}" />
         </Border>
-    </Grid>
+    </Controls:LabeledContent>
 </UserControl>

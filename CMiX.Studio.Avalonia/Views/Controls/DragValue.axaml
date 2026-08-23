@@ -30,12 +30,7 @@
         </Style>
     </UserControl.Styles>
 
-    <UniformGrid Columns="2">
-
-        <TextBlock
-            Margin="0,0,8,0"
-            HorizontalAlignment="Right"
-            Text="{Binding Caption, ElementName=dragValue}" />
+    <Controls:LabeledContent Caption="{Binding Caption, ElementName=dragValue}">
 
         <Grid>
             <Border
@@ -123,5 +118,5 @@
             </Border>
         </Grid>
 
-    </UniformGrid>
+    </Controls:LabeledContent>
 </UserControl>

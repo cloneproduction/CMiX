@@ -9,47 +9,40 @@
     x:Name="colorSelector"
     Height="{DynamicResource ControlHeightMD}">
 
-    <Grid>
+    <BaseControl:LabeledContent Caption="{Binding Caption, ElementName=colorSelector}">
 
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+        <Grid>
 
-        <TextBlock
-            Margin="0,0,8,0"
-            HorizontalAlignment="Right"
-            Text="{Binding Caption, ElementName=colorSelector}" />
+            <!--
+                WPF converted the hex string to a brush implicitly; Avalonia needs the
+                explicit HexToBrush converter.
+            -->
+            <ToggleButton
+                x:Name="PopupToggle"
+                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=colorSelector}"
+                Background="{Binding Value, Converter={StaticResource HexToBrush}}"
+                Theme="{DynamicResource ButtonColorStyle}" />
 
-        <!--
-            WPF converted the hex string to a brush implicitly; Avalonia needs the
-            explicit HexToBrush converter.
-        -->
-        <ToggleButton
-            x:Name="PopupToggle"
-            Grid.Column="1"
-            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=colorSelector}"
-            Background="{Binding Value, Converter={StaticResource HexToBrush}}"
-            Theme="{DynamicResource ButtonColorStyle}" />
+            <!-- WPF StaysOpen=True becomes IsLightDismissEnabled=False; AllowsTransparency dropped. -->
+            <Popup
+                x:Name="colorPickerPopup"
+                IsLightDismissEnabled="False"
+                Placement="Top">
+                <i:Interaction.Behaviors>
+                    <Behaviors:ClosePopupBehavior />
+                </i:Interaction.Behaviors>
+                <Border
+                    x:Name="popupBorder"
+                    Background="{DynamicResource Grey200Brush}"
+                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    <BaseControl:StandardColorPicker
+                        Margin="8"
+                        SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
+                </Border>
+            </Popup>
 
-        <!-- WPF StaysOpen=True becomes IsLightDismissEnabled=False; AllowsTransparency dropped. -->
-        <Popup
-            x:Name="colorPickerPopup"
-            IsLightDismissEnabled="False"
-            Placement="Top">
-            <i:Interaction.Behaviors>
-                <Behaviors:ClosePopupBehavior />
-            </i:Interaction.Behaviors>
-            <Border
-                x:Name="popupBorder"
-                Background="{DynamicResource Grey200Brush}"
-                CornerRadius="{DynamicResource CornerRadiusAll}">
-                <BaseControl:StandardColorPicker
-                    Margin="8"
-                    SelectedColor="{Binding Value, Converter={StaticResource ColorToHex}, Mode=TwoWay}" />
-            </Border>
-        </Popup>
+        </Grid>
 
-    </Grid>
+    </BaseControl:LabeledContent>
 
 </UserControl>
