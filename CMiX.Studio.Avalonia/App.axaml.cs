@@ -43,7 +43,6 @@ namespace CMiX.Studio.Avalonia
         public override void Initialize()
         {
             AvaloniaXamlLoader.Load(this);
-            Themes.Icons.Register(Resources);
             // Registered last so explicit templates declared in views win over the reflection locator.
             DataTemplates.Add(new Views.ViewModelToViewTemplate());
         }
