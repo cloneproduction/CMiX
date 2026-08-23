@@ -9,13 +9,7 @@
 
     <StackPanel Margin="8">
 
-        <UniformGrid 
-            Columns="2"  
-            Height="{DynamicResource ControlHeightMD}">
-            <TextBlock
-                Margin="0,0,8,0"
-                HorizontalAlignment="Right"
-                Text="Status" />
+        <BaseControl:LabeledContent Caption="Status">
             <Border>
                 <StackPanel Orientation="Horizontal">
                     <Ellipse
@@ -33,7 +27,7 @@
                         Text="{Binding Status}" />
                 </StackPanel>
             </Border>
-        </UniformGrid>
+        </BaseControl:LabeledContent>
 
 
 
@@ -118,25 +112,13 @@
                 </Button>
             </UniformGrid>
 
-        <UniformGrid Columns="2" Height="{DynamicResource ControlHeightMD}">
-            <TextBlock
-                Margin="0,0,8,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Foreground="{DynamicResource ForegroundBrush}"
-                Text="IP" />
+        <BaseControl:LabeledContent Caption="IP">
             <TextBlock Text="{Binding IP.Value}" />
-        </UniformGrid>
+        </BaseControl:LabeledContent>
 
-        <UniformGrid Columns="2" Height="{DynamicResource ControlHeightMD}">
-            <TextBlock
-                Margin="0,0,8,0"
-                HorizontalAlignment="Right"
-                VerticalAlignment="Center"
-                Foreground="{StaticResource ForegroundBrush}"
-                Text="Port" />
+        <BaseControl:LabeledContent Caption="Port">
             <TextBlock Text="{Binding Port.Value}" />
-        </UniformGrid>
+        </BaseControl:LabeledContent>
 
         <Button
             x:Name="EditConnectionButton"
