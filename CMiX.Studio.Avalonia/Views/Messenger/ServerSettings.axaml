@@ -70,7 +70,7 @@
                     Text="Not in sync" />
             </StackPanel>
             <Button.Flyout>
-                <Flyout FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                <Flyout Placement="Pointer" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
                     <StackPanel KeyDown="SyncFlyout_KeyDown">
                         <TextBlock
                             Margin="0,0,0,8"
@@ -148,8 +148,8 @@
             Margin="0,8,0,0"
             Content="Edit Connection"
             Theme="{StaticResource ButtonRounded}">
-            <Button.Flyout >
-                <Flyout FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+            <Button.Flyout>
+                <Flyout Placement="Pointer" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
                     <StackPanel KeyDown="EditConnectionFlyout_KeyDown">
                         <TextBlock
                             Margin="0,0,0,8"
