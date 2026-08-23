@@ -28,6 +28,14 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(IPAddressProperty, value);
         }
 
+        public static readonly StyledProperty<string> CaptionProperty =
+            AvaloniaProperty.Register<IPBox, string>(nameof(Caption), "IP Address");
+        public string Caption
+        {
+            get => GetValue(CaptionProperty);
+            set => SetValue(CaptionProperty, value);
+        }
+
         static IPBox()
         {
             IPAddressProperty.Changed.AddClassHandler<IPBox>(OnIPAddressChanged);

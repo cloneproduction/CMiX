@@ -3,14 +3,12 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="ipBox"
     d:DesignWidth="400"
     d:DesignHeight="600">
 
-    <UniformGrid Columns="2">
-        <TextBlock
-            Margin="0,0,4,0"
-            HorizontalAlignment="Right"
-            Text="IP Address" />
+    <Controls:LabeledContent Caption="{Binding Caption, ElementName=ipBox}">
         <Border VerticalAlignment="Stretch" CornerRadius="8" Height="{DynamicResource ControlHeightMD}">
         <Grid >
             <Grid.ColumnDefinitions>
@@ -85,6 +83,6 @@
         </Grid>
         </Border>
 
-    </UniformGrid>
+    </Controls:LabeledContent>
 
 </UserControl>
