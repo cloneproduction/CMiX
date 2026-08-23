@@ -186,10 +186,11 @@
                     Height="{DynamicResource ControlHeightMD}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center">
-                    <DockPanel Margin="8,0,0,0">
+                    <DockPanel >
                         <Controls:AppIcon
                             Name="image"
-                            Opacity="0.5"
+                            Margin="4, 0"
+                            Opacity="0.75"
                             IconKey="ChevronRight"
                             Size="{DynamicResource IconSizeXS}" />
                         <ContentPresenter
@@ -197,7 +198,7 @@
                             Content="{TemplateBinding Content}"
                             ContentTemplate="{TemplateBinding ContentTemplate}"
                             HorizontalAlignment="Stretch"
-                            Margin="8,0"
+                            Margin="0,0"
                             RecognizesAccessKey="True"
                             VerticalAlignment="Center" />
                     </DockPanel>
