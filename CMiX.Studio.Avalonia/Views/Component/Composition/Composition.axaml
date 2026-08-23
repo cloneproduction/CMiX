@@ -2,28 +2,38 @@
     x:Class="CMiX.Studio.Avalonia.Views.Composition"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
-    <StackPanel>
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
 
-        <Panels:IndentedExpander
-            Header="Filters"
-            IsExpanded="{Binding TextureModifierIsExpanded}">
-            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
-                <Views:ModifierManager.SelectionPanel>
-                    <Views:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
-                </Views:ModifierManager.SelectionPanel>
-            </Views:ModifierManager>
-        </Panels:IndentedExpander>
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
 
-        <Panels:IndentedExpander
-            Header="Settings"
-            IsExpanded="{Binding OutputSettingsIsExpanded}">
-            <Views:CompositionSettings Margin="8" DataContext="{Binding}" />
-        </Panels:IndentedExpander>
+        <StackPanel>
 
-    </StackPanel>
+            <Panels:IndentedExpander
+                Header="Filters"
+                IsExpanded="{Binding TextureModifierIsExpanded}">
+                <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
+                    <Views:ModifierManager.SelectionPanel>
+                        <Views:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
+                    </Views:ModifierManager.SelectionPanel>
+                </Views:ModifierManager>
+            </Panels:IndentedExpander>
+
+            <Panels:IndentedExpander
+                Header="Settings"
+                IsExpanded="{Binding OutputSettingsIsExpanded}">
+                <Views:CompositionSettings Margin="8" DataContext="{Binding}" />
+            </Panels:IndentedExpander>
+
+        </StackPanel>
+
+    </ScrollViewer>
 
 </UserControl>
