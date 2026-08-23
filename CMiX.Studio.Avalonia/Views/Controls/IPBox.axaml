@@ -1,18 +1,18 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.IPBox"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="600">
 
-    <Grid Height="{DynamicResource ControlHeightMD}">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <UniformGrid>
         <TextBlock
             Margin="0,0,4,0"
             HorizontalAlignment="Right"
             Text="IP Address" />
-        <Grid Grid.Column="1">
+        <Border VerticalAlignment="Stretch" CornerRadius="8" Height="{DynamicResource ControlHeightMD}">
+        <Grid >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition />
                 <ColumnDefinition Width="0.5*" />
@@ -83,6 +83,8 @@
                 TextChanged="txtbox_TextChanged"
                 Theme="{DynamicResource TextBoxNumbersOnly}" />
         </Grid>
-    </Grid>
+        </Border>
+
+    </UniformGrid>
 
 </UserControl>
