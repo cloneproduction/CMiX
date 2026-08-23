@@ -33,6 +33,12 @@ namespace CMiX.Core.Compositing
             TextureModifierManager = textureModifierManager;
             Project = project;
 
+            // A brand-new composition otherwise starts with no output selected (Guid.Empty),
+            // rendering nowhere until the user opens Settings and picks one. Default to the
+            // first of the project's fixed output slots instead - see FromModel for why a
+            // loaded model's own (non-empty) selection still wins over this default.
+            SelectedOutputMappingID.Value = project.OutputMappingManager.Items.FirstOrDefault()?.ID ?? Guid.Empty;
+
             SelectedOutputMappingID.PropertyChanged += (s, e) =>
             {
                 if (e.PropertyName == nameof(GenericValue<Guid>.Value))
@@ -82,7 +88,11 @@ namespace CMiX.Core.Compositing
             var m = (CompositionModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            SelectedOutputMappingID.FromModel(m.SelectedOutputMappingID);
+            // Guid.Empty means the model never had a selection (a fresh "New Composition" model,
+            // or an old project saved before one was chosen) - keep the constructor's default
+            // instead of clobbering it back to nothing. A real saved selection always overwrites.
+            if (m.SelectedOutputMappingID.Value != Guid.Empty)
+                SelectedOutputMappingID.FromModel(m.SelectedOutputMappingID);
             LayerSettings.FromModel(m.LayerSettings);
             LayerMaskSettings.FromModel(m.LayerMaskSettings);
 
