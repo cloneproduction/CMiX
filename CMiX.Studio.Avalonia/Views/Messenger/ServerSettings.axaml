@@ -117,29 +117,24 @@
                 </Button>
             </UniformGrid>
 
-        <UniformGrid Height="{DynamicResource ControlHeightMD}">
+        <UniformGrid Columns="2" Height="{DynamicResource ControlHeightMD}">
             <TextBlock
                 Margin="0,0,8,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Foreground="{DynamicResource ForegroundBrush}"
                 Text="IP" />
-            <TextBlock
-                Padding="4"
-                Text="{Binding IP.Value}" />
+            <TextBlock Text="{Binding IP.Value}" />
         </UniformGrid>
 
-        <UniformGrid Height="{DynamicResource ControlHeightMD}">
+        <UniformGrid Columns="2" Height="{DynamicResource ControlHeightMD}">
             <TextBlock
                 Margin="0,0,8,0"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Center"
                 Foreground="{StaticResource ForegroundBrush}"
                 Text="Port" />
-            <TextBlock
-                Padding="4"
-                Foreground="{StaticResource ForegroundBrush}"
-                Text="{Binding Port.Value}" />
+            <TextBlock Text="{Binding Port.Value}" />
         </UniformGrid>
 
         <Button
@@ -160,7 +155,8 @@
 
                         <BaseControl:IPBox IPAddress="{Binding IP.Value, Mode=TwoWay}" />
 
-                        <UniformGrid 
+                        <UniformGrid
+                            Columns="2"
                             Height="{DynamicResource ControlHeightMD}"
                             Margin="0,4">
                             <TextBlock
@@ -191,7 +187,7 @@
                                 TextWrapping="Wrap" />
                         </StackPanel>-->
 
-                        <UniformGrid Margin="0,0,0,0">
+                        <UniformGrid Columns="2" Margin="0,0,0,0">
                             <Button
                                 x:Name="ConnectButton"
                                 Margin="0,0,4,0"

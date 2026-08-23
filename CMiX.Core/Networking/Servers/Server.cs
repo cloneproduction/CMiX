@@ -77,7 +77,7 @@ namespace CMiX.Core.Networking.Servers
         public string Status =>
             IsReconnecting ? "Connecting" :
             !ServerIsRunning ? "Not listening" :
-            ClientIsConnected ? "Connected" : "Listening";
+            ClientIsConnected ? "Connected" : "Listening for connection";
 
         private string _errorMessage;
         public string ErrorMessage
