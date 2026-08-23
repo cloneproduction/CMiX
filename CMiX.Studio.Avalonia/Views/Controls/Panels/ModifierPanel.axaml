@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AP="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
     <!--
@@ -35,9 +36,10 @@
                             DockPanel.Dock="Right"
                             Theme="{StaticResource DragHandlerButton}">
                             <Button.Content>
-                                <Image
+                                <Controls:AppIcon
                                     Opacity="0.50"
-                                    Source="{DynamicResource DragHandler}" />
+                                    IconKey="DragHandler"
+                                    Size="{DynamicResource IconSizeXS}" />
                             </Button.Content>
                         </Button>
 

@@ -2,7 +2,8 @@
     x:Class="CMiX.Studio.Avalonia.Views.EntitySelectionPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core">
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <StackPanel>
 
@@ -12,12 +13,11 @@
             Theme="{StaticResource ButtonItemControl}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Image
-                        Width="12"
-                        Height="12"
+                    <Controls:AppIcon
                         Margin="0,0,8,0"
                         Opacity="0.7"
-                        Source="{DynamicResource Geometry}" />
+                        IconKey="Geometry"
+                        Size="{DynamicResource IconSizeXS}" />
                     <TextBlock Text="Entity" />
                 </StackPanel>
             </Button.Content>
@@ -29,12 +29,11 @@
             Theme="{StaticResource ButtonItemControl}">
             <Button.Content>
                 <StackPanel Orientation="Horizontal">
-                    <Image
-                        Width="12"
-                        Height="12"
+                    <Controls:AppIcon
                         Margin="0,0,8,0"
                         Opacity="0.7"
-                        Source="{DynamicResource TextIcon}" />
+                        IconKey="TextIcon"
+                        Size="{DynamicResource IconSizeXS}" />
                     <TextBlock Text="Text" />
                 </StackPanel>
             </Button.Content>

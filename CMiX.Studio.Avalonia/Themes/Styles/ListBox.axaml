@@ -40,11 +40,12 @@
                             DockPanel.Dock="Bottom"
                             Height="12"
                             Theme="{StaticResource ListBoxResizeBorderStyle}">
-                            <Image
+                            <Controls:AppIcon
                                 IsHitTestVisible="False"
                                 Margin="1"
                                 Opacity="0.25"
-                                Source="{DynamicResource DragHandler}" />
+                                IconKey="DragHandler"
+                                Size="{DynamicResource IconSizeXS}" />
                         </Border>
 
                         <Border

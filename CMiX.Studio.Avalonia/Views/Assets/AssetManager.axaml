@@ -32,14 +32,16 @@
                         <Panel
                             Margin="6"
                             DockPanel.Dock="Left">
-                            <Image
+                            <Controls:AppIcon
                                 IsVisible="{Binding !$parent[TreeViewItem].IsExpanded}"
                                 Opacity="0.75"
-                                Source="{DynamicResource Folder}" />
-                            <Image
+                                IconKey="Folder"
+                                Size="{DynamicResource IconSizeXS}" />
+                            <Controls:AppIcon
                                 IsVisible="{Binding $parent[TreeViewItem].IsExpanded}"
                                 Opacity="0.75"
-                                Source="{DynamicResource Folder_Opened}" />
+                                IconKey="Folder_Opened"
+                                Size="{DynamicResource IconSizeXS}" />
                         </Panel>
                         <Controls:EditableTextBox
                             HorizontalAlignment="Stretch"
@@ -58,7 +60,7 @@
                     Header="New Folder"
                     IsEnabled="{Binding CanAddAsset}">
                     <MenuItem.Icon>
-                        <Image Source="{DynamicResource Add}" />
+                        <Controls:AppIcon IconKey="Add" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -66,10 +68,7 @@
                     Header="Rename"
                     IsEnabled="{Binding CanRenameAsset}">
                     <MenuItem.Icon>
-                        <Image
-                            Width="10"
-                            Height="10"
-                            Source="{DynamicResource Rename}" />
+                        <Controls:AppIcon IconKey="Rename" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -77,10 +76,7 @@
                     Header="Delete"
                     IsEnabled="{Binding CanDeleteAsset}">
                     <MenuItem.Icon>
-                        <Image
-                            Width="10"
-                            Height="10"
-                            Source="{DynamicResource DeleteLayer}" />
+                        <Controls:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
                 <MenuItem
@@ -88,10 +84,7 @@
                     Header="Relink"
                     IsEnabled="{Binding CanRelinkAsset}">
                     <MenuItem.Icon>
-                        <Image
-                            Width="10"
-                            Height="10"
-                            Source="{DynamicResource DeleteLayer}" />
+                        <Controls:AppIcon IconKey="DeleteLayer" Size="{DynamicResource IconSizeXS}" />
                     </MenuItem.Icon>
                 </MenuItem>
             </ContextMenu>

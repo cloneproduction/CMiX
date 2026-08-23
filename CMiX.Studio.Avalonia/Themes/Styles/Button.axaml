@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceInclude Source="avares://CMiX.Studio.Avalonia/Themes/Basic/Converters.axaml" />
@@ -248,7 +249,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="border" Padding="8" Background="Transparent">
-                    <Image Name="image" Opacity="0.75" Source="{DynamicResource CloseTab}" />
+                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="CloseTab" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -256,14 +257,14 @@
         <Style Selector="^:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
-        <Style Selector="^:pointerover /template/ Image#image">
+        <Style Selector="^:pointerover /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
         </Style>
-        <Style Selector="^:pressed /template/ Image#image">
+        <Style Selector="^:pressed /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
     </ControlTheme>
@@ -273,8 +274,8 @@
         TargetType="Button">
         <Setter Property="Template">
             <ControlTemplate>
-                <Border Name="border" Padding="10" Background="Transparent">
-                    <Image Name="image" Opacity="0.75" Source="{DynamicResource Maximize}" />
+                <Border Name="border" Padding="8" Background="Transparent">
+                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="Maximize" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -282,14 +283,14 @@
         <Style Selector="^:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
-        <Style Selector="^:pointerover /template/ Image#image">
+        <Style Selector="^:pointerover /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
         </Style>
-        <Style Selector="^:pressed /template/ Image#image">
+        <Style Selector="^:pressed /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
     </ControlTheme>
@@ -300,7 +301,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="border" Padding="8" Background="Transparent">
-                    <Image Name="image" Opacity="0.75" Source="{DynamicResource Minimize}" />
+                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="Minimize" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -308,14 +309,14 @@
         <Style Selector="^:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
-        <Style Selector="^:pointerover /template/ Image#image">
+        <Style Selector="^:pointerover /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
 
         <Style Selector="^:pressed /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
         </Style>
-        <Style Selector="^:pressed /template/ Image#image">
+        <Style Selector="^:pressed /template/ Controls|AppIcon#image">
             <Setter Property="Opacity" Value="1.0" />
         </Style>
     </ControlTheme>
