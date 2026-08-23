@@ -102,10 +102,10 @@
                                 CommandParameter="{Binding SelectedItem}"
                                 Theme="{StaticResource ButtonRounded}">
                                 <Button.Content>
-                                    <Image
-                                        Classes="iconSmall"
+                                    <Controls:AppIcon
                                         Opacity="0.7"
-                                        Source="{DynamicResource ArrowUp}" />
+                                        IconKey="ArrowUp"
+                                        Size="{DynamicResource IconSizeXS}" />
                                 </Button.Content>
                             </Button>
 
@@ -118,10 +118,10 @@
                                 CommandParameter="{Binding SelectedItem}"
                                 Theme="{StaticResource ButtonRounded}">
                                 <Button.Content>
-                                    <Image
-                                        Classes="iconSmall"
+                                    <Controls:AppIcon
                                         Opacity="0.7"
-                                        Source="{DynamicResource ArrowDown}" />
+                                        IconKey="ArrowDown"
+                                        Size="{DynamicResource IconSizeXS}" />
                                 </Button.Content>
                             </Button>
                         </StackPanel>

@@ -1,6 +1,7 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <ControlTheme x:Key="ComboBoxToggleStyle" TargetType="ToggleButton">
         <Setter Property="ClickMode" Value="Press" />
@@ -13,13 +14,12 @@
                     Background="{TemplateBinding Background}"
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                     VerticalAlignment="{TemplateBinding VerticalAlignment}">
-                    <Image
-                        Width="7"
-                        Height="7"
+                    <Controls:AppIcon
                         HorizontalAlignment="Right"
                         Margin="8,0"
                         Opacity="0.5"
-                        Source="{DynamicResource ArrowDown}" />
+                        IconKey="ArrowDown"
+                        Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>
@@ -151,14 +151,10 @@
                         Theme="{DynamicResource ToggleButtonRoundedLeft}"
                         Width="22">
                         <ToggleButton.Content>
-                            <!--
-                                WPF shrank the image through the margin against the 22 wide button;
-                                Avalonia renders it at natural size, so the width is set explicitly.
-                            -->
-                            <Image
+                            <Controls:AppIcon
                                 Opacity="0.5"
-                                Source="{DynamicResource ArrowDown}"
-                                Width="7" />
+                                IconKey="ArrowDown"
+                                Size="{DynamicResource IconSizeXS}" />
                         </ToggleButton.Content>
                     </ToggleButton>
                     <Popup

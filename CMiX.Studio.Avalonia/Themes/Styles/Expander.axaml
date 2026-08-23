@@ -1,7 +1,8 @@
 ﻿<ResourceDictionary
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties">
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
 
     <!-- Ported from CMiX.Studio\Themes\Styles\Expander.xaml using the Avalonia Simple theme Expander template as structural skeleton -->
     <!-- Header ToggleButton themes are declared before the Expander themes that consume them so StaticResource lookups resolve -->
@@ -17,11 +18,11 @@
                     Margin="8,0"
                     VerticalAlignment="Center">
                     <DockPanel>
-                        <Image
+                        <Controls:AppIcon
                             Name="image"
-                            Height="7"
                             Opacity="0.5"
-                            Source="{DynamicResource ArrowDown}" />
+                            IconKey="ArrowDown"
+                            Size="{DynamicResource IconSizeXS}" />
                         <ContentPresenter
                             Name="PART_ContentPresenter"
                             Content="{TemplateBinding Content}"
@@ -35,8 +36,8 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Image#image">
-            <Setter Property="Source" Value="{DynamicResource ArrowUp}" />
+        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+            <Setter Property="IconKey" Value="ArrowUp" />
         </Style>
     </ControlTheme>
 
@@ -186,11 +187,11 @@
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center">
                     <DockPanel Margin="8,0,0,0">
-                        <Image
+                        <Controls:AppIcon
                             Name="image"
-                            Height="7"
                             Opacity="0.5"
-                            Source="{DynamicResource ArrowRight}" />
+                            IconKey="ArrowRight"
+                            Size="{DynamicResource IconSizeXS}" />
                         <ContentPresenter
                             Name="PART_ContentPresenter"
                             Content="{TemplateBinding Content}"
@@ -204,8 +205,8 @@
             </ControlTemplate>
         </Setter>
 
-        <Style Selector="^:checked /template/ Image#image">
-            <Setter Property="Source" Value="{DynamicResource ArrowDown}" />
+        <Style Selector="^:checked /template/ Controls|AppIcon#image">
+            <Setter Property="IconKey" Value="ArrowDown" />
         </Style>
     </ControlTheme>
 

@@ -49,7 +49,7 @@
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">
-                <Image Classes="iconSmall" Opacity="0.7" Source="{DynamicResource ArrowUp}" />
+                <BaseControls:AppIcon Opacity="0.7" IconKey="ArrowUp" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
             <!--  MOVE DOWN  -->
@@ -60,7 +60,7 @@
                 CommandParameter="{Binding SelectedItem}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource ButtonStraight}">
-                <Image Classes="iconSmall" Opacity="0.7" Source="{DynamicResource ArrowDown}" />
+                <BaseControls:AppIcon Opacity="0.7" IconKey="ArrowDown" Size="{DynamicResource IconSizeXS}" />
             </Button>
 
             <!--  SWAP  -->
