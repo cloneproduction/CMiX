@@ -3,18 +3,12 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Mesh="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
     <StackPanel>
 
-        <BaseControl:VectorXYZ
-            Caption="Scale"
-            DataContext="{Binding Scale}" />
-
-        <BaseControl:VectorXYZ
-            Margin="0,8"
-            Caption="Offset"
-            DataContext="{Binding Offset}" />
+        <Mesh:ScaleOffsetEditor />
 
         <Panels:PositionedStackPanel>
 
