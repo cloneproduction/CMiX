@@ -89,10 +89,10 @@
                             Theme="{StaticResource ButtonStraight}">
 
                             <Button.Content>
-                                <Image
-                                    Margin="42"
+                                <Controls:AppIcon
                                     Opacity="0.5"
-                                    Source="{DynamicResource Sub}" />
+                                    IconKey="Sub"
+                                    Size="{DynamicResource IconSizeSM}" />
                             </Button.Content>
 
                         </Button>
@@ -105,10 +105,10 @@
                             Theme="{StaticResource ButtonStraight}">
 
                             <Button.Content>
-                                <Image
-                                    Margin="42"
+                                <Controls:AppIcon
                                     Opacity="0.5"
-                                    Source="{DynamicResource Add}" />
+                                    IconKey="Add"
+                                    Size="{DynamicResource IconSizeSM}" />
                             </Button.Content>
 
                         </Button>

@@ -32,7 +32,7 @@
                     DockPanel.Dock="Right"
                     Theme="{StaticResource ButtonRounded}">
                     <Button.Content>
-                        <Image Margin="16" Source="{DynamicResource Reset}" />
+                        <BaseControl:AppIcon IconKey="Reset" Size="{DynamicResource IconSizeSM}" />
                     </Button.Content>
                 </Button>
 

@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="prefabManagerComboBox">
 
     <Grid
@@ -24,10 +25,10 @@
                     DockPanel.Dock="Right"
                     Theme="{StaticResource ButtonStraight}">
                     <Button.Content>
-                        <Image
-                            Margin="42"
+                        <Controls:AppIcon
                             Opacity="0.5"
-                            Source="{DynamicResource Add}" />
+                            IconKey="Add"
+                            Size="{DynamicResource IconSizeSM}" />
                     </Button.Content>
                 </Button>
 

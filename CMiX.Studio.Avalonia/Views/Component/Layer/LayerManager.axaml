@@ -84,10 +84,10 @@
                         CommandParameter="{Binding $parent[UserControl].ItemType}"
                         Theme="{StaticResource ButtonRounded}">
                         <Button.Content>
-                            <Image
-                                Margin="20"
+                            <Controls:AppIcon
                                 Opacity="0.7"
-                                Source="{DynamicResource Add}" />
+                                IconKey="Add"
+                                Size="{DynamicResource IconSizeSM}" />
                         </Button.Content>
                     </Button>
 
@@ -137,10 +137,10 @@
                         DockPanel.Dock="Right"
                         Theme="{StaticResource ButtonRounded}">
                         <Button.Content>
-                            <Image
-                                Margin="20"
+                            <Controls:AppIcon
                                 Opacity="0.7"
-                                Source="{DynamicResource DeleteLayer}" />
+                                IconKey="DeleteLayer"
+                                Size="{DynamicResource IconSizeSM}" />
                         </Button.Content>
                     </Button>
 
