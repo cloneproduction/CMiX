@@ -73,15 +73,16 @@
                             IsVisible="{Binding !IsInSync}"
                             Text="Not in sync" />
                     </StackPanel>
+
                     <Button.Flyout>
                         <Flyout
                             Placement="Pointer"
                             HorizontalOffset="-150"
                             VerticalOffset="-56"
                             FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                            <StackPanel KeyDown="SyncFlyout_KeyDown">
+                            <StackPanel KeyDown="SyncFlyout_KeyDown" Margin="4">
                                 <TextBlock
-                                    Margin="0,0,0,8"
+                                    Margin="0,0,0,16"
                                     Text="Studio and Engine have different projects. Choose how to resolve it."
                                     TextWrapping="Wrap" />
                                 <Grid Height="{DynamicResource ControlHeightMD}">
@@ -149,16 +150,16 @@
                     VerticalOffset="-100"
                     FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
 
-                    <StackPanel KeyDown="EditConnectionFlyout_KeyDown">
+                    <StackPanel KeyDown="EditConnectionFlyout_KeyDown" Margin="8">
 
-                        <TextBlock Text="Connection Settings" />
+                        <TextBlock Text="Connection Settings" Margin="0, 0, 0, 8"/>
 
-                        <BaseControl:IPBox IPAddress="{Binding IP.Value, Mode=TwoWay}" />
+                        <BaseControl:IPBox IPAddress="{Binding IP.Value, Mode=TwoWay}" Margin="0, 8, 0, 0"/>
 
                         <UniformGrid
                             Columns="2"
                             Height="{DynamicResource ControlHeightMD}"
-                            Margin="0,4">
+                            Margin="0,8,0, 16">
                             <TextBlock
                                 Margin="0,0,4,0"
                                 HorizontalAlignment="Right"
