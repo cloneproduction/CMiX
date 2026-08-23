@@ -52,6 +52,7 @@ namespace CMiX.Core.DependencyInjection
             var server = provider.GetRequiredService<Server>();
             server.SetDispatcher(dispatcher);
             messenger.Register(server);
+            server.Start();
         }
 
         public void ConfigureVvvvTransport(IServiceProvider provider)

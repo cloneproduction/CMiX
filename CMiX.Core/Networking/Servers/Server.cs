@@ -45,13 +45,11 @@ namespace CMiX.Core.Networking.Servers
             ClientIsConnected = false;
             ServerIsRunning = false;
             DataSent = false;
-            Status = "Disconnected";
             ConnectedClients = new ObservableCollection<ConnectedClient>();
             Statistics = new ServerStatistics();
             StartCommand = new RelayCommand(Start);
             RestartCommand = new RelayCommand(Restart);
             StopCommand = new RelayCommand(Stop);
-            ApplySettingsCommand = new AsyncRelayCommand(ApplyAsync);
             IsActive = true;
         }
 
@@ -68,18 +66,18 @@ namespace CMiX.Core.Networking.Servers
 
         public ICommand StartCommand { get; }
         public ICommand RestartCommand { get; }
-        public ICommand ApplySettingsCommand { get; }
         public ICommand StopCommand { get; }
 
         private Guid _clientID;
         private ObservableCollection<ConnectedClient> _connectedClients;
 
-        private string _status;
-        public string Status
-        {
-            get => _status;
-            set => SetProperty(ref _status, value);
-        }
+        // Distinguishes four states rather than just two: a listener that's up but has no
+        // Engine attached yet doesn't look identical to one that failed to bind, and a deliberate
+        // reconnect (ApplyAsync stopping itself before rebinding) doesn't look like a failure either.
+        public string Status =>
+            IsReconnecting ? "Connecting" :
+            !ServerIsRunning ? "Not listening" :
+            ClientIsConnected ? "Connected" : "Listening for connection";
 
         private string _errorMessage;
         public string ErrorMessage
@@ -98,6 +96,13 @@ namespace CMiX.Core.Networking.Servers
         [ObservableProperty]
         private bool _serverIsRunning;
 
+        // Set for the whole duration of ApplyAsync, so the momentary "not listening" caused by
+        // its own Stop() reads as an expected in-progress reconnect rather than a real failure.
+        [ObservableProperty]
+        private bool _isReconnecting;
+
+        partial void OnIsReconnectingChanged(bool value) => OnPropertyChanged(nameof(Status));
+
         private bool _dataSent;
         public bool DataSent
         {
@@ -113,6 +118,7 @@ namespace CMiX.Core.Networking.Servers
 
         partial void OnServerIsRunningChanged(bool value)
         {
+            OnPropertyChanged(nameof(Status));
             if (value)
             {
                 Start();
@@ -215,7 +221,7 @@ namespace CMiX.Core.Networking.Servers
             {
                 ConnectedClients.Add(connectedClient);
                 ClientIsConnected = ConnectedClients.Count > 0;
-                Status = ClientIsConnected ? "Connected" : "Disconnected";
+                OnPropertyChanged(nameof(Status));
             });
 
             _sync.SendOwnHash();
@@ -232,7 +238,7 @@ namespace CMiX.Core.Networking.Servers
                 }
 
                 ClientIsConnected = ConnectedClients.Count > 0;
-                Status = ClientIsConnected ? "Connected" : "Disconnected";
+                OnPropertyChanged(nameof(Status));
             });
         }
 
@@ -314,15 +320,38 @@ namespace CMiX.Core.Networking.Servers
 
             WatsonTcpServer = null;
             ServerIsRunning = false;
-            Status = "Disconnected";
         }
 
         public void Dispose() => Stop();
 
-        private async Task ApplyAsync()
+        public async Task<bool> ApplyAsync()
         {
-            if (ValidateIPv4(IP.Value) && await ValidatePortAsync(IP.Value, Port.Value))
-                ErrorMessage = "Settings applied successfully!";
+            var ip = IP.Value;
+            var port = Port.Value;
+
+            IsReconnecting = true;
+            try
+            {
+                // Stopped first so the port-availability check below can't see this server's own
+                // listener and mistake it for something else already bound to the address.
+                Stop();
+                var valid = ValidateIPv4(ip) && await ValidatePortAsync(ip, port);
+
+                // Re-applied so Start() binds exactly what was just validated, not whatever the
+                // two-way bound IP/Port fields hold by now if the user kept editing them while the
+                // check above was still running.
+                IP.Value = ip;
+                Port.Value = port;
+                Start();
+
+                // Reflects whether the server actually ended up listening, not just whether the
+                // settings passed validation - Start() can still fail after a successful check.
+                return valid && WatsonTcpServer != null;
+            }
+            finally
+            {
+                IsReconnecting = false;
+            }
         }
 
         private async Task<bool> ValidatePortAsync(string host, int port)

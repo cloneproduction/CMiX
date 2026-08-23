@@ -27,7 +27,7 @@
         <!--
             The inline WPF Ellipse style with the ClientIsConnected DataTrigger
             became the ServerConnectionIndicatorStyle theme plus the connected
-            class, defined in Themes\Styles\ListBox.axaml.
+            class, defined in Themes\Styles\StatusIndicators.axaml.
         -->
         <Border
             Margin="1"
@@ -43,6 +43,8 @@
                     Height="7"
                     Margin="0,0,4,0"
                     Classes.connected="{Binding ClientIsConnected}"
+                    Classes.connecting="{Binding IsReconnecting}"
+                    Classes.listening="{Binding ServerIsRunning}"
                     Theme="{StaticResource ServerConnectionIndicatorStyle}" />
 
                 <ToggleButton

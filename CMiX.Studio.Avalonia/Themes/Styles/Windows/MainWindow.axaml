@@ -2,18 +2,12 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- The WPF file declared x:Class CMiX.Core.Themes.MainWindow on the ResourceDictionary, dropped in this port -->
-    <!--
-        WPF's WindowChrome (CaptionHeight 0, CornerRadius CornerRadiusLargeAll, AllowsTransparency)
-        has no direct Avalonia equivalent. The rounded/transparent popup look is achieved instead
-        by SystemDecorations="None" plus TransparencyLevelHint="Transparent" set on the consuming
-        Window (see ServerCreationWindow.axaml), combined with the Background/CornerRadius/Effect
-        already set in the template below.
-    -->
-
-    <ControlTheme x:Key="PopupWindowNoTitleStyle" TargetType="Window">
+    <!-- Same rounded dark box + drop shadow look the old Window-based popups used, ported to
+         FlyoutPresenter now that popups (Edit Connection, sync resolution) are Flyouts instead
+         of separate windows. -->
+    <ControlTheme x:Key="PopupFlyoutStyle" TargetType="FlyoutPresenter">
         <Setter Property="Background" Value="Transparent" />
-        <Setter Property="Width" Value="210" />
+        <Setter Property="Width" Value="300" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
