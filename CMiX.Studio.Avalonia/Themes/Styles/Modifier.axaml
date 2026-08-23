@@ -17,7 +17,7 @@
                     Padding="6">
                     <Controls:AppIcon
                         Name="image"
-                        IconKey="CloseTab"
+                        IconKey="Close"
                         Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
@@ -46,8 +46,6 @@
                 <Border
                     Name="border"
                     Background="Transparent"
-                    Margin="0"
-                    Opacity="0.6"
                     Padding="4"
                     Width="{DynamicResource ControlHeightMD}">
                     <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
