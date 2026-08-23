@@ -12,6 +12,7 @@
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Beat="clr-namespace:CMiX.Studio.Avalonia.Views.Beat"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Menus="clr-namespace:CMiX.Studio.Avalonia.Views.Menus"
@@ -113,9 +114,10 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Image
+                    <Controls:AppIcon
                         Margin="8"
-                        Source="{DynamicResource Composition}"
+                        IconKey="Composition"
+                        Size="{DynamicResource IconSizeMD}"
                         ToolTip.HorizontalOffset="-10"
                         ToolTip.Placement="Pointer"
                         ToolTip.Tip="Composition"
@@ -157,9 +159,10 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Image
+                    <Controls:AppIcon
                         Margin="8"
-                        Source="{DynamicResource LayerScene}"
+                        IconKey="LayerScene"
+                        Size="{DynamicResource IconSizeMD}"
                         ToolTip.HorizontalOffset="-10"
                         ToolTip.Placement="Pointer"
                         ToolTip.Tip="Layers"
@@ -201,9 +204,10 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Image
+                    <Controls:AppIcon
                         Margin="8"
-                        Source="{DynamicResource Settings}"
+                        IconKey="Settings"
+                        Size="{DynamicResource IconSizeMD}"
                         ToolTip.HorizontalOffset="-10"
                         ToolTip.Placement="Pointer"
                         ToolTip.Tip="Output Mappings"
@@ -216,9 +220,10 @@
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
-                    <Image
+                    <Controls:AppIcon
                         Margin="8"
-                        Source="{DynamicResource Geometry}"
+                        IconKey="Geometry"
+                        Size="{DynamicResource IconSizeMD}"
                         ToolTip.HorizontalOffset="-10"
                         ToolTip.Placement="Pointer"
                         ToolTip.Tip="Entities"
@@ -369,9 +374,10 @@
 
             <TabItem Theme="{StaticResource TabItemHorizontal}">
                 <TabItem.Header>
-                    <Image
+                    <Controls:AppIcon
                         Margin="8"
-                        Source="{DynamicResource Resources}"
+                        IconKey="Resources"
+                        Size="{DynamicResource IconSizeMD}"
                         ToolTip.HorizontalOffset="-10"
                         ToolTip.Placement="Pointer"
                         ToolTip.Tip="Assets"
@@ -388,9 +394,10 @@
             <TabItem Theme="{StaticResource TabItemHorizontal}">
 
                 <TabItem.Header>
-                    <Image
+                    <Controls:AppIcon
                         Margin="8"
-                        Source="{DynamicResource Network}"
+                        IconKey="Network"
+                        Size="{DynamicResource IconSizeMD}"
                         ToolTip.HorizontalOffset="-10"
                         ToolTip.Placement="Pointer"
                         ToolTip.Tip="Network"

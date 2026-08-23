@@ -10,6 +10,7 @@
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="layerRoot">
 
@@ -22,7 +23,7 @@
 
             <TabItem IsSelected="True">
                 <TabItem.Header>
-                    <Image Margin="8" Source="{StaticResource Entity}" />
+                    <Controls:AppIcon Margin="8" IconKey="Entity" Size="{DynamicResource IconSizeMD}" />
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Disabled">
@@ -84,7 +85,7 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <Image Margin="8" Source="{StaticResource Camera}" />
+                    <Controls:AppIcon Margin="8" IconKey="Camera" Size="{DynamicResource IconSizeMD}" />
                 </TabItem.Header>
                 <ScrollViewer>
                     <i:Interaction.Behaviors>
@@ -116,7 +117,7 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <Image Margin="8" Source="{StaticResource MeshLight}" />
+                    <Controls:AppIcon Margin="8" IconKey="MeshLight" Size="{DynamicResource IconSizeMD}" />
                 </TabItem.Header>
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
                     <i:Interaction.Behaviors>
@@ -149,7 +150,7 @@
 
             <TabItem>
                 <TabItem.Header>
-                    <Image Margin="8" Source="{StaticResource PostFX}" />
+                    <Controls:AppIcon Margin="8" IconKey="PostFX" Size="{DynamicResource IconSizeMD}" />
                 </TabItem.Header>
 
                 <ScrollViewer VerticalScrollBarVisibility="Hidden">
