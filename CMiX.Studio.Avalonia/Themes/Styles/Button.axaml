@@ -212,65 +212,13 @@
         <Setter Property="VerticalContentAlignment" Value="Center" />
     </ControlTheme>
 
-    <ControlTheme x:Key="ButtonCloseWindowStyle"
+    <ControlTheme x:Key="ButtonWindowIconStyle"
         BasedOn="{StaticResource ButtonWindowControlStyle}"
         TargetType="Button">
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="border" Padding="8" Background="Transparent">
-                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="Close" Size="{DynamicResource IconSizeXS}" />
-                </Border>
-            </ControlTemplate>
-        </Setter>
-
-        <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
-        </Style>
-        <Style Selector="^:pointerover /template/ Controls|AppIcon#image">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-
-        <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
-        </Style>
-        <Style Selector="^:pressed /template/ Controls|AppIcon#image">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-    </ControlTheme>
-
-    <ControlTheme x:Key="ButtonMaximizeWindowStyle"
-        BasedOn="{StaticResource ButtonWindowControlStyle}"
-        TargetType="Button">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border Name="border" Padding="8" Background="Transparent">
-                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="Maximize" Size="{DynamicResource IconSizeXS}" />
-                </Border>
-            </ControlTemplate>
-        </Setter>
-
-        <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
-        </Style>
-        <Style Selector="^:pointerover /template/ Controls|AppIcon#image">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-
-        <Style Selector="^:pressed /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
-        </Style>
-        <Style Selector="^:pressed /template/ Controls|AppIcon#image">
-            <Setter Property="Opacity" Value="1.0" />
-        </Style>
-    </ControlTheme>
-
-    <ControlTheme x:Key="ButtonMinimizeWindowStyle"
-        BasedOn="{StaticResource ButtonWindowControlStyle}"
-        TargetType="Button">
-        <Setter Property="Template">
-            <ControlTemplate>
-                <Border Name="border" Padding="8" Background="Transparent">
-                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="Minimize" Size="{DynamicResource IconSizeXS}" />
+                    <Controls:AppIcon Name="image" Opacity="0.75" IconKey="{TemplateBinding Content}" Size="{DynamicResource IconSizeXS}" />
                 </Border>
             </ControlTemplate>
         </Setter>

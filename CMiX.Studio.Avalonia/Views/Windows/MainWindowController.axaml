@@ -13,21 +13,23 @@
         <Button
             Command="{Binding CloseWindowCommand}"
             CommandParameter="{Binding $parent[Window]}"
-            Content="X"
+            Content="Close"
             DockPanel.Dock="Right"
-            Theme="{StaticResource ButtonCloseWindowStyle}" />
+            Theme="{StaticResource ButtonWindowIconStyle}" />
 
         <Button
             Command="{Binding MaximizeWindowCommand}"
             CommandParameter="{Binding $parent[Window]}"
+            Content="Maximize"
             DockPanel.Dock="Right"
-            Theme="{DynamicResource ButtonMaximizeWindowStyle}" />
+            Theme="{StaticResource ButtonWindowIconStyle}" />
 
         <Button
             Command="{Binding MinimizeWindowCommand}"
             CommandParameter="{Binding $parent[Window]}"
+            Content="Minimize"
             DockPanel.Dock="Right"
-            Theme="{DynamicResource ButtonMinimizeWindowStyle}"
+            Theme="{StaticResource ButtonWindowIconStyle}"
             VerticalContentAlignment="Bottom" />
 
     </DockPanel>
