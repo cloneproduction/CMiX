@@ -15,50 +15,38 @@ namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomPosition : ObservableObject, IBeatModifiable, ISpreadableModifier, IModifier, IDisposable
+    public partial class RandomPosition : BeatModifiableModifierBase, ISpreadableModifier, IModifier
     {
         public RandomPosition(PrefabManager beatModifierManager,
-                              PrefabService prefabService, 
-                              ModifierModeSelector modifierModeSelector, 
+                              PrefabService prefabService,
+                              ModifierModeSelector modifierModeSelector,
                               Vector3 location)
+            : base(prefabService, beatModifierManager)
         {
-            BeatModifierManager = beatModifierManager;
-            PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
             Location = location;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public Vector3 Location { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new RandomPositionModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Location = (Vector3Model)Location.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
-            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
-        };
+            var model = new RandomPositionModel
+            {
+                Location = (Vector3Model)Location.ToModel(),
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (RandomPositionModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             Location.FromModel(m.Location);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
         }
     }
 }

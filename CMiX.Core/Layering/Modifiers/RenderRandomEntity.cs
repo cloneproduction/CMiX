@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Animations;
@@ -13,50 +13,38 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Layering.Modifiers
 {
     [ModifierPanel(typeof(Layer))]
-    public partial class RenderRandomEntity : ObservableObject, IBeatModifiable, IModifier, IDisposable
+    public partial class RenderRandomEntity : BeatModifiableModifierBase, IModifier
     {
         public RenderRandomEntity(PrefabManager beatModifierManager,
                                   PrefabService prefabService,
                                   GenericValue<EntityType> entityType,
                                   GenericValue<float> control)
+            : base(prefabService, beatModifierManager)
         {
-            BeatModifierManager = beatModifierManager;
-            PrefabService = prefabService;
             EntityType = entityType;
             Control = control;
         }
 
-        public Guid ID { get; set; }
-        public PrefabService PrefabService { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
         public GenericValue<EntityType> EntityType { get; set; }
         public GenericValue<float> Control { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new RenderRandomEntityModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
-            EntityType = (GenericValueModel<EntityType>)EntityType.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
-        };
+            var model = new RenderRandomEntityModel
+            {
+                EntityType = (GenericValueModel<EntityType>)EntityType.ToModel(),
+                Control = (GenericValueModel<float>)Control.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (RenderRandomEntityModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             EntityType.FromModel(m.EntityType);
             Control.FromModel(m.Control);
-
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
         }
     }
 }

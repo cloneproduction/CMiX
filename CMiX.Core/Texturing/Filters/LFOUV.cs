@@ -12,22 +12,22 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LFOUV : ObservableObject, IPrefab, IBeatModifiable, ITextureFilter, IDisposable
+    public partial class LFOUV : TextureFilterBase, IBeatModifiable, IDisposable
     {
         public LFOUV(PrefabManager beatModifierManager,
-                     PrefabService prefabService, 
-                     GenericValue<TransformType> transformType, 
-                     ModifierModeSelector modifierModeSelector, 
-                     GenericValue<bool> pingPong, 
+                     PrefabService prefabService,
+                     GenericValue<TransformType> transformType,
+                     ModifierModeSelector modifierModeSelector,
+                     GenericValue<bool> pingPong,
                      DirectionXY directionXY,
                      GenericValue<float> from,
                      GenericValue<float> to,
                      SamplerState samplerState,
                      GenericValue<float> control,
                      Blend blend)
+            : base(prefabService, control, blend)
         {
             BeatModifierManager = beatModifierManager;
-            PrefabService = prefabService;
             TransformType = transformType;
             ModifierModeSelector = modifierModeSelector;
             PingPong = pingPong;
@@ -35,12 +35,8 @@ namespace CMiX.Core.Texturing.Filters
             From = from;
             To = to;
             SamplerState = samplerState;
-            Control = control;
-            Blend = blend;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
         public GenericValue<bool> PingPong { get; set; }
         public DirectionXY DirectionXY { get; set; }
@@ -49,46 +45,36 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> To { get; set; }
         public SamplerState SamplerState { get; set; }
         public PrefabManager BeatModifierManager { get; set; }
-        public GenericValue<float> Control { get; set; }
-        public Blend Blend { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new LFOUVModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            TransformType = (GenericValueModel<TransformType>)TransformType.ToModel(),
-            PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
-            DirectionXY = (DirectionXYModel)DirectionXY.ToModel(),
-            From = (GenericValueModel<float>)From.ToModel(),
-            To = (GenericValueModel<float>)To.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel(),
-            SamplerState = (SamplerStateModel)SamplerState.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
-            Blend = (BlendModel)Blend.ToModel(),
-        };
+            var model = new LFOUVModel
+            {
+                TransformType = (GenericValueModel<TransformType>)TransformType.ToModel(),
+                PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
+                DirectionXY = (DirectionXYModel)DirectionXY.ToModel(),
+                From = (GenericValueModel<float>)From.ToModel(),
+                To = (GenericValueModel<float>)To.ToModel(),
+                SamplerState = (SamplerStateModel)SamplerState.ToModel(),
+                BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (LFOUVModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
+            this.LoadBeatModifier(m.BeatModifierManager);
             TransformType.FromModel(m.TransformType);
             PingPong.FromModel(m.PingPong);
             DirectionXY.FromModel(m.DirectionXY);
             From.FromModel(m.From);
             To.FromModel(m.To);
-            Control.FromModel(m.Control);
             SamplerState.FromModel(m.SamplerState);
-            Blend.FromModel(m.Blend);
+        }
 
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
-        }
+        public void Dispose() => this.DisposeBeatModifier();
     }
 }

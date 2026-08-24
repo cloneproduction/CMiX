@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Animations;
@@ -13,7 +13,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class LFO : ObservableObject, ISpreadableModifier, IBeatModifiable, IDisposable
+    public partial class LFO : BeatModifiableModifierBase, ISpreadableModifier
     {
         public LFO(PrefabManager beatModifierManager,
                    PrefabService prefabService,
@@ -24,11 +24,10 @@ namespace CMiX.Core.Transformation.Modifiers
                    GenericValue<float> from,
                    GenericValue<float> to,
                    ModifierModeSelector modifierModeSelector)
+            : base(prefabService, beatModifierManager)
         {
-            BeatModifierManager = beatModifierManager;
             RandomizePhase = randomizePhase;
             ModifierModeSelector = modifierModeSelector;
-            PrefabService = prefabService;
             PingPong = pingPong;
             DirectionXYZ = directionXYZ;
             TransformType = transformType;
@@ -36,8 +35,6 @@ namespace CMiX.Core.Transformation.Modifiers
             To = to;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<float> RandomizePhase { get; set; }
         public GenericValue<bool> PingPong { get; set; }
@@ -45,30 +42,27 @@ namespace CMiX.Core.Transformation.Modifiers
         public GenericValue<TransformType> TransformType { get; set; }
         public GenericValue<float> From { get; set; }
         public GenericValue<float> To { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new LFOModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
-            RandomizePhase = (GenericValueModel<float>)RandomizePhase.ToModel(),
-            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-            TransformType = (GenericValueModel<TransformType>)TransformType.ToModel(),
-            From = (GenericValueModel<float>)From.ToModel(),
-            To = (GenericValueModel<float>)To.ToModel(),
-            DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
-        };
+            var model = new LFOModel
+            {
+                PingPong = (GenericValueModel<bool>)PingPong.ToModel(),
+                RandomizePhase = (GenericValueModel<float>)RandomizePhase.ToModel(),
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                TransformType = (GenericValueModel<TransformType>)TransformType.ToModel(),
+                From = (GenericValueModel<float>)From.ToModel(),
+                To = (GenericValueModel<float>)To.ToModel(),
+                DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (LFOModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             PingPong.FromModel(m.PingPong);
             RandomizePhase.FromModel(m.RandomizePhase);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
@@ -76,13 +70,6 @@ namespace CMiX.Core.Transformation.Modifiers
             From.FromModel(m.From);
             To.FromModel(m.To);
             DirectionXYZ.FromModel(m.DirectionXYZ);
-
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Animations;
@@ -14,7 +14,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomTexCoord : ObservableObject, IBeatModifiable, ISpreadableModifier, IDisposable
+    public partial class RandomTexCoord : BeatModifiableModifierBase, ISpreadableModifier
     {
         public RandomTexCoord(PrefabService prefabService,
                               ModifierModeSelector modifierModeSelector,
@@ -24,10 +24,9 @@ namespace CMiX.Core.Transformation.Modifiers
                               Vector2 scale,
                               GenericValue<float> rotation,
                               GenericValue<float> uniform)
+            : base(prefabService, beatModifierManager)
         {
-            PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
-            BeatModifierManager = beatModifierManager;
             SamplerState = samplerState;
             Location = location;
             Scale = scale;
@@ -35,10 +34,7 @@ namespace CMiX.Core.Transformation.Modifiers
             Uniform = uniform;
         }
 
-        public Guid ID { get; set; }
-        public PrefabService PrefabService { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
 
         public Vector2 Location { get; set; }
         public Vector2 Scale { get; set; }
@@ -46,39 +42,31 @@ namespace CMiX.Core.Transformation.Modifiers
         public GenericValue<float> Rotation { get; set; }
         public SamplerState SamplerState { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new RandomTexCoordModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
-            Location = (Vector2Model)Location.ToModel(),
-            Scale = (Vector2Model)Scale.ToModel(),
-            Uniform = (GenericValueModel<float>)Uniform.ToModel(),
-            Rotation = (GenericValueModel<float>)Rotation.ToModel(),
-            SamplerState = (SamplerStateModel)SamplerState.ToModel()
-        };
+            var model = new RandomTexCoordModel
+            {
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
+                Location = (Vector2Model)Location.ToModel(),
+                Scale = (Vector2Model)Scale.ToModel(),
+                Uniform = (GenericValueModel<float>)Uniform.ToModel(),
+                Rotation = (GenericValueModel<float>)Rotation.ToModel(),
+                SamplerState = (SamplerStateModel)SamplerState.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (RandomTexCoordModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             Location.FromModel(m.Location);
             Scale.FromModel(m.Scale);
             Uniform.FromModel(m.Uniform);
             Rotation.FromModel(m.Rotation);
             SamplerState.FromModel(m.SamplerState);
-
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
         }
     }
 }

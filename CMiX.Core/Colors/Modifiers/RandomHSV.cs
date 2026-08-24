@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Animations;
@@ -16,19 +16,18 @@ namespace CMiX.Core.Colors.Modifiers
 {
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RandomHSV : ObservableObject, IBeatModifiable, IPrefab, ISpreadableModifier, IDisposable
+    public partial class RandomHSV : BeatModifiableModifierBase, ISpreadableModifier
     {
         public RandomHSV(PrefabManager beatModifierManager,
-                         PrefabService prefabService, 
+                         PrefabService prefabService,
                          ModifierModeSelector modifierModeSelector,
                          GenericValue<ColorMode> colorMode,
-                         GenericValue<float> hue, 
-                         GenericValue<float> saturation, 
-                         GenericValue<float> value, 
+                         GenericValue<float> hue,
+                         GenericValue<float> saturation,
+                         GenericValue<float> value,
                          GenericValue<float> alpha)
+            : base(prefabService, beatModifierManager)
         {
-            BeatModifierManager = beatModifierManager;
-            PrefabService = prefabService;
             ModifierModeSelector = modifierModeSelector;
             ColorMode = colorMode;
             Hue = hue;
@@ -37,49 +36,38 @@ namespace CMiX.Core.Colors.Modifiers
             Alpha = alpha;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public GenericValue<ColorMode> ColorMode { get; set; }
         public GenericValue<float> Hue { get; set; }
         public GenericValue<float> Saturation { get; set; }
         public GenericValue<float> Value { get; set; }
         public GenericValue<float> Alpha { get; set; }
         public ModifierModeSelector ModifierModeSelector { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new RandomHSVModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            ColorMode = (GenericValueModel<ColorMode>)ColorMode.ToModel(),
-            Hue = (GenericValueModel<float>)Hue.ToModel(),
-            Saturation = (GenericValueModel<float>)Saturation.ToModel(),
-            Value = (GenericValueModel<float>)Value.ToModel(),
-            Alpha = (GenericValueModel<float>)Alpha.ToModel(),
-            ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel()
-        };
+            var model = new RandomHSVModel
+            {
+                ColorMode = (GenericValueModel<ColorMode>)ColorMode.ToModel(),
+                Hue = (GenericValueModel<float>)Hue.ToModel(),
+                Saturation = (GenericValueModel<float>)Saturation.ToModel(),
+                Value = (GenericValueModel<float>)Value.ToModel(),
+                Alpha = (GenericValueModel<float>)Alpha.ToModel(),
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (RandomHSVModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             ColorMode.FromModel(m.ColorMode);
             Hue.FromModel(m.Hue);
             Saturation.FromModel(m.Saturation);
             Value.FromModel(m.Value);
             Alpha.FromModel(m.Alpha);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
         }
     }
 }

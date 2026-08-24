@@ -13,45 +13,30 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class Flip : ObservableObject, IModifier, IBeatModifiable, IDisposable
+    public partial class Flip : BeatModifiableModifierBase, IModifier
     {
         public Flip(PrefabService prefabService,
                     PrefabManager beatModifierManager,
                     DirectionXYZ directionXYZ)
+            : base(prefabService, beatModifierManager)
         {
-            PrefabService = prefabService;
-            BeatModifierManager = beatModifierManager;
             DirectionXYZ = directionXYZ;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new FlipModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
-            DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel()
-        };
+            var model = new FlipModel { DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel() };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (FlipModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             DirectionXYZ.FromModel(m.DirectionXYZ);
-
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
         }
     }
 }

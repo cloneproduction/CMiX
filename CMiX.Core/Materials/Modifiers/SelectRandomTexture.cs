@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Animations;
@@ -12,45 +12,33 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Materials.Modifiers
 {
     [ModifierPanel(typeof(Material))]
-    public partial class SelectRandomTexture : ObservableObject, IBeatModifiable, IModifier, IDisposable
+    public partial class SelectRandomTexture : BeatModifiableModifierBase, IModifier
     {
         public SelectRandomTexture(PrefabManager beatModifierManager,
                                   PrefabService prefabService,
                                   GenericValue<TextureFrom> textureFrom)
+            : base(prefabService, beatModifierManager)
         {
-            BeatModifierManager = beatModifierManager;
-            PrefabService = prefabService;
             TextureFrom = textureFrom;
         }
 
-        public Guid ID { get; set; }
-        public PrefabService PrefabService { get; set; }
-        public PrefabManager BeatModifierManager { get; set; }
         public GenericValue<TextureFrom> TextureFrom { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new SelectRandomTextureModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            BeatModifierManager = (PrefabManagerModel)BeatModifierManager.ToModel(),
-            TextureFrom = (GenericValueModel<TextureFrom>)TextureFrom.ToModel()
-        };
+            var model = new SelectRandomTextureModel
+            {
+                TextureFrom = (GenericValueModel<TextureFrom>)TextureFrom.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (SelectRandomTextureModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             TextureFrom.FromModel(m.TextureFrom);
-
-            LoadManager(BeatModifierManager, m.BeatModifierManager);
-        }
-        public void Dispose()
-        {
-            BeatModifierManager.Dispose();
         }
     }
 }

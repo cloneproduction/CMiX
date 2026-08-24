@@ -8,7 +8,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    public record CameraRandomModel : IControlModel
+    public record CameraRandomModel : IControlModel, IBeatModifiableModifierModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
