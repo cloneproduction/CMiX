@@ -2,34 +2,13 @@
     x:Class="CMiX.Studio.Avalonia.Views.RandomUV"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <Views:FilterPanel>
         <Views:FilterPanel.Content>
             <StackPanel>
 
-                <BaseControls:DragValue
-                    Caption="Uniform"
-                    Value="{Binding Uniform.Value}" />
-
-                <BaseControls:Vector2
-                    Margin="0,8"
-                    Caption="Scale"
-                    DataContext="{Binding Scale}" />
-
-                <BaseControls:DragValue
-                    Caption="Rotation"
-                    Value="{Binding Rotation.Value}" />
-
-                <BaseControls:Vector2
-                    Margin="0,8"
-                    Caption="Translate"
-                    DataContext="{Binding Location}" />
-
-                <Views:SamplerState
-                    Margin="0,0,0,8"
-                    DataContext="{Binding SamplerState}" />
+                <Views:UVTransformEditor />
 
                 <Views:BeatModifierManager
                     DataContext="{Binding BeatModifierManager}" />
