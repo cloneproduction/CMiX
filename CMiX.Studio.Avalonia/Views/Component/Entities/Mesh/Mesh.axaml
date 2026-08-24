@@ -17,45 +17,48 @@
             ItemsSource="{x:Static Resources:EnumProviders.MeshType}"
             SelectedItem="{Binding MeshTypeSelector.Value}" />
 
-        <!--
-            The WPF ContentControl swapped keyed DataTemplates through style DataTriggers on
-            MeshTypeSelector.Value. Avalonia styles cannot trigger on data values, so the per
-            type views are stacked here and toggled with EnumMatchConverter. All of them stay
-            instantiated; only the matching one is visible.
-        -->
         <Panel Margin="0,8,0,0">
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Text}}">
+            <Border IsVisible="{Binding MeshTypeSelector.Value, 
+                Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                ConverterParameter={x:Static ViewModels:MeshType.Text}}">
                 <Views:Text3D DataContext="{Binding Text3DSettings}" />
             </Border>
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Box}}">
-                <Views:MeshBox />
-            </Border>
+            <Views:MeshBox 
+                IsVisible="{Binding MeshTypeSelector.Value, 
+                Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                ConverterParameter={x:Static ViewModels:MeshType.Box}}"/>
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Sphere}}">
-                <Views:MeshSphere />
-            </Border>
+            <Views:MeshSphere 
+                IsVisible="{Binding MeshTypeSelector.Value, 
+                Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                ConverterParameter={x:Static ViewModels:MeshType.Sphere}}"/>
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Torus}}">
-                <Views:MeshTorus />
-            </Border>
+            <Views:MeshTorus 
+                IsVisible="{Binding MeshTypeSelector.Value, 
+                Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                ConverterParameter={x:Static ViewModels:MeshType.Torus}}"/>
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Cone}}">
-                <Views:MeshCone />
-            </Border>
+            <Views:MeshCone 
+                IsVisible="{Binding MeshTypeSelector.Value, 
+                Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                ConverterParameter={x:Static ViewModels:MeshType.Cone}}"/>
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Cylinder}}">
-                <Views:MeshCylinder />
-            </Border>
+             <Views:MeshCylinder 
+                 IsVisible="{Binding MeshTypeSelector.Value, 
+                 Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                 ConverterParameter={x:Static ViewModels:MeshType.Cylinder}}"/>
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.Plane}}">
-                <Views:MeshPlane />
-            </Border>
+             <Views:MeshPlane 
+                 IsVisible="{Binding MeshTypeSelector.Value, 
+                 Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                 ConverterParameter={x:Static ViewModels:MeshType.Plane}}"/>
 
-            <Border IsVisible="{Binding MeshTypeSelector.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static ViewModels:MeshType.FromFile}}">
-                <Views:MeshFile />
-            </Border>
+             <Views:MeshFile 
+                 IsVisible="{Binding MeshTypeSelector.Value, 
+                 Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                 ConverterParameter={x:Static ViewModels:MeshType.FromFile}}"/>
 
         </Panel>
 
@@ -67,7 +70,9 @@
 
             <StackPanel Margin="8">
 
-                <BaseControls:DragValue Caption="Explode Strength" Value="{Binding ExplodeStrength.Value}" />
+                <BaseControls:DragValue 
+                    Caption="Explode Strength" 
+                    Value="{Binding ExplodeStrength.Value}" />
 
                 <BaseControls:CMiXSlider
                     Margin="0,8,0,0"

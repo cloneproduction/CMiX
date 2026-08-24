@@ -25,11 +25,6 @@
             BorderBrush="Transparent"
             Classes="BorderMask">
 
-            <!--
-                The WPF IsSynchronizedWithCurrentItem and the RequestBringIntoView
-                suppression handler on the items panel are gone; the handler only
-                stopped hover driven auto scrolling in the dropdown.
-            -->
             <ComboBox
                 x:Name="pathComboBox"
                 AttachedProperties:PositionedControl.Position="All"

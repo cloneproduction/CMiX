@@ -15,11 +15,6 @@
             Maximum="1"
             Value="{Binding ChanceToHit.Value}" />
 
-        <!--
-            Avalonia has no ItemsControl.AlternationIndex or AlternationCount. The code
-            behind publishes each container's index through its Tag so the
-            CurrentStepConverter multi binding can compare it to the current step.
-        -->
         <ItemsControl
             x:Name="stepsItemsControl"
             ItemsSource="{Binding BeatSteps.Steps}">
@@ -49,5 +44,6 @@
         </ItemsControl>
 
         <Views:Easing DataContext="{Binding Easing}" />
+
     </StackPanel>
 </UserControl>

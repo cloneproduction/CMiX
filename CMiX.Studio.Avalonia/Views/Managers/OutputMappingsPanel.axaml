@@ -7,26 +7,33 @@
     <StackPanel Margin="8">
 
         <BaseControl:CMiXListBox
-                        MinHeight="105"
+            MinHeight="105"
             ItemsSource="{Binding Items}"
             SelectedItem="{Binding SelectedItem, Mode=TwoWay}">
+
             <BaseControl:CMiXListBox.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <ToggleButton
 
-                        Margin="0, 0, 8, 0"
+                        <ToggleButton
+                            Margin="0, 0, 8, 0"
                             DockPanel.Dock="Right"
                             IsChecked="{Binding !Visibility.Value}"
                             Theme="{DynamicResource ToggleVisibility}" />
+
                         <BaseControl:EditableTextBox Text="{Binding Name.Value}" />
+
                     </DockPanel>
                 </DataTemplate>
             </BaseControl:CMiXListBox.ItemTemplate>
         </BaseControl:CMiXListBox>
 
-        <StackPanel Margin="0,8,0,0" DataContext="{Binding SelectedItem}">
-            <BaseControl:Integer2Value Caption="Resolution" DataContext="{Binding Resolution}" />
+        <StackPanel 
+            Margin="0,8,0,0" 
+            DataContext="{Binding SelectedItem}">
+            <BaseControl:Integer2Value 
+                Caption="Resolution" 
+                DataContext="{Binding Resolution}" />
         </StackPanel>
 
     </StackPanel>

@@ -12,11 +12,6 @@
             x:Name="PopUpToggle"
             Content="{Binding Caption, ElementName=buttonOpenSelectionPanel}" />
 
-        <!--
-            WPF AllowsTransparency and the FlowDirection right to left inheritance
-            workaround are not needed in Avalonia. The ClosePopupBehavior keeps the
-            WPF StaysOpen True closing logic, so light dismiss stays off.
-        -->
         <Popup
             Width="{Binding Bounds.Width, ElementName=PopUpToggle}"
             IsOpen="{Binding IsChecked, ElementName=PopUpToggle}"

@@ -1,14 +1,12 @@
 ﻿<UserControl
     x:Class="CMiX.Studio.Avalonia.Views.BeatControls"
     xmlns="https://github.com/avaloniaui"
-    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400"
+    d:DesignHeight="450">
 
-    <Grid Height="{DynamicResource ControlHeightMD}">
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
+    <UniformGrid Height="{DynamicResource ControlHeightMD}">
 
         <TextBlock
             Margin="8,0"
@@ -37,6 +35,7 @@
 
             <Border
                 x:Name="MainBorder"
+                Height="{DynamicResource ControlHeightMD}"
                 Background="{DynamicResource Grey500Brush}"
                 CornerRadius="{DynamicResource CornerRadiusLeft}">
                 <Grid>
@@ -62,6 +61,6 @@
 
         </DockPanel>
 
-    </Grid>
+    </UniformGrid>
 
 </UserControl>

@@ -11,24 +11,12 @@
     xmlns:Servers="clr-namespace:CMiX.Core.Networking.Servers;assembly=CMiX.Core"
     xmlns:TextureSource="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core">
 
-    <!--
-        Shared prefab list item templates consumed by RepositoryManager.axaml and
-        PrefabSlotManager.axaml through Views\Managers\PrefabListItemTemplates.cs.
-        Avalonia matches templates in declaration order with an IsInstanceOfType test,
-        so keep derived types before their base types.
-    -->
-
     <DataTemplate DataType="{x:Type Compositing:Color}">
-        <!-- The WPF md:DialogServiceViews.IsRegistered attribute is not needed with HanumanInstitute.MvvmDialogs. -->
         <BaseControls:ColorSelector Caption="{Binding Value}" />
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type Servers:Server}">
-        <!--
-            The inline WPF Ellipse style with the ClientIsConnected DataTrigger
-            became the ServerConnectionIndicatorStyle theme plus the connected
-            class, defined in Themes\Styles\StatusIndicators.axaml.
-        -->
+
         <Border
             Margin="1"
             Padding="2,0,0,0"
@@ -78,41 +66,14 @@
         <BaseControls:PrefabListItem Icon="Camera" />
     </DataTemplate>
 
-    <!--  TEXTURESOURCE  -->
-    <DataTemplate DataType="{x:Type TextureSource:BubbleNoise}">
-        <BaseControls:PrefabListItem Icon="Texture" />
-    </DataTemplate>
-
     <!--
-        CheckerBoard and TouchBlob have no list item template in WPF, which fell
-        back to ToString there but to the reflection view locator here, so the
-        templates are added to render them like the other texture sources.
+        TEXTURESOURCE. Matches TextureSourceBase itself, not each concrete type: every
+        texture source without a template here falls through to the reflection view
+        locator and renders its full editing view instead of a list row (this is how
+        CheckerBoard and TouchBlob behaved before templates were added for them), and
+        matching the shared base means a future texture source type is covered for free.
     -->
-    <DataTemplate DataType="{x:Type TextureSource:CheckerBoard}">
-        <BaseControls:PrefabListItem Icon="Texture" />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type TextureSource:TouchBlob}">
-        <BaseControls:PrefabListItem Icon="Texture" />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type TextureSource:Image}">
-        <BaseControls:PrefabListItem Icon="Texture" />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type TextureSource:Gradient}">
-        <BaseControls:PrefabListItem Icon="Texture" />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type TextureSource:TypeWriter}">
-        <BaseControls:PrefabListItem Icon="Texture" />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type TextureSource:VideoIn}">
-        <BaseControls:PrefabListItem Icon="Texture" />
-    </DataTemplate>
-
-    <DataTemplate DataType="{x:Type TextureSource:VideoPlayer}">
+    <DataTemplate DataType="{x:Type TextureSource:TextureSourceBase}">
         <BaseControls:PrefabListItem Icon="Texture" />
     </DataTemplate>
 
