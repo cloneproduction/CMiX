@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public record GradientModel : IControlModel, IPrefabModel
+    public record GradientModel : IControlModel, IPrefabModel, ITextureSourceModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();

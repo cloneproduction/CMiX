@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public record TypeWriterModel : IControlModel, IPrefabModel
+    public record TypeWriterModel : IControlModel, IPrefabModel, ITextureSourceModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<string> StringControl { get; set; } = new("CMiX");

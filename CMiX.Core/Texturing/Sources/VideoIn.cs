@@ -9,51 +9,40 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class VideoIn : ObservableRecipient, ITextureSource, IDisposable
+    public partial class VideoIn : TextureSourceBase, ITextureSource
     {
-        public VideoIn(PrefabService prefabService, 
+        public VideoIn(PrefabService prefabService,
                        PrefabManager textureModifierManager,
-                       GenericValue<int> sizeX, 
+                       GenericValue<int> sizeX,
                        GenericValue<int> sizeZ)
+            : base(prefabService, textureModifierManager)
         {
-            TextureModifierManager = textureModifierManager;
-            PrefabService = prefabService;
             SizeX = sizeX;
             SizeY = sizeZ;
+            Resolution = new Integer2(sizeX, sizeZ);
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<int> SizeX { get; set; }
         public GenericValue<int> SizeY { get; set; }
-        public PrefabService PrefabService { get; set; }
         public Integer2 Resolution { get; set; }
-        public PrefabManager TextureModifierManager { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new VideoInModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
-            SizeX = (GenericValueModel<int>)SizeX.ToModel(),
-            SizeY = (GenericValueModel<int>)SizeY.ToModel()
-        };
-
-        public void FromModel(IControlModel model)
-        {
-            var m = (VideoInModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
-            SizeX.FromModel(m.SizeX);
-            SizeY.FromModel(m.SizeY);
-
-            LoadManager(TextureModifierManager, m.TextureModifierManager);
+            var model = new VideoInModel
+            {
+                SizeX = (GenericValueModel<int>)SizeX.ToModel(),
+                SizeY = (GenericValueModel<int>)SizeY.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
         }
 
-        // The filter modifiers are reachable through this manager alone, so a texture torn down
-        // without disposing it leaves their repository and their deleter registrations behind.
-        public void Dispose() => DisposeAll(TextureModifierManager);
+        public override void FromModel(IControlModel model)
+        {
+            var m = (VideoInModel)model;
+            LoadBaseModel(m);
+            SizeX.FromModel(m.SizeX);
+            SizeY.FromModel(m.SizeY);
+        }
     }
 }

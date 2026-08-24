@@ -9,65 +9,53 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class Gradient : ObservableObject, ITextureSource, IDisposable
+    public partial class Gradient : TextureSourceBase, ITextureSource
     {
         public Gradient(PrefabService prefabService,
                         PrefabManager textureModifierManager,
-                        Integer2 resolution, 
-                        GenericValue<string> from, 
-                        GenericValue<string> to, 
-                        GenericValue<float> gamma, 
+                        Integer2 resolution,
+                        GenericValue<string> from,
+                        GenericValue<string> to,
+                        GenericValue<float> gamma,
                         GenericValue<bool> horizontal)
+            : base(prefabService, textureModifierManager)
         {
-            PrefabService = prefabService; 
             Resolution = resolution;
             From = from;
             To = to;
             Gamma = gamma;
             Horizontal = horizontal;
-            TextureModifierManager = textureModifierManager;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2 Resolution { get; set; }
-        public PrefabService PrefabService { get; set; }
         public GenericValue<string> From { get; set; }
         public GenericValue<string> To { get; set; }
         public GenericValue<float> Gamma { get; set; }
         public GenericValue<bool> Horizontal { get; set; }
-        public PrefabManager TextureModifierManager { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new GradientModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
-            Resolution = (Integer2Model)Resolution.ToModel(),
-            Gamma = (GenericValueModel<float>)Gamma.ToModel(),
-            From = (GenericValueModel<string>)From.ToModel(),
-            To = (GenericValueModel<string>)To.ToModel(),
-            Horizontal = (GenericValueModel<bool>)Horizontal.ToModel()
-        };
+            var model = new GradientModel
+            {
+                Resolution = (Integer2Model)Resolution.ToModel(),
+                Gamma = (GenericValueModel<float>)Gamma.ToModel(),
+                From = (GenericValueModel<string>)From.ToModel(),
+                To = (GenericValueModel<string>)To.ToModel(),
+                Horizontal = (GenericValueModel<bool>)Horizontal.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (GradientModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             Resolution.FromModel(m.Resolution);
             Gamma.FromModel(m.Gamma);
             From.FromModel(m.From);
             To.FromModel(m.To);
             Horizontal.FromModel(m.Horizontal);
-
-            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
-
-        // The filter modifiers are reachable through this manager alone, so a texture torn down
-        // without disposing it leaves their repository and their deleter registrations behind.
-        public void Dispose() => DisposeAll(TextureModifierManager);
     }
 }

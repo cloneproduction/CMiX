@@ -10,21 +10,20 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class TypeWriter : ObservableObject, ITextureSource, IDisposable
+    public partial class TypeWriter : TextureSourceBase, ITextureSource
     {
         public TypeWriter(PrefabManager textureModifierManager,
                           PrefabService prefabService,
-                          GenericValue<string> stringControl, 
-                          GenericValue<string> fontFamily, 
-                          GenericValue<float> fontSize, 
+                          GenericValue<string> stringControl,
+                          GenericValue<string> fontFamily,
+                          GenericValue<float> fontSize,
                           GenericValue<FontStyle> fontStyle,
                           GenericValue<string> fontColor,
-                          GenericValue<string> backgroundColor, 
-                          Integer2 resolution, 
+                          GenericValue<string> backgroundColor,
+                          Integer2 resolution,
                           Vector2 position)
+            : base(prefabService, textureModifierManager)
         {
-            TextureModifierManager = textureModifierManager;
-            PrefabService = prefabService;
             StringControl = stringControl;
             FontFamily = fontFamily;
             FontSize = fontSize;
@@ -35,7 +34,6 @@ namespace CMiX.Core.Texturing.Sources
             Position = position;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<string> StringControl { get; set; }
         public GenericValue<FontStyle> Style { get; set; }
         public GenericValue<string> FontFamily { get; set; }
@@ -45,32 +43,27 @@ namespace CMiX.Core.Texturing.Sources
         public Integer2 Resolution { get; set; }
         public Vector2 Position { get; set; }
 
-        public PrefabManager TextureModifierManager { get; set; }
-        public PrefabService PrefabService { get; set; }
-
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new TypeWriterModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
-            StringControl = (GenericValueModel<string>)StringControl.ToModel(),
-            FontColor = (GenericValueModel<string>)FontColor.ToModel(),
-            BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel(),
-            Resolution = (Integer2Model)Resolution.ToModel(),
-            Position = (Vector2Model)Position.ToModel(),
-            FontSize = (GenericValueModel<float>)FontSize.ToModel(),
-            FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
-            Style = (GenericValueModel<FontStyle>)Style.ToModel()
-        };
+            var model = new TypeWriterModel
+            {
+                StringControl = (GenericValueModel<string>)StringControl.ToModel(),
+                FontColor = (GenericValueModel<string>)FontColor.ToModel(),
+                BackgroundColor = (GenericValueModel<string>)BackgroundColor.ToModel(),
+                Resolution = (Integer2Model)Resolution.ToModel(),
+                Position = (Vector2Model)Position.ToModel(),
+                FontSize = (GenericValueModel<float>)FontSize.ToModel(),
+                FontFamily = (GenericValueModel<string>)FontFamily.ToModel(),
+                Style = (GenericValueModel<FontStyle>)Style.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (TypeWriterModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             StringControl.FromModel(m.StringControl);
             FontColor.FromModel(m.FontColor);
             BackgroundColor.FromModel(m.BackgroundColor);
@@ -79,12 +72,6 @@ namespace CMiX.Core.Texturing.Sources
             FontSize.FromModel(m.FontSize);
             FontFamily.FromModel(m.FontFamily);
             Style.FromModel(m.Style);
-
-            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
-
-        // The filter modifiers are reachable through this manager alone, so a texture torn down
-        // without disposing it leaves their repository and their deleter registrations behind.
-        public void Dispose() => DisposeAll(TextureModifierManager);
     }
 }

@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public record VideoPlayerModel : IPrefabModel
+    public record VideoPlayerModel : IPrefabModel, ITextureSourceModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public ButtonModel DoSeek { get; set; } = new();

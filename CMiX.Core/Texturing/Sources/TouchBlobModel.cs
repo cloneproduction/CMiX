@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public record TouchBlobModel : IControlModel, IPrefabModel
+    public record TouchBlobModel : IControlModel, IPrefabModel, ITextureSourceModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2Model Resolution { get; set; } = new(1024, 1024);

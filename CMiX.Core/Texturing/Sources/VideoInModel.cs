@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public record VideoInModel : IControlModel, IPrefabModel
+    public record VideoInModel : IControlModel, IPrefabModel, ITextureSourceModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabManagerModel TextureModifierManager { get; set; } = new();

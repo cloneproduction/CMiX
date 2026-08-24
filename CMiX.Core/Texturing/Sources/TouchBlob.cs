@@ -9,7 +9,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class TouchBlob : ObservableObject, ITextureSource, IDisposable
+    public partial class TouchBlob : TextureSourceBase, ITextureSource
     {
         public TouchBlob(PrefabService prefabService,
                          PrefabManager textureModifierManager,
@@ -17,52 +17,40 @@ namespace CMiX.Core.Texturing.Sources
                          GenericValue<float> size,
                          GenericValue<string> color,
                          GenericValue<string> background)
+            : base(prefabService, textureModifierManager)
         {
-            PrefabService = prefabService;
             Resolution = resolution;
             Size = size;
-            TextureModifierManager = textureModifierManager;
             Color = color;
             Background = background;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2 Resolution { get; set; }
-        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Size { get; set; }
-        public PrefabManager TextureModifierManager { get; set; }
         public GenericValue<string> Color { get; set; }
         public GenericValue<string> Background { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new TouchBlobModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
-            Resolution = (Integer2Model)Resolution.ToModel(),
-            Size = (GenericValueModel<float>)Size.ToModel(),
-            Color = (GenericValueModel<string>)Color.ToModel(),
-            Background = (GenericValueModel<string>)Background.ToModel()
-        };
+            var model = new TouchBlobModel
+            {
+                Resolution = (Integer2Model)Resolution.ToModel(),
+                Size = (GenericValueModel<float>)Size.ToModel(),
+                Color = (GenericValueModel<string>)Color.ToModel(),
+                Background = (GenericValueModel<string>)Background.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (TouchBlobModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             Resolution.FromModel(m.Resolution);
             Size.FromModel(m.Size);
             Color.FromModel(m.Color);
             Background.FromModel(m.Background);
-
-            LoadManager(TextureModifierManager, m.TextureModifierManager);
         }
-
-        // The filter modifiers are reachable through this manager alone, so a texture torn down
-        // without disposing it leaves their repository and their deleter registrations behind.
-        public void Dispose() => DisposeAll(TextureModifierManager);
     }
 }

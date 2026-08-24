@@ -8,7 +8,7 @@ using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public record CheckerBoardModel : IControlModel, IPrefabModel
+    public record CheckerBoardModel : IControlModel, IPrefabModel, ITextureSourceModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public Integer2Model Resolution { get; set; } = new(1024, 1024);

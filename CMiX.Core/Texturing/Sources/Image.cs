@@ -9,50 +9,38 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public partial class Image : ObservableObject, IAssetTextureSource, IDisposable
+    public partial class Image : TextureSourceBase, IAssetTextureSource
     {
-        public Image(PrefabService prefabService, 
+        public Image(PrefabService prefabService,
                      PrefabManager textureModifierManager,
-                     Integer2 resolution, 
+                     Integer2 resolution,
                      AssetSelector assetSelector)
+            : base(prefabService, textureModifierManager)
         {
-            PrefabService = prefabService;
-            TextureModifierManager = textureModifierManager;
             Resolution = resolution;
             AssetSelector = assetSelector;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public Integer2 Resolution { get; set; }
-        public PrefabManager TextureModifierManager { get; set; }
         public AssetSelector AssetSelector { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new ImageModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            TextureModifierManager = (PrefabManagerModel)TextureModifierManager.ToModel(),
-            Resolution = (Integer2Model)Resolution.ToModel(),
-            AssetSelector = (AssetSelectorModel)AssetSelector.ToModel()
-        };
-
-        public void FromModel(IControlModel model)
-        {
-            var m = (ImageModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
-            Resolution.FromModel(m.Resolution);
-            AssetSelector.FromModel(m.AssetSelector);
-
-            LoadManager(TextureModifierManager, m.TextureModifierManager);
+            var model = new ImageModel
+            {
+                Resolution = (Integer2Model)Resolution.ToModel(),
+                AssetSelector = (AssetSelectorModel)AssetSelector.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
         }
 
-        // The filter modifiers are reachable through this manager alone, so a texture torn down
-        // without disposing it leaves their repository and their deleter registrations behind.
-        public void Dispose() => DisposeAll(TextureModifierManager);
+        public override void FromModel(IControlModel model)
+        {
+            var m = (ImageModel)model;
+            LoadBaseModel(m);
+            Resolution.FromModel(m.Resolution);
+            AssetSelector.FromModel(m.AssetSelector);
+        }
     }
 }

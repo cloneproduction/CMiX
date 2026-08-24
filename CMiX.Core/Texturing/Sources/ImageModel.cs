@@ -7,11 +7,11 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Sources
 {
-    public record ImageModel : IControlModel, IPrefabModel
+    public record ImageModel : IControlModel, IPrefabModel, ITextureSourceModel
     {
-        public Guid ID { get; init; } = Guid.NewGuid();
-        public PrefabServiceModel PrefabService { get; init; } = new();
-        public PrefabManagerModel TextureModifierManager { get; init; } = new();
+        public Guid ID { get; set; } = Guid.NewGuid();
+        public PrefabServiceModel PrefabService { get; set; } = new();
+        public PrefabManagerModel TextureModifierManager { get; set; } = new();
         public Integer2Model Resolution { get; init; } = new(0, 0);
         public AssetSelectorModel AssetSelector { get; init; } = new();
     }
