@@ -1,4 +1,4 @@
-﻿<UserControl
+<UserControl
     x:Class="CMiX.Studio.Avalonia.Views.LayerManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -14,6 +14,89 @@
 
     <Border Background="{DynamicResource Grey300Brush}">
         <DockPanel>
+
+            <!--
+                Docked before the settings panel below so it claims a fixed slice at the true
+                bottom of the control first. The settings panel's height varies (Blend Mode is
+                one row, Mask settings are three), and if this toolbar shared a "remaining space"
+                container with it, that height change would shift the toolbar itself. Anchoring
+                the toolbar first means the ListBox area above absorbs the resize instead.
+            -->
+            <DockPanel
+                Background="{DynamicResource Grey400Brush}"
+                DockPanel.Dock="Bottom"
+                LastChildFill="False">
+
+                <Button
+                    Height="{DynamicResource ControlHeightSM}"
+                    Width="{DynamicResource ControlHeightSM}"
+                    Margin="2"
+                    Background="Transparent"
+                    Command="{Binding AddItemCommand}"
+                    CommandParameter="{Binding $parent[UserControl].ItemType}"
+                    Theme="{StaticResource ButtonRounded}">
+                    <Button.Content>
+                        <Controls:AppIcon
+                            Opacity="0.7"
+                            IconKey="Add"
+                            Size="{DynamicResource IconSizeXS}" />
+                    </Button.Content>
+                </Button>
+
+                <Border IsVisible="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
+                    <StackPanel Orientation="Horizontal">
+                        <Button
+                            Height="{DynamicResource ControlHeightSM}"
+                            Width="{DynamicResource ControlHeightSM}"
+                            Margin="2"
+                            Background="Transparent"
+                            Command="{Binding ManagerReorderService.ItemUpCommand}"
+                            CommandParameter="{Binding SelectedItem}"
+                            Theme="{StaticResource ButtonRounded}">
+                            <Button.Content>
+                                <Controls:AppIcon
+                                    Opacity="0.7"
+                                    IconKey="ArrowUp"
+                                    Size="{DynamicResource IconSizeXS}" />
+                            </Button.Content>
+                        </Button>
+
+                        <Button
+                            Height="{DynamicResource ControlHeightSM}"
+                            Width="{DynamicResource ControlHeightSM}"
+                            Margin="2"
+                            Background="Transparent"
+                            Command="{Binding ManagerReorderService.ItemDownCommand}"
+                            CommandParameter="{Binding SelectedItem}"
+                            Theme="{StaticResource ButtonRounded}">
+                            <Button.Content>
+                                <Controls:AppIcon
+                                    Opacity="0.7"
+                                    IconKey="ArrowDown"
+                                    Size="{DynamicResource IconSizeXS}" />
+                            </Button.Content>
+                        </Button>
+                    </StackPanel>
+                </Border>
+
+                <Button
+                    Height="{DynamicResource ControlHeightSM}"
+                    Width="{DynamicResource ControlHeightSM}"
+                    Margin="4"
+                    Background="Transparent"
+                    Command="{Binding DeleteItemCommand}"
+                    CommandParameter="{Binding SelectedItem}"
+                    DockPanel.Dock="Right"
+                    Theme="{StaticResource ButtonRounded}">
+                    <Button.Content>
+                        <Controls:AppIcon
+                            Opacity="0.7"
+                            IconKey="DeleteLayer"
+                            Size="{DynamicResource IconSizeXS}" />
+                    </Button.Content>
+                </Button>
+
+            </DockPanel>
 
             <!--
                 The WPF view hid this panel with Visibility.Hidden (space preserving). The panel
@@ -54,12 +137,12 @@
 
                                 <BaseControls:ComboBox
                                     Margin="0,4"
-                                    Caption="Channel"   
+                                    Caption="Channel"
                                     ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
                                     SelectedItem="{Binding LayerMaskSettings.MaskChannel.Value}" />
 
-                                <BaseControls:ToggleButton 
-                                    Caption="Invert" 
+                                <BaseControls:ToggleButton
+                                    Caption="Invert"
                                     IsChecked="{Binding LayerMaskSettings.Invert.Value}" />
 
                             </StackPanel>
@@ -69,101 +152,23 @@
                 </StackPanel>
             </Border>
 
-            <DockPanel>
-                <DockPanel
-                    Background="{DynamicResource Grey400Brush}"
-                    DockPanel.Dock="Bottom"
-                    LastChildFill="False">
+            <Border Background="{DynamicResource Grey400Brush}" DockPanel.Dock="Top">
 
-                    <Button
-                        Height="{DynamicResource ControlHeightSM}"
-                        Width="{DynamicResource ControlHeightSM}"
-                        Margin="2"
-                        Background="Transparent"
-                        Command="{Binding AddItemCommand}"
-                        CommandParameter="{Binding $parent[UserControl].ItemType}"
-                        Theme="{StaticResource ButtonRounded}">
-                        <Button.Content>
-                            <Controls:AppIcon
-                                Opacity="0.7"
-                                IconKey="Add"
-                                Size="{DynamicResource IconSizeXS}" />
-                        </Button.Content>
-                    </Button>
+                <ListBox
+                    Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
+                    DockPanel.Dock="Top"
+                    ItemsSource="{Binding ManagerData.Items}"
+                    SelectedIndex="{Binding ManagerData.SelectedIndex}"
+                    SelectedItem="{Binding SelectedItem}"
+                    Theme="{StaticResource LayerListBoxStyle}">
 
-                    <Border IsVisible="{Binding ManagerData.Items.Count, Converter={StaticResource CountToVisibility}}">
-                        <StackPanel Orientation="Horizontal">
-                            <Button
-                                Height="{DynamicResource ControlHeightSM}"
-                                Width="{DynamicResource ControlHeightSM}"
-                                Margin="2"
-                                Background="Transparent"
-                                Command="{Binding ManagerReorderService.ItemUpCommand}"
-                                CommandParameter="{Binding SelectedItem}"
-                                Theme="{StaticResource ButtonRounded}">
-                                <Button.Content>
-                                    <Controls:AppIcon
-                                        Opacity="0.7"
-                                        IconKey="ArrowUp"
-                                        Size="{DynamicResource IconSizeXS}" />
-                                </Button.Content>
-                            </Button>
-
-                            <Button
-                                Height="{DynamicResource ControlHeightSM}"
-                                Width="{DynamicResource ControlHeightSM}"
-                                Margin="2"
-                                Background="Transparent"
-                                Command="{Binding ManagerReorderService.ItemDownCommand}"
-                                CommandParameter="{Binding SelectedItem}"
-                                Theme="{StaticResource ButtonRounded}">
-                                <Button.Content>
-                                    <Controls:AppIcon
-                                        Opacity="0.7"
-                                        IconKey="ArrowDown"
-                                        Size="{DynamicResource IconSizeXS}" />
-                                </Button.Content>
-                            </Button>
-                        </StackPanel>
-                    </Border>
-
-                    <Button
-                        Height="{DynamicResource ControlHeightSM}"
-                        Width="{DynamicResource ControlHeightSM}"
-                        Margin="4"
-                        Background="Transparent"
-                        Command="{Binding DeleteItemCommand}"
-                        CommandParameter="{Binding SelectedItem}"
-                        DockPanel.Dock="Right"
-                        Theme="{StaticResource ButtonRounded}">
-                        <Button.Content>
-                            <Controls:AppIcon
-                                Opacity="0.7"
-                                IconKey="DeleteLayer"
-                                Size="{DynamicResource IconSizeXS}" />
-                        </Button.Content>
-                    </Button>
-
-                </DockPanel>
-
-                <Border Background="{DynamicResource Grey400Brush}" DockPanel.Dock="Top">
-
-                    <ListBox
-                        Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
-                        DockPanel.Dock="Top"
-                        ItemsSource="{Binding ManagerData.Items}"
-                        SelectedIndex="{Binding ManagerData.SelectedIndex}"
-                        SelectedItem="{Binding SelectedItem}"
-                        Theme="{StaticResource LayerListBoxStyle}">
-
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <views:LayerManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>
-                </Border>
-            </DockPanel>
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <views:LayerManagerItem DragHandlerIsPressed="{Binding $parent[ListBox].DataContext.ManagerReorderService.DragHandlerIsPressed, Mode=TwoWay}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </Border>
         </DockPanel>
     </Border>
 </UserControl>
