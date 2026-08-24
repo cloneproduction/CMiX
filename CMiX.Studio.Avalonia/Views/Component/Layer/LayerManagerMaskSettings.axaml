@@ -1,0 +1,24 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LayerManagerMaskSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <BaseControls:ComboBox
+            Caption="Mask Mode"
+            ItemsSource="{x:Static Resources:EnumProviders.MaskMode}"
+            SelectedItem="{Binding LayerMaskSettings.MaskMode.Value}" />
+
+        <BaseControls:ComboBox
+            Margin="0,4"
+            Caption="Channel"
+            ItemsSource="{x:Static Resources:EnumProviders.MaskChannel}"
+            SelectedItem="{Binding LayerMaskSettings.MaskChannel.Value}" />
+
+        <BaseControls:ToggleButton Caption="Invert" IsChecked="{Binding LayerMaskSettings.Invert.Value}" />
+
+    </StackPanel>
+</UserControl>

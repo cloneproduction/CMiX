@@ -1,0 +1,31 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LayerManagerSettings"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel>
+
+        <Controls:CMiXSlider
+            Height="{DynamicResource ControlHeightMD}"
+            Caption="Alpha"
+            Maximum="1"
+            Minimum="0"
+            Value="{Binding LayerSettings.Opacity.Value}" />
+
+        <BaseControls:ColorSelector
+            Margin="0,4"
+            Caption="Background"
+            DataContext="{Binding LayerSettings.BackgroundColor}" />
+
+        <Border IsVisible="{Binding !LayerMaskSettings.IsMask.Value}">
+            <BaseControls:ComboBox
+                Caption="Blend Mode"
+                ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+                SelectedItem="{Binding LayerSettings.BlendMode.Value, Mode=TwoWay}" />
+        </Border>
+
+    </StackPanel>
+</UserControl>
