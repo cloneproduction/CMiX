@@ -1,0 +1,24 @@
+<ResourceDictionary
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <ControlTheme x:Key="{x:Type Views:EntityModifiersSection}" TargetType="Views:EntityModifiersSection">
+        <Setter Property="Template">
+            <ControlTemplate>
+                <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
+                    <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                        <Views:ModifierManager.SelectionPanel>
+                            <StackPanel>
+                                <Views:AutoSelectionPanel PanelOwner="{TemplateBinding PanelOwner}" />
+                                <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
+                            </StackPanel>
+                        </Views:ModifierManager.SelectionPanel>
+                    </Views:ModifierManager>
+                </Panels:IndentedExpander>
+            </ControlTemplate>
+        </Setter>
+    </ControlTheme>
+
+</ResourceDictionary>

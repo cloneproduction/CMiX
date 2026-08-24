@@ -9,13 +9,7 @@
 
     <StackPanel>
 
-        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
-            <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                <Views:ModifierManager.SelectionPanel>
-                    <Views:AutoSelectionPanel PanelOwner="{x:Type Cameras:Camera}" />
-                </Views:ModifierManager.SelectionPanel>
-            </Views:ModifierManager>
-        </Panels:IndentedExpander>
+        <Views:EntityModifiersSection PanelOwner="{x:Type Cameras:Camera}" />
 
         <Panels:IndentedExpander
             Header="Settings"

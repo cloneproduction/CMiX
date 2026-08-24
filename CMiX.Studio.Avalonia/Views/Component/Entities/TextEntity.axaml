@@ -12,20 +12,9 @@
         <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
         </Panels:IndentedExpander>
-        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
-
-            <StackPanel>
-                <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                    <Views:ModifierManager.SelectionPanel>
-                        <StackPanel>
-                            <Views:AutoSelectionPanel PanelOwner="{x:Type Compositing:TextEntity}" />
-                            <Views:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
-                        </StackPanel>
-                    </Views:ModifierManager.SelectionPanel>
-                </Views:ModifierManager>
-            </StackPanel>
-
-        </Panels:IndentedExpander>
+        <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:TextEntity}">
+            <Views:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
+        </Views:EntityModifiersSection>
 
         <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">
             <StackPanel Margin="8">

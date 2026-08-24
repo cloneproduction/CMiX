@@ -11,13 +11,7 @@
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
         </Panels:IndentedExpander>
 
-        <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
-            <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                <Views:ModifierManager.SelectionPanel>
-                    <Views:AutoSelectionPanel PanelOwner="{x:Type Lights:LightEntity}" />
-                </Views:ModifierManager.SelectionPanel>
-            </Views:ModifierManager>
-        </Panels:IndentedExpander>
+        <Views:EntityModifiersSection PanelOwner="{x:Type Lights:LightEntity}" />
 
         <Panels:IndentedExpander
             Header="Settings"
