@@ -1,4 +1,4 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -7,10 +7,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    // Every ITextureFilter shares this exact shape (ID, PrefabService, Control, Blend,
-    // isExpanded) with no exceptions across the whole family, so it lives here once instead of
-    // being copy-pasted into each filter. Each filter still owns its own Model type and its own
-    // extra fields - PopulateBaseModel/LoadBaseModel only take care of the shared four.
     public abstract partial class TextureFilterBase : ObservableObject, IPrefab, ITextureFilter
     {
         protected TextureFilterBase(PrefabService prefabService, GenericValue<float> control, Blend blend)

@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<Controls:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.LabeledButton"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -10,4 +10,4 @@
             <Button Command="{Binding Command, ElementName=labeledButton}" />
         </Border>
     </Controls:LabeledContent>
-</UserControl>
+</Controls:CaptionedUserControl>

@@ -6,19 +6,11 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class Integer3Value : UserControl
+    public partial class Integer3Value : CaptionedUserControl
     {
         public Integer3Value()
         {
             InitializeComponent();
-        }
-
-        public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<Integer3Value, string>(nameof(Caption), string.Empty);
-        public string Caption
-        {
-            get => GetValue(CaptionProperty);
-            set => SetValue(CaptionProperty, value);
         }
     }
 }

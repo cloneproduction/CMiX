@@ -11,7 +11,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class DragValue : UserControl
+    public partial class DragValue : CaptionedUserControl
     {
         private Point? _mouseDownPos;
         private Point? _cursorDownScreenPos;
@@ -207,14 +207,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             get => GetValue(IsEditingProperty);
             set => SetValue(IsEditingProperty, value);
-        }
-
-        public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<DragValue, string>(nameof(Caption), string.Empty, defaultBindingMode: BindingMode.TwoWay);
-        public string Caption
-        {
-            get => GetValue(CaptionProperty);
-            set => SetValue(CaptionProperty, value);
         }
 
         public static readonly StyledProperty<bool> IsIntegerProperty =

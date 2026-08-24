@@ -1,13 +1,10 @@
-﻿<UserControl
+﻿<Controls:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.ToggleButton"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="toggleButtonControl">
 
-    <!-- Caption here is the checkbox's own inline label (column 1), not a left-side caption -
-         the left column (LabeledContent's own Caption) is deliberately left unbound/empty to
-         preserve the existing look. -->
     <Controls:LabeledContent>
         <DockPanel>
             <ToggleButton
@@ -28,4 +25,5 @@
             </Border>
         </DockPanel>
     </Controls:LabeledContent>
-</UserControl>
+
+</Controls:CaptionedUserControl>

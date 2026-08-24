@@ -16,7 +16,7 @@ using AvaloniaComboBox = Avalonia.Controls.ComboBox;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ComboBox : UserControl
+    public partial class ComboBox : CaptionedUserControl
     {
         private AvaloniaComboBox? _innerComboBox;
 
@@ -100,14 +100,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             if (e.AddedItems.Count > 0)
                 SelectedItem = e.AddedItems[0];
-        }
-
-        public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<ComboBox, string>(nameof(Caption), string.Empty, defaultBindingMode: BindingMode.TwoWay);
-        public string Caption
-        {
-            get => GetValue(CaptionProperty);
-            set => SetValue(CaptionProperty, value);
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =

@@ -7,19 +7,11 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class LabeledButton : UserControl
+    public partial class LabeledButton : CaptionedUserControl
     {
         public LabeledButton()
         {
             InitializeComponent();
-        }
-
-        public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<LabeledButton, string>(nameof(Caption), string.Empty);
-        public string Caption
-        {
-            get => GetValue(CaptionProperty);
-            set => SetValue(CaptionProperty, value);
         }
 
         public static readonly StyledProperty<ICommand> CommandProperty =

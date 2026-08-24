@@ -7,19 +7,11 @@ using Avalonia.Data;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class IntegerValue : UserControl
+    public partial class IntegerValue : CaptionedUserControl
     {
         public IntegerValue()
         {
             InitializeComponent();
-        }
-
-        public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<IntegerValue, string>(nameof(Caption), string.Empty);
-        public string Caption
-        {
-            get => GetValue(CaptionProperty);
-            set => SetValue(CaptionProperty, value);
         }
 
         public static readonly StyledProperty<double> ValueProperty =

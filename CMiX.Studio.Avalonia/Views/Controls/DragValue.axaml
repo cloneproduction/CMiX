@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<Controls:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.DragValue"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,7 +7,7 @@
     x:Name="dragValue"
     Height="{DynamicResource ControlHeightMD}">
 
-    <UserControl.Styles>
+    <Controls:CaptionedUserControl.Styles>
         <!-- The inline WPF Border style with an IsMouseOver trigger becomes selector styles. -->
         <Style Selector="Border#borderValueDisplay">
             <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
@@ -28,7 +28,7 @@
         <Style Selector="TextBlock#valueDisplay.integer">
             <Setter Property="Text" Value="{Binding Value, ElementName=dragValue, StringFormat={}{0:N0}}" />
         </Style>
-    </UserControl.Styles>
+    </Controls:CaptionedUserControl.Styles>
 
     <Controls:LabeledContent Caption="{Binding Caption, ElementName=dragValue}">
 
@@ -119,4 +119,4 @@
         </Grid>
 
     </Controls:LabeledContent>
-</UserControl>
+</Controls:CaptionedUserControl>

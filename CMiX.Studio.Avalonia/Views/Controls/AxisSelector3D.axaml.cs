@@ -7,19 +7,11 @@ using Avalonia.Data;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class AxisSelector3D : UserControl
+    public partial class AxisSelector3D : CaptionedUserControl
     {
         public AxisSelector3D()
         {
             InitializeComponent();
-        }
-
-        public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<AxisSelector3D, string>(nameof(Caption), string.Empty);
-        public string Caption
-        {
-            get => GetValue(CaptionProperty);
-            set => SetValue(CaptionProperty, value);
         }
 
         public static readonly StyledProperty<bool> XIsCheckedProperty =

@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<BaseControl:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.IntegerValue"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,13 +11,13 @@
         The WPF ContextMenu resource moved inline. StaysOpen and CommandTarget
         have no Avalonia counterparts; the menu inherits the control DataContext.
     -->
-    <UserControl.ContextMenu>
+    <BaseControl:CaptionedUserControl.ContextMenu>
         <ContextMenu>
             <MenuItem
                 Command="{Binding ResetCommand}"
                 Header="Reset" />
         </ContextMenu>
-    </UserControl.ContextMenu>
+    </BaseControl:CaptionedUserControl.ContextMenu>
 
     <BaseControl:DragValue
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=counter}"
@@ -29,4 +29,4 @@
         SmallChange="1.0"
         Value="{Binding Value, ElementName=counter, Mode=TwoWay}" />
 
-</UserControl>
+</BaseControl:CaptionedUserControl>

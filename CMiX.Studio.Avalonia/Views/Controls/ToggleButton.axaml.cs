@@ -7,7 +7,7 @@ using Avalonia.Data;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    public partial class ToggleButton : UserControl
+    public partial class ToggleButton : CaptionedUserControl
     {
         public ToggleButton()
         {
@@ -20,14 +20,6 @@ namespace CMiX.Studio.Avalonia.Views.Controls
                 toggleButton.IsChecked = toggleButton.IsChecked != true;
                 e.Handled = true;
             };
-        }
-
-        public static readonly StyledProperty<string> CaptionProperty =
-            AvaloniaProperty.Register<ToggleButton, string>(nameof(Caption), string.Empty);
-        public string Caption
-        {
-            get => GetValue(CaptionProperty);
-            set => SetValue(CaptionProperty, value);
         }
 
         public static readonly StyledProperty<bool> IsCheckedProperty =
