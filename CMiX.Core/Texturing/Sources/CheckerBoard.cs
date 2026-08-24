@@ -70,9 +70,6 @@ namespace CMiX.Core.Texturing.Sources
 
         // The filter modifiers are reachable through this manager alone, so a texture torn down
         // without disposing it leaves their repository and their deleter registrations behind.
-        public void Dispose()
-        {
-            TextureModifierManager.Dispose();
-        }
+        public void Dispose() => DisposeAll(TextureModifierManager);
     }
 }

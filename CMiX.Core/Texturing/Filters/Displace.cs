@@ -53,9 +53,6 @@ namespace CMiX.Core.Texturing.Filters
         // The texture this filter displaces with is reachable through this selector alone, so a
         // filter torn down without disposing it leaves its repository and its deleter
         // registrations behind.
-        public void Dispose()
-        {
-            TextureSelector.Dispose();
-        }
+        public void Dispose() => DisposeAll(TextureSelector);
     }
 }

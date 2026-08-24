@@ -101,11 +101,6 @@ namespace CMiX.Core.Compositing
             LoadManager(ModifierManager, m.ModifierManager);
         }
 
-        public void Dispose()
-        {
-            LayerManager.Dispose();
-            TextureModifierManager.Dispose();
-            ModifierManager.Dispose();
-        }
+        public void Dispose() => DisposeAll(LayerManager, TextureModifierManager, ModifierManager);
     }
 }

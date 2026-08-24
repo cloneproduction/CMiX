@@ -54,10 +54,6 @@ namespace CMiX.Core.Colors.Modifiers
             LoadManager(ColorManager, m.ColorManager);
             LoadManager(ModifierManager, m.BeatModifierManager);
         }
-        public void Dispose()
-        {
-            ColorManager.Dispose();
-            ModifierManager.Dispose();
-        }
+        public void Dispose() => DisposeAll(ColorManager, ModifierManager);
     }
 }

@@ -101,9 +101,6 @@ namespace CMiX.Core.Compositing
             LoadManager(ModifierManager, m.ModifierManager);
         }
 
-        public void Dispose()
-        {
-            ModifierManager.Dispose();
-        }
+        public void Dispose() => DisposeAll(ModifierManager);
     }
 }

@@ -93,13 +93,6 @@ namespace CMiX.Core.Compositing
             LoadManager(LightManager, m.LightManager);
         }
 
-        public void Dispose()
-        {
-            ModelEntityManager.Dispose();
-            CameraManager.Dispose();
-            LightManager.Dispose();
-            TextureModifierManager.Dispose();
-            ModifierManager.Dispose();
-        }
+        public void Dispose() => DisposeAll(ModelEntityManager, CameraManager, LightManager, TextureModifierManager, ModifierManager);
     }
 }

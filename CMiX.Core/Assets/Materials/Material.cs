@@ -60,13 +60,8 @@ namespace CMiX.Core.Materials
             LoadManager(ModifierManager, m.ModifierManager);
         }
 
-        public void Dispose()
-        {
-            ModifierManager.Dispose();
-            // The two texture slots own a texture manager each, and nothing else reaches their
-            // teardown, the same way the mesh owns two of its own under an entity.
-            DiffuseTexture.TextureManager.Dispose();
-            MaskTexture.TextureManager.Dispose();
-        }
+        // The two texture slots own a texture manager each, and nothing else reaches their
+        // teardown, the same way the mesh owns two of its own under an entity.
+        public void Dispose() => DisposeAll(ModifierManager, DiffuseTexture.TextureManager, MaskTexture.TextureManager);
     }
 }

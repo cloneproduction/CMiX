@@ -118,10 +118,6 @@ namespace CMiX.Core
 
             FlatNormals.FromModel(m.FlatNormals);
         }
-        public void Dispose()
-        {
-            ExplodeTriangleTextureManager.Dispose();
-            DisplacementTextureManager.Dispose();
-        }
+        public void Dispose() => DisposeAll(ExplodeTriangleTextureManager, DisplacementTextureManager);
     }
 }
