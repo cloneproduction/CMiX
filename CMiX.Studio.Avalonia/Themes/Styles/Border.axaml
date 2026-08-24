@@ -13,31 +13,7 @@
         be clipped/rounded, not to a separate mask element.
     -->
     <Style Selector="Border.BorderMask">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
-    </Style>
-
-    <Style Selector="Border.BorderMask:position-top">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
-    </Style>
-
-    <Style Selector="Border.BorderMask:position-bottom">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
-    </Style>
-
-    <Style Selector="Border.BorderMask:position-middle">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
-    </Style>
-
-    <Style Selector="Border.BorderMask:position-none">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
-    </Style>
-
-    <Style Selector="Border.BorderMask:position-left">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
-    </Style>
-
-    <Style Selector="Border.BorderMask:position-right">
-        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
+        <Setter Property="AttachedProperties:ClipToBoundsBehavior.CornerRadius" Value="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource Self}, Converter={StaticResource PositionToCornerRadius}}" />
     </Style>
 
 </Styles>

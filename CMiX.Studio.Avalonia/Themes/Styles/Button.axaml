@@ -26,7 +26,7 @@
                     HorizontalAlignment="{TemplateBinding HorizontalAlignment}"
                     VerticalAlignment="{TemplateBinding VerticalAlignment}"
                     Background="{TemplateBinding Background}"
-                    CornerRadius="{DynamicResource CornerRadiusAll}">
+                    CornerRadius="{Binding (AttachedProperties:PositionedControl.Position), RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource PositionToCornerRadius}}">
 
                     <Viewbox Stretch="Uniform" StretchDirection="DownOnly">
                         <ContentPresenter
@@ -37,29 +37,6 @@
                 </Border>
             </ControlTemplate>
         </Setter>
-
-        <!--  Position pseudo classes are set by the PositionedControl attached property  -->
-        <Style Selector="^:position-all /template/ Border#border">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusAll}" />
-        </Style>
-        <Style Selector="^:position-middle /template/ Border#border">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
-        </Style>
-        <Style Selector="^:position-right /template/ Border#border">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusRight}" />
-        </Style>
-        <Style Selector="^:position-left /template/ Border#border">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusLeft}" />
-        </Style>
-        <Style Selector="^:position-none /template/ Border#border">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusNone}" />
-        </Style>
-        <Style Selector="^:position-top /template/ Border#border">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusTop}" />
-        </Style>
-        <Style Selector="^:position-bottom /template/ Border#border">
-            <Setter Property="CornerRadius" Value="{DynamicResource CornerRadiusBottom}" />
-        </Style>
 
         <Style Selector="^:pointerover /template/ Border#border">
             <Setter Property="Background" Value="{DynamicResource Grey700Brush}" />
