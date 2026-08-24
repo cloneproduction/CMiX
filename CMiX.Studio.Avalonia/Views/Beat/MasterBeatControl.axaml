@@ -62,7 +62,7 @@
                     DockPanel.Dock="Right"
                     Theme="{StaticResource ButtonStraight}" />
 
-                <Grid>
+                <Panel>
                     <Border
                         Background="{DynamicResource Grey600Brush}"
                         Opacity="{Binding AnimatedDouble.AnimationPosition}" />
@@ -72,7 +72,7 @@
                         Command="{Binding TapCommand}"
                         Content="TAP"
                         Theme="{StaticResource ButtonStraight}" />
-                </Grid>
+                </Panel>
 
             </DockPanel>
         </Grid>

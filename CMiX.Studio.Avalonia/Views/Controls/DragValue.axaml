@@ -32,7 +32,7 @@
 
     <Controls:LabeledContent Caption="{Binding Caption, ElementName=dragValue}">
 
-        <Grid>
+        <Panel>
             <Border
                 x:Name="mainBorder"
                 AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=dragValue}"
@@ -40,9 +40,9 @@
                 BorderBrush="Transparent"
                 Classes="BorderMask">
 
-                <Grid>
+                <Panel>
 
-                    <Grid>
+                    <Panel>
                         <Controls:NumericInput
                             x:Name="numericInput"
                             Height="{Binding Bounds.Height, ElementName=dragValue}"
@@ -54,7 +54,7 @@
 
                         <!--
                             WPF hid this border with Visibility.Hidden while editing. The NumericInput
-                            overlaps it in the same grid cell, so IsVisible keeps the same layout.
+                            overlaps it in the same panel, so IsVisible keeps the same layout.
                         -->
                         <Border
                             x:Name="borderValueDisplay"
@@ -69,7 +69,7 @@
                                 Classes.integer="{Binding IsInteger, ElementName=dragValue}" />
 
                         </Border>
-                    </Grid>
+                    </Panel>
 
                     <!-- WPF used BoolToVisibility with the Invert parameter; the negation binding replaces it. -->
                     <DockPanel
@@ -113,10 +113,10 @@
 
                         </Button>
                     </DockPanel>
-                </Grid>
+                </Panel>
 
             </Border>
-        </Grid>
+        </Panel>
 
     </Controls:LabeledContent>
 </Controls:CaptionedUserControl>

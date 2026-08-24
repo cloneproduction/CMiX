@@ -73,7 +73,7 @@
     <ControlTheme x:Key="ButtonColorStyle" TargetType="ToggleButton">
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid Background="Transparent">
+                <Panel Background="Transparent">
 
                     <Border
                         Name="mask"
@@ -112,7 +112,7 @@
                             CornerRadius="{DynamicResource CornerRadiusLeft}" />
 
                     </Grid>
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
 

@@ -43,7 +43,7 @@
         <Setter Property="MaxDropDownHeight" Value="168" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
 
                     <ToggleButton
                         Name="toggle"
@@ -93,7 +93,7 @@
                         </Border>
                     </Popup>
 
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
         <!-- WPF trigger HasItems False collapsed the dropdown border -->

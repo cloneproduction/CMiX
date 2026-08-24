@@ -15,7 +15,7 @@
                     Effect="{DynamicResource WindowDropShadow}"
                     Padding="8">
 
-                    <Grid>
+                    <Panel>
                         <Border
                             Background="{DynamicResource Grey200Brush}"
                             CornerRadius="{DynamicResource CornerRadiusLargeAll}"
@@ -29,7 +29,7 @@
                                 ContentTemplate="{TemplateBinding ContentTemplate}" />
                         </Border>
 
-                    </Grid>
+                    </Panel>
 
                 </Border>
             </ControlTemplate>

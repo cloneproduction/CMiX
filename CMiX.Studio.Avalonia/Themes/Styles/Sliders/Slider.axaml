@@ -39,7 +39,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Border Name="mainBorder">
-                    <Grid>
+                    <Panel>
 
                         <!-- IsVisible bindings replace the WPF DataTrigger on IsEditing -->
                         <Border
@@ -98,7 +98,7 @@
                             Minimum="{TemplateBinding Minimum}"
                             Value="{Binding Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}" />
 
-                    </Grid>
+                    </Panel>
                 </Border>
             </ControlTemplate>
         </Setter>

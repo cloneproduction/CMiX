@@ -116,7 +116,7 @@
         <Setter Property="Orientation" Value="Vertical" />
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <Border
                         Name="sliderBorder"
                         BorderBrush="Black"
@@ -135,7 +135,7 @@
                             <Thumb Name="Part_Thumb" Theme="{DynamicResource ValueSliderVerticalThumbStyle}" />
                         </Track>
                     </Border>
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
 
@@ -155,7 +155,7 @@
     <ControlTheme x:Key="ValueSliderVerticalThumbStyle" TargetType="Thumb">
         <Setter Property="Template">
             <ControlTemplate>
-                <Grid>
+                <Panel>
                     <Rectangle
                         Fill="Black"
                         Height="9"
@@ -167,7 +167,7 @@
                         Opacity="{Binding $parent[Controls:StandardColorPicker].ColorState.HSV_V}"
                         Stroke="Black"
                         StrokeThickness="0.5" />
-                </Grid>
+                </Panel>
             </ControlTemplate>
         </Setter>
     </ControlTheme>

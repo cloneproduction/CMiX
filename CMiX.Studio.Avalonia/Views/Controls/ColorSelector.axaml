@@ -11,7 +11,7 @@
 
     <BaseControl:LabeledContent Caption="{Binding Caption, ElementName=colorSelector}">
 
-        <Grid>
+        <Panel>
 
             <!--
                 WPF converted the hex string to a brush implicitly; Avalonia needs the
@@ -41,7 +41,7 @@
                 </Border>
             </Popup>
 
-        </Grid>
+        </Panel>
 
     </BaseControl:LabeledContent>
 

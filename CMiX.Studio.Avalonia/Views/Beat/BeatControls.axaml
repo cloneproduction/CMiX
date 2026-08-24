@@ -38,7 +38,7 @@
                 Height="{DynamicResource ControlHeightMD}"
                 Background="{DynamicResource Grey500Brush}"
                 CornerRadius="{DynamicResource CornerRadiusLeft}">
-                <Grid>
+                <Panel>
                     <Border
                         Background="{DynamicResource Grey700Brush}"
                         CornerRadius="{DynamicResource CornerRadiusLeft}">
@@ -55,7 +55,7 @@
                         VerticalAlignment="Center"
                         Foreground="{DynamicResource ForegroundBrush}"
                         Text="{Binding BPM, StringFormat=F2}" />
-                </Grid>
+                </Panel>
 
             </Border>
 

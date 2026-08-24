@@ -41,14 +41,14 @@
             IsVisible would collapse them, so the hiddenMode class emulates Hidden
             with opacity while the panels stay in layout.
         -->
-        <Grid Margin="0,8" VerticalAlignment="Top">
-            <Grid.Styles>
+        <Panel Margin="0,8" VerticalAlignment="Top">
+            <Panel.Styles>
                 <Style Selector="Border.hiddenMode">
                     <Setter Property="Opacity" Value="0" />
                     <Setter Property="IsEnabled" Value="False" />
                     <Setter Property="IsHitTestVisible" Value="False" />
                 </Style>
-            </Grid.Styles>
+            </Panel.Styles>
             <Border Classes.hiddenMode="{Binding !IsChecked, ElementName=HEXRadio}">
                 <StackPanel>
                     <TextBox
@@ -134,7 +134,7 @@
                 </StackPanel>
 
             </Border>
-        </Grid>
+        </Panel>
 
         <Controls:CMiXSlider
             Caption="Alpha"
