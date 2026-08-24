@@ -26,6 +26,15 @@
                         a conic sweep for hue, and a white-center radial overlay for saturation.
                         Both fade together with the same HSV_V-bound Opacity the single PNG
                         ellipse used to carry, so the darkness axis behaves identically.
+
+                        ConicGradientBrush sweeps clockwise as Offset increases, but ColorWheel's
+                        pointer math (SetColor/GetColorLocation) places Hue 0 at 3 o'clock and
+                        increases counter-clockwise. Left uncorrected, the two ran in opposite
+                        directions: verified empirically by rendering this exact brush headlessly
+                        and sampling pixels at the 4 cardinal points, which showed Red and Cyan
+                        swapped (an exact mirror across the vertical axis, not a simple rotation -
+                        Angle alone cannot fix a direction mismatch). The stops below are solved
+                        for that measured mapping so hue and pointer position agree again.
                     -->
                     <Ellipse
                         Name="PART_HueEllipse"
@@ -36,13 +45,13 @@
                         VerticalAlignment="Stretch">
                         <Ellipse.Fill>
                             <ConicGradientBrush Center="50%,50%" Angle="-90">
-                                <GradientStop Color="Red" Offset="0.0" />
-                                <GradientStop Color="Yellow" Offset="0.1667" />
-                                <GradientStop Color="Lime" Offset="0.3333" />
-                                <GradientStop Color="Cyan" Offset="0.5" />
-                                <GradientStop Color="Blue" Offset="0.6667" />
-                                <GradientStop Color="Magenta" Offset="0.8333" />
-                                <GradientStop Color="Red" Offset="1.0" />
+                                <GradientStop Color="Cyan" Offset="0.0" />
+                                <GradientStop Color="Lime" Offset="0.1667" />
+                                <GradientStop Color="Yellow" Offset="0.3333" />
+                                <GradientStop Color="Red" Offset="0.5" />
+                                <GradientStop Color="Magenta" Offset="0.6667" />
+                                <GradientStop Color="Blue" Offset="0.8333" />
+                                <GradientStop Color="Cyan" Offset="1.0" />
                             </ConicGradientBrush>
                         </Ellipse.Fill>
                     </Ellipse>
