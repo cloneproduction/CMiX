@@ -1,14 +1,11 @@
-﻿using Avalonia.Controls;
-using Avalonia.Headless.XUnit;
+﻿using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Texturing.Sources;
-using CMiX.Studio.Avalonia.ViewModels;
 using CMiX.Studio.Avalonia.Views.Managers;
-using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.Studio.Avalonia.Tests.Integration
 {
     // Covers the two bindings the repository tabs depend on and that no compiler checks.
     // TabControl presents TabItem content through its own presenter, outside the TabItem
@@ -19,24 +16,12 @@ namespace CMiX.Studio.Avalonia.Tests
     // path the layer view uses to reach the same repository.
     public class RepositoryTabTests
     {
-        private static (Views.MainWindow window, MainViewModel viewModel) ShowMainWindow()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var window = TestServiceProviderFactory.CreateMainWindow(provider);
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, provider.GetRequiredService<MainViewModel>());
-        }
-
-        private static TabControl MainTabControl(Views.MainWindow window) =>
-            window.GetVisualDescendants().OfType<TabControl>().First();
-
         [AvaloniaFact]
         public void TexturesTab_PresentsItsManagerAndTheEditingPanelOfTheSelectedTexture()
         {
-            var (window, viewModel) = ShowMainWindow();
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
-            var tabControl = MainTabControl(window);
+            var tabControl = TestServiceProviderFactory.MainTabControl(window);
             var texturesTab = tabControl.Items.OfType<RepositoryTab>()
                 .Single(tab => ReferenceEquals(tab.DataContext, viewModel.TextureManager));
 
@@ -51,8 +36,7 @@ namespace CMiX.Studio.Avalonia.Tests
             viewModel.TextureManager.AddItem(typeof(CheckerBoard));
             var texture = Assert.Single(viewModel.TextureManager.ManagerData.Items);
             viewModel.TextureManager.SelectedItem = texture;
-            Dispatcher.UIThread.RunJobs();
-            Dispatcher.UIThread.RunJobs();
+            TestServiceProviderFactory.Pump();
 
             Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
 
@@ -67,15 +51,14 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void LayerView_ReachesTheRepositoryThroughTheWindowDataContext()
         {
-            var (window, viewModel) = ShowMainWindow();
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
             viewModel.Project.CompositionManager.AddItem(typeof(CMiX.Core.Compositing.Composition));
             var composition = (CMiX.Core.Compositing.Composition)viewModel.Project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(CMiX.Core.Compositing.Layer));
 
-            MainTabControl(window).SelectedIndex = 1;
-            Dispatcher.UIThread.RunJobs();
-            Dispatcher.UIThread.RunJobs();
+            TestServiceProviderFactory.MainTabControl(window).SelectedIndex = 1;
+            TestServiceProviderFactory.Pump();
 
             var layerView = Assert.Single(window.GetVisualDescendants().OfType<Views.Layer>());
             Assert.True(

@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,17 +13,11 @@ namespace CMiX.Core.Tests
     // Client both, since they share this same class instead of duplicating the logic.
     public class SyncCoordinatorTests
     {
-        private class RecordingSender : IMessageSender
-        {
-            public readonly List<IMessage> Sent = new();
-            public void SendMessage(IMessage message) => Sent.Add(message);
-        }
-
         [Fact]
         public void MatchingHash_SetsIsInSyncTrue()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(project, new RecordingSender(), new ControlMessenger()) { IsInSync = false };
+            var sync = new SyncCoordinator(project, new RecordingMessageSender(), new ControlMessenger()) { IsInSync = false };
 
             var matchingHash = ProjectStateHash.Compute(project);
             var handled = sync.TryHandle(new MessageStateHash(Guid.NewGuid(), matchingHash));
@@ -36,7 +30,7 @@ namespace CMiX.Core.Tests
         public void MismatchingHash_SetsIsInSyncFalse()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(project, new RecordingSender(), new ControlMessenger()) { IsInSync = true };
+            var sync = new SyncCoordinator(project, new RecordingMessageSender(), new ControlMessenger()) { IsInSync = true };
 
             sync.TryHandle(new MessageStateHash(Guid.NewGuid(), "not-a-real-hash"));
 
@@ -52,7 +46,7 @@ namespace CMiX.Core.Tests
             var snapshotModel = (ProjectModel)sender.ToModel();
 
             var receiver = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(receiver, new RecordingSender(), new ControlMessenger());
+            var sync = new SyncCoordinator(receiver, new RecordingMessageSender(), new ControlMessenger());
             // The receiver already has its own, different composition before the snapshot lands.
             receiver.CompositionManager.AddItem(typeof(Composition));
 
@@ -71,7 +65,7 @@ namespace CMiX.Core.Tests
             var senderHash = ProjectStateHash.Compute(sender);
 
             var receiver = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(receiver, new RecordingSender(), new ControlMessenger());
+            var sync = new SyncCoordinator(receiver, new RecordingMessageSender(), new ControlMessenger());
 
             sync.TryHandle(new MessageProjectSnapshot(Guid.NewGuid(), (ProjectModel)sender.ToModel()));
 
@@ -82,7 +76,7 @@ namespace CMiX.Core.Tests
         public void RequestSnapshot_RepliesWithOwnSnapshot()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var recordingSender = new RecordingSender();
+            var recordingSender = new RecordingMessageSender();
             var sync = new SyncCoordinator(project, recordingSender, new ControlMessenger());
 
             var handled = sync.TryHandle(new MessageRequestSnapshot(Guid.NewGuid()));
@@ -99,7 +93,7 @@ namespace CMiX.Core.Tests
             // sync, or it keeps dropping every content message afterward via ShouldBlockIncoming
             // even though it just handed the peer its current state.
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(project, new RecordingSender(), new ControlMessenger()) { IsInSync = false };
+            var sync = new SyncCoordinator(project, new RecordingMessageSender(), new ControlMessenger()) { IsInSync = false };
 
             sync.TryHandle(new MessageRequestSnapshot(Guid.NewGuid()));
 
@@ -110,7 +104,7 @@ namespace CMiX.Core.Tests
         public void ContentMessage_IsNotHandled_ByTryHandle()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(project, new RecordingSender(), new ControlMessenger());
+            var sync = new SyncCoordinator(project, new RecordingMessageSender(), new ControlMessenger());
 
             Assert.False(sync.TryHandle(new MessageValueChanged()));
         }
@@ -119,7 +113,7 @@ namespace CMiX.Core.Tests
         public void ShouldBlockIncoming_OnlyBlocksContentMessages_WhileNotInSync()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(project, new RecordingSender(), new ControlMessenger()) { IsInSync = false };
+            var sync = new SyncCoordinator(project, new RecordingMessageSender(), new ControlMessenger()) { IsInSync = false };
 
             Assert.True(sync.ShouldBlockIncoming(new MessageValueChanged()));
             Assert.False(sync.ShouldBlockIncoming(new MessageStateHash(Guid.NewGuid(), "hash")));
@@ -129,7 +123,7 @@ namespace CMiX.Core.Tests
         public void ShouldBlockIncoming_NeverBlocksWhileInSync()
         {
             var project = TestServiceProviderFactory.Create().GetRequiredService<Project>();
-            var sync = new SyncCoordinator(project, new RecordingSender(), new ControlMessenger()) { IsInSync = true };
+            var sync = new SyncCoordinator(project, new RecordingMessageSender(), new ControlMessenger()) { IsInSync = true };
 
             Assert.False(sync.ShouldBlockIncoming(new MessageValueChanged()));
         }

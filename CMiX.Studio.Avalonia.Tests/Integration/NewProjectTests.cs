@@ -15,7 +15,7 @@ using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.Studio.Avalonia.Tests.Integration
 {
     // Covers what File > New has to empty. The menu command sweeps the seven top level repository
     // managers and the composition manager, which only reaches a control that one of those still
@@ -25,27 +25,12 @@ namespace CMiX.Studio.Avalonia.Tests
     // lists the whole repository rather than one manager's items, those textures stayed on screen.
     public class NewProjectTests
     {
-        private static (Views.MainWindow window, MainViewModel viewModel) ShowMainWindow()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var window = TestServiceProviderFactory.CreateMainWindow(provider);
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (window, provider.GetRequiredService<MainViewModel>());
-        }
-
-        private static void Pump()
-        {
-            Dispatcher.UIThread.RunJobs();
-            Dispatcher.UIThread.RunJobs();
-        }
-
         private static RepositoryTab SelectTab(Views.MainWindow window, string toolTipText)
         {
-            var tabControl = window.GetVisualDescendants().OfType<TabControl>().First();
+            var tabControl = TestServiceProviderFactory.MainTabControl(window);
             var tab = tabControl.Items.OfType<RepositoryTab>().Single(t => t.ToolTipText == toolTipText);
             tabControl.SelectedItem = tab;
-            Pump();
+            TestServiceProviderFactory.Pump();
             return tab;
         }
 
@@ -58,18 +43,18 @@ namespace CMiX.Studio.Avalonia.Tests
             var toggle = window.GetVisualDescendants().OfType<ToggleButton>()
                 .Single(t => (t.Content as string) == caption && ReferenceEquals(t.DataContext, manager));
             toggle.IsChecked = true;
-            Pump();
+            TestServiceProviderFactory.Pump();
 
             var button = window.GetVisualDescendants().OfType<Button>()
                 .Single(b => (b.CommandParameter as Type) == prefabType && ReferenceEquals(b.DataContext, manager));
             button.Command!.Execute(button.CommandParameter);
-            Pump();
+            TestServiceProviderFactory.Pump();
         }
 
         [AvaloniaFact]
         public void NewProject_ClearsATextureCreatedThroughTheTexturesTab()
         {
-            var (window, viewModel) = ShowMainWindow();
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             SelectTab(window, "Textures");
 
             CreateThroughPopup(window, viewModel.TextureManager, "New Texture", typeof(CheckerBoard));
@@ -78,7 +63,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Contains(viewModel.ControlRepository.Textures, item => ReferenceEquals(item, texture));
 
             viewModel.MainMenu.NewProjectCommand.Execute(null);
-            Pump();
+            TestServiceProviderFactory.Pump();
 
             Assert.Empty(viewModel.TextureManager.ManagerData.Items);
             Assert.Empty(viewModel.ControlRepository.Textures);
@@ -87,20 +72,20 @@ namespace CMiX.Studio.Avalonia.Tests
         [AvaloniaFact]
         public void NewProject_ClearsATextureHeldByAMaterialTextureSlot()
         {
-            var (window, viewModel) = ShowMainWindow();
+            var (_, window, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             SelectTab(window, "Material");
 
             var newMaterialButton = window.GetVisualDescendants().OfType<Button>()
                 .Single(b => (b.Content as string) == "New Material");
             newMaterialButton.Command!.Execute(newMaterialButton.CommandParameter);
-            Pump();
+            TestServiceProviderFactory.Pump();
 
             var material = Assert.IsType<CMiX.Core.Materials.Material>(Assert.Single(viewModel.MaterialManager.ManagerData.Items));
             // Selecting the material realizes its editing panel, and expanding the texture section
             // realizes the diffuse slot inside it, the same two steps the user takes.
             viewModel.MaterialManager.SelectedItem = material;
             material.DiffuseTexture.IsExpanded = true;
-            Pump();
+            TestServiceProviderFactory.Pump();
 
             CreateThroughPopup(window, material.DiffuseTexture.TextureManager, "Add Texture", typeof(CheckerBoard));
 
@@ -110,7 +95,7 @@ namespace CMiX.Studio.Avalonia.Tests
             Assert.Empty(viewModel.TextureManager.ManagerData.Items);
 
             viewModel.MainMenu.NewProjectCommand.Execute(null);
-            Pump();
+            TestServiceProviderFactory.Pump();
 
             Assert.Empty(viewModel.ControlRepository.Materials);
             Assert.Empty(viewModel.ControlRepository.Textures);
@@ -126,21 +111,21 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = Path.Combine(Path.GetTempPath(), $"cmix-newproject-{Guid.NewGuid():N}.cmix");
             try
             {
-                WriteProjectWithMaterialTextures(path);
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (_, viewModel) = ShowMainWindow();
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
                 // The steps MainMenu.OpenProject takes once the file dialog has returned a path.
                 var projectModel = ProjectSerializer.Load(path);
                 var compositionModel = (CompositionModel)projectModel.CompositionManager.ManagerData.Items.First();
                 viewModel.Project.CompositionManager.AddItem(compositionModel);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.Equal(2, viewModel.ControlRepository.Textures.Count);
                 Assert.Single(viewModel.ControlRepository.Materials);
 
                 viewModel.MainMenu.NewProjectCommand.Execute(null);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.Empty(viewModel.ControlRepository.Compositions);
                 Assert.Empty(viewModel.ControlRepository.Materials);
@@ -151,28 +136,6 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 if (File.Exists(path)) File.Delete(path);
             }
-        }
-
-        // Authors the fixture through the same managers the app uses, so it round trips the real
-        // model shape: a composition holding a layer, holding an entity, whose material selector
-        // holds a material with a texture in each of its two slots.
-        private static void WriteProjectWithMaterialTextures(string path)
-        {
-            var (_, viewModel) = ShowMainWindow();
-
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
-            composition.LayerManager.AddItem(typeof(Layer));
-            var layer = (Layer)composition.LayerManager.SelectedItem;
-            layer.ModelEntityManager.AddItem(typeof(Entity));
-            var entity = (Entity)layer.ModelEntityManager.SelectedItem;
-            entity.MaterialSelector.AddItemCommand.Execute(typeof(CMiX.Core.Materials.Material));
-            var material = (CMiX.Core.Materials.Material)entity.MaterialSelector.SelectedItem;
-            material.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
-            material.MaskTexture.TextureManager.AddItem(typeof(BubbleNoise));
-            Pump();
-
-            ProjectSerializer.Save(ProjectModelBuilder.Build(composition, viewModel.Project.MasterBeat, viewModel.Project.OutputMappingManager), path);
         }
     }
 }

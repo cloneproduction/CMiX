@@ -45,8 +45,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             var items = new List<IControl> { checkerBoard, touchBlob, colorPalette };
             listBox.ItemsSource = items;
-            Dispatcher.UIThread.RunJobs();
-            Dispatcher.UIThread.RunJobs();
+            TestServiceProviderFactory.Pump();
 
             foreach (var item in items)
             {

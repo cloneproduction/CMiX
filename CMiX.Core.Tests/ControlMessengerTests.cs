@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
 using Xunit;
@@ -7,17 +7,11 @@ namespace CMiX.Core.Tests
 {
     public class ControlMessengerTests
     {
-        private class RecordingSender : IMessageSender
-        {
-            public readonly List<IMessage> Sent = new();
-            public void SendMessage(IMessage message) => Sent.Add(message);
-        }
-
         [Fact]
         public void WhileBlocked_ContentMessagesAreDropped_ButSyncProtocolStillSends()
         {
             var messenger = new ControlMessenger();
-            var sender = new RecordingSender();
+            var sender = new RecordingMessageSender();
             messenger.Register(sender);
             messenger.IsSendingBlocked = true;
 
@@ -33,7 +27,7 @@ namespace CMiX.Core.Tests
         public void WhileNotBlocked_EverythingSends()
         {
             var messenger = new ControlMessenger();
-            var sender = new RecordingSender();
+            var sender = new RecordingMessageSender();
             messenger.Register(sender);
 
             messenger.SendMessage(new MessageValueChanged());

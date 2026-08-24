@@ -1,4 +1,7 @@
-﻿using CMiX.Core.DependencyInjection;
+﻿using Avalonia.Controls;
+using Avalonia.Threading;
+using Avalonia.VisualTree;
+using CMiX.Core.DependencyInjection;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Studio.Avalonia.Services;
 using CMiX.Studio.Avalonia.ViewModels;
@@ -41,5 +44,30 @@ namespace CMiX.Studio.Avalonia.Tests
             provider.GetRequiredService<CMiX.Core.ControlActivationService>().ActivateAll();
             return mainWindow;
         }
+
+        // The common starting point for a test that exercises the app through its real window:
+        // build a provider, resolve and show MainWindow, and pump once so the initial layout and
+        // binding pass settles before the test starts driving it.
+        public static (IServiceProvider Provider, Views.MainWindow Window, MainViewModel ViewModel) ShowMainWindow()
+        {
+            var provider = Create();
+            var window = CreateMainWindow(provider);
+            window.Show();
+            Dispatcher.UIThread.RunJobs();
+            return (provider, window, provider.GetRequiredService<MainViewModel>());
+        }
+
+        // Two dispatcher passes, the idiom this suite uses wherever a UI visible change needs its
+        // deferred bindings or layout to settle before assertions run.
+        public static void Pump()
+        {
+            Dispatcher.UIThread.RunJobs();
+            Dispatcher.UIThread.RunJobs();
+        }
+
+        // The app has exactly one top level TabControl, the same one every test that drives the
+        // real window through its tabs needs to find first.
+        public static TabControl MainTabControl(Views.MainWindow window) =>
+            window.GetVisualDescendants().OfType<TabControl>().First();
     }
 }

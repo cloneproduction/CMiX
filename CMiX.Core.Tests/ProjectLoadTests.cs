@@ -10,19 +10,10 @@ namespace CMiX.Core.Tests
     // place where the loaded names, the loaded ids and the repository index meet.
     public class ProjectLoadTests : IDisposable
     {
-        private readonly string _directory;
+        private readonly TempDirectoryFixture _tempDir = new();
+        private string _directory => _tempDir.Path;
 
-        public ProjectLoadTests()
-        {
-            _directory = Path.Combine(Path.GetTempPath(), "CMiX.Core.Tests_" + Guid.NewGuid());
-            Directory.CreateDirectory(_directory);
-        }
-
-        public void Dispose()
-        {
-            if (Directory.Exists(_directory))
-                Directory.Delete(_directory, recursive: true);
-        }
+        public void Dispose() => _tempDir.Dispose();
 
         [Fact]
         public void SaveThenLoad_KeepsPrefabNamesAndResolvesEveryControl()

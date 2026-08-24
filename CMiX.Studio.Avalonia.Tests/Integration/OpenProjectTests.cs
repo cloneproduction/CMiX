@@ -6,17 +6,14 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Avalonia.Headless.XUnit;
-using Avalonia.Threading;
 using CMiX.Core.Compositing;
-using CMiX.Core.Persistence;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Undo;
 using CMiX.Studio.Avalonia.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
-namespace CMiX.Studio.Avalonia.Tests
+namespace CMiX.Studio.Avalonia.Tests.Integration
 {
     // File > Open replaces the session with the file it loaded. It used to only add the file's
     // composition to whatever was already open, so opening the same file twice left the first
@@ -24,23 +21,6 @@ namespace CMiX.Studio.Avalonia.Tests
     // load's, and every reopen grew the session by another copy.
     public class OpenProjectTests
     {
-        // Hands back the provider as well, so a test that needs a service the main view model does
-        // not expose, the undo manager, can resolve the very instance this session was built with.
-        private static (IServiceProvider provider, MainViewModel viewModel) ShowMainWindow()
-        {
-            var provider = TestServiceProviderFactory.Create();
-            var window = TestServiceProviderFactory.CreateMainWindow(provider);
-            window.Show();
-            Dispatcher.UIThread.RunJobs();
-            return (provider, provider.GetRequiredService<MainViewModel>());
-        }
-
-        private static void Pump()
-        {
-            Dispatcher.UIThread.RunJobs();
-            Dispatcher.UIThread.RunJobs();
-        }
-
         // The four counts the reported symptom is visible in, plus the layers and the total, which
         // catch anything the per type collections would miss.
         private static (int Compositions, int Layers, int Entities, int Materials, int Textures, int Controls)
@@ -54,13 +34,13 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
             try
             {
-                WriteProjectWithMaterialTextures(path);
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (_, viewModel) = ShowMainWindow();
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var repository = viewModel.ControlRepository;
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 var afterFirstLoad = Counts(repository);
                 Assert.Equal((1, 1, 1, 1, 2, 6), afterFirstLoad);
@@ -69,7 +49,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 var firstLoadControls = repository.Controls.ToList();
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.Equal(afterFirstLoad, Counts(repository));
                 foreach (var control in firstLoadControls)
@@ -93,14 +73,14 @@ namespace CMiX.Studio.Avalonia.Tests
             var corruptPath = Path.Combine(Path.GetTempPath(), $"cmix-corrupt-{Guid.NewGuid():N}.cmix");
             try
             {
-                WriteProjectWithMaterialTextures(path);
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
                 File.WriteAllText(corruptPath, "{ this is not a project");
 
-                var (_, viewModel) = ShowMainWindow();
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var repository = viewModel.ControlRepository;
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 var afterFirstLoad = Counts(repository);
                 var loadedControls = repository.Controls.ToList();
@@ -111,7 +91,7 @@ namespace CMiX.Studio.Avalonia.Tests
                 // been swept, which is what the assertions below are about.
                 await Assert.ThrowsAsync<ArgumentException>(
                     () => viewModel.MainMenu.OpenProjectFromPath(corruptPath));
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.Equal(afterFirstLoad, Counts(repository));
                 foreach (var control in loadedControls)
@@ -137,7 +117,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
             try
             {
-                WriteProjectWithMaterialTextures(path);
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
                 var fromAnUntouchedSession = await CountUndoStepsLeftByAnOpen(path, withEditsBeforeTheOpen: false);
                 var fromAnEditedSession = await CountUndoStepsLeftByAnOpen(path, withEditsBeforeTheOpen: true);
@@ -154,7 +134,7 @@ namespace CMiX.Studio.Avalonia.Tests
         // entries on the stack, and reports how many undo steps the open left behind.
         private static async Task<int> CountUndoStepsLeftByAnOpen(string path, bool withEditsBeforeTheOpen)
         {
-            var (provider, viewModel) = ShowMainWindow();
+            var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
             var undoManager = provider.GetRequiredService<UndoManager>();
             var compositionManager = viewModel.Project.CompositionManager;
             Composition? discarded = null;
@@ -164,12 +144,12 @@ namespace CMiX.Studio.Avalonia.Tests
                 compositionManager.AddItem(typeof(Composition));
                 discarded = (Composition)compositionManager.SelectedItem;
                 compositionManager.DeleteItem(discarded);
-                Pump();
+                TestServiceProviderFactory.Pump();
                 Assert.True(undoManager.CanUndo);
             }
 
             await viewModel.MainMenu.OpenProjectFromPath(path);
-            Pump();
+            TestServiceProviderFactory.Pump();
 
             if (discarded != null)
                 Assert.DoesNotContain(viewModel.ControlRepository.Compositions,
@@ -179,7 +159,7 @@ namespace CMiX.Studio.Avalonia.Tests
             var steps = 0;
             for (; steps < 256 && undoManager.CanUndo; steps++)
                 viewModel.MainMenu.UndoCommand.Execute(null);
-            Pump();
+            TestServiceProviderFactory.Pump();
 
             Assert.False(undoManager.CanUndo);
             return steps;
@@ -195,13 +175,13 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
             try
             {
-                WriteProjectWithMaterialTextures(path);
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (provider, viewModel) = ShowMainWindow();
+                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var undoManager = provider.GetRequiredService<UndoManager>();
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.False(undoManager.CanUndo);
                 Assert.False(undoManager.CanRedo);
@@ -220,27 +200,27 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
             try
             {
-                WriteProjectWithMaterialTextures(path);
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (provider, viewModel) = ShowMainWindow();
+                var (provider, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
                 var undoManager = provider.GetRequiredService<UndoManager>();
                 var repository = viewModel.ControlRepository;
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 var loaded = repository.Controls.ToList();
 
                 viewModel.Project.CompositionManager.AddItem(typeof(Composition));
                 var added = (Composition)viewModel.Project.CompositionManager.SelectedItem;
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.True(undoManager.CanUndo);
 
                 var steps = 0;
                 for (; steps < 256 && undoManager.CanUndo; steps++)
                     viewModel.MainMenu.UndoCommand.Execute(null);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.Equal(1, steps);
                 Assert.DoesNotContain(repository.Compositions, item => ReferenceEquals(item, added));
@@ -261,17 +241,17 @@ namespace CMiX.Studio.Avalonia.Tests
             var path = Path.Combine(Path.GetTempPath(), $"cmix-openproject-{Guid.NewGuid():N}.cmix");
             try
             {
-                WriteProjectWithMaterialTextures(path);
+                ProjectFixtures.WriteProjectWithMaterialTextures(path);
 
-                var (_, viewModel) = ShowMainWindow();
+                var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
                 await viewModel.MainMenu.OpenProjectFromPath(path);
-                Pump();
+                TestServiceProviderFactory.Pump();
                 await viewModel.MainMenu.OpenProjectFromPath(path);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 viewModel.MainMenu.NewProjectCommand.Execute(null);
-                Pump();
+                TestServiceProviderFactory.Pump();
 
                 Assert.Equal((0, 0, 0, 0, 0, 0), Counts(viewModel.ControlRepository));
                 Assert.Null(viewModel.MainMenu.FolderPath);
@@ -280,28 +260,6 @@ namespace CMiX.Studio.Avalonia.Tests
             {
                 if (File.Exists(path)) File.Delete(path);
             }
-        }
-
-        // Same fixture NewProjectTests authors, built through the managers the app uses so it round
-        // trips the real model shape: a composition holding a layer, holding an entity, whose
-        // material selector holds a material with a texture in each of its two slots.
-        private static void WriteProjectWithMaterialTextures(string path)
-        {
-            var (_, viewModel) = ShowMainWindow();
-
-            viewModel.Project.CompositionManager.AddItem(typeof(Composition));
-            var composition = (Composition)viewModel.Project.CompositionManager.SelectedItem;
-            composition.LayerManager.AddItem(typeof(Layer));
-            var layer = (Layer)composition.LayerManager.SelectedItem;
-            layer.ModelEntityManager.AddItem(typeof(Entity));
-            var entity = (Entity)layer.ModelEntityManager.SelectedItem;
-            entity.MaterialSelector.AddItemCommand.Execute(typeof(CMiX.Core.Materials.Material));
-            var material = (CMiX.Core.Materials.Material)entity.MaterialSelector.SelectedItem;
-            material.DiffuseTexture.TextureManager.AddItem(typeof(CheckerBoard));
-            material.MaskTexture.TextureManager.AddItem(typeof(BubbleNoise));
-            Pump();
-
-            ProjectSerializer.Save(ProjectModelBuilder.Build(composition, viewModel.Project.MasterBeat, viewModel.Project.OutputMappingManager), path);
         }
     }
 }

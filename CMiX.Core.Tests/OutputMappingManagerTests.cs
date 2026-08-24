@@ -1,4 +1,4 @@
-using CMiX.Core.Compositing;
+﻿using CMiX.Core.Compositing;
 using CMiX.Core.Persistence;
 using CMiX.Core.Rendering;
 using Microsoft.Extensions.DependencyInjection;
@@ -8,19 +8,10 @@ namespace CMiX.Core.Tests
 {
     public class OutputMappingManagerTests : IDisposable
     {
-        private readonly string _directory;
+        private readonly TempDirectoryFixture _tempDir = new();
+        private string _directory => _tempDir.Path;
 
-        public OutputMappingManagerTests()
-        {
-            _directory = Path.Combine(Path.GetTempPath(), "CMiX.Core.Tests_" + Guid.NewGuid());
-            Directory.CreateDirectory(_directory);
-        }
-
-        public void Dispose()
-        {
-            if (Directory.Exists(_directory))
-                Directory.Delete(_directory, recursive: true);
-        }
+        public void Dispose() => _tempDir.Dispose();
 
         private static void AssertFixedIds(OutputMapping mapping, int slotIndex)
         {
