@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public record SetAlphaModel : IPrefabModel
+    public record SetAlphaModel : IPrefabModel, ITextureFilterModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();

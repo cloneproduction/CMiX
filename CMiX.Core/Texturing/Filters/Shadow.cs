@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -7,23 +7,23 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Shadow : ObservableObject, IPrefab, ITextureFilter
+    public partial class Shadow : TextureFilterBase
     {
-        public Shadow(PrefabService prefabService, 
-                      Vector3 lightDirection, 
-                      GenericValue<float> height, 
-                      GenericValue<float> dotTolerance, 
-                      GenericValue<float> rayJitter, 
-                      GenericValue<float> rayLength, 
-                      GenericValue<float> shadowFade, 
-                      GenericValue<float> shadowFallOffPow, 
-                      GenericValue<float> shadowBlur, 
-                      GenericValue<float> shadowBlurPow, 
+        public Shadow(PrefabService prefabService,
+                      Vector3 lightDirection,
+                      GenericValue<float> height,
+                      GenericValue<float> dotTolerance,
+                      GenericValue<float> rayJitter,
+                      GenericValue<float> rayLength,
+                      GenericValue<float> shadowFade,
+                      GenericValue<float> shadowFallOffPow,
+                      GenericValue<float> shadowBlur,
+                      GenericValue<float> shadowBlurPow,
                       GenericValue<float> sharpOffset,
                       Blend blend,
                       GenericValue<float> control)
+            : base(prefabService, control, blend)
         {
-            PrefabService = prefabService;
             LightDirection = lightDirection;
             Height = height;
             DotTolerance = dotTolerance;
@@ -34,14 +34,8 @@ namespace CMiX.Core.Texturing.Filters
             ShadowBlur = shadowBlur;
             ShadowBlurPow = shadowBlurPow;
             SharpOffset = sharpOffset;
-            Blend = blend;
-            Control = control;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
-        public Blend Blend { get; set; }
-        public GenericValue<float> Control { get; set; }
         public Vector3 LightDirection { get; set; }
         public GenericValue<float> Height { get; set; }
         public GenericValue<float> DotTolerance { get; set; }
@@ -53,33 +47,29 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<float> ShadowBlurPow { get; set; }
         public GenericValue<float> SharpOffset { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new ShadowModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Blend = (BlendModel)Blend.ToModel(),
-            LightDirection = (Vector3Model)LightDirection.ToModel(),
-            Height = (GenericValueModel<float>)Height.ToModel(),
-            DotTolerance = (GenericValueModel<float>)DotTolerance.ToModel(),
-            RayJitter = (GenericValueModel<float>)RayJitter.ToModel(),
-            RayLength = (GenericValueModel<float>)RayLength.ToModel(),
-            ShadowFade = (GenericValueModel<float>)ShadowFade.ToModel(),
-            ShadowFallOffPow = (GenericValueModel<float>)ShadowFallOffPow.ToModel(),
-            ShadowBlur = (GenericValueModel<float>)ShadowBlur.ToModel(),
-            ShadowBlurPow = (GenericValueModel<float>)ShadowBlurPow.ToModel(),
-            SharpOffset = (GenericValueModel<float>)SharpOffset.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel()
-        };
+            var model = new ShadowModel
+            {
+                LightDirection = (Vector3Model)LightDirection.ToModel(),
+                Height = (GenericValueModel<float>)Height.ToModel(),
+                DotTolerance = (GenericValueModel<float>)DotTolerance.ToModel(),
+                RayJitter = (GenericValueModel<float>)RayJitter.ToModel(),
+                RayLength = (GenericValueModel<float>)RayLength.ToModel(),
+                ShadowFade = (GenericValueModel<float>)ShadowFade.ToModel(),
+                ShadowFallOffPow = (GenericValueModel<float>)ShadowFallOffPow.ToModel(),
+                ShadowBlur = (GenericValueModel<float>)ShadowBlur.ToModel(),
+                ShadowBlurPow = (GenericValueModel<float>)ShadowBlurPow.ToModel(),
+                SharpOffset = (GenericValueModel<float>)SharpOffset.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (ShadowModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
-            Blend.FromModel(m.Blend);
+            LoadBaseModel(m);
             LightDirection.FromModel(m.LightDirection);
             Height.FromModel(m.Height);
             DotTolerance.FromModel(m.DotTolerance);
@@ -90,7 +80,6 @@ namespace CMiX.Core.Texturing.Filters
             ShadowBlur.FromModel(m.ShadowBlur);
             ShadowBlurPow.FromModel(m.ShadowBlurPow);
             SharpOffset.FromModel(m.SharpOffset);
-            Control.FromModel(m.Control);
         }
     }
 }

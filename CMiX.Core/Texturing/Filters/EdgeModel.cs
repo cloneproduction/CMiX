@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public record EdgeModel : IPrefabModel
+    public record EdgeModel : IPrefabModel, ITextureFilterModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<float> Radius { get; set; } = new(1.0f);

@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public record DisplaceModel : IPrefabModel
+    public record DisplaceModel : IPrefabModel, ITextureFilterModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabManagerModel TextureSelector { get; set; } = new();

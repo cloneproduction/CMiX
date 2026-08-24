@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -7,45 +7,34 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Dither : ObservableObject, IPrefab, ITextureFilter
+    public partial class Dither : TextureFilterBase
     {
         public Dither(PrefabService prefabService,
                       GenericValue<float> control,
                       GenericValue<float> threshold,
                       Blend blend)
+            : base(prefabService, control, blend)
         {
-            PrefabService = prefabService;
-            Control = control;
             Threshold = threshold;
-            Blend = blend;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Threshold { get; set; }
-        public GenericValue<float> Control { get; set; }
-        public Blend Blend { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new DitherModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Threshold = (GenericValueModel<float>)Threshold.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel(),
-            Blend = (BlendModel)Blend.ToModel()
-        };
+            var model = new DitherModel
+            {
+                Threshold = (GenericValueModel<float>)Threshold.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (DitherModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             Threshold.FromModel(m.Threshold);
-            Control.FromModel(m.Control);
-            Blend.FromModel(m.Blend);
         }
     }
 }

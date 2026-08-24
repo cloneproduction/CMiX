@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -7,50 +7,39 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Edge : ObservableObject, IPrefab, ITextureFilter
+    public partial class Edge : TextureFilterBase
     {
-        public Edge(PrefabService prefabService, 
-                    GenericValue<float> radius, 
-                    GenericValue<float> brightness, 
+        public Edge(PrefabService prefabService,
+                    GenericValue<float> radius,
+                    GenericValue<float> brightness,
                     GenericValue<float> control,
                     Blend blend)
+            : base(prefabService, control, blend)
         {
-            PrefabService = prefabService;
             Radius = radius;
             Brightness = brightness;
-            Control = control;
-            Blend = blend;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Radius { get; set; }
         public GenericValue<float> Brightness { get; set; }
-        public GenericValue<float> Control { get; set; }
-        public Blend Blend { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new EdgeModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Radius = (GenericValueModel<float>)Radius.ToModel(),
-            Brightness = (GenericValueModel<float>)Brightness.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel(),
-            Blend = (BlendModel)Blend.ToModel()
-        };
+            var model = new EdgeModel
+            {
+                Radius = (GenericValueModel<float>)Radius.ToModel(),
+                Brightness = (GenericValueModel<float>)Brightness.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (EdgeModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             Radius.FromModel(m.Radius);
             Brightness.FromModel(m.Brightness);
-            Control.FromModel(m.Control);
-            Blend.FromModel(m.Blend);
         }
     }
 }

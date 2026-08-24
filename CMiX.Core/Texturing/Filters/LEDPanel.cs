@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
@@ -12,7 +12,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class LEDPanel : ObservableObject, IPrefab, ITextureFilter
+    public partial class LEDPanel : TextureFilterBase
     {
         public LEDPanel(PrefabService prefabService,
                         GenericValue<float> control,
@@ -21,51 +21,40 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> maskBorder,
                         GenericValue<float> maskIntensity,
                         Blend blend)
+            : base(prefabService, control, blend)
         {
-            PrefabService = prefabService;
-            Control = control;
             PixelSize = pixelSize;
             MaskStagger = maskStagger;
             MaskBorder = maskBorder;
             MaskIntensity = maskIntensity;
-            Blend = blend;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
-        public GenericValue<float> Control { get; set; }
         public GenericValue<float> PixelSize { get; set; }
-        public GenericValue<float> MaskStagger { get; set; } 
+        public GenericValue<float> MaskStagger { get; set; }
         public GenericValue<float> MaskBorder { get; set; }
         public GenericValue<float> MaskIntensity { get; set; }
-        public Blend Blend { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new LEDPanelModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel(),
-            PixelSize = (GenericValueModel<float>)PixelSize.ToModel(),
-            MaskStagger = (GenericValueModel<float>)MaskStagger.ToModel(),
-            MaskBorder = (GenericValueModel<float>)MaskBorder.ToModel(),
-            MaskIntensity = (GenericValueModel<float>)MaskIntensity.ToModel(),
-            Blend = (BlendModel)Blend.ToModel()
-        };
+            var model = new LEDPanelModel
+            {
+                PixelSize = (GenericValueModel<float>)PixelSize.ToModel(),
+                MaskStagger = (GenericValueModel<float>)MaskStagger.ToModel(),
+                MaskBorder = (GenericValueModel<float>)MaskBorder.ToModel(),
+                MaskIntensity = (GenericValueModel<float>)MaskIntensity.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (LEDPanelModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
-            Control.FromModel(m.Control);
+            LoadBaseModel(m);
             PixelSize.FromModel(m.PixelSize);
             MaskStagger.FromModel(m.MaskStagger);
             MaskBorder.FromModel(m.MaskBorder);
             MaskIntensity.FromModel(m.MaskIntensity);
-            Blend.FromModel(m.Blend);
         }
     }
 }

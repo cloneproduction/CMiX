@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -7,21 +7,20 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class TriColor : ObservableObject, IPrefab, ITextureFilter
+    public partial class TriColor : TextureFilterBase
     {
         public TriColor(PrefabService prefabService,
-                        GenericValue<float> control, 
-                        GenericValue<string> colorA, 
-                        GenericValue<string> colorB, 
-                        GenericValue<string> colorC, 
-                        GenericValue<float> smooth, 
-                        GenericValue<float> center, 
-                        GenericValue<bool> singleChannel, 
+                        GenericValue<float> control,
+                        GenericValue<string> colorA,
+                        GenericValue<string> colorB,
+                        GenericValue<string> colorC,
+                        GenericValue<float> smooth,
+                        GenericValue<float> center,
+                        GenericValue<bool> singleChannel,
                         GenericValue<bool> clampColor,
                         Blend blend)
+            : base(prefabService, control, blend)
         {
-            PrefabService = prefabService;
-            Control = control;
             ColorA = colorA;
             ColorB = colorB;
             ColorC = colorC;
@@ -29,12 +28,8 @@ namespace CMiX.Core.Texturing.Filters
             Center = center;
             SingleChannel = singleChannel;
             ClampColor = clampColor;
-            Blend = blend;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
-        public GenericValue<float> Control { get; set; }
         public GenericValue<float> Smooth { get; set; }
         public GenericValue<float> Center { get; set; }
         public GenericValue<string> ColorA { get; set; }
@@ -42,32 +37,27 @@ namespace CMiX.Core.Texturing.Filters
         public GenericValue<string> ColorC { get; set; }
         public GenericValue<bool> SingleChannel { get; set; }
         public GenericValue<bool> ClampColor { get; set; }
-        public Blend Blend { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new TriColorModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel(),
-            ColorA = (GenericValueModel<string>)ColorA.ToModel(),
-            ColorB = (GenericValueModel<string>)ColorB.ToModel(),
-            ColorC = (GenericValueModel<string>)ColorC.ToModel(),
-            Smooth = (GenericValueModel<float>)Smooth.ToModel(),
-            Center = (GenericValueModel<float>)Center.ToModel(),
-            SingleChannel = (GenericValueModel<bool>)SingleChannel.ToModel(),
-            ClampColor = (GenericValueModel<bool>)ClampColor.ToModel(),
-            Blend = (BlendModel)Blend.ToModel()
-        };
+            var model = new TriColorModel
+            {
+                ColorA = (GenericValueModel<string>)ColorA.ToModel(),
+                ColorB = (GenericValueModel<string>)ColorB.ToModel(),
+                ColorC = (GenericValueModel<string>)ColorC.ToModel(),
+                Smooth = (GenericValueModel<float>)Smooth.ToModel(),
+                Center = (GenericValueModel<float>)Center.ToModel(),
+                SingleChannel = (GenericValueModel<bool>)SingleChannel.ToModel(),
+                ClampColor = (GenericValueModel<bool>)ClampColor.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (TriColorModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
-            Control.FromModel(m.Control);
+            LoadBaseModel(m);
             ColorA.FromModel(m.ColorA);
             ColorB.FromModel(m.ColorB);
             ColorC.FromModel(m.ColorC);
@@ -75,7 +65,6 @@ namespace CMiX.Core.Texturing.Filters
             Center.FromModel(m.Center);
             SingleChannel.FromModel(m.SingleChannel);
             ClampColor.FromModel(m.ClampColor);
-            Blend.FromModel(m.Blend);
         }
     }
 }

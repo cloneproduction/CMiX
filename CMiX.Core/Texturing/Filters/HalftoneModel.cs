@@ -7,7 +7,7 @@ using CMiX.Core.Texturing.Filters;
 
 namespace CMiX.Studio.Views.Texturing.Filter
 {
-    public record HalftoneModel : IPrefabModel
+    public record HalftoneModel : IPrefabModel, ITextureFilterModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();

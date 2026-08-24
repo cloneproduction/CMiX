@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -7,7 +7,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class ShiftRGB : ObservableObject, IPrefab, ITextureFilter
+    public partial class ShiftRGB : TextureFilterBase
     {
         public ShiftRGB(PrefabService prefabService,
                         GenericValue<float> direction,
@@ -15,47 +15,36 @@ namespace CMiX.Core.Texturing.Filters
                         GenericValue<float> hue,
                         GenericValue<float> control,
                         Blend blend)
+            : base(prefabService, control, blend)
         {
-            PrefabService = prefabService;
             Direction = direction;
             Shift = shift;
             Hue = hue;
-            Control = control;
-            Blend = blend;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Direction { get; set; }
         public GenericValue<float> Shift { get; set; }
         public GenericValue<float> Hue { get; set; }
-        public GenericValue<float> Control { get; set; }
-        public Blend Blend { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new ShiftRGBModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Direction = (GenericValueModel<float>)Direction.ToModel(),
-            Shift = (GenericValueModel<float>)Shift.ToModel(),
-            Hue = (GenericValueModel<float>)Hue.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel(),
-            Blend = (BlendModel)Blend.ToModel()
-        };
+            var model = new ShiftRGBModel
+            {
+                Direction = (GenericValueModel<float>)Direction.ToModel(),
+                Shift = (GenericValueModel<float>)Shift.ToModel(),
+                Hue = (GenericValueModel<float>)Hue.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (ShiftRGBModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             Direction.FromModel(m.Direction);
             Shift.FromModel(m.Shift);
             Hue.FromModel(m.Hue);
-            Control.FromModel(m.Control);
-            Blend.FromModel(m.Blend);
         }
     }
 }

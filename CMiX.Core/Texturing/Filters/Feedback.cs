@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -7,45 +7,34 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Texturing.Filters
 {
-    public partial class Feedback : ObservableObject, IPrefab, ITextureFilter
+    public partial class Feedback : TextureFilterBase
     {
         public Feedback(PrefabService prefabService,
                         GenericValue<float> factor,
                         GenericValue<float> control,
                         Blend blend)
+            : base(prefabService, control, blend)
         {
-            PrefabService = prefabService;
             Factor = factor;
-            Control = control;
-            Blend = blend;
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public PrefabService PrefabService { get; set; }
         public GenericValue<float> Factor { get; set; }
-        public GenericValue<float> Control { get; set; }
-        public Blend Blend { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded = true;
-
-        public IControlModel ToModel() => new FeedbackModel
+        public override IControlModel ToModel()
         {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Factor = (GenericValueModel<float>)Factor.ToModel(),
-            Control = (GenericValueModel<float>)Control.ToModel(),
-            Blend = (BlendModel)Blend.ToModel()
-        };
+            var model = new FeedbackModel
+            {
+                Factor = (GenericValueModel<float>)Factor.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
+        }
 
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (FeedbackModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
             Factor.FromModel(m.Factor);
-            Control.FromModel(m.Control);
-            Blend.FromModel(m.Blend);
         }
     }
 }
