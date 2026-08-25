@@ -1,0 +1,59 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MainWindowEntitiesTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
+
+        <Border Background="{DynamicResource Grey300Brush}">
+            <StackPanel>
+
+                <Managers:RepositoryManager
+                    x:Name="EntitiesRepository"
+                    DataContext="{Binding EntityManager}"
+                    DockPanel.Dock="Top"
+                    ItemsSource="{Binding ControlRepository.Entities}">
+                    <Managers:RepositoryManager.SelectionPanel>
+                        <Button
+                            Command="{Binding AddItemCommand}"
+                            CommandParameter="{x:Type Compositing:Entity}"
+                            Content="New Entity" />
+                    </Managers:RepositoryManager.SelectionPanel>
+                </Managers:RepositoryManager>
+
+                <Border IsVisible="{Binding EntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                    <ContentControl Content="{Binding}" DataContext="{Binding EntityManager.SelectedItem}">
+                        <ContentControl.DataTemplates>
+
+                            <DataTemplate DataType="{x:Type Compositing:Entity}">
+                                <Views:ModelEntity />
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type Cameras:Camera}">
+                                <Views:Camera />
+                            </DataTemplate>
+
+                            <DataTemplate DataType="{x:Type Lights:LightEntity}">
+                                <Views:LightEntity />
+                            </DataTemplate>
+
+                        </ContentControl.DataTemplates>
+                    </ContentControl>
+                </Border>
+
+            </StackPanel>
+        </Border>
+
+    </ScrollViewer>
+
+</UserControl>

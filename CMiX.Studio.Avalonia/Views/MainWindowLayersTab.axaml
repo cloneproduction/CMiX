@@ -1,0 +1,38 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MainWindowLayersTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+
+    <Border IsVisible="{Binding Project.CompositionManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="0.4*" />
+                <RowDefinition />
+            </Grid.RowDefinitions>
+
+            <Border
+                Grid.Row="1"
+                Background="{DynamicResource Grey300Brush}"
+                BorderBrush="{DynamicResource Grey100Brush}"
+                BorderThickness="0,2"
+                IsVisible="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                <Views:Layer DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager.SelectedItem}" />
+            </Border>
+
+            <Views:LayerManager
+                Grid.Row="0"
+                ItemType="{x:Type Compositing:Layer}"
+                DataContext="{Binding Project.CompositionManager.SelectedItem.LayerManager}" />
+
+            <GridSplitter
+                Grid.Row="0"
+                Height="8"
+                Margin="0,-4"
+                VerticalAlignment="Bottom"
+                Theme="{StaticResource GridSplitter}" />
+        </Grid>
+    </Border>
+
+</UserControl>
