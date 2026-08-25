@@ -3,10 +3,18 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel>
+        <Views:PathSelector    
+            DataContext="{Binding Model}"
+            ItemsSource="{Binding AssetRepository.Geometries}"
+            SelectedItem="{Binding Asset}" />
+
         <BaseControl:ComboBox
+            Margin="0,8,0,0"
             Caption="Output Mapping"
             ItemsSource="{Binding Project.OutputMappingManager.VisibleItems}"
             SelectedItem="{Binding SelectedOutputMapping}">
@@ -17,11 +25,6 @@
             </BaseControl:ComboBox.ItemTemplate>
         </BaseControl:ComboBox>
 
-        <Views:PathSelector
-            Margin="0,8,0,0"
-            DataContext="{Binding Model}"
-            ItemsSource="{Binding AssetRepository.Geometries}"
-            SelectedItem="{Binding Asset}" />
     </StackPanel>
 
 </UserControl>

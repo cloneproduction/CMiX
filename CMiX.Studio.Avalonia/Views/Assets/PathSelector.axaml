@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    x:Name="pathSelector">
+    x:Name="pathSelector"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <Grid Height="{DynamicResource ControlHeightMD}">
 
@@ -21,6 +23,7 @@
         <DockPanel Grid.Column="1">
 
             <Button
+                Margin="1,0,0,0"
                 Width="{DynamicResource ControlHeightMD}"
                 DockPanel.Dock="Right"
                 Click="BrowseButton_Click"
@@ -30,14 +33,14 @@
 
             <Border
                 x:Name="mainBorder"
-                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=pathSelector}"
+                AttachedProperties:PositionedControl.Position="Left"
                 Background="{DynamicResource Grey500Brush}"
                 BorderBrush="Transparent"
                 Classes="BorderMask">
 
                 <ComboBox
                     x:Name="pathComboBox"
-                    AttachedProperties:PositionedControl.Position="All"
+                    AttachedProperties:PositionedControl.Position="Left"
                     ItemsSource="{Binding ItemsSource, ElementName=pathSelector}"
                     SelectedItem="{Binding SelectedItem, ElementName=pathSelector}">
 
