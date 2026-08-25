@@ -12,7 +12,7 @@ namespace CMiX.Core
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<MeshType> MeshTypeSelector { get;  set; } = new(MeshType.Plane);
-        public GenericValueModel<IAsset> Geometry { get; set; } = new(null);
+        public AssetSelectorModel Geometry { get; set; } = new();
         public Text3DSettingsModel Text3DSettings { get; set; } = new();
         public Vector3Model Scale { get; set; } = new(1.0f, 1.0f, 1.0f);
         public Vector3Model Offset { get; set; } = new(0.0f, 0.0f, 0.0f);

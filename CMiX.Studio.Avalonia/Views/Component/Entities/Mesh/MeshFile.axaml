@@ -4,10 +4,10 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <!-- PathSelector is ported in another slice; this reference resolves once that slice lands. -->
     <Views:PathSelector
         VerticalAlignment="Top"
-        ItemsSource="{Binding $parent[Window].DataContext.AssetManager.GeometryAssets}"
-        SelectedItem="{Binding Geometry.Value}" />
+        DataContext="{Binding Geometry}"
+        ItemsSource="{Binding AssetRepository.Geometries}"
+        SelectedItem="{Binding Asset}" />
 
 </UserControl>

@@ -22,7 +22,7 @@ namespace CMiX.Core
                     Integer2 tessellationXY,
                     GenericValue<bool> generateBackFace,
                     GenericValue<bool> visibility,
-                    GenericValue<IAsset> geometry,
+                    AssetSelector geometry,
                     Text3DSettings text3DSettings,
                     PrefabManager explodeTriangleTextureManager,
                     GenericValue<float> explodeStrength,
@@ -55,7 +55,7 @@ namespace CMiX.Core
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValue<MeshType> MeshTypeSelector { get; set; }
         public Text3DSettings Text3DSettings { get; set; }
-        public GenericValue<IAsset> Geometry { get; set; }
+        public AssetSelector Geometry { get; set; }
         public Vector3 Scale { get; set; }
         public Vector3 Offset { get; set; }
         public GenericValue<float> Radius { get; set; }
@@ -75,7 +75,7 @@ namespace CMiX.Core
         {
             ID = ID,
             MeshTypeSelector = (GenericValueModel<MeshType>)MeshTypeSelector.ToModel(),
-            Geometry = (GenericValueModel<IAsset>)Geometry.ToModel(),
+            Geometry = (AssetSelectorModel)Geometry.ToModel(),
             Text3DSettings = (Text3DSettingsModel)Text3DSettings.ToModel(),
             Scale = (Vector3Model)Scale.ToModel(),
             Offset = (Vector3Model)Offset.ToModel(),
