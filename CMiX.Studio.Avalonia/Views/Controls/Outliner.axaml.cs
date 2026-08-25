@@ -30,10 +30,18 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         // ComboBox is still mid-update for the selection change that triggered it throws
         // "Source collection was modified during selection update." Posting the assignment
         // defers it until after Avalonia's own update finishes.
+        //
+        // A null newItem is ignored rather than propagated: when an item just added to
+        // ItemsSource is set as SelectedItem in the same tick, Avalonia's ComboBox can fire this
+        // event once more reporting no selection before it finishes realizing the new item,
+        // which otherwise clobbers the real selection right after AddItem sets it. Clearing the
+        // selection for real always goes through RemoveSelectedItemCommand instead, not this
+        // event, so dropping null here loses no legitimate action.
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (DataContext is not PrefabManagerBase selector) return;
             var newItem = (sender as ComboBox)?.SelectedItem as IControl;
+            if (newItem == null) return;
             Dispatcher.UIThread.Post(() => selector.SelectedItem = newItem);
         }
 
