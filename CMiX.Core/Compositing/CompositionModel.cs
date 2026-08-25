@@ -15,6 +15,7 @@ namespace CMiX.Core.Compositing
         public GenericValueModel<Guid> SelectedOutputMappingID { get; init; } = new(Guid.Empty);
         public LayerSettingsModel LayerSettings { get; init; } = new();
         public LayerMaskSettingsModel LayerMaskSettings { get; init; } = new();
+        public AssetSelectorModel Model { get; init; } = new();
         public PrefabManagerModel TextureModifierManager { get; init; } = new();
         public PrefabManagerModel LayerManager { get; init; } = new();
         public PrefabManagerModel ModifierManager { get; init; } = new();

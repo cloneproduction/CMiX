@@ -73,6 +73,7 @@ namespace CMiX.Core.BaseControls
         {
             var m = (AssetSelectorModel)model;
             ID = m.ID;
+            FilePath.ID = m.FilePath.ID;
 
             if (!string.IsNullOrEmpty(m.FilePath.Value))
                 FilePath.FromModel(m.FilePath);

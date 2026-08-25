@@ -36,5 +36,7 @@ namespace CMiX.Core.Assets
             var extension = Path.GetExtension(path).TrimStart('.');
             return Extensions.TryGetValue(extension, out kind);
         }
+
+        public static IReadOnlyList<string> AllExtensions => Extensions.Keys.ToArray();
     }
 }

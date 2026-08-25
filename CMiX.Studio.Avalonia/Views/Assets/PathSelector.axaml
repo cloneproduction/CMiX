@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     x:Name="pathSelector">
 
     <Grid Height="{DynamicResource ControlHeightMD}">
@@ -17,33 +18,43 @@
             HorizontalAlignment="Right"
             Text="Filename" />
 
-        <Border
-            x:Name="mainBorder"
-            Grid.Column="1"
-            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=pathSelector}"
-            Background="{DynamicResource Grey500Brush}"
-            BorderBrush="Transparent"
-            Classes="BorderMask">
+        <DockPanel Grid.Column="1">
 
-            <ComboBox
-                x:Name="pathComboBox"
-                AttachedProperties:PositionedControl.Position="All"
-                ItemsSource="{Binding ItemsSource, ElementName=pathSelector}"
-                SelectedItem="{Binding SelectedItem, ElementName=pathSelector}">
+            <Button
+                Width="{DynamicResource ControlHeightMD}"
+                DockPanel.Dock="Right"
+                Click="BrowseButton_Click"
+                Theme="{StaticResource ButtonRoundedRight}">
+                <Controls:AppIcon IconKey="Folder" Size="{DynamicResource IconSizeXS}" />
+            </Button>
 
-                <ComboBox.ItemTemplate>
-                    <DataTemplate>
-                        <TextBlock Text="{Binding Name}" />
-                    </DataTemplate>
-                </ComboBox.ItemTemplate>
+            <Border
+                x:Name="mainBorder"
+                AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=pathSelector}"
+                Background="{DynamicResource Grey500Brush}"
+                BorderBrush="Transparent"
+                Classes="BorderMask">
 
-                <ComboBox.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel />
-                    </ItemsPanelTemplate>
-                </ComboBox.ItemsPanel>
+                <ComboBox
+                    x:Name="pathComboBox"
+                    AttachedProperties:PositionedControl.Position="All"
+                    ItemsSource="{Binding ItemsSource, ElementName=pathSelector}"
+                    SelectedItem="{Binding SelectedItem, ElementName=pathSelector}">
 
-            </ComboBox>
-        </Border>
+                    <ComboBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Name}" />
+                        </DataTemplate>
+                    </ComboBox.ItemTemplate>
+
+                    <ComboBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ComboBox.ItemsPanel>
+
+                </ComboBox>
+            </Border>
+        </DockPanel>
     </Grid>
 </UserControl>

@@ -2,14 +2,19 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
+using CMiX.Core.Assets;
 using CMiX.Core.BaseControls;
+using HanumanInstitute.MvvmDialogs;
+using HanumanInstitute.MvvmDialogs.FrameworkDialogs;
 
 namespace CMiX.Studio.Avalonia.Views
 {
@@ -57,6 +62,23 @@ namespace CMiX.Studio.Avalonia.Views
             assetSelector.Asset = first;
             assetSelector.FilePath.Value = first.FilePath;
             e.Handled = true;
+        }
+
+        private async void BrowseButton_Click(object? sender, RoutedEventArgs e)
+        {
+            if (DataContext is not AssetSelector assetSelector)
+                return;
+
+            var file = await App.DialogService!.ShowOpenFileDialogAsync(assetSelector, new OpenFileDialogSettings
+            {
+                Filters = new List<FileFilter> { new FileFilter("Assets", AssetTypes.AllExtensions) }
+            });
+
+            var path = file?.LocalPath;
+            if (string.IsNullOrWhiteSpace(path))
+                return;
+
+            assetSelector.SetAssetFromPath(path);
         }
 
         public static readonly StyledProperty<IEnumerable> ItemsSourceProperty =

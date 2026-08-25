@@ -21,6 +21,7 @@ namespace CMiX.Core.Compositing
                            GenericValue<Guid> selectedOutputMappingID,
                            LayerSettings layerSettings,
                            LayerMaskSettings layerMaskSettings,
+                           AssetSelector model,
                            Project project)
         {
             ID = prefabService.ID;
@@ -31,6 +32,7 @@ namespace CMiX.Core.Compositing
             LayerMaskSettings = layerMaskSettings;
             ModifierManager = modifierManager;
             TextureModifierManager = textureModifierManager;
+            Model = model;
             Project = project;
 
             // A brand-new composition otherwise starts with no output selected (Guid.Empty),
@@ -57,6 +59,10 @@ namespace CMiX.Core.Compositing
 
         public LayerMaskSettings LayerMaskSettings { get; set; }
 
+        // The 3D model this composition renders onto - one per composition, not per output
+        // mapping, since every output mapping of the same composition targets the same model.
+        public AssetSelector Model { get; set; }
+
         // The output mapping this composition currently renders to, looked up in the project's
         // fixed set of 10 by ID. Null once the referenced slot is disabled or was never set.
         public OutputMapping SelectedOutputMapping
@@ -81,6 +87,7 @@ namespace CMiX.Core.Compositing
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
             LayerSettings = (LayerSettingsModel)LayerSettings.ToModel(),
             LayerMaskSettings = (LayerMaskSettingsModel)LayerMaskSettings.ToModel(),
+            Model = (AssetSelectorModel)Model.ToModel(),
         };
 
         public void FromModel(IControlModel model)
@@ -95,6 +102,7 @@ namespace CMiX.Core.Compositing
                 SelectedOutputMappingID.FromModel(m.SelectedOutputMappingID);
             LayerSettings.FromModel(m.LayerSettings);
             LayerMaskSettings.FromModel(m.LayerMaskSettings);
+            Model.FromModel(m.Model);
 
             LoadManager(TextureModifierManager, m.TextureModifierManager);
             LoadManager(LayerManager, m.LayerManager);
