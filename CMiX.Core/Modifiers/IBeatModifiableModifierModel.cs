@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Core.Animations
+namespace CMiX.Core.Modifiers
 {
     // Implemented by every beat-modifiable modifier's own Model record (alongside IPrefabModel)
     // so BeatModifiableModifierBase can populate/read the three fields every one of them shares

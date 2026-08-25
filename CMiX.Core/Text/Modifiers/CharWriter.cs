@@ -1,7 +1,7 @@
 // Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
-using CMiX.Core.Animations;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
@@ -11,7 +11,7 @@ using static CMiX.Core.ControlExtensions;
 namespace CMiX.Core.Text.Modifiers
 {
     [ModifierPanel(typeof(TextEntity))]
-    public partial class CharWriter : BeatModifiableModifierBase
+    public partial class CharWriter : BeatModifiableModifierBase, IModifier
     {
         public CharWriter(PrefabService prefabService,
                           PrefabManager beatModifierManager)

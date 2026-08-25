@@ -4,7 +4,7 @@
 using CMiX.Core.Prefabs.Managers;
 using static CMiX.Core.ControlExtensions;
 
-namespace CMiX.Core.Animations
+namespace CMiX.Core.Modifiers
 {
     // For the rare class that already spends its one inheritance slot elsewhere (e.g. a texture
     // filter that's also beat-modifiable, like LFOUV/RandomUV) and so can't inherit
