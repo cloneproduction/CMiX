@@ -40,8 +40,8 @@ namespace CMiX.Core.Prefabs.Managers
         private void AddItem(Type type)
         {
             var control = ControlFactory.Create(type);
-            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ID, control, 0));
             SelectedItem = control;
+            ControlMessenger.SendMessage(MessageFactory.CreateMessage<MessageAddItem>(ID, control, 0));
         }
 
         private void RemoveSelectedItem()
