@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
@@ -13,7 +14,7 @@
             <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
         </Panels:IndentedExpander>
         <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:TextEntity}">
-            <Views:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
+            <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />
         </Views:EntityModifiersSection>
 
         <Panels:IndentedExpander Header="Settings" IsExpanded="{Binding SettingsIsExpanded}">

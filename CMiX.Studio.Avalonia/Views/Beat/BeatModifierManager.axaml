@@ -3,17 +3,18 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
     <StackPanel>
-        <Views:Outliner ItemsSource="{Binding ControlRepository.BeatModifiers}">
-            <Views:Outliner.SelectionPanel>
+        <Controls:Outliner ItemsSource="{Binding ControlRepository.BeatModifiers}">
+            <Controls:Outliner.SelectionPanel>
                 <Button
                     Command="{Binding AddItemCommand}"
                     CommandParameter="{x:Type Animations:BeatModifier}"
                     Content="New"
                     Theme="{DynamicResource ButtonRoundedRight}" />
-            </Views:Outliner.SelectionPanel>
-        </Views:Outliner>
+            </Controls:Outliner.SelectionPanel>
+        </Controls:Outliner>
 
         <!-- NullToVisibility returns a bool in this project; the Collapsed converter parameter is gone. -->
         <Border IsVisible="{Binding SelectedItem, Converter={StaticResource NullToVisibility}}">

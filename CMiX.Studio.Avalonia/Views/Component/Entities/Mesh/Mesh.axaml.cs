@@ -3,7 +3,7 @@
 
 using Avalonia.Controls;
 
-namespace CMiX.Studio.Avalonia.Views.Component
+namespace CMiX.Studio.Avalonia.Views
 {
     public partial class Mesh : UserControl
     {

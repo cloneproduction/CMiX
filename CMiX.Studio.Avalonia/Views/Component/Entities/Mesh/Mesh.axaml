@@ -1,11 +1,12 @@
 ﻿<UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.Component.Mesh"
+    x:Class="CMiX.Studio.Avalonia.Views.Mesh"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:ViewModels="clr-namespace:CMiX.Core.Assets.Mesh;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
@@ -81,18 +82,18 @@
                     Minimum="0.0"
                     Value="{Binding FlatNormals.Value}" />
 
-                <Views:Outliner
+                <BaseControls:Outliner
                     Margin="0,8"
                     DataContext="{Binding ExplodeTriangleTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
-                    <Views:Outliner.SelectionPanel>
-                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                        </Views:ButtonOpenSelectionPanel>
-                    </Views:Outliner.SelectionPanel>
-                </Views:Outliner>
+                    <BaseControls:Outliner.SelectionPanel>
+                        <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                                <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                            </Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                        </Managers:ButtonOpenSelectionPanel>
+                    </BaseControls:Outliner.SelectionPanel>
+                </BaseControls:Outliner>
 
                 <Border IsVisible="{Binding ExplodeTriangleTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
                     <Views:Texture Margin="-8,0" DataContext="{Binding ExplodeTriangleTextureManager.SelectedItem}" />
@@ -111,18 +112,18 @@
 
                 <BaseControls:DragValue Caption="Strength" Value="{Binding DisplacementStrength.Value}" />
 
-                <Views:Outliner
+                <BaseControls:Outliner
                     Margin="0,8"
                     DataContext="{Binding DisplacementTextureManager}"
                     ItemsSource="{Binding ControlRepository.Textures}">
-                    <Views:Outliner.SelectionPanel>
-                        <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
-                            <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                                <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                            </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                        </Views:ButtonOpenSelectionPanel>
-                    </Views:Outliner.SelectionPanel>
-                </Views:Outliner>
+                    <BaseControls:Outliner.SelectionPanel>
+                        <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
+                            <Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                                <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                            </Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                        </Managers:ButtonOpenSelectionPanel>
+                    </BaseControls:Outliner.SelectionPanel>
+                </BaseControls:Outliner>
 
                 <Border IsVisible="{Binding DisplacementTextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
                     <Views:Texture Margin="-8,0" DataContext="{Binding DisplacementTextureManager.SelectedItem}" />

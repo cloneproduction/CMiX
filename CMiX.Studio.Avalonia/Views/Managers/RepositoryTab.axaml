@@ -6,6 +6,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     x:Name="repositoryTab"
     Theme="{StaticResource TabItemHorizontal}">
 
@@ -38,7 +39,7 @@
             <Behaviors:ScrollViewerBehavior />
         </i:Interaction.Behaviors>
         <Border Background="{DynamicResource Grey300Brush}">
-            <Views:RepositoryManager
+            <Managers:RepositoryManager
                 ItemsSource="{Binding ItemsSource, ElementName=repositoryTab}"
                 SelectionPanel="{Binding SelectionPanel, ElementName=repositoryTab}"
                 EditingPanel="{Binding EditingPanel, ElementName=repositoryTab}" />

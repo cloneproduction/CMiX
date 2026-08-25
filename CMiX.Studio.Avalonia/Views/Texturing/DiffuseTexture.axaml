@@ -4,11 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity">
 
     <StackPanel>
-        <Views:PrefabSlotManager
+        <Managers:PrefabSlotManager
             Margin="8"
             DataContext="{Binding TextureManager}"
             ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Textures}">
@@ -17,15 +18,15 @@
                 <Behaviors:TextureDropBehavior PrefabManager="{Binding}" />
             </i:Interaction.Behaviors>
 
-            <Views:PrefabSlotManager.SelectionPanel>
-                <Views:ButtonOpenSelectionPanel Caption="Add Texture">
-                    <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                        <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                    </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                </Views:ButtonOpenSelectionPanel>
-            </Views:PrefabSlotManager.SelectionPanel>
+            <Managers:PrefabSlotManager.SelectionPanel>
+                <Managers:ButtonOpenSelectionPanel Caption="Add Texture">
+                    <Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                        <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                    </Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                </Managers:ButtonOpenSelectionPanel>
+            </Managers:PrefabSlotManager.SelectionPanel>
 
-        </Views:PrefabSlotManager>
+        </Managers:PrefabSlotManager>
 
         <!-- The WPF style trigger that collapsed this border when no texture is selected becomes an IsVisible binding. -->
         <Border IsVisible="{Binding TextureManager.SelectedItem, Converter={StaticResource NullToVisibility}}">

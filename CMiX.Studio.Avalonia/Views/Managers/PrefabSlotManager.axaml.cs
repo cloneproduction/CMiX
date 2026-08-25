@@ -5,7 +5,7 @@ using System.Collections;
 using Avalonia;
 using Avalonia.Controls;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Views.Managers
 {
     public partial class PrefabSlotManager : UserControl
     {

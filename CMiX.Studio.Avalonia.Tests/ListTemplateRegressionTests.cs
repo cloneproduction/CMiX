@@ -7,6 +7,7 @@ using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Studio.Avalonia.Views.Controls;
+using CMiX.Studio.Avalonia.Views.Managers;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 
@@ -21,9 +22,9 @@ namespace CMiX.Studio.Avalonia.Tests
     // by every other prefab type.
     public class ListTemplateRegressionTests
     {
-        private static Views.RepositoryManager CreateShownRepositoryManager()
+        private static RepositoryManager CreateShownRepositoryManager()
         {
-            var repositoryManager = new Views.RepositoryManager();
+            var repositoryManager = new RepositoryManager();
             var window = new Window { Content = repositoryManager, Width = 400, Height = 600 };
             window.Show();
             Dispatcher.UIThread.RunJobs();

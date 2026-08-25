@@ -8,7 +8,7 @@ using Avalonia.Threading;
 using CMiX.Core;
 using CMiX.Core.Prefabs.Managers;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Views.Controls
 {
     public partial class Outliner : UserControl
     {

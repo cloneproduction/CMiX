@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="uc">
 
@@ -22,7 +23,7 @@
             IsExpanded="{Binding ModifierManagerIsExpanded}">
             <Views:ModifierManager DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
-                    <Views:AutoSelectionPanel PanelOwner="{x:Type Materials:Material}" />
+                    <Managers:AutoSelectionPanel PanelOwner="{x:Type Materials:Material}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
         </Panels:IndentedExpander>

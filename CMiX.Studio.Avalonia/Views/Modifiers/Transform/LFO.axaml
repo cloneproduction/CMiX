@@ -2,7 +2,6 @@
     x:Class="CMiX.Studio.Avalonia.Views.LFO"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
@@ -10,7 +9,7 @@
 
     <StackPanel>
 
-        <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControl:ComboBox
             Caption="Transform"

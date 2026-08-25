@@ -13,7 +13,7 @@ using Avalonia.Markup.Xaml.MarkupExtensions;
 using CMiX.Core.Prefabs;
 using AvaloniaGrid = Avalonia.Controls.Grid;
 
-namespace CMiX.Studio.Avalonia.Views
+namespace CMiX.Studio.Avalonia.Views.Managers
 {
     public partial class AutoSelectionPanel : UserControl
     {

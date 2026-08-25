@@ -7,7 +7,6 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Component="clr-namespace:CMiX.Studio.Avalonia.Views.Component"
     x:Name="uc">
 
     <StackPanel>
@@ -27,18 +26,18 @@
                     Caption="Color"
                     DataContext="{Binding Color}" />
 
-                <Views:Outliner
+                <BaseControls:Outliner
                     Margin="8"
                     DataContext="{Binding MaterialSelector}"
                     ItemsSource="{Binding ControlRepository.Materials}">
-                    <Views:Outliner.SelectionPanel>
+                    <BaseControls:Outliner.SelectionPanel>
                         <Button
                             Command="{Binding AddItemCommand}"
                             CommandParameter="{x:Type Materials:Material}"
                             Content="New"
                             Theme="{DynamicResource ButtonRoundedRight}" />
-                    </Views:Outliner.SelectionPanel>
-                </Views:Outliner>
+                    </BaseControls:Outliner.SelectionPanel>
+                </BaseControls:Outliner>
 
                 <Border IsVisible="{Binding MaterialSelector.SelectedItem, Converter={StaticResource NullToVisibility}}">
                     <Views:Material DataContext="{Binding MaterialSelector.SelectedItem}" />
@@ -49,7 +48,7 @@
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander Header="Geometry" IsExpanded="{Binding MeshIsExpanded}">
-            <Component:Mesh Margin="8" DataContext="{Binding Mesh}" />
+            <Views:Mesh Margin="8" DataContext="{Binding Mesh}" />
         </Panels:IndentedExpander>
 
     </StackPanel>

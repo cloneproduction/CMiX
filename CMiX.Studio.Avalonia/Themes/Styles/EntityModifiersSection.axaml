@@ -2,6 +2,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
     <ControlTheme x:Key="{x:Type Views:EntityModifiersSection}" TargetType="Views:EntityModifiersSection">
@@ -11,7 +12,7 @@
                     <Views:ModifierManager DataContext="{Binding ModifierManager}">
                         <Views:ModifierManager.SelectionPanel>
                             <StackPanel>
-                                <Views:AutoSelectionPanel PanelOwner="{TemplateBinding PanelOwner}" />
+                                <Managers:AutoSelectionPanel PanelOwner="{TemplateBinding PanelOwner}" />
                                 <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
                             </StackPanel>
                         </Views:ModifierManager.SelectionPanel>

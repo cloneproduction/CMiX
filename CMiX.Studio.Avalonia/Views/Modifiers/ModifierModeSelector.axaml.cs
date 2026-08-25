@@ -5,7 +5,7 @@ using Avalonia.Controls;
 using Avalonia.Data.Converters;
 using CMiX.Core.Modifiers;
 
-namespace CMiX.Studio.Avalonia.Views.Modifiers
+namespace CMiX.Studio.Avalonia.Views
 {
     public partial class ModifierModeSelector : UserControl
     {

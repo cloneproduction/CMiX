@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Texturing="clr-namespace:CMiX.Core.Texturing.Sources;assembly=CMiX.Core"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <Views:FilterPanel>
@@ -18,20 +19,20 @@
                 Caption="OffsetScale"
                 DataContext="{Binding OffsetScale}" />
 
-            <Views:Outliner
+            <Controls:Outliner
                 Margin="0,8,0,0"
                 DataContext="{Binding TextureSelector}"
                 ItemsSource="{Binding ControlRepository.Textures}">
 
-                <Views:Outliner.SelectionPanel>
-                    <Views:ButtonOpenSelectionPanel Caption="New Control Texture">
-                        <Views:ButtonOpenSelectionPanel.SelectionPanel>
-                            <Views:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
-                        </Views:ButtonOpenSelectionPanel.SelectionPanel>
-                    </Views:ButtonOpenSelectionPanel>
-                </Views:Outliner.SelectionPanel>
+                <Controls:Outliner.SelectionPanel>
+                    <Managers:ButtonOpenSelectionPanel Caption="New Control Texture">
+                        <Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                            <Managers:AutoSelectionPanel Interface="{x:Type Texturing:ITextureSource}" />
+                        </Managers:ButtonOpenSelectionPanel.SelectionPanel>
+                    </Managers:ButtonOpenSelectionPanel>
+                </Controls:Outliner.SelectionPanel>
 
-            </Views:Outliner>
+            </Controls:Outliner>
 
         </StackPanel>
     </Views:FilterPanel>

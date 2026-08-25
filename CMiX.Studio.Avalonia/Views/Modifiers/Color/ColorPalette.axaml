@@ -5,19 +5,20 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
     <StackPanel>
 
-        <Views:PrefabSlotManager Margin="0" DataContext="{Binding ColorManager}">
-            <Views:PrefabSlotManager.SelectionPanel>
+        <Managers:PrefabSlotManager Margin="0" DataContext="{Binding ColorManager}">
+            <Managers:PrefabSlotManager.SelectionPanel>
                 <Button
                     Command="{Binding AddItemCommand}"
                     CommandParameter="{x:Type Compositing:Color}"
                     Theme="{StaticResource ButtonRoundedRight}"
                     Content="New Color" />
-            </Views:PrefabSlotManager.SelectionPanel>
-        </Views:PrefabSlotManager>
+            </Managers:PrefabSlotManager.SelectionPanel>
+        </Managers:PrefabSlotManager>
 
         <BaseControls:ComboBox
             Margin="0,8,0,0"

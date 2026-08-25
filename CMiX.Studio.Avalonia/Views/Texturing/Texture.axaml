@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
 
     <StackPanel>
@@ -31,7 +32,7 @@
 
             <Views:ModifierManager DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
-                    <Views:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
+                    <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                 </Views:ModifierManager.SelectionPanel>
             </Views:ModifierManager>
 

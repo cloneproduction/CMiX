@@ -5,12 +5,11 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Modifiers="clr-namespace:CMiX.Studio.Avalonia.Views.Modifiers"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
     <StackPanel>
 
-        <Modifiers:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector Margin="0,0,0,8" DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControl:ComboBox
             Caption="Color Mode"

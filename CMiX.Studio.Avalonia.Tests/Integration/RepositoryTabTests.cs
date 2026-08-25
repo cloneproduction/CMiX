@@ -29,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             Dispatcher.UIThread.RunJobs();
 
             // Only the selected tab realizes its content, so this is the textures manager.
-            var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<Views.RepositoryManager>());
+            var repositoryManager = Assert.Single(window.GetVisualDescendants().OfType<RepositoryManager>());
             Assert.Same(viewModel.TextureManager, repositoryManager.DataContext);
             Assert.Same(viewModel.ControlRepository.Textures, repositoryManager.ItemsSource);
 
@@ -62,7 +62,7 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
 
             var layerView = Assert.Single(window.GetVisualDescendants().OfType<Views.Layer>());
             Assert.True(
-                layerView.GetVisualDescendants().OfType<Views.PrefabSlotManager>()
+                layerView.GetVisualDescendants().OfType<PrefabSlotManager>()
                     .Any(slotManager => ReferenceEquals(slotManager.ItemsSource, viewModel.ControlRepository.EntitiesAndTexts)),
                 "The layer entity slots did not resolve the repository through the window DataContext.");
         }
