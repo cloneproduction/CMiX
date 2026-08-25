@@ -6,7 +6,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Text;
 using CMiX.Core.Texturing.Sources;
-using CMiX.Core.Transformation;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Compositing
 {

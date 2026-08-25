@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 using CommunityToolkit.Mvvm.ComponentModel;
 
-namespace CMiX.Studio.Views.Texturing.Filter
+namespace CMiX.Core.Texturing.Filters
 {
     public partial class Halftone : TextureFilterBase
     {

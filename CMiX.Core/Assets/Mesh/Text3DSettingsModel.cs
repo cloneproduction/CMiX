@@ -14,7 +14,7 @@ namespace CMiX.Core.Assets.Mesh
         public GenericValueModel<int> FontSize { get; set; } = new(10);
         public GenericValueModel<float> ExtrudeAmount { get; set; } = new(4.0f);
         public GenericValueModel<string> FontFamily { get; set; } = new("Arial");
-        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; } = new(Mesh.HorizontalAlignment.Center);
-        public GenericValueModel<ParagraphAlignment> ParagraphAlignment { get; set; } = new(Mesh.ParagraphAlignment.Center);
+        public GenericValueModel<HorizontalAlignment> HorizontalAlignment { get; set; } = new(CMiX.Core.Assets.Mesh.HorizontalAlignment.Center);
+        public GenericValueModel<ParagraphAlignment> ParagraphAlignment { get; set; } = new(CMiX.Core.Assets.Mesh.ParagraphAlignment.Center);
     }
 }

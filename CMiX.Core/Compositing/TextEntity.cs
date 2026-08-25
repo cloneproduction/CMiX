@@ -8,6 +8,7 @@ using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Text;
 using CMiX.Core.Texturing.Sources;
 using CMiX.Core.Transformation;
+using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 

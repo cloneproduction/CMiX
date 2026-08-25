@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 
-namespace CMiX.Core.Transformation
+namespace CMiX.Core.Transformation.Modifiers
 {
     public record TransformSRTModel : IControlModel, IPrefabModel
     {

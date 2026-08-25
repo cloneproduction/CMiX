@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Texturing.Filters;
 
-namespace CMiX.Studio.Views.Texturing.Filter
+namespace CMiX.Core.Texturing.Filters
 {
     public record HalftoneModel : IPrefabModel, ITextureFilterModel
     {

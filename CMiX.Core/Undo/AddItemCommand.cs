@@ -1,9 +1,10 @@
 ﻿using CMiX.Core.Networking;
 using CMiX.Core.Networking.Messages;
+using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
-using CMiX.Core.Undo;
+using CMiX.Core.Prefabs.Messages;
 
-namespace CMiX.Core.Prefabs.Messages
+namespace CMiX.Core.Undo
 {
     // Undo takes the added item back out of the collection, so from that point on this command
     // owns the instance and disposes it when UndoManager drops the command.
