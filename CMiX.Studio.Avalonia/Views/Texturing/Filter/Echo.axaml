@@ -1,16 +1,14 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.Echo"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControl="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <BaseControl:CMiXSlider
-            Caption="Factor"
-            Maximum="1"
-            Minimum="0"
-            Value="{Binding Factor.Value}" />
-    </Views:FilterPanel>
+    <BaseControl:CMiXSlider
+        Caption="Factor"
+        Maximum="1"
+        Minimum="0"
+        Value="{Binding Factor.Value}" />
 
-</UserControl>
+</Views:FilterPanel>

@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.Kaleidoscope"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,60 +6,58 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <StackPanel>
+    <StackPanel>
+
+        <Controls:IntegerValue
+            Caption="Divisions"
+            Minimum="0"
+            Value="{Binding Divisions.Value}" />
+
+        <Panels:PositionedStackPanel Margin="0,8,0,0">
 
             <Controls:IntegerValue
-                Caption="Divisions"
+                Caption="Iterations"
                 Minimum="0"
-                Value="{Binding Divisions.Value}" />
-
-            <Panels:PositionedStackPanel Margin="0,8,0,0">
-
-                <Controls:IntegerValue
-                    Caption="Iterations"
-                    Minimum="0"
-                    Value="{Binding Iterations.Value}" />
-
-                <Controls:DragValue
-                    Margin="0,1,0,0"
-                    Caption="Iteration Zoom"
-                    DataContext="{Binding IterationZoom.Value}" />
-
-            </Panels:PositionedStackPanel>
-
-            <Panels:PositionedStackPanel Margin="0,8">
-
-                <Controls:DragValue
-                    Caption="Rotation"
-                    Value="{Binding Rotation.Value}" />
-
-                <Controls:DragValue
-                    Margin="0,1,0,0"
-                    Caption="Zoom"
-                    Value="{Binding Zoom.Value}" />
-
-            </Panels:PositionedStackPanel>
-
-            <Controls:Vector2
-                Caption="Center"
-                DataContext="{Binding Center}" />
+                Value="{Binding Iterations.Value}" />
 
             <Controls:DragValue
-                Margin="0,8,0,0"
-                Caption="Cell Rotation"
-                DataContext="{Binding CellRotation.Value}" />
+                Margin="0,1,0,0"
+                Caption="Iteration Zoom"
+                DataContext="{Binding IterationZoom.Value}" />
 
-            <Controls:Vector2
-                Margin="0,8"
-                Caption="Cell Offset"
-                DataContext="{Binding CellOffset}" />
+        </Panels:PositionedStackPanel>
 
-            <Controls:Vector2
-                Caption="Cell Scale"
-                DataContext="{Binding CellScale}" />
+        <Panels:PositionedStackPanel Margin="0,8">
 
-        </StackPanel>
-    </Views:FilterPanel>
+            <Controls:DragValue
+                Caption="Rotation"
+                Value="{Binding Rotation.Value}" />
 
-</UserControl>
+            <Controls:DragValue
+                Margin="0,1,0,0"
+                Caption="Zoom"
+                Value="{Binding Zoom.Value}" />
+
+        </Panels:PositionedStackPanel>
+
+        <Controls:Vector2
+            Caption="Center"
+            DataContext="{Binding Center}" />
+
+        <Controls:DragValue
+            Margin="0,8,0,0"
+            Caption="Cell Rotation"
+            DataContext="{Binding CellRotation.Value}" />
+
+        <Controls:Vector2
+            Margin="0,8"
+            Caption="Cell Offset"
+            DataContext="{Binding CellOffset}" />
+
+        <Controls:Vector2
+            Caption="Cell Scale"
+            DataContext="{Binding CellScale}" />
+
+    </StackPanel>
+
+</Views:FilterPanel>

@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.ShiftRGB"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,23 +6,21 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel>
 
-            <BaseControls:DragValue
-                Caption="Direction"
-                Value="{Binding Direction.Value}" />
+        <BaseControls:DragValue
+            Caption="Direction"
+            Value="{Binding Direction.Value}" />
 
-            <BaseControls:DragValue
-                Margin="0,1"
-                Caption="Shift"
-                Value="{Binding Shift.Value}" />
+        <BaseControls:DragValue
+            Margin="0,1"
+            Caption="Shift"
+            Value="{Binding Shift.Value}" />
 
-            <BaseControls:DragValue
-                Caption="Hue"
-                Value="{Binding Hue.Value}" />
+        <BaseControls:DragValue
+            Caption="Hue"
+            Value="{Binding Hue.Value}" />
 
-        </Panels:PositionedStackPanel>
-    </Views:FilterPanel>
+    </Panels:PositionedStackPanel>
 
-</UserControl>
+</Views:FilterPanel>

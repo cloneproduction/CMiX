@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.Threshold"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,45 +6,43 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <StackPanel>
+    <StackPanel>
 
-            <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel>
 
-                <Controls:DragValue
-                    Caption="Threshold"
-                    Minimum="0"
-                    Value="{Binding ThresholdValue.Value}" />
+            <Controls:DragValue
+                Caption="Threshold"
+                Minimum="0"
+                Value="{Binding ThresholdValue.Value}" />
 
-                <Controls:DragValue
-                    Margin="0,1,0,0"
-                    Caption="Smooth"
-                    Value="{Binding Smooth.Value}" />
+            <Controls:DragValue
+                Margin="0,1,0,0"
+                Caption="Smooth"
+                Value="{Binding Smooth.Value}" />
 
-            </Panels:PositionedStackPanel>
+        </Panels:PositionedStackPanel>
 
-            <Panels:PositionedStackPanel Margin="0,8">
+        <Panels:PositionedStackPanel Margin="0,8">
 
-                <Controls:ColorSelector
-                    Margin="0,0,0,1"
-                    Caption="Foreground"
-                    DataContext="{Binding Foreground}" />
+            <Controls:ColorSelector
+                Margin="0,0,0,1"
+                Caption="Foreground"
+                DataContext="{Binding Foreground}" />
 
-                <Controls:ColorSelector
-                    Caption="Background"
-                    DataContext="{Binding Background}" />
+            <Controls:ColorSelector
+                Caption="Background"
+                DataContext="{Binding Background}" />
 
-            </Panels:PositionedStackPanel>
+        </Panels:PositionedStackPanel>
 
-            <Controls:ToggleButton
-                Caption="Invert"
-                IsChecked="{Binding Invert.Value}" />
+        <Controls:ToggleButton
+            Caption="Invert"
+            IsChecked="{Binding Invert.Value}" />
 
-            <Controls:ToggleButton
-                Caption="Antialiasing"
-                IsChecked="{Binding Antialiasing.Value}" />
+        <Controls:ToggleButton
+            Caption="Antialiasing"
+            IsChecked="{Binding Antialiasing.Value}" />
 
-        </StackPanel>
-    </Views:FilterPanel>
+    </StackPanel>
 
-</UserControl>
+</Views:FilterPanel>

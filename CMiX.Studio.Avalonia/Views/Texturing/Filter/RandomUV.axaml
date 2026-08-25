@@ -1,19 +1,15 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.RandomUV"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <Views:FilterPanel.Content>
-            <StackPanel>
+    <StackPanel>
 
-                <Views:UVTransformEditor />
+        <Views:UVTransformEditor />
 
-                <Views:BeatModifierManager
-                    DataContext="{Binding BeatModifierManager}" />
+        <Views:BeatModifierManager
+            DataContext="{Binding BeatModifierManager}" />
 
-            </StackPanel>
-        </Views:FilterPanel.Content>
-    </Views:FilterPanel>
-</UserControl>
+    </StackPanel>
+</Views:FilterPanel>

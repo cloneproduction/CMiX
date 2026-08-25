@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.Kuwahara"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,22 +6,20 @@
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <StackPanel>
+    <StackPanel>
 
-            <Controls:ComboBox
-                Caption="Type"
-                ItemsSource="{x:Static Resources:EnumProviders.KuwaharaType}"
-                SelectedItem="{Binding Type.Value}" />
+        <Controls:ComboBox
+            Caption="Type"
+            ItemsSource="{x:Static Resources:EnumProviders.KuwaharaType}"
+            SelectedItem="{Binding Type.Value}" />
 
-            <Controls:DragValue
-                Margin="0,8,0,0"
-                Caption="Radius"
-                Maximum="10"
-                Minimum="0"
-                Value="{Binding Radius.Value}" />
+        <Controls:DragValue
+            Margin="0,8,0,0"
+            Caption="Radius"
+            Maximum="10"
+            Minimum="0"
+            Value="{Binding Radius.Value}" />
 
-        </StackPanel>
-    </Views:FilterPanel>
+    </StackPanel>
 
-</UserControl>
+</Views:FilterPanel>

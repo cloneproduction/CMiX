@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.HSCB"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,30 +6,28 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <Panels:PositionedStackPanel Margin="0,8,0,0">
+    <Panels:PositionedStackPanel Margin="0,8,0,0">
 
-            <Controls:DragValue
-                Margin="0,0,0,1"
-                Caption="Hue"
-                Value="{Binding Hue.Value}" />
+        <Controls:DragValue
+            Margin="0,0,0,1"
+            Caption="Hue"
+            Value="{Binding Hue.Value}" />
 
-            <Controls:DragValue
-                Caption="Saturation"
-                Value="{Binding Saturation.Value}" />
+        <Controls:DragValue
+            Caption="Saturation"
+            Value="{Binding Saturation.Value}" />
 
-            <Controls:DragValue
-                Margin="0,1,0,0"
-                Caption="Contrast"
-                Value="{Binding Contrast.Value}" />
+        <Controls:DragValue
+            Margin="0,1,0,0"
+            Caption="Contrast"
+            Value="{Binding Contrast.Value}" />
 
-            <Controls:DragValue
-                Height="{DynamicResource ControlHeightMD}"
-                Margin="0,1,0,0"
-                Caption="Brightness"
-                Value="{Binding Brightness.Value}" />
+        <Controls:DragValue
+            Height="{DynamicResource ControlHeightMD}"
+            Margin="0,1,0,0"
+            Caption="Brightness"
+            Value="{Binding Brightness.Value}" />
 
-        </Panels:PositionedStackPanel>
-    </Views:FilterPanel>
+    </Panels:PositionedStackPanel>
 
-</UserControl>
+</Views:FilterPanel>

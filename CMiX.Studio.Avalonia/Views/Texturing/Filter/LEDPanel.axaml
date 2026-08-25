@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.LEDPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,33 +6,31 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <Panels:PositionedStackPanel>
+    <Panels:PositionedStackPanel>
 
-            <Controls:DragValue
-                Caption="Pixel Size"
-                Minimum="0"
-                Value="{Binding PixelSize.Value}" />
+        <Controls:DragValue
+            Caption="Pixel Size"
+            Minimum="0"
+            Value="{Binding PixelSize.Value}" />
 
-            <Controls:DragValue
-                Margin="0,1,0,0"
-                Caption="Mask Stagger"
-                Minimum="0"
-                Value="{Binding MaskStagger.Value}" />
+        <Controls:DragValue
+            Margin="0,1,0,0"
+            Caption="Mask Stagger"
+            Minimum="0"
+            Value="{Binding MaskStagger.Value}" />
 
-            <Controls:DragValue
-                Margin="0,1,0,0"
-                Caption="Mask Border"
-                Minimum="0"
-                Value="{Binding MaskBorder.Value}" />
+        <Controls:DragValue
+            Margin="0,1,0,0"
+            Caption="Mask Border"
+            Minimum="0"
+            Value="{Binding MaskBorder.Value}" />
 
-            <Controls:DragValue
-                Margin="0,1,0,0"
-                Caption="Mask Intensity"
-                Minimum="0"
-                Value="{Binding MaskIntensity.Value}" />
+        <Controls:DragValue
+            Margin="0,1,0,0"
+            Caption="Mask Intensity"
+            Minimum="0"
+            Value="{Binding MaskIntensity.Value}" />
 
-        </Panels:PositionedStackPanel>
-    </Views:FilterPanel>
+    </Panels:PositionedStackPanel>
 
-</UserControl>
+</Views:FilterPanel>

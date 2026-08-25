@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.Invert"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,26 +7,24 @@
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <StackPanel>
+    <StackPanel>
 
-            <Controls:CMiXSlider
-                Caption="Factor"
-                Maximum="1.0"
-                Minimum="0.0"
-                Value="{Binding Factor.Value}" />
+        <Controls:CMiXSlider
+            Caption="Factor"
+            Maximum="1.0"
+            Minimum="0.0"
+            Value="{Binding Factor.Value}" />
 
-            <Basecontrol:ComboBox
-                Margin="0,8"
-                Caption="Channel"
-                ItemsSource="{x:Static Resources:EnumProviders.InvertChannel}"
-                SelectedItem="{Binding InvertChannelSelector.Value}" />
+        <Basecontrol:ComboBox
+            Margin="0,8"
+            Caption="Channel"
+            ItemsSource="{x:Static Resources:EnumProviders.InvertChannel}"
+            SelectedItem="{Binding InvertChannelSelector.Value}" />
 
-            <Basecontrol:ToggleButton
-                Caption="Invert Alpha"
-                IsChecked="{Binding InvertAlpha.Value}" />
+        <Basecontrol:ToggleButton
+            Caption="Invert Alpha"
+            IsChecked="{Binding InvertAlpha.Value}" />
 
-        </StackPanel>
-    </Views:FilterPanel>
+    </StackPanel>
 
-</UserControl>
+</Views:FilterPanel>

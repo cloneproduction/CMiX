@@ -1,4 +1,4 @@
-﻿<UserControl
+<Views:FilterPanel
     x:Class="CMiX.Studio.Avalonia.Views.LFOUV"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -7,44 +7,42 @@
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
-    <Views:FilterPanel>
-        <StackPanel>
+    <StackPanel>
 
-            <Panels:PositionedStackPanel>
+        <Panels:PositionedStackPanel>
 
-                <basecontrol:DragValue
-                    Caption="From"
-                    Value="{Binding From.Value}" />
+            <basecontrol:DragValue
+                Caption="From"
+                Value="{Binding From.Value}" />
 
-                <basecontrol:DragValue
-                    Margin="0,1,0,0"
-                    Caption="To"
-                    Value="{Binding To.Value}" />
-
-            </Panels:PositionedStackPanel>
-
-            <basecontrol:ToggleButton
-                Margin="0,8"
-                Caption="PingPong"
-                IsChecked="{Binding PingPong.Value}" />
-
-            <basecontrol:ComboBox
-                Caption="Transform"
-                ItemsSource="{x:Static Resources:EnumProviders.TransformType}"
-                SelectedItem="{Binding TransformType.Value}" />
-
-            <basecontrol:AxisSelector2D
+            <basecontrol:DragValue
                 Margin="0,1,0,0"
-                XIsChecked="{Binding DirectionXY.DirectionX.Value}"
-                YIsChecked="{Binding DirectionXY.DirectionY.Value}" />
+                Caption="To"
+                Value="{Binding To.Value}" />
 
-            <Views:SamplerState
-                Margin="0,8"
-                DataContext="{Binding SamplerState}" />
+        </Panels:PositionedStackPanel>
 
-            <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+        <basecontrol:ToggleButton
+            Margin="0,8"
+            Caption="PingPong"
+            IsChecked="{Binding PingPong.Value}" />
 
-        </StackPanel>
-    </Views:FilterPanel>
+        <basecontrol:ComboBox
+            Caption="Transform"
+            ItemsSource="{x:Static Resources:EnumProviders.TransformType}"
+            SelectedItem="{Binding TransformType.Value}" />
 
-</UserControl>
+        <basecontrol:AxisSelector2D
+            Margin="0,1,0,0"
+            XIsChecked="{Binding DirectionXY.DirectionX.Value}"
+            YIsChecked="{Binding DirectionXY.DirectionY.Value}" />
+
+        <Views:SamplerState
+            Margin="0,8"
+            DataContext="{Binding SamplerState}" />
+
+        <Views:BeatModifierManager DataContext="{Binding BeatModifierManager}" />
+
+    </StackPanel>
+
+</Views:FilterPanel>
