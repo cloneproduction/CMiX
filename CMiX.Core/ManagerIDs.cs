@@ -28,6 +28,10 @@ namespace CMiX.Core
         public static readonly Guid ProjectPrefabServiceIsSelected = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5D");
         public static readonly Guid ProjectPrefabServiceVisibility = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5E");
 
+        // Project.Model.FilePath, fixed the same way - created directly at Project startup, not
+        // announced through MessageAddItem, so both sides must agree on this ID up front.
+        public static readonly Guid ProjectModelFilePath = Guid.Parse("11223344-5566-7788-99AA-BBCCDDEEFF5F");
+
         // Fixed like everything above: OutputMappingManager and its 10 slots are created directly
         // at Project startup on both the .NET and vvvv sides, never announced through
         // MessageAddItem, so both sides must agree on these IDs up front rather than learn them

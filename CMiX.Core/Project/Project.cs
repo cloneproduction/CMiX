@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Animations;
+using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering;
@@ -17,7 +18,8 @@ namespace CMiX.Core.Compositing
                        PrefabService prefabService,
                        UndoManager undoManager,
                        MasterBeat masterBeat,
-                       OutputMappingManager outputMappingManager)
+                       OutputMappingManager outputMappingManager,
+                       AssetSelector model)
         {
             compositionManager.ManagerData.ID = ManagerIDs.CompositionManager;
             compositionManager.UndoManager = undoManager;  // ← set here
@@ -26,6 +28,8 @@ namespace CMiX.Core.Compositing
             PrefabService = prefabService;
             MasterBeat = masterBeat;
             OutputMappingManager = outputMappingManager;
+            Model = model;
+            Model.FilePath.ID = ManagerIDs.ProjectModelFilePath;
             PrefabService.ID = this.ID;
             PrefabService.Name.ID = ManagerIDs.ProjectPrefabServiceName;
             PrefabService.IsSelected.ID = ManagerIDs.ProjectPrefabServiceIsSelected;
@@ -39,13 +43,18 @@ namespace CMiX.Core.Compositing
         public MasterBeat MasterBeat { get; set; }
         public OutputMappingManager OutputMappingManager { get; set; }
 
+        // The 3D model the project's output mappings render onto - one per project, not one
+        // per composition or per output mapping.
+        public AssetSelector Model { get; set; }
+
         public IControlModel ToModel() => new ProjectModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             CompositionManager = (PrefabManagerModel)CompositionManager.ToModel(),
             MasterBeat = (MasterBeatModel)MasterBeat.ToModel(),
-            OutputMappingManager = (OutputMappingManagerModel)OutputMappingManager.ToModel()
+            OutputMappingManager = (OutputMappingManagerModel)OutputMappingManager.ToModel(),
+            Model = (AssetSelectorModel)Model.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -59,6 +68,7 @@ namespace CMiX.Core.Compositing
             MasterBeat.FromModel(m.MasterBeat);
             MasterBeat.ID = ManagerIDs.MasterBeat;
             OutputMappingManager.FromModel(m.OutputMappingManager);
+            Model.FromModel(m.Model);
 
             LoadManager(CompositionManager, m.CompositionManager);
         }
