@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 using Avalonia.Media;
 using CoreColorMode = CMiX.Core.ColorMode;
-using CoreMeshType = CMiX.Core.Assets.Mesh.MeshType;
+using CoreMeshType = CMiX.Core.MeshType;
 using MeshHorizontalAlignment = CMiX.Core.Assets.Mesh.HorizontalAlignment;
 using MeshParagraphAlignment = CMiX.Core.Assets.Mesh.ParagraphAlignment;
 using SourceFontStyle = CMiX.Core.Texturing.Sources.FontStyle;
