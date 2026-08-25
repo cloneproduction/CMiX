@@ -1,0 +1,38 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LayerLightTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
+        <DockPanel>
+            <Managers:PrefabSlotManager
+                Margin="8"
+                DataContext="{Binding LightManager}"
+                DockPanel.Dock="Top"
+                ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Lights}">
+
+                <Managers:PrefabSlotManager.SelectionPanel>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Lights:LightEntity}"
+                        Content="New Light" />
+                </Managers:PrefabSlotManager.SelectionPanel>
+
+            </Managers:PrefabSlotManager>
+
+            <Border IsVisible="{Binding LightManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                <Views:LightEntity DataContext="{Binding LightManager.SelectedItem}" />
+            </Border>
+
+        </DockPanel>
+    </ScrollViewer>
+
+</UserControl>

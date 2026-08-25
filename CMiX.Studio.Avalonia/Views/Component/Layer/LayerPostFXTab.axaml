@@ -1,0 +1,43 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LayerPostFXTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Layering="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
+    xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+
+    <ScrollViewer VerticalScrollBarVisibility="Hidden">
+
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
+
+        <StackPanel>
+            <Panels:IndentedExpander Header="Texture Filters">
+                <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
+                    <Views:ModifierManager.SelectionPanel>
+                        <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
+                    </Views:ModifierManager.SelectionPanel>
+                </Views:ModifierManager>
+            </Panels:IndentedExpander>
+
+            <Panels:IndentedExpander Header="Modifiers">
+                <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                    <Views:ModifierManager.SelectionPanel>
+                        <Managers:AutoSelectionPanel PanelOwner="{x:Type Layering:Layer}" />
+                    </Views:ModifierManager.SelectionPanel>
+                </Views:ModifierManager>
+            </Panels:IndentedExpander>
+
+            <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
+
+            <Views:LocalReflection DataContext="{Binding LocalReflection}" />
+
+        </StackPanel>
+    </ScrollViewer>
+
+</UserControl>

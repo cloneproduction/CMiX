@@ -1,0 +1,38 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.LayerCameraTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
+    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
+    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers">
+
+    <ScrollViewer>
+        <i:Interaction.Behaviors>
+            <Behaviors:ScrollViewerBehavior />
+        </i:Interaction.Behaviors>
+        <DockPanel>
+            <Managers:PrefabSlotManager
+                Margin="8"
+                DataContext="{Binding CameraManager}"
+                DockPanel.Dock="Top"
+                ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Cameras}">
+
+                <Managers:PrefabSlotManager.SelectionPanel>
+                    <Button
+                        Command="{Binding AddItemCommand}"
+                        CommandParameter="{x:Type Cameras:Camera}"
+                        Content="New Camera" />
+                </Managers:PrefabSlotManager.SelectionPanel>
+
+            </Managers:PrefabSlotManager>
+
+            <Border IsVisible="{Binding CameraManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
+                <Views:Camera DataContext="{Binding CameraManager.SelectedItem}" />
+            </Border>
+
+        </DockPanel>
+    </ScrollViewer>
+
+</UserControl>

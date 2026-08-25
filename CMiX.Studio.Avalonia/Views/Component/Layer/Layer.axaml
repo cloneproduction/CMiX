@@ -2,17 +2,8 @@
     x:Class="CMiX.Studio.Avalonia.Views.Layer"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-    xmlns:Layering="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-    xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
-    xmlns:Lights="clr-namespace:CMiX.Core.Rendering.Lights;assembly=CMiX.Core"
-    xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
-    xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
-    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="layerRoot">
 
     <!-- Bound through the element name because an empty path binding against a null DataContext never delivers a value in Avalonia. -->
@@ -26,163 +17,28 @@
                 <TabItem.Header>
                     <Controls:AppIcon Margin="8" IconKey="Entity" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-
-                <ScrollViewer VerticalScrollBarVisibility="Disabled">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-
-                    <DockPanel>
-
-                        <!--
-                            The WPF view merged ControlRepository.Entities and ControlRepository.Texts
-                            through a CompositeCollection of two CollectionViewSources. Avalonia has no
-                            CompositeCollection, so ControlRepository.EntitiesAndTexts replaces it here.
-                        -->
-                        <Managers:PrefabSlotManager
-                            Margin="8"
-                            DataContext="{Binding ModelEntityManager}"
-                            DockPanel.Dock="Top"
-                            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.EntitiesAndTexts}">
-
-                            <Managers:PrefabSlotManager.SelectionPanel>
-                                <Managers:ButtonOpenSelectionPanel Caption="Add Entity">
-                                    <Managers:ButtonOpenSelectionPanel.SelectionPanel>
-                                        <Views:EntitySelectionPanel />
-                                    </Managers:ButtonOpenSelectionPanel.SelectionPanel>
-                                </Managers:ButtonOpenSelectionPanel>
-                            </Managers:PrefabSlotManager.SelectionPanel>
-
-                        </Managers:PrefabSlotManager>
-
-                        <Border IsVisible="{Binding ModelEntityManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                            <ContentControl Content="{Binding}" DataContext="{Binding ModelEntityManager.SelectedItem}">
-                                <ContentControl.DataTemplates>
-
-                                    <DataTemplate DataType="{x:Type Compositing:Entity}">
-                                        <Views:ModelEntity />
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type Cameras:Camera}">
-                                        <Views:Camera />
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type Lights:LightEntity}">
-                                        <Views:LightEntity />
-                                    </DataTemplate>
-
-                                    <DataTemplate DataType="{x:Type Compositing:TextEntity}">
-                                        <Views:TextEntity />
-                                    </DataTemplate>
-
-                                </ContentControl.DataTemplates>
-                            </ContentControl>
-                        </Border>
-                    </DockPanel>
-
-                </ScrollViewer>
-
+                <Views:LayerEntityTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
                     <Controls:AppIcon Margin="8" IconKey="Camera" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-                <ScrollViewer>
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <DockPanel>
-                        <Managers:PrefabSlotManager
-                            Margin="8"
-                            DataContext="{Binding CameraManager}"
-                            DockPanel.Dock="Top"
-                            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Cameras}">
-
-                            <Managers:PrefabSlotManager.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Cameras:Camera}"
-                                    Content="New Camera" />
-                            </Managers:PrefabSlotManager.SelectionPanel>
-
-                        </Managers:PrefabSlotManager>
-
-                        <Border IsVisible="{Binding CameraManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                            <Views:Camera DataContext="{Binding CameraManager.SelectedItem}" />
-                        </Border>
-
-                    </DockPanel>
-                </ScrollViewer>
+                <Views:LayerCameraTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
                     <Controls:AppIcon Margin="8" IconKey="MeshLight" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-                    <DockPanel>
-                        <Managers:PrefabSlotManager
-                            Margin="8"
-                            DataContext="{Binding LightManager}"
-                            DockPanel.Dock="Top"
-                            ItemsSource="{Binding $parent[Window].DataContext.ControlRepository.Lights}">
-
-                            <Managers:PrefabSlotManager.SelectionPanel>
-                                <Button
-                                    Command="{Binding AddItemCommand}"
-                                    CommandParameter="{x:Type Lights:LightEntity}"
-                                    Content="New Light" />
-                            </Managers:PrefabSlotManager.SelectionPanel>
-
-                        </Managers:PrefabSlotManager>
-
-                        <Border IsVisible="{Binding LightManager.SelectedItem, Converter={StaticResource NullToVisibility}}">
-                            <Views:LightEntity DataContext="{Binding LightManager.SelectedItem}" />
-                        </Border>
-
-                    </DockPanel>
-                </ScrollViewer>
-
+                <Views:LayerLightTab />
             </TabItem>
 
             <TabItem>
                 <TabItem.Header>
                     <Controls:AppIcon Margin="8" IconKey="PostFX" Size="{DynamicResource IconSizeXS}" />
                 </TabItem.Header>
-
-                <ScrollViewer VerticalScrollBarVisibility="Hidden">
-
-                    <i:Interaction.Behaviors>
-                        <Behaviors:ScrollViewerBehavior />
-                    </i:Interaction.Behaviors>
-
-                    <StackPanel>
-                        <Panels:IndentedExpander Header="Texture Filters">
-                            <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
-                                <Views:ModifierManager.SelectionPanel>
-                                    <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
-                                </Views:ModifierManager.SelectionPanel>
-                            </Views:ModifierManager>
-                        </Panels:IndentedExpander>
-
-                        <Panels:IndentedExpander Header="Modifiers">
-                            <Views:ModifierManager DataContext="{Binding ModifierManager}">
-                                <Views:ModifierManager.SelectionPanel>
-                                    <Managers:AutoSelectionPanel PanelOwner="{x:Type Layering:Layer}" />
-                                </Views:ModifierManager.SelectionPanel>
-                            </Views:ModifierManager>
-                        </Panels:IndentedExpander>
-
-                        <Views:AmbientOcclusion DataContext="{Binding AmbientOcclusion}" />
-
-                        <Views:LocalReflection DataContext="{Binding LocalReflection}" />
-
-                    </StackPanel>
-                </ScrollViewer>
+                <Views:LayerPostFXTab />
             </TabItem>
 
         </TabControl>
