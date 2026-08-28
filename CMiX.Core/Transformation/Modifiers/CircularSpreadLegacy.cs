@@ -10,11 +10,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(LightEntity))]
-    [ModifierPanel(typeof(Entity))]
-    public partial class CircularSpread : ObservableObject, ISpreadableModifier
+    // Renamed from CircularSpread, [ModifierPanel] removed - superseded by
+    // Modulation.CircularSpreadModifier (now renamed to bare CircularSpread, claiming this name
+    // in the VL-facing engine-side patch). Kept only so any already-saved Project data
+    // referencing the old CircularSpread still loads and renders correctly; no longer addable
+    // via the "Add Modifier" picker.
+    public partial class CircularSpreadLegacy : ObservableObject, ISpreadableModifier
     {
-        public CircularSpread(PrefabService prefabService, 
+        public CircularSpreadLegacy(PrefabService prefabService,
                               ModifierModeSelector modifierModeSelector, 
                               Vector2 width, 
                               GenericValue<float> phase,
@@ -38,7 +41,7 @@ namespace CMiX.Core.Transformation.Modifiers
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public IControlModel ToModel() => new CircularSpreadModel
+        public IControlModel ToModel() => new CircularSpreadLegacyModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -50,7 +53,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public void FromModel(IControlModel model)
         {
-            var m = (CircularSpreadModel)model;
+            var m = (CircularSpreadLegacyModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);

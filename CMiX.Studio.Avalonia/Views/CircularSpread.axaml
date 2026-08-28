@@ -1,0 +1,42 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.CircularSpread"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
+    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
+    x:Name="circularSpreadModifier">
+
+    <StackPanel Margin="4">
+
+        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+
+        <!-- No DataContext override here - CircularSpread itself implements
+             IChannelGroupXY, so this reads X/Y directly off the whole modifier, same as
+             ScaleModifier/PositionModifier/RotationModifier already do with ChannelVectorXYZ. -->
+        <BaseControls:ChannelVectorXY
+            Margin="0,0,0,2"
+            Caption="Width"
+            ModulatorManager="{Binding ModulatorManager}" />
+
+        <BaseControls:ChannelValue
+            Margin="0,0,0,2"
+            Caption="Phase"
+            DataContext="{Binding Phase}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
+
+        <BaseControls:ChannelValue
+            Caption="Factor"
+            DataContext="{Binding Factor}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
+
+        <Views:ModifierManager DataContext="{Binding ModulatorManager}">
+            <Views:ModifierManager.SelectionPanel>
+                <Managers:AutoSelectionPanel Interface="{x:Type Modulation:IModulator}" />
+            </Views:ModifierManager.SelectionPanel>
+        </Views:ModifierManager>
+
+    </StackPanel>
+
+</UserControl>

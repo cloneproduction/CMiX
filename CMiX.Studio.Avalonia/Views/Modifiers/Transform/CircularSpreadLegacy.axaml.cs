@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class CircularSpread : UserControl
+    public partial class CircularSpreadLegacy : UserControl
     {
-        public CircularSpread()
+        public CircularSpreadLegacy()
         {
             InitializeComponent();
         }
