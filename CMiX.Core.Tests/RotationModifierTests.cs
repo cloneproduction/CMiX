@@ -73,5 +73,24 @@ namespace CMiX.Core.Tests
             Assert.Equal(4f, reloaded.Channels[0].Value.Value);
             Assert.Equal(modulatorId, reloaded.Channels[0].Binding.ModulatorID);
         }
+
+        [Fact]
+        public void RotationModifier_ToModel_FromModel_RoundTripsModifierModeSelector()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var rotation = provider.GetRequiredService<RotationModifier>();
+
+            rotation.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
+            rotation.ModifierModeSelector.Count.Value = 5;
+
+            var model = rotation.ToModel();
+
+            var provider2 = TestServiceProviderFactory.Create();
+            var reloaded = provider2.GetRequiredService<RotationModifier>();
+            reloaded.FromModel(model);
+
+            Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+        }
     }
 }

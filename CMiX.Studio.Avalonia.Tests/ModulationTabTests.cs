@@ -7,7 +7,7 @@ namespace CMiX.Studio.Avalonia.Tests
     public class ModulationTabTests
     {
         [AvaloniaFact]
-        public void ModulatorTestManager_AddItem_CreatesScaleModifierWithThreeChannels()
+        public void ModulatorTestManager_AddItem_CreatesScaleModifierWithFourChannels()
         {
             var (_, _, viewModel) = TestServiceProviderFactory.ShowMainWindow();
 
@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Tests
 
             Assert.Single(viewModel.ModulatorTestManager.ManagerData.Items);
             var created = Assert.IsType<ScaleModifier>(viewModel.ModulatorTestManager.ManagerData.Items[0]);
-            Assert.Equal(3, created.Channels.Count);
+            Assert.Equal(4, created.Channels.Count);
         }
     }
 }

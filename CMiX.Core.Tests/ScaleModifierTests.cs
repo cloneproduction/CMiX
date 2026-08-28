@@ -1,4 +1,5 @@
 using CMiX.Core.Animations;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
@@ -8,15 +9,16 @@ namespace CMiX.Core.Tests
     public class ScaleModifierTests
     {
         [Fact]
-        public void ScaleModifier_HasThreeChannelsLabeledXYZ()
+        public void ScaleModifier_HasFourChannelsLabeledXYZUniform()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
 
-            Assert.Equal(3, scale.Channels.Count);
+            Assert.Equal(4, scale.Channels.Count);
             Assert.Equal("X", scale.Channels[0].Label);
             Assert.Equal("Y", scale.Channels[1].Label);
             Assert.Equal("Z", scale.Channels[2].Label);
+            Assert.Equal("Uniform", scale.Channels[3].Label);
         }
 
         [Fact]
@@ -62,7 +64,7 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void XYZ_AreConvenienceAccessorsIntoChannels()
+        public void XYZUniform_AreConvenienceAccessorsIntoChannels()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
@@ -70,6 +72,28 @@ namespace CMiX.Core.Tests
             Assert.Same(scale.Channels[0], scale.X);
             Assert.Same(scale.Channels[1], scale.Y);
             Assert.Same(scale.Channels[2], scale.Z);
+            Assert.Same(scale.Channels[3], scale.Uniform);
+        }
+
+        [Fact]
+        public void ScaleModifier_ToModel_FromModel_RoundTripsModifierModeSelector()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var scale = provider.GetRequiredService<ScaleModifier>();
+
+            scale.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
+            scale.ModifierModeSelector.Count.Value = 5;
+            scale.Uniform.Value.Value = 2.5f;
+
+            var model = scale.ToModel();
+
+            var provider2 = TestServiceProviderFactory.Create();
+            var reloaded = provider2.GetRequiredService<ScaleModifier>();
+            reloaded.FromModel(model);
+
+            Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(2.5f, reloaded.Uniform.Value.Value);
         }
 
         [Fact]

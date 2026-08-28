@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Compositing;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
@@ -13,15 +14,17 @@ namespace CMiX.Core.Modulation
     // check, per this session's migration approach. RandomRotation is not touched by this change.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RotationModifier : Modifier
+    public partial class RotationModifier : Modifier, IChannelGroup
     {
         public RotationModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,
+                                ModifierModeSelector modifierModeSelector,
                                 Channel channelX,
                                 Channel channelY,
                                 Channel channelZ)
             : base(prefabService, modulatorManager)
         {
+            ModifierModeSelector = modifierModeSelector;
             channelX.Label = "X";
             channelY.Label = "Y";
             channelZ.Label = "Z";
@@ -34,9 +37,15 @@ namespace CMiX.Core.Modulation
         public Channel Y => Channels[1];
         public Channel Z => Channels[2];
 
+        // Non-modulatable, ported as-is from RandomRotation for one-to-one field parity.
+        public ModifierModeSelector ModifierModeSelector { get; set; }
+
         public override IControlModel ToModel()
         {
-            var model = new RotationModifierModel();
+            var model = new RotationModifierModel
+            {
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -45,6 +54,7 @@ namespace CMiX.Core.Modulation
         {
             var m = (RotationModifierModel)model;
             LoadBaseModel(m);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
         }
     }
 }

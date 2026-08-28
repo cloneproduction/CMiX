@@ -5,11 +5,20 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core">
+    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
+    x:Name="scaleModifier">
 
     <StackPanel Margin="4">
 
-        <BaseControls:ChannelVectorXYZ />
+        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+
+        <BaseControls:ChannelValue
+            Margin="0,0,0,2"
+            Caption="Uniform"
+            DataContext="{Binding Uniform}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
+
+        <BaseControls:ChannelVectorXYZ ModulatorManager="{Binding ModulatorManager}" />
 
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>

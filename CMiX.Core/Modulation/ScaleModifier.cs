@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.Compositing;
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 
@@ -14,19 +15,23 @@ namespace CMiX.Core.Modulation
     // superseded by a live VL check, per this session's migration approach - RandomScale is not
     // touched by this change at all.
     [ModifierPanel(typeof(Entity))]
-    public partial class ScaleModifier : Modifier
+    public partial class ScaleModifier : Modifier, IChannelGroup
     {
         public ScaleModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
+                             ModifierModeSelector modifierModeSelector,
                              Channel channelX,
                              Channel channelY,
-                             Channel channelZ)
+                             Channel channelZ,
+                             Channel channelUniform)
             : base(prefabService, modulatorManager)
         {
+            ModifierModeSelector = modifierModeSelector;
             channelX.Label = "X";
             channelY.Label = "Y";
             channelZ.Label = "Z";
-            Channels = new List<Channel> { channelX, channelY, channelZ };
+            channelUniform.Label = "Uniform";
+            Channels = new List<Channel> { channelX, channelY, channelZ, channelUniform };
         }
 
         // Convenience accessors into Channels, purely for the view's ChannelVectorXYZ binding -
@@ -35,9 +40,19 @@ namespace CMiX.Core.Modulation
         public Channel Y => Channels[1];
         public Channel Z => Channels[2];
 
+        // Uniform is a 4th, independently modulatable channel - ported from RandomScale's
+        // UniformXYZ, which was already the same GenericValue<float> type as X/Y/Z.
+        public Channel Uniform => Channels[3];
+
+        // Non-modulatable, ported as-is from RandomScale for one-to-one field parity.
+        public ModifierModeSelector ModifierModeSelector { get; set; }
+
         public override IControlModel ToModel()
         {
-            var model = new ScaleModifierModel();
+            var model = new ScaleModifierModel
+            {
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
+            };
             PopulateBaseModel(model);
             return model;
         }
@@ -46,6 +61,7 @@ namespace CMiX.Core.Modulation
         {
             var m = (ScaleModifierModel)model;
             LoadBaseModel(m);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
         }
     }
 }
