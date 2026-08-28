@@ -20,6 +20,18 @@ namespace CMiX.Core.Modulation
         {
             PrefabService = prefabService;
             ModulatorManager = modulatorManager;
+            ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
+        }
+
+        // Deleting a modulator from this Modifier's own stack unassigns it from any channel that
+        // was pointing at it, rather than leaving a dangling ModulatorID/BoundModulator behind.
+        private void OnModulatorManagerItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if (e.Action != System.Collections.Specialized.NotifyCollectionChangedAction.Remove) return;
+
+            foreach (IControl removed in e.OldItems)
+                foreach (var channel in Channels.Where(c => c.Binding.ModulatorID == removed.ID))
+                    channel.Binding.SetModulatorCommand.Execute(null);
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();

@@ -5,6 +5,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
+using CMiX.Core.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views.Controls.Panels
 {
@@ -13,6 +14,19 @@ namespace CMiX.Studio.Avalonia.Views.Controls.Panels
         public ModifierPanel()
         {
             InitializeComponent();
+
+            // This root spans the whole row (header + collapsible body), unlike a hover handler
+            // placed on the hosted content itself, which stops receiving pointer events once the
+            // Expander collapses. A no-op for every non-Modulation usage of this shared control,
+            // since only IModulator-implementing items ever set IsHovered.
+            PointerEntered += (sender, e) => SetHovered(true);
+            PointerExited += (sender, e) => SetHovered(false);
+        }
+
+        private void SetHovered(bool value)
+        {
+            if (DataContext is IModulator modulator)
+                modulator.IsHovered = value;
         }
 
         public static readonly StyledProperty<ICommand> ResetModifierCommandProperty =

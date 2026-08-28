@@ -21,6 +21,12 @@ namespace CMiX.Core.Modulation
             Channels = new List<Channel> { channelX, channelY, channelZ };
         }
 
+        // Convenience accessors into Channels, purely for the view's ChannelVectorXYZ binding -
+        // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
+        public Channel X => Channels[0];
+        public Channel Y => Channels[1];
+        public Channel Z => Channels[2];
+
         public override IControlModel ToModel()
         {
             var model = new ScaleModifierModel();

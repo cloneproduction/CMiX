@@ -66,6 +66,13 @@ namespace CMiX.Core.Animations
         public GenericValue<int> BeatIndex { get; set; }
         public BeatSteps BeatSteps { get; set; }
 
+        private bool _isHovered;
+        public bool IsHovered
+        {
+            get => _isHovered;
+            set { _isHovered = value; OnPropertyChanged(); }
+        }
+
 
         private void OnResync(object sender, EventArgs e)
         {

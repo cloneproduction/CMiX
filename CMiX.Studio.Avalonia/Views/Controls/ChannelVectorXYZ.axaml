@@ -1,0 +1,171 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.ChannelVectorXYZ"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters">
+
+    <!--
+        Fixed X/Y/Z rows (not a repeated DataTemplate), bound directly against a ScaleModifier-
+        shaped DataContext (X/Y/Z Channel properties + ModulatorManager as siblings) - this avoids
+        needing ElementName to cross into the Flyout's own nested item template for anything except
+        reaching back to this row's own assign button, one level deep.
+    -->
+    <StackPanel>
+
+        <DockPanel Margin="0,0,0,2">
+
+            <Button
+                x:Name="assignButtonX"
+                Width="{DynamicResource ControlHeightMD}"
+                DockPanel.Dock="Right"
+                IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
+                Theme="{StaticResource ButtonRoundedRight}">
+                <BaseControls:AppIcon
+                    IconKey="{Binding X.Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
+                    Size="{DynamicResource IconSizeXS}" />
+                <Button.Flyout>
+                    <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                        <StackPanel MinWidth="160" Margin="4">
+                            <Button
+                                Content="None"
+                                Click="AssignX"
+                                Theme="{DynamicResource ButtonItemControl}" />
+                            <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Click="AssignX"
+                                            Theme="{DynamicResource ButtonItemControl}">
+                                            <DockPanel>
+                                                <BaseControls:AppIcon
+                                                    DockPanel.Dock="Left"
+                                                    IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
+                                                    Size="{DynamicResource IconSizeXS}" />
+                                                <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
+                                            </DockPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <Panel>
+                <BaseControls:DragValue Caption="X" Value="{Binding X.Value.Value}" />
+                <Border
+                    IsHitTestVisible="False"
+                    BorderBrush="{DynamicResource AccentBrush}"
+                    BorderThickness="1"
+                    IsVisible="{Binding X.Binding.BoundModulator.IsHovered, FallbackValue=False}" />
+            </Panel>
+
+        </DockPanel>
+
+        <DockPanel Margin="0,0,0,2">
+
+            <Button
+                x:Name="assignButtonY"
+                Width="{DynamicResource ControlHeightMD}"
+                DockPanel.Dock="Right"
+                IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
+                Theme="{StaticResource ButtonRoundedRight}">
+                <BaseControls:AppIcon
+                    IconKey="{Binding Y.Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
+                    Size="{DynamicResource IconSizeXS}" />
+                <Button.Flyout>
+                    <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                        <StackPanel MinWidth="160" Margin="4">
+                            <Button
+                                Content="None"
+                                Click="AssignY"
+                                Theme="{DynamicResource ButtonItemControl}" />
+                            <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Click="AssignY"
+                                            Theme="{DynamicResource ButtonItemControl}">
+                                            <DockPanel>
+                                                <BaseControls:AppIcon
+                                                    DockPanel.Dock="Left"
+                                                    IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
+                                                    Size="{DynamicResource IconSizeXS}" />
+                                                <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
+                                            </DockPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <Panel>
+                <BaseControls:DragValue Caption="Y" Value="{Binding Y.Value.Value}" />
+                <Border
+                    IsHitTestVisible="False"
+                    BorderBrush="{DynamicResource AccentBrush}"
+                    BorderThickness="1"
+                    IsVisible="{Binding Y.Binding.BoundModulator.IsHovered, FallbackValue=False}" />
+            </Panel>
+
+        </DockPanel>
+
+        <DockPanel>
+
+            <Button
+                x:Name="assignButtonZ"
+                Width="{DynamicResource ControlHeightMD}"
+                DockPanel.Dock="Right"
+                IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
+                Theme="{StaticResource ButtonRoundedRight}">
+                <BaseControls:AppIcon
+                    IconKey="{Binding Z.Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
+                    Size="{DynamicResource IconSizeXS}" />
+                <Button.Flyout>
+                    <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                        <StackPanel MinWidth="160" Margin="4">
+                            <Button
+                                Content="None"
+                                Click="AssignZ"
+                                Theme="{DynamicResource ButtonItemControl}" />
+                            <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button
+                                            Click="AssignZ"
+                                            Theme="{DynamicResource ButtonItemControl}">
+                                            <DockPanel>
+                                                <BaseControls:AppIcon
+                                                    DockPanel.Dock="Left"
+                                                    IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
+                                                    Size="{DynamicResource IconSizeXS}" />
+                                                <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
+                                            </DockPanel>
+                                        </Button>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </Flyout>
+                </Button.Flyout>
+            </Button>
+
+            <Panel>
+                <BaseControls:DragValue Caption="Z" Value="{Binding Z.Value.Value}" />
+                <Border
+                    IsHitTestVisible="False"
+                    BorderBrush="{DynamicResource AccentBrush}"
+                    BorderThickness="1"
+                    IsVisible="{Binding Z.Binding.BoundModulator.IsHovered, FallbackValue=False}" />
+            </Panel>
+
+        </DockPanel>
+
+    </StackPanel>
+
+</UserControl>
