@@ -1,0 +1,17 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.SelectTextureModifier"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+
+    <StackPanel Margin="4">
+
+        <BaseControls:ComboBox
+            Caption="From"
+            ItemsSource="{x:Static Resources:EnumProviders.TextureFrom}"
+            SelectedItem="{Binding TextureFrom.Value}" />
+
+    </StackPanel>
+
+</UserControl>
