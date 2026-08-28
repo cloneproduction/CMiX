@@ -1,0 +1,22 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.MainWindowModulationTab"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
+    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core">
+
+    <!--
+        Prototype-only test surface for the new Modulator/Modifier system. DataContext for
+        ModulatorTestManager is inherited from MainWindow (MainViewModel) - this list is
+        deliberately not part of Project, so it is never saved/loaded.
+    -->
+    <Border Background="{DynamicResource Grey200Brush}">
+        <Views:ModifierManager DataContext="{Binding ModulatorTestManager, FallbackValue={x:Null}}">
+            <Views:ModifierManager.SelectionPanel>
+                <Managers:AutoSelectionPanel Interface="{x:Type Modulation:Modifier}" />
+            </Views:ModifierManager.SelectionPanel>
+        </Views:ModifierManager>
+    </Border>
+
+</UserControl>

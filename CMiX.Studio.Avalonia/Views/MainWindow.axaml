@@ -176,6 +176,22 @@
 
             </TabItem>
 
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+                <TabItem.Header>
+                    <Controls:AppIcon
+                        Margin="8"
+                        IconKey="Beat"
+                        Size="{DynamicResource IconSizeXS}"
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Modulation (prototype)"
+                        ToolTip.VerticalOffset="10" />
+                </TabItem.Header>
+
+                <Views:MainWindowModulationTab />
+
+            </TabItem>
+
             <Managers:RepositoryTab
                 DataContext="{Binding MaterialManager}"
                 Icon="World"

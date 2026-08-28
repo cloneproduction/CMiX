@@ -25,6 +25,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
                              PrefabManager lightManager,
                              PrefabManager beatManager,
                              PrefabManager colorPaletteManager,
+                             PrefabManager modulatorTestManager,
                              Server server,
                              ControlRepository controlRepository,
                              AssetManager assetManager,
@@ -41,6 +42,14 @@ namespace CMiX.Studio.Avalonia.ViewModels
             LightManager = SetupManager(lightManager, ManagerIDs.LightManager);
             BeatManager = SetupManager(beatManager, ManagerIDs.BeatManager);
             ColorPaletteManager = SetupManager(colorPaletteManager, ManagerIDs.ColorPaletteManager);
+
+            // Prototype-only, deliberately not part of Project: never saved/loaded, resets to
+            // empty on app restart. Not routed through SetupManager since that method also
+            // assigns a fixed ManagerIDs entry and re-registers a deleter, both meaningful only
+            // for a Project-persisted manager.
+            ModulatorTestManager = modulatorTestManager;
+            ModulatorTestManager.UndoManager = _undoManager;
+            ModulatorTestManager.Activate();
 
             Project = project;
             Server = server;
@@ -91,6 +100,7 @@ namespace CMiX.Studio.Avalonia.ViewModels
         public PrefabManager TextureManager { get; set; }
         public PrefabManager MaterialManager { get; set; }
         public PrefabManager CameraManager { get; set; }
+        public PrefabManager ModulatorTestManager { get; set; }
         // Named after its type so the window relative binding paths in the views read the
         // same as the manager relative ControlRepository paths the tabs use.
         public ControlRepository ControlRepository { get; set; }
