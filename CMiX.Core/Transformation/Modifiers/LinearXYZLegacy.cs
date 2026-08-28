@@ -11,10 +11,14 @@ using static VL.Core.Import.ProcessNodeFactory;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(Entity))]
-    public partial class LinearXYZ : ObservableObject, ISpreadableModifier
+    // Renamed from LinearXYZ, [ModifierPanel] removed - superseded by
+    // Modulation.LinearXYZModifier (now renamed to bare LinearXYZ, claiming this name in the
+    // VL-facing engine-side patch). Kept only so any already-saved Project data referencing the
+    // old LinearXYZ still loads and renders correctly; no longer addable via the "Add Modifier"
+    // picker.
+    public partial class LinearXYZLegacy : ObservableObject, ISpreadableModifier
     {
-        public LinearXYZ(PrefabService prefabService, 
+        public LinearXYZLegacy(PrefabService prefabService,
                          ModifierModeSelector modifierModeSelector, 
                          GenericValue<TransformType> transformType, 
                          GenericValue<float> width, 
@@ -41,7 +45,7 @@ namespace CMiX.Core.Transformation.Modifiers
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public IControlModel ToModel() => new LinearXYZModel
+        public IControlModel ToModel() => new LinearXYZLegacyModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -54,7 +58,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public void FromModel(IControlModel model)
         {
-            var m = (LinearXYZModel)model;
+            var m = (LinearXYZLegacyModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             Width.FromModel(m.Width);

@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class GridLegacy : UserControl
+    public partial class LinearXYZLegacy : UserControl
     {
-        public GridLegacy()
+        public LinearXYZLegacy()
         {
             InitializeComponent();
         }

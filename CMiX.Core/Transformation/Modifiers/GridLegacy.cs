@@ -10,11 +10,13 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(LightEntity))]
-    [ModifierPanel(typeof(Entity))]
-    public partial class Grid : ObservableObject, ISpreadableModifier
+    // Renamed from Grid, [ModifierPanel] removed - superseded by Modulation.GridModifier (now
+    // renamed to bare Grid, claiming this name in the VL-facing engine-side patch). Kept only so
+    // any already-saved Project data referencing the old Grid still loads and renders correctly;
+    // no longer addable via the "Add Modifier" picker.
+    public partial class GridLegacy : ObservableObject, ISpreadableModifier
     {
-        public Grid(ModifierModeSelector modifierModeSelector,
+        public GridLegacy(ModifierModeSelector modifierModeSelector,
                     PrefabService prefabService,
                     Integer3 count,
                     Vector3 width,
@@ -37,7 +39,7 @@ namespace CMiX.Core.Transformation.Modifiers
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public IControlModel ToModel() => new GridModel
+        public IControlModel ToModel() => new GridLegacyModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -49,7 +51,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public void FromModel(IControlModel model)
         {
-            var m = (GridModel)model;
+            var m = (GridLegacyModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);

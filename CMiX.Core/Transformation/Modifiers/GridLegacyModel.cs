@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    public record GridModel : IPrefabModel
+    public record GridLegacyModel : IPrefabModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new(ModifierMode.ToSpread, 1);
