@@ -1,0 +1,36 @@
+<UserControl
+    x:Class="CMiX.Studio.Avalonia.Views.RenderRandomEntityModifier"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
+    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    x:Name="renderRandomEntityModifier">
+
+    <StackPanel Margin="4">
+
+        <BaseControls:ChannelSlider
+            Margin="0,0,0,4"
+            Caption="Control"
+            Minimum="0"
+            Maximum="1"
+            DataContext="{Binding Control}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=renderRandomEntityModifier}" />
+
+        <BaseControls:ComboBox
+            Margin="0,0,0,4"
+            Caption="Entity Type"
+            ItemsSource="{x:Static Resources:EnumProviders.EntityType}"
+            SelectedItem="{Binding EntityType.Value}" />
+
+        <Views:ModifierManager DataContext="{Binding ModulatorManager}">
+            <Views:ModifierManager.SelectionPanel>
+                <Managers:AutoSelectionPanel Interface="{x:Type Modulation:IModulator}" />
+            </Views:ModifierManager.SelectionPanel>
+        </Views:ModifierManager>
+
+    </StackPanel>
+
+</UserControl>
