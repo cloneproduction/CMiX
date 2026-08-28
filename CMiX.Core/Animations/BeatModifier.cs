@@ -3,13 +3,14 @@
 
 using System.Windows.Input;
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifier : ReceivableControl, IPrefab, IControl, IDisposable
+    public class BeatModifier : ReceivableControl, IPrefab, IControl, IDisposable, IModulator
     {
         public BeatModifier(PrefabService prefabService,
                             MasterBeat masterBeat,
