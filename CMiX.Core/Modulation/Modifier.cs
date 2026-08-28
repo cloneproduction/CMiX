@@ -1,6 +1,7 @@
 // Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CommunityToolkit.Mvvm.ComponentModel;
@@ -8,13 +9,17 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Modulation
 {
-    // Property-first container - e.g. "Scale" owning Channels X/Y/Z. Deliberately does not
-    // implement the old CMiX.Core.Modifiers.IModifier: how/whether this attaches to a real
-    // owner's existing picker is future migration work, not decided yet. ModulatorManager is this
-    // Modifier's own private stack (a PrefabManager of IModulator items) - not shared with any
-    // other Modifier, matching how BeatModifiableModifierBase's BeatModifierManager already works
-    // for the old system.
-    public abstract partial class Modifier : ObservableObject, IPrefab
+    // Property-first container - e.g. "Scale" owning Channels X/Y/Z. Implements the old
+    // CMiX.Core.Modifiers.IModifier (a pure marker, adds no members) so every concrete Modifier
+    // is discoverable the same way old modifiers already are: VL uses IModifier as its own
+    // category filter to find "all modifiers" on the engine side, and ControlFactory.NameControl
+    // special-cases it for naming (skips the .001/.002 de-duplication old modifiers don't use
+    // either). This is independent of CMiX.Studio.Avalonia's own "Add Modifier" picker, which
+    // discovers candidates purely by the [ModifierPanel(typeof(Owner))] attribute on each
+    // concrete class - see ScaleModifier.cs. ModulatorManager is this Modifier's own private
+    // stack (a PrefabManager of IModulator items) - not shared with any other Modifier, matching
+    // how BeatModifiableModifierBase's BeatModifierManager already works for the old system.
+    public abstract partial class Modifier : ObservableObject, IPrefab, IModifier
     {
         protected Modifier(PrefabService prefabService, PrefabManager modulatorManager)
         {
