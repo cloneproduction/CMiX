@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class LinearXYZ : UserControl
+    public partial class LinearXYZModifier : UserControl
     {
-        public LinearXYZ()
+        public LinearXYZModifier()
         {
             InitializeComponent();
         }

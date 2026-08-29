@@ -22,7 +22,7 @@ namespace CMiX.Core.Tests
         [InlineData(typeof(XYZModifier))]
         [InlineData(typeof(GridModifier))]
         [InlineData(typeof(CircularSpreadModifier))]
-        [InlineData(typeof(LinearXYZ))]
+        [InlineData(typeof(LinearXYZModifier))]
         public void PortedSpreadableModifier_StillImplementsISpreadableModifier(Type modifierType)
         {
             Assert.True(typeof(ISpreadableModifier).IsAssignableFrom(modifierType),

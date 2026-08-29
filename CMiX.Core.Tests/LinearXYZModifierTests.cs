@@ -9,13 +9,13 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class LinearXYZTests
+    public class LinearXYZModifierTests
     {
         [Fact]
         public void LinearXYZ_HasTwoChannelsLabeledWidthAndPhase()
         {
             var provider = TestServiceProviderFactory.Create();
-            var linearXYZ = provider.GetRequiredService<LinearXYZ>();
+            var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
 
             Assert.Equal(2, linearXYZ.Channels.Count);
             Assert.Equal("Width", linearXYZ.Channels[0].Label);
@@ -27,7 +27,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void LinearXYZ_IsDiscoverableOnEntity()
         {
-            var attributes = typeof(LinearXYZ).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
+            var attributes = typeof(LinearXYZModifier).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
             var owners = System.Array.ConvertAll(attributes, a => ((ModifierPanelAttribute)a).PanelOwner);
 
             Assert.Contains(typeof(Entity), owners);
@@ -37,7 +37,7 @@ namespace CMiX.Core.Tests
         public void LinearXYZ_IsAlsoAnIModifier()
         {
             var provider = TestServiceProviderFactory.Create();
-            var linearXYZ = provider.GetRequiredService<LinearXYZ>();
+            var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
 
             Assert.IsAssignableFrom<IModifier>(linearXYZ);
         }
@@ -46,7 +46,7 @@ namespace CMiX.Core.Tests
         public void WidthAndPhase_CanIndependentlyShareOneModulator()
         {
             var provider = TestServiceProviderFactory.Create();
-            var linearXYZ = provider.GetRequiredService<LinearXYZ>();
+            var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
             linearXYZ.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)linearXYZ.ModulatorManager.ManagerData.Items[0];
 
@@ -61,7 +61,7 @@ namespace CMiX.Core.Tests
         public void LinearXYZ_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
-            var linearXYZ = provider.GetRequiredService<LinearXYZ>();
+            var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
 
             linearXYZ.Width.Value.Value = 3f;
             var modulatorId = Guid.NewGuid();
@@ -70,7 +70,7 @@ namespace CMiX.Core.Tests
             var model = linearXYZ.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<LinearXYZ>();
+            var reloaded = provider2.GetRequiredService<LinearXYZModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(3f, reloaded.Width.Value.Value);
@@ -81,7 +81,7 @@ namespace CMiX.Core.Tests
         public void LinearXYZ_ToModel_FromModel_RoundTripsModifierModeSelectorTransformTypeAndDirection()
         {
             var provider = TestServiceProviderFactory.Create();
-            var linearXYZ = provider.GetRequiredService<LinearXYZ>();
+            var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
 
             linearXYZ.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
             linearXYZ.ModifierModeSelector.Count.Value = 5;
@@ -93,7 +93,7 @@ namespace CMiX.Core.Tests
             var model = linearXYZ.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<LinearXYZ>();
+            var reloaded = provider2.GetRequiredService<LinearXYZModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);

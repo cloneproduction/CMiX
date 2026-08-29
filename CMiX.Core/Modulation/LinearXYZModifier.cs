@@ -17,9 +17,9 @@ namespace CMiX.Core.Modulation
     // TransformTypeSelector, and DirectionXYZ are ported as-is (non-modulatable); Width and Phase
     // become modulatable channels - new capability the old LinearXYZ never had.
     [ModifierPanel(typeof(Entity))]
-    public partial class LinearXYZ : Modifier, ISpreadableModifier
+    public partial class LinearXYZModifier : Modifier, ISpreadableModifier
     {
-        public LinearXYZ(PrefabService prefabService,
+        public LinearXYZModifier(PrefabService prefabService,
                                  PrefabManager modulatorManager,
                                  ModifierModeSelector modifierModeSelector,
                                  GenericValue<TransformType> transformTypeSelector,
@@ -48,7 +48,7 @@ namespace CMiX.Core.Modulation
 
         public override IControlModel ToModel()
         {
-            var model = new LinearXYZModel
+            var model = new LinearXYZModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
                 TransformTypeSelector = (GenericValueModel<TransformType>)TransformTypeSelector.ToModel(),
@@ -60,7 +60,7 @@ namespace CMiX.Core.Modulation
 
         public override void FromModel(IControlModel model)
         {
-            var m = (LinearXYZModel)model;
+            var m = (LinearXYZModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             TransformTypeSelector.FromModel(m.TransformTypeSelector);

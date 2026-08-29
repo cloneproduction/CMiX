@@ -9,7 +9,7 @@ using CMiX.Core.Transformation;
 
 namespace CMiX.Core.Modulation
 {
-    public record LinearXYZModel : IControlModel, IPrefabModel, IModifierModel
+    public record LinearXYZModifierModel : IControlModel, IPrefabModel, IModifierModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
