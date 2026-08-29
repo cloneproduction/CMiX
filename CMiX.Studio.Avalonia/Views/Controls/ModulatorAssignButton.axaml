@@ -20,6 +20,7 @@
     -->
     <Button
         x:Name="assignButton"
+        Background="Transparent"
         Width="{DynamicResource ControlHeightMD}"
         IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=modulatorAssignButton, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
         Theme="{StaticResource ButtonRoundedRight}">
