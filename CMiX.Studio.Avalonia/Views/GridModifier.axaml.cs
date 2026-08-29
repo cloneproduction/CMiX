@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Grid : UserControl
+    public partial class GridModifier : UserControl
     {
-        public Grid()
+        public GridModifier()
         {
             InitializeComponent();
         }

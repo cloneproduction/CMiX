@@ -18,9 +18,9 @@ namespace CMiX.Core.Modulation
     // this Modifier's one modulator stack - new capability the old Grid never had.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class Grid : Modifier, ISpreadableModifier
+    public partial class GridModifier : Modifier, ISpreadableModifier
     {
-        public Grid(PrefabService prefabService,
+        public GridModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
                             ModifierModeSelector modifierModeSelector,
                             Integer3 count,
@@ -47,7 +47,7 @@ namespace CMiX.Core.Modulation
 
         public override IControlModel ToModel()
         {
-            var model = new GridModel
+            var model = new GridModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
                 Count = (Integer3Model)Count.ToModel()
@@ -58,7 +58,7 @@ namespace CMiX.Core.Modulation
 
         public override void FromModel(IControlModel model)
         {
-            var m = (GridModel)model;
+            var m = (GridModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
             Count.FromModel(m.Count);

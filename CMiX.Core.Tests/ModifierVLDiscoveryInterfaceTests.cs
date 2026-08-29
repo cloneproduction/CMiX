@@ -20,7 +20,7 @@ namespace CMiX.Core.Tests
         [InlineData(typeof(LFOModifier))]
         [InlineData(typeof(TexCoordModifier))]
         [InlineData(typeof(XYZModifier))]
-        [InlineData(typeof(Grid))]
+        [InlineData(typeof(GridModifier))]
         [InlineData(typeof(CircularSpread))]
         [InlineData(typeof(LinearXYZ))]
         public void PortedSpreadableModifier_StillImplementsISpreadableModifier(Type modifierType)

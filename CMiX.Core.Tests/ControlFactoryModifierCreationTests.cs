@@ -90,7 +90,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
 
-            var grid = (Grid)factory.Create(typeof(Grid));
+            var grid = (GridModifier)factory.Create(typeof(GridModifier));
 
             Assert.Equal(1, grid.Count.X.Value);
             Assert.Equal(1, grid.Count.Y.Value);

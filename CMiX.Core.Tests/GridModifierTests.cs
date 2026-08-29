@@ -9,13 +9,13 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class GridTests
+    public class GridModifierTests
     {
         [Fact]
         public void Grid_HasSixChannelsAcrossTwoGroups()
         {
             var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<Grid>();
+            var grid = provider.GetRequiredService<GridModifier>();
 
             Assert.Equal(6, grid.Channels.Count);
             Assert.Same(grid.Channels[0], grid.Width.X);
@@ -29,7 +29,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void Grid_IsDiscoverableOnBothEntityAndLightEntity()
         {
-            var attributes = typeof(Grid).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
+            var attributes = typeof(GridModifier).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
             var owners = System.Array.ConvertAll(attributes, a => ((ModifierPanelAttribute)a).PanelOwner);
 
             Assert.Contains(typeof(Entity), owners);
@@ -40,7 +40,7 @@ namespace CMiX.Core.Tests
         public void Grid_IsAlsoAnIModifier()
         {
             var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<Grid>();
+            var grid = provider.GetRequiredService<GridModifier>();
 
             Assert.IsAssignableFrom<IModifier>(grid);
         }
@@ -49,7 +49,7 @@ namespace CMiX.Core.Tests
         public void WidthAndPhaseGroups_ShareOneModulatorManagerIndependently()
         {
             var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<Grid>();
+            var grid = provider.GetRequiredService<GridModifier>();
             grid.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)grid.ModulatorManager.ManagerData.Items[0];
 
@@ -66,7 +66,7 @@ namespace CMiX.Core.Tests
         public void Grid_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<Grid>();
+            var grid = provider.GetRequiredService<GridModifier>();
 
             grid.Width.X.Value.Value = 5f;
             var modulatorId = Guid.NewGuid();
@@ -75,7 +75,7 @@ namespace CMiX.Core.Tests
             var model = grid.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<Grid>();
+            var reloaded = provider2.GetRequiredService<GridModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(5f, reloaded.Width.X.Value.Value);
@@ -86,7 +86,7 @@ namespace CMiX.Core.Tests
         public void Grid_ToModel_FromModel_RoundTripsModifierModeSelectorAndCount()
         {
             var provider = TestServiceProviderFactory.Create();
-            var grid = provider.GetRequiredService<Grid>();
+            var grid = provider.GetRequiredService<GridModifier>();
 
             grid.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
             grid.ModifierModeSelector.Count.Value = 5;
@@ -97,7 +97,7 @@ namespace CMiX.Core.Tests
             var model = grid.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<Grid>();
+            var reloaded = provider2.GetRequiredService<GridModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
