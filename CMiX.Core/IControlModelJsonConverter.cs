@@ -26,6 +26,7 @@ namespace CMiX.Core.Serialization
             ["CMiX.Core.Modulation.GridModel"] = "CMiX.Core.Modulation.GridModifierModel",
             ["CMiX.Core.Modulation.CircularSpreadModel"] = "CMiX.Core.Modulation.CircularSpreadModifierModel",
             ["CMiX.Core.Modulation.LinearXYZModel"] = "CMiX.Core.Modulation.LinearXYZModifierModel",
+            ["CMiX.Core.Transformation.Modifiers.TransformSRTModel"] = "CMiX.Core.Transformation.Modifiers.TransformSRTModifierModel",
         };
 
         public override IControlModel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)

@@ -15,7 +15,7 @@ namespace CMiX.Core.Rendering.Lights
     {
         public LightEntity(PrefabService prefabService,
                            LightSettings settings,
-                           TransformSRT transformSRT,
+                           TransformSRTModifier transformSRT,
                            PrefabManager modifierManager)
         {
             ID = prefabService.ID;
@@ -29,7 +29,7 @@ namespace CMiX.Core.Rendering.Lights
         public PrefabService PrefabService { get; set; }
         public LightSettings Settings { get; set; }
         public PrefabManager ModifierManager { get; set; }
-        public TransformSRT TransformSRT { get; set; }
+        public TransformSRTModifier TransformSRT { get; set; }
 
         [ObservableProperty]
         private bool transformSRTIsExpanded = false;
@@ -45,7 +45,7 @@ namespace CMiX.Core.Rendering.Lights
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Settings = (LightSettingsModel)Settings.ToModel(),
-            TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
+            TransformSRT = (TransformSRTModifierModel)TransformSRT.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
         };
 

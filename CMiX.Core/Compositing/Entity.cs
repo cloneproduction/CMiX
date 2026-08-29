@@ -15,7 +15,7 @@ namespace CMiX.Core.Compositing
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh,
-                      TransformSRT transformSRT,
+                      TransformSRTModifier transformSRT,
                       PrefabSelector materialSelector,
                       PrefabManager modifierManager,
                       Color color)
@@ -33,7 +33,7 @@ namespace CMiX.Core.Compositing
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
         public PrefabSelector MaterialSelector { get; set; }
-        public TransformSRT TransformSRT { get; set; }
+        public TransformSRTModifier TransformSRT { get; set; }
         public Mesh Mesh { get; set; }
         public Color Color { get; set; }
 
@@ -57,7 +57,7 @@ namespace CMiX.Core.Compositing
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Mesh = (MeshModel)Mesh.ToModel(),
-            TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
+            TransformSRT = (TransformSRTModifierModel)TransformSRT.ToModel(),
             Color = (ColorModel)Color.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
             MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel()

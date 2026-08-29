@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -11,14 +11,14 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace CMiX.Core.Transformation
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class TransformSRT : ObservableObject, IModifier
+    public partial class TransformSRTModifier : ObservableObject, IModifier
     {
-        public TransformSRT(PrefabService prefabService, 
-                            GenericValue<float> uniform, 
-                            Translate translate, 
-                            Scale scale, 
+        public TransformSRTModifier(PrefabService prefabService,
+                            GenericValue<float> uniform,
+                            Translate translate,
+                            Scale scale,
                             Rotation rotation,
-                            DirectionXYZ directionXYZ, 
+                            DirectionXYZ directionXYZ,
                             GenericValue<ModifierMode> mode)
         {
             PrefabService = prefabService;
@@ -43,7 +43,7 @@ namespace CMiX.Core.Transformation
         [ObservableProperty]
         private bool isExpanded;
 
-        public IControlModel ToModel() => new TransformSRTModel
+        public IControlModel ToModel() => new TransformSRTModifierModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -57,7 +57,7 @@ namespace CMiX.Core.Transformation
 
         public void FromModel(IControlModel model)
         {
-            var m = (TransformSRTModel)model;
+            var m = (TransformSRTModifierModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             Uniform.FromModel(m.Uniform);
