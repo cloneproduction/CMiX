@@ -38,9 +38,9 @@ namespace CMiX.Core.Modulation
             RandomizeLocation = randomizeLocation;
             RandomizeScale = randomizeScale;
             RandomizeRotation = randomizeRotation;
-            Location = new ChannelGroup(locationX, locationY, locationZ);
-            Scale = new ChannelGroup(scaleX, scaleY, scaleZ);
-            Rotation = new ChannelGroup(rotationX, rotationY, rotationZ);
+            Location = new ChannelVector3(locationX, locationY, locationZ);
+            Scale = new ChannelVector3(scaleX, scaleY, scaleZ);
+            Rotation = new ChannelVector3(rotationX, rotationY, rotationZ);
             Channels = new List<Channel>
             {
                 locationX, locationY, locationZ,
@@ -52,9 +52,9 @@ namespace CMiX.Core.Modulation
         // Each group is bound by its own ChannelVectorXYZ in the view (via DataContext), all
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
         // inherited from DataContext) - see ChannelVectorXYZ.axaml.cs.
-        public ChannelGroup Location { get; }
-        public ChannelGroup Scale { get; }
-        public ChannelGroup Rotation { get; }
+        public ChannelVector3 Location { get; }
+        public ChannelVector3 Scale { get; }
+        public ChannelVector3 Rotation { get; }
 
         // Non-modulatable, ported as-is from RandomXYZ for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

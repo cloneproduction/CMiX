@@ -30,16 +30,16 @@ namespace CMiX.Core.Modulation
         {
             ModifierModeSelector = modifierModeSelector;
             Count = count;
-            Width = new ChannelGroup(widthX, widthY, widthZ);
-            Phase = new ChannelGroup(phaseX, phaseY, phaseZ);
+            Width = new ChannelVector3(widthX, widthY, widthZ);
+            Phase = new ChannelVector3(phaseX, phaseY, phaseZ);
             Channels = new List<Channel> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
         }
 
         // Each group is bound by its own ChannelVectorXYZ in the view (via DataContext), both
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
         // inherited from DataContext) - see ChannelVectorXYZ.axaml.cs.
-        public ChannelGroup Width { get; }
-        public ChannelGroup Phase { get; }
+        public ChannelVector3 Width { get; }
+        public ChannelVector3 Phase { get; }
 
         // Non-modulatable, ported as-is from Grid for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

@@ -17,7 +17,7 @@ namespace CMiX.Core.Modulation
     // Factor become modulatable channels - new capability the old CircularSpread never had.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class CircularSpread : Modifier, IChannelGroupXY, ISpreadableModifier
+    public partial class CircularSpread : Modifier, ISpreadableModifier
     {
         public CircularSpread(PrefabService prefabService,
                                       PrefabManager modulatorManager,
@@ -43,7 +43,7 @@ namespace CMiX.Core.Modulation
 
         // Convenience accessors into Channels, purely for the view's bindings - Channels itself
         // stays the source of truth (used by Modifier's own ToModel/FromModel). X/Y (the Width
-        // pair) satisfy IChannelGroupXY for ChannelVectorXY; Phase/Factor are each bound directly
+        // pair) are read directly by ChannelVectorXY; Phase/Factor are each bound directly
         // by their own separate ChannelValue.
         public Channel X => Channels[0];
         public Channel Y => Channels[1];

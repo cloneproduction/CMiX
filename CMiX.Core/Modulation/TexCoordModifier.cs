@@ -30,8 +30,8 @@ namespace CMiX.Core.Modulation
         {
             ModifierModeSelector = modifierModeSelector;
             SamplerState = samplerState;
-            Location = new ChannelGroupXY(locationX, locationY);
-            Scale = new ChannelGroupXY(scaleX, scaleY);
+            Location = new ChannelVector2(locationX, locationY);
+            Scale = new ChannelVector2(scaleX, scaleY);
             rotation.Label = "Rotation";
             uniform.Label = "Uniform";
             Channels = new List<Channel> { locationX, locationY, scaleX, scaleY, rotation, uniform };
@@ -40,8 +40,8 @@ namespace CMiX.Core.Modulation
         // Each group is bound by its own ChannelVectorXY in the view (via DataContext), all
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
         // inherited from DataContext) - see ChannelVectorXY.axaml.cs.
-        public ChannelGroupXY Location { get; }
-        public ChannelGroupXY Scale { get; }
+        public ChannelVector2 Location { get; }
+        public ChannelVector2 Scale { get; }
 
         // Convenience accessors into Channels, purely for the view's ChannelValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).

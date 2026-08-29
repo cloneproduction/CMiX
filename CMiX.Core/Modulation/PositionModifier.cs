@@ -15,7 +15,7 @@ namespace CMiX.Core.Modulation
     // check, per this session's migration approach. RandomPosition is not touched by this change.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class PositionModifier : Modifier, IChannelGroup, ISpreadableModifier
+    public partial class PositionModifier : Modifier, ISpreadableModifier
     {
         public PositionModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,

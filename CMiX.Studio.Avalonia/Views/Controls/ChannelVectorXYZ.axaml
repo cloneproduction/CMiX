@@ -7,7 +7,8 @@
 
     <!--
         Fixed X/Y/Z rows (not a repeated DataTemplate), each its own ChannelValue bound to one axis
-        Channel of the IChannelGroup DataContext, all three forwarded this control's own
+        Channel read off the DataContext (a ChannelVector3, or a Modifier that has X/Y/Z directly,
+        e.g. ScaleModifier), all three forwarded this control's own
         ModulatorManager (set explicitly by the consumer via ElementName - not read off DataContext,
         since a Modifier that owns more than one XYZ group, e.g. Grid's separate Width and Phase,
         needs each group's own DataContext for its own X/Y/Z while still sharing the one

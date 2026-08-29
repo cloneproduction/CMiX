@@ -15,7 +15,7 @@ namespace CMiX.Core.Modulation
     // check, per this session's migration approach. RandomRotation is not touched by this change.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class RotationModifier : Modifier, IChannelGroup, ISpreadableModifier
+    public partial class RotationModifier : Modifier, ISpreadableModifier
     {
         public RotationModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,

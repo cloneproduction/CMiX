@@ -12,8 +12,8 @@
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
-        <!-- No DataContext override here - CircularSpread itself implements
-             IChannelGroupXY, so this reads X/Y directly off the whole modifier, same as
+        <!-- No DataContext override here - CircularSpread itself has X/Y properties, so this
+             reads them directly off the whole modifier, same as
              ScaleModifier/PositionModifier/RotationModifier already do with ChannelVectorXYZ. -->
         <BaseControls:ChannelVectorXY
             Margin="0,0,0,2"
