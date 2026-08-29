@@ -14,9 +14,9 @@
         <Views:ModifierModeSelector DataContext="{Binding TranslateMode}" />
 
         <Panels:PositionedStackPanel Margin="0,0,0,8">
-            <BaseControls:ModulatableValue Caption="Translate X" DataContext="{Binding TranslateX}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding TranslateY}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding TranslateZ}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Caption="Translate X" DataContext="{Binding TranslateX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding TranslateY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding TranslateZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
         <Views:ModifierModeSelector DataContext="{Binding ScaleMode}" />
@@ -25,20 +25,20 @@
             Margin="0,0,0,2"
             Caption="Uniform"
             DataContext="{Binding ScaleUniform}"
-            ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
         <Panels:PositionedStackPanel Margin="0,0,0,8">
-            <BaseControls:ModulatableValue Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
         <Views:ModifierModeSelector DataContext="{Binding RotationMode}" />
 
         <Panels:PositionedStackPanel Margin="0,0,0,8">
-            <BaseControls:ModulatableValue Caption="Rotation X" DataContext="{Binding RotationX}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
-            <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding RotationZ}" ModulatorManager="{Binding ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Caption="Rotation X" DataContext="{Binding RotationX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
+            <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding RotationZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
         <BaseControls:AxisSelector3D
@@ -48,7 +48,7 @@
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
-        <Views:ModifierManager Margin="0,8,0,0" DataContext="{Binding ModulatorManager, ElementName=transformSRTModifier}">
+        <Views:ModifierManager Margin="0,8,0,0" DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>
                 <Managers:AutoSelectionPanel Interface="{x:Type Modulation:IModulator}" />
             </Views:ModifierManager.SelectionPanel>
