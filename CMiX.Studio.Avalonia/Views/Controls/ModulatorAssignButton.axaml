@@ -6,10 +6,10 @@
     x:Name="modulatorAssignButton">
 
     <!--
-        The one "assign a Modulator to this Channel" button, reused by every Channel-editing
-        control (ModulatableValue, ChannelSlider) instead of each defining its own copy. DataContext is
-        inherited from the consumer, not set here - it's always the Channel itself, the same
-        contract ModulatableValue/ChannelSlider already have. Placed via DockPanel.Dock="Right" by the
+        The one "assign a Modulator to this Modulatable" button, reused by every Modulatable-editing
+        control (ModulatableValue, ModulatableSlider) instead of each defining its own copy. DataContext is
+        inherited from the consumer, not set here - it's always the Modulatable itself, the same
+        contract ModulatableValue/ModulatableSlider already have. Placed via DockPanel.Dock="Right" by the
         consumer, alongside whichever value editor (DragValue, CMiXSlider, ...) it needs.
 
         Foreground is a MultiBinding through BoolToAccentBrushConverter, given both possible

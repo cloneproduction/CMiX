@@ -10,7 +10,7 @@
 
     <StackPanel Margin="4">
 
-        <BaseControls:ChannelSlider
+        <BaseControls:ModulatableSlider
             Caption="Control"
             DataContext="{Binding Value}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=visibilityModifier}"

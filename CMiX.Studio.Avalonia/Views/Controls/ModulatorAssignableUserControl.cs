@@ -22,7 +22,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         // Shared by any control whose own DataContext is directly a Modulatable (ModulatableValue,
-        // ChannelSlider). Does not hide the flyout - the caller still owns its own named
+        // ModulatableSlider). Does not hide the flyout - the caller still owns its own named
         // assignButton for that, declared in its own XAML.
         protected void AssignFromDataContext(object sender)
         {

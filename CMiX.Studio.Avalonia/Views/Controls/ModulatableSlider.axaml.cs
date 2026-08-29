@@ -5,21 +5,21 @@ using Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    // Same shape/reasoning as ModulatableValue - DataContext is the Channel itself, ModulatorManager
+    // Same shape/reasoning as ModulatableValue - DataContext is the Modulatable itself, ModulatorManager
     // is inherited - except a bounded CMiXSlider instead of an unbounded DragValue, for a channel
     // whose old counterpart used a slider (e.g. RandomVisibility's 0-1 "Control"). Minimum/Maximum
     // are bindable since different sliders need different ranges (unlike VectorXYZ/Vector2, which
     // are always unbounded DragValues, so didn't need this). The assign button itself is
     // ModulatorAssignButton, not defined here.
-    public partial class ChannelSlider : ModulatorAssignableUserControl
+    public partial class ModulatableSlider : ModulatorAssignableUserControl
     {
-        public ChannelSlider()
+        public ModulatableSlider()
         {
             InitializeComponent();
         }
 
         public static readonly StyledProperty<double> MinimumProperty =
-            AvaloniaProperty.Register<ChannelSlider, double>(nameof(Minimum));
+            AvaloniaProperty.Register<ModulatableSlider, double>(nameof(Minimum));
         public double Minimum
         {
             get => GetValue(MinimumProperty);
@@ -27,7 +27,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         }
 
         public static readonly StyledProperty<double> MaximumProperty =
-            AvaloniaProperty.Register<ChannelSlider, double>(nameof(Maximum), 1.0);
+            AvaloniaProperty.Register<ModulatableSlider, double>(nameof(Maximum), 1.0);
         public double Maximum
         {
             get => GetValue(MaximumProperty);
