@@ -11,18 +11,15 @@ using CMiX.Core.Prefabs.Managers;
 namespace CMiX.Core.Transformation
 {
     // One shared ModulatorManager for all 10 channels (Translate/Scale/Rotation X/Y/Z plus Scale's
-    // Uniform) - every channel picks from the same modulator list, rather than each of
-    // Translate/Scale/Rotation having its own separate stack. TranslateMode/ScaleMode/RotationMode
-    // stay separate per group (spread behavior for that group's own channels), which is unrelated
-    // to which modulators are available.
+    // Uniform) - every channel picks from the same modulator list. One shared ModifierModeSelector
+    // too, matching every other Modulation modifier (ScaleModifier, RotationModifier,
+    // TranslateModifier) - one Modifier = one ModifierModeSelector, regardless of channel count.
     [ModifierPanel(typeof(Entity))]
     public partial class TransformSRTModifier : Modifier
     {
         public TransformSRTModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
-                            ModifierModeSelector translateMode,
-                            ModifierModeSelector scaleMode,
-                            ModifierModeSelector rotationMode,
+                            ModifierModeSelector modifierModeSelector,
                             Modulatable translateX,
                             Modulatable translateY,
                             Modulatable translateZ,
@@ -37,9 +34,7 @@ namespace CMiX.Core.Transformation
                             GenericValue<ModifierMode> mode)
             : base(prefabService, modulatorManager)
         {
-            TranslateMode = translateMode;
-            ScaleMode = scaleMode;
-            RotationMode = rotationMode;
+            ModifierModeSelector = modifierModeSelector;
             DirectionXYZ = directionXYZ;
             Mode = mode;
 
@@ -62,9 +57,7 @@ namespace CMiX.Core.Transformation
             };
         }
 
-        public ModifierModeSelector TranslateMode { get; set; }
-        public ModifierModeSelector ScaleMode { get; set; }
-        public ModifierModeSelector RotationMode { get; set; }
+        public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
@@ -85,9 +78,7 @@ namespace CMiX.Core.Transformation
         {
             var model = new TransformSRTModifierModel
             {
-                TranslateMode = (ModifierModeSelectorModel)TranslateMode.ToModel(),
-                ScaleMode = (ModifierModeSelectorModel)ScaleMode.ToModel(),
-                RotationMode = (ModifierModeSelectorModel)RotationMode.ToModel(),
+                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
                 DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
                 Mode = (GenericValueModel<ModifierMode>)Mode.ToModel()
             };
@@ -99,9 +90,7 @@ namespace CMiX.Core.Transformation
         {
             var m = (TransformSRTModifierModel)model;
             LoadBaseModel(m);
-            TranslateMode.FromModel(m.TranslateMode);
-            ScaleMode.FromModel(m.ScaleMode);
-            RotationMode.FromModel(m.RotationMode);
+            ModifierModeSelector.FromModel(m.ModifierModeSelector);
             DirectionXYZ.FromModel(m.DirectionXYZ);
             Mode.FromModel(m.Mode);
         }
