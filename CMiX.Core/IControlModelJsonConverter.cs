@@ -15,6 +15,16 @@ namespace CMiX.Core.Serialization
                 .Where(t => !t.IsAbstract && !t.IsInterface && typeof(IControlModel).IsAssignableFrom(t))
                 .ToDictionary(t => t.FullName!, t => t);
 
+        // $type is written as the concrete Model type's FullName, so renaming a Model type breaks
+        // deserialization of any project saved under the old name. Add an entry here whenever a
+        // *Model type is renamed (property shape unchanged), so already-saved projects still load.
+        private static readonly Dictionary<string, string> LegacyTypeNames = new()
+        {
+            ["CMiX.Core.Transformation.Modifiers.GridModel"] = "CMiX.Core.Transformation.Modifiers.GridLegacyModel",
+            ["CMiX.Core.Transformation.Modifiers.CircularSpreadModel"] = "CMiX.Core.Transformation.Modifiers.CircularSpreadLegacyModel",
+            ["CMiX.Core.Transformation.Modifiers.LinearXYZModel"] = "CMiX.Core.Transformation.Modifiers.LinearXYZLegacyModel",
+        };
+
         public override IControlModel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
         {
             using var doc = JsonDocument.ParseValue(ref reader);
@@ -24,6 +34,9 @@ namespace CMiX.Core.Serialization
                 throw new JsonException($"Missing {TypeKey} discriminator");
 
             var typeName = typeProp.GetString()!;
+            if (LegacyTypeNames.TryGetValue(typeName, out var currentTypeName))
+                typeName = currentTypeName;
+
             if (!TypeMap.TryGetValue(typeName, out var concreteType))
                 throw new JsonException($"Unknown type: {typeName}");
 
