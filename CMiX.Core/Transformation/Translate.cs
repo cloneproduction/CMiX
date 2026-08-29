@@ -10,8 +10,10 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    [ModifierPanel(typeof(LightEntity))]
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.PositionModifier, which does everything
+    // this does plus an optional modulator stack. No longer independently addable via the picker;
+    // kept as TransformSRTModifier's internal building block and so already-saved Project data
+    // referencing Translate still loads.
     public partial class Translate : ObservableObject, IModifier
     {
         public Translate(PrefabService prefabService, Vector3 xyz)

@@ -4,6 +4,7 @@ using CMiX.Core.Materials.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras.Modifiers;
 using CMiX.Core.Text.Modifiers;
+using CMiX.Core.Transformation;
 using CMiX.Core.Transformation.Modifiers;
 using Xunit;
 
@@ -32,6 +33,9 @@ namespace CMiX.Core.Tests
         [InlineData(typeof(CameraLFO))]
         [InlineData(typeof(CameraRandom))]
         [InlineData(typeof(CharWriter))]
+        [InlineData(typeof(Scale))]
+        [InlineData(typeof(Rotation))]
+        [InlineData(typeof(Translate))]
         public void SupersededModifier_HasNoModifierPanelAttribute(Type modifierType)
         {
             var attributes = modifierType.GetCustomAttributes(typeof(ModifierPanelAttribute), false);
