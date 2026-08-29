@@ -4,29 +4,19 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <Expander IsExpanded="True">
+    <StackPanel Margin="8">
 
-        <Expander.Header>
-            <DockPanel>
-
-                <ToggleButton
-                    Width="14"
-                    Height="14"
-                    IsChecked="{Binding IsEnabled.Value}"
-                    Theme="{DynamicResource ToggleButtonRounded}" />
-
-                <TextBlock
-                    Margin="8,0"
-                    Foreground="{DynamicResource ForegroundBrush}"
-                    Text="Easing" />
-
-            </DockPanel>
-        </Expander.Header>
+        <BaseControls:ToggleButton 
+            Margin="0, 0, 0, 8"
+            IsChecked="{Binding IsEnabled.Value}"
+            Caption="Easing"/>
 
         <Panels:PositionedStackPanel
-            Margin="8"
+            
             IsEnabled="{Binding IsEnabled.Value}">
 
             <BaseControls:ComboBox
@@ -42,5 +32,5 @@
 
         </Panels:PositionedStackPanel>
 
-    </Expander>
+    </StackPanel>
 </UserControl>

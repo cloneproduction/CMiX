@@ -10,12 +10,6 @@ namespace CMiX.Studio.Avalonia.Views
         public BeatModifier()
         {
             InitializeComponent();
-
-            // The WPF view fed ItemsControl.AlternationIndex into the CurrentStepConverter.
-            // Avalonia has no alternation index, so the container index is published
-            // through the container's Tag, which the multi binding in the item template reads.
-            stepsItemsControl.ContainerPrepared += (sender, e) => e.Container.Tag = e.Index;
-            stepsItemsControl.ContainerIndexChanged += (sender, e) => e.Container.Tag = e.NewIndex;
         }
     }
 }
