@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Cameras.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -13,7 +14,7 @@ namespace CMiX.Core.Modulation
     // migration approach. CameraLFO is not touched by this change. PingPong and Axis are ported
     // as-is (non-modulatable); From and To both become modulatable channels.
     [ModifierPanel(typeof(Camera))]
-    public partial class CameraLFOModifier : Modifier
+    public partial class CameraLFOModifier : Modifier, ICameraModifier
     {
         public CameraLFOModifier(PrefabService prefabService,
                                  PrefabManager modulatorManager,
@@ -27,6 +28,9 @@ namespace CMiX.Core.Modulation
             Axis = axis;
             from.Label = "From";
             to.Label = "To";
+            // Matches the old CameraLFO's own default (From 0, To 1) - a freshly added CameraLFO
+            // otherwise oscillates 0 to 0, a no-op.
+            to.Value.Value = 1.0f;
             Channels = new List<Channel> { from, to };
         }
 

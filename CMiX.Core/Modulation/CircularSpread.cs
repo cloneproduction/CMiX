@@ -6,6 +6,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -16,7 +17,7 @@ namespace CMiX.Core.Modulation
     // Factor become modulatable channels - new capability the old CircularSpread never had.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class CircularSpread : Modifier, IChannelGroupXY
+    public partial class CircularSpread : Modifier, IChannelGroupXY, ISpreadableModifier
     {
         public CircularSpread(PrefabService prefabService,
                                       PrefabManager modulatorManager,
@@ -32,6 +33,11 @@ namespace CMiX.Core.Modulation
             widthY.Label = "Y";
             phase.Label = "Phase";
             factor.Label = "Factor";
+            // Matches the old CircularSpread's own defaults (Width (1,1), Factor 1) - a freshly
+            // added modifier otherwise starts with zero spread and zero effect.
+            widthX.Value.Value = 1.0f;
+            widthY.Value.Value = 1.0f;
+            factor.Value.Value = 1.0f;
             Channels = new List<Channel> { widthX, widthY, phase, factor };
         }
 

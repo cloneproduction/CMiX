@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -16,7 +17,7 @@ namespace CMiX.Core.Modulation
     // and TransformType are ported as-is (non-modulatable); RandomizePhase, From, and To all
     // become modulatable channels.
     [ModifierPanel(typeof(Entity))]
-    public partial class LFOModifier : Modifier
+    public partial class LFOModifier : Modifier, ISpreadableModifier
     {
         public LFOModifier(PrefabService prefabService,
                            PrefabManager modulatorManager,
@@ -36,6 +37,9 @@ namespace CMiX.Core.Modulation
             from.Label = "From";
             to.Label = "To";
             randomizePhase.Label = "Randomize Phase";
+            // Matches the old LFO's own default (From 0, To 1) - a freshly added LFO otherwise
+            // oscillates 0 to 0, a no-op.
+            to.Value.Value = 1.0f;
             Channels = new List<Channel> { from, to, randomizePhase };
         }
 

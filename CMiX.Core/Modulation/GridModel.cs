@@ -15,7 +15,7 @@ namespace CMiX.Core.Modulation
         public bool IsExpanded { get; set; } = true;
         public List<ChannelModel> Channels { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
-        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
-        public Integer3Model Count { get; set; } = new();
+        public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new(ModifierMode.ToSpread, 1);
+        public Integer3Model Count { get; set; } = new(1, 1, 1);
     }
 }

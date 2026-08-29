@@ -27,6 +27,9 @@ namespace CMiX.Core.Modulation
         {
             EntityType = entityType;
             control.Label = "Control";
+            // Matches the old RenderRandomEntity's own default - a freshly added modifier
+            // otherwise starts at 0, disabling it.
+            control.Value.Value = 1.0f;
             Channels = new List<Channel> { control };
         }
 

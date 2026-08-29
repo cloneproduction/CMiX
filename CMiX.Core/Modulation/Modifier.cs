@@ -19,7 +19,7 @@ namespace CMiX.Core.Modulation
     // concrete class - see ScaleModifier.cs. ModulatorManager is this Modifier's own private
     // stack (a PrefabManager of IModulator items) - not shared with any other Modifier, matching
     // how BeatModifiableModifierBase's BeatModifierManager already works for the old system.
-    public abstract partial class Modifier : ObservableObject, IPrefab, IModifier
+    public abstract partial class Modifier : ObservableObject, IPrefab, IModifier, IDisposable
     {
         protected Modifier(PrefabService prefabService, PrefabManager modulatorManager)
         {
@@ -28,15 +28,24 @@ namespace CMiX.Core.Modulation
             ModulatorManager.ManagerData.Items.CollectionChanged += OnModulatorManagerItemsChanged;
         }
 
-        // Deleting a modulator from this Modifier's own stack unassigns it from any channel that
-        // was pointing at it, rather than leaving a dangling ModulatorID/BoundModulator behind.
+        // Deleting or resetting a modulator in this Modifier's own stack unassigns it from any
+        // channel that was pointing at it, rather than leaving a dangling ModulatorID/BoundModulator
+        // behind. CollectionManager.ResetItem replaces an item via an indexer-set, which raises
+        // Replace rather than Remove - both actions carry the old item(s) in OldItems, so both are
+        // handled the same way.
         private void OnModulatorManagerItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if (e.Action != System.Collections.Specialized.NotifyCollectionChangedAction.Remove) return;
+            if (e.OldItems == null) return;
 
             foreach (IControl removed in e.OldItems)
                 foreach (var channel in Channels.Where(c => c.Binding.ModulatorID == removed.ID))
                     channel.Binding.SetModulatorCommand.Execute(null);
+        }
+
+        public void Dispose()
+        {
+            ModulatorManager.ManagerData.Items.CollectionChanged -= OnModulatorManagerItemsChanged;
+            ModulatorManager.Dispose();
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
@@ -62,9 +71,22 @@ namespace CMiX.Core.Modulation
             ID = model.ID;
             PrefabService.FromModel(model.PrefabService);
             IsExpanded = model.IsExpanded;
+
+            // ModulatorManager loads first so each Channel's BoundModulator can be re-resolved by
+            // ID right after - ChannelBinding.FromModel only restores ModulatorID, since it has no
+            // access to the manager's items itself.
+            LoadManager(ModulatorManager, model.ModulatorManager);
+
             for (int i = 0; i < Channels.Count && i < model.Channels.Count; i++)
                 Channels[i].FromModel(model.Channels[i]);
-            LoadManager(ModulatorManager, model.ModulatorManager);
+
+            foreach (var channel in Channels)
+            {
+                if (channel.Binding.ModulatorID is not { } modulatorId) continue;
+                channel.Binding.BoundModulator = ModulatorManager.ManagerData.Items
+                    .OfType<IModulator>()
+                    .FirstOrDefault(m => m.ID == modulatorId);
+            }
         }
 
         public abstract IControlModel ToModel();

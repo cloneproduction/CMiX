@@ -20,6 +20,9 @@ namespace CMiX.Core.Modulation
                                   Channel channelValue)
             : base(prefabService, modulatorManager)
         {
+            // Matches the old RandomVisibility's own default - a freshly added modifier
+            // otherwise starts at 0 instead of half-visible.
+            channelValue.Value.Value = 0.5f;
             Channels = new List<Channel> { channelValue };
         }
 

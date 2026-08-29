@@ -16,6 +16,6 @@ namespace CMiX.Core.Modulation
         public List<ChannelModel> Channels { get; set; } = new();
         public PrefabManagerModel ModulatorManager { get; set; } = new();
         public ModifierModeSelectorModel ModifierModeSelector { get; set; } = new();
-        public GenericValueModel<ColorMode> ColorMode { get; set; } = new();
+        public GenericValueModel<ColorMode> ColorMode { get; set; } = new(Core.ColorMode.HSV);
     }
 }
