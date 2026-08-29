@@ -32,7 +32,7 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var factory = provider.GetRequiredService<ControlFactory>();
 
-            var circularSpread = (CircularSpread)factory.Create(typeof(CircularSpread));
+            var circularSpread = (CircularSpreadModifier)factory.Create(typeof(CircularSpreadModifier));
 
             Assert.Equal(1.0f, circularSpread.X.Value.Value);
             Assert.Equal(1.0f, circularSpread.Y.Value.Value);

@@ -17,9 +17,9 @@ namespace CMiX.Core.Modulation
     // Factor become modulatable channels - new capability the old CircularSpread never had.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class CircularSpread : Modifier, ISpreadableModifier
+    public partial class CircularSpreadModifier : Modifier, ISpreadableModifier
     {
-        public CircularSpread(PrefabService prefabService,
+        public CircularSpreadModifier(PrefabService prefabService,
                                       PrefabManager modulatorManager,
                                       ModifierModeSelector modifierModeSelector,
                                       Channel widthX,
@@ -55,7 +55,7 @@ namespace CMiX.Core.Modulation
 
         public override IControlModel ToModel()
         {
-            var model = new CircularSpreadModel
+            var model = new CircularSpreadModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
             };
@@ -65,7 +65,7 @@ namespace CMiX.Core.Modulation
 
         public override void FromModel(IControlModel model)
         {
-            var m = (CircularSpreadModel)model;
+            var m = (CircularSpreadModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
         }

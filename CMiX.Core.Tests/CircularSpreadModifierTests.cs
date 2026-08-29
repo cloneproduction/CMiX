@@ -9,13 +9,13 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class CircularSpreadTests
+    public class CircularSpreadModifierTests
     {
         [Fact]
         public void CircularSpread_HasFourChannels()
         {
             var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpread>();
+            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
 
             Assert.Equal(4, circularSpread.Channels.Count);
             Assert.Equal("X", circularSpread.Channels[0].Label);
@@ -27,7 +27,7 @@ namespace CMiX.Core.Tests
         [Fact]
         public void CircularSpread_IsDiscoverableOnBothEntityAndLightEntity()
         {
-            var attributes = typeof(CircularSpread).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
+            var attributes = typeof(CircularSpreadModifier).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
             var owners = System.Array.ConvertAll(attributes, a => ((ModifierPanelAttribute)a).PanelOwner);
 
             Assert.Contains(typeof(Entity), owners);
@@ -38,7 +38,7 @@ namespace CMiX.Core.Tests
         public void CircularSpread_IsAlsoAnIModifier()
         {
             var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpread>();
+            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
 
             Assert.IsAssignableFrom<IModifier>(circularSpread);
         }
@@ -47,7 +47,7 @@ namespace CMiX.Core.Tests
         public void AllFourChannels_CanShareOneModulatorIndependently()
         {
             var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpread>();
+            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
             circularSpread.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)circularSpread.ModulatorManager.ManagerData.Items[0];
 
@@ -64,7 +64,7 @@ namespace CMiX.Core.Tests
         public void CircularSpread_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpread>();
+            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
 
             circularSpread.X.Value.Value = 2f;
             var modulatorId = Guid.NewGuid();
@@ -73,7 +73,7 @@ namespace CMiX.Core.Tests
             var model = circularSpread.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<CircularSpread>();
+            var reloaded = provider2.GetRequiredService<CircularSpreadModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(2f, reloaded.X.Value.Value);
@@ -84,7 +84,7 @@ namespace CMiX.Core.Tests
         public void CircularSpread_ToModel_FromModel_RoundTripsModifierModeSelector()
         {
             var provider = TestServiceProviderFactory.Create();
-            var circularSpread = provider.GetRequiredService<CircularSpread>();
+            var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
 
             circularSpread.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
             circularSpread.ModifierModeSelector.Count.Value = 5;
@@ -92,7 +92,7 @@ namespace CMiX.Core.Tests
             var model = circularSpread.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<CircularSpread>();
+            var reloaded = provider2.GetRequiredService<CircularSpreadModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
