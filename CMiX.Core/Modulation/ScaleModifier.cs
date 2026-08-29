@@ -35,7 +35,7 @@ namespace CMiX.Core.Modulation
             Channels = new List<Modulatable> { channelX, channelY, channelZ, channelUniform };
         }
 
-        // Convenience accessors into Channels, purely for the view's ChannelVectorXYZ binding -
+        // Convenience accessors into Channels, purely for the view's ModulatableVectorXYZ binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
         public Modulatable X => Channels[0];
         public Modulatable Y => Channels[1];

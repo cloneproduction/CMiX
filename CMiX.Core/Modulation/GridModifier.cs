@@ -35,9 +35,9 @@ namespace CMiX.Core.Modulation
             Channels = new List<Modulatable> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
         }
 
-        // Each group is bound by its own ChannelVectorXYZ in the view (via DataContext), both
+        // Each group is bound by its own ModulatableVectorXYZ in the view (via DataContext), both
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
-        // inherited from DataContext) - see ChannelVectorXYZ.axaml.cs.
+        // inherited from DataContext) - see ModulatableVectorXYZ.axaml.cs.
         public ModulatableVector3 Width { get; }
         public ModulatableVector3 Phase { get; }
 

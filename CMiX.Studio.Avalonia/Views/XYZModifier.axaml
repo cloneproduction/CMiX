@@ -22,7 +22,7 @@
             Caption="Randomize Location"
             IsChecked="{Binding RandomizeLocation.Value}" />
 
-        <BaseControls:ChannelVectorXYZ
+        <BaseControls:ModulatableVectorXYZ
             Margin="0,0,0,4"
             Caption="Location"
             DataContext="{Binding Location}"
@@ -33,7 +33,7 @@
             Caption="Randomize Scale"
             IsChecked="{Binding RandomizeScale.Value}" />
 
-        <BaseControls:ChannelVectorXYZ
+        <BaseControls:ModulatableVectorXYZ
             Margin="0,0,0,4"
             Caption="Scale"
             DataContext="{Binding Scale}"
@@ -44,7 +44,7 @@
             Caption="Randomize Rotation"
             IsChecked="{Binding RandomizeRotation.Value}" />
 
-        <BaseControls:ChannelVectorXYZ
+        <BaseControls:ModulatableVectorXYZ
             Margin="0,0,0,4"
             Caption="Rotation"
             DataContext="{Binding Rotation}"

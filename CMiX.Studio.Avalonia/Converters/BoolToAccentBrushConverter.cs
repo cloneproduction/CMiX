@@ -16,7 +16,7 @@ namespace CMiX.Studio.Avalonia.Converters
     // as a binding error. values[1]/values[2]: brushes to use when hovered/not, each already
     // resolved by a plain {StaticResource} binding before this runs. Picking between two real,
     // already-resolved brushes avoids relying on a style default ever showing through again once
-    // a binding is attached to the target property - it doesn't, see ChannelVectorXYZ.axaml's
+    // a binding is attached to the target property - it doesn't, see ModulatableVectorXYZ.axaml's
     // comment for why.
     public sealed class BoolToAccentBrushConverter : IMultiValueConverter
     {

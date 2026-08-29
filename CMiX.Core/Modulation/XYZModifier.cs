@@ -49,9 +49,9 @@ namespace CMiX.Core.Modulation
             };
         }
 
-        // Each group is bound by its own ChannelVectorXYZ in the view (via DataContext), all
+        // Each group is bound by its own ModulatableVectorXYZ in the view (via DataContext), all
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
-        // inherited from DataContext) - see ChannelVectorXYZ.axaml.cs.
+        // inherited from DataContext) - see ModulatableVectorXYZ.axaml.cs.
         public ModulatableVector3 Location { get; }
         public ModulatableVector3 Scale { get; }
         public ModulatableVector3 Rotation { get; }
