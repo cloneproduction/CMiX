@@ -3,6 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     x:Name="channelValue">
 
     <!-- DataContext is the Channel itself - see ChannelValue.axaml.cs. -->
@@ -12,7 +13,14 @@
             DockPanel.Dock="Right"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelValue}" />
 
-        <BaseControls:DragValue Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}" Value="{Binding Value.Value}" />
+        <!-- Forwards whatever Position a parent PositionedStackPanel set on this whole
+             ChannelValue down to the inner DragValue, the same way DragValue.axaml forwards its
+             own Position down to its internal Border - without this, DragValue always renders as
+             if Position="All" regardless of where it sits in a joined row group. -->
+        <BaseControls:DragValue
+            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelValue}"
+            Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}"
+            Value="{Binding Value.Value}" />
 
     </DockPanel>
 

@@ -3,29 +3,20 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="channelVectorXYZ">
 
-    <!--
-        Fixed X/Y/Z rows (not a repeated DataTemplate), each its own ChannelValue bound to one axis
-        Channel read off the DataContext (a ChannelVector3, or a Modifier that has X/Y/Z directly,
-        e.g. ScaleModifier), all three forwarded this control's own
-        ModulatorManager (set explicitly by the consumer via ElementName - not read off DataContext,
-        since a Modifier that owns more than one XYZ group, e.g. Grid's separate Width and Phase,
-        needs each group's own DataContext for its own X/Y/Z while still sharing the one
-        Modifier-level stack). Mirrors VectorXYZ.axaml's own "three DragValues in a StackPanel"
-        shape - each row is a ChannelValue instead of a bare DragValue, so the assign-button/flyout
-        block lives once (in ChannelValue.axaml) instead of being copy-pasted three times here.
-    -->
-    <StackPanel>
+    <!-- Same panel and margin pattern as VectorXYZ.axaml - PositionedStackPanel handles the
+         joined-row spacing/rounding itself, only the middle row needs an explicit gap margin. -->
+    <Panels:PositionedStackPanel>
 
         <BaseControls:ChannelValue
-            Margin="0,0,0,2"
             Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}"
             DataContext="{Binding X}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
         <BaseControls:ChannelValue
-            Margin="0,0,0,2"
+            Margin="0,1"
             Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} Y', Mode=OneWay}"
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
@@ -35,6 +26,6 @@
             DataContext="{Binding Z}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-    </StackPanel>
+    </Panels:PositionedStackPanel>
 
 </BaseControls:ModulatorAssignableUserControl>
