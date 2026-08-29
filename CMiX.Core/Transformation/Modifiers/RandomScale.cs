@@ -11,7 +11,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.ScaleModifier. No longer addable via the
+    // picker; kept so already-saved Project data referencing RandomScale still loads.
     public partial class RandomScale : BeatModifiableModifierBase, ISpreadableModifier
     {
         public RandomScale(PrefabManager beatModifierManager,

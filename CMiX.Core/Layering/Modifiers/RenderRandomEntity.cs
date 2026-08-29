@@ -11,7 +11,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    [ModifierPanel(typeof(Layer))]
+    // [ModifierPanel] removed - superseded by Modulation.RenderRandomEntityModifier. No longer
+    // addable via the picker; kept so already-saved Project data referencing it still loads.
     public partial class RenderRandomEntity : BeatModifiableModifierBase, IModifier
     {
         public RenderRandomEntity(PrefabManager beatModifierManager,

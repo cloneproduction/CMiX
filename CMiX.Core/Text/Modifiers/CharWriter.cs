@@ -10,7 +10,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Text.Modifiers
 {
-    [ModifierPanel(typeof(TextEntity))]
+    // [ModifierPanel] removed - superseded by Modulation.CharWriterModifier. No longer addable via
+    // the picker; kept so already-saved Project data referencing CharWriter still loads.
     public partial class CharWriter : BeatModifiableModifierBase, IModifier
     {
         public CharWriter(PrefabService prefabService,

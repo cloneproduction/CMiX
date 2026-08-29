@@ -12,7 +12,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.TexCoordModifier. No longer addable via
+    // the picker; kept so already-saved Project data referencing RandomTexCoord still loads.
     public partial class RandomTexCoord : BeatModifiableModifierBase, ISpreadableModifier
     {
         public RandomTexCoord(PrefabService prefabService,

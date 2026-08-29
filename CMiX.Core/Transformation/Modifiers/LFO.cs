@@ -11,7 +11,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.LFOModifier. No longer addable via the
+    // picker; kept so already-saved Project data referencing LFO still loads.
     public partial class LFO : BeatModifiableModifierBase, ISpreadableModifier
     {
         public LFO(PrefabManager beatModifierManager,

@@ -11,7 +11,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Layering.Modifiers
 {
-    [ModifierPanel(typeof(Layer))]
+    // [ModifierPanel] removed - superseded by Modulation.RenderSequenceEntityModifier. No longer
+    // addable via the picker; kept so already-saved Project data referencing it still loads.
     public partial class RenderSequenceEntity : BeatModifiableModifierBase, IModifier
     {
         public RenderSequenceEntity(PrefabManager beatModifierManager,

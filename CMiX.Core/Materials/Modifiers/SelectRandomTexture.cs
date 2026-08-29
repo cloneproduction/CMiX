@@ -10,7 +10,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Materials.Modifiers
 {
-    [ModifierPanel(typeof(Material))]
+    // [ModifierPanel] removed - superseded by Modulation.SelectTextureModifier. No longer addable
+    // via the picker; kept so already-saved Project data referencing it still loads.
     public partial class SelectRandomTexture : BeatModifiableModifierBase, IModifier
     {
         public SelectRandomTexture(PrefabManager beatModifierManager,

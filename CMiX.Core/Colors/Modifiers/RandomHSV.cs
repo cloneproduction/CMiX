@@ -13,8 +13,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Colors.Modifiers
 {
-    [ModifierPanel(typeof(LightEntity))]
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.HSVModifier. No longer addable via the
+    // picker; kept so already-saved Project data referencing RandomHSV still loads.
     public partial class RandomHSV : BeatModifiableModifierBase, ISpreadableModifier
     {
         public RandomHSV(PrefabManager beatModifierManager,

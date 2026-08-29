@@ -11,7 +11,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.FlipModifier. No longer addable via the
+    // picker; kept so already-saved Project data referencing Flip still loads.
     public partial class Flip : BeatModifiableModifierBase, IModifier
     {
         public Flip(PrefabService prefabService,

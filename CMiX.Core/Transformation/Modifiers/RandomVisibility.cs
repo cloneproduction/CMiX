@@ -12,8 +12,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(LightEntity))]
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.VisibilityModifier. No longer addable via
+    // the picker; kept so already-saved Project data referencing RandomVisibility still loads.
     public partial class RandomVisibility : BeatModifiableModifierBase, IModifier
     {
         public RandomVisibility(GenericValue<float> control,

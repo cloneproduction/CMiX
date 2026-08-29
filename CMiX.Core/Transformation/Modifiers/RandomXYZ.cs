@@ -10,7 +10,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    [ModifierPanel(typeof(Entity))]
+    // [ModifierPanel] removed - superseded by Modulation.XYZModifier. No longer addable via the
+    // picker; kept so already-saved Project data referencing RandomXYZ still loads.
     public partial class RandomXYZ : BeatModifiableModifierBase, ISpreadableModifier
     {
         public RandomXYZ(PrefabService prefabService,

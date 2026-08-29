@@ -10,7 +10,8 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Rendering.Cameras.Modifiers
 {
-    [ModifierPanel(typeof(Camera))]
+    // [ModifierPanel] removed - superseded by Modulation.CameraRandomModifier. No longer addable
+    // via the picker; kept so already-saved Project data referencing CameraRandom still loads.
     public partial class CameraRandom : BeatModifiableModifierBase, ICameraModifier, IModifier
     {
         public CameraRandom(PrefabManager beatModifierManager,
