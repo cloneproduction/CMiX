@@ -1,0 +1,66 @@
+<BaseControls:ModulatorAssignableUserControl
+    x:Class="CMiX.Studio.Avalonia.Views.Controls.ModulatorAssignButton"
+    xmlns="https://github.com/avaloniaui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    x:Name="modulatorAssignButton">
+
+    <!--
+        The one "assign a Modulator to this Channel" button, reused by every Channel-editing
+        control (ChannelValue, ChannelSlider) instead of each defining its own copy. DataContext is
+        inherited from the consumer, not set here - it's always the Channel itself, the same
+        contract ChannelValue/ChannelSlider already have. Placed via DockPanel.Dock="Right" by the
+        consumer, alongside whichever value editor (DragValue, CMiXSlider, ...) it needs.
+
+        Foreground is a MultiBinding through BoolToAccentBrushConverter, given both possible
+        brushes already resolved (AccentBrush / ForegroundBrush) rather than a single binding that
+        returns AvaloniaProperty.UnsetValue for "off" - once ANY binding is attached to a property,
+        Avalonia never falls back through it to a style default again (confirmed live: that
+        approach left the icon stuck black after the first hover).
+    -->
+    <Button
+        x:Name="assignButton"
+        Width="{DynamicResource ControlHeightMD}"
+        IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=modulatorAssignButton, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
+        Theme="{StaticResource ButtonRoundedRight}">
+        <BaseControls:AppIcon
+            IconKey="{Binding Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
+            Size="{DynamicResource IconSizeXS}">
+            <BaseControls:AppIcon.Foreground>
+                <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
+                    <Binding Path="Binding.BoundModulator" />
+                    <Binding Source="{StaticResource AccentBrush}" />
+                    <Binding Source="{StaticResource ForegroundBrush}" />
+                </MultiBinding>
+            </BaseControls:AppIcon.Foreground>
+        </BaseControls:AppIcon>
+        <Button.Flyout>
+            <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                <StackPanel MinWidth="160" Margin="4">
+                    <Button
+                        Content="None"
+                        Click="Assign"
+                        Theme="{DynamicResource ButtonItemControl}" />
+                    <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items, ElementName=modulatorAssignButton}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                    Click="Assign"
+                                    Theme="{DynamicResource ButtonItemControl}">
+                                    <DockPanel>
+                                        <BaseControls:AppIcon
+                                            DockPanel.Dock="Left"
+                                            IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
+                                            Size="{DynamicResource IconSizeXS}" />
+                                        <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
+                                    </DockPanel>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </StackPanel>
+            </Flyout>
+        </Button.Flyout>
+    </Button>
+
+</BaseControls:ModulatorAssignableUserControl>

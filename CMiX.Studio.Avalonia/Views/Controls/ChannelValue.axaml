@@ -1,4 +1,4 @@
-<BaseControls:CaptionedUserControl
+<BaseControls:ModulatorAssignableUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.ChannelValue"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -8,54 +8,12 @@
     <!-- DataContext is the Channel itself - see ChannelValue.axaml.cs. -->
     <DockPanel>
 
-        <Button
-            x:Name="assignButton"
-            Width="{DynamicResource ControlHeightMD}"
+        <BaseControls:ModulatorAssignButton
             DockPanel.Dock="Right"
-            IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=channelValue, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-            Theme="{StaticResource ButtonRoundedRight}">
-            <BaseControls:AppIcon
-                IconKey="{Binding Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
-                Size="{DynamicResource IconSizeXS}">
-                <BaseControls:AppIcon.Foreground>
-                    <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                        <Binding Path="Binding.BoundModulator" />
-                        <Binding Source="{StaticResource AccentBrush}" />
-                        <Binding Source="{StaticResource ForegroundBrush}" />
-                    </MultiBinding>
-                </BaseControls:AppIcon.Foreground>
-            </BaseControls:AppIcon>
-            <Button.Flyout>
-                <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                    <StackPanel MinWidth="160" Margin="4">
-                        <Button
-                            Content="None"
-                            Click="Assign"
-                            Theme="{DynamicResource ButtonItemControl}" />
-                        <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items, ElementName=channelValue}">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Button
-                                        Click="Assign"
-                                        Theme="{DynamicResource ButtonItemControl}">
-                                        <DockPanel>
-                                            <BaseControls:AppIcon
-                                                DockPanel.Dock="Left"
-                                                IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
-                                                Size="{DynamicResource IconSizeXS}" />
-                                            <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
-                                        </DockPanel>
-                                    </Button>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
-                    </StackPanel>
-                </Flyout>
-            </Button.Flyout>
-        </Button>
+            ModulatorManager="{Binding ModulatorManager, ElementName=channelValue}" />
 
         <BaseControls:DragValue Caption="{Binding Caption, ElementName=channelValue, Mode=OneWay}" Value="{Binding Value.Value}" />
 
     </DockPanel>
 
-</BaseControls:CaptionedUserControl>
+</BaseControls:ModulatorAssignableUserControl>

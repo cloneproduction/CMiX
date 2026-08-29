@@ -1,186 +1,39 @@
-<BaseControls:CaptionedUserControl
+<BaseControls:ModulatorAssignableUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.ChannelVectorXYZ"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
     x:Name="channelVectorXYZ">
 
     <!--
-        Fixed X/Y/Z rows (not a repeated DataTemplate), bound against an IChannelGroup DataContext
-        (X/Y/Z Channel properties) for the numbers, and against this control's own ModulatorManager
-        property (set explicitly by the consumer, via ElementName - not read off DataContext) for
-        the shared modulator stack. Those two used to always be the same object (the whole
-        Modifier), but a Modifier that owns more than one XYZ group (e.g. Grid's separate Width and
-        Phase) needs each group's own DataContext for its own X/Y/Z while still sharing the one
-        Modifier-level stack, so they're kept as two independent bindings.
-
-        Each assign icon's Foreground is a MultiBinding through BoolToAccentBrushConverter, given
-        both possible brushes already resolved (AccentBrush / ForegroundBrush) rather than a
-        single binding that returns AvaloniaProperty.UnsetValue for "off" - once ANY binding is
-        attached to a property, Avalonia never falls back through it to a style default again
-        (confirmed live: that approach left the icon stuck black after the first hover). Handing
-        it two real brushes and letting the converter pick one avoids relying on that fallback at
-        all.
+        Fixed X/Y/Z rows (not a repeated DataTemplate), each its own ChannelValue bound to one axis
+        Channel of the IChannelGroup DataContext, all three forwarded this control's own
+        ModulatorManager (set explicitly by the consumer via ElementName - not read off DataContext,
+        since a Modifier that owns more than one XYZ group, e.g. Grid's separate Width and Phase,
+        needs each group's own DataContext for its own X/Y/Z while still sharing the one
+        Modifier-level stack). Mirrors VectorXYZ.axaml's own "three DragValues in a StackPanel"
+        shape - each row is a ChannelValue instead of a bare DragValue, so the assign-button/flyout
+        block lives once (in ChannelValue.axaml) instead of being copy-pasted three times here.
     -->
     <StackPanel>
 
-        <DockPanel Margin="0,0,0,2">
+        <BaseControls:ChannelValue
+            Margin="0,0,0,2"
+            Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}"
+            DataContext="{Binding X}"
+            ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-            <Button
-                x:Name="assignButtonX"
-                Width="{DynamicResource ControlHeightMD}"
-                DockPanel.Dock="Right"
-                IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=channelVectorXYZ, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ButtonRoundedRight}">
-                <BaseControls:AppIcon
-                    IconKey="{Binding X.Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
-                    Size="{DynamicResource IconSizeXS}">
-                    <BaseControls:AppIcon.Foreground>
-                        <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                            <Binding Path="X.Binding.BoundModulator" />
-                            <Binding Source="{StaticResource AccentBrush}" />
-                            <Binding Source="{StaticResource ForegroundBrush}" />
-                        </MultiBinding>
-                    </BaseControls:AppIcon.Foreground>
-                </BaseControls:AppIcon>
-                <Button.Flyout>
-                    <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                        <StackPanel MinWidth="160" Margin="4">
-                            <Button
-                                Content="None"
-                                Click="AssignX"
-                                Theme="{DynamicResource ButtonItemControl}" />
-                            <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items, ElementName=channelVectorXYZ}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button
-                                            Click="AssignX"
-                                            Theme="{DynamicResource ButtonItemControl}">
-                                            <DockPanel>
-                                                <BaseControls:AppIcon
-                                                    DockPanel.Dock="Left"
-                                                    IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
-                                                    Size="{DynamicResource IconSizeXS}" />
-                                                <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
-                                            </DockPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
+        <BaseControls:ChannelValue
+            Margin="0,0,0,2"
+            Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} Y', Mode=OneWay}"
+            DataContext="{Binding Y}"
+            ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
-            <BaseControls:DragValue Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} X', Mode=OneWay}" Value="{Binding X.Value.Value}" />
-
-        </DockPanel>
-
-        <DockPanel Margin="0,0,0,2">
-
-            <Button
-                x:Name="assignButtonY"
-                Width="{DynamicResource ControlHeightMD}"
-                DockPanel.Dock="Right"
-                IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=channelVectorXYZ, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ButtonRoundedRight}">
-                <BaseControls:AppIcon
-                    IconKey="{Binding Y.Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
-                    Size="{DynamicResource IconSizeXS}">
-                    <BaseControls:AppIcon.Foreground>
-                        <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                            <Binding Path="Y.Binding.BoundModulator" />
-                            <Binding Source="{StaticResource AccentBrush}" />
-                            <Binding Source="{StaticResource ForegroundBrush}" />
-                        </MultiBinding>
-                    </BaseControls:AppIcon.Foreground>
-                </BaseControls:AppIcon>
-                <Button.Flyout>
-                    <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                        <StackPanel MinWidth="160" Margin="4">
-                            <Button
-                                Content="None"
-                                Click="AssignY"
-                                Theme="{DynamicResource ButtonItemControl}" />
-                            <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items, ElementName=channelVectorXYZ}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button
-                                            Click="AssignY"
-                                            Theme="{DynamicResource ButtonItemControl}">
-                                            <DockPanel>
-                                                <BaseControls:AppIcon
-                                                    DockPanel.Dock="Left"
-                                                    IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
-                                                    Size="{DynamicResource IconSizeXS}" />
-                                                <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
-                                            </DockPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-
-            <BaseControls:DragValue Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} Y', Mode=OneWay}" Value="{Binding Y.Value.Value}" />
-
-        </DockPanel>
-
-        <DockPanel>
-
-            <Button
-                x:Name="assignButtonZ"
-                Width="{DynamicResource ControlHeightMD}"
-                DockPanel.Dock="Right"
-                IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=channelVectorXYZ, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-                Theme="{StaticResource ButtonRoundedRight}">
-                <BaseControls:AppIcon
-                    IconKey="{Binding Z.Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
-                    Size="{DynamicResource IconSizeXS}">
-                    <BaseControls:AppIcon.Foreground>
-                        <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                            <Binding Path="Z.Binding.BoundModulator" />
-                            <Binding Source="{StaticResource AccentBrush}" />
-                            <Binding Source="{StaticResource ForegroundBrush}" />
-                        </MultiBinding>
-                    </BaseControls:AppIcon.Foreground>
-                </BaseControls:AppIcon>
-                <Button.Flyout>
-                    <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                        <StackPanel MinWidth="160" Margin="4">
-                            <Button
-                                Content="None"
-                                Click="AssignZ"
-                                Theme="{DynamicResource ButtonItemControl}" />
-                            <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items, ElementName=channelVectorXYZ}">
-                                <ItemsControl.ItemTemplate>
-                                    <DataTemplate>
-                                        <Button
-                                            Click="AssignZ"
-                                            Theme="{DynamicResource ButtonItemControl}">
-                                            <DockPanel>
-                                                <BaseControls:AppIcon
-                                                    DockPanel.Dock="Left"
-                                                    IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
-                                                    Size="{DynamicResource IconSizeXS}" />
-                                                <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
-                                            </DockPanel>
-                                        </Button>
-                                    </DataTemplate>
-                                </ItemsControl.ItemTemplate>
-                            </ItemsControl>
-                        </StackPanel>
-                    </Flyout>
-                </Button.Flyout>
-            </Button>
-
-            <BaseControls:DragValue Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} Z', Mode=OneWay}" Value="{Binding Z.Value.Value}" />
-
-        </DockPanel>
+        <BaseControls:ChannelValue
+            Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} Z', Mode=OneWay}"
+            DataContext="{Binding Z}"
+            ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
     </StackPanel>
 
-</BaseControls:CaptionedUserControl>
+</BaseControls:ModulatorAssignableUserControl>
