@@ -14,7 +14,7 @@
 
         <!-- No DataContext override here - CircularSpread itself has X/Y properties, so this
              reads them directly off the whole modifier, same as
-             ScaleModifier/PositionModifier/RotationModifier already do with ChannelVectorXYZ. -->
+             ScaleModifier/PositionModifier/RotationModifier already do with ModulatableVectorXYZ. -->
         <BaseControls:ModulatableVectorXY
             Margin="0,0,0,2"
             Caption="Width"

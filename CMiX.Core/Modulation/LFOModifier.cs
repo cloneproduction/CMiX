@@ -43,7 +43,7 @@ namespace CMiX.Core.Modulation
             Channels = new List<Modulatable> { from, to, randomizePhase };
         }
 
-        // Convenience accessors into Channels, purely for the view's ChannelValue bindings -
+        // Convenience accessors into Channels, purely for the view's ModulatableValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
         public Modulatable From => Channels[0];
         public Modulatable To => Channels[1];

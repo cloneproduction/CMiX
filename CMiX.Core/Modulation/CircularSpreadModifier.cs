@@ -43,8 +43,8 @@ namespace CMiX.Core.Modulation
 
         // Convenience accessors into Channels, purely for the view's bindings - Channels itself
         // stays the source of truth (used by Modifier's own ToModel/FromModel). X/Y (the Width
-        // pair) are read directly by ChannelVectorXY; Phase/Factor are each bound directly
-        // by their own separate ChannelValue.
+        // pair) are read directly by ModulatableVectorXY; Phase/Factor are each bound directly
+        // by their own separate ModulatableValue.
         public Modulatable X => Channels[0];
         public Modulatable Y => Channels[1];
         public Modulatable Phase => Channels[2];

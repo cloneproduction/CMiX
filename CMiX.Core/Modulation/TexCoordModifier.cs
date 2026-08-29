@@ -37,13 +37,13 @@ namespace CMiX.Core.Modulation
             Channels = new List<Modulatable> { locationX, locationY, scaleX, scaleY, rotation, uniform };
         }
 
-        // Each group is bound by its own ChannelVectorXY in the view (via DataContext), all
+        // Each group is bound by its own ModulatableVectorXY in the view (via DataContext), all
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
-        // inherited from DataContext) - see ChannelVectorXY.axaml.cs.
+        // inherited from DataContext) - see ModulatableVectorXY.axaml.cs.
         public ModulatableVector2 Location { get; }
         public ModulatableVector2 Scale { get; }
 
-        // Convenience accessors into Channels, purely for the view's ChannelValue bindings -
+        // Convenience accessors into Channels, purely for the view's ModulatableValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
         public Modulatable Rotation => Channels[4];
         public Modulatable Uniform => Channels[5];
