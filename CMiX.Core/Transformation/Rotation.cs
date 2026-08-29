@@ -11,9 +11,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace CMiX.Core.Transformation
 {
     // [ModifierPanel] removed - superseded by Modulation.RotationModifier, which does everything
-    // this does plus an optional modulator stack. No longer independently addable via the picker;
-    // kept as TransformSRTModifier's internal building block and so already-saved Project data
-    // referencing Rotation still loads.
+    // this does plus an optional modulator stack (TransformSRTModifier itself now composes
+    // RotationModifier directly, not this class). No longer independently addable via the picker
+    // or used internally by anything - kept standalone in case it's needed again.
     public partial class Rotation : ObservableObject, IControl, IModifier
     {
         public Rotation(PrefabService prefabService, Vector3 xyz)
