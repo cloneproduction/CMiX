@@ -6,22 +6,24 @@
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
 
-    <StackPanel>
+    <Expander IsExpanded="True">
 
-        <DockPanel>
+        <Expander.Header>
+            <DockPanel>
 
-            <ToggleButton
-                Width="14"
-                Height="14"
-                IsChecked="{Binding IsEnabled.Value}"
-                Theme="{DynamicResource ToggleButtonRounded}" />
+                <ToggleButton
+                    Width="14"
+                    Height="14"
+                    IsChecked="{Binding IsEnabled.Value}"
+                    Theme="{DynamicResource ToggleButtonRounded}" />
 
-            <TextBlock
-                Margin="8,0"
-                Foreground="{DynamicResource ForegroundBrush}"
-                Text="Easing" />
+                <TextBlock
+                    Margin="8,0"
+                    Foreground="{DynamicResource ForegroundBrush}"
+                    Text="Easing" />
 
-        </DockPanel>
+            </DockPanel>
+        </Expander.Header>
 
         <Panels:PositionedStackPanel
             Margin="8"
@@ -40,5 +42,5 @@
 
         </Panels:PositionedStackPanel>
 
-    </StackPanel>
+    </Expander>
 </UserControl>
