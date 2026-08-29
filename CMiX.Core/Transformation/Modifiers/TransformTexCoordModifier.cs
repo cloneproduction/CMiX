@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -11,9 +11,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace CMiX.Core.Transformation.Modifiers
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class TransformTexCoord : ObservableObject, IModifier
+    public partial class TransformTexCoordModifier : ObservableObject, IModifier
     {
-        public TransformTexCoord(PrefabService prefabService,
+        public TransformTexCoordModifier(PrefabService prefabService,
                            SamplerState samplerState,
                            Vector2 location,
                            Vector2 scale,
@@ -39,7 +39,7 @@ namespace CMiX.Core.Transformation.Modifiers
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public IControlModel ToModel() => new TransformTexCoordModel
+        public IControlModel ToModel() => new TransformTexCoordModifierModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -52,7 +52,7 @@ namespace CMiX.Core.Transformation.Modifiers
 
         public void FromModel(IControlModel model)
         {
-            var m = (TransformTexCoordModel)model;
+            var m = (TransformTexCoordModifierModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             Location.FromModel(m.Location);
