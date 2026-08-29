@@ -216,5 +216,16 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             get => GetValue(IsIntegerProperty);
             set => SetValue(IsIntegerProperty, value);
         }
+
+        // Reserves space on the right for a control like ModulatorAssignButton, so a DragValue
+        // with a trailing button lines up with a plain one - an empty ContentPresenter collapses
+        // to zero width, so leaving this unset costs nothing.
+        public static readonly StyledProperty<object> TrailingContentProperty =
+            AvaloniaProperty.Register<DragValue, object>(nameof(TrailingContent));
+        public object TrailingContent
+        {
+            get => GetValue(TrailingContentProperty);
+            set => SetValue(TrailingContentProperty, value);
+        }
     }
 }

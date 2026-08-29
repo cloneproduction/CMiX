@@ -6,23 +6,19 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     x:Name="channelSlider">
 
-    <!-- Same shape/reasoning as ChannelValue.axaml, just CMiXSlider instead of DragValue. -->
-    <DockPanel>
-
-        <BaseControls:ModulatorAssignButton
-            DockPanel.Dock="Right"
-            ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
-
-        <!-- Forwards Position the same way ChannelValue.axaml does for DragValue - CMiXSlider's
-             own ControlTheme reads it via TemplatedParent, so setting it here is all that's
-             needed for the corner-rounding to reach it. -->
-        <BaseControls:CMiXSlider
-            AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelSlider}"
-            Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"
-            Minimum="{Binding Minimum, ElementName=channelSlider}"
-            Maximum="{Binding Maximum, ElementName=channelSlider}"
-            Value="{Binding Value.Value}" />
-
-    </DockPanel>
+    <!-- Same shape/reasoning as ChannelValue.axaml, just CMiXSlider instead of DragValue.
+         Forwards Position the same way ChannelValue.axaml does for DragValue - CMiXSlider's own
+         ControlTheme reads it via TemplatedParent, so setting it here is all that's needed for the
+         corner-rounding to reach it. -->
+    <BaseControls:CMiXSlider
+        AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=channelSlider}"
+        Caption="{Binding Caption, ElementName=channelSlider, Mode=OneWay}"
+        Minimum="{Binding Minimum, ElementName=channelSlider}"
+        Maximum="{Binding Maximum, ElementName=channelSlider}"
+        Value="{Binding Value.Value}">
+        <BaseControls:CMiXSlider.TrailingContent>
+            <BaseControls:ModulatorAssignButton ModulatorManager="{Binding ModulatorManager, ElementName=channelSlider}" />
+        </BaseControls:CMiXSlider.TrailingContent>
+    </BaseControls:CMiXSlider>
 
 </BaseControls:ModulatorAssignableUserControl>

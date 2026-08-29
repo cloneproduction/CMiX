@@ -40,6 +40,17 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(CaptionProperty, value);
         }
 
+        // Reserves space on the right for a control like ModulatorAssignButton, so a CMiXSlider
+        // with a trailing button lines up with a plain one - see DragValue.TrailingContent for the
+        // same mechanism on the other value editor.
+        public static readonly StyledProperty<object> TrailingContentProperty =
+            AvaloniaProperty.Register<CMiXSlider, object>(nameof(TrailingContent));
+        public object TrailingContent
+        {
+            get => GetValue(TrailingContentProperty);
+            set => SetValue(TrailingContentProperty, value);
+        }
+
         protected override Type StyleKeyOverride => typeof(CMiXSlider);
 
         private Border? Border { get; set; }
