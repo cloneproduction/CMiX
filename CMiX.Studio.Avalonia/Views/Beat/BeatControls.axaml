@@ -3,8 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    d:DesignWidth="400"
-    d:DesignHeight="450">
+    d:DesignWidth="400">
 
     <UniformGrid Height="{DynamicResource ControlHeightMD}">
 
@@ -14,7 +13,7 @@
             VerticalAlignment="Center"
             Text="Beat" />
 
-        <DockPanel Grid.Column="1">
+        <DockPanel>
 
             <Button
                 Width="{Binding $self.Bounds.Height}"

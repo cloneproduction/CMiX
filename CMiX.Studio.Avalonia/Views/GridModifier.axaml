@@ -6,24 +6,27 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
-    x:Name="gridModifier">
+    x:Name="gridModifier"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel Margin="4">
+    <StackPanel>
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:Integer3Value
-            Margin="0,0,0,4"
+            Margin="0,8"
             Caption="Count"
             DataContext="{Binding Count}" />
 
         <BaseControls:ModulatableVectorXYZ
-            Margin="0,0,0,4"
+
             Caption="Width"
             DataContext="{Binding Width}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
         <BaseControls:ModulatableVectorXYZ
+            Margin="0,8"
             Caption="Phase"
             DataContext="{Binding Phase}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />

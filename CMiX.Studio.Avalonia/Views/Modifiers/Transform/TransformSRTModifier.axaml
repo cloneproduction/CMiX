@@ -7,31 +7,32 @@
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    x:Name="transformSRTModifier">
+    x:Name="transformSRTModifier"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel>
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
-        <Panels:PositionedStackPanel Margin="0,0,0,8">
+        <Panels:PositionedStackPanel Margin="0,8">
             <BaseControls:ModulatableValue Caption="Translate X" DataContext="{Binding TranslateX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding TranslateY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding TranslateZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
         <BaseControls:ModulatableValue
-            Margin="0,0,0,2"
             Caption="Uniform"
             DataContext="{Binding ScaleUniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
-        <Panels:PositionedStackPanel Margin="0,0,0,8">
+        <Panels:PositionedStackPanel Margin="0,8">
             <BaseControls:ModulatableValue Caption="Scale X" DataContext="{Binding ScaleX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding ScaleY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding ScaleZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
         </Panels:PositionedStackPanel>
 
-        <Panels:PositionedStackPanel Margin="0,0,0,8">
+        <Panels:PositionedStackPanel>
             <BaseControls:ModulatableValue Caption="Rotation X" DataContext="{Binding RotationX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableValue Margin="0,1" Caption="Y" DataContext="{Binding RotationY}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
             <BaseControls:ModulatableValue Caption="Z" DataContext="{Binding RotationZ}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />

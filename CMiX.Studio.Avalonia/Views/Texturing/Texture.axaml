@@ -5,7 +5,9 @@
     xmlns:Filters="clr-namespace:CMiX.Core.Texturing.Filters;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel>
 
@@ -14,7 +16,6 @@
             Indentation="4"
             IsExpanded="{Binding IsExpanded, FallbackValue=False}">
 
-            <!-- The WPF ViewModelToViewSelector is replaced by the ViewModelToViewTemplate data template. -->
             <ContentControl
                 Margin="4"
                 Content="{Binding}">
@@ -30,7 +31,9 @@
             Indentation="4"
             IsExpanded="{Binding TextureModifierManager.IsExpanded, FallbackValue=False}">
 
-            <Views:ModifierManager DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
+            <Views:ModifierManager 
+                Margin="8" 
+                DataContext="{Binding TextureModifierManager, FallbackValue={x:Null}}">
                 <Views:ModifierManager.SelectionPanel>
                     <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                 </Views:ModifierManager.SelectionPanel>

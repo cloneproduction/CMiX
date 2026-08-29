@@ -183,7 +183,7 @@
             <ControlTemplate>
                 <Border
                     Name="border"
-                    Background="{DynamicResource Grey400Brush}"
+                    Background="{DynamicResource Grey500Brush}"
                     CornerRadius="{DynamicResource CornerRadiusLeft}">
                     <DockPanel>
                         <Path
@@ -203,7 +203,7 @@
         </Setter>
 
         <Style Selector="^:pointerover /template/ Border#border">
-            <Setter Property="Background" Value="{DynamicResource Grey500Brush}" />
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
         </Style>
 
         <Style Selector="^:checked /template/ Border#border">

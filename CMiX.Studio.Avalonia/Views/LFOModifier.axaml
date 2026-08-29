@@ -8,46 +8,49 @@
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
-    x:Name="lfoModifier">
+    x:Name="lfoModifier"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel Margin="4">
+    <StackPanel>
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:ComboBox
-            Margin="0,4,0,0"
+            Margin="0,8,0,1"
             Caption="Transform"
             ItemsSource="{x:Static Resources:EnumProviders.TransformType}"
             SelectedItem="{Binding TransformType.Value}" />
 
         <BaseControls:AxisSelector3D
-            Margin="0,1,0,4"
             XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
-        <BaseControls:ModulatableValue
-            Margin="0,0,0,1"
-            Caption="From"
-            DataContext="{Binding From}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
+        <Panels:PositionedStackPanel Margin="0, 8">
 
-        <BaseControls:ModulatableValue
-            Margin="0,0,0,4"
-            Caption="To"
-            DataContext="{Binding To}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
+            <BaseControls:ModulatableValue
+                Margin="0,0,0,1"
+                Caption="From"
+                DataContext="{Binding From}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
 
-        <BaseControls:ToggleButton
-            Margin="0,0,0,4"
-            Caption="PingPong"
-            IsChecked="{Binding PingPong.Value}" />
+            <BaseControls:ModulatableValue
+                Caption="To"
+                DataContext="{Binding To}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
+        
+        </Panels:PositionedStackPanel>
+            <BaseControls:ModulatableValue
+                Margin="0,0,0,8"
+                Caption="Randomize Phase"
+                DataContext="{Binding RandomizePhase}"
+                ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
 
-        <BaseControls:ModulatableValue
-            Margin="0,0,0,4"
-            Caption="Randomize Phase"
-            DataContext="{Binding RandomizePhase}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
+            <BaseControls:ToggleButton
+                Margin="0,0,0,8"
+                Caption="PingPong"
+                IsChecked="{Binding PingPong.Value}" />
 
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>

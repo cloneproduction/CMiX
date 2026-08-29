@@ -74,7 +74,7 @@ namespace CMiX.Studio.Avalonia.Themes
             { "Camera", MaterialIconKind.Camera },
             { "Beat", MaterialIconKind.Metronome },
             { "TextIcon", MaterialIconKind.FormatText },
-            { "Unlinked", MaterialIconKind.LinkOff },
+            { "Unlinked", MaterialIconKind.CircleMedium },
         };
     }
 }

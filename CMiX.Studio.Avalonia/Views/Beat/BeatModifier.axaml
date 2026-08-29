@@ -9,15 +9,14 @@
 
     <StackPanel>
 
-        <Views:BeatControls Margin="8,8,8,4" />
+        <Views:BeatControls/>
 
         <BaseControls:CMiXSlider
-            Margin="8,0,8,8"
             Caption="Chance To Hit"
             Maximum="1"
             Value="{Binding ChanceToHit.Value}" />
 
-        <Views:Easing DataContext="{Binding Easing}" />
+        <Views:Easing Margin="0, 8, 0, 0" DataContext="{Binding Easing}" />
 
     </StackPanel>
 </UserControl>

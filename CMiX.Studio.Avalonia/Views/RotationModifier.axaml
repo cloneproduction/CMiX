@@ -5,13 +5,19 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core">
+    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel Margin="4">
+    <StackPanel>
 
-        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector 
+            DataContext="{Binding ModifierModeSelector}" />
 
-        <BaseControls:ModulatableVectorXYZ Caption="Rotation" ModulatorManager="{Binding ModulatorManager}" />
+        <BaseControls:ModulatableVectorXYZ
+            Margin="0, 8"
+            Caption="Rotation"
+            ModulatorManager="{Binding ModulatorManager}" />
 
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>

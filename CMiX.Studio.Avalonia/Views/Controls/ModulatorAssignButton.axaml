@@ -3,7 +3,10 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    x:Name="modulatorAssignButton">
+    x:Name="modulatorAssignButton"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignHeight="400"
+    d:DesignWidth="400">
 
     <!--
         The one "assign a Modulator to this Modulatable" button, reused by every Modulatable-editing
@@ -31,15 +34,19 @@
                 <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
                     <Binding Path="Binding.BoundModulator" />
                     <Binding Source="{StaticResource AccentBrush}" />
-                    <Binding Source="{StaticResource ForegroundBrush}" />
+                    <Binding Source="{StaticResource Grey900Brush}" />
                 </MultiBinding>
             </BaseControls:AppIcon.Foreground>
         </BaseControls:AppIcon>
         <Button.Flyout>
             <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                <StackPanel MinWidth="160" Margin="4">
+                <StackPanel MinWidth="160" Margin="0">
+                    <TextBlock 
+                        Text="Assign Modulator" 
+                        Foreground="{DynamicResource Grey700Brush}"/>
+                    <Separator Margin="0, 8" Background="{DynamicResource Grey600Brush}"/>
                     <Button
-                        Content="None"
+                        Content="Unassign"
                         Click="Assign"
                         Theme="{DynamicResource ButtonItemControl}" />
                     <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items, ElementName=modulatorAssignButton}">

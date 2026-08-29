@@ -20,7 +20,7 @@
             <Panels:IndentedExpander
                 Header="Filters"
                 IsExpanded="{Binding TextureModifierIsExpanded}">
-                <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
+                <Views:ModifierManager Margin="8" DataContext="{Binding TextureModifierManager}">
                     <Views:ModifierManager.SelectionPanel>
                         <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                     </Views:ModifierManager.SelectionPanel>

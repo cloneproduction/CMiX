@@ -12,10 +12,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <StackPanel Margin="4">
+    <StackPanel>
 
         <Views:ModifierModeSelector
-        Margin="0, 0, 0, 8"
+            Margin="0, 0, 0, 8"
             DataContext="{Binding ModifierModeSelector}" />
 
         <Panels:PositionedStackPanel Margin="0,0,0,8">
@@ -35,7 +35,7 @@
         <Panels:PositionedStackPanel Margin="0,0,0,8">
 
             <BaseControls:ModulatableValue
-                Margin="0,0,0,2"
+                Margin="0,0,0,1"
                 Caption="Width"
                 DataContext="{Binding Width}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
@@ -46,6 +46,7 @@
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
         </Panels:PositionedStackPanel>
+
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>
                 <Managers:AutoSelectionPanel Interface="{x:Type Modulation:IModulator}" />

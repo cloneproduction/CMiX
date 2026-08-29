@@ -179,11 +179,10 @@
         <Setter Property="Focusable" Value="False" />
         <Setter Property="Template">
             <ControlTemplate>
-                <!-- The WPF template bound mainBorder Margin to the ExpanderIndentation attached property. In Avalonia the ExpanderIndentation class handler applies the Margin directly on the control that carries the Indentation value, so the ToggleButton itself receives the indentation margin and no Margin binding is needed here -->
                 <Border
                     Name="mainBorder"
                     Background="Transparent"
-                    Height="{DynamicResource ControlHeightMD}"
+                    Height="{DynamicResource ControlHeightXL}"
                     HorizontalAlignment="Stretch"
                     VerticalAlignment="Center">
                     <DockPanel >

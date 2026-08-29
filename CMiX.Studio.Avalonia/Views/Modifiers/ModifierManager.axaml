@@ -8,11 +8,11 @@
     xmlns:Services="clr-namespace:CMiX.Studio.Avalonia.Services"
     x:Name="modifierManager">
 
-    <StackPanel Margin="8, 8, 8, 4">
+    <StackPanel >
 
         <ToggleButton
             x:Name="PopUpToggle"
-            Background="{DynamicResource Grey400Brush}"
+            Background="{DynamicResource Grey600Brush}"
             Content="Add Modifier"
             Margin="0, 0, 0, 0"
             Theme="{StaticResource ToggleTransformModifierMenu}" />
@@ -45,7 +45,7 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Panels:ModifierPanel
-                        Margin="2"
+                        Margin="0, 2"
                         DragHandlerIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandlerIsPressed}"
                         CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
                         CloseModifierCommandParameter="{Binding}"

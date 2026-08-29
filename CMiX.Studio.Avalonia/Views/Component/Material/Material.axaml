@@ -6,7 +6,9 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    x:Name="uc">
+    x:Name="uc"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel>
 
@@ -14,14 +16,14 @@
             Header="Settings"
             Indentation="4"
             IsExpanded="{Binding MaterialSettings.IsExpanded}">
-            <Views:MaterialSettings DataContext="{Binding MaterialSettings}" />
+            <Views:MaterialSettings Margin="8" DataContext="{Binding MaterialSettings}" />
         </Panels:IndentedExpander>
 
         <Panels:IndentedExpander
             Header="Modifiers"
             Indentation="4"
             IsExpanded="{Binding ModifierManagerIsExpanded}">
-            <Views:ModifierManager DataContext="{Binding ModifierManager}">
+            <Views:ModifierManager Margin="8" DataContext="{Binding ModifierManager}">
                 <Views:ModifierManager.SelectionPanel>
                     <Managers:AutoSelectionPanel PanelOwner="{x:Type Materials:Material}" />
                 </Views:ModifierManager.SelectionPanel>

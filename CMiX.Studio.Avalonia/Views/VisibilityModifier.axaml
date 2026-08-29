@@ -6,11 +6,14 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
-    x:Name="visibilityModifier">
+    x:Name="visibilityModifier"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel Margin="4">
+    <StackPanel>
 
         <BaseControls:ModulatableSlider
+            Margin="0, 0, 0, 8"
             Caption="Control"
             DataContext="{Binding Value}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=visibilityModifier}"

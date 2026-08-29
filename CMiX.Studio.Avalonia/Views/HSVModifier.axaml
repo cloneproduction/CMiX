@@ -6,42 +6,47 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
+    xmlns:Panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
-    x:Name="hsvModifier">
+    x:Name="hsvModifier"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel Margin="4">
+    <StackPanel>
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:ComboBox
-            Margin="0,4,0,4"
+            Margin="0,8"
             Caption="Color Mode"
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
             SelectedItem="{Binding ColorMode.Value}" />
 
-        <BaseControls:ModulatableValue
-            Margin="0,0,0,1"
-            Caption="Hue"
-            DataContext="{Binding Hue}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+            <Panels:PositionedStackPanel Margin="0, 0, 0, 8">
 
-        <BaseControls:ModulatableValue
-            Margin="0,0,0,1"
-            Caption="Saturation"
-            DataContext="{Binding Saturation}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+                <BaseControls:ModulatableValue
+                    Caption="Hue"
+                    DataContext="{Binding Hue}"
+                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-        <BaseControls:ModulatableValue
-            Margin="0,0,0,1"
-            Caption="Value"
-            DataContext="{Binding Value}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+                <BaseControls:ModulatableValue
+                    Margin="0,1"
+                    Caption="Saturation"
+                    DataContext="{Binding Saturation}"
+                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-        <BaseControls:ModulatableValue
-            Margin="0,0,0,4"
-            Caption="Alpha"
-            DataContext="{Binding Alpha}"
-            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+                <BaseControls:ModulatableValue
+                    Caption="Value"
+                    DataContext="{Binding Value}"
+                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+
+                <BaseControls:ModulatableValue
+                    Margin="0, 1, 0, 0"
+                    Caption="Alpha"
+                    DataContext="{Binding Alpha}"
+                    ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
+
+            </Panels:PositionedStackPanel>
 
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>

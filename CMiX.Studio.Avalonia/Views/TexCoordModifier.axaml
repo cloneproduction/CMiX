@@ -6,38 +6,39 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
-    x:Name="texCoordModifier">
+    x:Name="texCoordModifier"   
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
-    <StackPanel Margin="4">
+    <StackPanel>
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:ModulatableValue
-            Margin="0,0,0,2"
+            Margin="0,8"
             Caption="Uniform"
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <BaseControls:ModulatableVectorXY
-            Margin="0,0,0,2"
             Caption="Scale"
             DataContext="{Binding Scale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <BaseControls:ModulatableValue
-            Margin="0,0,0,2"
+            Margin="0,8"
             Caption="Rotation"
             DataContext="{Binding Rotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <BaseControls:ModulatableVectorXY
-            Margin="0,0,0,4"
+
             Caption="Translate"
             DataContext="{Binding Location}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <Views:SamplerState
-            Margin="0,0,0,8"
+            Margin="0,8"
             DataContext="{Binding SamplerState}" />
 
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">

@@ -4,7 +4,9 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    x:Name="channelVectorXYZ">
+    x:Name="channelVectorXYZ"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <!-- Same panel and margin pattern as VectorXYZ.axaml - PositionedStackPanel handles the
          joined-row spacing/rounding itself, only the middle row needs an explicit gap margin. -->
