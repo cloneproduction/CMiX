@@ -17,12 +17,12 @@
 
         <BaseControls:ChannelValue
             Margin="0,1"
-            Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} Y', Mode=OneWay}"
+            Caption="Y"
             DataContext="{Binding Y}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
         <BaseControls:ChannelValue
-            Caption="{Binding Caption, ElementName=channelVectorXYZ, StringFormat=' {0} Z', Mode=OneWay}"
+            Caption="Z"
             DataContext="{Binding Z}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXYZ}" />
 
