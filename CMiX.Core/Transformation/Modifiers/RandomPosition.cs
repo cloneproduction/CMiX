@@ -12,7 +12,7 @@ using static CMiX.Core.ControlExtensions;
 
 namespace CMiX.Core.Transformation.Modifiers
 {
-    // [ModifierPanel] removed - superseded by Modulation.PositionModifier. No longer addable via
+    // [ModifierPanel] removed - superseded by Modulation.TranslateModifier. No longer addable via
     // the picker; kept so already-saved Project data referencing RandomPosition still loads.
     public partial class RandomPosition : BeatModifiableModifierBase, ISpreadableModifier, IModifier
     {

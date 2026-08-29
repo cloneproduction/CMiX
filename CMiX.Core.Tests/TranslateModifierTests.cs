@@ -9,13 +9,13 @@ using Xunit;
 
 namespace CMiX.Core.Tests
 {
-    public class PositionModifierTests
+    public class TranslateModifierTests
     {
         [Fact]
-        public void PositionModifier_HasThreeChannelsLabeledXYZ()
+        public void TranslateModifier_HasThreeChannelsLabeledXYZ()
         {
             var provider = TestServiceProviderFactory.Create();
-            var position = provider.GetRequiredService<PositionModifier>();
+            var position = provider.GetRequiredService<TranslateModifier>();
 
             Assert.Equal(3, position.Channels.Count);
             Assert.Equal("X", position.Channels[0].Label);
@@ -24,9 +24,9 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void PositionModifier_IsDiscoverableOnBothEntityAndLightEntity()
+        public void TranslateModifier_IsDiscoverableOnBothEntityAndLightEntity()
         {
-            var attributes = typeof(PositionModifier).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
+            var attributes = typeof(TranslateModifier).GetCustomAttributes(typeof(ModifierPanelAttribute), false);
             var owners = System.Array.ConvertAll(attributes, a => ((ModifierPanelAttribute)a).PanelOwner);
 
             Assert.Contains(typeof(Entity), owners);
@@ -34,10 +34,10 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void PositionModifier_IsAlsoAnIModifier()
+        public void TranslateModifier_IsAlsoAnIModifier()
         {
             var provider = TestServiceProviderFactory.Create();
-            var position = provider.GetRequiredService<PositionModifier>();
+            var position = provider.GetRequiredService<TranslateModifier>();
 
             Assert.IsAssignableFrom<IModifier>(position);
         }
@@ -46,7 +46,7 @@ namespace CMiX.Core.Tests
         public void ModulatorManager_CanAddBeatModifier()
         {
             var provider = TestServiceProviderFactory.Create();
-            var position = provider.GetRequiredService<PositionModifier>();
+            var position = provider.GetRequiredService<TranslateModifier>();
 
             position.ModulatorManager.AddItem(typeof(BeatModifier));
 
@@ -55,10 +55,10 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void PositionModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
+        public void TranslateModifier_ToModel_FromModel_RoundTripsChannelValuesAndBinding()
         {
             var provider = TestServiceProviderFactory.Create();
-            var position = provider.GetRequiredService<PositionModifier>();
+            var position = provider.GetRequiredService<TranslateModifier>();
 
             position.Channels[0].Value.Value = 4f;
             var modulatorId = Guid.NewGuid();
@@ -67,7 +67,7 @@ namespace CMiX.Core.Tests
             var model = position.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<PositionModifier>();
+            var reloaded = provider2.GetRequiredService<TranslateModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(4f, reloaded.Channels[0].Value.Value);
@@ -75,10 +75,10 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void PositionModifier_ToModel_FromModel_RoundTripsModifierModeSelector()
+        public void TranslateModifier_ToModel_FromModel_RoundTripsModifierModeSelector()
         {
             var provider = TestServiceProviderFactory.Create();
-            var position = provider.GetRequiredService<PositionModifier>();
+            var position = provider.GetRequiredService<TranslateModifier>();
 
             position.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
             position.ModifierModeSelector.Count.Value = 5;
@@ -86,7 +86,7 @@ namespace CMiX.Core.Tests
             var model = position.ToModel();
 
             var provider2 = TestServiceProviderFactory.Create();
-            var reloaded = provider2.GetRequiredService<PositionModifier>();
+            var reloaded = provider2.GetRequiredService<TranslateModifier>();
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);

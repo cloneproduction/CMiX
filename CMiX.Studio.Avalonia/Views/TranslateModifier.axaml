@@ -1,5 +1,5 @@
 <UserControl
-    x:Class="CMiX.Studio.Avalonia.Views.PositionModifier"
+    x:Class="CMiX.Studio.Avalonia.Views.TranslateModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
@@ -13,9 +13,9 @@
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
-        <BaseControls:ModulatableVectorXYZ 
+        <BaseControls:ModulatableVectorXYZ
             Margin="0, 8"
-            Caption="Position" 
+            Caption="Position"
             ModulatorManager="{Binding ModulatorManager}" />
 
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">

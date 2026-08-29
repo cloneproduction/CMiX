@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    // [ModifierPanel] removed - superseded by Modulation.PositionModifier, which does everything
+    // [ModifierPanel] removed - superseded by Modulation.TranslateModifier, which does everything
     // this does plus an optional modulator stack. No longer independently addable via the picker;
     // kept as TransformSRTModifier's internal building block and so already-saved Project data
     // referencing Translate still loads.

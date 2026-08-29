@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class PositionModifier : UserControl
+    public partial class TranslateModifier : UserControl
     {
-        public PositionModifier()
+        public TranslateModifier()
         {
             InitializeComponent();
         }

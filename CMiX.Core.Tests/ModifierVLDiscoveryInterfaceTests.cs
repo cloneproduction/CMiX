@@ -14,7 +14,7 @@ namespace CMiX.Core.Tests
     {
         [Theory]
         [InlineData(typeof(ScaleModifier))]
-        [InlineData(typeof(PositionModifier))]
+        [InlineData(typeof(TranslateModifier))]
         [InlineData(typeof(RotationModifier))]
         [InlineData(typeof(HSVModifier))]
         [InlineData(typeof(LFOModifier))]

@@ -15,9 +15,9 @@ namespace CMiX.Core.Modulation
     // check, per this session's migration approach. RandomPosition is not touched by this change.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class PositionModifier : Modifier, ISpreadableModifier
+    public partial class TranslateModifier : Modifier, ISpreadableModifier
     {
-        public PositionModifier(PrefabService prefabService,
+        public TranslateModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,
                                 ModifierModeSelector modifierModeSelector,
                                 Modulatable channelX,
@@ -43,7 +43,7 @@ namespace CMiX.Core.Modulation
 
         public override IControlModel ToModel()
         {
-            var model = new PositionModifierModel
+            var model = new TranslateModifierModel
             {
                 ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel()
             };
@@ -53,7 +53,7 @@ namespace CMiX.Core.Modulation
 
         public override void FromModel(IControlModel model)
         {
-            var m = (PositionModifierModel)model;
+            var m = (TranslateModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
         }
