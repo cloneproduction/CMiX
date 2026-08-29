@@ -21,10 +21,10 @@ namespace CMiX.Core.Modulation
         public ScaleModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,
                              ModifierModeSelector modifierModeSelector,
-                             Channel channelX,
-                             Channel channelY,
-                             Channel channelZ,
-                             Channel channelUniform)
+                             Modulatable channelX,
+                             Modulatable channelY,
+                             Modulatable channelZ,
+                             Modulatable channelUniform)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -32,18 +32,18 @@ namespace CMiX.Core.Modulation
             channelY.Label = "Y";
             channelZ.Label = "Z";
             channelUniform.Label = "Uniform";
-            Channels = new List<Channel> { channelX, channelY, channelZ, channelUniform };
+            Channels = new List<Modulatable> { channelX, channelY, channelZ, channelUniform };
         }
 
         // Convenience accessors into Channels, purely for the view's ChannelVectorXYZ binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Channel X => Channels[0];
-        public Channel Y => Channels[1];
-        public Channel Z => Channels[2];
+        public Modulatable X => Channels[0];
+        public Modulatable Y => Channels[1];
+        public Modulatable Z => Channels[2];
 
         // Uniform is a 4th, independently modulatable channel - ported from RandomScale's
         // UniformXYZ, which was already the same GenericValue<float> type as X/Y/Z.
-        public Channel Uniform => Channels[3];
+        public Modulatable Uniform => Channels[3];
 
         // Non-modulatable, ported as-is from RandomScale for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

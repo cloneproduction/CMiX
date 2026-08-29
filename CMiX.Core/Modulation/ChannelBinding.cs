@@ -6,7 +6,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation
 {
-    // The connection record for one Channel: which Modulator (into that Modifier's own
+    // The connection record for one Modulatable: which Modulator (into that Modifier's own
     // ModulatorManager) drives it. ModulatorID is what survives a save/load round trip;
     // BoundModulator is a live, non-serialized reference kept alongside it purely for runtime
     // convenience (e.g. the UI reading which instance is bound without a lookup). Both are set

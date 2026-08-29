@@ -17,18 +17,18 @@ namespace CMiX.Core.Modulation
     {
         public VisibilityModifier(PrefabService prefabService,
                                   PrefabManager modulatorManager,
-                                  Channel channelValue)
+                                  Modulatable channelValue)
             : base(prefabService, modulatorManager)
         {
             // Matches the old RandomVisibility's own default - a freshly added modifier
             // otherwise starts at 0 instead of half-visible.
             channelValue.Value.Value = 0.5f;
-            Channels = new List<Channel> { channelValue };
+            Channels = new List<Modulatable> { channelValue };
         }
 
         // Convenience accessor into Channels, purely for the view's ChannelValue binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Channel Value => Channels[0];
+        public Modulatable Value => Channels[0];
 
         public override IControlModel ToModel()
         {

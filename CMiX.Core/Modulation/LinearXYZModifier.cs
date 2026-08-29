@@ -24,8 +24,8 @@ namespace CMiX.Core.Modulation
                                  ModifierModeSelector modifierModeSelector,
                                  GenericValue<TransformType> transformTypeSelector,
                                  DirectionXYZ directionXYZ,
-                                 Channel width,
-                                 Channel phase)
+                                 Modulatable width,
+                                 Modulatable phase)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -33,13 +33,13 @@ namespace CMiX.Core.Modulation
             DirectionXYZ = directionXYZ;
             width.Label = "Width";
             phase.Label = "Phase";
-            Channels = new List<Channel> { width, phase };
+            Channels = new List<Modulatable> { width, phase };
         }
 
         // Convenience accessors into Channels, purely for the view's ChannelValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Channel Width => Channels[0];
-        public Channel Phase => Channels[1];
+        public Modulatable Width => Channels[0];
+        public Modulatable Phase => Channels[1];
 
         // Non-modulatable, ported as-is from LinearXYZ for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

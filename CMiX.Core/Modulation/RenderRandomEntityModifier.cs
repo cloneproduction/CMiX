@@ -22,7 +22,7 @@ namespace CMiX.Core.Modulation
         public RenderRandomEntityModifier(PrefabService prefabService,
                                           PrefabManager modulatorManager,
                                           GenericValue<EntityType> entityType,
-                                          Channel control)
+                                          Modulatable control)
             : base(prefabService, modulatorManager)
         {
             EntityType = entityType;
@@ -30,12 +30,12 @@ namespace CMiX.Core.Modulation
             // Matches the old RenderRandomEntity's own default - a freshly added modifier
             // otherwise starts at 0, disabling it.
             control.Value.Value = 1.0f;
-            Channels = new List<Channel> { control };
+            Channels = new List<Modulatable> { control };
         }
 
         // Convenience accessor into Channels, purely for the view's ChannelSlider binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Channel Control => Channels[0];
+        public Modulatable Control => Channels[0];
 
         // Non-modulatable, ported as-is from RenderRandomEntity for one-to-one field parity.
         public GenericValue<EntityType> EntityType { get; set; }

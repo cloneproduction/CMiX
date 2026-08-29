@@ -5,7 +5,7 @@ using CMiX.Core.BaseControls;
 
 namespace CMiX.Core.Modulation
 {
-    public record ChannelModel : IControlModel
+    public record ModulatableModel : IControlModel
     {
         public Guid ID { get; init; } = Guid.NewGuid();
         public string Label { get; init; } = string.Empty;

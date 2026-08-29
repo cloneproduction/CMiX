@@ -26,11 +26,11 @@ namespace CMiX.Core.Modulation
                            ModifierModeSelector modifierModeSelector,
                            GenericValue<bool> gaussian,
                            GenericValue<bool> randomizeLocation,
-                           Channel locationX, Channel locationY, Channel locationZ,
+                           Modulatable locationX, Modulatable locationY, Modulatable locationZ,
                            GenericValue<bool> randomizeScale,
-                           Channel scaleX, Channel scaleY, Channel scaleZ,
+                           Modulatable scaleX, Modulatable scaleY, Modulatable scaleZ,
                            GenericValue<bool> randomizeRotation,
-                           Channel rotationX, Channel rotationY, Channel rotationZ)
+                           Modulatable rotationX, Modulatable rotationY, Modulatable rotationZ)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -38,10 +38,10 @@ namespace CMiX.Core.Modulation
             RandomizeLocation = randomizeLocation;
             RandomizeScale = randomizeScale;
             RandomizeRotation = randomizeRotation;
-            Location = new ChannelVector3(locationX, locationY, locationZ);
-            Scale = new ChannelVector3(scaleX, scaleY, scaleZ);
-            Rotation = new ChannelVector3(rotationX, rotationY, rotationZ);
-            Channels = new List<Channel>
+            Location = new ModulatableVector3(locationX, locationY, locationZ);
+            Scale = new ModulatableVector3(scaleX, scaleY, scaleZ);
+            Rotation = new ModulatableVector3(rotationX, rotationY, rotationZ);
+            Channels = new List<Modulatable>
             {
                 locationX, locationY, locationZ,
                 scaleX, scaleY, scaleZ,
@@ -52,9 +52,9 @@ namespace CMiX.Core.Modulation
         // Each group is bound by its own ChannelVectorXYZ in the view (via DataContext), all
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
         // inherited from DataContext) - see ChannelVectorXYZ.axaml.cs.
-        public ChannelVector3 Location { get; }
-        public ChannelVector3 Scale { get; }
-        public ChannelVector3 Rotation { get; }
+        public ModulatableVector3 Location { get; }
+        public ModulatableVector3 Scale { get; }
+        public ModulatableVector3 Rotation { get; }
 
         // Non-modulatable, ported as-is from RandomXYZ for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

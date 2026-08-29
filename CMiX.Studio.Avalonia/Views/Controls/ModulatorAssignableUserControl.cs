@@ -8,7 +8,7 @@ using Modulation = CMiX.Core.Modulation;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    // Shared base for every control that lets a Channel be pointed at a Modulator - same pattern
+    // Shared base for every control that lets a Modulatable be pointed at a Modulator - same pattern
     // CaptionedUserControl already uses to give every BaseControl a Caption property once instead
     // of copy-pasted into each one.
     public abstract class ModulatorAssignableUserControl : CaptionedUserControl
@@ -21,12 +21,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(ModulatorManagerProperty, value);
         }
 
-        // Shared by any control whose own DataContext is directly a Channel (ChannelValue,
+        // Shared by any control whose own DataContext is directly a Modulatable (ChannelValue,
         // ChannelSlider). Does not hide the flyout - the caller still owns its own named
         // assignButton for that, declared in its own XAML.
         protected void AssignFromDataContext(object sender)
         {
-            if (DataContext is Modulation.Channel channel)
+            if (DataContext is Modulation.Modulatable channel)
             {
                 var modulator = (sender as Control)?.DataContext as Modulation.IModulator;
                 channel.Binding.SetModulatorCommand.Execute(modulator);

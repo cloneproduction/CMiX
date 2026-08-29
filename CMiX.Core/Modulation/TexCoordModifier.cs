@@ -22,31 +22,31 @@ namespace CMiX.Core.Modulation
                                 PrefabManager modulatorManager,
                                 ModifierModeSelector modifierModeSelector,
                                 SamplerState samplerState,
-                                Channel locationX, Channel locationY,
-                                Channel scaleX, Channel scaleY,
-                                Channel rotation,
-                                Channel uniform)
+                                Modulatable locationX, Modulatable locationY,
+                                Modulatable scaleX, Modulatable scaleY,
+                                Modulatable rotation,
+                                Modulatable uniform)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
             SamplerState = samplerState;
-            Location = new ChannelVector2(locationX, locationY);
-            Scale = new ChannelVector2(scaleX, scaleY);
+            Location = new ModulatableVector2(locationX, locationY);
+            Scale = new ModulatableVector2(scaleX, scaleY);
             rotation.Label = "Rotation";
             uniform.Label = "Uniform";
-            Channels = new List<Channel> { locationX, locationY, scaleX, scaleY, rotation, uniform };
+            Channels = new List<Modulatable> { locationX, locationY, scaleX, scaleY, rotation, uniform };
         }
 
         // Each group is bound by its own ChannelVectorXY in the view (via DataContext), all
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
         // inherited from DataContext) - see ChannelVectorXY.axaml.cs.
-        public ChannelVector2 Location { get; }
-        public ChannelVector2 Scale { get; }
+        public ModulatableVector2 Location { get; }
+        public ModulatableVector2 Scale { get; }
 
         // Convenience accessors into Channels, purely for the view's ChannelValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Channel Rotation => Channels[4];
-        public Channel Uniform => Channels[5];
+        public Modulatable Rotation => Channels[4];
+        public Modulatable Uniform => Channels[5];
 
         // Non-modulatable, ported as-is from RandomTexCoord for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

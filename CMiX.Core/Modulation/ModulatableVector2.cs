@@ -3,12 +3,12 @@
 
 namespace CMiX.Core.Modulation
 {
-    // Same idea as ChannelVector3, for a Modifier that owns more than one XY group (e.g.
+    // Same idea as ModulatableVector3, for a Modifier that owns more than one XY group (e.g.
     // TexCoordModifier's separate Location and Scale), where the Modifier itself can only
     // directly expose one X/Y.
-    public class ChannelVector2
+    public class ModulatableVector2
     {
-        public ChannelVector2(Channel x, Channel y)
+        public ModulatableVector2(Modulatable x, Modulatable y)
         {
             x.Label = "X";
             y.Label = "Y";
@@ -16,7 +16,7 @@ namespace CMiX.Core.Modulation
             Y = y;
         }
 
-        public Channel X { get; }
-        public Channel Y { get; }
+        public Modulatable X { get; }
+        public Modulatable Y { get; }
     }
 }

@@ -20,23 +20,23 @@ namespace CMiX.Core.Modulation
         public RotationModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,
                                 ModifierModeSelector modifierModeSelector,
-                                Channel channelX,
-                                Channel channelY,
-                                Channel channelZ)
+                                Modulatable channelX,
+                                Modulatable channelY,
+                                Modulatable channelZ)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
             channelX.Label = "X";
             channelY.Label = "Y";
             channelZ.Label = "Z";
-            Channels = new List<Channel> { channelX, channelY, channelZ };
+            Channels = new List<Modulatable> { channelX, channelY, channelZ };
         }
 
         // Convenience accessors into Channels, purely for the view's ChannelVectorXYZ binding -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Channel X => Channels[0];
-        public Channel Y => Channels[1];
-        public Channel Z => Channels[2];
+        public Modulatable X => Channels[0];
+        public Modulatable Y => Channels[1];
+        public Modulatable Z => Channels[2];
 
         // Non-modulatable, ported as-is from RandomRotation for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

@@ -25,9 +25,9 @@ namespace CMiX.Core.Modulation
                            GenericValue<bool> pingPong,
                            DirectionXYZ directionXYZ,
                            GenericValue<TransformType> transformType,
-                           Channel from,
-                           Channel to,
-                           Channel randomizePhase)
+                           Modulatable from,
+                           Modulatable to,
+                           Modulatable randomizePhase)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
@@ -40,14 +40,14 @@ namespace CMiX.Core.Modulation
             // Matches the old LFO's own default (From 0, To 1) - a freshly added LFO otherwise
             // oscillates 0 to 0, a no-op.
             to.Value.Value = 1.0f;
-            Channels = new List<Channel> { from, to, randomizePhase };
+            Channels = new List<Modulatable> { from, to, randomizePhase };
         }
 
         // Convenience accessors into Channels, purely for the view's ChannelValue bindings -
         // Channels itself stays the source of truth (used by Modifier's own ToModel/FromModel).
-        public Channel From => Channels[0];
-        public Channel To => Channels[1];
-        public Channel RandomizePhase => Channels[2];
+        public Modulatable From => Channels[0];
+        public Modulatable To => Channels[1];
+        public Modulatable RandomizePhase => Channels[2];
 
         // Non-modulatable, ported as-is from LFO for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }

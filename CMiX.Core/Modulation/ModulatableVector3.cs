@@ -3,17 +3,17 @@
 
 namespace CMiX.Core.Modulation
 {
-    // A plain grouping of three channels, named to match the ChannelVectorXYZ view it's built
+    // A plain grouping of three channels, named to match the ModulatableVectorXYZ view it's built
     // for - same "domain class / view class" split the old system already used (Vector3 the data,
     // VectorXYZ the view). Used when a Modifier owns more than one XYZ group (e.g. GridModifier's separate
     // Width and Phase), where the Modifier itself can only directly expose one X/Y/Z. Built
-    // manually from three already-DI-injected Channel instances (not itself DI-resolved), the same
+    // manually from three already-DI-injected Modulatable instances (not itself DI-resolved), the same
     // way RandomPosition already builds its own Vector3 from individually-injected
-    // GenericValue<float> instances - so it doesn't need to be IControl, only its three Channels
+    // GenericValue<float> instances - so it doesn't need to be IControl, only its three Modulatables
     // do, and they already are.
-    public class ChannelVector3
+    public class ModulatableVector3
     {
-        public ChannelVector3(Channel x, Channel y, Channel z)
+        public ModulatableVector3(Modulatable x, Modulatable y, Modulatable z)
         {
             x.Label = "X";
             y.Label = "Y";
@@ -23,8 +23,8 @@ namespace CMiX.Core.Modulation
             Z = z;
         }
 
-        public Channel X { get; }
-        public Channel Y { get; }
-        public Channel Z { get; }
+        public Modulatable X { get; }
+        public Modulatable Y { get; }
+        public Modulatable Z { get; }
     }
 }

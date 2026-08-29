@@ -8,9 +8,9 @@ namespace CMiX.Core.Modulation
     // One slot on a Modifier - e.g. Scale's X. Not called "Axis": not every future Modifier is
     // XYZ shaped (Color, or a single-value modifier), so Label is a plain string set by the
     // owning concrete Modifier's constructor.
-    public class Channel : IControl
+    public class Modulatable : IControl
     {
-        public Channel(GenericValue<float> value, ChannelBinding binding)
+        public Modulatable(GenericValue<float> value, ChannelBinding binding)
         {
             Value = value;
             Binding = binding;
@@ -21,7 +21,7 @@ namespace CMiX.Core.Modulation
         public GenericValue<float> Value { get; set; }
         public ChannelBinding Binding { get; set; }
 
-        public IControlModel ToModel() => new ChannelModel
+        public IControlModel ToModel() => new ModulatableModel
         {
             ID = ID,
             Label = Label,
@@ -31,7 +31,7 @@ namespace CMiX.Core.Modulation
 
         public void FromModel(IControlModel model)
         {
-            var m = (ChannelModel)model;
+            var m = (ModulatableModel)model;
             ID = m.ID;
             Label = m.Label;
             Value.FromModel(m.Value);

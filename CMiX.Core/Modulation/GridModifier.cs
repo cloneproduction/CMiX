@@ -24,22 +24,22 @@ namespace CMiX.Core.Modulation
                             PrefabManager modulatorManager,
                             ModifierModeSelector modifierModeSelector,
                             Integer3 count,
-                            Channel widthX, Channel widthY, Channel widthZ,
-                            Channel phaseX, Channel phaseY, Channel phaseZ)
+                            Modulatable widthX, Modulatable widthY, Modulatable widthZ,
+                            Modulatable phaseX, Modulatable phaseY, Modulatable phaseZ)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
             Count = count;
-            Width = new ChannelVector3(widthX, widthY, widthZ);
-            Phase = new ChannelVector3(phaseX, phaseY, phaseZ);
-            Channels = new List<Channel> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
+            Width = new ModulatableVector3(widthX, widthY, widthZ);
+            Phase = new ModulatableVector3(phaseX, phaseY, phaseZ);
+            Channels = new List<Modulatable> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
         }
 
         // Each group is bound by its own ChannelVectorXYZ in the view (via DataContext), both
         // sharing this Modifier's single ModulatorManager (set explicitly on each usage, not
         // inherited from DataContext) - see ChannelVectorXYZ.axaml.cs.
-        public ChannelVector3 Width { get; }
-        public ChannelVector3 Phase { get; }
+        public ModulatableVector3 Width { get; }
+        public ModulatableVector3 Phase { get; }
 
         // Non-modulatable, ported as-is from Grid for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
