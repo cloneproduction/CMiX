@@ -18,7 +18,7 @@
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
-        <BaseControls:ChannelVectorXY
+        <BaseControls:ModulatableVectorXY
             Margin="0,0,0,2"
             Caption="Scale"
             DataContext="{Binding Scale}"
@@ -30,7 +30,7 @@
             DataContext="{Binding Rotation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
-        <BaseControls:ChannelVectorXY
+        <BaseControls:ModulatableVectorXY
             Margin="0,0,0,4"
             Caption="Translate"
             DataContext="{Binding Location}"
