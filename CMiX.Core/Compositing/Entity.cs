@@ -79,6 +79,6 @@ namespace CMiX.Core.Compositing
         // The mesh owns two texture managers of its own, and nothing else reaches its teardown.
         // MaterialSelector is disposed rather than only cleared, so the material the entity held
         // is torn down with its own texture slots instead of outliving the entity.
-        public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector);
+        public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector, TransformSRT);
     }
 }

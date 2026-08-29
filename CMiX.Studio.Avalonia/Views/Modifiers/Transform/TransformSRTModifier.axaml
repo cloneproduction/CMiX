@@ -2,28 +2,16 @@
     x:Class="CMiX.Studio.Avalonia.Views.TransformSRTModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
+    xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views">
 
     <StackPanel>
 
-        <BaseControls:DragValue
-            Margin="0"
-            Caption="Uniform Scale"
-            Value="{Binding Uniform.Value}" />
+        <Views:TranslateModifier DataContext="{Binding Translate}" />
 
-        <BaseControls:VectorXYZ
-            Margin="0, 8, 0, 0"
-            Caption="Scale"
-            DataContext="{Binding Scale.XYZ}" />
+        <Views:ScaleModifier Margin="0,8,0,0" DataContext="{Binding Scale}" />
 
-        <BaseControls:VectorXYZ
-            Margin="0, 8"
-            Caption="Rotation"
-            DataContext="{Binding Rotation.XYZ}" />
-
-        <BaseControls:VectorXYZ
-            Caption="Translate"
-            DataContext="{Binding Translate.XYZ}" />
+        <Views:RotationModifier Margin="0,8,0,0" DataContext="{Binding Rotation}" />
 
         <BaseControls:AxisSelector3D
             Margin="0, 8, 0, 0"
@@ -31,6 +19,7 @@
             XIsChecked="{Binding DirectionXYZ.DirectionX.Value}"
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
+
     </StackPanel>
 
 </UserControl>

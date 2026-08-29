@@ -59,6 +59,6 @@ namespace CMiX.Core.Rendering.Lights
             LoadManager(ModifierManager, m.ModifierManager);
         }
 
-        public void Dispose() => DisposeAll(ModifierManager);
+        public void Dispose() => DisposeAll(ModifierManager, TransformSRT);
     }
 }

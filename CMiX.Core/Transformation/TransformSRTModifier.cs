@@ -4,25 +4,23 @@
 using CMiX.Core.BaseControls;
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
     [ModifierPanel(typeof(Entity))]
-    public partial class TransformSRTModifier : ObservableObject, IModifier
+    public partial class TransformSRTModifier : ObservableObject, IModifier, IDisposable
     {
         public TransformSRTModifier(PrefabService prefabService,
-                            GenericValue<float> uniform,
-                            Translate translate,
-                            Scale scale,
-                            Rotation rotation,
+                            TranslateModifier translate,
+                            ScaleModifier scale,
+                            RotationModifier rotation,
                             DirectionXYZ directionXYZ,
                             GenericValue<ModifierMode> mode)
         {
             PrefabService = prefabService;
-            Uniform = uniform;
             Translate = translate;
             Scale = scale;
             Rotation = rotation;
@@ -32,10 +30,9 @@ namespace CMiX.Core.Transformation
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
-        public GenericValue<float> Uniform { get; set; }
-        public Translate Translate { get; set; }
-        public Scale Scale { get; set; }
-        public Rotation Rotation { get; set; }
+        public TranslateModifier Translate { get; set; }
+        public ScaleModifier Scale { get; set; }
+        public RotationModifier Rotation { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
         public PrefabService PrefabService { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
@@ -43,15 +40,21 @@ namespace CMiX.Core.Transformation
         [ObservableProperty]
         private bool isExpanded;
 
+        public void Dispose()
+        {
+            Translate.Dispose();
+            Scale.Dispose();
+            Rotation.Dispose();
+        }
+
         public IControlModel ToModel() => new TransformSRTModifierModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            Uniform = (GenericValueModel<float>)Uniform.ToModel(),
             DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
-            Translate = (TranslateModel)Translate.ToModel(),
-            Scale = (ScaleModel)Scale.ToModel(),
-            Rotation = (RotationModel)Rotation.ToModel(),
+            Translate = (TranslateModifierModel)Translate.ToModel(),
+            Scale = (ScaleModifierModel)Scale.ToModel(),
+            Rotation = (RotationModifierModel)Rotation.ToModel(),
             Mode = (GenericValueModel<ModifierMode>)Mode.ToModel()
         };
 
@@ -60,7 +63,6 @@ namespace CMiX.Core.Transformation
             var m = (TransformSRTModifierModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
-            Uniform.FromModel(m.Uniform);
             DirectionXYZ.FromModel(m.DirectionXYZ);
             Translate.FromModel(m.Translate);
             Scale.FromModel(m.Scale);
