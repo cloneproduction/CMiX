@@ -44,7 +44,7 @@ namespace CMiX.Core.Prefabs
                 (typeof(Material), c => Materials.Add((Material)c)),
                 (typeof(BeatModifier), c => BeatModifiers.Add((BeatModifier)c)),
                 (typeof(TextEntity), c => Texts.Add((TextEntity)c)),
-                (typeof(ColorPalette), c => ColorPalettes.Add((ColorPalette)c))
+                (typeof(ColorPaletteModifier), c => ColorPalettes.Add((ColorPaletteModifier)c))
             };
 
             typeToRemoveAction = new List<(Type, Action<IControl>)>
@@ -58,7 +58,7 @@ namespace CMiX.Core.Prefabs
                 (typeof(Material), c => Materials.Remove((Material)c)),
                 (typeof(BeatModifier), c => BeatModifiers.Remove((BeatModifier)c)),
                 (typeof(TextEntity), c => Texts.Remove((TextEntity)c)),
-                (typeof(ColorPalette), c => ColorPalettes.Remove((ColorPalette)c))
+                (typeof(ColorPaletteModifier), c => ColorPalettes.Remove((ColorPaletteModifier)c))
             };
 
             Entities.CollectionChanged += OnEntitiesOrTextsChanged;
@@ -75,7 +75,7 @@ namespace CMiX.Core.Prefabs
         public ObservableCollection<LightEntity> Lights { get; } = new();
         public ObservableCollection<BeatModifier> BeatModifiers { get; } = new();
         public ObservableCollection<TextEntity> Texts { get; } = new();
-        public ObservableCollection<ColorPalette> ColorPalettes { get; } = new();
+        public ObservableCollection<ColorPaletteModifier> ColorPalettes { get; } = new();
 
         // Replaces the WPF CompositeCollection of the Entities and Texts CollectionViewSources so
         // the layer entity slot swap popup can list both entities and text entities together.

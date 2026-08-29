@@ -281,7 +281,7 @@
                 <Managers:RepositoryTab.SelectionPanel>
                     <Button
                         Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Modifiers:ColorPalette}"
+                        CommandParameter="{x:Type Modifiers:ColorPaletteModifier}"
                         Content="New Palette" />
                 </Managers:RepositoryTab.SelectionPanel>
             </Managers:RepositoryTab>

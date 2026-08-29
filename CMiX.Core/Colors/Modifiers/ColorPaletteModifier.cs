@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -14,9 +14,9 @@ namespace CMiX.Core.Colors.Modifiers
 {
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class ColorPalette : ObservableObject, IModifier, IDisposable
+    public partial class ColorPaletteModifier : ObservableObject, IModifier, IDisposable
     {
-        public ColorPalette(PrefabService prefabService,
+        public ColorPaletteModifier(PrefabService prefabService,
                             PrefabManager colorManager,
                             PrefabManager modifierManager,
                             GenericValue<ResamplingMethod> resample)
@@ -36,7 +36,7 @@ namespace CMiX.Core.Colors.Modifiers
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public IControlModel ToModel() => new ColorPaletteModel
+        public IControlModel ToModel() => new ColorPaletteModifierModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -46,7 +46,7 @@ namespace CMiX.Core.Colors.Modifiers
 
         public void FromModel(IControlModel model)
         {
-            var m = (ColorPaletteModel)model;
+            var m = (ColorPaletteModifierModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             Resample.FromModel(m.Resample);
