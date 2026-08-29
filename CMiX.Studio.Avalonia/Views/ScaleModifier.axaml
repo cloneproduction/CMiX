@@ -18,7 +18,7 @@
             DataContext="{Binding Uniform}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=scaleModifier}" />
 
-        <BaseControls:ChannelVectorXYZ ModulatorManager="{Binding ModulatorManager}" />
+        <BaseControls:ChannelVectorXYZ Caption="Scale" ModulatorManager="{Binding ModulatorManager}" />
 
         <Views:ModifierManager DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>

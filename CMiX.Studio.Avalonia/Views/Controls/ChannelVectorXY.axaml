@@ -111,7 +111,7 @@
                 </Button.Flyout>
             </Button>
 
-            <BaseControls:DragValue Caption="Y" Value="{Binding Y.Value.Value}" />
+            <BaseControls:DragValue Caption="{Binding Caption, ElementName=channelVectorXY, StringFormat=' {0} Y', Mode=OneWay}" Value="{Binding Y.Value.Value}" />
 
         </DockPanel>
 

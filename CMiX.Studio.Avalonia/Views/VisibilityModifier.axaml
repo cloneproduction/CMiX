@@ -11,6 +11,7 @@
     <StackPanel Margin="4">
 
         <BaseControls:ChannelSlider
+            Caption="Control"
             DataContext="{Binding Value}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=visibilityModifier}"
             Minimum="0"
