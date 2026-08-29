@@ -1,10 +1,10 @@
-﻿using Avalonia.Controls;
+using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class Split : UserControl
+    public partial class SplitModifier : UserControl
     {
-        public Split()
+        public SplitModifier()
         {
             InitializeComponent();
         }

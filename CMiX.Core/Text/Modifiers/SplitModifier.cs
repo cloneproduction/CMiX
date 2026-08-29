@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -9,9 +9,9 @@ using CommunityToolkit.Mvvm.ComponentModel;
 namespace CMiX.Core.Text.Modifiers
 {
     [ModifierPanel(typeof(TextEntity))]
-    public partial class Split : ObservableObject, IPrefab
+    public partial class SplitModifier : ObservableObject, IPrefab
     {
-        public Split(PrefabService prefabService,
+        public SplitModifier(PrefabService prefabService,
                      GenericValue<string> separator,
                      GenericValue<SplitType> type)
         {
@@ -29,7 +29,7 @@ namespace CMiX.Core.Text.Modifiers
         [ObservableProperty]
         private bool isExpanded = true;
 
-        public IControlModel ToModel() => new SplitModel
+        public IControlModel ToModel() => new SplitModifierModel
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
@@ -39,7 +39,7 @@ namespace CMiX.Core.Text.Modifiers
 
         public void FromModel(IControlModel model)
         {
-            var m = (SplitModel)model;
+            var m = (SplitModifierModel)model;
             ID = m.ID;
             PrefabService.FromModel(m.PrefabService);
             Separator.FromModel(m.Separator);
