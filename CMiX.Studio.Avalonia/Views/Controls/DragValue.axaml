@@ -1,4 +1,4 @@
-﻿<Controls:CaptionedUserControl
+<Controls:CaptionedUserControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.DragValue"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -35,7 +35,7 @@
         <DockPanel>
 
             <!-- Reserves the trailing button's width so a plain DragValue and one with a
-                 trailing control (e.g. ChannelValue's ModulatorAssignButton) line up. Collapses
+                 trailing control (e.g. ModulatableValue's ModulatorAssignButton) line up. Collapses
                  to zero width when TrailingContent is unset. -->
             <ContentPresenter
                 Content="{Binding TrailingContent, ElementName=dragValue}"

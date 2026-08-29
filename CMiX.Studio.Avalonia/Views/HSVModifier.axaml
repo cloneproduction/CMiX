@@ -19,25 +19,25 @@
             ItemsSource="{x:Static Resources:EnumProviders.ColorMode}"
             SelectedItem="{Binding ColorMode.Value}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,1"
             Caption="Hue"
             DataContext="{Binding Hue}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,1"
             Caption="Saturation"
             DataContext="{Binding Saturation}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,1"
             Caption="Value"
             DataContext="{Binding Value}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=hsvModifier}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,4"
             Caption="Alpha"
             DataContext="{Binding Alpha}"

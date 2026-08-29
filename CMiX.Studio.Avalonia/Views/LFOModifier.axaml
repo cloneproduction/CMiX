@@ -26,13 +26,13 @@
             YIsChecked="{Binding DirectionXYZ.DirectionY.Value}"
             ZIsChecked="{Binding DirectionXYZ.DirectionZ.Value}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,1"
             Caption="From"
             DataContext="{Binding From}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=lfoModifier}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,4"
             Caption="To"
             DataContext="{Binding To}"
@@ -43,7 +43,7 @@
             Caption="PingPong"
             IsChecked="{Binding PingPong.Value}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,4"
             Caption="Randomize Phase"
             DataContext="{Binding RandomizePhase}"

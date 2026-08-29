@@ -12,7 +12,7 @@
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,2"
             Caption="Uniform"
             DataContext="{Binding Uniform}"
@@ -24,7 +24,7 @@
             DataContext="{Binding Scale}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,2"
             Caption="Rotation"
             DataContext="{Binding Rotation}"

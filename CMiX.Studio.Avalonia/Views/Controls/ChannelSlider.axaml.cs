@@ -5,7 +5,7 @@ using Avalonia;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
-    // Same shape/reasoning as ChannelValue - DataContext is the Channel itself, ModulatorManager
+    // Same shape/reasoning as ModulatableValue - DataContext is the Channel itself, ModulatorManager
     // is inherited - except a bounded CMiXSlider instead of an unbounded DragValue, for a channel
     // whose old counterpart used a slider (e.g. RandomVisibility's 0-1 "Control"). Minimum/Maximum
     // are bindable since different sliders need different ranges (unlike VectorXYZ/Vector2, which

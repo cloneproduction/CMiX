@@ -17,13 +17,13 @@
             ItemsSource="{x:Static Resources:EnumProviders.CameraAxis}"
             SelectedItem="{Binding Axis.Value}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,1"
             Caption="From"
             DataContext="{Binding From}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=cameraLFOModifier}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,4"
             Caption="To"
             DataContext="{Binding To}"

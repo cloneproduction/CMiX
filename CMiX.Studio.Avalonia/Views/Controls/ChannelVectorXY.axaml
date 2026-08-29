@@ -9,12 +9,12 @@
     <!-- Same panel and margin pattern as Vector2.axaml - see ChannelVectorXYZ.axaml's comment. -->
     <Panels:PositionedStackPanel>
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Caption="{Binding Caption, ElementName=channelVectorXY, StringFormat=' {0} X', Mode=OneWay}"
             DataContext="{Binding X}"
             ModulatorManager="{Binding ModulatorManager, ElementName=channelVectorXY}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,1"
             Caption="Y"
             DataContext="{Binding Y}"

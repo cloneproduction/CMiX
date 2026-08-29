@@ -6,8 +6,8 @@
     xmlns:AttachedProperties="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     x:Name="channelSlider">
 
-    <!-- Same shape/reasoning as ChannelValue.axaml, just CMiXSlider instead of DragValue.
-         Forwards Position the same way ChannelValue.axaml does for DragValue - CMiXSlider's own
+    <!-- Same shape/reasoning as ModulatableValue.axaml, just CMiXSlider instead of DragValue.
+         Forwards Position the same way ModulatableValue.axaml does for DragValue - CMiXSlider's own
          ControlTheme reads it via TemplatedParent, so setting it here is all that's needed for the
          corner-rounding to reach it. -->
     <BaseControls:CMiXSlider

@@ -12,7 +12,7 @@
 
         <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
 
-        <BaseControls:ChannelValue
+        <BaseControls:ModulatableValue
             Margin="0,0,0,2"
             Caption="Uniform"
             DataContext="{Binding Uniform}"

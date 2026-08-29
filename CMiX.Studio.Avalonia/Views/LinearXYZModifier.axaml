@@ -34,13 +34,13 @@
 
         <Panels:PositionedStackPanel Margin="0,0,0,8">
 
-            <BaseControls:ChannelValue
+            <BaseControls:ModulatableValue
                 Margin="0,0,0,2"
                 Caption="Width"
                 DataContext="{Binding Width}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
-            <BaseControls:ChannelValue
+            <BaseControls:ModulatableValue
                 Caption="Phase"
                 DataContext="{Binding Phase}"
                 ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
