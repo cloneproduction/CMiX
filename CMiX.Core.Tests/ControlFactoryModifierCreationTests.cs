@@ -1,3 +1,4 @@
+using System.Linq;
 using CMiX.Core.Animations;
 using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
@@ -107,6 +108,32 @@ namespace CMiX.Core.Tests
             var hsv = (HSVModifier)factory.Create(typeof(HSVModifier));
 
             Assert.Equal(ColorMode.HSV, hsv.ColorMode.Value);
+        }
+
+        // Every type carrying [ModifierPanel] is reachable from some "Add Modifier" picker, which
+        // calls exactly this ControlFactory.Create(Type) path. That path requires a same-named
+        // "<FullName>Model" type to exist in the *same namespace* as the modifier itself
+        // (ControlFactory.Create does a plain string concatenation, not a smart lookup) - a type
+        // whose Model companion lives in a different namespace throws at runtime the first time
+        // anyone actually clicks "Add" for it, as TransformSRTModifier did (its Model was left in
+        // Transformation.Modifiers while the class itself is in bare Transformation). This sweep
+        // catches that class of bug for every current and future addable modifier, not just one.
+        [Fact]
+        public void EveryAddableModifier_CanBeCreatedViaControlFactory()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var factory = provider.GetRequiredService<ControlFactory>();
+
+            var addableModifierTypes = typeof(ModifierPanelAttribute).Assembly
+                .GetTypes()
+                .Where(t => !t.IsAbstract && !t.IsInterface)
+                .Where(t => t.GetCustomAttributes(typeof(ModifierPanelAttribute), false).Length > 0);
+
+            foreach (var type in addableModifierTypes)
+            {
+                var control = factory.Create(type);
+                Assert.NotNull(control);
+            }
         }
 
         [Fact]
