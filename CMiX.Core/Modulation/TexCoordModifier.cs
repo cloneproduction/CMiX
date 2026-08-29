@@ -6,6 +6,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Texturing;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -15,7 +16,7 @@ namespace CMiX.Core.Modulation
     // ModifierModeSelector and SamplerState are ported as-is (non-modulatable); Location, Scale,
     // Rotation, and Uniform all become modulatable channels.
     [ModifierPanel(typeof(Entity))]
-    public partial class TexCoordModifier : Modifier
+    public partial class TexCoordModifier : Modifier, ISpreadableModifier
     {
         public TexCoordModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,

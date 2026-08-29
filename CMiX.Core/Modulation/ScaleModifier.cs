@@ -5,6 +5,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -15,7 +16,7 @@ namespace CMiX.Core.Modulation
     // superseded by a live VL check, per this session's migration approach - RandomScale is not
     // touched by this change at all.
     [ModifierPanel(typeof(Entity))]
-    public partial class ScaleModifier : Modifier, IChannelGroup
+    public partial class ScaleModifier : Modifier, IChannelGroup, ISpreadableModifier
     {
         public ScaleModifier(PrefabService prefabService,
                              PrefabManager modulatorManager,

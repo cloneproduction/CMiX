@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -17,7 +18,7 @@ namespace CMiX.Core.Modulation
     // Value, and Alpha all become modulatable channels.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class HSVModifier : Modifier
+    public partial class HSVModifier : Modifier, ISpreadableModifier
     {
         public HSVModifier(PrefabService prefabService,
                            PrefabManager modulatorManager,

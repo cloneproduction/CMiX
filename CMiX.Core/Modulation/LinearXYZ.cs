@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -16,7 +17,7 @@ namespace CMiX.Core.Modulation
     // TransformTypeSelector, and DirectionXYZ are ported as-is (non-modulatable); Width and Phase
     // become modulatable channels - new capability the old LinearXYZ never had.
     [ModifierPanel(typeof(Entity))]
-    public partial class LinearXYZ : Modifier
+    public partial class LinearXYZ : Modifier, ISpreadableModifier
     {
         public LinearXYZ(PrefabService prefabService,
                                  PrefabManager modulatorManager,

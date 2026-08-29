@@ -7,6 +7,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -17,7 +18,7 @@ namespace CMiX.Core.Modulation
     // this Modifier's one modulator stack - new capability the old Grid never had.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class Grid : Modifier
+    public partial class Grid : Modifier, ISpreadableModifier
     {
         public Grid(PrefabService prefabService,
                             PrefabManager modulatorManager,

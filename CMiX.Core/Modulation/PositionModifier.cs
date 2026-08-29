@@ -6,6 +6,7 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Lights;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -14,7 +15,7 @@ namespace CMiX.Core.Modulation
     // check, per this session's migration approach. RandomPosition is not touched by this change.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class PositionModifier : Modifier, IChannelGroup
+    public partial class PositionModifier : Modifier, IChannelGroup, ISpreadableModifier
     {
         public PositionModifier(PrefabService prefabService,
                                 PrefabManager modulatorManager,

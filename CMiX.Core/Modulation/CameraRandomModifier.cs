@@ -5,6 +5,7 @@ using CMiX.Core.BaseControls;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Rendering.Cameras;
+using CMiX.Core.Rendering.Cameras.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -13,7 +14,7 @@ namespace CMiX.Core.Modulation
     // this session's migration approach. CameraRandom is not touched by this change. PingPong and
     // Axis are ported as-is (non-modulatable); Width becomes a modulatable channel.
     [ModifierPanel(typeof(Camera))]
-    public partial class CameraRandomModifier : Modifier
+    public partial class CameraRandomModifier : Modifier, ICameraModifier
     {
         public CameraRandomModifier(PrefabService prefabService,
                                     PrefabManager modulatorManager,

@@ -6,6 +6,7 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
+using CMiX.Core.Transformation.Modifiers;
 
 namespace CMiX.Core.Modulation
 {
@@ -18,7 +19,7 @@ namespace CMiX.Core.Modulation
     // never reads or writes (dead, like RandomPosition.axaml's stale RandomizeLocation binding
     // found earlier this migration) - not ported.
     [ModifierPanel(typeof(Entity))]
-    public partial class XYZModifier : Modifier
+    public partial class XYZModifier : Modifier, ISpreadableModifier
     {
         public XYZModifier(PrefabService prefabService,
                            PrefabManager modulatorManager,
