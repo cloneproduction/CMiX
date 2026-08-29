@@ -6,67 +6,103 @@ using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
-using CommunityToolkit.Mvvm.ComponentModel;
+using CMiX.Core.Prefabs.Managers;
 
 namespace CMiX.Core.Transformation
 {
+    // One shared ModulatorManager for all 10 channels (Translate/Scale/Rotation X/Y/Z plus Scale's
+    // Uniform) - every channel picks from the same modulator list, rather than each of
+    // Translate/Scale/Rotation having its own separate stack. TranslateMode/ScaleMode/RotationMode
+    // stay separate per group (spread behavior for that group's own channels), which is unrelated
+    // to which modulators are available.
     [ModifierPanel(typeof(Entity))]
-    public partial class TransformSRTModifier : ObservableObject, IModifier, IDisposable
+    public partial class TransformSRTModifier : Modifier
     {
         public TransformSRTModifier(PrefabService prefabService,
-                            TranslateModifier translate,
-                            ScaleModifier scale,
-                            RotationModifier rotation,
+                            PrefabManager modulatorManager,
+                            ModifierModeSelector translateMode,
+                            ModifierModeSelector scaleMode,
+                            ModifierModeSelector rotationMode,
+                            Modulatable translateX,
+                            Modulatable translateY,
+                            Modulatable translateZ,
+                            Modulatable scaleX,
+                            Modulatable scaleY,
+                            Modulatable scaleZ,
+                            Modulatable scaleUniform,
+                            Modulatable rotationX,
+                            Modulatable rotationY,
+                            Modulatable rotationZ,
                             DirectionXYZ directionXYZ,
                             GenericValue<ModifierMode> mode)
+            : base(prefabService, modulatorManager)
         {
-            PrefabService = prefabService;
-            Translate = translate;
-            Scale = scale;
-            Rotation = rotation;
+            TranslateMode = translateMode;
+            ScaleMode = scaleMode;
+            RotationMode = rotationMode;
             DirectionXYZ = directionXYZ;
             Mode = mode;
-            isExpanded = true;
+
+            translateX.Label = "X";
+            translateY.Label = "Y";
+            translateZ.Label = "Z";
+            scaleX.Label = "X";
+            scaleY.Label = "Y";
+            scaleZ.Label = "Z";
+            scaleUniform.Label = "Uniform";
+            rotationX.Label = "X";
+            rotationY.Label = "Y";
+            rotationZ.Label = "Z";
+
+            Channels = new List<Modulatable>
+            {
+                translateX, translateY, translateZ,
+                scaleX, scaleY, scaleZ, scaleUniform,
+                rotationX, rotationY, rotationZ
+            };
         }
 
-        public Guid ID { get; set; } = Guid.NewGuid();
-        public TranslateModifier Translate { get; set; }
-        public ScaleModifier Scale { get; set; }
-        public RotationModifier Rotation { get; set; }
+        public ModifierModeSelector TranslateMode { get; set; }
+        public ModifierModeSelector ScaleMode { get; set; }
+        public ModifierModeSelector RotationMode { get; set; }
         public GenericValue<ModifierMode> Mode { get; set; }
-        public PrefabService PrefabService { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
-        [ObservableProperty]
-        private bool isExpanded;
+        // Convenience accessors into Channels, purely for the view's bindings - Channels itself
+        // stays the source of truth (used by Modifier's own ToModel/FromModel).
+        public Modulatable TranslateX => Channels[0];
+        public Modulatable TranslateY => Channels[1];
+        public Modulatable TranslateZ => Channels[2];
+        public Modulatable ScaleX => Channels[3];
+        public Modulatable ScaleY => Channels[4];
+        public Modulatable ScaleZ => Channels[5];
+        public Modulatable ScaleUniform => Channels[6];
+        public Modulatable RotationX => Channels[7];
+        public Modulatable RotationY => Channels[8];
+        public Modulatable RotationZ => Channels[9];
 
-        public void Dispose()
+        public override IControlModel ToModel()
         {
-            Translate.Dispose();
-            Scale.Dispose();
-            Rotation.Dispose();
+            var model = new TransformSRTModifierModel
+            {
+                TranslateMode = (ModifierModeSelectorModel)TranslateMode.ToModel(),
+                ScaleMode = (ModifierModeSelectorModel)ScaleMode.ToModel(),
+                RotationMode = (ModifierModeSelectorModel)RotationMode.ToModel(),
+                DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
+                Mode = (GenericValueModel<ModifierMode>)Mode.ToModel()
+            };
+            PopulateBaseModel(model);
+            return model;
         }
 
-        public IControlModel ToModel() => new TransformSRTModifierModel
-        {
-            ID = ID,
-            PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            DirectionXYZ = (DirectionXYZModel)DirectionXYZ.ToModel(),
-            Translate = (TranslateModifierModel)Translate.ToModel(),
-            Scale = (ScaleModifierModel)Scale.ToModel(),
-            Rotation = (RotationModifierModel)Rotation.ToModel(),
-            Mode = (GenericValueModel<ModifierMode>)Mode.ToModel()
-        };
-
-        public void FromModel(IControlModel model)
+        public override void FromModel(IControlModel model)
         {
             var m = (TransformSRTModifierModel)model;
-            ID = m.ID;
-            PrefabService.FromModel(m.PrefabService);
+            LoadBaseModel(m);
+            TranslateMode.FromModel(m.TranslateMode);
+            ScaleMode.FromModel(m.ScaleMode);
+            RotationMode.FromModel(m.RotationMode);
             DirectionXYZ.FromModel(m.DirectionXYZ);
-            Translate.FromModel(m.Translate);
-            Scale.FromModel(m.Scale);
-            Rotation.FromModel(m.Rotation);
             Mode.FromModel(m.Mode);
         }
     }
