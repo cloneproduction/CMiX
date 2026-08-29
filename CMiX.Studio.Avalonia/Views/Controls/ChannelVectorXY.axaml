@@ -24,7 +24,7 @@
                     Size="{DynamicResource IconSizeXS}">
                     <BaseControls:AppIcon.Foreground>
                         <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                            <Binding Path="X.Binding.BoundModulator.IsHovered" FallbackValue="False" />
+                            <Binding Path="X.Binding.BoundModulator" />
                             <Binding Source="{StaticResource AccentBrush}" />
                             <Binding Source="{StaticResource ForegroundBrush}" />
                         </MultiBinding>
@@ -76,7 +76,7 @@
                     Size="{DynamicResource IconSizeXS}">
                     <BaseControls:AppIcon.Foreground>
                         <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                            <Binding Path="Y.Binding.BoundModulator.IsHovered" FallbackValue="False" />
+                            <Binding Path="Y.Binding.BoundModulator" />
                             <Binding Source="{StaticResource AccentBrush}" />
                             <Binding Source="{StaticResource ForegroundBrush}" />
                         </MultiBinding>

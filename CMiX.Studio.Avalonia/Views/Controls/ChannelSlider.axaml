@@ -19,7 +19,7 @@
                 Size="{DynamicResource IconSizeXS}">
                 <BaseControls:AppIcon.Foreground>
                     <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                        <Binding Path="Binding.BoundModulator.IsHovered" FallbackValue="False" />
+                        <Binding Path="Binding.BoundModulator" />
                         <Binding Source="{StaticResource AccentBrush}" />
                         <Binding Source="{StaticResource ForegroundBrush}" />
                     </MultiBinding>
