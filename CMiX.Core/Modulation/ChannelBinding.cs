@@ -1,6 +1,7 @@
 ﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
+using CMiX.Core.BaseControls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 
@@ -16,6 +17,12 @@ namespace CMiX.Core.Modulation
     // number just means something different depending on binding state.
     public partial class ChannelBinding : ObservableObject, IControl
     {
+        public ChannelBinding(GenericValue<Guid?> modID)
+        {
+            ModID = modID;
+        }
+
+        public GenericValue<Guid?> ModID { get; set; }
         public Guid ID { get; set; } = Guid.NewGuid();
 
         [ObservableProperty]
@@ -31,12 +38,14 @@ namespace CMiX.Core.Modulation
         {
             ModulatorID = modulator?.ID;
             BoundModulator = modulator;
+            ModID.Value = modulator?.ID;
         }
 
         public IControlModel ToModel() => new ChannelBindingModel
         {
             ID = ID,
-            ModulatorID = ModulatorID
+            ModulatorID = ModulatorID,
+            ModID = (GenericValueModel<Guid?>)ModID.ToModel()
         };
 
         public void FromModel(IControlModel model)
@@ -44,6 +53,7 @@ namespace CMiX.Core.Modulation
             var m = (ChannelBindingModel)model;
             ID = m.ID;
             ModulatorID = m.ModulatorID;
+            ModID.FromModel(m.ModID);
         }
     }
 }

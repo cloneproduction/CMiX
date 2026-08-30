@@ -1,0 +1,32 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:BaseControls="using:CMiX.Studio.Avalonia.Views.Controls"
+             xmlns:Converters="using:CMiX.Studio.Avalonia.Converters"
+             xmlns:Modifiers="using:CMiX.Core.Modifiers"
+             xmlns:Panels="using:CMiX.Studio.Avalonia.Views.Controls.Panels"
+             xmlns:Resources="using:CMiX.Studio.Avalonia.Resources"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Name="modifierModeSelector"
+             x:Class="CMiX.Studio.Avalonia.Views.ModifierModeSelector3">
+
+    <StackPanel>
+
+        <BaseControls:ComboBox
+            Margin="0,0,0,8"
+            Caption="Type"
+            ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
+            SelectedItem="{Binding Mode.Value}" />
+
+        <BaseControls:Integer3Value
+            Caption="Count"
+            DataContext="{Binding Count}"
+            IsEnabled="{Binding DataContext.Mode.Value, 
+                                ElementName=modifierModeSelector, 
+                                Converter={x:Static Converters:EnumMatchConverter.Instance}, 
+                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"/>
+
+    </StackPanel>
+
+</UserControl>

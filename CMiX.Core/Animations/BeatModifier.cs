@@ -10,7 +10,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Animations
 {
-    public class BeatModifier : ReceivableControl, IPrefab, IControl, IDisposable, IModulator
+    public class BeatModifier : ReceivableControl, IDisposable, IModulator
     {
         public BeatModifier(PrefabService prefabService,
                             MasterBeat masterBeat,

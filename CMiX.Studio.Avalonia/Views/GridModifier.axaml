@@ -12,15 +12,11 @@
 
     <StackPanel>
 
-        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
-
-        <BaseControls:Integer3Value
-            Margin="0,8"
-            Caption="Count"
-            DataContext="{Binding Count}" />
+        <Views:ModifierModeSelector3 
+            DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:ModulatableVectorXYZ
-
+            Margin="0, 8, 0, 0"
             Caption="Width"
             DataContext="{Binding Width}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />

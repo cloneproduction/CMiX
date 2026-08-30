@@ -1,4 +1,4 @@
-// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
@@ -18,18 +18,18 @@ namespace CMiX.Core.Modulation
     // this Modifier's one modulator stack - new capability the old Grid never had.
     [ModifierPanel(typeof(LightEntity))]
     [ModifierPanel(typeof(Entity))]
-    public partial class GridModifier : Modifier, ISpreadableModifier
+    public partial class GridModifier : Modifier, ISpreadableModifier3
     {
         public GridModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
-                            ModifierModeSelector modifierModeSelector,
+                            ModifierModeSelector3 modifierModeSelector,
                             Integer3 count,
                             Modulatable widthX, Modulatable widthY, Modulatable widthZ,
                             Modulatable phaseX, Modulatable phaseY, Modulatable phaseZ)
             : base(prefabService, modulatorManager)
         {
             ModifierModeSelector = modifierModeSelector;
-            Count = count;
+
             Width = new ModulatableVector3(widthX, widthY, widthZ);
             Phase = new ModulatableVector3(phaseX, phaseY, phaseZ);
             Channels = new List<Modulatable> { widthX, widthY, widthZ, phaseX, phaseY, phaseZ };
@@ -40,17 +40,13 @@ namespace CMiX.Core.Modulation
         // inherited from DataContext) - see ModulatableVectorXYZ.axaml.cs.
         public ModulatableVector3 Width { get; }
         public ModulatableVector3 Phase { get; }
-
-        // Non-modulatable, ported as-is from Grid for one-to-one field parity.
-        public ModifierModeSelector ModifierModeSelector { get; set; }
-        public Integer3 Count { get; set; }
+        public ModifierModeSelector3 ModifierModeSelector { get; set; }
 
         public override IControlModel ToModel()
         {
             var model = new GridModifierModel
             {
-                ModifierModeSelector = (ModifierModeSelectorModel)ModifierModeSelector.ToModel(),
-                Count = (Integer3Model)Count.ToModel()
+                ModifierModeSelector = (ModifierModeSelector3Model)ModifierModeSelector.ToModel(),
             };
             PopulateBaseModel(model);
             return model;
@@ -61,7 +57,6 @@ namespace CMiX.Core.Modulation
             var m = (GridModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
-            Count.FromModel(m.Count);
         }
     }
 }

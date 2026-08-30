@@ -6,7 +6,9 @@
     xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <Panels:PositionedStackPanel>
 
@@ -26,4 +28,5 @@
             Value="{Binding Count.Value}" />
 
     </Panels:PositionedStackPanel>
+
 </UserControl>
