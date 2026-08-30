@@ -6,15 +6,43 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Services="clr-namespace:CMiX.Studio.Avalonia.Services"
-    x:Name="modifierManager">
+    x:Name="modifierManager"    
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel >
+
+        <ItemsControl
+            Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
+            ItemsSource="{Binding ManagerData.Items}">
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+
+                    <Panels:ModifierPanel
+                        Margin="0, 2"
+                        DragHandlerIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandlerIsPressed}"
+                        CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
+                        CloseModifierCommandParameter="{Binding}"
+                        ResetModifierCommand="{Binding $parent[ItemsControl].DataContext.ResetItemCommand}"
+                        ResetModifierCommandParameter="{Binding}">
+
+                        <Panels:ModifierPanel.Content>
+                            <ContentControl Content="{Binding}" />
+                        </Panels:ModifierPanel.Content>
+
+                    </Panels:ModifierPanel>
+
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+
+        </ItemsControl>
 
         <ToggleButton
             x:Name="PopUpToggle"
             Background="{DynamicResource Grey600Brush}"
-            Content="Add Modifier"
-            Margin="0, 0, 0, 0"
+            Content="{Binding Caption, ElementName=modifierManager}"
+            Margin="0, 8, 0, 0"
             Theme="{StaticResource ToggleTransformModifierMenu}" />
 
         <Popup
@@ -32,38 +60,12 @@
                 Padding="2"
                 Background="{DynamicResource Grey100Brush}"
                 CornerRadius="{DynamicResource CornerRadiusLargeBottom}">
+
                 <ContentControl Content="{Binding SelectionPanel, ElementName=modifierManager}" />
+
             </Border>
 
         </Popup>
-
-        <ItemsControl
-            Margin="0, 4, 0, 0"
-            Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}"
-            ItemsSource="{Binding ManagerData.Items}">
-
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Panels:ModifierPanel
-                        Margin="0, 2"
-                        DragHandlerIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandlerIsPressed}"
-                        CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
-                        CloseModifierCommandParameter="{Binding}"
-                        ResetModifierCommand="{Binding $parent[ItemsControl].DataContext.ResetItemCommand}"
-                        ResetModifierCommandParameter="{Binding}">
-
-                        <Panels:ModifierPanel.Content>
-                            <!--
-                                The WPF ViewModelToViewSelector template selector is replaced by the
-                                ViewModelToViewTemplate registered app wide in App.DataTemplates.
-                            -->
-                            <ContentControl Content="{Binding}" />
-                        </Panels:ModifierPanel.Content>
-                    </Panels:ModifierPanel>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-
-        </ItemsControl>
 
     </StackPanel>
 </UserControl>

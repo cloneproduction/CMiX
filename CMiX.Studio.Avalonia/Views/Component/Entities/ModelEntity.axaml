@@ -14,7 +14,7 @@
     <StackPanel>
 
         <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
-            <Views:TransformSRTModifier Margin="8" DataContext="{Binding TransformSRT}" />
+            <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
         </Panels:IndentedExpander>
 
         <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:Entity}" />

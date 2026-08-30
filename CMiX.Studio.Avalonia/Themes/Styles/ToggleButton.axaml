@@ -185,19 +185,10 @@
                     Name="border"
                     Background="{DynamicResource Grey500Brush}"
                     CornerRadius="{DynamicResource CornerRadiusLeft}">
-                    <DockPanel>
-                        <Path
-                            Name="arrow"
-                            Margin="0,0,8,0"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Data="M 1,1.5 L 4.5,5 L 8,1.5"
-                            DockPanel.Dock="Right"
-                            Opacity="0.5"
-                            Stroke="{DynamicResource ForegroundBrush}"
-                            StrokeThickness="2" />
-                        <TextBlock Padding="8,4,4,4" Text="{TemplateBinding Content}" />
-                    </DockPanel>
+                    <Grid>
+                        <TextBlock DockPanel.Dock="Left" Padding="8,4,4,4" Text="+" />
+                        <TextBlock HorizontalAlignment="Center" Padding="8,4,4,4" Text="{TemplateBinding Content}" />
+                    </Grid>
                 </Border>
             </ControlTemplate>
         </Setter>

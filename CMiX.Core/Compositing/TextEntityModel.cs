@@ -16,7 +16,7 @@ namespace CMiX.Core.Compositing
         public PrefabServiceModel PrefabService { get; set; } = new();
         public PrefabManagerModel ModifierManager { get; set; } = new();
         public PrefabManagerModel ColorPaletteManager { get; set; } = new();
-        public TransformSRTModifierModel TransformSRT { get; set; } = new();
+        public TransformSRTModel TransformSRT { get; set; } = new();
         public GenericValueModel<string> Text { get; set; } = new("CMiX");
         public GenericValueModel<float> Size { get; set; } = new(0.8f);
         public GenericValueModel<string> Color { get; set; } = new("#ffffffff");

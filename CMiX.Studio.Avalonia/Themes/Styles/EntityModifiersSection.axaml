@@ -9,7 +9,7 @@
         <Setter Property="Template">
             <ControlTemplate>
                 <Panels:IndentedExpander Header="Modifiers" IsExpanded="{Binding ModifierManagerIsExpanded}">
-                    <Views:ModifierManager Margin="8" DataContext="{Binding ModifierManager}">
+                    <Views:ModifierManager Caption="Add Modifier" Margin="8" DataContext="{Binding ModifierManager}">
                         <Views:ModifierManager.SelectionPanel>
                             <StackPanel>
                                 <Managers:AutoSelectionPanel PanelOwner="{TemplateBinding PanelOwner}" />

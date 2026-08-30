@@ -7,11 +7,13 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Compositing="clr-namespace:CMiX.Core.Compositing;assembly=CMiX.Core"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources">
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    d:DesignWidth="400">
 
     <StackPanel>
         <Panels:IndentedExpander Header="Transform" IsExpanded="{Binding TransformSRTIsExpanded}">
-            <Views:TransformSRTModifier Margin="8" DataContext="{Binding TransformSRT}" />
+            <Views:TransformSRT Margin="8" DataContext="{Binding TransformSRT}" />
         </Panels:IndentedExpander>
         <Views:EntityModifiersSection PanelOwner="{x:Type Compositing:TextEntity}">
             <Managers:AutoSelectionPanel PanelOwner="{x:Type Compositing:Entity}" />

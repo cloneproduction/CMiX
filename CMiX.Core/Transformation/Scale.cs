@@ -9,10 +9,6 @@ using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    // [ModifierPanel] removed - superseded by Modulation.ScaleModifier, which does everything this
-    // does plus an optional modulator stack (TransformSRTModifier itself now composes
-    // ScaleModifier directly, not this class). No longer independently addable via the picker or
-    // used internally by anything - kept standalone in case it's needed again.
     public partial class Scale : ObservableObject, IModifier
     {
         public Scale(GenericValue<float> uniform, 

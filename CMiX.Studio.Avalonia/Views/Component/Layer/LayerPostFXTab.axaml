@@ -18,18 +18,28 @@
 
         <StackPanel>
             <Panels:IndentedExpander Header="Texture Filters">
-                <Views:ModifierManager DataContext="{Binding TextureModifierManager}">
+                <Views:ModifierManager 
+                    Caption="Add Filter"
+                    Margin="8"
+                    DataContext="{Binding TextureModifierManager}">
+
                     <Views:ModifierManager.SelectionPanel>
                         <Managers:AutoSelectionPanel Interface="{x:Type Filters:ITextureFilter}" />
                     </Views:ModifierManager.SelectionPanel>
+
                 </Views:ModifierManager>
             </Panels:IndentedExpander>
 
             <Panels:IndentedExpander Header="Modifiers">
-                <Views:ModifierManager DataContext="{Binding ModifierManager}">
+                <Views:ModifierManager 
+                    Caption="Add Modifier"
+                    Margin="8"
+                    DataContext="{Binding ModifierManager}">
+
                     <Views:ModifierManager.SelectionPanel>
                         <Managers:AutoSelectionPanel PanelOwner="{x:Type Layering:Layer}" />
                     </Views:ModifierManager.SelectionPanel>
+
                 </Views:ModifierManager>
             </Panels:IndentedExpander>
 

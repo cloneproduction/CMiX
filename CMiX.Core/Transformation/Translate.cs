@@ -2,18 +2,12 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
-using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
-using CMiX.Core.Rendering.Lights;
 using CommunityToolkit.Mvvm.ComponentModel;
 
 namespace CMiX.Core.Transformation
 {
-    // [ModifierPanel] removed - superseded by Modulation.TranslateModifier, which does everything
-    // this does plus an optional modulator stack (TransformSRTModifier itself now composes
-    // TranslateModifier directly, not this class). No longer independently addable via the picker
-    // or used internally by anything - kept standalone in case it's needed again.
     public partial class Translate : ObservableObject, IModifier
     {
         public Translate(PrefabService prefabService, Vector3 xyz)

@@ -114,6 +114,23 @@
                 <TabItem.Header>
                     <Controls:AppIcon
                         Margin="8"
+                        IconKey="Settings"
+                        Size="{DynamicResource IconSizeXS}"
+                        ToolTip.HorizontalOffset="-10"
+                        ToolTip.Placement="Pointer"
+                        ToolTip.Tip="Output Mappings"
+                        ToolTip.VerticalOffset="10" />
+                </TabItem.Header>
+
+                <Managers:OutputMappingsPanel DataContext="{Binding Project.OutputMappingManager}" />
+
+            </TabItem>
+
+            <TabItem Theme="{StaticResource TabItemHorizontal}">
+
+                <TabItem.Header>
+                    <Controls:AppIcon
+                        Margin="8"
                         IconKey="Composition"
                         Size="{DynamicResource IconSizeXS}"
                         ToolTip.HorizontalOffset="-10"
@@ -140,23 +157,6 @@
                 </TabItem.Header>
 
                 <Views:MainWindowLayersTab />
-
-            </TabItem>
-
-            <TabItem Theme="{StaticResource TabItemHorizontal}">
-
-                <TabItem.Header>
-                    <Controls:AppIcon
-                        Margin="8"
-                        IconKey="Settings"
-                        Size="{DynamicResource IconSizeXS}"
-                        ToolTip.HorizontalOffset="-10"
-                        ToolTip.Placement="Pointer"
-                        ToolTip.Tip="Output Mappings"
-                        ToolTip.VerticalOffset="10" />
-                </TabItem.Header>
-
-                <Managers:OutputMappingsPanel DataContext="{Binding Project.OutputMappingManager}" />
 
             </TabItem>
 

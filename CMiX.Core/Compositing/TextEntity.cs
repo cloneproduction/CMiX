@@ -18,7 +18,7 @@ namespace CMiX.Core.Compositing
     {
         public TextEntity(PrefabService prefabService,
                           PrefabManager prefabManager,
-                          TransformSRTModifier transformSRT,
+                          TransformSRT transformSRT,
                           GenericValue<string> text,
                           GenericValue<float> size,
                           GenericValue<string> color,
@@ -46,7 +46,7 @@ namespace CMiX.Core.Compositing
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
-        public TransformSRTModifier TransformSRT { get; set; }
+        public TransformSRT TransformSRT { get; set; }
         public GenericValue<string> Text { get; set; }
         public GenericValue<float> Size { get; set; }
         public GenericValue<string> Color { get; set; }
@@ -70,7 +70,7 @@ namespace CMiX.Core.Compositing
         {
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
-            TransformSRT = (TransformSRTModifierModel)TransformSRT.ToModel(),
+            TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
             Text = (GenericValueModel<string>)Text.ToModel(),
             Size = (GenericValueModel<float>)Size.ToModel(),
             Color = (GenericValueModel<string>)Color.ToModel(),
@@ -102,6 +102,6 @@ namespace CMiX.Core.Compositing
             LoadManager(ModifierManager, m.ModifierManager);
         }
 
-        public void Dispose() => DisposeAll(ModifierManager, TransformSRT);
+        public void Dispose() => DisposeAll(ModifierManager);
     }
 }

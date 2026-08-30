@@ -5,7 +5,6 @@ using CMiX.Core.Modifiers;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Prefabs.Managers;
 using CMiX.Core.Transformation;
-using CMiX.Core.Transformation.Modifiers;
 using CommunityToolkit.Mvvm.ComponentModel;
 using static CMiX.Core.ControlExtensions;
 
@@ -15,7 +14,7 @@ namespace CMiX.Core.Compositing
     {
         public Entity(PrefabService prefabService, 
                       Mesh mesh,
-                      TransformSRTModifier transformSRT,
+                      TransformSRT transformSRT,
                       PrefabSelector materialSelector,
                       PrefabManager modifierManager,
                       Color color)
@@ -33,7 +32,7 @@ namespace CMiX.Core.Compositing
         public PrefabService PrefabService { get; set; }
         public PrefabManager ModifierManager { get; set; }
         public PrefabSelector MaterialSelector { get; set; }
-        public TransformSRTModifier TransformSRT { get; set; }
+        public TransformSRT TransformSRT { get; set; }
         public Mesh Mesh { get; set; }
         public Color Color { get; set; }
 
@@ -57,7 +56,7 @@ namespace CMiX.Core.Compositing
             ID = ID,
             PrefabService = (PrefabServiceModel)PrefabService.ToModel(),
             Mesh = (MeshModel)Mesh.ToModel(),
-            TransformSRT = (TransformSRTModifierModel)TransformSRT.ToModel(),
+            TransformSRT = (TransformSRTModel)TransformSRT.ToModel(),
             Color = (ColorModel)Color.ToModel(),
             ModifierManager = (PrefabManagerModel)ModifierManager.ToModel(),
             MaterialSelector = (PrefabSelectorModel)MaterialSelector.ToModel()
@@ -79,6 +78,6 @@ namespace CMiX.Core.Compositing
         // The mesh owns two texture managers of its own, and nothing else reaches its teardown.
         // MaterialSelector is disposed rather than only cleared, so the material the entity held
         // is torn down with its own texture slots instead of outliving the entity.
-        public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector, TransformSRT);
+        public void Dispose() => DisposeAll(ModifierManager, Mesh, MaterialSelector);
     }
 }
