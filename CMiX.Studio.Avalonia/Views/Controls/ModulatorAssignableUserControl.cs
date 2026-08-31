@@ -30,7 +30,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             if (DataContext is Modulation.Modulatable channel)
             {
                 var modulator = (sender as Control)?.DataContext as Modulators.IModulator;
-                channel.Binding.SetModulatorCommand.Execute(modulator);
+                channel.SetModulatorCommand.Execute(modulator);
             }
         }
     }

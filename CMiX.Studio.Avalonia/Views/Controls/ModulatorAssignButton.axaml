@@ -28,11 +28,11 @@
         IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=modulatorAssignButton, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
         Theme="{StaticResource ButtonRoundedRight}">
         <BaseControls:AppIcon
-            IconKey="{Binding Binding.BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
+            IconKey="{Binding BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
             Size="{DynamicResource IconSizeXS}">
             <BaseControls:AppIcon.Foreground>
                 <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
-                    <Binding Path="Binding.BoundModulator" />
+                    <Binding Path="BoundModulator" />
                     <Binding Source="{StaticResource AccentBrush}" />
                     <Binding Source="{StaticResource Grey900Brush}" />
                 </MultiBinding>

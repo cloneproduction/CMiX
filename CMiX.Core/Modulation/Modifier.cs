@@ -39,8 +39,8 @@ namespace CMiX.Core.Modulation
             if (e.OldItems == null) return;
 
             foreach (IControl removed in e.OldItems)
-                foreach (var channel in Channels.Where(c => c.Binding.ModulatorID == removed.ID))
-                    channel.Binding.SetModulatorCommand.Execute(null);
+                foreach (var channel in Channels.Where(c => c.ModulatorID.Value == removed.ID))
+                    channel.SetModulatorCommand.Execute(null);
         }
 
         public void Dispose()
@@ -74,7 +74,7 @@ namespace CMiX.Core.Modulation
             IsExpanded = model.IsExpanded;
 
             // ModulatorManager loads first so each Modulatable's BoundModulator can be re-resolved by
-            // ID right after - ChannelBinding.FromModel only restores ModulatorID, since it has no
+            // ID right after - Modulatable.FromModel only restores ModulatorID, since it has no
             // access to the manager's items itself.
             LoadManager(ModulatorManager, model.ModulatorManager);
 
@@ -83,8 +83,8 @@ namespace CMiX.Core.Modulation
 
             foreach (var channel in Channels)
             {
-                if (channel.Binding.ModulatorID is not { } modulatorId) continue;
-                channel.Binding.BoundModulator = ModulatorManager.ManagerData.Items
+                if (channel.ModulatorID.Value is not { } modulatorId) continue;
+                channel.BoundModulator = ModulatorManager.ManagerData.Items
                     .OfType<IModulator>()
                     .FirstOrDefault(m => m.ID == modulatorId);
             }
