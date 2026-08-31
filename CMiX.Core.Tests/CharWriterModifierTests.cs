@@ -41,7 +41,7 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var charWriter = provider.GetRequiredService<CharWriterModifier>();
-            charWriter.ModulatorManager.AddItem(typeof(CMiX.Core.Animations.BeatModifier));
+            charWriter.ModulatorManager.AddItem(typeof(CMiX.Core.Modulation.Modulators.BeatModifier));
 
             var model = charWriter.ToModel();
 

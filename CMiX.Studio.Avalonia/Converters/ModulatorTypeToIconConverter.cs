@@ -4,7 +4,7 @@
 using System;
 using System.Globalization;
 using Avalonia.Data.Converters;
-using CMiX.Core.Animations;
+using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Converters
 {

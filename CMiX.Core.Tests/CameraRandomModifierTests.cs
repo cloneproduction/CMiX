@@ -1,6 +1,6 @@
-using CMiX.Core.Animations;
 using CMiX.Core.Modifiers;
 using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Rendering.Cameras;
 using Microsoft.Extensions.DependencyInjection;

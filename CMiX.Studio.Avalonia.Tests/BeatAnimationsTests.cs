@@ -3,6 +3,7 @@ using System.ComponentModel;
 using System.Linq;
 using Avalonia.Headless.XUnit;
 using CMiX.Core.Animations;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Studio.Avalonia.Animations;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

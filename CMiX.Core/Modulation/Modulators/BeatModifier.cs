@@ -1,14 +1,14 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System.Windows.Input;
+using CMiX.Core.Animations;
 using CMiX.Core.BaseControls;
-using CMiX.Core.Modulation;
 using CMiX.Core.Prefabs;
 using CMiX.Core.Undo;
 using CommunityToolkit.Mvvm.Input;
 
-namespace CMiX.Core.Animations
+namespace CMiX.Core.Modulation.Modulators
 {
     public class BeatModifier : ReceivableControl, IDisposable, IModulator
     {
@@ -17,7 +17,7 @@ namespace CMiX.Core.Animations
                             GenericValue<int> beatIndex,
                             GenericValue<float> chanceToHit,
                             Easing easing,
-                            BeatSteps beatSteps, 
+                            BeatSteps beatSteps,
                             UndoManager undoManager,
                             ControlActivationService activationService)
         {

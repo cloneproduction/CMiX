@@ -5,6 +5,7 @@ using Avalonia;
 using Avalonia.Controls;
 using CMiX.Core.Prefabs.Managers;
 using Modulation = CMiX.Core.Modulation;
+using Modulators = CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
@@ -28,7 +29,7 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         {
             if (DataContext is Modulation.Modulatable channel)
             {
-                var modulator = (sender as Control)?.DataContext as Modulation.IModulator;
+                var modulator = (sender as Control)?.DataContext as Modulators.IModulator;
                 channel.Binding.SetModulatorCommand.Execute(modulator);
             }
         }

@@ -6,6 +6,7 @@
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
+    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     x:Name="transformSRTModifier"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -47,7 +48,7 @@
 
         <Views:ModifierManager Margin="0,8,0,0" DataContext="{Binding ModulatorManager}">
             <Views:ModifierManager.SelectionPanel>
-                <Managers:AutoSelectionPanel Interface="{x:Type Modulation:IModulator}" />
+                <Managers:AutoSelectionPanel Interface="{x:Type Modulators:IModulator}" />
             </Views:ModifierManager.SelectionPanel>
         </Views:ModifierManager>
 

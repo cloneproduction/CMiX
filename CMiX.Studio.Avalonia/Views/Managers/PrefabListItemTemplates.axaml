@@ -1,7 +1,7 @@
 ﻿<DataTemplates
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
     xmlns:ColorModifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
@@ -83,7 +83,7 @@
     </DataTemplate>
 
     <!--  BEATMODIFIERS  -->
-    <DataTemplate DataType="{x:Type Animations:BeatModifier}">
+    <DataTemplate DataType="{x:Type Modulators:BeatModifier}">
         <BaseControls:PrefabListItem Icon="Beat" />
     </DataTemplate>
 

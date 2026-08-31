@@ -3,7 +3,7 @@
 
 using CMiX.Core.Prefabs;
 
-namespace CMiX.Core.Modulation
+namespace CMiX.Core.Modulation.Modulators
 {
     public interface IModulator : IPrefab
     {

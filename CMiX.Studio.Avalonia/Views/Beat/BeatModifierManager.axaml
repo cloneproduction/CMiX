@@ -2,7 +2,7 @@
     x:Class="CMiX.Studio.Avalonia.Views.BeatModifierManager"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls">
     <StackPanel>
@@ -10,7 +10,7 @@
             <Controls:Outliner.SelectionPanel>
                 <Button
                     Command="{Binding AddItemCommand}"
-                    CommandParameter="{x:Type Animations:BeatModifier}"
+                    CommandParameter="{x:Type Modulators:BeatModifier}"
                     Content="New"
                     Theme="{DynamicResource ButtonRoundedRight}" />
             </Controls:Outliner.SelectionPanel>

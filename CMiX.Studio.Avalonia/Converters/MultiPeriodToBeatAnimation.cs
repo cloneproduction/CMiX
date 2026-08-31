@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using Avalonia;
 using Avalonia.Data.Converters;
-using CMiX.Core.Animations;
+using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Converters
 {

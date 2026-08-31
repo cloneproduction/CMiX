@@ -1,5 +1,4 @@
-using CMiX.Core.Animations;
-using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modulators;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;
 

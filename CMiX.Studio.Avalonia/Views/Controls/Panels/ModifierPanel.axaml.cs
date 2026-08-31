@@ -5,7 +5,7 @@ using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Data;
-using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Views.Controls.Panels
 {

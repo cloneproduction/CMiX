@@ -3,11 +3,11 @@
 
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using CMiX.Core.Animations;
 using CMiX.Core.Colors.Modifiers;
 using CMiX.Core.Compositing;
 using CMiX.Core.Materials;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Rendering.Cameras;
 using CMiX.Core.Rendering.Lights;
 using CMiX.Core.Texturing.Sources;

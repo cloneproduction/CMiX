@@ -3,7 +3,7 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:i="clr-namespace:Avalonia.Xaml.Interactivity;assembly=Avalonia.Xaml.Interactivity"
-    xmlns:Animations="clr-namespace:CMiX.Core.Animations;assembly=CMiX.Core"
+    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Colors.Modifiers;assembly=CMiX.Core"
     xmlns:Materials="clr-namespace:CMiX.Core.Materials;assembly=CMiX.Core"
     xmlns:Cameras="clr-namespace:CMiX.Core.Rendering.Cameras;assembly=CMiX.Core"
@@ -249,7 +249,7 @@
                 <Managers:RepositoryTab.SelectionPanel>
                     <Button
                         Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Animations:BeatModifier}"
+                        CommandParameter="{x:Type Modulators:BeatModifier}"
                         Content="New Beat" />
                 </Managers:RepositoryTab.SelectionPanel>
                 <Managers:RepositoryTab.EditingPanel>
