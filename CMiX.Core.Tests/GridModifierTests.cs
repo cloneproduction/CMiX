@@ -53,13 +53,13 @@ namespace CMiX.Core.Tests
             grid.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)grid.ModulatorManager.ManagerData.Items[0];
 
-            grid.Width.X.Binding.SetModulatorCommand.Execute(beatModifier);
-            grid.Phase.Z.Binding.SetModulatorCommand.Execute(beatModifier);
+            grid.Width.X.SetModulatorCommand.Execute(beatModifier);
+            grid.Phase.Z.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, grid.Width.X.Binding.ModulatorID);
-            Assert.Null(grid.Width.Y.Binding.ModulatorID);
-            Assert.Null(grid.Phase.X.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, grid.Phase.Z.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, grid.Width.X.ModulatorID.Value);
+            Assert.Null(grid.Width.Y.ModulatorID.Value);
+            Assert.Null(grid.Phase.X.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, grid.Phase.Z.ModulatorID.Value);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace CMiX.Core.Tests
 
             grid.Width.X.Value.Value = 5f;
             var modulatorId = Guid.NewGuid();
-            grid.Phase.Y.Binding.ModulatorID = modulatorId;
+            grid.Phase.Y.ModulatorID.Value = modulatorId;
 
             var model = grid.ToModel();
 
@@ -79,7 +79,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(5f, reloaded.Width.X.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Phase.Y.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Phase.Y.ModulatorID.Value);
         }
 
         [Fact]

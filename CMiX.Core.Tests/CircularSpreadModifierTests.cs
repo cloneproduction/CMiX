@@ -51,13 +51,13 @@ namespace CMiX.Core.Tests
             circularSpread.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)circularSpread.ModulatorManager.ManagerData.Items[0];
 
-            circularSpread.X.Binding.SetModulatorCommand.Execute(beatModifier);
-            circularSpread.Factor.Binding.SetModulatorCommand.Execute(beatModifier);
+            circularSpread.X.SetModulatorCommand.Execute(beatModifier);
+            circularSpread.Factor.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, circularSpread.X.Binding.ModulatorID);
-            Assert.Null(circularSpread.Y.Binding.ModulatorID);
-            Assert.Null(circularSpread.Phase.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, circularSpread.Factor.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, circularSpread.X.ModulatorID.Value);
+            Assert.Null(circularSpread.Y.ModulatorID.Value);
+            Assert.Null(circularSpread.Phase.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, circularSpread.Factor.ModulatorID.Value);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace CMiX.Core.Tests
 
             circularSpread.X.Value.Value = 2f;
             var modulatorId = Guid.NewGuid();
-            circularSpread.Phase.Binding.ModulatorID = modulatorId;
+            circularSpread.Phase.ModulatorID.Value = modulatorId;
 
             var model = circularSpread.ToModel();
 
@@ -77,7 +77,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(2f, reloaded.X.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Phase.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Phase.ModulatorID.Value);
         }
 
         [Fact]

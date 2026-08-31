@@ -52,12 +52,12 @@ namespace CMiX.Core.Tests
             lfo.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)lfo.ModulatorManager.ManagerData.Items[0];
 
-            lfo.From.Binding.SetModulatorCommand.Execute(beatModifier);
-            lfo.RandomizePhase.Binding.SetModulatorCommand.Execute(beatModifier);
+            lfo.From.SetModulatorCommand.Execute(beatModifier);
+            lfo.RandomizePhase.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, lfo.From.Binding.ModulatorID);
-            Assert.Null(lfo.To.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, lfo.RandomizePhase.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, lfo.From.ModulatorID.Value);
+            Assert.Null(lfo.To.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, lfo.RandomizePhase.ModulatorID.Value);
         }
 
         [Fact]
@@ -68,7 +68,7 @@ namespace CMiX.Core.Tests
 
             lfo.From.Value.Value = 0.25f;
             var modulatorId = Guid.NewGuid();
-            lfo.To.Binding.ModulatorID = modulatorId;
+            lfo.To.ModulatorID.Value = modulatorId;
 
             var model = lfo.ToModel();
 
@@ -77,7 +77,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(0.25f, reloaded.From.Value.Value);
-            Assert.Equal(modulatorId, reloaded.To.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.To.ModulatorID.Value);
         }
 
         [Fact]

@@ -49,11 +49,11 @@ namespace CMiX.Core.Tests
             cameraLFO.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)cameraLFO.ModulatorManager.ManagerData.Items[0];
 
-            cameraLFO.From.Binding.SetModulatorCommand.Execute(beatModifier);
-            cameraLFO.To.Binding.SetModulatorCommand.Execute(beatModifier);
+            cameraLFO.From.SetModulatorCommand.Execute(beatModifier);
+            cameraLFO.To.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, cameraLFO.From.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, cameraLFO.To.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, cameraLFO.From.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, cameraLFO.To.ModulatorID.Value);
         }
 
         [Fact]

@@ -50,11 +50,11 @@ namespace CMiX.Core.Tests
             linearXYZ.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)linearXYZ.ModulatorManager.ManagerData.Items[0];
 
-            linearXYZ.Width.Binding.SetModulatorCommand.Execute(beatModifier);
-            linearXYZ.Phase.Binding.SetModulatorCommand.Execute(beatModifier);
+            linearXYZ.Width.SetModulatorCommand.Execute(beatModifier);
+            linearXYZ.Phase.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, linearXYZ.Width.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, linearXYZ.Phase.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, linearXYZ.Width.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, linearXYZ.Phase.ModulatorID.Value);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ namespace CMiX.Core.Tests
 
             linearXYZ.Width.Value.Value = 3f;
             var modulatorId = Guid.NewGuid();
-            linearXYZ.Phase.Binding.ModulatorID = modulatorId;
+            linearXYZ.Phase.ModulatorID.Value = modulatorId;
 
             var model = linearXYZ.ToModel();
 
@@ -74,7 +74,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(3f, reloaded.Width.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Phase.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Phase.ModulatorID.Value);
         }
 
         [Fact]

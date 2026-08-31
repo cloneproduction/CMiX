@@ -54,12 +54,12 @@ namespace CMiX.Core.Tests
             xyz.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)xyz.ModulatorManager.ManagerData.Items[0];
 
-            xyz.Location.X.Binding.SetModulatorCommand.Execute(beatModifier);
-            xyz.Rotation.Z.Binding.SetModulatorCommand.Execute(beatModifier);
+            xyz.Location.X.SetModulatorCommand.Execute(beatModifier);
+            xyz.Rotation.Z.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, xyz.Location.X.Binding.ModulatorID);
-            Assert.Null(xyz.Scale.Y.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, xyz.Rotation.Z.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, xyz.Location.X.ModulatorID.Value);
+            Assert.Null(xyz.Scale.Y.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, xyz.Rotation.Z.ModulatorID.Value);
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace CMiX.Core.Tests
 
             xyz.Scale.Y.Value.Value = 3f;
             var modulatorId = Guid.NewGuid();
-            xyz.Rotation.Z.Binding.ModulatorID = modulatorId;
+            xyz.Rotation.Z.ModulatorID.Value = modulatorId;
 
             var model = xyz.ToModel();
 
@@ -79,7 +79,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(3f, reloaded.Scale.Y.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Rotation.Z.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Rotation.Z.ModulatorID.Value);
         }
 
         [Fact]

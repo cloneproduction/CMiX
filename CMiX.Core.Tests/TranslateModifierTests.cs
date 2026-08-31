@@ -62,7 +62,7 @@ namespace CMiX.Core.Tests
 
             position.Channels[0].Value.Value = 4f;
             var modulatorId = Guid.NewGuid();
-            position.Channels[0].Binding.ModulatorID = modulatorId;
+            position.Channels[0].ModulatorID.Value = modulatorId;
 
             var model = position.ToModel();
 
@@ -71,7 +71,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(4f, reloaded.Channels[0].Value.Value);
-            Assert.Equal(modulatorId, reloaded.Channels[0].Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Channels[0].ModulatorID.Value);
         }
 
         [Fact]

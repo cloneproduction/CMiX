@@ -13,8 +13,8 @@ namespace CMiX.Core.Tests
             var provider = TestServiceProviderFactory.Create();
             var modulatable = provider.GetRequiredService<Modulatable>();
 
-            Assert.Null(modulatable.Binding.ModulatorID);
-            Assert.Null(modulatable.Binding.BoundModulator);
+            Assert.Null(modulatable.ModulatorID.Value);
+            Assert.Null(modulatable.BoundModulator);
         }
 
         [Fact]
@@ -25,7 +25,7 @@ namespace CMiX.Core.Tests
 
             modulatable.Label = "X";
             modulatable.Value.Value = 2.5f;
-            modulatable.Binding.ModulatorID = Guid.NewGuid();
+            modulatable.ModulatorID.Value = Guid.NewGuid();
 
             var model = modulatable.ToModel();
 
@@ -35,7 +35,7 @@ namespace CMiX.Core.Tests
 
             Assert.Equal("X", reloaded.Label);
             Assert.Equal(2.5f, reloaded.Value.Value);
-            Assert.Equal(modulatable.Binding.ModulatorID, reloaded.Binding.ModulatorID);
+            Assert.Equal(modulatable.ModulatorID.Value, reloaded.ModulatorID.Value);
         }
 
         [Fact]
@@ -45,15 +45,15 @@ namespace CMiX.Core.Tests
             var modulatable = provider.GetRequiredService<Modulatable>();
             var beatModifier = provider.GetRequiredService<BeatModifier>();
 
-            modulatable.Binding.SetModulatorCommand.Execute(beatModifier);
+            modulatable.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, modulatable.Binding.ModulatorID);
-            Assert.Same(beatModifier, modulatable.Binding.BoundModulator);
+            Assert.Equal(beatModifier.ID, modulatable.ModulatorID.Value);
+            Assert.Same(beatModifier, modulatable.BoundModulator);
 
-            modulatable.Binding.SetModulatorCommand.Execute(null);
+            modulatable.SetModulatorCommand.Execute(null);
 
-            Assert.Null(modulatable.Binding.ModulatorID);
-            Assert.Null(modulatable.Binding.BoundModulator);
+            Assert.Null(modulatable.ModulatorID.Value);
+            Assert.Null(modulatable.BoundModulator);
         }
     }
 }

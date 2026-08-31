@@ -52,13 +52,13 @@ namespace CMiX.Core.Tests
             texCoord.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)texCoord.ModulatorManager.ManagerData.Items[0];
 
-            texCoord.Location.X.Binding.SetModulatorCommand.Execute(beatModifier);
-            texCoord.Scale.Y.Binding.SetModulatorCommand.Execute(beatModifier);
+            texCoord.Location.X.SetModulatorCommand.Execute(beatModifier);
+            texCoord.Scale.Y.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, texCoord.Location.X.Binding.ModulatorID);
-            Assert.Null(texCoord.Location.Y.Binding.ModulatorID);
-            Assert.Null(texCoord.Scale.X.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, texCoord.Scale.Y.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, texCoord.Location.X.ModulatorID.Value);
+            Assert.Null(texCoord.Location.Y.ModulatorID.Value);
+            Assert.Null(texCoord.Scale.X.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, texCoord.Scale.Y.ModulatorID.Value);
         }
 
         [Fact]
@@ -69,7 +69,7 @@ namespace CMiX.Core.Tests
 
             texCoord.Location.X.Value.Value = 5f;
             var modulatorId = Guid.NewGuid();
-            texCoord.Rotation.Binding.ModulatorID = modulatorId;
+            texCoord.Rotation.ModulatorID.Value = modulatorId;
 
             var model = texCoord.ToModel();
 
@@ -78,7 +78,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(5f, reloaded.Location.X.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Rotation.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Rotation.ModulatorID.Value);
         }
 
         [Fact]

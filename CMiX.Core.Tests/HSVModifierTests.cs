@@ -55,13 +55,13 @@ namespace CMiX.Core.Tests
             hsv.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)hsv.ModulatorManager.ManagerData.Items[0];
 
-            hsv.Hue.Binding.SetModulatorCommand.Execute(beatModifier);
-            hsv.Alpha.Binding.SetModulatorCommand.Execute(beatModifier);
+            hsv.Hue.SetModulatorCommand.Execute(beatModifier);
+            hsv.Alpha.SetModulatorCommand.Execute(beatModifier);
 
-            Assert.Equal(beatModifier.ID, hsv.Hue.Binding.ModulatorID);
-            Assert.Null(hsv.Saturation.Binding.ModulatorID);
-            Assert.Null(hsv.Value.Binding.ModulatorID);
-            Assert.Equal(beatModifier.ID, hsv.Alpha.Binding.ModulatorID);
+            Assert.Equal(beatModifier.ID, hsv.Hue.ModulatorID.Value);
+            Assert.Null(hsv.Saturation.ModulatorID.Value);
+            Assert.Null(hsv.Value.ModulatorID.Value);
+            Assert.Equal(beatModifier.ID, hsv.Alpha.ModulatorID.Value);
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace CMiX.Core.Tests
 
             hsv.Hue.Value.Value = 0.5f;
             var modulatorId = Guid.NewGuid();
-            hsv.Saturation.Binding.ModulatorID = modulatorId;
+            hsv.Saturation.ModulatorID.Value = modulatorId;
 
             var model = hsv.ToModel();
 
@@ -81,7 +81,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(0.5f, reloaded.Hue.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Saturation.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Saturation.ModulatorID.Value);
         }
 
         [Fact]

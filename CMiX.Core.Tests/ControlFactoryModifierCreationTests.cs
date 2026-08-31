@@ -161,15 +161,15 @@ namespace CMiX.Core.Tests
             var scale = (ScaleModifier)factory.Create(typeof(ScaleModifier));
             scale.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
-            scale.X.Binding.SetModulatorCommand.Execute(beatModifier);
+            scale.X.SetModulatorCommand.Execute(beatModifier);
 
             var model = scale.ToModel();
 
             var reloaded = (ScaleModifier)factory.Create(model);
 
-            Assert.Equal(beatModifier.ID, reloaded.X.Binding.ModulatorID);
-            Assert.NotNull(reloaded.X.Binding.BoundModulator);
-            Assert.Equal(beatModifier.ID, reloaded.X.Binding.BoundModulator.ID);
+            Assert.Equal(beatModifier.ID, reloaded.X.ModulatorID.Value);
+            Assert.NotNull(reloaded.X.BoundModulator);
+            Assert.Equal(beatModifier.ID, reloaded.X.BoundModulator.ID);
         }
     }
 }

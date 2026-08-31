@@ -51,7 +51,7 @@ namespace CMiX.Core.Tests
 
             scale.Channels[0].Value.Value = 4f;
             var modulatorId = Guid.NewGuid();
-            scale.Channels[0].Binding.ModulatorID = modulatorId;
+            scale.Channels[0].ModulatorID.Value = modulatorId;
 
             var model = scale.ToModel();
 
@@ -60,7 +60,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(4f, reloaded.Channels[0].Value.Value);
-            Assert.Equal(modulatorId, reloaded.Channels[0].Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Channels[0].ModulatorID.Value);
         }
 
         [Fact]
@@ -104,18 +104,18 @@ namespace CMiX.Core.Tests
             scale.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
 
-            scale.X.Binding.SetModulatorCommand.Execute(beatModifier);
-            scale.Y.Binding.SetModulatorCommand.Execute(beatModifier);
+            scale.X.SetModulatorCommand.Execute(beatModifier);
+            scale.Y.SetModulatorCommand.Execute(beatModifier);
 
             scale.ModulatorManager.DeleteItem(beatModifier);
 
-            Assert.Null(scale.X.Binding.ModulatorID);
-            Assert.Null(scale.X.Binding.BoundModulator);
-            Assert.Null(scale.Y.Binding.ModulatorID);
-            Assert.Null(scale.Y.Binding.BoundModulator);
+            Assert.Null(scale.X.ModulatorID.Value);
+            Assert.Null(scale.X.BoundModulator);
+            Assert.Null(scale.Y.ModulatorID.Value);
+            Assert.Null(scale.Y.BoundModulator);
             // Z was never assigned - confirms the cleanup only touches channels that referenced
             // the deleted modulator, not every channel.
-            Assert.Null(scale.Z.Binding.ModulatorID);
+            Assert.Null(scale.Z.ModulatorID.Value);
         }
     }
 }

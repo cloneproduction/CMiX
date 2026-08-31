@@ -60,7 +60,7 @@ namespace CMiX.Core.Tests
 
             visibility.Value.Value.Value = 0.5f;
             var modulatorId = Guid.NewGuid();
-            visibility.Value.Binding.ModulatorID = modulatorId;
+            visibility.Value.ModulatorID.Value = modulatorId;
 
             var model = visibility.ToModel();
 
@@ -69,7 +69,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(0.5f, reloaded.Value.Value.Value);
-            Assert.Equal(modulatorId, reloaded.Value.Binding.ModulatorID);
+            Assert.Equal(modulatorId, reloaded.Value.ModulatorID.Value);
         }
     }
 }
