@@ -13,7 +13,7 @@
 
         <BaseControls:CMiXSlider
             Caption="Chance To Hit"
-            Maximum="1"
+            Maximum="100"
             Value="{Binding ChanceToHit.Value}" />
 
         <Views:Easing Margin="0, 8, 0, 0" DataContext="{Binding Easing}" />
