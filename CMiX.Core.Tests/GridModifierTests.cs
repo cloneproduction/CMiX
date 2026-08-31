@@ -89,10 +89,9 @@ namespace CMiX.Core.Tests
             var grid = provider.GetRequiredService<GridModifier>();
 
             grid.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            grid.ModifierModeSelector.Count.Value = 5;
-            grid.Count.X.Value = 3;
-            grid.Count.Y.Value = 4;
-            grid.Count.Z.Value = 5;
+            grid.ModifierModeSelector.Count.X.Value = 3;
+            grid.ModifierModeSelector.Count.Y.Value = 4;
+            grid.ModifierModeSelector.Count.Z.Value = 5;
 
             var model = grid.ToModel();
 
@@ -101,10 +100,9 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
-            Assert.Equal(3, reloaded.Count.X.Value);
-            Assert.Equal(4, reloaded.Count.Y.Value);
-            Assert.Equal(5, reloaded.Count.Z.Value);
+            Assert.Equal(3, reloaded.ModifierModeSelector.Count.X.Value);
+            Assert.Equal(4, reloaded.ModifierModeSelector.Count.Y.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Z.Value);
         }
     }
 }

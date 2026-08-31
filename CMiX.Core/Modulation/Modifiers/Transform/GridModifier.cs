@@ -24,7 +24,6 @@ namespace CMiX.Core.Modulation.Modifiers
         public GridModifier(PrefabService prefabService,
                             PrefabManager modulatorManager,
                             ModifierModeSelector3 modifierModeSelector,
-                            Integer3 count,
                             Modulatable widthX, Modulatable widthY, Modulatable widthZ,
                             Modulatable phaseX, Modulatable phaseY, Modulatable phaseZ)
             : base(prefabService, modulatorManager)

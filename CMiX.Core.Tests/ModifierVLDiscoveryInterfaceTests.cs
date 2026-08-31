@@ -20,13 +20,23 @@ namespace CMiX.Core.Tests
         [InlineData(typeof(LFOModifier))]
         [InlineData(typeof(TexCoordModifier))]
         [InlineData(typeof(XYZModifier))]
-        [InlineData(typeof(GridModifier))]
         [InlineData(typeof(CircularSpreadModifier))]
         [InlineData(typeof(LinearXYZModifier))]
         public void PortedSpreadableModifier_StillImplementsISpreadableModifier(Type modifierType)
         {
             Assert.True(typeof(ISpreadableModifier).IsAssignableFrom(modifierType),
                 $"{modifierType.Name} must implement ISpreadableModifier to stay eligible for VL-side Spread grouping, matching its old counterpart.");
+        }
+
+        // GridModifier moved to the per-axis ModifierModeSelector3 (Integer3 Count instead of a
+        // single scalar), so it implements ISpreadableModifier3 instead of the others' plain
+        // ISpreadableModifier - same VL-discoverability guard, different marker interface.
+        [Theory]
+        [InlineData(typeof(GridModifier))]
+        public void PortedSpreadableModifier_StillImplementsISpreadableModifier3(Type modifierType)
+        {
+            Assert.True(typeof(ISpreadableModifier3).IsAssignableFrom(modifierType),
+                $"{modifierType.Name} must implement ISpreadableModifier3 to stay eligible for VL-side Spread grouping, matching its old counterpart.");
         }
 
         [Theory]
