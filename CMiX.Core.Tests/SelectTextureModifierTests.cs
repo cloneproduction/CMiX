@@ -1,7 +1,7 @@
 using CMiX.Core.Materials;
 using CMiX.Core.Materials.Modifiers;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Prefabs;
 using Microsoft.Extensions.DependencyInjection;
 using Xunit;

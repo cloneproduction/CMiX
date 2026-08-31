@@ -1,4 +1,4 @@
-using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Rendering.Cameras.Modifiers;
 using CMiX.Core.Transformation.Modifiers;
 using Xunit;

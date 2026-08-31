@@ -1,7 +1,7 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Layering.Modifiers;
 using CMiX.Core.Modifiers;
-using CMiX.Core.Modulation;
+using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
 using Microsoft.Extensions.DependencyInjection;
