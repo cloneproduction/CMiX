@@ -59,6 +59,13 @@ namespace CMiX.Core.BaseControls
                         return;
                     }
 
+                    // A write that doesn't actually change the value (e.g. a control re-publishing
+                    // its own current value the first time its view is built) must stay a true
+                    // no-op - otherwise it records a phantom undo entry and a redundant network
+                    // message for nothing.
+                    if (EqualityComparer<T>.Default.Equals(_value, value))
+                        return;
+
                     var before = CaptureModel();
                     SetProperty(ref _value, value);
                     if (!IsReceiving && !(UndoManager?.IsApplying ?? false))
