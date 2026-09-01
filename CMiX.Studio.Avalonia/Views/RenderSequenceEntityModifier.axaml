@@ -1,11 +1,10 @@
-<UserControl
+<Controls:ModulatablePanel
     x:Class="CMiX.Studio.Avalonia.Views.RenderSequenceEntityModifier"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
+    xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
-    xmlns:Managers="clr-namespace:CMiX.Studio.Avalonia.Views.Managers"
-    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
     x:Name="renderSequenceEntityModifier">
 
@@ -25,12 +24,6 @@
             ItemsSource="{x:Static Resources:EnumProviders.EntityType}"
             SelectedItem="{Binding EntityType.Value}" />
 
-        <Views:ModifierManager DataContext="{Binding ModulatorManager}">
-            <Views:ModifierManager.SelectionPanel>
-                <Managers:AutoSelectionPanel Interface="{x:Type Modulators:IModulator}" />
-            </Views:ModifierManager.SelectionPanel>
-        </Views:ModifierManager>
-
     </StackPanel>
 
-</UserControl>
+</Controls:ModulatablePanel>

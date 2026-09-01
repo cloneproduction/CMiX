@@ -25,6 +25,7 @@
     <UserControl.Template>
         <ControlTemplate TargetType="Panels:ModifierPanel">
             <Expander
+                Name="PART_Expander"
                 IsExpanded="{Binding DataContext.IsExpanded, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
                 Theme="{StaticResource ItemControlExpander}">
 

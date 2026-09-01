@@ -85,11 +85,12 @@
         </Style>    </ControlTheme>
 
     <ControlTheme x:Key="ItemControlExpanderHeaderStyle" TargetType="ToggleButton">
+        <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
         <Setter Property="Template">
             <ControlTemplate>
                 <Border
                     Name="mainBorder"
-                    Background="{DynamicResource Grey300Brush}"
+                    Background="{TemplateBinding Background}"
                     BorderBrush="{DynamicResource Grey100Brush}"
                     BorderThickness="0,0,0,0.5"
                     Height="{DynamicResource ControlHeightMD}">
@@ -129,7 +130,7 @@
     </ControlTheme>
 
     <ControlTheme x:Key="ItemControlExpander" TargetType="Expander">
-        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Background" Value="{DynamicResource Grey300Brush}" />
         <Setter Property="Foreground" Value="{DynamicResource ForegroundBrush}" />
         <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         <Setter Property="VerticalContentAlignment" Value="Stretch" />
@@ -137,13 +138,14 @@
             <ControlTemplate>
                 <Border
                     Name="border"
-                    Background="{DynamicResource Grey300Brush}"
+                    Background="{TemplateBinding Background}"
                     BorderBrush="{DynamicResource Grey400Brush}"
                     BorderThickness="1"
                     CornerRadius="{DynamicResource CornerRadiusAll}">
                     <DockPanel>
                         <ToggleButton
                             Name="PART_toggle"
+                            Background="{TemplateBinding Background}"
                             Content="{TemplateBinding Header}"
                             DockPanel.Dock="Top"
                             Foreground="{DynamicResource ForegroundBrush}"

@@ -4,13 +4,22 @@
 using System.Windows.Input;
 using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Controls.Primitives;
 using Avalonia.Data;
+using Avalonia.Media;
 using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Views.Controls.Panels
 {
     public partial class ModifierPanel : UserControl
     {
+        private Expander _expander;
+
+        static ModifierPanel()
+        {
+            PanelBackgroundProperty.Changed.AddClassHandler<ModifierPanel>((x, e) => x.UpdatePanelBackground());
+        }
+
         public ModifierPanel()
         {
             InitializeComponent();
@@ -27,6 +36,33 @@ namespace CMiX.Studio.Avalonia.Views.Controls.Panels
         {
             if (DataContext is IModulator modulator)
                 modulator.IsHovered = value;
+        }
+
+        protected override void OnApplyTemplate(TemplateAppliedEventArgs e)
+        {
+            base.OnApplyTemplate(e);
+            _expander = e.NameScope.Find<Expander>("PART_Expander");
+            UpdatePanelBackground();
+        }
+
+        // Only ever calls SetValue when a real override is supplied, leaving Expander.Background
+        // completely unset otherwise - that lets the ItemControlExpander theme's own default
+        // Setter apply exactly as it does today, with no risk of a bound null value (which would
+        // still be a real, higher-priority local value) blanking out the theme's background.
+        private void UpdatePanelBackground()
+        {
+            if (_expander != null && PanelBackground != null)
+                _expander.Background = PanelBackground;
+        }
+
+        // Lets a consumer distinguish nested panels (e.g. a Modulator list rendered inside a
+        // Modifier) that would otherwise share the exact same ItemControlExpander background.
+        public static readonly StyledProperty<IBrush> PanelBackgroundProperty =
+            AvaloniaProperty.Register<ModifierPanel, IBrush>(nameof(PanelBackground));
+        public IBrush PanelBackground
+        {
+            get => GetValue(PanelBackgroundProperty);
+            set => SetValue(PanelBackgroundProperty, value);
         }
 
         public static readonly StyledProperty<ICommand> ResetModifierCommandProperty =

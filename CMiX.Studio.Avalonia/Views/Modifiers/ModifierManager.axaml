@@ -6,6 +6,7 @@
     xmlns:Behaviors="clr-namespace:CMiX.Studio.Avalonia.Behaviors"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
     xmlns:Services="clr-namespace:CMiX.Studio.Avalonia.Services"
+    xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
     x:Name="modifierManager"    
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
@@ -24,6 +25,7 @@
                         DragHandlerIsPressed="{Binding $parent[ItemsControl].DataContext.ManagerReorderService.DragHandlerIsPressed}"
                         CloseModifierCommand="{Binding $parent[ItemsControl].DataContext.DeleteItemCommand}"
                         CloseModifierCommandParameter="{Binding}"
+                        PanelBackground="{Binding $parent[Views:ModifierManager].PanelBackground}"
                         ResetModifierCommand="{Binding $parent[ItemsControl].DataContext.ResetItemCommand}"
                         ResetModifierCommandParameter="{Binding}">
 
