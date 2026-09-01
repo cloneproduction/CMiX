@@ -12,5 +12,10 @@ namespace CMiX.Core.Modulation.Modulators
         // the modulator stack list) is hovered, without CMiX.Core knowing anything about how
         // that's drawn.
         bool IsHovered { get; set; }
+
+        // ModifierPanel (the shared per-item wrapper for both Modifier and Modulator list rows)
+        // binds its Expander to DataContext.IsExpanded unconditionally, so every IModulator needs
+        // one too, matching Modifier's own IsExpanded.
+        bool IsExpanded { get; set; }
     }
 }
