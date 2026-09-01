@@ -4,7 +4,8 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:AP="clr-namespace:CMiX.Studio.Avalonia.AttachedProperties"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels">
+    xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
+    x:Name="modifierPanel">
 
     <!--
         Avalonia templated controls clip to bounds by default, unlike WPF. The filter
@@ -18,18 +19,19 @@
     </HeaderedContentControl.Styles>
 
     <!--
-        Bound via RelativeSource AncestorType rather than TemplateBinding/TemplatedParent -
+        Bound via ElementName rather than RelativeSource AncestorType or TemplateBinding -
         this header now renders through the Header slot's own ContentPresenter (see the
-        Template below), not inline inside ModifierPanel's ControlTemplate, so TemplatedParent
-        would no longer reliably resolve to this ModifierPanel instance. AncestorType walks the
-        actual visual tree instead, which also correctly finds the nearest ModifierPanel when
-        a Modulator row's own panel is nested inside an outer Modifier row's panel.
+        Template below), not inline inside ModifierPanel's ControlTemplate, so neither
+        TemplatedParent nor an ancestor tree-walk reliably distinguishes this instance from
+        an outer ModifierPanel when a Modulator row's own panel is nested inside a Modifier
+        row's panel. ElementName resolves via this instance's own NameScope instead, which
+        stays unambiguous regardless of nesting depth.
     -->
     <HeaderedContentControl.Header>
         <DockPanel>
             <Button
                 AP:DragHandler.IsEnabled="True"
-                AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}, Mode=TwoWay}"
+                AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, ElementName=modifierPanel, Mode=TwoWay}"
                 DockPanel.Dock="Right"
                 Theme="{StaticResource DragHandlerButton}">
                 <Button.Content>
@@ -41,18 +43,18 @@
             </Button>
 
             <Button
-                Command="{Binding CloseModifierCommand, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}}"
-                CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}}"
+                Command="{Binding CloseModifierCommand, ElementName=modifierPanel}"
+                CommandParameter="{Binding CloseModifierCommandParameter, ElementName=modifierPanel}"
                 DockPanel.Dock="Right"
                 Theme="{DynamicResource ModifierCloseButtonStyle}" />
 
             <ToggleButton
                 Margin="2,0"
                 DockPanel.Dock="Right"
-                IsChecked="{Binding DataContext.PrefabService.Visibility.Value, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}, Mode=TwoWay}"
+                IsChecked="{Binding DataContext.PrefabService.Visibility.Value, ElementName=modifierPanel, Mode=TwoWay}"
                 Theme="{DynamicResource ToggleVisibility}" />
 
-            <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}}" />
+            <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, ElementName=modifierPanel}" />
 
         </DockPanel>
     </HeaderedContentControl.Header>

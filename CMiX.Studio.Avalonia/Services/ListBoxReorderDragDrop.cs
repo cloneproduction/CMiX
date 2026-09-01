@@ -1,4 +1,4 @@
-﻿// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
+// Copyright (c) CloneProduction Shanghai Company Limited (https://cloneproduction.net/)
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using System;
@@ -14,10 +14,25 @@ namespace CMiX.Studio.Avalonia.Services
     // Replacement for the gong wpf dragdrop list reorder wiring.
     // Attach on a ListBox: Services:ListBoxReorderDragDrop.Service="{Binding ManagerReorderService}".
     // Drag starts from an item whose drag handle sets DragHandlerIsPressed on the service.
+    //
+    // Reordering is driven by manual pointer capture rather than Avalonia's DragDrop.DoDragDrop.
+    // A Modulator list is rendered nested inside a Modifier list (both using this same service),
+    // and with two nested elements both AllowDrop="True", DoDragDrop's own hit-test resolution
+    // flickers between DragOver/DragLeave on every pointer-move frame - confirmed live: DragLeave
+    // fires repeatedly even while the cursor sits well inside a list's bounds, and if the mouse-up
+    // happens to land on a DragLeave frame instead of a DragOver frame, the drop silently goes
+    // nowhere. This reorder never needs to interoperate with other windows/applications, so pointer
+    // capture (which keeps routing move/release events to the list directly, with no hit-testing
+    // involved) removes that race condition entirely instead of chasing its timing.
     public static class ListBoxReorderDragDrop
     {
-        private const string ReorderFormat = "cmix/reorder";
         private const double DragThreshold = 4.0;
+
+        // Manual pointer capture (see the class remarks above) does not get the OS drag cursor
+        // DragDrop.DoDragDrop provided for free, so the same cursor it used for a Move effect is
+        // set explicitly here instead - only while a drop is actually possible, matching the old
+        // behavior of no cursor change at all otherwise (no forbidden icon).
+        private static readonly Cursor MoveCursor = new(StandardCursorType.DragMove);
 
         public static readonly AttachedProperty<ManagerReorderService> ServiceProperty =
             AvaloniaProperty.RegisterAttached<ItemsControl, ManagerReorderService>(
@@ -36,22 +51,18 @@ namespace CMiX.Studio.Avalonia.Services
         {
             if (e.NewValue != null)
             {
-                DragDrop.SetAllowDrop(listBox, true);
                 listBox.AddHandler(InputElement.PointerPressedEvent, OnPointerPressed, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
                 listBox.AddHandler(InputElement.PointerMovedEvent, OnPointerMoved, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
-                listBox.AddHandler(DragDrop.DragOverEvent, OnDragOver);
-                listBox.AddHandler(DragDrop.DragLeaveEvent, OnDragLeave);
-                listBox.AddHandler(DragDrop.DropEvent, OnDrop);
+                listBox.AddHandler(InputElement.PointerReleasedEvent, OnPointerReleased, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
+                listBox.AddHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost, global::Avalonia.Interactivity.RoutingStrategies.Tunnel);
                 listBox.DetachedFromVisualTree += OnListBoxDetachedFromVisualTree;
             }
             else
             {
-                DragDrop.SetAllowDrop(listBox, false);
                 listBox.RemoveHandler(InputElement.PointerPressedEvent, OnPointerPressed);
                 listBox.RemoveHandler(InputElement.PointerMovedEvent, OnPointerMoved);
-                listBox.RemoveHandler(DragDrop.DragOverEvent, OnDragOver);
-                listBox.RemoveHandler(DragDrop.DragLeaveEvent, OnDragLeave);
-                listBox.RemoveHandler(DragDrop.DropEvent, OnDrop);
+                listBox.RemoveHandler(InputElement.PointerReleasedEvent, OnPointerReleased);
+                listBox.RemoveHandler(InputElement.PointerCaptureLostEvent, OnPointerCaptureLost);
                 listBox.DetachedFromVisualTree -= OnListBoxDetachedFromVisualTree;
                 RemoveIndicator(listBox);
             }
@@ -69,6 +80,12 @@ namespace CMiX.Studio.Avalonia.Services
 
         private static readonly AttachedProperty<int> PressIndexProperty =
             AvaloniaProperty.RegisterAttached<ItemsControl, int>("PressIndex", typeof(ListBoxReorderDragDrop), -1);
+
+        private static readonly AttachedProperty<bool> IsDraggingProperty =
+            AvaloniaProperty.RegisterAttached<ItemsControl, bool>("IsDragging", typeof(ListBoxReorderDragDrop));
+
+        private static readonly AttachedProperty<int> DragSourceIndexProperty =
+            AvaloniaProperty.RegisterAttached<ItemsControl, int>("DragSourceIndex", typeof(ListBoxReorderDragDrop), -1);
 
         private static void OnPointerPressed(object? sender, PointerPressedEventArgs e)
         {
@@ -98,14 +115,39 @@ namespace CMiX.Studio.Avalonia.Services
             listBox.SetValue(PressIndexProperty, index);
         }
 
-        private static async void OnPointerMoved(object? sender, PointerEventArgs e)
+        private static void OnPointerMoved(object? sender, PointerEventArgs e)
         {
             var listBox = (ItemsControl)sender!;
             var service = GetService(listBox);
-            var pressPoint = listBox.GetValue(PressPointProperty);
-            var sourceIndex = listBox.GetValue(PressIndexProperty);
+            if (service == null)
+                return;
 
-            if (service == null || pressPoint == null || sourceIndex < 0)
+            if (listBox.GetValue(IsDraggingProperty))
+            {
+                if (!e.GetCurrentPoint(listBox).Properties.IsLeftButtonPressed)
+                    return;
+
+                var sourceIndex = listBox.GetValue(DragSourceIndexProperty);
+                var insertIndex = ComputeInsertIndex(listBox, e.GetPosition(listBox));
+
+                if (service.CanDrop(sourceIndex, insertIndex))
+                {
+                    ShowIndicator(listBox, IndicatorY(listBox, insertIndex));
+                    listBox.Cursor = MoveCursor;
+                }
+                else
+                {
+                    HideIndicator(listBox);
+                    listBox.Cursor = null;
+                }
+
+                return;
+            }
+
+            var pressPoint = listBox.GetValue(PressPointProperty);
+            var pressIndex = listBox.GetValue(PressIndexProperty);
+
+            if (pressPoint == null || pressIndex < 0)
                 return;
 
             if (!e.GetCurrentPoint(listBox).Properties.IsLeftButtonPressed)
@@ -127,13 +169,50 @@ namespace CMiX.Studio.Avalonia.Services
 
             listBox.SetValue(PressPointProperty, null);
             listBox.SetValue(PressIndexProperty, -1);
+            listBox.SetValue(DragSourceIndexProperty, pressIndex);
+            listBox.SetValue(IsDraggingProperty, true);
+            e.Pointer.Capture(listBox);
+        }
 
-            var data = new DataObject();
-            data.Set(ReorderFormat, sourceIndex);
-            await DragDrop.DoDragDrop(e, data, DragDropEffects.Move);
+        private static void OnPointerReleased(object? sender, PointerReleasedEventArgs e)
+        {
+            var listBox = (ItemsControl)sender!;
+            if (!listBox.GetValue(IsDraggingProperty))
+                return;
 
+            var service = GetService(listBox);
+            var sourceIndex = listBox.GetValue(DragSourceIndexProperty);
+            var insertIndex = ComputeInsertIndex(listBox, e.GetPosition(listBox));
+            var canDrop = service != null && service.CanDrop(sourceIndex, insertIndex);
+
+            EndDrag(listBox, service);
+
+            if (canDrop)
+                service.Dropped(sourceIndex, insertIndex);
+
+            e.Pointer.Capture(null);
+        }
+
+        // Capture can be lost without a normal release - e.g. the window loses focus mid-drag.
+        // Cancels cleanly rather than leaving the drag state stuck.
+        private static void OnPointerCaptureLost(object? sender, PointerCaptureLostEventArgs e)
+        {
+            var listBox = (ItemsControl)sender!;
+            if (!listBox.GetValue(IsDraggingProperty))
+                return;
+
+            EndDrag(listBox, GetService(listBox));
+        }
+
+        private static void EndDrag(ItemsControl listBox, ManagerReorderService service)
+        {
+            listBox.SetValue(IsDraggingProperty, false);
+            listBox.SetValue(DragSourceIndexProperty, -1);
             HideIndicator(listBox);
-            service.DragHandlerIsPressed = false;
+            listBox.Cursor = null;
+
+            if (service != null)
+                service.DragHandlerIsPressed = false;
         }
 
         private static int ComputeInsertIndex(ItemsControl listBox, Point position)
@@ -170,55 +249,6 @@ namespace CMiX.Studio.Avalonia.Services
                 return topLeft.Y + last.Bounds.Height;
             }
             return 0;
-        }
-
-        private static void OnDragOver(object? sender, DragEventArgs e)
-        {
-            var listBox = (ItemsControl)sender!;
-            var service = GetService(listBox);
-
-            if (service == null || !e.Data.Contains(ReorderFormat))
-            {
-                e.DragEffects = DragDropEffects.None;
-                return;
-            }
-
-            var sourceIndex = Convert.ToInt32(e.Data.Get(ReorderFormat));
-            var insertIndex = ComputeInsertIndex(listBox, e.GetPosition(listBox));
-
-            if (!service.CanDrop(sourceIndex, insertIndex))
-            {
-                e.DragEffects = DragDropEffects.None;
-                HideIndicator(listBox);
-                return;
-            }
-
-            e.DragEffects = DragDropEffects.Move;
-            ShowIndicator(listBox, IndicatorY(listBox, insertIndex));
-        }
-
-        private static void OnDragLeave(object? sender, DragEventArgs e)
-        {
-            HideIndicator((ItemsControl)sender!);
-        }
-
-        private static void OnDrop(object? sender, DragEventArgs e)
-        {
-            var listBox = (ItemsControl)sender!;
-            var service = GetService(listBox);
-            HideIndicator(listBox);
-
-            if (service == null || !e.Data.Contains(ReorderFormat))
-                return;
-
-            var sourceIndex = Convert.ToInt32(e.Data.Get(ReorderFormat));
-            var insertIndex = ComputeInsertIndex(listBox, e.GetPosition(listBox));
-
-            if (!service.CanDrop(sourceIndex, insertIndex))
-                return;
-
-            service.Dropped(sourceIndex, insertIndex);
-            e.Handled = true;
         }
 
         // Insertion indicator drawn on the adorner layer, replacing the WPF DropTargetAdorners.Insert.
