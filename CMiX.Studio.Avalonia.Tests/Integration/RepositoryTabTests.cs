@@ -1,4 +1,5 @@
-﻿using Avalonia.Headless.XUnit;
+﻿using Avalonia.Controls;
+using Avalonia.Headless.XUnit;
 using Avalonia.Threading;
 using Avalonia.VisualTree;
 using CMiX.Core.Texturing.Sources;
@@ -57,7 +58,10 @@ namespace CMiX.Studio.Avalonia.Tests.Integration
             var composition = (CMiX.Core.Compositing.Composition)viewModel.Project.CompositionManager.SelectedItem;
             composition.LayerManager.AddItem(typeof(CMiX.Core.Compositing.Layer));
 
-            TestServiceProviderFactory.MainTabControl(window).SelectedIndex = 1;
+            var tabControl = TestServiceProviderFactory.MainTabControl(window);
+            var layersTab = tabControl.Items.OfType<TabItem>()
+                .Single(tab => tab.Content is Views.MainWindowLayersTab);
+            tabControl.SelectedItem = layersTab;
             TestServiceProviderFactory.Pump();
 
             var layerView = Assert.Single(window.GetVisualDescendants().OfType<Views.Layer>());
