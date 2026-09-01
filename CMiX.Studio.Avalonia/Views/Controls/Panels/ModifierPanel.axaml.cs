@@ -11,7 +11,7 @@ using CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Views.Controls.Panels
 {
-    public partial class ModifierPanel : UserControl
+    public partial class ModifierPanel : HeaderedContentControl
     {
         private Expander _expander;
 

@@ -15,13 +15,12 @@
             DataContext="{Binding ModifierModeSelector}" />
 
         <BaseControls:ModulatableVectorXYZ
-            Margin="0, 8, 0, 0"
+            Margin="0, 8, 0, 8"
             Caption="Width"
             DataContext="{Binding Width}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />
 
         <BaseControls:ModulatableVectorXYZ
-            Margin="0,8"
             Caption="Phase"
             DataContext="{Binding Phase}"
             ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=gridModifier}" />

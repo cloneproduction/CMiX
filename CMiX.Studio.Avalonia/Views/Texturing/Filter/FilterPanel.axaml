@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<HeaderedContentControl
     x:Class="CMiX.Studio.Avalonia.Views.FilterPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -9,7 +9,36 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
-    <UserControl.Template>
+    <HeaderedContentControl.Header>
+        <StackPanel>
+
+            <Controls:ToggleButton
+                    Margin="0, 8"
+                    Caption="Blend"
+                    IsChecked="{Binding Blend.IsEnabled.Value}"/>
+
+            <StackPanel
+                IsEnabled="{Binding Blend.IsEnabled.Value}">
+
+                <Controls:CMiXSlider
+                    Margin="0,0, 0, 8"
+                    AttachedProperties:PositionedControl.Position="All"
+                    Caption="Opacity"
+                    Maximum="1"
+                    Minimum="0"
+                    Value="{Binding Blend.Opacity.Value}" />
+
+                <Controls:ComboBox
+                    Caption="Blend Mode"
+                    ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
+                    SelectedItem="{Binding Blend.BlendMode.Value}" />
+
+            </StackPanel>
+
+        </StackPanel>
+    </HeaderedContentControl.Header>
+
+    <HeaderedContentControl.Template>
         <ControlTemplate TargetType="Views:FilterPanel">
             <StackPanel>
 
@@ -17,32 +46,12 @@
                     Content="{TemplateBinding Content}"
                     ContentTemplate="{TemplateBinding ContentTemplate}" />
 
-                <Controls:ToggleButton 
-                        Margin="0, 8"
-                        Caption="Blend"
-                        IsChecked="{Binding Blend.IsEnabled.Value}"/>
-
-                <StackPanel
-                    IsEnabled="{Binding Blend.IsEnabled.Value}">
-
-                    <Controls:CMiXSlider
-                        Margin="0,0, 0, 8"
-                        AttachedProperties:PositionedControl.Position="All"
-                        Caption="Opacity"
-                        Maximum="1"
-                        Minimum="0"
-                        Value="{Binding Blend.Opacity.Value}" />
-
-                    <Controls:ComboBox
-                        Caption="Blend Mode"
-                        ItemsSource="{x:Static Resources:EnumProviders.BlendMode}"
-                        SelectedItem="{Binding Blend.BlendMode.Value}" />
-
-                </StackPanel>
-
+                <ContentPresenter
+                    Content="{TemplateBinding Header}"
+                    ContentTemplate="{TemplateBinding HeaderTemplate}" />
 
             </StackPanel>
         </ControlTemplate>
-    </UserControl.Template>
+    </HeaderedContentControl.Template>
 
-</UserControl>
+</HeaderedContentControl>

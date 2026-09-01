@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<HeaderedContentControl
     x:Class="CMiX.Studio.Avalonia.Views.Controls.Panels.ModifierPanel"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -11,18 +11,58 @@
         panel blend bar relies on WPF style negative margin overdraw to reach the panel
         edges, so clipping is disabled for the content chain inside modifier panels.
     -->
-    <UserControl.Styles>
+    <HeaderedContentControl.Styles>
         <Style Selector=":is(ContentControl)">
             <Setter Property="ClipToBounds" Value="False" />
         </Style>
-    </UserControl.Styles>
+    </HeaderedContentControl.Styles>
+
+    <!--
+        Bound via RelativeSource AncestorType rather than TemplateBinding/TemplatedParent -
+        this header now renders through the Header slot's own ContentPresenter (see the
+        Template below), not inline inside ModifierPanel's ControlTemplate, so TemplatedParent
+        would no longer reliably resolve to this ModifierPanel instance. AncestorType walks the
+        actual visual tree instead, which also correctly finds the nearest ModifierPanel when
+        a Modulator row's own panel is nested inside an outer Modifier row's panel.
+    -->
+    <HeaderedContentControl.Header>
+        <DockPanel>
+            <Button
+                AP:DragHandler.IsEnabled="True"
+                AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}, Mode=TwoWay}"
+                DockPanel.Dock="Right"
+                Theme="{StaticResource DragHandlerButton}">
+                <Button.Content>
+                    <Controls:AppIcon
+                        Opacity="0.50"
+                        IconKey="DragHandler"
+                        Size="{DynamicResource IconSizeXS}" />
+                </Button.Content>
+            </Button>
+
+            <Button
+                Command="{Binding CloseModifierCommand, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}}"
+                CommandParameter="{Binding CloseModifierCommandParameter, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}}"
+                DockPanel.Dock="Right"
+                Theme="{DynamicResource ModifierCloseButtonStyle}" />
+
+            <ToggleButton
+                Margin="2,0"
+                DockPanel.Dock="Right"
+                IsChecked="{Binding DataContext.PrefabService.Visibility.Value, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}, Mode=TwoWay}"
+                Theme="{DynamicResource ToggleVisibility}" />
+
+            <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, RelativeSource={RelativeSource AncestorType=Panels:ModifierPanel}}" />
+
+        </DockPanel>
+    </HeaderedContentControl.Header>
 
     <!--
         The wrapper is a ControlTemplate, not a ContentTemplate. Presenting the content
         through a DataTemplate breaks DataContext inheritance for the content in Avalonia,
         which left the hosted views without a view model.
     -->
-    <UserControl.Template>
+    <HeaderedContentControl.Template>
         <ControlTemplate TargetType="Panels:ModifierPanel">
             <Expander
                 Name="PART_Expander"
@@ -30,35 +70,9 @@
                 Theme="{StaticResource ItemControlExpander}">
 
                 <Expander.Header>
-                    <DockPanel>
-                        <Button
-                            AP:DragHandler.IsEnabled="True"
-                            AP:DragHandler.IsPressed="{Binding DragHandlerIsPressed, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                            DockPanel.Dock="Right"
-                            Theme="{StaticResource DragHandlerButton}">
-                            <Button.Content>
-                                <Controls:AppIcon
-                                    Opacity="0.50"
-                                    IconKey="DragHandler"
-                                    Size="{DynamicResource IconSizeXS}" />
-                            </Button.Content>
-                        </Button>
-
-                        <Button
-                            Command="{TemplateBinding CloseModifierCommand}"
-                            CommandParameter="{TemplateBinding CloseModifierCommandParameter}"
-                            DockPanel.Dock="Right"
-                            Theme="{DynamicResource ModifierCloseButtonStyle}" />
-
-                        <ToggleButton
-                            Margin="2,0"
-                            DockPanel.Dock="Right"
-                            IsChecked="{Binding DataContext.PrefabService.Visibility.Value, RelativeSource={RelativeSource TemplatedParent}, Mode=TwoWay}"
-                            Theme="{DynamicResource ToggleVisibility}" />
-
-                        <TextBlock Text="{Binding DataContext.PrefabService.Name.Value, RelativeSource={RelativeSource TemplatedParent}}" />
-
-                    </DockPanel>
+                    <ContentPresenter
+                        Content="{TemplateBinding Header}"
+                        ContentTemplate="{TemplateBinding HeaderTemplate}" />
                 </Expander.Header>
 
                 <!--
@@ -66,11 +80,11 @@
                     filter panel stays inside this border's bounds.
                 -->
                 <Border Padding="8">
-                    <ContentPresenter Content="{TemplateBinding Content}" />
+                    <ContentPresenter Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" />
                 </Border>
 
             </Expander>
         </ControlTemplate>
-    </UserControl.Template>
+    </HeaderedContentControl.Template>
 
-</UserControl>
+</HeaderedContentControl>
