@@ -11,7 +11,9 @@
 
     <StackPanel>
 
-        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector
+            DataContext="{Binding ModifierModeSelector}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=texCoordModifier}" />
 
         <BaseControls:ModulatableValue
             Margin="0,8"

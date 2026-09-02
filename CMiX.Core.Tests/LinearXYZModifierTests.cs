@@ -85,7 +85,7 @@ namespace CMiX.Core.Tests
             var linearXYZ = provider.GetRequiredService<LinearXYZModifier>();
 
             linearXYZ.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            linearXYZ.ModifierModeSelector.Count.Value = 5;
+            linearXYZ.ModifierModeSelector.Count.Value.Value = 5;
             linearXYZ.TransformTypeSelector.Value = TransformType.Rotation;
             linearXYZ.DirectionXYZ.DirectionX.Value = false;
             linearXYZ.DirectionXYZ.DirectionY.Value = true;
@@ -98,7 +98,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
             Assert.Equal(TransformType.Rotation, reloaded.TransformTypeSelector.Value);
             Assert.False(reloaded.DirectionXYZ.DirectionX.Value);
             Assert.True(reloaded.DirectionXYZ.DirectionY.Value);

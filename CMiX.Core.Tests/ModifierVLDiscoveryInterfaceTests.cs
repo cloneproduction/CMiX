@@ -28,9 +28,10 @@ namespace CMiX.Core.Tests
                 $"{modifierType.Name} must implement ISpreadableModifier to stay eligible for VL-side Spread grouping, matching its old counterpart.");
         }
 
-        // GridModifier moved to the per-axis ModifierModeSelector3 (Integer3 Count instead of a
-        // single scalar), so it implements ISpreadableModifier3 instead of the others' plain
-        // ISpreadableModifier - same VL-discoverability guard, different marker interface.
+        // GridModifier moved to the per-axis ModifierModeSelector3 (independent CountX/Y/Z
+        // ModulatableCount channels instead of a single scalar), so it implements
+        // ISpreadableModifier3 instead of the others' plain ISpreadableModifier - same
+        // VL-discoverability guard, different marker interface.
         [Theory]
         [InlineData(typeof(GridModifier))]
         public void PortedSpreadableModifier_StillImplementsISpreadableModifier3(Type modifierType)

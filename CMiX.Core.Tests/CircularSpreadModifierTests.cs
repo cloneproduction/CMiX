@@ -88,7 +88,7 @@ namespace CMiX.Core.Tests
             var circularSpread = provider.GetRequiredService<CircularSpreadModifier>();
 
             circularSpread.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            circularSpread.ModifierModeSelector.Count.Value = 5;
+            circularSpread.ModifierModeSelector.Count.Value.Value = 5;
 
             var model = circularSpread.ToModel();
 
@@ -97,7 +97,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
         }
     }
 }

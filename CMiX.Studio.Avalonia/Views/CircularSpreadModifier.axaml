@@ -12,7 +12,9 @@
 
     <StackPanel>
 
-        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector
+            DataContext="{Binding ModifierModeSelector}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=circularSpreadModifier}" />
 
         <!-- No DataContext override here - CircularSpread itself has X/Y properties, so this
              reads them directly off the whole modifier, same as

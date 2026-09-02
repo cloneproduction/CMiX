@@ -1,4 +1,4 @@
-﻿<UserControl
+﻿<BaseControls:ModulatorAssignableUserControl
     x:Class="CMiX.Studio.Avalonia.Views.ModifierModeSelector"
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
@@ -6,7 +6,8 @@
     xmlns:Converters="clr-namespace:CMiX.Studio.Avalonia.Converters"
     xmlns:Modifiers="clr-namespace:CMiX.Core.Modifiers;assembly=CMiX.Core"
     xmlns:Panels="clr-namespace:CMiX.Studio.Avalonia.Views.Controls.Panels"
-    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"    
+    xmlns:Resources="clr-namespace:CMiX.Studio.Avalonia.Resources"
+    x:Name="modifierModeSelector"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
@@ -18,15 +19,12 @@
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             SelectedItem="{Binding Mode.Value}" />
 
-        <BaseControls:DragValue
+        <BaseControls:ModulatableIntegerValue
             Caption="Count"
-            IsEnabled="{Binding Mode.Value, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
-            IsInteger="True"
-            LargeChange="1.0"
-            Minimum="1"
-            SmallChange="1.0"
-            Value="{Binding Count.Value}" />
+            DataContext="{Binding Count}"
+            IsEnabled="{Binding DataContext.Mode.Value, ElementName=modifierModeSelector, Converter={x:Static Converters:EnumMatchConverter.Instance}, ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+            ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
 
     </Panels:PositionedStackPanel>
 
-</UserControl>
+</BaseControls:ModulatorAssignableUserControl>

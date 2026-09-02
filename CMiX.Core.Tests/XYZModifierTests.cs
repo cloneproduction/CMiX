@@ -90,7 +90,7 @@ namespace CMiX.Core.Tests
             var xyz = provider.GetRequiredService<XYZModifier>();
 
             xyz.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            xyz.ModifierModeSelector.Count.Value = 5;
+            xyz.ModifierModeSelector.Count.Value.Value = 5;
             xyz.Gaussian.Value = true;
             xyz.RandomizeLocation.Value = false;
             xyz.RandomizeScale.Value = true;
@@ -103,7 +103,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
             Assert.True(reloaded.Gaussian.Value);
             Assert.False(reloaded.RandomizeLocation.Value);
             Assert.True(reloaded.RandomizeScale.Value);

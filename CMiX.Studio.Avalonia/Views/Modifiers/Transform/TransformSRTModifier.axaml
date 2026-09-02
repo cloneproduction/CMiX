@@ -12,7 +12,9 @@
 
     <StackPanel>
 
-        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector
+            DataContext="{Binding ModifierModeSelector}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />
 
         <Panels:PositionedStackPanel Margin="0,8">
             <BaseControls:ModulatableValue Caption="Translate X" DataContext="{Binding TranslateX}" ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=transformSRTModifier}" />

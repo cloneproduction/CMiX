@@ -94,9 +94,9 @@ namespace CMiX.Core.Tests
 
             var grid = (GridModifier)factory.Create(typeof(GridModifier));
 
-            Assert.Equal(1, grid.ModifierModeSelector.Count.X.Value);
-            Assert.Equal(1, grid.ModifierModeSelector.Count.Y.Value);
-            Assert.Equal(1, grid.ModifierModeSelector.Count.Z.Value);
+            Assert.Equal(1, grid.ModifierModeSelector.CountX.Value.Value);
+            Assert.Equal(1, grid.ModifierModeSelector.CountY.Value.Value);
+            Assert.Equal(1, grid.ModifierModeSelector.CountZ.Value.Value);
             Assert.Equal(CMiX.Core.Modifiers.ModifierMode.ToSpread, grid.ModifierModeSelector.Mode.Value);
         }
 

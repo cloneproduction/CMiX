@@ -5,13 +5,15 @@
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Controls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Views="clr-namespace:CMiX.Studio.Avalonia.Views"
+    x:Name="rotationModifier"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignWidth="400">
 
     <StackPanel>
 
-        <Views:ModifierModeSelector 
-            DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector
+            DataContext="{Binding ModifierModeSelector}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=rotationModifier}" />
 
         <BaseControls:ModulatableVectorXYZ
             Margin="0, 8"

@@ -88,7 +88,7 @@ namespace CMiX.Core.Tests
             var lfo = provider.GetRequiredService<LFOModifier>();
 
             lfo.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            lfo.ModifierModeSelector.Count.Value = 5;
+            lfo.ModifierModeSelector.Count.Value.Value = 5;
             lfo.PingPong.Value = true;
             lfo.DirectionXYZ.DirectionX.Value = false;
             lfo.DirectionXYZ.DirectionY.Value = true;
@@ -102,7 +102,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
             Assert.True(reloaded.PingPong.Value);
             Assert.False(reloaded.DirectionXYZ.DirectionX.Value);
             Assert.True(reloaded.DirectionXYZ.DirectionY.Value);

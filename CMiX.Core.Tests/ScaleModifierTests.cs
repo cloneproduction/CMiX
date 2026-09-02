@@ -83,7 +83,7 @@ namespace CMiX.Core.Tests
             var scale = provider.GetRequiredService<ScaleModifier>();
 
             scale.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            scale.ModifierModeSelector.Count.Value = 5;
+            scale.ModifierModeSelector.Count.Value.Value = 5;
             scale.Uniform.Value.Value = 2.5f;
 
             var model = scale.ToModel();
@@ -93,7 +93,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
             Assert.Equal(2.5f, reloaded.Uniform.Value.Value);
         }
 

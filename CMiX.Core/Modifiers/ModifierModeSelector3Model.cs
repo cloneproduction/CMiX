@@ -2,6 +2,7 @@
 // Distributed under the MIT license. See the LICENSE.md file in the project root for more information.
 
 using CMiX.Core.BaseControls;
+using CMiX.Core.Modulation;
 
 namespace CMiX.Core.Modifiers
 {
@@ -12,17 +13,21 @@ namespace CMiX.Core.Modifiers
 
         }
 
-        public ModifierModeSelector3Model(ModifierMode modifierMode, 
-                                          int countX, 
-                                          int countY, 
+        public ModifierModeSelector3Model(ModifierMode modifierMode,
+                                          int countX,
+                                          int countY,
                                           int countZ)
         {
             Mode = new GenericValueModel<ModifierMode>(modifierMode);
-            Count = new Integer3Model(countX, countY, countZ);
+            CountX = new ModulatableCountModel { Value = new GenericValueModel<int>(countX) };
+            CountY = new ModulatableCountModel { Value = new GenericValueModel<int>(countY) };
+            CountZ = new ModulatableCountModel { Value = new GenericValueModel<int>(countZ) };
         }
 
         public Guid ID { get; set; } = Guid.NewGuid();
         public GenericValueModel<ModifierMode> Mode { get; set; } = new(ModifierMode.PerInstance);
-        public Integer3Model Count { get; set; } = new(1, 1, 1);
+        public ModulatableCountModel CountX { get; set; } = new();
+        public ModulatableCountModel CountY { get; set; } = new();
+        public ModulatableCountModel CountZ { get; set; } = new();
     }
 }

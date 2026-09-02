@@ -81,7 +81,7 @@ namespace CMiX.Core.Tests
             var rotation = provider.GetRequiredService<RotationModifier>();
 
             rotation.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            rotation.ModifierModeSelector.Count.Value = 5;
+            rotation.ModifierModeSelector.Count.Value.Value = 5;
 
             var model = rotation.ToModel();
 
@@ -90,7 +90,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
         }
     }
 }

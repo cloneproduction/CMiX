@@ -81,7 +81,7 @@ namespace CMiX.Core.Tests
             var position = provider.GetRequiredService<TranslateModifier>();
 
             position.ModifierModeSelector.Mode.Value = ModifierMode.ToSpread;
-            position.ModifierModeSelector.Count.Value = 5;
+            position.ModifierModeSelector.Count.Value.Value = 5;
 
             var model = position.ToModel();
 
@@ -90,7 +90,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(ModifierMode.ToSpread, reloaded.ModifierModeSelector.Mode.Value);
-            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value);
+            Assert.Equal(5, reloaded.ModifierModeSelector.Count.Value.Value);
         }
     }
 }

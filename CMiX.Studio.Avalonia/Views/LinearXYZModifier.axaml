@@ -15,7 +15,8 @@
 
         <Views:ModifierModeSelector
             Margin="0, 0, 0, 8"
-            DataContext="{Binding ModifierModeSelector}" />
+            DataContext="{Binding ModifierModeSelector}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=linearXYZModifier}" />
 
         <Panels:PositionedStackPanel Margin="0,0,0,8">
             <BaseControls:ComboBox

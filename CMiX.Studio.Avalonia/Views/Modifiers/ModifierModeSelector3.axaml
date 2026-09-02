@@ -1,4 +1,4 @@
-<UserControl xmlns="https://github.com/avaloniaui"
+<BaseControls:ModulatorAssignableUserControl xmlns="https://github.com/avaloniaui"
              xmlns:BaseControls="using:CMiX.Studio.Avalonia.Views.Controls"
              xmlns:Converters="using:CMiX.Studio.Avalonia.Converters"
              xmlns:Modifiers="using:CMiX.Core.Modifiers"
@@ -19,14 +19,36 @@
             ItemsSource="{x:Static Resources:EnumProviders.ModifierMode}"
             SelectedItem="{Binding Mode.Value}" />
 
-        <BaseControls:Integer3Value
-            Caption="Count"
-            DataContext="{Binding Count}"
-            IsEnabled="{Binding DataContext.Mode.Value, 
-                                ElementName=modifierModeSelector, 
-                                Converter={x:Static Converters:EnumMatchConverter.Instance}, 
-                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"/>
+        <!-- Three independent axes, each its own ModulatableCount - no shared Integer3, so
+             CountX/Y/Z can be bound to a modulator individually (e.g. just CountX). -->
+        <BaseControls:ModulatableIntegerValue
+            Caption="Count X"
+            DataContext="{Binding CountX}"
+            IsEnabled="{Binding DataContext.Mode.Value,
+                                ElementName=modifierModeSelector,
+                                Converter={x:Static Converters:EnumMatchConverter.Instance},
+                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+            ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
+
+        <BaseControls:ModulatableIntegerValue
+            Margin="0,1"
+            Caption="Count Y"
+            DataContext="{Binding CountY}"
+            IsEnabled="{Binding DataContext.Mode.Value,
+                                ElementName=modifierModeSelector,
+                                Converter={x:Static Converters:EnumMatchConverter.Instance},
+                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+            ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
+
+        <BaseControls:ModulatableIntegerValue
+            Caption="Count Z"
+            DataContext="{Binding CountZ}"
+            IsEnabled="{Binding DataContext.Mode.Value,
+                                ElementName=modifierModeSelector,
+                                Converter={x:Static Converters:EnumMatchConverter.Instance},
+                                ConverterParameter={x:Static Modifiers:ModifierMode.ToSpread}}"
+            ModulatorManager="{Binding ModulatorManager, ElementName=modifierModeSelector}" />
 
     </StackPanel>
 
-</UserControl>
+</BaseControls:ModulatorAssignableUserControl>

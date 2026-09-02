@@ -11,7 +11,9 @@
 
     <StackPanel>
 
-        <Views:ModifierModeSelector DataContext="{Binding ModifierModeSelector}" />
+        <Views:ModifierModeSelector
+            DataContext="{Binding ModifierModeSelector}"
+            ModulatorManager="{Binding DataContext.ModulatorManager, ElementName=xyzModifier}" />
 
         <BaseControls:ToggleButton
             Margin="0,8,0,2"
