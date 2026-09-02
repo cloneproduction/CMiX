@@ -12,7 +12,7 @@
         AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=countValue}"
         Caption="{Binding Caption, ElementName=countValue, Mode=OneWay}"
         IsInteger="True"
-        IsReadOnly="{Binding BoundModulator, Converter={StaticResource NullToVisibility}}"
+        IsReadOnly="{Binding BoundModulator, Converter={StaticResource BoundModulatorToIsReadOnly}}"
         LargeChange="1.0"
         Minimum="1"
         SmallChange="1.0"

@@ -18,6 +18,11 @@ namespace CMiX.Core.Modulation.Modulators
         // one too, matching Modifier's own IsExpanded.
         bool IsExpanded { get; set; }
 
+        // Decides how any field this modulator gets bound to behaves - see ModulatorKind. A property
+        // of the modulator itself so it stays consistent everywhere the same instance is plugged in,
+        // rather than each bindable field guessing independently.
+        ModulatorKind Kind { get; }
+
         // "Value" for a single-output modulator like BeatModifier; multiple names ("X", "Y") for
         // something that naturally produces more than one value together, e.g. a future tracking
         // modulator. Every existing modulator returns exactly one name, so nothing about today's

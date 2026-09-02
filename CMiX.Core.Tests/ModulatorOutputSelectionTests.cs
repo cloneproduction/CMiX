@@ -18,6 +18,7 @@ namespace CMiX.Core.Tests
             public PrefabService PrefabService { get; set; }
             public bool IsHovered { get; set; }
             public bool IsExpanded { get; set; }
+            public ModulatorKind Kind => ModulatorKind.Set;
             public IReadOnlyList<string> OutputNames { get; } = new[] { "X", "Y" };
 
             public IControlModel ToModel() => throw new NotSupportedException();
