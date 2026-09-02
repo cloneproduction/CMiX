@@ -222,8 +222,12 @@ namespace CMiX.Studio.Avalonia.Views.Controls
         // own IsEnabled: TrailingContent (e.g. ModulatorAssignButton) sits outside mainBorder in
         // DragValue.axaml specifically so it stays clickable while read-only, letting the same
         // popup that locked the field also unassign it.
+        // OneWay, unlike this file's other StyledProperties - consumers only ever drive this in,
+        // never read a change back out, and a TwoWay default sends every value through the
+        // consumer's converter's ConvertBack too (confirmed live: NullToVisibilityConverter has
+        // none, and blew up the moment a Count's BoundModulator changed).
         public static readonly StyledProperty<bool> IsReadOnlyProperty =
-            AvaloniaProperty.Register<DragValue, bool>(nameof(IsReadOnly), false, defaultBindingMode: BindingMode.TwoWay);
+            AvaloniaProperty.Register<DragValue, bool>(nameof(IsReadOnly), false, defaultBindingMode: BindingMode.OneWay);
         public bool IsReadOnly
         {
             get => GetValue(IsReadOnlyProperty);
