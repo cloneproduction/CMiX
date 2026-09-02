@@ -82,7 +82,7 @@ namespace CMiX.Core.Modulation.Modulators
 
         // Randomizes around whatever base a bound field already has - the same "combine, don't
         // replace" behavior every existing binding already assumed before ModulatorKind existed.
-        public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[] { new ModulatorOutput("Value", ModulatorKind.Modulate, ModulatorValueType.Float) };
+        public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[] { new ModulatorOutput("Value", ModulatorKind.Modulate, typeof(float)) };
 
 
         private void OnResync(object sender, EventArgs e)

@@ -20,8 +20,8 @@ namespace CMiX.Core.Tests
             public bool IsExpanded { get; set; }
             public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[]
             {
-                new ModulatorOutput("X", ModulatorKind.Set, ModulatorValueType.Float),
-                new ModulatorOutput("Y", ModulatorKind.Set, ModulatorValueType.Float)
+                new ModulatorOutput("X", ModulatorKind.Set, typeof(float)),
+                new ModulatorOutput("Y", ModulatorKind.Set, typeof(float))
             };
 
             public IControlModel ToModel() => throw new NotSupportedException();

@@ -25,8 +25,8 @@ namespace CMiX.Core.Modulation
 
         // The one numeric type this field can be bound to - the assign popup filters a modulator's
         // Outputs down to only those whose ValueType matches this, so e.g. an int-only Count never
-        // offers a float-only output. Fixed per implementer (Modulatable is always Float,
-        // ModulatableCount always Integer), not something that varies per instance.
-        ModulatorValueType RequiredValueType { get; }
+        // offers a float-only output. Fixed per implementer (Modulatable is always typeof(float),
+        // ModulatableCount always typeof(int)), not something that varies per instance.
+        System.Type RequiredValueType { get; }
     }
 }

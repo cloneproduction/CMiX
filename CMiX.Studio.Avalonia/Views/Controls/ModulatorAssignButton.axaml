@@ -4,37 +4,30 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
     xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
-    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
     x:Name="modulatorAssignButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignHeight="400"
     d:DesignWidth="400">
 
-    <!--
-        The one "assign a Modulator to this Modulatable" button, reused by every Modulatable-editing
-        control (ModulatableValue, ModulatableSlider) instead of each defining its own copy. DataContext is
-        inherited from the consumer, not set here - it's always the Modulatable itself, the same
-        contract ModulatableValue/ModulatableSlider already have. Placed via DockPanel.Dock="Right" by the
-        consumer, alongside whichever value editor (DragValue, CMiXSlider, ...) it needs.
+    <BaseControls:ModulatorAssignableUserControl.Styles>
+        <!-- Every Separator in this popup shares the same look - one place instead of one per use. -->
+        <Style Selector="Separator">
+            <Setter Property="Height" Value="0.5" />
+            <Setter Property="Margin" Value="0,4" />
+            <Setter Property="Background" Value="{DynamicResource Grey600Brush}" />
+        </Style>
+    </BaseControls:ModulatorAssignableUserControl.Styles>
 
-        The dot is a plain colored Ellipse, not a type icon - which type of modulator is bound is
-        already shown by the modulator stack list's own icons (PrefabListItemTemplates.axaml); this
-        button only needs to say bound/unbound/hovered. Fill is a MultiBinding through
-        ModulatorStateToBrushConverter, given every possible brush already resolved (AccentBrush /
-        AccentHighlightBrush / Grey900Brush) rather than a single binding that returns
-        AvaloniaProperty.UnsetValue for "off" - once ANY binding is attached to a property, Avalonia
-        never falls back through it to a style default again (confirmed live on the old icon version
-        of this same button: that approach left it stuck black after the first hover).
-    -->
     <Button
         x:Name="assignButton"
         Background="Transparent"
         Width="{DynamicResource ControlHeightMD}"
         IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=modulatorAssignButton, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
-        Theme="{StaticResource ButtonRoundedRight}">
+        Theme="{StaticResource ButtonRoundedRightNoHover}">
+
         <Ellipse
-            Width="10"
-            Height="10"
+            Width="8"
+            Height="8"
             HorizontalAlignment="Center"
             VerticalAlignment="Center">
             <Ellipse.Fill>
@@ -47,89 +40,65 @@
                 </MultiBinding>
             </Ellipse.Fill>
         </Ellipse>
-        <Button.Flyout>
-            <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
-                <StackPanel MinWidth="160" Margin="0">
-                    <TextBlock 
-                        Text="Assign Modulator" 
-                        Foreground="{DynamicResource Grey700Brush}"/>
-                    <Separator Margin="0, 8" Background="{DynamicResource Grey600Brush}"/>
-                    <Button
-                        Content="Unassign"
-                        Click="Assign"
-                        Theme="{DynamicResource ButtonItemControl}" />
-                    <!--
-                        ItemsSource is FlattenedItems (see code-behind), not ModulatorManager's raw
-                        item list directly - it turns each modulator instance into either one
-                        ModulatorOutputSelection row (single-output, the only case that exists
-                        today) or a non-clickable IModulator label row followed by one
-                        ModulatorOutputSelection row per surviving Outputs entry (multi-output). The two
-                        DataTemplates below distinguish them purely by which of those two types the
-                        row's DataContext is, matching the polymorphic-DataTemplates pattern used
-                        elsewhere (e.g. PrefabListItemTemplates.axaml) rather than a value converter
-                        picking the template.
-                    -->
-                    <ItemsControl ItemsSource="{Binding FlattenedItems, ElementName=modulatorAssignButton}">
-                        <ItemsControl.DataTemplates>
 
-                            <!--
-                                The inner Border's Background marks this exact row as the field's
-                                current binding (selection.Modulator == BoundModulator &&
-                                selection.Output.Name == BoundOutputName), reached via ElementName
-                                since a row's own DataContext is the row item, not the field -
-                                IsAssignedOutputConverter does the comparison, using the same
-                                AccentInactiveBrush key ListBoxItemStyle uses for a selected item.
-                                Transparent otherwise, so ButtonItemControl's own hover feedback
-                                (its outer template Border, behind this one) still shows through
-                                unassigned rows.
-                            -->
+        <Button.Flyout>
+
+            <Flyout Placement="Bottom" 
+                    FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
+                <StackPanel MinWidth="100" Margin="0">
+
+                    <Border 
+                        Margin="0,-4, 0, 0"
+                        Height="{DynamicResource ControlHeightMD}" 
+                        HorizontalAlignment="Stretch" 
+                        VerticalAlignment="Stretch">
+                        <TextBlock
+                            Text="Assign Modulator"
+                            VerticalAlignment="Center"
+                            Foreground="{DynamicResource Grey700Brush}" />                    
+                    </Border>
+
+                    <Separator />
+
+                    <ItemsControl ItemsSource="{Binding FlattenedItems, ElementName=modulatorAssignButton}">
+                        <ItemsControl.ItemTemplate>
                             <DataTemplate DataType="{x:Type Modulation:ModulatorOutputSelection}">
                                 <Button
-                                    Margin="{Binding Converter={StaticResource ModulatorOutputSelectionToIndent}}"
+                                    HorizontalContentAlignment="Stretch"
                                     Click="Assign"
                                     Theme="{DynamicResource ButtonItemControl}">
-                                    <Border CornerRadius="{DynamicResource CornerRadiusAll}">
+
+                                    <Border Margin="-8,0,0,0"
+                                            HorizontalAlignment="Stretch"
+                                            CornerRadius="{DynamicResource CornerRadiusAll}">
                                         <Border.Background>
+
                                             <MultiBinding Converter="{StaticResource IsAssignedOutput}">
                                                 <Binding />
                                                 <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
                                                 <Binding Path="DataContext.BoundOutputName.Value" ElementName="modulatorAssignButton" />
                                                 <Binding Source="{StaticResource AccentInactiveBrush}" />
                                             </MultiBinding>
+
                                         </Border.Background>
-                                        <DockPanel>
-                                            <BaseControls:AppIcon
-                                                DockPanel.Dock="Left"
-                                                IconKey="{Binding Modulator, Converter={StaticResource ModulatorTypeToIcon}}"
-                                                Size="{DynamicResource IconSizeXS}" />
-                                            <TextBlock Margin="4,0,0,0" Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}" />
-                                        </DockPanel>
+
+                                        <TextBlock
+                                            Margin="8,0,0,0"
+                                            VerticalAlignment="Center"
+                                            Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}" />
+
                                     </Border>
                                 </Button>
                             </DataTemplate>
-
-                            <!--
-                                A multi-output modulator's own group-label row - not wrapped in a
-                                Button (no Click handler), so it never invokes Assign. Dimmed via
-                                Grey700Brush, matching the "Assign Modulator" header text above.
-                                Deliberately never marked as "assigned" even when one of its own child
-                                rows is - only the exact matching output row should be highlighted.
-                            -->
-                            <DataTemplate DataType="{x:Type Modulators:IModulator}">
-                                <DockPanel Margin="4,4,4,0">
-                                    <BaseControls:AppIcon
-                                        DockPanel.Dock="Left"
-                                        IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
-                                        Size="{DynamicResource IconSizeXS}" />
-                                    <TextBlock
-                                        Margin="4,0,0,0"
-                                        Foreground="{DynamicResource Grey700Brush}"
-                                        Text="{Binding PrefabService.Name.Value}" />
-                                </DockPanel>
-                            </DataTemplate>
-
-                        </ItemsControl.DataTemplates>
+                        </ItemsControl.ItemTemplate>
                     </ItemsControl>
+
+                    <Button
+                        Content="Unassign"
+                        Click="Assign"
+                        IsEnabled="{Binding DataContext.BoundModulator, ElementName=modulatorAssignButton, Converter={StaticResource NullToVisibility}}"
+                        Theme="{DynamicResource ButtonItemControl}" />
+
                 </StackPanel>
             </Flyout>
         </Button.Flyout>

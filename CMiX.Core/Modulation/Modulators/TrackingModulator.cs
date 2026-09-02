@@ -37,8 +37,8 @@ namespace CMiX.Core.Modulation.Modulators
 
         public IReadOnlyList<ModulatorOutput> Outputs { get; } = new[]
         {
-            new ModulatorOutput("Count", ModulatorKind.Set, ModulatorValueType.Integer),
-            new ModulatorOutput("X", ModulatorKind.Set, ModulatorValueType.Float)
+            new ModulatorOutput("Count", ModulatorKind.Set, typeof(int)),
+            new ModulatorOutput("X", ModulatorKind.Set, typeof(float))
         };
 
         public GenericValue<int> Count { get; set; }

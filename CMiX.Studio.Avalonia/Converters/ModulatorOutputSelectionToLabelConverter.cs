@@ -8,20 +8,24 @@ using CMiX.Core.Modulation;
 
 namespace CMiX.Studio.Avalonia.Converters
 {
-    // A single-output modulator's one row still shows the modulator's own name, exactly as every
-    // row did before ModulatorOutputSelection existed. A multi-output modulator's rows sit under
-    // their own non-clickable label row (which already shows the modulator's name), so each of
-    // those instead shows just its own output name ("X", "Y", ...).
+    // "<Modulator> <Output>", e.g. "Beat Value" / "Tracking Count" - always both, no special-casing
+    // for a modulator with only one output, so every row in the popup is built the same way. Every
+    // row is a plain clickable Button now (see ModulatorAssignButton.axaml) - no separate,
+    // non-clickable group-label row above them, which used to carry the modulator's own name alone.
     public sealed class ModulatorOutputSelectionToLabelConverter : IValueConverter
     {
+        private const string ModulatorSuffix = " Modulator";
+
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture)
         {
             if (value is not ModulatorOutputSelection selection)
                 return null;
 
-            return (selection.Modulator?.Outputs?.Count ?? 0) > 1
-                ? selection.Output?.Name
-                : selection.Modulator?.PrefabService?.Name?.Value;
+            var modulatorName = selection.Modulator?.PrefabService?.Name?.Value;
+            if (modulatorName != null && modulatorName.EndsWith(ModulatorSuffix, StringComparison.Ordinal))
+                modulatorName = modulatorName[..^ModulatorSuffix.Length];
+
+            return $"{modulatorName} {selection.Output?.Name}";
         }
 
         public object? ConvertBack(object? value, Type targetType, object? parameter, CultureInfo culture) =>

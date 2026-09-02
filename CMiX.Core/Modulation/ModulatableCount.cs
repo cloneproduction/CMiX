@@ -38,7 +38,7 @@ namespace CMiX.Core.Modulation
         private IModulator boundModulator;
 
         // Always backed by GenericValue<int> - see the constructor.
-        ModulatorValueType IModulatorBindable.RequiredValueType => ModulatorValueType.Integer;
+        Type IModulatorBindable.RequiredValueType => typeof(int);
 
         // Bound to by the channel-assign popup - each listed row's ModulatorOutputSelection, or
         // null for the popup's "Unassign" entry, is passed straight through as CommandParameter.
