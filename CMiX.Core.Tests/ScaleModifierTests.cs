@@ -33,15 +33,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ModulatorManager_CanAddBeatModifier()
+        public void ModulatorManager_CanAddBeatModulator()
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
 
-            scale.ModulatorManager.AddItem(typeof(BeatModifier));
+            scale.ModulatorManager.AddItem(typeof(BeatModulator));
 
             Assert.Single(scale.ModulatorManager.ManagerData.Items);
-            Assert.IsType<BeatModifier>(scale.ModulatorManager.ManagerData.Items[0]);
+            Assert.IsType<BeatModulator>(scale.ModulatorManager.ManagerData.Items[0]);
         }
 
         [Fact]
@@ -102,13 +102,13 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
-            scale.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
 
-            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
-            scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            scale.ModulatorManager.DeleteItem(beatModifier);
+            scale.ModulatorManager.DeleteItem(beatModulator);
 
             Assert.Null(scale.X.ModulatorID.Value);
             Assert.Null(scale.X.BoundModulator);
@@ -124,12 +124,12 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
-            scale.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
 
-            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            scale.ModulatorManager.DeleteItem(beatModifier);
+            scale.ModulatorManager.DeleteItem(beatModulator);
 
             Assert.Null(scale.ModifierModeSelector.Count.ModulatorID.Value);
             Assert.Null(scale.ModifierModeSelector.Count.BoundModulator);
@@ -140,9 +140,9 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var scale = provider.GetRequiredService<ScaleModifier>();
-            scale.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
-            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            scale.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
             var model = scale.ToModel();
 
@@ -154,8 +154,8 @@ namespace CMiX.Core.Tests
             // BoundModulator, which only Modifier.ResolveModulatorBinding can re-populate after load
             // since ModifierModeSelector.FromModel has no access to the reloaded ModulatorManager's
             // items itself.
-            var reloadedBeatModifier = Assert.IsType<BeatModifier>(reloaded.ModulatorManager.ManagerData.Items[0]);
-            Assert.Same(reloadedBeatModifier, reloaded.ModifierModeSelector.Count.BoundModulator);
+            var reloadedBeatModulator = Assert.IsType<BeatModulator>(reloaded.ModulatorManager.ManagerData.Items[0]);
+            Assert.Same(reloadedBeatModulator, reloaded.ModifierModeSelector.Count.BoundModulator);
         }
     }
 }

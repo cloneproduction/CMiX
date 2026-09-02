@@ -22,12 +22,12 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var count = provider.GetRequiredService<ModulatableCount>();
-            var beatModifier = provider.GetRequiredService<BeatModifier>();
+            var beatModulator = provider.GetRequiredService<BeatModulator>();
 
-            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            Assert.Equal(beatModifier.ID, count.ModulatorID.Value);
-            Assert.Same(beatModifier, count.BoundModulator);
+            Assert.Equal(beatModulator.ID, count.ModulatorID.Value);
+            Assert.Same(beatModulator, count.BoundModulator);
             Assert.Equal("Value", count.BoundOutputName.Value);
 
             count.SetModulatorCommand.Execute(null);
@@ -42,11 +42,11 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var count = provider.GetRequiredService<ModulatableCount>();
-            var beatModifier = provider.GetRequiredService<BeatModifier>();
+            var beatModulator = provider.GetRequiredService<BeatModulator>();
 
             count.Label = "Count";
             count.Value.Value = 5;
-            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
             var model = count.ToModel();
 
@@ -56,7 +56,7 @@ namespace CMiX.Core.Tests
 
             Assert.Equal("Count", reloaded.Label);
             Assert.Equal(5, reloaded.Value.Value);
-            Assert.Equal(beatModifier.ID, reloaded.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, reloaded.ModulatorID.Value);
             Assert.Equal("Value", reloaded.BoundOutputName.Value);
         }
     }

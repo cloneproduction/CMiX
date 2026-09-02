@@ -52,15 +52,15 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var xyz = provider.GetRequiredService<XYZModifier>();
-            xyz.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)xyz.ModulatorManager.ManagerData.Items[0];
+            xyz.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)xyz.ModulatorManager.ManagerData.Items[0];
 
-            xyz.Location.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
-            xyz.Rotation.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            xyz.Location.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            xyz.Rotation.Z.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            Assert.Equal(beatModifier.ID, xyz.Location.X.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, xyz.Location.X.ModulatorID.Value);
             Assert.Null(xyz.Scale.Y.ModulatorID.Value);
-            Assert.Equal(beatModifier.ID, xyz.Rotation.Z.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, xyz.Rotation.Z.ModulatorID.Value);
         }
 
         [Fact]

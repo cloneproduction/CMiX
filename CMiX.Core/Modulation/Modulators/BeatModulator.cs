@@ -10,9 +10,9 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public class BeatModifier : ReceivableControl, IDisposable, IModulator
+    public class BeatModulator : ReceivableControl, IDisposable, IModulator
     {
-        public BeatModifier(PrefabService prefabService,
+        public BeatModulator(PrefabService prefabService,
                             MasterBeat masterBeat,
                             GenericValue<int> beatIndex,
                             GenericValue<float> chanceToHit,
@@ -221,7 +221,7 @@ namespace CMiX.Core.Modulation.Modulators
             AnimatedDouble = null;
         }
 
-        public IControlModel ToModel() => new BeatModifierModel
+        public IControlModel ToModel() => new BeatModulatorModel
         {
             ID = ID,
             Easing = (EasingModel)Easing.ToModel(),
@@ -233,7 +233,7 @@ namespace CMiX.Core.Modulation.Modulators
 
         public void FromModel(IControlModel model)
         {
-            var m = (BeatModifierModel)model;
+            var m = (BeatModulatorModel)model;
             ID = m.ID;
             Easing.FromModel(m.Easing);
             BeatIndex.FromModel(m.BeatIndex);

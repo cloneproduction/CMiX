@@ -149,7 +149,7 @@ namespace CMiX.Core.Tests
             scale.Dispose();
             // After Dispose, adding a modulator must not run the (now unsubscribed) cleanup
             // handler against a channel referencing an unrelated, already-removed modulator.
-            scale.ModulatorManager.AddItem(typeof(BeatModifier));
+            scale.ModulatorManager.AddItem(typeof(BeatModulator));
             Assert.Single(scale.ModulatorManager.ManagerData.Items);
         }
 
@@ -160,17 +160,17 @@ namespace CMiX.Core.Tests
             var factory = provider.GetRequiredService<ControlFactory>();
 
             var scale = (ScaleModifier)factory.Create(typeof(ScaleModifier));
-            scale.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
-            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            scale.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)scale.ModulatorManager.ManagerData.Items[0];
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
             var model = scale.ToModel();
 
             var reloaded = (ScaleModifier)factory.Create(model);
 
-            Assert.Equal(beatModifier.ID, reloaded.X.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, reloaded.X.ModulatorID.Value);
             Assert.NotNull(reloaded.X.BoundModulator);
-            Assert.Equal(beatModifier.ID, reloaded.X.BoundModulator.ID);
+            Assert.Equal(beatModulator.ID, reloaded.X.BoundModulator.ID);
         }
     }
 }

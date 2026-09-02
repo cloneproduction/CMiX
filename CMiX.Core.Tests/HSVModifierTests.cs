@@ -53,16 +53,16 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var hsv = provider.GetRequiredService<HSVModifier>();
-            hsv.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)hsv.ModulatorManager.ManagerData.Items[0];
+            hsv.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)hsv.ModulatorManager.ManagerData.Items[0];
 
-            hsv.Hue.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
-            hsv.Alpha.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            hsv.Hue.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            hsv.Alpha.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            Assert.Equal(beatModifier.ID, hsv.Hue.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, hsv.Hue.ModulatorID.Value);
             Assert.Null(hsv.Saturation.ModulatorID.Value);
             Assert.Null(hsv.Value.ModulatorID.Value);
-            Assert.Equal(beatModifier.ID, hsv.Alpha.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, hsv.Alpha.ModulatorID.Value);
         }
 
         [Fact]

@@ -8,7 +8,7 @@ namespace CMiX.Core.Modulation.Modulators
     public enum ModulatorKind
     {
         // The field's own typed number stays meaningful and editable - reinterpreted as a base/depth
-        // the modulator's output blends around, e.g. BeatModifier randomizing near a typed value.
+        // the modulator's output blends around, e.g. BeatModulator randomizing near a typed value.
         Modulate,
 
         // The field's typed number is meaningless once bound - the modulator's output replaces it

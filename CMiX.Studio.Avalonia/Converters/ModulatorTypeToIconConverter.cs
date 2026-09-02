@@ -9,7 +9,7 @@ using CMiX.Core.Modulation.Modulators;
 namespace CMiX.Studio.Avalonia.Converters
 {
     // Maps a modulator instance (or null) to an AppIcon IconKey. This is deliberately the only
-    // place that knows "a BeatModifier looks like this" - CMiX.Core stays unaware of icons, since
+    // place that knows "a BeatModulator looks like this" - CMiX.Core stays unaware of icons, since
     // it's shared with the VL/vvvv engine side. Add one case per new modulator kind here, nothing
     // else needs to change when one is added.
     public sealed class ModulatorTypeToIconConverter : IValueConverter
@@ -18,7 +18,7 @@ namespace CMiX.Studio.Avalonia.Converters
 
         public object? Convert(object? value, Type targetType, object? parameter, CultureInfo culture) => value switch
         {
-            BeatModifier => "Beat",
+            BeatModulator => "Beat",
             _ => "Unlinked"
         };
 

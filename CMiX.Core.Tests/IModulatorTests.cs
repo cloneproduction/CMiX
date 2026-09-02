@@ -7,12 +7,12 @@ namespace CMiX.Core.Tests
     public class IModulatorTests
     {
         [Fact]
-        public void BeatModifier_IsResolvableAsIModulator()
+        public void BeatModulator_IsResolvableAsIModulator()
         {
             var provider = TestServiceProviderFactory.Create();
-            var beatModifier = provider.GetRequiredService<BeatModifier>();
+            var beatModulator = provider.GetRequiredService<BeatModulator>();
 
-            Assert.IsAssignableFrom<IModulator>(beatModifier);
+            Assert.IsAssignableFrom<IModulator>(beatModulator);
         }
     }
 }

@@ -50,16 +50,16 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var texCoord = provider.GetRequiredService<TexCoordModifier>();
-            texCoord.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)texCoord.ModulatorManager.ManagerData.Items[0];
+            texCoord.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)texCoord.ModulatorManager.ManagerData.Items[0];
 
-            texCoord.Location.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
-            texCoord.Scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            texCoord.Location.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            texCoord.Scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            Assert.Equal(beatModifier.ID, texCoord.Location.X.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, texCoord.Location.X.ModulatorID.Value);
             Assert.Null(texCoord.Location.Y.ModulatorID.Value);
             Assert.Null(texCoord.Scale.X.ModulatorID.Value);
-            Assert.Equal(beatModifier.ID, texCoord.Scale.Y.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, texCoord.Scale.Y.ModulatorID.Value);
         }
 
         [Fact]

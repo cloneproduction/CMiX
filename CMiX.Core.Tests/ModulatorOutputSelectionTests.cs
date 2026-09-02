@@ -9,7 +9,7 @@ namespace CMiX.Core.Tests
     public class ModulatorOutputSelectionTests
     {
         // Minimal multi-output IModulator double. No real modulator has more than one output yet
-        // (BeatModifier returns exactly one - see IModulatorTests), so this stands in for a future
+        // (BeatModulator returns exactly one - see IModulatorTests), so this stands in for a future
         // tracking-style modulator, just to prove the BoundOutputName plumbing itself independent
         // of any specific modulator implementation.
         private sealed class TestMultiOutputModulator : IModulator

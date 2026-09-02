@@ -50,15 +50,15 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var lfo = provider.GetRequiredService<LFOModifier>();
-            lfo.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)lfo.ModulatorManager.ManagerData.Items[0];
+            lfo.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)lfo.ModulatorManager.ManagerData.Items[0];
 
-            lfo.From.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
-            lfo.RandomizePhase.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            lfo.From.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            lfo.RandomizePhase.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            Assert.Equal(beatModifier.ID, lfo.From.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, lfo.From.ModulatorID.Value);
             Assert.Null(lfo.To.ModulatorID.Value);
-            Assert.Equal(beatModifier.ID, lfo.RandomizePhase.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, lfo.RandomizePhase.ModulatorID.Value);
         }
 
         [Fact]

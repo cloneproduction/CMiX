@@ -16,13 +16,13 @@ namespace CMiX.Studio.Avalonia.Converters
         {
             if (values.Count < 2
                 || values[0] == AvaloniaProperty.UnsetValue
-                || values[1] is not BeatModifier { MasterBeat.AnimatedDoubleProvider: not null } beatModifier)
+                || values[1] is not BeatModulator { MasterBeat.AnimatedDoubleProvider: not null } beatModulator)
             {
                 return AvaloniaProperty.UnsetValue;
             }
 
-            var index = beatModifier.BeatIndex.Value + beatModifier.MasterBeat.BeatIndex.Value;
-            var animatedDouble = beatModifier.MasterBeat.AnimatedDoubleProvider(index);
+            var index = beatModulator.BeatIndex.Value + beatModulator.MasterBeat.BeatIndex.Value;
+            var animatedDouble = beatModulator.MasterBeat.AnimatedDoubleProvider(index);
             return animatedDouble?.AnimationPosition ?? (object)AvaloniaProperty.UnsetValue;
         }
     }

@@ -7,7 +7,7 @@ using CMiX.Core.Prefabs;
 
 namespace CMiX.Core.Modulation.Modulators
 {
-    public record BeatModifierModel : IPrefabModel
+    public record BeatModulatorModel : IPrefabModel
     {
         public Guid ID { get; set; } = Guid.NewGuid();
         public EasingModel Easing { get; set; } = new();

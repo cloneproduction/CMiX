@@ -5,9 +5,9 @@ using Avalonia.Controls;
 
 namespace CMiX.Studio.Avalonia.Views
 {
-    public partial class BeatModifier : UserControl
+    public partial class BeatModulatorManager : UserControl
     {
-        public BeatModifier()
+        public BeatModulatorManager()
         {
             InitializeComponent();
         }

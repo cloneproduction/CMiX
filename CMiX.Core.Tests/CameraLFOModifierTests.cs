@@ -47,14 +47,14 @@ namespace CMiX.Core.Tests
         {
             var provider = TestServiceProviderFactory.Create();
             var cameraLFO = provider.GetRequiredService<CameraLFOModifier>();
-            cameraLFO.ModulatorManager.AddItem(typeof(BeatModifier));
-            var beatModifier = (BeatModifier)cameraLFO.ModulatorManager.ManagerData.Items[0];
+            cameraLFO.ModulatorManager.AddItem(typeof(BeatModulator));
+            var beatModulator = (BeatModulator)cameraLFO.ModulatorManager.ManagerData.Items[0];
 
-            cameraLFO.From.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
-            cameraLFO.To.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            cameraLFO.From.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
+            cameraLFO.To.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModulator, "Value"));
 
-            Assert.Equal(beatModifier.ID, cameraLFO.From.ModulatorID.Value);
-            Assert.Equal(beatModifier.ID, cameraLFO.To.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, cameraLFO.From.ModulatorID.Value);
+            Assert.Equal(beatModulator.ID, cameraLFO.To.ModulatorID.Value);
         }
 
         [Fact]

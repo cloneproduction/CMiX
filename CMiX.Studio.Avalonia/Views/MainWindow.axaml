@@ -244,16 +244,16 @@
             <Managers:RepositoryTab
                 DataContext="{Binding BeatManager}"
                 Icon="Beat"
-                ItemsSource="{Binding ControlRepository.BeatModifiers}"
-                ToolTipText="BeatModifiers">
+                ItemsSource="{Binding ControlRepository.BeatModulators}"
+                ToolTipText="BeatModulators">
                 <Managers:RepositoryTab.SelectionPanel>
                     <Button
                         Command="{Binding AddItemCommand}"
-                        CommandParameter="{x:Type Modulators:BeatModifier}"
+                        CommandParameter="{x:Type Modulators:BeatModulator}"
                         Content="New Beat" />
                 </Managers:RepositoryTab.SelectionPanel>
                 <Managers:RepositoryTab.EditingPanel>
-                    <Views:BeatModifier />
+                    <Views:BeatModulator />
                 </Managers:RepositoryTab.EditingPanel>
             </Managers:RepositoryTab>
 

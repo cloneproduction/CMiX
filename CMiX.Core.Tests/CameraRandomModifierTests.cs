@@ -40,15 +40,15 @@ namespace CMiX.Core.Tests
         }
 
         [Fact]
-        public void ModulatorManager_CanAddBeatModifier()
+        public void ModulatorManager_CanAddBeatModulator()
         {
             var provider = TestServiceProviderFactory.Create();
             var cameraRandom = provider.GetRequiredService<CameraRandomModifier>();
 
-            cameraRandom.ModulatorManager.AddItem(typeof(BeatModifier));
+            cameraRandom.ModulatorManager.AddItem(typeof(BeatModulator));
 
             Assert.Single(cameraRandom.ModulatorManager.ManagerData.Items);
-            Assert.IsType<BeatModifier>(cameraRandom.ModulatorManager.ManagerData.Items[0]);
+            Assert.IsType<BeatModulator>(cameraRandom.ModulatorManager.ManagerData.Items[0]);
         }
 
         [Fact]

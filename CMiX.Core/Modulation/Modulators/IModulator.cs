@@ -23,7 +23,7 @@ namespace CMiX.Core.Modulation.Modulators
         // rather than each bindable field guessing independently.
         ModulatorKind Kind { get; }
 
-        // "Value" for a single-output modulator like BeatModifier; multiple names ("X", "Y") for
+        // "Value" for a single-output modulator like BeatModulator; multiple names ("X", "Y") for
         // something that naturally produces more than one value together, e.g. a future tracking
         // modulator. Every existing modulator returns exactly one name, so nothing about today's
         // behavior changes until a real multi-output modulator exists.
