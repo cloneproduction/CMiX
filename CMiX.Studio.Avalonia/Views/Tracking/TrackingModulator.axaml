@@ -9,12 +9,19 @@
     <!--
         Typed in by hand, standing in for what a live tracker would report on its own - this
         modulator exists purely to exercise Kind = Set (lock-and-override) live in the app before
-        any real tracking integration exists.
+        any real tracking integration exists. X is a second plain scalar, here only to exercise the
+        multi-output assign popup - not the real design's array-shaped "one X per tracked person".
     -->
-    <BaseControls:DragValue
-        Caption="Count"
-        IsInteger="True"
-        Minimum="0"
-        Value="{Binding Count.Value}" />
+    <StackPanel>
+        <BaseControls:DragValue
+            Caption="Count"
+            IsInteger="True"
+            Minimum="0"
+            Value="{Binding Count.Value}" />
+        <BaseControls:DragValue
+            Margin="0,1,0,0"
+            Caption="X"
+            Value="{Binding X.Value}" />
+    </StackPanel>
 
 </UserControl>

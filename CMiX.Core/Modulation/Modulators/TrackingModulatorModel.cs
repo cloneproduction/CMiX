@@ -11,5 +11,6 @@ namespace CMiX.Core.Modulation.Modulators
         public Guid ID { get; set; } = Guid.NewGuid();
         public PrefabServiceModel PrefabService { get; set; } = new();
         public GenericValueModel<int> Count { get; set; } = new(0);
+        public GenericValueModel<float> X { get; set; } = new(0f);
     }
 }

@@ -32,15 +32,16 @@ namespace CMiX.Core.Tests
 
             Assert.IsAssignableFrom<IModulator>(trackingModulator);
             Assert.Equal(ModulatorKind.Set, trackingModulator.Kind);
-            Assert.Equal(new[] { "Count" }, trackingModulator.OutputNames);
+            Assert.Equal(new[] { "Count", "X" }, trackingModulator.OutputNames);
         }
 
         [Fact]
-        public void TrackingModulator_ToModel_FromModel_RoundTripsCount()
+        public void TrackingModulator_ToModel_FromModel_RoundTripsCountAndX()
         {
             var provider = TestServiceProviderFactory.Create();
             var tracking = provider.GetRequiredService<TrackingModulator>();
             tracking.Count.Value = 7;
+            tracking.X.Value = 12.5f;
 
             var model = tracking.ToModel();
 
@@ -49,6 +50,7 @@ namespace CMiX.Core.Tests
             reloaded.FromModel(model);
 
             Assert.Equal(7, reloaded.Count.Value);
+            Assert.Equal(12.5f, reloaded.X.Value);
         }
     }
 }
