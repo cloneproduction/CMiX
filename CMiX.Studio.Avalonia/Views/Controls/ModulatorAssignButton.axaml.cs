@@ -67,6 +67,19 @@ namespace CMiX.Studio.Avalonia.Views.Controls
 
         private void OnItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e) => RebuildFlattenedItems();
 
+        // The filter below reads RequiredValueType off DataContext, but DataContext and
+        // ModulatorManager are set through two independent bindings with no guaranteed order - if
+        // ModulatorManager resolves first, the rebuild above runs with DataContext still unset,
+        // filters nothing (see the fallback below), and then never reruns once DataContext actually
+        // arrives, since nothing was listening for it. Confirmed live: this let every output through
+        // for a field whose DataContext just hadn't settled yet when the collection-driven rebuild
+        // fired. Overriding this ensures a rebuild always happens once DataContext is the real thing.
+        protected override void OnDataContextChanged(System.EventArgs e)
+        {
+            base.OnDataContextChanged(e);
+            RebuildFlattenedItems();
+        }
+
         private void RebuildFlattenedItems()
         {
             var items = ModulatorManager?.ManagerData?.Items;
