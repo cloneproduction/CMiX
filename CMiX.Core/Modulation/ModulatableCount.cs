@@ -52,6 +52,12 @@ namespace CMiX.Core.Modulation
         // requires an exact return type, not just an assignable one), so this bridges the two.
         ICommand IModulatorBindable.SetModulatorCommand => SetModulatorCommand;
 
+        // Same bridging reason as SetModulatorCommand above: the public members are the
+        // GenericValue<T> wrappers themselves (needed for ToModel/FromModel), not the plain values
+        // IModulatorBindable exposes.
+        Guid? IModulatorBindable.ModulatorID => ModulatorID.Value;
+        string IModulatorBindable.BoundOutputName => BoundOutputName.Value;
+
         public IControlModel ToModel() => new ModulatableCountModel
         {
             ID = ID,

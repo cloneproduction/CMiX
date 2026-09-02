@@ -42,6 +42,11 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModulatableVector3 Phase { get; }
         public ModifierModeSelector3 ModifierModeSelector { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable CountX/Y/Z for unassign-on-delete/
+        // resolve-on-load - see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables =>
+            new IModulatorBindable[] { ModifierModeSelector.CountX, ModifierModeSelector.CountY, ModifierModeSelector.CountZ };
+
         public override IControlModel ToModel()
         {
             var model = new GridModifierModel
@@ -57,6 +62,9 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (GridModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.CountX);
+            ResolveModulatorBinding(ModifierModeSelector.CountY);
+            ResolveModulatorBinding(ModifierModeSelector.CountZ);
         }
     }
 }

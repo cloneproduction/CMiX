@@ -41,7 +41,7 @@
                 Content="{Binding TrailingContent, ElementName=dragValue}"
                 DockPanel.Dock="Right" />
 
-            <Panel>
+            <Panel IsEnabled="{Binding !IsReadOnly, ElementName=dragValue}">
                 <Border
                     x:Name="mainBorder"
                     AttachedProperties:PositionedControl.Position="{Binding (AttachedProperties:PositionedControl.Position), ElementName=dragValue}"

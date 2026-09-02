@@ -42,6 +42,10 @@ namespace CMiX.Core.Modulation.Modifiers
         // Non-modulatable, ported as-is from RandomPosition for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
+        // see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
+
         public override IControlModel ToModel()
         {
             var model = new TranslateModifierModel
@@ -57,6 +61,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (TranslateModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.Count);
         }
     }
 }

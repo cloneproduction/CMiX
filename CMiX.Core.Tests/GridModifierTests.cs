@@ -105,5 +105,51 @@ namespace CMiX.Core.Tests
             Assert.Equal(4, reloaded.ModifierModeSelector.CountY.Value.Value);
             Assert.Equal(5, reloaded.ModifierModeSelector.CountZ.Value.Value);
         }
+
+        [Fact]
+        public void Grid_ToModel_FromModel_ResolvesEachCountAxisLiveBoundModulatorIndependently()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var grid = provider.GetRequiredService<GridModifier>();
+            grid.ModulatorManager.AddItem(typeof(BeatModifier));
+            var beatModifier = (BeatModifier)grid.ModulatorManager.ManagerData.Items[0];
+
+            // Only CountX is bound - CountY/CountZ must stay unbound through the round trip,
+            // proving each axis resolves independently rather than all three collapsing together.
+            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+
+            var model = grid.ToModel();
+
+            var provider2 = TestServiceProviderFactory.Create();
+            var reloaded = provider2.GetRequiredService<GridModifier>();
+            reloaded.FromModel(model);
+
+            var reloadedBeatModifier = Assert.IsType<BeatModifier>(reloaded.ModulatorManager.ManagerData.Items[0]);
+            Assert.Same(reloadedBeatModifier, reloaded.ModifierModeSelector.CountX.BoundModulator);
+            Assert.Null(reloaded.ModifierModeSelector.CountY.BoundModulator);
+            Assert.Null(reloaded.ModifierModeSelector.CountZ.BoundModulator);
+        }
+
+        [Fact]
+        public void DeletingAssignedModulator_UnassignsItFromEveryCountAxisUsingIt()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var grid = provider.GetRequiredService<GridModifier>();
+            grid.ModulatorManager.AddItem(typeof(BeatModifier));
+            var beatModifier = (BeatModifier)grid.ModulatorManager.ManagerData.Items[0];
+
+            grid.ModifierModeSelector.CountX.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            grid.ModifierModeSelector.CountZ.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+
+            grid.ModulatorManager.DeleteItem(beatModifier);
+
+            Assert.Null(grid.ModifierModeSelector.CountX.ModulatorID.Value);
+            Assert.Null(grid.ModifierModeSelector.CountX.BoundModulator);
+            Assert.Null(grid.ModifierModeSelector.CountZ.ModulatorID.Value);
+            Assert.Null(grid.ModifierModeSelector.CountZ.BoundModulator);
+            // CountY was never assigned - confirms the cleanup only touches axes that referenced
+            // the deleted modulator.
+            Assert.Null(grid.ModifierModeSelector.CountY.ModulatorID.Value);
+        }
     }
 }

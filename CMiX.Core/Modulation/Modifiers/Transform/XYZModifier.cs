@@ -64,6 +64,10 @@ namespace CMiX.Core.Modulation.Modifiers
         public GenericValue<bool> RandomizeScale { get; set; }
         public GenericValue<bool> RandomizeRotation { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
+        // see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
+
         public override IControlModel ToModel()
         {
             var model = new XYZModifierModel
@@ -83,6 +87,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (XYZModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.Count);
             Gaussian.FromModel(m.Gaussian);
             RandomizeLocation.FromModel(m.RandomizeLocation);
             RandomizeScale.FromModel(m.RandomizeScale);

@@ -10,8 +10,16 @@ namespace CMiX.Core.Modulation
     // so that shape can be checked directly instead of against the concrete Modulatable type, which
     // would otherwise silently fail once a second implementer (e.g. a future int-valued counterpart)
     // needs the same assign-popup machinery.
+    //
+    // ModulatorID/BoundOutputName are also exposed here (get-only, plain-typed rather than the
+    // concrete GenericValue<T> field) so Modifier can walk any IModulatorBindable generically for
+    // unassign-on-delete and resolve-on-load, the same way it already does for its own Channels -
+    // without those two members it could only ever see Modulatable, not e.g. a ModifierModeSelector's
+    // ModulatableCount.
     public interface IModulatorBindable
     {
+        Guid? ModulatorID { get; }
+        string BoundOutputName { get; }
         IModulator BoundModulator { get; }
         ICommand SetModulatorCommand { get; }
     }

@@ -47,6 +47,10 @@ namespace CMiX.Core.Modulation.Modifiers
         public GenericValue<TransformType> TransformTypeSelector { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
+        // see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
+
         public override IControlModel ToModel()
         {
             var model = new LinearXYZModifierModel
@@ -64,6 +68,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (LinearXYZModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.Count);
             TransformTypeSelector.FromModel(m.TransformTypeSelector);
             DirectionXYZ.FromModel(m.DirectionXYZ);
         }

@@ -51,6 +51,10 @@ namespace CMiX.Core.Modulation.Modifiers
         public ModifierModeSelector ModifierModeSelector { get; set; }
         public GenericValue<ColorMode> ColorMode { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
+        // see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
+
         public override IControlModel ToModel()
         {
             var model = new HSVModifierModel
@@ -67,6 +71,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (HSVModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.Count);
             ColorMode.FromModel(m.ColorMode);
         }
     }

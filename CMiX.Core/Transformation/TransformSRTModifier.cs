@@ -61,6 +61,10 @@ namespace CMiX.Core.Transformation
         public GenericValue<ModifierMode> Mode { get; set; }
         public DirectionXYZ DirectionXYZ { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
+        // see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
+
         // Convenience accessors into Channels, purely for the view's bindings - Channels itself
         // stays the source of truth (used by Modifier's own ToModel/FromModel).
         public Modulatable TranslateX => Channels[0];
@@ -91,6 +95,7 @@ namespace CMiX.Core.Transformation
             var m = (TransformSRTModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.Count);
             DirectionXYZ.FromModel(m.DirectionXYZ);
             Mode.FromModel(m.Mode);
         }

@@ -217,6 +217,19 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(IsIntegerProperty, value);
         }
 
+        // Locks the value display/drag/edit area only - e.g. a bound ModulatableCount, driven by
+        // its modulator rather than typed in. Deliberately scoped narrower than the whole control's
+        // own IsEnabled: TrailingContent (e.g. ModulatorAssignButton) sits outside mainBorder in
+        // DragValue.axaml specifically so it stays clickable while read-only, letting the same
+        // popup that locked the field also unassign it.
+        public static readonly StyledProperty<bool> IsReadOnlyProperty =
+            AvaloniaProperty.Register<DragValue, bool>(nameof(IsReadOnly), false, defaultBindingMode: BindingMode.TwoWay);
+        public bool IsReadOnly
+        {
+            get => GetValue(IsReadOnlyProperty);
+            set => SetValue(IsReadOnlyProperty, value);
+        }
+
         // Reserves space on the right for a control like ModulatorAssignButton, so a DragValue
         // with a trailing button lines up with a plain one - an empty ContentPresenter collapses
         // to zero width, so leaving this unset costs nothing.

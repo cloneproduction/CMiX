@@ -33,14 +33,37 @@ namespace CMiX.Core.Modulation
         // channel that was pointing at it, rather than leaving a dangling ModulatorID/BoundModulator
         // behind. CollectionManager.ResetItem replaces an item via an indexer-set, which raises
         // Replace rather than Remove - both actions carry the old item(s) in OldItems, so both are
-        // handled the same way.
+        // handled the same way. Walks Channels plus AdditionalModulatorBindables so anything nested
+        // one level deeper (e.g. a ModifierModeSelector's Count) gets the same cleanup.
         private void OnModulatorManagerItemsChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             if (e.OldItems == null) return;
 
+            var bindables = Channels.Cast<IModulatorBindable>().Concat(AdditionalModulatorBindables);
             foreach (IControl removed in e.OldItems)
-                foreach (var channel in Channels.Where(c => c.ModulatorID.Value == removed.ID))
-                    channel.SetModulatorCommand.Execute(null);
+                foreach (var bindable in bindables.Where(b => b.ModulatorID == removed.ID))
+                    bindable.SetModulatorCommand.Execute(null);
+        }
+
+        // Empty by default - overridden by the handful of Modifiers whose ModifierModeSelector(3)
+        // has a bindable Count/CountX/CountY/CountZ, which live one level inside that selector
+        // rather than directly in Channels, so OnModulatorManagerItemsChanged above wouldn't reach
+        // them otherwise.
+        protected virtual IEnumerable<IModulatorBindable> AdditionalModulatorBindables => Enumerable.Empty<IModulatorBindable>();
+
+        // Re-resolves one bindable's live BoundModulator reference by ID against this Modifier's own
+        // ModulatorManager - the same lookup Channels get automatically below in LoadBaseModel, but
+        // callable explicitly for anything nested deeper. Needed because a nested control (e.g.
+        // ModifierModeSelector) only gets its own ModulatorID populated once the owning Modifier's
+        // FromModel loads it, which happens after LoadBaseModel returns - so the concrete Modifier
+        // must call this again once that nested FromModel has run.
+        protected void ResolveModulatorBinding(IModulatorBindable bindable)
+        {
+            if (bindable.ModulatorID is not { } modulatorId) return;
+
+            var modulator = ModulatorManager.ManagerData.Items.OfType<IModulator>().FirstOrDefault(m => m.ID == modulatorId);
+            if (modulator != null)
+                bindable.SetModulatorCommand.Execute(new ModulatorOutputSelection(modulator, bindable.BoundOutputName));
         }
 
         public void Dispose()

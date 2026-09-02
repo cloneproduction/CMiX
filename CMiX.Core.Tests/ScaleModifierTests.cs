@@ -118,5 +118,44 @@ namespace CMiX.Core.Tests
             // the deleted modulator, not every channel.
             Assert.Null(scale.Z.ModulatorID.Value);
         }
+
+        [Fact]
+        public void DeletingAssignedModulator_UnassignsItFromModifierModeSelectorCountToo()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var scale = provider.GetRequiredService<ScaleModifier>();
+            scale.ModulatorManager.AddItem(typeof(BeatModifier));
+            var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
+
+            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+
+            scale.ModulatorManager.DeleteItem(beatModifier);
+
+            Assert.Null(scale.ModifierModeSelector.Count.ModulatorID.Value);
+            Assert.Null(scale.ModifierModeSelector.Count.BoundModulator);
+        }
+
+        [Fact]
+        public void ScaleModifier_ToModel_FromModel_ResolvesModifierModeSelectorCountLiveBoundModulator()
+        {
+            var provider = TestServiceProviderFactory.Create();
+            var scale = provider.GetRequiredService<ScaleModifier>();
+            scale.ModulatorManager.AddItem(typeof(BeatModifier));
+            var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
+            scale.ModifierModeSelector.Count.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+
+            var model = scale.ToModel();
+
+            var provider2 = TestServiceProviderFactory.Create();
+            var reloaded = provider2.GetRequiredService<ScaleModifier>();
+            reloaded.FromModel(model);
+
+            // ModulatorID round-tripping alone isn't enough - the UI (and IsReadOnly locking) reads
+            // BoundModulator, which only Modifier.ResolveModulatorBinding can re-populate after load
+            // since ModifierModeSelector.FromModel has no access to the reloaded ModulatorManager's
+            // items itself.
+            var reloadedBeatModifier = Assert.IsType<BeatModifier>(reloaded.ModulatorManager.ManagerData.Items[0]);
+            Assert.Same(reloadedBeatModifier, reloaded.ModifierModeSelector.Count.BoundModulator);
+        }
     }
 }

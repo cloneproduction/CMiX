@@ -49,6 +49,10 @@ namespace CMiX.Core.Modulation.Modifiers
         // Non-modulatable, ported as-is from RandomScale for one-to-one field parity.
         public ModifierModeSelector ModifierModeSelector { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
+        // see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
+
         public override IControlModel ToModel()
         {
             var model = new ScaleModifierModel
@@ -64,6 +68,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (ScaleModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.Count);
         }
     }
 }

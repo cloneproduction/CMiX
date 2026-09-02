@@ -56,6 +56,10 @@ namespace CMiX.Core.Modulation.Modifiers
         public DirectionXYZ DirectionXYZ { get; set; }
         public GenericValue<TransformType> TransformType { get; set; }
 
+        // Reaches ModifierModeSelector's own bindable Count for unassign-on-delete/resolve-on-load -
+        // see Modifier.AdditionalModulatorBindables.
+        protected override IEnumerable<IModulatorBindable> AdditionalModulatorBindables => new IModulatorBindable[] { ModifierModeSelector.Count };
+
         public override IControlModel ToModel()
         {
             var model = new LFOModifierModel
@@ -74,6 +78,7 @@ namespace CMiX.Core.Modulation.Modifiers
             var m = (LFOModifierModel)model;
             LoadBaseModel(m);
             ModifierModeSelector.FromModel(m.ModifierModeSelector);
+            ResolveModulatorBinding(ModifierModeSelector.Count);
             PingPong.FromModel(m.PingPong);
             DirectionXYZ.FromModel(m.DirectionXYZ);
             TransformType.FromModel(m.TransformType);
