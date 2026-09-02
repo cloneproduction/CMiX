@@ -41,7 +41,7 @@
                 <MultiBinding Converter="{StaticResource ModulatorStateToBrush}">
                     <Binding Path="BoundModulator" />
                     <Binding Path="BoundModulator.IsHovered" />
-                    <Binding Source="{StaticResource Grey900Brush}" />
+                    <Binding Source="{StaticResource Grey700Brush}" />
                     <Binding Source="{StaticResource AccentBrush}" />
                     <Binding Source="{StaticResource AccentHighlightBrush}" />
                 </MultiBinding>
@@ -73,45 +73,47 @@
                         <ItemsControl.DataTemplates>
 
                             <!--
-                                Foreground turns accent when this exact row is the field's current
-                                binding (selection.Modulator == BoundModulator &&
+                                The inner Border's Background marks this exact row as the field's
+                                current binding (selection.Modulator == BoundModulator &&
                                 selection.Output.Name == BoundOutputName), reached via ElementName
                                 since a row's own DataContext is the row item, not the field -
-                                AssignedOutputToBrushConverter does the actual comparison.
+                                IsAssignedOutputConverter does the comparison, using the same
+                                AccentInactiveBrush key ListBoxItemStyle uses for a selected item.
+                                Transparent otherwise, so ButtonItemControl's own hover feedback
+                                (its outer template Border, behind this one) still shows through
+                                unassigned rows.
                             -->
                             <DataTemplate DataType="{x:Type Modulation:ModulatorOutputSelection}">
                                 <Button
                                     Margin="{Binding Converter={StaticResource ModulatorOutputSelectionToIndent}}"
                                     Click="Assign"
                                     Theme="{DynamicResource ButtonItemControl}">
-                                    <DockPanel>
-                                        <BaseControls:AppIcon
-                                            DockPanel.Dock="Left"
-                                            IconKey="{Binding Modulator, Converter={StaticResource ModulatorTypeToIcon}}"
-                                            Size="{DynamicResource IconSizeXS}" />
-                                        <TextBlock Margin="4,0,0,0" Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}">
-                                            <TextBlock.Foreground>
-                                                <MultiBinding Converter="{StaticResource AssignedOutputToBrush}">
-                                                    <Binding />
-                                                    <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
-                                                    <Binding Path="DataContext.BoundOutputName.Value" ElementName="modulatorAssignButton" />
-                                                    <Binding Source="{StaticResource ForegroundBrush}" />
-                                                    <Binding Source="{StaticResource AccentBrush}" />
-                                                </MultiBinding>
-                                            </TextBlock.Foreground>
-                                        </TextBlock>
-                                    </DockPanel>
+                                    <Border CornerRadius="{DynamicResource CornerRadiusAll}">
+                                        <Border.Background>
+                                            <MultiBinding Converter="{StaticResource IsAssignedOutput}">
+                                                <Binding />
+                                                <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
+                                                <Binding Path="DataContext.BoundOutputName.Value" ElementName="modulatorAssignButton" />
+                                                <Binding Source="{StaticResource AccentInactiveBrush}" />
+                                            </MultiBinding>
+                                        </Border.Background>
+                                        <DockPanel>
+                                            <BaseControls:AppIcon
+                                                DockPanel.Dock="Left"
+                                                IconKey="{Binding Modulator, Converter={StaticResource ModulatorTypeToIcon}}"
+                                                Size="{DynamicResource IconSizeXS}" />
+                                            <TextBlock Margin="4,0,0,0" Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}" />
+                                        </DockPanel>
+                                    </Border>
                                 </Button>
                             </DataTemplate>
 
                             <!--
                                 A multi-output modulator's own group-label row - not wrapped in a
                                 Button (no Click handler), so it never invokes Assign. Dimmed via
-                                Grey700Brush, matching the "Assign Modulator" header text above,
-                                unless it's the group the field is currently bound into (one level
-                                lighter than the exact-match AccentBrush above, via
-                                AccentInactiveBrush) - lets scanning top-down find the right group
-                                before finding the exact row inside it.
+                                Grey700Brush, matching the "Assign Modulator" header text above.
+                                Deliberately never marked as "assigned" even when one of its own child
+                                rows is - only the exact matching output row should be highlighted.
                             -->
                             <DataTemplate DataType="{x:Type Modulators:IModulator}">
                                 <DockPanel Margin="4,4,4,0">
@@ -119,16 +121,10 @@
                                         DockPanel.Dock="Left"
                                         IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
                                         Size="{DynamicResource IconSizeXS}" />
-                                    <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}">
-                                        <TextBlock.Foreground>
-                                            <MultiBinding Converter="{StaticResource AssignedModulatorToBrush}">
-                                                <Binding />
-                                                <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
-                                                <Binding Source="{StaticResource Grey700Brush}" />
-                                                <Binding Source="{StaticResource AccentInactiveBrush}" />
-                                            </MultiBinding>
-                                        </TextBlock.Foreground>
-                                    </TextBlock>
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        Foreground="{DynamicResource Grey700Brush}"
+                                        Text="{Binding PrefabService.Name.Value}" />
                                 </DockPanel>
                             </DataTemplate>
 

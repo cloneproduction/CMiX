@@ -26,7 +26,6 @@
     <Converters:ModulatorOutputSelectionToLabelConverter x:Key="ModulatorOutputSelectionToLabel" />
     <Converters:ModulatorOutputSelectionToIndentConverter x:Key="ModulatorOutputSelectionToIndent" />
     <Converters:BoundModulatorToIsReadOnlyConverter x:Key="BoundModulatorToIsReadOnly" />
-    <Converters:AssignedOutputToBrushConverter x:Key="AssignedOutputToBrush" />
-    <Converters:AssignedModulatorToBrushConverter x:Key="AssignedModulatorToBrush" />
+    <Converters:IsAssignedOutputConverter x:Key="IsAssignedOutput" />
 
 </ResourceDictionary>
