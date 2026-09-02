@@ -22,9 +22,11 @@
     <Converters:ControlPositionToCornerRadiusConverter x:Key="PositionToCornerRadius" />
 
     <Converters:ModulatorTypeToIconConverter x:Key="ModulatorTypeToIcon" />
-    <Converters:BoolToAccentBrushConverter x:Key="BoolToAccentBrush" />
+    <Converters:ModulatorStateToBrushConverter x:Key="ModulatorStateToBrush" />
     <Converters:ModulatorOutputSelectionToLabelConverter x:Key="ModulatorOutputSelectionToLabel" />
     <Converters:ModulatorOutputSelectionToIndentConverter x:Key="ModulatorOutputSelectionToIndent" />
     <Converters:BoundModulatorToIsReadOnlyConverter x:Key="BoundModulatorToIsReadOnly" />
+    <Converters:AssignedOutputToBrushConverter x:Key="AssignedOutputToBrush" />
+    <Converters:AssignedModulatorToBrushConverter x:Key="AssignedModulatorToBrush" />
 
 </ResourceDictionary>

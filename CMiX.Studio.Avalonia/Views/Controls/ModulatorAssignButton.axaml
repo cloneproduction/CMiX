@@ -17,11 +17,14 @@
         contract ModulatableValue/ModulatableSlider already have. Placed via DockPanel.Dock="Right" by the
         consumer, alongside whichever value editor (DragValue, CMiXSlider, ...) it needs.
 
-        Foreground is a MultiBinding through BoolToAccentBrushConverter, given both possible
-        brushes already resolved (AccentBrush / ForegroundBrush) rather than a single binding that
-        returns AvaloniaProperty.UnsetValue for "off" - once ANY binding is attached to a property,
-        Avalonia never falls back through it to a style default again (confirmed live: that
-        approach left the icon stuck black after the first hover).
+        The dot is a plain colored Ellipse, not a type icon - which type of modulator is bound is
+        already shown by the modulator stack list's own icons (PrefabListItemTemplates.axaml); this
+        button only needs to say bound/unbound/hovered. Fill is a MultiBinding through
+        ModulatorStateToBrushConverter, given every possible brush already resolved (AccentBrush /
+        AccentHighlightBrush / Grey900Brush) rather than a single binding that returns
+        AvaloniaProperty.UnsetValue for "off" - once ANY binding is attached to a property, Avalonia
+        never falls back through it to a style default again (confirmed live on the old icon version
+        of this same button: that approach left it stuck black after the first hover).
     -->
     <Button
         x:Name="assignButton"
@@ -29,17 +32,21 @@
         Width="{DynamicResource ControlHeightMD}"
         IsEnabled="{Binding ModulatorManager.ManagerData.Items.Count, ElementName=modulatorAssignButton, Converter={StaticResource CountToVisibility}, ConverterParameter=0}"
         Theme="{StaticResource ButtonRoundedRight}">
-        <BaseControls:AppIcon
-            IconKey="{Binding BoundModulator, Converter={StaticResource ModulatorTypeToIcon}}"
-            Size="{DynamicResource IconSizeXS}">
-            <BaseControls:AppIcon.Foreground>
-                <MultiBinding Converter="{StaticResource BoolToAccentBrush}">
+        <Ellipse
+            Width="10"
+            Height="10"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <Ellipse.Fill>
+                <MultiBinding Converter="{StaticResource ModulatorStateToBrush}">
                     <Binding Path="BoundModulator" />
-                    <Binding Source="{StaticResource AccentBrush}" />
+                    <Binding Path="BoundModulator.IsHovered" />
                     <Binding Source="{StaticResource Grey900Brush}" />
+                    <Binding Source="{StaticResource AccentBrush}" />
+                    <Binding Source="{StaticResource AccentHighlightBrush}" />
                 </MultiBinding>
-            </BaseControls:AppIcon.Foreground>
-        </BaseControls:AppIcon>
+            </Ellipse.Fill>
+        </Ellipse>
         <Button.Flyout>
             <Flyout Placement="Pointer" HorizontalOffset="-80" VerticalOffset="-20" FlyoutPresenterTheme="{StaticResource PopupFlyoutStyle}">
                 <StackPanel MinWidth="160" Margin="0">
@@ -65,6 +72,13 @@
                     <ItemsControl ItemsSource="{Binding FlattenedItems, ElementName=modulatorAssignButton}">
                         <ItemsControl.DataTemplates>
 
+                            <!--
+                                Foreground turns accent when this exact row is the field's current
+                                binding (selection.Modulator == BoundModulator &&
+                                selection.Output.Name == BoundOutputName), reached via ElementName
+                                since a row's own DataContext is the row item, not the field -
+                                AssignedOutputToBrushConverter does the actual comparison.
+                            -->
                             <DataTemplate DataType="{x:Type Modulation:ModulatorOutputSelection}">
                                 <Button
                                     Margin="{Binding Converter={StaticResource ModulatorOutputSelectionToIndent}}"
@@ -75,7 +89,17 @@
                                             DockPanel.Dock="Left"
                                             IconKey="{Binding Modulator, Converter={StaticResource ModulatorTypeToIcon}}"
                                             Size="{DynamicResource IconSizeXS}" />
-                                        <TextBlock Margin="4,0,0,0" Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}" />
+                                        <TextBlock Margin="4,0,0,0" Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}">
+                                            <TextBlock.Foreground>
+                                                <MultiBinding Converter="{StaticResource AssignedOutputToBrush}">
+                                                    <Binding />
+                                                    <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
+                                                    <Binding Path="DataContext.BoundOutputName.Value" ElementName="modulatorAssignButton" />
+                                                    <Binding Source="{StaticResource ForegroundBrush}" />
+                                                    <Binding Source="{StaticResource AccentBrush}" />
+                                                </MultiBinding>
+                                            </TextBlock.Foreground>
+                                        </TextBlock>
                                     </DockPanel>
                                 </Button>
                             </DataTemplate>
@@ -83,7 +107,11 @@
                             <!--
                                 A multi-output modulator's own group-label row - not wrapped in a
                                 Button (no Click handler), so it never invokes Assign. Dimmed via
-                                Grey700Brush, matching the "Assign Modulator" header text above.
+                                Grey700Brush, matching the "Assign Modulator" header text above,
+                                unless it's the group the field is currently bound into (one level
+                                lighter than the exact-match AccentBrush above, via
+                                AccentInactiveBrush) - lets scanning top-down find the right group
+                                before finding the exact row inside it.
                             -->
                             <DataTemplate DataType="{x:Type Modulators:IModulator}">
                                 <DockPanel Margin="4,4,4,0">
@@ -91,10 +119,16 @@
                                         DockPanel.Dock="Left"
                                         IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
                                         Size="{DynamicResource IconSizeXS}" />
-                                    <TextBlock
-                                        Margin="4,0,0,0"
-                                        Foreground="{DynamicResource Grey700Brush}"
-                                        Text="{Binding PrefabService.Name.Value}" />
+                                    <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}">
+                                        <TextBlock.Foreground>
+                                            <MultiBinding Converter="{StaticResource AssignedModulatorToBrush}">
+                                                <Binding />
+                                                <Binding Path="DataContext.BoundModulator" ElementName="modulatorAssignButton" />
+                                                <Binding Source="{StaticResource Grey700Brush}" />
+                                                <Binding Source="{StaticResource AccentInactiveBrush}" />
+                                            </MultiBinding>
+                                        </TextBlock.Foreground>
+                                    </TextBlock>
                                 </DockPanel>
                             </DataTemplate>
 

@@ -19,6 +19,11 @@
     <Color x:Key="AccentSecondary">#FF4d6490</Color>
     <Color x:Key="Active">#FF5680C2</Color>
 
+    <!-- Lightened AccentPrimary (blended ~35% toward white) - no existing brush already reads as
+         "brighter than AccentPrimary" (AccentSecondary is darker/desaturated, the opposite
+         direction), so this is new: the modulator assign-dot's hovered-and-bound emphasis state. -->
+    <Color x:Key="AccentHighlight">#FF91ACD7</Color>
+
     <!-- Text -->
     <Color x:Key="Text">#FFcccccc</Color>
     <Color x:Key="ActiveText">#FFE6E6E6</Color>
