@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0122-g54b562b797" Version="0.128">
+<Document xmlns:p="property" xmlns:r="reflection" Id="NGVOjVnEFbyLpa5lpWOZiq" LanguageVersion="2026.8.0-0123-gdc6ede5082" Version="0.128">
   <NugetDependency Id="IUe3DNEcZotPCXZwjVtivO" Location="VL.CoreLib" />
   <Patch Id="T9GSBtl3PLoMotw6vgDtsk">
     <Canvas Id="OChrtsq8T1iOBNfVT1Yj0P" DefaultCategory="CMiX.Engine" CanvasType="FullCategory">
@@ -1097,7 +1097,7 @@
                   <Node Bounds="306,491,202,26" Id="JbGFnNfXZ1vMQJrACuELB9">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="BeatModifier" NeedsToBeDirectParent="true" />
+                      <CategoryReference Kind="ClassType" Name="BeatModulator" NeedsToBeDirectParent="true" />
                       <Choice Kind="OperationCallFlag" Name="Modulate" />
                     </p:NodeReference>
                     <Pin Id="DwUWLkyikOCMI7mpvofHtZ" Name="State Input" Kind="StateInputPin" />
@@ -1437,7 +1437,7 @@
                   <Node Bounds="238,550,61,26" Id="O9T9zmUS4iBQE4QnLWee6l">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                      <CategoryReference Kind="ClassType" Name="BeatModulator" />
                       <Choice Kind="OperationCallFlag" Name="Period" />
                     </p:NodeReference>
                     <Pin Id="U6666o0bg1JLE3nqVdiOEk" Name="Input" Kind="StateInputPin" />
@@ -1481,7 +1481,7 @@
               <Node Bounds="135,200,61,26" Id="EnUEyVOZwfHQQQDugTurh4">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                  <CategoryReference Kind="ClassType" Name="BeatModulator" />
                   <Choice Kind="OperationCallFlag" Name="Easing" />
                 </p:NodeReference>
                 <Pin Id="HMpKkEmTGgkOyI8SpdLYvw" Name="Input" Kind="StateInputPin" />
@@ -1528,10 +1528,10 @@
         </Node>
         <!--
 
-    ************************ BeatModifier ************************
+    ************************ BeatModulator ************************
 
 -->
-        <Node Name="BeatModifier" Bounds="125,150" Id="QpWCCPizuq3LrHEu2UgbIP">
+        <Node Name="BeatModulator" Bounds="125,150" Id="QpWCCPizuq3LrHEu2UgbIP">
           <p:NodeReference>
             <Choice Kind="ClassDefinition" Name="Class" />
             <CategoryReference Kind="Category" Name="Primitive" />
@@ -1543,16 +1543,6 @@
           </p:Interfaces>
           <Patch Id="SIppWAruTsQMldpMN0SDcU">
             <Canvas Id="DK51bZP7rJ6N3ZXZlswsBA" CanvasType="Group">
-              <Node Bounds="481,327,61,26" Id="CGeAp3N3pVWO2f46xYy3Cd">
-                <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Beat.BeatModifier" LastDependency="CMiX.Core.dll">
-                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <Choice Kind="OperationCallFlag" Name="BeatIndex" />
-                  <CategoryReference Kind="AssemblyCategory" Name="BeatModifier" NeedsToBeDirectParent="true" />
-                </p:NodeReference>
-                <Pin Id="LWtjEGVZ2AnP0DAlD3OgyL" Name="Input" Kind="StateInputPin" />
-                <Pin Id="KiiJiCfVZs2LrZYfY8Q4OT" Name="Output" Kind="StateOutputPin" />
-                <Pin Id="HsUKFpRCX0yPsMCqHEtFmv" Name="Beat Index" Kind="OutputPin" />
-              </Node>
               <Node Bounds="548,431,25,19" Id="ToSlFxxehdFNuErNvD5Irg">
                 <p:NodeReference LastCategoryFullName="Math" LastDependency="VL.CoreLib.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
@@ -1630,16 +1620,6 @@
                 <Pin Id="FhiJ6Pp0BdnNpBccxLav6s" Name="Result" Kind="OutputPin" />
               </Node>
               <ControlPoint Id="EX9P6KupPLGPkd8nO1sYzj" Bounds="1588,1091" />
-              <Node Bounds="1360,381,74,26" Id="LYbYRJXJwA8MCCedv3aJKJ">
-                <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Beat.BeatModifier" LastDependency="CMiX.Core.dll">
-                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <Choice Kind="OperationCallFlag" Name="ChanceToHit" />
-                  <CategoryReference Kind="AssemblyCategory" Name="BeatModifier" NeedsToBeDirectParent="true" />
-                </p:NodeReference>
-                <Pin Id="EYudIbZRTHiQFeUdTeEd2I" Name="Input" Kind="StateInputPin" />
-                <Pin Id="AbCpjLM2wbKNzJCeSlOb4X" Name="Output" Kind="StateOutputPin" />
-                <Pin Id="K0EhUjxJtK5MBk9jvjE29b" Name="Chance To Hit" Kind="OutputPin" />
-              </Node>
               <Node Bounds="1396,721,154,87" Id="S0EGxvEe8CzLumpPq88LLM">
                 <p:NodeReference LastCategoryFullName="Primitive" LastDependency="Builtin">
                   <Choice Kind="StatefulRegion" Name="Region (Stateful)" Fixed="true" />
@@ -1791,26 +1771,6 @@
                 <Pin Id="Cj64ggvQBLrQahN14fn5MQ" Name="Output" Kind="StateOutputPin" />
                 <Pin Id="KBI0aj75YcWPOEapnq6iZe" Name="Value" Kind="OutputPin" />
               </Node>
-              <Node Bounds="273,514,61,26" Id="PbmrESP1F4fN7JcmUnFArV">
-                <p:NodeReference LastCategoryFullName="CMiX.Core.Presentation.ViewModels.Beat.BeatModifier" LastDependency="CMiX.Core.dll">
-                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <Choice Kind="OperationCallFlag" Name="BeatIndex" />
-                  <CategoryReference Kind="AssemblyCategory" Name="BeatModifier" NeedsToBeDirectParent="true" />
-                </p:NodeReference>
-                <Pin Id="PfBAqgtSI7ePq7ZP6JN9cp" Name="Input" Kind="StateInputPin" />
-                <Pin Id="KaPb61RCJLYMsKCLZPMlbq" Name="Output" Kind="StateOutputPin" />
-                <Pin Id="TdMbLoQf4lkMuOX6qLKh4J" Name="Beat Index" Kind="OutputPin" />
-              </Node>
-              <Node Bounds="82,150,61,26" Id="BKBxstZmneqMDFDR7KAzBv">
-                <p:NodeReference LastCategoryFullName="CMiX.Core.Animations.BeatModifier" LastDependency="CMiX.Core.dll">
-                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="AssemblyCategory" Name="BeatModifier" />
-                  <Choice Kind="OperationCallFlag" Name="Easing" />
-                </p:NodeReference>
-                <Pin Id="PHBHxidzucRNRmYwItVBsj" Name="Input" Kind="StateInputPin" />
-                <Pin Id="DWkhf77h849OwatbkvlhcF" Name="Output" Kind="StateOutputPin" />
-                <Pin Id="SkgHRgEJa2MNTCg0hwjFIL" Name="Easing" Kind="OutputPin" />
-              </Node>
               <ControlPoint Id="SEzNCGXSR9bP3pyZcOvDvq" Bounds="140,210" />
               <Pad Id="DWU58bimQ9zLlDhzu4GoCd" SlotId="UdDWNdJvaErOQkwrsCscKu" Bounds="297,1050" Value="0" />
               <ControlPoint Id="JSTX4bOlZx1NhoZTaarzkt" Bounds="229,151" />
@@ -1861,16 +1821,6 @@
                 <Pin Id="Bbbtz9dBXSoOTeoZJx7bSO" Name="Input" Kind="StateInputPin" />
                 <Pin Id="AQHJZYlxo2FQPKdFJPvAUs" Name="Output" Kind="StateOutputPin" />
                 <Pin Id="H3UZjDYWAroQb9CGd9yXTc" Name="MasterBeat" Kind="OutputPin" />
-              </Node>
-              <Node Bounds="856,371,61,26" Id="FVYa0aobHf6NclMXjtuzUN">
-                <p:NodeReference LastCategoryFullName="CMiX.Core.Animations.BeatModifier" LastDependency="CMiX.Core.dll">
-                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="AssemblyCategory" Name="BeatModifier" />
-                  <Choice Kind="OperationCallFlag" Name="BeatSteps" />
-                </p:NodeReference>
-                <Pin Id="BY5CmMEhHcqN5R3NIICV5P" Name="Input" Kind="StateInputPin" />
-                <Pin Id="DsyoDSzEshFNA0Pbn0PWVq" Name="Output" Kind="StateOutputPin" />
-                <Pin Id="L2thwdzj1nJOQSRIHZhPA8" Name="Beat Steps" Kind="OutputPin" />
               </Node>
               <Pad Id="FnqFbcVPE0GNEX8HSy21hZ" SlotId="TWQo5ksHJUAQVznYZLZWIB" Bounds="858,336" />
               <Node Bounds="856,421,51,26" Id="VSjNtkD9hFJLQLfv7gjKHF">
@@ -2026,6 +1976,56 @@
                   <Choice Kind="TypeFlag" Name="Float32" />
                 </p:TypeAnnotation>
               </Pad>
+              <Node Bounds="1360,370,74,26" Id="GiiJJLv9ci4OLJFnlNTAQh">
+                <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.Modulators.BeatModulator" LastDependency="CMiX.Core.csproj">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="AssemblyCategory" Name="BeatModulator" NeedsToBeDirectParent="true" />
+                  <Choice Kind="OperationCallFlag" Name="ChanceToHit" />
+                </p:NodeReference>
+                <Pin Id="S7GzOGcoTFJMkS1sn42YZA" Name="Input" Kind="StateInputPin" />
+                <Pin Id="Iq9zPMXm2OIQFn0Ep05guy" Name="Output" Kind="StateOutputPin" />
+                <Pin Id="IrTGzxpNVhzQYKHH79tL94" Name="Chance To Hit" Kind="OutputPin" />
+              </Node>
+              <Node Bounds="856,360,68,26" Id="BzTWfkY6eP3Mr6zrjiX4Nf">
+                <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.Modulators.BeatModulator" LastDependency="CMiX.Core.csproj">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="AssemblyCategory" Name="BeatModulator" />
+                  <Choice Kind="OperationCallFlag" Name="BeatSteps" />
+                </p:NodeReference>
+                <Pin Id="ANmMyoWdwvvNsKDf7m1hkB" Name="Input" Kind="StateInputPin" />
+                <Pin Id="HlGUXUVbs9SNTrPTYGle0H" Name="Output" Kind="StateOutputPin" />
+                <Pin Id="RLHcRvhyPZiLvlHk2FbvrK" Name="Beat Steps" Kind="OutputPin" />
+              </Node>
+              <Node Bounds="481,330,68,26" Id="A2FDY1YUDvaNlovILBZdVZ">
+                <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.Modulators.BeatModulator" LastDependency="CMiX.Core.csproj">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="AssemblyCategory" Name="BeatModulator" />
+                  <Choice Kind="OperationCallFlag" Name="BeatIndex" />
+                </p:NodeReference>
+                <Pin Id="E4vcks8DrKIPx1HQSgGJNu" Name="Input" Kind="StateInputPin" />
+                <Pin Id="Kk5Dj5HeDnqNUV2n8jybbe" Name="Output" Kind="StateOutputPin" />
+                <Pin Id="RQL6Uv56WdDOL5FTihR4sj" Name="Beat Index" Kind="OutputPin" />
+              </Node>
+              <Node Bounds="273,520,68,26" Id="BS0Ksn0fUnZLdzaenda5Wz">
+                <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.Modulators.BeatModulator" LastDependency="CMiX.Core.csproj">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="AssemblyCategory" Name="BeatModulator" />
+                  <Choice Kind="OperationCallFlag" Name="BeatIndex" />
+                </p:NodeReference>
+                <Pin Id="Iu7INjhhGVxOrIGKPkeyRw" Name="Input" Kind="StateInputPin" />
+                <Pin Id="JJONwxroh9sON7mJANphGZ" Name="Output" Kind="StateOutputPin" />
+                <Pin Id="Sgj3aiZFP9iQWgjCYh609d" Name="Beat Index" Kind="OutputPin" />
+              </Node>
+              <Node Bounds="75,140,68,26" Id="D0Y66gYUevHPSFg4xVP8Ej">
+                <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.Modulators.BeatModulator" LastDependency="CMiX.Core.csproj">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="AssemblyCategory" Name="BeatModulator" NeedsToBeDirectParent="true" />
+                  <Choice Kind="OperationCallFlag" Name="Easing" />
+                </p:NodeReference>
+                <Pin Id="DiOumQlIaV1MdEpNmuUXx7" Name="Input" Kind="StateInputPin" />
+                <Pin Id="SWAiZ68JeiXNRYrOY2Mubl" Name="Output" Kind="StateOutputPin" />
+                <Pin Id="VYpjUWgh4n2LvHQ8djgoNM" Name="Easing" Kind="OutputPin" />
+              </Node>
             </Canvas>
             <Link Id="Ag40A60XSweLfjXfKDLvQE" Ids="OGuaSUpnpqZQcCR1BwRWem,UTJbtIeztrfLmws5iIi2pk" />
             <Link Id="Rl89LwFdedeO5sc4bC7ZbC" Ids="BLgqItvsFiFM7Ov1Y0vO8L,Lw9A82KwdrKPdydI2tahbq" IsHidden="true" />
@@ -2039,9 +2039,7 @@
             <Link Id="V30gGkaQVDUPzGynhzRJcv" Ids="TBgUK8BHIJkPTbJdbSiLrR,QcXzOkN9puaM2TFcISzCMr" />
             <Link Id="JGkAauo521bQatTrkI4N0V" Ids="FhiJ6Pp0BdnNpBccxLav6s,LpEn90zdf2yOkSLwLtd3Vw" />
             <Link Id="Ddny7xPcXVkPafUY9pE1Uz" Ids="TWnce9S35prLcLiccdBO1e,RSUNdcq2e0INvY9fOWLvOj" IsHidden="true" />
-            <Link Id="CbvjTMHOBSjN6Vf3gnIDmM" Ids="K0EhUjxJtK5MBk9jvjE29b,AWZbeUoV7pSPVGFyx1bFBc" />
             <Link Id="PE9u4ZismEbMOHNX56ZSI5" Ids="HVIhdMcH5ntPOTRDJT3C9z,GYESCykVPl3OkqUSH42rH4" />
-            <Link Id="AhsSnQ3CBNALzO2r8yjKzM" Ids="HsUKFpRCX0yPsMCqHEtFmv,J6ePxP2gUC3MMxzhCknBgp" />
             <Link Id="QwBVv2XclbcPLdEToQPcfQ" Ids="SuhE7zkmbSLN8I4tYaLjNq,VXxgxFbyZZSQDm4db3P7dD" />
             <Link Id="Fe5qPBUfcH2Mw4txGAmcU6" Ids="A92fdiFhF3TOpKhhI38Jj4,Jo6RFt9Fa2DNuWl6VtYjyZ" />
             <Link Id="QfradRtZdj4PfO86DePmY3" Ids="A92fdiFhF3TOpKhhI38Jj4,N4AETwgjdNJNq0W9KHSxSL" />
@@ -2061,7 +2059,7 @@
                 </p:TypeAnnotation>
               </Pin>
             </Patch>
-            <Patch Id="DLBJmmuaerdLpfRbXb5lTx" Name="Update" ParticipatingElements="CGeAp3N3pVWO2f46xYy3Cd,ToSlFxxehdFNuErNvD5Irg,MQtdNLLenCJLBBJ4gD7jIy,I7cFs7NIQiVL5pkRVqNrYe,SlL3iYEx2f0MAW8mnP00ye,MPqE7t85vzYQPFvrzN1B2M,DBnw5DGCKk6QMq4MvNuZgZ,DKzGXuiOIrOQPBJuwyPQKZ,LYbYRJXJwA8MCCedv3aJKJ,KOfgqDmXswqNowmZZcCB2Y,FwiFVwEXlixQBvucpd3zD5,TY2Gal8vMD9MHbjVQt6fXp,HGCrg35h8I5L8gTSY3foCZ,Dr5p4hx4EfHPaXYuCPU7sv,AJs9DYix1OyNBfDoFMeJKg,S5hdXouxaFULLRuTc2w9vc,MJDR3MUF73xLnpuXcO3E3D,PbmrESP1F4fN7JcmUnFArV,C6zIuFTGmoaLZPK5CQrPGP,J8aRrJi9hJ6O84WqjhAbst,D6vNmepP3lgMuHscqPD0f4,K8k93LlgeKxLuZBQTjPl9e,Ag40A60XSweLfjXfKDLvQE,Oj1InUwhkGEN4YqLdHygZc,IyIXpjoAdYlM2wTjOmp29q,TWlIiE9TgCbL7AarB8AepU,DZGzyO2rTXfOTN9giC76Jw,V30gGkaQVDUPzGynhzRJcv,JGkAauo521bQatTrkI4N0V,CbvjTMHOBSjN6Vf3gnIDmM,PE9u4ZismEbMOHNX56ZSI5,AhsSnQ3CBNALzO2r8yjKzM,D5fhUhQlnarMdRkjoq8ViN" />
+            <Patch Id="DLBJmmuaerdLpfRbXb5lTx" Name="Update" ParticipatingElements="ToSlFxxehdFNuErNvD5Irg,MQtdNLLenCJLBBJ4gD7jIy,I7cFs7NIQiVL5pkRVqNrYe,SlL3iYEx2f0MAW8mnP00ye,MPqE7t85vzYQPFvrzN1B2M,DBnw5DGCKk6QMq4MvNuZgZ,DKzGXuiOIrOQPBJuwyPQKZ,KOfgqDmXswqNowmZZcCB2Y,FwiFVwEXlixQBvucpd3zD5,TY2Gal8vMD9MHbjVQt6fXp,HGCrg35h8I5L8gTSY3foCZ,Dr5p4hx4EfHPaXYuCPU7sv,AJs9DYix1OyNBfDoFMeJKg,S5hdXouxaFULLRuTc2w9vc,MJDR3MUF73xLnpuXcO3E3D,C6zIuFTGmoaLZPK5CQrPGP,J8aRrJi9hJ6O84WqjhAbst,D6vNmepP3lgMuHscqPD0f4,K8k93LlgeKxLuZBQTjPl9e,Ag40A60XSweLfjXfKDLvQE,Oj1InUwhkGEN4YqLdHygZc,IyIXpjoAdYlM2wTjOmp29q,TWlIiE9TgCbL7AarB8AepU,DZGzyO2rTXfOTN9giC76Jw,V30gGkaQVDUPzGynhzRJcv,JGkAauo521bQatTrkI4N0V,PE9u4ZismEbMOHNX56ZSI5,D5fhUhQlnarMdRkjoq8ViN" />
             <Slot Id="ORscZ2foDASQMTQ8gqySZr" Name="CompositionService" />
             <Link Id="FQOyKBiGAD5OcalXS5j9ff" Ids="AiH9qk9kR9UMv4dhzQu7Vf,Gw55vBkYfRNPvKPoIvqts4" IsHidden="true" />
             <Slot Id="TWQo5ksHJUAQVznYZLZWIB" Name="ViewModel" />
@@ -2107,9 +2105,6 @@
             <Link Id="UPiIzvP1ri1O5Wo5OL3p5m" Ids="AFVZUlkCAqFL3j4xkK7gMk,AY4RDDTeIIUPGGEQOIe3LC" />
             <Link Id="CZSH25s33WtO18XxM6Krba" Ids="AY4RDDTeIIUPGGEQOIe3LC,SVe2RKEOsLbMB7sdd7YRzZ" IsHidden="true" />
             <Link Id="HfZq4LnhwztPV0IGq2dRyI" Ids="NESaLejP9O9My41EqfRYc2,BdG89Rlk3x3QCpyvGpiuQs" />
-            <Link Id="QGZNQK3LUGzPfjfs84hZKw" Ids="TdMbLoQf4lkMuOX6qLKh4J,Nsv0eKvSQF0OhKcxg3XXmP" />
-            <Link Id="B9DpHPU4ftEQZFdZUBgE6V" Ids="S26XcIWwJwqNU7KkGZIA8L,PHBHxidzucRNRmYwItVBsj" />
-            <Link Id="HgejhdQK3jiL8SZlJ8Ez1a" Ids="SkgHRgEJa2MNTCg0hwjFIL,SEzNCGXSR9bP3pyZcOvDvq" />
             <Link Id="NHyGPyZCPtmMy5PXCQOjoz" Ids="SEzNCGXSR9bP3pyZcOvDvq,OTe3F5bIPlMOR1ORqipr5l" IsHidden="true" />
             <Patch Id="FygbCl6O1QDL902PkwdZa4" Name="Easing">
               <Pin Id="OTe3F5bIPlMOR1ORqipr5l" Name="Easing" Kind="OutputPin" />
@@ -2123,9 +2118,6 @@
             <Patch Id="Slx8SE3icWiMDbiTRZUUyZ" Name="ViewModel">
               <Pin Id="G4w841T1e5fNwS1R2wNy0u" Name="ViewModel" Kind="OutputPin" />
             </Patch>
-            <Link Id="S0oaOnEDngnLEHaPyGCc2o" Ids="DEkRHq0fDpIPv511av1bgb,LWtjEGVZ2AnP0DAlD3OgyL" />
-            <Link Id="EQMB5QY5IPHQNssZIGM2ME" Ids="EYOOHqEmHbKMeZbZIgIBHe,EYudIbZRTHiQFeUdTeEd2I" />
-            <Link Id="J8gvXChoQyWMSAxWcVhMtM" Ids="ExZnrL8kV3jOjpF2eqLoqQ,PfBAqgtSI7ePq7ZP6JN9cp" />
             <Link Id="Twns0lM4pNjMhg57dYy9JL" Ids="PNQIpMxjqQMNrviOVyV4lj,QWkYdrLY930MrYzzh2ybXC" IsHidden="true" />
             <Link Id="UztuGDIxSciLSS99uj1oC1" Ids="HT4hiFRkCD5LiVhQBBv2m8,DCTvTcylnxPOP4egE8GvPT" />
             <Link Id="ACK80RQzhGBQKRB8DxOYO8" Ids="P9aHsQ7wn5uOrvruSrDVXR,Luijv5BdPgINNQxmZbYaBi" />
@@ -2141,8 +2133,6 @@
             <Link Id="SKXkAezuqO6NJOV4EMZlDD" Ids="H3UZjDYWAroQb9CGd9yXTc,VoyRbm0r6MUNseyagvJnQC" />
             <Link Id="FE5Y2qpRVPKO7A8FuVDrgs" Ids="KBI0aj75YcWPOEapnq6iZe,LPBuedNF4L9Lm54H0k4fbm" />
             <Link Id="HKcVgpPb9T9OS6XuilTjjp" Ids="OGFjIA5WsJJPwVIzGqZStq,H7nDDnrREbqK9sBBd1xASX" />
-            <Link Id="MmiXu2GPbC7LbJjg1Gd7Z2" Ids="FnqFbcVPE0GNEX8HSy21hZ,BY5CmMEhHcqN5R3NIICV5P" />
-            <Link Id="QajVqpQLTrELtrDhYRMjiL" Ids="L2thwdzj1nJOQSRIHZhPA8,Dmdc1ZuUXnbMTjRuvL7Qqm" />
             <Link Id="CKry1NsaKCWNPW9YvtagyL" Ids="JjhGw7c5NfAL5NBS1zsPIb,HcTSE0ivpnGQQhs6RJGRg6" />
             <Link Id="JqsuVY7Asn8Lt2GuR3Ipo1" Ids="HcTSE0ivpnGQQhs6RJGRg6,Id201yc6ANtNgVvE1LI9vi" />
             <Link Id="R8M7F7zdg2LPhIgrwkp8WR" Ids="LBSpqcVGB0TP2hWs4OHSPT,RxniIMJGvLALeEsaiLbZvf" />
@@ -2191,6 +2181,16 @@
             <Link Id="QFAR4SGGUrhNvSvCPA86qQ" Ids="SGPoGXNPlgAOp78tgDBo8c,FpunlFn9d6ZNIbyHrsI2Pd" />
             <Link Id="GfUAob0rPCKOTcQPATivja" Ids="BBFnK1r0fJrLKzA8LdGyJP,SpJugHYNme1QQX87EoqURj" />
             <Link Id="LS51SXvDatILtt7RLKLQqx" Ids="FBDqtiKi3T9LNv5uoh5ehx,PMrAFbS6XLXNTF4ljPP5AW" />
+            <Link Id="PRTFlGqLKDlOtmTbUQrLGx" Ids="EYOOHqEmHbKMeZbZIgIBHe,S7GzOGcoTFJMkS1sn42YZA" />
+            <Link Id="Af74ADbQYldPkW89iNNsea" Ids="IrTGzxpNVhzQYKHH79tL94,AWZbeUoV7pSPVGFyx1bFBc" />
+            <Link Id="ODsRLfQnFhVNolDxGn2TkC" Ids="FnqFbcVPE0GNEX8HSy21hZ,ANmMyoWdwvvNsKDf7m1hkB" />
+            <Link Id="TwWL3OednqNOHpwjtUXJ88" Ids="RLHcRvhyPZiLvlHk2FbvrK,Dmdc1ZuUXnbMTjRuvL7Qqm" />
+            <Link Id="E7oAbVPslhGOZZhX334Qa0" Ids="DEkRHq0fDpIPv511av1bgb,E4vcks8DrKIPx1HQSgGJNu" />
+            <Link Id="G4L61JApR6iLaZqKcVG3EV" Ids="RQL6Uv56WdDOL5FTihR4sj,J6ePxP2gUC3MMxzhCknBgp" />
+            <Link Id="KSgBrhyH0OMN3oEht8B6qf" Ids="ExZnrL8kV3jOjpF2eqLoqQ,Iu7INjhhGVxOrIGKPkeyRw" />
+            <Link Id="J5aCnxmxgV6NC5hX2byxWc" Ids="Sgj3aiZFP9iQWgjCYh609d,Nsv0eKvSQF0OhKcxg3XXmP" />
+            <Link Id="U720wClB4u7QVHH3GWMlCU" Ids="S26XcIWwJwqNU7KkGZIA8L,DiOumQlIaV1MdEpNmuUXx7" />
+            <Link Id="RDClNBmZSHWLNXBeicOfje" Ids="VYpjUWgh4n2LvHQ8djgoNM,SEzNCGXSR9bP3pyZcOvDvq" />
           </Patch>
         </Node>
         <!--
@@ -2737,7 +2737,7 @@
               <Node Bounds="81,177,61,26" Id="U7ns14oVhwFOBe2SPxxwN1">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                  <CategoryReference Kind="ClassType" Name="BeatModulator" />
                   <Choice Kind="OperationCallFlag" Name="Easing" />
                 </p:NodeReference>
                 <Pin Id="HKbiihEP2mQPArx8hJtoui" Name="Input" Kind="StateInputPin" />
@@ -2925,7 +2925,7 @@
               <Node Bounds="81,177,61,26" Id="LFT9dVG41LLMyV2nsvrex2">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                  <CategoryReference Kind="ClassType" Name="BeatModulator" />
                   <Choice Kind="OperationCallFlag" Name="Easing" />
                 </p:NodeReference>
                 <Pin Id="Mmr57QPTFTEOK1XTNNY3oi" Name="Input" Kind="StateInputPin" />
@@ -3133,7 +3133,7 @@
               <Node Bounds="137,236,61,26" Id="QAdhciCqa05QaC16oOYmn5">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                  <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                  <CategoryReference Kind="ClassType" Name="BeatModulator" />
                   <Choice Kind="OperationCallFlag" Name="Easing" />
                 </p:NodeReference>
                 <Pin Id="EgURR1WzYAGOyEaFB3j5tx" Name="Input" Kind="StateInputPin" />
@@ -3280,13 +3280,22 @@
                 <Pin Id="QNQu9T3eieePiKmtsJ3e4f" Name="EntityData" Kind="OutputPin" />
               </Node>
               <ControlPoint Id="UG4GCu0OguYODwTjxCrYas" Bounds="153,502" />
+              <Node Bounds="311,270,82,26" Id="VuNxvez29mdNtxmpyfCf8f">
+                <p:NodeReference LastCategoryFullName="CMiX.Core.Modulation.ModulatableCount" LastDependency="CMiX.Core.csproj">
+                  <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
+                  <CategoryReference Kind="AssemblyCategory" Name="ModulatableCount" />
+                  <Choice Kind="OperationCallFlag" Name="Value" />
+                </p:NodeReference>
+                <Pin Id="BaMgDqyDzlEMvUQXVgmzmK" Name="Input" Kind="StateInputPin" />
+                <Pin Id="EvgnwdJxZAALZYfm76PxCn" Name="Output" Kind="StateOutputPin" />
+                <Pin Id="GqkZgetXWhfOIAEoTl82kQ" Name="Value" Kind="OutputPin" />
+              </Node>
             </Canvas>
             <ProcessDefinition Id="PfuXNdZRMYiNiU5QXg3QGs">
               <Fragment Id="F3WqmFBWD1ePEQr6xxRW4y" Patch="Hi9KftY6rgNMCaxhA1uWdg" Enabled="true" />
               <Fragment Id="CrnviiHun1SOIVV02zQWMs" Patch="NxJggNhjnmdPOLE2G2WpIc" Enabled="true" />
             </ProcessDefinition>
             <Link Id="GRUrrIgV7LaPytTinfIy07" Ids="DxRfORqC7o6NlGw0mbEKzC,JKSLrtgFYJ9PZrAxWaQGdW" />
-            <Link Id="Dyfp1mMzebcMK2w6GsVuE1" Ids="Q0MdeGhQaQoQMWmzQYx5Gb,F4nHjWEciYNMUziAPElbuP" />
             <Link Id="Pi7X1bKbDplMlAkwLEujJb" Ids="KvBQNBMxmu0OBkfZN0WMA4,NCRkQTtABkeMG8eMtPCQ5p" IsHidden="true" />
             <Link Id="B6zJ0PueTWfP98Ealm8L2p" Ids="BKm5LVWPIGmPJfZ46hWI5C,JBllck6r5puPRRvQy3ASYl" />
             <Link Id="LaBuzf30AfaQOaK4rasOzh" Ids="BKm5LVWPIGmPJfZ46hWI5C,HwPyMMgp7RKNL52UdsAQz7" />
@@ -3308,6 +3317,8 @@
             <Link Id="P3fOlVOB4ckMuGSIbX6xDX" Ids="H3p6py2UsP1O3tUpkEkFTm,Uq4CdKmAwp3Nq0fX8dZKjE" />
             <Link Id="CFW4i0dPC1LPyPUFQ3ngEA" Ids="F8grXIAUrQUNfBiO6kqfBv,ExDv1UAOms9PshAjJc5CBS" />
             <Link Id="J3ouc41eWGiOUTE0vYNKP0" Ids="JCREcjPD7xJL07RVNRVsFe,RCr7rWj3MVLMbc7e4FyIFY" />
+            <Link Id="G6pLKJ2rkkYP0HZnlB5SGn" Ids="Q0MdeGhQaQoQMWmzQYx5Gb,BaMgDqyDzlEMvUQXVgmzmK" />
+            <Link Id="PIz26kbifNMMfBiuSgQYbt" Ids="GqkZgetXWhfOIAEoTl82kQ,F4nHjWEciYNMUziAPElbuP" />
           </Patch>
         </Node>
         <!--
@@ -8438,7 +8449,7 @@
                           <Node Bounds="297,380,61,26" Id="LVC4w36P2RINhStahPfHhO">
                             <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                              <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                              <CategoryReference Kind="ClassType" Name="BeatModulator" />
                               <Choice Kind="OperationCallFlag" Name="Phase" />
                             </p:NodeReference>
                             <Pin Id="R6i86VvZekRMqeZUVUwTFK" Name="Input" Kind="StateInputPin" />
@@ -8943,7 +8954,7 @@
                           <Node Bounds="297,380,61,26" Id="LBx6NNQoCL7MkUD5RdlS5K">
                             <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                               <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                              <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                              <CategoryReference Kind="ClassType" Name="BeatModulator" />
                               <Choice Kind="OperationCallFlag" Name="Phase" />
                             </p:NodeReference>
                             <Pin Id="TPnMG7PFr0hL12TJdrU48K" Name="Input" Kind="StateInputPin" />
@@ -13074,7 +13085,6 @@
                 <Pin Id="Nprcy8mGvFrMgbTcL4D1PC" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="D4c4aMbS5mSPqCCwv4vuRP" Name="Count" Kind="InputPin" />
                 <Pin Id="LtsshKlQ634NUQesdNHDr7" Name="Value" Kind="OutputPin" />
-                <Pin Id="SYkFH7VB2Z2PiUBBLAJ6CX" Name="Default" Kind="InputPin" />
               </Node>
               <Node Bounds="499,690,97,19" Id="HxGsIf2qlWrMdWxfjM8uK8">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.BaseControls" LastDependency="CMiX_ENGINE.vl">
@@ -13086,7 +13096,6 @@
                 <Pin Id="LsLIK66NaJ3Lo31DmrQhqc" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="GBsweea4Ja6NG55Wo1nV9G" Name="Count" Kind="InputPin" />
                 <Pin Id="BJvmZKvGzTbMFtCXPRF7Zz" Name="Value" Kind="OutputPin" />
-                <Pin Id="DMK0JnP5iqSPkGAwHGUfew" Name="Default" Kind="InputPin" />
               </Node>
               <Node Bounds="669,690,97,19" Id="N2NJcWXACU5NPDcS08pIRy">
                 <p:NodeReference LastCategoryFullName="CMiX.Engine.BaseControls" LastDependency="CMiX_ENGINE.vl">
@@ -13098,7 +13107,6 @@
                 <Pin Id="ErYX9bNF9uvLURVNFhFdFE" Name="CompositionService" Kind="InputPin" />
                 <Pin Id="HBduWqS9GPPNC6E4c6swga" Name="Count" Kind="InputPin" />
                 <Pin Id="KxoungVbabXN9jogxKkMoy" Name="Value" Kind="OutputPin" />
-                <Pin Id="Pnv2zRIuSNuPTJgiLRemAa" Name="Default" Kind="InputPin" />
               </Node>
               <Pad Id="RH8v7zakOjxMFj9W5wuTr6" SlotId="MZlZZ6YnuDOMRkNCUYd5y3" Bounds="356,84" />
               <ControlPoint Id="KVnux9YHuwBP7Su338h6iz" Bounds="356,49" />
@@ -13264,9 +13272,6 @@
             <Link Id="M2Nd5f2ZjBNM5gFArGPhcM" Ids="PO7Whm0PIHvP7cs5sSpFwm,AyVsWHiHdqZNtA7Ox6GvoH" />
             <Link Id="AoJiUv0PtC2PV3x18l3XK8" Ids="KxbsbhmAmj0NPuQQVoT7CQ,ULenpi7wb2RO5kzjIdk9jt" />
             <Link Id="LUXsoFWwK5SOXN1Pk6YSQ4" Ids="ImCTvUuEdBZP78QjiLdIA1,C6faHbXjjtYL6M9DwO4vKM" />
-            <Link Id="RTkl1yWhX2GNBPy8uefqca" Ids="CVUsb9EhnidMQrM7fE5qEF,DMK0JnP5iqSPkGAwHGUfew" />
-            <Link Id="Dl96jVVswvZL9bgAwKQ0rX" Ids="MPvxqETHTSjMp4DSiDUkH4,SYkFH7VB2Z2PiUBBLAJ6CX" />
-            <Link Id="CUp23xCWUkxOTTOGaXMYDS" Ids="P7tpcg0sbCFOBROOurI2mo,Pnv2zRIuSNuPTJgiLRemAa" />
           </Patch>
         </Node>
         <!--
@@ -17250,7 +17255,7 @@
                   <Node Bounds="301,374,61,26" Id="ETYfHXffZbHOwQuXGtxtpR">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                      <CategoryReference Kind="ClassType" Name="BeatModulator" />
                       <Choice Kind="OperationCallFlag" Name="Phase" />
                     </p:NodeReference>
                     <Pin Id="AcOhG6M2ocJOJqZUL17EOP" Name="Input" Kind="StateInputPin" />
@@ -18993,7 +18998,7 @@
                   <Node Bounds="424,515,61,26" Id="Nu6aTFwpOmDOJnFFAbjtsb">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                      <CategoryReference Kind="ClassType" Name="BeatModulator" />
                       <Choice Kind="OperationCallFlag" Name="Reseted" />
                     </p:NodeReference>
                     <Pin Id="PYr6hDpUDixOQRCyrrOOuQ" Name="Input" Kind="StateInputPin" />
@@ -19382,7 +19387,7 @@
                   <Node Bounds="657,590,61,26" Id="FdnwBQdHAJ6OwYrKZZJWOE">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                      <CategoryReference Kind="ClassType" Name="BeatModulator" />
                       <Choice Kind="OperationCallFlag" Name="Reseted" />
                     </p:NodeReference>
                     <Pin Id="KgZ0BfFg98cMZimPTyvv4M" Name="Input" Kind="StateInputPin" />
@@ -20264,7 +20269,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="Ai7EqIiMUfxLxPvp0s0meC" Name="Bounds" Kind="InputPin" DefaultValue="180.66667, 718.6667, 1082.6666, 664" IsHidden="true" />
+                <Pin Id="Ai7EqIiMUfxLxPvp0s0meC" Name="Bounds" Kind="InputPin" DefaultValue="180.57143, 718.2857, 1082.2858, 664" IsHidden="true" />
                 <Pin Id="DXFFrgcJdVNPDjGH5w3bzB" Name="Bound to Document" Kind="InputPin" IsHidden="true" />
                 <Pin Id="ED5fXAXGHK7L7FdTwAbdtm" Name="Dialog If Document Changed" Kind="InputPin" IsHidden="true" />
                 <Pin Id="RuY0PioDJymNOl3dmv1JBs" Name="Save Bounds" Kind="InputPin" IsHidden="true" />
@@ -26605,7 +26610,7 @@
                   <Node Bounds="246,227,61,26" Id="QyBcRoeYMoBO5zeYL7PK1Z">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                      <CategoryReference Kind="ClassType" Name="BeatModulator" />
                       <Choice Kind="OperationCallFlag" Name="Phase" />
                     </p:NodeReference>
                     <Pin Id="BkkEcH3GrBAOic7D6EFMq2" Name="Input" Kind="StateInputPin" />
@@ -29952,7 +29957,7 @@
                     <Pin Id="OPzhfzwEWVTM49fxc4BY8h" Name="Input" Kind="InputPin" />
                     <Pin Id="Orf5LeO1CSpNcjdKELKjsE" Name="Result" Kind="OutputPin">
                       <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.Animations" LastDependency="CMiX_ENGINE.vl">
-                        <Choice Kind="TypeFlag" Name="BeatModifier" />
+                        <Choice Kind="TypeFlag" Name="BeatModulator" />
                         <FullNameCategoryReference ID="CMiX.Engine.Animations" />
                       </p:TypeAnnotation>
                     </Pin>
@@ -30343,7 +30348,7 @@
               <Pin Id="Fs3EvsBq3rCMudiLQthZ9b" Name="Input" Kind="InputPin" />
               <Pin Id="LPt35DeDk8NOmdeEeqlqVT" Name="Result" Kind="OutputPin">
                 <p:TypeAnnotation LastCategoryFullName="CMiX.Engine.Animations" LastDependency="CMiX_ENGINE.vl">
-                  <Choice Kind="TypeFlag" Name="BeatModifier" />
+                  <Choice Kind="TypeFlag" Name="BeatModulator" />
                   <FullNameCategoryReference ID="CMiX.Engine.Animations" />
                 </p:TypeAnnotation>
               </Pin>
@@ -35385,7 +35390,7 @@
                   <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
                   <Choice Kind="ProcessAppFlag" Name="SceneWindow" />
                 </p:NodeReference>
-                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="208, 10, 864, 629.3333" />
+                <Pin Id="MNttfweTdFRMX2Sxqswgmg" Name="Bounds" Kind="InputPin" DefaultValue="208, 9.714286, 864, 629.1429" />
                 <Pin Id="HIZJqDlx9MEPhmzNCdJH1J" Name="Bound to Document" Kind="InputPin" />
                 <Pin Id="N2jbSedzlJOPk61sjPnAjT" Name="Dialog If Document Changed" Kind="InputPin" />
                 <Pin Id="I2cCZopRrBbNn2LnahdA5d" Name="Save Bounds" Kind="InputPin" />
@@ -36808,7 +36813,7 @@
                     <Node Bounds="419,523,61,26" Id="HCUUgmZ6RlSQItspw3qJH7">
                       <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                         <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                        <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                        <CategoryReference Kind="ClassType" Name="BeatModulator" />
                         <Choice Kind="OperationCallFlag" Name="Phase" />
                       </p:NodeReference>
                       <Pin Id="S8TJfWd9MjvMWctePVpTFd" Name="Input" Kind="StateInputPin" />
@@ -41377,7 +41382,7 @@
                     <Node Bounds="516,399,61,26" Id="PmkLxAlEEywL6RHTdhiLlt">
                       <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                         <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                        <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                        <CategoryReference Kind="ClassType" Name="BeatModulator" />
                         <Choice Kind="OperationCallFlag" Name="Cycle" />
                       </p:NodeReference>
                       <Pin Id="EUQ2VFJTBLHMkDr7cuLCvE" Name="Input" Kind="StateInputPin" />
@@ -42294,7 +42299,7 @@
                   <Node Bounds="545,514,61,26" Id="RCZqHx14bGxPYqGO5R7Ddp">
                     <p:NodeReference LastCategoryFullName="CMiX.Engine.Animations.BeatModifier" LastDependency="CMiX_ENGINE.vl">
                       <Choice Kind="NodeFlag" Name="Node" Fixed="true" />
-                      <CategoryReference Kind="ClassType" Name="BeatModifier" />
+                      <CategoryReference Kind="ClassType" Name="BeatModulator" />
                       <Choice Kind="OperationCallFlag" Name="Reseted" />
                     </p:NodeReference>
                     <Pin Id="CzNb2ygV6eBMI4IANmyyRn" Name="Input" Kind="StateInputPin" />
