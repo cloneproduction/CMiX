@@ -11,5 +11,6 @@ namespace CMiX.Core.Modulation
         public string Label { get; init; } = string.Empty;
         public GenericValueModel<float> Value { get; init; } = new(0f);
         public GenericValueModel<Guid?> ModulatorID { get; init; } = new(null);
+        public GenericValueModel<string> BoundOutputName { get; init; } = new(null);
     }
 }

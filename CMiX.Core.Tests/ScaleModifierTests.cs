@@ -1,4 +1,5 @@
 using CMiX.Core.Modifiers;
+using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using Microsoft.Extensions.DependencyInjection;
@@ -104,8 +105,8 @@ namespace CMiX.Core.Tests
             scale.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)scale.ModulatorManager.ManagerData.Items[0];
 
-            scale.X.SetModulatorCommand.Execute(beatModifier);
-            scale.Y.SetModulatorCommand.Execute(beatModifier);
+            scale.X.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            scale.Y.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
 
             scale.ModulatorManager.DeleteItem(beatModifier);
 

@@ -17,5 +17,11 @@ namespace CMiX.Core.Modulation.Modulators
         // binds its Expander to DataContext.IsExpanded unconditionally, so every IModulator needs
         // one too, matching Modifier's own IsExpanded.
         bool IsExpanded { get; set; }
+
+        // "Value" for a single-output modulator like BeatModifier; multiple names ("X", "Y") for
+        // something that naturally produces more than one value together, e.g. a future tracking
+        // modulator. Every existing modulator returns exactly one name, so nothing about today's
+        // behavior changes until a real multi-output modulator exists.
+        IReadOnlyList<string> OutputNames { get; }
     }
 }

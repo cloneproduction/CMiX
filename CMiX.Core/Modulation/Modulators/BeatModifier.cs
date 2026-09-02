@@ -80,6 +80,8 @@ namespace CMiX.Core.Modulation.Modulators
             set { _isExpanded = value; OnPropertyChanged(); }
         }
 
+        public IReadOnlyList<string> OutputNames { get; } = new[] { "Value" };
+
 
         private void OnResync(object sender, EventArgs e)
         {

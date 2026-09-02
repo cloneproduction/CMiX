@@ -1,5 +1,6 @@
 using CMiX.Core.Compositing;
 using CMiX.Core.Modifiers;
+using CMiX.Core.Modulation;
 using CMiX.Core.Modulation.Modifiers;
 using CMiX.Core.Modulation.Modulators;
 using CMiX.Core.Prefabs;
@@ -52,8 +53,8 @@ namespace CMiX.Core.Tests
             lfo.ModulatorManager.AddItem(typeof(BeatModifier));
             var beatModifier = (BeatModifier)lfo.ModulatorManager.ManagerData.Items[0];
 
-            lfo.From.SetModulatorCommand.Execute(beatModifier);
-            lfo.RandomizePhase.SetModulatorCommand.Execute(beatModifier);
+            lfo.From.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
+            lfo.RandomizePhase.SetModulatorCommand.Execute(new ModulatorOutputSelection(beatModifier, "Value"));
 
             Assert.Equal(beatModifier.ID, lfo.From.ModulatorID.Value);
             Assert.Null(lfo.To.ModulatorID.Value);

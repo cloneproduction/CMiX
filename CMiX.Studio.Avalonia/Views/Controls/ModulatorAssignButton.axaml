@@ -3,7 +3,9 @@
     xmlns="https://github.com/avaloniaui"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:BaseControls="clr-namespace:CMiX.Studio.Avalonia.Views.Controls"
-    x:Name="modulatorAssignButton"    
+    xmlns:Modulation="clr-namespace:CMiX.Core.Modulation;assembly=CMiX.Core"
+    xmlns:Modulators="clr-namespace:CMiX.Core.Modulation.Modulators;assembly=CMiX.Core"
+    x:Name="modulatorAssignButton"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     d:DesignHeight="400"
     d:DesignWidth="400">
@@ -49,22 +51,54 @@
                         Content="Unassign"
                         Click="Assign"
                         Theme="{DynamicResource ButtonItemControl}" />
-                    <ItemsControl ItemsSource="{Binding ModulatorManager.ManagerData.Items, ElementName=modulatorAssignButton}">
-                        <ItemsControl.ItemTemplate>
-                            <DataTemplate>
+                    <!--
+                        ItemsSource is FlattenedItems (see code-behind), not ModulatorManager's raw
+                        item list directly - it turns each modulator instance into either one
+                        ModulatorOutputSelection row (single-output, the only case that exists
+                        today) or a non-clickable IModulator label row followed by one
+                        ModulatorOutputSelection row per OutputNames entry (multi-output). The two
+                        DataTemplates below distinguish them purely by which of those two types the
+                        row's DataContext is, matching the polymorphic-DataTemplates pattern used
+                        elsewhere (e.g. PrefabListItemTemplates.axaml) rather than a value converter
+                        picking the template.
+                    -->
+                    <ItemsControl ItemsSource="{Binding FlattenedItems, ElementName=modulatorAssignButton}">
+                        <ItemsControl.DataTemplates>
+
+                            <DataTemplate DataType="{x:Type Modulation:ModulatorOutputSelection}">
                                 <Button
+                                    Margin="{Binding Converter={StaticResource ModulatorOutputSelectionToIndent}}"
                                     Click="Assign"
                                     Theme="{DynamicResource ButtonItemControl}">
                                     <DockPanel>
                                         <BaseControls:AppIcon
                                             DockPanel.Dock="Left"
-                                            IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
+                                            IconKey="{Binding Modulator, Converter={StaticResource ModulatorTypeToIcon}}"
                                             Size="{DynamicResource IconSizeXS}" />
-                                        <TextBlock Margin="4,0,0,0" Text="{Binding PrefabService.Name.Value}" />
+                                        <TextBlock Margin="4,0,0,0" Text="{Binding Converter={StaticResource ModulatorOutputSelectionToLabel}}" />
                                     </DockPanel>
                                 </Button>
                             </DataTemplate>
-                        </ItemsControl.ItemTemplate>
+
+                            <!--
+                                A multi-output modulator's own group-label row - not wrapped in a
+                                Button (no Click handler), so it never invokes Assign. Dimmed via
+                                Grey700Brush, matching the "Assign Modulator" header text above.
+                            -->
+                            <DataTemplate DataType="{x:Type Modulators:IModulator}">
+                                <DockPanel Margin="4,4,4,0">
+                                    <BaseControls:AppIcon
+                                        DockPanel.Dock="Left"
+                                        IconKey="{Binding Converter={StaticResource ModulatorTypeToIcon}}"
+                                        Size="{DynamicResource IconSizeXS}" />
+                                    <TextBlock
+                                        Margin="4,0,0,0"
+                                        Foreground="{DynamicResource Grey700Brush}"
+                                        Text="{Binding PrefabService.Name.Value}" />
+                                </DockPanel>
+                            </DataTemplate>
+
+                        </ItemsControl.DataTemplates>
                     </ItemsControl>
                 </StackPanel>
             </Flyout>

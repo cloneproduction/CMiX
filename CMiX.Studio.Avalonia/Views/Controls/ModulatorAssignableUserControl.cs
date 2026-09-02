@@ -5,7 +5,6 @@ using Avalonia;
 using Avalonia.Controls;
 using CMiX.Core.Prefabs.Managers;
 using Modulation = CMiX.Core.Modulation;
-using Modulators = CMiX.Core.Modulation.Modulators;
 
 namespace CMiX.Studio.Avalonia.Views.Controls
 {
@@ -22,15 +21,18 @@ namespace CMiX.Studio.Avalonia.Views.Controls
             set => SetValue(ModulatorManagerProperty, value);
         }
 
-        // Shared by any control whose own DataContext is directly a Modulatable (ModulatableValue,
-        // ModulatableSlider). Does not hide the flyout - the caller still owns its own named
-        // assignButton for that, declared in its own XAML.
+        // Shared by any control whose own DataContext directly implements IModulatorBindable
+        // (Modulatable today, e.g. via ModulatableValue/ModulatableSlider). Does not hide the
+        // flyout - the caller still owns its own named assignButton for that, declared in its own
+        // XAML. The clicked row's DataContext is a ModulatorOutputSelection for a selectable row;
+        // the "Unassign" button's own DataContext never matches that type, so it falls through to
+        // null the same way a raw IModulator null once did, preserving today's unassign behavior.
         protected void AssignFromDataContext(object sender)
         {
-            if (DataContext is Modulation.Modulatable channel)
+            if (DataContext is Modulation.IModulatorBindable channel)
             {
-                var modulator = (sender as Control)?.DataContext as Modulators.IModulator;
-                channel.SetModulatorCommand.Execute(modulator);
+                var selection = (sender as Control)?.DataContext as Modulation.ModulatorOutputSelection;
+                channel.SetModulatorCommand.Execute(selection);
             }
         }
     }
