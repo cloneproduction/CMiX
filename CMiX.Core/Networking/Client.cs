@@ -41,6 +41,11 @@ namespace CMiX.Core.Networking
         private CancellationTokenSource _cts;
         private Task _connectTask;
 
+        public void SendMessageToControls(IMessage message)
+        {
+            WeakReferenceMessenger.Default.Send(message);
+        }
+
         public void SendMessage(IMessage message)
         {
             if (WatsonTcpClient == null || !ServerIsConnected) return;
@@ -79,6 +84,8 @@ namespace CMiX.Core.Networking
             _cts?.Cancel();
             WatsonTcpClient?.Disconnect();
         }
+
+
 
         private void MessageReceived(object sender, MessageReceivedEventArgs e)
         {
